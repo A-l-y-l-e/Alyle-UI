@@ -22,3 +22,12 @@ import { AlyleUIModule } from 'alyle-ui';
 })
 export class AppModule { }
 ```
+
+## Examples
+```html
+<!--Text Fiels-->
+<ly-input color="accent" [(ngModel)]="name" floatlabel="label" type="text"></ly-input>
+<!--Buttons-->
+<button ly-button bg="accent" color="#ffffff">button</button>
+<button ly-button color="accent" bg="#ffffff" deep="false">button</button>
+```
