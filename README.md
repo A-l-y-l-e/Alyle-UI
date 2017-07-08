@@ -1,33 +1,11 @@
-# Alyle UI
-> ATTENTION: This package is a beta.
+# Alyle UI Demo
 
-Material Design, a package of components for Angular 2
+This project is a demo.
 
-## Install Alyle UI
+## Install
 
-npm install --save alyle-ui
+`yarn` or `npm install`
 
-## Import
+## Development server
 
-#### src/app/app.module.ts
-
-```js
-import { AlyleUIModule } from 'alyle-ui';
-// other imports 
-@NgModule({
-  imports: [
-    AlyleUIModule.forRoot(),
-  ],
-  ...
-})
-export class AppModule { }
-```
-
-## Examples
-```html
-<!--Text Fiels-->
-<ly-input color="accent" [(ngModel)]="name" floatlabel="label" type="text"></ly-input>
-<!--Buttons-->
-<button ly-button bg="accent" color="#ffffff">button</button>
-<button ly-button color="accent" bg="#ffffff" deep="false">button</button>
-```
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
