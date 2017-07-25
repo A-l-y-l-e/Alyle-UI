@@ -1,0 +1,31 @@
+<h4>Github</h4>
+<ly-input #_github [(ngModel)]="github" floatLabel="github">
+  <ly-before>
+    <a (click)="_github.select()" ly-icon-button>
+      <ly-svg src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
+    </a>
+    <span>github.com/</span>
+  </ly-before>
+  <ly-after>
+    <a [href]="'https://github.com/' + github" target="_blank" ly-icon-button>
+      <ly-svg size="18px" src="assets/svg/ic_launch_24px.svg"></ly-svg>
+    </a>
+  </ly-after>
+</ly-input>
+<h4>Mobile</h4>
+<ly-input #_mobile [(ngModel)]="mobile" placeholder="Mobile" class="mobile">
+  <ly-before>
+    <a ly-icon-button (click)="_mobile.focus()">
+      <ly-svg src="assets/svg/Mobile.svg"></ly-svg>
+    </a>
+    <span>+51</span>
+  </ly-before>
+</ly-input>
+<h4>Message</h4>
+<ly-textarea #_message [(ngModel)]="message" placeholder="Hi..." floatLabel="Message">
+  <ly-before>
+    <a ly-icon-button (click)="_message.select()">
+      <ly-svg src="assets/svg/ic_mail_outline_48px.svg"></ly-svg>
+    </a>
+  </ly-before>
+</ly-textarea>
