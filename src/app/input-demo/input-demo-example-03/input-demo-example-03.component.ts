@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class InputDemoExample03Component implements OnInit {
   github = 'A-l-y-l-e/Alyle-UI';
   mobile: string;
+  message: string;
   constructor() { }
 
   ngOnInit() {

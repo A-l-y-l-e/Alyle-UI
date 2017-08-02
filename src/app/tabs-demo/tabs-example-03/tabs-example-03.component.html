@@ -1,0 +1,52 @@
+<ly-tabs [(selectedIndex)]="selectedIndex">
+  <ly-tab>
+    <button ly-button ly-tab-label>
+      Brush
+      <ly-icon-button>
+        <ly-svg src="assets/svg/Brush.svg"></ly-svg>
+      </ly-icon-button>
+    </button>
+    <div class="content">
+      Content
+      <ly-button>asdasd</ly-button>
+    </div>
+  </ly-tab>
+  <ly-tab>
+    <ly-tab-label (click)="action()">Event</ly-tab-label>
+    <div class="content">
+      Content
+    </div>
+  </ly-tab>
+  <ly-tab>
+    <ly-tab-label ly-button>
+      <ly-icon-button>
+        <ly-svg src="assets/svg/Brush.svg"></ly-svg>
+      </ly-icon-button>
+      Brush
+    </ly-tab-label>
+    <div class="content">
+      Content
+    </div>
+  </ly-tab>
+</ly-tabs>
+<ly-tabs bg="accent" color="#fff">
+  <ly-tab *ngFor="let tab of [ {}, {}, {}, {}, {}, {} ]; let i = index">
+    <ly-tab-label>{{ 'Label ' + tab.label + i }}</ly-tab-label>
+    <div class="content">
+      {{ 'Content ' + i }}
+      <ly-input [(ngModel)]="tab.label"></ly-input>
+    </div>
+  </ly-tab>
+</ly-tabs>
+<ly-input class="selected-index" [(ngModel)]="selectedIndex" type="number"></ly-input>
+<br />
+<button ly-button (click)="addTab()">add tab</button>
+<ly-tabs [(selectedIndex)]="selectedIndex" bg="#00bcd4" color="#fff">
+  <ly-tab *ngFor="let tab of tabs; let i = index">
+    <ly-tab-label>{{ 'Label ' + i }}</ly-tab-label>
+    <div class="content">
+      {{ 'Content ' + i }}
+    </div>
+  </ly-tab>
+</ly-tabs>
+<div ly-ripple ly-ripple-disabled="true">hi</div>

@@ -1,0 +1,51 @@
+main {
+  height: calc(100% - 64px);
+}
+.drawer {
+  height: 100%;
+}
+:host {
+  color: #282B2F;
+}
+.app-container {
+  height: 100%;
+  .demo {
+    margin: auto;
+    max-width: 960px;
+    padding: 10% 32px 50% 32px
+  }
+}
+.logo {
+  cursor: pointer;
+  button {
+    height: 64px;
+    border-radius: 0;
+    font-size: 20px;
+  }
+}
+.items {
+  button {
+    display: block;
+    height: 48px;
+    text-align: left;
+    width: 100%;
+    border-radius: 0;
+  }
+}
+.nav-button {
+  justify-content: flex-start;;
+}
+.i-right {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 100%;
+}
+.content-menu {
+  padding: 0 8px;
+  button {
+    min-width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    color: #fff;
+  }
+}

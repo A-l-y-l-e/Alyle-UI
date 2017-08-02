@@ -1,0 +1,16 @@
+:host {
+  position: relative;
+  display: block;
+}
+.tab-container {
+  padding: 16px;
+}
+.tab-content {
+  padding: 16px 16px 0 16px;
+}
+.code {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 6px;
+}

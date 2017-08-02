@@ -1,5 +1,5 @@
 import { NgModule }           from '@angular/core';
-import { LyButtonModule }     from 'alyle-ui';
+import { LyButtonModule }     from 'alyle-ui/button';
 import { Example01Component } from './example-01.component';
 
 @NgModule({
