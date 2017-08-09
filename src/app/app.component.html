@@ -10,9 +10,6 @@
       <ly-toolbar-item *lyResponsive="{'min-width' : '720px'}">
         <a href="https://www.npmjs.com/package/alyle-ui" target="_blank" ly-button bg="#fff" color="primary" deep="false">npm {{ nav.sidenavState }}</a>
       </ly-toolbar-item>
-      <ly-toolbar-item *lyResponsive="{'min-width' : '720px'}">
-        other~~
-      </ly-toolbar-item>
       <div [style.flex]="1"></div>
       <button color="#fff" class="i-right" ly-button [ly-menu-trigger-for]="ThemeMenu">
         <ly-icon-button size="16px" (click)="nav.toggle()" *ngIf="!nav.sidenavState">
@@ -25,13 +22,13 @@
         <div class="content-menu">
           <button *ngFor="let item of listColors" (click)="changePrimary(item.name)" color="#fff" ly-button class="menu-item" [bg]="theme.paletteOf(item.name).color">
             <ly-icon-button size="16px">
-              <ly-svg class="force-color" size="24px" src="assets/svg/Water.svg"></ly-svg>
+              <!-- <ly-svg class="force-color" size="24px" src="assets/svg/Water.svg"></ly-svg> -->
             </ly-icon-button>
           </button>
         </div>
       </ly-menu>
-      <button color="#fff" class="i-right" ly-button>
-        <a ly-icon-button target="_blank" href="https://github.com/A-l-y-l-e/Alyle-UI" size="16px" (click)="nav.toggle()" *ngIf="!nav.sidenavState">
+      <button color="#fff" class="i-right" ly-button aria-label="Config theme">
+        <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="16px" (click)="nav.toggle()" *ngIf="!nav.sidenavState">
           <ly-svg class="force-color" size="24px" src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
         </a>
       </button>

@@ -9,7 +9,7 @@ import {
   LyShadowModule,
 } from 'alyle-ui';
 
-import { MarkedPipe } from '../core/marked.pipe';
+import { PrismModule } from '../core/prism/prism.module';
 
 import { ViewComponent } from './view/view.component';
 import { DemoViewLabelDirective } from './demo-view-label.directive';
@@ -21,6 +21,7 @@ import { DemoViewModuleDirective } from './demo-view-module.directive';
 @NgModule({
   imports: [
     CommonModule,
+    PrismModule,
     LyTabsModule,
     LyShadowModule,
     LyToolbarModule,
@@ -28,6 +29,6 @@ import { DemoViewModuleDirective } from './demo-view-module.directive';
     LySvgModule
   ],
   exports: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective],
-  declarations: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, MarkedPipe, DemoViewModuleDirective]
+  declarations: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective]
 })
 export class DemoViewModule { }

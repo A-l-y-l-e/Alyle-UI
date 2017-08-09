@@ -1,3 +1,8 @@
 <ly-core>
-  <ly-input autofocus [(ngModel)]="value" floatLabel="Name"></ly-input><inline-text>v.1</inline-text>
+  <form novalidate>
+    <ly-input>
+      <input [(ngModel)]="value" name="example" type="text" placeholder="Name">
+    </ly-input>
+    <inline-text>v{{ version }}</inline-text>
+  </form>
 </ly-core>

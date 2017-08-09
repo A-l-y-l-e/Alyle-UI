@@ -1,8 +1,12 @@
 <p>
   Simple
 </p>
-<ly-input [(ngModel)]="color" default="blue"></ly-input>
+<ly-input default="blue">
+  <input [(ngModel)]="color">
+</ly-input>
 <p>
   with floatingLabel
 </p>
-<ly-input type="number" default="2017" [(ngModel)]="year" floatLabel="Year" [floatingLabel]="true"></ly-input>
+<ly-input [default]="2017">
+  <input type="number" floatLabel="Year" [(ngModel)]="year">
+</ly-input>

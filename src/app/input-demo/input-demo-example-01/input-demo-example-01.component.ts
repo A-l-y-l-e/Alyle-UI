@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { AUI_VERSION } from 'alyle-ui';
 
 @Component({
   selector: 'input-demo-example-01',
@@ -7,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InputDemoExample01Component implements OnInit {
   value = 'Alyle UI';
+  version: string = AUI_VERSION;
+
   constructor() { }
 
   ngOnInit() {

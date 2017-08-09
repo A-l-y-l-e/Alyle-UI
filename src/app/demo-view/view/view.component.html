@@ -8,19 +8,19 @@
   <ly-tabs *ngIf="hasCode">
     <ly-tab>
       <ly-tab-label>Html</ly-tab-label>
-      <div class="tab-content" [innerHTML]="html.statusText || (minimalLS.getItem($demoUrls?.html) | async) | marked: 'html'"></div>
+      <div class="tab-content" [innerHTML]="html.statusText || (minimalLS.getItem($demoUrls?.html) | async) | prism: 'html'"></div>
     </ly-tab>
     <ly-tab>
       <ly-tab-label>Component</ly-tab-label>
-      <div class="tab-content" [innerHTML]="ts.statusText || (minimalLS.getItem($demoUrls?.ts) | async) | marked: 'ts'"></div>
+      <div class="tab-content" [innerHTML]="ts.statusText || (minimalLS.getItem($demoUrls?.ts) | async) | prism: 'ts'"></div>
     </ly-tab>
     <ly-tab>
       <ly-tab-label>Module</ly-tab-label>
-      <div class="tab-content" [innerHTML]="tsModule.statusText || (minimalLS.getItem($demoUrls?.tsModule) | async) | marked: 'ts'"></div>
+      <div class="tab-content" [innerHTML]="tsModule.statusText || (minimalLS.getItem($demoUrls?.tsModule) | async) | prism: 'ts'"></div>
     </ly-tab>
     <ly-tab *ngIf="(minimalLS.getItem($demoUrls?.css) | async) != ''">
       <ly-tab-label>Css</ly-tab-label>
-      <div class="tab-content" [innerHTML]="css.statusText || (minimalLS.getItem($demoUrls?.css) | async) | marked: 'css'"></div>
+      <div class="tab-content" [innerHTML]="css.statusText || (minimalLS.getItem($demoUrls?.css) | async) | prism: 'css'"></div>
     </ly-tab>
   </ly-tabs>
   <div class="tab-container">

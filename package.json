@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 1111",
     "build": "ng build",
+    "deploy": "firebase deploy --only \"hosting\"",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -21,10 +22,9 @@
     "@angular/platform-browser": "^4.3.0",
     "@angular/platform-browser-dynamic": "^4.3.0",
     "@angular/router": "^4.3.0",
-    "alyle-ui": "^1.3.0",
+    "alyle-ui": "1.3.5",
     "core-js": "^2.4.1",
     "highlight.js": "^9.12.0",
-    "marked": "^0.3.6",
     "node-vibrant": "^3.0.0-alpha.2",
     "prismjs": "^1.6.0",
     "rxjs": "^5.1.0",

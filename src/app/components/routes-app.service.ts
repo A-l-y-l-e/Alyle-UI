@@ -12,7 +12,8 @@ export class RoutesAppService {
     this.routesApp = [
       { route: 'button', name: 'Button' },
       { route: 'input', name: 'Input' },
-      { route: 'tabs', name: 'Tabs' }
+      { route: 'tabs', name: 'Tabs' },
+      { route: 'radio', name: 'Radio' }
     ];
   }
   get componentState(): { route: string, name: string } {

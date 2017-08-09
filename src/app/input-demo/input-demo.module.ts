@@ -8,6 +8,7 @@ import { InputDemoExample01Module } from './input-demo-example-01/input-demo-exa
 import { InputDemoExample02Module } from './input-demo-example-02/input-demo-example-02.module';
 import { InputDemoExample03Module } from './input-demo-example-03/input-demo-example-03.module';
 import { InputExample04Module } from './input-example-04/input-example-04.module';
+import { InputExample05Module } from './input-example-05/input-example-05.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { InputExample04Module } from './input-example-04/input-example-04.module
     InputDemoExample01Module,
     InputDemoExample02Module,
     InputDemoExample03Module,
-    InputExample04Module
+    InputExample04Module,
+    InputExample05Module
   ],
   declarations: [InputDemoComponent]
 })

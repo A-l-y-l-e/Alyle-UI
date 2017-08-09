@@ -42,7 +42,6 @@ code[class*="language-"], pre[class*="language-"] {
 .token.strong {
   font-weight: bold;
   color: #ff599c;
-  font-style: italic
 }
 
 .token.comment {
@@ -88,7 +87,6 @@ code[class*="language-"], pre[class*="language-"] {
   color: #39ADB5;
 }
 .token.attr-name {
-  font-style: italic;
   color: #FFB62C;
 }
 .token.attr-value,

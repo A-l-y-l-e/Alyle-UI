@@ -7,6 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsExample03Component implements OnInit {
   selectedIndex: number = 0;
+  tabsDemo = [
+    {
+      label: 'label 1'
+    },
+    {
+      label: 'label 2'
+    }
+  ];
   tabs: any[] = [{}, {}];
   constructor() { }
 

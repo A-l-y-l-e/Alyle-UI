@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', loadChildren: './home/home.module#HomeModule' },
+  { path: 'get-started', loadChildren: './get-started/get-started.module#GetStartedModule' },
+  { path: 'theming', loadChildren: './theming/theming.module#ThemingModule' },
   { path: 'components', loadChildren: './components/index#ComponentsModule' }
 ];
 

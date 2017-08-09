@@ -3,9 +3,9 @@ const Prism = require('prismjs');
 
 
 @Pipe({
-  name: 'marked'
+  name: 'prism'
 })
-export class MarkedPipe implements PipeTransform {
+export class PrismPipe implements PipeTransform {
 
   transform(value: any, args?: string): string {
     if (value === null ) {

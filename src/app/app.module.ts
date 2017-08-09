@@ -21,6 +21,7 @@ import { LyButtonModule } from 'alyle-ui/button';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { RoutesAppService } from './components/routes-app.service';
+import { PrismModule } from './core/prism/prism.module';
 
 @NgModule({
   declarations: [
@@ -31,10 +32,7 @@ import { RoutesAppService } from './components/routes-app.service';
     CommonModule,
     FormsModule,
     HttpModule,
-    ResponsiveModule.forRoot({
-      // MinWidth: '720',
-      // oneM: {"min-width": 720}
-    }),
+    ResponsiveModule,
     MinimalLSModule, // Beta
     AlyleUIModule.forRoot({
       primary: 'blue',
@@ -48,6 +46,7 @@ import { RoutesAppService } from './components/routes-app.service';
     LyIconButtonModule,
     LySvgModule,
     LyMenuModule,
+    PrismModule,
     AppRoutingModule
   ],
   providers: [RoutesAppService],
