@@ -1,0 +1,9 @@
+<form novalidate (ngSubmit)="onSubmit()" #exampleForm="ngForm">
+  <ly-input>
+    <input [(ngModel)]="example" name="example" type="text" placeholder="Name" required minlength="4">
+    <ly-hint align="start">hint</ly-hint>
+    <ly-hint align="end">hint2</ly-hint>
+    <ly-error>Error state</ly-error>
+  </ly-input>
+  <button type="submit" [disabled]="!exampleForm.form.valid" ly-button>submit</button>
+</form>

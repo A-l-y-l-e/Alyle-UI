@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ButtonExample04Component implements OnInit {
   color = '#841dab';
-  raisedState: string;
+  raisedState: any;
   constructor() {
     this.changeColor();
   }

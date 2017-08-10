@@ -1,0 +1,22 @@
+:host {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.intra-container {
+  text-align: center;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  display: flex;
+  .intra-content {
+    position: absolute;
+    padding-bottom: 64px;
+    color: #444D55;
+  }
+}
