@@ -7,7 +7,8 @@ const routes: Routes = [
     { path: 'button', loadChildren: '../button-demo/button-demo.module#ButtonDemoModule' },
     { path: 'input', loadChildren: '../input-demo/input-demo.module#InputDemoModule' },
     { path: 'tabs', loadChildren: '../tabs-demo/tabs-demo.module#TabsDemoModule' },
-    { path: 'radio', loadChildren: '../radio-demo/radio-demo.module#RadioDemoModule' }
+    { path: 'radio', loadChildren: '../radio-demo/radio-demo.module#RadioDemoModule' },
+    { path: 'menu', loadChildren: '../menu-demo/menu-demo.module#MenuDemoModule' }
   ] },
   { path: '**',   redirectTo: '' }
 ];

@@ -13,7 +13,8 @@ export class RoutesAppService {
       { route: 'button', name: 'Button' },
       { route: 'input', name: 'Input' },
       { route: 'tabs', name: 'Tabs' },
-      { route: 'radio', name: 'Radio' }
+      { route: 'radio', name: 'Radio' },
+      { route: 'menu', name: 'Menu' }
     ];
   }
   get componentState(): { route: string, name: string } {

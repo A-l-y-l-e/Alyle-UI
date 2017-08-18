@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LyTheme, LyPalette } from 'alyle-ui';
+import { LyTheme, LyPalette, AUI_VERSION } from 'alyle-ui';
 import { LyMenu } from 'alyle-ui/menu';
 import { RoutesAppService } from './components/routes-app.service';
 import { MinimalLS } from 'alyle-ui/ls'
@@ -14,6 +14,7 @@ export class AppComponent {
   routesComponents: { route: string, name: string }[];
   @ViewChild('ThemeMenu') menuTheme: LyMenu;
   listColors: any[];
+  version: string = AUI_VERSION;
   constructor(
     public router: Router,
     public route: ActivatedRoute,

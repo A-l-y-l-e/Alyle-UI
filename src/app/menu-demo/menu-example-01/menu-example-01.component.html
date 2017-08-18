@@ -1,0 +1,12 @@
+<button ly-button [ly-menu-trigger-for]="_Menu">
+  <ly-icon-button size="16px">
+    <ly-svg size="24px" src="assets/svg/ic_menu_48px.svg"></ly-svg>
+  </ly-icon-button>
+</button>
+<ly-menu #_Menu
+[anchor-origin]="{horizontal: 'center', vertical: 'center'}"
+[target-origin]="{horizontal: 'center', vertical: 'center'}">
+  <button ly-button ly-menu-item *ngFor="let item of [{}, {}, {}]; let i = index" (click)="_Menu.toggleMenu()">
+    item {{ i + 1 }}
+  </button>
+</ly-menu>

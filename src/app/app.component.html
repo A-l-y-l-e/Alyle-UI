@@ -5,10 +5,12 @@
         <ly-svg src="assets/svg/ic_menu_48px.svg"></ly-svg>
       </ly-icon-button>
       <ly-toolbar-item class="logo">
-        <button ly-button color="#fff" [routerLink]="['./']">Alyle UI</button>
+        <button ly-button color="#fff" [routerLink]="['./']">Alyle UI
+          <div class="version">v{{ version }}</div>
+        </button>
       </ly-toolbar-item>
       <ly-toolbar-item *lyResponsive="{'min-width' : '720px'}">
-        <a href="https://www.npmjs.com/package/alyle-ui" target="_blank" ly-button bg="#fff" color="primary" deep="false">npm {{ nav.sidenavState }}</a>
+        <a href="https://www.npmjs.com/package/alyle-ui" target="_blank" ly-button bg="#fff" color="primary" deep="false">npm</a>
       </ly-toolbar-item>
       <div [style.flex]="1"></div>
       <button color="#fff" class="i-right" ly-button [ly-menu-trigger-for]="ThemeMenu">
