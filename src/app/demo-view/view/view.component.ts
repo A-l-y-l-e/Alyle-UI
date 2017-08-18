@@ -53,7 +53,7 @@ export class ViewComponent implements OnInit {
     const statusText = `Loading...`;
     const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded;charset=utf8' });
     const options = new RequestOptions({ headers: headers });
-    const gitUrl = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/demo/src/app`;
+    const gitUrl = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/master/src/app`;
     const url = `${gitUrl}/${this.gitComponentUrl(directive.src, type)}.${ext}`;
     directive.statusText = statusText;
     const nameUrl = type === 'component' ? ext : 'tsModule';
