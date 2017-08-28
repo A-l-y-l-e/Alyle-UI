@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LyPalette } from 'alyle-ui/core';
 
 @Component({
   selector: 'app-theming',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThemingComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public palette: LyPalette
+  ) { }
+
+  colors() {
+    return LyPalette.colors;
+  }
 
   ngOnInit() {
   }

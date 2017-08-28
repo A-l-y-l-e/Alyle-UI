@@ -1,2 +1,39 @@
 <h1>Theming</h1>
-<p>Coming soon...</p>
+
+<h3>Config color theme in app.module.ts</h3>
+<prism language="ts">
+{{"// Core module
+import { AlyleUIModule } from 'alyle-ui';
+
+// Responsive module (Optional)
+import { ResponsiveModule } from 'alyle-ui/responsive';
+
+/**
+ * Config Alyle UI
+ * primary(string), accent(string), other(string)
+ */
+const configAlyleUI = {
+  primary: 'blue',
+  accent: 'pink',
+  other: 'red'
+}
+@NgModule({
+  ...
+  imports: [
+    AlyleUIModule.forRoot(configAlyleUI),
+    ResponsiveModule
+  ],
+  ...
+})
+export class AppModule {}"}}
+</prism>
+<!-- <h3>Theme Module</h3>
+<p>bg</p>
+<span bg="blue">blue</span>
+<span bg="primary">primary</span>
+<span bg="accent">accent</span>
+<p>color</p>
+<span color="blue">blue</span>
+<span color="primary">primary</span>
+<span color="accent">accent</span>
+Lorem ipsum <span bg="primary" color="#fff">dolor</span> sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <span color="accent">labore</span> et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->

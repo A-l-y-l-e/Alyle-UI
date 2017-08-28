@@ -1,4 +1,4 @@
-<ly-core root ly-force-color>
+<ly-core root>
   <div ly-deep scale="1" [color]="(theme.primary | async)?.color">
     <ly-toolbar bg="primary" color="#fff">
       <ly-icon-button (click)="nav.toggle()" *ngIf="!nav.sidenavState">
@@ -14,7 +14,7 @@
       </ly-toolbar-item>
       <div [style.flex]="1"></div>
       <button color="#fff" class="i-right" ly-button [ly-menu-trigger-for]="ThemeMenu">
-        <ly-icon-button size="16px" (click)="nav.toggle()" *ngIf="!nav.sidenavState">
+        <ly-icon-button size="16px" *ngIf="!nav.sidenavState">
           <ly-svg class="force-color" size="24px" src="assets/svg/Brush.svg"></ly-svg>
         </ly-icon-button>
       </button>

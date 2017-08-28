@@ -1,0 +1,29 @@
+<div class="actions">
+  <button raised ly-button bg="primary" (click)="_fileInput.focus(); _fileInput.click()"><input (change)="Img.imgChange($event)" #_fileInput type="file">
+    <a ly-icon-button class="material-icons">image</a>
+    Select File
+  </button>
+  <button raised ly-button [disabled]="!Img.img" bg="accent" >Upload</button>
+</div>
+<div class="resize-image" [hidden]="!Img.img">
+
+  <a ly-icon-button (click)="Img.zoom('+')"><i class="material-icons">zoom_in</i></a>
+  <a ly-icon-button (click)="Img.zoom('-')"><i class="material-icons">zoom_out</i></a>
+  <button ly-button bg="primary" (click)="Img.center()">center</button>
+  <ly-cropping #Img format="png"></ly-cropping>
+
+  <div>Result: </div>
+  <br />
+  <img [src]="Img.imgCrop">
+  <br />
+  <a [href]="Img.imgCrop" target="_blank" ly-button bg="accent">image url</a>
+  <ly-input>
+    <input [(ngModel)]="Img.sizeW" placeholder="Img size W">
+  </ly-input>
+  <ly-input><input [(ngModel)]="Img.sizeH" placeholder="Img size H"></ly-input>
+  <ly-input><input [(ngModel)]="Img.img" placeholder="Img"></ly-input>
+  <div>Format input: {{Img._img.type}}</div>
+  <br />
+  <div>Format output: {{Img.format}}</div>
+  <br />
+</div>

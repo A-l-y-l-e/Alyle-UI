@@ -14,7 +14,9 @@ export class RoutesAppService {
       { route: 'input', name: 'Input' },
       { route: 'tabs', name: 'Tabs' },
       { route: 'radio', name: 'Radio' },
-      { route: 'menu', name: 'Menu' }
+      { route: 'menu', name: 'Menu' },
+      { route: 'resizing-&-cropping-images', name: 'Resizing & cropping images' },
+      { route: 'carousel', name: 'Carousel' }
     ];
   }
   get componentState(): { route: string, name: string } {
