@@ -15,7 +15,7 @@ export class RoutesAppService {
       { route: 'tabs', name: 'Tabs' },
       { route: 'radio', name: 'Radio' },
       { route: 'menu', name: 'Menu' },
-      { route: 'resizing-&-cropping-images', name: 'Resizing & cropping images' },
+      { route: 'resizing-cropping-images', name: 'Resizing & cropping images' },
       { route: 'carousel', name: 'Carousel' }
     ];
   }

@@ -54,18 +54,19 @@ export class ViewComponent implements OnInit {
     const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded;charset=utf8' });
     const options = new RequestOptions({ headers: headers });
     const gitUrl = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/master/src/app`;
-    const url = `${gitUrl}/${this.gitComponentUrl(directive.src, type)}.${ext}`;
+    const gitDir = `${this.gitComponentUrl(directive.src, type)}.${ext}`
+    const url = `${gitUrl}/${gitDir}`;
     directive.statusText = statusText;
     const nameUrl = type === 'component' ? ext : 'tsModule';
-    this.$demoUrls[nameUrl] = url;
-    if (this.minimalLS.hasItem(url)) {
-      directive.statusText = null;
+    this.$demoUrls[nameUrl] = gitDir;
+    if (this.minimalLS.hasItem(gitDir)) {
+      directive.statusText = false;
     }
     return this.http.get(url, options)
                     .map((res: any) => {
                       const body: any = res._body;
-                      this.minimalLS.setItem(url, res._body);
-                      directive.statusText = null;
+                      this.minimalLS.setItem(gitDir, res._body);
+                      directive.statusText = false;
                       return body || { };
                     })
                     .toPromise()
@@ -79,7 +80,7 @@ export class ViewComponent implements OnInit {
                         errMsg = error.message ? error.message : error.toString();
                       }
                       console.log(`%c${errMsg}`, 'color:red;');
-                      if (!this.minimalLS.hasItem(url)) {
+                      if (!this.minimalLS.hasItem(gitDir)) {
                         directive.statusText = `${errMsg}`;
                       }
                       return Observable.throw(errMsg);

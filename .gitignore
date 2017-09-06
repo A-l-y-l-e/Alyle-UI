@@ -43,6 +43,10 @@ Thumbs.db
 
 # yarn files
 yarn.lock
+yarn-error.log
 
 # firebase files
 firebase-debug.log
+
+#others
+run.sh
