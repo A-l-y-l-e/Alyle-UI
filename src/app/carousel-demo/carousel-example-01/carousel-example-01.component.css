@@ -1,4 +1,15 @@
-.carousel-demo {
+ly-carousel {
   width: 100%;
-  height: 200px;
+  height: 220px;
+
+}
+
+/**
+ * Container of all carousel elements
+ */
+ly-carousel /deep/ .ly-carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
