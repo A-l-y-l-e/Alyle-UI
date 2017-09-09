@@ -16,7 +16,7 @@
   <br />
   <img [src]="Img.imgCrop">
   <br />
-  <a [href]="Img.imgCrop" target="_blank" ly-button bg="accent">image url</a>
+  <a (click)="imgCrop()" ly-button bg="accent">Download image</a>
   <ly-input>
     <input [(ngModel)]="Img.sizeW" placeholder="Img size W">
   </ly-input>
