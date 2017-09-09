@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { LyTheme, LyPalette, AUI_VERSION } from 'alyle-ui';
 import { LyMenu } from 'alyle-ui/menu';
 import { RoutesAppService } from './components/routes-app.service';
@@ -22,6 +22,12 @@ export class AppComponent {
     public palette: LyPalette,
     public routesApp: RoutesAppService,
   ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        ga('set', 'page', event.urlAfterRedirects);
+        ga('send', 'pageview');
+      }
+    });
     this.routesComponents = this.routesApp.routesApp;
     this.listColors = [
       {
