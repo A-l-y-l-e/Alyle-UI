@@ -1,5 +1,21 @@
 ## CHANGELOG
 
+<a name="1.3.9"></a>
+## 1.3.9 (2017-09-10)
+
+### Features
+* Update Resizing cropping images
+* New demo: icon-button
+
+<a name="1.3.8"></a>
+## 1.3.8 (2017-09-07)
+
+### Features
+* Update carousel
+* New module `LyCoreModule`
+  * bg
+  * color
+
 <a name="1.3.7"></a>
 ## 1.3.7 (2017-08-28)
 
