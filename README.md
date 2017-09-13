@@ -6,7 +6,7 @@
   <h1>Alyle UI</h1>
   Minimal Design, a package of components for Angular.
   <br/>
-  [DEMO](https://alyle-ui.firebaseapp.com/#/components/carousel)
+  <a href="https://alyle-ui.firebaseapp.com/#/components/carousel">DEMO</a>
 </div>
 
 
