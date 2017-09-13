@@ -11,7 +11,7 @@ import { MinimalLS } from 'alyle-ui/ls'
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  routesComponents: { route: string, name: string }[];
+  routesComponents: any;
   @ViewChild('ThemeMenu') menuTheme: LyMenu;
   listColors: any[];
   version: string = AUI_VERSION;

@@ -39,7 +39,10 @@
   <main>
     <ly-drawer class="drawer">
       <ly-nav #nav [opened]="router.url !== '/'" align="left" [mode]="'side'" #_left class="items">
-        <button ly-button class="nav-button" [routerLink]="['./components/' + component.route]" *ngFor="let component of routesComponents">{{ component.name }}</button>
+        <div *ngFor="let category of routesComponents">
+          <span class="category-name">{{ category.name }}</span>
+          <button ly-button class="nav-button" [routerLink]="[(category.name =='Components'?'/components/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</button>
+        </div>
       </ly-nav>
       <div class="app-container">
         <div class="demo">

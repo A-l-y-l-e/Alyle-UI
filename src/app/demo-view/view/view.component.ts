@@ -88,7 +88,7 @@ export class ViewComponent implements OnInit {
   }
   gitComponentUrl(name: string, type: string) {
     const route = this.routesApp.componentState;
-    return `${route.route}-demo/${name}/${name}.${type}`
+    return `${name}/${name}/${name}.${type}`
   }
   ngOnInit() {
     if (this.html) {
