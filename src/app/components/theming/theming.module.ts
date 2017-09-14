@@ -5,7 +5,7 @@ import { LyCoreModule } from 'alyle-ui/core';
 
 import { ThemingRoutingModule } from './theming-routing.module';
 import { ThemingComponent } from './theming/theming.component';
-import { PrismModule } from '../core/prism/prism.module';
+import { PrismModule } from '../../core/prism/prism.module';
 
 @NgModule({
   imports: [

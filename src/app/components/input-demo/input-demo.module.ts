@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DemoViewModule } from '../demo-view';
+import { DemoViewModule } from '../../demo-view';
 import { InputDemoRoutingModule } from './input-demo-routing.module';
 import { InputDemoComponent } from './input-demo/input-demo.component';
 import { InputDemoExample01Module } from './input-demo-example-01/input-demo-example-01.module';
