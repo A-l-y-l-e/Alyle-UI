@@ -6,7 +6,11 @@
     <button ly-icon-button (click)="toggleCode()" size="18px"><ly-svg src="assets/svg/code.svg"></ly-svg></button>
   </div>
   <ly-tabs *ngIf="hasCode">
-    <ly-tab>
+    <ly-tab *ngFor="let demo of demos">
+      <ly-tab-label>{{ demo.label }}</ly-tab-label>
+      <div class="tab-content" [innerHTML]="(minimalLS.getItem(demo.url, 'Loading...') | async) | prism: demo.ext"></div>
+    </ly-tab>
+    <!-- <ly-tab>
       <ly-tab-label>Html</ly-tab-label>
       <div class="tab-content" [innerHTML]="html.statusText || (minimalLS.getItem($demoUrls?.html) | async) | prism: 'html'"></div>
     </ly-tab>
@@ -21,7 +25,7 @@
     <ly-tab *ngIf="(minimalLS.getItem($demoUrls?.css) | async) != ''">
       <ly-tab-label>Css</ly-tab-label>
       <div class="tab-content" [innerHTML]="css.statusText || (minimalLS.getItem($demoUrls?.css) | async) | prism: 'css'"></div>
-    </ly-tab>
+    </ly-tab> -->
   </ly-tabs>
   <div class="tab-container">
     <ng-content></ng-content>

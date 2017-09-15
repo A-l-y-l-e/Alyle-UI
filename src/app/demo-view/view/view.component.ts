@@ -2,10 +2,12 @@ import {
   Component,
   Input,
   OnInit,
-  Optional
+  Optional,
+  ElementRef
 } from '@angular/core';
 import { Observable }      from 'rxjs/Rx';
 import { Headers, RequestOptions, Http } from '@angular/http';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -16,6 +18,7 @@ import { DemoViewLabelDirective } from '../demo-view-label.directive';
 import { DemoViewHtmlDirective } from '../demo-view-html.directive';
 import { DemoViewTsDirective } from '../demo-view-ts.directive';
 import { DemoViewCssDirective } from '../demo-view-css.directive';
+import { DemoViewSrcsDirective } from '../demo-view-srcs.directive';
 import { DemoViewModuleDirective } from '../demo-view-module.directive';
 
 export class demoUrls {
@@ -33,15 +36,21 @@ export class demoUrls {
 export class ViewComponent implements OnInit {
   hasCode = false;
   $demoUrls: demoUrls = new demoUrls();
+  name: string;
+  folderName: string;
+  demos: {label: string, url: string, ext: string}[] = [];
   constructor(
     @Optional() public label: DemoViewLabelDirective,
     @Optional() public html: DemoViewHtmlDirective,
     @Optional() public ts: DemoViewTsDirective,
     @Optional() public css: DemoViewCssDirective,
     @Optional() public tsModule: DemoViewModuleDirective,
+    @Optional() public srcs: DemoViewSrcsDirective,
     private http: Http,
     private minimalLS: MinimalLS,
-    private routesApp: RoutesAppService
+    private el: ElementRef,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
   toggleCode() {
     this.hasCode = !this.hasCode;
@@ -49,24 +58,16 @@ export class ViewComponent implements OnInit {
   private urlComponents() {
     return
   }
-  private getdata(directive: any, ext: string, type: string = 'component'): Promise<any> {
+  private getdata(dir: string): Promise<any> {
     const statusText = `Loading...`;
     const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded;charset=utf8' });
     const options = new RequestOptions({ headers: headers });
-    const gitUrl = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/master/src/app`;
-    const gitDir = `${this.gitComponentUrl(directive.src, type)}.${ext}`
-    const url = `${gitUrl}/${gitDir}`;
-    directive.statusText = statusText;
-    const nameUrl = type === 'component' ? ext : 'tsModule';
-    this.$demoUrls[nameUrl] = gitDir;
-    if (this.minimalLS.hasItem(gitDir)) {
-      directive.statusText = false;
-    }
+    const gitUrl = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/master/src/app/components`;
+    const url = `${gitUrl}/${dir}`;
     return this.http.get(url, options)
                     .map((res: any) => {
                       const body: any = res._body;
-                      this.minimalLS.setItem(gitDir, res._body);
-                      directive.statusText = false;
+                      this.minimalLS.setItem(dir, res._body);
                       return body || { };
                     })
                     .toPromise()
@@ -79,29 +80,27 @@ export class ViewComponent implements OnInit {
                       } else {
                         errMsg = error.message ? error.message : error.toString();
                       }
-                      console.log(`%c${errMsg}`, 'color:red;');
-                      if (!this.minimalLS.hasItem(gitDir)) {
-                        directive.statusText = `${errMsg}`;
-                      }
                       return Observable.throw(errMsg);
                     });
   }
-  gitComponentUrl(name: string, type: string) {
-    const route = this.routesApp.componentState;
-    return `${route}-demo/${name}/${name}.${type}`
-  }
+
   ngOnInit() {
-    if (this.html) {
-      this.getdata(this.html, 'html').then();
-    }
-    if (this.ts) {
-      this.getdata(this.ts, 'ts').then();
-    }
-    if (this.css) {
-      this.getdata(this.css, 'css').then().catch(() => {});
-    }
-    if (this.tsModule) {
-      this.getdata(this.tsModule, 'ts', 'module').then().catch(() => {});
+    this.name = this.router.url.replace(/\//g, '').replace(/components/, '');
+    this.folderName = this.el.nativeElement.querySelector('.tab-container > *').nodeName.toLowerCase();
+    const exts = [
+      {label: 'Html', type: 'component', ext: 'html'},
+      {label: 'Component', type: 'component', ext: 'ts'},
+      {label: 'Module', type: 'module', ext: 'ts'},
+      {label: 'Style', type: 'component', ext: 'css'}
+    ]
+    for (let i = 0; i < exts.length; i++) {
+      let url = `${this.name}-demo/${this.folderName}/${this.folderName}.${exts[i].type}.${exts[i].ext}`;
+      this.demos.push({
+        url: url,
+        label: exts[i].label,
+        ext: exts[i].ext
+      });
+      this.getdata(url).then();
     }
   }
 

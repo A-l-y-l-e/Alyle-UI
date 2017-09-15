@@ -17,6 +17,7 @@ import { DemoViewHtmlDirective } from './demo-view-html.directive';
 import { DemoViewTsDirective } from './demo-view-ts.directive';
 import { DemoViewCssDirective } from './demo-view-css.directive';
 import { DemoViewModuleDirective } from './demo-view-module.directive';
+import { DemoViewSrcsDirective } from './demo-view-srcs.directive';
 
 @NgModule({
   imports: [
@@ -29,6 +30,6 @@ import { DemoViewModuleDirective } from './demo-view-module.directive';
     LySvgModule
   ],
   exports: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective],
-  declarations: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective]
+  declarations: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective, DemoViewSrcsDirective]
 })
 export class DemoViewModule { }
