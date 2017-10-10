@@ -3,12 +3,11 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "es2015",
-    "baseUrl": "",
+    "baseUrl": "./",
     "types": [
       "node",
       "google.analytics"
-    ],
-    "allowSyntheticDefaultImports": true
+    ]
   },
   "exclude": [
     "test.ts",

@@ -1,0 +1,19 @@
+:host[ly-dense] {
+  height: 48px;
+  line-height: 48px;
+}
+
+:host {
+  background: 0 0;
+  margin: 0;
+  max-width: 100%;
+  width: 100%;
+  min-height: 48px;
+  height: 64px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-size: 20px;
+  // transition: all 375ms cubic-bezier(.23,1,.32,1) 0s;
+}

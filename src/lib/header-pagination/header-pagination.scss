@@ -1,0 +1,52 @@
+:host {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  line-height: normal;
+}
+._container {
+  position: absolute;
+  height: inherit;
+  width: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+._container_items {
+  display: inline-flex;
+  position: absolute;
+  transition: 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  left: 0;
+  height: 100%;
+}
+._op_left, ._op_right {
+  position: absolute;
+  display: inline-block;
+  height: inherit;
+  width: 24px;
+  height: 24px;
+  z-index: 99;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  cursor: pointer;
+  color: rgba(245, 0, 87, 0.63);
+  &:hover {
+    color: #f50057;
+  }
+  span {
+    fill: currentColor;
+    position: absolute;
+    top: 0;
+  }
+}
+._op_right {
+  right: 0;
+}
+._op_left {
+  left: 0;
+}

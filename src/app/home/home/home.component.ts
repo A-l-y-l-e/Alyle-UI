@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LyTheme } from 'alyle-ui';
+import { LyTheme } from 'alyle-ui/core';
 
 @Component({
   selector: 'app-home',

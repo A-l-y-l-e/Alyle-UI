@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyCoreModule } from 'alyle-ui';
+import { LyCoreModule } from 'alyle-ui/core';
 import { BgColorDemo01Component } from './bg-color-demo-01.component';
 
 @NgModule({

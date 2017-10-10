@@ -1,0 +1,153 @@
+:host {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: block;
+}
+.content-img::after {
+  content: '';
+  position: absolute;
+  user-select: none;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: solid 1px #000;
+  pointer-events: none;
+  opacity: .25;
+}
+
+._img {
+  position: absolute;
+  display: flex
+}
+
+._img img {
+  width: inherit;
+  height: inherit;
+  cursor: move
+}
+
+._img:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  border: dashed 1px;
+  opacity: .75;
+  color: inherit;
+  z-index: 1
+}
+
+/deep/ .fileUpload input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  cursor: pointer
+}
+
+.content-img {
+  position: relative;
+  width: 100%;
+  min-height: 320px;
+  overflow: hidden
+}
+
+.NoNe {
+  display: none
+}
+
+.resize {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 0;
+  pointer-events: none;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  box-shadow: 0 0 0 1200px rgba(255, 255, 255, 0.25), 0 0 0 1px rgba(255, 255, 255, 0), 0 0 0 1px rgba(0, 0, 0, 0.22)
+}
+
+.resize:before, .resize:after {
+  content: '';
+  background: #000;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: .25
+}
+
+.resize:before {
+  width: 1px;
+  height: 25px
+}
+
+.resize:after {
+  width: 25px;
+  height: 1px
+}
+
+.r_w, .r_n, .r_e, .r_s, .r_nw, .r_ne, .r_se, .r_sw {
+  position: absolute;
+  background: inherit
+}
+
+.r_w:after, .r_n:after, .r_e:after, .r_s:after, .r_nw:after, .r_ne:after, .r_se:after, .r_sw:after {
+  position: absolute;
+  background: inherit;
+  content: '';
+  width: 11px;
+  height: 11px;
+  margin: auto;
+  opacity: .85;
+  z-index: 1
+}
+
+.r_w {
+  left: 0;
+  height: 100%;
+  width: 1px;
+  cursor: w-resize
+}
+
+.r_w:after {
+  right: -3px;
+  top: 0;
+  bottom: 0
+}
+
+.r_nw {
+  top: -5px;
+  left: -5px;
+  cursor: nw-resize
+}
+
+.r_ne {
+  top: -5px;
+  right: 5px;
+  cursor: ne-resize
+}
+
+.r_se {
+  bottom: 5px;
+  right: 5px;
+  cursor: se-resize
+}
+
+.r_sw {
+  bottom: 5px;
+  left: -5px;
+  cursor: sw-resize
+}

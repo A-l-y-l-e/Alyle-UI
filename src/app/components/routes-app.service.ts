@@ -28,13 +28,14 @@ export class RoutesAppService {
         name: 'Components',
         routes: [
           { route: 'button', name: 'Button' },
-          { route: 'input', name: 'Input' },
-          { route: 'tabs', name: 'Tabs' },
-          { route: 'radio', name: 'Radio' },
-          { route: 'menu', name: 'Menu' },
-          { route: 'resizing-cropping-images', name: 'Resizing & cropping images' },
           { route: 'carousel', name: 'Carousel' },
-          { route: 'icon-button', name: 'Icon button' }
+          { route: 'icon-button', name: 'Icon button' },
+          { route: 'input', name: 'Input' },
+          { route: 'menu', name: 'Menu' },
+          { route: 'radio', name: 'Radio' },
+          { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
+          { route: 'ripple', name: 'Ripple' },
+          { route: 'tabs', name: 'Tabs' }
         ]
       }
     ];

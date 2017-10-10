@@ -1,5 +1,7 @@
-<ly-core root>
-  <div ly-deep scale="1" [color]="(theme.primary | async)?.color">
+<!-- <div ly-deep scale="1" shadowColor="primary">s</div>
+<button ly-button color="colorText">hi</button> -->
+<ly-core root color="colorText" bg="bgText">
+  <div ly-deep scale="1" shadowColor="primary">
     <ly-toolbar bg="primary" color="#fff">
       <ly-icon-button (click)="nav.toggle()" *ngIf="!nav.sidenavState">
         <ly-svg src="assets/svg/ic_menu_48px.svg"></ly-svg>
@@ -10,7 +12,7 @@
         </button>
       </ly-toolbar-item>
       <ly-toolbar-item *lyResponsive="{'min-width' : '720px'}">
-        <a href="https://www.npmjs.com/package/alyle-ui" target="_blank" ly-button bg="#fff" color="primary" deep="false">npm</a>
+        <a href="https://www.npmjs.com/package/alyle-ui" target="_blank" ly-button bg="#fff" color="primary">npm</a>
       </ly-toolbar-item>
       <div [style.flex]="1"></div>
       <button color="#fff" class="i-right" ly-button [ly-menu-trigger-for]="ThemeMenu">
@@ -22,23 +24,24 @@
       [anchor-origin]="{horizontal: 'left', vertical: 'center'}"
       [target-origin]="{horizontal: 'right', vertical: 'center'}">
         <div class="content-menu">
-          <button *ngFor="let item of listColors" (click)="changePrimary(item.name)" color="#fff" ly-button class="menu-item" [bg]="theme.paletteOf(item.name).color">
-            <ly-icon-button size="16px">
-              <!-- <ly-svg class="force-color" size="24px" src="assets/svg/Water.svg"></ly-svg> -->
-            </ly-icon-button>
-          </button>
+          <div class="menu-item" ly-ripple ly-ripple-sensitive color="colorText" *ngFor="let item of listColors" (click)="changePrimary(item)">
+            <div class="item-container">
+              <div ly-shadow [shadowColor]="theme.paletteOf(item.primary).color[500]" [bg]="theme.paletteOf(item.primary).color[500]"></div>
+              <div ly-shadow [shadowColor]="theme.paletteOf(item.accent).color[500]" [bg]="theme.paletteOf(item.accent).color[500]"></div>
+            </div>
+          </div>
         </div>
       </ly-menu>
       <button color="#fff" class="i-right" ly-button aria-label="Config theme">
         <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="16px" (click)="nav.toggle()" *ngIf="!nav.sidenavState">
-          <ly-svg class="force-color" size="24px" src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
+          <ly-svg size="24px" src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
         </a>
       </button>
     </ly-toolbar>
   </div>
   <main>
     <ly-drawer class="drawer">
-      <ly-nav #nav [opened]="router.url !== '/'" align="left" [mode]="'side'" #_left class="items">
+      <ly-nav bg="main" #nav [opened]="router.url !== '/'" align="left" [mode]="'side'" #_left class="items">
         <div *ngFor="let category of routesComponents">
           <span class="category-name">{{ category.name }}</span>
           <button ly-button class="nav-button" [routerLink]="[(category.name =='Components'?'/components/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</button>

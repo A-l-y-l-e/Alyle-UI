@@ -1,0 +1,190 @@
+:host {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  // vertical-align: middle;
+  align-items: center;
+}
+:host /deep/ {
+  ly-before, ly-after {
+    display: flex;
+    & > * {
+      align-self: center;
+    }
+  }
+}
+:host /deep/ input,
+:host /deep/ textarea {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  color: inherit;
+  background: transparent;
+  font-size: inherit;
+  width: 100%;
+  min-width: 60px;
+  font-weight: 400;
+  padding: 0;
+  display: inline-block;
+}
+.ly-input-underline {
+  position: absolute;
+  bottom: 0.875em;
+  height: 2px;
+  right: 0;
+  left: 0;
+  span {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: rgb(224, 224, 224);
+    &:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: currentColor;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      bottom: 0;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    }
+    &.ly-disabled {
+      background: transparent;
+      background-image: linear-gradient(to right, #b4b4b4 0%, #b4b4b4 33%, transparent 0%);
+      background-size: 4px 1px;
+      background-repeat: repeat-x;
+      border-top: 0;
+      background-position: 0;
+    }
+    &.ly-disabled:after {
+      width: 0%;
+    }
+    &.ly-input-underline-focused:after {
+      width: 100%;
+    }
+    &.ly-input-underline-color-default:after {
+      color: inherit !important;
+    }
+  }
+}
+.ly-input-floatlabel {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  display: block;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  padding: 1.125em 0;
+  box-sizing: border-box;
+  & > span {
+    position: absolute;
+    width: 100%;
+    opacity: 0.45;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    & {
+      transform: perspective(1px) translateY(0) translate3d(0, 0, 0);
+      transform-origin: left top 0px;
+    }
+    &.ly-input-floatlabel-focused {
+      transform: perspective(1px) translateY(-100%) translate3d(0, 0, 0); transform-origin: left top 0px;
+      opacity: 1;
+      font-size: 75%;
+    }
+    &.ly-input-floatlabel-color-default {
+      opacity: 0.45;
+      color: inherit !important;
+    }
+  }
+}
+.ly-input-placeholder {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  display: block;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  padding: 1.125em 0;
+  box-sizing: border-box;
+  span {
+    position: absolute;
+    width: 100%;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    & {
+      opacity: 0;
+    }
+    &.ly-input-placeholder-focused {
+      opacity: 0.45;
+    }
+    &.ly-input-placeholder-color-default {
+      opacity: 0 !important;
+    }
+    &.ly-input-placeholder-active {
+      opacity: 0 !important;
+    }
+  }
+}
+.ly-input-content {
+  padding: 1.125em 0;
+  width: inherit;
+  position: relative;
+  display: flex;
+}
+.ly-input-container {
+  text-align: inherit;
+  height: 100%;
+  justify-content: center;
+  align-items: inherit;
+  width: 100%;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+}
+:host /deep/ ly-before-input,
+:host /deep/ ly-after-input {
+  height: 100%;
+  padding-top: 16px;
+  padding-right: 4px;
+}
+:host /deep/ ly-error,
+:host /deep/ ly-hint {
+}
+.bottom-field, .ly-error-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  font-size: 75%;
+  transform: translate3d(0, calc(100% - 1.1em ), 0);
+  display: flex;
+  .bottom-field-space {
+    flex: 1;
+  }
+}
+.ly-required {
+  position: absolute;
+  top: 1.125em;
+  right: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  opacity: 0.45;
+}
+.ly-invalid {
+  .ly-input-underline span,
+  .ly-input-floatlabel span,
+  .ly-input-placeholder .ly-input-placeholder-focused,
+  .ly-error-container {
+    color: #F44336 !important;
+    opacity: 1;
+  }
+  .ly-input-underline span:after {
+    width: 100%;
+  }
+}
+.ly-input-content {
+  color: currentColor;
+}

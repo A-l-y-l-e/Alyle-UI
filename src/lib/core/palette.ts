@@ -1,0 +1,384 @@
+import {
+  Injectable, NgModule,
+  ModuleWithProviders,
+  Optional, Input }                  from '@angular/core';
+
+import { Observable }         from 'rxjs/Rx';
+import { Subject }            from 'rxjs/Subject';
+import { BehaviorSubject }    from 'rxjs/BehaviorSubject';
+import { AlyleServiceConfig } from './alyle-config-service';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { defaultTheme } from './default-theme';
+import { GradStop } from './gradStop';
+import * as objectAssignDeep from 'deep-assign';
+
+export class ThemeColor {
+  name: string;
+  color: { [key: string]: string };
+  contrast: 'light' | 'dark';
+}
+export interface Scheme {
+  name: 'light' | 'dark',
+  colorContrast: string;
+}
+/**
+ * DEPRECATED
+ */
+export function themeProperty(color: string): boolean {
+  if (color == 'primary' || color == 'accent' || color == 'other') {
+    return true;
+  }
+  return false;
+}
+
+export function getContrastYIQ(hexcolor){
+	var r = parseInt(hexcolor.substr(0,2),16);
+	var g = parseInt(hexcolor.substr(2,2),16);
+	var b = parseInt(hexcolor.substr(4,2),16);
+	var yiq = ((r*299)+(g*587)+(b*114))/1000;
+	return (yiq >= 128) ? 'black' : 'white';
+}
+
+export function getColor(colors: any, color: string, shade: string): string {
+  if (colors[color]) {
+    let shadeColor = colors[color].color;
+    if (typeof shadeColor === 'string') {
+      return colors[color].color;
+    } else {
+      return colors[color].color[shade];
+    }
+  } else {
+    if (typeof color === 'string') {
+      return color;
+    } else {
+      return color[shade];
+    }
+  }
+}
+
+@Injectable()
+export class LyTheme {
+  /* tslint:disable */
+  AlyleUI: {currentTheme: AlyleServiceConfig, palette: any};
+  /* tslint:enable */
+  primary: Subject<ThemeColor>;
+  accent: Subject<ThemeColor>;
+  other: Subject<ThemeColor>;
+  palette: Subject<any>;
+  scheme: Subject<any>;
+  typography: Subject<any>;
+  shade: Subject<string>;
+  /**
+   * OBSOLETO
+   */
+  colors: ThemeColor[] =
+  [
+    {
+      name: 'pink',
+      color: { 500: '#ff4b73' },
+      contrast: 'light'
+    },
+    {
+      name: 'pinkLight',
+      color: { 500: '#f50057' },
+      contrast: 'light'
+    },
+    {
+      name: 'cyan',
+      color: { 500: '#00bcd4' },
+      contrast: 'light'
+    },
+    {
+      name: 'red',
+      color: { 500: '#FF5252' },
+      contrast: 'light'
+    },
+    {
+      name: 'amber',
+      color: { 500: '#ffc107' },
+      contrast: 'dark'
+    },
+    {
+      name: 'teal',
+      color: { 500: '#009688' },
+      contrast: 'light'
+    },
+    {
+      name: 'purple',
+      color: { 500: '#ce30c9' },
+      contrast: 'light'
+    },
+    {
+      name: 'lightBlue',
+      color: { 500: '#03A9F4' },
+      contrast: 'light'
+    },
+    {
+      name: 'blue',
+      color: { 500: '#2196F3' },
+      contrast: 'light'
+    },
+    {
+      name: 'deepOrange',
+      color: { 500: '#FF5722' },
+      contrast: 'light'
+    },
+  ];
+  private findColor(data: string) {
+    let colors = this.colors.find((_: any) => _.name === data);
+    if (colors) {
+      return colors;
+    } else {
+      return new ThemeColor();
+    }
+
+  }
+  private sanitizerStyle(val: any): SafeStyle {
+    return this.sanitizer.bypassSecurityTrustStyle(val);
+  }
+
+  private _setColorPalette(key: string, palette: any): any {
+    let colors = palette[key];
+    if (colors) {
+      if (Object.keys(colors.color).length === 1) {
+        colors.color = this.createShades(colors.color[(Object.keys(colors.color)[0])]);
+      }
+      return colors;
+    } else {
+      throw `${key} not found in palette`;
+    }
+  }
+
+  constructor(@Optional() config: AlyleServiceConfig, private sanitizer: DomSanitizer) {
+    config = objectAssignDeep(defaultTheme as AlyleServiceConfig, config);
+    let primary    = this._setColorPalette(config.primary, config.palette);
+    let accent     = this._setColorPalette(config.accent, config.palette);
+    let other      = this._setColorPalette(config.other, config.palette);
+    let shade      = config.shade;
+    let scheme     = config.schemes[config.colorScheme];
+    let typography = config.typography;
+    if (config.palette) {
+      if (config.palette[config.primary]) {
+        primary.color = config.palette[config.primary].color;
+      }
+      if (config.palette[config.accent]) {
+        accent.color = config.palette[config.accent].color;
+      }
+      if (config.palette[config.other]) {
+        other.color = config.palette[config.other].color;
+      }
+    }
+
+    let getAllColors = {
+      primary: primary,
+      accent: accent,
+      other: other,
+      // colorText: {color: scheme.text.default},
+      // bgText: {color: scheme.background.default}
+    };
+    getAllColors = objectAssignDeep(getAllColors, scheme);
+
+    // this.createShades(primary.color[shade]);
+
+    this.primary = new BehaviorSubject<ThemeColor>(primary);
+    this.accent = new BehaviorSubject<ThemeColor>(accent);
+    this.other = new BehaviorSubject<ThemeColor>(other);
+    this.scheme = new BehaviorSubject<any>(scheme);
+    this.typography = new BehaviorSubject<any>(typography);
+    this.shade = new BehaviorSubject<string>(shade);
+    this.palette = new BehaviorSubject<any>(getAllColors);
+
+
+    /* tslint:disable */
+    this.AlyleUI = {
+      currentTheme: config,
+      palette: getAllColors,
+    }
+    /* tslint:enable */
+
+  }
+
+  // private addShades(primary, accent, other) {
+  //   this.createShades(primary.color[shade]);
+  // }
+
+  private _gradStop(colors: string[], stops) {
+    return new GradStop({
+      stops: stops,
+      inputFormat: 'hex',
+      colorArray: colors
+    }).getColors();
+  }
+  private _getGrad(color: string) {
+    let toBlack = this._gradStop(['#fff', color], 11);
+    let toWhite = this._gradStop([color, '#000'], 33);
+    toBlack.pop();
+    return toBlack.concat(toWhite);
+  }
+
+  createShades(color: string) {
+    let ar = this._getGrad(color);
+    let shades = {};
+    ar.forEach((a, b) => {
+      let shadeId = `${b*100/2}`;
+      if (b <= 20) {
+        shades[shadeId] = a;
+        // console.log(`%c    ${shadeId}`, `background: ${a}; color: #fff`);
+      }
+    });
+    return shades;
+  }
+
+  setTheme(config: AlyleServiceConfig) {
+    let currentTheme = this.AlyleUI.currentTheme;
+    config = objectAssignDeep(currentTheme as AlyleServiceConfig, config);
+    if (config) {
+      let primary    = this._setColorPalette(config.primary, config.palette);
+      let accent     = this._setColorPalette(config.accent, config.palette);
+      let other      = this._setColorPalette(config.other, config.palette);
+      let shade      = config.shade;
+      let scheme     = config.schemes[config.colorScheme];
+      let typography = config.typography;
+      if (config.palette) {
+        if (config.palette[config.primary]) {
+          primary.color = config.palette[config.primary].color;
+        }
+        if (config.palette[config.accent]) {
+          accent.color = config.palette[config.accent].color;
+        }
+        if (config.palette[config.other]) {
+          other.color = config.palette[config.other].color;
+        }
+      }
+
+      let getAllColors = {
+        primary: primary,
+        accent: accent,
+        other: other
+      };
+      getAllColors = objectAssignDeep(getAllColors, scheme);
+
+      // this.createShades(primary.color[shade]);
+
+      this.primary.next(primary);
+      this.accent.next(accent);
+      this.other.next(other);
+      this.scheme.next(scheme);
+      this.typography.next(typography);
+      this.shade.next(shade);
+      this.palette.next(getAllColors);
+
+      /* tslint:disable */
+      this.AlyleUI = {
+        currentTheme: config,
+        palette: getAllColors
+      }
+      /* tslint:enable */
+    }
+  }
+
+
+  /**
+   * for bg or color inputs, find the color in palette, return color
+   * @param  {'bg' |      'color'}     type [description]
+   * @param  {string}  color  Palette name
+   * @return {string}         Color hex
+   */
+  color(color: string, colors?: any, shade?: string): string {
+    let $shade = shade ? shade : this.AlyleUI.currentTheme.shade;
+    let result: string;
+    result = this.getColorv2(color, colors, $shade);
+    return result;
+  }
+
+  private getColorv2(colorName: string, colors: any, shade?: string): string {
+    let ar = colors ? colors : this.AlyleUI.palette;
+    if (ar[colorName]) {
+      if (typeof ar[colorName].color == 'string' || typeof ar[colorName] == 'string') {
+        return ar[colorName].color || ar[colorName];
+      } else {
+        return ar[colorName].color[shade];
+      }
+    } else {
+      return colorName;
+    }
+  }
+
+  /**
+   * Get palette from theme
+   * @param  {string} colorName name of palette
+   * @return {Color}
+   */
+  paletteOf(colorName: string): ThemeColor {
+    return this.findColor(colorName);
+  }
+
+}
+export class BgAndColorStyle {
+  bg: string;
+  color: string;
+  theme: LyTheme;
+  styleBackground: string;
+  styleColor: string;
+}
+
+
+@Injectable()
+export class LyStyleTheme {
+  constructor(public theme: LyTheme) {}
+  /**
+   * for bg or color inputs, find the color in palette, return color
+   * example: this.theme.update('bg', 'primary', this.theme.AlyleUI.palette); // #00bcd4
+   * @param  {'bg' |      'color'}     type [description]
+   * @param  {string}  color  Palette name
+   * @return {string}         Color hex
+   */
+  // getPalette(color: string, colors?: any): string {
+  //   let result: string;
+  //   if (colors) {
+  //     result = getColor(colors, color);
+  //   } else {
+  //     result = getColor(this.theme.AlyleUI.palette, color);
+  //   }
+  //   return result;
+  // }
+}
+/**
+ * -------------
+ */
+@Injectable()
+export class LyPalette {
+  private _style: any;
+  private _primary: any = {
+    name: 'none',
+    color: '#fff',
+    text: '#fff',
+  };
+  private _accent: any = {
+    name: 'none',
+    color: '#fff',
+    text: '#fff',
+  };
+  private _other: any = {
+    name: 'none',
+    color: '#fff',
+    text: '#fff',
+  };
+  private palette: any;
+  themeApp: any = {
+    light: {
+      color: '#24292e',
+      background: '#f5f5f5',
+    },
+    dark: {
+      color: '#f5f5f5',
+      background: '#2C2D31',
+    },
+  };
+  text: any = {
+    default: 'rgba(0, 0, 0, 0.75)',
+    light: '#fff',
+    dark: '#2C2D31',
+  };
+
+}

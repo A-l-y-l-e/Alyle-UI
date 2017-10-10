@@ -8,12 +8,13 @@ import { LyPalette } from 'alyle-ui/core';
 })
 export class ThemingComponent implements OnInit {
 
-  constructor(
-    public palette: LyPalette
-  ) { }
+  constructor() { }
 
+  /**
+   * TODO: get all color from lyTheme
+   */
   colors() {
-    return LyPalette.colors;
+
   }
 
   ngOnInit() {

@@ -1,0 +1,12 @@
+<!-- <button ly-button (mousedown)="solt()" (click)="setIndex(_index)" class="ly-tab-label-item">
+  <ng-content select="ly-tab-label"></ng-content>
+</button> -->
+<div (mousedown)="solt()" (click)="setIndex(_index)" [ngStyle]="tabStyles" class="ly-tab-label-item" ly-ripple>
+  <ng-content select="ly-tab-label"></ng-content>
+  <ng-content select="[ly-tab-label]"></ng-content>
+</div>
+<ng-template>
+<div>
+  <ng-content></ng-content>
+</div>
+</ng-template>

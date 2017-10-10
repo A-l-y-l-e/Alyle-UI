@@ -1,7 +1,7 @@
 <h1>Get Started</h1>
 <h3>Install</h3>
 <p>
-  npm install alyle-ui --save
+  yarn add alyle-ui or npm i alyle-ui
 </p>
 <h3>Import module in appModule</h3>
 <prism language="ts">
@@ -15,7 +15,21 @@ import { ResponsiveModule } from 'alyle-ui/responsive';
 const configAlyleUI = {
   primary: 'blue',
   accent: 'pink',
-  other: 'red'
+  other: 'red',
+  palette: {
+    'blue': {
+      color: { '500': '#2196F3' },
+      contrast: 'light'
+    },
+    'pink': {
+      color: { '500': '#ff4b73' },
+      contrast: 'light'
+    },
+    'red': {
+      color: { '500': '#FF5252' },
+      contrast: 'light'
+    },
+  }
 }
 @NgModule({
   ...

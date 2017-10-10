@@ -41,12 +41,30 @@ main {
   border-radius: 100%;
 }
 .content-menu {
-  padding: 0 8px;
-  button {
-    min-width: 36px;
+  height: 36px;
+  .menu-item {
+    margin: 0 8px;
+    width: 36px;
     height: 36px;
-    border-radius: 100%;
-    color: #fff;
+    display: inline-block;
+    overflow: hidden;
+    .item-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      div:nth-child(1) {
+        width: 50%;
+        height: 50%;
+      }
+      div {
+        width: 40%;
+        height: 40%;
+        display: inline-block;
+        border-radius: 100%;
+      }
+    }
   }
 }
 .version {

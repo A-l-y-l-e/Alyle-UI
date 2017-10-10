@@ -1,9 +1,9 @@
-<div ly-shadow scale="5" color="#d5d5d5" [style.background]="'#fff'">
+<div ly-shadow shadowColor="shadow" scale="3" bg="main">
   <ly-toolbar *ngIf="label" ly-dense bg="#f0f0f0" [style.font-size.px]="16">
     <ly-toolbar-item ly-toolbar-item-padding>{{ label.text }}</ly-toolbar-item>
   </ly-toolbar>
   <div class="code">
-    <button ly-icon-button (click)="toggleCode()" size="18px"><ly-svg src="assets/svg/code.svg"></ly-svg></button>
+    <button [size]="'20px'" ly-icon-button (click)="toggleCode()"><ly-svg size="20px" src="assets/svg/code"></ly-svg></button>
   </div>
   <ly-tabs *ngIf="hasCode">
     <ly-tab *ngFor="let demo of demos">

@@ -1,0 +1,22 @@
+:host /deep/ ly-button-ripple {
+  opacity: 0;
+  transition: opacity 1200ms ease 0ms;
+}
+:host {
+  position: relative;
+}
+:host /deep/ .ly-ripple-element {
+  background: currentColor;
+  transform: scale3d(0, 0, 0);
+  pointer-events: none;
+  border-radius: 100%;
+  position: absolute;
+
+}
+:host /deep/ .ly-center-ripple {
+  background: -moz-radial-gradient(center, ellipse cover, currentColor 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+  background: -webkit-radial-gradient(center, ellipse cover, currentColor 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: radial-gradient(ellipse at center, currentColor 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  // opacity: 0.2 !important;
+}

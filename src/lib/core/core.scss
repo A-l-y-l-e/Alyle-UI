@@ -1,0 +1,54 @@
+ly-svg svg, [ly-svg] svg {
+  width: inherit;
+  height: inherit;
+  fill: currentColor;
+  display: block;
+}
+@-webkit-keyframes btnFocusAnim {
+  from {transform: scale(.8);}
+  50% {transform: scale(1);}
+  to {transform: scale(.8);}
+}
+[ly-ripple] > ly-hover-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: currentColor;
+  opacity: 0;
+  transform: scale3d(0, 0, 0);
+  transition: all 375ms ease-in-out 0ms;
+  border-radius: 100%;
+}
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+[ly-icon-button] > .ly-icon-button-container > .ly-icon-button-content > ly-hover-container {
+  background: -moz-radial-gradient(center, ellipse cover, currentColor 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+  background: -webkit-radial-gradient(center, ellipse cover, currentColor 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: radial-gradient(ellipse at center, currentColor 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+// ly-button:hover:not(.is-active) > .ly-button-ripple > ly-hover-container,/* for ly-button*/
+// [ly-button]:hover:not(.is-active) > .ly-button-ripple > ly-hover-container,/* for ly-button*/
+// [ly-ripple]:hover > ly-hover-container {
+//   opacity: 0.2;
+//   transform: scale3d(1, 1, 1);
+//   border-radius: 0%;
+//   transition: opacity 375ms ease !important;
+// }
+// ly-button:active > .ly-button-ripple > ly-hover-container,/* for ly-button*/
+[ly-button]:active > .ly-button-ripple > ly-hover-container,/* for ly-button*/
+button[ly-icon-button]:active > .ly-button-ripple > ly-hover-container,/* for ly-icon-button*/
+[ly-ripple]:active > ly-hover-container {
+  opacity: 0;
+  transform: scale3d(0, 0, 0);
+}
+
+[ly-ripple]:focus > ly-hover-container,
+[ly-button].is-active:focus > .ly-button-ripple > ly-hover-container {
+  animation: btnFocusAnim infinite 1.4s 0ms;
+  opacity: .13;
+}/* for ly-button*/
+[ly-icon-button].is-active:focus > .ly-icon-button-container > [ly-ripple] > ly-hover-container {/* for ly-icon-button*/
+  animation: btnFocusAnim infinite 1.4s 0ms;
+  opacity: .33;
+}

@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { LyTheme, LyPalette, AUI_VERSION } from 'alyle-ui';
+import { AUI_VERSION } from 'alyle-ui';
 import { LyMenu } from 'alyle-ui/menu';
+import { LyTheme } from 'alyle-ui/core';
 import { RoutesAppService } from './components/routes-app.service';
-import { MinimalLS } from 'alyle-ui/ls'
+import { MinimalLS } from 'alyle-ui/ls';
+import { AlyleServiceConfig } from 'alyle-ui/core';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,6 @@ export class AppComponent {
     public router: Router,
     public route: ActivatedRoute,
     public theme: LyTheme,
-    public palette: LyPalette,
     public routesApp: RoutesAppService,
   ) {
     this.router.events.subscribe(event => {
@@ -31,21 +32,28 @@ export class AppComponent {
     this.routesComponents = this.routesApp.routesApp;
     this.listColors = [
       {
-        name: 'deepOrange',
+        primary: 'blue',
+        accent: 'pink',
+        colorScheme: 'light'
       },
       {
-        name: 'pink',
+        primary: 'pink',
+        accent: 'purple',
+        colorScheme: 'light'
       },
       {
-        name: 'blue',
+        primary: 'lightBlue',
+        accent: 'purple',
+        colorScheme: 'light'
       },
       {
-        name: 'amber',
+        primary: 'cyan',
+        accent: 'amber',
+        colorScheme: 'light'
       }
     ];
   }
-  changePrimary(color: string) {
-      this.palette.setPrimary(color);
-      this.menuTheme.toggleMenu();
-    }
+  changePrimary(color: AlyleServiceConfig) {
+    this.theme.setTheme(color);
+  }
 }

@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LyCoreModule } from 'alyle-ui/core';
 import { LyTabsModule } from 'alyle-ui/tabs';
 import { LyToolbarModule } from 'alyle-ui/toolbar';
 import { LyIconButtonModule } from 'alyle-ui/icon-button';
 import { LySvgModule } from 'alyle-ui/svg';
-import {
-  AlyleUIModule,
-  LyShadowModule,
-} from 'alyle-ui';
+import { LyShadowModule } from 'alyle-ui/shadow';
 
 import { PrismModule } from '../core/prism/prism.module';
 
@@ -27,7 +25,8 @@ import { DemoViewSrcsDirective } from './demo-view-srcs.directive';
     LyShadowModule,
     LyToolbarModule,
     LyIconButtonModule,
-    LySvgModule
+    LySvgModule,
+    LyCoreModule
   ],
   exports: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective],
   declarations: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective, DemoViewSrcsDirective]

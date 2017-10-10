@@ -1,0 +1,17 @@
+<label>
+  <div class="ly-checkbox-container">
+    <input #input
+           [hidden]="false" type="checkbox"
+           [id]="id"
+           [required]="required"
+           [checked]="checked"
+           [value]="value"
+           [disabled]="disabled"
+           [name]="name"
+           [indeterminate]="indeterminate"
+           [attr.aria-label]="ariaLabel"
+           [attr.aria-labelledby]="ariaLabelledby"
+           (change)="_onChangeEvent($event)"
+           (click)="_onInputClick($event)">
+  </div>
+</label>
