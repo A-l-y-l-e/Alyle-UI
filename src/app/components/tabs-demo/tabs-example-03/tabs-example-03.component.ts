@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabs-example-03.component.css']
 })
 export class TabsExample03Component implements OnInit {
-  selectedIndex: number = 0;
+  selectedIndex = 0;
   tabsDemo = [
     {
       label: 'label 1'

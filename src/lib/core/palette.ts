@@ -32,16 +32,16 @@ export function themeProperty(color: string): boolean {
 }
 
 export function getContrastYIQ(hexcolor){
-	var r = parseInt(hexcolor.substr(0,2),16);
-	var g = parseInt(hexcolor.substr(2,2),16);
-	var b = parseInt(hexcolor.substr(4,2),16);
-	var yiq = ((r*299)+(g*587)+(b*114))/1000;
+	const r = parseInt(hexcolor.substr(0, 2), 16);
+	const g = parseInt(hexcolor.substr(2, 2), 16);
+	const b = parseInt(hexcolor.substr(4, 2), 16);
+	const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
 	return (yiq >= 128) ? 'black' : 'white';
 }
 
 export function getColor(colors: any, color: string, shade: string): string {
   if (colors[color]) {
-    let shadeColor = colors[color].color;
+    const shadeColor = colors[color].color;
     if (typeof shadeColor === 'string') {
       return colors[color].color;
     } else {
@@ -125,7 +125,7 @@ export class LyTheme {
     },
   ];
   private findColor(data: string) {
-    let colors = this.colors.find((_: any) => _.name === data);
+    const colors = this.colors.find((_: any) => _.name === data);
     if (colors) {
       return colors;
     } else {
@@ -138,25 +138,25 @@ export class LyTheme {
   }
 
   private _setColorPalette(key: string, palette: any): any {
-    let colors = palette[key];
+    const colors = palette[key];
     if (colors) {
       if (Object.keys(colors.color).length === 1) {
         colors.color = this.createShades(colors.color[(Object.keys(colors.color)[0])]);
       }
       return colors;
     } else {
-      throw `${key} not found in palette`;
+      throw new Error(`${key} not found in palette`);
     }
   }
 
   constructor(@Optional() config: AlyleServiceConfig, private sanitizer: DomSanitizer) {
     config = objectAssignDeep(defaultTheme as AlyleServiceConfig, config);
-    let primary    = this._setColorPalette(config.primary, config.palette);
-    let accent     = this._setColorPalette(config.accent, config.palette);
-    let other      = this._setColorPalette(config.other, config.palette);
-    let shade      = config.shade;
-    let scheme     = config.schemes[config.colorScheme];
-    let typography = config.typography;
+    const primary    = this._setColorPalette(config.primary, config.palette);
+    const accent     = this._setColorPalette(config.accent, config.palette);
+    const other      = this._setColorPalette(config.other, config.palette);
+    const shade      = config.shade;
+    const scheme     = config.schemes[config.colorScheme];
+    const typography = config.typography;
     if (config.palette) {
       if (config.palette[config.primary]) {
         primary.color = config.palette[config.primary].color;
@@ -210,17 +210,17 @@ export class LyTheme {
     }).getColors();
   }
   private _getGrad(color: string) {
-    let toBlack = this._gradStop(['#fff', color], 11);
-    let toWhite = this._gradStop([color, '#000'], 33);
+    const toBlack = this._gradStop(['#fff', color], 11);
+    const toWhite = this._gradStop([color, '#000'], 33);
     toBlack.pop();
     return toBlack.concat(toWhite);
   }
 
   createShades(color: string) {
-    let ar = this._getGrad(color);
-    let shades = {};
+    const ar = this._getGrad(color);
+    const shades = {};
     ar.forEach((a, b) => {
-      let shadeId = `${b*100/2}`;
+      const shadeId = `${b * 100 / 2}`;
       if (b <= 20) {
         shades[shadeId] = a;
         // console.log(`%c    ${shadeId}`, `background: ${a}; color: #fff`);
@@ -230,15 +230,15 @@ export class LyTheme {
   }
 
   setTheme(config: AlyleServiceConfig) {
-    let currentTheme = this.AlyleUI.currentTheme;
+    const currentTheme = this.AlyleUI.currentTheme;
     config = objectAssignDeep(currentTheme as AlyleServiceConfig, config);
     if (config) {
-      let primary    = this._setColorPalette(config.primary, config.palette);
-      let accent     = this._setColorPalette(config.accent, config.palette);
-      let other      = this._setColorPalette(config.other, config.palette);
-      let shade      = config.shade;
-      let scheme     = config.schemes[config.colorScheme];
-      let typography = config.typography;
+      const primary    = this._setColorPalette(config.primary, config.palette);
+      const accent     = this._setColorPalette(config.accent, config.palette);
+      const other      = this._setColorPalette(config.other, config.palette);
+      const shade      = config.shade;
+      const scheme     = config.schemes[config.colorScheme];
+      const typography = config.typography;
       if (config.palette) {
         if (config.palette[config.primary]) {
           primary.color = config.palette[config.primary].color;
@@ -285,14 +285,14 @@ export class LyTheme {
    * @return {string}         Color hex
    */
   color(color: string, colors?: any, shade?: string): string {
-    let $shade = shade ? shade : this.AlyleUI.currentTheme.shade;
+    const $shade = shade ? shade : this.AlyleUI.currentTheme.shade;
     let result: string;
     result = this.getColorv2(color, colors, $shade);
     return result;
   }
 
   private getColorv2(colorName: string, colors: any, shade?: string): string {
-    let ar = colors ? colors : this.AlyleUI.palette;
+    const ar = colors ? colors : this.AlyleUI.palette;
     if (ar[colorName]) {
       if (typeof ar[colorName].color == 'string' || typeof ar[colorName] == 'string') {
         return ar[colorName].color || ar[colorName];

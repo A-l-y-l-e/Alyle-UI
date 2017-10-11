@@ -22,14 +22,14 @@ export function Color( red: number, green: number, blue: number, alpha?: number 
 };
 
 // Converter which actually does the calculation from rgba to hex.
-let colorConverter = {
+const colorConverter = {
 
   // Converts the given color to a Color object, using the given gbColor in the calculation.
   convertToHex: function( color: any, bgColor: any ) {
-    let alpha = color.alpha;
+    const alpha = color.alpha;
 
     function getTintValue(tint: number, bgTint: number) {
-      let tmp = Math.floor((1 - alpha ) * bgTint + alpha * tint);
+      const tmp = Math.floor((1 - alpha ) * bgTint + alpha * tint);
       if ( tmp > 255 ) {
         return 255;
       }
@@ -52,7 +52,7 @@ function hue2rgb(p: number, q: number, t: number) {
   return p;
 }
 
-let colorStringParser = {
+const colorStringParser = {
 
   // Converter for rgb(a) colors
   rgba: function( rgba: any ) {
@@ -62,7 +62,7 @@ let colorStringParser = {
     .replace(' ', '');
 
     // Split the rgba string into an array.
-    let splittedRgba = rgba.split(',');
+    const splittedRgba = rgba.split(',');
 
     return Color(
       parseInt( splittedRgba[0], 10 ),
@@ -107,18 +107,18 @@ let colorStringParser = {
     // Split the hsla string into an array.
     hsla = hsla.split(',');
 
-    let h = parseInt(hsla[0], 10) / 360;
-    let s = parseInt(hsla[1], 10) / 100;
-    let l = parseInt(hsla[2], 10) / 100;
-    let a = parseFloat(hsla[3]) || 1;
+    const h = parseInt(hsla[0], 10) / 360;
+    const s = parseInt(hsla[1], 10) / 100;
+    const l = parseInt(hsla[2], 10) / 100;
+    const a = parseFloat(hsla[3]) || 1;
 
     let r, g, b;
 
     if (s == 0) {
       r = g = b = l; // achromatic
     } else {
-      let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      let p = 2 * l - q;
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
       r = hue2rgb(p, q, h + 1 / 3);
       g = hue2rgb(p, q, h);
       b = hue2rgb(p, q, h - 1 / 3);
@@ -152,7 +152,7 @@ export function trim (str: string) {
 }
 
 export function rgbaToHex(rgba: string) {
-  let parts = rgba.substring(rgba.indexOf('(')).split(','),
+  const parts = rgba.substring(rgba.indexOf('(')).split(','),
   r = parseInt(trim(parts[0].substring(1)), 10),
   g = parseInt(trim(parts[1]), 10),
   b = parseInt(trim(parts[2]), 10),
@@ -162,7 +162,7 @@ export function rgbaToHex(rgba: string) {
 }
 export function componentToHex(c: any) {
   c = Number(c);
-  let hex = c.toString(16);
+  const hex = c.toString(16);
   return hex.length === 1 ? '0' + hex : hex;
 }
 // for shadow
@@ -200,8 +200,8 @@ export function rgbTransparent(rgba: any): number {
 }
 
 export function hexToRgba(hex: string, tr: number = -1) {
-  let _default = hex;
-  let transparent = {
+  const _default = hex;
+  const transparent = {
     r: 0,
     g: 0,
     b: 0,
@@ -221,11 +221,11 @@ export function hexToRgba(hex: string, tr: number = -1) {
   if (hex !== undefined && hex !== null && hex !== 'transparent') {
 
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-    let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, (m: any, r: any, g: any, b: any) => {
       return r + r + g + g + b + b;
     });
-    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     let colorr = 0;
     let colorg = 0;
     let colorb = 0;

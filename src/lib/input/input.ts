@@ -73,18 +73,18 @@ export class LyInputAfter {}
 export class LyInput implements AfterContentInit, OnChanges {
   _value: any = '';
   _elementType: 'input' | 'textarea';
-  _color: string = 'primary';
+  _color = 'primary';
   public _valState: boolean;
-  private _disabled: boolean = false;
-  private _focused: boolean = false;
-  private _floatinglabel: boolean = false;
-  private _autofocus: boolean = false;
+  private _disabled = false;
+  private _focused = false;
+  private _floatinglabel = false;
+  private _autofocus = false;
   // floating Label state boolean
-  private _floatinglabelBoolean: boolean = false;
+  private _floatinglabelBoolean = false;
   // @ViewChild('input') _inputElement: ElementRef;
   @ContentChild(LyFieldDirective) _field: LyFieldDirective;
 
-  @Input() type: string = 'text';
+  @Input() type = 'text';
   get placeholder(): string {
     return this._field ? this._field.placeholder : '';
   }
@@ -222,7 +222,7 @@ export class LyInput implements AfterContentInit, OnChanges {
         }
       });
       if (this.default) {
-        Promise.resolve(null).then(()=>{
+        Promise.resolve(null).then(() => {
           this._changeDetectorRef.markForCheck();
           this._setDefaultVal(true);
         });
@@ -243,7 +243,7 @@ export class LyInput implements AfterContentInit, OnChanges {
   }
 
   _shouldForward(prop: string): boolean {
-    let control = this._field ? this._field._ngControl : null;
+    const control = this._field ? this._field._ngControl : null;
     return control && (control as any)[prop];
   }
 

@@ -18,10 +18,10 @@ import {
 
 })
 export class LyHeaderPagination {
-  _with: number = 150;
+  _with = 150;
   _withHost: number;
-  _positionX: number = 0;
-  traslateWidth: number = 100;
+  _positionX = 0;
+  traslateWidth = 100;
   elementContainer: any;
   constructor(
     private elementRef: ElementRef,

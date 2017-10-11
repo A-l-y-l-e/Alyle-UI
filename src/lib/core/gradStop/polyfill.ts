@@ -17,11 +17,11 @@ export const objectAssign = (() => {
         if (target === undefined || target === null) {
             throw new TypeError('Cannot convert undefined or null to object')
         }
-        let output = Object(target)
+        const output = Object(target)
         for (let index = 1; index < arguments.length; index++) {
-            let source = arguments[index]
+            const source = arguments[index]
             if (source !== undefined && source !== null) {
-                for (let nextKey in source) {
+                for (const nextKey in source) {
                     if (source.hasOwnProperty(nextKey)) {
                         output[nextKey] = source[nextKey]
                     }

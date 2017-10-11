@@ -26,10 +26,10 @@ describe('LyButton', () => {
   }));
 
   it('should apply background based on bg attribute', () => {
-    let fixture = TestBed.createComponent(TestComponent);
+    const fixture = TestBed.createComponent(TestComponent);
 
-    let testComponent = fixture.debugElement.componentInstance;
-    let buttonDebugElement = fixture.debugElement.query(By.css('button'));
+    const testComponent = fixture.debugElement.componentInstance;
+    const buttonDebugElement = fixture.debugElement.query(By.css('button'));
 
     testComponent.bg = '#009688';
     fixture.detectChanges();
@@ -40,8 +40,8 @@ describe('LyButton', () => {
     // expect(buttonDebugElement.nativeElement.classList.contains('md-accent')).toBe(true);
   });
   it('should disable the native button element', () => {
-      let fixture = TestBed.createComponent(TestComponent);
-      let buttonNativeElement = fixture.nativeElement.querySelector('button');
+      const fixture = TestBed.createComponent(TestComponent);
+      const buttonNativeElement = fixture.nativeElement.querySelector('button');
       expect(buttonNativeElement.disabled).toBeFalsy('Expected button not to be disabled');
 
       fixture.componentInstance.disable = true;
@@ -56,5 +56,5 @@ describe('LyButton', () => {
   template: '<button [bg]="bg" [disabled]="disable" ly-button>Content</button>'
 })
 class TestComponent {
-  disable: boolean = false;
+  disable = false;
 }

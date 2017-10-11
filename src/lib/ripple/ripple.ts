@@ -80,10 +80,10 @@ export class LyRippleTriggerFor implements AfterViewInit, OnDestroy {
 })
 export class LyRipple implements OnDestroy, AfterViewInit {
   private rippleElement: HTMLElement;
-  private timeRipple: number = 0;
-  duration: number = 375*2;
+  private timeRipple = 0;
+  duration: number = 375 * 2;
   @Input('ly-ripple-centered') centered: boolean;
-  @Input('ly-ripple-max-radius') maxRadius: number = 0;
+  @Input('ly-ripple-max-radius') maxRadius = 0;
   @Input('ly-ripple-disabled') disabled: boolean;
   private _eventHandlers: Map<string, (e: Event) => void>;
   private _hoverContainer: HTMLElement;
@@ -99,18 +99,18 @@ export class LyRipple implements OnDestroy, AfterViewInit {
 
   private _updateHoverContainer() {
     this._containerRect = this._getContainerRect();
-    let sizeMax = Math.max(this.containerRect.height, this.containerRect.width);
+    const sizeMax = Math.max(this.containerRect.height, this.containerRect.width);
     this._hoverContainer.style.width = `${sizeMax}px`;
     this._hoverContainer.style.height = `${sizeMax}px`;
     this._hoverContainer.style.top = `${this.containerRect.height / 2 - sizeMax / 2}px`;
     this._hoverContainer.style.left = `${this.containerRect.width / 2 - sizeMax / 2}px`;
   }
   ngAfterViewInit() {
-    let hoverContainer = document.createElement('ly-hover-container');
+    const hoverContainer = document.createElement('ly-hover-container');
     this._hoverContainer = this.elementRef.nativeElement.appendChild(hoverContainer);
     this._updateHoverContainer();
     const eventHandlers = new Map<string, (e: Event) => void>();
-    if(!this.disabled) {
+    if (!this.disabled) {
       /**
        * touch event
        */
@@ -161,9 +161,9 @@ export class LyRipple implements OnDestroy, AfterViewInit {
    * end ripple
    */
   public _handleMouseup() {
-    let r = 0;
+    const r = 0;
     this.timeRipple = Date.now() - this.timeRipple;
-    let e: HTMLElement = this.rippleElement;
+    const e: HTMLElement = this.rippleElement;
     if (this.timeRipple <= 300 && this.timeRipple != 0) {
       this._ngZone.runOutsideAngular(() => {
         if (this.rippleElement) {
@@ -206,7 +206,7 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     return this._containerRect;
   }
   private _getContainerRect(): ClientRect {
-    let pr = this.elementRef.nativeElement;
+    const pr = this.elementRef.nativeElement;
     return pr.getBoundingClientRect() as ClientRect;
   }
 
@@ -228,14 +228,14 @@ export class LyRipple implements OnDestroy, AfterViewInit {
 
 
   public _handleMouseDown(e: any) {
-    let pr = this.elementRef.nativeElement;
+    const pr = this.elementRef.nativeElement;
     if (this._rippleActionState(e, pr)) {
       return;
     }
 
     this.timeRipple = Date.now();
-    let rippleElement: HTMLElement = document.createElement('div');
-    let containerRect = this._getContainerRect();
+    const rippleElement: HTMLElement = document.createElement('div');
+    const containerRect = this._getContainerRect();
     this._updateHoverContainer();
     this._containerRect = containerRect;
     let _styleTop = 0;
@@ -246,20 +246,20 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     } else {
       rippleElement.className = 'ly-ripple-element';
     }
-    if(this.KeyDownState(e)) {
+    if (this.KeyDownState(e)) {
       this._removeRipple();
       sizeRipple = containerRect.width;
       _styleTop = -1 * (sizeRipple / 2 - (containerRect.height / 2));
       // rippleElement.className = 'ly-ripple-element';
-    } else if(e.type !== 'keydown') {
+    } else if (e.type !== 'keydown') {
       this._removeRipple();
       // this.timeRipple = Date.now();
-      let psX = e.clientX;
-      let psY = e.clientY;
-      let TOP = (psY - this._getoffset.top);
-      let LEFT = (psX - this._getoffset.left);
-      let distancefromV: number = 10;
-      let distancefromH: number = 10;
+      const psX = e.clientX;
+      const psY = e.clientY;
+      const TOP = (psY - this._getoffset.top);
+      const LEFT = (psX - this._getoffset.left);
+      let distancefromV = 10;
+      let distancefromH = 10;
       if ((LEFT) < (containerRect.width / 2)) {
         distancefromV = (containerRect.width - (LEFT));
       } else {

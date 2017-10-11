@@ -1,7 +1,7 @@
 import { mathTrunc } from './polyfill'
 
 const hexToRgb = hex => {
-    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
         [, r, g, b] = result.map(val => parseInt(val, 16))
     return result ? {r, g, b } : null
 }
@@ -17,7 +17,7 @@ const fixedHexFormat = arr => arr.map(c => {
     }
 })
 
-// get r,g,b,h,s and l with Bezier interpolation 
+// get r,g,b,h,s and l with Bezier interpolation
 // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
 // Check issue #3 for more info
 export const propBezInterpolate = charArr => colArr => x => {
@@ -37,13 +37,13 @@ export const propBezInterpolate = charArr => colArr => x => {
 export const extractHEX = arr => fixedHexFormat(arr).map(c => hexToRgb(c))
 
 export const extractRGB = arr => arr.map(c => {
-    let [r, g, b] = splitSliceJoin(c, 4, -1).split(',')
+    const [r, g, b] = splitSliceJoin(c, 4, -1).split(',')
     return { r, g, b }
 })
 
 export const extractHSL = arr => arr.map(c => {
     c = splitSliceJoin(c, 4, -1).split(',')
-    let h = c[0],
+    const h = c[0],
         s = splitSliceJoin(c[1], 0, -1),
         l = splitSliceJoin(c[2], 0, -1)
     return { h, s, l }

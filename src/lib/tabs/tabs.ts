@@ -39,19 +39,19 @@ let idTab = 0;
 })
 export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
 
-  private _bg: string = 'rgba(0, 0, 0, 0)'; // private
-  private _color: string = 'primary'; // private
+  private _bg = 'rgba(0, 0, 0, 0)'; // private
+  private _color = 'primary'; // private
   private _subscription: Subscription;
   timeout: any;
   xtemplateRef: any;
-  tabRows: number = 0;
-  _selectedIndex: number = 0;
+  tabRows = 0;
+  _selectedIndex = 0;
   _margin: number;
-  tabWidth: number = 0;
-  tabLeft: number = 0;
+  tabWidth = 0;
+  tabLeft = 0;
   @ContentChildren(forwardRef(() => LyTab)) tabs: QueryList<LyTab>;
   @ContentChild(LyButton) lyButton: LyButton;
-  _isInitialized: boolean = false;
+  _isInitialized = false;
   @ViewChild('tabsContent') _tabsContent: ElementRef;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   styleBackground: string;
@@ -135,8 +135,8 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedIndex']) {
       if (!changes['selectedIndex'].firstChange) {
-        let index = changes['selectedIndex'].currentValue;
-        let tabRef = this._tabsContent.nativeElement;
+        const index = changes['selectedIndex'].currentValue;
+        const tabRef = this._tabsContent.nativeElement;
         // this.tabs.toArray()[index].emitChange(index);
         // this.tabs.toArray()[index].setIndex(index, tabRef);
       }
@@ -188,7 +188,7 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
     this.tabs.forEach((item: LyTab, index: number) => {
       this.sMargin(item.elementRef.nativeElement, index);
       item._index = index;
-      let tabRef = item.elementRef.nativeElement;
+      const tabRef = item.elementRef.nativeElement;
       if (this._selectedIndex == index && !!tabRef) {
         if (!!item.lyButton) {
           Promise.resolve(null).then(() => {
@@ -204,7 +204,7 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
     this.tabs.changes.subscribe((tabs: LyTab[]) => {
       idTab = 0;
       tabs.forEach((item: LyTab, index: number) => {
-        let tabRef = item.elementRef.nativeElement;
+        const tabRef = item.elementRef.nativeElement;
         this.sMargin(tabRef, index);
         item._index = index;
         if (this._selectedIndex == index && !!tabRef) {
@@ -230,8 +230,8 @@ export class LyTabContent {
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LyTab {
-  _index: number = 0;
-  _indexGroup: number = 0;
+  _index = 0;
+  _indexGroup = 0;
   stateTab: boolean;
   private timeout: any;
   public tabRef: TemplateRef<any>;
@@ -268,14 +268,14 @@ export class LyTab {
     return (num);
   }
   setIndex(index: number) {
-    let ev = this.elementRef.nativeElement as HTMLElement;
+    const ev = this.elementRef.nativeElement as HTMLElement;
     let restWi = 0;
-    let tabLabel = this.elementRef.nativeElement as HTMLElement;
+    const tabLabel = this.elementRef.nativeElement as HTMLElement;
     restWi = this.widthExacta(ev) - this.widthExacta(tabLabel);
     // ev = tabLabel as HTMLElement;
-    let w: number = this.floor(this.lyTabGroup._tabsContent.nativeElement.offsetWidth);
+    const w: number = this.floor(this.lyTabGroup._tabsContent.nativeElement.offsetWidth);
 
-    let llOorr = this.llOorr(this.lyTabGroup._selectedIndex, index);
+    const llOorr = this.llOorr(this.lyTabGroup._selectedIndex, index);
     let prevIndex: number = this.lyTabGroup._selectedIndex;
     let eve: any;
     this.lyTabGroup._selectedIndex = index;
@@ -304,8 +304,8 @@ export class LyTab {
       // this.lyTabGroup.tabWidth = w - dL;
       // this.lyTabGroup.tabLeft  = dL;
       let sibsW: any = 0;
-      let sibsID: any = [];
-      let thisW = eve.previousSibling.offsetWidth;
+      const sibsID: any = [];
+      const thisW = eve.previousSibling.offsetWidth;
       // clearTimeout(outEf);
       this.lyTabGroup.timeout = setTimeout(() => {
         this.lyTabGroup.tabWidth = dW;
@@ -330,7 +330,7 @@ export class LyTab {
 
     } else if (llOorr === 'l') {
       let sibsW: any = 0;
-      let sibsID: any = [];
+      const sibsID: any = [];
       // let thisW = eve.previousSibling.offsetWidth;
       prevIndex = (this.lyTabGroup.tabRows - 1) - prevIndex;
       this.lyTabGroup.timeout = setTimeout(() => {

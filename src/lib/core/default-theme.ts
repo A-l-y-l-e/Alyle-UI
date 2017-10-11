@@ -5,7 +5,7 @@ export const defaultTheme: AlyleServiceConfig = {
   other: 'red',
   colorScheme: 'light',
   typography: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: '\'Roboto\', sans-serif',
     fontSize: 14
   },
   schemes: {

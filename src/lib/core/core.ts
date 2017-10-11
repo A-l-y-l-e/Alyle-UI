@@ -16,7 +16,7 @@ import { LyPalette, LyTheme, LyStyleTheme } from './palette';
 import { ThemeModule } from './theme';
 import { Platform } from './platform';
 
-let id = 0;
+const id = 0;
 
 @Component({
   selector: 'ly-core[root]',

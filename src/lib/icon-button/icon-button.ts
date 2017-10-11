@@ -52,10 +52,10 @@ export class LyIconButton implements OnInit, OnDestroy, AfterViewInit {
   // lySidenavId: string;
   // "ly-sidenav-id": string;
   // TypeScript private modifiers
-  _isActiveDown: boolean = false;
-  _isActiveFocus: boolean = false;
+  _isActiveDown = false;
+  _isActiveFocus = false;
 
-  refState: boolean = false;
+  refState = false;
 
   public _style: any;
   circular: any = document.createElement('span');
@@ -79,7 +79,7 @@ export class LyIconButton implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  @Input('color') color: string = 'currentColor';
+  @Input('color') color = 'currentColor';
   @ViewChild('_lyRiple') ripple: LyRipple;
   @HostBinding('class.is-active') get _isActive(): boolean {
     return !(this._isActiveDown && this._isActiveFocus);

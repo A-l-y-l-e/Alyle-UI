@@ -47,7 +47,7 @@ export class LyCheckbox implements OnInit, AfterContentInit, ControlValueAccesso
   @Input('value') value: string;
   @Input('name') name: string;
   @Input('disabled') disabled: string;
-  @Input('checked') checked: boolean = false;
+  @Input('checked') checked = false;
   @Input('indeterminate') indeterminate: string;
   @Output('change') change: EventEmitter<any> = new EventEmitter<any>();
   @Output('indeterminateChange') indeterminateChange: EventEmitter<boolean> = new EventEmitter<boolean>();

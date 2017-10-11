@@ -2,7 +2,7 @@ export function TimeOut( milliseconds: number = 0 ) {
 
   return function( target: any, key: any, descriptor: any ) {
 
-    var originalMethod = descriptor.value;
+    let originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {
 
@@ -20,7 +20,7 @@ export function Interval( milliseconds: number = 0 ) {
 
   return function( target: any, key: any, descriptor: any ) {
 
-    var originalMethod = descriptor.value;
+    let originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {
 

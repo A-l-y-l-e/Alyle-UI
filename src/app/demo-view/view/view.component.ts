@@ -94,7 +94,7 @@ export class ViewComponent implements OnInit {
       {label: 'Style', type: 'component', ext: 'css'}
     ]
     for (let i = 0; i < exts.length; i++) {
-      let url = `${this.name}-demo/${this.folderName}/${this.folderName}.${exts[i].type}.${exts[i].ext}`;
+      const url = `${this.name}-demo/${this.folderName}/${this.folderName}.${exts[i].type}.${exts[i].ext}`;
       this.demos.push({
         url: url,
         label: exts[i].label,

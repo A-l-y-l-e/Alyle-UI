@@ -6,7 +6,7 @@ export class Log {
   public _logs: any[] = [];
   constructor(private randomId: RandomId) {}
   public setLog(_name: any, val: any = undefined): any {
-    let key: any = this.randomId.generate;
+    const key: any = this.randomId.generate;
     this._logs.push({
       key$: key,
       name: _name,

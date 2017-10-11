@@ -10,8 +10,8 @@ export class LyShadowService {
     private sanitizer: DomSanitizer
   ) { }
   shadow(color: string, size: number) {
-    let sizeOrigin = size;
-    let _color = chroma(converterToHex(chroma(color).css('hsl'))).get('rgba');
+    const sizeOrigin = size;
+    const _color = chroma(converterToHex(chroma(color).css('hsl'))).get('rgba');
     size = toPositiveNumber(size);
     let style = `
     rgba(${_color[0]}, ${_color[1]}, ${_color[2]}, ${

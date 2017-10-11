@@ -72,27 +72,27 @@ import { CommonModule } from '@angular/common';
   `,
 })
 export class ResizingCroppingImagesComponent implements OnChanges, ControlValueAccessor {
-  public _format: string = 'jpeg';
+  public _format = 'jpeg';
   public img: string = null;
   public imgDataUrl: string;
   public origImg: string;
-  public sizeW: number = 230;
-  public sizeH: number = 150;
-  public sizeWmax: number = 720;
-  public sizeHmax: number = 720;
-  public stateMouse: boolean = false;
-  public stateType: string = 'none';
-  public stateR: string = 'none';
-  public centerX: number = 0;
-  public centerY: number = 0;
+  public sizeW = 230;
+  public sizeH = 150;
+  public sizeWmax = 720;
+  public sizeHmax = 720;
+  public stateMouse = false;
+  public stateType = 'none';
+  public stateR = 'none';
+  public centerX = 0;
+  public centerY = 0;
   public imgWidth: number;
   public imgHeight: number;
   public imgCrop: any;
-  public percent: number = 100;
+  public percent = 100;
   public imgUrl: string = null;
 
-  public _top: number = 0;
-  public _left: number = 0;
+  public _top = 0;
+  public _left = 0;
   public _img: any = {};
   public _src: string = null;
   constructor(
@@ -112,17 +112,17 @@ export class ResizingCroppingImagesComponent implements OnChanges, ControlValueA
 
   }
   public zoom(state: string) {
-    let W = this.elementRef.nativeElement.querySelector('._img').offsetWidth;
-    let H = this.elementRef.nativeElement.querySelector('._img').offsetHeight;
-    let oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
-    let oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
+    const W = this.elementRef.nativeElement.querySelector('._img').offsetWidth;
+    const H = this.elementRef.nativeElement.querySelector('._img').offsetHeight;
+    const oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
+    const oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
     this.stateType = 'resize';
     this.stateR = state;
     this.resize(0, W, H, oTop, oLeft);
   }
   public startMove($e: any) {
-    let oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
-    let oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
+    const oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
+    const oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
     this.centerX = $e.clientX -
     offset(this.elementRef.nativeElement.querySelector('.content-img')).left - oLeft;
     this.centerY = $e.clientY -
@@ -130,10 +130,10 @@ export class ResizingCroppingImagesComponent implements OnChanges, ControlValueA
   }
   public moveImg($e: any) {
     $e.preventDefault();
-    let W = this.elementRef.nativeElement.querySelector('._img').offsetWidth;
-    let H = this.elementRef.nativeElement.querySelector('._img').offsetHeight;
-    let oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
-    let oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
+    const W = this.elementRef.nativeElement.querySelector('._img').offsetWidth;
+    const H = this.elementRef.nativeElement.querySelector('._img').offsetHeight;
+    const oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
+    const oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
     if (this.stateType === 'move') {
 
       this._left = $e.clientX -
@@ -147,7 +147,7 @@ export class ResizingCroppingImagesComponent implements OnChanges, ControlValueA
   }
   public resize(ev$: any, W: any, H: any, oTop: any, oLeft: any) {
     let _W: any, _H: any;
-    let contentImg = this.elementRef.nativeElement.querySelector('.content-img');
+    const contentImg = this.elementRef.nativeElement.querySelector('.content-img');
     if (this.stateR === 'nw') {
       this._left = -offset(contentImg).left + (ev$.clientX || ev$.pageY);
       this._top = -offset(contentImg).top +
@@ -206,18 +206,18 @@ export class ResizingCroppingImagesComponent implements OnChanges, ControlValueA
     if (ev$.shiftKey) {
       _H = _W / this.imgWidth * this.imgHeight;
     }
-    let fileReader: any = new FileReader();
+    const fileReader: any = new FileReader();
     let img: any;
-    let origSrc: any = new Image();
-    let minWidth: any = 80; // Change as required
-    let minHeight: any = 80;
-    let maxWidth: any = 2400; // Change as required
-    let maxHeight: any = 2200;
-    let cropCanvas: any = document.createElement('canvas');
+    const origSrc: any = new Image();
+    const minWidth: any = 80; // Change as required
+    const minHeight: any = 80;
+    const maxWidth: any = 2400; // Change as required
+    const maxHeight: any = 2200;
+    const cropCanvas: any = document.createElement('canvas');
     origSrc.src = this.origImg;
     cropCanvas.width = _W;
     cropCanvas.height = _H;
-    let ctx = cropCanvas.getContext('2d');
+    const ctx = cropCanvas.getContext('2d');
     ctx.drawImage(origSrc,
       0, 0,   // Start at 10 pixels from the left and the top of the image (crop),
       _W, _H,   // "Get" a `80 * 30` (w * h) area from the source image (crop),
@@ -255,15 +255,15 @@ export class ResizingCroppingImagesComponent implements OnChanges, ControlValueA
     // important add converter img to size of output
     this._img = $event.target.files[0];
     this.img = $event.target.value.replace(/.*(\/|\\)/, '');
-    let fileReader = new FileReader();
+    const fileReader = new FileReader();
     let img: any;
-    let origSrc = new Image();
-    let minWidth = 80; // Change as required!!
-    let minHeight = 80;
-    let maxWidth = 2400; // Change as required
-    let maxHeight = 2200;
-    let cropCanvas = document.createElement('canvas');
-    let blank = `data:image/png;base64,iVBORw0KGg${
+    const origSrc = new Image();
+    const minWidth = 80; // Change as required!!
+    const minHeight = 80;
+    const maxWidth = 2400; // Change as required
+    const maxHeight = 2200;
+    const cropCanvas = document.createElement('canvas');
+    const blank = `data:image/png;base64,iVBORw0KGg${
       'oAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAU'
     }AAarVyFEAAAAASUVORK5CYII=`;
     fileReader.onload = (ev: any) => {
@@ -291,7 +291,7 @@ export class ResizingCroppingImagesComponent implements OnChanges, ControlValueA
       this.imgWidth / 2;
       this._top = (this.elementRef.nativeElement.querySelector('.content-img').offsetHeight / 2) -
       this.imgHeight / 2;
-      let _img =  this.elementRef.nativeElement.querySelector('.content-img img');
+      const _img =  this.elementRef.nativeElement.querySelector('.content-img img');
       this.crop();
 
       _img.addEventListener('load', () => {
@@ -322,7 +322,7 @@ export class ResizingCroppingImagesComponent implements OnChanges, ControlValueA
     top =  offset(resize).top - offset(this.elementRef.nativeElement.querySelector('._img')).top,
     width = resize.offsetWidth,
     height = resize.offsetHeight;
-    let origSrc = new Image();
+    const origSrc = new Image();
     origSrc.src = this.imgDataUrl;
     cropCanvas = document.createElement('canvas');
     cropCanvas.width = width;

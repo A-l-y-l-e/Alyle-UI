@@ -3,7 +3,7 @@ let supportedInputTypes: Set<string>;
 /** @returns The input types supported by this browser. */
 export function getSupportedInputTypes(): Set<string> {
   if (!supportedInputTypes) {
-    let featureTestInput = document.createElement('input');
+    const featureTestInput = document.createElement('input');
     supportedInputTypes = new Set([
       'button',
       'checkbox',

@@ -1,7 +1,7 @@
 export function Ly_Next(value: any, index: any) {
   let nxt: any = value;
-  let i: any = index;
-  let length: any = nxt.length;
+  const i: any = index;
+  const length: any = nxt.length;
   let _index: any;
 
   // let part = index / length;

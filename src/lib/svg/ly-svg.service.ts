@@ -28,7 +28,7 @@ export class LySvgService {
     })
     .share()
     .map((svgText: string) => {
-      let svgEl = this._svgElementFromString(svgText);
+      const svgEl = this._svgElementFromString(svgText);
       LySvgService._svg.set(url, svgEl);
       return this._cloneSVG(svgEl);
     });

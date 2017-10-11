@@ -13,7 +13,7 @@ export class GradStop {
         this._options = options = objectAssign({}, this.options, options)
 
         if (options.stops < options.colorArray.length) {
-            throw "Number of stops cannot be less than colorArray.length"
+            throw new Error('Number of stops cannot be less than colorArray.length')
         }
 
     }
@@ -28,10 +28,10 @@ export class GradStop {
     // computeStops
     computeStops(options) {
 
-        let outputArray = []
+        const outputArray = []
 
         const init = options => {
-            switch(options.inputFormat) {
+            switch (options.inputFormat) {
                 case 'hex':
                     return extractHEX(options.colorArray)
                 case 'rgb':
@@ -43,7 +43,7 @@ export class GradStop {
 
         const stopsGenerator = options => {
 
-            let colorArray = options.colorArray
+            const colorArray = options.colorArray
 
             const inc = 1.0 / (options.stops - 1)
 
@@ -52,10 +52,10 @@ export class GradStop {
             for (let i = 0; i < options.stops; i++) {
 
                 if (options.inputFormat == 'hex' || options.inputFormat == 'rgb') {
-                    let [r, g, b] = propBezInterpolate(['r', 'g', 'b'])(colorArray)(t)
+                    const [r, g, b] = propBezInterpolate(['r', 'g', 'b'])(colorArray)(t)
                     outputArray.push(returnRGBStr([r, g, b]))
                 } else if (options.inputFormat == 'hsl') {
-                    let [h, s, l] = propBezInterpolate(['h', 's', 'l'])(colorArray)(t)
+                    const [h, s, l] = propBezInterpolate(['h', 's', 'l'])(colorArray)(t)
                     outputArray.push(returnHSLStr([h, s, l]))
                 }
                 t += inc

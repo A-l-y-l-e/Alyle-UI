@@ -16,8 +16,8 @@ export class LyTemplate {
     return this.___templateRef;
   }
   public nodes(refx: any) {
-    let ref = refx;
-    let template = document.createElement('l-y-t-e-m-p-l-a-t-e');
+    const ref = refx;
+    const template = document.createElement('l-y-t-e-m-p-l-a-t-e');
     ref.rootNodes.forEach((root: any) => {
       template.appendChild(root);
     });

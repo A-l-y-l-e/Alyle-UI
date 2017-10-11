@@ -53,8 +53,8 @@ export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class LyRadioGroup implements AfterContentInit, ControlValueAccessor {
   _value: any = null;
-  index: number = 0;
-  name: string = `ly-radio-name-${this.randomId.generate}`;
+  index = 0;
+  name = `ly-radio-name-${this.randomId.generate}`;
   _color = 'accent';
   private _colorTxt: string;
 
@@ -89,7 +89,7 @@ export class LyRadioGroup implements AfterContentInit, ControlValueAccessor {
   }
 
   /** Whether the `value` has been set to its initial value. */
-  private _isInitialized: boolean = false;
+  private _isInitialized = false;
 
 
   /** Callback registered via registerOnTouched (ControlValueAccessor) */
@@ -138,7 +138,7 @@ export class LyRadioGroup implements AfterContentInit, ControlValueAccessor {
 
   next() {
     this.unSelectAll();
-    let _radio = Ly_Next(this._radios, this.index);
+    const _radio = Ly_Next(this._radios, this.index);
     this.index = _radio.index;
     this._radios.forEach((radio, inx) => {
       if (inx == _radio.index) {
@@ -217,11 +217,11 @@ export class LyRadioGroup implements AfterContentInit, ControlValueAccessor {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LyRadio implements OnInit, OnChanges {
-  id: string = `ly-radio-${this.randomId.generate}`;
-  name: string = '';
-  _colorTxt: string = '';
+  id = `ly-radio-${this.randomId.generate}`;
+  name = '';
+  _colorTxt = '';
   _value: any = null;
-  private _checked: boolean = false;
+  private _checked = false;
 
 
   get inputId(): string {

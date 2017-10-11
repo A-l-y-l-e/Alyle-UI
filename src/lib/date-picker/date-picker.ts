@@ -61,7 +61,7 @@ export const LY_PICKER_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class YearPicker {
   private _year: number;
-  private _state: boolean = false;
+  private _state = false;
   @Input()
   get year() {
     return this._year;
@@ -125,8 +125,8 @@ export class LyButtonDatePicker {
   ],
 })
 export class DatePicker implements ControlValueAccessor, AfterContentInit, OnChanges, OnInit{
-  private _bg: string = 'primary';
-  private _color: string = 'rgba(0, 0, 0, 0.60)';
+  private _bg = 'primary';
+  private _color = 'rgba(0, 0, 0, 0.60)';
   private _subscription: Subscription;
   @HostBinding('style.background') styleBackground: string;
   @HostBinding('style.color') styleColor: string;
@@ -138,17 +138,17 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
   _selectMonthState: any = new Date();
   private _selectX: 'start' | 'end' = 'start';
   getYears: any;
-  _selectYearState: boolean = false;
-  private x_FloatingPicker: boolean = false;
+  _selectYearState = false;
+  private x_FloatingPicker = false;
   daysName: Array<string> = [ 'M', 'T', 'W', 'T', 'F', 'S', 'S' ];
-  private _isInitialized: boolean = false;
+  private _isInitialized = false;
   // @ViewChild(FocusTrap) _focusTrap: FocusTrap;
 
   ___templateRef: any;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   @Input('ly-mode') mode: string;
-  _dateFilter: string = 'MM-d-y';
-  public floatingPickerState: boolean = false;
+  _dateFilter = 'MM-d-y';
+  public floatingPickerState = false;
   get dpStart() {
     return new Date(this._dateStartSelected);
   }
@@ -200,17 +200,17 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
   }
 
   template() {
-    let tRef: any = this.viewContainerRef.createEmbeddedView(this.templateRef);
+    const tRef: any = this.viewContainerRef.createEmbeddedView(this.templateRef);
     this.___templateRef = tRef;
     return tRef;
   }
   _templateElement(template: any) {
-    let tRef: any = this.viewContainerRef.createEmbeddedView(template);
+    const tRef: any = this.viewContainerRef.createEmbeddedView(template);
     // this.___templateRef = tRef;
     return tRef;
   }
   show() {
-    let body: any = document.querySelector('body');
+    const body: any = document.querySelector('body');
     let ref: any;
     ref = this.template();
     ref.rootNodes.forEach((root: any) => {
@@ -251,9 +251,9 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
 
   format(date: any): any {
     // validate date
-    let _date: any = new Date(date);
+    const _date: any = new Date(date);
     let dateFormat: any;
-    let fkda = new Date('x');
+    const fkda = new Date('x');
     dateFormat = String(_date) === String(fkda) ? false : true;
     // console.log(dateFormat, date, _date, fkda);
     return dateFormat;
@@ -287,10 +287,10 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
   private _onChangeCallback: (_: any) => void = noop;
 
   private years() {
-    let numsYears = 30;
-    let years: number[] = [];
-    let _date: any = new Date(this._selectMonthState);
-    let yearNow: any = _date.getFullYear() - numsYears;
+    const numsYears = 30;
+    const years: number[] = [];
+    const _date: any = new Date(this._selectMonthState);
+    const yearNow: any = _date.getFullYear() - numsYears;
     for (let i = 0; i < numsYears * 2; i++) {
       years.push(yearNow + i);
     }
@@ -385,20 +385,20 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
     }
   }
   formatMMDDYY(date: any) {
-    let _date: any = new Date(date);
+    const _date: any = new Date(date);
     let result: any = this.strtotime(`${_date.getMonth() + 1}-${_date.getDate()}-${_date.getFullYear()}`);
     result = new Date(result);
     return result;
   }
   now(): any {
-    let date: any = new Date();
+    const date: any = new Date();
     return {
       date: date,
       dateString: this.strtotime(`${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`),
     };
   }
   dateString(date: any) {
-    let _date: any = new Date(date);
+    const _date: any = new Date(date);
     return this.strtotime(`${_date.getMonth() + 1}-${_date.getDate()}-${_date.getFullYear()}`);
   }
   strtotime(date: any) {
@@ -406,15 +406,15 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
   }
   getMonth: any;
   days() {
-    let _days: any = {
+    const _days: any = {
       data: [],
       _INI: '',
       dateEND: '',
     };
-    let dateSelected = new Date(this._selectMonthState);
-    let dayNow = (dateSelected.getDate() - 1) * 60 * 60 * 24 * 1000;
-    let dateNow = new Date(dateSelected.getTime());
-    let dateINI = new Date(dateNow.getTime() - dayNow);
+    const dateSelected = new Date(this._selectMonthState);
+    const dayNow = (dateSelected.getDate() - 1) * 60 * 60 * 24 * 1000;
+    const dateNow = new Date(dateSelected.getTime());
+    const dateINI = new Date(dateNow.getTime() - dayNow);
     let dateEND: any;
     let dayLeft = 0;
     if (new Date(dateINI).getDay() == 0) {
@@ -422,14 +422,14 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
     } else {
       dayLeft = new Date(dateINI).getDay() - 1;
     }
-    for (var i = 0; i < dayLeft; i++) {
+    for (let i = 0; i < dayLeft; i++) {
       _days.data.push({
         index: ' ',
         date: 0,
       });
     }
     let dateTemp: any;
-    for (var _i = 1; _i < 32; _i++) {
+    for (let _i = 1; _i < 32; _i++) {
       dateTemp = new Date((dateINI.getTime()) + ((_i - 1) * 60 * 60 * 24 * 1000));
       if (_i == dateTemp.getDate()) {
         dateEND = _i;
@@ -493,7 +493,7 @@ export class LyDatePickerTriggerFor {
   }
 
   targetPosition() {
-    let element: HTMLElement = this.elementRef.nativeElement;
+    const element: HTMLElement = this.elementRef.nativeElement;
     /*let _offset: any = offset(element);
     return {
       'width': element.offsetWidth,

@@ -15,7 +15,7 @@ import { LyTheme } from '../../palette';
 })
 export class LyBg implements OnInit, OnDestroy {
 
-  private _bg: string = 'primary';
+  private _bg = 'primary';
   private _subscription: Subscription;
   private _shade = '500';
   constructor(private theme: LyTheme, private cd: ChangeDetectorRef) { }
@@ -34,7 +34,7 @@ export class LyBg implements OnInit, OnDestroy {
   @Input('bg')
   set bg(color: string) {
     if (!color) return;
-    let _color: any = color.split(/:/);
+    const _color: any = color.split(/:/);
     this._bg = _color[0];
     this._styleBackground = this.theme.color(this._bg, false, _color[1]);
     if (_color[1]) {

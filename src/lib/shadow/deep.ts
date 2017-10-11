@@ -20,10 +20,10 @@ import { LyTheme } from 'alyle-ui/core';
   selector: '[ly-deep], [ly-shadow]',
 })
 export class LyDeepComponent {
-  private _size: number = 1;
-  private _interval: number = 3000;
+  private _size = 1;
+  private _interval = 3000;
   private _result: string;
-  private numberState: number = -1;
+  private numberState = -1;
   private _shadowColor: string;
   @HostBinding('style.box-shadow') styleBoxShadow: SafeStyle | string;
   @Input('shadowColor')

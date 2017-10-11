@@ -60,14 +60,14 @@ import { RandomId, LyTemplate } from 'alyle-ui/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LyNav implements AfterContentInit, ControlValueAccessor {
-  _mode: string = 'over';
-  _align: string = 'left';
-  state: boolean = false;
-  _full: boolean = false;
+  _mode = 'over';
+  _align = 'left';
+  state = false;
+  _full = false;
   _media: string;
-  _isInitialized: boolean = false;
-  private width: number = 0;
-  private height: number = 0;
+  _isInitialized = false;
+  private width = 0;
+  private height = 0;
   @ViewChild('_ref') _navInjElement: ElementRef;
   @Output() onSelect = new EventEmitter();
   @Output() onMode = new EventEmitter();
@@ -296,7 +296,7 @@ export class LySidenav implements AfterContentInit {
   _w: any;
   _h: any;
   _mediaState: boolean;
-  _media: string = 'max-width: 720px';
+  _media = 'max-width: 720px';
   navIndex: any = [];
   @Input()
   get media(): string {
@@ -326,11 +326,11 @@ export class LySidenav implements AfterContentInit {
     `;
   }
   ngOnInit() {
-    let _El: any = document.createElement('style');
+    const _El: any = document.createElement('style');
     _El.innerHTML = `${this.mediaStyles}`;
     _El.setAttribute('skncnj', this.randomId.generate);
     this.elementRef.nativeElement.appendChild(_El);
-    let e: any = document.body;
+    const e: any = document.body;
     e.onresize = (event: any) => {
       // console.log('this.elementRef.nativeElement', this.elementRef.nativeElement, event);
       // console.warn(e.offsetWidth);
@@ -341,7 +341,7 @@ export class LySidenav implements AfterContentInit {
     };
   }
   StylesContent(restart: boolean = false) {
-    let nv = this.elementRef.nativeElement.querySelector('.ly-sidenav-content');
+    const nv = this.elementRef.nativeElement.querySelector('.ly-sidenav-content');
     let margin: any;
     if (this._mode.mode === 'side' && this._mode.align === 'left') {
       nv.style.marginLeft = `${this._w}px`;
@@ -434,7 +434,7 @@ export class LySidenav implements AfterContentInit {
           this.StylesContent(true);
           // console.log('sdsdf');
         }
-        let ins = this.navIndex.find((dadfcxv: any) => dadfcxv.key$ === _index);
+        const ins = this.navIndex.find((dadfcxv: any) => dadfcxv.key$ === _index);
         this.navIndex = this.navIndex.filter((_: any) => _.key$ !== ins.key$);
         // console.log('A', this.sidenav);
         // console.log('index', this.navIndex);

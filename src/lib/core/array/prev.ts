@@ -1,7 +1,7 @@
 export function Ly_Prev(value: any[], index: number): any {
   let nxt: any[] = value;
-  let i: number = index;
-  let length: number = nxt.length;
+  const i: number = index;
+  const length: number = nxt.length;
   let _index: any;
   if ((i - 1) <= 0 || (i - 1) >= length - 1) {
     nxt = (nxt[(nxt.length - 1)]);

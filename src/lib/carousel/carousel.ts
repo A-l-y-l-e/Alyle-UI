@@ -40,7 +40,7 @@ import { MinimalLS } from 'alyle-ui/ls';
 })
 export class LyCarouselItemComponent {
   @Input('src') src: string;
-  @Input('ly-carousel-active') @HostBinding('class.ly-carousel-item-active') active: boolean = false;
+  @Input('ly-carousel-active') @HostBinding('class.ly-carousel-item-active') active = false;
   color: VibrantColors = new VibrantColors;
 
   constructor(
@@ -51,7 +51,7 @@ export class LyCarouselItemComponent {
 
   preloadImage(url) {
     try {
-      let img = new Image();
+      const img = new Image();
       img.src = url;
     } catch (e) { }
   }
@@ -61,7 +61,7 @@ export class LyCarouselItemComponent {
     if (this.ls.hasItem(this.src)) {
       this.color = this.ls.item(this.src);
     } else {
-      let colorV = this.carouselService.getColorVibrant(this.src);
+      const colorV = this.carouselService.getColorVibrant(this.src);
       colorV.then((p: any) => {
         this.color = this.carouselService._palette(p);
         /**
@@ -121,10 +121,10 @@ export class LyCarousel implements ControlValueAccessor {
   public data: any;
   public value: any;
   public _selectedIndex: any;
-  public _interval: number = 2000;
+  public _interval = 2000;
   public _fnInterval: any;
-  public _isInitialized: boolean = false;
-  public nullImg: string = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+  public _isInitialized = false;
+  public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   @ContentChildren(LyCarouselItemComponent) public lyItems: QueryList<LyCarouselItemComponent>;
   _itemSelect = 0;
   currentCarousel: LyCarouselItemComponent;
@@ -157,12 +157,12 @@ export class LyCarousel implements ControlValueAccessor {
     if (this.lyItems === undefined) {
       return 0;
     } else {
-      let st = (this._itemSelect + 1) * 100 / this.lyItems.length;
+      const st = (this._itemSelect + 1) * 100 / this.lyItems.length;
       return st;
     }
   }
   public get stylesBar() {
-    let bar = this.elementRef.nativeElement.querySelector('._bar');
+    const bar = this.elementRef.nativeElement.querySelector('._bar');
     // bar.style.animation = `none`;
     return {
       animation: `none`
@@ -192,7 +192,7 @@ export class LyCarousel implements ControlValueAccessor {
     } else {
       this._itemSelect = value;
     }
-    let intrval$ = {
+    const intrval$ = {
       interval$: setInterval(() => {
         this._itemSelect++;
         this._itemSelect = (this._itemSelect === (this.lyItems.length) ? 0 : this._itemSelect++);
@@ -207,12 +207,12 @@ export class LyCarousel implements ControlValueAccessor {
   setActiveItem() {
     // let activeItems = this.lyItems.filter((tab)=>tab.active);
     Promise.resolve(null).then(() => {
-      let controlsBottom = this.elementRef.nativeElement.querySelector('.carousel-indicators-container');
+      const controlsBottom = this.elementRef.nativeElement.querySelector('.carousel-indicators-container');
       controlsBottom.classList.remove('animation');
       void controlsBottom.offsetWidth;
       controlsBottom.classList.add('animation');
-      this.lyItems.forEach((item: LyCarouselItemComponent) => {item.active = false;item._markForCheck();});
-      let item = this.lyItems.find((a: LyCarouselItemComponent, b: number) => b == this._itemSelect);
+      this.lyItems.forEach((item: LyCarouselItemComponent) => {item.active = false; item._markForCheck(); });
+      const item = this.lyItems.find((a: LyCarouselItemComponent, b: number) => b == this._itemSelect);
       this.currentCarousel = item;
       this.currentColors = item.color;
       item.active = true;

@@ -38,7 +38,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 // import './button.style.scss';
 @Directive({ selector: '[ly-button][raised]' })
 export class LyButtonRaised {
-  private _raised: boolean = true;
+  private _raised = true;
   constructor() { }
 }
 
@@ -63,13 +63,13 @@ export class LyButtonRaised {
   `
 })
 export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
-  public _disabled: boolean = false;
+  public _disabled = false;
   public _prevFocused = true;
   private html: any = '';
   private styleRipple: any;
-  private size: number = 10;
+  private size = 10;
   private distancefromV: any;
-  private stateH: boolean = true;
+  private stateH = true;
   private timePress: any;
   private itemM = document.createElement('div');
   private _color: string;
@@ -80,10 +80,10 @@ export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
   private bgString: string = null;
   _subscription: Subscription;
   private _raised: string | boolean = false;
-  _isActiveDown: boolean = false;
-  _isActiveFocus: boolean = false;
-  _isActiveBlur: boolean = false;
-  private _rippleSensitive: boolean = false;
+  _isActiveDown = false;
+  _isActiveFocus = false;
+  _isActiveBlur = false;
+  private _rippleSensitive = false;
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
@@ -104,7 +104,7 @@ export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
   @ViewChild('_lyRiple') ripple: LyRipple;
   @ContentChildren(forwardRef(() => LyIconButton)) iconButton: QueryList<LyIconButton>;
   buttonPadding: Subject<string> = new BehaviorSubject<string>('');
-  span: boolean = true;
+  span = true;
   // TypeScript private modifiers
   /** Callback registered via registerOnTouched (ControlValueAccessor) */
   private _onTouchedCallback: () => void;
@@ -269,7 +269,7 @@ export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
   @HostBinding('style.box-shadow') boxShadow: any;
 
   private shadowButton() {
-    let color = 'transparent';
+    const color = 'transparent';
     // !Important set boxShadow
     if (this._raised) {
       if (!!this._color && !!this.styleColor && !!this.styleBackground) {

@@ -25,7 +25,7 @@ export class CarouselService {
   constructor(private ls: MinimalLS) { }
 
   getColorVibrant(srcImg: string): any {
-    let v = new Vibrant(srcImg);
+    const v = new Vibrant(srcImg);
     return v.getPalette((error: any, pal: any) => {
       this.ls.setItem(srcImg, this._palette(pal));
     });
@@ -35,8 +35,8 @@ export class CarouselService {
    * return Vibrant & DarkVibrant
    */
   _palette(pal: any): VibrantColors {
-    let palette = {};
-    for(var color in pal) {
+    const palette = {};
+    for (const color in pal) {
       palette[`${color}`] = {
         'bodyTextColor': pal[color].getBodyTextColor(),
         'hex': pal[color].getHex(),

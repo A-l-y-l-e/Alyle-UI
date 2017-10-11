@@ -33,8 +33,8 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
     return this._src;
   };
 
-  @HostBinding('style.width') styleWidth: string = 'inherit';
-  @HostBinding('style.height') styleHeight: string = 'inherit';
+  @HostBinding('style.width') styleWidth = 'inherit';
+  @HostBinding('style.height') styleHeight = 'inherit';
   @Input('size')
   get size(): string {
     return this._size;
@@ -57,10 +57,10 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
     this.styleHeight = this.size;
   }
   private _strEndsWith(str: any, suffix: string) {
-    return str.match(suffix+"$") == suffix;
+    return str.match(suffix + '$') == suffix;
   }
 
-  @Input('prepend') prepend: boolean = true;
+  @Input('prepend') prepend = true;
 
   private _subscription: Subscription;
 

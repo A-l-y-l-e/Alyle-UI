@@ -78,18 +78,18 @@ export class LyUploadFiles {
 
 
   changeInput($event: any) {
-    let files = $event.target.files;
-    let fileName = $event.target.value.replace(/.*(\/|\\)/, '');
-    let fileReader = new FileReader();
-    let blank = `data:image/png;base64,iVBORw0KGgoAAAANSUhEU${
+    const files = $event.target.files;
+    const fileName = $event.target.value.replace(/.*(\/|\\)/, '');
+    const fileReader = new FileReader();
+    const blank = `data:image/png;base64,iVBORw0KGgoAAAANSUhEU${
       'gAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAA'
     }IAAAUAAarVyFEAAAAASUVORK5CYII=`;
 
     console.log('length', $event.target.files.length);
-    for (var _i = 0; _i < $event.target.files.length; _i++) {
+    for (let _i = 0; _i < $event.target.files.length; _i++) {
       console.log(_i);
       // fileReader.readAsDataURL($event.target.files[_i]);
-      let _fileReader = new FileReader();
+      const _fileReader = new FileReader();
       _fileReader.onload = (ev: any) => {
         // console.log('ev', ev);
         console.log('$event', $event, _i);
@@ -103,7 +103,7 @@ export class LyUploadFiles {
         } else {
           // console.log('not image');
         }
-        let color = 'abced235356';
+        const color = 'abced235356';
         // let color = md5$($event.target.files[_i].type);
         this.files.push({
           file: $event.target.files[_i],

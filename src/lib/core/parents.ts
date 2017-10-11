@@ -5,11 +5,11 @@ export function getParents(el: HTMLElement, parentSelector: string) {
       parentSelector = 'body';
   }
 
-  let parents: Array<any> = [];
+  const parents: Array<any> = [];
   let p: any = el.parentNode;
   let pxz: HTMLElement = null;
   while (!pxz) {
-      let o = p;
+      const o = p;
       parents.push(o);
       p = o.parentNode;
       pxz = p.querySelector(parentSelector);

@@ -13,7 +13,7 @@ export class InputExample04Component implements OnInit {
   onSubmit() {
     console.log('submited');
   }
-  
+
   ngOnInit() {
 
   }

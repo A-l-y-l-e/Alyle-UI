@@ -28,8 +28,8 @@ export class ToolbarItem {}
   styleUrls: ['toolbar.css', 'toolbar-item.css'],
 })
 export class LyToolbar implements OnInit, OnDestroy, BgAndColorStyle {
-  private _bg: string = 'primary';
-  private _color: string = 'rgba(0, 0, 0, 0.60)';
+  private _bg = 'primary';
+  private _color = 'rgba(0, 0, 0, 0.60)';
   private _subscription: Subscription;
   @HostBinding('style.background') styleBackground: string;
   @HostBinding('style.color') styleColor: string;

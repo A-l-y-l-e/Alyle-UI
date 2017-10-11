@@ -77,17 +77,17 @@ export class Origin {
   exportAs: 'lyMenu'
 })
 export class LyMenu implements AfterViewInit, OnInit {
-  isIni: boolean = false;
+  isIni = false;
   _color: string;
-  stateBg: boolean = false;
-  widthTarget: number = 0;
-  heightTarget: number = 0;
+  stateBg = false;
+  widthTarget = 0;
+  heightTarget = 0;
 
   rootMenu: any = {
     top: 0,
     left: 0,
   };
-  @Input() opened: boolean = false;
+  @Input() opened = false;
   @Input('anchor-origin') _anchorOrigin: Origin = {horizontal: 'left', vertical: 'top'};
   @Input('target-origin') _targetOrigin: Origin = {horizontal: 'left', vertical: 'top'};
   @Input('ly-menu-event') menuEvent: 'hover' | 'click' = 'click';
@@ -103,7 +103,7 @@ export class LyMenu implements AfterViewInit, OnInit {
   // get size
   target(_element: any) {
     console.log(_element);
-    let element: HTMLElement = _element;
+    const element: HTMLElement = _element;
     // console.log(this._menuElement);
     /*if (this._menuElement) {
       element = this._menuElement.nativeElement;
@@ -163,8 +163,8 @@ export class LyMenu implements AfterViewInit, OnInit {
   }
   get rootStyle(): any {
     // console.log(this.rootMenu);
-    let menuPosition: any = this.rootMenu;
-    let positionFinal: any = menuPosition;
+    const menuPosition: any = this.rootMenu;
+    const positionFinal: any = menuPosition;
     // console.log(menuPosition);
 
 
@@ -184,12 +184,12 @@ export class LyMenu implements AfterViewInit, OnInit {
     this.opened == !true ? this.showMenu() : this.hiddeMenu();
   }
   template() {
-    let tRef: any = this.viewContainerRef.createEmbeddedView(this.templateRef);
+    const tRef: any = this.viewContainerRef.createEmbeddedView(this.templateRef);
     this.xtemplateRef = tRef;
     return tRef;
   }
   showMenu() {
-    let body: any = document.querySelector('body');
+    const body: any = document.querySelector('body');
     let ref: any;
     ref = this.template();
     ref.rootNodes.forEach((root: any) => {
@@ -289,12 +289,12 @@ export class LyMenuText {}
   }
 })
 export class LyMenuItems {
-  state: boolean = false;
+  state = false;
   get targetPosition() {
     // inject position SCREEN
     let element: HTMLElement;
-    let _offset: any = exactPosition(this.elementRef.nativeElement);
-    let scale: string = 'scale3d(0, 0, 0)';
+    const _offset: any = exactPosition(this.elementRef.nativeElement);
+    let scale = 'scale3d(0, 0, 0)';
     element = this.elementRef.nativeElement;
     if (this.elementRef.nativeElement.offsetParent) {
       element = this.elementRef.nativeElement.offsetParent;
@@ -338,8 +338,8 @@ export class LyMenuTriggerFor {
   }
 
   targetPosition() {
-    let element: HTMLElement = this.elementRef.nativeElement;
-    let _offset: any = exactPosition(element);
+    const element: HTMLElement = this.elementRef.nativeElement;
+    const _offset: any = exactPosition(element);
     return {
       'width': element.offsetWidth,
       'height': element.offsetHeight,
@@ -396,8 +396,8 @@ export class LyMenuItem {
   _itemMenu: any;
 
   get targetPosition() {
-    let element: HTMLElement = this.elementRef.nativeElement;
-    let _offset: any = exactPosition(element);
+    const element: HTMLElement = this.elementRef.nativeElement;
+    const _offset: any = exactPosition(element);
     return {
       'width': element.offsetWidth,
       'height': element.offsetHeight,
@@ -407,7 +407,7 @@ export class LyMenuItem {
   }
   _handleClick(event: any) {
     // console.warn('clicked', event);
-    let el: HTMLElement = event.target.offsetParent;
+    const el: HTMLElement = event.target.offsetParent;
     // console.log(el.offsetParent.localName);
     // this._itemMenu;
     // this.lyMenu.showMenu();

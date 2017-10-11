@@ -40,7 +40,7 @@ export class LyFieldDirective implements OnChanges, OnDestroy {
   set required(value: any) { this._required = !!(value); }
 
   @Input() placeholder: string;
-  @Input() type: string = 'text';
+  @Input() type = 'text';
   // @Input()
   // get placeholder(): string {
   //   return this._placeholder;
