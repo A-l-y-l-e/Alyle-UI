@@ -31,11 +31,8 @@ import {
   themeProperty } from 'alyle-ui/core';
 import { LyIconButton } from 'alyle-ui/icon-button';
 import { LyShadowService } from 'alyle-ui/shadow';
-// import { lyConfig } from '../lyCore/core.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
-// export * from '../lyCore/core.service';
-// import './button.style.scss';
 @Directive({ selector: '[ly-button][raised]' })
 export class LyButtonRaised {
   private _raised = true;
@@ -45,7 +42,6 @@ export class LyButtonRaised {
 @Component({
   selector: '[ly-button], ly-button',
   styleUrls: ['button.style.scss'],
-  // host: {type: 'button'},
   host: {
     '[class._disabled]': '_disabled',
     '[class.ly-button-init]': '_hasButton()',

@@ -1,6 +1,6 @@
 {
   "name": "alyle-ui",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Minimal Design, a package of components for Angular",
   "module": "index.js",
   "main": "alyle-ui.umd.js",
