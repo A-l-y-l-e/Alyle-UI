@@ -99,8 +99,7 @@ export class LyRadioGroup implements AfterContentInit, ControlValueAccessor {
   private _onChangeCallback: (_: any) => void;
 
 
-  @ContentChildren(forwardRef(() => LyRadio))
-  _radios: QueryList<LyRadio>;
+  @ContentChildren(forwardRef(() => LyRadio)) _radios: QueryList<LyRadio>;
   private _updateRadioButtonNames(): void {
     if (this._radios) {
       this._radios.forEach(radio => {
