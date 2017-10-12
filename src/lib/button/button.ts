@@ -18,7 +18,8 @@ import {
   forwardRef,
   Directive,
   ViewChild,
-  ContentChild} from '@angular/core';
+  ContentChild,
+  HostListener} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
@@ -44,10 +45,7 @@ export class LyButtonRaised {
   styleUrls: ['button.style.scss'],
   host: {
     '[class._disabled]': '_disabled',
-    '[class.ly-button-init]': '_hasButton()',
-    '(mousedown)': '_isActiveDown = true',
-    '(blur)': '_isActiveDown = false; _isActiveFocus = false',
-    '(focus)': '_isActiveFocus = true',
+    '[class.ly-button-init]': '_hasButton()'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -76,9 +74,7 @@ export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
   private bgString: string = null;
   _subscription: Subscription;
   private _raised: string | boolean = false;
-  _isActiveDown = false;
-  _isActiveFocus = false;
-  _isActiveBlur = false;
+  nativeElement: HTMLElement;
   private _rippleSensitive = false;
   @Input('sensitive')
   get rippleSensitive(): boolean {
@@ -94,13 +90,22 @@ export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
 
   @HostBinding('style.background') styleBackground: string;
   @HostBinding('style.color') styleColor: string;
-  @HostBinding('class.is-active') get _isActive(): boolean {
-    return !(this._isActiveDown && this._isActiveFocus);
-  };
   @ViewChild('_lyRiple') ripple: LyRipple;
   @ContentChildren(forwardRef(() => LyIconButton)) iconButton: QueryList<LyIconButton>;
   buttonPadding: Subject<string> = new BehaviorSubject<string>('');
+  @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
+  @HostListener('mousedown') onMouseDown() {
+    this.lyRippleNoFocus = true;
+  }
+  @HostListener('blur') onBlur() {
+    this.lyRippleNoFocus = false;
+  }
+  @HostListener('keydown') onKeydown() {
+    this.lyRippleNoFocus = true;
+  }
+
   span = true;
+  
   // TypeScript private modifiers
   /** Callback registered via registerOnTouched (ControlValueAccessor) */
   private _onTouchedCallback: () => void;
@@ -115,6 +120,7 @@ export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
     public theme: LyTheme,
     @Optional() private buttonRaised: LyButtonRaised,
   ) {
+    this.nativeElement = this.elementRef.nativeElement;
     if (this.buttonRaised) {
       this._raised = true;
     }

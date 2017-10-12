@@ -14,7 +14,9 @@ import {
   ChangeDetectionStrategy,
   NgZone,
   OnDestroy,
-  Optional
+  Optional,
+  HostBinding,
+  HostListener
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -85,6 +87,16 @@ export class LyRipple implements OnDestroy, AfterViewInit {
   @Input('ly-ripple-centered') centered: boolean;
   @Input('ly-ripple-max-radius') maxRadius = 0;
   @Input('ly-ripple-disabled') disabled: boolean;
+  @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
+  @HostListener('mousedown') onClick() {
+    this.lyRippleNoFocus = true;
+  }
+  @HostListener('blur') onBlur() {
+    this.lyRippleNoFocus = false;
+  }
+  @HostListener('keydown') onKeydown() {
+    this.lyRippleNoFocus = true;
+  }
   private _eventHandlers: Map<string, (e: Event) => void>;
   private _hoverContainer: HTMLElement;
   _containerRect: ClientRect;

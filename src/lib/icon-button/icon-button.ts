@@ -11,7 +11,8 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
-  HostBinding
+  HostBinding,
+  HostListener
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -33,18 +34,13 @@ class RefState {
     '[style.height.px]': 'toNumber(size) * 2',
     '[style.line-height.px]': 'toNumber(size) * 2',
     '[style.font-size.px]': 'toNumber(size) / 2',
-    '(mousedown)': '_isActiveDown = true',
-    '(blur)': '_isActiveDown = false; _isActiveFocus = false',
-    '(focus)': '_isActiveFocus = true',
   },
 
   template: `
   <div class="ly-icon-button-container">
-    <div *ngIf="false" class="focused"></div>
-    <div [style.color]="color" [style.margin.px]="toNumber(size) / 2" [style.width]="size" [style.font-size]="size" [style.height]="size" ly-icon [class]="_class"><ng-content></ng-content></div>
+    <div [style.color]="color" [style.margin.px]="toNumber(size) / 2" [style.width]="size" [style.font-size]="size" [style.height]="size" ly-icon><ng-content></ng-content></div>
     <div [style.color]="color" #_lyRiple ly-ripple class="ly-icon-button-content" [ly-ripple-centered]="true" [ly-ripple-max-radius]="toNumber(_size)">
     </div>
-    <span class="ly-instance">~-</span>
   </div>
   `
 })
@@ -61,7 +57,17 @@ export class LyIconButton implements OnInit, OnDestroy, AfterViewInit {
   circular: any = document.createElement('span');
   timePress: any;
   _size: any = '24px';
-  @Input('class') _class: string = null;
+  nativeElement: HTMLElement;
+  @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
+  @HostListener('mousedown') onClick() {
+    this.lyRippleNoFocus = true;
+  }
+  @HostListener('blur') onBlur() {
+    this.lyRippleNoFocus = false;
+  }
+  @HostListener('keydown') onKeydown() {
+    this.lyRippleNoFocus = true;
+  }
   @Input('size')
   set size(val) {
     // if (val !== this._size) {
@@ -89,6 +95,7 @@ export class LyIconButton implements OnInit, OnDestroy, AfterViewInit {
     public elementRef: ElementRef,
    ) {
      this.elementRef.nativeElement.tabIndex = 0;
+     this.nativeElement = this.elementRef.nativeElement;
   }
   toNumber(num) {
     return parseFloat(num);
