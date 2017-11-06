@@ -1,29 +1,22 @@
 <div class="actions">
-  <button raised ly-button bg="primary" (click)="_fileInput.focus(); _fileInput.click()"><input (change)="Img.imgChange($event)" #_fileInput type="file">
+  <button raised ly-button bg="primary" (click)="_fileInput.focus(); _fileInput.click()">
+    <input #_fileInput type="file" (change)="cropping.selectInputEvent($event)">
     <a ly-icon-button class="material-icons">image</a>
     Select File
   </button>
-  <button raised ly-button [disabled]="!Img.img" bg="accent" >Upload</button>
+  <button raised ly-button bg="accent" *ngIf="cropping.newImg | async">Upload</button>
 </div>
-<div class="resize-image" [hidden]="!Img.img">
-
-  <a ly-icon-button (click)="Img.zoom('+')"><i class="material-icons">zoom_in</i></a>
-  <a ly-icon-button (click)="Img.zoom('-')"><i class="material-icons">zoom_out</i></a>
-  <button ly-button bg="primary" (click)="Img.center()">center</button>
-  <ly-cropping #Img format="png"></ly-cropping>
-
-  <div>Result: </div>
-  <br />
-  <img [src]="Img.imgResult">
-  <br />
-  <a (click)="imgCrop()" ly-button bg="accent">Cropp image</a>
-  <ly-input>
-    <input [(ngModel)]="Img.sizeW" placeholder="Img size W">
-  </ly-input>
-  <ly-input><input [(ngModel)]="Img.sizeH" placeholder="Img size H"></ly-input>
-  <ly-input><input [(ngModel)]="Img.img" placeholder="Img"></ly-input>
-  <div>Format input: {{Img._img.type}}</div>
-  <br />
-  <div>Format output: {{Img.format}}</div>
-  <br />
+<div class="resize-image">
+  <button (click)="cropping.zoomIn()" ly-icon-button class="material-icons">zoom_in</button>
+  <button (click)="cropping.zoomOut()" ly-icon-button class="material-icons">zoom_out</button>
+  <button (click)="cropping.center()" ly-button>center</button>
+  <button (click)="cropping.fit()" ly-button>fit</button>
+  <button (click)="cropping.fitToScreen()" ly-button>fit to screen</button>
+  <ly-cropping #cropping [config]="myConfig">
+    <span>click or drag image</span>
+  </ly-cropping>
+  <!-- <ly-cropping #cropping format="png" src="https://dummyimage.com/500x350/000/00ffd5.png"></ly-cropping> -->
+  <!-- <ly-cropping [config]="myConfig" #cropping src="assets/img/Mountains-Blue.jpg"></ly-cropping> -->
+  <button *ngIf="cropping.newImg | async" color="accent" (click)="cropping.cropp()" ly-button>cropp</button>
 </div>
+<img *ngIf="cropping.result | async" [src]="cropping.result | async">

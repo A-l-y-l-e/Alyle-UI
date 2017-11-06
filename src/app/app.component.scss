@@ -1,8 +1,18 @@
-main {
-  height: calc(100% - 64px);
+.header {
+  position: absolute;
+  z-index: 11;
+  width: 100%;
 }
 .drawer {
-  height: 100%;
+  height: calc(100% - 64px);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  ly-drawer {
+    width: 200px;
+    height: 100%;
+  }
 }
 :host {
   color: #282B2F;
@@ -33,7 +43,11 @@ main {
   }
 }
 .nav-button {
-  justify-content: flex-start;;
+  justify-content: flex-start;
+  display: block;
+  width: 100%;
+  border-radius: 0;
+  height: 48px;
 }
 .i-right {
   min-width: 36px;
@@ -76,4 +90,8 @@ main {
   font-size: 14px;
   font-weight: 300;
   padding-left: calc(1em / 2);
+}
+.av {
+  font-size: 16px;
+  font-family: Roboto;
 }

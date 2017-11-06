@@ -40,10 +40,10 @@ export class LyBg implements OnInit, OnDestroy {
     if (_color[1]) {
       this._shade = _color[1];
     }
-  };
+  }
 
   ngOnDestroy() {
-    this._subscription.unsubscribe;
+    this._subscription.unsubscribe();
   }
 
 }

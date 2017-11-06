@@ -1,6 +1,6 @@
 <div class="ly-input-container" [class.ly-invalid]="_isErrorState()">
   <ng-content select="ly-before"></ng-content>
-  <div class="ly-input-content">
+  <div class="ly-input-content" [class.ly-hidden-input]="!(_inputState | async)">
     <ng-content select="input, textarea"></ng-content>
     <div class="ly-input-underline">
       <span

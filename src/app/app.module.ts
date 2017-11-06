@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 
 import { MinimalLSModule } from 'alyle-ui/ls';
 import { LyDrawerModule } from 'alyle-ui/drawer';
@@ -20,7 +21,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { RoutesAppService } from './components/routes-app.service';
 import { PrismModule } from './core/prism/prism.module';
+import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
+@Injectable()
+export class MyHammerConfig extends HammerGestureConfig {
+  overrides = {
+    'pan': {threshold: 0}
+ };
+}
 @NgModule({
   declarations: [
     AppComponent
@@ -30,6 +38,7 @@ import { PrismModule } from './core/prism/prism.module';
     CommonModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
     ResponsiveModule,
     MinimalLSModule,
     AlyleUIModule.forRoot({
@@ -101,7 +110,7 @@ import { PrismModule } from './core/prism/prism.module';
     PrismModule,
     AppRoutingModule
   ],
-  providers: [RoutesAppService],
+  providers: [RoutesAppService, {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,3 +13,5 @@ export * from './color-tranformation';
 export * from './theme';
 export * from './minimal';
 export * from './gradStop';
+export * from './dom/dom.service';
+export * from './dom/lx-dom.module';

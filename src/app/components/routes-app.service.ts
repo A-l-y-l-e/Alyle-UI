@@ -29,6 +29,7 @@ export class RoutesAppService {
         routes: [
           { route: 'button', name: 'Button' },
           { route: 'carousel', name: 'Carousel' },
+          { route: 'drawer', name: 'Drawer' },
           { route: 'icon-button', name: 'Icon button' },
           { route: 'input', name: 'Input' },
           { route: 'menu', name: 'Menu' },

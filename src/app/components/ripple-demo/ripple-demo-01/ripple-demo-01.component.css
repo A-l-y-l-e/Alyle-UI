@@ -7,4 +7,5 @@
   padding: calc(1em / 2);
   overflow: hidden;
   max-width: 500px;
+  outline: none;
 }

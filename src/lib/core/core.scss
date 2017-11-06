@@ -1,13 +1,20 @@
+body {
+  margin: 0;
+}
+ly-core[root] {
+  margin: 0;
+  display: block;
+}
 ly-svg svg, [ly-svg] svg {
   width: inherit;
   height: inherit;
   fill: currentColor;
   display: block;
 }
-@-webkit-keyframes btnFocusAnim {
-  from {transform: scale(.8);}
-  50% {transform: scale(1);}
-  to {transform: scale(.8);}
+@keyframes btnFocusAnim {
+  from {transform: scale(.6);}
+  50% {transform: scale(.8);}
+  to {transform: scale(.6);}
 }
 [ly-ripple] > ly-hover-container {
   position: absolute;
@@ -16,7 +23,7 @@ ly-svg svg, [ly-svg] svg {
   background: currentColor;
   opacity: 0;
   transform: scale3d(0, 0, 0);
-  transition: all 375ms ease-in-out 0ms;
+  transition: all 0ms cubic-bezier(0.45, 0, 0.25, 1);
   border-radius: 100%;
 }
 button {
@@ -27,28 +34,15 @@ button {
   background: -webkit-radial-gradient(center, ellipse cover, currentColor 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
   background: radial-gradient(ellipse at center, currentColor 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-// ly-button:hover:not(.is-active) > .ly-button-ripple > ly-hover-container,/* for ly-button*/
-// [ly-button]:hover:not(.is-active) > .ly-button-ripple > ly-hover-container,/* for ly-button*/
-// [ly-ripple]:hover > ly-hover-container {
-//   opacity: 0.2;
-//   transform: scale3d(1, 1, 1);
-//   border-radius: 0%;
-//   transition: opacity 375ms ease !important;
-// }
-// ly-button:active > .ly-button-ripple > ly-hover-container,/* for ly-button*/
-[ly-button]:active > .ly-button-ripple > ly-hover-container,/* for ly-button*/
-button[ly-icon-button]:active > .ly-button-ripple > ly-hover-container,/* for ly-icon-button*/
-[ly-ripple]:active > ly-hover-container {
-  opacity: 0;
-  transform: scale3d(0, 0, 0);
-}
 
-[ly-ripple]:focus > ly-hover-container,
-[ly-button].is-active:focus > .ly-button-ripple > ly-hover-container {
+[ly-ripple]:not(.ly-ripple-no-focus):focus > ly-hover-container,
+[ly-button]:not(.ly-ripple-no-focus):focus > .ly-button-ripple > ly-hover-container {
   animation: btnFocusAnim infinite 1.4s 0ms;
+  transform: scale3d(1, 1, 1);
   opacity: .13;
-}/* for ly-button*/
-[ly-icon-button].is-active:focus > .ly-icon-button-container > [ly-ripple] > ly-hover-container {/* for ly-icon-button*/
-  animation: btnFocusAnim infinite 1.4s 0ms;
+}
+[ly-icon-button]:not(.ly-ripple-no-focus):focus > .ly-icon-button-container > [ly-ripple] > ly-hover-container {/* for ly-icon-button*/
+  transform: scale3d(1, 1, 1);
   opacity: .33;
+  transition: all 375ms cubic-bezier(0.45, 0, 0.25, 1);
 }

@@ -7,7 +7,7 @@
   white-space: nowrap;
 	transform: scale3d(1, 1, 1);
 	@media not all and (hover: none) {
-		&:hover:after {
+		&:after {
 			content: '';
 			top: 0;
 			left: 0;
@@ -15,8 +15,13 @@
 			bottom: 0;
 			position: absolute;
 			background: currentColor;
-			opacity: .11;
+			opacity: 0;
 			border-radius: inherit;
+			pointer-events: none;
+			transition: all 375ms cubic-bezier(0.23, 1, 0.32, 1);
+		}
+		&:hover:after {
+			opacity: .11;
 		}
 	}
 }
@@ -35,11 +40,6 @@
   overflow: hidden;
   pointer-events: none;
 }
-// :host.is-active:focus {
-//   .ly-button-hover {
-//     background: rgba(0, 0, 0, 0.13);
-//   }
-// }
 
 .ly-button-hover {
   pointer-events: none;
@@ -73,16 +73,7 @@
   line-height: inherit;
   white-space: inherit;
 }
-// :host[ly-button] .ly-button-content {
-//   position: relative !important;
-// }
-:host /deep/ .ly-button-content * {
-  // vertical-align: bottom;
-}
-:host /deep/ .ly-button-content > span {
-  // padding-left: 16px;
-  // padding-right: 16px;
-}
+
 .ly-button-padding {
   padding: 0 16px;
 }
@@ -91,11 +82,6 @@
 }
 .ly-button-padding-right {
   padding-right: 16px;
-}
-.ly-button-flex, ly-button-flex2 {
-  // width: 16px;
-  // height: 100%;
-  // display: inline-block;
 }
 
 :host.ly-button-init {
@@ -145,13 +131,6 @@
 	user-select: none;
 	display: inline-block;
 	transition: all 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-	// font-family: Roboto, "Helvetica Neue", sans-serif;
-	// &:hover {
-	// 	//transform: translateY(-1px);
-	// }
-	// &:active {
-	// 	//transform: translateY(0);
-	// }
 }
 /deep/{
 	[ly-button~="disabled"]{
@@ -214,12 +193,6 @@
 		right: 0;
 		overflow: hidden;
 		/*transition: cubic-bezier(0.25, 0.46, 0.45, 0.94) 975ms*/
-	}
-	[ly-button]:not([ly-button~="raised"]):not([ly-button~="disabled"]):active,
-	[ly-button="raised"]:active
-	{
-		/*background: rgba(153, 153, 153, 0.4) !important;*/
-
 	}
 
 	[ly-button~="raised"]:active{

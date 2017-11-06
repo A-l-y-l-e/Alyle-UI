@@ -27,7 +27,9 @@ export class CarouselService {
   getColorVibrant(srcImg: string): any {
     const v = new Vibrant(srcImg);
     return v.getPalette((error: any, pal: any) => {
-      this.ls.setItem(srcImg, this._palette(pal));
+      if (pal) {
+        this.ls.setItem(srcImg, this._palette(pal));
+      }
     });
   }
 
@@ -36,13 +38,15 @@ export class CarouselService {
    */
   _palette(pal: any): VibrantColors {
     const palette = {};
-    for (const color in pal) {
-      palette[`${color}`] = {
-        'bodyTextColor': pal[color].getBodyTextColor(),
-        'hex': pal[color].getHex(),
-        'titleTextColor': pal[color].getTitleTextColor(),
-        'yiq': pal[color].getYiq()
-      };
+    for (const key in pal) {
+      if (pal.hasOwnProperty(key)) {
+        palette[`${key}`] = {
+          'bodyTextColor': pal[key].getBodyTextColor(),
+          'hex': pal[key].getHex(),
+          'titleTextColor': pal[key].getTitleTextColor(),
+          'yiq': pal[key].getYiq()
+        };
+    }
     }
     return palette as VibrantColors;
   }

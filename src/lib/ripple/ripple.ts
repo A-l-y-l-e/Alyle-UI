@@ -4,19 +4,15 @@ import {
   forwardRef,
   NgModule,
   Input,
-  Output,
   Directive,
-  SimpleChange,
-  OnChanges,
   ModuleWithProviders,
-  AfterContentInit,
-  AfterViewInit,
   ChangeDetectionStrategy,
   NgZone,
   OnDestroy,
   Optional,
   HostBinding,
-  HostListener
+  HostListener,
+  AfterViewInit
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -24,14 +20,13 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-// import { LyPalette } from '../core/palette';
-// import { Log } from '../core';
+import { AnimationBuilder, trigger, state, animate, transition, style } from '@angular/animations';
+
 export const LY_RIPPLE_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyRipple),
   multi: true
 };
-import { LyPalette } from '../core';
 
 @Directive({
   selector: '[ly-ripple-sensitive]'
@@ -83,7 +78,7 @@ export class LyRippleTriggerFor implements AfterViewInit, OnDestroy {
 export class LyRipple implements OnDestroy, AfterViewInit {
   private rippleElement: HTMLElement;
   private timeRipple = 0;
-  duration: number = 375 * 2;
+  duration: number = 375 * 1.8;
   @Input('ly-ripple-centered') centered: boolean;
   @Input('ly-ripple-max-radius') maxRadius = 0;
   @Input('ly-ripple-disabled') disabled: boolean;
@@ -104,10 +99,9 @@ export class LyRipple implements OnDestroy, AfterViewInit {
   constructor(
     private elementRef: ElementRef,
     private _ngZone: NgZone,
-    @Optional() public sensitive: LyRippleSensitive
-  ) {
-
-  }
+    @Optional() public sensitive: LyRippleSensitive,
+    private ab: AnimationBuilder
+  ) { }
 
   private _updateHoverContainer() {
     this._containerRect = this._getContainerRect();
@@ -139,7 +133,7 @@ export class LyRipple implements OnDestroy, AfterViewInit {
   }
   ngOnDestroy() {
     this.removeRippleEvents(this.elementRef.nativeElement);
-  };
+  }
   addRippleEvents(element: any) {
     this._ngZone.runOutsideAngular(() => {
       this._eventHandlers.forEach((eventHandler, eventName) => {
@@ -176,7 +170,7 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     const r = 0;
     this.timeRipple = Date.now() - this.timeRipple;
     const e: HTMLElement = this.rippleElement;
-    if (this.timeRipple <= 300 && this.timeRipple != 0) {
+    if (this.timeRipple <= 300 && this.timeRipple !== 0) {
       this._ngZone.runOutsideAngular(() => {
         if (this.rippleElement) {
           this.rippleElement = null;
@@ -202,16 +196,16 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     this.timeRipple = 0;
   }
   KeyDownState(event: KeyboardEvent): boolean {
-    let state = false;
+    let _state = false;
     if (
       event.type === 'keydown' &&
       !!(event.keyCode === 13 ||
       event.keyCode === 32) &&
       !(event.repeat)
     ) {
-      state = true;
+      _state = true;
     }
-    return state;
+    return _state;
   }
 
   get containerRect(): ClientRect {
@@ -238,7 +232,6 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     return false;
   }
 
-
   public _handleMouseDown(e: any) {
     const pr = this.elementRef.nativeElement;
     if (this._rippleActionState(e, pr)) {
@@ -246,7 +239,7 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     }
 
     this.timeRipple = Date.now();
-    const rippleElement: HTMLElement = document.createElement('div');
+    const rippleElement: any = document.createElement('div');
     const containerRect = this._getContainerRect();
     this._updateHoverContainer();
     this._containerRect = containerRect;
@@ -284,15 +277,10 @@ export class LyRipple implements OnDestroy, AfterViewInit {
       }
 
       if (this.centered) {
-        // rippleElement.className = 'ly-ripple-element ly-center-ripple';
         distancefromV = containerRect.width / 2;
         distancefromH = containerRect.height / 2;
-      } else {
-        // rippleElement.className = 'ly-ripple-element';
       }
       if (this.maxRadius != 0) {
-        // distancefromV = this.maxRadius / 2;
-        // distancefromH = this.maxRadius / 2;
         sizeRipple = this.maxRadius * 2;
       } else {
         sizeRipple = ((distancefromV * distancefromV) + (distancefromH * distancefromH));
@@ -312,26 +300,19 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     opacity: 0.1;
     width: ${sizeRipple}px;
     height: ${sizeRipple}px;
-    transition: transform cubic-bezier(0.45, 0, 0.25, 1) ${
+    transition: transform cubic-bezier(0.4, 0.0, 0.2, 1) ${
       this.duration
     }ms, opacity ease ${ this.duration }ms;
     `);
 
     this.rippleElement = this.elementRef.nativeElement.appendChild(rippleElement);
-    this._ngZone.runOutsideAngular(() => {
-      void rippleElement.offsetWidth;
-      // rippleElement.offsetWidth = rippleElement.offsetWidth;
-      // window.setTimeout(() => {
-      if (this.centered) {
-        rippleElement.style.opacity = '0.33';
-      } else {
-        rippleElement.style.opacity = '0.13';
-      }
-      rippleElement.style.transform = 'scale3d(1,1,1)';
-      rippleElement.style.webkitTransform = 'scale3d(1,1,1)';
-      // }, 0);
-    });
-  };
+
+    window.getComputedStyle(rippleElement).getPropertyValue('opacity');
+
+    rippleElement.style.opacity = '0.13';
+    rippleElement.style.transform = 'scale3d(1,1,1)';
+    rippleElement.style.webkitTransform = 'scale3d(1,1,1)';
+  }
 
 }
 

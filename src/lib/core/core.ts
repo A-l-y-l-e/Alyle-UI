@@ -26,16 +26,7 @@ const id = 0;
 })
 export class LyRoot {
   constructor(private elementRef: ElementRef, private theme: LyTheme) {
-    this.elementRef.nativeElement.setAttribute('style', `
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      font-family: Roboto, "Helvetica Neue", sans-serif;
-      overflow: auto;
-    `);
+
   }
 }
 @Component({

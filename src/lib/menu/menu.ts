@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {
   Component,
   ElementRef,
@@ -19,9 +20,24 @@ import {
   QueryList,
   ContentChildren,
   HostListener,
-  AfterViewInit
+  AfterViewInit,
+  EventEmitter,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ComponentRef,
+  ChangeDetectorRef,
+  SimpleChanges
 } from '@angular/core';
-import { LyCoreModule } from 'alyle-ui/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  group
+} from '@angular/animations';
+import { LyCoreModule, DomService, LxDomModule } from 'alyle-ui/core';
 import { exactPosition } from 'alyle-ui/core';
 import { LyRippleModule } from 'alyle-ui/ripple';
 import {
@@ -43,40 +59,81 @@ export class Origin {
   vertical: position;
 }
 
+@Component({
+  selector: 'ly-template-menu',
+  template: `
+  <div #container></div>
+  `,
+  styles: [`
+    :host {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  `]
+})
+export class LyTemplateMenu implements OnInit {
+  @ViewChild('container', { read: ViewContainerRef }) _vcr;
+  constructor() { }
 
+  ngOnInit() { }
+  tmpl(template: TemplateRef<any>) {
+    this._vcr.createEmbeddedView(template);
+  }
+}
 
 @Component({
-  // moduleId: module.id.toString(),
   selector: 'ly-menu',
   styleUrls: ['menu.scss'],
-  host: {
-    '[style.color]': '_color',
-  },
+  animations: [
+    trigger('menu', [
+      state('in', style({
+        height: '*',
+        opacity: 1,
+        overflow: '*'
+      })),
+      transition(':enter', [
+        group([
+          animate('100ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({
+            height: '0',
+            opacity: 0,
+            overflow: 'hidden'
+          })),
+          animate('100ms 100ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({
+            opacity: .5,
+            height: '*',
+            overflow: 'hidden'
+          })),
+        ])
+      ])
+    ])
+  ],
   template: `
   <ng-template>
-    <div #_menu
+    <div #_menu [@menu]="'in'"
       class="ly-menu"
       bg="main"
       color="colorText"
       [style.transform-origin]="targetOrigin"
-      [style.top]="rootStyle.top + rootStylePosition.top + rootStylePosition.topTarget + 'px'"
-      [style.left]="rootStyle.left + rootStylePosition.left + rootStylePosition.leftTarget + 'px'"
-
-      [class.ly-menu-opened]="opened">
+      [style.top.px]="rootStyle.top + rootStylePosition.top"
+      [style.left.px]="rootStyle.left + rootStylePosition.left"
+      [style.transform]="_targetPosition | async">
+      <div class="ly-menu-content">
         <ng-content></ng-content>
+      </div>
     </div>
     <div
-    class="ly-background-menu"
-    [class.ly-background-on]="stateBg"
-
-
+    class="ly-background-menu ly-background-on"
     (click)="hiddeMenu()"></div>
   </ng-template>
   `,
   providers: [LY_MENU_CONTROL_VALUE_ACCESSOR],
   exportAs: 'lyMenu'
 })
-export class LyMenu implements AfterViewInit, OnInit {
+export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
   isIni = false;
   _color: string;
   stateBg = false;
@@ -87,29 +144,48 @@ export class LyMenu implements AfterViewInit, OnInit {
     top: 0,
     left: 0,
   };
+  xtemplateRef: any;
   @Input() opened = false;
   @Input('anchor-origin') _anchorOrigin: Origin = {horizontal: 'left', vertical: 'top'};
   @Input('target-origin') _targetOrigin: Origin = {horizontal: 'left', vertical: 'top'};
-  @Input('ly-menu-event') menuEvent: 'hover' | 'click' = 'click';
   @ViewChild('_menu') _menuElement: ElementRef;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+  _targetPosition: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-  _handleMouseenter(): any {
-    if (this.menuEvent == 'hover') {
-      this.hiddeMenu();
+  @Output() open: EventEmitter<any> = new EventEmitter();
+  @Output() close: EventEmitter<any> = new EventEmitter();
+  private menuContentElement: HTMLElement;
+  private menuContentRef: ComponentRef<LyTemplateMenu>;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['_targetOrigin']) {
+      Promise.resolve(null).then(() => {
+        if (true) {
+          // console.log('changes[target-origin]', changes['_targetOrigin']);
+        }
+      });
     }
   }
 
+  updateTargetPosition() {
+    let vertical = '0%',
+    horizontal = '0%';
+    if (this._targetOrigin.horizontal === 'middle') {
+      horizontal = '-50%';
+    } else if (this._targetOrigin.horizontal === 'right') {
+      horizontal = '-100%';
+    }
+    if (this._targetOrigin.vertical === 'center') {
+      vertical = '-50%';
+    } else if (this._targetOrigin.vertical === 'bottom') {
+      vertical = '-100%';
+    }
+    const menuStyle = this.sanitizer.bypassSecurityTrustStyle(`translate3d(${horizontal}, ${vertical}, 0) scale3d(1, 1, 1)`);
+    this._targetPosition.next(menuStyle as string);
+  }
   // get size
   target(_element: any) {
-    console.log(_element);
     const element: HTMLElement = _element;
-    // console.log(this._menuElement);
-    /*if (this._menuElement) {
-      element = this._menuElement.nativeElement;
-    } else {
-      element = 0;
-    }*/
     return {
       'width': element.offsetWidth || 0,
       'height': element.offsetHeight || 0,
@@ -117,14 +193,11 @@ export class LyMenu implements AfterViewInit, OnInit {
       'top': 0,
     };
   }
-  xtemplateRef: any;
-  // @HostBinding('style.transform-origin')
   get rootStylePosition() {
-    // console.log(this.xtemplateRef);
     let top: any = 0;
     let left: any = 0;
-    let topTarget: any = 0;
-    let leftTarget: any = 0;
+    // let topTarget: any = 0;
+    // let leftTarget: any = 0;
 
     // for _anchorOrigin
     if (this._anchorOrigin.vertical == 'center') {
@@ -140,33 +213,30 @@ export class LyMenu implements AfterViewInit, OnInit {
       left = (this.rootMenu.width);
     }
 
-    // for target origing
-    if (this._targetOrigin.vertical == 'center') {
-      // anchor origin
-      topTarget = -(this.heightTarget / 2);
-    } else if (this._targetOrigin.vertical == 'bottom') {
-      topTarget = -(this.heightTarget);
-    }
-    if (this._targetOrigin.horizontal == 'middle') {
-      // leftTarget = (this.target(this._menuElement).width / 2);
-      leftTarget = -(this.widthTarget / 2);
-    } else if (this._targetOrigin.horizontal == 'right') {
-      // leftTarget = (this.target(this._menuElement).width);
-      leftTarget = -(this.widthTarget);
-    }
+    // // for target origing
+    // if (this._targetOrigin.vertical == 'center') {
+    //   // anchor origin
+    //   topTarget = -(this.heightTarget / 2);
+    // } else if (this._targetOrigin.vertical == 'bottom') {
+    //   topTarget = -(this.heightTarget);
+    // }
+    // if (this._targetOrigin.horizontal == 'middle') {
+    //   // leftTarget = (this.target(this._menuElement).width / 2);
+    //   leftTarget = -(this.widthTarget / 2);
+    // } else if (this._targetOrigin.horizontal == 'right') {
+    //   // leftTarget = (this.target(this._menuElement).width);
+    //   leftTarget = -(this.widthTarget);
+    // }
     return {
       top: top,
       left: left,
-      topTarget: topTarget,
-      leftTarget: leftTarget,
+      // topTarget: topTarget,
+      // leftTarget: leftTarget,
     };
   }
   get rootStyle(): any {
-    // console.log(this.rootMenu);
     const menuPosition: any = this.rootMenu;
     const positionFinal: any = menuPosition;
-    // console.log(menuPosition);
-
 
     if (this._anchorOrigin) {
 
@@ -181,268 +251,83 @@ export class LyMenu implements AfterViewInit, OnInit {
     } ${this._targetOrigin.vertical} 0`;
   }
   toggleMenu() {
-    this.opened == !true ? this.showMenu() : this.hiddeMenu();
-  }
-  template() {
-    const tRef: any = this.viewContainerRef.createEmbeddedView(this.templateRef);
-    this.xtemplateRef = tRef;
-    return tRef;
+    this.opened === false ? this.showMenu() : this.hiddeMenu();
   }
   showMenu() {
-    const body: any = document.querySelector('body');
-    let ref: any;
-    ref = this.template();
-    ref.rootNodes.forEach((root: any) => {
-      body.appendChild(root);
-      if (root.classList && root.classList[0] == 'ly-menu') {
-        this.widthTarget = root.offsetWidth;
-        this.heightTarget = root.offsetHeight;
-      }
-    });
+    this.menuContentRef = this.domService.createComponentRef<LyTemplateMenu>(LyTemplateMenu, this.templateRef);
+    this.menuContentElement = this.domService.getDomElementFromComponentRef(this.menuContentRef);
+    this.domService.addChild(this.menuContentElement);
+    this.updateTargetPosition();
     this.opened = true;
     this.stateBg = true;
-    // window.setTimeout(() => this.opened = true, 0);
-    // window.setTimeout(() => {this.stateBg = true; }, 0);
-    return true;
+    this.open.emit(null);
   }
   hiddeMenu() {
-    this.opened = !true;
-    this.stateBg = !true;
-    // this.template()
-    if (this.xtemplateRef != null) {
-      this.xtemplateRef.detach();
-      this.xtemplateRef.destroy();
+    this.close.emit(null);
+    this.opened = false;
+    this.stateBg = false;
+    this._destroyMenu();
+  }
+
+  private _destroyMenu(): void {
+    if (this.menuContentRef) {
+      this.domService.destroyRef(this.menuContentRef, 0);
     }
-    this.xtemplateRef = null;
-    return this.opened;
   }
 
   constructor(
     private elementRef: ElementRef,
     private viewContainerRef: ViewContainerRef,
-    // @Optional() lyMenuItem: LyMenuItem,
-  ) {
-    // this.lyMenuItem = lyMenuItem;
+    private domService: DomService,
+    private cd: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
+  ) { }
+  ngOnInit() {
 
   }
-  ngOnInit() {
-    /**
-     * TODO: set color text
-     */
-    this._color = '#000';
-  }
-  // lyMenuItem: LyMenuItem;
-  // @ContentChildren(LyMenuItem) items: QueryList<LyMenuItem>;
 
   ngAfterViewInit() {
 
-
-
-    /*if (!this.root && this.lyMenuItem) {
-      console.warn(this.lyMenuItem);
-
-
-      // important continue ...
-      // output Open Event similar to sidenav
-      // this.lyMenuItem._itemMenu = this.showMenu();
-      // this.showMenu();
-    }*/
-
   }
-
+  ngOnDestroy() {
+    this._destroyMenu();
+  }
 
 }
 @Directive({
-  selector: 'ly-menu-text',
-})
-export class LyMenuText {}
-
-@Component({
-  // moduleId: module.id.toString(),
-  selector: 'ly-menu-items',
-  template: '<ng-content></ng-content>',
-  styles: [`
-    :host {
-      position: absolute;
-      padding: 8px 0px;
-      display: inline-table;
-      user-select: none;
-      top: 0px;
-      right: 0px;
-      transform-origin: right top 0;
-      opacity: 1;
-      width: 84px;
-      transform: scale(0, 0);
-      box-shadow: rgba(0, 0, 0, 0.15) 0 2px 6px, rgba(0, 0, 0, 0.15) 0 1px 4px;
-      border-radius: 2px;
-      background: #fff;
-      transition: all 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-    }
-    :host.menu-opened-of-items {
-      transform: scale(1, 1) !important;
-    }
-  `],
+  selector: '[lyMenuTriggerFor]',
   host: {
-    '[style.top]': 'targetPosition.top + "px"',
-    '[style.left]': 'targetPosition.left + "px"',
-    '[class.menu-opened-of-items]': 'state',
-  }
-})
-export class LyMenuItems {
-  state = false;
-  get targetPosition() {
-    // inject position SCREEN
-    let element: HTMLElement;
-    const _offset: any = exactPosition(this.elementRef.nativeElement);
-    let scale = 'scale3d(0, 0, 0)';
-    element = this.elementRef.nativeElement;
-    if (this.elementRef.nativeElement.offsetParent) {
-      element = this.elementRef.nativeElement.offsetParent;
-      scale = 'scale(1, 1, 1)';
-    }
-    return {
-      'width': element.offsetWidth,
-      'height': element.offsetHeight,
-      'left': element.offsetWidth,
-      'top': 0,
-      'scale': scale,
-    };
-  }
-  _showMenu() {
-    this.state = !false;
-  }
-  _hiddeMenu() {
-    this.state = false;
-  }
-  _toggleMenu() {
-    this.state == !true ? this._showMenu() : this._hiddeMenu();
-  }
-  constructor(private elementRef: ElementRef) {
-
-  }
-}
-@Directive({
-  selector: '[ly-menu-trigger-for]',
-  host: {
-    '(click)': '_handleClick($event)',
-    '(mouseenter)': '_handleMouseenter($event)',
-    // '(mouseleave)': '_handleMouseleave()',
-    // '(mouseout)': '_handleMouseleave()',
-    // '(mouseup)': '_handleMouseleave()',
+    '(click)': '_handleClick($event)'
   }
 })
 export class LyMenuTriggerFor {
-  @Input('ly-menu-trigger-for') menu: LyMenu;
-  constructor(private elementRef: ElementRef) {
-
-  }
+  @Input('lyMenuTriggerFor') lyMenuTriggerFor: LyMenu;
+  constructor(private elementRef: ElementRef) {}
 
   targetPosition() {
     const element: HTMLElement = this.elementRef.nativeElement;
-    const _offset: any = exactPosition(element);
-    return {
-      'width': element.offsetWidth,
-      'height': element.offsetHeight,
-      'left': _offset.left,
-      'top': _offset.top,
+    const rect: ClientRect = element.getBoundingClientRect();
+    const result = {
+      'width': rect.width,
+      'height': rect.height,
+      'left': rect.left,
+      'top': rect.top,
     };
-
+    return result;
   }
 
   _handleClick(e: Event) {
-    // console.log(this.targetPosition);
-    this.targetPosition();
-    this.menu.rootMenu = this.targetPosition();
-    this.menu.toggleMenu();
-  }
-  _handleMouseenter(event: any) {
-    event.preventDefault();
-    this.menu.rootMenu = this.targetPosition();
-    if (this.menu.menuEvent == 'hover') {
-      this.menu.showMenu();
-    }
-  }
-  private _handleMouseleave(event: any) {
-    this.menu.rootMenu = this.targetPosition();
-    if (this.menu.menuEvent == 'hover') {
-      this.menu.hiddeMenu();
-    }
-  }
-
-}
-
-@Component({
-  // moduleId: module.id.toString(),
-  selector: 'ly-menu-item',
-  styleUrls: ['menu-item.css'],
-  host: {
-    // '(click)': '_handleClick($event)'
-  },
-  template: `
-  <span
-    #_ripple
-    ly-ripple
-    tabindex="0"
-    type="button"
-    class="ly-menu-content"
-    (click)="_handleClick($event)"
-    >
-      <ng-content select="ly-menu-text"></ng-content>
-  </span>
-  <ng-content></ng-content>
-  `,
-})
-export class LyMenuItem {
-  _itemMenu: any;
-
-  get targetPosition() {
-    const element: HTMLElement = this.elementRef.nativeElement;
-    const _offset: any = exactPosition(element);
-    return {
-      'width': element.offsetWidth,
-      'height': element.offsetHeight,
-      'left': `${_offset.left}px`,
-      'top': `${_offset.top}px`,
-    };
-  }
-  _handleClick(event: any) {
-    // console.warn('clicked', event);
-    const el: HTMLElement = event.target.offsetParent;
-    // console.log(el.offsetParent.localName);
-    // this._itemMenu;
-    // this.lyMenu.showMenu();
-    if (this.items.first && el.offsetParent.localName == 'div') {
-      this.items.first._toggleMenu();
-    } else {
-      if (this.items.first) {
-        this.items.first._toggleMenu();
-        // console.log('elemasd');
-      } else {
-        this.lyMenu.hiddeMenu();
-        // if (!this.lyMenu.list) {
-        //   window.setTimeout(() => this.lyMenu.hiddeMenu(), 200);
-        // }
-      }
-    }
-  }
-  lyMenu: LyMenu;
-  @ContentChildren(LyMenuItems) items: QueryList<LyMenuItems>;
-  constructor(
-    @Optional() lyMenu: LyMenu,
-    private elementRef: ElementRef,
-  ) {
-    this.lyMenu = lyMenu;
-    // console.log(this.items);
-  }
-  ngOnInit() {
+    this.lyMenuTriggerFor.rootMenu = this.targetPosition();
+    this.lyMenuTriggerFor.toggleMenu();
   }
 
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, LyRippleModule, LyCoreModule],
-  exports: [LyMenuItem, LyMenu, LyMenuText, LyMenuTriggerFor, LyMenuItems],
-  declarations: [LyMenuItem, LyMenu, LyMenuText, LyMenuTriggerFor, LyMenuItems],
+  imports: [CommonModule, FormsModule, LyRippleModule, LyCoreModule, LxDomModule],
+  exports: [LyMenu, LyMenuTriggerFor],
+  declarations: [LyMenu, LyMenuTriggerFor, LyTemplateMenu],
+  entryComponents: [LyTemplateMenu]
 })
 export class LyMenuModule {
   static forRoot(): ModuleWithProviders {

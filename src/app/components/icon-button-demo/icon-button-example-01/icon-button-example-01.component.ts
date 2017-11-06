@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./icon-button-example-01.component.css']
 })
 export class IconButtonExample01Component implements OnInit {
-
   constructor() { }
 
   ngOnInit() {

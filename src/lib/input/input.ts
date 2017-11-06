@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {
   Component,
   ElementRef,
@@ -17,17 +18,21 @@ import {
   Optional,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  HostBinding
+  HostBinding,
+  OnInit
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
+import {
+  FormControl,
+  FormGroupDirective,
+  NgControl, NgForm,
+} from '@angular/forms';
 import { LyCoreModule } from 'alyle-ui/core';
 import { Subscription } from 'rxjs/Subscription';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
 export * from './input-contents';
-import { coerceBooleanProperty } from 'alyle-ui/core';
 import {
   LyTheme,
   ThemeColor,
@@ -70,11 +75,12 @@ export class LyInputAfter {}
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LyInput implements AfterContentInit, OnChanges {
+export class LyInput implements OnInit, AfterContentInit, OnChanges {
   _value: any = '';
   _elementType: 'input' | 'textarea';
   _color = 'primary';
   public _valState: boolean;
+  currentValue: any;
   private _disabled = false;
   private _focused = false;
   private _floatinglabel = false;
@@ -82,6 +88,9 @@ export class LyInput implements AfterContentInit, OnChanges {
   // floating Label state boolean
   private _floatinglabelBoolean = false;
   // @ViewChild('input') _inputElement: ElementRef;
+  private changed = new Array<(value: any) => void>();
+  private touched = new Array<() => void>();
+  _inputState = new BehaviorSubject<boolean>(true);
   @ContentChild(LyFieldDirective) _field: LyFieldDirective;
 
   @Input() type = 'text';
@@ -131,14 +140,11 @@ export class LyInput implements AfterContentInit, OnChanges {
     // }
     return this.floatLabel;
   }
-  get _valueBoolean() {
-    // if (this._floatinglabel) {
-    //   return true;
-    // }
-    return coerceBooleanProperty(this._value);
+  _valueBoolean(val) {
+    return !(val === null || val === undefined || val === false || val === '');
   }
 
-  get floatingLabel(): boolean { return this._floatinglabel; };
+  get floatingLabel(): boolean { return this._floatinglabel; }
   @Input()
   set floatingLabel(v: boolean) {
     if (v === true) {
@@ -154,15 +160,12 @@ export class LyInput implements AfterContentInit, OnChanges {
   get focused() { return this._focused; }
 
   _handleFocus() {
-    if (!!(this.default)) {
-      if (this.value() === this.default) {
-        this._field.elementRef.nativeElement.value = this.default;
-        this._valState = true;
-      }
-    }
     this._focused = true;
     this._floatinglabelBoolean = true;
-    // this._focusEmitter.emit(event);
+    if (this.default && this.currentValue === this.default) {
+      this._field.elementRef.nativeElement.value = this.default;
+      this._inputState.next(false);
+    }
   }
 
   _handleBlur() {
@@ -170,25 +173,16 @@ export class LyInput implements AfterContentInit, OnChanges {
     if (this._floatinglabel) {
       this._floatinglabelBoolean = true;
     } else {
-      this._floatinglabelBoolean = coerceBooleanProperty(this.value());
+      this._floatinglabelBoolean = (!!this.value());
     }
-    this._setDefaultVal();
-  }
-  /**
-   * set default value in placeholder
-   */
-  _setDefaultVal(valState?: boolean) {
-    if (!!this.default) {
-      if (this.value() === this.default || !!valState) {
-        this._field.elementRef.nativeElement.value = '';
-        this._floatinglabelBoolean = true;
-        this._valState = false;
-      }
+    if (this.default && this.currentValue === this.default) {
+      this._field.elementRef.nativeElement.value = null;
+      this._inputState.next(true);
     }
   }
 
   value() {
-    return this._field._ngControl.value;
+    return this.currentValue;
   }
 
   _hasFloatlabel(): boolean {
@@ -210,31 +204,34 @@ export class LyInput implements AfterContentInit, OnChanges {
   }
 
   ngOnInit() {
+    // this._field._ngControl.valueChanges.subscribe((val) => {
+    //   console.log('value change', val);
+    // });
   }
   ngAfterContentInit() {
     if (this._field) {
       this._field.focusState.subscribe((isFocused: boolean) => {
-        this._changeDetectorRef.markForCheck();
         if (isFocused) {
           this._handleFocus();
         } else {
           this._handleBlur();
         }
+        this._changeDetectorRef.markForCheck();
       });
-      if (this.default) {
-        Promise.resolve(null).then(() => {
-          this._changeDetectorRef.markForCheck();
-          this._setDefaultVal(true);
-        });
-      }
       if (this._field.floatLabel && this.default) {
         this.isFloatLabel = true;
       }
       if (this._field._ngControl && this._field._ngControl.valueChanges) {
         this._field._ngControl.valueChanges.subscribe((val: any) => {
-          this._changeDetectorRef.markForCheck();
+          this.currentValue = val;
+          if (this.default && !this._valueBoolean(val)) {
+            this._field._ngControl.viewToModelUpdate(this.default);
+            this.currentValue = this.default;
+          }
           this._valState = !!val;
           this._floatinglabelBoolean = (val === '' ? true : !!val);
+          this._changeDetectorRef.markForCheck();
+          this._field.markForCheck();
         });
       }
     } else {
@@ -248,11 +245,7 @@ export class LyInput implements AfterContentInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.default) {
-      // this._changeDetectorRef.detectChanges();
-      this._field._ngControl.viewToModelUpdate(this.default);
-      // this._field._ngControl.valueAccessor.writeValue(this.default);
-    }
+    
   }
   ngOnDestroy() {
   }

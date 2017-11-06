@@ -11,6 +11,8 @@ var uglify = require('rollup-plugin-uglify');
   inlineResources = require('./tools/gulp/inline-resources'),
   _replace = require('gulp-replace');
 
+var child_process = require('child_process');
+
 const rootFolder = path.join(__dirname);
 const libFolder = path.join(rootFolder, 'src/lib');
 const tmpFolder = path.join(rootFolder, '.tmp');
@@ -41,16 +43,12 @@ gulp.task('inline-resources', function () {
  *    compiled modules to the /build folder.
  */
 gulp.task('ngc:packpage', function () {
-  return ngc({
-    project: `${tmpFolder}/tsconfig.es5.json`
-  })
-    .then((exitCode) => {
-      if (exitCode === 1) {
-        // This error is caught in the 'compile' task by the runSequence method callback
-        // so that when ngc fails to compile, the whole compile process stops running
-        throw new Error('ngc compilation failed');
-      }
-    });
+  var configPath = `${tmpFolder}/tsconfig.es5.json`;
+  var ngc = path.resolve('./node_modules/.bin/ngc');
+  var childProcess = child_process.spawn(ngc, ['-p', configPath], {shell: true});
+  return childProcess.stderr.on('data', function(data) {
+    console.log(data.toString());
+  });
 });
 
 /**

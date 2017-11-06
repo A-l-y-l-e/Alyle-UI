@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, VERSION } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AUI_VERSION } from 'alyle-ui';
 import { LyMenu } from 'alyle-ui/menu';
@@ -16,7 +16,9 @@ export class AppComponent {
   routesComponents: any;
   @ViewChild('ThemeMenu') menuTheme: LyMenu;
   listColors: any[];
+  angularVersion = VERSION;
   version: string = AUI_VERSION;
+  routeState = false;
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -27,6 +29,7 @@ export class AppComponent {
       if (event instanceof NavigationEnd) {
         ga('set', 'page', event.urlAfterRedirects);
         ga('send', 'pageview');
+        this.routeState = event.urlAfterRedirects !== '/';
       }
     });
     this.routesComponents = this.routesApp.routesApp;

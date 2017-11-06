@@ -56,7 +56,7 @@ export class LyButtonRaised {
   </div>
   `
 })
-export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
+export class LyButton implements OnDestroy, OnChanges {
   public _disabled = false;
   public _prevFocused = true;
   private html: any = '';
@@ -86,32 +86,32 @@ export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
     } else {
       this._rippleSensitive = true;
     }
-  };
+  }
 
   @HostBinding('style.background') styleBackground: string;
   @HostBinding('style.color') styleColor: string;
   @ViewChild('_lyRiple') ripple: LyRipple;
   @ContentChildren(forwardRef(() => LyIconButton)) iconButton: QueryList<LyIconButton>;
   buttonPadding: Subject<string> = new BehaviorSubject<string>('');
-  @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
-  @HostListener('mousedown') onMouseDown() {
-    this.lyRippleNoFocus = true;
-  }
-  @HostListener('blur') onBlur() {
-    this.lyRippleNoFocus = false;
-  }
-  @HostListener('keydown') onKeydown() {
-    this.lyRippleNoFocus = true;
-  }
-
   span = true;
-  
-  // TypeScript private modifiers
+
   /** Callback registered via registerOnTouched (ControlValueAccessor) */
   private _onTouchedCallback: () => void;
 
   /** Callback registered via registerOnChange (ControlValueAccessor) */
   private _onChangeCallback: (_: any) => void;
+  
+  @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
+  @HostListener('mousedown') onMouseDown() {
+    this.lyRippleNoFocus = true;
+  }
+  @HostListener('blur') onBlur() {
+    Promise.resolve().then(() => this.lyRippleNoFocus = false);
+  }
+  @HostListener('keydown') onKeydown() {
+    this.lyRippleNoFocus = true;
+  }
+
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer,
@@ -249,17 +249,6 @@ export class LyButton implements ControlValueAccessor, OnDestroy, OnChanges {
     } else {
       this.elementRef.nativeElement.removeAttribute('disabled');
     }
-  }
-  public registerOnChange(fn: any) {
-    this._onChangeCallback = fn;
-  }
-
-  public registerOnTouched(fn: any) {
-    this._onTouchedCallback = fn;
-  }
-
-  public writeValue(value: any) {
-    // nothing
   }
   public _hasButton() {
     return !!this.disabled || !!this.deep || !!this.bg  || !!this.color;

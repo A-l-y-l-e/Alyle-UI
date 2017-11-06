@@ -1,9 +1,4 @@
 import {
-  Component,
-  ContentChildren,
-  Directive,
-  Input,
-  QueryList,
   NgModule,
   ModuleWithProviders,
   ElementRef,
@@ -17,6 +12,7 @@ import { Observer }        from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
 import { CommonModule }    from '@angular/common';
+import { fromEvent } from 'rxjs/observable/fromEvent';
 
 export class MinimalStorage {
   constructor(key$: string, val: any) {
@@ -28,21 +24,18 @@ export class MinimalStorage {
 export class MinimalLS {
   private itemsSubject: Map<string, Subject<string>> = new Map<string, BehaviorSubject<string>>();
   private _prefix = '*ls*';
+  private storageEvent: Observable<any>;
+  private storage = new Subject();
+  private storageObservable: Observable<any>;
   constructor() {
-    this.updateLocalStorage();
-  }
-
-  private updateLocalStorage() {
-    const len = localStorage.length;
-    for (let i = 0; i < len; i++) {
-      const key = localStorage.key(i);
-      try {
-        // let key = console.log(JSON.parse(localStorage.getItem(this._removePrefix(key))));
-        const key$ = this._removePrefix(key);
-        const parse = JSON.parse(localStorage.getItem(key));
-        this.setItem(key$, parse, false);
-      } catch (e) { }
-    }
+    this.storageEvent = fromEvent(window, 'storage');
+    this.storageEvent.subscribe((e) => {
+      this.storage.next({
+        key: e.key,
+        value: e.newValue
+      });
+    });
+    this.storageObservable = this.storage.asObservable();
   }
 
   /**
@@ -57,23 +50,32 @@ export class MinimalLS {
    */
   setItem(key$: string, val: any, _storage = true) {
     const key = this._addPrefix(key$);
-    this.itemsSubject.set(key, new BehaviorSubject<string>(val));
     if (_storage) {
+      // tslint:disable-next-line:no-unused-expression
       new MinimalStorage(key, val);
     }
+    this.storage.next({
+      key: key,
+      value: this.item(key$)
+    });
+    // this.itemsSubject.set(key, new BehaviorSubject<string>(val));
   }
   /**
    * Get Observable from localStorage
    */
   getItem(key$: string, before?: any): Observable<any> {
     const key = this._addPrefix(key$);
-    if (this.itemsSubject.has(key)) {
-      return this.itemsSubject.get(key).asObservable().share();
-    }
-    if (before) {
-      return new BehaviorSubject<any>(before).asObservable();
-    }
-    return;
+    const ob = new Observable((observer) => {
+      if (this.hasItem(key$)) {
+        observer.next(this.item(key$));
+      }
+      this.storageObservable.subscribe((e) => {
+        if (key === e.key) {
+          observer.next(e.value);
+        }
+      });
+    });
+    return ob;
   }
   /**
    * Get value from localstorage
@@ -88,7 +90,7 @@ export class MinimalLS {
   }
 
   private _addPrefix(val) {
-    return `{"${this._prefix}":"${val}"}`
+    return `{"${this._prefix}":"${val}"}`;
   }
   private _removePrefix(val) {
     try {
@@ -102,11 +104,4 @@ export class MinimalLS {
 @NgModule({
   providers: [MinimalLS]
 })
-export class MinimalLSModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: MinimalLSModule,
-      providers: [],
-    };
-  }
-}
+export class MinimalLSModule {}

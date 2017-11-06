@@ -5,6 +5,7 @@ import { ComponentsComponent } from './components/components.component';
 const routes: Routes = [
   { path: '', component: ComponentsComponent, children: [
     { path: 'button', loadChildren: './button-demo/button-demo.module#ButtonDemoModule' },
+    { path: 'drawer', loadChildren: './drawer-demo/drawer-demo.module#DrawerDemoModule' },
     { path: 'input', loadChildren: './input-demo/input-demo.module#InputDemoModule' },
     { path: 'tabs', loadChildren: './tabs-demo/tabs-demo.module#TabsDemoModule' },
     { path: 'radio', loadChildren: './radio-demo/radio-demo.module#RadioDemoModule' },

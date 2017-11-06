@@ -9,7 +9,9 @@ import {
   Optional,
   OnChanges,
   SimpleChanges,
-  SimpleChange } from '@angular/core';
+  ChangeDetectorRef,
+  SimpleChange
+} from '@angular/core';
 import { FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -55,9 +57,13 @@ export class LyFieldDirective implements OnChanges, OnDestroy {
     public elementRef: ElementRef,
     @Optional() @Self() public _ngControl: NgControl,
     @Optional() private _parentForm: NgForm,
-    @Optional() private _parentFormGroup: FormGroupDirective
+    @Optional() private _parentFormGroup: FormGroupDirective,
+    private cd: ChangeDetectorRef
   ) {
     this.elementRef.nativeElement.placeholder = '';
+  }
+  markForCheck() {
+    this.cd.markForCheck();
   }
 
   ngOnChanges(changes: {[floatLabel: string]: SimpleChange}) {

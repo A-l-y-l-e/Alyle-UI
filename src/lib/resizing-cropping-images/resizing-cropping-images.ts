@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import {
   Component,
   ElementRef,
@@ -10,400 +11,300 @@ import {
   OnChanges,
   ModuleWithProviders,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewChild,
+  AfterContentInit
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { exactPosition } from 'alyle-ui/core';
+export interface LyResizingCroppingImagesConfig {
+  width: number;
+  height: number;
+  format?: string;
+}
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false,
   selector: 'ly-cropping',
-  styleUrls: ['resizing-cropping-images.scss'],
-  template: `
-  <ng-content></ng-content>
-  <div class="content-img"
-  (mouseleave)="stateType='none'; crop();"
-  (mouseup)="stateType='none'; crop();"
-  (mouseenter)="stateType='none'; crop();"
-  (mousemove)="moveImg($event);"
-  (dblclick)="center();"
-  >
-    <div class="_img"
-    [class.NoNe]="imgDataUrl==undefined || imgDataUrl==null"
-    [style.top.px]="_top"
-    [style.left.px]="_left"
-    [bg]="'primary'"
-    [color]="'primary'"
-    (mousedown)="stateType='move'; startMove($event)"
-    (mouseup)="stateType='none'"
-    >
-      <img
-      [src]="imgDataUrl"
-      >
-      <span
-      class="r_nw"
-      (mousedown)="stateType='resize'; stateR='nw'"
-      (mouseup)="stateType='none'"
-      ></span>
-      <span
-      class="r_ne"
-      (mousedown)="stateType='resize'; stateR='ne'"
-      (mouseup)="stateType='none'"
-      ></span>
-      <span
-      class="r_se"
-      (mousedown)="stateType='resize'; stateR='se'"
-      (mouseup)="stateType='none'"
-      ></span>
-      <span
-      class="r_sw"
-      (mousedown)="stateType='resize'; stateR='sw'"
-      (mouseup)="stateType='none'"
-      ></span>
-    </div>
-    <div class="resize"
-    [style.width.px]="sizeW"
-    [style.height.px]="sizeH"
-    >
-    </div>
-  </div>
-  `,
-})
-export class ResizingCroppingImagesComponent implements OnChanges, ControlValueAccessor {
-  public _format = 'jpeg';
-  public img: string = null;
-  public imgDataUrl: string;
-  public origImg: string;
-  public sizeW = 230;
-  public sizeH = 150;
-  public sizeWmax = 720;
-  public sizeHmax = 720;
-  public stateMouse = false;
-  public stateType = 'none';
-  public stateR = 'none';
-  public centerX = 0;
-  public centerY = 0;
-  public imgWidth: number;
-  public imgHeight: number;
-  public imgCrop: any;
-  public percent = 100;
-  public imgUrl: string = null;
+  styleUrls: ['./resizing-cropping-images.scss'],
+  templateUrl: './resizing-cropping-images.html',
+ })
+export class LyResizingCroppingImages implements AfterContentInit {
+  img: Subject<HTMLImageElement> = new Subject<HTMLImageElement>();
+  result: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  fileName: string;
+  private newImg: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isNewImg: Observable<boolean> = this.newImg.asObservable();
+  private _img: HTMLImageElement;
+  private offset: {x: number, y: number, left: number, top: number};
+  private eventDirection: string;
+  private scale: number;
 
-  public _top = 0;
-  public _left = 0;
-  public _img: any = {};
-  public _src: string = null;
-  constructor(
-    private elementRef: ElementRef,
-    private cd: ChangeDetectorRef
-  ) {
+  @ViewChild('_imgContainer') imgContainer: ElementRef;
+  @ViewChild('_croppingContainer') croppingContainer: ElementRef;
+  @Input() src: string;
+  @Input() format: string;
+  @Input() config: LyResizingCroppingImagesConfig = {
+    width: 250,
+    height: 200,
+    format: 'png'
+  };
+  private _dragData: Subject<{width: string, height: string, transform: string}> = new Subject();
+  dragData: Observable<{width: string, height: string, transform: string}>;
+  private zoomScale = .1;
+  constructor(private elementRef: ElementRef, private cd: ChangeDetectorRef) {
+    this.dragData = this._dragData.asObservable();
+    const img = this.img;
+    img.subscribe((imgElement: HTMLImageElement) => {
+      this._img = imgElement;
+      /** set zoom scale */
+      const minScale = {
+        width: this.config.width / this._img.width * 100,
+        height: this.config.height / this._img.height * 100
+      };
+      this.zoomScale = Math.max(minScale.width, minScale.height) / 100;
+      this.fitToScreen();
+    });
   }
-
-  @Input('format')
-  public set format(value: string) {
-    this._format = value;
-  }
-  public get format(): string {
-    return this._format;
-  }
-  public ngOnChanges(changes: {[key: string]: SimpleChange}) {
-
-  }
-  public zoom(state: string) {
-    const W = this.elementRef.nativeElement.querySelector('._img').offsetWidth;
-    const H = this.elementRef.nativeElement.querySelector('._img').offsetHeight;
-    const oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
-    const oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
-    this.stateType = 'resize';
-    this.stateR = state;
-    this.resize(0, W, H, oTop, oLeft);
-  }
-  public startMove($e: any) {
-    const oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
-    const oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
-    this.centerX = $e.clientX -
-    offset(this.elementRef.nativeElement.querySelector('.content-img')).left - oLeft;
-    this.centerY = $e.clientY -
-    offset(this.elementRef.nativeElement.querySelector('.content-img')).top - oTop;
-  }
-  public moveImg($e: any) {
-    $e.preventDefault();
-    const W = this.elementRef.nativeElement.querySelector('._img').offsetWidth;
-    const H = this.elementRef.nativeElement.querySelector('._img').offsetHeight;
-    const oTop = this.elementRef.nativeElement.querySelector('._img').offsetTop;
-    const oLeft = this.elementRef.nativeElement.querySelector('._img').offsetLeft;
-    if (this.stateType === 'move') {
-
-      this._left = $e.clientX -
-      offset(this.elementRef.nativeElement.querySelector('.content-img')).left - (this.centerX);
-      this._top = -offset(this.elementRef.nativeElement.querySelector('.content-img')).top +
-      $e.clientY - (this.centerY);
-    } else if (this.stateType === 'resize') {
-      this.resize($e, W, H, oTop, oLeft);
+  selectInputEvent(img: Event) {
+    const _img = img.target as HTMLInputElement;
+    if (_img.files.length !== 1) {
+      return;
     }
-
+    const fileReader = new FileReader();
+    this.fileName = _img.value.replace(/.*(\/|\\)/, '');
+    fileReader.onload = (event: ProgressEvent) => {
+      this.src = (event.target as FileReader).result;
+      this.setImageUrl(this.src);
+    };
+    fileReader.readAsDataURL(_img.files[0]);
   }
-  public resize(ev$: any, W: any, H: any, oTop: any, oLeft: any) {
-    let _W: any, _H: any;
-    const contentImg = this.elementRef.nativeElement.querySelector('.content-img');
-    if (this.stateR === 'nw') {
-      this._left = -offset(contentImg).left + (ev$.clientX || ev$.pageY);
-      this._top = -offset(contentImg).top +
-      (ev$.clientY || ev$.pageX);
-      _W = Math.round(this.elementRef.nativeElement.querySelector('._img').offsetWidth -
-      (this._left - oLeft));
-      _H = Math.round(this.elementRef.nativeElement.querySelector('._img').offsetHeight -
-      (this._top - oTop));
-
-      if (ev$.shiftKey) {
-        this._top = (-offset(contentImg).top + (ev$.clientY ||
-          ev$.pageX)) - ((_W / this.imgWidth * this.imgHeight) - _H);
-      }
-    } else if (this.stateR === 'ne') {
-      this._left = oLeft;
-      this._top = -offset(contentImg).top +
-      (ev$.clientY || ev$.pageY);
-      _W = Math.round((-offset(contentImg).left +
-      (ev$.clientX || ev$.pageX)) - oLeft);
-      _H = Math.round(this.elementRef.nativeElement.querySelector('._img').offsetHeight -
-      (this._top - oTop));
-      if (ev$.shiftKey) {
-        this._top = (-offset(contentImg).top +
-        (ev$.clientY || ev$.pageY)) - ((_W / this.imgWidth * this.imgHeight) - _H);
-      }
-    } else if (this.stateR === 'se') {
-      this._left = oLeft;
-      this._top = oTop;
-      _W = (-offset(contentImg).left +
-      (ev$.clientX || ev$.pageX)) - oLeft;
-      _H = (-offset(contentImg).top +
-      (ev$.clientY || ev$.pageY)) - oTop;
-    } else if (this.stateR === 'sw') {
-      // console.log('event ne', ev$);
-      this._left = -offset(contentImg).left + (ev$.clientX || ev$.pageX);
-      this._top = oTop;
-      _W = Math.round(this.elementRef.nativeElement.querySelector('._img').offsetWidth -
-      (this._left - oLeft));
-      _H = Math.round((-offset(contentImg).top +
-      (ev$.clientY || ev$.pageY)) - oTop);
-    } else if (this.stateR === '-') {
-      _W = W / 2;
-      _H = H / 2;
-      this.stateType = 'none';
-      this._left = (contentImg.offsetWidth / 2) - _W / 2;
-      this._top = (contentImg.offsetHeight / 2) - _H / 2;
-      this.crop();
-    } else if (this.stateR === '+') {
-      _W = W * 2;
-      _H = H * 2;
-      this._left = (contentImg.offsetWidth / 2) - _W / 2;
-      this._top = (contentImg.offsetHeight / 2) - _H / 2;
-      this.stateType = 'none';
-      this.crop();
-    }
-    if (ev$.shiftKey) {
-      _H = _W / this.imgWidth * this.imgHeight;
-    }
-    const fileReader: any = new FileReader();
-    let img: any;
-    const origSrc: any = new Image();
-    const minWidth: any = 80; // Change as required
-    const minHeight: any = 80;
-    const maxWidth: any = 2400; // Change as required
-    const maxHeight: any = 2200;
-    const cropCanvas: any = document.createElement('canvas');
-    origSrc.src = this.origImg;
-    cropCanvas.width = _W;
-    cropCanvas.height = _H;
-    const ctx = cropCanvas.getContext('2d');
-    ctx.drawImage(origSrc,
-      0, 0,   // Start at 10 pixels from the left and the top of the image (crop),
-      _W, _H,   // "Get" a `80 * 30` (w * h) area from the source image (crop),
-      // 0, 0,     // Place the result at 0, 0 in the canvas,
-      // 100, 100, //...
-    );
-    this.imgDataUrl = cropCanvas.toDataURL(`image/${this._format}`);
-    // console.log(cropCanvas.toDataURL("image/jpeg"));
-    // console.log(origSrc.width,origSrc.height);
+  setScale(size: number) {
+    if (!(size > 0 && size <= 1)) { return; }
+    this.scale = size;
+    size = size * 100;
+    const img = this.imgContainer.nativeElement.firstElementChild;
+    const initialImg = this._img;
+    const width = initialImg.width * size / 100;
+    const height = initialImg.height * size / 100;
+    this._dragData.next({
+      width: `${width}px`,
+      height: `${height}px`,
+      transform: this.customCenter(width, height)
+    });
   }
-  get imgResult(): string {
-    return this.imgCrop;
-  }
-  public writeValue(value: any) {
-    // nothing
-  }
-  private _onTouchedCallback: () => void;
-
-  /** Callback registered via registerOnChange (ControlValueAccessor) */
-  private _onChangeCallback: (_: any) => void;
-
-  public registerOnTouched(fn: any) {
-    this._onTouchedCallback = fn;
-  }
-  public registerOnChange(fn: any) {
-    this._onChangeCallback = fn;
+  private customCenter(width: number, height: number) {
+    const root = this.elementRef.nativeElement as HTMLElement;
+    const w = (root.offsetWidth - width) / 2;
+    const h = (root.offsetHeight - height) / 2;
+    return `translate3d(${w}px, ${h}px, 0)`;
   }
 
   /**
-   * Load new image
+   * Ajustar a la pantalla
    */
-  public imgChange($event: any) {
-    // this._log.setLog('imgChange', $event);
-    // important add converter img to size of output
-    // important add converter img to size of output
-    this._img = $event.target.files[0];
-    this.img = $event.target.value.replace(/.*(\/|\\)/, '');
-    const fileReader = new FileReader();
-    let img: any;
-    const origSrc = new Image();
-    const minWidth = 80; // Change as required!!
-    const minHeight = 80;
-    const maxWidth = 2400; // Change as required
-    const maxHeight = 2200;
-    const cropCanvas = document.createElement('canvas');
-    const blank = `data:image/png;base64,iVBORw0KGg${
-      'oAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAU'
-    }AAarVyFEAAAAASUVORK5CYII=`;
-    fileReader.onload = (ev: any) => {
-
-      // this._log.setLog('ev', ev);
-      // this._log.setLog('$event.target.files', $event.target.files);
-      // this._log.setLog('$event.target.files', $event.target.files);
-      // this._log.setLog('$event.target.files[0].type', $event.target.files[0].type);
-      if ($event.target.files[0].type === 'image/jpeg' ||
-      $event.target.files[0].type === 'image/jpg' ||
-      $event.target.files[0].type === 'image/png' ||
-      $event.target.files[0].type === 'image/gif') {
-        this.imgDataUrl = ev.target.result;
-        this.origImg = ev.target.result;
-        origSrc.src = ev.target.result;
-        img = ev.target.result;
-      } else {
-        this.imgDataUrl = blank;
-        this.origImg = blank;
-        origSrc.src = blank;
-      }
-      this.imgWidth = origSrc.width;
-      this.imgHeight = origSrc.height;
-      this._left = (this.elementRef.nativeElement.querySelector('.content-img').offsetWidth / 2) -
-      this.imgWidth / 2;
-      this._top = (this.elementRef.nativeElement.querySelector('.content-img').offsetHeight / 2) -
-      this.imgHeight / 2;
-      const _img =  this.elementRef.nativeElement.querySelector('.content-img img');
-      this.crop();
-
-      _img.addEventListener('load', () => {
-        this.center();
-        _img.removeAllListeners();
-        this.cd.markForCheck();
-      });
-      // ctx.drawImage(origSrc, 0, 0);
-      // console.warn(origSrc.width);
+  fitToScreen() {
+    const container = this.elementRef.nativeElement as HTMLElement;
+    const min = {
+      width: container.offsetWidth,
+      height: container.offsetHeight
     };
-    fileReader.readAsDataURL($event.target.files[0]);
-    // console.log($event.target.files[0]);
+    const size = {
+      width: this._img.width,
+      height: this._img.height
+    };
+    const minScale = {
+      width: min.width / size.width * 100,
+      height: min.height / size.height * 100
+    };
+    const result = Math.max(minScale.width, minScale.height) / 100;
+    if (result >= 1) {
+      this.setScale(1);
+    } else {
+      this.setScale(result);
+    }
   }
-  public center() {
 
-    this.imgWidth = this.elementRef.nativeElement.querySelector('._img').offsetWidth;
-    this.imgHeight = this.elementRef.nativeElement.querySelector('._img').offsetHeight;
-    this._left = (this.elementRef.nativeElement.querySelector('.content-img').offsetWidth / 2) -
-    this.imgWidth / 2;
-    this._top = (this.elementRef.nativeElement.querySelector('.content-img').offsetHeight / 2) -
-    this.imgHeight / 2;
-    this.crop();
+  fit() {
+    const minScale = {
+      width: this.config.width / this._img.width * 100,
+      height: this.config.height / this._img.height * 100
+    };
+    this.setScale(Math.max(minScale.width, minScale.height) / 100);
   }
-  crop() {
-    let cropCanvas: any,
-    resize = this.elementRef.nativeElement.querySelector('.resize'),
-    left = offset(resize).left - offset(this.elementRef.nativeElement.querySelector('._img')).left,
-    top =  offset(resize).top - offset(this.elementRef.nativeElement.querySelector('._img')).top,
-    width = resize.offsetWidth,
-    height = resize.offsetHeight;
-    const origSrc = new Image();
-    origSrc.src = this.imgDataUrl;
-    cropCanvas = document.createElement('canvas');
-    cropCanvas.width = width;
-    cropCanvas.height = height;
-    cropCanvas.getContext('2d').drawImage(origSrc, left, top, width, height, 0, 0, width, height);
-    this.imgCrop = cropCanvas.toDataURL(`image/${this._format}`);
-    this.cd.markForCheck();
-    /**
-     * TODO: add eventListener
-     * 1. add element o replace
-     * 2. add eventListener
-     * 3. update changes
-     * 4. ...
-     */
+
+  _moveStart(event) {
+    this.eventDirection = null;
+    const rect = this.imgContainer.nativeElement.getBoundingClientRect();
+    const hostRect = this.elementRef.nativeElement.getBoundingClientRect();
+    let target;
+    if (event.type === 'touchstart') {
+      target = {
+        x: event.targetTouches[0].clientX,
+        y: event.targetTouches[0].clientY
+      };
+    } else {
+      target = {
+        x: event.clientX,
+        y: event.clientY
+      };
+    }
+    this.offset = {
+      x: target.x - rect.x,
+      y: target.y - rect.y,
+      left: (rect as ClientRect).left - hostRect.x,
+      top: (rect as ClientRect).top - hostRect.y
+    };
+  }
+  _move(event) {
+    if (event.additionalEvent) {
+      this.eventDirection = event.additionalEvent;
+    }
+    let x, y;
+    const hostRect = this.elementRef.nativeElement.getBoundingClientRect();
+    const rect = this.imgContainer.nativeElement.getBoundingClientRect();
+    if (event.srcEvent.shiftKey) {
+      // if (this.eventDirection === 'panleft' || this.eventDirection === 'panright') {
+      if (Math.abs(event.deltaX) === Math.max(Math.abs(event.deltaX), Math.abs(event.deltaY))) {
+        y = this.offset.top;
+      } else {
+        x = this.offset.left;
+      }
+    }
+    if (x === undefined) { x = event.center.x - hostRect.x - (this.offset.x); }
+    if (y === undefined) { y = event.center.y - hostRect.y - (this.offset.y); }
+
+    this._dragData.next({
+      width: this.imgContainer.nativeElement.offsetWidth,
+      height: this.imgContainer.nativeElement.offsetHeight,
+      transform: `translate3d(${x}px, ${y}px, 0)`
+    });
+  }
+  private roundNumber(num: number) {
+    return Math.round(num * 100000) / 100000;
+  }
+  /**+ */
+  zoomIn() {
+    const scale = this.roundNumber(this.scale + this.zoomScale);
+    if (scale > 0 && scale <= 1) {
+      this.setScale(scale);
+    } else {
+      this.setScale(1);
+    }
+  }
+  /**- */
+  zoomOut() {
+    const scale = this.roundNumber(this.scale - this.zoomScale);
+    if (scale > this.zoomScale && scale <= 1) {
+      this.setScale(scale);
+    } else {
+      this.fit();
+    }
+  }
+  ngAfterContentInit() {
+    this.setImageUrl(this.src);
+  }
+  center(img?: HTMLImageElement) {
+    if (!img) {
+      img = this.imgContainer.nativeElement.firstElementChild;
+    }
+    const root = this.elementRef.nativeElement as HTMLElement;
+    const w = (root.offsetWidth - img.width) / 2;
+    const h = (root.offsetHeight - img.height) / 2;
+    const result = {
+      width: `${img.width}px`,
+      height: `${img.height}px`,
+      transform: this.customCenter(img.width, img.height)
+    };
+    this._dragData.next(result);
+  }
+  setImageUrl(src: string) {
+    if (!src) { return; }
+    const img = new Image;
+    img.src = src;
+    img.onload = () => {
+      this.img.next(img);
+    };
+    this.newImg.next(true);
+  }
+  private max(...values: number[]) {
+    return Math.max(...values);
+  }
+
+  private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
+    let steps: any = Math.ceil(Math.log(this.max(img.width, img.height) / this.max(config.height, config.width)) / Math.log(2));
+    steps = Array.from(Array(steps <= 0 ? 0 : steps - 1).keys());
+    const octx = img.getContext('2d');
+    const w = img.width * quality,
+        h = img.height * quality;
+    const q = Math.pow(quality, (steps as Array<number>).length);
+    /**Steps */
+    (steps as Array<number>).forEach((a, b) => {
+      octx.drawImage(img,
+        0, 0,
+        img.width * quality, img.height * quality
+      );
+    });
+
+    const oc = document.createElement('canvas'),
+    ctx = oc.getContext('2d');
+
+    oc.width = config.width;
+    oc.height = config.height;
+    ctx.drawImage(img,
+      0, 0,
+      img.width * (q), img.height * (q),
+      0, 0,
+      config.width, config.height
+    );
+    return oc;
+
+
+    /// step 2
+    // oc.width = img.width * quality;
+    // oc.height = img.height * quality;
+    // octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+    /// step 2
+    // octx.drawImage(oc, 0, 0, oc.width * quality, oc.height * quality);
+  }
+
+  /**
+   * Cropp Image
+   */
+  cropp(): string {
+    const canvasElement: HTMLCanvasElement = document.createElement('canvas');
+    const rect = this.croppingContainer.nativeElement.getBoundingClientRect() as ClientRect;
+    const img = this.imgContainer.nativeElement.firstElementChild.getBoundingClientRect() as ClientRect;
+    const left = (rect.left - img.left);
+    const top = (rect.top - img.top);
+    const config = {
+      width: this.config.width,
+      height: this.config.height
+    };
+    const configCanvas = {
+      width: this._img.width,
+      height: this._img.height
+    };
+    canvasElement.width = config.width / this.scale;
+    canvasElement.height = config.height / this.scale;
+    canvasElement.getContext('2d').drawImage(this._img,
+      -(left / this.scale), -(top / this.scale),
+      configCanvas.width, configCanvas.height,
+      // 0, 0,
+      // this._img.width * this.scale, this._img.height * this.scale,
+    );
+    let result = canvasElement;
+    result = this.imageSmoothingQuality(result, config, 0.5);
+    const url = result.toDataURL(`image/${this.config.format}`);
+    this.result.next(url);
+    return url;
   }
 }
-
-
-
-
-function _GEToffset(e: any, contenedor: any) {
-  // Hallamos la posición relativa |posición elemento - posición real|
-  let x: any = contenedor.offsetLeft - e.pageX;
-  let y: any = contenedor.offsetTop - e.pageY;
-  // console.log('contenedor.offsetLeft',contenedor.offsetLeft);
-  // Hacemos el valor absoluto
-  x = Math.abs(x);
-  y = Math.abs(y);
-  // console.log("Eje X: " + x + " " + "Eje Y: " + y);
-  return {top: y, left: x};
-}
-
-function getOffset(element: any) {
-  if (typeof element === 'string') {
-    element = document.getElementById(element);
-  }
-
-  if (!element) {return { top: 0, left: 0 }; };
-
-  let y: any = 0;
-  let x: any = 0;
-  while (element.offsetParent) {
-    x += element.offsetLeft;
-    y += element.offsetTop;
-    element = element.offsetParent;
-  }
-
-  return {top: y, left: x};
-}
-function getOffsetx( el: any ) {
-    let _x: any = 0;
-    let _y: any = 0;
-    _x += (el.offsetLeft - el.scrollLeft) - document.querySelector('ly-app').scrollLeft;
-    _y += (el.offsetTop - el.scrollTop) - document.querySelector('ly-app').scrollTop;
-    return { top: _y, left: _x , xleft: el.offsetLeft, xtop: el.offsetTop};
-}
-
-
-
-// Find exact position of element
-   function isWindow(obj: any) {
-       return obj !== null && obj === obj.window;
-   }
-
-   function getWindow(elem: any) {
-       return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-   }
-
-   function offset(elem: any) {
-       let docElem: any, win: any,
-           box = {top: 0, left: 0},
-           doc = elem && elem.ownerDocument;
-
-       docElem = doc.documentElement;
-
-       if (typeof elem.getBoundingClientRect !== typeof undefined) {
-           box = elem.getBoundingClientRect();
-       }
-       win = getWindow(doc);
-       return {
-           top: box.top + win.pageYOffset - docElem.clientTop,
-           left: box.left + win.pageXOffset - docElem.clientLeft
-       };
-   }

@@ -12,6 +12,9 @@
       align-self: center;
     }
   }
+  .ly-hidden-input .ly-input-placeholder {
+    opacity: 0;
+  }
 }
 :host /deep/ input,
 :host /deep/ textarea {

@@ -12,4 +12,8 @@ export class MenuExample01Component implements OnInit {
   ngOnInit() {
   }
 
+  al(b) {
+    console.log(b);
+  }
+
 }

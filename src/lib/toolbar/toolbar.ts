@@ -27,9 +27,9 @@ export class ToolbarItem {}
   template: '<ng-content></ng-content>',
   styleUrls: ['toolbar.css', 'toolbar-item.css'],
 })
-export class LyToolbar implements OnInit, OnDestroy, BgAndColorStyle {
+export class LyToolbar implements OnInit, OnDestroy {
   private _bg = 'primary';
-  private _color = 'rgba(0, 0, 0, 0.60)';
+  private _color = 'main';
   private _subscription: Subscription;
   @HostBinding('style.background') styleBackground: string;
   @HostBinding('style.color') styleColor: string;
@@ -42,13 +42,13 @@ export class LyToolbar implements OnInit, OnDestroy, BgAndColorStyle {
   }
 
   @Input()
-  set bg(val: string) {
+  set toolbarBg(val: string) {
     this._bg = val;
     this.styleBackground = this.theme.color(this._bg);
   }
 
   @Input()
-  set color(val: string) {
+  set toolbarColor(val: string) {
     this._color = val;
     this.styleColor = this.theme.color(this._color);
   }
@@ -65,24 +65,6 @@ export class LyToolbar implements OnInit, OnDestroy, BgAndColorStyle {
       this._subscription.unsubscribe();
     }
   }
-  // theme.color(type: 'bg' | 'color', color: string, colors?: any): void {
-  //   switch (type) {
-  //     case 'color':
-  //     if (colors) {
-  //       this.styleColor = getColor(colors, color);
-  //     } else {
-  //       this.styleColor = getColor(this.theme.AlyleUI.palette, color);
-  //     }
-  //       break;
-  //     case 'bg':
-  //     if (colors) {
-  //       this.styleBackground = getColor(colors, color);
-  //     } else {
-  //       this.styleBackground = getColor(this.theme.AlyleUI.palette, color);
-  //     }
-  //       break;
-  //   }
-  // }
 }
 @NgModule({
   imports: [CommonModule],
@@ -91,9 +73,4 @@ export class LyToolbar implements OnInit, OnDestroy, BgAndColorStyle {
   providers: [LyStyleTheme]
 })
 export class LyToolbarModule {
-  public static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: LyToolbarModule,
-    };
-  }
 }

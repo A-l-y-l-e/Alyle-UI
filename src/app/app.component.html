@@ -1,13 +1,14 @@
 <!-- <div ly-deep scale="1" shadowColor="primary">s</div>
 <button ly-button color="colorText">hi</button> -->
 <ly-core root color="colorText" bg="bgText">
-  <div ly-deep scale="1" shadowColor="primary">
+  <div ly-deep class="header" scale="1" shadowColor="primary">
     <ly-toolbar bg="primary" color="#fff">
       <ly-icon-button (click)="nav.toggle()" *ngIf="!nav.sidenavState">
         <ly-svg src="assets/svg/ic_menu_48px.svg"></ly-svg>
       </ly-icon-button>
       <ly-toolbar-item class="logo">
-        <button ly-button sensitive color="#fff" [routerLink]="['./']">Alyle UI
+        <button ly-button sensitive color="#fff" [routerLink]="['./']">
+          Alyle UI
           <div class="version">v{{ version }}</div>
         </button>
       </ly-toolbar-item>
@@ -15,7 +16,11 @@
         <a href="https://www.npmjs.com/package/alyle-ui" target="_blank" ly-button bg="#fff" color="primary">npm</a>
       </ly-toolbar-item>
       <div [style.flex]="1"></div>
-      <button color="#fff" class="i-right" ly-button [ly-menu-trigger-for]="ThemeMenu">
+      <ly-toolbar-item class="av">
+        Angular version
+        <div class="version">{{ angularVersion.full }}</div>
+      </ly-toolbar-item>
+      <button color="#fff" class="i-right" ly-button [lyMenuTriggerFor]="ThemeMenu">
         <ly-icon-button size="16px" *ngIf="!nav.sidenavState">
           <ly-svg class="force-color" size="24px" src="assets/svg/Brush.svg"></ly-svg>
         </ly-icon-button>
@@ -39,19 +44,19 @@
       </button>
     </ly-toolbar>
   </div>
-  <main>
-    <ly-drawer class="drawer">
-      <ly-nav bg="main" #nav [opened]="router.url !== '/'" align="left" [mode]="'side'" #_left class="items">
-        <div *ngFor="let category of routesComponents">
-          <span class="category-name">{{ category.name }}</span>
-          <button ly-button class="nav-button" [routerLink]="[(category.name =='Components'?'/components/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</button>
-        </div>
-      </ly-nav>
+  <ly-drawer-container class="drawer">
+    <ly-drawer bg="main" #nav="lyDrawer" [opened]="routeState" [mode]="'side'" #_left class="items">
+      <div *ngFor="let category of routesComponents">
+        <span class="category-name">{{ category.name }}</span>
+        <button ly-button class="nav-button" [routerLink]="[(category.name =='Components'?'/components/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</button>
+      </div>
+    </ly-drawer>
+    <ly-drawer-content>
       <div class="app-container">
         <div class="demo">
           <router-outlet></router-outlet>
         </div>
       </div>
-    </ly-drawer>
-  </main>
+    </ly-drawer-content>
+  </ly-drawer-container>
 </ly-core>

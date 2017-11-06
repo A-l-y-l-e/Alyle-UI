@@ -7,8 +7,8 @@ function getWindow(elem: any) {
 }
 export function exactPosition(elem: HTMLElement) {
     let docElem: any, win: any,
-        box = {top: 0, left: 0},
-        doc = elem && elem.ownerDocument;
+        box = {top: 0, left: 0};
+    const doc = elem && elem.ownerDocument;
 
     docElem = doc.documentElement;
 

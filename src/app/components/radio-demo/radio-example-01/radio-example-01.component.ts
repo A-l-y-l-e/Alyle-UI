@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./radio-example-01.component.css']
 })
 export class RadioExample01Component implements OnInit {
-
+  val: string;
   constructor() { }
 
   ngOnInit() {

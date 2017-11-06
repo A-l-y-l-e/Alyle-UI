@@ -1,61 +1,25 @@
 :host {
-  position: relative;
   display: block;
-  text-align: inherit;
   overflow: hidden;
-  z-index: 11;
-  ._side {
-    pointer-events: none !important;
-    .ly-nav {
-      //z-index: 0;
-    }
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  position: relative;
+}
+:host /deep/ > ly-drawer-content {
+  height: 100%;
+  overflow: auto;
+  display: block;
+  &.ly--animation {
+    transition: 375ms cubic-bezier(.45, 0, .25, 1);
   }
 }
-:host /deep/ ly-nav._open._side > .side > .ly-nav {
-  z-index: 0;
-}
-:host /deep/ {
-  ._style {
-    display: none;
-  }
-  .ly-sidenav-backdrop {
-    display: none;
-  }
-  ._display {
-    display: block;
-  }
-  @mixin position {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: auto;
-  }
-
-  .ly-sidenav-backdrop {
-    position: absolute;
-    background: rgba(0, 0, 0, 0);
-    transition: 375ms cubic-bezier(0.23, 1, 0.32, 1);
-    pointer-events: none;
-    @include position;
-    z-index: 111;
-  }
-  ._open {
-    &.ly-sidenav-backdrop {
-      background: rgba(0, 0, 0, 0.5);
-      pointer-events: auto;
-    }
-  }
-
-  .full {
-    .ly-nav {
-      position: fixed;
-      @include position;
-    }
-  }
-  .ly-sidenav-content {
-    overflow: auto;
-    height: inherit;
-    width: inherit;
-  }
+.ly-drawer-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: .6;
+  z-index: 10;
+  user-select: none;
 }

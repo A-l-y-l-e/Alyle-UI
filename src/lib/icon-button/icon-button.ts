@@ -26,7 +26,6 @@ class RefState {
 }
 
 @Component({
-  // moduleId: module.id.toString(),
   selector: '[ly-icon-button], ly-icon-button',
   styleUrls: ['icon-button.style.scss'],
   host: {
@@ -89,7 +88,7 @@ export class LyIconButton implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('_lyRiple') ripple: LyRipple;
   @HostBinding('class.is-active') get _isActive(): boolean {
     return !(this._isActiveDown && this._isActiveFocus);
-  };
+  }
 
   constructor(
     public elementRef: ElementRef,
