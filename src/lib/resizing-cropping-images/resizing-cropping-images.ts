@@ -37,7 +37,7 @@ export interface LyResizingCroppingImagesConfig {
   templateUrl: './resizing-cropping-images.html',
  })
 export class LyResizingCroppingImages implements AfterContentInit {
-  img: Subject<HTMLImageElement> = new Subject<HTMLImageElement>();
+  img: BehaviorSubject<HTMLImageElement> = new BehaviorSubject<HTMLImageElement>(null);
   result: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   fileName: string;
   private newImg: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -46,6 +46,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   private offset: {x: number, y: number, left: number, top: number};
   private eventDirection: string;
   private scale: number;
+  private _src: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   @ViewChild('_imgContainer') imgContainer: ElementRef;
   @ViewChild('_croppingContainer') croppingContainer: ElementRef;
@@ -63,14 +64,17 @@ export class LyResizingCroppingImages implements AfterContentInit {
     this.dragData = this._dragData.asObservable();
     const img = this.img;
     img.subscribe((imgElement: HTMLImageElement) => {
-      this._img = imgElement;
-      /** set zoom scale */
-      const minScale = {
-        width: this.config.width / this._img.width * 100,
-        height: this.config.height / this._img.height * 100
-      };
-      this.zoomScale = Math.max(minScale.width, minScale.height) / 100;
-      this.fitToScreen();
+      if (imgElement) {
+        this._img = imgElement;
+        /** set zoom scale */
+        const minScale = {
+          width: this.config.width / this._img.width * 100,
+          height: this.config.height / this._img.height * 100
+        };
+        this.zoomScale = Math.max(minScale.width, minScale.height) / 100;
+        this.fit();
+        this.cd.markForCheck();
+      }
     });
   }
   selectInputEvent(img: Event) {
@@ -78,12 +82,18 @@ export class LyResizingCroppingImages implements AfterContentInit {
     if (_img.files.length !== 1) {
       return;
     }
-    const fileReader = new FileReader();
+    const fileReader: FileReader = new FileReader();
     this.fileName = _img.value.replace(/.*(\/|\\)/, '');
-    fileReader.onload = (event: ProgressEvent) => {
-      this.src = (event.target as FileReader).result;
+    fileReader.addEventListener('loadend', (loadEvent) => {
+      this.src = (loadEvent.target as FileReader).result;
       this.setImageUrl(this.src);
-    };
+      this.cd.markForCheck();
+    });
+    // fileReader.onload = (event: ProgressEvent) => {
+    //   // this.src = (event.target as FileReader).result;
+    //   // this.setImageUrl(this.src);
+    //   // this.cd.markForCheck();
+    // };
     fileReader.readAsDataURL(_img.files[0]);
   }
   setScale(size: number) {
@@ -229,10 +239,11 @@ export class LyResizingCroppingImages implements AfterContentInit {
     if (!src) { return; }
     const img = new Image;
     img.src = src;
-    img.onload = () => {
+    img.addEventListener('load', () => {
       this.img.next(img);
-    };
-    this.newImg.next(true);
+      this.newImg.next(true);
+      this.cd.markForCheck();
+    });
   }
   private max(...values: number[]) {
     return Math.max(...values);
@@ -265,15 +276,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
       config.width, config.height
     );
     return oc;
-
-
-    /// step 2
-    // oc.width = img.width * quality;
-    // oc.height = img.height * quality;
-    // octx.drawImage(img, 0, 0, oc.width, oc.height);
-
-    /// step 2
-    // octx.drawImage(oc, 0, 0, oc.width * quality, oc.height * quality);
   }
 
   /**

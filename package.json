@@ -7,7 +7,8 @@
     "start": "ng serve --port 1111 --no-aot",
     "build": "ng build --target -prod --extract-css",
     "deploy": "firebase deploy --only \"hosting\"",
-    "compile": "gulp compile",
+    "build:package": "gulp build:package",
+    "publish:package": "yarn build && yarn deploy && yarn build:package && yarn publish",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

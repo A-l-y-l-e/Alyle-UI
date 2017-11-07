@@ -7,7 +7,7 @@ import {
   LyTheme,
   AlyleServiceConfig } from 'alyle-ui/core';
 
-export const AUI_VERSION = '1.4.5';
+export const AUI_VERSION = '1.4.6';
 
 @NgModule({
   imports: [LyCoreModule.forRoot()],

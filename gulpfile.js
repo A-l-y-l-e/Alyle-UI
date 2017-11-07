@@ -42,7 +42,7 @@ gulp.task('inline-resources', function () {
  * 3. Run the Angular compiler, ngc, on the /.tmp folder. This will output all
  *    compiled modules to the /build folder.
  */
-gulp.task('ngc:packpage', function () {
+gulp.task('ngc:package', function () {
   var configPath = `${tmpFolder}/tsconfig.es5.json`;
   var ngc = path.resolve('./node_modules/.bin/ngc');
   var childProcess = child_process.spawn(ngc, ['-p', configPath], {shell: true});
@@ -128,6 +128,12 @@ gulp.task('rollup:umd', function () {
     .pipe(gulp.dest(buildFolder));
 });
 
+/**copy package.json to dist */
+gulp.task('copy:package', function () {
+  return gulp.src([`${libFolder}/package.json`])
+    .pipe(gulp.dest(buildFolder));
+});
+
 /**
  * Fix name package
  */
@@ -135,12 +141,13 @@ gulp.task('...', function(){
   return;
 });
 
-gulp.task('compile', function () {
+gulp.task('build:package', function () {
   runSequence(
     'copy:source',
     'inline-resources',
-    'ngc:packpage',
+    'ngc:package',
     'rollup:umd',
+    'copy:package',
     '...',
     function (err) {
       if (err) {

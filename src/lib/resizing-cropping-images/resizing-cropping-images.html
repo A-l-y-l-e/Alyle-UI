@@ -1,4 +1,4 @@
-<div #_croppingContainer *ngIf="img | async; else content" class="ly-cropping-container" [ngStyle]="{
+<div #_croppingContainer *ngIf="isNewImg | async; else content" class="ly-cropping-container" [ngStyle]="{
     width: config.width + 'px',
     height: config.height + 'px'
 }"></div>
@@ -7,7 +7,7 @@
 (touchstart)="_moveStart($event)"
 (mousedown)="_moveStart($event)"
 [ngStyle]="dragData | async">
-  <img *ngIf="img | async"
+  <img *ngIf="isNewImg | async"
   [src]="src">
 </div>
 <ng-template #content>
