@@ -183,6 +183,7 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
   }
   ngAfterContentInit() {
     if (this._field) {
+      this.currentValue = this._field._ngControl.value;
       if (this._field._ngControl && this._field._ngControl.valueChanges) {
         this._field._ngControl.valueChanges.subscribe((val: any) => {
           this.currentValue = val;
