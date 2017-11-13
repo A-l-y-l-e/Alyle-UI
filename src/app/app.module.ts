@@ -58,43 +58,43 @@ export class MyHammerConfig extends HammerGestureConfig {
       },
       palette: {
         'pink': {
-          color: { '500': '#ff4b73' },
+          '500': '#ff4b73',
           contrast: 'light'
         },
         'pinkLight': {
-          color: { '500': '#f50057' },
+          '500': '#f50057',
           contrast: 'light'
         },
         'cyan': {
-          color: { '500': '#00bcd4' },
+          '500': '#00bcd4',
           contrast: 'light'
         },
         'red': {
-          color: { '500': '#FF5252' },
+          '500': '#FF5252',
           contrast: 'light'
         },
         'amber': {
-          color: { '500': '#ffc107' },
+          '500': '#ffc107',
           contrast: 'dark'
         },
         'teal': {
-          color: { '500': '#009688' },
+          '500': '#009688',
           contrast: 'light'
         },
         'purple': {
-          color: { '500': '#ce30c9' },
+          '500': '#ce30c9',
           contrast: 'light'
         },
         'lightBlue': {
-          color: { '500': '#03A9F4' },
+          '500': '#03A9F4',
           contrast: 'light'
         },
         'blue': {
-          color: { '500': '#2196F3' },
+          '500': '#2196F3',
           contrast: 'light'
         },
         'deepOrange': {
-          color: { '500': '#FF5722' },
+          '500': '#FF5722',
           contrast: 'light'
         },
       }

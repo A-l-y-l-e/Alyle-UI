@@ -18,8 +18,7 @@ export class ResizingCroppingImagesExample01Component implements AfterViewInit {
   constructor() {
     this.myConfig = {
       width: 150, // Default `250`
-      height: 150, // Default `200`
-      format: 'jpeg' // Default `png`
+      height: 150 // Default `200`
     };
   }
 

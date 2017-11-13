@@ -18,25 +18,22 @@ export class ThemeColor {
   contrast: 'light' | 'dark';
 }
 export interface Scheme {
-  name: 'light' | 'dark',
+  name: 'light' | 'dark';
   colorContrast: string;
 }
 /**
  * DEPRECATED
  */
 export function themeProperty(color: string): boolean {
-  if (color == 'primary' || color == 'accent' || color == 'other') {
-    return true;
-  }
-  return false;
+  return color === 'primary' || color === 'accent' || color === 'other';
 }
 
-export function getContrastYIQ(hexcolor){
-	const r = parseInt(hexcolor.substr(0, 2), 16);
-	const g = parseInt(hexcolor.substr(2, 2), 16);
-	const b = parseInt(hexcolor.substr(4, 2), 16);
-	const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-	return (yiq >= 128) ? 'black' : 'white';
+export function getContrastYIQ(hexcolor) {
+  const r = parseInt(hexcolor.substr(0, 2), 16);
+  const g = parseInt(hexcolor.substr(2, 2), 16);
+  const b = parseInt(hexcolor.substr(4, 2), 16);
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  return (yiq >= 128) ? 'black' : 'white';
 }
 
 export function getColor(colors: any, color: string, shade: string): string {
@@ -61,9 +58,9 @@ export class LyTheme {
   /* tslint:disable */
   AlyleUI: {currentTheme: AlyleServiceConfig, palette: any};
   /* tslint:enable */
-  primary: Subject<ThemeColor>;
-  accent: Subject<ThemeColor>;
-  other: Subject<ThemeColor>;
+  primary: Subject<any>;
+  accent: Subject<any>;
+  other: Subject<any>;
   palette: Subject<any>;
   scheme: Subject<any>;
   typography: Subject<any>;
@@ -75,52 +72,52 @@ export class LyTheme {
   [
     {
       name: 'pink',
-      color: { 500: '#ff4b73' },
+      color: { '500': '#ff4b73' },
       contrast: 'light'
     },
     {
       name: 'pinkLight',
-      color: { 500: '#f50057' },
+      color: { '500': '#f50057' },
       contrast: 'light'
     },
     {
       name: 'cyan',
-      color: { 500: '#00bcd4' },
+      color: { '500': '#00bcd4' },
       contrast: 'light'
     },
     {
       name: 'red',
-      color: { 500: '#FF5252' },
+      color: { '500': '#FF5252' },
       contrast: 'light'
     },
     {
       name: 'amber',
-      color: { 500: '#ffc107' },
+      color: { '500': '#ffc107' },
       contrast: 'dark'
     },
     {
       name: 'teal',
-      color: { 500: '#009688' },
+      color: { '500': '#009688' },
       contrast: 'light'
     },
     {
       name: 'purple',
-      color: { 500: '#ce30c9' },
+      color: { '500': '#ce30c9' },
       contrast: 'light'
     },
     {
       name: 'lightBlue',
-      color: { 500: '#03A9F4' },
+      color: { '500': '#03A9F4' },
       contrast: 'light'
     },
     {
       name: 'blue',
-      color: { 500: '#2196F3' },
+      color: { '500': '#2196F3' },
       contrast: 'light'
     },
     {
       name: 'deepOrange',
-      color: { 500: '#FF5722' },
+      color: { '500': '#FF5722' },
       contrast: 'light'
     },
   ];
@@ -138,10 +135,12 @@ export class LyTheme {
   }
 
   private _setColorPalette(key: string, palette: any): any {
-    const colors = palette[key];
+    let colors = palette[key];
     if (colors) {
-      if (Object.keys(colors.color).length === 1) {
-        colors.color = this.createShades(colors.color[(Object.keys(colors.color)[0])]);
+      if (Object.keys(colors).length <= 2) {
+        /**get color of first item  */
+        const shades = this.createShades(colors[(Object.keys(colors)[0])]);
+        colors = objectAssignDeep(colors, shades);
       }
       return colors;
     } else {
@@ -150,6 +149,7 @@ export class LyTheme {
   }
 
   constructor(@Optional() config: AlyleServiceConfig, private sanitizer: DomSanitizer) {
+
     config = objectAssignDeep(defaultTheme as AlyleServiceConfig, config);
     const primary    = this._setColorPalette(config.primary, config.palette);
     const accent     = this._setColorPalette(config.accent, config.palette);
@@ -157,17 +157,17 @@ export class LyTheme {
     const shade      = config.shade;
     const scheme     = config.schemes[config.colorScheme];
     const typography = config.typography;
-    if (config.palette) {
-      if (config.palette[config.primary]) {
-        primary.color = config.palette[config.primary].color;
-      }
-      if (config.palette[config.accent]) {
-        accent.color = config.palette[config.accent].color;
-      }
-      if (config.palette[config.other]) {
-        other.color = config.palette[config.other].color;
-      }
-    }
+    // if (config.palette) {
+    //   if (config.palette[config.primary]) {
+    //     primary = config.palette[config.primary];
+    //   }
+    //   if (config.palette[config.accent]) {
+    //     accent = config.palette[config.accent];
+    //   }
+    //   if (config.palette[config.other]) {
+    //     other = config.palette[config.other];
+    //   }
+    // }
 
     let getAllColors = {
       primary: primary,
@@ -179,22 +179,19 @@ export class LyTheme {
     getAllColors = objectAssignDeep(getAllColors, scheme);
 
     // this.createShades(primary.color[shade]);
-
-    this.primary = new BehaviorSubject<ThemeColor>(primary);
-    this.accent = new BehaviorSubject<ThemeColor>(accent);
-    this.other = new BehaviorSubject<ThemeColor>(other);
-    this.scheme = new BehaviorSubject<any>(scheme);
-    this.typography = new BehaviorSubject<any>(typography);
-    this.shade = new BehaviorSubject<string>(shade);
-    this.palette = new BehaviorSubject<any>(getAllColors);
-
-
     /* tslint:disable */
     this.AlyleUI = {
       currentTheme: config,
       palette: getAllColors,
     }
     /* tslint:enable */
+    this.primary = new BehaviorSubject<any>(primary);
+    this.accent = new BehaviorSubject<any>(accent);
+    this.other = new BehaviorSubject<any>(other);
+    this.scheme = new BehaviorSubject<any>(scheme);
+    this.typography = new BehaviorSubject<any>(typography);
+    this.shade = new BehaviorSubject<any>(shade);
+    this.palette = new BehaviorSubject<any>(getAllColors);
 
   }
 
@@ -239,17 +236,6 @@ export class LyTheme {
       const shade      = config.shade;
       const scheme     = config.schemes[config.colorScheme];
       const typography = config.typography;
-      if (config.palette) {
-        if (config.palette[config.primary]) {
-          primary.color = config.palette[config.primary].color;
-        }
-        if (config.palette[config.accent]) {
-          accent.color = config.palette[config.accent].color;
-        }
-        if (config.palette[config.other]) {
-          other.color = config.palette[config.other].color;
-        }
-      }
 
       let getAllColors = {
         primary: primary,
@@ -260,6 +246,12 @@ export class LyTheme {
 
       // this.createShades(primary.color[shade]);
 
+      /* tslint:disable */
+      this.AlyleUI = {
+        currentTheme: config,
+        palette: getAllColors
+      }
+      /* tslint:enable */
       this.primary.next(primary);
       this.accent.next(accent);
       this.other.next(other);
@@ -267,13 +259,6 @@ export class LyTheme {
       this.typography.next(typography);
       this.shade.next(shade);
       this.palette.next(getAllColors);
-
-      /* tslint:disable */
-      this.AlyleUI = {
-        currentTheme: config,
-        palette: getAllColors
-      }
-      /* tslint:enable */
     }
   }
 
@@ -285,10 +270,36 @@ export class LyTheme {
    * @return {string}         Color hex
    */
   color(color: string, colors?: any, shade?: string): string {
+    console.warn('DEPRECATED');
     const $shade = shade ? shade : this.AlyleUI.currentTheme.shade;
     let result: string;
     result = this.getColorv2(color, colors, $shade);
     return result;
+  }
+  /**
+   * get color of `string` in palette
+   * @param value
+   */
+  colorOf(value: string): string {
+    const theme = this.AlyleUI.palette;
+    const shade = this.AlyleUI.currentTheme.shade;
+    if (themeProperty(value)) {
+      return theme[value][shade];
+    } else {
+      let current = theme;
+      const values = value.split(/:/);
+      values.forEach((item, index) => {
+        if (current[item]) {
+          current = current[item];
+        } else if (index > 0) {
+          throw new Error(`\n\n>>>\`${value}\` undefined in LyTheme\n`);
+        }
+      });
+      if (typeof current === 'object') {
+        current = value;
+      }
+      return current;
+    }
   }
 
   private getColorv2(colorName: string, colors: any, shade?: string): string {

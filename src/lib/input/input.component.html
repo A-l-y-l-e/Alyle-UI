@@ -1,43 +1,45 @@
-<div class="ly-input-container" [class.ly-invalid]="_isErrorState()">
-  <ng-content select="ly-before"></ng-content>
-  <div class="ly-input-content" [class.ly-hidden-input]="!(_inputState | async)">
-    <ng-content select="input, textarea"></ng-content>
-    <div class="ly-input-underline">
-      <span
-      [class.ly-input-underline-focused]="focused"
-      [class.ly-input-underline-color-default]="!focused"
-      [class.ly-disabled]="disabled"
-      [color]="color"></span>
+<ng-content select="ly-before"></ng-content>
+<div class="ly-input-underline"
+[color]="inputColor"
+bg="input:underline"></div>
+<div class="ly-input-container">
+  <ng-content select="input, textarea"></ng-content>
+  <!-- ly-placeholder -->
+  <ng-container *ngIf="placeholder; then isPlaceholderTemplate; else placeholderContainer"></ng-container>
+  <ng-template #isPlaceholderTemplate>
+    <div *ngIf="placeholder !== undefined && placeholderState" color="input:label" class="ly-input-placeholder">{{ placeholder }}</div>
+  </ng-template>
+  <ng-template #placeholderContainer>
+    <div *ngIf="lyPlaceholder !== undefined && placeholderState" color="input:label" class="ly-input-placeholder">
+      <ng-content select="ly-placeholder"></ng-content>
     </div>
-    <label class="ly-input-floatlabel">
-      <span
-      [class.ly-input-floatlabel-focused]="focused ||_valState || isFloatLabel"
-      [class.ly-input-floatlabel-color-default]="!focused"
-      [color]="color"
-      *ngIf="_hasFloatlabel()"
-      >{{ floatLabel }}<a *ngIf="disabled"> (disabled) </a></span>
-    </label>
-    <label class="ly-input-placeholder">
-      <span
-      [class.ly-input-placeholder-focused]="!_valState"
-      [class.ly-input-placeholder-active]="!!floatLabel && !focused && !isFloatLabel"
-      [class.ly-input-placeholder-color-defaultx]="_valState"
-      *ngIf="_hasPlaceHolder() || !!default"
-      >{{ placeholder }}
-    </span>
-    <span
-    [class.ly-input-placeholder-focused]="!_valState"
-    *ngIf="default">{{ 'Default: ' + default }}</span>
-    </label>
-    <div class="ly-required" *ngIf="required">*</div>
-    <div class="bottom-field" *ngIf="!_isErrorState()">
-      <ng-content select="ly-hint[align=start], ly-hint:not(ly-hint[align])"></ng-content>
-      <span class="bottom-field-space"></span>
-      <ng-content select="ly-hint[align=end]"></ng-content>
+  </ng-template>
+  <!-- ly-default -->
+  <ng-container *ngIf="default; then isDefaultTemplate"></ng-container>
+  <ng-template #isDefaultTemplate>
+    <div *ngIf="!(lyDefault !== undefined) && defaultOff" color="input:label" class="ly-input-default">Default: {{ default }}</div>
+    <div *ngIf="lyDefault !== undefined && defaultOff" color="input:label" class="ly-input-default">
+      <ng-content select="ly-default"></ng-content>{{ default }}
     </div>
-    <div class="ly-error-container" *ngIf="_isErrorState()">
-      <ng-content select="ly-error"></ng-content>
+  </ng-template>
+  <!-- ly-label -->
+  <ng-container *ngIf="label; then _isLabelTemplate; else labelContainer"></ng-container>
+  <ng-template #_isLabelTemplate>
+    <div *ngIf="label !== undefined" color="input:label" class="ly-input-float-label">{{ label }}</div>
+  </ng-template>
+  <ng-template #labelContainer>
+    <div *ngIf="lyLabel" color="input:label" class="ly-input-float-label">
+      <ng-content select="ly-label"></ng-content>
     </div>
-  </div>
-  <ng-content select="ly-after"></ng-content>
+  </ng-template>
 </div>
+<div class="ly-icon-required" *ngIf="required"></div>
+<div class="bottom-field" *ngIf="!_isErrorState()">
+  <ng-content select="ly-hint[align=start], ly-hint:not(ly-hint[align])"></ng-content>
+  <span class="bottom-field-space"></span>
+  <ng-content select="ly-hint[align=end]"></ng-content>
+</div>
+<div class="bottom-field" *ngIf="_isErrorState()">
+  <ng-content select="ly-error"></ng-content>
+</div>
+<ng-content select="ly-after"></ng-content>

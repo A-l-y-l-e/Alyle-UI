@@ -27,7 +27,7 @@ import { exactPosition } from 'alyle-ui/core';
 export interface LyResizingCroppingImagesConfig {
   width: number;
   height: number;
-  format?: string;
+  type?: string;
 }
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,9 +54,9 @@ export class LyResizingCroppingImages implements AfterContentInit {
   @Input() format: string;
   @Input() config: LyResizingCroppingImagesConfig = {
     width: 250,
-    height: 200,
-    format: 'png'
+    height: 200
   };
+  private defaultType: string;
   private _dragData: Subject<{width: string, height: string, transform: string}> = new Subject();
   dragData: Observable<{width: string, height: string, transform: string}>;
   private zoomScale = .1;
@@ -84,6 +84,9 @@ export class LyResizingCroppingImages implements AfterContentInit {
     }
     const fileReader: FileReader = new FileReader();
     this.fileName = _img.value.replace(/.*(\/|\\)/, '');
+    if (!this.config.type) {
+      this.defaultType = _img.files[0].type;
+    }
     fileReader.addEventListener('loadend', (loadEvent) => {
       this.src = (loadEvent.target as FileReader).result;
       this.setImageUrl(this.src);
@@ -305,7 +308,12 @@ export class LyResizingCroppingImages implements AfterContentInit {
     );
     let result = canvasElement;
     result = this.imageSmoothingQuality(result, config, 0.5);
-    const url = result.toDataURL(`image/${this.config.format}`);
+    let url;
+    if (this.config.type) {
+      url = result.toDataURL(`image/${this.config.type}`);
+    } else {
+      url = result.toDataURL(this.defaultType);
+    }
     this.result.next(url);
     return url;
   }

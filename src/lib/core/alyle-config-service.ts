@@ -13,22 +13,24 @@ export class AlyleServiceConfig {
       disabled?: string,
       bgText?: string,
       main?: string,
-      [key: string]: string
+      [key: string]: {
+        [key: string]: any
+      } | string
     },
     dark: {
       colorText?: string,
       disabled?: string,
       bgText?: string,
       main?: string,
-      [key: string]: string
+      [key: string]: {
+        [key: string]: any
+      } | string
     }
   };
   shade?: string;
   palette?: {
     [key: string]: {
-      color?: {
-        [key: string]: string
-      } | string,
+      [key: string]: {[key: string]: string} | string,
       contrast?: string
     }
   };

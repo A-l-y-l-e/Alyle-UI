@@ -5,11 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './bg-color-demo-01.component.html',
   styleUrls: ['./bg-color-demo-01.component.css']
 })
-export class BgColorDemo01Component implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class BgColorDemo01Component { }

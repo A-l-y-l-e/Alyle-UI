@@ -25,21 +25,16 @@ export class LyBg implements OnInit, OnDestroy {
   ngOnInit() {
     this._subscription = this.theme.palette.subscribe((colors: any) => {
       this.cd.markForCheck();
-      this._styleBackground = this.theme.color(this._bg, colors, this._shade);
+      this._styleBackground = this.theme.colorOf(this._bg);
     });
   }
 
-
-
   @Input('bg')
   set bg(color: string) {
-    if (!color) return;
-    const _color: any = color.split(/:/);
-    this._bg = _color[0];
-    this._styleBackground = this.theme.color(this._bg, false, _color[1]);
-    if (_color[1]) {
-      this._shade = _color[1];
-    }
+    if (!color) { return; }
+    this._bg = color;
+    const shade = this.theme.AlyleUI.currentTheme.shade;
+    this._styleBackground = this.theme.colorOf(this._bg);
   }
 
   ngOnDestroy() {

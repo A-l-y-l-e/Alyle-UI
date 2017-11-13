@@ -13,26 +13,25 @@ import {
   SimpleChange
 } from '@angular/core';
 import { FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
 @Directive({
   selector: 'ly-input input, ly-textarea textarea'
 })
 export class LyFieldDirective implements OnChanges, OnDestroy {
-  focusState: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  focusState: Subject<boolean> = new Subject();
   focused: boolean;
   private _disabled = false;
   private _required = false;
   private _placeholder: string;
+  @Input() type: string;
   @HostListener('focus', ['true']) focus(isFocused: boolean) {
     this.focusState.next(isFocused);
   }
   @HostListener('blur', ['false']) private _blur(isFocused: boolean) {
     this.focusState.next(isFocused);
   }
-  @HostListener('input') private _noop() {
-
-  }
+  @HostListener('input') private _noop() { }
 
   @Input()
   get disabled() { return this._ngControl ? this._ngControl.disabled : this._disabled; }
@@ -41,27 +40,13 @@ export class LyFieldDirective implements OnChanges, OnDestroy {
   get required() { return this._ngControl ? this._ngControl.invalid : this._required; }
   set required(value: any) { this._required = !!(value); }
 
-  @Input() placeholder: string;
-  @Input() type = 'text';
-  // @Input()
-  // get placeholder(): string {
-  //   return this._placeholder;
-  // }
-  // set placeholder(val: string) {
-  //   this._placeholder = val;
-  // }
-
-  @Input() floatLabel: string;
-
   constructor(
     public elementRef: ElementRef,
     @Optional() @Self() public _ngControl: NgControl,
     @Optional() private _parentForm: NgForm,
     @Optional() private _parentFormGroup: FormGroupDirective,
     private cd: ChangeDetectorRef
-  ) {
-    this.elementRef.nativeElement.placeholder = '';
-  }
+  ) {}
   markForCheck() {
     this.cd.markForCheck();
   }

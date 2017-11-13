@@ -1,19 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { AUI_VERSION } from 'alyle-ui';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'input-demo-example-01',
   templateUrl: './input-demo-example-01.component.html',
-  styleUrls: ['./input-demo-example-01.component.css']
+  styleUrls: ['./input-demo-example-01.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false
 })
-export class InputDemoExample01Component implements OnInit {
+export class InputDemoExample01Component {
   value = 'Alyle UI';
-  version: string = AUI_VERSION;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
 }

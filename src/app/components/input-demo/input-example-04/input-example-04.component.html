@@ -1,9 +1,8 @@
-<form novalidate (ngSubmit)="onSubmit()" #exampleForm="ngForm">
-  <ly-input>
-    <input [(ngModel)]="example" name="example" type="text" placeholder="Name" required minlength="4">
-    <ly-hint align="start">hint</ly-hint>
-    <ly-hint align="end">hint2</ly-hint>
-    <ly-error>Error state</ly-error>
-  </ly-input>
-  <button type="submit" [disabled]="!exampleForm.form.valid" ly-button>submit</button>
-</form>
+<ly-text-field>
+  <input [formControl]="email" required type="text" required>
+  <ly-label>Email</ly-label>
+  <ly-placeholder>example<b>@</b>domain.com</ly-placeholder>
+  <ly-hint align="start">hint</ly-hint>
+  <ly-hint align="end">hint2</ly-hint>
+  <ly-error *ngIf="email.invalid">{{ getErrorMessage() }}</ly-error>
+</ly-text-field>

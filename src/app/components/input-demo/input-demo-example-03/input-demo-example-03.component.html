@@ -1,9 +1,9 @@
 <h4>Github</h4>
-<ly-input floatLabel="github">
+<a (click)="_github.select()" ly-icon-button>
+  <ly-svg src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
+</a>
+<ly-input label="github">
   <ly-before>
-    <a (click)="_github.select()" ly-icon-button>
-      <ly-svg src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
-    </a>
     <span>github.com/</span>
   </ly-before>
   <input #_github [(ngModel)]="github">
@@ -14,21 +14,21 @@
   </ly-after>
 </ly-input>
 <h4>Mobile</h4>
-<ly-input class="mobile">
+<a ly-icon-button (click)="_mobile.focus()">
+  <ly-svg src="assets/svg/Mobile"></ly-svg>
+</a>
+<ly-input class="mobile" placeholder="Mobile">
   <ly-before>
-    <a ly-icon-button (click)="_mobile.focus()">
-      <ly-svg src="assets/svg/Mobile.svg"></ly-svg>
-    </a>
     <span>+51</span>
   </ly-before>
-  <input #_mobile [(ngModel)]="mobile" placeholder="Mobile" type="text">
+  <input #_mobile [(ngModel)]="mobile" type="number">
 </ly-input>
 <h4>Message</h4>
-<ly-textarea>
+<ly-textarea label="Message" placeholder="Hi...">
   <ly-before>
     <a ly-icon-button (click)="_message.select()">
-      <ly-svg src="assets/svg/ic_mail_outline_48px.svg"></ly-svg>
+      <ly-svg src="assets/svg/ic_mail_outline_48px"></ly-svg>
     </a>
   </ly-before>
-  <textarea #_message [(ngModel)]="message" placeholder="Hi..." floatLabel="Message"></textarea>
+  <textarea #_message [(ngModel)]="message"></textarea>
 </ly-textarea>

@@ -66,7 +66,7 @@ export class LyButton implements OnDestroy, OnChanges {
   private stateH = true;
   private timePress: any;
   private itemM = document.createElement('div');
-  private _color: string;
+  private _color = 'colorText';
   private _deep: any = false;
   private _bg = 'rgba(0, 0, 0, 0)';
   private e: any;
@@ -137,17 +137,14 @@ export class LyButton implements OnDestroy, OnChanges {
     }
   }
   ngOnInit() {
-    if (!this._color) {
-      this._color = 'colorText';
-    }
 
     this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.styleBackground = this.theme.color(this._bg, colors);
+      this.styleBackground = this.theme.colorOf(this._bg);
       // Actualizar color segun backgroundf
       if (themeProperty(this._bg)) {
         this.styleColor = '#fff';
       } else {
-        this.styleColor = this.theme.color(this._color, colors);
+        this.styleColor = this.theme.colorOf(this._color);
       }
       this.shadowButton();
     });
@@ -211,11 +208,11 @@ export class LyButton implements OnDestroy, OnChanges {
   @Input()
   set bg(val: string) {
     this._bg = val;
-    this.styleBackground = this.theme.color(this._bg);
+    this.styleBackground = this.theme.colorOf(this._bg);
     if (themeProperty(this._bg)) {
       this.styleColor = '#fff';
     } else {
-      this.styleColor = this.theme.color(this._color);
+      this.styleColor = this.theme.colorOf(this._color);
     }
   }
 
@@ -225,7 +222,7 @@ export class LyButton implements OnDestroy, OnChanges {
     if (themeProperty(this._bg)) {
       this.styleColor = '#fff';
     } else {
-      this.styleColor = this.theme.color(this._color);
+      this.styleColor = this.theme.colorOf(this._color);
     }
   }
   @Input()

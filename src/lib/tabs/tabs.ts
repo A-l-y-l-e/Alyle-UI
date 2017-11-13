@@ -91,11 +91,11 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
   @Input()
   set bg(val: string) {
     this._bg = val;
-    this.styleBackground = this.theme.color(this._bg);
+    this.styleBackground = this.theme.colorOf(this._bg);
     if (themeProperty(this._bg)) {
       this.styleColor = '#fff';
     } else {
-      this.styleColor = this.theme.color(this._color);
+      this.styleColor = this.theme.colorOf(this._color);
     }
   }
 
@@ -105,7 +105,7 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
     if (themeProperty(this._bg)) {
       this.styleColor = '#fff';
     } else {
-      this.styleColor = this.theme.color(this._color);
+      this.styleColor = this.theme.colorOf(this._color);
     }
   }
   _updateColor(bg: any) {
@@ -123,8 +123,8 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
   }
   ngOnInit() {
     this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.styleBackground = this.theme.color(this._bg, colors);
-      this.styleColor = this.theme.color(this._color, colors);
+      this.styleBackground = this.theme.colorOf(this._bg);
+      this.styleColor = this.theme.colorOf(this._color);
     });
 
     /*let ref = this.template();

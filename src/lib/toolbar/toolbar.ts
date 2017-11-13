@@ -44,19 +44,19 @@ export class LyToolbar implements OnInit, OnDestroy {
   @Input()
   set toolbarBg(val: string) {
     this._bg = val;
-    this.styleBackground = this.theme.color(this._bg);
+    this.styleBackground = this.theme.colorOf(this._bg);
   }
 
   @Input()
   set toolbarColor(val: string) {
     this._color = val;
-    this.styleColor = this.theme.color(this._color);
+    this.styleColor = this.theme.colorOf(this._color);
   }
 
   ngOnInit() {
     this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.styleBackground = this.theme.color(this._bg, colors);
-      this.styleColor = this.theme.color(this._color, colors);
+      this.styleBackground = this.theme.colorOf(this._bg);
+      this.styleColor = this.theme.colorOf(this._color);
     });
   }
 

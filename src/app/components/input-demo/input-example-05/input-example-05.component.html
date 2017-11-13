@@ -1,11 +1,11 @@
 <h4>textarea</h4>
-<ly-textarea [style.align-items]="position">
+<ly-textarea [style.vertical-align]="position" label="Message...">
   <ly-before>
     <a ly-icon-button (click)="_message.focus()">
       <ly-svg src="assets/svg/ic_mail_outline_48px.svg"></ly-svg>
     </a>
   </ly-before>
-  <textarea #_message placeholder="Hi..." [disabled]="disabled" [(ngModel)]="message" floatLabel="Message" rows="5"></textarea>
+  <textarea #_message [disabled]="disabled" [(ngModel)]="message" label="Message" rows="5"></textarea>
   <ly-hint>Hint</ly-hint>
 </ly-textarea>
 <button ly-button (click)="disabled = !!disabled === false ? true : false">disabled all</button>
@@ -14,33 +14,35 @@
 <br />
 <inline-text>position</inline-text>
 <ly-radio-group [(ngModel)]="position">
-  <ly-radio value="flex-start">top</ly-radio>
-  <ly-radio value="center" checked="true">center</ly-radio>
-  <ly-radio value="flex-end">bottom</ly-radio>
+  <ly-radio value="top">top</ly-radio>
+  <ly-radio value="middle" checked="true">center</ly-radio>
+  <ly-radio value="inherit">bottom</ly-radio>
 </ly-radio-group>
 <h4>input</h4>
 <div [ngStyle]="styles">
-  <ly-input [default]="16" [style.width.px]="125">
-    <input [(ngModel)]="num" [disabled]="disabled" type="number" floatLabel="Size">
+  <ly-input [default]="16" [style.width.px]="125" label="Size">
+    <input [(ngModel)]="num" [disabled]="disabled" type="number">
   </ly-input>
 </div>
 <div [ngStyle]="styles">
-  <inline-text>Hi </inline-text><ly-input>
-    <input [(ngModel)]="text" [disabled]="disabled" floatLabel="Name">
+  <inline-text>Hi </inline-text>
+  <ly-input>
+    <input [(ngModel)]="text" [disabled]="disabled">
+    <ly-label>Name</ly-label>
   </ly-input>
 </div>
 <h4>colors</h4>
-<ly-input inputColor="primary">
-  <input [(ngModel)]="value" placeholder="primary">
+<ly-input inputColor="primary" label="primary">
+  <input [(ngModel)]="value">
 </ly-input>
-<ly-input inputColor="accent">
-  <input [(ngModel)]="value" placeholder="accent">
+<ly-input inputColor="accent" label="accent">
+  <input [(ngModel)]="value">
 </ly-input>
-<ly-input inputColor="other">
-  <input [(ngModel)]="value" placeholder="other">
+<ly-input inputColor="other" label="other">
+  <input [(ngModel)]="value">
 </ly-input>
-<ly-input [inputColor]="color">
-  <input [(ngModel)]="color" #_inputColor [floatLabel]="color">
+<ly-input [inputColor]="color" [label]="color">
+  <input [(ngModel)]="color" #_inputColor>
 </ly-input>
 <button ly-button (click)="changeColor(); _inputColor.focus()">
   Change

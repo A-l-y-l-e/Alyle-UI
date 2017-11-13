@@ -1,6 +1,5 @@
-<form novalidate>
-  <ly-input>
-    <input [(ngModel)]="value" name="example" type="text" placeholder="Name">
-  </ly-input>
-  <inline-text>v{{ version }}</inline-text>
-</form>
+<ly-text-field>
+  <input [(ngModel)]="value" type="text">
+  <ly-label>Name</ly-label>
+  <ly-hint><i class="material-icons">favorite!</i></ly-hint>
+</ly-text-field>
