@@ -8,7 +8,7 @@
     "build": "ng build --target -prod --extract-css",
     "deploy": "firebase deploy --only \"hosting\"",
     "build:package": "gulp build:package",
-    "publish:package": "yarn build && yarn deploy && yarn build:package && yarn publish",
+    "publish:package": "yarn build && yarn deploy && yarn build:package && cd build && yarn publish",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
