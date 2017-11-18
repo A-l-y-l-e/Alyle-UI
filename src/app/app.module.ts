@@ -1,9 +1,11 @@
+import { environment } from '../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgModule, Injectable } from '@angular/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { MinimalLSModule } from 'alyle-ui/ls';
 import { LyDrawerModule } from 'alyle-ui/drawer';
@@ -35,6 +37,7 @@ export class MyHammerConfig extends HammerGestureConfig {
   ],
   imports: [
     BrowserModule,
+    environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
     CommonModule,
     FormsModule,
     HttpModule,

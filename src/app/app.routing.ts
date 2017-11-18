@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { environment } from 'environments/environment';
 
 const routes: Routes = [
   { path: '', loadChildren: './home/home.module#HomeModule' },
@@ -10,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes, { useHash: !environment.production })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
