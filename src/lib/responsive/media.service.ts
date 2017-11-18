@@ -29,18 +29,12 @@ export class ResponsiveService {
    * TODO: crear responsive list
    */
 
-  matchMedia(val: any): boolean {
-    if (val['min-width']) {
-      return matchMedia(`(min-width: ${val['min-width']})`).matches;
-    } else if (val['max-width']) {
-      return matchMedia(`(max-width: ${val['min-width']})`).matches;
-    } else {
-      return matchMedia(val).matches;
-    }
+  matchMedia(val: string): boolean {
+    return matchMedia(val).matches;
   }
 
   /**
-   * state: BETA
+   * TODO: fix this
    * Use only in component.ts not in html
    * for html use *lyMedia="{"min-width": '720px'}"
    * demo:

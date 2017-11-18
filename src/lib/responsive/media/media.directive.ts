@@ -21,14 +21,14 @@ import { WindowSize } from '../window-size';
 export class MediaDirective implements AfterViewInit, OnDestroy {
   // @Input() lyResponsive: string;
   windowSize: WindowSize;
-  private _medias: {[key: string]: string};
+  private _medias: | string;
   view: Subscription;
   @ViewChild(MediaDirective) templateRoot: ViewChild;
-  @Input('ly-media') media: string;
+  // @Input('ly-media') media: string;
   private _ngTransclude: TemplateRef<any>;
 
   @Input()
-  public set lyResponsive(val: {[key: string]: string}) {
+  public set lyResponsive(val: | string) {
     this._medias = val;
     this.updateView();
   }
@@ -36,7 +36,7 @@ export class MediaDirective implements AfterViewInit, OnDestroy {
     return parseFloat(num.replace('px', ''));
   }
 
-  public get lyResponsive(): {[key: string]: string} {
+  public get lyResponsive(): | string {
     return this._medias;
   }
   constructor(
