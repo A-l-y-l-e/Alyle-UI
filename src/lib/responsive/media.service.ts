@@ -1,30 +1,24 @@
-import { Injectable, Optional, NgZone} from '@angular/core';
+import { Injectable, Optional, NgZone, ApplicationRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observer } from 'rxjs/Observer';
-import { WindowSize } from './window-size';
 import { fromEvent } from 'rxjs/observable/fromEvent';
+import { Subscription } from 'rxjs/Subscription';
 import { ResponsiveList } from './responsive-list';
+import { ElementRef } from '@angular/core';
 
 @Injectable()
 export class ResponsiveService {
-  private itemsSubject: Map<string, Subject<boolean>> = new Map<string, BehaviorSubject<boolean>>();
-  private _stateView: Observable<WindowSize>;
+  private _stateView: Observable<any>;
   private _media: BehaviorSubject<any>;
-  private _mediasSupport: string[] = ['min-width'];
-
+  private _eventResize: Subscription;
   constructor(@Optional() list: ResponsiveList, private _ngZone: NgZone) {
     this._ngZone.runOutsideAngular(() => {
-      this._stateView = new Observable((observer: Observer<WindowSize>) => {
-        observer.next(this.size);
-        this.itemsSubject.set('min-width', new BehaviorSubject<boolean>(false));
-        addEventListener('resize', (eve: Event) => {
-          observer.next(this.size);
-        });
-      });
+      this._stateView = fromEvent(window, 'resize');
     });
   }
+
   /**
    * TODO: crear responsive list
    */
@@ -40,30 +34,15 @@ export class ResponsiveService {
    * demo:
    * media({"min-width": '720px'}).suscribe((state: boolean) => fn());
    */
-  media(key$: string): Observable<boolean> {
-    if (this.itemsSubject.has(key$)) {
-      return this.itemsSubject.get(key$).asObservable().share();
-    } else {
-      return
-    }
-  }
+  // media(key$: string): Observable<boolean> {
+  //   if (this.itemsSubject.has(key$)) {
+  //     return this.itemsSubject.get(key$).asObservable().share();
+  //   } else {
+  //     return;
+  //   }
+  // }
 
-  converterToPx(num: string): number {
-    return parseFloat(num.replace('px', ''));
-  }
-
-  /**
-   * Get width and height of window
-   * @return {WindowSize}
-   */
-  get size(): WindowSize {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight
-    }
-  }
-
-  get stateView(): Observable<WindowSize> {
+  get stateView(): Observable<any> {
     return this._stateView;
   }
 
