@@ -11,9 +11,11 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ResponsiveDemo01Component implements OnInit, OnDestroy {
   private _subscription: Subscription;
-  web: any;
   constructor(public responsive: Responsive) {
-    this.web = this.responsive.observe('Web');
+    this._subscription = this.responsive.observe('Web')
+    .subscribe((result) => {
+      console.log('Web', result);
+    });
   }
 
   ngOnInit() {
