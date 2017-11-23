@@ -7,22 +7,20 @@ import {
   ComponentRef,
   AfterViewInit,
   OnDestroy,
-  ChangeDetectorRef
+  EmbeddedViewRef
 } from '@angular/core';
 
 import { Subscription } from 'rxjs/Subscription';
 
-import { ResponsiveService } from '../media.service';
+import { Responsive } from '../media.service';
 
 @Directive({
-  selector: '[lyResponsive]',
-  exportAs: 'lyResponsive',
+  selector: '[lyResponsive]'
 })
 export class MediaDirective implements OnDestroy {
   private _media: string;
   view: Subscription;
-  @ViewChild(MediaDirective) templateRoot: ViewChild;
-  private _ngTransclude: TemplateRef<any>;
+  private _TemplateRef: TemplateRef<any>|null = null;
 
   @Input()
   set lyResponsive(val: string) {
@@ -34,25 +32,23 @@ export class MediaDirective implements OnDestroy {
     return this._media;
   }
   constructor(
-    private viewRef: ViewContainerRef,
-    private templateRef: TemplateRef<any>,
-    private mediaService: ResponsiveService,
-    private _cd: ChangeDetectorRef
+    private _viewContainer: ViewContainerRef,
+    templateRef: TemplateRef<any>,
+    private mediaService: Responsive,
   ) {
+    this._TemplateRef = templateRef;
     this.view = this.mediaService.stateView.subscribe(() => {
       this.updateView();
     });
   }
 
   updateView() {
-    if (!!this._media && this.mediaService.matchMedia(this._media)) {
-      if (this.viewRef.length === 0) {
-        this.viewRef.createEmbeddedView(this.templateRef);
-        this._cd.markForCheck();
+    if (this.mediaService.matchMedia(this._media)) {
+      if (this._viewContainer.length === 0) {
+        this._viewContainer.createEmbeddedView(this._TemplateRef);
       }
-    } else if (this.viewRef.length !== 0) {
-      this.viewRef.detach();
-      this.viewRef.remove();
+    } else if (this._viewContainer.length !== 0) {
+      this._viewContainer.clear();
     }
   }
 

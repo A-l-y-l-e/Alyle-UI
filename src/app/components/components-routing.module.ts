@@ -13,7 +13,8 @@ const routes: Routes = [
     { path: 'resizing-cropping-images', loadChildren: './resizing-cropping-images-demo/resizing-cropping-images-demo.module#ResizingCroppingImagesDemoModule' },
     { path: 'carousel', loadChildren: './carousel-demo/carousel-demo.module#CarouselDemoModule' },
     { path: 'icon-button', loadChildren: './icon-button-demo/icon-button-demo.module#IconButtonDemoModule' },
-    { path: 'ripple', loadChildren: './ripple-demo/ripple-demo.module#RippleDemoModule' }
+    { path: 'ripple', loadChildren: './ripple-demo/ripple-demo.module#RippleDemoModule' },
+    { path: 'responsive', loadChildren: './responsive-demo/responsive-demo.module#ResponsiveDemoModule' }
   ] },
   { path: '**',   redirectTo: '' }
 ];

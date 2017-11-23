@@ -1,31 +1,23 @@
 import { NgModule, NgZone, ModuleWithProviders, SkipSelf, Optional, Provider } from '@angular/core';
-import { ResponsiveService } from './media.service';
+import { Responsive } from './media.service';
 import { MediaDirective } from './media/media.directive';
-import { ResponsiveList } from './responsive-list';
-export * from './responsive-list';
 export * from './media/media.directive';
 export * from './media.service';
+
+export function responsiveProviderFactory(
+  parent: Responsive, ngZone: NgZone): Responsive {
+return parent || new Responsive(ngZone);
+}
+
+export const responsiveProvider: Provider = {
+  provide: Responsive,
+  deps: [[new Optional(), new SkipSelf(), Responsive], NgZone],
+  useFactory: responsiveProviderFactory
+};
 
 @NgModule({
   declarations: [MediaDirective],
   exports: [MediaDirective],
-  providers: [ResponsiveService]
+  providers: [responsiveProvider]
 })
-export class ResponsiveModule {
-
-  constructor (@Optional() @SkipSelf() parentModule: ResponsiveModule) {
-    if (parentModule) {
-      throw new Error(
-        'ResponsiveModule is already loaded. Import it in the AppModule only');
-    }
-  }
-
-  static forRoot(list: ResponsiveList): ModuleWithProviders {
-    return {
-      ngModule: ResponsiveModule,
-      providers: [
-        { provide: ResponsiveList, useValue: list }
-      ]
-    };
-  }
-}
+export class ResponsiveModule { }

@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Component, ViewChild, VERSION } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AUI_VERSION } from 'alyle-ui';
@@ -26,10 +27,12 @@ export class AppComponent {
     public routesApp: RoutesAppService,
   ) {
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        ga('set', 'page', event.urlAfterRedirects);
-        ga('send', 'pageview');
-        this.routeState = event.urlAfterRedirects !== '/';
+      if (environment.production) {
+        if (event instanceof NavigationEnd) {
+          ga('set', 'page', event.urlAfterRedirects);
+          ga('send', 'pageview');
+          this.routeState = event.urlAfterRedirects !== '/';
+        }
       }
     });
     this.routesComponents = this.routesApp.routesApp;

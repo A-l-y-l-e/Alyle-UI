@@ -14,7 +14,7 @@ import { LySvgModule } from 'alyle-ui/svg';
 import { LyMenuModule } from 'alyle-ui/menu';
 import { LyIconButtonModule } from 'alyle-ui/icon-button';
 import { AlyleUIModule } from 'alyle-ui';
-import { ResponsiveModule, ResponsiveService } from 'alyle-ui/responsive';
+import { ResponsiveModule } from 'alyle-ui/responsive';
 import { LyButtonModule } from 'alyle-ui/button';
 import { LyShadowModule } from 'alyle-ui/shadow';
 import { LyRippleModule } from 'alyle-ui/ripple';

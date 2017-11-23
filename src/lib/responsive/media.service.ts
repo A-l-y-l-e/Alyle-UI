@@ -1,46 +1,50 @@
-import { Injectable, Optional, NgZone, ApplicationRef } from '@angular/core';
+import { LyTheme } from 'alyle-ui/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
-import { Observer } from 'rxjs/Observer';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { Subscription } from 'rxjs/Subscription';
-import { ResponsiveList } from './responsive-list';
-import { ElementRef } from '@angular/core';
-
+import { MediaQueries } from './media-queries';
 @Injectable()
-export class ResponsiveService {
+export class Responsive {
+  private static _queryMap: Map<string, boolean> = new Map<string, boolean>();
   private _stateView: Observable<any>;
-  private _media: BehaviorSubject<any>;
-  private _eventResize: Subscription;
-  constructor(@Optional() list: ResponsiveList, private _ngZone: NgZone) {
+  constructor(private _ngZone: NgZone) {
     this._ngZone.runOutsideAngular(() => {
       this._stateView = fromEvent(window, 'resize');
     });
   }
 
-  /**
-   * TODO: crear responsive list
-   */
-
   matchMedia(val: string): boolean {
-    return matchMedia(val).matches;
+    if (MediaQueries[val]) {
+      return matchMedia(MediaQueries[val]).matches;
+    } else {
+      return matchMedia(val).matches;
+    }
   }
 
   /**
-   * TODO: fix this
-   * Use only in component.ts not in html
-   * for html use *lyMedia="{"min-width": '720px'}"
-   * demo:
-   * media({"min-width": '720px'}).suscribe((state: boolean) => fn());
+   * return Observable<boolean>
    */
-  // media(key$: string): Observable<boolean> {
-  //   if (this.itemsSubject.has(key$)) {
-  //     return this.itemsSubject.get(key$).asObservable().share();
-  //   } else {
-  //     return;
-  //   }
-  // }
+  observe(value: string): Observable<boolean> {
+    /**
+     * registrar los maps aqui y borrar queryMap
+     */
+    let mm = this.matchMedia(value);
+    const mediaObservable = Observable.merge(Observable.of(true), this._stateView);
+    return mediaObservable
+    .filter((state) => {
+      return this.matchMedia(value) !== mm || state === true;
+    })
+    .map(() => {
+      mm = this.matchMedia(value);
+      this._registerMedia(value);
+      return this.matchMedia(value);
+    });
+  }
+
+  private _registerMedia(value: string) {
+    Responsive._queryMap.set(value, this.matchMedia(value));
+  }
 
   get stateView(): Observable<any> {
     return this._stateView;
