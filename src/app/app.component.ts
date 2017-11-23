@@ -7,6 +7,7 @@ import { LyTheme } from 'alyle-ui/core';
 import { RoutesAppService } from './components/routes-app.service';
 import { MinimalLS } from 'alyle-ui/ls';
 import { AlyleServiceConfig } from 'alyle-ui/core';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent {
     public route: ActivatedRoute,
     public theme: LyTheme,
     public routesApp: RoutesAppService,
+    private swUpdate: SwUpdate,
   ) {
     this.router.events.subscribe(event => {
       if (environment.production) {
@@ -32,6 +34,7 @@ export class AppComponent {
           ga('set', 'page', event.urlAfterRedirects);
           ga('send', 'pageview');
           this.routeState = event.urlAfterRedirects !== '/';
+          this.swUpdate.checkForUpdate();
         }
       }
     });
