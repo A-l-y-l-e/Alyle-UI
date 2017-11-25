@@ -36,8 +36,8 @@ export class MyHammerConfig extends HammerGestureConfig {
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
+    ServiceWorkerModule.register('/ngsw-worker.js'),
+    BrowserModule.withServerTransition({appId: 'my-app'}),
     CommonModule,
     FormsModule,
     HttpModule,

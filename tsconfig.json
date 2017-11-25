@@ -36,5 +36,9 @@
       "alyle-ui/input": ["lib/input/"],
       "alyle-ui/resizing-cropping-images": ["lib/resizing-cropping-images/"]
     }
-  }
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
 }
