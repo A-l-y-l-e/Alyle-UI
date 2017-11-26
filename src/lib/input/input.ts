@@ -153,7 +153,6 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
   }
 
   constructor(
-    elementRef: ElementRef,
     private theme: LyTheme,
     private styleTheme: LyStyleTheme,
     private _changeDetectorRef: ChangeDetectorRef
@@ -162,14 +161,17 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
       this._inputColor = this.theme.colorOf(this._color);
     });
   }
+  toBoolean(val: any) {
+    return toBoolean(val);
+  }
   get isPlaceholder(): boolean {
-    return !!this.placeholder || !!this.lyPlaceholder;
+    return toBoolean(this.placeholder) || !!this.lyPlaceholder;
   }
   get isDefault(): boolean {
-    return !!this.default || !!this.lyDefault;
+    return toBoolean(this.default) || !!this.lyDefault;
   }
   get isLabel(): boolean {
-    return !!this.label || !!this.lyLabel;
+    return toBoolean(this.label) || !!this.lyLabel;
   }
 
   ngOnInit() {

@@ -7,7 +7,7 @@ bg="input:underline"></div>
   <!-- ly-placeholder -->
   <ng-container *ngIf="placeholder; then isPlaceholderTemplate; else placeholderContainer"></ng-container>
   <ng-template #isPlaceholderTemplate>
-    <div *ngIf="placeholder !== undefined && placeholderState" color="input:label" class="ly-input-placeholder">{{ placeholder }}</div>
+    <div *ngIf="toBoolean(placeholder) !== undefined && placeholderState" color="input:label" class="ly-input-placeholder">{{ placeholder }}</div>
   </ng-template>
   <ng-template #placeholderContainer>
     <div *ngIf="lyPlaceholder !== undefined && placeholderState" color="input:label" class="ly-input-placeholder">
@@ -15,7 +15,7 @@ bg="input:underline"></div>
     </div>
   </ng-template>
   <!-- ly-default -->
-  <ng-container *ngIf="default; then isDefaultTemplate"></ng-container>
+  <ng-container *ngIf="toBoolean(default); then isDefaultTemplate"></ng-container>
   <ng-template #isDefaultTemplate>
     <div *ngIf="!(lyDefault !== undefined) && defaultOff" color="input:label" class="ly-input-default">Default: {{ default }}</div>
     <div *ngIf="lyDefault !== undefined && defaultOff" color="input:label" class="ly-input-default">
@@ -23,7 +23,7 @@ bg="input:underline"></div>
     </div>
   </ng-template>
   <!-- ly-label -->
-  <ng-container *ngIf="label; then _isLabelTemplate; else labelContainer"></ng-container>
+  <ng-container *ngIf="toBoolean(label); then _isLabelTemplate; else labelContainer"></ng-container>
   <ng-template #_isLabelTemplate>
     <div *ngIf="label !== undefined" color="input:label" class="ly-input-float-label">{{ label }}</div>
   </ng-template>

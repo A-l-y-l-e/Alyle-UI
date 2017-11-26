@@ -13,12 +13,13 @@ export class InputExample05Component implements OnInit {
   color: string;
   value: string;
   position: string;
+  full: string;
   constructor() { }
 
   get styles() {
     return {
       'font-size': `${ this.num }px`,
-    }
+    };
   }
 
   /**
