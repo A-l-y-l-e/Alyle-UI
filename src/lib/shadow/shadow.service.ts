@@ -2,7 +2,7 @@ import { Injectable }       from '@angular/core';
 import { toPositiveNumber } from './toPositiveNumber';
 import { converterToHex }         from 'alyle-ui/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import * as chroma from 'chroma-js';
+import chroma from 'chroma-js';
 
 @Injectable()
 export class LyShadowService {

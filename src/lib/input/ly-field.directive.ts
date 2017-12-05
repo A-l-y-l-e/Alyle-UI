@@ -51,6 +51,22 @@ export class LyFieldDirective implements OnChanges, OnDestroy {
     this.cd.markForCheck();
   }
 
+  _parent(): any {
+    return this._parentFormGroup || this._parentForm;
+  }
+  protected _updateErrorState() {
+    // const oldState = this.errorState;
+    const parent = this._parentFormGroup || this._parentForm;
+    // const matcher = this.errorStateMatcher || this._defaultErrorStateMatcher;
+    const control = this._ngControl ? this._ngControl.control as FormControl : null;
+    // const newState = matcher.isErrorState(control, parent);
+
+    // if (newState !== oldState) {
+    //   this.errorState = newState;
+    //   this.stateChanges.next();
+    // }
+  }
+
   ngOnChanges(changes: {[floatLabel: string]: SimpleChange}) {
     // if (!changes['placeholder'].firstChange) {
     //   console.log(JSON.stringify(changes['placeholder']))

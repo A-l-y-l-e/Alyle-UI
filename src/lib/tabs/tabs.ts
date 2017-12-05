@@ -34,7 +34,7 @@ let idTab = 0;
 @Component({
   selector: 'ly-tab-group, ly-tabs',
   styleUrls: ['tabs.scss'],
-  templateUrl: 'tabs.html',
+  templateUrl: './tabs.html',
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
@@ -126,21 +126,13 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
       this.styleBackground = this.theme.colorOf(this._bg);
       this.styleColor = this.theme.colorOf(this._color);
     });
-
-    /*let ref = this.template();
-    ref.rootNodes.forEach((root: any) => {
-      this._tabsContent.nativeElement.appendChild(root)
-    });*/
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedIndex']) {
       if (!changes['selectedIndex'].firstChange) {
         const index = changes['selectedIndex'].currentValue;
         const tabRef = this._tabsContent.nativeElement;
-        // this.tabs.toArray()[index].emitChange(index);
-        // this.tabs.toArray()[index].setIndex(index, tabRef);
       }
-      // this.updateTabsHeader();
     }
   }
   setTab() {
@@ -226,8 +218,7 @@ export class LyTabContent {
 @Component({
   selector: 'ly-tab',
   styleUrls: ['tab.scss'],
-  templateUrl: 'tab.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './tab.html',
 })
 export class LyTab {
   _index = 0;

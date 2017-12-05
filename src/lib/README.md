@@ -12,7 +12,7 @@ Minimal Design, a package of components for Angular
 
 ## Docs
 
-[here](https://alyle-ui.firebaseapp.com/#/components/button)
+[here](https://alyle-ui.firebaseapp.com/components/button)
 
 ## Install Alyle UI
 

@@ -1,0 +1,10 @@
+<button (click)="_Start_date.toggle()">toggle</button>
+{{ date_start }}
+<ly-date-picker #_Start_date [(dateStart)]="date_start" class="date-picker-demo">
+  <ly-date-picker-content>
+    content
+    <!-- <ly-text-field>
+      <input placeholder="mm-dd-yyyy" formControlName="startDate" name="date_start" floatLabel="Start date" required>
+    </ly-text-field> -->
+  </ly-date-picker-content>
+</ly-date-picker>

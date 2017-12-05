@@ -18,14 +18,16 @@ export const defaultTheme: AlyleServiceConfig = {
         label: 'rgba(0, 0, 0, 0.4)',
         underline: 'rgba(0, 0, 0, 0.11)'
       },
-      inputUnderline: 'rgba(0, 0, 0, 0.11)'
     },
     dark: {
       colorText: '#fff',
       disabled: 'rgba(255, 255, 255, 0.31)',
       bgText: '#303030',
       main: '#383838',
-      inputUnderline: 'rgba(255, 255, 255, 0.11)'
+      input: {
+        label: 'rgba(255, 255, 255, 0.4)',
+        underline: 'rgba(255, 255, 255, 0.11)'
+      }
     }
   },
   shade: '500',

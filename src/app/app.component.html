@@ -1,8 +1,8 @@
-<ly-core root color="colorText" bg="bgText">
+<ly-core root>
   <div ly-deep class="header" scale="1" shadowColor="primary">
     <ly-toolbar toolbarBg="primary" toolbarColor="#fff">
       <ly-icon-button (click)="nav.toggle()" *ngIf="!nav.sidenavState">
-        <ly-svg src="assets/svg/ic_menu_48px.svg"></ly-svg>
+        <ly-svg src="assets/svg/ic_menu_48px"></ly-svg>
       </ly-icon-button>
       <ly-toolbar-item class="logo">
         <button ly-button sensitive color="#fff" [routerLink]="['./']">
@@ -46,7 +46,7 @@
     <ly-drawer bg="main" #nav="lyDrawer" [opened]="routeState" [mode]="'side'" #_left class="items">
       <div *ngFor="let category of routesComponents">
         <span class="category-name">{{ category.name }}</span>
-        <button ly-button class="nav-button" [routerLink]="[(category.name =='Components'?'/components/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</button>
+        <button ly-button class="nav-button" [routerLink]="[(category.name == 'Components'?'/components/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</button>
       </div>
     </ly-drawer>
     <ly-drawer-content>

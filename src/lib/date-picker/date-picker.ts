@@ -1,3 +1,4 @@
+import { LyCoreModule } from 'alyle-ui/core';
 import {
   Component,
   ElementRef,
@@ -53,7 +54,6 @@ export const LY_PICKER_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  // moduleId: module.id.toString(),
   selector: 'ly-years',
   template: `
   <ng-content></ng-content>
@@ -115,7 +115,6 @@ export class LyButtonDatePicker {
   }
 }
 @Component({
-  // moduleId: module.id.toString(),
   selector: 'ly-date-picker',
   styleUrls: ['date-picker.css'],
   templateUrl: 'date-picker.html',
@@ -124,7 +123,7 @@ export class LyButtonDatePicker {
     hoverDay,
   ],
 })
-export class DatePicker implements ControlValueAccessor, AfterContentInit, OnChanges, OnInit{
+export class DatePicker implements ControlValueAccessor, AfterContentInit, OnChanges, OnInit {
   private _bg = 'primary';
   private _color = 'rgba(0, 0, 0, 0.60)';
   private _subscription: Subscription;
@@ -234,7 +233,6 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
     private elementRef: ElementRef,
     public viewContainerRef: ViewContainerRef,
     private _ngZone: NgZone,
-    public palette: LyPalette,
     private datePipe: DatePipe,
     public theme: LyTheme,
     public styleTheme: LyStyleTheme,
@@ -244,8 +242,8 @@ export class DatePicker implements ControlValueAccessor, AfterContentInit, OnCha
   }
   ngOnInit() {
     this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.styleBackground = this.theme.color(this._bg, colors);
-      this.styleColor = this.theme.color(this._color, colors);
+      this.styleBackground = this.theme.colorOf(this._bg);
+      this.styleColor = this.theme.colorOf(this._color);
     });
   }
 
@@ -506,15 +504,9 @@ export class LyDatePickerTriggerFor {
 
 }
 @NgModule({
-  imports: [CommonModule, FormsModule, LyRippleModule, LyButtonModule, LyShadowModule],
+  imports: [CommonModule, FormsModule, LyRippleModule, LyButtonModule, LyShadowModule, LyCoreModule],
   exports: [DatePicker, LyButtonDatePicker, LyDatePickerTriggerFor, LyDatePickerContent],
   declarations: [DatePicker, YearPicker, LyButtonDatePicker, LyDatePickerTriggerFor, LyDatePickerContent],
   providers: [DatePipe],
 })
-export class LyDatePickerModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: LyDatePickerModule,
-    };
-  }
-}
+export class LyDatePickerModule { }

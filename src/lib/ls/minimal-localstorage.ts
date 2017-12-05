@@ -9,8 +9,6 @@ import { Observable }      from 'rxjs/Observable';
 import { Subject }         from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observer }        from 'rxjs/Observer';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/share';
 import { CommonModule }    from '@angular/common';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 
@@ -101,7 +99,3 @@ export class MinimalLS {
   }
 }
 
-@NgModule({
-  providers: [MinimalLS]
-})
-export class MinimalLSModule {}

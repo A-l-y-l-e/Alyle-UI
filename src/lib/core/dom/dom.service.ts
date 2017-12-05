@@ -43,6 +43,6 @@ export class DomService {
     setTimeout(() => {
       this.appRef.detachView(componentRef.hostView);
       componentRef.destroy();
-  }, delay);
+    }, delay);
   }
 }

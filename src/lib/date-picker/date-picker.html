@@ -1,8 +1,8 @@
 <ng-content></ng-content>
 <ng-template><div class="bg-date-picker">
   <div class="ly-date-picker-container"
-  ly-deep scale="2"
-  [style.color]="(theme.primary | async)?.text"
+  ly-shadow scale="2"
+  shadowColor="primary"
   [class.ly-date-picker-multiselect-active]="(_dateEnd) != null"
   [class.ly-date-picker-mode-portrait]="mode != 'portrait'"
   >
@@ -15,15 +15,15 @@
       <div class="ly-date-number-day">
         {{ _selectedDateNow | date: 'd' }}
       </div>
-      <div class="ly-date-month-and-year" [style.color]="(theme.primary | async)?.text">
+      <div class="ly-date-month-and-year" color="primary">
         {{ _selectedDateNow | date: 'MMM y' }}
       </div>
       <div *ngIf="(_dateEnd) != null">
-        <div class="ly-date-time-state" [style.color]="(theme.primary | async)?.text">
+        <div class="ly-date-time-state" color="primary">
           <span class="ly-s">to</span>
         </div>
       </div>
-      <div class="ly-date-month-and-year ly-date-month-second-date" [style.color]="(theme.primary | async)?.text">
+      <div class="ly-date-month-and-year ly-date-month-second-date" color="primary">
         <span>{{ _dateEnd | date: 'd MMM y' }}</span>
       </div>
     </div>

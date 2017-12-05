@@ -107,11 +107,11 @@
   font-size: 100%;
   transition: all 375ms cubic-bezier(0.23, 1, 0.32, 1);
   color: inherit;
-  width: inherit;
+  width: 100%;
 }
 
 .ly-input-content {
-  width: inherit;
+  width: 100%;
   position: relative;
   display: flex;
 }
@@ -121,7 +121,7 @@
   opacity: 1;
   display: inline-block;
   vertical-align: inherit;
-  width: inherit;
+  width: 100%;
   ::ng-deep input {
     text-align: inherit;
   }

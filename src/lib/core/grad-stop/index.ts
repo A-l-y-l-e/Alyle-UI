@@ -1,6 +1,6 @@
-import { objectAssign } from './polyfill'
-import { extractHEX, extractRGB, extractHSL, propBezInterpolate, returnRGBStr, returnHSLStr } from './utils'
-import defaultOptions from './defaultOptions'
+import { objectAssign } from './polyfill';
+import { extractHEX, extractRGB, extractHSL, propBezInterpolate, returnRGBStr, returnHSLStr } from './utils';
+import defaultOptions from './defaultOptions';
 
 /**
  * GradStop

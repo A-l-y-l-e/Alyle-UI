@@ -34,7 +34,9 @@
       "alyle-ui/shadow": ["lib/shadow/"],
       "alyle-ui/carousel": ["lib/carousel/"],
       "alyle-ui/input": ["lib/input/"],
-      "alyle-ui/resizing-cropping-images": ["lib/resizing-cropping-images/"]
+      "alyle-ui/header-pagination": ["lib/header-pagination/"],
+      "alyle-ui/resizing-cropping-images": ["lib/resizing-cropping-images/"],
+      "alyle-ui/date-picker": ["lib/date-picker/"]
     }
   },
   "exclude": [

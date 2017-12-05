@@ -60,8 +60,9 @@
   pointer-events: all !important;
   pointer-events: auto !important;
 }
-/deep/ button[ly-menu-item] {
+::ng-deep button[ly-menu-item] {
   display: block;
   min-height: 48px;
   border-radius: 0;
+  width: 100%;
 }

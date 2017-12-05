@@ -2,6 +2,10 @@ import { LyTheme } from 'alyle-ui/core';
 import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
+import { merge } from 'rxjs/observable/merge';
+import { of } from 'rxjs/observable/of';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
 import { MediaQueries } from './media-queries';
 @Injectable()
@@ -26,11 +30,8 @@ export class Responsive {
    * return Observable<boolean>
    */
   observe(value: string): Observable<boolean> {
-    /**
-     * registrar los maps aqui y borrar queryMap
-     */
     let mm = this.matchMedia(value);
-    const mediaObservable = Observable.merge(Observable.of(true), this._stateView);
+    const mediaObservable = merge(of(true), this._stateView);
     return mediaObservable
     .filter((state) => {
       return this.matchMedia(value) !== mm || state === true;

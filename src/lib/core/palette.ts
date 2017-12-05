@@ -9,9 +9,9 @@ import { BehaviorSubject }    from 'rxjs/BehaviorSubject';
 import { AlyleServiceConfig } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';
-import { GradStop } from './gradStop';
-import * as objectAssignDeep from 'deep-assign';
-
+import { GradStop } from './grad-stop/index';
+import * as objectAssignDeep_ from 'deep-assign';
+const objectAssignDeep: any = (<any>objectAssignDeep_.default || objectAssignDeep_);
 export class ThemeColor {
   name: string;
   color: { [key: string]: string };

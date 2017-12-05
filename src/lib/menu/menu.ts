@@ -52,7 +52,6 @@ export const LY_MENU_CONTROL_VALUE_ACCESSOR: any = {
   useExisting: forwardRef(() => LyMenu),
   multi: true
 };
-import { coerceBooleanProperty } from 'alyle-ui/core';
 export type position = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
 export class Origin {
   horizontal: position;
@@ -90,25 +89,15 @@ export class LyTemplateMenu implements OnInit {
   styleUrls: ['menu.scss'],
   animations: [
     trigger('menu', [
-      state('in', style({
-        height: '*',
-        opacity: 1,
-        overflow: '*'
+      state('void', style({
+        opacity: 0,
+        // transform: 'scale(0.01, 0.01)'
       })),
-      transition(':enter', [
-        group([
-          animate('100ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({
-            height: '0',
-            opacity: 0,
-            overflow: 'hidden'
-          })),
-          animate('100ms 100ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({
-            opacity: .5,
-            height: '*',
-            overflow: 'hidden'
-          })),
-        ])
-      ])
+      transition('* => void', animate('150ms 50ms linear', style({opacity: 0}))),
+      state('in', style({
+        opacity: 1
+      })),
+      transition(':enter', animate('100ms linear'))
     ])
   ],
   template: `
@@ -296,6 +285,7 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
 }
 @Directive({
   selector: '[lyMenuTriggerFor]',
+  // tslint:disable-next-line:use-host-property-decorator
   host: {
     '(click)': '_handleClick($event)'
   }

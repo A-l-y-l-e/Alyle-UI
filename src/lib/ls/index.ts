@@ -30,15 +30,6 @@ export const AlyleUIProvider = {
     MinimalLS
   ]
 })
-export class MinimalLSModule {
-  // static forRoot(): ModuleWithProviders {
-  //   return {
-  //     ngModule: MinimalLSModule,
-  //     providers: [
-  //       { provide: MinimalLSConfigToken, useValue: false },
-  //     ],
-  //   };
-  // }
-}
+export class MinimalLSModule { }
 
 export { MinimalLSConfigToken };

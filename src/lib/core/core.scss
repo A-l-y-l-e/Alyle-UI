@@ -2,8 +2,12 @@ body {
   margin: 0;
 }
 ly-core[root] {
-  margin: 0;
   display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 ly-svg svg, [ly-svg] svg {
   width: inherit;

@@ -26,15 +26,15 @@ export class AppComponent {
     public route: ActivatedRoute,
     public theme: LyTheme,
     public routesApp: RoutesAppService,
-    private swUpdate: SwUpdate,
+    // private swUpdate: SwUpdate,
   ) {
     this.router.events.subscribe(event => {
-      if (environment.production) {
-        if (event instanceof NavigationEnd) {
+      if (event instanceof NavigationEnd) {
+        this.routeState = event.urlAfterRedirects !== '/';
+        if (environment.production) {
+          // this.swUpdate.checkForUpdate();
           ga('set', 'page', event.urlAfterRedirects);
           ga('send', 'pageview');
-          this.routeState = event.urlAfterRedirects !== '/';
-          this.swUpdate.checkForUpdate();
         }
       }
     });

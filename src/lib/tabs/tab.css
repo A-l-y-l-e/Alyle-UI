@@ -1,1 +1,0 @@
-.ly-tab-label-item{position:relative;display:inline-block;min-width:0px;height:100%;overflow:hidden;text-align:center;line-height:48px;cursor:pointer;box-sizing:border-box;margin:0 8px}:host /deep/ [ly-tab-label]{display:block}.ly-tab-label-item /deep/ ly-tab-label{padding:0 8px;display:inline-flex;white-space:nowrap}

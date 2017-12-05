@@ -1,3 +1,5 @@
+import { Subscriber } from 'rxjs/Subscriber';
+import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {
   Component,
@@ -34,7 +36,6 @@ import { LyCoreModule, IsBoolean, toBoolean } from 'alyle-ui/core';
 import { Subscription } from 'rxjs/Subscription';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
-export * from './input-contents';
 import {
   LyTheme,
   ThemeColor,
@@ -99,6 +100,7 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
   @Input() placeholder: string;
   @Input() @IsBoolean() labelAbove: boolean;
   @Input() default: string;
+  _errorState: boolean;
   placeholderContainer: any;
   labelContainer: any;
   focusStateSuscription: Subscription;
@@ -144,8 +146,11 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 
   _isErrorState(): boolean {
     if (this._field) {
-      return this._field._ngControl.invalid && this._field._ngControl.touched;
+      return this._field._ngControl.invalid && this._field._ngControl.touched || this._errorState;
     }
+  }
+  private updateError() {
+    this._errorState = this._field._ngControl.invalid;
   }
 
   value() {
@@ -179,9 +184,13 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
     this.focusStateSuscription = this._field.focusState.subscribe((fState: boolean) => {
       this.focusState = fState;
     });
+    if (this._field._parent()) {
+      this._field._parent().ngSubmit.subscribe((submit) => {
+        this.updateError();
+      });
+    }
   }
   ngAfterViewInit() {
-
   }
   ngAfterContentInit() {
     if (this._field) {
@@ -189,7 +198,11 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
       if (this._field._ngControl && this._field._ngControl.valueChanges) {
         this._field._ngControl.valueChanges.subscribe((val: any) => {
           this.currentValue = val;
+          this._errorState = false;
           this._changeDetectorRef.markForCheck();
+          /**
+           * reset error of submit to false
+           */
         });
       }
       this._field.focusState.subscribe((isFocused: boolean) => {

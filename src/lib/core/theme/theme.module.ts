@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { BgModule } from './bg';
-import { ColorModule } from './color';
+import { BgModule } from './bg/bg.module';
+import { ColorModule } from './color/color.module';
 
 @NgModule({
   imports: [
@@ -12,5 +12,5 @@ import { ColorModule } from './color';
   declarations: []
 })
 export class ThemeModule { }
-export * from './bg';
-export * from './color';
+export * from './bg/bg.module';
+export * from './color/color.module';

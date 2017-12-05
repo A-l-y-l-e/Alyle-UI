@@ -1,9 +1,11 @@
 {
-  "name": "alyle-ui",
-  "version": "1.4.9",
+  "name": "alyle-uiNAME_PACKAGE",
+  "version": "1.5.0",
   "description": "Minimal Design, a package of components for Angular",
-  "module": "index.js",
-  "main": "alyle-ui.umd.js",
+  "module": "MODULE",
+  "es2015": "ES2015",
+  "main": "MAIN",
+  "typings": "TYPINGS",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -47,9 +49,7 @@
   },
   "homepage": "https://github.com/A-l-y-l-e/Alyle-UI#readme",
   "peerDependencies": {
-    "@angular/core": "^4.0.0",
-    "@angular/common": "^4.0.0",
-    "@angular/forms": "^4.0.0",
-    "@angular/http": "^4.0.0"
+    "@angular/core": "^5.0.0",
+    "@angular/common": "^5.0.0"
   }
 }
