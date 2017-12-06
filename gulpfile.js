@@ -158,12 +158,10 @@ function changeRootFolderLib(name) {
  */
 libsPackage.forEach(name => {
   const baseUrl = name !== '' ? `../` : './';
-  // const baseUrlesm = name !== '' ? `../../build/es2015/` : './';
   const baseUrlesm = name !== '' ? `../` : './';
   const outPathTemp = srcOf(`.tmp/${name}`);
   const outPathBuild = srcOf(`build/${name}`);
   let files = ['index.ts'];
-  // ensureDirSync(outPathBuild);
   copySync(srcOf('src/lib/tsconfig.build.json'), `${outPathTemp}/tsconfig.build.json`);
   let newtsconfig = tsconfigEs2015
   .replace('ROOT_FILE', name !== '' ? `"files": ${JSON.stringify(files)},` : '')
@@ -171,7 +169,6 @@ libsPackage.forEach(name => {
   .replace('NAME_PACKAGE', name);
   let newPkg = pkg.replace('NAME_PACKAGE', name !== '' ? `/${name}` : '');
   writeFileSync(`${outPathTemp}/tsconfig.build.json`, newtsconfig);
-  // copy(`${outPathTemp}/tsconfig.build.json`, `${outPathBuild}/tsconfig.build.json`);
   copySync(srcOf('src/lib/tsconfig.esm.json'), `${outPathTemp}/tsconfig.esm.json`);
   let newtsconfigesm = tsconfigEsm
   .replace('ROOT_FILE', `"files": ${JSON.stringify(files)},`)
@@ -180,8 +177,6 @@ libsPackage.forEach(name => {
   .replace(/OUT_DIR/g, baseUrl)
   .replace(/BASE_URL/g, baseUrlesm);
   writeFileSync(`${outPathTemp}/tsconfig.esm.json`, newtsconfigesm);
-
-    // copy(`${outPathTemp}/tsconfig.esm.json`, `${outPathBuild}/tsconfig.esm.json`);
 });
 
 gulp.task('compile:umd',function () {
@@ -197,7 +192,7 @@ gulp.task('compile:umd',function () {
 });
 
 /**
- * 1. Clone the /src/lib folder into /.tmp.
+ * Clone the /src/lib folder into /.tmp.
  */
 gulp.task('copy:source', function () {
   return gulp.src([`${libFolder}/**/!(*.json|*.md)*`])
@@ -205,7 +200,7 @@ gulp.task('copy:source', function () {
 });
 
 /**
- * 2. Inline template (.html) and style (.css) files into the the component .ts files.
+ * Inline template (.html) and style (.css) files into the the component .ts files.
  *    We do this on the /.tmp folder to avoid editing the original /src files
  */
 gulp.task('inline-resources', function () {
@@ -214,7 +209,7 @@ gulp.task('inline-resources', function () {
 });
 
 /**
- * 3. Run the Angular compiler, ngc, on the /.tmp folder. This will output all
+ * Run the Angular compiler, ngc, on the /.tmp folder. This will output all
  *    compiled modules to the /build folder.
  */
 gulp.task('ngc', function () {
@@ -239,20 +234,19 @@ gulp.task('ngc', function () {
     .replace(/NAME_PACKAGE/g, name !== '' ? `/${name}` : '');
     writeFileSync(`${srcOf(`build/${name}`)}/package.json`, newPkg);
   });
-  // ngc([ '--project', `${tmpFolder}/tsconfig.esm.json` ]);
   return Promise.resolve()
 });
 /**
  * Copy all files of build to dist
  */
-gulp.task('copy:json', function () {
-  return gulp.src([`${tmpFolder}/**/*.json`])
+gulp.task('copy:readme', function () {
+  return gulp.src([`${libFolder}/README.md`])
     .pipe(gulp.dest(buildFolder));
 });
 
 /**
- * 6. Run rollup inside the /build folder to generate our UMD module and place the
- *    generated file into the /dist folder
+ * Run rollup inside the /build folder to generate our UMD module and place the
+ * generated file into the /dist folder
  */
 
 function rollupUmd (lib) {
@@ -316,10 +310,6 @@ function rollupUmd (lib) {
     .pipe(gulp.dest(dir));
 };
 
-
-/**
- * Fix name package
- */
 gulp.task('...', function(){
   return;
 });
@@ -330,6 +320,7 @@ gulp.task('build:package', function () {
     'inline-resources',
     'ngc',
     'compile:umd',
+    'copy:readme',
     '...',
     function (err) {
       if (err) {
