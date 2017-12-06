@@ -1,5 +1,4 @@
 export * from './palette';
-export * from './ly/ly-template';
 export * from './ly/random-id';
 export * from './array/next';
 export * from './array/prev';

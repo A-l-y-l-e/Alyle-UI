@@ -12,8 +12,11 @@ import {
   Optional,
   HostBinding,
   HostListener,
-  AfterViewInit
+  AfterViewInit,
+  Inject
 } from '@angular/core';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
@@ -100,7 +103,8 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     private elementRef: ElementRef,
     private _ngZone: NgZone,
     @Optional() public sensitive: LyRippleSensitive,
-    private ab: AnimationBuilder
+    private ab: AnimationBuilder,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   private _updateHoverContainer() {
@@ -112,39 +116,45 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     this._hoverContainer.style.left = `${this.containerRect.width / 2 - sizeMax / 2}px`;
   }
   ngAfterViewInit() {
-    const hoverContainer = document.createElement('ly-hover-container');
-    this._hoverContainer = this.elementRef.nativeElement.appendChild(hoverContainer);
-    this._updateHoverContainer();
-    const eventHandlers = new Map<string, (e: Event) => void>();
-    if (!this.disabled) {
-      /**
-       * touch event
-       */
-      eventHandlers.set('mousedown', (event: MouseEvent) => this._handleMouseDown(event));
-      eventHandlers.set('keydown', (event: KeyboardEvent) => this._handleMouseDown(event));
-      eventHandlers.set('keyup', (event: KeyboardEvent) => this._removeRipple());
-      eventHandlers.set('mouseleave', (event: MouseEvent) => this._handleMouseup());
-      eventHandlers.set('mouseup', (event: MouseEvent) => this._handleMouseup());
-      this._eventHandlers = eventHandlers;
-      this.addRippleEvents(this.elementRef.nativeElement);
-    } else {
-      this._eventHandlers = eventHandlers;
+    if (isPlatformBrowser(this.platformId)) {
+      const hoverContainer = document.createElement('ly-hover-container');
+      this._hoverContainer = this.elementRef.nativeElement.appendChild(hoverContainer);
+      this._updateHoverContainer();
+      const eventHandlers = new Map<string, (e: Event) => void>();
+      if (!this.disabled) {
+        /**
+         * touch event
+         */
+        eventHandlers.set('mousedown', (event: MouseEvent) => this._handleMouseDown(event));
+        eventHandlers.set('keydown', (event: KeyboardEvent) => this._handleMouseDown(event));
+        eventHandlers.set('keyup', (event: KeyboardEvent) => this._removeRipple());
+        eventHandlers.set('mouseleave', (event: MouseEvent) => this._handleMouseup());
+        eventHandlers.set('mouseup', (event: MouseEvent) => this._handleMouseup());
+        this._eventHandlers = eventHandlers;
+        this.addRippleEvents(this.elementRef.nativeElement);
+      } else {
+        this._eventHandlers = eventHandlers;
+      }
     }
   }
   ngOnDestroy() {
     this.removeRippleEvents(this.elementRef.nativeElement);
   }
   addRippleEvents(element: any) {
-    this._ngZone.runOutsideAngular(() => {
-      this._eventHandlers.forEach((eventHandler, eventName) => {
-        element.addEventListener(eventName, eventHandler);
+    if (isPlatformBrowser(this.platformId)) {
+      this._ngZone.runOutsideAngular(() => {
+        this._eventHandlers.forEach((eventHandler, eventName) => {
+          element.addEventListener(eventName, eventHandler);
+        });
       });
-    });
+    }
   }
   removeRippleEvents(element: any) {
-    this._eventHandlers.forEach((eventHandler, eventName) => {
-      element.removeEventListener(eventName, eventHandler);
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this._eventHandlers.forEach((eventHandler, eventName) => {
+        element.removeEventListener(eventName, eventHandler);
+      });
+    }
   }
   private get _getSize() {
     return {

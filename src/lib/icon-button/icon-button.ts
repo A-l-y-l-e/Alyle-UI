@@ -53,7 +53,6 @@ export class LyIconButton implements OnInit, OnDestroy, AfterViewInit {
   refState = false;
 
   public _style: any;
-  circular: any = document.createElement('span');
   timePress: any;
   _size: any = '24px';
   nativeElement: HTMLElement;

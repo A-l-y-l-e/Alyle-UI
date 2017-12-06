@@ -1,13 +1,14 @@
 import { environment } from './../environments/environment';
-import { Component, ViewChild, VERSION } from '@angular/core';
+import { Component, ViewChild, VERSION, Inject, PLATFORM_ID} from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { AUI_VERSION } from 'alyle-ui';
 import { LyMenu } from 'alyle-ui/menu';
 import { LyTheme } from 'alyle-ui/core';
 import { RoutesAppService } from './components/routes-app.service';
 import { MinimalLS } from 'alyle-ui/ls';
 import { AlyleServiceConfig } from 'alyle-ui/core';
-import { SwUpdate } from '@angular/service-worker';
+// import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -26,18 +27,21 @@ export class AppComponent {
     public route: ActivatedRoute,
     public theme: LyTheme,
     public routesApp: RoutesAppService,
+    @Inject(PLATFORM_ID) private platformId: Object
     // private swUpdate: SwUpdate,
   ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.routeState = event.urlAfterRedirects !== '/';
-        if (environment.production) {
-          // this.swUpdate.checkForUpdate();
-          ga('set', 'page', event.urlAfterRedirects);
-          ga('send', 'pageview');
+    if (isPlatformBrowser(this.platformId)) {
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          this.routeState = event.urlAfterRedirects !== '/';
+          if (environment.production) {
+            // this.swUpdate.checkForUpdate();
+            ga('set', 'page', event.urlAfterRedirects);
+            ga('send', 'pageview');
+          }
         }
-      }
-    });
+      });
+    }
     this.routesComponents = this.routesApp.routesApp;
     this.listColors = [
       {

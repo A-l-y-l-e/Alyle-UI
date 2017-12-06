@@ -6,16 +6,17 @@ import {
   OnChanges,
   OnDestroy,
   SimpleChanges,
-  HostBinding
+  HostBinding,
+  Inject
  } from '@angular/core';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { LySvgService } from './ly-svg.service';
 export * from './ly-svg.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Directive({
-  selector: 'ly-svg, [ly-svg]',
-  // templateUrl: './ly-svg.component.html',
-  // styleUrls: ['./ly-svg.component.scss']
+  selector: 'ly-svg, [ly-svg]'
 })
 export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
   private _size: string;
@@ -66,7 +67,8 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private svgService: LySvgService,
-    private _elementRef: ElementRef
+    private _elementRef: ElementRef,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit() {
@@ -74,8 +76,10 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
     // this._insertSVG();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['src']) {
-      this._insertSVG();
+    if (isPlatformBrowser(this.platformId)) {
+      if (changes['src']) {
+        this._insertSVG();
+      }
     }
   }
 

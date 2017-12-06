@@ -1,4 +1,6 @@
-import { Directive, ElementRef, Input, OnInit, AfterViewInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, AfterViewInit, Inject } from '@angular/core';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { PrismPipe } from '../pipes/prism/prism.pipe';
 
 @Directive({
@@ -17,11 +19,17 @@ export class PrismDirective implements AfterViewInit {
     this._language = val;
   }
 
-  constructor(private _elementRef: ElementRef, private _prismPipe: PrismPipe) {
+  constructor(
+    private _elementRef: ElementRef,
+    private _prismPipe: PrismPipe,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
     this._elementRef.nativeElement.style.display = 'none';
     const div = document.createElement('div');
     this._content = div;
     this._elementRef.nativeElement.after(this._content);
+    }
   }
   transformData(lang: string) {
     const data = this._elementRef.nativeElement.innerHTML;

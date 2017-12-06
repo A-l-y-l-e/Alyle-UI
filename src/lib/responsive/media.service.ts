@@ -1,5 +1,5 @@
 import { LyTheme } from 'alyle-ui/core';
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { merge } from 'rxjs/observable/merge';
@@ -8,14 +8,18 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
 import { MediaQueries } from './media-queries';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 @Injectable()
 export class Responsive {
   private static _queryMap: Map<string, boolean> = new Map<string, boolean>();
-  private _stateView: Observable<any>;
-  constructor(private _ngZone: NgZone) {
+  private _stateView: Observable<any> = Observable.of();
+  constructor(private _ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
     this._ngZone.runOutsideAngular(() => {
       this._stateView = fromEvent(window, 'resize');
     });
+    }
   }
 
   matchMedia(val: string): boolean {

@@ -7,9 +7,11 @@ import {
   ComponentRef,
   AfterViewInit,
   OnDestroy,
-  EmbeddedViewRef
+  EmbeddedViewRef,
+  Inject
 } from '@angular/core';
-
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Responsive } from '../media.service';
@@ -35,15 +37,18 @@ export class MediaDirective implements OnDestroy {
     private _viewContainer: ViewContainerRef,
     templateRef: TemplateRef<any>,
     private mediaService: Responsive,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this._TemplateRef = templateRef;
-    this.view = this.mediaService.stateView.subscribe(() => {
-      this.updateView();
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.view = this.mediaService.stateView.subscribe(() => {
+        this.updateView();
+      });
+    }
   }
 
   updateView() {
-    if (this.mediaService.matchMedia(this._media)) {
+    if (isPlatformServer(this.platformId) || this.mediaService.matchMedia(this._media)) {
       if (this._viewContainer.length === 0) {
         this._viewContainer.createEmbeddedView(this._TemplateRef);
       }
@@ -53,7 +58,9 @@ export class MediaDirective implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.view.unsubscribe();
+    if (this.view) {
+      this.view.unsubscribe();
+    }
   }
 
 }

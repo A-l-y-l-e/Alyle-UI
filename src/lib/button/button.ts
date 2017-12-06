@@ -65,7 +65,6 @@ export class LyButton implements OnDestroy, OnChanges {
   private distancefromV: any;
   private stateH = true;
   private timePress: any;
-  private itemM = document.createElement('div');
   private _color = 'colorText';
   private _deep: any = false;
   private _bg = 'rgba(0, 0, 0, 0)';

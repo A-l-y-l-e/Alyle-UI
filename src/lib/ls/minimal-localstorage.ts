@@ -4,7 +4,10 @@ import {
   ElementRef,
   ViewContainerRef,
   Injectable,
+  Inject
 }                          from '@angular/core';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { Observable }      from 'rxjs/Observable';
 import { Subject }         from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -25,15 +28,17 @@ export class MinimalLS {
   private storageEvent: Observable<any>;
   private storage = new Subject();
   private storageObservable: Observable<any>;
-  constructor() {
-    this.storageEvent = fromEvent(window, 'storage');
-    this.storageEvent.subscribe((e) => {
-      this.storage.next({
-        key: e.key,
-        value: e.newValue
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.storageEvent = fromEvent(window, 'storage');
+      this.storageEvent.subscribe((e) => {
+        this.storage.next({
+          key: e.key,
+          value: e.newValue
+        });
       });
-    });
-    this.storageObservable = this.storage.asObservable();
+      this.storageObservable = this.storage.asObservable();
+    }
   }
 
   /**
