@@ -46,7 +46,12 @@ export class MinimalLS {
    */
   hasItem(key$: string): boolean {
     const key = this._addPrefix(key$);
-    return !!localStorage.getItem(key);
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem(key);
+    }
+    if (isPlatformServer(this.platformId)){
+      return false;
+    }
   }
   /**
    * Set new item or replace item
@@ -54,8 +59,10 @@ export class MinimalLS {
   setItem(key$: string, val: any, _storage = true) {
     const key = this._addPrefix(key$);
     if (_storage) {
-      // tslint:disable-next-line:no-unused-expression
-      new MinimalStorage(key, val);
+      if (isPlatformBrowser(this.platformId)) {
+        // tslint:disable-next-line:no-unused-expression
+        new MinimalStorage(key, val);
+      }
     }
     this.storage.next({
       key: key,

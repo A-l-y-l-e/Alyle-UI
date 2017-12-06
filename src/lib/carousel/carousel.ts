@@ -19,9 +19,12 @@ import {
   forwardRef,
   OnChanges,
   SimpleChange,
-  SimpleChanges
+  SimpleChanges,
+  Inject,
+  PLATFORM_ID
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -91,7 +94,8 @@ export class LyCarousel implements ControlValueAccessor {
     private elementRef: ElementRef,
     private shadow: LyShadowService,
     private sanitizer: DomSanitizer,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
@@ -130,31 +134,35 @@ export class LyCarousel implements ControlValueAccessor {
   }
 
   public ngOnDestroy() {
-    clearInterval(this._fnInterval);
+    if (isPlatformBrowser(this.platformId)) {
+      clearInterval(this._fnInterval);
+    }
   }
   public _intervalCarousel(value: any = '+') {
-    if (value === '+') {
-      this._itemSelect++;
-      this._itemSelect = (this._itemSelect === (this.lyItems.length) ? 0 : this._itemSelect);
-      // console.log(this._itemSelect, this.lyItems.length);
-    } else if (value === '-') {
-      this._itemSelect--;
-      this._itemSelect = (this._itemSelect <= -1 ? (this.lyItems.length - 1) : this._itemSelect--);
-      // console.log('--',this._itemSelect, this.lyItems.length);
-    } else {
-      this._itemSelect = value;
-    }
-    const intrval$ = {
-      interval$: setInterval(() => {
+    if (isPlatformBrowser(this.platformId)) {
+      if (value === '+') {
         this._itemSelect++;
-        this._itemSelect = (this._itemSelect === (this.lyItems.length) ? 0 : this._itemSelect++);
-        // console.log('interval state', this._itemSelect);
-        this.setActiveItem();
-      }, this._interval)
-    };
-    clearInterval(this._fnInterval);
-    this._fnInterval = intrval$.interval$;
-    this.setActiveItem();
+        this._itemSelect = (this._itemSelect === (this.lyItems.length) ? 0 : this._itemSelect);
+        // console.log(this._itemSelect, this.lyItems.length);
+      } else if (value === '-') {
+        this._itemSelect--;
+        this._itemSelect = (this._itemSelect <= -1 ? (this.lyItems.length - 1) : this._itemSelect--);
+        // console.log('--',this._itemSelect, this.lyItems.length);
+      } else {
+        this._itemSelect = value;
+      }
+      const intrval$ = {
+        interval$: setInterval(() => {
+          this._itemSelect++;
+          this._itemSelect = (this._itemSelect === (this.lyItems.length) ? 0 : this._itemSelect++);
+          // console.log('interval state', this._itemSelect);
+          this.setActiveItem();
+        }, this._interval)
+      };
+      clearInterval(this._fnInterval);
+      this._fnInterval = intrval$.interval$;
+      this.setActiveItem();
+    }
   }
   setActiveItem() {
     // let activeItems = this.lyItems.filter((tab)=>tab.active);
@@ -177,13 +185,15 @@ export class LyCarousel implements ControlValueAccessor {
   }
 
   ngAfterViewInit() {
-    this._intervalCarousel(0);
-    this.lyItems.changes.subscribe((carousel: LyCarouselItemComponent) => {
-      this._itemSelect = 0;
+    if (isPlatformBrowser(this.platformId)) {
       this._intervalCarousel(0);
-      this.setActiveItem();
-      this.cd.markForCheck();
-    });
+      this.lyItems.changes.subscribe((carousel: LyCarouselItemComponent) => {
+        this._itemSelect = 0;
+        this._intervalCarousel(0);
+        this.setActiveItem();
+        this.cd.markForCheck();
+      });
+    }
   }
   public select(val: number) {
     this._intervalCarousel(val);
@@ -221,6 +231,7 @@ export class LyCarouselItemComponent implements OnChanges {
     private carouselService: CarouselService,
     private ls: MinimalLS,
     private cd: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this._carousel = carousel;
   }
@@ -243,23 +254,27 @@ export class LyCarouselItemComponent implements OnChanges {
   }
 
   ngOnInit() {
-    this.preloadImage(this.src);
-    this.updateColors();
+    if (isPlatformBrowser(this.platformId)) {
+      this.preloadImage(this.src);
+      this.updateColors();
+    }
   }
   updateColors() {
-    if (this.src === null || this.src === 'null') {
-      return;
-    } else {
-      if (this.ls.hasItem(this.src)) {
-        this.color = this.ls.item(this.src);
-        this._carousel._markForCheck();
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.src === null || this.src === 'null') {
+        return;
       } else {
-        const colorV = this.carouselService.getColorVibrant(this.src);
-        colorV.then((p: any) => {
-          this.color = this.carouselService._palette(p);
+        if (this.ls.hasItem(this.src)) {
+          this.color = this.ls.item(this.src);
           this._carousel._markForCheck();
-          this._markForCheck();
-        });
+        } else {
+          const colorV = this.carouselService.getColorVibrant(this.src);
+          colorV.then((p: any) => {
+            this.color = this.carouselService._palette(p);
+            this._carousel._markForCheck();
+            this._markForCheck();
+          });
+        }
       }
     }
   }

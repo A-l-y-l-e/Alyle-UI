@@ -32,15 +32,15 @@ import { AlyleUIModule } from 'alyle-ui';
       other: 'red',
       palette: {
         'blue': {
-          color: { '500': '#2196F3' },
+          '500': '#2196F3',
           contrast: 'light'
         },
         'pink': {
-          color: { '500': '#ff4b73' },
+          '500': '#ff4b73',
           contrast: 'light'
         },
         'red': {
-          color: { '500': '#FF5252' },
+          '500': '#FF5252',
           contrast: 'light'
         }
         
