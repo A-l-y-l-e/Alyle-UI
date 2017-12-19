@@ -20,7 +20,7 @@ npm install alyle-ui --save
 
 ## Import
 
-#### src/app/app.module.ts
+### src/app/app.module.ts
 
 ```js
 import { AlyleUIModule } from 'alyle-ui';
@@ -43,7 +43,6 @@ import { AlyleUIModule } from 'alyle-ui';
           '500': '#FF5252',
           contrast: 'light'
         }
-        
       }
     }),
   ],
@@ -53,6 +52,7 @@ export class AppModule { }
 ```
 
 ## Components
+
 * button
 * carousel
 * core
