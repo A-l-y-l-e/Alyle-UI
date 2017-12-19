@@ -5,6 +5,7 @@ import {
   ViewChild,
   ViewContainerRef,
   ComponentRef,
+  OnInit,
   AfterViewInit,
   OnDestroy,
   EmbeddedViewRef,
@@ -19,7 +20,7 @@ import { Responsive } from '../media.service';
 @Directive({
   selector: '[lyResponsive]'
 })
-export class MediaDirective implements OnDestroy {
+export class MediaDirective implements OnInit, OnDestroy {
   private _media: string;
   view: Subscription;
   private _TemplateRef: TemplateRef<any>|null = null;
@@ -40,11 +41,12 @@ export class MediaDirective implements OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this._TemplateRef = templateRef;
-    if (isPlatformBrowser(this.platformId)) {
-      this.view = this.mediaService.stateView.subscribe(() => {
-        this.updateView();
-      });
-    }
+  }
+
+  ngOnInit() {
+    this.view = this.mediaService.stateView().subscribe(() => {
+      this.updateView();
+    });
   }
 
   updateView() {

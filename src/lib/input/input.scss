@@ -20,7 +20,7 @@
   width: 100%;
   font-weight: 400;
   padding: 0;
-  display: inline-block;
+  display: inline-flex;
 }
 :host.ly-hidden-input /deep/ .ly-input-container input,
 :host.ly-hidden-input /deep/ .ly-input-container textarea,
@@ -121,7 +121,7 @@
   opacity: 1;
   display: inline-block;
   vertical-align: inherit;
-  width: inherit;
+  width: 100%;
   ::ng-deep input {
     text-align: inherit;
   }

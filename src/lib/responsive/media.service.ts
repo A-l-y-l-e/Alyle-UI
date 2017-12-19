@@ -8,26 +8,17 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
 import { MediaQueries } from './media-queries';
-import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, APP_ID } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 @Injectable()
 export class Responsive {
   private static _queryMap: Map<string, boolean> = new Map<string, boolean>();
-  private _stateView: Observable<any> = Observable.of();
-  constructor(private _ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: Object) {
-    if (isPlatformBrowser(this.platformId)) {
-    this._ngZone.runOutsideAngular(() => {
-      this._stateView = fromEvent(window, 'resize');
-    });
-    }
-  }
+  constructor(
+    private _ngZone: NgZone,
+    @Inject(PLATFORM_ID) private platformId: Object) { }
 
   matchMedia(val: string): boolean {
-    if (MediaQueries[val]) {
-      return matchMedia(MediaQueries[val]).matches;
-    } else {
-      return matchMedia(val).matches;
-    }
+    return matchMedia(val).matches;
   }
 
   /**
@@ -35,7 +26,7 @@ export class Responsive {
    */
   observe(value: string): Observable<boolean> {
     let mm = this.matchMedia(value);
-    const mediaObservable = merge(of(true), this._stateView);
+    const mediaObservable = merge(of(true), this.stateView());
     return mediaObservable
     .filter((state) => {
       return this.matchMedia(value) !== mm || state === true;
@@ -51,8 +42,15 @@ export class Responsive {
     Responsive._queryMap.set(value, this.matchMedia(value));
   }
 
-  get stateView(): Observable<any> {
-    return this._stateView;
+  stateView(): Observable<any> {
+    if (isPlatformBrowser(this.platformId)) {
+      return this._ngZone.runOutsideAngular(() => {
+        return fromEvent(window, 'resize');
+      });
+    }
+    if (isPlatformServer(this.platformId)) {
+      return Observable.of();
+    }
   }
 
 }
