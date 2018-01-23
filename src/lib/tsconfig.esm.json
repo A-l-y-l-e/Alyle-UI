@@ -10,6 +10,7 @@
       "alyle-ui/button": ["BASE_URLbutton/"],
       "alyle-ui/tabs": ["BASE_URLtabs/"],
       "alyle-ui/ripple": ["BASE_URLripple/"],
+      "alyle-ui/ripple-minimal": ["BASE_URLripple-minimal/"],
       "alyle-ui/radio": ["BASE_URLradio/"],
       "alyle-ui/ls": ["BASE_URLls/"],
       "alyle-ui/drawer": ["BASE_URLdrawer/"],

@@ -16,10 +16,10 @@ export * from './ly-svg.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Directive({
-  selector: 'ly-svg, [ly-svg]'
+  selector: 'ly-svg, [ly-svg], [lySvg]'
 })
-export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
-  private _size: string;
+export class LySvgComponent implements OnInit, OnChanges {
+  private _size = '48px';
   private _src: string;
 
   @Input('src')
@@ -32,19 +32,22 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
   }
   get src(): string {
     return this._src;
-  };
+  }
 
-  @HostBinding('style.width') styleWidth = 'inherit';
-  @HostBinding('style.height') styleHeight = 'inherit';
+  @HostBinding('style.width') styleWidth = '24px';
+  @HostBinding('style.height') styleHeight = '24px';
+  @Input() prepend = true;
   @Input('size')
   get size(): string {
     return this._size;
-  };
-  set size(value) {
-    if (value !== this._size) {
-      this._size = `${value}`;
-      this.updateSize();
+  }
+  set size(val) {
+    if (typeof val === 'number') {
+      this._size = `${val}px`;
+    } else {
+      this._size = val;
     }
+    this.updateSize();
   }
   @Input('size.px')
   set sizePx(value) {
@@ -61,9 +64,6 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
     return str.match(suffix + '$') == suffix;
   }
 
-  @Input('prepend') prepend = true;
-
-  private _subscription: Subscription;
 
   constructor(
     private svgService: LySvgService,
@@ -72,8 +72,6 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // const svg = this.svgService.getSVG(this.src);
-    // this._insertSVG();
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -83,15 +81,9 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    if (this._subscription) {
-      this._subscription.unsubscribe();
-    }
-  }
   private _insertSVG() {
-    // console.log('suss src');
-    this._subscription = this.svgService.getSVG(this.src)
-        .subscribe(
+    this.svgService.getSVG(this.src)
+        .then(
           (svg: SVGElement) => {
             // console.log('suss src Insert SVG');
             // Insert SVG
@@ -99,21 +91,18 @@ export class LySvgComponent implements OnInit, OnChanges, OnDestroy {
               this._elementRef.nativeElement.innerHTML = '';
               this._insertElementSVG(svg);
             }
-          },
-          (err: any) => {
-            // console.warn('err');
           }
-        );
-    }
+        ).catch((err: any) => {
+          console.warn('err', err);
+        });
+  }
 
-    private _insertElementSVG(el: Element) {
-
+  private _insertElementSVG(el: SVGElement) {
     if (this.prepend) {
       this._elementRef.nativeElement.insertBefore(el, this._elementRef.nativeElement.firstChild);
     } else {
       this._elementRef.nativeElement.appendChild(el);
     }
   }
-
 
 }

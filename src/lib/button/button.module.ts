@@ -2,7 +2,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyButton, LyButtonRaised } from './button';
-import { LyRippleModule } from 'alyle-ui/ripple';
+import { LyRippleModule } from 'alyle-ui/ripple-minimal';
 import { LyShadowService } from 'alyle-ui/shadow';
 import { LyIconButton } from 'alyle-ui/icon-button';
 

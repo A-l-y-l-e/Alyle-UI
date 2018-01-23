@@ -16,136 +16,100 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LyRippleModule, LyRipple } from 'alyle-ui/ripple';
-
-@Directive({selector: '[s_f]'})
-class RefState {
-  constructor(public elementRef: ElementRef) {
-
-  }
-}
+import { LyRippleModule, LyRipple } from 'alyle-ui/ripple-minimal';
+import { Platform } from 'alyle-ui/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
-  selector: '[ly-icon-button], ly-icon-button',
+  selector: 'button[ly-icon-button], a[ly-icon-button], ly-icon-button',
   styleUrls: ['icon-button.style.scss'],
-  host: {
-    '[style.width.px]': 'toNumber(size) * 2',
-    '[style.height.px]': 'toNumber(size) * 2',
-    '[style.line-height.px]': 'toNumber(size) * 2',
-    '[style.font-size.px]': 'toNumber(size) / 2',
-  },
-
   template: `
-  <div class="ly-icon-button-container">
-    <div [style.color]="color" [style.margin.px]="toNumber(size) / 2" [style.width]="size" [style.font-size]="size" [style.height]="size" ly-icon><ng-content></ng-content></div>
-    <div [style.color]="color" #_lyRiple ly-ripple class="ly-icon-button-content" [ly-ripple-centered]="true" [ly-ripple-max-radius]="toNumber(_size)">
-    </div>
+  <div class="ly-icon-button-content" [ngStyle]="iconStyle"
+  lyRipple
+  lyRippleSensitive
+  lyRippleCentered
+  lyRippleRadius="containerSize"
+  >
+    <ng-content></ng-content>
   </div>
-  `
+  `,
+  preserveWhitespaces: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: 'lyIconButton'
 })
-export class LyIconButton implements OnInit, OnDestroy, AfterViewInit {
-  // lySidenavId: string;
-  // "ly-sidenav-id": string;
-  // TypeScript private modifiers
-  _isActiveDown = false;
-  _isActiveFocus = false;
-
-  refState = false;
-
-  public _style: any;
-  timePress: any;
-  _size: any = '24px';
+export class LyIconButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  private _size = '24px';
   nativeElement: HTMLElement;
-  @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
-  @HostListener('mousedown') onClick() {
-    this.lyRippleNoFocus = true;
-  }
-  @HostListener('blur') onBlur() {
-    this.lyRippleNoFocus = false;
-  }
-  @HostListener('keydown') onKeydown() {
-    this.lyRippleNoFocus = true;
-  }
+  private _iconStyle: {[key: string]: string | number};
+  @ViewChild(LyRipple) ripple: LyRipple;
+
   @Input('size')
   set size(val) {
-    // if (val !== this._size) {
+    if (typeof val === 'number') {
+      this._size = `${val}px`;
+    } else {
       this._size = val;
-    // }
+    }
+    this._updateSize();
   }
   get size() {
-    // console.log(this._size);
     return this._size;
   }
-  @Input('size.px')
-  set sizePx(val) {
-    if (val !== this._size) {
-      this._size = `${val}px`;
-    }
+
+  @Input()
+  set iconStyle(style) {
+    this.assignStyle(style);
   }
 
-  @Input('color') color = 'currentColor';
-  @ViewChild('_lyRiple') ripple: LyRipple;
-  @HostBinding('class.is-active') get _isActive(): boolean {
-    return !(this._isActiveDown && this._isActiveFocus);
+  get iconStyle() {
+    return this._iconStyle;
   }
 
   constructor(
-    public elementRef: ElementRef,
-   ) {
-     this.elementRef.nativeElement.tabIndex = 0;
-     this.nativeElement = this.elementRef.nativeElement;
-  }
-  toNumber(num) {
-    return parseFloat(num);
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['size']) {
-      this.setSize();
+    public elementRef: ElementRef
+  ) {
+    if (Platform.isBrowser) {
+      this.nativeElement = this.elementRef.nativeElement;
+      if (this.nativeElement.nodeName.toLowerCase() === 'ly-icon-button') {
+        console.log(`ly-icon-button:`, this.nativeElement, ` is deprecated instead use button[ly-icon-button]`);
+      }
     }
   }
+  assignStyle(newStyle) {
+    this._iconStyle = Object.assign(this.iconStyle || {}, newStyle);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    // #
+  }
   ngOnInit() {
-    this.setSize();
+    if (!this.iconStyle) {
+      this._updateSize();
+    }
   }
-  setSize(): void {
-    // const el = document.createElement('div');
-    // el.style.width = this.size;
-    // el.style.height = this.size;
-    // // console.warn('el', el);
-    // document.body.appendChild(el);
-    //
-    // this._size = el.offsetWidth;
-    // document.body.removeChild(el);
-    // console.warn(this._size, this.size);
+  private _updateSize() {
+    const wh = `calc(${this._size} * 2)`;
+    const style = {
+      'width': wh,
+      'height': wh,
+      'font-size': this._size
+    };
+    this.assignStyle(style);
   }
-
 
   ngAfterViewInit() {
-    this.ripple.addRippleEvents(this.elementRef.nativeElement);
+    if (Platform.isBrowser) {
+      this.ripple.lyRippleDisabled = true;
+      this.ripple.rippleContainer.setTriggerElement(this.nativeElement);
+      this.ripple.rippleContainer.setContainerElement(this.nativeElement);
+      this.ripple.lyRippleDisabled = false;
+    }
   }
-
-  ngAfterContentInit() {
-    this.setSize();
-    // console.log((this.ref_.elementRef.nativeElement));
-    /*if (this._lref !== undefined) {
-      this.refState = true;
-    } else {
-      this.elementRef.nativeElement.setAttribute('tabindex', 0);
-      this.elementRef.nativeElement.setAttribute('role', 'button');
-    }*/
-  }
-  ngOnDestroy() {
-    this.ripple.removeRippleEvents(this.elementRef.nativeElement);
-  }
+  ngOnDestroy() { }
 }
 
-const LY_ICON_BUTTON = [LyIconButton];
 @NgModule({
   imports: [CommonModule, LyRippleModule],
   exports: [LyIconButton],
   declarations: [LyIconButton],
 })
-export class LyIconButtonModule {
-  static forRoot(): ModuleWithProviders {
-    return {ngModule: LyIconButtonModule};
-  }
-}
+export class LyIconButtonModule { }

@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, NgZone, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'ripple-demo-01',
   templateUrl: './ripple-demo-01.component.html',
-  styleUrls: ['./ripple-demo-01.component.css']
+  styleUrls: ['./ripple-demo-01.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false
 })
 export class RippleDemo01Component implements OnInit {
+  state: any;
+  constructor(
+    private ngZone: NgZone
+  ) { }
 
-  constructor() { }
+  ngOnInit() { }
 
-  ngOnInit() {
+  log(event) {
+    this.ngZone.run(() => this.state = event);
   }
 
 }

@@ -5,33 +5,33 @@ import {
   EmbeddedViewRef,
   ApplicationRef,
   TemplateRef,
-  ComponentRef
+  ComponentRef,
+  ViewContainerRef,
+  ViewRef,
+  SkipSelf
 } from '@angular/core';
+import { LyOverlayContainer } from './overlay-container.component';
 
 @Injectable()
 export class DomService {
-
+  private _viewContainerRef: ViewContainerRef;
+  private _viewRef: ViewRef;
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
-    private injector: Injector
+    private injector: Injector,
+    private overlayContainer: LyOverlayContainer
   ) { }
 
-  createComponentRef<T>(component: any, template: TemplateRef<any>): ComponentRef<T> {
-    // 1. Create a component reference from the component
-    const componentRef = this.componentFactoryResolver
-      .resolveComponentFactory(component)
-      .create(this.injector);
-      (componentRef as ComponentRef<any>).instance.tmpl(template);
-
-    // 2. Attach component to the appRef so that it's inside the ng component tree
-    this.appRef.attachView(componentRef.hostView);
-
-    return componentRef as ComponentRef<T>;
+  attach<T>(_hostViewContainerRef: ViewContainerRef, component: any, template: TemplateRef<any>) {
+      const viewRef = _hostViewContainerRef.createEmbeddedView(template);
+      viewRef.detectChanges();
+      this._viewContainerRef = _hostViewContainerRef;
+      viewRef.rootNodes.forEach(rootNode => this.addChild(rootNode));
   }
 
-  addChild(child: HTMLElement, parent: HTMLElement = document.body) {
-    parent.appendChild(child);
+  addChild(child: HTMLElement) {
+    this.overlayContainer.containerElement.appendChild(child);
   }
 
   getDomElementFromComponentRef(componentRef: ComponentRef<any>): HTMLElement {
@@ -41,8 +41,10 @@ export class DomService {
 
   destroyRef(componentRef: ComponentRef<any>, delay: number) {
     setTimeout(() => {
-      this.appRef.detachView(componentRef.hostView);
-      componentRef.destroy();
+      if (this._viewContainerRef) {
+        this._viewContainerRef.detach();
+        this._viewContainerRef.clear();
+      }
     }, delay);
   }
 }

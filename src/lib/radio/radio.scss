@@ -1,65 +1,65 @@
-$size: 18px;
-$circlesize: 0.4;
+$size: calc(1em * 3);
+$circlesize: 0.6;
 :host {
   display: inline-block;
-  margin: 8px;
 }
 .ly-radio-input {
-  position: absolute;
   pointer-events: none;
   opacity: 0;
+  background: 0 0;
+  position: absolute;
+  width: 0;
+  height: 0;
 }
 .ly-radio-label {
   cursor: pointer;
   white-space: nowrap;
   position: relative;
-  display: block;
+  display: inline-block;
 }
 
 .ly-radio-container {
   box-sizing: border-box;
   display: inline-block;
+  position: relative;
+  vertical-align: middle;
   height: $size;
-  position: absolute;
-  width: $size;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  left: 0;
-  transform: scale3d(1,1,1);
+  .ly-radio-icon-container {
+    width: 1.5em;
+    height: 1.5em;
+  }
   .ly-radio-input:checked ~ & {
     .ly-radio-inner-circle {
       transform: scale($circlesize);
     }
     .ly-radio-outer-circle {
-      border: solid 2px currentColor;
+      border: solid 0.1em currentColor;
       color: currentColor !important;
     }
   }
-  .ly-radio-outer-circle {
-    transition: all 128ms ease;
-    border: solid 1px currentColor;
+  .ly-radio-outer-circle,
+  .ly-radio-inner-circle {
+    transition: all 275ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    position: absolute;
     border-radius: 100%;
     box-sizing: border-box;
-    height: $size;
-    left: 0;
-    position: absolute;
+    width: 1.25em;
+    height: 1.25em;
     top: 0;
-    width: $size;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .ly-radio-outer-circle {
+    border: solid 1px currentColor;
   }
   .ly-radio-inner-circle {
-    transition: all 128ms ease 0ms;
-    border-radius: 100%;
-    box-sizing: border-box;
-    height: $size;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: $size;
     background: currentColor;
     transform: scale(0);
   }
 }
 .ly-radio-label-content {
-  padding: 0 0 0 36px;
+  display: inline-block;
+  padding: 0 0.5em;
 }

@@ -72,15 +72,32 @@ export class Origin {
       right: 0;
       bottom: 0;
     }
-  `]
+  `],
+  animations: [
+    trigger('menu', [
+      // state('void', style({
+      //   opacity: 0,
+      //   // transform: 'scale(0.01, 0.01)'
+      // })),
+      // transition('* => void', animate('5150ms linear')),
+      // state('in', style({
+      //   opacity: 1
+      // })),
+      // transition(':enter', animate('5100ms linear'))
+    ])
+  ],
 })
-export class LyTemplateMenu implements OnInit {
-  @ViewChild('container', { read: ViewContainerRef }) _vcr;
-  constructor() { }
+export class LyTemplateMenu implements OnInit, OnDestroy {
+  @ViewChild('container', { read: ViewContainerRef }) _vcr: ViewContainerRef;
+  constructor(public _viewContainerRef: ViewContainerRef) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
   tmpl(template: TemplateRef<any>) {
     this._vcr.createEmbeddedView(template);
+  }
+  ngOnDestroy() {
+    console.log('desst');
   }
 }
 
@@ -89,11 +106,7 @@ export class LyTemplateMenu implements OnInit {
   styleUrls: ['menu.scss'],
   animations: [
     trigger('menu', [
-      state('void', style({
-        opacity: 0,
-        // transform: 'scale(0.01, 0.01)'
-      })),
-      transition('* => void', animate('150ms 50ms linear', style({opacity: 0}))),
+      transition(':leave', animate('150ms 50ms linear', style({opacity: 0}))),
       state('in', style({
         opacity: 1
       })),
@@ -102,7 +115,7 @@ export class LyTemplateMenu implements OnInit {
   ],
   template: `
   <ng-template>
-    <div #_menu [@menu]="'in'"
+    <div #_menu [@menu]="menuAnimationsState"
       class="ly-menu"
       bg="main"
       color="colorText"
@@ -120,7 +133,8 @@ export class LyTemplateMenu implements OnInit {
   </ng-template>
   `,
   providers: [LY_MENU_CONTROL_VALUE_ACCESSOR],
-  exportAs: 'lyMenu'
+  exportAs: 'lyMenu',
+  preserveWhitespaces: false
 })
 export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
   isIni = false;
@@ -134,6 +148,7 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
     left: 0,
   };
   xtemplateRef: any;
+  menuAnimationsState;
   @Input() opened = false;
   @Input('anchor-origin') _anchorOrigin: Origin = {horizontal: 'left', vertical: 'top'};
   @Input('target-origin') _targetOrigin: Origin = {horizontal: 'left', vertical: 'top'};
@@ -144,7 +159,7 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
   @Output() open: EventEmitter<any> = new EventEmitter();
   @Output() close: EventEmitter<any> = new EventEmitter();
   private menuContentElement: HTMLElement;
-  private menuContentRef: ComponentRef<LyTemplateMenu>;
+  private menuContentRef;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['_targetOrigin']) {
@@ -243,9 +258,10 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
     this.opened === false ? this.showMenu() : this.hiddeMenu();
   }
   showMenu() {
-    this.menuContentRef = this.domService.createComponentRef<LyTemplateMenu>(LyTemplateMenu, this.templateRef);
-    this.menuContentElement = this.domService.getDomElementFromComponentRef(this.menuContentRef);
-    this.domService.addChild(this.menuContentElement);
+    this.menuAnimationsState = 'in';
+    this.menuContentRef = this.domService.attach<LyTemplateMenu>(this._viewContainerRef, LyTemplateMenu, this.templateRef);
+    // this.menuContentElement = this.domService.getDomElementFromComponentRef(this.menuContentRef);
+    // this.domService.addChild(this.menuContentElement);
     this.updateTargetPosition();
     this.opened = true;
     this.stateBg = true;
@@ -255,18 +271,19 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
     this.close.emit(null);
     this.opened = false;
     this.stateBg = false;
+    // this.menuAnimationsState = 'end';
     this._destroyMenu();
   }
 
   private _destroyMenu(): void {
-    if (this.menuContentRef) {
+    // if (this.menuContentRef) {
       this.domService.destroyRef(this.menuContentRef, 0);
-    }
+    // }
   }
 
   constructor(
     private elementRef: ElementRef,
-    private viewContainerRef: ViewContainerRef,
+    private _viewContainerRef: ViewContainerRef,
     private domService: DomService,
     private cd: ChangeDetectorRef,
     private sanitizer: DomSanitizer

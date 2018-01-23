@@ -1,5 +1,16 @@
 <ly-radio-group [(ngModel)]="val">
-  <ly-radio value="option1">label 1</ly-radio>
-  <ly-radio checked value="option2">label 2</ly-radio>
+  <ly-radio [checked]="item === 2" [value]="item" *ngFor="let item of [1,2,3]">
+    Label {{ item }}
+  </ly-radio>
 </ly-radio-group>
-value: {{ val }}
+
+<br />
+
+<strong>value: </strong>{{ val | json }}
+
+<h3>radioColor</h3>
+<ly-radio-group radioColor="primary">
+  <ly-radio>Label 1</ly-radio>
+  <ly-radio>Label 2</ly-radio>
+  <ly-radio>Label 3</ly-radio>
+</ly-radio-group>

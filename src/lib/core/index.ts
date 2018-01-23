@@ -12,3 +12,4 @@ export * from './minimal/index';
 export * from './grad-stop/index';
 export * from './dom/dom.service';
 export * from './dom/lx-dom.module';
+export * from './focus-state/focus-state.module';

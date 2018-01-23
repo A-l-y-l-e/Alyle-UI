@@ -24,6 +24,7 @@
       "alyle-ui/button": ["lib/button/"],
       "alyle-ui/tabs": ["lib/tabs/"],
       "alyle-ui/ripple": ["lib/ripple/"],
+      "alyle-ui/ripple-minimal": ["lib/ripple-minimal/"],
       "alyle-ui/radio": ["lib/radio/"],
       "alyle-ui/ls": ["lib/ls/"],
       "alyle-ui/drawer": ["lib/drawer/"],

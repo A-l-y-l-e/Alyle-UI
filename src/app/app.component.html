@@ -1,9 +1,9 @@
 <ly-core root>
   <div ly-deep class="header" scale="1" shadowColor="primary">
     <ly-toolbar toolbarBg="primary" toolbarColor="#fff">
-      <ly-icon-button (click)="nav.toggle()" *ngIf="!nav.sidenavState">
-        <ly-svg src="assets/svg/ic_menu_48px"></ly-svg>
-      </ly-icon-button>
+      <button ly-icon-button color="#fff" (click)="nav.toggle()" class="material-icons">
+        menu
+      </button>
       <ly-toolbar-item class="logo">
         <button ly-button sensitive color="#fff" [routerLink]="['./']">
           Alyle UI
@@ -18,10 +18,8 @@
         Angular version
         <div class="version">{{ angularVersion.full }}</div>
       </ly-toolbar-item>
-      <button color="#fff" class="i-right" ly-button [lyMenuTriggerFor]="ThemeMenu">
-        <ly-icon-button size="16px" *ngIf="!nav.sidenavState">
-          <ly-svg class="force-color" size="24px" src="assets/svg/Brush.svg"></ly-svg>
-        </ly-icon-button>
+      <button ly-icon-button size="16px" *ngIf="!nav.sidenavState" [lyMenuTriggerFor]="ThemeMenu">
+        <ly-svg class="force-color" size="24px" src="assets/svg/Brush.svg"></ly-svg>
       </button>
       <ly-menu #ThemeMenu
       [anchor-origin]="{horizontal: 'left', vertical: 'center'}"
@@ -35,11 +33,9 @@
           </div>
         </div>
       </ly-menu>
-      <button color="#fff" class="i-right" ly-button aria-label="Config theme">
-        <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="16px" (click)="nav.toggle()" *ngIf="!nav.sidenavState">
+      <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="16px" (click)="nav.toggle()" *ngIf="!nav.sidenavState">
           <ly-svg size="24px" src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
         </a>
-      </button>
     </ly-toolbar>
   </div>
   <ly-drawer-container class="drawer">

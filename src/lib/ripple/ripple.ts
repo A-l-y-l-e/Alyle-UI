@@ -76,7 +76,8 @@ export class LyRippleTriggerFor implements AfterViewInit, OnDestroy {
   styleUrls: ['ripple.scss'],
   providers: [LY_RIPPLE_CONTROL_VALUE_ACCESSOR],
   template: `<ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false
 })
 export class LyRipple implements OnDestroy, AfterViewInit {
   private rippleElement: HTMLElement;
@@ -86,6 +87,7 @@ export class LyRipple implements OnDestroy, AfterViewInit {
   @Input('ly-ripple-max-radius') maxRadius = 0;
   @Input('ly-ripple-disabled') disabled: boolean;
   @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
+  private _eventHandlers: Map<string, (e: Event) => void> = new Map<string, (e: Event) => void>();
   @HostListener('mousedown') onClick() {
     this.lyRippleNoFocus = true;
   }
@@ -95,7 +97,6 @@ export class LyRipple implements OnDestroy, AfterViewInit {
   @HostListener('keydown') onKeydown() {
     this.lyRippleNoFocus = true;
   }
-  private _eventHandlers: Map<string, (e: Event) => void>;
   private _hoverContainer: HTMLElement;
   _containerRect: ClientRect;
 
@@ -120,20 +121,13 @@ export class LyRipple implements OnDestroy, AfterViewInit {
       const hoverContainer = document.createElement('ly-hover-container');
       this._hoverContainer = this.elementRef.nativeElement.appendChild(hoverContainer);
       this._updateHoverContainer();
-      const eventHandlers = new Map<string, (e: Event) => void>();
       if (!this.disabled) {
-        /**
-         * touch event
-         */
-        eventHandlers.set('mousedown', (event: MouseEvent) => this._handleMouseDown(event));
-        eventHandlers.set('keydown', (event: KeyboardEvent) => this._handleMouseDown(event));
-        eventHandlers.set('keyup', (event: KeyboardEvent) => this._removeRipple());
-        eventHandlers.set('mouseleave', (event: MouseEvent) => this._handleMouseup());
-        eventHandlers.set('mouseup', (event: MouseEvent) => this._handleMouseup());
-        this._eventHandlers = eventHandlers;
+        this._eventHandlers.set('mousedown', (event: MouseEvent) => this._handleMouseDown(event));
+        this._eventHandlers.set('keydown', (event: KeyboardEvent) => this._handleMouseDown(event));
+        this._eventHandlers.set('keyup', (event: KeyboardEvent) => this._removeRipple());
+        this._eventHandlers.set('mouseleave', (event: MouseEvent) => this._handleMouseup());
+        this._eventHandlers.set('mouseup', (event: MouseEvent) => this._handleMouseup());
         this.addRippleEvents(this.elementRef.nativeElement);
-      } else {
-        this._eventHandlers = eventHandlers;
       }
     }
   }
@@ -161,9 +155,6 @@ export class LyRipple implements OnDestroy, AfterViewInit {
       width: this.elementRef.nativeElement.offsetWidth,
       height: this.elementRef.nativeElement.offsetHeight,
     };
-  }
-  private get _getoffset() {
-    return offset(this.elementRef.nativeElement);
   }
   private _removeRipple() {
     this._handleMouseup();
@@ -271,8 +262,8 @@ export class LyRipple implements OnDestroy, AfterViewInit {
       // this.timeRipple = Date.now();
       const psX = e.clientX;
       const psY = e.clientY;
-      const TOP = (psY - this._getoffset.top);
-      const LEFT = (psX - this._getoffset.left);
+      const TOP = (psY - containerRect.top);
+      const LEFT = (psX - containerRect.left);
       let distancefromV = 10;
       let distancefromH = 10;
       if ((LEFT) < (containerRect.width / 2)) {
@@ -289,12 +280,15 @@ export class LyRipple implements OnDestroy, AfterViewInit {
       if (this.centered) {
         distancefromV = containerRect.width / 2;
         distancefromH = containerRect.height / 2;
-      }
-      if (this.maxRadius != 0) {
-        sizeRipple = this.maxRadius * 2;
+        sizeRipple = Math.max(sizeRipple, distancefromH);
       } else {
-        sizeRipple = ((distancefromV * distancefromV) + (distancefromH * distancefromH));
-        sizeRipple = Math.sqrt(sizeRipple) * 2;
+        if (this.maxRadius) {
+          sizeRipple = this.maxRadius * 2;
+          console.log('this.centered');
+        } else {
+          sizeRipple = ((distancefromV * distancefromV) + (distancefromH * distancefromH));
+          sizeRipple = Math.sqrt(sizeRipple) * 2;
+        }
       }
 
       _styleTop = this.centered === true ? distancefromV - sizeRipple / 2 : (TOP) - (sizeRipple / 2);
@@ -319,38 +313,12 @@ export class LyRipple implements OnDestroy, AfterViewInit {
 
     window.getComputedStyle(rippleElement).getPropertyValue('opacity');
 
-    rippleElement.style.opacity = '0.13';
+    rippleElement.style.opacity = '0.17';
     rippleElement.style.transform = 'scale3d(1,1,1)';
     rippleElement.style.webkitTransform = 'scale3d(1,1,1)';
   }
 
 }
-
-// Find exact position of element
-   function isWindow(obj: any) {
-       return obj !== null && obj === obj.window;
-   }
-
-   function getWindow(elem: any) {
-       return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-   }
-
-   function offset(elem: any) {
-       let docElem: any, win: any,
-           box = {top: 0, left: 0},
-           doc = elem && elem.ownerDocument;
-
-       docElem = doc.documentElement;
-
-       if (typeof elem.getBoundingClientRect !== typeof undefined) {
-           box = elem.getBoundingClientRect();
-       }
-       win = getWindow(doc);
-       return {
-           top: box.top + win.pageYOffset - docElem.clientTop,
-           left: box.left + win.pageXOffset - docElem.clientLeft
-       };
-   }
 
 @NgModule({
   imports: [CommonModule, FormsModule],

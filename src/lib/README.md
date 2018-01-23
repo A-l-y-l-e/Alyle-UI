@@ -68,4 +68,3 @@ export class AppModule { }
 * ripple
 * tabs
 * toolbar
-* upload files *(beta)*

@@ -12,6 +12,7 @@ import {
   OnDestroy,
   Optional,
   OnChanges,
+  AfterViewInit,
   SimpleChanges,
   ContentChildren,
   QueryList,
@@ -19,13 +20,14 @@ import {
   Directive,
   ViewChild,
   ContentChild,
-  HostListener} from '@angular/core';
+  HostListener,
+  OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
 import { Subject }         from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LyRippleModule, LyRipple, LyRippleSensitive }  from 'alyle-ui/ripple';
+import { LyRipple } from 'alyle-ui/ripple-minimal';
 import { Observable } from 'rxjs/Observable';
 import {
   LyTheme,
@@ -49,14 +51,14 @@ export class LyButtonRaised {
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <div class="ly-button-ripple" #_lyRiple ly-ripple [ly-ripple-sensitive]="rippleSensitive"></div>
-  <!--<div class="ly-button-hover"></div>-->
+  <div class="ly-button-ripple" lyRipple [lyRippleSensitive]="rippleSensitive"></div>
   <div class="ly-button-content" [style.font-family]="(theme.typography | async)?.fontFamily" [ngClass]="buttonPadding | async">
     <ng-content></ng-content>
   </div>
-  `
+  `,
+  preserveWhitespaces: false
 })
-export class LyButton implements OnDestroy, OnChanges {
+export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   public _disabled = false;
   public _prevFocused = true;
   private html: any = '';
@@ -89,7 +91,7 @@ export class LyButton implements OnDestroy, OnChanges {
 
   @HostBinding('style.background') styleBackground: string;
   @HostBinding('style.color') styleColor: string;
-  @ViewChild('_lyRiple') ripple: LyRipple;
+  @ViewChild(LyRipple) ripple: LyRipple;
   @ContentChildren(forwardRef(() => LyIconButton)) iconButton: QueryList<LyIconButton>;
   buttonPadding: Subject<string> = new BehaviorSubject<string>('');
   span = true;
@@ -159,7 +161,6 @@ export class LyButton implements OnDestroy, OnChanges {
   }
   ngOnDestroy() {
     this._subscription.unsubscribe();
-    this.ripple.removeRippleEvents(this.elementRef.nativeElement);
   }
 
   public focused() {
@@ -169,7 +170,8 @@ export class LyButton implements OnDestroy, OnChanges {
     return this.elementRef.nativeElement.offsetWidth;
   }
   ngAfterViewInit() {
-    this.ripple.addRippleEvents(this.elementRef.nativeElement);
+    const el: HTMLElement = this.elementRef.nativeElement;
+    this.ripple.setTriggerElement(el);
     Promise.resolve(null).then(() => {
       if (this.iconButton.length !== 0) {
         let left: string;
