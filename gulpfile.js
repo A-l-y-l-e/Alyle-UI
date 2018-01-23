@@ -37,6 +37,7 @@ const EXTERNALS = [
   /**Angular */
   '@angular/core',
   '@angular/common',
+  '@angular/common/http',
   '@angular/forms',
   '@angular/http',
   '@angular/animations',
@@ -75,19 +76,20 @@ const GLOBALS = {
   '@angular/core': 'ng.core',
   '@angular/platform-browser': 'ng.platformBrowser',
   '@angular/common': 'ng.common',
+  '@angular/common/http': 'ng.common.http',
   '@angular/forms': 'ng.forms',
   '@angular/http': 'ng.http',
   '@angular/animations': 'ng.animations',
   'alyle-ui/button': 'button',
   'alyle-ui/carousel': 'carousel',
   'alyle-ui/core': 'core',
-  'alyle-ui/header-paginations': 'header-paginations',
-  'alyle-ui/icon-button': 'icon-button',
+  'alyle-ui/header-pagination': 'headerPagination',
+  'alyle-ui/icon-button': 'iconButton',
   'alyle-ui/ls': 'ls',
   'alyle-ui/menu': 'menu',
   'alyle-ui/responsive': 'responsive',
   'alyle-ui/ripple': 'ripple',
-  'alyle-ui/ripple': 'ripple-minimal',
+  'alyle-ui/ripple-minimal': 'rippleMinimal',
   'alyle-ui/shadow': 'shadow',
   'rxjs': 'Rx',
   'rxjs/Observable': 'Rx',
@@ -130,7 +132,8 @@ const GLOBALS = {
   'rxjs/observable/from': 'Rx.Observable',
   'rxjs/operator': 'Rx.Observable.prototype',
   'rxjs/scheduler/queue': 'Rx.Scheduler',
-  'chroma-js': 'chroma'
+  'chroma-js': 'chroma',
+  'node-vibrant': 'Vibrant'
 };
 
 function getFolders(dir) {
