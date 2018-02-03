@@ -106,7 +106,9 @@ export class LyRipple implements OnDestroy, AfterViewInit {
     @Optional() public sensitive: LyRippleSensitive,
     private ab: AnimationBuilder,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {
+    console.warn('DEPRECATED', elementRef);
+  }
 
   private _updateHoverContainer() {
     this._containerRect = this._getContainerRect();

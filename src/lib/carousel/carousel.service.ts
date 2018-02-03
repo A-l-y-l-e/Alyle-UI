@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of as observableOf } from 'rxjs/observable/of';
 /* tslint:disable */
-import Vibrant from 'node-vibrant';
+// import Vibrant from 'node-vibrant';
 /* tslint:enable */
 import { MinimalLS } from 'alyle-ui/ls';
 export class VibrantSwatch {
@@ -25,8 +25,8 @@ export class CarouselService {
   constructor(private ls: MinimalLS) { }
 
   getColorVibrant(srcImg: string): any {
-    const v = new Vibrant(srcImg);
-    return v.getPalette((error: any, pal: any) => {
+    const v = new Vibrant(srcImg).getPalette();
+    return v.then((pal) => {
       if (pal) {
         this.ls.setItem(srcImg, this._palette(pal));
       }

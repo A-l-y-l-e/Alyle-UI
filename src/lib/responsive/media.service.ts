@@ -1,4 +1,4 @@
-import { LyTheme } from 'alyle-ui/core';
+import { Platform } from 'alyle-ui/core';
 import { Injectable, NgZone, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
@@ -18,7 +18,7 @@ export class Responsive {
     @Inject(PLATFORM_ID) private platformId: Object) { }
 
   matchMedia(val: string): boolean {
-    return matchMedia(val).matches;
+    return !Platform.isBrowser ? false : matchMedia(val).matches;
   }
 
   /**

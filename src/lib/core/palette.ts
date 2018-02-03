@@ -192,7 +192,6 @@ export class LyTheme {
     this.typography = new BehaviorSubject<any>(typography);
     this.shade = new BehaviorSubject<any>(shade);
     this.palette = new BehaviorSubject<any>(getAllColors);
-
   }
 
   // private addShades(primary, accent, other) {

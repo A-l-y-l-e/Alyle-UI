@@ -10,12 +10,6 @@ import { LyShadowModule } from 'alyle-ui/shadow';
 import { PrismModule } from '../core/prism/prism.module';
 
 import { ViewComponent } from './view/view.component';
-import { DemoViewLabelDirective } from './demo-view-label.directive';
-import { DemoViewHtmlDirective } from './demo-view-html.directive';
-import { DemoViewTsDirective } from './demo-view-ts.directive';
-import { DemoViewCssDirective } from './demo-view-css.directive';
-import { DemoViewModuleDirective } from './demo-view-module.directive';
-import { DemoViewSrcsDirective } from './demo-view-srcs.directive';
 
 @NgModule({
   imports: [
@@ -28,7 +22,7 @@ import { DemoViewSrcsDirective } from './demo-view-srcs.directive';
     LySvgModule,
     LyCoreModule
   ],
-  exports: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective],
-  declarations: [ViewComponent, DemoViewLabelDirective, DemoViewHtmlDirective, DemoViewTsDirective, DemoViewCssDirective, DemoViewModuleDirective, DemoViewSrcsDirective]
+  exports: [ViewComponent],
+  declarations: [ViewComponent]
 })
 export class DemoViewModule { }

@@ -31,7 +31,9 @@ import { LyRipple } from 'alyle-ui/ripple-minimal';
 import { Observable } from 'rxjs/Observable';
 import {
   LyTheme,
-  themeProperty } from 'alyle-ui/core';
+  themeProperty,
+  Platform
+ } from 'alyle-ui/core';
 import { LyIconButton } from 'alyle-ui/icon-button';
 import { LyShadowService } from 'alyle-ui/shadow';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -171,36 +173,38 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   }
   ngAfterViewInit() {
     const el: HTMLElement = this.elementRef.nativeElement;
-    this.ripple.setTriggerElement(el);
-    Promise.resolve(null).then(() => {
-      if (this.iconButton.length !== 0) {
-        let left: string;
-        let right: string;
-        this.iconButton.forEach((iconButton: LyIconButton) => {
-          const ele = iconButton.elementRef.nativeElement as HTMLElement;
-          let eve: any = ele;
-          while (eve = eve.previousSibling) {
-            if (eve.nodeName === '#text' && eve.nodeValue.trim() !== '') {
-              left = 'ly-button-padding-left';
+    if (Platform.isBrowser) {
+      this.ripple.setTriggerElement(el);
+      Promise.resolve(null).then(() => {
+        if (this.iconButton.length !== 0) {
+          let left: string;
+          let right: string;
+          this.iconButton.forEach((iconButton: LyIconButton) => {
+            const ele = iconButton.elementRef.nativeElement as HTMLElement;
+            let eve: any = ele;
+            while (eve = eve.previousSibling) {
+              if (eve.nodeName === '#text' && eve.nodeValue.trim() !== '') {
+                left = 'ly-button-padding-left';
+              }
             }
-          }
-          eve = ele;
-          while (eve = eve.nextSibling) {
-            if (eve.nodeName === '#text' && eve.nodeValue.trim() !== '') {
-              right = 'ly-button-padding-right';
+            eve = ele;
+            while (eve = eve.nextSibling) {
+              if (eve.nodeName === '#text' && eve.nodeValue.trim() !== '') {
+                right = 'ly-button-padding-right';
+              }
+  
+              // this.buttonPadding.next(`${right}`);
+              // this.buttonPadding.next(`${right}`);
             }
-
-            // this.buttonPadding.next(`${right}`);
-            // this.buttonPadding.next(`${right}`);
-          }
-        });
-        setTimeout(() => {
-          right === right && this.iconButton.length === 2 ? this.buttonPadding.next(``) : this.buttonPadding.next(`${right || ''} ${left || ''}`);
-        });
-      } else {
-        this.buttonPadding.next('ly-button-padding');
-      }
-    });
+          });
+          setTimeout(() => {
+            right === right && this.iconButton.length === 2 ? this.buttonPadding.next(``) : this.buttonPadding.next(`${right || ''} ${left || ''}`);
+          });
+        } else {
+          this.buttonPadding.next('ly-button-padding');
+        }
+      });
+    }
 
   }
   private get btnHeight() {
@@ -263,9 +267,9 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     if (this._raised) {
       if (!!this._color && !!this.styleColor && !!this.styleBackground) {
         if (this._raised != '!' && themeProperty(this._bg)) {
-          this.boxShadow = (this.shadowService.shadow(this.styleBackground, 2));
+          this.boxShadow = (this.shadowService.shadow(this.styleBackground, 2.2));
         } else if (this._raised != '!' && !themeProperty(this._bg)) {
-          this.boxShadow = (this.shadowService.shadow(this.styleBackground, 2));
+          this.boxShadow = (this.shadowService.shadow(this.styleBackground, 2.2));
         } else {
           this.boxShadow = (this.shadowService.shadow(this.styleColor, 1));
         }

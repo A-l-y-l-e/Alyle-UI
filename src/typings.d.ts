@@ -1,4 +1,5 @@
 /* SystemJS module definition */
+declare var Vibrant: any;
 declare var require: NodeRequire;
 declare var module: NodeModule;
 interface NodeModule {

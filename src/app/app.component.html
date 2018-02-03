@@ -1,5 +1,5 @@
 <ly-core root>
-  <div ly-deep class="header" scale="1" shadowColor="primary">
+  <div ly-deep class="header" scale="6" shadowColor="primary:300">
     <ly-toolbar toolbarBg="primary" toolbarColor="#fff">
       <button ly-icon-button color="#fff" (click)="nav.toggle()" class="material-icons">
         menu
@@ -25,7 +25,7 @@
       [anchor-origin]="{horizontal: 'left', vertical: 'center'}"
       [target-origin]="{horizontal: 'right', vertical: 'center'}">
         <div class="content-menu">
-          <div class="menu-item" ly-ripple ly-ripple-sensitive color="colorText" *ngFor="let item of listColors" (click)="changePrimary(item)">
+          <div class="menu-item" lyRipple lyRippleSensitive color="colorText" *ngFor="let item of listColors" (click)="changePrimary(item)">
             <div class="item-container">
               <div ly-shadow [shadowColor]="theme.paletteOf(item.primary).color[500]" [bg]="theme.paletteOf(item.primary).color[500]"></div>
               <div ly-shadow [shadowColor]="theme.paletteOf(item.accent).color[500]" [bg]="theme.paletteOf(item.accent).color[500]"></div>

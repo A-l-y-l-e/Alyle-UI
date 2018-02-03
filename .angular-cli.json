@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist/browser",
+      "outDir": "dist",
       "assets": [
         "assets",
         "favicon.ico"
@@ -22,7 +22,8 @@
         "styles.scss"
       ],
       "scripts": [
-        "../node_modules/hammerjs/hammer.min.js"
+        "../node_modules/hammerjs/hammer.min.js",
+        "../node_modules/node-vibrant/dist/vibrant.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -32,9 +33,10 @@
       "serviceWorker": true
     },
     {
+      "name": "alyle-ui",
       "platform": "server",
       "root": "src",
-      "outDir": "dist/server",
+      "outDir": "functions/dist-server",
       "assets": [
         "assets",
         "favicon.ico"

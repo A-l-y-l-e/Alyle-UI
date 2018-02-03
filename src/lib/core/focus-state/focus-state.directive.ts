@@ -31,27 +31,29 @@ export class LyFocusState implements OnDestroy {
     private _renderer: Renderer2,
     _cd: ChangeDetectorRef
   ) {
-    this._eventHandlers
-    .set('focus', this.on.bind(this))
-    .set('blur', this.on.bind(this))
-    .set('touchstart', this.on.bind(this))
-    .set('mousedown', this.on.bind(this));
-    const element = elementRef.nativeElement;
-    this.setTriggerElement(element);
-    const on = (event: FocusEvent | TouchEvent | MouseEvent) => {
-      this.stateMap.set(event.type, true);
-      this._updateState();
-    };
-    const ob: Observable<FocusStatus> = this._stateSubject.asObservable();
-    this._stateSubscription = ob
-    .pipe(
-      debounceTime(111)
-    )
-    .subscribe((e: FocusStatus) => {
-      this.state = e;
-      this._updateClass();
-      this.lyFocusChange.emit(e);
-    });
+    if (Platform.isBrowser) {
+      this._eventHandlers
+      .set('focus', this.on.bind(this))
+      .set('blur', this.on.bind(this))
+      .set('touchstart', this.on.bind(this))
+      .set('mousedown', this.on.bind(this));
+      const element = elementRef.nativeElement;
+      this.setTriggerElement(element);
+      const on = (event: FocusEvent | TouchEvent | MouseEvent) => {
+        this.stateMap.set(event.type, true);
+        this._updateState();
+      };
+      const ob: Observable<FocusStatus> = this._stateSubject.asObservable();
+      this._stateSubscription = ob
+      .pipe(
+        debounceTime(111)
+      )
+      .subscribe((e: FocusStatus) => {
+        this.state = e;
+        this._updateClass();
+        this.lyFocusChange.emit(e);
+      });
+    }
   }
 
   private _updateState() {

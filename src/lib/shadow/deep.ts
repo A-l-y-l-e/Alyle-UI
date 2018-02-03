@@ -24,7 +24,7 @@ export class LyDeepComponent {
   private _interval = 3000;
   private _result: string;
   private numberState = -1;
-  private _shadowColor: string;
+  private _shadowColor = 'rgba(0,0,0,0.87)';
   @HostBinding('style.box-shadow') styleBoxShadow: SafeStyle | string;
   @Input('shadowColor')
   set shadowColor(val: string) {
@@ -42,23 +42,6 @@ export class LyDeepComponent {
 
   }
   public styleHost() {
-    // let style = `rgba(0, 0, 0, ${
-    //   ((60 / 100) * Number('0.' + String(this._size)))
-    // }) 0px ${
-    //   ((3 * this._size) - 2) / 3 * this.numberState
-    // }px ${
-    //   (3 * this._size * 2)
-    // }px 0px${
-    //   ','
-    // } rgba(0, 0, 0, ${
-    //   (40 / 100) * Number('0.' + String(this._size))
-    // }) 0px ${
-    //   (((3 * this._size) - 2)) * this.numberState
-    // }px ${(3 * this._size * 2) / 2}px 0px`;
-    // if (this._size < 2 && this._size > 0) {
-    //   style = style + `, rgba(0, 0, 0, 0.12) 0px ${2 * this.numberState}px 6px 0px`;
-    // }
-    // this.elementRef.nativeElement.style.boxShadow = style;
     this.styleBoxShadow = this.shadow.shadow(this.shadowColor, this.scale);
   }
 
