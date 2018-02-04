@@ -7,7 +7,7 @@
     "start": "ng serve --port 1111 --no-aot",
     "build": "rm -rf functions/dist && yarn build:browser && yarn build:server && yarn mv:index.html && cd functions && yarn build",
     "build:browser": "ng build --prod",
-    "build:server": "ng build --prod --app alyle-ui --output-hashing=false",
+    "build:server": "ng build -aot -app alyle-ui",
     "build:package": "rm -rf .tmp dist build && gulp build:package",
     "publish:package": "yarn build && yarn deploy && yarn build:package && cd build && yarn publish",
     "serve": "yarn firebase serve --only hosting,functions -p 1111",
