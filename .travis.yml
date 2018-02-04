@@ -24,6 +24,7 @@ jobs:
   include:
     - stage: test
       script:
+        - echo $kEY
         - yarn install
         - echo Hello World
     - stage: deploy
