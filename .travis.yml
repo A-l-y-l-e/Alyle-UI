@@ -26,17 +26,13 @@ jobs:
       script:
         - yarn install
         - echo Hello World
-    - stage: build
+    - stage: deploy
       script:
         - yarn functions:install
         - yarn build
-    - stage: deploy
-      script:
-        - yarn firebase deploy --token $FIREBASE_TOKEN
+        - yarn firebase deploy --token $FIREBASE_TOKEN --non-interactive
 
 stages:
   - test
-  - name: build
-    if: branch = master
   - name: deploy
-    if: branch = master
+    if: test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false"
