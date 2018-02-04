@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-- 'node'
+- '8.9.4'
 
 addons:
   chrome: stable
@@ -20,5 +20,18 @@ branches:
 install:
   - yarn install
 
-script:
-  - yarn run build
+jobs:
+  include:
+    - stage: test
+      script:
+        - yarn install
+        - echo Hello World
+    - stage: deploy
+      script:
+        - yarn functions:install
+        - yarn build
+        - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && yarn firebase deploy --token $FIREBASE_TOKEN --non-interactive || echo ''
+
+stages:
+  - test
+  - deploy
