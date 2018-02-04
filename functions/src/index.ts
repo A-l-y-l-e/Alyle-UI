@@ -3,7 +3,6 @@
 import 'zone.js/dist/zone-node';
 // tslint:disable-next-line:no-implicit-dependencies no-import-side-effect
 import 'reflect-metadata';
-console.log(process.cwd());
 import * as functions from 'firebase-functions';
 const { enableProdMode } = require('@angular/core');
 const { renderModuleFactory } = require('@angular/platform-server');

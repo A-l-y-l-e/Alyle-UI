@@ -31,7 +31,7 @@ jobs:
       script:
         - yarn functions:install
         - yarn build
-        - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && yarn firebase deploy --token $FIREBASE_TOKEN --non-interactive || echo ''
+        - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && cd functions && yarn firebase deploy --token $FIREBASE_TOKEN --non-interactive || echo ''
 
 stages:
   - test
