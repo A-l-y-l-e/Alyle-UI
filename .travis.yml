@@ -13,6 +13,10 @@ cache:
     - "$HOME/.npm"
     - "$HOME/.cache"
 
+branches:
+  only:
+    - master
+
 install:
   - yarn install
 
@@ -24,8 +28,8 @@ jobs:
         - echo Hello World
     - stage: build
       script:
-        - cd functions && yarn install
-        - yarn run build
+        - yarn functions:install
+        - yarn build
     - stage: deploy
       script:
         - yarn firebase deploy --token $FIREBASE_TOKEN
@@ -36,7 +40,3 @@ stages:
     if: branch = master
   - name: deploy
     if: branch = master
-
-branches:
-  only:
-    - master
