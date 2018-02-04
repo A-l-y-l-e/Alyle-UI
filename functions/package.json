@@ -25,7 +25,9 @@
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
     "express": "^4.16.2",
     "firebase-admin": "~5.8.1",
-    "firebase-functions": "^0.8.1"
+    "firebase-functions": "^0.8.1",
+    "rxjs": "^5.5.2",
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
     "tslint": "^5.8.0",
