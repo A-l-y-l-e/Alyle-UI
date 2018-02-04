@@ -28,7 +28,7 @@
     "core-js": "^2.4.1",
     "deep-assign": "^2.0.0",
     "express": "^4.16.2",
-    "firebase-admin": "~5.8.1",
+    "firebase-admin": "~5.8.2",
     "firebase-functions": "^0.8.1",
     "firebase-tools": "^3.17.4",
     "hammerjs": "^2.0.8",
@@ -38,12 +38,12 @@
     "rxjs": "^5.5.2",
     "ts-node": "~3.2.0",
     "tslib": "^1.9.0",
-    "zone.js": "^0.8.14"
+    "protractor": "~5.1.2",
+    "zone.js": "^0.8.14",
+    "typescript": "~2.4.2"
   },
   "devDependencies": {
-    "protractor": "~5.1.2",
-    "tslint": "^5.8.0",
-    "typescript": "~2.4.2"
+    "tslint": "^5.8.0"
   },
   "private": true
 }
