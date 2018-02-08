@@ -60,7 +60,6 @@ const EXTERNALS = [
   'alyle-ui/menu',
   'alyle-ui/radio',
   'alyle-ui/responsive',
-  'alyle-ui/ripple',
   'alyle-ui/ripple-minimal',
   'alyle-ui/shadow',
   'alyle-ui/svg',

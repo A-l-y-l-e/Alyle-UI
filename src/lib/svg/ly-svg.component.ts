@@ -7,12 +7,9 @@ import {
   OnDestroy,
   SimpleChanges,
   HostBinding,
-  Inject
- } from '@angular/core';
-import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+} from '@angular/core';
+import { Platform } from 'alyle-ui/core';
 import { LySvgService } from './ly-svg.service';
-export * from './ly-svg.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Directive({
@@ -67,14 +64,13 @@ export class LySvgComponent implements OnInit, OnChanges {
 
   constructor(
     private svgService: LySvgService,
-    private _elementRef: ElementRef,
-    @Inject(PLATFORM_ID) private platformId: Object
+    private _elementRef: ElementRef
   ) { }
 
   ngOnInit() {
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (Platform.isBrowser) {
       if (changes['src']) {
         this._insertSVG();
       }

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Injectable } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -35,10 +36,10 @@ export class MyHammerConfig extends HammerGestureConfig {
     AppComponent
   ],
   imports: [
-    // ServiceWorkerModule.register('/ngsw-worker.js'),
     BrowserModule.withServerTransition({appId: 'alyle-ui'}),
     CommonModule,
     FormsModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ResponsiveModule,
     MinimalLSModule,

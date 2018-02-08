@@ -3,7 +3,8 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { toPositiveNumber } from './toPositiveNumber';
 import { converterToHex, Platform }         from 'alyle-ui/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import * as chroma from 'chroma-js';
+import * as _chroma from 'chroma-js';
+const chroma = _chroma;
 
 @Injectable()
 export class LyShadowService {

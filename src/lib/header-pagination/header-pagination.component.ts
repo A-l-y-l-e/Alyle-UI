@@ -1,6 +1,6 @@
 import { Component, ViewChild, Directive, Renderer, ElementRef, NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyRippleModule } from 'alyle-ui/ripple';
+import { LyRippleModule } from 'alyle-ui/ripple-minimal';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,

@@ -37,9 +37,7 @@ import {
   transition,
   group
 } from '@angular/animations';
-import { LyCoreModule, DomService, LxDomModule } from 'alyle-ui/core';
-import { exactPosition } from 'alyle-ui/core';
-import { LyRippleModule } from 'alyle-ui/ripple';
+import { LyCoreModule, DomService, LxDomModule, Platform } from 'alyle-ui/core';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
@@ -47,11 +45,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-export const LY_MENU_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => LyMenu),
-  multi: true
-};
 export type position = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
 export class Origin {
   horizontal: position;
@@ -72,20 +65,7 @@ export class Origin {
       right: 0;
       bottom: 0;
     }
-  `],
-  animations: [
-    trigger('menu', [
-      // state('void', style({
-      //   opacity: 0,
-      //   // transform: 'scale(0.01, 0.01)'
-      // })),
-      // transition('* => void', animate('5150ms linear')),
-      // state('in', style({
-      //   opacity: 1
-      // })),
-      // transition(':enter', animate('5100ms linear'))
-    ])
-  ],
+  `]
 })
 export class LyTemplateMenu implements OnInit, OnDestroy {
   @ViewChild('container', { read: ViewContainerRef }) _vcr: ViewContainerRef;
@@ -132,7 +112,6 @@ export class LyTemplateMenu implements OnInit, OnDestroy {
     (click)="hiddeMenu()"></div>
   </ng-template>
   `,
-  providers: [LY_MENU_CONTROL_VALUE_ACCESSOR],
   exportAs: 'lyMenu',
   preserveWhitespaces: false
 })
@@ -296,7 +275,9 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
 
   }
   ngOnDestroy() {
-    this._destroyMenu();
+    if (Platform.isBrowser) {
+      this._destroyMenu();
+    }
   }
 
 }
@@ -331,13 +312,9 @@ export class LyMenuTriggerFor {
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, LyRippleModule, LyCoreModule, LxDomModule],
+  imports: [CommonModule, FormsModule, LyCoreModule, LxDomModule],
   exports: [LyMenu, LyMenuTriggerFor],
   declarations: [LyMenu, LyMenuTriggerFor, LyTemplateMenu],
-  entryComponents: [LyTemplateMenu]
+  // entryComponents: [LyTemplateMenu]
 })
-export class LyMenuModule {
-  static forRoot(): ModuleWithProviders {
-    return {ngModule: LyMenuModule};
-  }
-}
+export class LyMenuModule { }

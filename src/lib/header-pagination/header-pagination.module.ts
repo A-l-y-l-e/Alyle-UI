@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LyRippleModule } from 'alyle-ui/ripple';
+import { LyRippleModule } from 'alyle-ui/ripple-minimal';
 import { LyHeaderPagination } from './header-pagination.component';
 export * from './header-pagination.component';
 
