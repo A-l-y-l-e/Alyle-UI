@@ -253,30 +253,49 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
 
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
-    let steps: any = Math.ceil(Math.log(this.max(img.width, img.height) / this.max(config.height, config.width)) / Math.log(2));
-    steps = Array.from(Array(steps <= 0 ? 0 : steps - 1).keys());
-    const octx = img.getContext('2d');
-    const w = img.width * quality,
-        h = img.height * quality;
-    const q = Math.pow(quality, (steps as Array<number>).length);
-    /**Steps */
-    (steps as Array<number>).forEach((a, b) => {
-      octx.drawImage(img,
-        0, 0,
-        img.width * quality, img.height * quality
-      );
-    });
+    /** Calculate total number of steps needed */
+    let  numSteps = Math.ceil(Math.log(this.max(img.width, img.height) / this.max(config.height, config.width)) / Math.log(2)) - 1;
+    numSteps = numSteps <= 0 ? 0 : numSteps;
 
+    /**Array steps */
+    const steps = Array.from(Array(numSteps).keys());
+
+    /** Context */
+    const octx = img.getContext('2d');
+
+    const q = Math.pow(quality * 10, numSteps) / Math.pow(10, numSteps);
+
+    /** If Steps => imageSmoothingQuality */
+    if (numSteps) {
+      /** Set size */
+      const w = img.width * quality;
+      const h = img.height * quality;
+      /** Only the new img is shown. */
+      octx.globalCompositeOperation = 'copy';
+
+      /** Steps */
+      (steps as Array<number>).forEach((a, b) => {
+        octx.drawImage(img,
+          0, 0,
+          w, h
+        );
+      });
+    }
+
+
+    /**
+     * Step final
+     * Resizing & cropping image
+     */
     const oc = document.createElement('canvas'),
     ctx = oc.getContext('2d');
-
     oc.width = config.width;
     oc.height = config.height;
     ctx.drawImage(img,
       0, 0,
       img.width * (q), img.height * (q),
       0, 0,
-      config.width, config.height
+      oc.width, oc.height
     );
     return oc;
   }
@@ -300,11 +319,9 @@ export class LyResizingCroppingImages implements AfterContentInit {
     };
     canvasElement.width = config.width / this.scale;
     canvasElement.height = config.height / this.scale;
-    canvasElement.getContext('2d').drawImage(this._img,
+    const ctx = canvasElement.getContext('2d');
+    ctx.drawImage(this._img,
       -(left / this.scale), -(top / this.scale),
-      configCanvas.width, configCanvas.height,
-      // 0, 0,
-      // this._img.width * this.scale, this._img.height * this.scale,
     );
     let result = canvasElement;
     result = this.imageSmoothingQuality(result, config, 0.5);
