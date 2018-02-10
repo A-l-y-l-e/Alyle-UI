@@ -6,14 +6,9 @@ export class LyOverlayContainer {
   protected _containerElement: HTMLElement;
   constructor() {
     if (Platform.isBrowser) {
-      console.log('...create overlay');
-      try {
-        const container = document.createElement('ly-overlay-container');
-        document.body.appendChild(container);
-        this._containerElement = container;
-      } catch (error) {
-        // nothing
-      }
+      const container = document.createElement('ly-overlay-container');
+      document.body.appendChild(container);
+      this._containerElement = container;
     }
   }
   get containerElement(): HTMLElement {

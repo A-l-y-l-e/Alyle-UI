@@ -18,8 +18,6 @@ export class DomService {
   private _viewRef: ViewRef;
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    // private appRef: ApplicationRef,
-    // private injector: Injector,
     private overlayContainer: LyOverlayContainer
   ) { }
 
