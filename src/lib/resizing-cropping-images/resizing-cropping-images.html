@@ -1,4 +1,4 @@
-<div #_croppingContainer *ngIf="isNewImg | async; else content" class="ly-cropping-container" [ngStyle]="{
+<div #_croppingContainer *ngIf="isLoaded; else content" class="ly-cropping-container" [ngStyle]="{
     width: config.width + 'px',
     height: config.height + 'px'
 }"></div>
@@ -7,12 +7,12 @@
 (touchstart)="_moveStart($event)"
 (mousedown)="_moveStart($event)"
 [ngStyle]="dragData | async">
-  <img *ngIf="isNewImg | async"
+  <img *ngIf="isLoaded"
   [src]="src">
 </div>
 <ng-template #content>
   <div class="ly-cropp-content">
-    <input #_fileInput type="file" (change)="selectInputEvent($event)">
+    <input #_fileInput type="file" (change)="selectInputEvent($event)" accept="image/*">
     <ng-content></ng-content>
   </div>
 </ng-template>

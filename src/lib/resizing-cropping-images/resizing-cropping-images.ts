@@ -1,4 +1,3 @@
-import { Subscription } from 'rxjs/Subscription';
 import {
   Component,
   ElementRef,
@@ -13,7 +12,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
-  AfterContentInit
+  AfterContentInit,
+  EventEmitter
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -21,13 +21,23 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { exactPosition } from 'alyle-ui/core';
+
 export interface LyResizingCroppingImagesConfig {
   width: number;
   height: number;
-  type?: string;
+  type?: string; // if this is not defined, the new image will be automatically defined
+}
+export interface CroppedImage {
+  base64Image: string;
+  type: string;
+}
+export interface ImageState {
+  isLoaded: boolean;
+  isCrop: boolean;
 }
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,10 +48,9 @@ export interface LyResizingCroppingImagesConfig {
  })
 export class LyResizingCroppingImages implements AfterContentInit {
   img: BehaviorSubject<HTMLImageElement> = new BehaviorSubject<HTMLImageElement>(null);
-  result: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  result: string;
   fileName: string;
-  private newImg: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  isNewImg: Observable<boolean> = this.newImg.asObservable();
+
   private _img: HTMLImageElement;
   private offset: {x: number, y: number, left: number, top: number};
   private eventDirection: string;
@@ -56,11 +65,21 @@ export class LyResizingCroppingImages implements AfterContentInit {
     width: 250,
     height: 200
   };
+  isLoaded: boolean;
+  isCropped: boolean;
+  /** On loaded new image */
+  @Output() loaded = new EventEmitter<null>();
+  /** On crop new image */
+  @Output() cropped = new EventEmitter<CroppedImage>();
+  /** On error new image */
+  @Output() error = new EventEmitter<null>();
+
   private defaultType: string;
   private _dragData: Subject<{width: string, height: string, transform: string}> = new Subject();
   dragData: Observable<{width: string, height: string, transform: string}>;
   private zoomScale = .1;
   constructor(private elementRef: ElementRef, private cd: ChangeDetectorRef) {
+
     this.dragData = this._dragData.asObservable();
     const img = this.img;
     img.subscribe((imgElement: HTMLImageElement) => {
@@ -77,6 +96,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
       }
     });
   }
+
   selectInputEvent(img: Event) {
     const _img = img.target as HTMLInputElement;
     if (_img.files.length !== 1) {
@@ -84,19 +104,20 @@ export class LyResizingCroppingImages implements AfterContentInit {
     }
     const fileReader: FileReader = new FileReader();
     this.fileName = _img.value.replace(/.*(\/|\\)/, '');
+
+    /** Set type */
+    this.defaultType = null;
     if (!this.config.type) {
       this.defaultType = _img.files[0].type;
     }
+    this.isLoaded = false;
+    this.isCropped = false;
+    this._dragData.next(null);
     fileReader.addEventListener('loadend', (loadEvent) => {
-      this.src = (loadEvent.target as FileReader).result;
-      this.setImageUrl(this.src);
+      const originalImageUrl = (loadEvent.target as FileReader).result;
+      this.setImageUrl(originalImageUrl);
       this.cd.markForCheck();
     });
-    // fileReader.onload = (event: ProgressEvent) => {
-    //   // this.src = (event.target as FileReader).result;
-    //   // this.setImageUrl(this.src);
-    //   // this.cd.markForCheck();
-    // };
     fileReader.readAsDataURL(_img.files[0]);
   }
   setScale(size: number) {
@@ -239,12 +260,17 @@ export class LyResizingCroppingImages implements AfterContentInit {
     this._dragData.next(result);
   }
   setImageUrl(src: string) {
+    this.src = src;
     if (!src) { return; }
     const img = new Image;
     img.src = src;
+    img.addEventListener('error', (err) => {
+      this.error.emit(null);
+    });
     img.addEventListener('load', () => {
       this.img.next(img);
-      this.newImg.next(true);
+      this.loaded.emit(null);
+      this.isLoaded = true;
       this.cd.markForCheck();
     });
   }
@@ -282,7 +308,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
       });
     }
 
-
     /**
      * Step final
      * Resizing & cropping image
@@ -301,7 +326,18 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
 
   /**
-   * Cropp Image
+   * Crop Image
+   * Resizing & cropping image
+   */
+  crop(): CroppedImage {
+    return {
+      base64Image: this.cropp(),
+      type: this.defaultType || this.config.type
+    };
+  }
+
+  /**
+   * Deprecated, use crop() instead
    */
   cropp(): string {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
@@ -331,7 +367,12 @@ export class LyResizingCroppingImages implements AfterContentInit {
     } else {
       url = result.toDataURL(this.defaultType);
     }
-    this.result.next(url);
+    this.result = (url);
+    this.cropped.emit({
+      base64Image: url,
+      type: this.defaultType || this.config.type
+    });
+    this.isCropped = true;
     return url;
   }
 }

@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs/Rx';
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
-import { LyResizingCroppingImages, LyResizingCroppingImagesConfig } from 'alyle-ui/resizing-cropping-images';
+import { LyResizingCroppingImages, LyResizingCroppingImagesConfig, CroppedImage } from 'alyle-ui/resizing-cropping-images';
 
 @Component({
   selector: 'resizing-cropping-images-example-01',
@@ -10,22 +10,29 @@ import { LyResizingCroppingImages, LyResizingCroppingImagesConfig } from 'alyle-
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class ResizingCroppingImagesExample01Component implements AfterViewInit {
+export class ResizingCroppingImagesExample01Component {
   @ViewChild(LyResizingCroppingImages) img: LyResizingCroppingImages;
   result: string;
-  myConfig: LyResizingCroppingImagesConfig;
+  myConfig: LyResizingCroppingImagesConfig = {
+    width: 150, // Default `250`
+    height: 150 // Default `200`
+  };
   isNewImg: Observable<boolean>;
-  constructor() {
-    this.myConfig = {
-      width: 150, // Default `250`
-      height: 150 // Default `200`
-    };
+
+  constructor() { }
+
+  crop() {
+    const imgCropped: CroppedImage = this.img.crop();
   }
 
-  ngAfterViewInit() {
-    this.isNewImg = this.img.img
-    .map((state) => !state)
-    .do(a => a);
+  oncropped(e) {
+    console.log('cropped', e);
+  }
+  onloaded() {
+    console.log('img loaded');
+  }
+  onerror() {
+    console.warn('img not loaded');
   }
 
 }
