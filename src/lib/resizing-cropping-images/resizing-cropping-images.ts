@@ -226,7 +226,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
   /**+ */
   zoomIn() {
-    const scale = this.roundNumber(this.scale + this.zoomScale);
+    // const scale = this.roundNumber(this.scale + this.zoomScale);
+    const scale = this.roundNumber(this.scale + .05);
     if (scale > 0 && scale <= 1) {
       this.setScale(scale);
     } else {
@@ -235,7 +236,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
   /**- */
   zoomOut() {
-    const scale = this.roundNumber(this.scale - this.zoomScale);
+    // const scale = this.roundNumber(this.scale - this.zoomScale);
+    const scale = this.roundNumber(this.scale - .05);
     if (scale > this.zoomScale && scale <= 1) {
       this.setScale(scale);
     } else {
