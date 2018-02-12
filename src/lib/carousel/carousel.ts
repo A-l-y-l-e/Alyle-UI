@@ -11,6 +11,8 @@ import {
   TemplateRef,
   ModuleWithProviders,
   AfterContentInit,
+  AfterViewInit,
+  OnDestroy,
   ElementRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -21,7 +23,8 @@ import {
   SimpleChange,
   SimpleChanges,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  OnInit
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
@@ -30,6 +33,7 @@ import { Observable } from 'rxjs/Observable';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { LyShadowModule, LyShadowService } from 'alyle-ui/shadow';
 import { CarouselService, VibrantColors } from './carousel.service';
+import { Platform } from 'alyle-ui/core';
 import { MinimalLS } from 'alyle-ui/ls';
 
 @Component({
@@ -46,8 +50,8 @@ import { MinimalLS } from 'alyle-ui/ls';
       (click)="select(i)"
       role="button"
       [class.active]="_itemSelect==i"
-      [style.background-color]="item.color.Vibrant.hex"
-      [style.color]="item.color.DarkVibrant.hex"
+      [style.background-color]="item.color.Vibrant?.hex"
+      [style.color]="item.color.DarkVibrant?.hex"
       [class.ly-carousel-inactive-button]="!(_itemSelect == i)"
       *ngFor="let item of lyItems; let i = index"></li>
     </ul>
@@ -71,9 +75,10 @@ import { MinimalLS } from 'alyle-ui/ls';
   <div *ngIf="lyItems.length!=1" (click)="focusLeft()" class="lycarousel-cursor-left"></div>
   <div *ngIf="lyItems.length!=1" (click)="focusRight()" class="lycarousel-cursor-right"></div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false
 })
-export class LyCarousel implements ControlValueAccessor {
+export class LyCarousel implements ControlValueAccessor, AfterViewInit, OnDestroy {
   public data: any;
   public value: any;
   public _selectedIndex: any;
@@ -169,10 +174,14 @@ export class LyCarousel implements ControlValueAccessor {
     Promise.resolve(null).then(() => {
       const controlsBottom = this.elementRef.nativeElement.querySelector('.carousel-indicators-container');
       controlsBottom.classList.remove('animation');
+      // tslint:disable-next-line:no-unused-expression
       void controlsBottom.offsetWidth;
       controlsBottom.classList.add('animation');
-      this.lyItems.forEach((item: LyCarouselItemComponent) => {item.lyCarouselActive = false; item._markForCheck(); });
-      const item = this.lyItems.find((a: LyCarouselItemComponent, b: number) => b == this._itemSelect);
+      this.lyItems.forEach((_item: LyCarouselItemComponent) => {
+        _item.lyCarouselActive = false;
+        _item._markForCheck();
+      });
+      const item = this.lyItems.find((a: LyCarouselItemComponent, b: number) => b === this._itemSelect);
       this.currentCarousel = item;
       this.currentColors = item.color;
       item.lyCarouselActive = true;
@@ -220,7 +229,7 @@ export class LyCarousel implements ControlValueAccessor {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LyCarouselItemComponent implements OnChanges {
+export class LyCarouselItemComponent implements OnInit, OnChanges {
   @Input('src') src: string;
   @Input('lyCarouselActive') @HostBinding('class.ly-carousel-item-active') lyCarouselActive = false;
   color: VibrantColors = new VibrantColors;
@@ -260,7 +269,7 @@ export class LyCarouselItemComponent implements OnChanges {
     }
   }
   updateColors() {
-    if (isPlatformBrowser(this.platformId)) {
+    if (Platform.isBrowser) {
       if (this.src === null || this.src === 'null') {
         return;
       } else {
@@ -282,15 +291,3 @@ export class LyCarouselItemComponent implements OnChanges {
     this.cd.markForCheck();
   }
 }
-
-
-
-const LY_CAROUSEL_DIRECTIVES = [LyCarouselItemComponent, LyCarousel];
-
-@NgModule({
-  imports: [CommonModule, FormsModule, LyShadowModule],
-  exports: [LY_CAROUSEL_DIRECTIVES],
-  declarations: [LY_CAROUSEL_DIRECTIVES],
-  providers: [LyShadowService, CarouselService]
-})
-export class LyCarouselModule { }
