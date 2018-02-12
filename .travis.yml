@@ -24,8 +24,8 @@ jobs:
   include:
     - stage: test
       script:
-        - echo $kEY
         - yarn install
+        - ng build
         - echo Hello World
     - stage: deploy
       script:
