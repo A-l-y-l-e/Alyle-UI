@@ -1,5 +1,5 @@
 <ly-carousel #_carousel interval="10000"
-[style.color]="_carousel.currentColors?.Vibrant.titleTextColor">
+[style.color]="_carousel.currentColors?.Vibrant?.titleTextColor">
   <ly-carousel-item *ngFor="let item of items" [src]="item.img">
     <h1>{{item.title}}</h1>
   </ly-carousel-item>

@@ -4,7 +4,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   selector: 'carousel-example-01',
   templateUrl: './carousel-example-01.component.html',
   styleUrls: ['./carousel-example-01.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false
 })
 export class CarouselExample01Component implements OnInit {
   items: any[] = [
