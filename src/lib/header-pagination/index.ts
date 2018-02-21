@@ -1,1 +1,1 @@
-export * from './header-pagination.module';
+export * from './public_api';

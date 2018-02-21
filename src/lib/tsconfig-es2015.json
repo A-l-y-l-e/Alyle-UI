@@ -1,9 +1,23 @@
 {
-  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "target": "es5",
-    "outDir": "OUT_DIR../build",
-    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "module": "es2015",
+    "target": "es2015",
+    "baseUrl": ".",
+    "stripInternal": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "inlineSources": true,
+    "outDir": "BASE_URL../build/NAME_PACKAGE/es2015",
+    "sourceMap": true,
+    "rootDir": "BASE_URL",
+    "skipLibCheck": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
     "paths": {
       "alyle-ui/core": ["BASE_URLcore/"],
       "alyle-ui/icon-button": ["BASE_URLicon-button/"],
@@ -25,12 +39,14 @@
       "alyle-ui/date-picker": ["BASE_URLdate-picker/"]
     }
   },
-  ROOT_FILE
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ],
   "angularCompilerOptions": {
-    "skipTemplateCodegen": true,
+    "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,
-    "enableSummariesForJit": false,
-    "flatModuleOutFile": "FLAT_MODULE_OUT_FILE.js",
-    "flatModuleId": "alyle-uiNAME_PACKAGE"
+    "skipTemplateCodegen": true,
+    "fullTemplateTypeCheck": true
   }
 }

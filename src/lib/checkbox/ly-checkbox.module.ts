@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { LyCheckbox } from './ly-checkbox/ly-checkbox.component';
 import { LyCheckboxService } from './ly-checkbox.service';
-export * from './ly-checkbox.service';
-export * from './ly-checkbox/ly-checkbox.component';
 @NgModule({
   imports: [
     CommonModule

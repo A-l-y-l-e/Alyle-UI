@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LyRippleModule } from 'alyle-ui/ripple-minimal';
 import { LyHeaderPagination } from './header-pagination.component';
-export * from './header-pagination.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, LyRippleModule],

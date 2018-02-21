@@ -1,10 +1,10 @@
-import { mathTrunc } from './polyfill'
+import { mathTrunc } from './polyfill';
 
 const hexToRgb = hex => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
-        [, r, g, b] = result.map(val => parseInt(val, 16))
-    return result ? {r, g, b } : null
-}
+        [r, g, b] = result.map(val => parseInt(val, 16)) as any;
+    return result ? {r, g, b } : 'null';
+};
 
 const splitSliceJoin = (string, start, end) => string.split('').slice(start, end).join('')
 

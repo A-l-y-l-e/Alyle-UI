@@ -1,2 +1,1 @@
-export * from './resizing-cropping-images';
-export * from './resizing-cropping-images.module';
+export * from './public_api';

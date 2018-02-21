@@ -1,1 +1,2 @@
-export * from './ly-checkbox.module';
+export * from './public_api';
+

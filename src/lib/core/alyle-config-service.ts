@@ -4,34 +4,34 @@ export class AlyleServiceConfig {
   other: string;
   colorScheme?: string;
   typography?: {
-    fontFamily: string,
-    fontSize: number
+    fontFamily: string;
+    fontSize: number;
   };
   schemes?: {
     light: {
-      colorText?: string,
-      disabled?: string,
-      bgText?: string,
-      main?: string,
+      colorText?: string;
+      disabled?: string;
+      bgText?: string;
+      main?: string;
       [key: string]: {
         [key: string]: any
-      } | string
+      } | any;
     },
     dark: {
-      colorText?: string,
-      disabled?: string,
-      bgText?: string,
-      main?: string,
+      colorText?: string;
+      disabled?: string;
+      bgText?: string;
+      main?: string;
       [key: string]: {
         [key: string]: any
-      } | string
+      } | any;
     }
   };
   shade?: string;
   palette?: {
     [key: string]: {
-      [key: string]: {[key: string]: string} | string,
-      contrast?: string
+      [key: string]: {[key: string]: string} | any;
+      contrast?: string;
     }
   };
 

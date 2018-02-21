@@ -3,7 +3,7 @@ import { Injectable, NgZone, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { merge } from 'rxjs/observable/merge';
-import { of } from 'rxjs/observable/of';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,7 +26,7 @@ export class Responsive {
    */
   observe(value: string): Observable<boolean> {
     let mm = this.matchMedia(value);
-    const mediaObservable = merge(of(true), this.stateView());
+    const mediaObservable = merge(Observable.of(true), this.stateView());
     return mediaObservable
     .filter((state) => {
       return this.matchMedia(value) !== mm || state === true;

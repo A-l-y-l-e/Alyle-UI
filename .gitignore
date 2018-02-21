@@ -4,6 +4,7 @@
 /dist
 /tmp
 /.tmp
+/dist-amb
 /build
 /out-tsc
 

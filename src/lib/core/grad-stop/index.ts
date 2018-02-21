@@ -23,7 +23,7 @@ export class GradStop {
     }
 
     // GradStop deafult options
-    options = defaultOptions
+    options = defaultOptions;
 
     // computeStops
     computeStops(options) {

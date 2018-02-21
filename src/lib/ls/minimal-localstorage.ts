@@ -23,7 +23,7 @@ export class MinimalStorage {
 
 @Injectable()
 export class MinimalLS {
-  private itemsSubject: Map<string, Subject<string>> = new Map<string, BehaviorSubject<string>>();
+  private itemsSubject = new Map<string, BehaviorSubject<string>>();
   private _prefix = '*ls*';
   private storageEvent: Observable<any>;
   private storage = new Subject();
@@ -49,7 +49,7 @@ export class MinimalLS {
     if (isPlatformBrowser(this.platformId)) {
       return !!localStorage.getItem(key);
     }
-    if (isPlatformServer(this.platformId)){
+    if (isPlatformServer(this.platformId)) {
       return false;
     }
   }

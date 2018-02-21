@@ -10,8 +10,6 @@ import { AlyleServiceConfig } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';
 import { GradStop } from './grad-stop/index';
-import * as objectAssignDeep_ from 'deep-assign';
-const objectAssignDeep: any = (<any>objectAssignDeep_.default || objectAssignDeep_);
 export class ThemeColor {
   name: string;
   color: { [key: string]: string };
@@ -140,7 +138,7 @@ export class LyTheme {
       if (Object.keys(colors).length <= 2) {
         /**get color of first item  */
         const shades = this.createShades(colors[(Object.keys(colors)[0])]);
-        colors = objectAssignDeep(colors, shades);
+        colors = mergeDeep(colors, shades);
       }
       return colors;
     } else {
@@ -150,7 +148,7 @@ export class LyTheme {
 
   constructor(@Optional() config: AlyleServiceConfig, private sanitizer: DomSanitizer) {
 
-    config = objectAssignDeep(defaultTheme as AlyleServiceConfig, config);
+    config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
     const primary    = this._setColorPalette(config.primary, config.palette);
     const accent     = this._setColorPalette(config.accent, config.palette);
     const other      = this._setColorPalette(config.other, config.palette);
@@ -176,7 +174,7 @@ export class LyTheme {
       // colorText: {color: scheme.text.default},
       // bgText: {color: scheme.background.default}
     };
-    getAllColors = objectAssignDeep(getAllColors, scheme);
+    getAllColors = mergeDeep(getAllColors, scheme);
 
     // this.createShades(primary.color[shade]);
     /* tslint:disable */
@@ -227,7 +225,7 @@ export class LyTheme {
 
   setTheme(config: AlyleServiceConfig) {
     const currentTheme = this.AlyleUI.currentTheme;
-    config = objectAssignDeep(currentTheme as AlyleServiceConfig, config);
+    config = mergeDeep(currentTheme as AlyleServiceConfig, config);
     if (config) {
       const primary    = this._setColorPalette(config.primary, config.palette);
       const accent     = this._setColorPalette(config.accent, config.palette);
@@ -241,7 +239,7 @@ export class LyTheme {
         accent: accent,
         other: other
       };
-      getAllColors = objectAssignDeep(getAllColors, scheme);
+      getAllColors = mergeDeep(getAllColors, scheme);
 
       // this.createShades(primary.color[shade]);
 
@@ -261,13 +259,6 @@ export class LyTheme {
     }
   }
 
-
-  /**
-   * for bg or color inputs, find the color in palette, return color
-   * @param  {'bg' |      'color'}     type [description]
-   * @param  {string}  color  Palette name
-   * @return {string}         Color hex
-   */
   color(color: string, colors?: any, shade?: string): string {
     console.warn('DEPRECATED');
     const $shade = shade ? shade : this.AlyleUI.currentTheme.shade;
@@ -304,7 +295,7 @@ export class LyTheme {
   private getColorv2(colorName: string, colors: any, shade?: string): string {
     const ar = colors ? colors : this.AlyleUI.palette;
     if (ar[colorName]) {
-      if (typeof ar[colorName].color == 'string' || typeof ar[colorName] == 'string') {
+      if (typeof ar[colorName].color === 'string' || typeof ar[colorName] === 'string') {
         return ar[colorName].color || ar[colorName];
       } else {
         return ar[colorName].color[shade];
@@ -314,11 +305,6 @@ export class LyTheme {
     }
   }
 
-  /**
-   * Get palette from theme
-   * @param  {string} colorName name of palette
-   * @return {Color}
-   */
   paletteOf(colorName: string): ThemeColor {
     return this.findColor(colorName);
   }
@@ -339,9 +325,6 @@ export class LyStyleTheme {
   /**
    * for bg or color inputs, find the color in palette, return color
    * example: this.theme.update('bg', 'primary', this.theme.AlyleUI.palette); // #00bcd4
-   * @param  {'bg' |      'color'}     type [description]
-   * @param  {string}  color  Palette name
-   * @return {string}         Color hex
    */
   // getPalette(color: string, colors?: any): string {
   //   let result: string;
@@ -391,4 +374,27 @@ export class LyPalette {
     dark: '#2C2D31',
   };
 
+}
+
+
+export function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+export function mergeDeep(target, source) {
+  const output = Object.assign({}, target);
+  if (isObject(target) && isObject(source)) {
+    Object.keys(source).forEach(key => {
+      if (isObject(source[key])) {
+        if (!(key in target)) {
+          Object.assign(output, { [key]: source[key] });
+        } else {
+          output[key] = mergeDeep(target[key], source[key]);
+        }
+      } else {
+        Object.assign(output, { [key]: source[key] });
+      }
+    });
+  }
+  return output;
 }

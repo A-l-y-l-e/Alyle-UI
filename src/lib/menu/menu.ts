@@ -183,16 +183,16 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
     // let leftTarget: any = 0;
 
     // for _anchorOrigin
-    if (this._anchorOrigin.vertical == 'center') {
+    if (this._anchorOrigin.vertical === 'center') {
       // anchor origin
       top = (this.rootMenu.height / 2);
-    } else if (this._anchorOrigin.vertical == 'bottom') {
+    } else if (this._anchorOrigin.vertical === 'bottom') {
       top = (this.rootMenu.height);
     }
-    if (this._anchorOrigin.horizontal == 'middle') {
+    if (this._anchorOrigin.horizontal === 'middle') {
       // anchor origin
       left = (this.rootMenu.width / 2);
-    } else if (this._anchorOrigin.horizontal == 'right') {
+    } else if (this._anchorOrigin.horizontal === 'right') {
       left = (this.rootMenu.width);
     }
 
@@ -230,7 +230,7 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
   }
   get targetOrigin(): string {
     return `${
-      this._targetOrigin.horizontal == 'middle' ? 'center' : this._targetOrigin.horizontal
+      this._targetOrigin.horizontal === 'middle' ? 'center' : this._targetOrigin.horizontal
     } ${this._targetOrigin.vertical} 0`;
   }
   toggleMenu() {
@@ -310,11 +310,3 @@ export class LyMenuTriggerFor {
   }
 
 }
-
-@NgModule({
-  imports: [CommonModule, FormsModule, LyCoreModule, LxDomModule],
-  exports: [LyMenu, LyMenuTriggerFor],
-  declarations: [LyMenu, LyMenuTriggerFor, LyTemplateMenu],
-  // entryComponents: [LyTemplateMenu]
-})
-export class LyMenuModule { }

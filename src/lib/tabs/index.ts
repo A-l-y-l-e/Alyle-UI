@@ -1,3 +1,1 @@
-export * from './tabs.module';
-export * from './tabs';
-export * from './tab-label.directive';
+export * from './public_api';

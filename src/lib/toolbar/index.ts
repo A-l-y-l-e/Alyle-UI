@@ -1,1 +1,1 @@
-export * from './toolbar';
+export * from './public_api';

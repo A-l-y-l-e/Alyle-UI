@@ -1,6 +1,3 @@
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import {
   Component,
   forwardRef,
@@ -27,18 +24,19 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { NgModel } from '@angular/forms';
-import { LyCoreModule, Platform, IsBoolean } from 'alyle-ui/core';
-import { Ly_Next, Ly_Prev } from 'alyle-ui/core';
 import { LyRippleModule, LyRipple } from 'alyle-ui/ripple-minimal';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import {
+  NgModel,
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyTheme, themeProperty, LyStyleTheme, BgAndColorStyle } from 'alyle-ui/core';
+import { LyTheme, themeProperty, LyStyleTheme, BgAndColorStyle, LyCoreModule, Platform, IsBoolean } from 'alyle-ui/core';
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyRadioGroup),
@@ -57,7 +55,7 @@ let idx = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class LyRadioGroup implements AfterContentInit, AfterViewInit, OnDestroy, ControlValueAccessor {
+export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlValueAccessor {
   _value = null;
   name = `ly-radio-name-${idx++}`;
   _color = 'accent';
@@ -117,8 +115,6 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, OnDestroy,
         }
     });
   }
-
-  ngOnDestroy() { }
 
 }
 @Component({

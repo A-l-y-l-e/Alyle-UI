@@ -107,9 +107,3 @@ export class LyIconButton implements OnInit, AfterViewInit, OnChanges, OnDestroy
   ngOnDestroy() { }
 }
 
-@NgModule({
-  imports: [CommonModule, LyRippleModule],
-  exports: [LyIconButton],
-  declarations: [LyIconButton],
-})
-export class LyIconButtonModule { }

@@ -2,7 +2,8 @@ import { Directive, ElementRef, Injectable, ChangeDetectorRef, NgZone, HostBindi
 import { Subject } from 'rxjs/Subject';
 import { Platform } from '../platform/index';
 import { Subscription } from 'rxjs/Subscription';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operator/debounceTime';
+import 'rxjs/add/operator/debounceTime';
 import { Observable } from 'rxjs/Observable';
 
 export enum FocusStatus {
@@ -45,9 +46,10 @@ export class LyFocusState implements OnDestroy {
       };
       const ob: Observable<FocusStatus> = this._stateSubject.asObservable();
       this._stateSubscription = ob
-      .pipe(
-        debounceTime(111)
-      )
+      .debounceTime(111)
+      // .pipe(
+      //   debounceTime(111)
+      // )
       .subscribe((e: FocusStatus) => {
         this.state = e;
         this._updateClass();

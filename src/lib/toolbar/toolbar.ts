@@ -66,11 +66,4 @@ export class LyToolbar implements OnInit, OnDestroy {
     }
   }
 }
-@NgModule({
-  imports: [CommonModule],
-  exports: [LyToolbar, ToolbarItem],
-  declarations: [LyToolbar, ToolbarItem],
-  providers: [LyStyleTheme]
-})
-export class LyToolbarModule {
-}
+
