@@ -1,19 +1,20 @@
+import { Component, ViewChild, VERSION, ChangeDetectionStrategy} from '@angular/core';
 import { environment } from './../environments/environment';
-import { Component, ViewChild, VERSION, Inject, PLATFORM_ID} from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { AUI_VERSION } from 'alyle-ui';
 import { LyMenu } from 'alyle-ui/menu';
-import { LyTheme } from 'alyle-ui/core';
+import { LyTheme, Platform } from 'alyle-ui/core';
 import { RoutesAppService } from './components/routes-app.service';
 import { MinimalLS } from 'alyle-ui/ls';
 import { AlyleServiceConfig } from 'alyle-ui/core';
-// import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  preserveWhitespaces: false,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   routesComponents: any;
@@ -26,22 +27,19 @@ export class AppComponent {
     public router: Router,
     public route: ActivatedRoute,
     public theme: LyTheme,
-    public routesApp: RoutesAppService,
-    @Inject(PLATFORM_ID) private platformId: Object
-    // private swUpdate: SwUpdate,
+    public routesApp: RoutesAppService
   ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.router.events.subscribe(event => {
-        if (event instanceof NavigationEnd) {
-          this.routeState = event.urlAfterRedirects !== '/';
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.routeState = event.urlAfterRedirects !== '/';
+        if (Platform.isBrowser) {
           if (environment.production) {
-            // this.swUpdate.checkForUpdate();
             ga('set', 'page', event.urlAfterRedirects);
             ga('send', 'pageview');
           }
         }
-      });
-    }
+      }
+    });
     this.routesComponents = this.routesApp.routesApp;
     this.listColors = [
       {
