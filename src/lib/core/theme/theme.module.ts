@@ -8,8 +8,7 @@ import { ColorModule } from './color/color.module';
     BgModule,
     ColorModule
   ],
-  exports: [BgModule, ColorModule],
-  declarations: []
+  exports: [BgModule, ColorModule]
 })
 export class ThemeModule { }
 export * from './bg/bg.module';
