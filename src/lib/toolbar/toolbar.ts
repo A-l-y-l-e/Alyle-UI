@@ -4,7 +4,8 @@ import {
   Input,
   OnInit,
   OnDestroy,
-  HostBinding}          from '@angular/core';
+  HostBinding
+}                       from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { LyTheme }      from 'alyle-ui/core';
 import { CommonModule } from '@angular/common';
