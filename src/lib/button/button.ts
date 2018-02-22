@@ -103,7 +103,7 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   /** Callback registered via registerOnChange (ControlValueAccessor) */
   private _onChangeCallback: (_: any) => void;
-  
+
   @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
   @HostListener('mousedown') onMouseDown() {
     this.lyRippleNoFocus = true;
@@ -192,7 +192,6 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
               if (eve.nodeName === '#text' && eve.nodeValue.trim() !== '') {
                 right = 'ly-button-padding-right';
               }
-  
               // this.buttonPadding.next(`${right}`);
               // this.buttonPadding.next(`${right}`);
             }
