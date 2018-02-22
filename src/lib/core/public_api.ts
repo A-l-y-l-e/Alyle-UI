@@ -9,7 +9,7 @@ export * from './platform/index';
 export * from './color-tranformation';
 export * from './theme/theme.module';
 export * from './minimal/index';
-export * from './grad-stop/index';
+export * from './gradstop/index';
 export * from './dom/dom.service';
 export * from './dom/lx-dom.module';
 export * from './focus-state/focus-state.module';

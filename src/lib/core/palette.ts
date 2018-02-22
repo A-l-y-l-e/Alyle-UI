@@ -9,8 +9,9 @@ import { BehaviorSubject }    from 'rxjs/BehaviorSubject';
 import { AlyleServiceConfig } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';
-
-declare var gradStop;
+import { gradStop } from './gradstop';
+console.log('gradStop', {gradStop});
+// declare var gradStop;
 
 export class ThemeColor {
   name: string;
