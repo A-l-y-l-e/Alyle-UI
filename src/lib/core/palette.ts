@@ -10,8 +10,6 @@ import { AlyleServiceConfig } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';
 import { gradStop } from './gradstop';
-console.log('gradStop', {gradStop});
-// declare var gradStop;
 
 export class ThemeColor {
   name: string;
@@ -141,7 +139,6 @@ export class LyTheme {
       if (Object.keys(colors).length <= 2) {
         /**get color of first item  */
         const shades = this.createShades(colors[(Object.keys(colors)[0])]);
-        console.log({shades}, {colors});
         colors = mergeDeep(colors, shades);
       }
       return colors;
@@ -201,7 +198,6 @@ export class LyTheme {
   // }
 
   private _gradStop(colors: string[], stops) {
-    // console.warn({colors}, {stops});
     return gradStop({
       stops: stops,
       inputFormat: 'hex',
@@ -222,7 +218,6 @@ export class LyTheme {
       const shadeId = `${b * 100 / 2}`;
       if (b <= 20) {
         shades[shadeId] = a;
-        // console.log(`%c    ${shadeId}`, `background: ${a}; color: #fff`);
       }
     });
     return shades;
