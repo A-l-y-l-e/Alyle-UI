@@ -9,8 +9,9 @@ import { BehaviorSubject }    from 'rxjs/BehaviorSubject';
 import { AlyleServiceConfig } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';
-import * as objectDeepMerge from 'object-assign-deep';
+
 declare var gradStop;
+
 export class ThemeColor {
   name: string;
   color: { [key: string]: string };
@@ -150,8 +151,7 @@ export class LyTheme {
 
   constructor(@Optional() config: AlyleServiceConfig, private sanitizer: DomSanitizer) {
 
-    config = objectDeepMerge(defaultTheme as AlyleServiceConfig, config);
-    // config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
+    config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
     const primary    = this._setColorPalette(config.primary, config.palette);
     const accent     = this._setColorPalette(config.accent, config.palette);
     const other      = this._setColorPalette(config.other, config.palette);
@@ -177,8 +177,7 @@ export class LyTheme {
       // colorText: {color: scheme.text.default},
       // bgText: {color: scheme.background.default}
     };
-    getAllColors = objectDeepMerge(getAllColors, scheme);
-    // getAllColors = mergeDeep(getAllColors, scheme);
+    getAllColors = mergeDeep(getAllColors, scheme);
 
     // this.createShades(primary.color[shade]);
     /* tslint:disable */
