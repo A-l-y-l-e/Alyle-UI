@@ -9,7 +9,8 @@ import { BehaviorSubject }    from 'rxjs/BehaviorSubject';
 import { AlyleServiceConfig } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';
-import { GradStop } from './grad-stop/index';
+import * as objectDeepMerge from 'object-assign-deep';
+declare var gradStop;
 export class ThemeColor {
   name: string;
   color: { [key: string]: string };
@@ -138,6 +139,7 @@ export class LyTheme {
       if (Object.keys(colors).length <= 2) {
         /**get color of first item  */
         const shades = this.createShades(colors[(Object.keys(colors)[0])]);
+        console.log({shades}, {colors});
         colors = mergeDeep(colors, shades);
       }
       return colors;
@@ -148,7 +150,8 @@ export class LyTheme {
 
   constructor(@Optional() config: AlyleServiceConfig, private sanitizer: DomSanitizer) {
 
-    config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
+    config = objectDeepMerge(defaultTheme as AlyleServiceConfig, config);
+    // config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
     const primary    = this._setColorPalette(config.primary, config.palette);
     const accent     = this._setColorPalette(config.accent, config.palette);
     const other      = this._setColorPalette(config.other, config.palette);
@@ -174,7 +177,8 @@ export class LyTheme {
       // colorText: {color: scheme.text.default},
       // bgText: {color: scheme.background.default}
     };
-    getAllColors = mergeDeep(getAllColors, scheme);
+    getAllColors = objectDeepMerge(getAllColors, scheme);
+    // getAllColors = mergeDeep(getAllColors, scheme);
 
     // this.createShades(primary.color[shade]);
     /* tslint:disable */
@@ -197,15 +201,16 @@ export class LyTheme {
   // }
 
   private _gradStop(colors: string[], stops) {
-    return new GradStop({
+    // console.warn({colors}, {stops});
+    return gradStop({
       stops: stops,
       inputFormat: 'hex',
       colorArray: colors
-    }).getColors();
+    });
   }
   private _getGrad(color: string) {
-    const toBlack = this._gradStop(['#fff', color], 11);
-    const toWhite = this._gradStop([color, '#000'], 33);
+    const toBlack = this._gradStop(['#ffffff', color], 11);
+    const toWhite = this._gradStop([color, '#000000'], 33);
     toBlack.pop();
     return toBlack.concat(toWhite);
   }

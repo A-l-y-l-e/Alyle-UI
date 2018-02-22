@@ -10,7 +10,7 @@ import defaultOptions from './defaultOptions';
 export class GradStop {
     private _options;
     constructor(options) {
-        this._options = options = objectAssign({}, this.options, options)
+        this._options = options = Object.assign({}, this.options, options)
 
         if (options.stops < options.colorArray.length) {
             throw new Error('Number of stops cannot be less than colorArray.length')

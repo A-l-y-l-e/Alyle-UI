@@ -60,4 +60,10 @@ export class LyInlineText {}
   declarations: [LyRoot, LyInlineText],
   providers: [Platform]
 })
-export class LyCoreModule {}
+export class LyCoreModule {
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: LyCoreModule,
+    };
+  }
+}

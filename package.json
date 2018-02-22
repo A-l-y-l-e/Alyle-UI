@@ -39,6 +39,7 @@
     "node-sass": "^4.7.2",
     "node-vibrant": "^3.0.0",
     "object-assign-deep": "^0.3.1",
+    "gradstop": "https://github.com/Siddharth11/gradStop.js.git",
     "prismjs": "^1.6.0",
     "rxjs": "^5.5.6",
     "ts-loader": "^3.1.1",

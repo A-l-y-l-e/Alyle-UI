@@ -71,6 +71,14 @@
     {
       "name": "alyle-ui/tabs",
       "dir": "tabs"
+    },
+    {
+      "name": "alyle-ui/toolbar",
+      "dir": "toolbar"
+    },
+    {
+      "name": "alyle-ui/drawer",
+      "dir": "drawer"
     }
   ],
   "globals": {

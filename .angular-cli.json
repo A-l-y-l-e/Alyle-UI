@@ -23,7 +23,8 @@
       ],
       "scripts": [
         "../node_modules/hammerjs/hammer.min.js",
-        "../node_modules/node-vibrant/dist/vibrant.min.js"
+        "../node_modules/node-vibrant/dist/vibrant.min.js",
+        "../node_modules/gradstop/dist/gradstop.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -51,7 +52,8 @@
         "styles.scss"
       ],
       "scripts": [
-        "../node_modules/hammerjs/hammer.min.js"
+        "../node_modules/hammerjs/hammer.min.js",
+        "../node_modules/gradstop/dist/gradstop.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

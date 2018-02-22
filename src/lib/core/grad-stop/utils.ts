@@ -34,21 +34,21 @@ export const propBezInterpolate = charArr => colArr => x => {
     })
 }
 
-export const extractHEX = arr => fixedHexFormat(arr).map(c => hexToRgb(c))
+export const extractHEX = arr => fixedHexFormat(arr).map(c => hexToRgb(c));
 
 export const extractRGB = arr => arr.map(c => {
-    const [r, g, b] = splitSliceJoin(c, 4, -1).split(',')
-    return { r, g, b }
+    const [r, g, b] = splitSliceJoin(c, 4, -1).split(',');
+    return { r, g, b };
 })
 
 export const extractHSL = arr => arr.map(c => {
     c = splitSliceJoin(c, 4, -1).split(',')
     const h = c[0],
         s = splitSliceJoin(c[1], 0, -1),
-        l = splitSliceJoin(c[2], 0, -1)
-    return { h, s, l }
+        l = splitSliceJoin(c[2], 0, -1);
+    return { h, s, l };
 })
 
-export const returnRGBStr = arr => `rgb(${arr[0]}, ${arr[1]}, ${arr[2]})`
+export const returnRGBStr = arr => `rgb(${arr[0]}, ${arr[1]}, ${arr[2]})`;
 
-export const returnHSLStr = arr => `hsl(${arr[0]}, ${arr[1]}%, ${arr[2]}%)`
+export const returnHSLStr = arr => `hsl(${arr[0]}, ${arr[1]}%, ${arr[2]}%)`;

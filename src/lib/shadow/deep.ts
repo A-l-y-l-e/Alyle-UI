@@ -28,6 +28,7 @@ export class LyDeepComponent {
   @HostBinding('style.box-shadow') styleBoxShadow: SafeStyle | string;
   @Input('shadowColor')
   set shadowColor(val: string) {
+    console.log({val});
     this._shadowColor = this.theme.colorOf(val);
     this.styleHost();
   }

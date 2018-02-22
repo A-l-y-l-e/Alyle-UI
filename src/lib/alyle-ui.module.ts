@@ -13,7 +13,7 @@ import {
 export const AUI_VERSION = '{@version}';
 
 @NgModule({
-  imports: [LyCoreModule],
+  imports: [LyCoreModule.forRoot()],
   exports: [LyCoreModule],
   providers: [
     LyTheme
