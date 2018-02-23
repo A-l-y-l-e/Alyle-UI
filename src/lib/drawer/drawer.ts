@@ -128,6 +128,10 @@ export class LyDrawerContainer {
 })
 export class LyDrawer implements OnChanges {
   private _opened = false;
+  @Input() config: LyDrawerConfig = {
+    width: 200,
+    height: 200
+  };
   @HostBinding('attr.mode') @Input() mode: 'side' | 'push' | 'over' = 'side';
   @HostBinding('attr.position') @Input() position: 'top' | 'bottom' | 'left' | 'right' | 'rtl' = 'left';
   @HostBinding('@visibilityChanged') private isOpenDrawer: 'open' | 'close' | boolean = false;
@@ -157,8 +161,8 @@ export class LyDrawer implements OnChanges {
 
   private updateDrawerMargin() {
     if (this.mode === 'side' || this.mode === 'push') {
-      const width = this._elementRect.width;
-      const height = this._elementRect.height;
+      const width = this.config.width;
+      const height = this.config.height;
       if (width !== 0 && this.position === 'left' || this.position === 'right') {
         const margin = {};
         margin[this.position] = width;
@@ -224,4 +228,9 @@ export class LyDrawer implements OnChanges {
     });
   }
 
+}
+
+export interface LyDrawerConfig {
+  width?: number;
+  height?: number;
 }

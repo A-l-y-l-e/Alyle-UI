@@ -1,17 +1,18 @@
+:host {
+  display: block;
+}
 .header {
-  position: absolute;
+  position: fixed;
   z-index: 11;
   width: 100%;
 }
 .drawer {
   height: calc(100% - 64px);
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
   ly-drawer {
     width: 200px;
-    height: 100%;
+    width: 200px;
+    height: calc(100% - 64px);
+    bottom: 0;
   }
 }
 :host {
@@ -22,7 +23,7 @@
   .demo {
     margin: auto;
     max-width: 960px;
-    padding: 32px;
+    padding: 96px 32px;
   }
 }
 .logo {

@@ -1,13 +1,13 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
 body {
   margin: 0;
 }
 ly-core[root] {
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
 }
 ly-svg svg, [ly-svg] svg {
   width: inherit;
@@ -65,5 +65,22 @@ button {
     // transition-timing-function: cubic-bezier(0, 0, .2, 1);
     transition: opacity ease, transform cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
+  }
+}
+
+// LyDrawer
+ly-drawer-container {
+  display: flex;
+  .ly-drawer {
+    position: fixed;
+    overflow: auto;
+    height: inherit;
+    width: inherit;
+    top: inherit;
+    bottom: inherit;
+    text-align: inherit;
+  }
+  ly-drawer-content {
+    flex: 1 1;
   }
 }

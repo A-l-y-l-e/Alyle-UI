@@ -1,10 +1,5 @@
 :host {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  overflow: hidden;
+  display: block;
 }
 .intra-container {
   text-align: center;
@@ -14,8 +9,8 @@
   position: relative;
   width: 100%;
   display: flex;
+  min-height: calc(100vh - 64px);
   .intra-content {
-    position: absolute;
     padding-bottom: 64px;
   }
 }

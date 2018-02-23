@@ -28,6 +28,7 @@
       "alyle-ui/radio": ["lib/radio/"],
       "alyle-ui/ls": ["lib/ls/"],
       "alyle-ui/drawer": ["lib/drawer/"],
+      "alyle-ui/drawer-minimal": ["lib/drawer-minimal/"],
       "alyle-ui/menu": ["lib/menu/"],
       "alyle-ui/toolbar": ["lib/toolbar/"],
       "alyle-ui/svg": ["lib/svg/"],

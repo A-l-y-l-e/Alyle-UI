@@ -29,6 +29,9 @@ export class AppComponent {
     public theme: LyTheme,
     public routesApp: RoutesAppService
   ) {
+    this.route.url.subscribe((val) => {
+      console.warn(val);
+    });
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.routeState = event.urlAfterRedirects !== '/';

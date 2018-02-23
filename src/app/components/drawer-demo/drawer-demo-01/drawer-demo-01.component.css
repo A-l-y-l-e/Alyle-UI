@@ -1,5 +1,6 @@
 ly-drawer-container {
     height: 225px;
+    transform: translate3d(0,0,0);
 }
 .drawer-demo {
     height: 100%;
