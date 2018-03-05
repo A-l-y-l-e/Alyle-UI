@@ -2,10 +2,7 @@ import { Injectable }     from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/share';
 @Injectable()
 export class LySvgService {
   private static readonly _svg: Map<string, SVGElement> = new Map<string, SVGElement>();
