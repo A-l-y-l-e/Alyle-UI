@@ -120,14 +120,18 @@ export class LyResizingCroppingImages implements AfterContentInit {
     });
     fileReader.readAsDataURL(_img.files[0]);
   }
+  fixedNum(num: number) {
+    return parseFloat(num.toFixed(0));
+  }
   setScale(size: number) {
     if (!(size > 0 && size <= 1)) { return; }
     this.scale = size;
     size = size * 100;
     const img = this.imgContainer.nativeElement.firstElementChild;
     const initialImg = this._img;
-    const width = initialImg.width * size / 100;
-    const height = initialImg.height * size / 100;
+    const width = this.fixedNum(initialImg.width * size / 100);
+    const height = this.fixedNum(initialImg.height * size / 100);
+    console.warn(initialImg.width, initialImg.height, { size, width, height });
     this._dragData.next({
       width: `${width}px`,
       height: `${height}px`,
@@ -136,6 +140,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
   private customCenter(width: number, height: number) {
     const root = this.elementRef.nativeElement as HTMLElement;
+    // console.log({ width, height });
     const w = (root.offsetWidth - width) / 2;
     const h = (root.offsetHeight - height) / 2;
     return `translate3d(${w}px, ${h}px, 0)`;
@@ -171,6 +176,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
       width: this.config.width / this._img.width * 100,
       height: this.config.height / this._img.height * 100
     };
+    // console.warn('minScale', minScale, 'config', this.config);
+    // console.warn(this._img.width, this._img.height);
     this.setScale(Math.max(minScale.width, minScale.height) / 100);
   }
 
