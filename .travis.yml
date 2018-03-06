@@ -1,7 +1,8 @@
 language: node_js
+dist: trusty
 sudo: false
 node_js:
-- '8.4.0'
+  - '9.7.0'
 
 addons:
   chrome: stable
@@ -10,23 +11,22 @@ cache:
   yarn: true
   directories:
     - node_modules
-    - "$HOME/.npm"
-    - "$HOME/.cache"
 
 branches:
   only:
     - master
 
 install:
-  - yarn install
+  - yarn
 
 jobs:
   include:
     - stage: test
       script:
-        - yarn install
         - ng build
-        - echo Hello World
+    - stage: test
+      script:
+        - yarn amb
     - stage: deploy
       script:
         - yarn functions:install

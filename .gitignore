@@ -45,7 +45,6 @@ testem.log
 Thumbs.db
 
 # yarn files
-yarn.lock
 yarn-error.log
 
 # firebase files
