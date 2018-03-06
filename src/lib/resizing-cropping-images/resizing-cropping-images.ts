@@ -13,7 +13,8 @@ import {
   ChangeDetectorRef,
   ViewChild,
   AfterContentInit,
-  EventEmitter
+  EventEmitter,
+  SimpleChanges
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -131,7 +132,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
     const initialImg = this._img;
     const width = this.fixedNum(initialImg.width * size / 100);
     const height = this.fixedNum(initialImg.height * size / 100);
-    console.warn(initialImg.width, initialImg.height, { size, width, height });
     this._dragData.next({
       width: `${width}px`,
       height: `${height}px`,
@@ -140,7 +140,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
   private customCenter(width: number, height: number) {
     const root = this.elementRef.nativeElement as HTMLElement;
-    // console.log({ width, height });
     const w = (root.offsetWidth - width) / 2;
     const h = (root.offsetHeight - height) / 2;
     return `translate3d(${w}px, ${h}px, 0)`;
@@ -176,8 +175,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
       width: this.config.width / this._img.width * 100,
       height: this.config.height / this._img.height * 100
     };
-    // console.warn('minScale', minScale, 'config', this.config);
-    // console.warn(this._img.width, this._img.height);
     this.setScale(Math.max(minScale.width, minScale.height) / 100);
   }
 
