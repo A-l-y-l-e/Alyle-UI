@@ -1,14 +1,12 @@
 [![npm](https://img.shields.io/npm/v/alyle-ui.svg?style=flat-square)]()
 [![npm](https://img.shields.io/npm/dt/alyle-ui.svg?style=flat-square)]()
-[![Dependency Status](https://david-dm.org/A-l-y-l-e/alyle-ui.svg?style=flat-square)](https://david-dm.org/A-l-y-l-e/alyle-ui)
 
 <div align="center">
   <h1>Alyle UI</h1>
   Minimal Design, a package of components for Angular.
   <br/>
-  <a href="https://alyle-ui.firebaseapp.com/components/input">DEMO</a>
+  <a href="https://alyle-ui.firebaseapp.com/">DEMO</a>
 </div>
-
 
 ## Install
 
