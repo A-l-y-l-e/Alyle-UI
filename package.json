@@ -4,12 +4,12 @@
   "license": "MIT",
   "scripts": {
     "start": "ng serve --port 1111 --no-aot",
-    "build": "rm -rf functions/dist && yarn build:browser && yarn build:server && yarn mv:index.html && cd functions && yarn build",
+    "build": "yarn build:browser && yarn build:server && prerender",
     "build:browser": "ng build --prod",
     "build:server": "ng build -aot -app alyle-ui",
     "build:package": "rm -rf .tmp dist build && gulp build:package",
     "publish:package": "yarn build && yarn deploy && yarn build:package && cd build && yarn publish",
-    "serve": "cd functions && yarn serve",
+    "serve": "yarn build && firebase serve only hosting",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -44,6 +44,7 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
+    "@alyle/angular-prerender": "^0.1.0",
     "@angular/cli": "^1.7.1",
     "@angular/compiler-cli": "^6.0.0-beta.6",
     "@angular/http": "^6.0.0-beta.6",

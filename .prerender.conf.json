@@ -1,0 +1,20 @@
+{
+  "app-name:server": "alyle-ui",
+  "paths": [
+    "/",
+    "get-started",
+    "theming",
+    "bg-color",
+    "component/button",
+    "component/drawer",
+    "component/input",
+    "component/tabs",
+    "component/radio",
+    "component/menu",
+    "component/resizing-cropping-images",
+    "component/carousel",
+    "component/icon-button",
+    "component/ripple",
+    "component/responsive"
+  ]
+}

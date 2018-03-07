@@ -5,7 +5,7 @@ import { environment } from 'environments/environment';
 const routes: Routes = [
   { path: 'get-started', loadChildren: './components/get-started/get-started.module#GetStartedModule' },
   { path: 'theming', loadChildren: './components/theming/theming.module#ThemingModule' },
-  { path: 'components', loadChildren: './components/index#ComponentsModule' },
+  { path: 'component', loadChildren: './components/index#ComponentsModule' },
   { path: 'bg-color', loadChildren: './components/bg-color-demo/bg-color-demo.module#BgColorDemoModule' },
   { path: '', loadChildren: './home/home.module#HomeModule' },
 ];

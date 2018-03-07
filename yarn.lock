@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@alyle/angular-prerender@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@alyle/angular-prerender/-/angular-prerender-0.1.0.tgz#095f90a35dc944a7bac5b400aed96815e59c5959"
+  dependencies:
+    fs-extra "^5.0.0"
+    html-minifier "^3.5.10"
+    node-fetch "^2.1.1"
+
 "@angular-devkit/build-optimizer@0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.3.2.tgz#77d4d1e4fcd09575f0200e2d6d21c1a3f995096f"
@@ -4075,6 +4083,19 @@ html-minifier@^3.2.3:
     relateurl "0.2.x"
     uglify-js "3.3.x"
 
+html-minifier@^3.5.10:
+  version "3.5.10"
+  resolved "https://registry.yarnpkg.com/html-minifier/-/html-minifier-3.5.10.tgz#8522c772c388db81aa5c26f62033302d906ea1c7"
+  dependencies:
+    camel-case "3.0.x"
+    clean-css "4.1.x"
+    commander "2.14.x"
+    he "1.1.x"
+    ncname "1.0.x"
+    param-case "2.1.x"
+    relateurl "0.2.x"
+    uglify-js "3.3.x"
+
 html-webpack-plugin@^2.29.0:
   version "2.30.1"
   resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-2.30.1.tgz#7f9c421b7ea91ec460f56527d78df484ee7537d5"
@@ -5879,6 +5900,10 @@ no-case@^2.2.0:
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
   dependencies:
     lower-case "^1.1.1"
+
+node-fetch@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.1.1.tgz#369ca70b82f50c86496104a6c776d274f4e4a2d4"
 
 node-forge@0.7.1, node-forge@^0.7.1:
   version "0.7.1"

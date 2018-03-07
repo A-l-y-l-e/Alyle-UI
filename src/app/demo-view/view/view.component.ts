@@ -71,7 +71,7 @@ export class ViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.name = this.router.url.replace(/\//g, '').replace(/components/, '');
+    this.name = this.router.url.replace(/\//g, '').replace(/component/, '');
     this.folderName = this.el.nativeElement.querySelector('.tab-container > *').nodeName.toLowerCase();
     this.files.forEach((item, i) => {
       this.files[i]['text'] = this.getFile(i);

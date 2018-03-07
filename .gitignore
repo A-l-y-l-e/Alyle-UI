@@ -5,6 +5,7 @@
 /tmp
 /.tmp
 /dist-amb
+/dist-server
 /build
 /out-tsc
 

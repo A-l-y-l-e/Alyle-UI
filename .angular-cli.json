@@ -36,7 +36,7 @@
       "name": "alyle-ui",
       "platform": "server",
       "root": "src",
-      "outDir": "functions/dist-server",
+      "outDir": "dist-server",
       "assets": [
         "assets",
         "favicon.ico"
