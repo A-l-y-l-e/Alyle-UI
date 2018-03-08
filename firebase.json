@@ -1,25 +1,43 @@
 {
   "hosting": {
-    "public": "dist"
+    "public": "dist",
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(eot|otf|ttf|ttc|woff)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=1296000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=1728000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|svg)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=10800"
+          }
+        ]
+      }
+    ]
   },
-  "headers": [
-    {
-      "source": "**/*.@(eot|otf|ttf|ttc|woff)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "max-age=1296000"
-        }
-      ]
-    },
-    {
-      "source": "**/*.@(jpg|jpeg|gif|png)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "max-age=1728000"
-        }
-      ]
-    }
-  ]
 }
