@@ -1,5 +1,25 @@
 {
   "hosting": {
     "public": "dist"
-  }
+  },
+  "headers": [
+    {
+      "source": "**/*.@(eot|otf|ttf|ttc|woff)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=1296000"
+        }
+      ]
+    },
+    {
+      "source": "**/*.@(jpg|jpeg|gif|png)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=1728000"
+        }
+      ]
+    }
+  ]
 }
