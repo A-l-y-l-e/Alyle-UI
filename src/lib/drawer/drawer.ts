@@ -1,6 +1,7 @@
 import {
   NgModule,
   Component,
+  Directive,
   ViewEncapsulation,
   EventEmitter,
   ElementRef,
@@ -19,7 +20,6 @@ import {
   ComponentRef,
   forwardRef,
   OnInit,
-  Directive,
   HostBinding,
   Optional,
   Renderer2,
@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor } from '@angular/forms';
-import { RandomId, NgTranscludeModule } from 'alyle-ui/core';
+import { RandomId, NgTranscludeModule, IsBoolean } from 'alyle-ui/core';
 import { AnimationBuilder, trigger, state, animate, transition, style } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export interface StyleMargin {
@@ -41,21 +41,44 @@ export interface StyleMargin {
   bottom?: string;
 }
 
-@Component({
-  selector: 'ly-drawer-content',
-  template: `
-  <ng-content></ng-content>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false,
+@Directive({
+  selector: 'ly-drawer-content'
 })
 export class LyDrawerContent {
-  asd = 'sdasd';
-  anim = {value: 'op', params: {'active': [this.asd]}};
+  // @HostBinding('style.margin-top') marginTop: string;
+  // @HostBinding('style.margin-left') marginLeft: string;
+  // @HostBinding('style.margin-right') marginRight: string;
+  // @HostBinding('style.margin-bottom') marginBottom = '50px';
+  @HostBinding('style.margin') margin = '0 0 0 0';
   _el: HTMLElement;
   @HostBinding('class.ly--animation') _lyAnimation = true;
-  constructor(public elementRef: ElementRef) {
+  constructor(
+    public elementRef: ElementRef,
+    public renderer: Renderer2,
+  ) {
     this._el = elementRef.nativeElement;
+  }
+
+  setContentStyle(margin: StyleMargin) {
+    const array = this.margin.split(' ');
+    if (margin.left) {
+      array[3] = `${margin.left}px`;
+    }
+    if (margin.right) {
+      array[1] = `${margin.right}px`;
+    }
+    if (margin.top) {
+      array[0] = `${margin.top}px`;
+    }
+    if (margin.bottom) {
+      array[2] = `${margin.bottom}px`;
+    }
+    this.margin = array.join(' ');
+    // const keys = Object.keys(margin);
+    // for (let i = 0; i < keys.length; i++) {
+    //   const keyName = keys[i];
+    //   this.renderer.setStyle(this._drawerContent.elementRef.nativeElement, `margin-${keyName}`, `${margin[keyName]}px`);
+    // }
   }
 }
 
@@ -64,25 +87,30 @@ export class LyDrawerContent {
   styleUrls: ['drawer.scss'],
   animations: [
     trigger('in', [
-      state('0' , style({ opacity: '0', 'display': 'none' })),
-      state('1' , style({ opacity: '.6' })),
-      transition('0 => 1', animate('375ms ease-in')),
-      transition('1 => 0', animate('375ms ease-out'))
+      state('inactive, 0' , style({ opacity: '0', 'display': 'none' })),
+      state('active, 1' , style({ opacity: '.6' })),
+      transition('* => active', animate('375ms ease-in')),
+      transition('* => inactive', animate('375ms ease-out')),
     ])
   ],
   template: `
   <ng-content select="ly-drawer"></ng-content>
   <ng-content select="ly-drawer-content"></ng-content>
-  <div [@in]="isDrawerBg | async" class="ly-drawer-bg"
+  <div
+  #bg
+  [class.ly-drawer-bg-opened]="isDrawerBg | async"
+  [class.ly-drawer-bg-closed]="!(isDrawerBg | async)"
+  [@in]="isDrawerBg | async" class="ly-drawer-bg"
   bg="colorText"
   (click)="_closeAllSideAndPush()"
   ></div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
+  exportAs: 'lyDrawerContainer'
 })
 export class LyDrawerContainer {
-  isDrawerBg: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isDrawerBg = new BehaviorSubject<'active' | 'inactive' | boolean>(false);
   @ContentChildren(forwardRef(() => LyDrawer)) _drawers: QueryList<LyDrawer>;
   @ContentChild(forwardRef(() => LyDrawerContent)) _drawerContent: LyDrawerContent;
   constructor(
@@ -91,20 +119,23 @@ export class LyDrawerContainer {
     private animationBuilder: AnimationBuilder
   ) {}
 
-  _setStyleMargin(margin: StyleMargin) {
-    const keys = Object.keys(margin);
-    for (let i = 0; i < keys.length; i++) {
-      const keyName = keys[i];
-      this.renderer.setStyle(this._drawerContent.elementRef.nativeElement, `margin-${keyName}`, `${margin[keyName]}px`);
-    }
-  }
   _closeAllSideAndPush() {
     this._drawers.forEach((drawer: LyDrawer) => {
       if (drawer.mode === 'over' || drawer.mode === 'push') {
         drawer.close();
-        this.isDrawerBg.next(false);
+        this.isDrawerBg.next('inactive');
       }
     });
+  }
+
+  /** Close all open drawers */
+  closeAll() {
+    this._drawers.forEach((drawer: LyDrawer) => {
+      if (drawer.open) {
+        drawer.close();
+      }
+    });
+    this.isDrawerBg.next('inactive');
   }
 }
 
@@ -119,9 +150,7 @@ export class LyDrawerContainer {
       ])
     ])
   ],
-  template: `
-  <ng-content></ng-content>
-  `,
+  template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
   exportAs: 'lyDrawer'
@@ -134,17 +163,14 @@ export class LyDrawer implements OnChanges {
   };
   @HostBinding('attr.mode') @Input() mode: 'side' | 'push' | 'over' = 'side';
   @HostBinding('attr.position') @Input() position: 'top' | 'bottom' | 'left' | 'right' | 'rtl' = 'left';
-  @HostBinding('@visibilityChanged') private isOpenDrawer: 'open' | 'close' | boolean = false;
+  @HostBinding('class.ly-show-drawer') isShowDrawer: boolean;
+  @HostBinding('@visibilityChanged')
+  private isOpenDrawer: 'open' | 'close' | boolean = false;
   @HostBinding('class.ly-drawer-hidden') private isDrawerHidden = true;
-  @HostListener('@visibilityChanged.done') transitionEnd() {
-    const stateDrawer = !this.toBoolean(this.isOpenDrawer);
-    Promise.resolve(null).then(() => {
-      this.drawerContainer._drawerContent._lyAnimation = false;
-      this.isDrawerHidden = stateDrawer;
-    });
-  }
-  @Input() set opened(val: boolean) {
-    if (val === this.isOpenDrawer) { return; }
+  @Input()
+  @IsBoolean()
+  set opened(val: boolean) {
+    this.isOpenDrawer = val;
     this._opened = val;
     val ? this.open(true) : this.close(false);
   }
@@ -166,12 +192,12 @@ export class LyDrawer implements OnChanges {
       if (width !== 0 && this.position === 'left' || this.position === 'right') {
         const margin = {};
         margin[this.position] = width;
-        this.drawerContainer._setStyleMargin(margin);
+        this.drawerContainer._drawerContent.setContentStyle(margin);
       }
       if (height !== 0 && this.position === 'top' || this.position === 'bottom') {
         const margin = {};
         margin[this.position] = height;
-        this.drawerContainer._setStyleMargin(margin);
+        this.drawerContainer._drawerContent.setContentStyle(margin);
       }
     }
   }
@@ -188,23 +214,29 @@ export class LyDrawer implements OnChanges {
     this.toBoolean(this.isOpenDrawer) ? this.close() : this.open();
   }
 
-  open(is?: boolean): 'open' | boolean {
+  open(is?: true): 'open' | boolean {
+    this.toogleDrawer(is);
     this.isDrawerHidden = false;
     this.isOpenDrawer = is || 'open';
     this.drawerContainer._drawerContent._lyAnimation = this.isOpenDrawer === 'open';
     this.updateDrawerMargin();
-    this.setBgState(true);
+    this.setBgState(is || 'active');
     return this.isOpenDrawer;
   }
-  close(is?: boolean): 'close' | boolean {
+  close(is?: false): 'close' | boolean {
+    this.toogleDrawer(is);
     this.resetMargin();
     this.isOpenDrawer = is === false || is === true ? false : 'close';
     this.drawerContainer._drawerContent._lyAnimation = this.isOpenDrawer === 'close';
-    this.setBgState(false);
+    this.setBgState(is === false ? false : 'inactive');
     return this.isOpenDrawer;
   }
 
-  setBgState(bgState: boolean) {
+  private toogleDrawer(status: boolean) {
+    this.isShowDrawer = this.toBoolean(status);
+  }
+
+  setBgState(bgState: boolean | 'active' | 'inactive') {
     if (this.mode === 'over' || this.mode === 'push') {
       this.drawerContainer.isDrawerBg.next(bgState);
     }
@@ -212,8 +244,8 @@ export class LyDrawer implements OnChanges {
 
   resetMargin() {
     const margin = {};
-    margin[this.position] = 0;
-    this.drawerContainer._setStyleMargin(margin);
+    margin[this.position] = '0';
+    this.drawerContainer._drawerContent.setContentStyle(margin);
   }
 
   ngOnChanges(changes: SimpleChanges) {

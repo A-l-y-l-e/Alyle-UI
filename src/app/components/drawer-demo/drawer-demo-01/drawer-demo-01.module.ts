@@ -1,16 +1,20 @@
 import { LyCoreModule } from 'alyle-ui/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DrawerDemo01Component } from './drawer-demo-01.component';
 import { LyDrawerModule } from 'alyle-ui/drawer';
 import { LyButtonModule } from 'alyle-ui/button';
+import { LyRadioModule } from 'alyle-ui/radio';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     LyCoreModule,
     LyDrawerModule,
-    LyButtonModule
+    LyButtonModule,
+    LyRadioModule
   ],
   exports: [DrawerDemo01Component],
   declarations: [DrawerDemo01Component]

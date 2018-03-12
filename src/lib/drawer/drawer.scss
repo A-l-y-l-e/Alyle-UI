@@ -5,7 +5,7 @@
   box-sizing: border-box;
   position: relative;
 }
-:host /deep/ > ly-drawer-content {
+:host ::ng-deep > ly-drawer-content {
   height: 100%;
   overflow: auto;
   display: block;
@@ -22,4 +22,10 @@
   opacity: .6;
   z-index: 10;
   user-select: none;
+}
+.ly-drawer-bg-opened {
+  display: block;
+}
+.ly-drawer-bg-closed {
+  display: none;
 }

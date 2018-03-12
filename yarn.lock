@@ -35,9 +35,9 @@
     "@ngtools/json-schema" "^1.1.0"
     rxjs "^5.5.6"
 
-"@angular/animations@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-6.0.0-beta.6.tgz#e999618ff383eaef3857ad0be3d8146354a750da"
+"@angular/animations@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-5.2.8.tgz#31cdb49163881323fa5ded41e89683ec5e9ac8b5"
   dependencies:
     tslib "^1.7.1"
 
@@ -106,9 +106,9 @@
   optionalDependencies:
     node-sass "^4.7.2"
 
-"@angular/common@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-6.0.0-beta.6.tgz#fc13994b9b1315b310d806a82267099c065c3ed2"
+"@angular/common@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-5.2.8.tgz#25c81609305e4cee6734d90c8ff1132ab35f81bf"
   dependencies:
     tslib "^1.7.1"
 
@@ -121,9 +121,9 @@
     reflect-metadata "^0.1.2"
     tsickle "^0.27.2"
 
-"@angular/compiler-cli@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-6.0.0-beta.6.tgz#16df2892af38f72449a1d011f59398602bb115f4"
+"@angular/compiler-cli@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-5.2.8.tgz#49e298dd8d5f7dde54045ff3c1acd9f3ca62e70b"
   dependencies:
     chokidar "^1.4.2"
     minimist "^1.2.0"
@@ -136,59 +136,59 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/compiler@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-6.0.0-beta.6.tgz#d0603d09393404f4bcf93f829be2487dadd82b4a"
+"@angular/compiler@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-5.2.8.tgz#534315d0c700d57c2eb7cc7fff4f180213c8633f"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/core@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-6.0.0-beta.6.tgz#80107291012e817a4ed5f75e3a5baeaf67c96519"
+"@angular/core@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-5.2.8.tgz#d2e7657f2c5ce7f050e8f438dcc420c9bebca10a"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/forms@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-6.0.0-beta.6.tgz#8d4ddee798a398d793b7b394ebf2757557662f6d"
+"@angular/forms@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-5.2.8.tgz#eda3c0ee2cb085581bb9bf8ac3c7b463b082b643"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/http@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/http/-/http-6.0.0-beta.6.tgz#6dbb4f56855fa35c56289d855e399ac57b12d8a4"
+"@angular/http@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/http/-/http-5.2.8.tgz#be51315032515f8699f8b810ebf3ca78c0cc3759"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-6.0.0-beta.6.tgz#4bce23007101bde28071b461be0c87862e7a5c0c"
+"@angular/platform-browser-dynamic@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.2.8.tgz#f2a620694ad771bf466d2bd752ca3a657ea7d46c"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-6.0.0-beta.6.tgz#7d6cbe1f949aa70cfd956c55cb42877f3eacf5a7"
+"@angular/platform-browser@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-5.2.8.tgz#253264887429ad71057882bcbc5cfda1fa4bbc06"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-server@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-6.0.0-beta.6.tgz#c214b53c95c9ec7633ee3e7c3ec1c60225178e3b"
+"@angular/platform-server@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-5.2.8.tgz#215a32d9d23f1c7d3b64c219db3c43da7e6f92ac"
   dependencies:
-    domino "^2.0.1"
+    domino "^1.0.29"
     tslib "^1.7.1"
     xhr2 "^0.1.4"
 
-"@angular/router@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-6.0.0-beta.6.tgz#9b7c28f3f8a6339f54fb8667e096b003e0a10eb4"
+"@angular/router@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-5.2.8.tgz#10e906803e5e71d42d157b0ccd78e773d1e316fc"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/service-worker@^6.0.0-beta.6":
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-6.0.0-beta.6.tgz#4f9209036c1c959d8ab60163aef3a33548c10bbd"
+"@angular/service-worker@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-5.2.8.tgz#4bd57edc560b7a1b7a33c391a5f3771e18c851a7"
   dependencies:
     tslib "^1.7.1"
 
@@ -2407,9 +2407,9 @@ domhandler@2.1:
   dependencies:
     domelementtype "1"
 
-domino@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/domino/-/domino-2.0.1.tgz#9e1d63215d0fe8dcb8202bff07effa1a216db504"
+domino@^1.0.29:
+  version "1.0.30"
+  resolved "https://registry.yarnpkg.com/domino/-/domino-1.0.30.tgz#54a4154ecae968616680f8feba3cedff355c71f4"
 
 domutils@1.1:
   version "1.1.6"

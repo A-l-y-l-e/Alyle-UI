@@ -182,13 +182,8 @@ export class LyRadio implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit() {
     if (this.radioGroup) {
-      // this.radioGroup.markForCheck();
-      // If the radio is inside a radio group, determine if it should be checked
-      // this.checked = this.radioGroup.value === this._value;
       // Copy name from parent radio group
       this.name = this.radioGroup.name;
-      if (this.radioGroup) {
-      }
     }
   }
   ngAfterViewInit() {
