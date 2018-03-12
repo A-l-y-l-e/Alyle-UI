@@ -246,7 +246,6 @@ export class LyTab {
     this.lyTabGroup.selectedIndexChange.emit(index);
   }
   widthExacta(elem: HTMLElement): number {
-    let box: any;
     return elem.offsetWidth;
     // if (typeof elem.getBoundingClientRect !== typeof undefined) {
     //   return elem.getBoundingClientRect().width;
