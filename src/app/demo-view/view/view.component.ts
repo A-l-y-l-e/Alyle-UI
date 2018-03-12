@@ -16,13 +16,6 @@ import { Platform } from 'alyle-ui/core';
 
 import { RoutesAppService } from '../../components/routes-app.service';
 
-export class demoUrls {
-  html: string;
-  ts: string;
-  tsModule: string;
-  css?: string;
-}
-
 @Component({
   selector: 'demo-view',
   templateUrl: './view.component.html',
@@ -31,7 +24,6 @@ export class demoUrls {
 })
 export class ViewComponent implements OnInit {
   hasCode = false;
-  $demoUrls: demoUrls = new demoUrls();
   name: string;
   folderName: string;
   demos: {label: string, url: string, ext: string}[] = [];

@@ -46,7 +46,7 @@ export class LyRippleSensitive {
   }
   get state(): boolean {
     return this._state;
-  };
+  }
 }
 
 @Directive({

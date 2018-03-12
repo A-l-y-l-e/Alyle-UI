@@ -27,7 +27,7 @@ export enum CheckboxState {
   Unchecked,
   /** Indeterminate state. */
   Indeterminate,
-};
+}
 
 @Component({
   selector: 'ly-checkbox',
@@ -36,10 +36,11 @@ export enum CheckboxState {
   providers: [LY_CHECKBOX_CONTROL_VALUE_ACCESSOR]
 })
 export class LyCheckbox implements OnInit, AfterContentInit, ControlValueAccessor, OnChanges, OnDestroy {
-  onTouched: () => any = () => {};
   private _currentCheckState: CheckboxState = CheckboxState.Init;
   @Input('id') id: string;
+  // tslint:disable-next-line:no-input-rename
   @Input('attr.aria-label') ariaLabel: string;
+  // tslint:disable-next-line:no-input-rename
   @Input('attr.aria-labelledby') ariaLabelledby: string;
   @Input('required') required: string;
   @Input('labelPosition') labelPosition: string;
@@ -51,6 +52,7 @@ export class LyCheckbox implements OnInit, AfterContentInit, ControlValueAccesso
   @Input('indeterminate') indeterminate: string;
   @Output('change') change: EventEmitter<any> = new EventEmitter<any>();
   @Output('indeterminateChange') indeterminateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  onTouched: () => any = () => {};
   private _controlValueAccessorChangeFn: (value: any) => void = (value) => {};
   constructor() { }
 

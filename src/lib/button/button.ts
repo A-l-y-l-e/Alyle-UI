@@ -47,6 +47,7 @@ export class LyButtonRaised {
 @Component({
   selector: '[ly-button], ly-button',
   styleUrls: ['button.style.scss'],
+  // tslint:disable-next-line:use-host-property-decorator
   host: {
     '[class._disabled]': '_disabled',
     '[class.ly-button-init]': '_hasButton()'
@@ -79,6 +80,7 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   private _raised: string | boolean = false;
   nativeElement: HTMLElement;
   private _rippleSensitive = false;
+  @HostBinding('style.box-shadow') boxShadow: any;
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
@@ -258,16 +260,15 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
   }
-  @HostBinding('style.box-shadow') boxShadow: any;
 
   private shadowButton() {
     const color = 'transparent';
     // !Important set boxShadow
     if (this._raised) {
       if (!!this._color && !!this.styleColor && !!this.styleBackground) {
-        if (this._raised != '!' && themeProperty(this._bg)) {
+        if (this._raised !== '!' && themeProperty(this._bg)) {
           this.boxShadow = (this.shadowService.shadow(this.styleBackground, 2.2));
-        } else if (this._raised != '!' && !themeProperty(this._bg)) {
+        } else if (this._raised !== '!' && !themeProperty(this._bg)) {
           this.boxShadow = (this.shadowService.shadow(this.styleBackground, 2.2));
         } else {
           this.boxShadow = (this.shadowService.shadow(this.styleColor, 1));

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RippleDemoComponent } from './ripple-demo/ripple-demo.component'
+import { RippleDemoComponent } from './ripple-demo/ripple-demo.component';
 
 const routes: Routes = [{ path: '', component: RippleDemoComponent }];
 

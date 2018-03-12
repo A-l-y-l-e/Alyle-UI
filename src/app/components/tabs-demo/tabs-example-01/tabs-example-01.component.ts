@@ -9,7 +9,7 @@ export class TabsExample01Component implements OnInit {
 
   tabs: string[];
 
-  constructor() { this.tabs = ['One', 'Two'] }
+  constructor() { this.tabs = ['One', 'Two']; }
 
   ngOnInit() {
   }
