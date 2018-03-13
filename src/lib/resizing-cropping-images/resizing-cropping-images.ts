@@ -1,3 +1,6 @@
+/**
+ * TODO: add resizing image
+ */
 import {
   Component,
   ElementRef,
