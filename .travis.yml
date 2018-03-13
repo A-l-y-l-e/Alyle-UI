@@ -15,6 +15,7 @@ cache:
 branches:
   only:
     - master
+    - /^greenkeeper/.*$/
 
 install:
   - yarn
@@ -36,3 +37,7 @@ jobs:
 stages:
   - test
   - deploy
+
+before_install: yarn global add greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
+after_script: greenkeeper-lockfile-upload
