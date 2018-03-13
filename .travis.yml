@@ -15,6 +15,7 @@ cache:
 branches:
   only:
     - master
+    - /^greenkeeper/.*$/
 
 install:
   - yarn
