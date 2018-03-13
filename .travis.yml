@@ -27,6 +27,7 @@ jobs:
     - stage: test
       script:
         - yarn amb
+        - yarn size-limit
     - stage: deploy
       script:
         - yarn build

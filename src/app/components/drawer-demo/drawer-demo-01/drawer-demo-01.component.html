@@ -1,23 +1,27 @@
 <ly-drawer-container #drawerContainer>
-  <ly-drawer [opened]="opened" [config]="{width: 200}" [mode]="mode" class="drawer-demo" bg="main" #drawer>
-    Hello
-    <button ly-button (click)="drawer.toggle()">toggle</button>
+  <ly-drawer [opened]="opened" [config]="{width: 150}" [mode]="mode" class="drawer-demo" bg="bgText" #drawer>
+    <p>Hi!</p>
+    <button ly-button (click)="drawer.toggle()">close</button>
   </ly-drawer>
-  <ly-drawer [config]="{width: 200}" mode="over" class="drawer-demo" bg="main" position="right" #drawer2>
-    Hello
-    <button ly-button (click)="drawer2.toggle()">toggle</button>
+  <ly-drawer [config]="{width: 150}" mode="over" class="drawer-demo" bg="main" position="right" #drawer2>
+    <p>Right</p>
+    <button ly-button (click)="drawer2.toggle()">close</button>
   </ly-drawer>
   <ly-drawer-content>
-    <button ly-button (click)="drawer.toggle()">toggle left</button>
-    <button ly-button (click)="drawer2.toggle()">toggle right</button>
-    <button ly-button (click)="opened = !opened">[opened]="{{drawer.opened}}"</button>
-    <p>
-      mode: {{ mode }}
-      <ly-radio-group [(ngModel)]="mode">
-        <ly-radio value="over">over</ly-radio>
-        <ly-radio value="side" checked>side</ly-radio>
-        <ly-radio value="push">push</ly-radio>
-      </ly-radio-group>
-    </p>
+    <div>
+      <div>
+        <button ly-button (click)="drawer.toggle()">toggle left</button>
+        <button ly-button (click)="drawer2.toggle()">toggle right</button>
+        <button ly-button (click)="opened = !opened">[opened]="{{drawer.opened}}"</button>
+      </div>
+      <div>
+        mode: {{ mode }}
+        <ly-radio-group [(ngModel)]="mode">
+          <ly-radio value="over">over</ly-radio>
+          <ly-radio value="side" checked>side</ly-radio>
+          <ly-radio value="push">push</ly-radio>
+        </ly-radio-group>
+      </div>
+    </div>
   </ly-drawer-content>
 </ly-drawer-container>

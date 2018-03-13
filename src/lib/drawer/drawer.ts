@@ -45,10 +45,6 @@ export interface StyleMargin {
   selector: 'ly-drawer-content'
 })
 export class LyDrawerContent {
-  // @HostBinding('style.margin-top') marginTop: string;
-  // @HostBinding('style.margin-left') marginLeft: string;
-  // @HostBinding('style.margin-right') marginRight: string;
-  // @HostBinding('style.margin-bottom') marginBottom = '50px';
   @HostBinding('style.margin') margin = '0 0 0 0';
   _el: HTMLElement;
   @HostBinding('class.ly--animation') _lyAnimation = true;
@@ -254,8 +250,10 @@ export class LyDrawer implements OnChanges {
       if (key === 'position' && changes[key].currentValue === 'rtl') {
         this.position = 'right';
       }
-      /**for other changes */
-      if (!changes[key].firstChange) {
+
+      /** Update mode */
+      if (changes['mode'] && !changes[key].firstChange) {
+        this.toBoolean(this.isOpenDrawer) ? this.open(true) : this.close(false);
       }
     });
   }

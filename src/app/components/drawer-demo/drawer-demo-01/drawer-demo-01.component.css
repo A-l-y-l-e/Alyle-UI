@@ -1,14 +1,14 @@
 ly-drawer-container {
-    height: 225px;
-    transform: translate3d(0,0,0);
+  height: 225px;
+  transform: translate3d(0,0,0);
 }
 .drawer-demo {
-    height: 100%;
-    width: 125px;
+  height: 100%;
+  width: 150px;
 }
 ly-drawer-content {
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  display: flex;
 }
