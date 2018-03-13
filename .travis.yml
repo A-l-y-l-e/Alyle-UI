@@ -23,11 +23,11 @@ jobs:
   include:
     - stage: test
       script:
-        - ng build
-    - stage: test
-      script:
         - yarn amb
         - yarn size-limit
+    - stage: test
+      script:
+        - ng build
     - stage: deploy
       script:
         - yarn build
