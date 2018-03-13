@@ -53,7 +53,7 @@
     "@types/google.analytics": "^0.0.38",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
-    "@types/node": "~9.4.7",
+    "@types/node": "~6.0.60",
     "chalk": "^2.3.0",
     "codelyzer": "4.2.1",
     "del": "^3.0.0",
@@ -74,14 +74,20 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "node-sass-tilde-importer": "^1.0.0",
-    "protractor": "~5.3.0",
+    "protractor": "~5.1.2",
     "rollup": "^0.56.0",
     "rollup-plugin-uglify": "^3.0.0",
     "run-sequence": "^2.2.0",
     "size-limit": "^0.16.2",
-    "ts-node": "~5.0.1",
+    "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2"
+    "typescript": "~2.5.3"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "typescript",
+      "you-want-me-to-ignore"
+    ]
   },
   "size-limit": [
     {
