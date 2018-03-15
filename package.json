@@ -75,7 +75,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "node-sass-tilde-importer": "^1.0.0",
     "protractor": "~5.1.2",
-    "rollup": "^0.56.0",
+    "rollup": "^0.57.0",
     "rollup-plugin-uglify": "^3.0.0",
     "run-sequence": "^2.2.0",
     "size-limit": "^0.16.2",
