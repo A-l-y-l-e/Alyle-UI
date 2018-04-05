@@ -36,7 +36,7 @@ export interface LyResizingCroppingImagesConfig {
   type?: string; // if this is not defined, the new image will be automatically defined
   output?: {
     width: number;
-    heigth: number;
+    height: number;
   } | ImageResolution;
 }
 export enum ImageResolution {
@@ -53,6 +53,11 @@ export interface ImageState {
   isLoaded: boolean;
   isCrop: boolean;
 }
+const CONFIG_DEFAULT = <LyResizingCroppingImagesConfig>{
+  width: 250,
+  height: 200,
+  output: ImageResolution.Default
+};
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
@@ -75,11 +80,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   @ViewChild('_croppingContainer') croppingContainer: ElementRef;
   @Input() src: string;
   @Input() format: string;
-  @Input() config: LyResizingCroppingImagesConfig = {
-    width: 250,
-    height: 200,
-    output: ImageResolution.Default
-  };
+  @Input() config: LyResizingCroppingImagesConfig = CONFIG_DEFAULT;
   isLoaded: boolean;
   isCropped: boolean;
   /** On loaded new image */
@@ -301,6 +302,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
     /** Calculate total number of steps needed */
     let  numSteps = Math.ceil(Math.log(this.max(img.width, img.height) / this.max(config.height, config.width)) / Math.log(2)) - 1;
+    console.warn({ numSteps, config });
     numSteps = numSteps <= 0 ? 0 : numSteps;
 
     /**Array steps */
@@ -360,14 +362,16 @@ export class LyResizingCroppingImages implements AfterContentInit {
    * Deprecated, use crop() instead
    */
   cropp(): string {
+    const myConfig = Object.assign({}, CONFIG_DEFAULT, this.config);
+    console.log(myConfig);
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
     const rect = this.croppingContainer.nativeElement.getBoundingClientRect() as ClientRect;
     const img = this.imgContainer.nativeElement.firstElementChild.getBoundingClientRect() as ClientRect;
     const left = (rect.left - img.left);
     const top = (rect.top - img.top);
     const config = {
-      width: this.config.width,
-      height: this.config.height
+      width: myConfig.width,
+      height: myConfig.height
     };
     const configCanvas = {
       width: this._img.width,
@@ -380,17 +384,21 @@ export class LyResizingCroppingImages implements AfterContentInit {
       -(left / this.scale), -(top / this.scale),
     );
     let result = canvasElement;
-    result = this.imageSmoothingQuality(result, config, 0.5);
+    if (myConfig.output === 0) {
+      result = this.imageSmoothingQuality(result, config, 0.5);
+    } else if (typeof myConfig.output === 'object') {
+      result = this.imageSmoothingQuality(result, myConfig.output, 0.5);
+    }
     let url;
-    if (this.config.type) {
-      url = result.toDataURL(`image/${this.config.type}`);
+    if (myConfig.type) {
+      url = result.toDataURL(`image/${myConfig.type}`);
     } else {
       url = result.toDataURL(this.defaultType);
     }
     this.result = (url);
     this.cropped.emit({
       base64Image: url,
-      type: this.defaultType || this.config.type
+      type: this.defaultType || myConfig.type
     });
     this.isCropped = true;
     return url;
