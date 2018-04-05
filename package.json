@@ -50,7 +50,7 @@
     "@types/google.analytics": "^0.0.38",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
-    "@types/node": "~6.0.60",
+    "@types/node": "~9.6.0",
     "chalk": "^2.3.0",
     "codelyzer": "4.2.1",
     "del": "^3.0.0",
