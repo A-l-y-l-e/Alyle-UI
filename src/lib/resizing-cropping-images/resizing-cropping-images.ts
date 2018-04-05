@@ -34,6 +34,16 @@ export interface LyResizingCroppingImagesConfig {
   width: number;
   height: number;
   type?: string; // if this is not defined, the new image will be automatically defined
+  output?: {
+    width: number;
+    heigth: number;
+  } | ImageResolution;
+}
+export enum ImageResolution {
+  /** Resizing & cropping */
+  Default,
+  /** Only cropping */
+  OriginalImage
 }
 export interface CroppedImage {
   base64Image: string;
@@ -67,7 +77,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
   @Input() format: string;
   @Input() config: LyResizingCroppingImagesConfig = {
     width: 250,
-    height: 200
+    height: 200,
+    output: ImageResolution.Default
   };
   isLoaded: boolean;
   isCropped: boolean;
