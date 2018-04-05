@@ -16,7 +16,6 @@
   "dependencies": {
     "node-vibrant": "^3.0.0",
     "chroma-js": "^1.3.6",
-    "deep-assign": "^2.0.0",
     "hammerjs": "^2.0.8"
   },
   "keywords": [
