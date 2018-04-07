@@ -1,15 +1,16 @@
 import {
   Directive,
-  HostBinding,
   Input,
   OnInit,
   OnChanges,
   OnDestroy,
-  SimpleChanges
+  SimpleChanges,
+  Renderer2,
+  ElementRef
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { LyTheme } from '../../palette';
+import { LyTheme } from '../../theme.service';
 
 @Directive({
   selector: '[color]'
@@ -19,18 +20,21 @@ export class LyColor implements OnChanges, OnInit, OnDestroy {
   private _color = 'primary';
   private _subscription: Subscription;
 
-  constructor(private theme: LyTheme) { }
-  @HostBinding('style.color') _styleColor: string;
+  constructor(
+    private theme: LyTheme,
+    private renderer: Renderer2,
+    private el: ElementRef
+  ) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes['color'].firstChange) {
-      this._styleColor = this.theme.colorOf(this._color);
+      this.setStyle(this._color);
     }
   }
 
   ngOnInit() {
     this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this._styleColor = this.theme.colorOf(this._color);
+      this.setStyle(this._color);
     });
   }
 
@@ -42,8 +46,13 @@ export class LyColor implements OnChanges, OnInit, OnDestroy {
     return this._color;
   }
 
+  private setStyle(color: string) {
+    this.renderer.setStyle(this.el.nativeElement, 'color', this.theme.colorOf(color));
+  }
+
   ngOnDestroy() {
     this._subscription.unsubscribe();
   }
 
 }
+
