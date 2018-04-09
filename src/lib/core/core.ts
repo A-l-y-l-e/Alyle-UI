@@ -13,7 +13,7 @@ import {
 import { Subscription } from 'rxjs/Subscription';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LyPalette, LyTheme, LyStyleTheme } from './palette';
+import { LyTheme } from './theme.service';
 import { ThemeModule } from './theme/theme.module';
 import { Platform } from './platform/index';
 
@@ -21,7 +21,9 @@ const id = 0;
 
 @Component({
   selector: 'ly-core[root]',
-  template: `<ng-content></ng-content>`,
+  template: `
+  <ng-content></ng-content>
+  `,
   styleUrls: ['./core.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

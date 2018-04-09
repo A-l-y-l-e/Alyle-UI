@@ -1,53 +1,37 @@
 import {
   Directive,
-  OnInit,
-  OnChanges,
+  ElementRef,
   Input,
-  OnDestroy,
-  SimpleChanges,
-  Renderer2,
-  ElementRef
-} from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+  Renderer2
+  } from '@angular/core';
 
 import { LyTheme } from '../../theme.service';
+
 
 @Directive({
   selector: '[bg]'
 })
-export class LyBg implements OnInit, OnChanges, OnDestroy {
-
+export class LyBg {
+  /** Default */
   private _bg = 'primary';
-  private _subscription: Subscription;
+  private _currentClassName: string;
   constructor(
     private theme: LyTheme,
     private renderer: Renderer2,
     private el: ElementRef
   ) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes['bg'].firstChange) {
-      this.setStyle(this._bg);
-    }
-  }
-
-  ngOnInit() {
-    this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.setStyle(this._bg);
-    });
-  }
-
   @Input('bg')
   set bg(color: string) {
     this._bg = color;
+    const newClassName = this.theme.getClassKey(this._bg, 'bg');
+    this.renderer.addClass(this.el.nativeElement, newClassName);
+    this.renderer.removeClass(this.el.nativeElement, this._currentClassName);
+    this._currentClassName = newClassName;
   }
 
-  private setStyle(backgroundColor: string) {
-    this.renderer.setStyle(this.el.nativeElement, 'background', this.theme.colorOf(backgroundColor));
-  }
-
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
+  get bg() {
+    return this._bg;
   }
 
 }

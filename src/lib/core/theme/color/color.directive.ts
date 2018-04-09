@@ -1,58 +1,44 @@
 import {
   Directive,
+  ElementRef,
   Input,
-  OnInit,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  Renderer2,
-  ElementRef
-} from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+  Renderer2
+  } from '@angular/core';
 
 import { LyTheme } from '../../theme.service';
 
 @Directive({
   selector: '[color]'
 })
-export class LyColor implements OnChanges, OnInit, OnDestroy {
-
+export class LyColor {
+  /** Default */
   private _color = 'primary';
-  private _subscription: Subscription;
-
+  private _currentClassName: string;
   constructor(
     private theme: LyTheme,
     private renderer: Renderer2,
     private el: ElementRef
   ) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes['color'].firstChange) {
-      this.setStyle(this._color);
-    }
-  }
-
-  ngOnInit() {
-    this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.setStyle(this._color);
-    });
-  }
-
   @Input('color')
   set color(color: string) {
     this._color = color;
+    const newClassName = this.theme.getClassKey(this._color, 'color');
+    this.renderer.addClass(this.el.nativeElement, newClassName);
+    this.renderer.removeClass(this.el.nativeElement, this._currentClassName);
+    this._currentClassName = newClassName;
   }
   get color(): string {
     return this._color;
   }
 
-  private setStyle(color: string) {
-    this.renderer.setStyle(this.el.nativeElement, 'color', this.theme.colorOf(color));
-  }
+}
 
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
-  }
-
+function existKey(palette: any, key: string[]) {
+  let state = palette;
+  key.forEach((name) => {
+    state = state[name];
+  });
+  return !!state.default;
 }
 
