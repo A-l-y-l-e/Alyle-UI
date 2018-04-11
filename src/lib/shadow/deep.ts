@@ -83,7 +83,7 @@ export class LyDeepComponent implements OnInit {
     this.styleBoxShadow = this.shadow.shadow(this.shadowColor, this.scale);
   }
 
-  css(elevation: string | number, color: string) {
+  css(elevation: string | number, color: string = '') {
     return `${shadowBuilder(elevation, this.theme.colorOf(color))}`;
   }
 
