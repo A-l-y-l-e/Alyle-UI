@@ -8,7 +8,8 @@ const Prism = require('prismjs');
 const PrismTypescript = require('prismjs/components/prism-typescript');
 const PrismMarkdown = require('prismjs/components/prism-markdown');
 const PrismBash = require('prismjs/components/prism-bash');
-// console.log(Prism, PrismMarkdown);
+const PrismJson = require('prismjs/components/prism-json');
+
 @Directive({
   selector: '[prism], prism'
 })
