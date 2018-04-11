@@ -32,14 +32,7 @@ export class PrismDirective implements AfterViewInit {
     private _prismPipe: PrismPipe,
     @Inject(DOCUMENT) private document,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {
-    // if (isPlatformBrowser(this.platformId)) {
-    //   this._elementRef.nativeElement.style.display = 'none';
-    //   const div = document.createElement('div');
-    //   this._content = div;
-    //   this._elementRef.nativeElement.after(this._content);
-    // }
-  }
+  ) { }
 
   codeToHtml(val: string) {
     if (Platform.isBrowser) {
