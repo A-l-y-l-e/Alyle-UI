@@ -141,6 +141,7 @@ export class LyTheme {
     const shade      = config.shade;
     const scheme     = config.schemes[config.colorScheme];
     const typography = config.typography;
+    const variables = config.variables;
     // if (config.palette) {
     //   if (config.palette[config.primary]) {
     //     primary = config.palette[config.primary];
@@ -154,9 +155,10 @@ export class LyTheme {
     // }
 
     let getAllColors = {
-      primary: primary,
-      accent: accent,
-      other: other,
+      primary,
+      accent,
+      other,
+      ...variables
       // colorText: {color: scheme.text.default},
       // bgText: {color: scheme.background.default}
     };
@@ -229,11 +231,12 @@ export class LyTheme {
       const shade      = config.shade;
       const scheme     = config.schemes[config.colorScheme];
       const typography = config.typography;
-
+      const variables  = config.variables;
       let getAllColors = {
-        primary: primary,
-        accent: accent,
-        other: other
+        primary,
+        accent,
+        other,
+        ...variables
       };
       getAllColors = mergeDeep(getAllColors, scheme);
 

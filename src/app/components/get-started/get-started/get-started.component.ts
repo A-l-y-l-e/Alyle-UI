@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { LyTheme } from 'alyle-ui/core';
 
 @Component({
   selector: 'app-get-started',
@@ -7,15 +8,11 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GetStartedComponent implements OnInit {
-  code = _code;
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
-
-const _code = `
+  code: string;
+  constructor(
+    public theme: LyTheme
+  ) {
+    this.code = `
 ...
 /** Important for Animations */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,36 +24,7 @@ import { AlyleUIModule } from 'alyle-ui';
 import { ResponsiveModule } from 'alyle-ui/responsive';
 
 /** Custom theme */
-const configAlyleUI = {
-  primary: 'blue',
-  accent: 'pink',
-  other: 'red',
-  colorScheme: 'light',
-  schemes: {
-    light: {
-      shadow: 'rgba(0, 0, 0, 0.1111)',
-      myColor: 'pink'
-    },
-    dark: {
-      shadow: '#252525',
-      myColor: 'teal'
-    }
-  },
-  palette: {
-    'blue': {
-      '500': '#2196F3',
-      contrast: 'light'
-    },
-    'pink': {
-      '500': '#ff4b73',
-      contrast: 'light'
-    },
-    'red': {
-      '500': '#FF5252',
-      contrast: 'light'
-    }
-  }
-};
+const configAlyleUI = ${this.toJson(this.theme.AlyleUI.currentTheme)};
 @NgModule({
   ...
   imports: [
@@ -68,5 +36,17 @@ const configAlyleUI = {
   ],
   ...
 })
-export class AppModule {}
-`;
+export class AppModule { }`;
+  }
+
+  ngOnInit() {
+  }
+
+  toJson(val: any) {
+    val = JSON.stringify(val, undefined, 2);
+    val = (<string>val).replace(/\s\s\"/g, ' ');
+    return (<string>val).replace(/\"\:\s/g, ': ');
+  }
+
+}
+

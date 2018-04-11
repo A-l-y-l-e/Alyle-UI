@@ -2,10 +2,16 @@ export class AlyleServiceConfig {
   primary: string;
   accent: string;
   other: string;
-  colorScheme?: string;
+  colorScheme?: 'light' | 'dark';
   typography?: {
     fontFamily: string;
     fontSize: number;
+  };
+  variables?: {
+    /** Others */
+    [key: string]: {
+      [key: string]: any // ...
+    } | any
   };
   schemes?: {
     light: {
@@ -27,6 +33,7 @@ export class AlyleServiceConfig {
       } | any;
     }
   };
+  /** Deprecated */
   shade?: string;
   palette?: {
     [key: string]: {

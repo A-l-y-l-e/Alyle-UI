@@ -48,10 +48,16 @@ export class MyHammerConfig extends HammerGestureConfig {
       accent: 'pink',
       other: 'red',
       colorScheme: 'light',
+      variables: {
+        purple_light: 'rgb(106, 36, 212)'
+      },
       schemes: {
         light: {
           shadow: 'rgba(0, 0, 0, 0.1111)',
-          myColor: 'pink'
+          myColor: 'pink',
+          others: {
+            custom: '#00bcd4'
+          }
         },
         dark: {
           shadow: '#252525',
@@ -60,53 +66,53 @@ export class MyHammerConfig extends HammerGestureConfig {
       },
       palette: {
         'pink': {
-          '500': '#ff4b73',
-          contrast: 'light',
+          // '500': '#ff4b73',
+          // contrast: 'light',
           default: '#ff4b73'
         },
         'pinkLight': {
-          '500': '#f50057',
-          contrast: 'light',
+          // '500': '#f50057',
+          // contrast: 'light',
           default: '#f50057'
         },
         'cyan': {
-          '500': '#00bcd4',
-          contrast: 'light',
+          // '500': '#00bcd4',
+          // contrast: 'light',
           default: '#00bcd4'
         },
         'red': {
-          '500': '#FF5252',
-          contrast: 'light',
+          // '500': '#FF5252',
+          // contrast: 'light',
           default: '#FF5252'
         },
         'amber': {
-          '500': '#ffc107',
-          contrast: 'dark',
+          // '500': '#ffc107',
+          // contrast: 'dark',
           default: '#ffc107'
         },
         'teal': {
-          '500': '#009688',
-          contrast: 'light',
+          // '500': '#009688',
+          // contrast: 'light',
           default: '#009688'
         },
         'purple': {
-          '500': '#ce30c9',
-          contrast: 'light',
+          // '500': '#ce30c9',
+          // contrast: 'light',
           default: '#ce30c9'
         },
         'lightBlue': {
-          '500': '#03A9F4',
-          contrast: 'light',
+          // '500': '#03A9F4',
+          // contrast: 'light',
           default: '#03A9F4'
         },
         'blue': {
-          '500': '#2196F3',
-          contrast: 'light',
+          // '500': '#2196F3',
+          // contrast: 'light',
           default: '#2196F3'
         },
         'deepOrange': {
-          '500': '#FF5722',
-          contrast: 'light',
+          // '500': '#FF5722',
+          // contrast: 'light',
           default: '#FF5722'
         },
       }

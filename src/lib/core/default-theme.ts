@@ -30,18 +30,17 @@ export const defaultTheme: AlyleServiceConfig = {
       }
     }
   },
-  shade: '500',
   palette: {
     'blue': {
-      '500': '#2196F3',
+      default: '#2196F3',
       contrast: 'light'
     },
     'pink': {
-      '500': '#ff4b73',
+      default: '#ff4b73',
       contrast: 'light'
     },
     'red': {
-      '500': '#FF5252',
+      default: '#FF5252',
       contrast: 'light'
     }
   }
