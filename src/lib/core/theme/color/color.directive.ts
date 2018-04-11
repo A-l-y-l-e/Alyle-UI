@@ -25,7 +25,9 @@ export class LyColor {
     this._color = color;
     const newClassName = this.theme.getClassKey(this._color, 'color');
     this.renderer.addClass(this.el.nativeElement, newClassName);
-    this.renderer.removeClass(this.el.nativeElement, this._currentClassName);
+    if (this._currentClassName) {
+      this.renderer.removeClass(this.el.nativeElement, this._currentClassName);
+    }
     this._currentClassName = newClassName;
   }
   get color(): string {
