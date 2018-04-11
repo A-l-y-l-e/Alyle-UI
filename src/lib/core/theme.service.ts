@@ -125,47 +125,6 @@ export class LyTheme {
     return `${this.Id}-${color.replace(':', '__')}-${of}`;
   }
 
-  private updateStyle() {
-    const beforeStyle = this.containerStyle;
-    const newStyle = this.renderer.createElement('style');
-    // (<string[]>this.AlyleUI.palette.primary).forEach((color) => {
-    //   console.log(color);
-    // });
-    const palette = this.AlyleUI.palette;
-    const iterate = (obj, fn: (item, key: string) => void, keyObject?: string) => {
-      for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          let key$ = keyObject || key;
-          if (key !== 'default' && keyObject) {
-            // key$ = `${keyObject}__${key}`;
-            key$ = `${keyObject}__${key}`;
-          }
-          // console.log(key, element);
-          if (typeof obj[key] === 'object') {
-            iterate(obj[key], fn, key$);
-          } else {
-            fn(obj[key], key$);
-          }
-        }
-      }
-    };
-    let myStyle = '';
-    iterate(palette, (item, key) => {
-      /** Color */
-      myStyle += `.${this.Id}-${key}-color{color:${item}}`;
-      /** Bg */
-      myStyle += `.${this.Id}-${key}-bg{background:${item}}`;
-    });
-    const content = this.renderer.createText(myStyle);
-    this.renderer.appendChild(newStyle, content);
-    this.renderer.setAttribute(newStyle, 'aui', this.Id);
-    this.renderer.insertBefore(this.document.head, newStyle, this.auiRef);
-    if (this.containerStyle) {
-      this.renderer.removeChild(this.document.head, this.containerStyle);
-    }
-    this.containerStyle = newStyle;
-  }
-
   constructor(
     @Optional() config: AlyleServiceConfig,
     @Inject(DOCUMENT) private document,
@@ -218,7 +177,6 @@ export class LyTheme {
     this.typography = new BehaviorSubject<any>(typography);
     this.shade = new BehaviorSubject<any>(shade);
     this.palette = new BehaviorSubject<any>(getAllColors);
-    this.updateStyle();
     themeId++;
   }
 
@@ -294,7 +252,6 @@ export class LyTheme {
       this.typography.next(typography);
       this.shade.next(shade);
       this.palette.next(getAllColors);
-      this.updateStyle();
       this.updateOthersStyles();
     }
   }

@@ -1,55 +1,8 @@
 <h1>Get Started</h1>
-<h3>Install</h3>
+<h2>1. Install Alyle UI</h2>
 <p>
-  yarn add alyle-ui or npm i alyle-ui
+  <prism language="bash" code="yarn add alyle-ui" bg="main"></prism> or <prism language="bash" code="npm i alyle-ui"></prism>
 </p>
-<h3>Import module in appModule</h3>
-<prism language="ts">{{"import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// Core module
-import { AlyleUIModule } from 'alyle-ui';
 
-// Responsive module (Optional)
-import { ResponsiveModule } from 'alyle-ui/responsive';
-
-// custom theme
-const configAlyleUI = {
-  primary: 'blue',
-  accent: 'pink',
-  other: 'red',
-  colorScheme: 'light',
-  schemes: {
-    light: {
-      shadow: 'rgba(0, 0, 0, 0.1111)',
-      myColor: 'pink'
-    },
-    dark: {
-      shadow: '#252525',
-      myColor: 'teal'
-    }
-  },
-  palette: {
-    'blue': {
-      '500': '#2196F3',
-      contrast: 'light'
-    },
-    'pink': {
-      '500': '#ff4b73',
-      contrast: 'light'
-    },
-    'red': {
-      '500': '#FF5252',
-      contrast: 'light'
-    }
-  }
-};
-@NgModule({
-  ...
-  imports: [
-    BrowserAnimationsModule,
-    AlyleUIModule.forRoot(configAlyleUI),
-    ResponsiveModule
-  ],
-  ...
-})
-export class AppModule {}"}}
-</prism>
+<h2>2. Import module in app.module.ts</h2>
+<prism language="typescript" [code]="code"></prism>
