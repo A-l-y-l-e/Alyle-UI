@@ -38,6 +38,7 @@ export class RoutesAppService {
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
           { route: 'responsive', name: 'Responsive' },
           { route: 'ripple', name: 'Ripple' },
+          { route: 'shadow', name: 'Shadow' },
           { route: 'tabs', name: 'Tabs' }
         ]
       }
