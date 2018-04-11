@@ -26,7 +26,7 @@ export class LyDeepComponent implements OnInit {
   private _result: string;
   private numberState = -1;
   private _shadowColor = 'rgba(0,0,0,0.87)';
-  private _classId: string;
+  private _lastClass: string;
   /** Default elevation */
   private elevation: string | number = 1;
   @HostBinding('style.box-shadow') styleBoxShadow: SafeStyle | string;
@@ -44,8 +44,8 @@ export class LyDeepComponent implements OnInit {
       elevation = this.elevation;
     }
     const newStyle = this.theme.createStyle(`ly-${keys}`, this.css.bind(this), elevation, color);
-    this.setClassName(newStyle.id, this._classId);
-    this._classId = keys;
+    this.theme.updateRootClass(this.elementRef, this.renderer, newStyle.id, this._lastClass);
+    this._lastClass = keys;
   }
 
   @Input('shadowColor')
@@ -58,19 +58,10 @@ export class LyDeepComponent implements OnInit {
   }
   constructor(
     private elementRef: ElementRef,
-    private shadow: LyShadowService,
+    private renderer: Renderer2,
     private theme: LyTheme,
-    private renderer: Renderer2
-  ) {
-
-  }
-
-  setClassName(newClass: string, oldClass?: string) {
-    this.renderer.addClass(this.elementRef.nativeElement, newClass);
-    if (oldClass) {
-      this.renderer.removeClass(this.elementRef.nativeElement, oldClass);
-    }
-  }
+    private shadow: LyShadowService
+  ) { }
 
   ngOnInit() {
     // console.log('slect', this.styleSheet.existStyle(''));
