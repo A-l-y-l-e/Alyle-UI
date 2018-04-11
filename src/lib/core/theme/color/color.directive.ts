@@ -11,36 +11,29 @@ import { LyTheme } from '../../theme.service';
   selector: '[color]'
 })
 export class LyColor {
-  /** Default */
+  /** Default color */
   private _color = 'primary';
-  private _currentClassName: string;
+  private _lastClass: string;
+  private prefix = 'color';
   constructor(
     private theme: LyTheme,
     private renderer: Renderer2,
-    private el: ElementRef
+    private elementRef: ElementRef
   ) { }
 
   @Input('color')
   set color(color: string) {
-    this._color = color;
-    const newClassName = this.theme.getClassKey(this._color, 'color');
-    this.renderer.addClass(this.el.nativeElement, newClassName);
-    if (this._currentClassName) {
-      this.renderer.removeClass(this.el.nativeElement, this._currentClassName);
-    }
-    this._currentClassName = newClassName;
+    const key = `${this.prefix}${color || this._color}`;
+    const newStyle = this.theme.createStyle(`ly-${key}`, this.css.bind(this), color);
+    this.theme.updateRootClass(this.elementRef, this.renderer, newStyle.id, this._lastClass);
+    this._lastClass = newStyle.id;
   }
+
   get color(): string {
     return this._color;
   }
 
+  css(color: string) {
+    return `color:${this.theme.colorOf(color)};`;
+  }
 }
-
-function existKey(palette: any, key: string[]) {
-  let state = palette;
-  key.forEach((name) => {
-    state = state[name];
-  });
-  return !!state.default;
-}
-
