@@ -7,6 +7,7 @@ import { gradStop } from './gradstop';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
+let classId = 0;
 let themeId = 1111;
 export class ThemeColor {
   name: string;
@@ -26,6 +27,8 @@ export class LyTheme {
   renderer: Renderer2;
   Id: string;
   containerStyle;
+  auiRef;
+  _styleMap = new Map<string, StyleData>();
   AlyleUI: {currentTheme: AlyleServiceConfig, palette: any};
   primary: Subject<any>;
   accent: Subject<any>;
@@ -123,7 +126,6 @@ export class LyTheme {
   }
 
   private updateStyle() {
-    this.renderer = this.rendererFactory.createRenderer(null, null);
     const beforeStyle = this.containerStyle;
     const newStyle = this.renderer.createElement('style');
     // (<string[]>this.AlyleUI.palette.primary).forEach((color) => {
@@ -157,11 +159,9 @@ export class LyTheme {
     const content = this.renderer.createText(myStyle);
     this.renderer.appendChild(newStyle, content);
     this.renderer.setAttribute(newStyle, 'aui', this.Id);
+    this.renderer.insertBefore(this.document.head, newStyle, this.auiRef);
     if (this.containerStyle) {
-      this.renderer.insertBefore(this.document.head, newStyle, beforeStyle);
       this.renderer.removeChild(this.document.head, this.containerStyle);
-    } else {
-      this.renderer.appendChild(this.document.head, newStyle);
     }
     this.containerStyle = newStyle;
   }
@@ -172,6 +172,8 @@ export class LyTheme {
     private sanitizer: DomSanitizer,
     private rendererFactory: RendererFactory2
   ) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
+    this.setAuiRef();
     this.Id = `ĸ-${themeId.toString(36)}`;
     config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
     const primary    = this._setColorPalette(config.primary, config.palette);
@@ -218,6 +220,15 @@ export class LyTheme {
     this.palette = new BehaviorSubject<any>(getAllColors);
     this.updateStyle();
     themeId++;
+  }
+
+  setAuiRef() {
+    if (!this.auiRef) {
+      const ref = this.renderer.createElement('meta');
+      this.renderer.setAttribute(ref, 'aui-ref', '');
+      this.renderer.appendChild(this.document.head, ref);
+      this.auiRef = ref;
+    }
   }
 
   // private addShades(primary, accent, other) {
@@ -273,7 +284,7 @@ export class LyTheme {
       /* tslint:disable */
       this.AlyleUI = {
         currentTheme: config,
-        palette: getAllColors
+        palette: parsePalette(getAllColors)
       }
       /* tslint:enable */
       this.primary.next(primary);
@@ -284,6 +295,7 @@ export class LyTheme {
       this.shade.next(shade);
       this.palette.next(getAllColors);
       this.updateStyle();
+      this.updateOthersStyles();
     }
   }
 
@@ -302,7 +314,7 @@ export class LyTheme {
     const theme = this.AlyleUI.palette;
     // const shade = this.AlyleUI.currentTheme.shade;
     let current = theme;
-    const values = value.split(/:/);
+    const values = value.split(/:/g);
     values.forEach((item, index) => {
       if (current[item]) {
         current = current[item];
@@ -315,7 +327,6 @@ export class LyTheme {
     } else {
       current = current['default'];
     }
-    console.warn(current);
     return current;
   }
 
@@ -336,8 +347,76 @@ export class LyTheme {
     return this.findColor(colorName);
   }
 
+  createStyle(_id: string, fn: (...arg) => string, ...arg) {
+    let styleData: StyleData;
+    const key = createKeyOf(`${this.Id}${_id}`);
+    // console.log('existStyle', this.existStyle(key));
+    if (!this._styleMap.has(key)) {
+      this._styleMap.set(key, null);
+      classId++;
+      const id = `ly_${classId.toString(36)}`;
+      const styleContainer = this.renderer.createElement('style');
+      const styleContent = this.renderer.createText(`.${id}{${fn(...arg)}}`);
+      this.renderer.setAttribute(styleContainer, `aui-id`, key);
+      this.renderer.appendChild(styleContainer, styleContent);
+      this.renderer.insertBefore(this.document.head, styleContainer, this.auiRef);
+      styleData = {
+        id,
+        key,
+        styleContainer,
+        styleContent,
+        value: {
+          fn: fn,
+          arg: arg
+        }
+      };
+      this._styleMap.set(key, styleData);
+      return styleData;
+    } else {
+      return this._styleMap.get(key);
+    }
+  }
+  /** #style */
+  createClassContent(value: string, id: string) {
+    return `.${id}{${value}}`;
+  }
+
+  /** #style */
+  createStyleContent(styleData: StyleData) {
+    return this.renderer.createText(`.${styleData.id}{${styleData.value.fn(...styleData.value.arg)}}`);
+  }
+
+  /** Update style of StyleData */
+  private updateStyleValue(style: StyleData, styleText: string) {
+    const styleContent = styleText;
+    this.renderer.removeChild(style.styleContainer, style.styleContent);
+    this.renderer.appendChild(style.styleContainer, styleContent);
+    this._styleMap.set(style.key, Object.assign({}, style, {
+      styleContainer: style.styleContainer,
+      styleContent
+    }));
+  }
+  /** #style: Update all styles */
+  private updateOthersStyles() {
+    this._styleMap.forEach((styleData) => {
+      const newStyleValue = this.createStyleContent(styleData);
+      this.updateStyleValue(styleData, newStyleValue);
+    });
+  }
+
 }
 
+export interface StyleData {
+  /** Class Id */
+  id: string;
+  key: string;
+  styleContainer: any;
+  styleContent: any;
+  value: {
+    fn: (...arg) => string,
+    arg: any[];
+  };
+}
 
 export function isObject(item) {
   return (item && typeof item === 'object' && !Array.isArray(item));
@@ -383,3 +462,8 @@ export function parsePalette(palette: { [key: string]: any }) {
   return iterate(Object.assign({}, palette));
 }
 
+function createKeyOf(str: string) {
+  return str.split('').map((char) => {
+      return char.charCodeAt(0).toString(36);
+  }).join('·');
+}
