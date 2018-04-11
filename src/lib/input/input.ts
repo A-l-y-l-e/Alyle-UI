@@ -86,7 +86,7 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
   _value: any;
   _elementType: 'input' | 'textarea';
   _color = 'primary';
-  _inputColor: string;
+  _inputColor = 'primary';
   currentValue: any;
   private paletteSubscription: Subscription;
   private changed = new Array<(value: any) => void>();
@@ -119,8 +119,10 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
    */
   @Input('inputColor')
   set inputColor(val) {
-    this._color = val;
-    this._inputColor = this.theme.colorOf(val);
+    // this._color = val;
+    if (val) {
+      this._inputColor = val;
+    }
   }
   get inputColor() {
     return this._inputColor;
@@ -162,9 +164,9 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
     private styleTheme: LyStyleTheme,
     private _changeDetectorRef: ChangeDetectorRef
   ) {
-    this.paletteSubscription = this.theme.palette.subscribe((palette) => {
-      this._inputColor = this.theme.colorOf(this._color);
-    });
+    // this.paletteSubscription = this.theme.palette.subscribe((palette) => {
+    //   this._inputColor = this.theme.colorOf(this._color);
+    // });
   }
   toBoolean(val: any) {
     return toBoolean(val);
@@ -180,7 +182,7 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
   }
 
   ngOnInit() {
-    this._inputColor = this.theme.colorOf(this._color);
+    // this._inputColor = this.theme.colorOf(this._color);
     this.focusStateSuscription = this._field.focusState.subscribe((fState: boolean) => {
       this.focusState = fState;
     });

@@ -15,8 +15,7 @@ import {
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { LyShadowService } from './shadow.service';
-import { toPositiveNumber } from './toPositiveNumber';
-import { LyTheme, shadowBuilder } from 'alyle-ui/core';
+import { LyTheme, shadowBuilder, toBoolean } from 'alyle-ui/core';
 
 @Directive({
   selector: '[ly-deep], [ly-shadow], [lyShadow]'
@@ -33,11 +32,10 @@ export class LyDeepComponent implements OnInit {
   @HostBinding('style.box-shadow') styleBoxShadow: SafeStyle | string;
   @Input()
   set lyShadow(val: string[]) {
-    console.time('time createStyle');
     let keys: string;
     let elevation: string | number;
     let color: string;
-    if (val && val[0]) {
+    if (val) {
       keys = val.join();
       elevation = val[0];
       color = val[1];
@@ -48,7 +46,6 @@ export class LyDeepComponent implements OnInit {
     const newStyle = this.theme.createStyle(`ly-${keys}`, this.css.bind(this), elevation, color);
     this.setClassName(newStyle.id, this._classId);
     this._classId = keys;
-    console.timeEnd('time createStyle');
   }
 
   @Input('shadowColor')
