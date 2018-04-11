@@ -1,4 +1,4 @@
-import { Injectable, Optional, Renderer2, RendererFactory2, Inject } from '@angular/core';
+import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
 import { AlyleServiceConfig } from './alyle-config-service';
@@ -396,12 +396,21 @@ export class LyTheme {
       styleContent
     }));
   }
+
   /** #style: Update all styles */
   private updateOthersStyles() {
     this._styleMap.forEach((styleData) => {
       const newStyleValue = this.createStyleContent(styleData);
       this.updateStyleValue(styleData, newStyleValue);
     });
+  }
+
+  /** Replace old class by newClass */
+  updateRootClass(element: ElementRef, renderer: Renderer2, newClass: string, oldClass?: string) {
+    renderer.addClass(element.nativeElement, newClass);
+    if (oldClass) {
+      renderer.removeClass(element.nativeElement, oldClass);
+    }
   }
 
 }
