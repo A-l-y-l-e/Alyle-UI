@@ -1,7 +1,7 @@
 export class AlyleServiceConfig {
   primary: string;
   accent: string;
-  other: string;
+  other?: string;
   colorScheme?: 'light' | 'dark';
   typography?: {
     fontFamily: string;
@@ -39,7 +39,7 @@ export class AlyleServiceConfig {
     [key: string]: {
       [key: string]: {[key: string]: string} | any;
       contrast?: string;
-    }
+    } | string
   };
 
 }

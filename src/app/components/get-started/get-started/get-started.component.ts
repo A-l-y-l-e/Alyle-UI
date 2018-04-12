@@ -44,7 +44,7 @@ export class AppModule { }`;
 
   toJson(val: any) {
     val = JSON.stringify(val, undefined, 2);
-    val = (<string>val).replace(/\s\s\"/g, ' ');
+    val = (<string>val).replace(/\s\s\"/g, '  ');
     return (<string>val).replace(/\"\:\s/g, ': ');
   }
 

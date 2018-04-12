@@ -21,6 +21,7 @@ export class RoutesAppService {
         name: 'Customization',
         routes: [
           { route: 'theming', name: 'Theming' },
+          { route: 'multiple-themes', name: 'Multiple themes' },
           { route: 'bg-color', name: 'bg & color' }
         ]
       },
