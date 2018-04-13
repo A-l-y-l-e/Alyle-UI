@@ -13,9 +13,7 @@ export class LyShadowService {
     private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) private platformId,
     private theme: LyTheme
-  ) {
-    console.log('from shadow service');
-  }
+  ) { }
 
   /** demo: setShadow([elevation, color]) */
   setShadow(elementRef: ElementRef, renderer: Renderer2, val: string[], _lastClass?: string) {

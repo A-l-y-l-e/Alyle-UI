@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/angular-module-builder-cli/config/schema.json",
   "root": "src/lib",
-  "version": "1.6.0-beta.3",
+  "version": "1.6.0-beta.4",
   "outDir": "dist-amb",
   "libs": [
     {

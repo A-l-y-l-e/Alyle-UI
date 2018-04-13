@@ -168,7 +168,6 @@ export class LyTheme {
       currentTheme: config,
       palette: parsePalette(getAllColors),
     };
-    console.log(this.AlyleUI);
     /* tslint:enable */
     this.primary = new BehaviorSubject<any>(primary);
     this.accent = new BehaviorSubject<any>(accent);
