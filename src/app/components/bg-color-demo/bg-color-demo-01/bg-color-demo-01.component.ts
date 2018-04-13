@@ -8,5 +8,5 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
   preserveWhitespaces: false
 })
 export class BgColorDemo01Component {
-  @Input() color = 'orange';
+  @Input() color = 'accent';
 }

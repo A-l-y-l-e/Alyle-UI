@@ -10,4 +10,3 @@ import { LyColor } from './color.directive';
   declarations: [LyColor]
 })
 export class ColorModule { }
-export * from './color.directive';

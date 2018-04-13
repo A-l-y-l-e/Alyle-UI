@@ -36,7 +36,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyTheme, themeProperty, LyStyleTheme, BgAndColorStyle, LyCoreModule, Platform, IsBoolean } from 'alyle-ui/core';
+import { LyTheme, themeProperty, LyStyleTheme, BgAndColorStyle, ThemeModule, Platform, IsBoolean } from 'alyle-ui/core';
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyRadioGroup),
@@ -207,7 +207,7 @@ export class LyRadio implements OnInit, AfterViewInit, OnChanges {
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, LyRippleModule, LyCoreModule],
+  imports: [CommonModule, FormsModule, LyRippleModule, ThemeModule],
   exports: [LyRadioGroup, LyRadio],
   declarations: [LyRadioGroup, LyRadio],
 })

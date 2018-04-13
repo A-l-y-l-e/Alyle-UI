@@ -1,0 +1,10 @@
+<div lyShadow class="box">
+  default
+</div>
+<div [lyShadow]="[4]" class="box">
+  elevation: 4
+</div>
+<h2>Elevations</h2>
+<div [lyShadow]="[elevation]" class="box" *ngFor="let elevation of elevations">
+  elevation: {{ elevation }}
+</div>

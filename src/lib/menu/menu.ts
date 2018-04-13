@@ -37,7 +37,7 @@ import {
   transition,
   group
 } from '@angular/animations';
-import { LyCoreModule, DomService, LxDomModule, Platform } from 'alyle-ui/core';
+import { DomService, LxDomModule, Platform } from 'alyle-ui/core';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,

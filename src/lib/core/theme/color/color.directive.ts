@@ -1,49 +1,40 @@
 import {
   Directive,
-  HostBinding,
+  ElementRef,
   Input,
-  OnInit,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges
-} from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+  Renderer2
+  } from '@angular/core';
 
-import { LyTheme } from '../../palette';
+import { LyTheme } from '../../theme.service';
 
 @Directive({
   selector: '[color]'
 })
-export class LyColor implements OnChanges, OnInit, OnDestroy {
-
+export class LyColor {
+  /** Default color */
   private _color = 'primary';
-  private _subscription: Subscription;
-
-  constructor(private theme: LyTheme) { }
-  @HostBinding('style.color') _styleColor: string;
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes['color'].firstChange) {
-      this._styleColor = this.theme.colorOf(this._color);
-    }
-  }
-
-  ngOnInit() {
-    this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this._styleColor = this.theme.colorOf(this._color);
-    });
-  }
+  private _lastClass: string;
+  private prefix = 'color';
+  constructor(
+    private theme: LyTheme,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
+  ) { }
 
   @Input('color')
   set color(color: string) {
     this._color = color;
+    const key = `${this.prefix}${color || this._color}`;
+    const newStyle = this.theme.createStyle(`ly-${key}`, this.css.bind(this), color);
+    this.theme.updateClass(this.elementRef, this.renderer, newStyle.id, this._lastClass);
+    this._lastClass = newStyle.id;
   }
+
   get color(): string {
     return this._color;
   }
 
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
+  css(color: string) {
+    return `color:${this.theme.colorOf(color)};`;
   }
-
 }

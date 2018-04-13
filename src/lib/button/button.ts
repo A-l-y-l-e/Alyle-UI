@@ -2,7 +2,7 @@ import {
   NgModule,
   ModuleWithProviders,
   Component,
-  Renderer,
+  Renderer2,
   ElementRef,
   Output,
   Input,
@@ -32,17 +32,20 @@ import { Observable } from 'rxjs/Observable';
 import {
   LyTheme,
   themeProperty,
-  Platform
+  Platform,
+  IsBoolean,
+  LyBg,
+  LyColor
  } from 'alyle-ui/core';
 import { LyIconButton } from 'alyle-ui/icon-button';
 import { LyShadowService } from 'alyle-ui/shadow';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
-@Directive({ selector: '[ly-button][raised]' })
-export class LyButtonRaised {
-  private _raised = true;
-  constructor() { }
-}
+// @Directive({ selector: '[ly-button][raised]' })
+// export class LyButtonRaised {
+//   private _raised = true;
+//   constructor() { }
+// }
 
 @Component({
   selector: '[ly-button], ly-button',
@@ -62,6 +65,7 @@ export class LyButtonRaised {
   preserveWhitespaces: false
 })
 export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  private _lastClass: string;
   public _disabled = false;
   public _prevFocused = true;
   private html: any = '';
@@ -93,6 +97,11 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     }
   }
 
+  @Input() color: string;
+  @Input() bg: string;
+  @Input() @IsBoolean() raised: boolean;
+  @Input() @IsBoolean() raisedColorInverted: string;
+
   @HostBinding('style.background') styleBackground: string;
   @HostBinding('style.color') styleColor: string;
   @ViewChild(LyRipple) ripple: LyRipple;
@@ -100,72 +109,32 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   buttonPadding: Subject<string> = new BehaviorSubject<string>('');
   span = true;
 
-  /** Callback registered via registerOnTouched (ControlValueAccessor) */
-  private _onTouchedCallback: () => void;
-
-  /** Callback registered via registerOnChange (ControlValueAccessor) */
-  private _onChangeCallback: (_: any) => void;
-
-  @HostBinding('class.ly-ripple-no-focus') lyRippleNoFocus = false;
-  @HostListener('mousedown') onMouseDown() {
-    this.lyRippleNoFocus = true;
-  }
-  @HostListener('blur') onBlur() {
-    Promise.resolve().then(() => this.lyRippleNoFocus = false);
-  }
-  @HostListener('keydown') onKeydown() {
-    this.lyRippleNoFocus = true;
-  }
-
   constructor(
     private elementRef: ElementRef,
-    private renderer: Renderer,
+    private renderer: Renderer2,
     private sanitizer: DomSanitizer,
     private shadowService: LyShadowService,
     public theme: LyTheme,
-    @Optional() private buttonRaised: LyButtonRaised,
+    @Optional() private lyColor: LyColor,
+    @Optional() private lyBg: LyBg
   ) {
     this.nativeElement = this.elementRef.nativeElement;
-    if (this.buttonRaised) {
-      this._raised = true;
-    }
-    this.elementRef.nativeElement.tabIndex = 0;
   }
-  @Input()
-  public get raised(): string | boolean {
-    return this._raised;
-  }
-
-  public set raised(val: string | boolean) {
-    if (!!val) {
-      this._raised = val;
-    }
-  }
-  ngOnInit() {
-
-    this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.styleBackground = this.theme.colorOf(this._bg);
-      // Actualizar color segun backgroundf
-      if (themeProperty(this._bg)) {
-        this.styleColor = '#fff';
-      } else {
-        this.styleColor = this.theme.colorOf(this._color);
-      }
-      this.shadowButton();
-    });
-
-  }
+  ngOnInit() { }
   ngOnChanges(changes: SimpleChanges): void {
-    this.shadowButton();
-    if (changes.raised) {
-      if (changes.raised.currentValue === false) {
-        this.boxShadow = '#fff 0 0 0';
+    if (this.raised || this.raisedColorInverted) {
+      let colorRaised = this.bg || this.color || '';
+      if (this.raisedColorInverted) {
+        colorRaised = this.color;
       }
+      this._lastClass = this.shadowService.setShadow(this.elementRef, this.renderer, ['3', colorRaised], this._lastClass);
+    } else if (this._lastClass) {
+      /** reset */
+      this.renderer.removeClass(this.elementRef.nativeElement, this._lastClass);
+      this._lastClass = null;
     }
   }
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
-  }
+  ngOnDestroy() { }
 
   public focused() {
     this.elementRef.nativeElement.focus();
@@ -212,26 +181,6 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     return this.elementRef.nativeElement.offsetHeight;
   }
   @Input()
-  set bg(val: string) {
-    this._bg = val;
-    this.styleBackground = this.theme.colorOf(this._bg);
-    if (themeProperty(this._bg)) {
-      this.styleColor = '#fff';
-    } else {
-      this.styleColor = this.theme.colorOf(this._color);
-    }
-  }
-
-  @Input('color')
-  set color(val: string) {
-    this._color = val;
-    if (themeProperty(this._bg)) {
-      this.styleColor = '#fff';
-    } else {
-      this.styleColor = this.theme.colorOf(this._color);
-    }
-  }
-  @Input()
   public get deep(): any {
     return this._deep;
   }
@@ -259,23 +208,5 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
-  }
-
-  private shadowButton() {
-    const color = 'transparent';
-    // !Important set boxShadow
-    if (this._raised) {
-      if (!!this._color && !!this.styleColor && !!this.styleBackground) {
-        if (this._raised !== '!' && themeProperty(this._bg)) {
-          this.boxShadow = (this.shadowService.shadow(this.styleBackground, 2.2));
-        } else if (this._raised !== '!' && !themeProperty(this._bg)) {
-          this.boxShadow = (this.shadowService.shadow(this.styleBackground, 2.2));
-        } else {
-          this.boxShadow = (this.shadowService.shadow(this.styleColor, 1));
-        }
-      }
-    }
-    // return this.sanitizerStyle(`${ color } 0px 3px 11px, ${ color } 0 2px 3px`);
-
   }
 }

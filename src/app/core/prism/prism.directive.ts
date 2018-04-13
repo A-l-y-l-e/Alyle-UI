@@ -1,7 +1,14 @@
-import { Directive, ElementRef, Input, OnInit, AfterViewInit, Inject } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, AfterViewInit, Inject, Renderer2 } from '@angular/core';
 import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { PrismPipe } from '../pipes/prism/prism.pipe';
+import { Platform } from 'alyle-ui/core';
+
+const Prism = require('prismjs');
+const PrismTypescript = require('prismjs/components/prism-typescript');
+const PrismMarkdown = require('prismjs/components/prism-markdown');
+const PrismBash = require('prismjs/components/prism-bash');
+const PrismJson = require('prismjs/components/prism-json');
 
 @Directive({
   selector: '[prism], prism'
@@ -9,10 +16,10 @@ import { PrismPipe } from '../pipes/prism/prism.pipe';
 export class PrismDirective implements AfterViewInit {
   private _language: string;
   private _content: HTMLElement;
-  @Input('language')
-  set language(val: string) {
-    this._language = val;
-    this.transformData(this._language);
+  @Input() language = 'ts';
+  @Input()
+  set code(val) {
+    this.codeToHtml(val);
   }
   @Input('src')
   set src(val: string) {
@@ -21,16 +28,28 @@ export class PrismDirective implements AfterViewInit {
 
   constructor(
     private _elementRef: ElementRef,
+    private renderer: Renderer2,
     private _prismPipe: PrismPipe,
+    @Inject(DOCUMENT) private document,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-    this._elementRef.nativeElement.style.display = 'none';
-    const div = document.createElement('div');
-    this._content = div;
-    this._elementRef.nativeElement.after(this._content);
+  ) { }
+
+  codeToHtml(val: string) {
+    if (Platform.isBrowser) {
+      let code: string;
+      const containerCode = this.renderer.createElement('code');
+      if (this.language === 'ts') {
+        this.renderer.addClass(containerCode, 'language-javascript');
+        code = Prism.highlight(`${val}`, Prism.languages.javascript);
+      } else {
+        this.renderer.addClass(containerCode, `language-${this.language}`);
+        code = Prism.highlight(`${val}`, Prism.languages[this.language]);
+      }
+      containerCode.innerHTML = code;
+      this.renderer.appendChild(this._elementRef.nativeElement, containerCode);
     }
   }
+
   transformData(lang: string) {
     const data = this._elementRef.nativeElement.innerHTML;
     this._content.innerHTML = this._prismPipe.transform(data, lang);

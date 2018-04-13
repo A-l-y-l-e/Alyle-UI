@@ -16,6 +16,7 @@ const routes: Routes = [
     { path: 'ripple', loadChildren: './ripple-demo/ripple-demo.module#RippleDemoModule' },
     { path: 'responsive', loadChildren: './responsive-demo/responsive-demo.module#ResponsiveDemoModule' },
     // { path: 'date-picker', loadChildren: './date-picker-demo/date-picker-demo.module#DatePickerDemoModule' } Beta
+    { path: 'shadow', loadChildren: './shadow-demo/shadow-demo.module#ShadowDemoModule' },
   ] },
   { path: '**',   redirectTo: '' }
 ];

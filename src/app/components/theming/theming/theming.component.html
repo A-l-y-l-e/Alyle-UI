@@ -1,26 +1,3 @@
 <h1>Theming</h1>
-
-<h3>Config color theme in app.module.ts</h3>
-<prism language="ts">
-{{"// Core module
-import { Component } from '@angular/core';
-import { LyTheme } from 'alyle-ui/core';
-import { AlyleServiceConfig } from 'alyle-ui/core';
-
-@Component({
-  ...
-})
-export class AppComponent {
-  routesComponents: any;
-  constructor(public theme: LyTheme) { }
-  changeTheme(color: AlyleServiceConfig) {
-    this.theme.setTheme(
-      {
-        primary: 'cyan',
-        accent: 'amber'
-      }
-    );
-  }
-}
-"}}
-</prism>
+<h3>Create custom theme</h3>
+<prism language="typescript" [code]="code"></prism>
