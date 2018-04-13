@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { LyCoreModule } from 'alyle-ui/core';
+import { ThemeModule } from 'alyle-ui/core';
 import { LyInputModule } from 'alyle-ui/input';
 import { LyButtonModule } from 'alyle-ui/button';
 import { LyIconButtonModule } from 'alyle-ui/icon-button';
@@ -15,7 +15,7 @@ import { InputExample05Component } from './input-example-05.component';
   imports: [
     CommonModule,
     FormsModule,
-    LyCoreModule,
+    ThemeModule,
     LyInputModule,
     LyButtonModule,
     LyIconButtonModule,

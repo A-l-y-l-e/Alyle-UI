@@ -10,4 +10,3 @@ import { LyBg } from './bg.directive';
   declarations: [LyBg]
 })
 export class BgModule { }
-export { LyBg } from './bg.directive';

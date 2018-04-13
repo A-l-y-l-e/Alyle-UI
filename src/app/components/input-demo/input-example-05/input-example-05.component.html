@@ -12,7 +12,7 @@
 <button ly-button (click)="_message.focus()" [disabled]="disabled">focus</button>
 <button ly-button (click)="_message.select()" [disabled]="disabled">select</button>
 <br />
-<inline-text>position</inline-text>
+<span class="inline-text">position</span>
 <ly-radio-group [(ngModel)]="position">
   <ly-radio value="top">top</ly-radio>
   <ly-radio value="middle" checked="true">center</ly-radio>
@@ -25,7 +25,7 @@
   </ly-input>
 </div>
 <div [ngStyle]="styles">
-  <inline-text>Hi </inline-text>
+  <span class="inline-text">Hi </span>
   <ly-input>
     <input [(ngModel)]="text" [disabled]="disabled">
     <ly-label>Name</ly-label>

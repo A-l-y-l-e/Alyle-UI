@@ -1,8 +1,8 @@
-import { LyCoreModule } from 'alyle-ui/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DrawerDemo01Component } from './drawer-demo-01.component';
+import { ThemeModule } from 'alyle-ui/core';
 import { LyDrawerModule } from 'alyle-ui/drawer';
 import { LyButtonModule } from 'alyle-ui/button';
 import { LyRadioModule } from 'alyle-ui/radio';
@@ -11,7 +11,7 @@ import { LyRadioModule } from 'alyle-ui/radio';
   imports: [
     CommonModule,
     FormsModule,
-    LyCoreModule,
+    ThemeModule,
     LyDrawerModule,
     LyButtonModule,
     LyRadioModule

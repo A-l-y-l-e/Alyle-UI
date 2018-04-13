@@ -24,7 +24,7 @@
       <ly-menu #ThemeMenu
       [anchor-origin]="{horizontal: 'left', vertical: 'center'}"
       [target-origin]="{horizontal: 'right', vertical: 'center'}">
-        <div class="content-menu">
+        <div class="content-menu" bg="main">
           <div class="menu-item" lyRipple lyRippleSensitive color="colorText" *ngFor="let item of listColors" (click)="changePrimary(item)">
             <div class="item-container">
               <div ly-shadow [shadowColor]="theme.AlyleUI.currentTheme.palette[item.primary].default" [style.background]="theme.AlyleUI.currentTheme.palette[item.primary].default"></div>

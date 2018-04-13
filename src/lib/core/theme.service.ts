@@ -27,7 +27,6 @@ export class LyTheme {
   renderer: Renderer2;
   Id: string;
   containerStyle;
-  auiRef;
   _styleMap = new Map<string, StyleData>();
   AlyleUI: {currentTheme: AlyleServiceConfig, palette: any};
   primary: Subject<any>;
@@ -132,7 +131,6 @@ export class LyTheme {
     private rendererFactory: RendererFactory2
   ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
-    this.setAuiRef();
     this.Id = `ĸ-${themeId.toString(36)}`;
     config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
     const primary    = this._setColorPalette(config.primary, config.palette);
@@ -180,15 +178,6 @@ export class LyTheme {
     this.shade = new BehaviorSubject<any>(shade);
     this.palette = new BehaviorSubject<any>(getAllColors);
     themeId++;
-  }
-
-  setAuiRef() {
-    if (!this.auiRef) {
-      const ref = this.renderer.createElement('meta');
-      this.renderer.setAttribute(ref, 'aui-ref', '');
-      this.renderer.appendChild(this.document.head, ref);
-      this.auiRef = ref;
-    }
   }
 
   // private addShades(primary, accent, other) {
@@ -319,7 +308,7 @@ export class LyTheme {
       const styleContent = this.renderer.createText(`.${id}{${fn(...arg)}}`);
       this.renderer.setAttribute(styleContainer, `aui-id`, key);
       this.renderer.appendChild(styleContainer, styleContent);
-      this.renderer.insertBefore(this.document.head, styleContainer, this.auiRef);
+      this.renderer.appendChild(this.document.head, styleContainer);
       styleData = {
         id,
         key,
@@ -366,11 +355,11 @@ export class LyTheme {
   }
 
   /** Replace old class by newClass */
-  updateRootClass(element: ElementRef, renderer: Renderer2, newClass: string, oldClass?: string) {
-    renderer.addClass(element.nativeElement, newClass);
+  updateClass(elementRef: ElementRef, renderer: Renderer2, newClass: string, oldClass?: string) {
     if (oldClass) {
-      renderer.removeClass(element.nativeElement, oldClass);
+      renderer.removeClass(elementRef.nativeElement, oldClass);
     }
+    renderer.addClass(elementRef.nativeElement, newClass);
   }
 
 }

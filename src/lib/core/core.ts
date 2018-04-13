@@ -58,7 +58,7 @@ export class LyInlineText {}
 
 @NgModule({
   imports: [CommonModule],
-  exports: [LyRoot, LyInlineText, ThemeModule],
+  exports: [LyRoot, LyInlineText],
   declarations: [LyRoot, LyInlineText],
   providers: [Platform]
 })

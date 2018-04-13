@@ -24,6 +24,7 @@ import { AppRoutingModule } from './app.routing';
 import { RoutesAppService } from './components/routes-app.service';
 import { PrismModule } from './core/prism/prism.module';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
+import { ThemeModule } from 'alyle-ui/core';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -117,6 +118,7 @@ export class MyHammerConfig extends HammerGestureConfig {
         },
       }
     }),
+    ThemeModule,
     LyButtonModule,
     LyDrawerModule,
     LyShadowModule,
