@@ -24,10 +24,10 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { exactPosition } from 'alyle-ui/core';
 
 export interface LyResizingCroppingImagesConfig {

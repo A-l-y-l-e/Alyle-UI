@@ -1,6 +1,6 @@
-import { Subscriber } from 'rxjs/Subscriber';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscriber } from 'rxjs';
+import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   Component,
   ElementRef,
@@ -33,7 +33,7 @@ import {
   NgControl, NgForm,
 } from '@angular/forms';
 import { ThemeModule, IsBoolean, toBoolean } from 'alyle-ui/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
 import {

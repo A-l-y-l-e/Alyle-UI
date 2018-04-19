@@ -2,9 +2,9 @@ import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef }
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
 import { AlyleServiceConfig } from './alyle-config-service';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { gradStop } from './gradstop';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { DomSanitizer, SafeStyle, TransferState, makeStateKey } from '@angular/platform-browser';
 import { Platform } from './platform';
 

@@ -14,7 +14,7 @@ import {
   Inject,
   Renderer2
 } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LyTheme } from './theme.service';

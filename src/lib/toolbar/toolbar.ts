@@ -6,7 +6,7 @@ import {
   OnDestroy,
   HostBinding
 }                       from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { LyTheme }      from 'alyle-ui/core';
 import { CommonModule } from '@angular/common';
 

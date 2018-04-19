@@ -13,7 +13,7 @@ import {
   SimpleChange
 } from '@angular/core';
 import { FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 @Directive({
   selector: 'ly-input input, ly-textarea textarea'

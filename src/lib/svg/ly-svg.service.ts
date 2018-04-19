@@ -1,8 +1,7 @@
 import { Injectable }     from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable }     from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
+import { Observable, of }     from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable()
 export class LySvgService {
   private static readonly _svg: Map<string, SVGElement> = new Map<string, SVGElement>();
@@ -13,11 +12,13 @@ export class LySvgService {
       return Promise.resolve(this._cloneSVG(LySvgService._svg.get(url)));
     }
     const req = this._http.get(url, { responseType: 'text' })
-    .map((res) => {
-      const svgEl = this._svgElementFromString(res);
-      LySvgService._svg.set(url, svgEl);
-      return this._cloneSVG(svgEl);
-    })
+    .pipe(
+      map((res) => {
+        const svgEl = this._svgElementFromString(res);
+        LySvgService._svg.set(url, svgEl);
+        return this._cloneSVG(svgEl);
+      })
+    )
     .toPromise();
     return req;
   }

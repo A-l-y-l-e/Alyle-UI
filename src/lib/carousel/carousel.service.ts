@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { of as observableOf } from 'rxjs/observable/of';
+import { Observable } from 'rxjs';
+import { of as observableOf } from 'rxjs';
 /* tslint:disable */
 // import Vibrant from 'node-vibrant';
 /* tslint:enable */

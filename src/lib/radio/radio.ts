@@ -25,10 +25,10 @@ import {
   ElementRef
 } from '@angular/core';
 import { LyRippleModule, LyRipple } from 'alyle-ui/ripple-minimal';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   NgModel,
   NG_VALUE_ACCESSOR,

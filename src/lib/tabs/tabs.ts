@@ -26,7 +26,7 @@ import {
 import { LyTheme, BgAndColorStyle, LyStyleTheme, themeProperty } from 'alyle-ui/core';
 import { CommonModule } from '@angular/common';
 import { getParents } from 'alyle-ui/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { LyButton } from 'alyle-ui/button';
 
 let idTab = 0;

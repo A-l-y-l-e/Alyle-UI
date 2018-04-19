@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor } from '@angular/forms';
 import { RandomId, NgTranscludeModule, IsBoolean } from 'alyle-ui/core';
 import { AnimationBuilder, trigger, state, animate, transition, style } from '@angular/animations';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 export interface StyleMargin {
   top?: string;
   left?: string;

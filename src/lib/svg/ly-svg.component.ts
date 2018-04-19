@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Platform } from 'alyle-ui/core';
 import { LySvgService } from './ly-svg.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: 'ly-svg, [ly-svg], [lySvg]'

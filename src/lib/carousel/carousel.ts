@@ -29,7 +29,7 @@ import {
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { LyShadowModule, LyShadowService } from 'alyle-ui/shadow';
 import { CarouselService, VibrantColors } from './carousel.service';

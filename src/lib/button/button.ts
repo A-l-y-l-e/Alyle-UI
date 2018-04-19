@@ -1,45 +1,48 @@
 import {
-  NgModule,
-  ModuleWithProviders,
-  Component,
-  Renderer2,
-  ElementRef,
-  Output,
-  Input,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  HostBinding,
-  OnDestroy,
-  Optional,
-  OnChanges,
   AfterViewInit,
-  SimpleChanges,
-  ContentChildren,
-  QueryList,
-  forwardRef,
-  Directive,
-  ViewChild,
+  ChangeDetectionStrategy,
+  Component,
   ContentChild,
+  ContentChildren,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostBinding,
   HostListener,
-  OnInit } from '@angular/core';
+  Input,
+  ModuleWithProviders,
+  NgModule,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Output,
+  QueryList,
+  Renderer2,
+  SimpleChanges,
+  ViewChild
+  } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
-import { Subscriber } from 'rxjs/Subscriber';
-import { Subject }         from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LyRipple } from 'alyle-ui/ripple-minimal';
-import { Observable } from 'rxjs/Observable';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import {
-  LyTheme,
-  themeProperty,
-  Platform,
   IsBoolean,
   LyBg,
-  LyColor
- } from 'alyle-ui/core';
+  LyColor,
+  LyTheme,
+  Platform,
+  themeProperty
+  } from 'alyle-ui/core';
 import { LyIconButton } from 'alyle-ui/icon-button';
+import { LyRipple } from 'alyle-ui/ripple-minimal';
 import { LyShadowService } from 'alyle-ui/shadow';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  Subscriber,
+  Subscription
+} from 'rxjs';
 
 // @Directive({ selector: '[ly-button][raised]' })
 // export class LyButtonRaised {

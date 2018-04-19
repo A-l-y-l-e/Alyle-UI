@@ -3,9 +3,9 @@ import {
   ModuleWithProviders,
   Optional, Input }                  from '@angular/core';
 
-import { Observable }         from 'rxjs/Observable';
-import { Subject }            from 'rxjs/Subject';
-import { BehaviorSubject }    from 'rxjs/BehaviorSubject';
+import { Observable }         from 'rxjs';
+import { Subject }            from 'rxjs';
+import { BehaviorSubject }    from 'rxjs';
 import { AlyleServiceConfig } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';

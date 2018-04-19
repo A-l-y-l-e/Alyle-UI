@@ -1,10 +1,9 @@
 import { Directive, ElementRef, Injectable, ChangeDetectorRef, NgZone, HostBinding, Renderer2, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Platform } from '../platform/index';
-import { Subscription } from 'rxjs/Subscription';
-import { debounceTime } from 'rxjs/operator/debounceTime';
-import 'rxjs/add/operator/debounceTime';
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export enum FocusStatus {
   /**mouse and/or touch*/
@@ -46,10 +45,10 @@ export class LyFocusState implements OnDestroy {
       };
       const ob: Observable<FocusStatus> = this._stateSubject.asObservable();
       this._stateSubscription = ob
-      .debounceTime(111)
-      // .pipe(
-      //   debounceTime(111)
-      // )
+      // .debounceTime(111)
+      .pipe(
+        debounceTime(111)
+      )
       .subscribe((e: FocusStatus) => {
         this.state = e;
         this._updateClass();
