@@ -1,21 +1,29 @@
 import {
   NgModule, ModuleWithProviders,
   ViewContainerRef, SkipSelf,
-  Optional, InjectionToken } from '@angular/core';
+  Optional } from '@angular/core';
+import { BrowserTransferStateModule } from '@angular/platform-browser';
 import {
   LyCoreModule,
   LyTheme,
   AlyleServiceConfig } from 'alyle-ui/core';
 
 @NgModule({
-  imports: [LyCoreModule.forRoot()],
-  exports: [LyCoreModule],
-  providers: [
-    LyTheme
-  ]
+  imports: [ LyCoreModule, BrowserTransferStateModule ],
+  exports: [ LyCoreModule ]
 })
 export class AlyleUIModule {
   static forRoot(config: AlyleServiceConfig): ModuleWithProviders {
+    return {
+      ngModule: AlyleUIModule,
+      providers: [
+        [ LyTheme ],
+        { provide: AlyleServiceConfig, useValue: config }
+      ]
+    };
+  }
+
+  static setTheme(config: AlyleServiceConfig): ModuleWithProviders {
     return {
       ngModule: AlyleUIModule,
       providers: [

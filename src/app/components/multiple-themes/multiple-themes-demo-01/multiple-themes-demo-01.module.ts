@@ -7,7 +7,7 @@ import { ThemeModule } from 'alyle-ui/core';
 @NgModule({
   imports: [
     CommonModule,
-    AlyleUIModule.forRoot({
+    AlyleUIModule.setTheme({
       primary: 'pink',
       accent: 'purple',
       colorScheme: 'light',

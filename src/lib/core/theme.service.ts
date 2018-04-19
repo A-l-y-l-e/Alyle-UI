@@ -5,10 +5,20 @@ import { AlyleServiceConfig } from './alyle-config-service';
 import { Subject } from 'rxjs/Subject';
 import { gradStop } from './gradstop';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { DomSanitizer, SafeStyle, TransferState, makeStateKey } from '@angular/platform-browser';
+import { Platform } from './platform';
 
-let classId = 0;
-let themeId = 1111;
+const CLASS_ID_KEY = makeStateKey('class_id');
+
+let classId: number;
+if (Platform.isBrowser) {
+  classId = 0;
+} else {
+  classId = -9e9;
+}
+let isInitialized;
+let themeId = 0;
+
 export class ThemeColor {
   name: string;
   color: { [key: string]: string };
@@ -24,6 +34,8 @@ export function themeProperty(color: string): boolean {
 
 @Injectable()
 export class LyTheme {
+  rootElement: HTMLElement;
+  classId = this.state.get(CLASS_ID_KEY, null as number);
   renderer: Renderer2;
   Id: string;
   containerStyle;
@@ -128,10 +140,16 @@ export class LyTheme {
     @Optional() config: AlyleServiceConfig,
     @Inject(DOCUMENT) private document,
     private sanitizer: DomSanitizer,
-    private rendererFactory: RendererFactory2
+    private rendererFactory: RendererFactory2,
+    private state: TransferState
   ) {
+    console.log(this.Id, '_config', config);
+    if (!isInitialized && this.classId) {
+      classId = this.classId;
+      isInitialized = true;
+    }
     this.renderer = this.rendererFactory.createRenderer(null, null);
-    this.Id = `ĸ-${themeId.toString(36)}`;
+    this.Id = `ĸ${themeId.toString(36)}`;
     config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
     const primary    = this._setColorPalette(config.primary, config.palette);
     const accent     = this._setColorPalette(config.accent, config.palette);
@@ -296,33 +314,36 @@ export class LyTheme {
   }
 
   createStyle(_id: string, fn: (...arg) => string, ...arg) {
-    let styleData: StyleData;
-    const key = createKeyOf(`${this.Id}${_id}`);
-    // console.log('existStyle', this.existStyle(key));
-    if (!this._styleMap.has(key)) {
-      this._styleMap.set(key, null);
-      classId++;
-      const id = `ly_${classId.toString(36)}`;
-      const styleContainer = this.renderer.createElement('style');
-      const styleContent = this.renderer.createText(`.${id}{${fn(...arg)}}`);
-      this.renderer.setAttribute(styleContainer, `aui-id`, key);
-      this.renderer.appendChild(styleContainer, styleContent);
-      this.renderer.appendChild(this.document.head, styleContainer);
-      styleData = {
-        id,
-        key,
-        styleContainer,
-        styleContent,
-        value: {
-          fn: fn,
-          arg: arg
-        }
-      };
-      this._styleMap.set(key, styleData);
-      return styleData;
+    const newKey = createKeyOf(`${this.Id}${_id}`);
+    const styleData: StyleData = {key: newKey, value: {
+      fn: fn,
+      arg: arg
+    }} as any;
+    console.log('key', `${this.Id}${_id}`, newKey);
+    if (this._styleMap.has(newKey)) {
+      return this._styleMap.get(newKey);
+    } else if (Platform.isBrowser && (styleData.styleContainer = window.document.head.querySelector(`style[data-key="${newKey}"]`))) {
+      this._styleMap.set(newKey, null);
+      styleData.styleContent = styleData.styleContainer.innerHTML;
+      styleData.id = styleData.styleContainer.dataset.id;
+      // this.renderer.removeChild(this.document.head, styleData.styleContainer);
+      this._styleMap.set(newKey, styleData);
+      console.warn('key found', newKey);
     } else {
-      return this._styleMap.get(key);
+      this._styleMap.set(newKey, null);
+      classId++;
+      styleData.id = `ly_${classId.toString(36)}`;
+      styleData.styleContainer = this.renderer.createElement('style');
+      styleData.styleContent = this.renderer.createText(`.${styleData.id}{${fn(...arg)}}`);
+      this.renderer.appendChild(styleData.styleContainer, styleData.styleContent);
+      this.renderer.appendChild(this.document.head, styleData.styleContainer);
+      this._styleMap.set(newKey, styleData);
+      if (!Platform.isBrowser) {
+        this.renderer.setAttribute(styleData.styleContainer, `data-key`, `${newKey}`);
+        this.renderer.setAttribute(styleData.styleContainer, `data-id`, `${styleData.id}`);
+      }
     }
+    return styleData;
   }
   /** #style */
   createClassContent(value: string, id: string) {
@@ -358,7 +379,9 @@ export class LyTheme {
     if (oldClass) {
       renderer.removeClass(elementRef.nativeElement, oldClass);
     }
-    renderer.addClass(elementRef.nativeElement, newClass);
+    if (newClass) {
+      renderer.addClass(elementRef.nativeElement, newClass);
+    }
   }
 
 }
@@ -422,5 +445,5 @@ export function parsePalette(palette: { [key: string]: any }) {
 function createKeyOf(str: string) {
   return str.split('').map((char) => {
       return char.charCodeAt(0).toString(36);
-  }).join('·');
+  }).join('');
 }

@@ -8,10 +8,14 @@ import {
   Directive,
   Input,
   HostBinding,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Optional,
+  SkipSelf,
+  Inject,
+  Renderer2
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LyTheme } from './theme.service';
 import { ThemeModule } from './theme/theme.module';
@@ -30,15 +34,24 @@ const id = 0;
   preserveWhitespaces: false
 })
 export class LyRoot implements OnDestroy {
-  @HostBinding('style.background') backgroundStyle: string;
-  @HostBinding('style.color') colorStyle: string;
-  @HostBinding('style.font-family') fontFamily: string;
   themeSubscription: Subscription;
-  constructor(private elementRef: ElementRef, private theme: LyTheme) {
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    private theme: LyTheme,
+    @Inject(DOCUMENT) private document,
+    @Optional() @SkipSelf() parent: LyRoot,
+
+  ) {
+    console.log('lyRoot');
+    this.theme.rootElement = this.elementRef.nativeElement;
+
+    if (parent) {
+      throw new Error(
+        'ly-core[root] is already loaded. Import it in the AppComponent only');
+    }
     this.themeSubscription = this.theme.palette.subscribe((palette) => {
-      this.backgroundStyle = palette['bgText'];
-      this.colorStyle = palette['colorText'];
-      this.fontFamily = theme.AlyleUI.currentTheme.typography.fontFamily;
+      console.warn('DEPRECATED: theme.palette');
     });
   }
   ngOnDestroy() {
@@ -62,10 +75,4 @@ export class LyInlineText {}
   declarations: [LyRoot, LyInlineText],
   providers: [Platform]
 })
-export class LyCoreModule {
-  public static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: LyCoreModule,
-    };
-  }
-}
+export class LyCoreModule { }
