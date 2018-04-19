@@ -15,6 +15,7 @@
     "component/carousel",
     "component/icon-button",
     "component/ripple",
-    "component/responsive"
+    "component/responsive",
+    "component/shadow"
   ]
 }
