@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@alyle/angular-prerender@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@alyle/angular-prerender/-/angular-prerender-0.1.0.tgz#095f90a35dc944a7bac5b400aed96815e59c5959"
+"@alyle/angular-prerender@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@alyle/angular-prerender/-/angular-prerender-0.3.0.tgz#917708d91fcb247c31bd2f2c2c90de08fc87fed1"
   dependencies:
     fs-extra "^5.0.0"
     html-minifier "^3.5.10"

@@ -54,7 +54,7 @@ export class BgAndColorStyle {
 
 @Injectable()
 export class LyStyleTheme {
-  constructor(public theme: LyTheme) {}
+  constructor() {}
   /**
    * for bg or color inputs, find the color in palette, return color
    * example: this.theme.update('bg', 'primary', this.theme.AlyleUI.palette); // #00bcd4

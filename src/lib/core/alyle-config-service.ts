@@ -1,4 +1,5 @@
 export class AlyleServiceConfig {
+  name?: string;
   primary: string;
   accent: string;
   other?: string;

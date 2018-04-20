@@ -12,7 +12,9 @@ import {
   Optional,
   SkipSelf,
   Inject,
-  Renderer2
+  Renderer2,
+  ViewChild,
+  AfterViewInit
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CommonModule, DOCUMENT } from '@angular/common';
@@ -33,29 +35,25 @@ const id = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class LyRoot implements OnDestroy {
+export class LyRoot {
   themeSubscription: Subscription;
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private theme: LyTheme,
+    // private theme: LyTheme,
     @Inject(DOCUMENT) private document,
-    @Optional() @SkipSelf() parent: LyRoot,
-
+    @Optional() @SkipSelf() parent: LyRoot
   ) {
-    console.log('lyRoot');
-    this.theme.rootElement = this.elementRef.nativeElement;
-
     if (parent) {
       throw new Error(
         'ly-core[root] is already loaded. Import it in the AppComponent only');
     }
-    this.themeSubscription = this.theme.palette.subscribe((palette) => {
-      console.warn('DEPRECATED: theme.palette');
-    });
-  }
-  ngOnDestroy() {
-    this.themeSubscription.unsubscribe();
+    // this.rootService.rootContainer = this.renderer.createElement('ly-theme');
+    // console.log('_____________.', this.document.body);
+    // this.renderer.appendChild(this.document.body, this.rootService.rootContainer);
+    // this.themeSubscription = this.theme.palette.subscribe((palette) => {
+    //   console.warn('DEPRECATED: theme.palette');
+    // });
   }
 }
 @Component({

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { environment } from 'environments/environment';
+import { HomeModule } from './home/home.module';
 
 const routes: Routes = [
   { path: 'get-started', loadChildren: './components/get-started/get-started.module#GetStartedModule' },
@@ -8,14 +9,17 @@ const routes: Routes = [
   { path: 'multiple-themes', loadChildren: './components/multiple-themes/multiple-themes.module#MultipleThemesModule' },
   { path: 'component', loadChildren: './components/index#ComponentsModule' },
   { path: 'bg-color', loadChildren: './components/bg-color-demo/bg-color-demo.module#BgColorDemoModule' },
-  { path: '', loadChildren: './home/home.module#HomeModule' },
+  // { path: '', loadChildren: './home/home.module#HomeModule' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    useHash: false,
-    initialNavigation: 'enabled'
-    })],
+  imports: [
+    HomeModule,
+    RouterModule.forRoot(routes, {
+      useHash: false,
+      initialNavigation: 'enabled'
+    })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -7,6 +7,7 @@ export * from './array/prev';
 export * from './parents';
 export * from './alyle-config-service';
 export * from './core';
+export * from './root.service';
 export * from './platform/index';
 export * from './color-tranformation';
 export * from './theme/theme.module';

@@ -8,27 +8,29 @@ import {
   LyTheme,
   AlyleServiceConfig } from 'alyle-ui/core';
 
+export function provideTheme(theme: AlyleServiceConfig) {
+  return [
+    [ LyTheme ],
+    { provide: AlyleServiceConfig, useValue: theme }
+  ];
+}
+
 @NgModule({
   imports: [ LyCoreModule, BrowserTransferStateModule ],
   exports: [ LyCoreModule ]
 })
 export class AlyleUIModule {
-  static forRoot(config: AlyleServiceConfig): ModuleWithProviders {
+  static forRoot(theme: AlyleServiceConfig): ModuleWithProviders {
     return {
       ngModule: AlyleUIModule,
-      providers: [
-        [ LyTheme ],
-        { provide: AlyleServiceConfig, useValue: config }
-      ]
+      providers: provideTheme(theme)
     };
   }
 
-  static setTheme(config: AlyleServiceConfig): ModuleWithProviders {
+  static setTheme(theme: AlyleServiceConfig): ModuleWithProviders {
     return {
       ngModule: AlyleUIModule,
-      providers: [
-        { provide: AlyleServiceConfig, useValue: config }
-      ]
+      providers: provideTheme(theme)
     };
   }
 }

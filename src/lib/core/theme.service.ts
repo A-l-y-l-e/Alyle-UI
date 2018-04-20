@@ -1,4 +1,4 @@
-import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef } from '@angular/core';
+import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
 import { AlyleServiceConfig } from './alyle-config-service';
@@ -7,6 +7,7 @@ import { gradStop } from './gradstop';
 import { BehaviorSubject } from 'rxjs';
 import { DomSanitizer, SafeStyle, TransferState, makeStateKey } from '@angular/platform-browser';
 import { Platform } from './platform';
+import { LyRootService } from './root.service';
 
 const CLASS_ID_KEY = makeStateKey('class_id');
 
@@ -17,7 +18,6 @@ if (Platform.isBrowser) {
   classId = -9e9;
 }
 let isInitialized;
-let themeId = 0;
 
 export class ThemeColor {
   name: string;
@@ -34,11 +34,11 @@ export function themeProperty(color: string): boolean {
 
 @Injectable()
 export class LyTheme {
-  rootElement: HTMLElement;
   classId = this.state.get(CLASS_ID_KEY, null as number);
   renderer: Renderer2;
   Id: string;
-  containerStyle;
+  private themeContainer;
+  themeName: string;
   _styleMap = new Map<string, StyleData>();
   AlyleUI: {currentTheme: AlyleServiceConfig, palette: any};
   primary: Subject<any>;
@@ -140,17 +140,19 @@ export class LyTheme {
     @Optional() config: AlyleServiceConfig,
     @Inject(DOCUMENT) private document,
     private sanitizer: DomSanitizer,
-    private rendererFactory: RendererFactory2,
-    private state: TransferState
+    private state: TransferState,
+    private app: ApplicationRef,
+    private injector: Injector,
+    private rootService: LyRootService
   ) {
-    console.log(this.Id, '_config', config);
+    // console.log(this.Id, '_config', config, app);
     if (!isInitialized && this.classId) {
       classId = this.classId;
       isInitialized = true;
     }
-    this.renderer = this.rendererFactory.createRenderer(null, null);
-    this.Id = `ĸ${themeId.toString(36)}`;
     config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
+    this.themeName = config.name || `${config.primary}_${config.accent}_${config.other}`;
+    this.Id = `${this.themeName}`;
     const primary    = this._setColorPalette(config.primary, config.palette);
     const accent     = this._setColorPalette(config.accent, config.palette);
     const other      = this._setColorPalette(config.other, config.palette);
@@ -194,7 +196,6 @@ export class LyTheme {
     this.typography = new BehaviorSubject<any>(typography);
     this.shade = new BehaviorSubject<any>(shade);
     this.palette = new BehaviorSubject<any>(getAllColors);
-    themeId++;
   }
 
   // private addShades(primary, accent, other) {
@@ -314,35 +315,35 @@ export class LyTheme {
   }
 
   createStyle(_id: string, fn: (...arg) => string, ...arg) {
-    const newKey = createKeyOf(`${this.Id}${_id}`);
+    const newKey = `${this.Id}_${createKeyOf(_id)}`;
     const styleData: StyleData = {key: newKey, value: {
       fn: fn,
       arg: arg
     }} as any;
-    console.log('key', `${this.Id}${_id}`, newKey);
     if (this._styleMap.has(newKey)) {
       return this._styleMap.get(newKey);
-    } else if (Platform.isBrowser && (styleData.styleContainer = window.document.head.querySelector(`style[data-key="${newKey}"]`))) {
+    } else if (Platform.isBrowser && (styleData.styleContainer = window.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
       this._styleMap.set(newKey, null);
       styleData.styleContent = styleData.styleContainer.innerHTML;
       styleData.id = styleData.styleContainer.dataset.id;
-      // this.renderer.removeChild(this.document.head, styleData.styleContainer);
+      // this.rootService.renderer.removeChild(this.document.head, styleData.styleContainer);
       this._styleMap.set(newKey, styleData);
       console.warn('key found', newKey);
     } else {
       this._styleMap.set(newKey, null);
       classId++;
       styleData.id = `ly_${classId.toString(36)}`;
-      styleData.styleContainer = this.renderer.createElement('style');
-      styleData.styleContent = this.renderer.createText(`.${styleData.id}{${fn(...arg)}}`);
-      this.renderer.appendChild(styleData.styleContainer, styleData.styleContent);
-      this.renderer.appendChild(this.document.head, styleData.styleContainer);
+      styleData.styleContainer = this.rootService.renderer.createElement('style');
+      styleData.styleContent = this.rootService.renderer.createText(`.${styleData.id}{${fn(...arg)}}`);
+      this.rootService.renderer.appendChild(styleData.styleContainer, styleData.styleContent);
+      this.rootService.renderer.appendChild(this.rootService.rootContainer, styleData.styleContainer);
       this._styleMap.set(newKey, styleData);
       if (!Platform.isBrowser) {
-        this.renderer.setAttribute(styleData.styleContainer, `data-key`, `${newKey}`);
-        this.renderer.setAttribute(styleData.styleContainer, `data-id`, `${styleData.id}`);
+        this.rootService.renderer.setAttribute(styleData.styleContainer, `data-key`, `${newKey}`);
+        this.rootService.renderer.setAttribute(styleData.styleContainer, `data-id`, `${styleData.id}`);
       }
     }
+    console.log('key', styleData.id, newKey);
     return styleData;
   }
   /** #style */
@@ -352,14 +353,14 @@ export class LyTheme {
 
   /** #style */
   createStyleContent(styleData: StyleData) {
-    return this.renderer.createText(`.${styleData.id}{${styleData.value.fn(...styleData.value.arg)}}`);
+    return this.rootService.renderer.createText(`.${styleData.id}{${styleData.value.fn(...styleData.value.arg)}}`);
   }
 
   /** Update style of StyleData */
   private updateStyleValue(style: StyleData, styleText: string) {
     const styleContent = styleText;
-    this.renderer.removeChild(style.styleContainer, style.styleContent);
-    this.renderer.appendChild(style.styleContainer, styleContent);
+    this.rootService.renderer.removeChild(style.styleContainer, style.styleContent);
+    this.rootService.renderer.appendChild(style.styleContainer, styleContent);
     this._styleMap.set(style.key, Object.assign({}, style, {
       styleContainer: style.styleContainer,
       styleContent
@@ -447,3 +448,8 @@ function createKeyOf(str: string) {
       return char.charCodeAt(0).toString(36);
   }).join('');
 }
+
+/**
+ * Importante
+ * TODO: crear servicio para root, y seleccionar su nodo
+ */
