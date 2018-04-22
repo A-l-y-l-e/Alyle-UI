@@ -6,7 +6,7 @@ import {
 import { Observable }         from 'rxjs';
 import { Subject }            from 'rxjs';
 import { BehaviorSubject }    from 'rxjs';
-import { AlyleServiceConfig } from './alyle-config-service';
+import { ThemeVariables } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';
 import { gradStop } from './gradstop';

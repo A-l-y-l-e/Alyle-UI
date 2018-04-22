@@ -8,7 +8,7 @@ import {
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { LyShadowService } from './shadow.service';
-import { LyTheme, shadowBuilder, toBoolean } from 'alyle-ui/core';
+import { LyTheme, shadowBuilder, toBoolean, StyleData } from 'alyle-ui/core';
 
 @Directive({
   selector: '[ly-deep], [ly-shadow], [lyShadow]'
@@ -19,13 +19,13 @@ export class LyDeepComponent {
   private _result: string;
   private numberState = -1;
   private _shadowColor = 'rgba(0,0,0,0.87)';
-  private _lastClass: string;
+  private _currentStyleData: StyleData;
   /** Default elevation */
   private elevation: string | number = 1;
   @HostBinding('style.box-shadow') styleBoxShadow: SafeStyle | string;
   @Input()
   set lyShadow(val: string[]) {
-    this.shadow.setShadow(this.elementRef, this.renderer, val, this._lastClass);
+    this.shadow.setShadow(this.elementRef, this.renderer, val, this._currentStyleData);
   }
 
   @Input('shadowColor')

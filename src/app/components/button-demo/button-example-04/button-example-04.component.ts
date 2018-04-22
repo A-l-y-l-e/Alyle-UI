@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'button-example-04',
   templateUrl: './button-example-04.component.html',
-  styleUrls: ['./button-example-04.component.css']
+  styleUrls: ['./button-example-04.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonExample04Component implements OnInit {
   color = '#841dab';

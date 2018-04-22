@@ -1,7 +1,7 @@
 import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
-import { AlyleServiceConfig } from './alyle-config-service';
+import { ThemeVariables, PaletteVariables, PALETTE } from './alyle-config-service';
 import { Subject } from 'rxjs';
 import { gradStop } from './gradstop';
 import { BehaviorSubject } from 'rxjs';
@@ -40,7 +40,7 @@ export class LyTheme {
   private themeContainer;
   themeName: string;
   _styleMap = new Map<string, StyleData>();
-  AlyleUI: {currentTheme: AlyleServiceConfig, palette: any};
+  AlyleUI: {currentTheme: ThemeVariables, palette: any};
   primary: Subject<any>;
   accent: Subject<any>;
   other: Subject<any>;
@@ -48,71 +48,7 @@ export class LyTheme {
   scheme: Subject<any>;
   typography: Subject<any>;
   shade: Subject<string>;
-  /**
-   * OBSOLETO
-   */
-  colors: ThemeColor[] =
-  [
-    {
-      name: 'pink',
-      color: { '500': '#ff4b73' },
-      contrast: 'light'
-    },
-    {
-      name: 'pinkLight',
-      color: { '500': '#f50057' },
-      contrast: 'light'
-    },
-    {
-      name: 'cyan',
-      color: { '500': '#00bcd4' },
-      contrast: 'light'
-    },
-    {
-      name: 'red',
-      color: { '500': '#FF5252' },
-      contrast: 'light'
-    },
-    {
-      name: 'amber',
-      color: { '500': '#ffc107' },
-      contrast: 'dark'
-    },
-    {
-      name: 'teal',
-      color: { '500': '#009688' },
-      contrast: 'light'
-    },
-    {
-      name: 'purple',
-      color: { '500': '#ce30c9' },
-      contrast: 'light'
-    },
-    {
-      name: 'lightBlue',
-      color: { '500': '#03A9F4' },
-      contrast: 'light'
-    },
-    {
-      name: 'blue',
-      color: { '500': '#2196F3' },
-      contrast: 'light'
-    },
-    {
-      name: 'deepOrange',
-      color: { '500': '#FF5722' },
-      contrast: 'light'
-    },
-  ];
-  private findColor(data: string) {
-    const colors = this.colors.find((_: any) => _.name === data);
-    if (colors) {
-      return colors;
-    } else {
-      return new ThemeColor();
-    }
 
-  }
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
   }
@@ -137,7 +73,8 @@ export class LyTheme {
   }
 
   constructor(
-    @Optional() config: AlyleServiceConfig,
+    @Optional() config: ThemeVariables,
+    @Inject(PALETTE) private _palette: PaletteVariables,
     @Inject(DOCUMENT) private document,
     private sanitizer: DomSanitizer,
     private state: TransferState,
@@ -150,15 +87,13 @@ export class LyTheme {
       classId = this.classId;
       isInitialized = true;
     }
-    config = mergeDeep(defaultTheme as AlyleServiceConfig, config);
+    config = mergeDeep(defaultTheme as ThemeVariables, config);
     this.themeName = config.name || `${config.primary}_${config.accent}_${config.other}`;
     this.Id = `${this.themeName}`;
-    const primary    = this._setColorPalette(config.primary, config.palette);
-    const accent     = this._setColorPalette(config.accent, config.palette);
-    const other      = this._setColorPalette(config.other, config.palette);
-    const shade      = config.shade;
+    const primary    = this._setColorPalette(config.primary, _palette);
+    const accent     = this._setColorPalette(config.accent, _palette);
+    const other      = this._setColorPalette(config.other, _palette);
     const scheme     = config.schemes[config.colorScheme];
-    const typography = config.typography;
     const variables = config.variables;
     // if (config.palette) {
     //   if (config.palette[config.primary]) {
@@ -193,8 +128,6 @@ export class LyTheme {
     this.accent = new BehaviorSubject<any>(accent);
     this.other = new BehaviorSubject<any>(other);
     this.scheme = new BehaviorSubject<any>(scheme);
-    this.typography = new BehaviorSubject<any>(typography);
-    this.shade = new BehaviorSubject<any>(shade);
     this.palette = new BehaviorSubject<any>(getAllColors);
   }
 
@@ -228,16 +161,14 @@ export class LyTheme {
     return shades;
   }
 
-  setTheme(config: AlyleServiceConfig) {
+  setTheme(config: ThemeVariables) {
     const currentTheme = this.AlyleUI.currentTheme;
-    config = mergeDeep(currentTheme as AlyleServiceConfig, config);
+    config = mergeDeep(currentTheme as ThemeVariables, config);
     if (config) {
-      const primary    = this._setColorPalette(config.primary, config.palette);
-      const accent     = this._setColorPalette(config.accent, config.palette);
-      const other      = this._setColorPalette(config.other, config.palette);
-      const shade      = config.shade;
+      const primary    = this._setColorPalette(config.primary, this._palette);
+      const accent     = this._setColorPalette(config.accent, this._palette);
+      const other      = this._setColorPalette(config.other, this._palette);
       const scheme     = config.schemes[config.colorScheme];
-      const typography = config.typography;
       const variables  = config.variables;
       let getAllColors = {
         primary,
@@ -259,20 +190,11 @@ export class LyTheme {
       this.accent.next(accent);
       this.other.next(other);
       this.scheme.next(scheme);
-      this.typography.next(typography);
-      this.shade.next(shade);
       this.palette.next(getAllColors);
       this.updateOthersStyles();
     }
   }
 
-  color(color: string, colors?: any, shade?: string): string {
-    console.warn('DEPRECATED');
-    const $shade = shade ? shade : this.AlyleUI.currentTheme.shade;
-    let result: string;
-    result = this.getColorv2(color, colors, $shade);
-    return result;
-  }
   /**
    * get color of `string` in palette
    * @param value
@@ -310,10 +232,6 @@ export class LyTheme {
     }
   }
 
-  paletteOf(colorName: string): ThemeColor {
-    return this.findColor(colorName);
-  }
-
   createStyle(_id: string, fn: (...arg) => string, ...arg) {
     const newKey = `${this.Id}_${createKeyOf(_id)}`;
     const styleData: StyleData = {key: newKey, value: {
@@ -328,9 +246,7 @@ export class LyTheme {
       styleData.id = styleData.styleContainer.dataset.id;
       // this.rootService.renderer.removeChild(this.document.head, styleData.styleContainer);
       this._styleMap.set(newKey, styleData);
-      console.warn('key found', newKey);
     } else {
-      this._styleMap.set(newKey, null);
       classId++;
       styleData.id = `ly_${classId.toString(36)}`;
       styleData.styleContainer = this.rootService.renderer.createElement('style');
@@ -343,7 +259,6 @@ export class LyTheme {
         this.rootService.renderer.setAttribute(styleData.styleContainer, `data-id`, `${styleData.id}`);
       }
     }
-    console.log('key', styleData.id, newKey);
     return styleData;
   }
   /** #style */
@@ -376,13 +291,11 @@ export class LyTheme {
   }
 
   /** Replace old class by newClass */
-  updateClass(elementRef: ElementRef, renderer: Renderer2, newClass: string, oldClass?: string) {
-    if (oldClass) {
-      renderer.removeClass(elementRef.nativeElement, oldClass);
+  updateClass(elementRef: ElementRef, renderer: Renderer2, newStyleData: StyleData, oldStyleData?: StyleData) {
+    if (oldStyleData) {
+      renderer.removeClass(elementRef.nativeElement, oldStyleData.id);
     }
-    if (newClass) {
-      renderer.addClass(elementRef.nativeElement, newClass);
-    }
+    renderer.addClass(elementRef.nativeElement, newStyleData.id);
   }
 
 }

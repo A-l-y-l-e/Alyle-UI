@@ -1,13 +1,11 @@
-export class AlyleServiceConfig {
+import { InjectionToken } from '@angular/core';
+
+export class ThemeVariables {
   name?: string;
   primary: string;
   accent: string;
   other?: string;
   colorScheme?: 'light' | 'dark';
-  typography?: {
-    fontFamily: string;
-    fontSize: number;
-  };
   variables?: {
     /** Others */
     [key: string]: {
@@ -34,13 +32,14 @@ export class AlyleServiceConfig {
       } | any;
     }
   };
-  /** Deprecated */
-  shade?: string;
-  palette?: {
-    [key: string]: {
-      [key: string]: {[key: string]: string} | any;
-      contrast?: string;
-    } | string
-  };
 
+}
+export const PALETTE = new InjectionToken<PaletteVariables>('ly.palette');
+
+export interface PaletteVariables {
+  [key: string]: {
+    default: string;
+    contrastText: string;
+    [key: string]: string;
+  };
 }

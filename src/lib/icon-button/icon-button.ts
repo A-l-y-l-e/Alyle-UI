@@ -21,7 +21,7 @@ import { Platform } from 'alyle-ui/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
-  selector: 'button[ly-icon-button], a[ly-icon-button], ly-icon-button',
+  selector: 'button[ly-icon-button], a[ly-icon-button], span[ly-icon-button], ly-icon-button',
   styleUrls: ['icon-button.style.scss'],
   template: `
   <div class="ly-icon-button-content" [ngStyle]="iconStyle"

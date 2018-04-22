@@ -6,12 +6,14 @@ import { BrowserTransferStateModule } from '@angular/platform-browser';
 import {
   LyCoreModule,
   LyTheme,
-  AlyleServiceConfig } from 'alyle-ui/core';
+  ThemeVariables,
+  PaletteVariables,
+  PALETTE } from 'alyle-ui/core';
 
-export function provideTheme(theme: AlyleServiceConfig) {
+export function provideTheme(theme: ThemeVariables) {
   return [
     [ LyTheme ],
-    { provide: AlyleServiceConfig, useValue: theme }
+    { provide: ThemeVariables, useValue: theme }
   ];
 }
 
@@ -20,14 +22,19 @@ export function provideTheme(theme: AlyleServiceConfig) {
   exports: [ LyCoreModule ]
 })
 export class AlyleUIModule {
-  static forRoot(theme: AlyleServiceConfig): ModuleWithProviders {
+  /** Set a theme for core */
+  static forRoot(theme: ThemeVariables, palette: PaletteVariables): ModuleWithProviders {
     return {
       ngModule: AlyleUIModule,
-      providers: provideTheme(theme)
+      providers: [
+        provideTheme(theme),
+        { provide: PALETTE, useValue: palette }
+      ]
     };
   }
 
-  static setTheme(theme: AlyleServiceConfig): ModuleWithProviders {
+  /** Set a theme for this module */
+  static forChild(theme: ThemeVariables): ModuleWithProviders {
     return {
       ngModule: AlyleUIModule,
       providers: provideTheme(theme)

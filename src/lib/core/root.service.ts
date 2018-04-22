@@ -12,7 +12,6 @@ export class LyRootService {
     @Inject(DOCUMENT) _document,
     private rendererFactory: RendererFactory2
   ) {
-    console.log('init root');
     this.renderer = this.rendererFactory.createRenderer(null, null);
     let container: any;
     if (Platform.isBrowser && (container = window.document.querySelector('ly-core-theme'))) {

@@ -13,8 +13,8 @@
 <button ly-button [color]="color" [raised]="raisedState">raised</button>
 <button ly-button [bg]="color" [raised]="raisedState" color="#fff">bg</button>
 <button ly-button class="item" (click)="raisedState = raisedState === true ? false : (raisedState === false ? '!' : true)">
-  Change
-  <ly-icon-button>
+  <span start>Change</span>
+  <span ly-icon-button end>
     <ly-svg src="assets/svg/Brush.svg"></ly-svg>
-  </ly-icon-button>
+  </span>
 </button>

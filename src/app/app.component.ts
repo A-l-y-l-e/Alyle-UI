@@ -1,13 +1,13 @@
-import { Component, ViewChild, VERSION, ChangeDetectionStrategy} from '@angular/core';
+import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject} from '@angular/core';
 import { environment } from './../environments/environment';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { AUI_VERSION } from 'alyle-ui';
 import { LyMenu } from 'alyle-ui/menu';
-import { LyTheme, Platform } from 'alyle-ui/core';
+import { LyTheme, Platform, PALETTE, PaletteVariables } from 'alyle-ui/core';
 import { RoutesAppService } from './components/routes-app.service';
 import { MinimalLS } from 'alyle-ui/ls';
-import { AlyleServiceConfig } from 'alyle-ui/core';
+import { ThemeVariables } from 'alyle-ui/core';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +27,7 @@ export class AppComponent {
     public router: Router,
     public route: ActivatedRoute,
     public theme: LyTheme,
+    @Inject(PALETTE) public palette: PaletteVariables,
     public routesApp: RoutesAppService
   ) {
     // this.route.url.subscribe((val) => {
@@ -67,7 +68,7 @@ export class AppComponent {
       }
     ];
   }
-  changePrimary(color: AlyleServiceConfig) {
+  changePrimary(color: ThemeVariables) {
     this.theme.setTheme(color);
   }
 }

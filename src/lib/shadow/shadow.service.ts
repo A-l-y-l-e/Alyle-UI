@@ -1,6 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID, Renderer2, ElementRef }       from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { converterToHex, Platform, LyTheme, shadowBuilder }         from 'alyle-ui/core';
+import { converterToHex, Platform, LyTheme, shadowBuilder, StyleData }         from 'alyle-ui/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import * as _chroma from 'chroma-js';
 const chroma = _chroma;
@@ -16,7 +16,7 @@ export class LyShadowService {
   ) { }
 
   /** demo: setShadow([elevation, color]) */
-  setShadow(elementRef: ElementRef, renderer: Renderer2, val: string[], _lastClass?: string) {
+  setShadow(elementRef: ElementRef, renderer: Renderer2, val: string[], oldStyleData?: StyleData) {
     let keys: string;
     let elevation: string | number;
     let color = 'colorShadow';
@@ -28,9 +28,9 @@ export class LyShadowService {
       keys = `${this.elevation}`;
       elevation = this.elevation;
     }
-    const newStyle = this.theme.createStyle(`ly-${keys}`, this._css.bind(this), elevation, color);
-    this.theme.updateClass(elementRef, renderer, newStyle.id, _lastClass);
-    return newStyle.id;
+    const newStyleData = this.theme.createStyle(`ly-${keys}`, this._css.bind(this), elevation, color);
+    this.theme.updateClass(elementRef, renderer, newStyleData, oldStyleData);
+    return newStyleData;
   }
 
   _css(elevation: string | number, color: string = '') {

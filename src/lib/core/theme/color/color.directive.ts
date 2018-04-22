@@ -5,7 +5,7 @@ import {
   Renderer2
   } from '@angular/core';
 
-import { LyTheme } from '../../theme.service';
+import { LyTheme, StyleData } from '../../theme.service';
 
 @Directive({
   selector: '[color]'
@@ -13,7 +13,7 @@ import { LyTheme } from '../../theme.service';
 export class LyColor {
   /** Default color */
   private _color = 'primary';
-  private _lastClass: string;
+  private _currentStyleData: StyleData;
   private prefix = 'color';
   constructor(
     private theme: LyTheme,
@@ -25,9 +25,9 @@ export class LyColor {
   set color(color: string) {
     this._color = color;
     const key = `${this.prefix}${color || this._color}`;
-    const newStyle = this.theme.createStyle(`ly-${key}`, this.css.bind(this), color);
-    this.theme.updateClass(this.elementRef, this.renderer, newStyle.id, this._lastClass);
-    this._lastClass = newStyle.id;
+    const newStyleData = this.theme.createStyle(`ly-${key}`, this.css.bind(this), color);
+    this.theme.updateClass(this.elementRef, this.renderer, newStyleData, this._currentStyleData);
+    this._currentStyleData = newStyleData;
   }
 
   get color(): string {

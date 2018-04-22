@@ -7,7 +7,7 @@
       <ly-toolbar-item class="logo">
         <button ly-button sensitive color="#fff" [routerLink]="['./']">
           Alyle UI
-          <div class="version">v{{ version }}</div>
+          <span class="version">v{{ version }}</span>
         </button>
       </ly-toolbar-item>
       <ly-toolbar-item *lyResponsive="'(min-width: 720px)'">
@@ -27,8 +27,8 @@
         <div class="content-menu" bg="main">
           <div class="menu-item" lyRipple lyRippleSensitive color="colorText" *ngFor="let item of listColors" (click)="changePrimary(item)">
             <div class="item-container">
-              <div ly-shadow [shadowColor]="theme.AlyleUI.currentTheme.palette[item.primary].default" [style.background]="theme.AlyleUI.currentTheme.palette[item.primary].default"></div>
-              <div ly-shadow [shadowColor]="theme.AlyleUI.currentTheme.palette[item.accent].default" [style.background]="theme.AlyleUI.currentTheme.palette[item.accent].default"></div>
+              <div ly-shadow [shadowColor]="palette[item.primary].default" [style.background]="palette[item.primary].default"></div>
+              <div ly-shadow [shadowColor]="palette[item.accent].default" [style.background]="palette[item.accent].default"></div>
             </div>
           </div>
         </div>
