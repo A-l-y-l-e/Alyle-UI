@@ -39,7 +39,7 @@ export const PALETTE = new InjectionToken<PaletteVariables>('ly.palette');
 export interface PaletteVariables {
   [key: string]: {
     default: string;
-    contrastText: string;
+    contrast: string;
     [key: string]: string;
   };
 }

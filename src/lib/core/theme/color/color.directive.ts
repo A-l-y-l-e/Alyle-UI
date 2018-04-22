@@ -8,7 +8,7 @@ import {
 import { LyTheme, StyleData } from '../../theme.service';
 
 @Directive({
-  selector: '[color]'
+  selector: ':not([color="auto"])[color]'
 })
 export class LyColor {
   /** Default color */

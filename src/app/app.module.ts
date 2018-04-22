@@ -32,7 +32,9 @@ export class MyHammerConfig extends HammerGestureConfig {
     'pan': {threshold: 0}
  };
 }
-const contrastText = '#fff';
+
+const contrast = '#fff';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -70,43 +72,43 @@ const contrastText = '#fff';
     {
       pink: {
         default: '#ff4b73',
-        contrastText
+        contrast
       },
       pinkLight: {
         default: '#f50057',
-        contrastText
+        contrast
       },
       cyan: {
         default: '#00bcd4',
-        contrastText
+        contrast
       },
       red: {
         default: '#FF5252',
-        contrastText
+        contrast
       },
       amber: {
         default: '#ffc107',
-        contrastText
+        contrast
       },
       teal: {
         default: '#009688',
-        contrastText
+        contrast
       },
       purple: {
         default: '#ce30c9',
-        contrastText
+        contrast
       },
       lightBlue: {
         default: '#03A9F4',
-        contrastText
+        contrast
       },
       blue: {
         default: '#2196F3',
-        contrastText
+        contrast
       },
       deepOrange: {
         default: '#FF5722',
-        contrastText
+        contrast
       },
     }),
     ThemeModule,
