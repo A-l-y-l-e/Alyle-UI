@@ -8,7 +8,8 @@ import {
   LyTheme,
   ThemeVariables,
   PaletteVariables,
-  PALETTE } from 'alyle-ui/core';
+  PALETTE,
+  IS_ROOT_THEME } from 'alyle-ui/core';
 
 export function provideTheme(theme: ThemeVariables) {
   return [
@@ -28,7 +29,8 @@ export class AlyleUIModule {
       ngModule: AlyleUIModule,
       providers: [
         provideTheme(theme),
-        { provide: PALETTE, useValue: palette }
+        { provide: PALETTE, useValue: palette },
+        { provide: IS_ROOT_THEME, useValue: true }
       ]
     };
   }
@@ -37,7 +39,10 @@ export class AlyleUIModule {
   static forChild(theme: ThemeVariables): ModuleWithProviders {
     return {
       ngModule: AlyleUIModule,
-      providers: provideTheme(theme)
+      providers: [
+        provideTheme(theme),
+        { provide: IS_ROOT_THEME, useValue: false }
+      ]
     };
   }
 }

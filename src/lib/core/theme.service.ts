@@ -1,7 +1,7 @@
 import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
-import { ThemeVariables, PaletteVariables, PALETTE } from './alyle-config-service';
+import { ThemeVariables, PaletteVariables, PALETTE, IS_ROOT_THEME } from './alyle-config-service';
 import { Subject } from 'rxjs';
 import { gradStop } from './gradstop';
 import { BehaviorSubject } from 'rxjs';
@@ -75,6 +75,7 @@ export class LyTheme {
   constructor(
     @Optional() config: ThemeVariables,
     @Inject(PALETTE) private _palette: PaletteVariables,
+    @Inject(IS_ROOT_THEME) private isRoot: boolean,
     @Inject(DOCUMENT) private document,
     private sanitizer: DomSanitizer,
     private state: TransferState,
@@ -82,7 +83,7 @@ export class LyTheme {
     private injector: Injector,
     private rootService: LyRootService
   ) {
-    // console.log(this.Id, '_config', config, app);
+    console.warn('isRoot?', isRoot);
     if (!isInitialized && this.classId) {
       classId = this.classId;
       isInitialized = true;
@@ -129,6 +130,7 @@ export class LyTheme {
     this.other = new BehaviorSubject<any>(other);
     this.scheme = new BehaviorSubject<any>(scheme);
     this.palette = new BehaviorSubject<any>(getAllColors);
+    this.setCoreStyle();
   }
 
   // private addShades(primary, accent, other) {
@@ -296,6 +298,17 @@ export class LyTheme {
       renderer.removeClass(elementRef.nativeElement, oldStyleData.id);
     }
     renderer.addClass(elementRef.nativeElement, newStyleData.id);
+  }
+
+  private setCoreStyle() {
+    if (this.isRoot) {
+      const newStyle = this.createStyle('body', () => {
+        return `background:${this.AlyleUI.palette.background.default};` +
+        `color:${this.AlyleUI.palette.text.default};` +
+        `margin: 0;`;
+      });
+      this.rootService.renderer.addClass(this.document.body, newStyle.id);
+    }
   }
 
 }

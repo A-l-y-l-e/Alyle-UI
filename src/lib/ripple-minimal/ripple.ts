@@ -1,5 +1,5 @@
 import { ElementRef, NgZone, Renderer2 } from '@angular/core';
-import { Platform } from 'alyle-ui/core';
+import { Platform, StyleData } from 'alyle-ui/core';
 import { RippleConfig } from './ripple';
 
 export interface RippleConfig {
@@ -31,7 +31,8 @@ export class Ripple {
   constructor(
     _elementRef: HTMLElement,
     private _renderer: Renderer2,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private stylesData: StyleData[]
   ) {
     if (Platform.isBrowser) {
       if (typeof TouchEvent && !!TouchEvent) {
@@ -64,7 +65,7 @@ export class Ripple {
     }
 
     if (element) {
-      this._renderer.addClass(element, 'ly-ripple-minimal');
+      this._renderer.addClass(element, this.stylesData[0].id);
       this._ngZone.runOutsideAngular(() => {
         this._eventHandlers.forEach((fn, type) => element.addEventListener(type, fn));
       });
@@ -76,7 +77,7 @@ export class Ripple {
   private createRipple(styles: {[key: string]: number | string}) {
     this._rippleRef = new RippleRef();
     const container = this._rippleRef.container;
-    container.className = `ly-ripple-container`;
+    container.className = this.stylesData[1].id;
     for (const key in styles) {
       if (styles.hasOwnProperty(key)) {
         const element = styles[key];

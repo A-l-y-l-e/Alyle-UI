@@ -35,6 +35,7 @@ export class ThemeVariables {
 
 }
 export const PALETTE = new InjectionToken<PaletteVariables>('ly.palette');
+export const IS_ROOT_THEME = new InjectionToken<true>('ly.is.root');
 
 export interface PaletteVariables {
   [key: string]: {

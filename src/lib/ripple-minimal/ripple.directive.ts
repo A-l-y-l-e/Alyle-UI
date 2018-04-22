@@ -20,6 +20,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { IsBoolean, LyFocusState, Platform } from 'alyle-ui/core';
 import { Ripple, RippleConfig } from './ripple';
+import { LyRippleService } from './ripple.service';
 
 @Directive({
   selector: '[lyRipple]',
@@ -43,6 +44,7 @@ export class LyRipple implements OnInit, OnChanges, OnDestroy {
     };
   }
   constructor(
+    private rippleService: LyRippleService,
     @Inject(PLATFORM_ID) private _platformId: Object,
     private _elementRef: ElementRef,
     private _ngZone: NgZone,
@@ -67,7 +69,7 @@ export class LyRipple implements OnInit, OnChanges, OnDestroy {
         return;
       }
       if (!this.rippleContainer) {
-        this.rippleContainer = new Ripple(this._containerElement, this._renderer, this._ngZone);
+        this.rippleContainer = new Ripple(this._containerElement, this._renderer, this._ngZone, this.rippleService.stylesData);
       }
       this.rippleContainer.rippleConfig = this.lyRippleConfig;
     }
