@@ -21,7 +21,7 @@ export class LySvgComponent implements OnInit, OnChanges {
 
   @Input('src')
   set src(value: string) {
-    if (!this._strEndsWith(value, '.svg')) {
+    if (!value.endsWith('.svg')) {
       this._src = `${value}.svg`;
     } else {
       this._src = value;
@@ -57,15 +57,11 @@ export class LySvgComponent implements OnInit, OnChanges {
     this.styleWidth = this.size;
     this.styleHeight = this.size;
   }
-  private _strEndsWith(str: any, suffix: string) {
-    return str.match(suffix + '$') == suffix;
-  }
-
 
   constructor(
     private svgService: LySvgService,
     private _elementRef: ElementRef
-  ) { }
+  ) {}
 
   ngOnInit() {
   }

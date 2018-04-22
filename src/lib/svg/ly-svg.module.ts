@@ -1,20 +1,12 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LySvgComponent } from './ly-svg.component';
-import { LySvgService } from './ly-svg.service';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   exports: [LySvgComponent],
-  declarations: [LySvgComponent],
-  providers: [LySvgService]
+  declarations: [LySvgComponent]
 })
-export class LySvgModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: LySvgModule,
-    };
-  }
-}
+export class LySvgModule { }
