@@ -5,6 +5,7 @@
     "/",
     "get-started",
     "theming",
+    "multiple-themes",
     "bg-color",
     "component/button",
     "component/drawer",

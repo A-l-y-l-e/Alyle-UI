@@ -46,3 +46,7 @@ export class AlyleUIModule {
     };
   }
 }
+
+export const ProvidedInTheme = {
+  providedIn: AlyleUIModule
+};

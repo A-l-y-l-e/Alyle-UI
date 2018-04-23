@@ -12,7 +12,8 @@ import {
   AfterViewInit,
   OnDestroy,
   HostBinding,
-  HostListener
+  HostListener,
+  isDevMode
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -70,7 +71,7 @@ export class LyIconButton implements OnInit, AfterViewInit, OnChanges, OnDestroy
   ) {
     if (Platform.isBrowser) {
       this.nativeElement = this.elementRef.nativeElement;
-      if (this.nativeElement.nodeName.toLowerCase() === 'ly-icon-button') {
+      if (isDevMode && this.nativeElement.nodeName.toLowerCase() === 'ly-icon-button') {
         console.log(`ly-icon-button:`, this.nativeElement, ` is deprecated instead use button[ly-icon-button]`);
       }
     }

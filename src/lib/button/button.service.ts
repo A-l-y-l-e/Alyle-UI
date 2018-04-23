@@ -1,10 +1,9 @@
 import { Injectable, Inject, Renderer2, ElementRef } from '@angular/core';
 import { LyTheme, LyRootService } from 'alyle-ui/core';
 import { DOCUMENT } from '@angular/common';
+import { AlyleUIModule, ProvidedInTheme } from 'alyle-ui';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(ProvidedInTheme)
 export class LyButtonService {
 
   constructor(

@@ -17,7 +17,6 @@ if (Platform.isBrowser) {
 } else {
   classId = -9e9;
 }
-let isInitialized;
 
 export class ThemeColor {
   name: string;
@@ -34,7 +33,6 @@ export function themeProperty(color: string): boolean {
 
 @Injectable()
 export class LyTheme {
-  classId = this.state.get(CLASS_ID_KEY, null as number);
   renderer: Renderer2;
   Id: string;
   private themeContainer;
@@ -48,10 +46,6 @@ export class LyTheme {
   scheme: Subject<any>;
   typography: Subject<any>;
   shade: Subject<string>;
-
-  private sanitizerStyle(val: any): SafeStyle {
-    return this.sanitizer.bypassSecurityTrustStyle(val);
-  }
 
   private _setColorPalette(key: string, palette: any): any {
     let colors = palette[key];
@@ -77,17 +71,8 @@ export class LyTheme {
     @Inject(PALETTE) private _palette: PaletteVariables,
     @Inject(IS_ROOT_THEME) private isRoot: boolean,
     @Inject(DOCUMENT) private document,
-    private sanitizer: DomSanitizer,
-    private state: TransferState,
-    private app: ApplicationRef,
-    private injector: Injector,
     private rootService: LyRootService
   ) {
-    console.warn('isRoot?', isRoot);
-    if (!isInitialized && this.classId) {
-      classId = this.classId;
-      isInitialized = true;
-    }
     config = mergeDeep(defaultTheme as ThemeVariables, config);
     this.themeName = config.name || `${config.primary}_${config.accent}_${config.other}`;
     this.Id = `${this.themeName}`;
