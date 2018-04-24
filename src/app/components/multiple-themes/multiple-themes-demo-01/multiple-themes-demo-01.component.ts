@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { LyTheme, PALETTE, PaletteVariables as LyPalette } from 'alyle-ui/core';
 
 @Component({
   selector: 'multiple-themes-demo-01',
@@ -6,11 +7,11 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@
   styleUrls: ['./multiple-themes-demo-01.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MultipleThemesDemo01Component implements OnInit {
+export class MultipleThemesDemo01Component {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(
+    private theme: LyTheme,
+    @Inject(PALETTE) public palette: LyPalette
+  ) { }
 
 }

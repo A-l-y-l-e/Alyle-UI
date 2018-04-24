@@ -1,36 +1,42 @@
 import {
   NgModule, ModuleWithProviders,
   ViewContainerRef, SkipSelf,
-  Optional } from '@angular/core';
+  Optional,
+  Inject
+} from '@angular/core';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 import {
   LyCoreModule,
   LyTheme,
   ThemeVariables,
   PaletteVariables,
-  PALETTE,
-  IS_ROOT_THEME } from 'alyle-ui/core';
+  IS_CORE_THEME,
+  THEME_VARIABLES,
+  CORE_THEME_VARIABLES,
+  PALETTE
+} from 'alyle-ui/core';
 
 export function provideTheme(theme: ThemeVariables) {
   return [
     [ LyTheme ],
-    { provide: ThemeVariables, useValue: theme }
+    { provide: THEME_VARIABLES, useValue: theme },
+    { provide: PALETTE, useValue: {} },
   ];
 }
 
 @NgModule({
-  imports: [ LyCoreModule, BrowserTransferStateModule ],
+  imports: [ LyCoreModule ],
   exports: [ LyCoreModule ]
 })
 export class AlyleUIModule {
   /** Set a theme for core */
-  static forRoot(theme: ThemeVariables, palette: PaletteVariables): ModuleWithProviders {
+  static forRoot(theme: ThemeVariables): ModuleWithProviders {
     return {
       ngModule: AlyleUIModule,
       providers: [
         provideTheme(theme),
-        { provide: PALETTE, useValue: palette },
-        { provide: IS_ROOT_THEME, useValue: true }
+        { provide: IS_CORE_THEME, useValue: true },
+        { provide: CORE_THEME_VARIABLES, useValue: false }
       ]
     };
   }
@@ -41,7 +47,7 @@ export class AlyleUIModule {
       ngModule: AlyleUIModule,
       providers: [
         provideTheme(theme),
-        { provide: IS_ROOT_THEME, useValue: false }
+        { provide: IS_CORE_THEME, useValue: false }
       ]
     };
   }

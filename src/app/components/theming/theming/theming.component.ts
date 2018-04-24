@@ -29,7 +29,7 @@ const code = `
 const MyCustomTheme = {
   primary: 'blue', // from palette.blue
   accent: 'pink', // from palette.pink
-  other: 'red', // from palette.red
+  warn: 'red', // from palette.red
   colorScheme: 'light', // beta, use light or dark
   /**
    * ···set global variables···

@@ -1,16 +1,25 @@
 import { ThemeVariables } from './alyle-config-service';
+const contrast = '#fff';
 export const defaultTheme: ThemeVariables = {
-  primary: 'blue',
-  accent: 'pink',
-  other: 'red',
-  colorScheme: 'light',
-  variables: {
-    typography: {
-      fontFamily: `'Roboto', sans-serif`,
-      fontSize: 14
-    },
+  name: 'default',
+  primary: {
+    default: '#2196F3',
+    contrast
   },
-  schemes: {
+  accent: {
+    default: '#ff4b73',
+    contrast
+  },
+  warn: {
+    default: '#FF5252',
+    contrast
+  },
+  scheme: 'light',
+  typography: {
+    fontFamily: `'Roboto', sans-serif`,
+    fontSize: 14
+  },
+  colorSchemes: {
     light: {
       /** Deprecated */
       colorText: 'rgba(0, 0, 0, 0.87)',

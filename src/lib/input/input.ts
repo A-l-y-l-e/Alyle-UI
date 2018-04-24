@@ -38,7 +38,6 @@ import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
 import {
   LyTheme,
-  ThemeColor,
   themeProperty,
   LyStyleTheme
 } from 'alyle-ui/core';

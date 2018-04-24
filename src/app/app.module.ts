@@ -47,70 +47,82 @@ const contrast = '#fff';
     BrowserAnimationsModule,
     ResponsiveModule,
     MinimalLSModule,
-    AlyleUIModule.forRoot({
-      primary: 'blue',
-      accent: 'pink',
-      other: 'red',
-      colorScheme: 'light',
-      variables: {
-        purple_light: 'rgb(106, 36, 212)'
-      },
-      schemes: {
-        light: {
-          shadow: 'rgba(0, 0, 0, 0.1111)',
-          myColor: 'pink',
-          others: {
-            custom: '#00bcd4'
-          }
+    AlyleUIModule.forRoot(
+      {
+        name: 'RootTheme',
+        primary: {
+          300: '#64b5f6'
         },
-        dark: {
-          shadow: '#252525',
-          myColor: 'teal'
+        // accent: 'pink',
+        // other: 'red',
+        scheme: 'light',
+        purple_light: 'rgb(106, 36, 212)',
+        colorSchemes: {
+          light: {
+            shadow: 'rgba(0, 0, 0, 0.1111)',
+            myColor: 'pink',
+            others: {
+              custom: '#00bcd4'
+            }
+          },
+          dark: {
+            shadow: '#252525',
+            myColor: 'teal'
+          },
+          myCustomScheme: {
+            background: {
+              paper: '#000',
+            },
+            text: {
+              default: '#fff'
+            }
+          }
         }
       }
-    },
-    {
-      pink: {
-        default: '#ff4b73',
-        contrast
-      },
-      pinkLight: {
-        default: '#f50057',
-        contrast
-      },
-      cyan: {
-        default: '#00bcd4',
-        contrast
-      },
-      red: {
-        default: '#FF5252',
-        contrast
-      },
-      amber: {
-        default: '#ffc107',
-        contrast
-      },
-      teal: {
-        default: '#009688',
-        contrast
-      },
-      purple: {
-        default: '#ce30c9',
-        contrast
-      },
-      lightBlue: {
-        default: '#03A9F4',
-        contrast
-      },
-      blue: {
-        default: '#2196F3',
-        contrast
-      },
-      deepOrange: {
-        default: '#FF5722',
-        contrast
-      },
-    }),
+      // ,
+      // {
+      //   pink: {
+      //     default: '#ff4b73',
+      //     contrast
+      //   },
+      //   pinkLight: {
+      //     default: '#f50057',
+      //     contrast
+      //   },
+      //   cyan: {
+      //     default: '#00bcd4',
+      //     contrast
+      //   },
+      //   red: {
+      //     default: '#FF5252',
+      //     contrast
+      //   },
+      //   amber: {
+      //     default: '#ffc107',
+      //     contrast
+      //   },
+      //   teal: {
+      //     default: '#009688',
+      //     contrast
+      //   },
+      //   purple: {
+      //     default: '#ce30c9',
+      //     contrast
+      //   },
+      //   lightBlue: {
+      //     default: '#03A9F4',
+      //     contrast
+      //   },
+      //   blue: {
+      //     default: '#2196F3',
+      //     contrast
+      //   },
+      //   deepOrange: {
+      //     default: '#FF5722',
+      //     contrast
+      //   },
+      // }
+    ),
     ThemeModule,
     LyButtonModule,
     LyDrawerModule,

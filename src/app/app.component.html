@@ -26,8 +26,8 @@
       <div class="content-menu" bg="main">
         <div class="menu-item" lyRipple lyRippleSensitive color="colorText" *ngFor="let item of listColors" (click)="changePrimary(item)">
           <div class="item-container">
-            <div ly-shadow [shadowColor]="palette[item.primary].default" [style.background]="palette[item.primary].default"></div>
-            <div ly-shadow [shadowColor]="palette[item.accent].default" [style.background]="palette[item.accent].default"></div>
+            <!-- <div ly-shadow [shadowColor]="palette[item.primary].default" [style.background]="palette[item.primary].default"></div>
+            <div ly-shadow [shadowColor]="palette[item.accent].default" [style.background]="palette[item.accent].default"></div> -->
           </div>
         </div>
       </div>

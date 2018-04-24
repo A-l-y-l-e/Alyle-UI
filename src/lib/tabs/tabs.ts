@@ -37,7 +37,7 @@ let idTab = 0;
   templateUrl: './tabs.html',
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
+export class LyTabGroupComponent implements OnInit, OnChanges {
 
   private _bg = 'rgba(0, 0, 0, 0)'; // private
   private _color = 'primary'; // private
@@ -54,8 +54,6 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
   _isInitialized = false;
   @ViewChild('tabsContent') _tabsContent: ElementRef;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
-  styleBackground: string;
-  styleColor: string;
 
   @Input()
   set selectedIndex(value: number) {
@@ -88,45 +86,12 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
     public styleTheme: LyStyleTheme,
   ) {
   }
-  @Input()
-  set bg(val: string) {
-    this._bg = val;
-    this.styleBackground = this.theme.colorOf(this._bg);
-    if (themeProperty(this._bg)) {
-      this.styleColor = '#fff';
-    } else {
-      this.styleColor = this.theme.colorOf(this._color);
-    }
-  }
-
-  @Input()
-  set color(val: string) {
-    this._color = val;
-    if (themeProperty(this._bg)) {
-      this.styleColor = '#fff';
-    } else {
-      this.styleColor = this.theme.colorOf(this._color);
-    }
-  }
-  _updateColor(bg: any) {
-    /**
-    // this.elementRef.nativeElement.setAttribute('style', `
-    //   background: ${this._bg};
-    //   color: ${this._color};
-    // `);
-    */
-  }
   ngAfterContentInit() {
 
     this.updateTabsHeader();
     this.tabRows = this.tabs.length;
   }
-  ngOnInit() {
-    this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.styleBackground = this.theme.colorOf(this._bg);
-      this.styleColor = this.theme.colorOf(this._color);
-    });
-  }
+  ngOnInit() { }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedIndex']) {
       if (!changes['selectedIndex'].firstChange) {
@@ -228,13 +193,7 @@ export class LyTab {
   public tabRef: TemplateRef<any>;
   @ContentChild(LyButton) lyButton: LyButton;
   get tabStyles() {
-    let color = 'currentColor';
-    if (this._index == this.indexGroup) {
-      color = this.lyTabGroup.styleColor;
-    }
-    return {
-      color: color,
-    };
+    return {color: 'currentColor'};
   }
   @HostBinding('style.color') hostStyle: string;
   llOorr(...arg: any[]): string {

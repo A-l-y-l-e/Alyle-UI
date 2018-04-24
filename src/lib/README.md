@@ -29,7 +29,7 @@ import { AlyleUIModule } from 'alyle-ui';
     AlyleUIModule.forRoot({
       primary: 'blue',
       accent: 'pink',
-      other: 'red',
+      warn: 'red',
       palette: {
         'blue': {
           '500': '#2196F3',

@@ -1,27 +1,20 @@
-import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector } from '@angular/core';
+import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector, SkipSelf, Host, Self } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
-import { ThemeVariables, PaletteVariables, PALETTE, IS_ROOT_THEME } from './alyle-config-service';
+import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES, CORE_THEME_VARIABLES, PALETTE } from './alyle-config-service';
 import { Subject } from 'rxjs';
 import { gradStop } from './gradstop';
 import { BehaviorSubject } from 'rxjs';
-import { DomSanitizer, SafeStyle, TransferState, makeStateKey } from '@angular/platform-browser';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform } from './platform';
 import { LyRootService } from './root.service';
-
-const CLASS_ID_KEY = makeStateKey('class_id');
+import { isDevMode } from '@angular/core';
 
 let classId: number;
 if (Platform.isBrowser) {
   classId = 0;
 } else {
   classId = -9e9;
-}
-
-export class ThemeColor {
-  name: string;
-  color: { [key: string]: string };
-  contrast: 'light' | 'dark';
 }
 
 /**
@@ -42,7 +35,6 @@ export class LyTheme {
   primary: Subject<any>;
   accent: Subject<any>;
   other: Subject<any>;
-  palette: Subject<any>;
   scheme: Subject<any>;
   typography: Subject<any>;
   shade: Subject<string>;
@@ -67,20 +59,34 @@ export class LyTheme {
   }
 
   constructor(
-    @Optional() config: ThemeVariables,
-    @Inject(PALETTE) private _palette: PaletteVariables,
-    @Inject(IS_ROOT_THEME) private isRoot: boolean,
+    @Inject(THEME_VARIABLES) config: ThemeVariables,
+    @Inject(THEME_VARIABLES) @Host() @Self() @Optional() parent: ThemeVariables,
+    @Inject(IS_CORE_THEME) private isRoot: boolean,
+    @Inject(PALETTE) palette: ThemeVariables,
     @Inject(DOCUMENT) private document,
     private rootService: LyRootService
   ) {
-    config = mergeDeep(defaultTheme as ThemeVariables, config);
-    this.themeName = config.name || `${config.primary}_${config.accent}_${config.other}`;
+    console.log('themer');
+    const newConfig = mergeDeep(mergeDeep(defaultTheme, parent), config);
+
+    const _palette = {...newConfig, ...newConfig.colorSchemes[newConfig.scheme]};
+    const theme = this.rootService.registerTheme(_palette);
+
+    /** check if exist scheme */
+    if (!theme.palette.colorSchemes[theme.palette.scheme]) {
+      throw new Error(`scheme ${theme.palette.scheme} not exist in ${theme.palette.name}`);
+    }
+    this._styleMap = theme.map;
+    // delete palette['colorSchemes'];
+    Object.assign(palette, theme.palette, { scheme: config.scheme });
+    this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
-    const primary    = this._setColorPalette(config.primary, _palette);
-    const accent     = this._setColorPalette(config.accent, _palette);
-    const other      = this._setColorPalette(config.other, _palette);
-    const scheme     = config.schemes[config.colorScheme];
-    const variables = config.variables;
+    console.log('themes id :', this.Id, palette);
+    // const primary    = this._setColorPalette(config.primary, _palette);
+    // const accent     = this._setColorPalette(config.accent, _palette);
+    // const other      = this._setColorPalette(config.other, _palette);
+    // const scheme     = config.schemes[config.colorScheme];
+    // const variables = config.variables;
     // if (config.palette) {
     //   if (config.palette[config.primary]) {
     //     primary = config.palette[config.primary];
@@ -93,28 +99,31 @@ export class LyTheme {
     //   }
     // }
 
-    let getAllColors = {
-      primary,
-      accent,
-      other,
-      ...variables
+    const getAllColors = {
+      ...newConfig.colorSchemes[newConfig.scheme],
+      ...newConfig
       // colorText: {color: scheme.text.default},
       // bgText: {color: scheme.background.default}
     };
-    getAllColors = mergeDeep(getAllColors, scheme);
+    // getAllColors = mergeDeep(getAllColors, scheme);
 
     // this.createShades(primary.color[shade]);
     /* tslint:disable */
     this.AlyleUI = {
-      currentTheme: config,
+      currentTheme: newConfig,
       palette: parsePalette(getAllColors),
     };
     /* tslint:enable */
-    this.primary = new BehaviorSubject<any>(primary);
-    this.accent = new BehaviorSubject<any>(accent);
-    this.other = new BehaviorSubject<any>(other);
-    this.scheme = new BehaviorSubject<any>(scheme);
-    this.palette = new BehaviorSubject<any>(getAllColors);
+    this.primary = new BehaviorSubject<any>(null);
+    this.accent = new BehaviorSubject<any>(null);
+    this.other = new BehaviorSubject<any>(null);
+    this.scheme = new BehaviorSubject<any>(null);
+    // this.palette = new BehaviorSubject<any>(getAllColors);
+    // this.palette.subscribe(() => {
+    //   if (isDevMode) {
+    //     console.warn('deprecated: palette Observable');
+    //   }
+    // });
     this.setCoreStyle();
   }
 
@@ -149,37 +158,37 @@ export class LyTheme {
   }
 
   setTheme(config: ThemeVariables) {
-    const currentTheme = this.AlyleUI.currentTheme;
-    config = mergeDeep(currentTheme as ThemeVariables, config);
-    if (config) {
-      const primary    = this._setColorPalette(config.primary, this._palette);
-      const accent     = this._setColorPalette(config.accent, this._palette);
-      const other      = this._setColorPalette(config.other, this._palette);
-      const scheme     = config.schemes[config.colorScheme];
-      const variables  = config.variables;
-      let getAllColors = {
-        primary,
-        accent,
-        other,
-        ...variables
-      };
-      getAllColors = mergeDeep(getAllColors, scheme);
+    // const currentTheme = this.AlyleUI.currentTheme;
+    // config = mergeDeep(currentTheme as ThemeVariables, config);
+    // if (config) {
+    //   const primary    = this._setColorPalette(config.primary, this._palette);
+    //   const accent     = this._setColorPalette(config.accent, this._palette);
+    //   const other      = this._setColorPalette(config.other, this._palette);
+    //   const scheme     = config.schemes[config.colorScheme];
+    //   const variables  = config.variables;
+    //   let getAllColors = {
+    //     primary,
+    //     accent,
+    //     other,
+    //     ...variables
+    //   };
+    //   getAllColors = mergeDeep(getAllColors, scheme);
 
-      // this.createShades(primary.color[shade]);
+    //   // this.createShades(primary.color[shade]);
 
-      /* tslint:disable */
-      this.AlyleUI = {
-        currentTheme: config,
-        palette: parsePalette(getAllColors)
-      }
-      /* tslint:enable */
-      this.primary.next(primary);
-      this.accent.next(accent);
-      this.other.next(other);
-      this.scheme.next(scheme);
-      this.palette.next(getAllColors);
-      this.updateOthersStyles();
-    }
+    //   /* tslint:disable */
+    //   this.AlyleUI = {
+    //     currentTheme: config,
+    //     palette: parsePalette(getAllColors)
+    //   }
+    //   /* tslint:enable */
+    //   this.primary.next(primary);
+    //   this.accent.next(accent);
+    //   this.other.next(other);
+    //   this.scheme.next(scheme);
+    //   this.palette.next(getAllColors);
+    //   this.updateOthersStyles();
+    // }
   }
 
   /**
@@ -290,7 +299,7 @@ export class LyTheme {
       const newStyle = this.createStyle('body', () => {
         return `background:${this.AlyleUI.palette.background.default};` +
         `color:${this.AlyleUI.palette.text.default};` +
-        `margin: 0;`;
+        `margin:0;`;
       });
       this.rootService.renderer.addClass(this.document.body, newStyle.id);
     }

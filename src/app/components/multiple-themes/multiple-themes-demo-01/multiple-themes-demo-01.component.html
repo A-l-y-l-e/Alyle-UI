@@ -1,7 +1,11 @@
 <div bg="background" color="text">
+  theme name: {{ theme.Id }}
+  <div>{{ palette | json }}</div>
   <p>
     multiple-themes-demo-01 works!
   </p>
   <div bg="primary">primary</div>
-  <button ly-button>button</button>
+  <button [routerLink]="['./child-theme']" ly-button>button</button>
+  
+  <router-outlet></router-outlet>
 </div>
