@@ -12,7 +12,7 @@ import { ThemeModule } from 'alyle-ui/core';
     ThemeModule,
     AlyleUIModule.forChild({
       name: 'RootTheme', // Select root theme or you can create a new one
-      scheme: 'myCustomScheme' // Use this only to change the scheme
+      scheme: 'myCustomScheme' // Use this only to change the scheme, this is equal ligth + myCustomScheme
       /** NOTE:
        * Only if the name of the theme is already created
        * Please do not set other variables, if you do the theme will be replaced

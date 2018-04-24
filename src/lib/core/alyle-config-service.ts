@@ -12,7 +12,9 @@ export class StyleMap {
   constructor(private themeName: string) {}
 }
 
-
+export interface Default {
+  [key: string]: any;
+}
 export class ThemeVariables {
   /** Theme name */
   name: string;
@@ -24,9 +26,7 @@ export class ThemeVariables {
   colorSchemes?: {
     [key: string]: ColorScheme
   };
-  [key: string]: {
-    [key: string]: any
-  } | string;
+  [key: string]: any;
 
 }
 
@@ -39,14 +39,16 @@ export interface PaletteVariables {
 export interface ColorScheme {
   background?: {
     default?: string,
-    paper?: string
+    paper?: string,
+    [key: string]: any;
   };
   text?: {
     default: string,
     primary?: string,
     secondary?: string,
     disabled?: string,
-    hint?: string
+    hint?: string,
+    [key: string]: any;
   };
   divider?: string;
   /** Components variables */
@@ -56,7 +58,5 @@ export interface ColorScheme {
     label?: string,
     underline?: string
   };
-  [key: string]: {
-    [key: string]: any
-  } | any;
+  [key: string]: any;
 }

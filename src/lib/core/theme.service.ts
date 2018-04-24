@@ -62,14 +62,14 @@ export class LyTheme {
     @Inject(THEME_VARIABLES) config: ThemeVariables,
     @Inject(THEME_VARIABLES) @Host() @Self() @Optional() parent: ThemeVariables,
     @Inject(IS_CORE_THEME) private isRoot: boolean,
-    @Inject(PALETTE) palette: ThemeVariables,
+    @Inject(PALETTE) private palette: ThemeVariables,
     @Inject(DOCUMENT) private document,
     private rootService: LyRootService
   ) {
     console.log('themer');
     const newConfig = mergeDeep(mergeDeep(defaultTheme, parent), config);
 
-    const _palette = {...newConfig, ...newConfig.colorSchemes[newConfig.scheme]};
+    const _palette = {...newConfig};
     const theme = this.rootService.registerTheme(_palette);
 
     /** check if exist scheme */
@@ -78,7 +78,7 @@ export class LyTheme {
     }
     this._styleMap = theme.map;
     // delete palette['colorSchemes'];
-    Object.assign(palette, theme.palette, { scheme: config.scheme });
+    Object.assign(palette, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
     this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
     console.log('themes id :', this.Id, palette);
@@ -196,9 +196,9 @@ export class LyTheme {
    * @param value
    */
   colorOf(value: string): string {
-    const theme = this.AlyleUI.palette;
+    const theme = this.palette;
     // const shade = this.AlyleUI.currentTheme.shade;
-    let current = theme;
+    let current = <any>theme;
     const values = value.split(/:/g);
     values.forEach((item, index) => {
       if (current[item]) {
@@ -212,11 +212,14 @@ export class LyTheme {
     } else {
       current = current['default'];
     }
+    if (value === 'background:paper') {
+      console.log('background:paper>', current, this.palette);
+    }
     return current;
   }
 
   private getColorv2(colorName: string, colors: any, shade?: string): string {
-    const ar = colors ? colors : this.AlyleUI.palette;
+    const ar = colors ? colors : this.palette;
     if (ar[colorName]) {
       if (typeof ar[colorName].color === 'string' || typeof ar[colorName] === 'string') {
         return ar[colorName].color || ar[colorName];
@@ -297,8 +300,8 @@ export class LyTheme {
   private setCoreStyle() {
     if (this.isRoot) {
       const newStyle = this.createStyle('body', () => {
-        return `background:${this.AlyleUI.palette.background.default};` +
-        `color:${this.AlyleUI.palette.text.default};` +
+        return `background:${this.palette.background.default};` +
+        `color:${this.palette.text.default};` +
         `margin:0;`;
       });
       this.rootService.renderer.addClass(this.document.body, newStyle.id);
