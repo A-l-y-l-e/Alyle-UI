@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     ThemeModule,
     RouterModule,
+    ThemeModule,
     AlyleUIModule.forChild({
       name: 'darkTheme',
       scheme: 'dark'

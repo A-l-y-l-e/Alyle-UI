@@ -66,7 +66,6 @@ export class LyTheme {
     @Inject(DOCUMENT) private document,
     private rootService: LyRootService
   ) {
-    console.log('themer');
     const newConfig = mergeDeep(mergeDeep(defaultTheme, parent), config);
 
     const _palette = {...newConfig};
@@ -196,28 +195,8 @@ export class LyTheme {
    * @param value
    */
   colorOf(value: string): string {
-    const theme = this.palette;
-    // const shade = this.AlyleUI.currentTheme.shade;
-    let current = <any>theme;
-    const values = value.split(/:/g);
-    values.forEach((item, index) => {
-      if (current[item]) {
-        current = current[item];
-      } else if (index > 0) {
-        console.warn(`\n\n>>>\`${value}\` undefined in LyTheme\n`);
-      }
-    });
-    if (!current['default']) {
-      current = value;
-    } else {
-      current = current['default'];
-    }
-    if (value === 'background:paper') {
-      console.log('background:paper>', current, this.palette);
-    }
-    return current;
+    return get(this.palette, value);
   }
-
   private getColorv2(colorName: string, colors: any, shade?: string): string {
     const ar = colors ? colors : this.palette;
     if (ar[colorName]) {
@@ -372,7 +351,10 @@ function createKeyOf(str: string) {
   }).join('');
 }
 
-/**
- * Importante
- * TODO: crear servicio para root, y seleccionar su nodo
- */
+function get(obj: Object, path: any): string {
+  const _path: string[] = path instanceof Array ? path : path.split(':');
+  for (let i = 0; i < _path.length; i++) {
+    obj = obj[_path[i]] || path;
+  }
+  return typeof obj === 'string' ? obj as string : obj['default'] as string;
+}

@@ -13,7 +13,10 @@ import { LyColor } from '../color/color.directive';
  * for all except ly-button
  */
 @Directive({
-  selector: ':not([ly-button]):not([color="auto"])[bg], :not([color="auto"])[color][bg]'
+  selector: `
+  :not([ly-button]):not([color="auto"])[bg],
+  :not([color="auto"])[color][bg]
+  `
 })
 export class LyBg {
   /** Default bg */
@@ -45,7 +48,9 @@ export class LyBg {
 }
 
 @Directive({
-  selector: '[bg][ly-button]:not([color]), [color="auto"]'
+  selector: `
+  [bg][ly-button]:not([color]),` + // for ly-button
+  `[color="auto"]` // for any with [color="auto"]
 })
 export class LyBgContrastTex {
   /** Default bg */

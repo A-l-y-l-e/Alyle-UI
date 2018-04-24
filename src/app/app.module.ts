@@ -53,6 +53,9 @@ const contrast = '#fff';
         primary: {
           300: '#64b5f6'
         },
+        accent: {
+          default: '#ff4081'
+        },
         // accent: 'pink',
         // other: 'red',
         scheme: 'light',
