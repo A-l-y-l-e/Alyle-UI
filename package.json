@@ -43,7 +43,7 @@
     "zone.js": "^0.8.24"
   },
   "devDependencies": {
-    "@alyle/angular-prerender": "^0.3.0",
+    "@alyle/angular-prerender": "^0.4.0",
     "@angular/cli": "^6.0.0-rc.5",
     "@angular/compiler-cli": "^6.0.0-rc.5",
     "@angular/http": "^6.0.0-rc.5",
