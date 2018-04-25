@@ -8260,7 +8260,13 @@ rxjs@^5.5.6:
   dependencies:
     symbol-observable "1.0.1"
 
-rxjs@^6.0.0-beta.3, rxjs@^6.0.0-rc.0, rxjs@^6.0.0-turbo-rc.4:
+rxjs@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.0.0.tgz#d647e029b5854617f994c82fe57a4c6747b352da"
+  dependencies:
+    tslib "^1.9.0"
+
+rxjs@^6.0.0-beta.3, rxjs@^6.0.0-turbo-rc.4:
   version "6.0.0-uncanny-rc.7"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.0.0-uncanny-rc.7.tgz#e5d6ebe2c538c583bf4b3600b60112d64a7a6991"
   dependencies:
