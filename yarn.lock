@@ -517,9 +517,9 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-module-builder-cli@^0.0.2-beta.10:
-  version "0.0.2-beta.10"
-  resolved "https://registry.yarnpkg.com/angular-module-builder-cli/-/angular-module-builder-cli-0.0.2-beta.10.tgz#e62c3f4ca84462c25d03701b66f36af8392abf48"
+angular-module-builder-cli@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/angular-module-builder-cli/-/angular-module-builder-cli-0.0.2.tgz#ec0454de1914f14009ae1c55dc5d415e82ab94a6"
   dependencies:
     "@angular/compiler" "^5.2.0"
     "@angular/compiler-cli" "^5.2.0"
