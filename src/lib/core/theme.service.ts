@@ -1,7 +1,7 @@
 import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector, SkipSelf, Host, Self } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
-import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES, CORE_THEME_VARIABLES, PALETTE } from './alyle-config-service';
+import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES, PALETTE } from './alyle-config-service';
 import { Subject } from 'rxjs';
 import { gradStop } from './gradstop';
 import { BehaviorSubject } from 'rxjs';

@@ -12,11 +12,10 @@ import {
   PaletteVariables,
   IS_CORE_THEME,
   THEME_VARIABLES,
-  CORE_THEME_VARIABLES,
   PALETTE
 } from 'alyle-ui/core';
 
-export function provideTheme(theme: ThemeVariables) {
+export function provideTheme(theme: ThemeVariables): any[] {
   return [
     [ LyTheme ],
     { provide: THEME_VARIABLES, useValue: theme },
@@ -36,7 +35,6 @@ export class AlyleUIModule {
       providers: [
         provideTheme(theme),
         { provide: IS_CORE_THEME, useValue: true },
-        { provide: CORE_THEME_VARIABLES, useValue: false }
       ]
     };
   }
