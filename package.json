@@ -31,7 +31,7 @@
     "@angular/router": "^6.0.0-rc.5",
     "@angular/service-worker": "^6.0.0-rc.5",
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0",
-    "angular-module-builder-cli": "^0.0.2-beta.10",
+    "angular-module-builder-cli": "^0.0.2",
     "chroma-js": "^1.3.6",
     "core-js": "^2.5.4",
     "disable-scroll": "^0.4.0",
