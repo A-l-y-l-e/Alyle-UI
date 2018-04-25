@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 import {
-  LyCoreModule,
   LyTheme,
   ThemeVariables,
   PaletteVariables,
@@ -23,10 +22,7 @@ export function provideTheme(theme: ThemeVariables): any[] {
   ];
 }
 
-@NgModule({
-  imports: [ LyCoreModule ],
-  exports: [ LyCoreModule ]
-})
+@NgModule()
 export class AlyleUIModule {
   /** Set a theme for core */
   static forRoot(theme: ThemeVariables): ModuleWithProviders {

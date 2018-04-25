@@ -1,5 +1,5 @@
 import { Injectable, Inject, Renderer2, ElementRef } from '@angular/core';
-import { LyTheme, LyRootService } from 'alyle-ui/core';
+import { LyTheme, LyRootService, PALETTE } from 'alyle-ui/core';
 import { DOCUMENT } from '@angular/common';
 import { AlyleUIModule, ProvidedInTheme } from 'alyle-ui';
 
@@ -7,6 +7,7 @@ import { AlyleUIModule, ProvidedInTheme } from 'alyle-ui';
 export class LyButtonService {
 
   constructor(
+    @Inject(PALETTE) private palette,
     private theme: LyTheme,
     @Inject(DOCUMENT) document
   ) { }
@@ -17,9 +18,10 @@ export class LyButtonService {
   }
 
   private style() {
-    return `font-family:${this.theme.AlyleUI.palette.typography.fontFamily.default};` +
-    `font-size: ${this.theme.AlyleUI.palette.typography.fontSize}px;` +
-    `color: ${this.theme.AlyleUI.palette.text.default};` +
+    return `font-family:${this.palette.typography.fontFamily};` +
+    `font-size: ${this.palette.typography.fontSize}px;` +
+    `color: ${this.palette.text.default};` +
+    /** TODO: add this for Root */
     '-webkit-tap-highlight-color: transparent;' +
     'padding: 0;' +
     'background-color: rgba(0, 0, 0, 0);' +

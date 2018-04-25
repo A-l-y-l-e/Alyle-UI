@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme } from 'alyle-ui/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { LyTheme, PALETTE } from 'alyle-ui/core';
 
 @Component({
   selector: 'app-get-started',
@@ -10,7 +10,8 @@ import { LyTheme } from 'alyle-ui/core';
 export class GetStartedComponent implements OnInit {
   code: string;
   constructor(
-    public theme: LyTheme
+    public theme: LyTheme,
+    @Inject(PALETTE) private palette: LyTheme
   ) {
     this.code = `
 ...
@@ -24,7 +25,7 @@ import { AlyleUIModule } from 'alyle-ui';
 import { ResponsiveModule } from 'alyle-ui/responsive';
 
 /** Custom theme */
-const configAlyleUI = ${this.toJson(this.theme.AlyleUI.currentTheme)};
+const configAlyleUI = ${this.toJson(this.palette)};
 @NgModule({
   ...
   imports: [

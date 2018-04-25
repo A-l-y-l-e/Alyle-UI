@@ -80,7 +80,6 @@ export class LyTheme {
     Object.assign(palette, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
     this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
-    console.log('themes id :', this.Id, palette);
     // const primary    = this._setColorPalette(config.primary, _palette);
     // const accent     = this._setColorPalette(config.accent, _palette);
     // const other      = this._setColorPalette(config.other, _palette);
@@ -98,25 +97,25 @@ export class LyTheme {
     //   }
     // }
 
-    const getAllColors = {
-      ...newConfig.colorSchemes[newConfig.scheme],
-      ...newConfig
-      // colorText: {color: scheme.text.default},
-      // bgText: {color: scheme.background.default}
-    };
+    // const getAllColors = {
+    //   ...newConfig.colorSchemes[newConfig.scheme],
+    //   ...newConfig
+    //   // colorText: {color: scheme.text.default},
+    //   // bgText: {color: scheme.background.default}
+    // };
     // getAllColors = mergeDeep(getAllColors, scheme);
 
     // this.createShades(primary.color[shade]);
     /* tslint:disable */
-    this.AlyleUI = {
-      currentTheme: newConfig,
-      palette: parsePalette(getAllColors),
-    };
+    // this.AlyleUI = {
+    //   currentTheme: newConfig,
+    //   palette: parsePalette(getAllColors),
+    // };
     /* tslint:enable */
-    this.primary = new BehaviorSubject<any>(null);
-    this.accent = new BehaviorSubject<any>(null);
-    this.other = new BehaviorSubject<any>(null);
-    this.scheme = new BehaviorSubject<any>(null);
+    // this.primary = new BehaviorSubject<any>(null);
+    // this.accent = new BehaviorSubject<any>(null);
+    // this.other = new BehaviorSubject<any>(null);
+    // this.scheme = new BehaviorSubject<any>(null);
     // this.palette = new BehaviorSubject<any>(getAllColors);
     // this.palette.subscribe(() => {
     //   if (isDevMode) {
