@@ -89,6 +89,7 @@
     "@angular/forms": "ng.forms",
     "@angular/http": "ng.http",
     "@angular/animations": "ng.animations",
+    "alyle-ui": "ly",
     "alyle-ui/button": "ly.button",
     "alyle-ui/carousel": "ly.carousel",
     "alyle-ui/core": "ly.core",
