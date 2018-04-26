@@ -32,7 +32,7 @@ jobs:
         - yarn size-limit
     - stage: test
       script:
-        - ng build
+        - ng build alyle-ui
     - stage: deploy
       script:
         - yarn build
