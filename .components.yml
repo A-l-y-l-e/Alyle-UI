@@ -1,11 +1,18 @@
-"@alyle/ui":
-  description: Core module
-"@alyle/ui/ripple-minimal":
-  description: Minimal ripple
-  # peerDependencies:
-    # "@angular/common": "^6.0.0-rc.0 || ^6.0.0"
-    # "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
-    # node-vibrant: "^3.0.0"
-    # chroma-js: "^1.3.6"
-    # hammerjs: "^2.0.8"
-
+"@alyle/ui": core
+"@alyle/ui/shadow": shadow
+"@alyle/ui/ripple": ripple
+"@alyle/ui/icon-button": icon-button
+"@alyle/ui/button": button
+"@alyle/ui/ls": ls
+"@alyle/ui/responsive": responsive
+"@alyle/ui/radio": radio
+"@alyle/ui/input": input
+"@alyle/ui/resizing-cropping-images": resizing-cropping-images
+"@alyle/ui/carousel": carousel
+"@alyle/ui/menu": menu
+"@alyle/ui/checkbox": checkbox
+"@alyle/ui/svg": svg
+"@alyle/ui/header-pagination": header-pagination
+"@alyle/ui/tabs": tabs
+"@alyle/ui/toolbar": toolbar
+"@alyle/ui/drawer": drawer

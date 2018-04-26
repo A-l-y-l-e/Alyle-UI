@@ -36,7 +36,7 @@ import {
   StyleData
   } from '@alyle/ui';
 import { LyIconButton } from '@alyle/ui/icon-button';
-import { LyRipple } from '@alyle/ui/ripple';
+import { LyRipple, Ripple } from '@alyle/ui/ripple';
 import { LyShadowService } from '@alyle/ui/shadow';
 import {
   BehaviorSubject,
@@ -45,7 +45,6 @@ import {
   Subscriber,
   Subscription
 } from 'rxjs';
-import { Ripple } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
 
 // @Directive({ selector: '[ly-button][raised]' })

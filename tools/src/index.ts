@@ -2,28 +2,27 @@ import { readdirSync, statSync, readFileSync } from 'fs';
 import { writeFileSync, removeSync, copySync, pathExists, pathExistsSync } from 'fs-extra';
 import { spawnSync } from 'child_process';
 import { join } from 'path';
+import * as jsyaml from 'js-yaml';
+
 const version = `1.7.0-beta.0`;
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
 
 const angularCliConfig = JSON.parse(readFileSync(`${process.cwd()}/angular.json`, 'utf8').toString());
 const pkg = JSON.parse(readFileSync(`${process.cwd()}/package.json`, 'utf8').toString());
-
+let components: { path: string, pkgName: string }[] = jsyaml.load(readFileSync(`${process.cwd()}/.components.yml`, 'utf8').toString());
 if (pathExistsSync(dist)) {
+  console.log('cleaning...');
   removeSync(dist);
+  removeSync(`${process.cwd()}/dist/node_modules`);
+  removeSync(`${process.cwd()}/dist/@alyle`);
 }
-const libs: { path: string, pkgName: string }[] = readdirSync(dirLib)
-.filter(path => statSync(`${dirLib}/${path}`).isDirectory())
-.map(path => {
-  const pkgName = join('@alyle/ui', path !== 'core' ? path : '');
-  return { path, pkgName };
-})
-.sort((a, b) => a.pkgName > b.pkgName ? 1 : -1);
+components = Object.keys(components).map((pkgName) => ({ path: components[pkgName], pkgName }));
 
 /** copy sources */
 copySync(dirLib, dist);
 
-libs.forEach(lib => {
+components.forEach(lib => {
   const item = statSync(`${dirLib}/${lib.path}`);
   [
     'ng-package.json',
@@ -78,10 +77,12 @@ libs.forEach(lib => {
 
 /** build */
 let previousBuild = Promise.resolve();
-libs.forEach((lib) => {
+components.forEach((lib) => {
   previousBuild = previousBuild.then(_ => {
     const ls = spawnSync('ng', ['build', lib.pkgName, '--prod'], {stdio: 'inherit'});
-    console.log('ls.status', ls.status);
+    if (ls.status) {
+      process.exit(1);
+    }
     copySync(join(`${process.cwd()}/dist`, lib.pkgName), `${process.cwd()}/dist/node_modules/${lib.pkgName}`);
     // const ls = spawnSync('yarn ', ['build', '@alyle/ui'], {stdio: 'inherit'});
   });

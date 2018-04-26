@@ -51,7 +51,7 @@ const contrast = '#fff';
       {
         name: 'RootTheme',
         primary: {
-          300: '#64b5f6'
+          '300': '#64b5f6'
         },
         accent: {
           default: '#ff4081'

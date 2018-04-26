@@ -4,7 +4,26 @@
   "lib": {
     "entryFile": "public_api.ts",
     "umdModuleIds": {
-      "rxjs": "Rx"
+      "rxjs": "Rx",
+      "@alyle/ui": "ly",
+      "@alyle/ui/shadow": "ly.shadow",
+      "@alyle/ui/ripple": "ly.ripple",
+      "@alyle/ui/icon-button": "ly.iconButton",
+      "@alyle/ui/button": "ly.button",
+      "@alyle/ui/ls": "ly.ls",
+      "@alyle/ui/responsive": "ly.responsive",
+      "@alyle/ui/radio": "ly.radio",
+      "@alyle/ui/input": "ly.input",
+      "@alyle/ui/resizing-cropping-images": "ly.resizingCroppingImages",
+      "@alyle/ui/carousel": "ly.carousel",
+      "@alyle/ui/menu": "ly.menu",
+      "@alyle/ui/checkbox": "ly.checkbox",
+      "@alyle/ui/svg": "ly.svg",
+      "@alyle/ui/header-pagination": "ly.headerPagination",
+      "@alyle/ui/tabs": "ly.tabs",
+      "@alyle/ui/toolbar": "ly.toolbar",
+      "@alyle/ui/drawer": "ly.drawer",
+      "chroma-js": "chroma"
     }
   }
 }

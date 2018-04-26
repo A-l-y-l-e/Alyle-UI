@@ -7,8 +7,7 @@ import {
   TemplateRef,
   ComponentRef,
   ViewContainerRef,
-  ViewRef,
-  SkipSelf
+  ViewRef
 } from '@angular/core';
 import { LyOverlayContainer } from './overlay-container.component';
 

@@ -10,7 +10,7 @@ import { LyTheme, PALETTE, PaletteVariables as LyPalette } from '@alyle/ui';
 export class MultipleThemesDemo01Component {
 
   constructor(
-    private theme: LyTheme,
+    public theme: LyTheme,
     @Inject(PALETTE) public palette: LyPalette
   ) { }
 

@@ -41,6 +41,9 @@
   "homepage": "https://github.com/A-l-y-l-e/Alyle-UI#readme",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "node-vibrant": "^3.0.0",
+    "chroma-js": "^1.3.6",
+    "hammerjs": "^2.0.8"
   }
 }
