@@ -21,6 +21,8 @@ components = Object.keys(components).map((pkgName) => ({ path: components[pkgNam
 
 /** copy sources */
 copySync(dirLib, dist);
+copySync(`${dirLib}/README.md`, `${process.cwd()}/dist/@alyle/ui`);
+copySync(`${dirLib}/.npmignore`, `${process.cwd()}/dist/@alyle/ui`);
 
 components.forEach(lib => {
   const item = statSync(`${dirLib}/${lib.path}`);
@@ -84,9 +86,5 @@ components.forEach((lib) => {
       process.exit(1);
     }
     copySync(join(`${process.cwd()}/dist`, lib.pkgName), `${process.cwd()}/dist/node_modules/${lib.pkgName}`);
-    // const ls = spawnSync('yarn ', ['build', '@alyle/ui'], {stdio: 'inherit'});
   });
 });
-
-// pkg['scripts']['build:@alyle/ui'] = scripts;
-// writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(pkg, undefined, 2), 'utf8');

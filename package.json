@@ -16,7 +16,7 @@
     "deploy": "firebase deploy",
     "functions:install": "cd functions && yarn install",
     "mv:index.html": "mkdir functions/dist && mv dist/index.html functions/dist/",
-    "prepare:@alyle/ui": "rm -rf dist/tools && tsc -p tools && node dist/tools"
+    "build:@alyle/ui": "rm -rf dist/tools && tsc -p tools && node dist/tools"
   },
   "private": true,
   "dependencies": {
@@ -83,7 +83,7 @@
   },
   "size-limit": [
     {
-      "path": "dist-amb/**/*.umd.min.js",
+      "path": "dist/@alyle/ui/**/*.umd.min.js",
       "webpack": false,
       "gzip": false,
       "limit": "150 KB"

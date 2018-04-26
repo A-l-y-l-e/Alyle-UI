@@ -28,7 +28,7 @@ jobs:
   include:
     - stage: test
       script:
-        - yarn amb
+        - yarn build:@alyle/ui
         - yarn size-limit
     - stage: test
       script:
