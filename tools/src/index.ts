@@ -21,8 +21,8 @@ components = Object.keys(components).map((pkgName) => ({ path: components[pkgNam
 
 /** copy sources */
 copySync(dirLib, dist);
-copySync(`${dirLib}/README.md`, `${process.cwd()}/dist/@alyle/ui`);
-copySync(`${dirLib}/.npmignore`, `${process.cwd()}/dist/@alyle/ui`);
+copySync(`${dirLib}/README.md`, `${process.cwd()}/dist/@alyle/ui/README.md`);
+copySync(`${dirLib}/.npmignore`, `${process.cwd()}/dist/@alyle/ui/.npmignore`);
 
 components.forEach(lib => {
   const item = statSync(`${dirLib}/${lib.path}`);
