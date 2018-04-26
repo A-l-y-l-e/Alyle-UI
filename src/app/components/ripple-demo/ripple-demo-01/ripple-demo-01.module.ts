@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyFocusStateModule } from 'alyle-ui/core';
-import { LyRippleModule } from 'alyle-ui/ripple-minimal';
+import { LyFocusStateModule } from '@alyle/ui';
+import { LyRippleModule } from '@alyle/ui/ripple';
 import { RippleDemo01Component } from './ripple-demo-01.component';
 
 @NgModule({

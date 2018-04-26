@@ -7,24 +7,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Injectable } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { MinimalLSModule } from 'alyle-ui/ls';
-import { LyDrawerModule } from 'alyle-ui/drawer';
-import { LyToolbarModule } from 'alyle-ui/toolbar';
-import { LySvgModule } from 'alyle-ui/svg';
-import { LyMenuModule } from 'alyle-ui/menu';
-import { LyIconButtonModule } from 'alyle-ui/icon-button';
-import { AlyleUIModule } from 'alyle-ui';
-import { ResponsiveModule } from 'alyle-ui/responsive';
-import { LyButtonModule } from 'alyle-ui/button';
-import { LyShadowModule } from 'alyle-ui/shadow';
-import { LyRippleModule } from 'alyle-ui/ripple-minimal';
+import { MinimalLSModule } from '@alyle/ui/ls';
+import { LyDrawerModule } from '@alyle/ui/drawer';
+import { LyToolbarModule } from '@alyle/ui/toolbar';
+import { LySvgModule } from '@alyle/ui/svg';
+import { LyMenuModule } from '@alyle/ui/menu';
+import { LyIconButtonModule } from '@alyle/ui/icon-button';
+import { AlyleUIModule } from '@alyle/ui';
+import { ResponsiveModule } from '@alyle/ui/responsive';
+import { LyButtonModule } from '@alyle/ui/button';
+import { LyShadowModule } from '@alyle/ui/shadow';
+import { LyRippleModule } from '@alyle/ui/ripple';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { RoutesAppService } from './components/routes-app.service';
 import { PrismModule } from './core/prism/prism.module';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
-import { ThemeModule } from 'alyle-ui/core';
+import { ThemeModule } from '@alyle/ui';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -40,7 +40,7 @@ const contrast = '#fff';
     AppComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: 'alyle-ui'}),
+    BrowserModule.withServerTransition({appId: '@alyle/ui'}),
     CommonModule,
     FormsModule,
     HttpClientModule,

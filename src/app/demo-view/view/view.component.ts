@@ -10,8 +10,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { map } from 'rxjs/operators';
 
-import { MinimalLS } from 'alyle-ui/ls';
-import { Platform } from 'alyle-ui/core';
+import { MinimalLS } from '@alyle/ui/ls';
+import { Platform } from '@alyle/ui';
 
 import { RoutesAppService } from '../../components/routes-app.service';
 

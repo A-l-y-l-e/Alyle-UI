@@ -31,10 +31,10 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { LyShadowModule, LyShadowService } from 'alyle-ui/shadow';
+import { LyShadowModule, LyShadowService } from '@alyle/ui/shadow';
 import { CarouselService, VibrantColors } from './carousel.service';
-import { Platform } from 'alyle-ui/core';
-import { MinimalLS } from 'alyle-ui/ls';
+import { Platform } from '@alyle/ui';
+import { MinimalLS } from '@alyle/ui/ls';
 
 @Component({
   selector: 'ly-carousel',

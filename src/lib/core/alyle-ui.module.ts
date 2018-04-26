@@ -5,14 +5,8 @@ import {
   Inject
 } from '@angular/core';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
-import {
-  LyTheme,
-  ThemeVariables,
-  PaletteVariables,
-  IS_CORE_THEME,
-  THEME_VARIABLES,
-  PALETTE
-} from 'alyle-ui/core';
+import { LyTheme } from './theme.service';
+import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES, PALETTE } from './alyle-config-service';
 
 export function provideTheme(theme: ThemeVariables): any[] {
   return [

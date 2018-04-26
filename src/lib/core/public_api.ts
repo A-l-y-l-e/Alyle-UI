@@ -17,3 +17,5 @@ export * from './gradstop/index';
 export * from './dom/dom.service';
 export * from './dom/lx-dom.module';
 export * from './focus-state/focus-state.module';
+export * from './alyle-ui.module';
+export * from './version';

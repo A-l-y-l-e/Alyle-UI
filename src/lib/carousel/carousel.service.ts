@@ -4,7 +4,7 @@ import { of as observableOf } from 'rxjs';
 /* tslint:disable */
 // import Vibrant from 'node-vibrant';
 /* tslint:enable */
-import { MinimalLS } from 'alyle-ui/ls';
+import { MinimalLS } from '@alyle/ui/ls';
 declare var Vibrant: any;
 export class VibrantSwatch {
   bodyTextColor: string;

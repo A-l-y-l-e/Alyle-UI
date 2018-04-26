@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ThemeModule } from 'alyle-ui/core';
+import { ThemeModule } from '@alyle/ui';
 
 import { PrismModule } from '../../core/prism/prism.module';
 import { GetStartedRoutingModule } from './get-started-routing.module';

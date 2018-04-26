@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../{name}",
+  "lib": {
+    "entryFile": "public_api.ts",
+    "umdModuleIds": {
+      "rxjs": "Rx"
+    }
+  }
+}

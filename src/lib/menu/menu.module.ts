@@ -1,6 +1,6 @@
 import { LyMenuTriggerFor, LyTemplateMenu } from './menu';
 import { LyMenu } from './menu';
-import { ThemeModule, LxDomModule } from 'alyle-ui/core';
+import { ThemeModule, LxDomModule } from '@alyle/ui';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from'@angular/core';

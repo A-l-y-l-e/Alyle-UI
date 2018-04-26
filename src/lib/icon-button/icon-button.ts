@@ -17,8 +17,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LyRippleModule, LyRipple } from 'alyle-ui/ripple-minimal';
-import { Platform } from 'alyle-ui/core';
+import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
+import { Platform } from '@alyle/ui';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({

@@ -28,7 +28,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs';
-import { exactPosition } from 'alyle-ui/core';
+import { exactPosition } from '@alyle/ui';
 
 export interface LyResizingCroppingImagesConfig {
   width: number;

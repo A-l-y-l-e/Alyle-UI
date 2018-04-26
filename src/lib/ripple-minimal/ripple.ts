@@ -1,5 +1,5 @@
 import { ElementRef, NgZone, Renderer2 } from '@angular/core';
-import { Platform, StyleData } from 'alyle-ui/core';
+import { Platform, StyleData } from '@alyle/ui';
 import { RippleConfig } from './ripple';
 
 export interface RippleConfig {
@@ -58,7 +58,7 @@ export class Ripple {
 
   setTriggerElement(element: HTMLElement | null) {
     if (this._triggerElement) {
-      // this._renderer.removeClass(this._triggerElement, 'ly-ripple-minimal');
+      // this._renderer.removeClass(this._triggerElement, 'ly-ripple');
       this._eventHandlers.forEach((fn, type) => {
         this._triggerElement.removeEventListener(type, fn);
       });

@@ -1,4 +1,4 @@
-import { Platform } from 'alyle-ui/core';
+import { Platform } from '@alyle/ui';
 import { Injectable, NgZone, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { fromEvent } from 'rxjs';

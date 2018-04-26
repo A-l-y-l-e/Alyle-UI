@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   HostBinding,
 } from '@angular/core';
-import { Platform } from 'alyle-ui/core';
+import { Platform } from '@alyle/ui';
 import { LySvgService } from './ly-svg.service';
 import { Subscription } from 'rxjs';
 

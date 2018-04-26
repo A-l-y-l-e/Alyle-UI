@@ -8,7 +8,7 @@ import {
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { LyShadowService } from './shadow.service';
-import { LyTheme, shadowBuilder, toBoolean, StyleData } from 'alyle-ui/core';
+import { LyTheme, shadowBuilder, toBoolean, StyleData } from '@alyle/ui';
 
 @Directive({
   selector: '[ly-deep], [ly-shadow], [lyShadow]'

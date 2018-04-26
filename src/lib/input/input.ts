@@ -32,7 +32,7 @@ import {
   FormGroupDirective,
   NgControl, NgForm,
 } from '@angular/forms';
-import { ThemeModule, IsBoolean, toBoolean } from 'alyle-ui/core';
+import { ThemeModule, IsBoolean, toBoolean } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
@@ -40,7 +40,7 @@ import {
   LyTheme,
   themeProperty,
   LyStyleTheme
-} from 'alyle-ui/core';
+} from '@alyle/ui';
 
 @Directive({
   selector: 'ly-default, ly-before, ly-after, ly-input ly-error, ly-input ly-hint'

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { Responsive } from 'alyle-ui/responsive';
+import { Responsive } from '@alyle/ui/responsive';
 import { Subscription } from 'rxjs';
 
 @Component({

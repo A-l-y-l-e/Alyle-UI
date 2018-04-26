@@ -7,7 +7,7 @@ import {
   HostBinding
 }                       from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LyTheme }      from 'alyle-ui/core';
+import { LyTheme }      from '@alyle/ui';
 import { CommonModule } from '@angular/common';
 
 @Directive({

@@ -18,7 +18,7 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { IsBoolean, LyFocusState, Platform } from 'alyle-ui/core';
+import { IsBoolean, LyFocusState, Platform } from '@alyle/ui';
 import { Ripple, RippleConfig } from './ripple';
 import { LyRippleService } from './ripple.service';
 

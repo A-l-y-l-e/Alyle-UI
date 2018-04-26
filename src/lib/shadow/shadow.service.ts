@@ -1,6 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID, Renderer2, ElementRef }       from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { converterToHex, Platform, LyTheme, shadowBuilder, StyleData }         from 'alyle-ui/core';
+import { converterToHex, Platform, LyTheme, shadowBuilder, StyleData }         from '@alyle/ui';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import * as _chroma from 'chroma-js';
 const chroma = _chroma;

@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyDrawer, LyDrawerContainer, LyDrawerContent } from './drawer';
-import { ThemeModule } from 'alyle-ui/core';
+import { ThemeModule } from '@alyle/ui';
 
 @NgModule({
   imports: [

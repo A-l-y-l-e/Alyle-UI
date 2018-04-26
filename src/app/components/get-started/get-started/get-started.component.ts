@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { LyTheme, PALETTE } from 'alyle-ui/core';
+import { LyTheme, PALETTE } from '@alyle/ui';
 
 @Component({
   selector: 'app-get-started',
@@ -19,10 +19,10 @@ export class GetStartedComponent implements OnInit {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /** Core module */
-import { AlyleUIModule } from 'alyle-ui';
+import { AlyleUIModule } from '@alyle/ui';
 
 /** Responsive module (Optional) */
-import { ResponsiveModule } from 'alyle-ui/responsive';
+import { ResponsiveModule } from '@alyle/ui/responsive';
 
 /** Custom theme */
 const configAlyleUI = ${this.toJson(this.palette)};

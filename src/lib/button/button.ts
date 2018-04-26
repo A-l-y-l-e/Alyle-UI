@@ -34,10 +34,10 @@ import {
   Platform,
   themeProperty,
   StyleData
-  } from 'alyle-ui/core';
-import { LyIconButton } from 'alyle-ui/icon-button';
-import { LyRipple } from 'alyle-ui/ripple-minimal';
-import { LyShadowService } from 'alyle-ui/shadow';
+  } from '@alyle/ui';
+import { LyIconButton } from '@alyle/ui/icon-button';
+import { LyRipple } from '@alyle/ui/ripple';
+import { LyShadowService } from '@alyle/ui/shadow';
 import {
   BehaviorSubject,
   Observable,
@@ -45,7 +45,7 @@ import {
   Subscriber,
   Subscription
 } from 'rxjs';
-import { Ripple } from 'alyle-ui/ripple-minimal';
+import { Ripple } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
 
 // @Directive({ selector: '[ly-button][raised]' })

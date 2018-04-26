@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LyTheme, PALETTE } from 'alyle-ui/core';
+import { LyTheme, PALETTE } from '@alyle/ui';
 import { Inject } from '@angular/core';
 
 @Component({

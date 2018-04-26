@@ -24,11 +24,11 @@ import {
   ChangeDetectionStrategy,
   Inject
 } from '@angular/core';
-import { LyTheme, BgAndColorStyle, LyStyleTheme, themeProperty, PALETTE, ThemeVariables } from 'alyle-ui/core';
+import { LyTheme, BgAndColorStyle, LyStyleTheme, themeProperty, PALETTE, ThemeVariables } from '@alyle/ui';
 import { CommonModule } from '@angular/common';
-import { getParents } from 'alyle-ui/core';
+import { getParents } from '@alyle/ui';
 import { Subscription } from 'rxjs';
-import { LyButton } from 'alyle-ui/button';
+import { LyButton } from '@alyle/ui/button';
 
 let idTab = 0;
 

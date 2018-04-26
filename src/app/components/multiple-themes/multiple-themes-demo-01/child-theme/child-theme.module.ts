@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { ChildThemeRoutingModule } from './child-theme-routing.module';
 import { ChildThemeComponent } from './child-theme.component';
-import { AlyleUIModule } from 'alyle-ui';
-import { ThemeModule } from 'alyle-ui/core';
+import { AlyleUIModule } from '@alyle/ui';
+import { ThemeModule } from '@alyle/ui';
 
 @NgModule({
   imports: [

@@ -2,12 +2,12 @@ import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject} from '@
 import { environment } from './../environments/environment';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { AUI_VERSION } from 'alyle-ui';
-import { LyMenu } from 'alyle-ui/menu';
-import { LyTheme, Platform } from 'alyle-ui/core';
+import { AUI_VERSION } from '@alyle/ui';
+import { LyMenu } from '@alyle/ui/menu';
+import { LyTheme, Platform } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
-import { MinimalLS } from 'alyle-ui/ls';
-import { ThemeVariables } from 'alyle-ui/core';
+import { MinimalLS } from '@alyle/ui/ls';
+import { ThemeVariables } from '@alyle/ui';
 
 @Component({
   selector: 'app-root',

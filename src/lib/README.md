@@ -23,7 +23,7 @@ npm install alyle-ui --save
 ### src/app/app.module.ts
 
 ```js
-import { AlyleUIModule } from 'alyle-ui';
+import { AlyleUIModule } from '@alyle/ui';
 @NgModule({
   imports: [
     AlyleUIModule.forRoot({
