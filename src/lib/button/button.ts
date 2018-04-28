@@ -44,7 +44,7 @@ import {
   Subscription
 } from 'rxjs';
 import { LyButtonService } from './button.service';
-import { LyBgAndColor } from 'lib/core/src/theme/bg-and-color.directive';
+import { LyBgAndColor } from '@alyle/ui';
 
 // @Directive({ selector: '[ly-button][raised]' })
 // export class LyButtonRaised {
