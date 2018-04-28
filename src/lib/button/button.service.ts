@@ -1,6 +1,17 @@
-import { Injectable, Inject, Renderer2, ElementRef } from '@angular/core';
-import { LyTheme, LyRootService, PALETTE, AlyleUIModule, ProvidedInTheme } from '@alyle/ui';
+import {
+  AlyleUIModule,
+  LyRootService,
+  LyTheme,
+  PALETTE,
+  ProvidedInTheme
+} from '@alyle/ui';
 import { DOCUMENT } from '@angular/common';
+import {
+  ElementRef,
+  Inject,
+  Injectable,
+  Renderer2
+} from '@angular/core';
 
 @Injectable(ProvidedInTheme)
 export class LyButtonService {

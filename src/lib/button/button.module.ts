@@ -11,6 +11,8 @@ import { LyIconButton } from '@alyle/ui/icon-button';
   imports: [CommonModule, LyRippleModule, ThemeModule],
   exports: [LyButton],
   declarations: [LyButton],
-  providers: [LyShadowService],
+  providers: [
+    LyShadowService
+  ],
 })
 export class LyButtonModule {}

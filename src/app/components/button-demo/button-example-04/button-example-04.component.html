@@ -3,10 +3,10 @@
 <button ly-button [color]="color" raised="!">raised</button>
 <button ly-button [bg]="color" raised color="#fff">bg</button>
 <button ly-button class="item" (click)="changeColor()">
-  Change
-  <ly-icon-button>
+  <span start>Change</span>
+  <span ly-icon-button end>
     <ly-svg src="assets/svg/Brush.svg"></ly-svg>
-  </ly-icon-button>
+  </span>
 </button>
 <h4>Raised{{ raisedState !== undefined ? ': ' + raisedState : raisedState }}</h4>
 <button ly-button [color]="color">color</button>

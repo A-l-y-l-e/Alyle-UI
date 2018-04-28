@@ -28,8 +28,6 @@ import { ControlValueAccessor } from '@angular/forms';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import {
   IsBoolean,
-  LyBg,
-  LyColor,
   LyTheme,
   Platform,
   themeProperty,
@@ -46,6 +44,7 @@ import {
   Subscription
 } from 'rxjs';
 import { LyButtonService } from './button.service';
+import { LyBgAndColor } from 'lib/core/src/theme/bg-and-color.directive';
 
 // @Directive({ selector: '[ly-button][raised]' })
 // export class LyButtonRaised {
@@ -122,12 +121,11 @@ export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     private shadowService: LyShadowService,
     public theme: LyTheme,
     private buttonService: LyButtonService,
-    @Optional() private lyBg: LyBg,
-    @Optional() private lyColor: LyColor
+    @Optional() private bgAndColor: LyBgAndColor
   ) {
-    // if (lyBg && !lyColor) {
-    //   this.theme.createStyle();
-    // }
+    if (bgAndColor) {
+      bgAndColor.setAutoContrast();
+    }
     this.buttonService.applyTheme(renderer, elementRef);
     this.nativeElement = this.elementRef.nativeElement;
   }

@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 
-import { BgModule } from './bg/bg.module';
-import { ColorModule } from './color/color.module';
+import { LyBgAndColor } from './bg-and-color.directive';
+import { LY_GLOBAL_CONTRAST } from './contrast';
 
 @NgModule({
-  imports: [
-    BgModule,
-    ColorModule
-  ],
-  exports: [BgModule, ColorModule]
+  declarations: [LyBgAndColor],
+  exports: [LyBgAndColor],
+  providers: [
+    { provide: LY_GLOBAL_CONTRAST, useValue: false }
+  ]
 })
 export class ThemeModule { }
-export * from './bg/bg.module';
-export * from './color/color.module';

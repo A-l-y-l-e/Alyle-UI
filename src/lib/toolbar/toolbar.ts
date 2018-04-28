@@ -4,10 +4,11 @@ import {
   Input,
   OnInit,
   OnDestroy,
-  HostBinding
+  HostBinding,
+  Optional
 }                       from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LyTheme }      from '@alyle/ui';
+import { LyTheme, LyBgAndColor }      from '@alyle/ui';
 import { CommonModule } from '@angular/common';
 
 @Directive({
@@ -31,7 +32,14 @@ export class LyToolbar implements OnInit, OnDestroy {
   @HostBinding('style.background') styleBackground: string;
   @HostBinding('style.color') styleColor: string;
 
-  constructor(public theme: LyTheme) { }
+  constructor(
+    public theme: LyTheme,
+    @Optional() bgAndColor: LyBgAndColor
+  ) {
+    if (bgAndColor) {
+      bgAndColor.setAutoContrast();
+    }
+  }
 
   @Input()
   set toolbarBg(val: string) {
