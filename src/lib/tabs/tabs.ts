@@ -150,11 +150,11 @@ export class LyTabGroupComponent implements OnInit, OnChanges {
       const tabRef = item.elementRef.nativeElement;
       if (this._selectedIndex == index && !!tabRef) {
         if (!!item.lyButton) {
-          Promise.resolve(null).then(() => {
-            item.lyButton.buttonPadding.subscribe((val) => {
-              this.updateTabIndicator(tabRef);
-            });
-          });
+          // Promise.resolve(null).then(() => {
+          //   item.lyButton.buttonPadding.subscribe((val) => {
+          //     this.updateTabIndicator(tabRef);
+          //   });
+          // });
         } else {
           this.updateTabIndicator(tabRef);
         }
