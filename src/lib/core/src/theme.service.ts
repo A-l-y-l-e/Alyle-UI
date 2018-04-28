@@ -76,58 +76,11 @@ export class LyTheme {
       throw new Error(`scheme ${theme.palette.scheme} not exist in ${theme.palette.name}`);
     }
     this._styleMap = theme.map;
-    // delete palette['colorSchemes'];
     Object.assign(palette, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
     this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
-    // const primary    = this._setColorPalette(config.primary, _palette);
-    // const accent     = this._setColorPalette(config.accent, _palette);
-    // const other      = this._setColorPalette(config.other, _palette);
-    // const scheme     = config.schemes[config.colorScheme];
-    // const variables = config.variables;
-    // if (config.palette) {
-    //   if (config.palette[config.primary]) {
-    //     primary = config.palette[config.primary];
-    //   }
-    //   if (config.palette[config.accent]) {
-    //     accent = config.palette[config.accent];
-    //   }
-    //   if (config.palette[config.other]) {
-    //     other = config.palette[config.other];
-    //   }
-    // }
-
-    // const getAllColors = {
-    //   ...newConfig.colorSchemes[newConfig.scheme],
-    //   ...newConfig
-    //   // colorText: {color: scheme.text.default},
-    //   // bgText: {color: scheme.background.default}
-    // };
-    // getAllColors = mergeDeep(getAllColors, scheme);
-
-    // this.createShades(primary.color[shade]);
-    /* tslint:disable */
-    // this.AlyleUI = {
-    //   currentTheme: newConfig,
-    //   palette: parsePalette(getAllColors),
-    // };
-    /* tslint:enable */
-    // this.primary = new BehaviorSubject<any>(null);
-    // this.accent = new BehaviorSubject<any>(null);
-    // this.other = new BehaviorSubject<any>(null);
-    // this.scheme = new BehaviorSubject<any>(null);
-    // this.palette = new BehaviorSubject<any>(getAllColors);
-    // this.palette.subscribe(() => {
-    //   if (isDevMode) {
-    //     console.warn('deprecated: palette Observable');
-    //   }
-    // });
     this.setCoreStyle();
   }
-
-  // private addShades(primary, accent, other) {
-  //   this.createShades(primary.color[shade]);
-  // }
 
   private _gradStop(colors: string[], stops) {
     return gradStop({
@@ -155,39 +108,7 @@ export class LyTheme {
     return shades;
   }
 
-  setTheme(config: ThemeVariables) {
-    // const currentTheme = this.AlyleUI.currentTheme;
-    // config = mergeDeep(currentTheme as ThemeVariables, config);
-    // if (config) {
-    //   const primary    = this._setColorPalette(config.primary, this._palette);
-    //   const accent     = this._setColorPalette(config.accent, this._palette);
-    //   const other      = this._setColorPalette(config.other, this._palette);
-    //   const scheme     = config.schemes[config.colorScheme];
-    //   const variables  = config.variables;
-    //   let getAllColors = {
-    //     primary,
-    //     accent,
-    //     other,
-    //     ...variables
-    //   };
-    //   getAllColors = mergeDeep(getAllColors, scheme);
-
-    //   // this.createShades(primary.color[shade]);
-
-    //   /* tslint:disable */
-    //   this.AlyleUI = {
-    //     currentTheme: config,
-    //     palette: parsePalette(getAllColors)
-    //   }
-    //   /* tslint:enable */
-    //   this.primary.next(primary);
-    //   this.accent.next(accent);
-    //   this.other.next(other);
-    //   this.scheme.next(scheme);
-    //   this.palette.next(getAllColors);
-    //   this.updateOthersStyles();
-    // }
-  }
+  setTheme(config: ThemeVariables) { }
 
   /**
    * get color of `string` in palette

@@ -2,47 +2,23 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
-  ContentChildren,
-  Directive,
   ElementRef,
-  EventEmitter,
-  forwardRef,
   HostBinding,
-  HostListener,
   Input,
-  ModuleWithProviders,
-  NgModule,
   OnChanges,
-  OnDestroy,
-  OnInit,
   Optional,
-  Output,
-  QueryList,
   Renderer2,
   SimpleChanges,
-  ViewChild,
-  NgZone
-  } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+  ViewChild
+} from '@angular/core';
 import {
   IsBoolean,
   LyTheme,
   Platform,
-  themeProperty,
   StyleData
-  } from '@alyle/ui';
-import { LyIconButton } from '@alyle/ui/icon-button';
+} from '@alyle/ui';
 import { LyRipple, Ripple } from '@alyle/ui/ripple';
 import { LyShadowService } from '@alyle/ui/shadow';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject,
-  Subscriber,
-  Subscription
-} from 'rxjs';
 import { LyButtonService } from './button.service';
 import { LyBgAndColor } from '@alyle/ui';
 
@@ -68,7 +44,6 @@ export class LyButton implements AfterViewInit, OnChanges {
   public _disabled = false;
   nativeElement: HTMLElement;
   private _rippleSensitive = false;
-  @HostBinding('style.box-shadow') boxShadow: any;
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
@@ -92,7 +67,7 @@ export class LyButton implements AfterViewInit, OnChanges {
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private shadowService: LyShadowService,
-    public theme: LyTheme,
+    private theme: LyTheme,
     private buttonService: LyButtonService,
     @Optional() private bgAndColor: LyBgAndColor
   ) {
