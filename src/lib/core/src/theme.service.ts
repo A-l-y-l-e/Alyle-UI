@@ -8,7 +8,6 @@ import { BehaviorSubject } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform } from './platform';
 import { LyRootService } from './root.service';
-import { isDevMode } from '@angular/core';
 
 let classId: number;
 if (Platform.isBrowser) {
