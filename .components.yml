@@ -1,5 +1,4 @@
 "@alyle/ui": core
-"@alyle/ui/shadow": shadow
 "@alyle/ui/ripple": ripple
 "@alyle/ui/icon-button": icon-button
 "@alyle/ui/button": button

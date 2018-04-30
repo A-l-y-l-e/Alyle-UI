@@ -8,7 +8,7 @@ const chroma = _chroma;
 @Injectable(ProvidedInTheme)
 export class LyShadowService {
   /** Default elevation */
-  elevation: string | number = 1;
+  elevation = 1;
   constructor(
     private theme: LyTheme
   ) { }
@@ -16,7 +16,7 @@ export class LyShadowService {
   /** demo: setShadow(...[elevation, color]...) */
   setShadow(elementRef: ElementRef, renderer: Renderer2, val: [number, string], oldStyleData?: StyleData) {
     let keys: string;
-    let elevation: string | number;
+    let elevation: number;
     let color = 'colorShadow';
     if (val) {
       keys = val.join();
@@ -26,13 +26,11 @@ export class LyShadowService {
       keys = `${this.elevation}`;
       elevation = this.elevation;
     }
-    const newStyleData = this.theme.createStyle(`ly-${keys}`, this._css.bind(this), elevation, color);
+    const newStyleData = this.theme.createStyle(`ly-${keys}`, () => {
+      return `${shadowBuilder(elevation, this.theme.colorOf(color))}`;
+    });
     this.theme.updateClass(elementRef, renderer, newStyleData, oldStyleData);
     return newStyleData;
-  }
-
-  private _css(elevation: number, color: string = '') {
-    return `${shadowBuilder(elevation, this.theme.colorOf(color))}`;
   }
 }
 

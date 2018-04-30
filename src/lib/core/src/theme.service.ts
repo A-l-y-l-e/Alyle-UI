@@ -28,7 +28,7 @@ export class LyTheme {
   Id: string;
   private themeContainer;
   themeName: string;
-  _styleMap = new Map<string, StyleData>();
+  _styleMap: Map<string, StyleData>;
   AlyleUI: {currentTheme: ThemeVariables, palette: any};
   primary: Subject<any>;
   accent: Subject<any>;
@@ -87,34 +87,40 @@ export class LyTheme {
       return colorName;
     }
   }
-
-  createStyle(_id: string, fn: (...arg) => string, ...arg) {
-    const newKey = `${this.Id}_${createKeyOf(_id)}`;
+  createStyle(key: string, fn: () => string, prefix = 'ly_', forRoot?: boolean) {
+    let mapStyles: Map<string, StyleData>;
+    let newKey = createKeyOf(key);
+    if (forRoot) {
+      mapStyles = this.rootService.themeRootMap;
+    } else {
+      mapStyles = this._styleMap;
+      newKey += this.Id;
+    }
     const styleData: StyleData = {key: newKey, value: {
-      fn: fn,
-      arg: arg
+      fn: fn
     }} as any;
-    if (this._styleMap.has(newKey)) {
-      return this._styleMap.get(newKey);
+    if (mapStyles.has(newKey)) {
+      return mapStyles.get(newKey);
     } else if (Platform.isBrowser && (styleData.styleContainer = window.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
-      this._styleMap.set(newKey, null);
+      // this._styleMap.set(newKey, null);
       styleData.styleContent = styleData.styleContainer.innerHTML;
       styleData.id = styleData.styleContainer.dataset.id;
       // this.rootService.renderer.removeChild(this.document.head, styleData.styleContainer);
-      this._styleMap.set(newKey, styleData);
+      // this._styleMap.set(newKey, styleData);
     } else {
       classId++;
-      styleData.id = `ly_${classId.toString(36)}`;
+      styleData.id = `${prefix}${classId.toString(36)}`;
       styleData.styleContainer = this.rootService.renderer.createElement('style');
-      styleData.styleContent = this.rootService.renderer.createText(`.${styleData.id}{${fn(...arg)}}`);
+      styleData.styleContent = this.rootService.renderer.createText(`.${styleData.id}{${fn()}}`);
       this.rootService.renderer.appendChild(styleData.styleContainer, styleData.styleContent);
       this.rootService.renderer.appendChild(this.rootService.rootContainer, styleData.styleContainer);
-      this._styleMap.set(newKey, styleData);
+      // this._styleMap.set(newKey, styleData);
       if (!Platform.isBrowser) {
         this.rootService.renderer.setAttribute(styleData.styleContainer, `data-key`, `${newKey}`);
         this.rootService.renderer.setAttribute(styleData.styleContainer, `data-id`, `${styleData.id}`);
       }
     }
+    mapStyles.set(newKey, styleData);
     return styleData;
   }
   /** #style */

@@ -9,6 +9,7 @@ import { StyleData } from './theme.service';
 export class LyRootService {
   rootContainer: ElementRef;
   renderer: Renderer2;
+  themeRootMap = new Map<string, StyleData>();
   private themeMap = new Map<string, Map<string, StyleData>>();
   private themes = new Map<string, {[key: string]: any}>();
   constructor(

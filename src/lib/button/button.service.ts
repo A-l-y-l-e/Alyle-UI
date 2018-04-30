@@ -15,24 +15,28 @@ import {
 
 @Injectable(ProvidedInTheme)
 export class LyButtonService {
-
+  private rootClassName: string;
+  private themeClassName: string;
   constructor(
     @Inject(PALETTE) private palette,
-    private theme: LyTheme,
-    @Inject(DOCUMENT) document
-  ) { }
+    private theme: LyTheme
+  ) {
+    this.rootClassName = this.theme.createStyle('rbtn', this.rootStyle.bind(this), undefined, true).id;
+    this.themeClassName = this.theme.createStyle('btn', this.style.bind(this)).id;
+  }
 
   applyTheme(renderer: Renderer2, elementRef: ElementRef) {
-    const style = this.theme.createStyle('button', this.style.bind(this));
-    renderer.addClass(elementRef.nativeElement, style.id);
+    renderer.addClass(elementRef.nativeElement, this.rootClassName);
+    renderer.addClass(elementRef.nativeElement, this.themeClassName);
   }
 
   private style() {
     return `font-family:${this.palette.typography.fontFamily};` +
     `font-size: ${this.palette.typography.fontSize}px;` +
-    `color: ${this.palette.text.default};` +
-    /** TODO: add this for Root */
-    '-webkit-tap-highlight-color: transparent;' +
+    `color: ${this.palette.text.default};`;
+  }
+  private rootStyle() {
+    return '-webkit-tap-highlight-color: transparent;' +
     'padding: 0;' +
     'background-color: rgba(0, 0, 0, 0);' +
     'border: none;' +
