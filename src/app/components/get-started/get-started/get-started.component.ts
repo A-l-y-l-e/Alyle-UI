@@ -24,15 +24,15 @@ import { AlyleUIModule } from '@alyle/ui';
 /** Responsive module (Optional) */
 import { ResponsiveModule } from '@alyle/ui/responsive';
 
-/** Custom theme */
-const configAlyleUI = ${this.toJson(this.palette)};
 @NgModule({
   ...
   imports: [
     ...
     BrowserAnimationsModule,
-    AlyleUIModule.forRoot(configAlyleUI),
-    ResponsiveModule
+    AlyleUIModule.forRoot({
+      /** You can put any other name */
+      name: 'default'
+    }),
     ...
   ],
   ...
@@ -44,6 +44,8 @@ export class AppModule { }`;
   }
 
   toJson(val: any) {
+    // /** Custom theme */
+    // const configAlyleUI = ${this.toJson(this.palette)};
     val = JSON.stringify(val, undefined, 2);
     val = (<string>val).replace(/\s\s\"/g, '  ');
     return (<string>val).replace(/\"\:\s/g, ': ');

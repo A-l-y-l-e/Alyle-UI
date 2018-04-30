@@ -3,9 +3,9 @@ import {
   LyRootService,
   LyTheme,
   PALETTE,
-  ProvidedInTheme
+  ProvidedInTheme,
+  ThemeVariables
 } from '@alyle/ui';
-import { DOCUMENT } from '@angular/common';
 import {
   ElementRef,
   Inject,
@@ -18,7 +18,7 @@ export class LyButtonService {
   private rootClassName: string;
   private themeClassName: string;
   constructor(
-    @Inject(PALETTE) private palette,
+    @Inject(PALETTE) private palette: ThemeVariables,
     private theme: LyTheme
   ) {
     this.rootClassName = this.theme.createStyle('rbtn', this.rootStyle.bind(this), undefined, true).id;
@@ -57,6 +57,8 @@ export class LyButtonService {
     '-ms-user-select: none;' +
     'user-select: none;' +
     'display: inline-block;' +
+    'text-decoration-line: none;' +
+    '-webkit-text-decoration-line: none;' +
     'transition: all 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;';
   }
 

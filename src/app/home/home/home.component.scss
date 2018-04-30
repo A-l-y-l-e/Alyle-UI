@@ -12,5 +12,8 @@
   min-height: calc(100vh - 64px);
   .intra-content {
     padding-bottom: 64px;
+    button {
+      margin: 8px;
+    }
   }
 }
