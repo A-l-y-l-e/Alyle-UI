@@ -41,6 +41,9 @@ export const defaultTheme: ThemeVariables = {
       divider: 'rgba(0, 0, 0, 0.12)',
       colorShadow: '#777777',
       /** Components variables */
+      button: {
+        disabled: 'rgba(0, 0, 0, 0.11)'
+      },
       bar: '#f5f5f5',
       input: {
         label: 'rgba(0, 0, 0, 0.4)',
@@ -58,7 +61,6 @@ export const defaultTheme: ThemeVariables = {
         default: '#303030',
         paper: '#424242'
       },
-      bar: '#212121',
       text: {
         default: '#fff',
         primary: '#fff',
@@ -66,6 +68,11 @@ export const defaultTheme: ThemeVariables = {
         disabled: 'rgba(255, 255, 255, 0.50)',
         hint: 'rgba(255, 255, 255, 0.50)'
       },
+      /** Components variables */
+      button: {
+        disabled: 'rgba(255, 255, 255, 0.30)'
+      },
+      bar: '#212121',
       divider: 'rgba(255, 255, 255, 0.12)',
       colorShadow: '#777777',
       input: {

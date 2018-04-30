@@ -9,13 +9,17 @@ import {
   Optional,
   Renderer2,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  Inject
 } from '@angular/core';
 import {
   IsBoolean,
   LyTheme,
   Platform,
-  StyleData
+  StyleData,
+  toBoolean,
+  PALETTE,
+  ThemeVariables
 } from '@alyle/ui';
 import { LyRipple, Ripple } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
@@ -24,10 +28,6 @@ import { LyBgColorAndRaised } from '@alyle/ui';
 @Component({
   selector: '[ly-button], ly-button',
   styleUrls: ['button.style.scss'],
-  // tslint:disable-next-line:use-host-property-decorator
-  host: {
-    '[class._disabled]': '_disabled',
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <div class="ly-button-ripple" lyRipple [lyRippleSensitive]="rippleSensitive"></div>
@@ -41,23 +41,36 @@ import { LyBgColorAndRaised } from '@alyle/ui';
 export class LyButton implements AfterViewInit {
   public _disabled = false;
   private _rippleSensitive = false;
+  private _disabledClassName: string;
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
   }
   set rippleSensitive(value: boolean) {
-    if (value === false) {
-      this._rippleSensitive = false;
-    } else {
-      this._rippleSensitive = true;
-    }
+    this._rippleSensitive = toBoolean(value);
   }
 
   @ViewChild(LyRipple) ripple: LyRipple;
 
+  @Input()
+  set disabled(value: boolean) {
+    const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
+    this._disabledClassName = this.theme.createStyle(`btn${key}`, this.disableStyle.bind(this)).id;
+    this._disabled = toBoolean(value);
+    if (this._disabled) {
+      this.renderer.addClass(this.elementRef.nativeElement, this._disabledClassName);
+    } else {
+      this.renderer.removeClass(this.elementRef.nativeElement, this._disabledClassName);
+    }
+  }
+  get disabled() {
+    return this._disabled;
+  }
+
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
+    @Inject(PALETTE) private palette: ThemeVariables,
     private theme: LyTheme,
     private buttonService: LyButtonService,
     @Optional() private bgAndColor: LyBgColorAndRaised
@@ -75,6 +88,18 @@ export class LyButton implements AfterViewInit {
     if (Platform.isBrowser) {
      this.ripple.setTriggerElement(this.elementRef.nativeElement);
     }
+  }
+
+  private disableStyle() {
+    let style =
+    `box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;` +
+    `cursor: default;` +
+    `color: ${this.palette.text.disabled} !important;` +
+    `pointer-events: none;`;
+    if (this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg)) {
+      style += `background-color: ${this.palette.button.disabled} !important;`;
+    }
+    return style;
   }
 
 }

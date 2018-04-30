@@ -4,7 +4,8 @@ import {
   LyTheme,
   PALETTE,
   ProvidedInTheme,
-  ThemeVariables
+  ThemeVariables,
+  StyleData
 } from '@alyle/ui';
 import {
   ElementRef,

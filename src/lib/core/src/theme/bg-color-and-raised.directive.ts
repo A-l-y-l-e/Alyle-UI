@@ -39,6 +39,7 @@ export class LyBgColorAndRaised implements OnChanges {
     return this._cssColor;
   }
   @Input() set raised(val: boolean) { this._raisedState = toBoolean(val); }
+  get raised() { return this._raisedState; }
   @Input() elevation = 3;
   constructor(
     private theme: LyTheme,

@@ -93,12 +93,6 @@ a:host .ly-button-content:first-letter { text-decoration-line: underline }
   padding-right: 16px;
 }
 
-:host._disabled {
-  pointer-events: none !important;
-  background: rgba(0, 0, 0, 0.14) !important;
-  color: rgba(0, 0, 0, 0.48) !important;
-  box-shadow: none !important;
-}
 :host /deep/ [type="file"] {
   position: absolute;
   top: 0;
@@ -112,13 +106,4 @@ a:host .ly-button-content:first-letter { text-decoration-line: underline }
 
 :host:-moz-focusring::-moz-focus-inner {
   border-color: transparent;
-}
-
-::ng-deep {
-  [ly-button~="disabled"]{
-    pointer-events: none;
-    background: transparent;
-    color: #000;
-    opacity: .26;
-  }
 }
