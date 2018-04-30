@@ -62,7 +62,6 @@ export class LyButton implements AfterViewInit {
     private buttonService: LyButtonService,
     @Optional() private bgAndColor: LyBgColorAndRaised
   ) {
-    console.log('button', theme.Id);
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
