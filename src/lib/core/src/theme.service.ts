@@ -159,6 +159,7 @@ export class LyTheme {
       const newStyle = this.createStyle('body', () => {
         return `background:${this.palette.background.default};` +
         `color:${this.palette.text.default};` +
+        `font-family:${this.palette.typography.fontFamily};` +
         `margin:0;`;
       });
       this.rootService.renderer.addClass(this.document.body, newStyle.id);
