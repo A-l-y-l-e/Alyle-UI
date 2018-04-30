@@ -31,8 +31,8 @@ const elevations = [
   [0, 11, 14, -7, 0, 23, 36, 3, 0, 9, 44, 8],
   [0, 11, 15, -7, 0, 24, 38, 3, 0, 9, 46, 8]
 ];
-export function shadowBuilder(elevation: number | string, color?: string) {
-  const Color = chroma(color || '#000');
+export function shadowBuilder(elevation: number = 1, color = '#000') {
+  const Color = chroma(color);
   const colors = [
     Color.alpha(shadowKeyUmbraOpacity).css(),
     Color.alpha(shadowKeyPenumbraOpacity).css(),
@@ -40,6 +40,6 @@ export function shadowBuilder(elevation: number | string, color?: string) {
   ];
   const e = elevations[elevation];
   // tslint:disable-next-line:max-line-length
-  return `box-shadow:${e[0]}px ${e[1]}px ${e[2]}px ${e[3]}px ${colors[0]},${e[4]}px ${e[5]}px ${e[6]}px ${e[7]}px ${colors[1]},${e[8]}px ${e[9]}px ${e[10]}px ${e[11]}px ${colors[2]}`;
+  return `box-shadow:${e[0]}px ${e[1]}px ${e[2]}px ${e[3]}px ${colors[0]},${e[4]}px ${e[5]}px ${e[6]}px ${e[7]}px ${colors[1]},${e[8]}px ${e[9]}px ${e[10]}px ${e[11]}px ${colors[2]};`;
 
 }

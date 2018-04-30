@@ -5,11 +5,10 @@ import {
   OnInit,
   OnDestroy,
   HostBinding,
-  Optional
-}                       from '@angular/core';
-import { Subscription } from 'rxjs';
-import { LyTheme, LyBgAndColor }      from '@alyle/ui';
-import { CommonModule } from '@angular/common';
+  Optional,
+  ChangeDetectionStrategy
+} from '@angular/core';
+import { LyBgColorAndRaised } from '@alyle/ui';
 
 @Directive({
   selector: 'ly-toolbar-item',
@@ -20,43 +19,15 @@ export class ToolbarItem {}
   selector: 'ly-toolbar',
   template: '<ng-content></ng-content>',
   styleUrls: ['./toolbar.scss', './toolbar-item.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LyToolbar implements OnInit, OnDestroy {
-  /** Set default bg */
-  private _bg = 'primary';
-
-  /** set default color */
-  private _color = 'main';
-
-  private _subscription: Subscription;
-  @HostBinding('style.background') styleBackground: string;
-  @HostBinding('style.color') styleColor: string;
+export class LyToolbar {
 
   constructor(
-    public theme: LyTheme,
-    @Optional() bgAndColor: LyBgAndColor
+    @Optional() bgAndColor: LyBgColorAndRaised
   ) {
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
   }
-
-  @Input()
-  set toolbarBg(val: string) {
-    // this._bg = val;
-  }
-
-  @Input()
-  set toolbarColor(val: string) {
-    // this._color = val;
-  }
-
-  ngOnInit() { }
-
-  ngOnDestroy() {
-    if (this._subscription) {
-      this._subscription.unsubscribe();
-    }
-  }
 }
-

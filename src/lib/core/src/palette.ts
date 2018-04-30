@@ -9,7 +9,6 @@ import { BehaviorSubject }    from 'rxjs';
 import { ThemeVariables } from './alyle-config-service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { defaultTheme } from './default-theme';
-import { gradStop } from './gradstop';
 import { LyTheme } from './theme.service';
 
 export interface Scheme {

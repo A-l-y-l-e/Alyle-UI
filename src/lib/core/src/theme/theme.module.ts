@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { LyBgAndColor } from './bg-and-color.directive';
+import { LyBgColorAndRaised } from './bg-color-and-raised.directive';
 import { LY_GLOBAL_CONTRAST } from './contrast';
+import { LyNewRaised } from './raised.directive';
 
 @NgModule({
-  declarations: [LyBgAndColor],
-  exports: [LyBgAndColor],
+  declarations: [LyBgColorAndRaised, LyNewRaised],
+  exports: [LyBgColorAndRaised, LyNewRaised],
   providers: [
     { provide: LY_GLOBAL_CONTRAST, useValue: false }
   ]

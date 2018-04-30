@@ -5,7 +5,6 @@ import { LyTabsModule } from '@alyle/ui/tabs';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { LySvgModule } from '@alyle/ui/svg';
-import { LyShadowModule } from '@alyle/ui/shadow';
 
 import { PrismModule } from '../core/prism/prism.module';
 
@@ -16,7 +15,6 @@ import { ViewComponent } from './view/view.component';
     CommonModule,
     PrismModule,
     LyTabsModule,
-    LyShadowModule,
     LyToolbarModule,
     LyIconButtonModule,
     LySvgModule,

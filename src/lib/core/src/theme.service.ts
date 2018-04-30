@@ -3,7 +3,6 @@ import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
 import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES, PALETTE } from './alyle-config-service';
 import { Subject } from 'rxjs';
-import { gradStop } from './gradstop';
 import { BehaviorSubject } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform } from './platform';
@@ -38,20 +37,6 @@ export class LyTheme {
   typography: Subject<any>;
   shade: Subject<string>;
 
-  private _setColorPalette(key: string, palette: any): any {
-    let colors = palette[key];
-    if (colors) {
-      if (Object.keys(colors).length <= 3) {
-        /**get color of first item  */
-        const shades = this.createShades(colors[(Object.keys(colors)[0])]);
-        colors = mergeDeep(colors, shades);
-      }
-      return colors;
-    } else {
-      throw new Error(`${key} not found in palette`);
-    }
-  }
-
   /** get class name of color */
   getClassKey(color: string, of: 'color' | 'bg') {
     return `${this.Id}-${color.replace(':', '__')}-${of}`;
@@ -79,32 +64,6 @@ export class LyTheme {
     this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
     this.setCoreStyle();
-  }
-
-  private _gradStop(colors: string[], stops) {
-    return gradStop({
-      stops: stops,
-      inputFormat: 'hex',
-      colorArray: colors
-    });
-  }
-  private _getGrad(color: string) {
-    const toBlack = this._gradStop(['#ffffff', color], 11);
-    const toWhite = this._gradStop([color, '#000000'], 33);
-    toBlack.pop();
-    return toBlack.concat(toWhite);
-  }
-
-  createShades(color: string) {
-    const ar = this._getGrad(color);
-    const shades = {};
-    ar.forEach((a, b) => {
-      const shadeId = `${b * 100 / 2}`;
-      if (b <= 20) {
-        shades[shadeId] = a;
-      }
-    });
-    return shades;
   }
 
   setTheme(config: ThemeVariables) { }

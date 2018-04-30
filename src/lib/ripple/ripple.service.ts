@@ -22,10 +22,10 @@ export class LyRippleService {
       `border-radius: 100%;` +
       `-webkit-transform: scale(0);` +
       `transform: scale(0);` +
-      `-webkit-transition: opacity ease,-webkit-transform cubic-bezier(.4,0,.2,1);` +
-      `transition: opacity ease,-webkit-transform cubic-bezier(.4,0,.2,1);` +
-      `transition: opacity ease,transform cubic-bezier(.4,0,.2,1);` +
-      `transition: opacity ease,transform cubic-bezier(.4,0,.2,1),-webkit-transform cubic-bezier(.4,0,.2,1);` +
+      `-webkit-transition: opacity ease,-webkit-transform cubic-bezier(0,0,0.2,1);` +
+      `transition: opacity ease,-webkit-transform cubic-bezier(0,0,0.2,1);` +
+      `transition: opacity ease,transform cubic-bezier(0,0,0.2,1);` +
+      `transition: opacity ease,transform cubic-bezier(0,0,0.2,1),-webkit-transform cubic-bezier(0,0,0.2,1);` +
       `pointer-events: none;`;
     });
     this.stylesData.push(host, rippleContainer);

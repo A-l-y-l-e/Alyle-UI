@@ -8,7 +8,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ButtonExample04Component implements OnInit {
   color = '#841dab';
-  raisedState: any;
+  raisedState = false;
   constructor() {
     this.changeColor();
   }

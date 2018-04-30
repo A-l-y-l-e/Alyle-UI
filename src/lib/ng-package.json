@@ -7,7 +7,6 @@
     "umdModuleIds": {
       "rxjs": "Rx",
       "@alyle/ui": "ly",
-      "@alyle/ui/shadow": "ly.shadow",
       "@alyle/ui/ripple": "ly.ripple",
       "@alyle/ui/icon-button": "ly.iconButton",
       "@alyle/ui/button": "ly.button",

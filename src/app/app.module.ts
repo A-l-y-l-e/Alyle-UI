@@ -16,7 +16,6 @@ import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { AlyleUIModule } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
-import { LyShadowModule } from '@alyle/ui/shadow';
 import { LyRippleModule } from '@alyle/ui/ripple';
 
 import { AppComponent } from './app.component';
@@ -129,7 +128,6 @@ const contrast = '#fff';
     ThemeModule,
     LyButtonModule,
     LyDrawerModule,
-    LyShadowModule,
     LyToolbarModule,
     LyIconButtonModule,
     LySvgModule,
