@@ -5,6 +5,6 @@
   elevation: 4
 </div>
 <h2>Elevations</h2>
-<div raised [elevation]="elevation" class="box" *ngFor="let elevation of elevations">
+<div [newRaised]="[elevation]" class="box" *ngFor="let elevation of elevations">
   elevation: {{ elevation }}
 </div>

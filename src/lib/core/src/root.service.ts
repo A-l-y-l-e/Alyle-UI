@@ -36,4 +36,8 @@ export class LyRootService {
     };
   }
 
+  getTheme(name: string) {
+    return this.themes.get(name);
+  }
+
 }

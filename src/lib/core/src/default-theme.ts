@@ -51,6 +51,10 @@ export const defaultTheme: ThemeVariables = {
       },
     },
     dark: {
+      accent: {
+        default: '#9c27b0',
+        contrast
+      },
       /** Deprecated */
       colorText: '#fff',
       /** Deprecated */
@@ -74,7 +78,7 @@ export const defaultTheme: ThemeVariables = {
       },
       bar: '#212121',
       divider: 'rgba(255, 255, 255, 0.12)',
-      colorShadow: '#777777',
+      colorShadow: 'rgba(0, 0, 0, 1)',
       input: {
         label: 'rgba(255, 255, 255, 0.4)',
         underline: 'rgba(255, 255, 255, 0.11)'

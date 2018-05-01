@@ -5,6 +5,7 @@ import { SkipSelf } from '@angular/core';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
 import { PALETTE, ThemeVariables } from '../alyle-config-service';
+import { LyShadowService } from './shadow.service';
 
 @Directive({
   selector: '[bg], [color], [raised]'
@@ -12,32 +13,30 @@ import { PALETTE, ThemeVariables } from '../alyle-config-service';
 export class LyBgColorAndRaised implements OnChanges {
   private _raisedState: boolean;
   private _currentStyleData: StyleData;
-  private _cssBg: string;
-  private _cssColor: string;
   private _bg: string;
   private _color: string;
   @Input()
   set bg(value: string) {
     this._bg = value;
-    this._cssBg = this.theme.colorOf(value);
+    // this._cssBg = this.theme.colorOf(value);
   }
   get bg() {
     return this._bg;
   }
-  get cssBg() {
-    return this._cssBg;
-  }
+  // get cssBg() {
+  //   return this._cssBg;
+  // }
   @Input()
   set color(value: string) {
     this._color = value;
-    this._cssColor = this.theme.colorOf(value);
+    // this._cssColor = this.theme.colorOf(value);
   }
   get color() {
     return this._color;
   }
-  get cssColor() {
-    return this._cssColor;
-  }
+  // get cssColor() {
+  //   return this._cssColor;
+  // }
   @Input() set raised(val: boolean) { this._raisedState = toBoolean(val); }
   get raised() { return this._raisedState; }
   @Input() elevation = 3;
@@ -45,6 +44,7 @@ export class LyBgColorAndRaised implements OnChanges {
     private theme: LyTheme,
     private renderer: Renderer2,
     private elementRef: ElementRef,
+    private shadow: LyShadowService,
     @Inject(PALETTE) private palette: ThemeVariables,
     @Inject(LY_GLOBAL_CONTRAST) @Optional() private contrast: boolean
   ) { }
@@ -69,7 +69,7 @@ export class LyBgColorAndRaised implements OnChanges {
 
       /** Create style */
       newStyleData = this.theme.createStyle(`ly-${key}`, () => {
-        const _color = this._cssBg || this.cssColor;
+        const _color = this.theme.colorOf(this.bg || this.color);
         let styles = `${changeKey[1]}:${_color};`;
         if (this._raisedState) {
           styles += shadowBuilder(this.elevation, _color);
@@ -91,18 +91,21 @@ export class LyBgColorAndRaised implements OnChanges {
     this._currentStyleData = newStyleData;
   }
   private contrastStyle() {
+    const cssBg = this.theme.colorOf(this.bg);
     this._color = this.theme.colorOf(`${this.bg}:contrast`);
-    let styles = `background:${this._cssBg};color:${this._color};`;
+    let styles = `background:${cssBg};color:${this._color};`;
     if (this._raisedState) {
-      styles += shadowBuilder(this.elevation, this._cssBg);
+      styles += shadowBuilder(this.elevation, cssBg);
     }
     return styles;
   }
 
   private bgColorStyle() {
-    let styles = `background:${this._cssBg};color:${this._cssColor};`;
+    const cssBg = this.theme.colorOf(this.bg);
+    const cssColor = this.theme.colorOf(this.color);
+    let styles = `background:${cssBg};color:${cssColor};`;
     if (this._raisedState) {
-      styles += shadowBuilder(this.elevation, this._cssBg);
+      styles += shadowBuilder(this.elevation, cssBg);
     }
     return styles;
   }

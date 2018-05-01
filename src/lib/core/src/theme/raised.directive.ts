@@ -67,7 +67,7 @@ export class LyNewRaised {
   /** Default raised  */
   @Input()
   set newRaised(value: [number, string]) {
-    this.currentStyleData = this.shadow.setShadow(this.elementRef, this.renderer, [ value[0] || this.elevation, value[1] || this.palette.colorShadow ], this.currentStyleData);
+    this.currentStyleData = this.shadow.setShadow(this.elementRef, this.renderer, [ value[0] || this.elevation, value[1] || 'colorShadow' ], this.currentStyleData);
   }
 
   constructor(

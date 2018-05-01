@@ -66,7 +66,12 @@ export class LyTheme {
     this.setCoreStyle();
   }
 
-  setTheme(config: ThemeVariables) { }
+  setScheme(scheme: string) {
+    const newPalette = this.rootService.getTheme(this.palette.name);
+    Object.assign(this.palette, newPalette, ...newPalette.colorSchemes[scheme], { scheme });
+    console.log(this.palette);
+    this.updateOthersStyles();
+  }
 
   /**
    * get color of `string` in palette

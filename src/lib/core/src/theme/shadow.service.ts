@@ -19,14 +19,14 @@ export class LyShadowService {
     let elevation: number;
     let color = 'colorShadow';
     if (val) {
-      keys = val.join();
+      keys = val.join('');
       elevation = val[0];
       color = val[1] || color;
     } else {
-      keys = `${this.elevation}`;
+      keys = `${this.elevation}${color}`;
       elevation = this.elevation;
     }
-    const newStyleData = this.theme.createStyle(`ly-${keys}`, () => {
+    const newStyleData = this.theme.createStyle(`shadow${keys}`, () => {
       return `${shadowBuilder(elevation, this.theme.colorOf(color))}`;
     });
     this.theme.updateClass(elementRef, renderer, newStyleData, oldStyleData);

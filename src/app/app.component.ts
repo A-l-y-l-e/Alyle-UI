@@ -23,6 +23,7 @@ export class AppComponent {
   angularVersion = VERSION;
   version: string = AUI_VERSION;
   routeState = false;
+  mode = true;
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -67,7 +68,9 @@ export class AppComponent {
       }
     ];
   }
-  changePrimary(color: ThemeVariables) {
-    this.theme.setTheme(color);
+  changeScheme() {
+    this.mode = !this.mode;
+    const scheme = this.mode ? 'light' : 'dark';
+    this.theme.setScheme(scheme);
   }
 }
