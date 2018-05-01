@@ -55,7 +55,7 @@
     "codelyzer": "4.2.1",
     "del": "^3.0.0",
     "firebase-tools": "^3.17.4",
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^6.0.0",
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
