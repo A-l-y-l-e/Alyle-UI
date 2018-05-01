@@ -32,7 +32,7 @@ import {
   FormGroupDirective,
   NgControl, NgForm,
 } from '@angular/forms';
-import { ThemeModule, IsBoolean, toBoolean } from '@alyle/ui';
+import { LyCommonModule, IsBoolean, toBoolean } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
@@ -241,7 +241,7 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ThemeModule],
+  imports: [CommonModule, FormsModule, LyCommonModule],
   exports: [LyInput, LyInputContents, LyFieldDirective, LyInputCommon, LyDefault, LyLabel, LyPlaceholder],
   declarations: [LyInput, LyInputContents, LyFieldDirective, LyInputCommon, LyDefault, LyLabel, LyPlaceholder],
 })

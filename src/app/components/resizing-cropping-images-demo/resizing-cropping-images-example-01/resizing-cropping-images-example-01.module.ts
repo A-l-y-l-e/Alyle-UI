@@ -8,13 +8,13 @@ import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { LyInputModule } from '@alyle/ui/input';
 
 import { ResizingCroppingImagesExample01Component } from './resizing-cropping-images-example-01.component';
-import { ThemeModule } from '@alyle/ui';
+import { LyCommonModule } from '@alyle/ui';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    ThemeModule,
+    LyCommonModule,
     LyResizingCroppingImageModule,
     LyButtonModule,
     LyIconButtonModule,

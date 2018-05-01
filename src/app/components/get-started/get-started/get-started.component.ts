@@ -13,16 +13,12 @@ export class GetStartedComponent implements OnInit {
     public theme: LyTheme,
     @Inject(PALETTE) private palette: LyTheme
   ) {
-    this.code = `
-...
+    this.code = `...
 /** Important for Animations */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-/** Core module */
-import { AlyleUIModule } from '@alyle/ui';
-
-/** Responsive module (Optional) */
-import { ResponsiveModule } from '@alyle/ui/responsive';
+/** Core module & common module */
+import { AlyleUIModule, LyCommonModule } from '@alyle/ui';
 
 @NgModule({
   ...
@@ -33,6 +29,7 @@ import { ResponsiveModule } from '@alyle/ui/responsive';
       /** You can put any other name */
       name: 'default'
     }),
+    LyCommonModule
     ...
   ],
   ...

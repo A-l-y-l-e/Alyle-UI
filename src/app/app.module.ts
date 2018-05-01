@@ -23,7 +23,7 @@ import { AppRoutingModule } from './app.routing';
 import { RoutesAppService } from './components/routes-app.service';
 import { PrismModule } from './core/prism/prism.module';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
-import { ThemeModule } from '@alyle/ui';
+import { LyCommonModule } from '@alyle/ui';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -125,7 +125,7 @@ const contrast = '#fff';
       //   },
       // }
     ),
-    ThemeModule,
+    LyCommonModule,
     LyButtonModule,
     LyDrawerModule,
     LyToolbarModule,

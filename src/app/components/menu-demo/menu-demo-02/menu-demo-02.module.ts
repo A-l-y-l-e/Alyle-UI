@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ThemeModule } from '@alyle/ui';
+import { LyCommonModule } from '@alyle/ui';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyButtonModule } from '@alyle/ui/button';
@@ -14,7 +14,7 @@ import { MenuDemo02Component } from './menu-demo-02.component';
   imports: [
     CommonModule,
     FormsModule,
-    ThemeModule,
+    LyCommonModule,
     LyMenuModule,
     LyToolbarModule,
     LyButtonModule,

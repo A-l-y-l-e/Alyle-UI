@@ -11,4 +11,4 @@ import { LyNewRaised } from './raised.directive';
     { provide: LY_GLOBAL_CONTRAST, useValue: false }
   ]
 })
-export class ThemeModule { }
+export class LyCommonModule { }

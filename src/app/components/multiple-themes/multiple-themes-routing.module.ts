@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '', component: MultipleThemesComponent,
     children: [
       {
-        path: 'child-theme', loadChildren: './multiple-themes-demo-01/child-theme/child-theme.module#ChildThemeModule'
+        path: 'child-theme', loadChildren: './multiple-themes-demo-01/child-theme/child-theme.module#ChildLyCommonModule'
       }
     ],
   }

@@ -5,12 +5,12 @@ import { LyButtonModule } from '@alyle/ui/button';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
-import { ThemeModule } from '@alyle/ui';
+import { LyCommonModule } from '@alyle/ui';
 
 @NgModule({
   imports: [
     CommonModule,
-    ThemeModule,
+    LyCommonModule,
     LyButtonModule,
     HomeRoutingModule
   ],

@@ -32,7 +32,6 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/hammerjs/hammer.min.js",
               "node_modules/node-vibrant/dist/vibrant.min.js"
             ]
           },
@@ -86,7 +85,6 @@
               }
             ],
             "scripts": [
-              "./node_modules/hammerjs/hammer.min.js",
               "./node_modules/node-vibrant/dist/vibrant.min.js"
             ],
             "assets": [

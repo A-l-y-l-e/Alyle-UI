@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { ThemeModule } from '@alyle/ui';
+import { LyCommonModule } from '@alyle/ui';
 import { LySvgModule } from '@alyle/ui/svg';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -11,7 +11,7 @@ import { ButtonExample03Component } from './button-example-03.component';
 @NgModule({
   imports: [
     CommonModule,
-    ThemeModule,
+    LyCommonModule,
     LyButtonModule,
     LyIconButtonModule,
     LySvgModule

@@ -1,13 +1,13 @@
-import { ChildThemeModule } from './child-theme.module';
+import { ChildLyCommonModule } from './child-theme.module';
 
-describe('ChildThemeModule', () => {
-  let childThemeModule: ChildThemeModule;
+describe('ChildLyCommonModule', () => {
+  let childLyCommonModule: ChildLyCommonModule;
 
   beforeEach(() => {
-    childThemeModule = new ChildThemeModule();
+    childLyCommonModule = new ChildLyCommonModule();
   });
 
   it('should create an instance', () => {
-    expect(childThemeModule).toBeTruthy();
+    expect(childLyCommonModule).toBeTruthy();
   });
 });
