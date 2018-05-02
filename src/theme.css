@@ -12,7 +12,6 @@ pre[class*="language-"] {
   overflow: auto;
 }
 code[class*="language-"], pre[class*="language-"] {
-  color: rgba(0, 23, 31, 0.7);
   background: none;
   font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   text-align: left;

@@ -45,7 +45,6 @@ export class LyBgColorAndRaised implements OnChanges {
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private shadow: LyShadowService,
-    @Inject(PALETTE) private palette: ThemeVariables,
     @Inject(LY_GLOBAL_CONTRAST) @Optional() private contrast: boolean
   ) { }
 
@@ -81,9 +80,9 @@ export class LyBgColorAndRaised implements OnChanges {
       key = `raised${this._raisedState}${this.elevation}`;
       newStyleData = this.theme.createStyle(`ly-${key}`, () => {
         if (this._raisedState) {
-          return shadowBuilder(this.elevation, this.palette.colorShadow);
+          return shadowBuilder(this.elevation, this.theme.palette.colorShadow);
         } else {
-          return shadowBuilder(0, this.palette.colorShadow);
+          return shadowBuilder(0, this.theme.palette.colorShadow);
         }
       });
     }

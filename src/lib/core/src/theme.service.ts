@@ -36,6 +36,7 @@ export class LyTheme {
   scheme: Subject<any>;
   typography: Subject<any>;
   shade: Subject<string>;
+  palette: ThemeVariables;
 
   /** get class name of color */
   getClassKey(color: string, of: 'color' | 'bg') {
@@ -44,15 +45,14 @@ export class LyTheme {
 
   constructor(
     @Inject(THEME_VARIABLES) config: ThemeVariables,
-    @Inject(THEME_VARIABLES) @Host() @Self() @Optional() parent: ThemeVariables,
     @Inject(IS_CORE_THEME) private isRoot: boolean,
-    @Inject(PALETTE) private palette: ThemeVariables,
+    // @Inject(PALETTE) private palette: ThemeVariables,
     @Inject(DOCUMENT) private document,
     private rootService: LyRootService
   ) {
-    const newConfig = mergeDeep(mergeDeep(defaultTheme, parent), config);
+    const newConfig = mergeDeep(defaultTheme, config);
 
-    const _palette = {...newConfig};
+    const _palette = newConfig;
     const theme = this.rootService.registerTheme(_palette);
 
     /** check if exist scheme */
@@ -60,15 +60,17 @@ export class LyTheme {
       throw new Error(`scheme ${theme.palette.scheme} not exist in ${theme.palette.name}`);
     }
     this._styleMap = theme.map;
-    Object.assign(palette, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
+    // Object.assign(this.palette, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
+    this.palette = Object.assign({}, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
     this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
     this.setCoreStyle();
   }
 
   setScheme(scheme: string) {
-    const newPalette = this.rootService.getTheme(this.palette.name);
-    Object.assign(this.palette, newPalette, ...newPalette.colorSchemes[scheme], { scheme });
+    const newPalette = Object.assign({}, this.rootService.getTheme(this.palette.name));
+    // Object.assign(this.palette, newPalette, ...newPalette.colorSchemes[scheme], { scheme });
+    this.palette = Object.assign({}, newPalette, ...newPalette.colorSchemes[scheme], { scheme });
     console.log(this.palette);
     this.updateOthersStyles();
   }
@@ -94,12 +96,13 @@ export class LyTheme {
   }
   createStyle(key: string, fn: () => string, prefix = 'ly_', forRoot?: boolean) {
     let mapStyles: Map<string, StyleData>;
-    let newKey = createKeyOf(key);
+    let newKey;
     if (forRoot) {
+      newKey = createKeyOf(key);
       mapStyles = this.rootService.themeRootMap;
     } else {
       mapStyles = this._styleMap;
-      newKey += this.Id;
+      newKey = createKeyOf(key + this.Id + this.palette.scheme);
     }
     const styleData: StyleData = {key: newKey, value: {
       fn: fn
@@ -236,9 +239,18 @@ export function parsePalette(palette: { [key: string]: any }) {
 }
 
 function createKeyOf(str: string) {
-  return str.split('').map((char) => {
-      return char.charCodeAt(0).toString(36);
-  }).join('');
+  // return str.split('').map((char) => {
+  //     return char.charCodeAt(0).toString(36);
+  // }).join('');
+  let hash = 0;
+  const len = str.length;
+  for (let i = 0; i < len; i++) {
+    // tslint:disable-next-line:no-bitwise
+    hash  = ((hash << 5) - hash) + str.charCodeAt(i);
+    // tslint:disable-next-line:no-bitwise
+    hash |= 0; // to 32bit integer
+  }
+  return hash.toString(36);
 }
 
 function get(obj: Object, path: any): string {

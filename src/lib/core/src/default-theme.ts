@@ -21,15 +21,12 @@ export const defaultTheme: ThemeVariables = {
   },
   colorSchemes: {
     light: {
-      /** Deprecated */
-      colorText: 'rgba(0, 0, 0, 0.87)',
-      /** Deprecated */
-      bgText: '#f9f9f9',
-      /** Deprecated */
-      main: '#fff',
       background: {
-        default: '#fafafa',
-        paper: '#fff'
+        default: '#fafafa', // secondary
+        primary: '#fff',
+        secondary: '#fafafa',
+        tertiary: '#f5f5f5',
+        base: '#E0E0E0'
       },
       text: {
         default: 'rgba(0, 0, 0, 0.87)',
@@ -51,19 +48,24 @@ export const defaultTheme: ThemeVariables = {
       },
     },
     dark: {
-      accent: {
+      primary: {
         default: '#9c27b0',
         contrast
       },
-      /** Deprecated */
-      colorText: '#fff',
-      /** Deprecated */
-      bgText: '#303030',
-      /** Deprecated */
-      main: '#383838',
+      accent: {
+        default: '#ffeb3b',
+        contrast: 'rgba(0, 0, 0, 0.87)'
+      },
+      warn: {
+        default: '#f44336',
+        contrast: 'rgba(0, 0, 0, 0.87)'
+      },
       background: {
-        default: '#303030',
-        paper: '#424242'
+        default: '#303030', // secondary
+        primary: '#424242',
+        secondary: '#303030',
+        tertiary: '#212121',
+        base: '#0E0E0E'
       },
       text: {
         default: '#fff',

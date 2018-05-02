@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { LyTheme, PALETTE } from '@alyle/ui';
+import { LyTheme } from '@alyle/ui';
 
 @Component({
   selector: 'app-get-started',
@@ -10,8 +10,7 @@ import { LyTheme, PALETTE } from '@alyle/ui';
 export class GetStartedComponent implements OnInit {
   code: string;
   constructor(
-    public theme: LyTheme,
-    @Inject(PALETTE) private palette: LyTheme
+    public theme: LyTheme
   ) {
     this.code = `...
 /** Important for Animations */

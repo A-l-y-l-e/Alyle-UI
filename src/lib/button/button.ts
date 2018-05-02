@@ -70,7 +70,6 @@ export class LyButton implements AfterViewInit {
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    @Inject(PALETTE) private palette: ThemeVariables,
     private theme: LyTheme,
     private buttonService: LyButtonService,
     @Optional() private bgAndColor: LyBgColorAndRaised
@@ -94,10 +93,10 @@ export class LyButton implements AfterViewInit {
     let style =
     `box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;` +
     `cursor: default;` +
-    `color: ${this.palette.text.disabled} !important;` +
+    `color: ${this.theme.palette.text.disabled} !important;` +
     `pointer-events: none;`;
     if (this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg)) {
-      style += `background-color: ${this.palette.button.disabled} !important;`;
+      style += `background-color: ${this.theme.palette.button.disabled} !important;`;
     }
     return style;
   }

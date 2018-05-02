@@ -61,19 +61,21 @@ const contrast = '#fff';
         purple_light: 'rgb(106, 36, 212)',
         colorSchemes: {
           light: {
-            shadow: 'rgba(0, 0, 0, 0.1111)',
+            shadow: '#c0c0c0',
+            codeColor: 'rgba(0, 23, 31, 0.7)',
             myColor: 'pink',
             others: {
               custom: '#00bcd4'
             }
           },
           dark: {
-            shadow: '#252525',
+            shadow: 'rgba(0, 0, 0, 1)',
+            codeColor: '#efefef',
             myColor: 'teal'
           },
           myCustomScheme: {
             background: {
-              paper: '#000',
+              primary: '#000',
             },
             text: {
               default: '#fff'

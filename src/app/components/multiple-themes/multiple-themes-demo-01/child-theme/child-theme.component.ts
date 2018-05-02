@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LyTheme, PALETTE } from '@alyle/ui';
+import { LyTheme } from '@alyle/ui';
 import { Inject } from '@angular/core';
 
 @Component({
@@ -10,8 +10,7 @@ import { Inject } from '@angular/core';
 export class ChildThemeComponent implements OnInit {
 
   constructor(
-    public theme: LyTheme,
-    @Inject(PALETTE) public palette: any
+    public theme: LyTheme
   ) { }
 
   ngOnInit() {

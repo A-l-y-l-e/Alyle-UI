@@ -19,7 +19,6 @@ export class LyButtonService {
   private rootClassName: string;
   private themeClassName: string;
   constructor(
-    @Inject(PALETTE) private palette: ThemeVariables,
     private theme: LyTheme
   ) {
     this.rootClassName = this.theme.createStyle('rbtn', this.rootStyle.bind(this), undefined, true).id;
@@ -32,9 +31,9 @@ export class LyButtonService {
   }
 
   private style() {
-    return `font-family:${this.palette.typography.fontFamily};` +
-    `font-size: ${this.palette.typography.fontSize}px;` +
-    `color: ${this.palette.text.default};`;
+    return `font-family:${this.theme.palette.typography.fontFamily};` +
+    `font-size: ${this.theme.palette.typography.fontSize}px;` +
+    `color: ${this.theme.palette.text.default};`;
   }
   private rootStyle() {
     return '-webkit-tap-highlight-color: transparent;' +
