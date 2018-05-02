@@ -13,12 +13,13 @@ import {
   OnDestroy,
   HostBinding,
   HostListener,
-  isDevMode
+  isDevMode,
+  Optional
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
-import { Platform } from '@alyle/ui';
+import { Platform, LyBgColorAndRaised } from '@alyle/ui';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -67,8 +68,12 @@ export class LyIconButton implements OnInit, AfterViewInit, OnChanges, OnDestroy
   }
 
   constructor(
-    public elementRef: ElementRef
+    public elementRef: ElementRef,
+    @Optional() private bgAndColor: LyBgColorAndRaised
   ) {
+    if (bgAndColor) {
+      bgAndColor.setAutoContrast();
+    }
     if (Platform.isBrowser) {
       this.nativeElement = this.elementRef.nativeElement;
       if (isDevMode && this.nativeElement.nodeName.toLowerCase() === 'ly-icon-button') {

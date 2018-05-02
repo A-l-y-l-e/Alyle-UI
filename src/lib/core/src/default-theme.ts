@@ -41,6 +41,9 @@ export const defaultTheme: ThemeVariables = {
       button: {
         disabled: 'rgba(0, 0, 0, 0.11)'
       },
+      radio: {
+        radioOuterCircle: 'rgba(0, 0, 0, 0.43)'
+      },
       bar: '#f5f5f5',
       input: {
         label: 'rgba(0, 0, 0, 0.4)',
@@ -77,6 +80,9 @@ export const defaultTheme: ThemeVariables = {
       /** Components variables */
       button: {
         disabled: 'rgba(255, 255, 255, 0.30)'
+      },
+      radio: {
+        radioOuterCircle: 'rgba(255, 255, 255, 0.55)'
       },
       bar: '#212121',
       divider: 'rgba(255, 255, 255, 0.12)',

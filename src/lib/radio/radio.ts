@@ -61,7 +61,7 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
   _color = 'accent';
 
   @Input() value = null;
-  @Input('radioColor') radioColor = 'accent';
+  @Input() radioColor = 'accent';
   @ContentChildren(forwardRef(() => LyRadio)) _radios: QueryList<LyRadio>;
 
   private changed = new Array<(value: any) => void>();
@@ -138,13 +138,13 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
       lyRippleRadius="containerSize"
     >
       <div class="ly-radio-icon-container">
-      <div class="ly-radio-outer-circle" color="colorText"></div>
+      <div class="ly-radio-outer-circle" color="radio:radioOuterCircle"></div>
       <div class="ly-radio-inner-circle"></div>
       </div>
     </div>
     <div
     class="ly-radio-label-content"
-    color="colorText">
+    color="text">
       <ng-content></ng-content>
     </div>
   </label>
