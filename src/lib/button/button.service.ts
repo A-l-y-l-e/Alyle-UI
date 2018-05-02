@@ -2,7 +2,6 @@ import {
   AlyleUIModule,
   LyRootService,
   LyTheme,
-  PALETTE,
   ProvidedInTheme,
   ThemeVariables,
   StyleData

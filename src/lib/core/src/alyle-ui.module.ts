@@ -6,13 +6,12 @@ import {
 } from '@angular/core';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { LyTheme } from './theme.service';
-import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES, PALETTE } from './alyle-config-service';
+import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES } from './alyle-config-service';
 
 export function provideTheme(theme: ThemeVariables): any[] {
   return [
     [ LyTheme ],
     { provide: THEME_VARIABLES, useValue: theme },
-    { provide: PALETTE, useValue: {} },
   ];
 }
 

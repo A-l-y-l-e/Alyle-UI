@@ -1,7 +1,7 @@
 import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector, SkipSelf, Host, Self } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
-import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES, PALETTE } from './alyle-config-service';
+import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES } from './alyle-config-service';
 import { Subject } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -46,7 +46,6 @@ export class LyTheme {
   constructor(
     @Inject(THEME_VARIABLES) config: ThemeVariables,
     @Inject(IS_CORE_THEME) private isRoot: boolean,
-    // @Inject(PALETTE) private palette: ThemeVariables,
     @Inject(DOCUMENT) private document,
     private rootService: LyRootService
   ) {
@@ -69,9 +68,7 @@ export class LyTheme {
 
   setScheme(scheme: string) {
     const newPalette = Object.assign({}, this.rootService.getTheme(this.palette.name));
-    // Object.assign(this.palette, newPalette, ...newPalette.colorSchemes[scheme], { scheme });
     this.palette = Object.assign({}, newPalette, ...newPalette.colorSchemes[scheme], { scheme });
-    console.log(this.palette);
     this.updateOthersStyles();
   }
 

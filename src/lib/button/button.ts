@@ -18,7 +18,6 @@ import {
   Platform,
   StyleData,
   toBoolean,
-  PALETTE,
   ThemeVariables
 } from '@alyle/ui';
 import { LyRipple, Ripple } from '@alyle/ui/ripple';

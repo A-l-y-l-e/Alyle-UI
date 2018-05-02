@@ -3,7 +3,6 @@ import { StyleData } from './theme.service';
 
 export const THEME_VARIABLES = new InjectionToken<PaletteVariables>('ly.theme.variables');
 export const IS_CORE_THEME = new InjectionToken<true>('ly.is.root');
-export const PALETTE = new InjectionToken<ThemeVariables>('ly.palette');
 
 export class StyleMap {
   private styleMap: Map<string, StyleData>;

@@ -4,7 +4,7 @@ import { LyTheme, StyleData } from '../theme.service';
 import { SkipSelf } from '@angular/core';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
-import { PALETTE, ThemeVariables } from '../alyle-config-service';
+import { ThemeVariables } from '../alyle-config-service';
 import { LyShadowService } from './shadow.service';
 
 @Directive({

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { LyTheme, PALETTE, PaletteVariables as LyPalette } from '@alyle/ui';
+import { LyTheme, PaletteVariables as LyPalette } from '@alyle/ui';
 
 @Component({
   selector: 'multiple-themes-demo-01',
