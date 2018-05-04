@@ -44,6 +44,12 @@ export const defaultTheme: ThemeVariables = {
       radio: {
         radioOuterCircle: 'rgba(0, 0, 0, 0.43)'
       },
+      menu: {
+        bg: '#fff' // background>primary
+      },
+      drawer: {
+        backdrop: 'rgba(0,0,0,.6)'
+      },
       bar: '#f5f5f5',
       input: {
         label: 'rgba(0, 0, 0, 0.4)',
@@ -83,6 +89,12 @@ export const defaultTheme: ThemeVariables = {
       },
       radio: {
         radioOuterCircle: 'rgba(255, 255, 255, 0.55)'
+      },
+      menu: {
+        bg: '#424242' // background>primary
+      },
+      drawer: {
+        backdrop: 'rgba(49,49,49,.6)'
       },
       bar: '#212121',
       divider: 'rgba(255, 255, 255, 0.12)',

@@ -97,7 +97,7 @@ export class LyTemplateMenu implements OnInit, OnDestroy {
   <ng-template>
     <div #_menu [@menu]="menuAnimationsState"
       class="ly-menu"
-      bg="main"
+      bg="menu:bg"
       color="colorText"
       [style.transform-origin]="targetOrigin"
       [style.top.px]="rootStyle.top + rootStylePosition.top"

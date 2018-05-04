@@ -1,9 +1,7 @@
 import { Directive, ElementRef, Injectable, ChangeDetectorRef, NgZone, HostBinding, Renderer2, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Platform } from '../platform/index';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, pipe } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 export enum FocusStatus {
   /**mouse and/or touch*/

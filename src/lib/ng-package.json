@@ -4,9 +4,10 @@
   "deleteDestPath": false,
   "lib": {
     "entryFile": "public_api.ts",
+    "umdId": "ly.{id}",
+    "amdId": "ly.{id}",
     "umdModuleIds": {
-      "rxjs": "Rx",
-      "@alyle/ui": "ly",
+      "@alyle/ui": "ly.core",
       "@alyle/ui/ripple": "ly.ripple",
       "@alyle/ui/icon-button": "ly.iconButton",
       "@alyle/ui/button": "ly.button",
@@ -23,7 +24,9 @@
       "@alyle/ui/tabs": "ly.tabs",
       "@alyle/ui/toolbar": "ly.toolbar",
       "@alyle/ui/drawer": "ly.drawer",
-      "chroma-js": "chroma"
+      "chroma-js": "chroma",
+      "rxjs": "rxjs",
+      "rxjs/operators": "rxjs.operators"
     }
   }
 }

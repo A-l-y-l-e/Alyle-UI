@@ -6,7 +6,7 @@ import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-br
 import { LyResizingCroppingImages } from './resizing-cropping-images';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, LyCommonModule],
+  imports: [CommonModule, FormsModule],
   exports: [LyResizingCroppingImages],
   declarations: [LyResizingCroppingImages]
 })

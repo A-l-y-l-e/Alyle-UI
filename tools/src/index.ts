@@ -3,8 +3,9 @@ import { writeFileSync, removeSync, copySync, pathExists, pathExistsSync } from 
 import { spawnSync } from 'child_process';
 import { join } from 'path';
 import * as jsyaml from 'js-yaml';
+import * as camelCase from 'camelcase';
 
-const version = `1.7.0-beta.0`;
+const version = `1.7.0-beta.7`;
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
 
@@ -24,6 +25,17 @@ copySync(dirLib, dist);
 copySync(`${dirLib}/README.md`, `${process.cwd()}/dist/@alyle/ui/README.md`);
 copySync(`${dirLib}/.npmignore`, `${process.cwd()}/dist/@alyle/ui/.npmignore`);
 
+/** Update version */
+
+function updateVersion() {
+  const fileName = `${dist}/core/src/version.ts`;
+  const file = readFileSync(fileName, 'utf8').toString()
+  .replace(/{\sversion\s}/g, version);
+  writeFileSync(fileName, file, 'utf8');
+}
+
+updateVersion();
+
 components.forEach(lib => {
   const item = statSync(`${dirLib}/${lib.path}`);
   [
@@ -33,6 +45,7 @@ components.forEach(lib => {
   ].forEach(pkgConfig => {
     const file = readFileSync(`${dist}/${pkgConfig}`, 'utf8').toString()
     .replace(/{name}/g, lib.pkgName)
+    .replace(/{id}/g, camelCase(lib.path))
     .replace(/{version}/g, version);
     writeFileSync(`${dist}/${lib.path}/${pkgConfig}`, file, 'utf8');
     angularCliConfig['projects'][lib.pkgName] = {

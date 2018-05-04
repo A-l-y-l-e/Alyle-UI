@@ -97,7 +97,7 @@ export class LyDrawerContent {
   [class.ly-drawer-bg-opened]="isDrawerBg | async"
   [class.ly-drawer-bg-closed]="!(isDrawerBg | async)"
   [@in]="isDrawerBg | async" class="ly-drawer-bg"
-  bg="colorText"
+  bg="drawer:backdrop"
   (click)="_closeAllSideAndPush()"
   ></div>
   `,
@@ -161,7 +161,7 @@ export class LyDrawer implements OnChanges {
   @HostBinding('attr.position') @Input() position: 'top' | 'bottom' | 'left' | 'right' | 'rtl' = 'left';
   @HostBinding('class.ly-show-drawer') isShowDrawer: boolean;
   @HostBinding('@visibilityChanged')
-  private isOpenDrawer: 'open' | 'close' | boolean = false;
+  isOpenDrawer: 'open' | 'close' | boolean = false;
   @HostBinding('class.ly-drawer-hidden') private isDrawerHidden = true;
   @Input()
   @IsBoolean()

@@ -2,8 +2,7 @@ import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, 
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
 import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES } from './alyle-config-service';
-import { Subject } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform } from './platform';
 import { LyRootService } from './root.service';
