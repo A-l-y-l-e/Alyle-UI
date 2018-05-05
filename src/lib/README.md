@@ -1,7 +1,7 @@
 # Alyle UI
 
-[![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)]()
-[![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)]()
+[![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/alyle-ui)
+[![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/alyle-ui)
 
 
 ## Description
@@ -14,7 +14,7 @@ Minimal Design, a package of components for Angular
 
 ## Install Alyle UI
 
-npm install alyle-ui --save
+`npm i @alyle/ui -s` or `yarn add @alyle/ui`
 
 ## Import
 
