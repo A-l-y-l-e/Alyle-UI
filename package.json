@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "ng serve --port 1111",
-    "build": "yarn build:browser && yarn build:server && prerender",
+    "build": "yarn build:tools && yarn build:browser && yarn build:server && prerender && yarn sw:update",
     "build:browser": "ng build alyle-ui --prod --build-optimizer",
     "build:server": "ng run alyle-ui:server",
     "build:package": "rm -rf .tmp dist build && gulp build:package",
@@ -16,9 +16,11 @@
     "deploy": "firebase deploy",
     "functions:install": "cd functions && yarn install",
     "mv:index.html": "mkdir functions/dist && mv dist/index.html functions/dist/",
-    "build:@alyle/ui": "rm -rf dist/tools && tsc -p tools && node dist/tools",
+    "build:tools": "rm -rf dist/tools && tsc -p tools",
+    "build:@alyle/ui": "node dist/tools",
     "build:universal": "rm -rf dist/server && tsc -p server && yarn build:browser && yarn build:server",
-    "serve:universal": "node dist/server"
+    "serve:universal": "node dist/server",
+    "sw:update": "rm -rf dist/tools && tsc -p tools && node dist/tools/update-sw"
   },
   "private": true,
   "dependencies": {
