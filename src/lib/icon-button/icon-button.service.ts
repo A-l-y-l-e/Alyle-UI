@@ -32,11 +32,11 @@ export class LyIconButtonService {
       `display:inline-flex;` +
       `border-radius:100%;`;
       return style;
-    }, undefined, true).id;
+    }, true).id;
     this.classes.content = theme.createStyle('icnBtnCntnt', () => {
       return `display:flex;` +
       `justify-content:inherit;` +
       `align-items:inherit;`;
-    }, undefined, true).id;
+    }, true).id;
   }
 }

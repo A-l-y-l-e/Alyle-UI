@@ -1,4 +1,4 @@
-import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector, SkipSelf, Host, Self } from '@angular/core';
+import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, ApplicationRef, ViewContainerRef, Injector, SkipSelf, Host, Self, isDevMode } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
 import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES } from './alyle-config-service';
@@ -7,11 +7,14 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform } from './platform';
 import { LyRootService } from './root.service';
 
-let classId: number;
+let classId = 0;
+
+/** Prefix for className */
+let prefix: string;
 if (Platform.isBrowser) {
-  classId = 0;
+  prefix = 'ly_';
 } else {
-  classId = -9e9;
+  prefix = 'l';
 }
 
 /**
@@ -90,7 +93,7 @@ export class LyTheme {
       return colorName;
     }
   }
-  createStyle(key: string, fn: () => string, prefix = 'ly_', forRoot?: boolean) {
+  createStyle(key: string, fn: () => string, forRoot?: boolean) {
     let mapStyles: Map<string, StyleData>;
     let newKey;
     if (forRoot) {
@@ -106,19 +109,19 @@ export class LyTheme {
     if (mapStyles.has(newKey)) {
       return mapStyles.get(newKey);
     } else if (Platform.isBrowser && (styleData.styleContainer = window.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
-      // this._styleMap.set(newKey, null);
       styleData.styleContent = styleData.styleContainer.innerHTML;
       styleData.id = styleData.styleContainer.dataset.id;
-      // this.rootService.renderer.removeChild(this.document.head, styleData.styleContainer);
-      // this._styleMap.set(newKey, styleData);
     } else {
       classId++;
       styleData.id = `${prefix}${classId.toString(36)}`;
       styleData.styleContainer = this.rootService.renderer.createElement('style');
-      styleData.styleContent = this.rootService.renderer.createText(`.${styleData.id}{${fn()}}`);
+      let content = `.${styleData.id}{${fn()}}`;
+      if (isDevMode) {
+        content = `/** key: ${key} */\n${content}`;
+      }
+      styleData.styleContent = this.rootService.renderer.createText(content);
       this.rootService.renderer.appendChild(styleData.styleContainer, styleData.styleContent);
       this.rootService.renderer.appendChild(this.rootService.rootContainer, styleData.styleContainer);
-      // this._styleMap.set(newKey, styleData);
       if (!Platform.isBrowser) {
         this.rootService.renderer.setAttribute(styleData.styleContainer, `data-key`, `${newKey}`);
         this.rootService.renderer.setAttribute(styleData.styleContainer, `data-id`, `${styleData.id}`);
@@ -127,13 +130,9 @@ export class LyTheme {
     mapStyles.set(newKey, styleData);
     return styleData;
   }
-  /** #style */
-  createClassContent(value: string, id: string) {
-    return `.${id}{${value}}`;
-  }
 
   /** #style */
-  createStyleContent(styleData: StyleData) {
+  private createStyleContent(styleData: StyleData) {
     return this.rootService.renderer.createText(`.${styleData.id}{${styleData.value.fn(...styleData.value.arg)}}`);
   }
 

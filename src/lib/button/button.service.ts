@@ -17,7 +17,7 @@ export class LyButtonService {
   constructor(
     private theme: LyTheme
   ) {
-    this.rootClassName = this.theme.createStyle('rbtn', rootStyle, undefined, true).id;
+    this.rootClassName = this.theme.createStyle('rbtn', rootStyle, true).id;
     this.themeClassName = this.theme.createStyle('btn', this.style.bind(this)).id;
   }
 

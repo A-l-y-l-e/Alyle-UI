@@ -8,7 +8,8 @@
         "/favicon.ico",
         "/index.html",
         "/*.css",
-        "/*.js"
+        "/*.js",
+        "/*.woff2"
       ]
     }
   }, {
@@ -18,6 +19,9 @@
     "resources": {
       "files": [
         "/assets/**"
+      ],
+      "urls": [
+        "https://fonts.googleapis.com/**"
       ]
     }
   }]

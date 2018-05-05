@@ -7,7 +7,7 @@ import { StyleData } from './theme.service';
   providedIn: 'root'
 })
 export class LyRootService {
-  rootContainer: ElementRef;
+  rootContainer: HTMLElement;
   renderer: Renderer2;
   themeRootMap = new Map<string, StyleData>();
   private themeMap = new Map<string, Map<string, StyleData>>();
