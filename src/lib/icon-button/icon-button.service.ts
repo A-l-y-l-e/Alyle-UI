@@ -23,6 +23,8 @@ export class LyIconButtonService {
       `background:transparent;` +
       `border:0;` +
       `padding:0;` +
+      `width: ${theme.palette.iconButton.size};` +
+      `height: ${theme.palette.iconButton.size};` +
       `cursor:pointer;` +
       `outline:none;` +
       `box-sizing:border-box;` +

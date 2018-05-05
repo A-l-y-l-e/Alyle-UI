@@ -104,5 +104,8 @@ export const defaultTheme: ThemeVariables = {
         underline: 'rgba(255, 255, 255, 0.11)'
       }
     }
-  }
+  },
+  iconButton: {
+    size: '48px'
+  },
 };
