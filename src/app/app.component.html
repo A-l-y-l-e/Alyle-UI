@@ -1,28 +1,26 @@
-<div class="header" raised [elevation]="6">
-  <ly-toolbar bg="primary">
-    <button ly-icon-button color="#fff" (click)="nav.toggle()" class="material-icons">
-      menu
+<ly-toolbar class="header" bg="primary" [newRaised]="[6]">
+  <button ly-icon-button color="#fff" (click)="nav.toggle()" class="material-icons">
+    menu
+  </button>
+  <ly-toolbar-item class="logo">
+    <button ly-button sensitive color="#fff" [routerLink]="['./']">
+      Alyle UI
+      <span class="version">v{{ version }}</span>
     </button>
-    <ly-toolbar-item class="logo">
-      <button ly-button sensitive color="#fff" [routerLink]="['./']">
-        Alyle UI
-        <span class="version">v{{ version }}</span>
-      </button>
-    </ly-toolbar-item>
-    <div [style.flex]="1"></div>
-    <ly-toolbar-item class="av">
-      Angular version
-      <div class="version">{{ angularVersion.full }}</div>
-    </ly-toolbar-item>
-    <button ly-icon-button size="24px" (click)="changeScheme()">
-      <ly-svg *ngIf="mode" class="force-color" size="40px" src="assets/svg/theme/sun"></ly-svg>
-      <ly-svg *ngIf="!mode" class="force-color" size="40px" src="assets/svg/theme/moon"></ly-svg>
-    </button>
-    <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="24px" (click)="nav.toggle()">
-        <ly-svg size="24px" src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
-      </a>
-  </ly-toolbar>
-</div>
+  </ly-toolbar-item>
+  <div [style.flex]="1"></div>
+  <ly-toolbar-item class="av">
+    Angular version
+    <div class="version">{{ angularVersion.full }}</div>
+  </ly-toolbar-item>
+  <button ly-icon-button size="24px" (click)="changeScheme()">
+    <ly-svg *ngIf="mode" class="force-color" size="40px" src="assets/svg/theme/sun"></ly-svg>
+    <ly-svg *ngIf="!mode" class="force-color" size="40px" src="assets/svg/theme/moon"></ly-svg>
+  </button>
+  <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="24px" (click)="nav.toggle()">
+      <ly-svg size="24px" src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
+    </a>
+</ly-toolbar>
 <ly-drawer-container class="drawer">
   <ly-drawer [config]="{width: 200}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items">
     <div *ngFor="let category of routesComponents">

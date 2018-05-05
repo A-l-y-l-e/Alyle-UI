@@ -1,9 +1,6 @@
 import {
-  AlyleUIModule,
-  LyRootService,
   LyTheme,
   ProvidedInTheme,
-  ThemeVariables,
   StyleData
 } from '@alyle/ui';
 import {

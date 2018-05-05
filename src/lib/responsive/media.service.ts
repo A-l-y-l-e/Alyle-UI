@@ -1,10 +1,7 @@
 import { Platform } from '@alyle/ui';
 import { Injectable, NgZone, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { fromEvent } from 'rxjs';
-import { merge, of } from 'rxjs';
+import { Observable ,  fromEvent ,  merge, of ,  Subscription } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 import { MediaQueries } from './media-queries';
 import { PLATFORM_ID, APP_ID } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';

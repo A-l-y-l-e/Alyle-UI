@@ -37,7 +37,8 @@
       "@alyle/ui/input": ["lib/input"],
       "@alyle/ui/header-pagination": ["lib/header-pagination"],
       "@alyle/ui/resizing-cropping-images": ["lib/resizing-cropping-images"],
-      "@alyle/ui/date-picker": ["lib/date-picker"]
+      "@alyle/ui/date-picker": ["lib/date-picker"],
+      "@env/*": ["environments/*"]
     }
   },
   "exclude": [

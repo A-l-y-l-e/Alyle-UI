@@ -1,4 +1,3 @@
-import { environment } from '../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
@@ -24,6 +23,7 @@ import { RoutesAppService } from './components/routes-app.service';
 import { PrismModule } from './core/prism/prism.module';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { LyCommonModule } from '@alyle/ui';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -55,8 +55,6 @@ const contrast = '#fff';
         accent: {
           default: '#ff4081'
         },
-        // accent: 'pink',
-        // other: 'red',
         scheme: 'light',
         purple_light: 'rgb(106, 36, 212)',
         colorSchemes: {
@@ -83,49 +81,6 @@ const contrast = '#fff';
           }
         }
       }
-      // ,
-      // {
-      //   pink: {
-      //     default: '#ff4b73',
-      //     contrast
-      //   },
-      //   pinkLight: {
-      //     default: '#f50057',
-      //     contrast
-      //   },
-      //   cyan: {
-      //     default: '#00bcd4',
-      //     contrast
-      //   },
-      //   red: {
-      //     default: '#FF5252',
-      //     contrast
-      //   },
-      //   amber: {
-      //     default: '#ffc107',
-      //     contrast
-      //   },
-      //   teal: {
-      //     default: '#009688',
-      //     contrast
-      //   },
-      //   purple: {
-      //     default: '#ce30c9',
-      //     contrast
-      //   },
-      //   lightBlue: {
-      //     default: '#03A9F4',
-      //     contrast
-      //   },
-      //   blue: {
-      //     default: '#2196F3',
-      //     contrast
-      //   },
-      //   deepOrange: {
-      //     default: '#FF5722',
-      //     contrast
-      //   },
-      // }
     ),
     LyCommonModule,
     LyButtonModule,
@@ -136,7 +91,8 @@ const contrast = '#fff';
     LyMenuModule,
     LyRippleModule,
     PrismModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [RoutesAppService, {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig}],
   bootstrap: [AppComponent]

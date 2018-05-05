@@ -25,10 +25,7 @@ import {
   ElementRef
 } from '@angular/core';
 import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
-import { Subscription } from 'rxjs';
-import { Subject } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Subscription ,  Subject ,  BehaviorSubject ,  Observable } from 'rxjs';
 import {
   NgModel,
   NG_VALUE_ACCESSOR,

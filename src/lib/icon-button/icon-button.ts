@@ -14,19 +14,20 @@ import {
   HostBinding,
   HostListener,
   isDevMode,
-  Optional
+  Optional,
+  Renderer2
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
 import { Platform, LyBgColorAndRaised } from '@alyle/ui';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { LyIconButtonService } from './icon-button.service';
 
 @Component({
-  selector: 'button[ly-icon-button], a[ly-icon-button], span[ly-icon-button], ly-icon-button',
-  styleUrls: ['icon-button.style.scss'],
+  selector: 'button[ly-icon-button], a[ly-icon-button], span[ly-icon-button]',
   template: `
-  <div class="ly-icon-button-content" [ngStyle]="iconStyle"
+  <div class="{{ iconButtonService.classes.content }}" [ngStyle]="iconStyle"
   lyRipple
   lyRippleSensitive
   lyRippleCentered
@@ -69,16 +70,16 @@ export class LyIconButton implements OnInit, AfterViewInit, OnChanges, OnDestroy
 
   constructor(
     public elementRef: ElementRef,
-    @Optional() private bgAndColor: LyBgColorAndRaised
+    renderer: Renderer2,
+    @Optional() private bgAndColor: LyBgColorAndRaised,
+    public iconButtonService: LyIconButtonService
   ) {
+    renderer.addClass(elementRef.nativeElement, iconButtonService.classes.host);
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
     if (Platform.isBrowser) {
       this.nativeElement = this.elementRef.nativeElement;
-      if (isDevMode && this.nativeElement.nodeName.toLowerCase() === 'ly-icon-button') {
-        console.log(`ly-icon-button:`, this.nativeElement, ` is deprecated instead use button[ly-icon-button]`);
-      }
     }
   }
   assignStyle(newStyle) {
