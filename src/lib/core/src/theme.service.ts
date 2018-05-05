@@ -2,7 +2,6 @@ import { Injectable, Optional, Renderer2, RendererFactory2, Inject, ElementRef, 
 import { DOCUMENT } from '@angular/common';
 import { defaultTheme } from './default-theme';
 import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES } from './alyle-config-service';
-import { BehaviorSubject, Subject } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform } from './platform';
 import { LyRootService } from './root.service';
@@ -32,12 +31,6 @@ export class LyTheme {
   themeName: string;
   _styleMap: Map<string, StyleData>;
   AlyleUI: {currentTheme: ThemeVariables, palette: any};
-  primary: Subject<any>;
-  accent: Subject<any>;
-  other: Subject<any>;
-  scheme: Subject<any>;
-  typography: Subject<any>;
-  shade: Subject<string>;
   palette: ThemeVariables;
 
   /** get class name of color */

@@ -114,7 +114,7 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/cli@^6.0.0-rc.10":
+"@angular/cli@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-6.0.0.tgz#346b356775ddf8cdb8a9a5095b0663878eca3486"
   dependencies:
@@ -189,6 +189,15 @@
     domino "^2.0.1"
     tslib "^1.9.0"
     xhr2 "^0.1.4"
+
+"@angular/pwa@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@angular/pwa/-/pwa-0.6.0.tgz#0ed5ad5a6eb6117ec424a153258c371d764397b9"
+  dependencies:
+    "@angular-devkit/core" "0.6.0"
+    "@angular-devkit/schematics" "0.6.0"
+    "@schematics/angular" "0.6.0"
+    typescript "~2.6.2"
 
 "@angular/router@^6.0.0":
   version "6.0.0"
@@ -295,13 +304,13 @@
     tree-kill "^1.0.0"
     webpack-sources "^1.1.0"
 
-"@nguniversal/express-engine@^6.0.0-rc.2":
+"@nguniversal/express-engine@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-6.0.0.tgz#f8bc7b5e940afb1ffdbdcb1bb22665d440ea0b0b"
 
-"@nguniversal/module-map-ngfactory-loader@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@nguniversal/module-map-ngfactory-loader/-/module-map-ngfactory-loader-5.0.0.tgz#359c9283d942ed7806647e66c29ee2e9fb90df6e"
+"@nguniversal/module-map-ngfactory-loader@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@nguniversal/module-map-ngfactory-loader/-/module-map-ngfactory-loader-6.0.0.tgz#0dd26c3f1c26d17bb21b8dfc0da53d82b7f11028"
 
 "@schematics/angular@0.6.0":
   version "0.6.0"
@@ -7463,7 +7472,7 @@ rxjs@^5.5.0, rxjs@^5.5.6:
   dependencies:
     symbol-observable "1.0.1"
 
-rxjs@^6.0.0:
+rxjs@^6.0.0, rxjs@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.1.0.tgz#833447de4e4f6427b9cec3e5eb9f56415cd28315"
   dependencies:
@@ -8673,6 +8682,10 @@ typedarray@^0.0.6:
 "typescript@>=2.6.2 <2.8", typescript@~2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
+
+typescript@~2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 
 uglify-es@^3.3.4:
   version "3.3.9"
