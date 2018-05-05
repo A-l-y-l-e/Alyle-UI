@@ -27,7 +27,7 @@ import { LyIconButtonService } from './icon-button.service';
 @Component({
   selector: 'button[ly-icon-button], a[ly-icon-button], span[ly-icon-button]',
   template: `
-  <div class="{{ iconButtonService.classes.content }}" [ngStyle]="iconStyle"
+  <div class="{{ iconButtonService.classes.content }}"
   lyRipple
   lyRippleSensitive
   lyRippleCentered
