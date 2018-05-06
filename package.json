@@ -20,7 +20,7 @@
     "build:@alyle/ui": "node dist/tools",
     "build:universal": "rm -rf dist/server && tsc -p server && yarn build:browser && yarn build:server",
     "serve:universal": "node dist/server",
-    "sw:update": "rm -rf dist/tools && tsc -p tools && node dist/tools/update-sw"
+    "sw:update": "node dist/tools/update-sw"
   },
   "private": true,
   "dependencies": {
