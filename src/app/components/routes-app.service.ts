@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class RoutesAppService {
   routesApp: { routes: any[], name: string }[];
   componentState: string;
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor( ) {
     this.routesApp = [
       {
         name: 'Get Started',

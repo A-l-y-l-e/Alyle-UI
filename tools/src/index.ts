@@ -5,7 +5,7 @@ import { join } from 'path';
 import * as jsyaml from 'js-yaml';
 import * as camelCase from 'camelcase';
 
-const version = `1.7.0-beta.7`;
+const version = `1.7.0-beta.8`;
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
 

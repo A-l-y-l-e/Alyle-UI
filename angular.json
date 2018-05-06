@@ -60,11 +60,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "alyle-ui:build"
+            "browserTarget": "alyle-ui:build",
+            "hmrWarning": false
           },
           "configurations": {
             "production": {
               "browserTarget": "alyle-ui:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
             }
           }
         },

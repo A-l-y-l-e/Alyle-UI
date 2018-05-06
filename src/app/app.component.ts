@@ -1,4 +1,4 @@
-import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject} from '@angular/core';
+import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject, OnDestroy} from '@angular/core';
 import { environment } from './../environments/environment';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
@@ -8,6 +8,7 @@ import { LyTheme, Platform } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { MinimalLS } from '@alyle/ui/ls';
 import { ThemeVariables } from '@alyle/ui';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,24 +17,20 @@ import { ThemeVariables } from '@alyle/ui';
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   routesComponents: any;
-  @ViewChild('ThemeMenu') menuTheme: LyMenu;
   listColors: any[];
   angularVersion = VERSION;
-  version: string = AUI_VERSION;
+  version = AUI_VERSION;
   routeState = false;
   mode = true;
+  routerEvent: Subscription;
   constructor(
     public router: Router,
-    public route: ActivatedRoute,
     public theme: LyTheme,
     public routesApp: RoutesAppService
   ) {
-    // this.route.url.subscribe((val) => {
-    //   console.warn(val);
-    // });
-    this.router.events.subscribe(event => {
+    this.routerEvent = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.routeState = event.urlAfterRedirects !== '/';
         if (Platform.isBrowser) {
@@ -72,5 +69,8 @@ export class AppComponent {
     this.mode = !this.mode;
     const scheme = this.mode ? 'light' : 'dark';
     this.theme.setScheme(scheme);
+  }
+  ngOnDestroy() {
+    this.routerEvent.unsubscribe();
   }
 }

@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start": "ng serve --port 1111",
+    "hmr": "ng serve --port 1111 --hmr",
     "build": "yarn build:tools && yarn build:browser && yarn build:server && prerender && yarn sw:update",
-    "build:browser": "ng build alyle-ui --prod --build-optimizer",
+    "build:browser": "ng build alyle-ui --prod",
     "build:server": "ng run alyle-ui:server",
     "build:package": "rm -rf .tmp dist build && gulp build:package",
     "publish:package": "yarn build && yarn deploy && yarn build:package && cd build && yarn publish",
@@ -17,7 +18,7 @@
     "functions:install": "cd functions && yarn install",
     "mv:index.html": "mkdir functions/dist && mv dist/index.html functions/dist/",
     "build:tools": "rm -rf dist/tools && tsc -p tools",
-    "build:@alyle/ui": "node dist/tools",
+    "build:@alyle/ui": "yarn build:tools && node dist/tools",
     "build:universal": "rm -rf dist/server && tsc -p server && yarn build:browser && yarn build:server",
     "serve:universal": "node dist/server",
     "sw:update": "node dist/tools/update-sw"
@@ -55,6 +56,7 @@
     "@angular/cli": "^6.0.0",
     "@angular/compiler-cli": "^6.0.0",
     "@angular/http": "^6.0.0",
+    "@angularclass/hmr": "^2.1.3",
     "@types/chroma-js": "^1.3.3",
     "@types/google.analytics": "^0.0.38",
     "@types/jasmine": "~2.8.3",
