@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { LyCommonModule } from '@alyle/ui';
-import { LySvgModule } from '@alyle/ui/svg';
+import { LyIconModule } from '@alyle/ui/icon';
 import { LyButtonModule } from '@alyle/ui/button';
 
 import { ButtonExample03Component } from './button-example-03.component';
@@ -14,7 +14,7 @@ import { ButtonExample03Component } from './button-example-03.component';
     LyCommonModule,
     LyButtonModule,
     LyIconButtonModule,
-    LySvgModule
+    LyIconModule
   ],
   exports: [ButtonExample03Component],
   declarations: [ButtonExample03Component]

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { LyInputModule } from '@alyle/ui/input';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { LySvgModule } from '@alyle/ui/svg';
+import { LyIconModule } from '@alyle/ui/icon';
 
 import { InputDemoExample03Component } from './input-demo-example-03.component';
 
@@ -14,7 +14,7 @@ import { InputDemoExample03Component } from './input-demo-example-03.component';
     FormsModule,
     LyInputModule,
     LyIconButtonModule,
-    LySvgModule
+    LyIconModule
   ],
   exports: [InputDemoExample03Component],
   declarations: [InputDemoExample03Component]

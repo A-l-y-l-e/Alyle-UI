@@ -6,7 +6,7 @@ import { LyMenuModule } from '@alyle/ui/menu';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { LySvgModule } from '@alyle/ui/svg';
+import { LyIconModule } from '@alyle/ui/icon';
 import { LyRadioModule } from '@alyle/ui/radio';
 import { MenuDemo02Component } from './menu-demo-02.component';
 

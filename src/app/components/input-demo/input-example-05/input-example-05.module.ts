@@ -6,7 +6,7 @@ import { LyCommonModule } from '@alyle/ui';
 import { LyInputModule } from '@alyle/ui/input';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { LySvgModule } from '@alyle/ui/svg';
+import { LyIconModule } from '@alyle/ui/icon';
 import { LyRadioModule } from '@alyle/ui/radio';
 
 import { InputExample05Component } from './input-example-05.component';
@@ -19,7 +19,7 @@ import { InputExample05Component } from './input-example-05.component';
     LyInputModule,
     LyButtonModule,
     LyIconButtonModule,
-    LySvgModule,
+    LyIconModule,
     LyRadioModule
   ],
   exports: [InputExample05Component],

@@ -4,7 +4,7 @@ import { LyMenuModule } from '@alyle/ui/menu';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { LySvgModule } from '@alyle/ui/svg';
+import { LyIconModule } from '@alyle/ui/icon';
 import { LyRadioModule } from '@alyle/ui/radio';
 import { MenuExample01Component } from './menu-example-01.component';
 
@@ -15,7 +15,7 @@ import { MenuExample01Component } from './menu-example-01.component';
     LyToolbarModule,
     LyButtonModule,
     LyIconButtonModule,
-    LySvgModule,
+    LyIconModule,
     LyRadioModule
   ],
   exports: [MenuExample01Component],

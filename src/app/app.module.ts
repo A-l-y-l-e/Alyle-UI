@@ -9,7 +9,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { MinimalLSModule } from '@alyle/ui/ls';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
-import { LySvgModule } from '@alyle/ui/svg';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { AlyleUIModule } from '@alyle/ui';
@@ -89,7 +88,6 @@ const contrast = '#fff';
     LyToolbarModule,
     LyIconButtonModule,
     LyIconModule,
-    LySvgModule,
     LyMenuModule,
     LyRippleModule,
     PrismModule,

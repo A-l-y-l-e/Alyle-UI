@@ -5,7 +5,7 @@ import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
 import { LyTabsModule } from '@alyle/ui/tabs';
 import { LyInputModule } from '@alyle/ui/input';
-import { LySvgModule } from '@alyle/ui/svg';
+import { LyIconModule } from '@alyle/ui/icon';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { TabsExample03Component } from './tabs-example-03.component';
 
@@ -17,7 +17,7 @@ import { TabsExample03Component } from './tabs-example-03.component';
     LyButtonModule,
     LyInputModule,
     LyIconButtonModule,
-    LySvgModule,
+    LyIconModule,
     LyRippleModule
   ],
   exports: [TabsExample03Component],
