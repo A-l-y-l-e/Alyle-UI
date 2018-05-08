@@ -94,6 +94,7 @@ components.forEach(lib => {
 let previousBuild = Promise.resolve();
 components.forEach((lib) => {
   previousBuild = previousBuild.then(_ => {
+    console.log(lib.pkgName);
     const ls = spawnSync('ng', ['build', lib.pkgName, '--prod'], {stdio: 'inherit'});
     if (ls.status) {
       process.exit(1);

@@ -4,7 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { LyTheme, ProvidedInTheme } from '@alyle/ui';
-import { LY_CHECKBOX_CONTROL_VALUE_ACCESSOR } from '../checkbox';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +13,7 @@ export class LyIconService {
 
   constructor(
     private http: HttpClient,
-    @Optional() @Inject(DOCUMENT) private document: Document
+    @Optional() @Inject(DOCUMENT) private document: any
   ) { }
 
   setSvg(key: string, url: string) {

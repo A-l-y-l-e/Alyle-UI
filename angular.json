@@ -766,44 +766,6 @@
         }
       }
     },
-    "@alyle/ui/svg": {
-      "root": "dist/lib/svg",
-      "projectType": "library",
-      "prefix": "ly",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "dist/lib/svg/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "dist/lib/svg/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "dist/lib/svg/src/test.ts",
-            "tsConfig": "dist/lib/svg/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/svg/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "dist/lib/svg/tsconfig.lint.json",
-              "dist/lib/svg/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "@alyle/ui/tabs": {
       "root": "dist/lib/tabs",
       "projectType": "library",
