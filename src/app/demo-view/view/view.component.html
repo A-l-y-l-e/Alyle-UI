@@ -3,7 +3,7 @@
     <ly-toolbar-item ly-toolbar-item-padding>{{ viewLabel }}</ly-toolbar-item>
   </ly-toolbar>
   <div class="code">
-    <button ly-icon-button (click)="toggleCode()"><ly-svg size="20px" src="assets/svg/code"></ly-svg></button>
+    <button ly-icon-button (click)="toggleCode()"><ly-icon src="assets/svg/code"></ly-icon></button>
   </div>
   <ly-tabs *ngIf="hasCode">
     <ly-tab *ngFor="let file of files; let i = index">

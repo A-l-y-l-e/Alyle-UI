@@ -7,7 +7,8 @@ import {
   OnDestroy,
   SimpleChanges,
   HostBinding,
-  Inject
+  Inject,
+  isDevMode
 } from '@angular/core';
 import { Platform } from '@alyle/ui';
 import { LySvgService } from './ly-svg.service';
@@ -17,7 +18,7 @@ import { DOCUMENT } from '@angular/common';
 @Directive({
   selector: 'ly-svg, [ly-svg], [lySvg]'
 })
-export class LySvgComponent implements OnInit, OnChanges {
+export class LySvgComponent implements OnChanges {
   private _size = '48px';
   private _src: string;
 
@@ -64,9 +65,10 @@ export class LySvgComponent implements OnInit, OnChanges {
     private svgService: LySvgService,
     private _elementRef: ElementRef,
     @Inject(DOCUMENT) private document: Document
-  ) {}
-
-  ngOnInit() {
+  ) {
+    if (isDevMode) {
+      console.warn('DEPRECATED ly-svg', _elementRef.nativeElement);
+    }
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (Platform.isBrowser) {
