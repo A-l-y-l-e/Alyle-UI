@@ -11,7 +11,6 @@
 "@alyle/ui/carousel": carousel
 "@alyle/ui/menu": menu
 "@alyle/ui/checkbox": checkbox
-"@alyle/ui/svg": svg
 "@alyle/ui/header-pagination": header-pagination
 "@alyle/ui/tabs": tabs
 "@alyle/ui/toolbar": toolbar

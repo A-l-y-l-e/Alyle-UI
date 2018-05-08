@@ -31,7 +31,6 @@
       "@alyle/ui/drawer-minimal": ["lib/drawer-minimal"],
       "@alyle/ui/menu": ["lib/menu"],
       "@alyle/ui/toolbar": ["lib/toolbar"],
-      "@alyle/ui/svg": ["lib/svg"],
       "@alyle/ui/responsive": ["lib/responsive"],
       "@alyle/ui/shadow": ["lib/shadow"],
       "@alyle/ui/carousel": ["lib/carousel"],
