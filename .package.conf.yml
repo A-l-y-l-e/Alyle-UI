@@ -1,0 +1,19 @@
+version: 1.7.0-beta.9
+components:
+  "@alyle/ui": core
+  "@alyle/ui/ripple": ripple
+  "@alyle/ui/icon-button": icon-button
+  "@alyle/ui/icon": icon
+  "@alyle/ui/button": button
+  "@alyle/ui/ls": ls
+  "@alyle/ui/responsive": responsive
+  "@alyle/ui/radio": radio
+  "@alyle/ui/input": input
+  "@alyle/ui/resizing-cropping-images": resizing-cropping-images
+  "@alyle/ui/carousel": carousel
+  "@alyle/ui/menu": menu
+  "@alyle/ui/checkbox": checkbox
+  "@alyle/ui/header-pagination": header-pagination
+  "@alyle/ui/tabs": tabs
+  "@alyle/ui/toolbar": toolbar
+  "@alyle/ui/drawer": drawer

@@ -5,13 +5,13 @@ import { join } from 'path';
 import * as jsyaml from 'js-yaml';
 import * as camelCase from 'camelcase';
 
-const version = `1.7.0-beta.8`;
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
-
+const config = jsyaml.load(readFileSync(`${process.cwd()}/.package.conf.yml`, 'utf8').toString());
 const angularCliConfig = JSON.parse(readFileSync(`${process.cwd()}/angular.json`, 'utf8').toString());
+const version = config.version;
 const pkg = JSON.parse(readFileSync(`${process.cwd()}/package.json`, 'utf8').toString());
-let components: { path: string, pkgName: string }[] = jsyaml.load(readFileSync(`${process.cwd()}/.components.yml`, 'utf8').toString());
+let components: { path: string, pkgName: string }[] = config.components;
 if (pathExistsSync(dist)) {
   console.log('cleaning...');
   removeSync(dist);
