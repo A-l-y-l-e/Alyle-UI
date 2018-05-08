@@ -1,6 +1,7 @@
 "@alyle/ui": core
 "@alyle/ui/ripple": ripple
 "@alyle/ui/icon-button": icon-button
+"@alyle/ui/icon": icon
 "@alyle/ui/button": button
 "@alyle/ui/ls": ls
 "@alyle/ui/responsive": responsive

@@ -108,4 +108,7 @@ export const defaultTheme: ThemeVariables = {
   iconButton: {
     size: '48px'
   },
+  icon: {
+    fontSize: '24px'
+  }
 };

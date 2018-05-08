@@ -7,10 +7,12 @@ import {
   OnDestroy,
   SimpleChanges,
   HostBinding,
+  Inject
 } from '@angular/core';
 import { Platform } from '@alyle/ui';
 import { LySvgService } from './ly-svg.service';
 import { Subscription } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: 'ly-svg, [ly-svg], [lySvg]'
@@ -60,7 +62,8 @@ export class LySvgComponent implements OnInit, OnChanges {
 
   constructor(
     private svgService: LySvgService,
-    private _elementRef: ElementRef
+    private _elementRef: ElementRef,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit() {

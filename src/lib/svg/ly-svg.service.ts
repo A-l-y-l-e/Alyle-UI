@@ -24,7 +24,7 @@ export class LySvgService {
   }
   getSVG(url: string): Promise<SVGElement> {
     if (!Platform.isBrowser) {
-      return Promise.resolve(this._svgElementFromString(`<svg height="48" viewBox="0 0 20 20" width="48" class="ly_7"><circle cx="10" cy="10" r="10"></circle></svg>`));
+      return Promise.resolve(this._svgElementFromString(`<svg height="48" viewBox="0 0 20 20" width="48"><circle cx="10" cy="10" r="10"></circle></svg>`));
     }
     if (LySvgService._svg.has(url)) {
       return Promise.resolve(this._cloneSVG(LySvgService._svg.get(url)));

@@ -24,6 +24,7 @@ import { PrismModule } from './core/prism/prism.module';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { LyCommonModule } from '@alyle/ui';
 import { environment } from '@env/environment';
+import { LyIconModule } from '@alyle/ui/icon';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -87,6 +88,7 @@ const contrast = '#fff';
     LyDrawerModule,
     LyToolbarModule,
     LyIconButtonModule,
+    LyIconModule,
     LySvgModule,
     LyMenuModule,
     LyRippleModule,
