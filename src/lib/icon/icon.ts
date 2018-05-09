@@ -8,18 +8,27 @@ import { Observable } from 'rxjs';
 })
 export class Icon implements OnChanges, OnInit {
   private _defaultClass = 'material-icons';
+  private _src: string;
+  private _icon: string;
   @Input()
   set src(val: string) {
+    this._src = val;
     if (val) {
       const key = `_url:${val}`;
-      val = `${val}.svg`;
       this.iconService.setSvg(key, val);
       this._appendChild(this.iconService.getSvg(key));
     }
   }
+  get src() {
+    return this._src;
+  }
 
   @Input() set icon(val: string) {
-    this.iconService.getSvg(val);
+    this._icon = val;
+    this._appendChild(this.iconService.getSvg(val));
+  }
+  get icon() {
+    return this._icon;
   }
 
   constructor(

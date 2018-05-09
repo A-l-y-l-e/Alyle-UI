@@ -18,7 +18,7 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { IsBoolean, LyFocusState, Platform } from '@alyle/ui';
+import { toBoolean, LyFocusState, Platform } from '@alyle/ui';
 import { Ripple, RippleConfig } from './ripple';
 import { LyRippleService } from './ripple.service';
 
@@ -29,16 +29,16 @@ import { LyRippleService } from './ripple.service';
 export class LyRipple implements OnInit, OnChanges, OnDestroy {
   rippleContainer: Ripple;
   private _containerElement: HTMLElement | null;
-  @Input() @IsBoolean() lyRippleCentered: boolean;
-  @Input() @IsBoolean() lyRippleDisabled: boolean;
-  @Input() @IsBoolean() lyRippleSensitive: boolean;
+  @Input() lyRippleCentered: boolean;
+  @Input() lyRippleDisabled: boolean;
+  @Input() lyRippleSensitive: boolean;
   @Input() lyRippleRadius: 'containerSize' | number;
   @Input() lyRipplePercentageToIncrease: number;
   get lyRippleConfig(): RippleConfig {
     return {
-      centered: this.lyRippleCentered,
-      disabled: this.lyRippleDisabled,
-      sensitive: this.lyRippleSensitive,
+      centered: toBoolean(this.lyRippleCentered),
+      disabled: toBoolean(this.lyRippleDisabled),
+      sensitive: toBoolean(this.lyRippleSensitive),
       radius: this.lyRippleRadius,
       percentageToIncrease: this.lyRipplePercentageToIncrease,
     };

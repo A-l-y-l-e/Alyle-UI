@@ -18,6 +18,7 @@ export class LyIconService {
 
   setSvg(key: string, url: string) {
     if (!this.svgMap.has(key)) {
+      url = `${url}.svg`;
       this.svgMap.set(key,
         this.http.get(url, { responseType: 'text' })
         .pipe(

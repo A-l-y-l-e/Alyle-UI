@@ -1,4 +1,4 @@
-import { IconDirective } from './icon.directive';
+import { IconDirective } from './icon';
 
 describe('IconDirective', () => {
   it('should create an instance', () => {

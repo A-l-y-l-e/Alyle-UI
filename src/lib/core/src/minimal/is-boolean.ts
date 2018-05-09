@@ -1,6 +1,7 @@
 export function toBoolean(value: any) {
   return value != null && `${value}` !== 'false';
 }
+/** @deprecated */
 export function IsBoolean(): PropertyDecorator {
   return (target: Object, key: string) => {
     const definition = Object.getOwnPropertyDescriptor(target, key);

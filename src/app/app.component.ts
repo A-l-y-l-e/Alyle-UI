@@ -9,6 +9,7 @@ import { RoutesAppService } from './components/routes-app.service';
 import { MinimalLS } from '@alyle/ui/ls';
 import { ThemeVariables } from '@alyle/ui';
 import { Subscription } from 'rxjs';
+import { LyIconService } from '@alyle/ui/icon';
 
 @Component({
   selector: 'app-root',
@@ -28,8 +29,10 @@ export class AppComponent implements OnDestroy {
   constructor(
     public router: Router,
     public theme: LyTheme,
-    public routesApp: RoutesAppService
+    public routesApp: RoutesAppService,
+    private iconService: LyIconService
   ) {
+    iconService.setSvg('Heart', 'assets/svg/Heart');
     this.routerEvent = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.routeState = event.urlAfterRedirects !== '/';
