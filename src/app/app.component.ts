@@ -20,7 +20,6 @@ import { LyIconService } from '@alyle/ui/icon';
 })
 export class AppComponent implements OnDestroy {
   routesComponents: any;
-  listColors: any[];
   angularVersion = VERSION;
   version = AUI_VERSION;
   routeState = false;
@@ -46,28 +45,6 @@ export class AppComponent implements OnDestroy {
       }
     });
     this.routesComponents = this.routesApp.routesApp;
-    this.listColors = [
-      {
-        primary: 'blue',
-        accent: 'pink',
-        colorScheme: 'light'
-      },
-      {
-        primary: 'pink',
-        accent: 'purple',
-        colorScheme: 'light'
-      },
-      {
-        primary: 'lightBlue',
-        accent: 'purple',
-        colorScheme: 'light'
-      },
-      {
-        primary: 'cyan',
-        accent: 'amber',
-        colorScheme: 'light'
-      }
-    ];
   }
   changeScheme() {
     this.mode = !this.mode;
