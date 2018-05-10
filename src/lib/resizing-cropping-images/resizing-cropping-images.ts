@@ -299,7 +299,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
     /** Calculate total number of steps needed */
     let  numSteps = Math.ceil(Math.log(this.max(img.width, img.height) / this.max(config.height, config.width)) / Math.log(2)) - 1;
-    console.warn({ numSteps, config });
     numSteps = numSteps <= 0 ? 0 : numSteps;
 
     /**Array steps */
@@ -360,7 +359,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
    */
   cropp(): string {
     const myConfig = Object.assign({}, CONFIG_DEFAULT, this.config);
-    console.log(myConfig);
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
     const rect = this.croppingContainer.nativeElement.getBoundingClientRect() as ClientRect;
     const img = this.imgContainer.nativeElement.firstElementChild.getBoundingClientRect() as ClientRect;
