@@ -5,11 +5,16 @@ import { Observable, of } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { LyTheme, ProvidedInTheme } from '@alyle/ui';
 
+export interface SvgIcon {
+  obs: Observable<SVGElement>;
+  loaded?: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class LyIconService {
-  private svgMap = new Map<string, Observable<SVGElement>>();
+  private svgMap = new Map<string, SvgIcon>();
 
   constructor(
     private http: HttpClient,
@@ -20,23 +25,25 @@ export class LyIconService {
     if (!this.svgMap.has(key)) {
       url = `${url}.svg`;
       this.svgMap.set(key,
-        this.http.get(url, { responseType: 'text' })
-        .pipe(
-          share(),
-          map(svgText => this.textToSvg(svgText)),
-        )
+        {
+          obs: this.http.get(url, { responseType: 'text' })
+          .pipe(
+            share(),
+            map(svgText => this.textToSvg(svgText)),
+          )
+        }
       );
     }
   }
 
-  private textToSvg(str: string): SVGElement {
+  textToSvg(str: string): SVGElement {
     const div = this.document.createElement('DIV');
     div.innerHTML = str;
     const svg = div.querySelector('svg') as SVGElement;
     return svg;
   }
 
-  getSvg(key: string): Observable<SVGElement> {
+  getSvg(key: string): SvgIcon {
     return this.svgMap.get(key);
   }
 }
