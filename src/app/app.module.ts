@@ -24,6 +24,7 @@ import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-br
 import { LyCommonModule } from '@alyle/ui';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
+import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -83,6 +84,7 @@ const contrast = '#fff';
       }
     ),
     LyCommonModule,
+    LyResizingCroppingImageModule,
     LyButtonModule,
     LyDrawerModule,
     LyToolbarModule,
