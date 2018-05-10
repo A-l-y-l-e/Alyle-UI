@@ -1,19 +1,45 @@
-[![npm](https://img.shields.io/npm/v/alyle-ui.svg?style=flat-square)]()
-[![npm](https://img.shields.io/npm/dt/alyle-ui.svg?style=flat-square)]()
-
 <div align="center">
   <h1>Alyle UI</h1>
   Minimal Design, a package of components for Angular.
   <br/>
-  <a href="https://alyle-ui.firebaseapp.com/">DEMO</a>
+  <a href="https://alyle-ui.firebaseapp.com/">demo</a>
 </div>
 
-## Install
+[![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/alyle-ui)
+[![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/alyle-ui)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/A-l-y-l-e/Alyle-UI.svg)](https://greenkeeper.io/)
+## Install Alyle UI
 
-`yarn` or `npm install`
+`npm i @alyle/ui -s` or `yarn add @alyle/ui`
 
-## Development server
+## Import
 
-Run `yarn start` for a dev server. Navigate to `http://localhost:1111/`. The app will automatically reload if you change any of the source files.
+```js
+// src/app/app.module.ts
+
+import { AlyleUIModule } from '@alyle/ui';
+@NgModule({
+  imports: [
+    AlyleUIModule.forRoot({
+      name: 'default'
+    }),
+  ],
+  ...
+})
+export class AppModule { }
+```
+
+## Components
+
+* button
+* carousel
+* drawer
+* header pagination
+* icon button
+* input
+* menu
+* radio
+* cropping
+* ripple
+* tabs
+* toolbar
