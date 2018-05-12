@@ -137,7 +137,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
     return parseFloat(num.toFixed(0));
   }
   setScale(size: number) {
-    if (!(size > 0 && size <= 1)) { return; }
+    console.log('setScale', size);
+    // if (!(size > 0 && size <= 1)) { return; }
     this.scale = size;
     size = size * 100;
     const img = this.imgContainer.nativeElement.firstElementChild;
@@ -155,6 +156,10 @@ export class LyResizingCroppingImages implements AfterContentInit {
     const w = (root.offsetWidth - width) / 2;
     const h = (root.offsetHeight - height) / 2;
     return `translate3d(${w}px, ${h}px, 0)`;
+  }
+
+  '1:1'() {
+    this.setScale(1);
   }
 
   /**
@@ -175,11 +180,11 @@ export class LyResizingCroppingImages implements AfterContentInit {
       height: min.height / size.height * 100
     };
     const result = Math.max(minScale.width, minScale.height) / 100;
-    if (result >= 1) {
-      this.setScale(1);
-    } else {
+    // if (result >= 1) {
+      // this.setScale(1);
+    // } else {
       this.setScale(result);
-    }
+    // }
   }
 
   fit() {

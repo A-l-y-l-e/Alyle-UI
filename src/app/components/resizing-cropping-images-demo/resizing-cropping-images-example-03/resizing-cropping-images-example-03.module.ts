@@ -4,6 +4,7 @@ import { ResizingCroppingImagesExample03Component } from './resizing-cropping-im
 import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
+import { LyIconModule } from '@alyle/ui/icon';
 import { LyInputModule } from '@alyle/ui/input';
 
 @NgModule({
@@ -12,6 +13,7 @@ import { LyInputModule } from '@alyle/ui/input';
     LyResizingCroppingImageModule,
     LyButtonModule,
     LyIconButtonModule,
+    LyIconModule,
     LyInputModule
   ],
   declarations: [ResizingCroppingImagesExample03Component],

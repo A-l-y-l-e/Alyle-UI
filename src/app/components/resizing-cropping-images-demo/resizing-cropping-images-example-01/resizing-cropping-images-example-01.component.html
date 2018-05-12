@@ -1,8 +1,8 @@
 <div class="actions">
   <button raised ly-button bg="primary" (click)="_fileInput.focus(); _fileInput.click()">
     <input #_fileInput type="file" (change)="cropping.selectInputEvent($event)" accept="image/*">
-    <a ly-icon-button class="material-icons">image</a>
-    Select File
+    <ly-icon>image</ly-icon>
+    <span>Select File</span>
   </button>
   <button raised ly-button bg="accent" *ngIf="cropping.isCropped">Upload</button>
 </div>

@@ -1,7 +1,7 @@
 <div class="actions">
   <button raised ly-button bg="primary" (click)="_fileInput.click()">
-    <a ly-icon-button class="material-icons">image</a>
-    Select File
+    <ly-icon start>image</ly-icon>
+    <span end>Select File</span>
   </button>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropping.selectInputEvent($event)" accept="image/*" hidden>
