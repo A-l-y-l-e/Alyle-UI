@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "dist/alyle-ui",
     "headers": [
       {
         "source": "**",
