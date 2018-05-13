@@ -45,7 +45,6 @@ export class LyButton implements AfterViewInit {
   @Input()
   set outlined(val: boolean) {
     const classname = toBoolean(val) === true ? this.buttonService.classes.outlined : '';
-    console.log('classname', classname);
     this.theme.updateClassName(this.elementRef.nativeElement, this.renderer, classname, this._outlinedClassName);
     this._outlinedClassName = classname;
   }

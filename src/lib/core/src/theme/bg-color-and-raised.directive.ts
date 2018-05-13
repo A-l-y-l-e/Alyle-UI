@@ -57,7 +57,6 @@ export class LyBgColorAndRaised implements OnChanges {
     let newStyleData;
     /**~ */
     const inputs = Object.keys(changes);
-    console.log({inputs});
     const raisedĸey = this._raisedState === true ? 'raised' : '';
     let key = '';
     if ((this.contrast && !this.color || this.color === 'auto') && this.bg) {

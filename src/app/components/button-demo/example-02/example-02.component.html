@@ -1,10 +1,12 @@
-<button ly-button raised>
-  <ly-icon icon="Experiment"></ly-icon>
-</button>
-<button ly-button>
-  <span>Experiment</span>
-  <ly-icon icon="Experiment"></ly-icon>
-</button>
+<div fxInline>
+  <button ly-button raised outlined color="rgb(174, 213, 129)">
+    <ly-icon icon="Experiment"></ly-icon>
+  </button>
+  <button ly-button raised outlined color="#FFD164">
+    <span class="padding-rigth">Radiation</span>
+    <ly-icon icon="Radiation"></ly-icon>
+  </button>
+</div>
 <h4>Flex</h4>
 <button ly-button [fxAlign]="['space-between', 'center']" class="item">
   <span>Heart</span>
@@ -18,3 +20,4 @@
   <span>Image</span>
   <ly-icon color="#00bcd4">image</ly-icon>
 </button>
+

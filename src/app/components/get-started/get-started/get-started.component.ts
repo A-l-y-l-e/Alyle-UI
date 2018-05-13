@@ -26,9 +26,9 @@ import { AlyleUIModule, LyCommonModule } from '@alyle/ui';
     BrowserAnimationsModule,
     AlyleUIModule.forRoot({
       /** You can put any other name */
-      name: 'default'
+      name: 'default' // it's like the theme id
     }),
-    LyCommonModule
+    LyCommonModule // for bg, color, raised, button and other components
     ...
   ],
   ...

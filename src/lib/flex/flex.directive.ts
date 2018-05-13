@@ -14,7 +14,7 @@ export type AlignItemsAndContent = 'flex-start' | 'center' | 'flex-end' | 'stret
 export type FxAlign = [JustifyContent] | [JustifyContent, AlignItemsAndContent] | [JustifyContent, AlignItems, AlignContent];
 
 @Directive({
-  selector: '[fxDirection], [fxWrap], [fxAlign]'
+  selector: '[fxDirection], [fxWrap], [fxAlign], [fxInline]'
 })
 export class LyFlex implements OnChanges {
   private _fxDirection: string;

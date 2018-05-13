@@ -26,18 +26,22 @@ export class ThemingComponent implements OnInit {
 
 const code = `
 /** My new theme */
+const contrast = '#fff';
 const MyCustomTheme = {
-  primary: 'blue', // from palette.blue
-  accent: 'pink', // from palette.pink
-  warn: 'red', // from palette.red
-  colorScheme: 'light', // beta, use light or dark
-  /**
-   * ···set global variables···
-   * demo:
-   * my-component.component.html
-   * <span color="myColor">I am color pink</span>
-   */
-  schemes: {
+  primary: {
+    default: '#2196F3',
+    contrast
+  },
+  accent: {
+    default: '#ff4b73',
+    contrast
+  },
+  warn: {
+    default: '#FF5252',
+    contrast
+  },
+  scheme: 'light', // select of schemes
+  colorSchemes: {
     light: {
       shadow: 'rgba(0, 0, 0, 0.1111)',
       myColor: 'pink',
@@ -50,6 +54,10 @@ const MyCustomTheme = {
       }
     },
     dark: {
+      primary: {
+        default: '#00bcd4',
+        contrast
+      },
       shadow: '#252525',
       myColor: 'teal',
       /**
@@ -61,18 +69,12 @@ const MyCustomTheme = {
       }
     }
   },
-  /** Palette */
-  palette: {
-    'blue': {
-      default: '#2196F3'
-    },
-    'pink': {
-      default: '#ff4b73'
-    },
-    'red': {
-      default: '#FF5252'
-    }
-  }
+  /**
+   * ···set global variables···
+   * demo:
+   * <span color="myColor2">I am color pink</span>
+   */
+  myColor2: 'pink'
 };
 /** set theme */
 @NgModule({

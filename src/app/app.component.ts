@@ -33,6 +33,7 @@ export class AppComponent implements OnDestroy {
   ) {
     iconService.setSvg('Heart', 'assets/svg/Heart');
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
+    iconService.setSvg('Radiation', 'assets/svg/radiation');
     this.routerEvent = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.routeState = event.urlAfterRedirects !== '/';

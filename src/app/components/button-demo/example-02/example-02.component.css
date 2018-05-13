@@ -4,3 +4,6 @@ button {
 .item {
   width: 160px;
 }
+.padding-rigth {
+  padding-right: .5em;
+}
