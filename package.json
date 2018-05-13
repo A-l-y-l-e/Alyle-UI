@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ng serve --port 1111",
     "hmr": "ng serve --port 1111 --hmr",
-    "build": "yarn build:tools && yarn build:browser && yarn build:server && prerender && yarn sw:update",
+    "build": "yarn build:tools && yarn tools:update-version && yarn build:browser && yarn build:server && prerender && yarn sw:update",
     "build:browser": "ng build alyle-ui --prod",
     "build:server": "ng run alyle-ui:server",
     "build:package": "rm -rf .tmp dist build && gulp build:package",
@@ -21,7 +21,8 @@
     "build:@alyle/ui": "yarn build:tools && node dist/tools",
     "build:universal": "rm -rf dist/server && tsc -p server && yarn build:browser && yarn build:server",
     "serve:universal": "node dist/server",
-    "sw:update": "node dist/tools/update-sw"
+    "sw:update": "node dist/tools/update-sw",
+    "tools:update-version": "node dist/tools/update-version"
   },
   "private": true,
   "dependencies": {
