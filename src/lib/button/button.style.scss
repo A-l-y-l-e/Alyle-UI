@@ -14,7 +14,7 @@
       transition: all 375ms cubic-bezier(0.23, 1, 0.32, 1);
     }
     &:hover:after {
-      opacity: .11;
+      opacity: .08;
     }
   }
 }
@@ -46,7 +46,7 @@ a:host .ly-button-content:first-letter { text-decoration-line: underline }
   box-sizing: border-box;
 }
 .ly-button-content {
-  padding: 0 1em;
+  padding: 0 16px;
   width: 100%;
 }
 
@@ -58,10 +58,10 @@ a:host .ly-button-content:first-letter { text-decoration-line: underline }
   display: inline-flex;
 }
 :host /deep/ [start]:not([ly-icon-button]) {
-  padding-left: 1em;
+  padding-left: 16px;
 }
 :host /deep/ [end]:not([ly-icon-button]) {
-  padding-right: 1em;
+  padding-right: 16px;
 }
 
 .ly-button-padding {
@@ -73,17 +73,6 @@ a:host .ly-button-content:first-letter { text-decoration-line: underline }
 .ly-button-padding-right {
   padding-right: 16px;
 }
-
-:host /deep/ [type="file"] {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  opacity: 0;
-  display: none;
-}
-
 
 :host:-moz-focusring::-moz-focus-inner {
   border-color: transparent;

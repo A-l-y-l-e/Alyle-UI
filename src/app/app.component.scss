@@ -44,10 +44,9 @@
   }
 }
 .nav-button {
-  text-align: left;
-  display: block;
-  width: 100%;
+  display: flex;
   border-radius: 0;
+  justify-content: flex-start;
   height: 48px;
 }
 .i-right {

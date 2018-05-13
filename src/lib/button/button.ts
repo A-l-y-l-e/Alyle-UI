@@ -30,17 +30,25 @@ import { LyBgColorAndRaised } from '@alyle/ui';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <div class="ly-button-ripple" lyRipple [lyRippleSensitive]="rippleSensitive"></div>
-  <div class="ly-button-container">
-    <ng-content select="[start]"></ng-content>
-    <ng-content select="[end]"></ng-content>
-    <span class="ly-button-content"><ng-content></ng-content></span>
-  </div>
+  <!--<div class="ly-button-container">
+    <ng-content select="[start]"></ng-content>-->
+    <ng-content></ng-content>
+    <!--<ng-content select="[end]"></ng-content>
+  </div>-->
   `
 })
 export class LyButton implements AfterViewInit {
   public _disabled = false;
   private _rippleSensitive = false;
   private _disabledClassName: string;
+  private _outlinedClassName: string;
+  @Input()
+  set outlined(val: boolean) {
+    const classname = toBoolean(val) === true ? this.buttonService.classes.outlined : '';
+    console.log('classname', classname);
+    this.theme.updateClassName(this.elementRef.nativeElement, this.renderer, classname, this._outlinedClassName);
+    this._outlinedClassName = classname;
+  }
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;

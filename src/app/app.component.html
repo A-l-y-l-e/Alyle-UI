@@ -9,10 +9,6 @@
     </button>
   </ly-toolbar-item>
   <div [style.flex]="1"></div>
-  <ly-toolbar-item class="av">
-    Angular version
-    <div class="version">{{ angularVersion.full }}</div>
-  </ly-toolbar-item>
   <button ly-icon-button size="24px" (click)="changeScheme()">
     <ly-icon *ngIf="mode" src="assets/svg/theme/sun" [style.font-size.px]="36"></ly-icon>
     <ly-icon *ngIf="!mode" src="assets/svg/theme/moon" [style.font-size.px]="36"></ly-icon>

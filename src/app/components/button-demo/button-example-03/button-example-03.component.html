@@ -1,32 +1,22 @@
 <h4>one</h4>
 <button ly-button raised>
-  <span ly-icon-button>
-    <ly-icon icon="Experiment"></ly-icon>
-  </span>
+  <ly-icon icon="Experiment"></ly-icon>
 </button>
-<h4>with text</h4>
+<h4>with icon</h4>
 <button ly-button>
-  <span ly-icon-button start>
-    <ly-icon icon="Experiment"></ly-icon>
-  </span>
-  <span end>Experiment</span>
-</button>
-<button ly-button>
-  <span start>Experiment</span>
-  <span ly-icon-button end>
-    <ly-icon icon="Experiment"></ly-icon>
-  </span>
+  <span>Experiment</span>
+  <ly-icon icon="Experiment"></ly-icon>
 </button>
 <h4>hmm</h4>
-<button ly-button class="item">
-  <span start>Heart</span>
-  <span ly-icon-button end>
-    <ly-icon icon="Heart"></ly-icon>
-  </span>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Heart</span>
+  <ly-icon icon="Heart"></ly-icon>
 </button>
-<button ly-button class="item">
-  <span start>Snow</span>
-  <span ly-icon-button end>
-    <ly-icon src="assets/svg/Snow"></ly-icon>
-  </span>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Snow</span>
+  <ly-icon src="assets/svg/Snow"></ly-icon>
+</button>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Image</span>
+  <ly-icon color="#00bcd4">image</ly-icon>
 </button>

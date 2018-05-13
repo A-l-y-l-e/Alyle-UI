@@ -14,6 +14,7 @@ export class LyBgColorAndRaised implements OnChanges {
   private _raisedState: boolean;
   private _currentStyleData: StyleData;
   private _bg: string;
+  private ĸbg: string;
   private _color: string;
   @Input()
   set bg(value: string) {
@@ -53,14 +54,36 @@ export class LyBgColorAndRaised implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    let key;
     let newStyleData;
+    /**~ */
+    const inputs = Object.keys(changes);
+    console.log({inputs});
+    const raisedĸey = this._raisedState === true ? 'raised' : '';
+    let key = '';
     if ((this.contrast && !this.color || this.color === 'auto') && this.bg) {
       key = `contrast${this.bg}${this._raisedState}${this.elevation}`;
       newStyleData = this.theme.createStyle(`ly-${key}`, this.contrastStyle.bind(this));
     } else if (this.bg && this.color) {
       key = `b&ĸ${this.bg}${this.color}${this._raisedState}${this.elevation}`;
       newStyleData = this.theme.createStyle(`ly-${key}`, this.bgColorStyle.bind(this));
+    } else if (this.raised && !this.bg) {
+      key = raisedĸey + this.color || '';
+      newStyleData = this.theme.createStyle(`ly-${key}`, () => {
+        let styles = `background-color:${this.theme.palette.background.primary};`;
+        let color = '';
+        let colorShadow;
+        if (this.color) {
+          color = this.theme.colorOf(this.color);
+          colorShadow = color;
+          styles += `color:${color};`;
+        } else {
+          colorShadow = this.theme.palette.colorShadow;
+        }
+        if (this._raisedState) {
+          styles += shadowBuilder(this.elevation, colorShadow);
+        }
+        return styles;
+      });
     } else if (this.bg || this.color) {
       const changeKey = this.bg ? ['bg', 'background', this.bg] : ['ĸ', 'color', this.color];
       const color = changeKey[2];

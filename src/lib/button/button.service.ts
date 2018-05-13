@@ -14,15 +14,28 @@ import {
 export class LyButtonService {
   private rootClassName: string;
   private themeClassName: string;
+  classes = {
+    root: this.theme.createStyle(
+      'rbtn',
+      rootStyle,
+      true
+    ).id,
+    outlined: this.theme.createStyle(
+      'btntlnd',
+      () => (
+        `border: 1px solid currentColor`
+      )
+    ).id
+  };
   constructor(
     private theme: LyTheme
   ) {
-    this.rootClassName = this.theme.createStyle('rbtn', rootStyle, true).id;
+    // this.rootClassName = this.theme.createStyle('rbtn', rootStyle, true).id;
     this.themeClassName = this.theme.createStyle('btn', this.style.bind(this)).id;
   }
 
   applyTheme(renderer: Renderer2, elementRef: ElementRef) {
-    renderer.addClass(elementRef.nativeElement, this.rootClassName);
+    renderer.addClass(elementRef.nativeElement, this.classes.root);
     renderer.addClass(elementRef.nativeElement, this.themeClassName);
   }
 
@@ -35,7 +48,7 @@ export class LyButtonService {
 
 function rootStyle() {
   return '-webkit-tap-highlight-color: transparent;' +
-  'padding:0;' +
+  'padding:0 16px;' +
   'background-color:rgba(0, 0, 0, 0);' +
   'border:none;' +
   '-moz-appearance:none;' +
@@ -54,7 +67,9 @@ function rootStyle() {
   '-moz-user-select:none;' +
   '-ms-user-select:none;' +
   'user-select:none;' +
-  'display:inline-block;' +
+  `display:inline-flex;` +
+  `justify-content:center;` +
+  `align-items:center;` +
   'text-decoration-line:none;' +
   '-webkit-text-decoration-line:none;' +
   'transition:all 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;';

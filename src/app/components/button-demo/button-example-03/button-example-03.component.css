@@ -1,8 +1,3 @@
 .item {
   width: 160px;
-  justify-content: space-between;
-  display: block;
-}
-.item ly-icon-button {
-  z-index: 5;
 }

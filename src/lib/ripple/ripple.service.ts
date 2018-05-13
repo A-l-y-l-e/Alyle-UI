@@ -18,7 +18,7 @@ export class LyRippleService {
       `width: 5px;` +
       `height: 5px;` +
       `background: currentColor;` +
-      `opacity: .16;` +
+      `opacity: .19;` +
       `border-radius: 100%;` +
       `-webkit-transform: scale(0);` +
       `transform: scale(0);` +

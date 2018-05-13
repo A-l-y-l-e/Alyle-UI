@@ -155,11 +155,18 @@ export class LyTheme {
     }
     renderer.addClass(elementRef.nativeElement, newStyleData.id);
   }
+  /** Replace old class by newClass */
+  updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
+    if (oldClassname) {
+      renderer.removeClass(element, oldClassname);
+    }
+    renderer.addClass(element, newClassname);
+  }
 
   private setCoreStyle() {
     if (this.isRoot) {
       const newStyle = this.createStyle('body', () => {
-        return `background:${this.palette.background.default};` +
+        return `background-color:${this.palette.background.primary};` +
         `color:${this.palette.text.default};` +
         `font-family:${this.palette.typography.fontFamily};` +
         `margin:0;`;

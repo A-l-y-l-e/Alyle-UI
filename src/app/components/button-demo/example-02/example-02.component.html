@@ -1,25 +1,20 @@
-<p>
-  raised
-</p>
-<button ly-button raised>button</button>
-<p>
-  simple
-</p>
-<button ly-button bg="primary" raised>primary</button>
-<button ly-button bg="accent" raised>accent</button>
-<button ly-button bg="warn" raised>warn</button>
-<button ly-button bg="warn" raised disabled>disabled</button>
-<p>
-  from text
-</p>
-<button ly-button color="primary" raised>accent</button>
-<button ly-button color="accent" raised>accent</button>
-<button ly-button color="warn" raised>warn</button>
-<button ly-button color="warn" raised disabled>disabled</button>
-
-<p>
-  custom raised
-</p>
-<button ly-button bg="primary" newRaised>newRaised</button>
-<button ly-button color="accent" [newRaised]="[null, 'primary']">accent</button>
-<button ly-button color="purple" [newRaised]="[1, 'purple']">purple</button>
+<button ly-button raised>
+  <ly-icon icon="Experiment"></ly-icon>
+</button>
+<button ly-button>
+  <span>Experiment</span>
+  <ly-icon icon="Experiment"></ly-icon>
+</button>
+<h4>Flex</h4>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Heart</span>
+  <ly-icon icon="Heart"></ly-icon>
+</button>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Snow</span>
+  <ly-icon src="assets/svg/Snow"></ly-icon>
+</button>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Image</span>
+  <ly-icon color="#00bcd4">image</ly-icon>
+</button>
