@@ -21,7 +21,7 @@ import { LyIconService } from '@alyle/ui/icon';
 export class AppComponent implements OnDestroy {
   routesComponents: any;
   angularVersion = VERSION;
-  version = AUI_VERSION === '{ version }' ? '{ newVersion }' : AUI_VERSION;
+  version = AUI_VERSION;
   routeState = false;
   mode = true;
   routerEvent: Subscription;
