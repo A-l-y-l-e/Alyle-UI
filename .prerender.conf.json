@@ -1,9 +1,11 @@
 {
-  "app-name:server": "alyle-ui",
+  "serverPath": "dist/alyle-ui-server/main.js",
+  "browserPath": "dist/alyle-ui",
   "paths": [
     "/",
     "get-started",
     "theming",
+    "multiple-themes",
     "bg-color",
     "component/button",
     "component/drawer",
@@ -15,6 +17,7 @@
     "component/carousel",
     "component/icon-button",
     "component/ripple",
-    "component/responsive"
+    "component/responsive",
+    "component/shadow"
   ]
 }

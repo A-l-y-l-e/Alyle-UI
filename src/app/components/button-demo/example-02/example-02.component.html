@@ -1,20 +1,23 @@
-<p>
-  simple
-</p>
-<button ly-button bg="primary" raised>primary</button>
-<button ly-button bg="accent" raised>accent</button>
-<button ly-button bg="other" raised>other</button>
-<button ly-button raised>default raised</button>
-<p>
-  from text
-</p>
-<button ly-button color="primary" raised>accent</button>
-<button ly-button color="accent" raised>accent</button>
-<button ly-button color="other" raised>other</button>
+<div fxInline>
+  <button ly-button raised outlined color="rgb(174, 213, 129)">
+    <ly-icon icon="Experiment"></ly-icon>
+  </button>
+  <button ly-button raised outlined color="#FFD164">
+    <span class="padding-rigth">Radiation</span>
+    <ly-icon icon="Radiation"></ly-icon>
+  </button>
+</div>
+<h4>Flex</h4>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Heart</span>
+  <ly-icon icon="Heart"></ly-icon>
+</button>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Snow</span>
+  <ly-icon src="assets/svg/Snow"></ly-icon>
+</button>
+<button ly-button [fxAlign]="['space-between', 'center']" class="item">
+  <span>Image</span>
+  <ly-icon color="#00bcd4">image</ly-icon>
+</button>
 
-<p>
-  raised color inverted
-</p>
-<button ly-button bg="primary" raisedColorInverted>accent</button>
-<button ly-button bg="accent" raisedColorInverted>accent</button>
-<button ly-button bg="other" raisedColorInverted>other</button>

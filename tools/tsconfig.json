@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": ["es6", "dom"],
+    "module": "commonjs",
+    "outDir": "../dist/tools",
+    "sourceMap": true,
+    "target": "es6",
+    "typeRoots": [
+      "../node_modules/@types"
+    ]
+  },
+  "compileOnSave": false,
+  "include": [
+    "src"
+  ]
+}

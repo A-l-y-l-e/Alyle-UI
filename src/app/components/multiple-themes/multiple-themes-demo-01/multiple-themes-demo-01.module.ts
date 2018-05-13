@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MultipleThemesDemo01Component } from './multiple-themes-demo-01.component';
-import { AlyleUIModule } from 'alyle-ui';
-import { ThemeModule } from 'alyle-ui/core';
+import { AlyleUIModule } from '@alyle/ui';
+import { LyCommonModule } from '@alyle/ui';
+import { LyButtonModule } from '@alyle/ui/button';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
-    AlyleUIModule.forRoot({
-      primary: 'pink',
-      accent: 'purple',
-      colorScheme: 'light',
-      palette: {
-        pink: '#ff4b73',
-        purple: '#ce30c9'
-      }
+    LyCommonModule,
+    RouterModule,
+    LyCommonModule,
+    AlyleUIModule.forChild({
+      name: 'darkTheme',
+      scheme: 'dark',
+      shadow: 'rgba(0, 0, 0, 1)',
     }),
-    ThemeModule
+    LyButtonModule
   ],
   declarations: [MultipleThemesDemo01Component],
   exports: [MultipleThemesDemo01Component]

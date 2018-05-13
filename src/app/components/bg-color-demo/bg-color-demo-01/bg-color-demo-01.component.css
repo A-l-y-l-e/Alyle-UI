@@ -1,0 +1,14 @@
+.item {
+  display: inline-block;
+  text-align: center;
+  font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  margin: .25em;
+}
+.item > div {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  margin: .45em auto;
+}

@@ -1,6 +1,4 @@
-import { Subscriber } from 'rxjs/Subscriber';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscriber ,  Subject ,  BehaviorSubject ,  Subscription } from 'rxjs';
 import {
   Component,
   ElementRef,
@@ -32,16 +30,14 @@ import {
   FormGroupDirective,
   NgControl, NgForm,
 } from '@angular/forms';
-import { ThemeModule, IsBoolean, toBoolean } from 'alyle-ui/core';
-import { Subscription } from 'rxjs/Subscription';
+import { LyCommonModule, IsBoolean, toBoolean } from '@alyle/ui';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
 import {
   LyTheme,
-  ThemeColor,
   themeProperty,
   LyStyleTheme
-} from 'alyle-ui/core';
+} from '@alyle/ui';
 
 @Directive({
   selector: 'ly-default, ly-before, ly-after, ly-input ly-error, ly-input ly-hint'
@@ -242,7 +238,7 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ThemeModule],
+  imports: [CommonModule, FormsModule, LyCommonModule],
   exports: [LyInput, LyInputContents, LyFieldDirective, LyInputCommon, LyDefault, LyLabel, LyPlaceholder],
   declarations: [LyInput, LyInputContents, LyFieldDirective, LyInputCommon, LyDefault, LyLabel, LyPlaceholder],
 })

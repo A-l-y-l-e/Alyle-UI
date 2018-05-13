@@ -1,212 +1,110 @@
 import {
-  NgModule,
-  ModuleWithProviders,
-  Component,
-  Renderer2,
-  ElementRef,
-  Output,
-  Input,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  HostBinding,
-  OnDestroy,
-  Optional,
-  OnChanges,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  Optional,
+  Renderer2,
   SimpleChanges,
-  ContentChildren,
-  QueryList,
-  forwardRef,
-  Directive,
   ViewChild,
-  ContentChild,
-  HostListener,
-  OnInit } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
-import { Subscriber } from 'rxjs/Subscriber';
-import { Subject }         from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LyRipple } from 'alyle-ui/ripple-minimal';
-import { Observable } from 'rxjs/Observable';
+  Inject
+} from '@angular/core';
 import {
-  LyTheme,
-  themeProperty,
-  Platform,
   IsBoolean,
-  LyBg,
-  LyColor
- } from 'alyle-ui/core';
-import { LyIconButton } from 'alyle-ui/icon-button';
-import { LyShadowService } from 'alyle-ui/shadow';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-
-// @Directive({ selector: '[ly-button][raised]' })
-// export class LyButtonRaised {
-//   private _raised = true;
-//   constructor() { }
-// }
+  LyTheme,
+  Platform,
+  StyleData,
+  toBoolean,
+  ThemeVariables
+} from '@alyle/ui';
+import { LyRipple, Ripple } from '@alyle/ui/ripple';
+import { LyButtonService } from './button.service';
+import { LyBgColorAndRaised } from '@alyle/ui';
 
 @Component({
   selector: '[ly-button], ly-button',
   styleUrls: ['button.style.scss'],
-  // tslint:disable-next-line:use-host-property-decorator
-  host: {
-    '[class._disabled]': '_disabled',
-    '[class.ly-button-init]': '_hasButton()'
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <div class="ly-button-ripple" lyRipple [lyRippleSensitive]="rippleSensitive"></div>
-  <div class="ly-button-content" [style.font-family]="(theme.typography | async)?.fontFamily" [ngClass]="buttonPadding | async">
+  <!--<div class="ly-button-container">
+    <ng-content select="[start]"></ng-content>-->
     <ng-content></ng-content>
-  </div>
-  `,
-  preserveWhitespaces: false
+    <!--<ng-content select="[end]"></ng-content>
+  </div>-->
+  `
 })
-export class LyButton implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  private _lastClass: string;
+export class LyButton implements AfterViewInit {
   public _disabled = false;
-  public _prevFocused = true;
-  private html: any = '';
-  private styleRipple: any;
-  private size = 10;
-  private distancefromV: any;
-  private stateH = true;
-  private timePress: any;
-  private _color = 'colorText';
-  private _deep: any = false;
-  private _bg = 'rgba(0, 0, 0, 0)';
-  private e: any;
-  private colorString: string = null;
-  private bgString: string = null;
-  _subscription: Subscription;
-  private _raised: string | boolean = false;
-  nativeElement: HTMLElement;
   private _rippleSensitive = false;
-  @HostBinding('style.box-shadow') boxShadow: any;
+  private _disabledClassName: string;
+  private _outlinedClassName: string;
+  @Input()
+  set outlined(val: boolean) {
+    const classname = toBoolean(val) === true ? this.buttonService.classes.outlined : '';
+    this.theme.updateClassName(this.elementRef.nativeElement, this.renderer, classname, this._outlinedClassName);
+    this._outlinedClassName = classname;
+  }
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
   }
   set rippleSensitive(value: boolean) {
-    if (value === false) {
-      this._rippleSensitive = false;
-    } else {
-      this._rippleSensitive = true;
-    }
+    this._rippleSensitive = toBoolean(value);
   }
 
-  @Input() color: string;
-  @Input() bg: string;
-  @Input() @IsBoolean() raised: boolean;
-  @Input() @IsBoolean() raisedColorInverted: string;
-
-  @HostBinding('style.background') styleBackground: string;
-  @HostBinding('style.color') styleColor: string;
   @ViewChild(LyRipple) ripple: LyRipple;
-  @ContentChildren(forwardRef(() => LyIconButton)) iconButton: QueryList<LyIconButton>;
-  buttonPadding: Subject<string> = new BehaviorSubject<string>('');
-  span = true;
+
+  @Input()
+  set disabled(value: boolean) {
+    const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
+    this._disabledClassName = this.theme.createStyle(`btn${key}`, this.disableStyle.bind(this)).id;
+    this._disabled = toBoolean(value);
+    if (this._disabled) {
+      this.renderer.addClass(this.elementRef.nativeElement, this._disabledClassName);
+    } else {
+      this.renderer.removeClass(this.elementRef.nativeElement, this._disabledClassName);
+    }
+  }
+  get disabled() {
+    return this._disabled;
+  }
 
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private sanitizer: DomSanitizer,
-    private shadowService: LyShadowService,
-    public theme: LyTheme,
-    @Optional() private lyColor: LyColor,
-    @Optional() private lyBg: LyBg
+    private theme: LyTheme,
+    private buttonService: LyButtonService,
+    @Optional() private bgAndColor: LyBgColorAndRaised
   ) {
-    this.nativeElement = this.elementRef.nativeElement;
-  }
-  ngOnInit() { }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.raised || this.raisedColorInverted) {
-      let colorRaised = this.bg || this.color || '';
-      if (this.raisedColorInverted) {
-        colorRaised = this.color;
-      }
-      this._lastClass = this.shadowService.setShadow(this.elementRef, this.renderer, ['3', colorRaised], this._lastClass);
-    } else if (this._lastClass) {
-      /** reset */
-      this.renderer.removeClass(this.elementRef.nativeElement, this._lastClass);
-      this._lastClass = null;
+    if (bgAndColor) {
+      bgAndColor.setAutoContrast();
     }
+    this.buttonService.applyTheme(renderer, elementRef);
   }
-  ngOnDestroy() { }
 
   public focused() {
     this.elementRef.nativeElement.focus();
   }
-  private get btnWidth() {
-    return this.elementRef.nativeElement.offsetWidth;
-  }
   ngAfterViewInit() {
-    const el: HTMLElement = this.elementRef.nativeElement;
     if (Platform.isBrowser) {
-      this.ripple.setTriggerElement(el);
-      Promise.resolve(null).then(() => {
-        if (this.iconButton.length !== 0) {
-          let left: string;
-          let right: string;
-          this.iconButton.forEach((iconButton: LyIconButton) => {
-            const ele = iconButton.elementRef.nativeElement as HTMLElement;
-            let eve: any = ele;
-            while (eve = eve.previousSibling) {
-              if (eve.nodeName === '#text' && eve.nodeValue.trim() !== '') {
-                left = 'ly-button-padding-left';
-              }
-            }
-            eve = ele;
-            while (eve = eve.nextSibling) {
-              if (eve.nodeName === '#text' && eve.nodeValue.trim() !== '') {
-                right = 'ly-button-padding-right';
-              }
-              // this.buttonPadding.next(`${right}`);
-              // this.buttonPadding.next(`${right}`);
-            }
-          });
-          setTimeout(() => {
-            right === right && this.iconButton.length === 2 ? this.buttonPadding.next(``) : this.buttonPadding.next(`${right || ''} ${left || ''}`);
-          });
-        } else {
-          this.buttonPadding.next('ly-button-padding');
-        }
-      });
-    }
-
-  }
-  private get btnHeight() {
-    return this.elementRef.nativeElement.offsetHeight;
-  }
-  @Input()
-  public get deep(): any {
-    return this._deep;
-  }
-
-  public set deep(val: any) {
-    this._deep = val;
-  }
-
-  @Input()
-  public get disabled(): boolean {
-    return this._disabled;
-  }
-
-  public set disabled(val: boolean) {
-    this._disabled = val;
-    if (val) {
-      this.elementRef.nativeElement.setAttribute('disabled', 'true');
-    } else {
-      this.elementRef.nativeElement.removeAttribute('disabled');
+     this.ripple.setTriggerElement(this.elementRef.nativeElement);
     }
   }
-  public _hasButton() {
-    return !!this.disabled || !!this.deep || !!this.bg  || !!this.color;
+
+  private disableStyle() {
+    let style =
+    `box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;` +
+    `cursor: default;` +
+    `color: ${this.theme.palette.text.disabled} !important;` +
+    `pointer-events: none;`;
+    if (this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg)) {
+      style += `background-color: ${this.theme.palette.button.disabled} !important;`;
+    }
+    return style;
   }
 
-  private sanitizerStyle(val: any): SafeStyle {
-    return this.sanitizer.bypassSecurityTrustStyle(val);
-  }
 }

@@ -2,7 +2,7 @@ language: node_js
 dist: trusty
 sudo: false
 node_js:
-  - '9.7.0'
+  - '10.0.0'
 
 addons:
   chrome: stable
@@ -28,11 +28,11 @@ jobs:
   include:
     - stage: test
       script:
-        - yarn amb
+        - yarn build:@alyle/ui
         - yarn size-limit
     - stage: test
       script:
-        - ng build
+        - yarn build
     - stage: deploy
       script:
         - yarn build

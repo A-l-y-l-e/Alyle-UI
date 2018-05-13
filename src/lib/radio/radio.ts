@@ -24,11 +24,8 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { LyRippleModule, LyRipple } from 'alyle-ui/ripple-minimal';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
+import { Subscription ,  Subject ,  BehaviorSubject ,  Observable } from 'rxjs';
 import {
   NgModel,
   NG_VALUE_ACCESSOR,
@@ -36,7 +33,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyTheme, themeProperty, LyStyleTheme, BgAndColorStyle, ThemeModule, Platform, IsBoolean } from 'alyle-ui/core';
+import { LyTheme, themeProperty, LyStyleTheme, BgAndColorStyle, LyCommonModule, Platform, IsBoolean } from '@alyle/ui';
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyRadioGroup),
@@ -61,7 +58,7 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
   _color = 'accent';
 
   @Input() value = null;
-  @Input('radioColor') radioColor = 'accent';
+  @Input() radioColor = 'accent';
   @ContentChildren(forwardRef(() => LyRadio)) _radios: QueryList<LyRadio>;
 
   private changed = new Array<(value: any) => void>();
@@ -138,13 +135,13 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
       lyRippleRadius="containerSize"
     >
       <div class="ly-radio-icon-container">
-      <div class="ly-radio-outer-circle" color="colorText"></div>
+      <div class="ly-radio-outer-circle" color="radio:radioOuterCircle"></div>
       <div class="ly-radio-inner-circle"></div>
       </div>
     </div>
     <div
     class="ly-radio-label-content"
-    color="colorText">
+    color="text">
       <ng-content></ng-content>
     </div>
   </label>
@@ -207,7 +204,7 @@ export class LyRadio implements OnInit, AfterViewInit, OnChanges {
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, LyRippleModule, ThemeModule],
+  imports: [CommonModule, FormsModule, LyRippleModule, LyCommonModule],
   exports: [LyRadioGroup, LyRadio],
   declarations: [LyRadioGroup, LyRadio],
 })

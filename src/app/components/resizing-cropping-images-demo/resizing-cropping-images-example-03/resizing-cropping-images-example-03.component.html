@@ -1,7 +1,7 @@
 <div class="actions">
   <button raised ly-button bg="primary" (click)="_fileInput.click()">
-    <a ly-icon-button class="material-icons">image</a>
-    Select File
+    <ly-icon start>image</ly-icon>
+    <span end>Select File</span>
   </button>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropping.selectInputEvent($event)" accept="image/*" hidden>
@@ -13,6 +13,7 @@
     <button (click)="cropping.center()" ly-button>center</button>
     <button (click)="cropping.fit()" ly-button>fit</button>
     <button (click)="cropping.fitToScreen()" ly-button>fit to screen</button>
+    <button (click)="cropping['1:1']()" ly-button>1:1</button>
     <ly-cropping #cropping
     [config]="myConfig">
       <span>Drag and drop image</span>

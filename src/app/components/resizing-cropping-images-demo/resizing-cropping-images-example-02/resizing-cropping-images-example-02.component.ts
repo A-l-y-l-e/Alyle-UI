@@ -10,7 +10,7 @@ import {
   ImageResolution,
   LyResizingCroppingImages,
   LyResizingCroppingImagesConfig
-  } from 'alyle-ui/resizing-cropping-images';
+  } from '@alyle/ui/resizing-cropping-images';
 
 @Component({
   selector: 'resizing-cropping-images-example-02',

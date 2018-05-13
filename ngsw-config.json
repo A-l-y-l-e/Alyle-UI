@@ -1,0 +1,28 @@
+{
+  "index": "/index.html",
+  "assetGroups": [{
+    "name": "app",
+    "installMode": "prefetch",
+    "resources": {
+      "files": [
+        "/favicon.ico",
+        "/index.html",
+        "/*.css",
+        "/*.js",
+        "/*.woff2"
+      ]
+    }
+  }, {
+    "name": "assets",
+    "installMode": "lazy",
+    "updateMode": "prefetch",
+    "resources": {
+      "files": [
+        "/assets/**"
+      ],
+      "urls": [
+        "https://fonts.googleapis.com/**"
+      ]
+    }
+  }]
+}

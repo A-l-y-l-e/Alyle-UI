@@ -5,14 +5,13 @@ import {
   Optional,
   ElementRef
 } from '@angular/core';
-import { Observable }      from 'rxjs/Observable';
+import { Observable, of }      from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
-import { MinimalLS } from 'alyle-ui/ls';
-import { Platform } from 'alyle-ui/core';
+import { MinimalLS } from '@alyle/ui/ls';
+import { Platform } from '@alyle/ui';
 
 import { RoutesAppService } from '../../components/routes-app.service';
 
@@ -52,7 +51,7 @@ export class ViewComponent implements OnInit {
     if (Platform.isBrowser) {
       return req;
     } else {
-      return Observable.of();
+      return of();
     }
   }
 

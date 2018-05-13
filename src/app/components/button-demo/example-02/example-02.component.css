@@ -1,3 +1,9 @@
 button {
-  margin: 0 4px;
+  margin: 4px;
+}
+.item {
+  width: 160px;
+}
+.padding-rigth {
+  padding-right: .5em;
 }

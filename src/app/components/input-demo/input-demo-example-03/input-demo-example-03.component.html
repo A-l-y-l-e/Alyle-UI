@@ -1,6 +1,6 @@
 <h4>Github</h4>
 <a (click)="_github.select()" ly-icon-button>
-  <ly-svg src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
+  <ly-icon src="assets/svg/social/social-color-1_logo-github"></ly-icon>
 </a>
 <ly-input label="github">
   <ly-before>
@@ -9,13 +9,13 @@
   <input #_github [(ngModel)]="github">
   <ly-after>
     <a [href]="'https://github.com/' + github" target="_blank" ly-icon-button>
-      <ly-svg size="18px" src="assets/svg/ic_launch_24px.svg"></ly-svg>
+      <ly-icon size="18px" src="assets/svg/ic_launch_24px"></ly-icon>
     </a>
   </ly-after>
 </ly-input>
 <h4>Mobile</h4>
 <a ly-icon-button (click)="_mobile.focus()">
-  <ly-svg src="assets/svg/Mobile"></ly-svg>
+  <ly-icon src="assets/svg/Mobile"></ly-icon>
 </a>
 <ly-input class="mobile" placeholder="Mobile">
   <ly-before>
@@ -27,7 +27,7 @@
 <ly-textarea label="Message" placeholder="Hi...">
   <ly-before>
     <a ly-icon-button (click)="_message.select()">
-      <ly-svg src="assets/svg/ic_mail_outline_48px"></ly-svg>
+      <ly-icon src="assets/svg/ic_mail_outline_48px"></ly-icon>
     </a>
   </ly-before>
   <textarea #_message [(ngModel)]="message"></textarea>

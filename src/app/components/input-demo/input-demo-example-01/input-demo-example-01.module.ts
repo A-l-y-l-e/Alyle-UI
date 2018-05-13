@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ThemeModule } from 'alyle-ui/core';
-import { LyInputModule } from 'alyle-ui/input';
+import { LyCommonModule } from '@alyle/ui';
+import { LyInputModule } from '@alyle/ui/input';
 
 import { InputDemoExample01Component } from './input-demo-example-01.component';
 
@@ -12,7 +12,7 @@ import { InputDemoExample01Component } from './input-demo-example-01.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ThemeModule,
+    LyCommonModule,
     LyInputModule
   ],
   exports: [InputDemoExample01Component],

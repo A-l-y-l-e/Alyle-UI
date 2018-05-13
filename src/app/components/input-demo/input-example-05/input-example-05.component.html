@@ -2,7 +2,7 @@
 <ly-textarea [style.vertical-align]="position" label="Message...">
   <ly-before>
     <a ly-icon-button (click)="_message.focus()">
-      <ly-svg src="assets/svg/ic_mail_outline_48px.svg"></ly-svg>
+      <ly-icon src="assets/svg/ic_mail_outline_48px"></ly-icon>
     </a>
   </ly-before>
   <textarea #_message [disabled]="disabled" [(ngModel)]="message" label="Message" rows="5"></textarea>
@@ -38,7 +38,7 @@
 <ly-input inputColor="accent" label="accent">
   <input [(ngModel)]="value">
 </ly-input>
-<ly-input inputColor="other" label="other">
+<ly-input inputColor="warn" label="warn">
   <input [(ngModel)]="value">
 </ly-input>
 <ly-input [inputColor]="color" [label]="color">
@@ -46,9 +46,9 @@
 </ly-input>
 <button ly-button (click)="changeColor(); _inputColor.focus()">
   Change
-  <ly-icon-button>
-    <ly-svg src="assets/svg/Brush.svg"></ly-svg>
-  </ly-icon-button>
+  <span ly-icon-button>
+    <ly-icon src="assets/svg/Brush"></ly-icon>
+  </span>
 </button>
 <h4>Full width</h4>
 <ly-text-field class="full" label="Label">

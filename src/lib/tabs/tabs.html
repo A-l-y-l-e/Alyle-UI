@@ -1,11 +1,16 @@
 <div class="ly-tab-header">
   <ly-header-pagination>
-    <div class="ly-tab-header-content" [style.background]="styleBackground" #tabsContent>
+    <!-- <div class="ly-tab-header-content" [style.background]="styleBackground" #tabsContent> -->
+    <div class="ly-tab-header-content" #tabsContent>
       <ng-content></ng-content>
     </div>
-    <div
+    <!-- <div
     class="ly-tab-indicator"
     [style.color]="styleColor"
+    [style.width]="tabWidth+'px'"
+    [style.left]="tabLeft+'px'"></div> -->
+    <div
+    class="ly-tab-indicator"
     [style.width]="tabWidth+'px'"
     [style.left]="tabLeft+'px'"></div>
   </ly-header-pagination>

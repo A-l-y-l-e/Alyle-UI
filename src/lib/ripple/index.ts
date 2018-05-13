@@ -1,1 +1,1 @@
-export * from './ripple';
+export * from './public_api';

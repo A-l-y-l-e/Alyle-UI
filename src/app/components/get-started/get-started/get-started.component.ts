@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme } from 'alyle-ui/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { LyTheme } from '@alyle/ui';
 
 @Component({
   selector: 'app-get-started',
@@ -12,26 +12,23 @@ export class GetStartedComponent implements OnInit {
   constructor(
     public theme: LyTheme
   ) {
-    this.code = `
-...
+    this.code = `...
 /** Important for Animations */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-/** Core module */
-import { AlyleUIModule } from 'alyle-ui';
+/** Core module & common module */
+import { AlyleUIModule, LyCommonModule } from '@alyle/ui';
 
-/** Responsive module (Optional) */
-import { ResponsiveModule } from 'alyle-ui/responsive';
-
-/** Custom theme */
-const configAlyleUI = ${this.toJson(this.theme.AlyleUI.currentTheme)};
 @NgModule({
   ...
   imports: [
     ...
     BrowserAnimationsModule,
-    AlyleUIModule.forRoot(configAlyleUI),
-    ResponsiveModule
+    AlyleUIModule.forRoot({
+      /** You can put any other name */
+      name: 'default' // it's like the theme id
+    }),
+    LyCommonModule // for bg, color, raised, button and other components
     ...
   ],
   ...
@@ -43,6 +40,8 @@ export class AppModule { }`;
   }
 
   toJson(val: any) {
+    // /** Custom theme */
+    // const configAlyleUI = ${this.toJson(this.palette)};
     val = JSON.stringify(val, undefined, 2);
     val = (<string>val).replace(/\s\s\"/g, '  ');
     return (<string>val).replace(/\"\:\s/g, ': ');

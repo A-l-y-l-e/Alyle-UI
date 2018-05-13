@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShadowDemo01Component } from './shadow-demo-01.component';
-import { LyShadowModule } from 'alyle-ui/shadow';
+import { LyCommonModule } from '@alyle/ui';
 
 @NgModule({
   imports: [
     CommonModule,
-    LyShadowModule
+    LyCommonModule
   ],
   declarations: [ShadowDemo01Component],
   exports: [ShadowDemo01Component]

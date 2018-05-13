@@ -1,12 +1,7 @@
-import { Platform } from 'alyle-ui/core';
+import { Platform } from '@alyle/ui';
 import { Injectable, NgZone, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { merge } from 'rxjs/observable/merge';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  fromEvent ,  merge, of ,  Subscription } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
 import { MediaQueries } from './media-queries';
 import { PLATFORM_ID, APP_ID } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
@@ -26,16 +21,18 @@ export class Responsive {
    */
   observe(value: string): Observable<boolean> {
     let mm = this.matchMedia(value);
-    const mediaObservable = merge(Observable.of(true), this.stateView());
+    const mediaObservable = merge(of(true), this.stateView());
     return mediaObservable
-    .filter((state) => {
-      return this.matchMedia(value) !== mm || state === true;
-    })
-    .map(() => {
-      mm = this.matchMedia(value);
-      this._registerMedia(value);
-      return this.matchMedia(value);
-    });
+    .pipe(
+      filter((state) => {
+        return this.matchMedia(value) !== mm || state === true;
+      },
+      map(() => {
+        mm = this.matchMedia(value);
+        this._registerMedia(value);
+        return this.matchMedia(value);
+      })
+    ));
   }
 
   private _registerMedia(value: string) {
@@ -49,7 +46,7 @@ export class Responsive {
       });
     }
     if (isPlatformServer(this.platformId)) {
-      return Observable.of();
+      return of();
     }
   }
 

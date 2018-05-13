@@ -15,15 +15,15 @@
     bottom: 0;
   }
 }
-:host {
-  color: #282B2F;
-}
 .app-container {
-  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh);
   .demo {
-    margin: auto;
     max-width: 960px;
-    padding: 96px 32px;
+    width: 75%;
+    padding: 96px 0;
   }
 }
 .logo {
@@ -44,10 +44,9 @@
   }
 }
 .nav-button {
-  justify-content: flex-start;
-  display: block;
-  width: 100%;
+  display: flex;
   border-radius: 0;
+  justify-content: flex-start;
   height: 48px;
 }
 .i-right {

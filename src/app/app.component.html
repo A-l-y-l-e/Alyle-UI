@@ -1,56 +1,34 @@
-<ly-core root>
-  <div class="header" [lyShadow]="[6, 'primary:300']">
-    <ly-toolbar toolbarBg="primary" toolbarColor="#fff">
-      <button ly-icon-button color="#fff" (click)="nav.toggle()" class="material-icons">
-        menu
-      </button>
-      <ly-toolbar-item class="logo">
-        <button ly-button sensitive color="#fff" [routerLink]="['./']">
-          Alyle UI
-          <div class="version">v{{ version }}</div>
-        </button>
-      </ly-toolbar-item>
-      <ly-toolbar-item *lyResponsive="'(min-width: 720px)'">
-        <a href="https://www.npmjs.com/package/alyle-ui" target="_blank" ly-button bg="#fff" color="primary">npm</a>
-      </ly-toolbar-item>
-      <div [style.flex]="1"></div>
-      <ly-toolbar-item class="av">
-        Angular version
-        <div class="version">{{ angularVersion.full }}</div>
-      </ly-toolbar-item>
-      <button ly-icon-button size="16px" *ngIf="!nav.sidenavState" [lyMenuTriggerFor]="ThemeMenu">
-        <ly-svg class="force-color" size="24px" src="assets/svg/Brush.svg"></ly-svg>
-      </button>
-      <ly-menu #ThemeMenu
-      [anchor-origin]="{horizontal: 'left', vertical: 'center'}"
-      [target-origin]="{horizontal: 'right', vertical: 'center'}">
-        <div class="content-menu" bg="main">
-          <div class="menu-item" lyRipple lyRippleSensitive color="colorText" *ngFor="let item of listColors" (click)="changePrimary(item)">
-            <div class="item-container">
-              <div ly-shadow [shadowColor]="theme.AlyleUI.currentTheme.palette[item.primary].default" [style.background]="theme.AlyleUI.currentTheme.palette[item.primary].default"></div>
-              <div ly-shadow [shadowColor]="theme.AlyleUI.currentTheme.palette[item.accent].default" [style.background]="theme.AlyleUI.currentTheme.palette[item.accent].default"></div>
-            </div>
-          </div>
-        </div>
-      </ly-menu>
-      <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="16px" (click)="nav.toggle()" *ngIf="!nav.sidenavState">
-          <ly-svg size="24px" src="assets/svg/social/social-color-1_logo-github.svg"></ly-svg>
-        </a>
-    </ly-toolbar>
-  </div>
-  <ly-drawer-container class="drawer">
-    <ly-drawer [config]="{width: 200}" bg="main" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items">
-      <div *ngFor="let category of routesComponents">
-        <span class="category-name">{{ category.name }}</span>
-        <a ly-button class="nav-button" [routerLink]="[(category.name == 'Components'?'/component/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</a>
+<ly-toolbar class="header" bg="primary" [newRaised]="[6]">
+  <button ly-icon-button color="#fff" (click)="nav.toggle()" class="material-icons">
+    menu
+  </button>
+  <ly-toolbar-item class="logo">
+    <button ly-button sensitive color="#fff" [routerLink]="['./']">
+      Alyle UI
+      <span class="version">v{{ version }}</span>
+    </button>
+  </ly-toolbar-item>
+  <div [style.flex]="1"></div>
+  <button ly-icon-button size="24px" (click)="changeScheme()">
+    <ly-icon *ngIf="mode" src="assets/svg/theme/sun" [style.font-size.px]="36"></ly-icon>
+    <ly-icon *ngIf="!mode" src="assets/svg/theme/moon" [style.font-size.px]="36"></ly-icon>
+  </button>
+  <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="24px" (click)="nav.toggle()">
+      <ly-icon src="assets/svg/social/social-color-1_logo-github"></ly-icon>
+    </a>
+</ly-toolbar>
+<ly-drawer-container class="drawer">
+  <ly-drawer [config]="{width: 200}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items">
+    <div *ngFor="let category of routesComponents">
+      <span class="category-name">{{ category.name }}</span>
+      <a ly-button class="nav-button" [routerLink]="[(category.name == 'Components'?'/component/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</a>
+    </div>
+  </ly-drawer>
+  <ly-drawer-content>
+    <div class="app-container">
+      <div class="demo">
+        <router-outlet></router-outlet>
       </div>
-    </ly-drawer>
-    <ly-drawer-content>
-      <div class="app-container">
-        <div class="demo">
-          <router-outlet></router-outlet>
-        </div>
-      </div>
-    </ly-drawer-content>
-  </ly-drawer-container>
-</ly-core>
+    </div>
+  </ly-drawer-content>
+</ly-drawer-container>

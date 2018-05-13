@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ThemeModule } from 'alyle-ui/core';
+import { LyCommonModule } from '@alyle/ui';
 import { BgColorDemo01Component } from './bg-color-demo-01.component';
+import { PrismModule } from 'app/core/prism/prism.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    ThemeModule
+    LyCommonModule,
+    PrismModule
   ],
   exports: [BgColorDemo01Component],
   declarations: [BgColorDemo01Component]

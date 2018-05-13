@@ -1,4 +1,4 @@
-import { LyStyleTheme } from 'alyle-ui/core';
+import { LyStyleTheme } from '@alyle/ui';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyToolbar, ToolbarItem } from './toolbar';

@@ -1,32 +1,44 @@
-<h4>bg</h4>
 <p>
-  <span bg="primary">`primary`</span>
-</p>
-<p>
-  <span bg="accent">`accent`</span>
-</p>
-<p>
-  <span bg="other">`other`</span>
-</p>
-<h4>color</h4>
-<p>
-  <span color="primary">`primary`</span>
-</p>
-<p>
-  <span color="accent">`accent`</span>
-</p>
-<p>
-  <span color="other">`other`</span>
+  First and important, import `LyCommonModule` in your module
 </p>
 
+<prism language="typescript" [code]="install" color="codeColor" bg="codeBg"></prism>
+
+<h4>bg</h4>
+<div class="item">
+  <div bg="primary"></div>
+  <span bg="codeBg">bg="primary"</span>
+</div>
+<div class="item">
+  <div bg="accent"></div>
+  <span bg="codeBg">bg="accent"</span>
+</div>
+<div class="item">
+  <div bg="warn"></div>
+  <span bg="codeBg">bg="warn"</span>
+</div>
+<h4>color</h4>
+<div prism language="html" [code]="demo('color', 'primary', ' ·I am Primary· ')" color="primary" bg="codeBg"></div>
+<div prism language="html" [code]="demo('color', 'accent', ' ·I am Accent· ')" color="accent" bg="codeBg"></div>
+<div prism language="html" [code]="demo('color', 'warn', ' ·I am Warn· ')" color="warn" bg="codeBg"></div>
+<div prism language="html" [code]="demo('color', 'green', ' ·I am Green· ')" color="green" bg="codeBg"></div>
+<div prism language="html" [code]="demo('color', '#00bcd4', ' ·I am Cyan · ')" color="#00bcd4" bg="codeBg"></div>
 <h4>from palette</h4>
-<span bg="primary:150">primary:150</span>
-<span bg="primary:800">primary:800</span>
-<div bg="myColor">myColor</div>
-<div bg="colorText">colorText</div>
-<div bg="#f0f0f0">#f0f0f0</div>
+<div prism language="html" [code]="demo('color', 'lightGreen', ' ·I am Light green · ')" color="lightGreen" bg="codeBg"></div>
+
+<h4>Auto contrast</h4>
+<p>
+  Requires [bg] to work
+</p>
+<span bg="primary" color="auto">bg="primary" color="auto"</span>
+<span bg="accent" color="auto">bg="primary" color="auto"</span>
+
+<p>
+  In button, toolbar and other components the auto contrast is activated
+</p>
 
 <h4>Change</h4>
 <input type="text" [(ngModel)]="color">
 <div [bg]="color">bg</div>
 <div [color]="color">color</div>
+

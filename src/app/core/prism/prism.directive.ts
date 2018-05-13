@@ -2,7 +2,7 @@ import { Directive, ElementRef, Input, OnInit, AfterViewInit, Inject, Renderer2 
 import { PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { PrismPipe } from '../pipes/prism/prism.pipe';
-import { Platform } from 'alyle-ui/core';
+import { Platform } from '@alyle/ui';
 
 const Prism = require('prismjs');
 const PrismTypescript = require('prismjs/components/prism-typescript');

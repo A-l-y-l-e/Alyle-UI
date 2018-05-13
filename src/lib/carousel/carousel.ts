@@ -29,18 +29,17 @@ import {
 import { ControlValueAccessor, FormsModule } from '@angular/forms';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { LyShadowModule, LyShadowService } from 'alyle-ui/shadow';
 import { CarouselService, VibrantColors } from './carousel.service';
-import { Platform } from 'alyle-ui/core';
-import { MinimalLS } from 'alyle-ui/ls';
+import { Platform } from '@alyle/ui';
+import { MinimalLS } from '@alyle/ui/ls';
 
 @Component({
   selector: 'ly-carousel',
   styleUrls: ['carousel.scss'],
   template: `
-  <div class="lycarousel-slide" ly-shadow [shadowColor]="lyItems.toArray()[_itemSelect]?.color?.DarkMuted?.hex || '#fff'" scale="2">
+  <div class="lycarousel-slide" raised>
     <!--buttons-->
     <div class="carousel-indicators-container animation">
       <div class="carousel-blur" [style.background-image]="'url('+lyItems.toArray()[_itemSelect]?.src+')'"></div>
@@ -97,7 +96,6 @@ export class LyCarousel implements ControlValueAccessor, AfterViewInit, OnDestro
   private _onChangeCallback: (_: any) => void;
   constructor(
     private elementRef: ElementRef,
-    private shadow: LyShadowService,
     private sanitizer: DomSanitizer,
     private cd: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object

@@ -1,11 +1,11 @@
-import { NgModule }           from '@angular/core';
-import { ThemeModule }        from 'alyle-ui/core';
-import { LyButtonModule }     from 'alyle-ui/button';
+import { NgModule } from '@angular/core';
+import { LyCommonModule } from '@alyle/ui';
+import { LyButtonModule } from '@alyle/ui/button';
 import { Example01Component } from './example-01.component';
 
 @NgModule({
   imports: [
-    ThemeModule,
+    LyCommonModule,
     LyButtonModule
   ],
   exports: [Example01Component],

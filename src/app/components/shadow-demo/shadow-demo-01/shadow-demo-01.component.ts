@@ -8,7 +8,7 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@
   preserveWhitespaces: false
 })
 export class ShadowDemo01Component implements OnInit {
-  elevations = Array.from(Array(24).keys());
+  elevations = Array.from(Array(25).keys());
   constructor() { }
 
   ngOnInit() {

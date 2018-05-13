@@ -3,14 +3,9 @@
 }
 .intra-container {
   text-align: center;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  display: flex;
-  min-height: calc(100vh - 64px);
   .intra-content {
-    padding-bottom: 64px;
+    button {
+      margin: 8px;
+    }
   }
 }

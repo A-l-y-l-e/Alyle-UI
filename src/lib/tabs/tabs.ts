@@ -21,13 +21,14 @@ import {
   EventEmitter,
   Optional,
   SimpleChanges,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Inject
 } from '@angular/core';
-import { LyTheme, BgAndColorStyle, LyStyleTheme, themeProperty } from 'alyle-ui/core';
+import { LyTheme, BgAndColorStyle, LyStyleTheme, themeProperty, ThemeVariables } from '@alyle/ui';
 import { CommonModule } from '@angular/common';
-import { getParents } from 'alyle-ui/core';
-import { Subscription } from 'rxjs/Subscription';
-import { LyButton } from 'alyle-ui/button';
+import { getParents } from '@alyle/ui';
+import { Subscription } from 'rxjs';
+import { LyButton } from '@alyle/ui/button';
 
 let idTab = 0;
 
@@ -37,7 +38,7 @@ let idTab = 0;
   templateUrl: './tabs.html',
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
+export class LyTabGroupComponent implements OnInit, OnChanges {
 
   private _bg = 'rgba(0, 0, 0, 0)'; // private
   private _color = 'primary'; // private
@@ -54,8 +55,6 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
   _isInitialized = false;
   @ViewChild('tabsContent') _tabsContent: ElementRef;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
-  styleBackground: string;
-  styleColor: string;
 
   @Input()
   set selectedIndex(value: number) {
@@ -88,45 +87,12 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
     public styleTheme: LyStyleTheme,
   ) {
   }
-  @Input()
-  set bg(val: string) {
-    this._bg = val;
-    this.styleBackground = this.theme.colorOf(this._bg);
-    if (themeProperty(this._bg)) {
-      this.styleColor = '#fff';
-    } else {
-      this.styleColor = this.theme.colorOf(this._color);
-    }
-  }
-
-  @Input()
-  set color(val: string) {
-    this._color = val;
-    if (themeProperty(this._bg)) {
-      this.styleColor = '#fff';
-    } else {
-      this.styleColor = this.theme.colorOf(this._color);
-    }
-  }
-  _updateColor(bg: any) {
-    /**
-    // this.elementRef.nativeElement.setAttribute('style', `
-    //   background: ${this._bg};
-    //   color: ${this._color};
-    // `);
-    */
-  }
   ngAfterContentInit() {
 
     this.updateTabsHeader();
     this.tabRows = this.tabs.length;
   }
-  ngOnInit() {
-    this._subscription = this.theme.palette.subscribe((colors: any) => {
-      this.styleBackground = this.theme.colorOf(this._bg);
-      this.styleColor = this.theme.colorOf(this._color);
-    });
-  }
+  ngOnInit() { }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedIndex']) {
       if (!changes['selectedIndex'].firstChange) {
@@ -183,11 +149,11 @@ export class LyTabGroupComponent implements OnInit, OnChanges, BgAndColorStyle {
       const tabRef = item.elementRef.nativeElement;
       if (this._selectedIndex == index && !!tabRef) {
         if (!!item.lyButton) {
-          Promise.resolve(null).then(() => {
-            item.lyButton.buttonPadding.subscribe((val) => {
-              this.updateTabIndicator(tabRef);
-            });
-          });
+          // Promise.resolve(null).then(() => {
+          //   item.lyButton.buttonPadding.subscribe((val) => {
+          //     this.updateTabIndicator(tabRef);
+          //   });
+          // });
         } else {
           this.updateTabIndicator(tabRef);
         }
@@ -228,13 +194,7 @@ export class LyTab {
   public tabRef: TemplateRef<any>;
   @ContentChild(LyButton) lyButton: LyButton;
   get tabStyles() {
-    let color = 'currentColor';
-    if (this._index == this.indexGroup) {
-      color = this.lyTabGroup.styleColor;
-    }
-    return {
-      color: color,
-    };
+    return {color: 'currentColor'};
   }
   @HostBinding('style.color') hostStyle: string;
   llOorr(...arg: any[]): string {
@@ -375,6 +335,6 @@ export class LyTab {
   }
   ngAfterContentInit() {
     // this.lyTabGroup.updateTabsHeader();
-    this.hostStyle = this.lyTabGroup.theme.AlyleUI.palette.primary.text;
+    this.hostStyle = this.lyTabGroup.theme.palette.primary.text;
   }
 }

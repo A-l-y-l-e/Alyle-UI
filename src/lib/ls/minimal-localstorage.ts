@@ -8,12 +8,8 @@ import {
 }                          from '@angular/core';
 import { PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { Observable }      from 'rxjs/Observable';
-import { Subject }         from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observer }        from 'rxjs/Observer';
+import { Observable ,  Subject ,  BehaviorSubject ,  Observer ,  fromEvent }      from 'rxjs';
 import { CommonModule }    from '@angular/common';
-import { fromEvent } from 'rxjs/observable/fromEvent';
 
 export class MinimalStorage {
   constructor(key$: string, val: any) {

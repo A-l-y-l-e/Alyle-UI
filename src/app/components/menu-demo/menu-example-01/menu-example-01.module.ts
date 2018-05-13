@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyMenuModule } from 'alyle-ui/menu';
-import { LyToolbarModule } from 'alyle-ui/toolbar';
-import { LyButtonModule } from 'alyle-ui/button';
-import { LyIconButtonModule } from 'alyle-ui/icon-button';
-import { LySvgModule } from 'alyle-ui/svg';
-import { LyRadioModule } from 'alyle-ui/radio';
+import { LyMenuModule } from '@alyle/ui/menu';
+import { LyToolbarModule } from '@alyle/ui/toolbar';
+import { LyButtonModule } from '@alyle/ui/button';
+import { LyIconButtonModule } from '@alyle/ui/icon-button';
+import { LyIconModule } from '@alyle/ui/icon';
+import { LyRadioModule } from '@alyle/ui/radio';
 import { MenuExample01Component } from './menu-example-01.component';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { MenuExample01Component } from './menu-example-01.component';
     LyToolbarModule,
     LyButtonModule,
     LyIconButtonModule,
-    LySvgModule,
+    LyIconModule,
     LyRadioModule
   ],
   exports: [MenuExample01Component],

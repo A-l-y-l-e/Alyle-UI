@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme } from 'alyle-ui/core';
+import { LyTheme } from '@alyle/ui';
 
 @Component({
   selector: 'app-home',

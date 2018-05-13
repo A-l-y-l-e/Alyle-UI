@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import {
   Component,
   ElementRef,
@@ -37,7 +37,7 @@ import {
   transition,
   group
 } from '@angular/animations';
-import { DomService, LxDomModule, Platform } from 'alyle-ui/core';
+import { DomService, LxDomModule, Platform } from '@alyle/ui';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
@@ -97,7 +97,7 @@ export class LyTemplateMenu implements OnInit, OnDestroy {
   <ng-template>
     <div #_menu [@menu]="menuAnimationsState"
       class="ly-menu"
-      bg="main"
+      bg="menu:bg"
       color="colorText"
       [style.transform-origin]="targetOrigin"
       [style.top.px]="rootStyle.top + rootStylePosition.top"

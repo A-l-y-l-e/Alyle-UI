@@ -24,11 +24,8 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { exactPosition } from 'alyle-ui/core';
+import { BehaviorSubject ,  Subscription ,  Subject ,  Observable } from 'rxjs';
+import { exactPosition } from '@alyle/ui';
 
 export interface LyResizingCroppingImagesConfig {
   width: number;
@@ -140,7 +137,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
     return parseFloat(num.toFixed(0));
   }
   setScale(size: number) {
-    if (!(size > 0 && size <= 1)) { return; }
+    console.log('setScale', size);
+    // if (!(size > 0 && size <= 1)) { return; }
     this.scale = size;
     size = size * 100;
     const img = this.imgContainer.nativeElement.firstElementChild;
@@ -158,6 +156,10 @@ export class LyResizingCroppingImages implements AfterContentInit {
     const w = (root.offsetWidth - width) / 2;
     const h = (root.offsetHeight - height) / 2;
     return `translate3d(${w}px, ${h}px, 0)`;
+  }
+
+  '1:1'() {
+    this.setScale(1);
   }
 
   /**
@@ -178,11 +180,11 @@ export class LyResizingCroppingImages implements AfterContentInit {
       height: min.height / size.height * 100
     };
     const result = Math.max(minScale.width, minScale.height) / 100;
-    if (result >= 1) {
-      this.setScale(1);
-    } else {
+    // if (result >= 1) {
+      // this.setScale(1);
+    // } else {
       this.setScale(result);
-    }
+    // }
   }
 
   fit() {
@@ -302,7 +304,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
     /** Calculate total number of steps needed */
     let  numSteps = Math.ceil(Math.log(this.max(img.width, img.height) / this.max(config.height, config.width)) / Math.log(2)) - 1;
-    console.warn({ numSteps, config });
     numSteps = numSteps <= 0 ? 0 : numSteps;
 
     /**Array steps */
@@ -363,7 +364,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
    */
   cropp(): string {
     const myConfig = Object.assign({}, CONFIG_DEFAULT, this.config);
-    console.log(myConfig);
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
     const rect = this.croppingContainer.nativeElement.getBoundingClientRect() as ClientRect;
     const img = this.imgContainer.nativeElement.firstElementChild.getBoundingClientRect() as ClientRect;
