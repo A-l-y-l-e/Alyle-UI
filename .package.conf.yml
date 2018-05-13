@@ -1,6 +1,7 @@
 version: 1.7.0-beta.11
 components:
   "@alyle/ui": core
+  "@alyle/ui/flex": flex
   "@alyle/ui/ripple": ripple
   "@alyle/ui/icon-button": icon-button
   "@alyle/ui/icon": icon
