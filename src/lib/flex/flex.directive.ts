@@ -3,13 +3,13 @@ import { LyFlexService } from './flex.service';
 import { LNodeType } from '@angular/core/src/render3/interfaces/node';
 import { StyleData } from '@alyle/ui';
 
-type Direction = 'row' | 'row-reverse' | 'column' | 'column-reverse';
-type Wrap = 'nowrap' | 'wrap' | 'wrap-reverse';
-type Flow = Direction | Wrap;
-type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
-type AlignItems = 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
-type AlignContent = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'stretch';
-type AlignItemsAndContent = 'flex-start' | 'center' | 'flex-end' | 'stretch';
+export type Direction = 'row' | 'row-reverse' | 'column' | 'column-reverse';
+export type Wrap = 'nowrap' | 'wrap' | 'wrap-reverse';
+export type Flow = Direction | Wrap;
+export type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
+export type AlignItems = 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
+export type AlignContent = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'stretch';
+export type AlignItemsAndContent = 'flex-start' | 'center' | 'flex-end' | 'stretch';
 
 export type FxAlign = [JustifyContent] | [JustifyContent, AlignItemsAndContent] | [JustifyContent, AlignItems, AlignContent];
 
