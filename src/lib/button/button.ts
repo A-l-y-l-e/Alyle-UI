@@ -18,9 +18,10 @@ import {
   Platform,
   StyleData,
   toBoolean,
-  ThemeVariables
+  ThemeVariables,
+  LyGlobalStyles
 } from '@alyle/ui';
-import { LyRipple, Ripple } from '@alyle/ui/ripple';
+import { LyRipple, Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
 import { LyBgColorAndRaised } from '@alyle/ui';
 
@@ -29,7 +30,7 @@ import { LyBgColorAndRaised } from '@alyle/ui';
   styleUrls: ['button.style.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <div class="ly-button-ripple" lyRipple [lyRippleSensitive]="rippleSensitive"></div>
+  <div lyRipple [lyRippleSensitive]="rippleSensitive"></div>
   <!--<div class="ly-button-container">
     <ng-content select="[start]"></ng-content>-->
     <ng-content></ng-content>
@@ -77,7 +78,9 @@ export class LyButton implements AfterViewInit {
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private theme: LyTheme,
+    public rippleStyles: LyRippleService,
     private buttonService: LyButtonService,
+    private globalStyles: LyGlobalStyles,
     @Optional() private bgAndColor: LyBgColorAndRaised
   ) {
     if (bgAndColor) {
@@ -89,9 +92,11 @@ export class LyButton implements AfterViewInit {
   public focused() {
     this.elementRef.nativeElement.focus();
   }
+
   ngAfterViewInit() {
+    const classes = this.globalStyles.classes;
     if (Platform.isBrowser) {
-     this.ripple.setTriggerElement(this.elementRef.nativeElement);
+      (this.ripple._elementRef.nativeElement as HTMLElement).classList.add(classes.Absolute);
     }
   }
 

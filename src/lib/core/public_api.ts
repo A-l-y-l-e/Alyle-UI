@@ -17,3 +17,4 @@ export * from './src/version';
 export * from './src/theme/contrast';
 export * from './src/theme/bg-color-and-raised.directive';
 export * from './src/theme/shadow.service';
+export * from './src/styles/common-styles.service';

@@ -149,7 +149,7 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class LyRadio implements OnInit, AfterViewInit, OnChanges {
+export class LyRadio implements OnInit, OnChanges {
   id = `ly-radio-id-${idx++}`;
   name = '';
   _value = null;
@@ -181,13 +181,6 @@ export class LyRadio implements OnInit, AfterViewInit, OnChanges {
     if (this.radioGroup) {
       // Copy name from parent radio group
       this.name = this.radioGroup.name;
-    }
-  }
-  ngAfterViewInit() {
-    if (Platform.isBrowser) {
-      this.ripple.lyRippleDisabled = true;
-      this.ripple.rippleContainer.setTriggerElement(this._labelContainer.nativeElement);
-      this.ripple.lyRippleDisabled = false;
     }
   }
   _markForCheck() {

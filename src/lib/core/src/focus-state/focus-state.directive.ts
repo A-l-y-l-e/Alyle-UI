@@ -22,7 +22,7 @@ export class LyFocusState implements OnDestroy {
   private _stateSubject = new Subject<FocusStatus>();
   _stateSubscription: Subscription;
   @Output() lyFocusChange = new EventEmitter<FocusStatus>();
-
+  private _eventOptions = {passive: true} as any;
   constructor(
     elementRef: ElementRef,
     private _ngZone: NgZone,
@@ -88,13 +88,13 @@ export class LyFocusState implements OnDestroy {
   setTriggerElement(element: HTMLElement | null) {
     if (this._containerElement) {
       this._eventHandlers.forEach((fn, type) => {
-        this._containerElement.removeEventListener(type, fn);
+        this._containerElement.removeEventListener(type, fn, this._eventOptions);
       });
     }
     if (element) {
       this._ngZone.runOutsideAngular(() => {
         return this._eventHandlers.forEach((fn, type) => {
-          return element.addEventListener(type, fn);
+          return element.addEventListener(type, fn, this._eventOptions);
         });
       });
     }

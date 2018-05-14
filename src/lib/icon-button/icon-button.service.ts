@@ -7,11 +7,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable(ProvidedInTheme)
 export class LyIconButtonService {
-  classes: { [k: string]: string } = {};
-  constructor(
-    private theme: LyTheme
-  ) {
-    this.classes.host = theme.createStyle('icnBtn', () => {
+  classes = {
+    host: this.theme.createStyle('icnBtn', () => {
       const style =
       `-webkit-user-select:none;` +
       `-moz-user-select:none;` +
@@ -23,20 +20,26 @@ export class LyIconButtonService {
       `background:transparent;` +
       `border:0;` +
       `padding:0;` +
-      `width:${theme.palette.iconButton.size};` +
-      `height:${theme.palette.iconButton.size};` +
+      `width:${this.theme.palette.iconButton.size};` +
+      `height:${this.theme.palette.iconButton.size};` +
       `cursor:pointer;` +
       `outline:none;` +
       `box-sizing:border-box;` +
       `color:currentColor;` +
       `display:inline-flex;` +
+      `position:relative;` +
       `border-radius:100%;`;
       return style;
-    }, true).id;
-    this.classes.content = theme.createStyle('icnBtnCntnt', () => {
+    }).id,
+    content: this.theme.createStyle('icnBtnCntnt', () => {
       return `display:flex;` +
       `justify-content:inherit;` +
-      `align-items:inherit;`;
-    }, true).id;
-  }
+      `align-items:inherit;` +
+      `width:inherit;` +
+      `height:inherit;`;
+    }, true).id
+  };
+  constructor(
+    private theme: LyTheme
+  ) { }
 }
