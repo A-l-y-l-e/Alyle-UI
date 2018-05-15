@@ -9,7 +9,7 @@ export class CarouselService {
       () => (
         ``
       )
-    )
+    ).id
   };
   constructor(private theme: LyTheme) { }
 
