@@ -26,36 +26,35 @@ import {
   PLATFORM_ID,
   OnInit
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule } from '@angular/forms';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { CarouselService, VibrantColors } from './carousel.service';
+import { CarouselService } from './carousel.service';
 import { Platform } from '@alyle/ui';
-import { MinimalLS } from '@alyle/ui/ls';
 
 @Component({
   selector: 'ly-carousel',
   styleUrls: ['carousel.scss'],
   template: `
-  <div class="lycarousel-slide" raised>
+  <div class="lycarousel-slide">
     <!--buttons-->
-    <div class="carousel-indicators-container animation">
+    <div class="carousel-indicators-container">
       <div class="carousel-blur" [style.background-image]="'url('+lyItems.toArray()[_itemSelect]?.src+')'"></div>
     </div>
     <ul class="carousel-indicators" *ngIf="lyItems.length!=1">
       <li tabindex="0"
       (click)="select(i)"
       role="button"
+      *ngFor="let item of lyItems; let i = index">
+      <span color="#000"
+      bg="#fff"
       [class.active]="_itemSelect==i"
-      [style.background-color]="item.color.Vibrant?.hex"
-      [style.color]="item.color.DarkVibrant?.hex"
-      [class.ly-carousel-inactive-button]="!(_itemSelect == i)"
-      *ngFor="let item of lyItems; let i = index"></li>
+      [newRaised]="[6]"></span>
+      </li>
     </ul>
     <!--items-->
-    <div class="lycarousel-items" [style.background-color]="lyItems.toArray()[_itemSelect]?.color?.DarkVibrant?.hex">
+    <div class="lycarousel-items">
       <div [class.active]="_itemSelect==i"
       class="lycarousel-item"
       *ngFor="let item of lyItems; let i = index">
@@ -71,29 +70,19 @@ import { MinimalLS } from '@alyle/ui/ls';
   <div class="lycarousel-content ly-carousel-container">
     <ng-content></ng-content>
   </div>
-  <div *ngIf="lyItems.length!=1" (click)="focusLeft()" class="lycarousel-cursor-left"></div>
-  <div *ngIf="lyItems.length!=1" (click)="focusRight()" class="lycarousel-cursor-right"></div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class LyCarousel implements ControlValueAccessor, AfterViewInit, OnDestroy {
+export class LyCarousel implements AfterViewInit, OnDestroy {
   public data: any;
   public value: any;
   public _selectedIndex: any;
-  public _interval = 2000;
+  public _interval = 60000;
   public _fnInterval: any;
-  public _isInitialized = false;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   @ContentChildren(forwardRef(() => LyCarouselItemComponent)) lyItems: QueryList<LyCarouselItemComponent>;
   _itemSelect = 0;
-  currentCarousel: LyCarouselItemComponent;
-  currentColors: VibrantColors;
-  /** Callback registered via registerOnTouched (ControlValueAccessor) */
-  private _onTouchedCallback: () => void;
-
-  /** Callback registered via registerOnChange (ControlValueAccessor) */
-  private _onChangeCallback: (_: any) => void;
   constructor(
     private elementRef: ElementRef,
     private sanitizer: DomSanitizer,
@@ -108,10 +97,6 @@ export class LyCarousel implements ControlValueAccessor, AfterViewInit, OnDestro
   public set interval(value: number) {
     this._interval = value;
   }
-
-  public registerOnChange(fn: any) {
-    this._onChangeCallback = fn;
-  }
   public get stateIndicator() {
     if (this.lyItems === undefined) {
       return 0;
@@ -119,21 +104,6 @@ export class LyCarousel implements ControlValueAccessor, AfterViewInit, OnDestro
       const st = (this._itemSelect + 1) * 100 / this.lyItems.length;
       return st;
     }
-  }
-  public get stylesBar() {
-    const bar = this.elementRef.nativeElement.querySelector('._bar');
-    // bar.style.animation = `none`;
-    return {
-      animation: `none`
-    };
-  }
-
-  public registerOnTouched(fn: any) {
-    this._onTouchedCallback = fn;
-  }
-
-  public writeValue(value: any) {
-    // nothing
   }
 
   public ngOnDestroy() {
@@ -171,17 +141,15 @@ export class LyCarousel implements ControlValueAccessor, AfterViewInit, OnDestro
     // let activeItems = this.lyItems.filter((tab)=>tab.active);
     Promise.resolve(null).then(() => {
       const controlsBottom = this.elementRef.nativeElement.querySelector('.carousel-indicators-container');
-      controlsBottom.classList.remove('animation');
-      // tslint:disable-next-line:no-unused-expression
-      void controlsBottom.offsetWidth;
-      controlsBottom.classList.add('animation');
+      // controlsBottom.classList.remove('animation');
+      // // tslint:disable-next-line:no-unused-expression
+      // void controlsBottom.offsetWidth;
+      // controlsBottom.classList.add('animation');
       this.lyItems.forEach((_item: LyCarouselItemComponent) => {
         _item.lyCarouselActive = false;
         _item._markForCheck();
       });
       const item = this.lyItems.find((a: LyCarouselItemComponent, b: number) => b === this._itemSelect);
-      this.currentCarousel = item;
-      this.currentColors = item.color;
       item.lyCarouselActive = true;
       this.cd.markForCheck();
     });
@@ -228,63 +196,23 @@ export class LyCarousel implements ControlValueAccessor, AfterViewInit, OnDestro
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LyCarouselItemComponent implements OnInit, OnChanges {
-  @Input('src') src: string;
-  @Input('lyCarouselActive') @HostBinding('class.ly-carousel-item-active') lyCarouselActive = false;
-  color: VibrantColors = new VibrantColors;
+  @Input() src: string;
+  @Input() @HostBinding('class.ly-carousel-item-active') lyCarouselActive = false;
   private _carousel: LyCarousel;
 
   constructor(
     @Optional() carousel: LyCarousel,
     private carouselService: CarouselService,
-    private ls: MinimalLS,
     private cd: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this._carousel = carousel;
   }
 
-  preloadImage(url) {
-    if (url === null || url === 'null') {
-      return;
-    }
-    try {
-      const img = new Image();
-      img.src = url;
-    } catch (e) { }
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['src']) {
-      if (!changes['src'].firstChange) {
-        this.updateColors();
-      }
-    }
-  }
+  ngOnChanges(changes: SimpleChanges) { }
 
-  ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.preloadImage(this.src);
-      this.updateColors();
-    }
-  }
-  updateColors() {
-    if (Platform.isBrowser) {
-      if (this.src === null || this.src === 'null') {
-        return;
-      } else {
-        if (this.ls.hasItem(this.src)) {
-          this.color = this.ls.item(this.src);
-          this._carousel._markForCheck();
-        } else {
-          const colorV = this.carouselService.getColorVibrant(this.src);
-          colorV.then((p: any) => {
-            this.color = this.carouselService._palette(p);
-            this._carousel._markForCheck();
-            this._markForCheck();
-          });
-        }
-      }
-    }
-  }
+  ngOnInit() { }
+
   _markForCheck() {
     this.cd.markForCheck();
   }
