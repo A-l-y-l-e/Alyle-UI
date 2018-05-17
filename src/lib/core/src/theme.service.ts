@@ -94,7 +94,7 @@ export class LyTheme {
     }} as any;
     if (mapStyles.has(newKey)) {
       return mapStyles.get(newKey);
-    } else if (Platform.isBrowser && (styleData.styleContainer = document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
+    } else if (Platform.isBrowser && (styleData.styleContainer = this.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
       styleData.styleContent = styleData.styleContainer.innerHTML;
       styleData.id = styleData.styleContainer.dataset.id;
     } else {
