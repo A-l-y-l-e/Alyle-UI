@@ -34,11 +34,7 @@ import {
 import { LyCommonModule, IsBoolean, toBoolean, LyBgColorAndRaised } from '@alyle/ui';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
-import {
-  LyTheme,
-  themeProperty,
-  LyStyleTheme
-} from '@alyle/ui';
+import { LyTheme } from '@alyle/ui';
 import { InputService } from './input.service';
 
 @Directive({
@@ -156,7 +152,6 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 
   constructor(
     private theme: LyTheme,
-    private styleTheme: LyStyleTheme,
     private _changeDetectorRef: ChangeDetectorRef,
     private inputService: InputService,
     @Optional() bcr: LyBgColorAndRaised,

@@ -16,13 +16,6 @@ if (Platform.isBrowser) {
   prefix = 'l';
 }
 
-/**
- * DEPRECATED
- */
-export function themeProperty(color: string): boolean {
-  return color === 'primary' || color === 'accent' || color === 'other';
-}
-
 @Injectable()
 export class LyTheme {
   renderer: Renderer2;
@@ -252,9 +245,6 @@ function createKeyOf(str: string) {
   // return str.split('').map((char) => {
   //     return char.charCodeAt(0).toString(36);
   // }).join('');
-  if (Platform.isBrowser) {
-    return str;
-  }
   let hash = 0;
   const len = str.length;
   for (let i = 0; i < len; i++) {

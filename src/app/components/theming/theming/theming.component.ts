@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LyPalette } from '@alyle/ui';
 
 @Component({
   selector: 'app-theming',

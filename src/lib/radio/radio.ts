@@ -33,7 +33,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyTheme, themeProperty, LyStyleTheme, BgAndColorStyle, LyCommonModule, Platform, IsBoolean } from '@alyle/ui';
+import { LyTheme, LyCommonModule, Platform, IsBoolean } from '@alyle/ui';
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyRadioGroup),
@@ -80,7 +80,6 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
   constructor(
     private elementRef: ElementRef,
     public theme: LyTheme,
-    public styleTheme: LyStyleTheme,
     public ngZone: NgZone,
     private cd: ChangeDetectorRef
   ) {

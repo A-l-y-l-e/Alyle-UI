@@ -35,10 +35,6 @@ async function hashAll() {
   const hashTable = ngswConfig.hashTable;
   const files = getAllHtml();
   const assets = ngswConfig.assetGroups.find(_ => _.name === 'assets');
-  for (let index = 0; index < files.length; index++) {
-    assets.urls.push(join(files[index].path, '/'));
-    hashTable[files[index].fullPath] = null;
-  }
 
   for (const key in hashTable) {
     if (hashTable.hasOwnProperty(key)) {
@@ -49,6 +45,11 @@ async function hashAll() {
       hashTable[key] = distFileHash;
     }
   }
+  for (let index = 0; index < files.length; index++) {
+    assets.urls.push(join(files[index].path));
+    hashTable[files[index].path] = await fileHash(files[index].file);
+    console.log(`${chalk.green('hash updated for:')} ${chalk.greenBright(files[index].path)}`);
+  }
 
   /** Update file */
   writeFileSync(join(DIST, 'ngsw.json'), JSON.stringify(ngswConfig), 'utf8');
@@ -58,8 +59,8 @@ hashAll();
 
 function getAllHtml() {
   const files: {
-    fullPath: string,
-    path: string
+    path: string,
+    file: string
   }[] = [];
   const getIndexs = (path: string) => {
     const items = readdirSync(path, 'utf8')
@@ -69,7 +70,7 @@ function getAllHtml() {
       if (existsSync(__path)) {
         files.push({
           path: join(path, name).replace(DIST, ''),
-          fullPath: __path.replace(DIST, '')
+          file: __path
         });
       }
       getIndexs(join(path, name));

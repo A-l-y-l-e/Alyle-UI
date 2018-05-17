@@ -11,7 +11,8 @@ import {
   SimpleChanges,
   ViewChild,
   Inject,
-  NgZone
+  NgZone,
+  OnDestroy
 } from '@angular/core';
 import {
   IsBoolean,
@@ -35,11 +36,12 @@ import { LyBgColorAndRaised } from '@alyle/ui';
   </span>
   `
 })
-export class LyButton implements AfterViewInit {
+export class LyButton implements AfterViewInit, OnDestroy {
   public _disabled = false;
   private _rippleSensitive = false;
   private _disabledClassName: string;
   private _outlinedClassName: string;
+  private _rippleContainer: Ripple;
   @Input()
   set outlined(val: boolean) {
     const classname = toBoolean(val) === true ? this.buttonService.classes.outlined : '';
@@ -86,7 +88,7 @@ export class LyButton implements AfterViewInit {
     this.buttonService.applyTheme(renderer, elementRef);
     if (Platform.isBrowser) {
       const el = elementRef.nativeElement;
-      const ripple = new Ripple(_ngZone, rippleStyles.stylesData, el);
+      this._rippleContainer = new Ripple(_ngZone, rippleStyles.stylesData, el);
     }
   }
 
@@ -111,6 +113,12 @@ export class LyButton implements AfterViewInit {
       style += `background-color: ${this.theme.palette.button.disabled} !important;`;
     }
     return style;
+  }
+
+  ngOnDestroy() {
+    if (Platform.isBrowser) {
+      this._rippleContainer.removeEvents();
+    }
   }
 
 }

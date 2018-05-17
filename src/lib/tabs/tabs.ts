@@ -24,7 +24,7 @@ import {
   ChangeDetectionStrategy,
   Inject
 } from '@angular/core';
-import { LyTheme, BgAndColorStyle, LyStyleTheme, themeProperty, ThemeVariables } from '@alyle/ui';
+import { LyTheme, ThemeVariables } from '@alyle/ui';
 import { CommonModule } from '@angular/common';
 import { getParents } from '@alyle/ui';
 import { Subscription } from 'rxjs';
@@ -84,7 +84,6 @@ export class LyTabGroupComponent implements OnInit, OnChanges {
     private renderer: Renderer,
     private viewContainerRef: ViewContainerRef,
     public theme: LyTheme,
-    public styleTheme: LyStyleTheme,
   ) {
   }
   ngAfterContentInit() {

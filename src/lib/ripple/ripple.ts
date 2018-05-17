@@ -147,7 +147,6 @@ export class Ripple {
   }
   removeEvents() {
     if (this._triggerElement) {
-      // this._renderer.removeClass(this._triggerElement, 'ly-ripple');
       this._eventHandlers.forEach((fn, type) => {
         this._triggerElement.removeEventListener(type, fn, this._eventOptions);
       });
