@@ -32,9 +32,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/node-vibrant/dist/vibrant.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -96,9 +94,7 @@
                 "input": "styles.scss"
               }
             ],
-            "scripts": [
-              "./node_modules/node-vibrant/dist/vibrant.min.js"
-            ],
+            "scripts": [ ],
             "assets": [
               {
                 "glob": "favicon.ico",
