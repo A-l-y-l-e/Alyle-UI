@@ -1,8 +1,6 @@
 <ng-content select="ly-before"></ng-content>
-<div class="ly-input-underline"
-[color]="inputColor"
-bg="input:underline"></div>
-<div class="ly-input-container">
+<div class="{{ _classes.withColor }} ly-input-underline"></div>
+<div class="ly-input-container {{ _classes.caretColor }}">
   <ng-content select="input, textarea"></ng-content>
   <!-- ly-placeholder -->
   <ng-container *ngIf="placeholder; then isPlaceholderTemplate; else placeholderContainer"></ng-container>

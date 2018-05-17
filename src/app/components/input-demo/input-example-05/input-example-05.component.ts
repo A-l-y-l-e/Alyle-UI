@@ -31,7 +31,6 @@ export class InputExample05Component implements OnInit {
     result = `hsl(${result}, 76%, 59%)`;
     const color = result;
     this.color = result;
-    console.log('%cCOLOR', `background:${color};color:#fff;`, (color));
   }
 
   ngOnInit() {

@@ -29,9 +29,7 @@ import { LyIconButtonService } from './icon-button.service';
   template: `
   <div class="{{ iconButtonService.classes.content }}"
   lyRipple
-  lyRippleSensitive
   lyRippleCentered
-  lyRippleRadius="containerSize"
   >
     <ng-content></ng-content>
   </div>

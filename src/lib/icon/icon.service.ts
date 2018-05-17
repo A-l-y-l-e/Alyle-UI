@@ -57,7 +57,7 @@ export class LyIconStyle {
         `font-size:${this.theme.palette.icon.fontSize};` +
         `width:1em;` +
         `height:1em;` +
-        `display:inline-block;`
+        `display:inline-flex;`
       )
     ).id,
     svg: this.theme.createStyle(

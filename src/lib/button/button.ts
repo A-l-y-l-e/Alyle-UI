@@ -10,7 +10,8 @@ import {
   Renderer2,
   SimpleChanges,
   ViewChild,
-  Inject
+  Inject,
+  NgZone
 } from '@angular/core';
 import {
   IsBoolean,
@@ -27,15 +28,11 @@ import { LyBgColorAndRaised } from '@alyle/ui';
 
 @Component({
   selector: '[ly-button], ly-button',
-  styleUrls: ['button.style.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <div lyRipple [lyRippleSensitive]="rippleSensitive"></div>
-  <!--<div class="ly-button-container">
-    <ng-content select="[start]"></ng-content>-->
+  <span #content>
     <ng-content></ng-content>
-    <!--<ng-content select="[end]"></ng-content>
-  </div>-->
+  </span>
   `
 })
 export class LyButton implements AfterViewInit {
@@ -57,7 +54,7 @@ export class LyButton implements AfterViewInit {
     this._rippleSensitive = toBoolean(value);
   }
 
-  @ViewChild(LyRipple) ripple: LyRipple;
+  @ViewChild('content') buttonContent: ElementRef;
 
   @Input()
   set disabled(value: boolean) {
@@ -80,13 +77,17 @@ export class LyButton implements AfterViewInit {
     private theme: LyTheme,
     public rippleStyles: LyRippleService,
     private buttonService: LyButtonService,
-    private globalStyles: LyGlobalStyles,
+    _ngZone: NgZone,
     @Optional() private bgAndColor: LyBgColorAndRaised
   ) {
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
     this.buttonService.applyTheme(renderer, elementRef);
+    if (Platform.isBrowser) {
+      const el = elementRef.nativeElement;
+      const ripple = new Ripple(_ngZone, rippleStyles.stylesData, el);
+    }
   }
 
   public focused() {
@@ -94,10 +95,10 @@ export class LyButton implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const classes = this.globalStyles.classes;
-    if (Platform.isBrowser) {
-      (this.ripple._elementRef.nativeElement as HTMLElement).classList.add(classes.Absolute);
-    }
+    const classes = this.buttonService.classes;
+      (this.buttonContent.nativeElement as HTMLElement).classList.add(
+        classes.buttonContent
+      );
   }
 
   private disableStyle() {

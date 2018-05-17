@@ -20,6 +20,7 @@ export class LyIconButtonService {
       `background:transparent;` +
       `border:0;` +
       `padding:0;` +
+      `overflow:hidden;` +
       `width:${this.theme.palette.iconButton.size};` +
       `height:${this.theme.palette.iconButton.size};` +
       `cursor:pointer;` +
@@ -28,16 +29,18 @@ export class LyIconButtonService {
       `color:currentColor;` +
       `display:inline-flex;` +
       `position:relative;` +
-      `border-radius:100%;`;
+      `border-radius:50%;`;
       return style;
     }).id,
-    content: this.theme.createStyle('icnBtnCntnt', () => {
-      return `display:flex;` +
+    content: this.theme.createStyle('icnBtnCntnt', () => (
+      `display:flex;` +
       `justify-content:inherit;` +
       `align-items:inherit;` +
       `width:inherit;` +
-      `height:inherit;`;
-    }, true).id
+      `height:inherit;` +
+      `overflow:inherit;` +
+      `z-index:0;`
+    ), true).id
   };
   constructor(
     private theme: LyTheme

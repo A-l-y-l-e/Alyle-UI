@@ -24,8 +24,8 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
-import { Subscription ,  Subject ,  BehaviorSubject ,  Observable } from 'rxjs';
+import { LyRippleModule, LyRipple, LyRippleService, Ripple } from '@alyle/ui/ripple';
+import { Subscription , Subject , BehaviorSubject , Observable } from 'rxjs';
 import {
   NgModel,
   NG_VALUE_ACCESSOR,
@@ -128,20 +128,14 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
       (change)="_onInputChange($event)"
       type="radio"
       >
-    <div #_ripple [color]="radioGroup.radioColor" class="ly-radio-container"
-      lyRipple
-      lyRippleCentered
-      yRippleSensitive
-      lyRippleRadius="containerSize"
-    >
+    <div #_radioContainer [color]="radioGroup.radioColor" class="ly-radio-container">
       <div class="ly-radio-icon-container">
       <div class="ly-radio-outer-circle" color="radio:radioOuterCircle"></div>
       <div class="ly-radio-inner-circle"></div>
       </div>
     </div>
     <div
-    class="ly-radio-label-content"
-    color="text">
+    class="ly-radio-label-content">
       <ng-content></ng-content>
     </div>
   </label>
@@ -149,12 +143,13 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class LyRadio implements OnInit, OnChanges {
+export class LyRadio implements OnInit, OnChanges, OnDestroy {
   id = `ly-radio-id-${idx++}`;
   name = '';
   _value = null;
+  private _rippleContainer: Ripple;
   private _checked = false;
-  @ViewChild(LyRipple) ripple: LyRipple;
+  @ViewChild('_radioContainer') private _radioContainer: ElementRef;
   @ViewChild('_labelContainer') _labelContainer: ElementRef;
   @Output() onCheckedState = new EventEmitter<boolean>();
   @HostBinding('class.ly-radio-checked') @Input() @IsBoolean() checked: boolean;
@@ -182,17 +177,28 @@ export class LyRadio implements OnInit, OnChanges {
       // Copy name from parent radio group
       this.name = this.radioGroup.name;
     }
+    this._rippleContainer = new Ripple(this.ngZone, this._rippleService.stylesData, this._radioContainer.nativeElement, this._elementRef.nativeElement);
+    this._rippleContainer.setConfig({
+      centered: true,
+      radius: 'containerSize'
+    });
   }
   _markForCheck() {
     this.changeDetectorRef.markForCheck();
   }
 
+  ngOnDestroy() {
+    this._rippleContainer.removeEvents();
+  }
+
 
   constructor(
     @Optional() public radioGroup: LyRadioGroup,
+    private _elementRef: ElementRef,
     public theme: LyTheme,
     private changeDetectorRef: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private _rippleService: LyRippleService
   ) { }
 }
 

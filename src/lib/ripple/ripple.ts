@@ -24,7 +24,7 @@ export class Ripple {
   private _state = true;
   private _eventHandlers: Map<string, (e: Event) => void> = new Map<string, (e: Event) => void>();
   private rippleConfig: RippleConfig = {};
-  private _transitionDuration = '450ms';
+  private _transitionDuration = '950ms';
   private _eventOptions = {passive: true} as any;
   constructor(
     private _ngZone: NgZone,
@@ -134,12 +134,15 @@ export class Ripple {
       rippleRef.end();
       this.runTimeoutOutsideZone(() => {
         rippleRef.container.style.opacity = '0';
+        rippleRef.container.style.transitionDuration = '200ms';
       // }, rippleRef.timestamp < duration ? duration : 0);
-      }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) : 0);
+      // }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) : 0);
+      }, rippleRef.timestamp < duration ? duration * .15 : 0);
       this.runTimeoutOutsideZone(() => {
         rippleRef.container.parentNode.removeChild(rippleRef.container);
       // }, rippleRef.timestamp < duration ? duration * 2 : duration);
-      }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) * 2 : duration);
+      // }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) * 2 : duration);
+      }, rippleRef.timestamp < duration ? duration * 2 : duration);
     }
   }
   removeEvents() {

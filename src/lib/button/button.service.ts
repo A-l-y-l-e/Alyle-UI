@@ -24,6 +24,20 @@ export class LyButtonService {
       'btntlnd',
       () => (
         `border: 1px solid currentColor`
+      ),
+      true
+    ).id,
+    buttonContent: this.theme.createStyle(
+      'buttonContent',
+      () => (
+        `padding:0;` +
+        `display:flex;` +
+        `justify-content:inherit;` +
+        `align-items:inherit;` +
+        `align-content:inherit;` +
+        `width: 100%;` +
+        `height: 100%;` +
+        `box-sizing: border-box;`
       )
     ).id
   };
@@ -47,10 +61,10 @@ export class LyButtonService {
 }
 
 function rootStyle() {
-  return '-webkit-tap-highlight-color: transparent;' +
-  'padding:0 16px;' +
+  return '-webkit-tap-highlight-color:transparent;' +
   'background-color:rgba(0, 0, 0, 0);' +
-  'border:none;' +
+  'border:0;' +
+  'padding:0 16px;' +
   '-moz-appearance:none;' +
   'min-height:36px;' +
   'height:36px;' +
@@ -61,16 +75,17 @@ function rootStyle() {
   'min-width:88px;' +
   'box-sizing:border-box;' +
   'position:relative;' +
-  'text-align:center;' +
+  `justify-content:center;` +
+  `align-items:center;` +
+  `align-content:center;` +
+  'display:inline-flex;' +
   'cursor:pointer;' +
   '-webkit-user-select:none;' +
   '-moz-user-select:none;' +
   '-ms-user-select:none;' +
   'user-select:none;' +
-  `display:inline-flex;` +
-  `justify-content:center;` +
-  `align-items:center;` +
   'text-decoration-line:none;' +
   '-webkit-text-decoration-line:none;' +
-  'transition:all 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;';
+  'transition:all 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;' +
+  `overflow: hidden;`;
 }

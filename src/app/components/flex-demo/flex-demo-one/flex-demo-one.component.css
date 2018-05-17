@@ -1,0 +1,10 @@
+.container {
+  height: 200px;
+  border: 1px dashed;
+}
+.item {
+  height: 45px;
+  width: 45px;
+  margin: 1em;
+  border-radius: 50%;
+}

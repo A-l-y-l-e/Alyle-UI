@@ -56,7 +56,6 @@ export class LyBgColorAndRaised implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     let newStyleData;
     /**~ */
-    const inputs = Object.keys(changes);
     const raisedĸey = this._raisedState === true ? 'raised' : '';
     let key = '';
     if ((this.contrast && !this.color || this.color === 'auto') && this.bg) {

@@ -10,7 +10,6 @@ export class LyRippleService {
       'ripple',
       () => (
         `z-index: 0;` +
-        `overflow: hidden;` +
         `border-radius: inherit;`
       )
     ).id
@@ -30,10 +29,10 @@ export class LyRippleService {
       `border-radius: 100%;` +
       `-webkit-transform: scale(0);` +
       `transform: scale(0);` +
-      `-webkit-transition: opacity ease,-webkit-transform cubic-bezier(0,0,0.2,1);` +
-      `transition: opacity ease,-webkit-transform cubic-bezier(0,0,0.2,1);` +
-      `transition: opacity ease,transform cubic-bezier(0,0,0.2,1);` +
-      `transition: opacity ease,transform cubic-bezier(0,0,0.2,1),-webkit-transform cubic-bezier(0,0,0.2,1);` +
+      `-webkit-transition: opacity ease,-webkit-transform cubic-bezier(.1, 1, 0.5, 1);` +
+      `transition: opacity ease,-webkit-transform cubic-bezier(.1, 1, 0.5, 1);` +
+      `transition: opacity ease,transform cubic-bezier(.1, 1, 0.5, 1);` +
+      `transition: opacity ease,transform cubic-bezier(.1, 1, 0.5, 1);` +
       `pointer-events: none;`;
     }, true);
     this.stylesData.push(host, rippleContainer);

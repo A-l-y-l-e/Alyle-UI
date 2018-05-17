@@ -55,15 +55,15 @@ export class LyTheme {
     }
     this._styleMap = theme.map;
     // Object.assign(this.palette, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
-    this.palette = Object.assign({}, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
+    this.palette = mergeDeep(theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
     this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
     this.setCoreStyle();
   }
 
   setScheme(scheme: string) {
-    const newPalette = Object.assign({}, this.rootService.getTheme(this.palette.name));
-    this.palette = Object.assign({}, newPalette, ...newPalette.colorSchemes[scheme], { scheme });
+    const newPalette = this.rootService.getTheme(this.palette.name);
+    this.palette = mergeDeep(newPalette, ...newPalette.colorSchemes[scheme], { scheme });
     this.updateOthersStyles();
   }
 
@@ -252,6 +252,9 @@ function createKeyOf(str: string) {
   // return str.split('').map((char) => {
   //     return char.charCodeAt(0).toString(36);
   // }).join('');
+  if (Platform.isBrowser) {
+    return str;
+  }
   let hash = 0;
   const len = str.length;
   for (let i = 0; i < len; i++) {
