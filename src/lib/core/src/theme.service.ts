@@ -5,6 +5,7 @@ import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES } from
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform } from './platform';
 import { LyRootService } from './root.service';
+import { containsTree } from '@angular/router/src/url_tree';
 
 let classId = 0;
 
@@ -79,21 +80,34 @@ export class LyTheme {
       return colorName;
     }
   }
-  createStyle(key: string, fn: () => string, forRoot?: boolean) {
-    let mapStyles: Map<string, StyleData>;
-    let newKey;
-    if (forRoot) {
-      newKey = createKeyOf(key);
-      mapStyles = this.rootService.themeRootMap;
-    } else {
-      mapStyles = this._styleMap;
-      newKey = createKeyOf(key + this.Id + this.palette.scheme);
-    }
+  /**
+   * Create new style if not exist, for Theme
+   * @param key unique id
+   * @param fn style
+   */
+  setStyle(key: string, fn: () => string): string {
+    const newKey = createKeyOf(key + this.Id + this.palette.scheme);
+    const mapStyles = this._styleMap;
+    return this._createStyle(key, newKey, fn, mapStyles, this.Id);
+  }
+
+  /**
+   * Create new style if not exist, for Root
+   * Important: this not update when change theme
+   * @param key unique id
+   * @param fn style
+   */
+  setRootStyle(key: string, fn: () => string): string {
+    const newKey = createKeyOf(key);
+    const mapStyles = this.rootService.themeRootMap;
+    return this._createStyle(key, newKey, fn, mapStyles, 'root');
+  }
+  private _createStyle(key: string, newKey: string, fn: () => string, mapStyles: Map<string, StyleData>, _for: string) {
     const styleData: StyleData = {key: newKey, value: {
       fn: fn
     }} as any;
     if (mapStyles.has(newKey)) {
-      return mapStyles.get(newKey);
+      return mapStyles.get(newKey).id;
     } else if (Platform.isBrowser && (styleData.styleContainer = this.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
       styleData.styleContent = styleData.styleContainer.innerHTML;
       styleData.id = styleData.styleContainer.dataset.id;
@@ -103,7 +117,7 @@ export class LyTheme {
       styleData.styleContainer = this.rootService.renderer.createElement('style');
       let content = `.${styleData.id}{${fn()}}`;
       if (isDevMode()) {
-        content = `/** key: ${key} */\n${content}`;
+        content = `/** key: ${key}, for: ${_for} */\n${content}`;
       }
       styleData.styleContent = this.rootService.renderer.createText(content);
       this.rootService.renderer.appendChild(styleData.styleContainer, styleData.styleContent);
@@ -114,7 +128,7 @@ export class LyTheme {
       }
     }
     mapStyles.set(newKey, styleData);
-    return styleData;
+    return styleData.id;
   }
 
   /** #style */
@@ -158,13 +172,16 @@ export class LyTheme {
 
   private setCoreStyle() {
     if (this.isRoot) {
-      const newStyle = this.createStyle('body', () => {
-        return `background-color:${this.palette.background.primary};` +
-        `color:${this.palette.text.default};` +
-        `font-family:${this.palette.typography.fontFamily};` +
-        `margin:0;`;
-      });
-      this.rootService.renderer.addClass(this.document.body, newStyle.id);
+      const classname = this.setStyle(
+        'body',
+        () => (
+          `background-color:${this.palette.background.primary};` +
+          `color:${this.palette.text.default};` +
+          `font-family:${this.palette.typography.fontFamily};` +
+          `margin:0;`
+        )
+      );
+      this.rootService.renderer.addClass(this.document.body, classname);
     }
   }
 

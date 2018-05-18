@@ -51,7 +51,7 @@ export class LyIconService {
 @Injectable(ProvidedInTheme)
 export class LyIconStyle {
   classes = {
-    root: this.theme.createStyle(
+    root: this.theme.setStyle(
       'root',
       () => (
         `font-size:${this.theme.palette.icon.fontSize};` +
@@ -59,17 +59,15 @@ export class LyIconStyle {
         `height:1em;` +
         `display:inline-flex;`
       )
-    ).id,
-    svg: this.theme.createStyle(
+    ),
+    svg: this.theme.setRootStyle(
       '_svg',
       () => (
         `width:inherit;` +
         `height:inherit;` +
         `fill:currentColor;`
-      ),
-      /** for Root Theme */
-      true
-    ).id
+      )
+    )
   };
 
   constructor(private theme: LyTheme) { }

@@ -1,14 +1,13 @@
 import {
   LyTheme,
-  ProvidedInTheme,
-  StyleData
+  ProvidedInTheme
 } from '@alyle/ui';
 import { Injectable } from '@angular/core';
 
 @Injectable(ProvidedInTheme)
 export class LyIconButtonService {
   classes = {
-    host: this.theme.createStyle('icnBtn', () => {
+    host: this.theme.setStyle('icnBtn', () => {
       const style =
       `-webkit-user-select:none;` +
       `-moz-user-select:none;` +
@@ -31,8 +30,8 @@ export class LyIconButtonService {
       `position:relative;` +
       `border-radius:50%;`;
       return style;
-    }).id,
-    content: this.theme.createStyle('icnBtnCntnt', () => (
+    }),
+    content: this.theme.setRootStyle('icnBtnCntnt', () => (
       `display:flex;` +
       `justify-content:inherit;` +
       `align-items:inherit;` +
@@ -40,7 +39,7 @@ export class LyIconButtonService {
       `height:inherit;` +
       `overflow:inherit;` +
       `z-index:0;`
-    ), true).id
+    ))
   };
   constructor(
     private theme: LyTheme

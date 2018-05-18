@@ -1,5 +1,5 @@
 import { ElementRef, NgZone, Renderer2 } from '@angular/core';
-import { Platform, StyleData } from '@alyle/ui';
+import { Platform } from '@alyle/ui';
 
 export interface RippleConfig {
   centered?: boolean;
@@ -28,7 +28,7 @@ export class Ripple {
   private _eventOptions = {passive: true} as any;
   constructor(
     private _ngZone: NgZone,
-    private stylesData: StyleData[],
+    private stylesData: string[],
     private _containerElement: HTMLElement,
     private _triggerElement?: HTMLElement
   ) {
@@ -58,7 +58,7 @@ export class Ripple {
 
   private setTriggerElement(element: HTMLElement | null) {
     if (element) {
-      element.classList.add(this.stylesData[0].id);
+      element.classList.add(this.stylesData[0]);
       // this._renderer.addClass(element, this.stylesData[0].id);
       this._ngZone.runOutsideAngular(() => {
         this._eventHandlers.forEach((fn, type) => element.addEventListener(type, fn, this._eventOptions));
@@ -71,7 +71,7 @@ export class Ripple {
   private createRipple(styles: {[key: string]: number | string}) {
     this._rippleRef = new RippleRef();
     const container = this._rippleRef.container;
-    container.className = this.stylesData[1].id;
+    container.className = this.stylesData[1];
     for (const key in styles) {
       if (styles.hasOwnProperty(key)) {
         const element = styles[key];

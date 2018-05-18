@@ -12,7 +12,7 @@ export class LyThemeStyles {
 export class LyGlobalStyles {
   classes = {
     /** Position absolute */
-    Absolute: this.theme.createStyle(
+    Absolute: this.theme.setRootStyle(
       'Absolute',
       () => (
         `position: absolute;` +
@@ -21,7 +21,7 @@ export class LyGlobalStyles {
         `left: 0;` +
         `right: 0;`
       )
-    ).id
+    )
   };
   constructor(private theme: LyTheme) { }
 }

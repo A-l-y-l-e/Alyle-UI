@@ -1,26 +1,26 @@
 import { Injectable, Inject, Renderer2, ElementRef } from '@angular/core';
-import { LyTheme, LyRootService, StyleData, ProvidedInTheme } from '@alyle/ui';
+import { LyTheme, LyRootService, ProvidedInTheme } from '@alyle/ui';
 import { DOCUMENT } from '@angular/common';
 
 @Injectable(ProvidedInTheme)
 export class LyRippleService {
-  stylesData: StyleData[] = [];
+  stylesData: string[] = [];
   classes = {
-    root: this.theme.createStyle(
+    root: this.theme.setRootStyle(
       'ripple',
       () => (
         `z-index: 0;` +
         `border-radius: inherit;`
       )
-    ).id
+    )
   };
   constructor(
     private theme: LyTheme
   ) {
-    const host = this.theme.createStyle('ripple', () => {
+    const host = this.theme.setRootStyle('ripple', () => {
       return 'position: relative;';
     });
-    const rippleContainer = this.theme.createStyle('ripple-cont', () => {
+    const rippleContainer = this.theme.setRootStyle('ripple-cont', () => {
       return `position: absolute;` +
       `width: 5px;` +
       `height: 5px;` +
@@ -34,7 +34,7 @@ export class LyRippleService {
       `transition: opacity ease,transform cubic-bezier(.1, 1, 0.5, 1);` +
       `transition: opacity ease,transform cubic-bezier(.1, 1, 0.5, 1);` +
       `pointer-events: none;`;
-    }, true);
+    });
     this.stylesData.push(host, rippleContainer);
   }
 

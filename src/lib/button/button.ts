@@ -18,7 +18,6 @@ import {
   IsBoolean,
   LyTheme,
   Platform,
-  StyleData,
   toBoolean,
   ThemeVariables,
   LyGlobalStyles
@@ -61,7 +60,7 @@ export class LyButton implements AfterViewInit, OnDestroy {
   @Input()
   set disabled(value: boolean) {
     const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
-    this._disabledClassName = this.theme.createStyle(`btn${key}`, this.disableStyle.bind(this)).id;
+    this._disabledClassName = this.theme.setStyle(`btn${key}`, this.disableStyle.bind(this));
     this._disabled = toBoolean(value);
     if (this._disabled) {
       this.renderer.addClass(this.elementRef.nativeElement, this._disabledClassName);

@@ -4,12 +4,12 @@ import { LyTheme, ProvidedInTheme } from '@alyle/ui';
 @Injectable(ProvidedInTheme)
 export class CarouselService {
   classes = {
-    root: this.theme.createStyle(
+    root: this.theme.setStyle(
       'carousel',
       () => (
         ``
       )
-    ).id
+    )
   };
   constructor(private theme: LyTheme) { }
 

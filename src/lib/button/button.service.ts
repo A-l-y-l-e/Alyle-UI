@@ -1,7 +1,6 @@
 import {
   LyTheme,
-  ProvidedInTheme,
-  StyleData
+  ProvidedInTheme
 } from '@alyle/ui';
 import {
   ElementRef,
@@ -15,19 +14,17 @@ export class LyButtonService {
   private rootClassName: string;
   private themeClassName: string;
   classes = {
-    root: this.theme.createStyle(
+    root: this.theme.setRootStyle(
       'rbtn',
-      rootStyle,
-      true
-    ).id,
-    outlined: this.theme.createStyle(
+      rootStyle
+    ),
+    outlined: this.theme.setRootStyle(
       'btntlnd',
       () => (
         `border: 1px solid currentColor`
-      ),
-      true
-    ).id,
-    buttonContent: this.theme.createStyle(
+      )
+    ),
+    buttonContent: this.theme.setRootStyle(
       'buttonContent',
       () => (
         `padding:0;` +
@@ -39,13 +36,12 @@ export class LyButtonService {
         `height: 100%;` +
         `box-sizing: border-box;`
       )
-    ).id
+    )
   };
   constructor(
     private theme: LyTheme
   ) {
-    // this.rootClassName = this.theme.createStyle('rbtn', rootStyle, true).id;
-    this.themeClassName = this.theme.createStyle('btn', this.style.bind(this)).id;
+    this.themeClassName = this.theme.setStyle('btn', this.style.bind(this));
   }
 
   applyTheme(renderer: Renderer2, elementRef: ElementRef) {

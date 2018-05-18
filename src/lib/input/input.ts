@@ -161,19 +161,19 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 
   private updateColor(val: string) {
     const inputColor = () => this.theme.colorOf(val);
-    this._classes.caretColor = this.theme.createStyle(
+    this._classes.caretColor = this.theme.setStyle(
       `input:caret${val}`,
       () => (
         `caret-color:${inputColor()}`
       )
-    ).id;
-    this._classes.withColor = this.theme.createStyle(
+    );
+    this._classes.withColor = this.theme.setStyle(
       `input:${val}`,
       () => (
         `color:${inputColor()};` +
         `background-color:${this.theme.palette.input.underline};`
       )
-    ).id;
+    );
   }
 
   toBoolean(val: any) {

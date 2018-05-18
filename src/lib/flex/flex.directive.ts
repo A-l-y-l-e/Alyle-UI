@@ -1,7 +1,6 @@
 import { Directive, Input, OnChanges, SimpleChanges, Renderer2, ElementRef } from '@angular/core';
 import { LyFlexService } from './flex.service';
 import { LNodeType } from '@angular/core/src/render3/interfaces/node';
-import { StyleData } from '@alyle/ui';
 
 export type Direction = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 export type Wrap = 'nowrap' | 'wrap' | 'wrap-reverse';
@@ -49,20 +48,25 @@ export class LyFlex implements OnChanges {
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    const inputs = Object.keys(changes);
     let key = '';
     let styles = ``;
-    for (let index = 0; index < inputs.length; index++) {
-      const inputKey = inputs[index];
+    // tslint:disable-next-line:forin
+    for (const inputKey in changes) {
       key += inputKey + changes[inputKey].currentValue;
       styles += this[`_${inputKey}`] || '';
     }
-    const classname = this.fxService.theme.createStyle(
+    // const inputs = Object.keys(changes);
+    // for (let index = 0; index < inputs.length; index++) {
+    //   const inputKey = inputs[index];
+    //   key += inputKey + changes[inputKey].currentValue;
+    //   styles += this[`_${inputKey}`] || '';
+    // }
+    const classname = this.fxService.theme.setStyle(
       key,
       () => (
         `display:${this._display};` +
         styles
-      ), true).id;
+      ));
     this.fxService.theme.updateClassName(this.elementRef.nativeElement, this.renderer, classname, this._currentClassname);
   }
 
