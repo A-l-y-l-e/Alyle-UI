@@ -5,8 +5,8 @@
   <a href="https://alyle-ui.firebaseapp.com/">demo</a>
 </div>
 
-[![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/alyle-ui)
-[![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/alyle-ui)
+[![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
+[![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 
 ## Install Alyle UI
 
