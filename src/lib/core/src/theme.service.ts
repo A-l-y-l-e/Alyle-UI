@@ -68,6 +68,7 @@ export class LyTheme {
   colorOf(value: string): string {
     return get(this.palette, value);
   }
+
   private getColorv2(colorName: string, colors: any, shade?: string): string {
     const ar = colors ? colors : this.palette;
     if (ar[colorName]) {
@@ -80,6 +81,7 @@ export class LyTheme {
       return colorName;
     }
   }
+
   /**
    * Create new style if not exist, for Theme
    * @param key unique id
@@ -103,9 +105,7 @@ export class LyTheme {
     return this._createStyle(key, newKey, fn, mapStyles, 'root');
   }
   private _createStyle(key: string, newKey: string, fn: () => string, mapStyles: Map<string, StyleData>, _for: string) {
-    const styleData: StyleData = {key: newKey, value: {
-      fn: fn
-    }} as any;
+    const styleData: StyleData = { key: newKey, fn } as any;
     if (mapStyles.has(newKey)) {
       return mapStyles.get(newKey).id;
     } else if (Platform.isBrowser && (styleData.styleContainer = this.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
@@ -115,11 +115,11 @@ export class LyTheme {
       classId++;
       styleData.id = `${prefix}${classId.toString(36)}`;
       styleData.styleContainer = this.rootService.renderer.createElement('style');
-      let content = `.${styleData.id}{${fn()}}`;
-      if (isDevMode()) {
-        content = `/** key: ${key}, for: ${_for} */\n${content}`;
-      }
-      styleData.styleContent = this.rootService.renderer.createText(content);
+      const content = this.createStyleContent(styleData);
+      // if (isDevMode()) {
+      //   content = `/** key: ${key}, for: ${_for} */\n${content}`;
+      // }
+      styleData.styleContent = content;
       this.rootService.renderer.appendChild(styleData.styleContainer, styleData.styleContent);
       this.rootService.renderer.appendChild(this.rootService.rootContainer, styleData.styleContainer);
       if (!Platform.isBrowser) {
@@ -133,7 +133,7 @@ export class LyTheme {
 
   /** #style */
   private createStyleContent(styleData: StyleData) {
-    return this.rootService.renderer.createText(`.${styleData.id}{${styleData.value.fn(...styleData.value.arg)}}`);
+    return this.rootService.renderer.createText(`.${styleData.id}{${styleData.fn()}}`);
   }
 
   /** Update style of StyleData */
@@ -193,10 +193,7 @@ export interface StyleData {
   key: string;
   styleContainer: any;
   styleContent: any;
-  value: {
-    fn: (...arg) => string,
-    arg: any[];
-  };
+  fn: () => string;
 }
 
 // export function isObject(item) {

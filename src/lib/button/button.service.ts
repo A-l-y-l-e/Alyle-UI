@@ -18,6 +18,13 @@ export class LyButtonService {
       'rbtn',
       rootStyle
     ),
+    // rootHover: this.theme.setRootStyle(
+    //   'btn',
+    //   () => (
+    //     `color: red;`
+    //   ),
+    //   ':hover'
+    // ),
     outlined: this.theme.setRootStyle(
       'btntlnd',
       () => (
