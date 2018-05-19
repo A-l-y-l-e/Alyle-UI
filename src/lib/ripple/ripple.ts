@@ -1,6 +1,5 @@
 import { ElementRef, NgZone, Renderer2 } from '@angular/core';
-import { Platform, StyleData } from '@alyle/ui';
-import { RippleConfig } from './ripple';
+import { Platform } from '@alyle/ui';
 
 export interface RippleConfig {
   centered?: boolean;
@@ -21,21 +20,20 @@ export class RippleRef {
 }
 
 export class Ripple {
-  private _hostElement: HTMLElement;
   private _rippleRef: RippleRef;
   private _state = true;
-  private _triggerElement: HTMLElement | null;
   private _eventHandlers: Map<string, (e: Event) => void> = new Map<string, (e: Event) => void>();
-  rippleConfig: RippleConfig = {};
-  private _transitionDuration = '475ms';
+  private rippleConfig: RippleConfig = {};
+  private _transitionDuration = '950ms';
+  private _eventOptions = {passive: true} as any;
   constructor(
-    _elementRef: HTMLElement,
-    private _renderer: Renderer2,
     private _ngZone: NgZone,
-    private stylesData: StyleData[]
+    private stylesData: string[],
+    private _containerElement: HTMLElement,
+    private _triggerElement?: HTMLElement
   ) {
     if (Platform.isBrowser) {
-      if (typeof TouchEvent && !!TouchEvent) {
+      if (typeof TouchEvent === 'function' && !!TouchEvent) {
         this._eventHandlers.set('pointerdown', this.onPointerDown.bind(this));
         this._eventHandlers.set('touchend', this.onPointerLeave.bind(this));
       } else {
@@ -43,31 +41,27 @@ export class Ripple {
       }
       this._eventHandlers.set('mouseup', this.onPointerLeave.bind(this));
       this._eventHandlers.set('mouseleave', this.onPointerLeave.bind(this));
-      this._hostElement = _elementRef;
-      this.setTriggerElement(this._hostElement);
+      if (!_triggerElement) {
+        _triggerElement = _containerElement;
+      }
+      this.setTriggerElement(_triggerElement);
     }
+  }
+
+  setConfig(config: RippleConfig) {
+    this.rippleConfig = config;
   }
 
   private get _rectContainer(): ClientRect {
-    return this._hostElement.getBoundingClientRect();
+    return this._containerElement.getBoundingClientRect();
   }
 
-  setContainerElement(element: HTMLElement | null) {
-    this._hostElement = element;
-  }
-
-  setTriggerElement(element: HTMLElement | null) {
-    if (this._triggerElement) {
-      // this._renderer.removeClass(this._triggerElement, 'ly-ripple');
-      this._eventHandlers.forEach((fn, type) => {
-        this._triggerElement.removeEventListener(type, fn);
-      });
-    }
-
+  private setTriggerElement(element: HTMLElement | null) {
     if (element) {
-      this._renderer.addClass(element, this.stylesData[0].id);
+      element.classList.add(this.stylesData[0]);
+      // this._renderer.addClass(element, this.stylesData[0].id);
       this._ngZone.runOutsideAngular(() => {
-        this._eventHandlers.forEach((fn, type) => element.addEventListener(type, fn));
+        this._eventHandlers.forEach((fn, type) => element.addEventListener(type, fn, this._eventOptions));
       });
     }
 
@@ -77,7 +71,7 @@ export class Ripple {
   private createRipple(styles: {[key: string]: number | string}) {
     this._rippleRef = new RippleRef();
     const container = this._rippleRef.container;
-    container.className = this.stylesData[1].id;
+    container.className = this.stylesData[1];
     for (const key in styles) {
       if (styles.hasOwnProperty(key)) {
         const element = styles[key];
@@ -88,7 +82,7 @@ export class Ripple {
         }
       }
     }
-    this._hostElement.appendChild(container);
+    this._containerElement.appendChild(container);
     window.getComputedStyle(container).getPropertyValue('opacity');
     container.style.transform = `scale(1)`;
   }
@@ -140,12 +134,22 @@ export class Ripple {
       rippleRef.end();
       this.runTimeoutOutsideZone(() => {
         rippleRef.container.style.opacity = '0';
+        rippleRef.container.style.transitionDuration = '200ms';
       // }, rippleRef.timestamp < duration ? duration : 0);
-      }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) : 0);
+      // }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) : 0);
+      }, rippleRef.timestamp < duration ? duration * .15 : 0);
       this.runTimeoutOutsideZone(() => {
         rippleRef.container.parentNode.removeChild(rippleRef.container);
       // }, rippleRef.timestamp < duration ? duration * 2 : duration);
-      }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) * 2 : duration);
+      // }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) * 2 : duration);
+      }, rippleRef.timestamp < duration ? duration * 2 : duration);
+    }
+  }
+  removeEvents() {
+    if (this._triggerElement) {
+      this._eventHandlers.forEach((fn, type) => {
+        this._triggerElement.removeEventListener(type, fn, this._eventOptions);
+      });
     }
   }
 

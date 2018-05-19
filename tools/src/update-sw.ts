@@ -35,13 +35,7 @@ async function hashAll() {
   const hashTable = ngswConfig.hashTable;
   const files = getAllHtml();
   const assets = ngswConfig.assetGroups.find(_ => _.name === 'assets');
-  for (let index = 0; index < files.length; index++) {
-    assets.urls.push(files[index].path);
-    hashTable[files[index].fullPath] = null;
-    console.log(files[index]);
-  }
-  // console.log(files.length);
-  // console.log('files', JSON.stringify(files, undefined, 2));
+
   for (const key in hashTable) {
     if (hashTable.hasOwnProperty(key)) {
       const distFileHash = await fileHash(join(DIST, key));
@@ -51,22 +45,22 @@ async function hashAll() {
       hashTable[key] = distFileHash;
     }
   }
-  // for (let index = 0; index < files.length; index++) {
-  //   const name = files[index];
-  //   hashTable[name] = await fileHash(join(DIST, name));
-  // }
-  // ngswConfig.hashTable = hashTable;
+  for (let index = 0; index < files.length; index++) {
+    assets.urls.push(join(files[index].path));
+    hashTable[files[index].path] = await fileHash(files[index].file);
+    console.log(`${chalk.green('hash updated for:')} ${chalk.greenBright(files[index].path)}`);
+  }
 
   /** Update file */
-  writeFileSync(join(DIST, 'ngsw.json'), JSON.stringify(ngswConfig, undefined, 2), 'utf8');
+  writeFileSync(join(DIST, 'ngsw.json'), JSON.stringify(ngswConfig), 'utf8');
 
 }
 hashAll();
 
 function getAllHtml() {
   const files: {
-    fullPath: string,
-    path: string
+    path: string,
+    file: string
   }[] = [];
   const getIndexs = (path: string) => {
     const items = readdirSync(path, 'utf8')
@@ -76,7 +70,7 @@ function getAllHtml() {
       if (existsSync(__path)) {
         files.push({
           path: join(path, name).replace(DIST, ''),
-          fullPath: __path.replace(DIST, '')
+          file: __path
         });
       }
       getIndexs(join(path, name));

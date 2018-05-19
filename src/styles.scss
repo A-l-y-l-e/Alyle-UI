@@ -1,3 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "theme.css";
 @import "assets/firacode/fira_code.css";
+
+ly-drawer::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  outline: #333 solid 1px;
+}
+ly-drawer:hover::-webkit-scrollbar-thumb {
+  background-color: #6e6e6e;
+  outline: #333 solid 1px;
+}
+ly-drawer::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}

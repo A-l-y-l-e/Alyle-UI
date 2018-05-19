@@ -8,4 +8,5 @@
   overflow: hidden;
   max-width: 500px;
   outline: none;
+  position: relative;
 }

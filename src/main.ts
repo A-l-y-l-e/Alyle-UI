@@ -14,7 +14,7 @@ if (environment.production) {
 
 const bootstrap = () => platformBrowserDynamic().bootstrapModule(AppModule);
 
-document.addEventListener('DOMContentLoaded', () => {
+// document.addEventListener('DOMContentLoaded', () => {
   if (environment.hmr) {
     if (module[ 'hot' ]) {
       hmrBootstrap(module, bootstrap);
@@ -25,4 +25,4 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     bootstrap();
   }
-});
+// });

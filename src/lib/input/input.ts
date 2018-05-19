@@ -21,7 +21,8 @@ import {
   ChangeDetectorRef,
   HostBinding,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  Renderer2
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -30,14 +31,11 @@ import {
   FormGroupDirective,
   NgControl, NgForm,
 } from '@angular/forms';
-import { LyCommonModule, IsBoolean, toBoolean } from '@alyle/ui';
+import { LyCommonModule, IsBoolean, toBoolean, LyBgColorAndRaised } from '@alyle/ui';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
-import {
-  LyTheme,
-  themeProperty,
-  LyStyleTheme
-} from '@alyle/ui';
+import { LyTheme } from '@alyle/ui';
+import { InputService } from './input.service';
 
 @Directive({
   selector: 'ly-default, ly-before, ly-after, ly-input ly-error, ly-input ly-hint'
@@ -81,7 +79,6 @@ export class LyLabel {}
 export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChanges, OnDestroy {
   _value: any;
   _elementType: 'input' | 'textarea';
-  _color = 'primary';
   _inputColor = 'primary';
   currentValue: any;
   private paletteSubscription: Subscription;
@@ -100,7 +97,19 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
   placeholderContainer: any;
   labelContainer: any;
   focusStateSuscription: Subscription;
-
+  _classes: {
+    caretColor?: string,
+    withColor?: string
+  } = {};
+  _withColor: string;
+  @Input()
+  set withColor(val: string) {
+    this._withColor = val;
+    this.updateColor(val);
+  }
+  get withColor() {
+    return this._withColor;
+  }
   @HostBinding('class.ly-label-above')
   get isFloatingLabel(): boolean {
     return this.currentValueState || this.labelAbove || this.isDefault || this.focusState;
@@ -108,20 +117,6 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 
   get placeholderState() {
     return !this.currentValueState && this.focusState || !this.currentValueState && !this.focusState && this.isFloatingLabel;
-  }
-
-  /**
-   * inputColor
-   */
-  @Input('inputColor')
-  set inputColor(val) {
-    // this._color = val;
-    if (val) {
-      this._inputColor = val;
-    }
-  }
-  get inputColor() {
-    return this._inputColor;
   }
   @HostBinding('class.ly-focus-active') focusState: boolean;
   @HostBinding('class.ly-hidden-input')
@@ -157,13 +152,30 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 
   constructor(
     private theme: LyTheme,
-    private styleTheme: LyStyleTheme,
-    private _changeDetectorRef: ChangeDetectorRef
-  ) {
-    // this.paletteSubscription = this.theme.palette.subscribe((palette) => {
-    //   this._inputColor = this.theme.colorOf(this._color);
-    // });
+    private _changeDetectorRef: ChangeDetectorRef,
+    private inputService: InputService,
+    @Optional() bcr: LyBgColorAndRaised,
+    renderer: Renderer2,
+    elementRef: ElementRef
+  ) { }
+
+  private updateColor(val: string) {
+    const inputColor = () => this.theme.colorOf(val);
+    this._classes.caretColor = this.theme.setStyle(
+      `input:caret${val}`,
+      () => (
+        `caret-color:${inputColor()}`
+      )
+    );
+    this._classes.withColor = this.theme.setStyle(
+      `input:${val}`,
+      () => (
+        `color:${inputColor()};` +
+        `background-color:${this.theme.palette.input.underline};`
+      )
+    );
   }
+
   toBoolean(val: any) {
     return toBoolean(val);
   }
@@ -178,6 +190,9 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
   }
 
   ngOnInit() {
+    if (!this.withColor) {
+      this.updateColor(this.theme.palette.input.withColor);
+    }
     // this._inputColor = this.theme.colorOf(this._color);
     this.focusStateSuscription = this._field.focusState.subscribe((fState: boolean) => {
       this.focusState = fState;

@@ -29,9 +29,7 @@ import { LyIconButtonService } from './icon-button.service';
   template: `
   <div class="{{ iconButtonService.classes.content }}"
   lyRipple
-  lyRippleSensitive
   lyRippleCentered
-  lyRippleRadius="containerSize"
   >
     <ng-content></ng-content>
   </div>
@@ -40,7 +38,7 @@ import { LyIconButtonService } from './icon-button.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyIconButton'
 })
-export class LyIconButton implements AfterViewInit {
+export class LyIconButton {
   private _iconStyle: {[key: string]: string | number};
   @ViewChild(LyRipple) ripple: LyRipple;
 
@@ -53,15 +51,6 @@ export class LyIconButton implements AfterViewInit {
     renderer.addClass(elementRef.nativeElement, iconButtonService.classes.host);
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
-    }
-  }
-
-  ngAfterViewInit() {
-    if (Platform.isBrowser) {
-      this.ripple.lyRippleDisabled = true;
-      this.ripple.rippleContainer.setTriggerElement(this.elementRef.nativeElement);
-      this.ripple.rippleContainer.setContainerElement(this.elementRef.nativeElement);
-      this.ripple.lyRippleDisabled = false;
     }
   }
 }

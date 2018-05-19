@@ -60,7 +60,7 @@ const contrast = '#fff';
         lightGreen: '#8bc34a',
         colorSchemes: {
           light: {
-            shadow: '#c0c0c0',
+            shadow: '#505050',
             codeColor: 'rgba(0, 23, 31, 0.7)',
             codeBg: '#F5F5F5',
             myColor: 'pink',

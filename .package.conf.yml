@@ -1,20 +1,21 @@
-version: 1.7.0-beta.12
+version: 1.7.0-beta.6yqz
+lastUpdate: '2018-05-19T00:08:37.115Z'
 components:
-  "@alyle/ui": core
-  "@alyle/ui/flex": flex
-  "@alyle/ui/ripple": ripple
-  "@alyle/ui/icon-button": icon-button
-  "@alyle/ui/icon": icon
-  "@alyle/ui/button": button
-  "@alyle/ui/ls": ls
-  "@alyle/ui/responsive": responsive
-  "@alyle/ui/radio": radio
-  "@alyle/ui/input": input
-  "@alyle/ui/resizing-cropping-images": resizing-cropping-images
-  "@alyle/ui/carousel": carousel
-  "@alyle/ui/menu": menu
-  "@alyle/ui/checkbox": checkbox
-  "@alyle/ui/header-pagination": header-pagination
-  "@alyle/ui/tabs": tabs
-  "@alyle/ui/toolbar": toolbar
-  "@alyle/ui/drawer": drawer
+  '@alyle/ui': core
+  '@alyle/ui/flex': flex
+  '@alyle/ui/ripple': ripple
+  '@alyle/ui/icon-button': icon-button
+  '@alyle/ui/icon': icon
+  '@alyle/ui/button': button
+  '@alyle/ui/ls': ls
+  '@alyle/ui/responsive': responsive
+  '@alyle/ui/radio': radio
+  '@alyle/ui/input': input
+  '@alyle/ui/resizing-cropping-images': resizing-cropping-images
+  '@alyle/ui/carousel': carousel
+  '@alyle/ui/menu': menu
+  '@alyle/ui/checkbox': checkbox
+  '@alyle/ui/header-pagination': header-pagination
+  '@alyle/ui/tabs': tabs
+  '@alyle/ui/toolbar': toolbar
+  '@alyle/ui/drawer': drawer

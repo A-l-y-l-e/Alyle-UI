@@ -1,5 +1,4 @@
 import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { LyResizingCroppingImages, LyResizingCroppingImagesConfig, CroppedImage } from '@alyle/ui/resizing-cropping-images';
 
@@ -17,7 +16,6 @@ export class ResizingCroppingImagesExample01Component {
     width: 150, // Default `250`
     height: 150 // Default `200`
   };
-  isNewImg: Observable<boolean>;
 
   constructor() { }
 

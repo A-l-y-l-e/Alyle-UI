@@ -32,9 +32,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/node-vibrant/dist/vibrant.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -96,9 +94,7 @@
                 "input": "styles.scss"
               }
             ],
-            "scripts": [
-              "./node_modules/node-vibrant/dist/vibrant.min.js"
-            ],
+            "scripts": [ ],
             "assets": [
               {
                 "glob": "favicon.ico",
@@ -872,6 +868,44 @@
             "tsConfig": [
               "dist/lib/icon/tsconfig.lint.json",
               "dist/lib/icon/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@alyle/ui/flex": {
+      "root": "dist/lib/flex",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/flex/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/flex/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/flex/src/test.ts",
+            "tsConfig": "dist/lib/flex/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/flex/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "dist/lib/flex/tsconfig.lint.json",
+              "dist/lib/flex/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

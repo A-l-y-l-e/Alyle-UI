@@ -23,7 +23,7 @@ import { Ripple, RippleConfig } from './ripple';
 import { LyRippleService } from './ripple.service';
 
 @Directive({
-  selector: '[lyRipple]',
+  selector: '[lyRipple], [ly-ripple]',
   exportAs: 'lyRipple'
 })
 export class LyRipple implements OnInit, OnChanges, OnDestroy {
@@ -45,13 +45,12 @@ export class LyRipple implements OnInit, OnChanges, OnDestroy {
   }
   constructor(
     private rippleService: LyRippleService,
-    @Inject(PLATFORM_ID) private _platformId: Object,
-    private _elementRef: ElementRef,
+    public _elementRef: ElementRef,
     private _ngZone: NgZone,
     private _renderer: Renderer2
   ) {
     if (Platform.isBrowser) {
-      this._containerElement = this._elementRef.nativeElement;
+      this.rippleContainer = new Ripple(this._ngZone, this.rippleService.stylesData, this._elementRef.nativeElement);
     }
   }
 
@@ -65,27 +64,13 @@ export class LyRipple implements OnInit, OnChanges, OnDestroy {
 
   private _updateRipple() {
     if (Platform.isBrowser) {
-      if (this.lyRippleConfig.disabled) {
-        return;
-      }
-      if (!this.rippleContainer) {
-        this.rippleContainer = new Ripple(this._containerElement, this._renderer, this._ngZone, this.rippleService.stylesData);
-      }
-      this.rippleContainer.rippleConfig = this.lyRippleConfig;
+      this.rippleContainer.setConfig(this.lyRippleConfig);
     }
-  }
-  /**
-   * Use only in ngAfterViewInit
-   */
-  setTriggerElement(triggerElement: HTMLElement) {
-    this.lyRippleDisabled = true;
-    this.rippleContainer.setTriggerElement(triggerElement);
-    this.lyRippleDisabled = false;
   }
 
   ngOnDestroy() {
     if (this.rippleContainer) {
-      this.rippleContainer.setTriggerElement(null);
+      this.rippleContainer.removeEvents();
     }
   }
 

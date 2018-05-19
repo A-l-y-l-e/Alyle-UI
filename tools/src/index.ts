@@ -25,17 +25,6 @@ copySync(dirLib, dist);
 copySync(`${process.cwd()}/README.md`, `${process.cwd()}/dist/@alyle/ui/README.md`);
 copySync(`${dirLib}/.npmignore`, `${process.cwd()}/dist/@alyle/ui/.npmignore`);
 
-/** Update version */
-
-function updateVersion() {
-  const fileName = `${dist}/core/src/version.ts`;
-  const file = readFileSync(fileName, 'utf8').toString()
-  .replace(/{\sversion\s}/g, version);
-  writeFileSync(fileName, file, 'utf8');
-}
-
-updateVersion();
-
 components.forEach(lib => {
   const item = statSync(`${dirLib}/${lib.path}`);
   [

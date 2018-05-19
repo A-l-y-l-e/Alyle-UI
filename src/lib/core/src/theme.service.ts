@@ -5,6 +5,7 @@ import { ThemeVariables, PaletteVariables, IS_CORE_THEME, THEME_VARIABLES } from
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform } from './platform';
 import { LyRootService } from './root.service';
+import { containsTree } from '@angular/router/src/url_tree';
 
 let classId = 0;
 
@@ -14,13 +15,6 @@ if (Platform.isBrowser) {
   prefix = 'ly_';
 } else {
   prefix = 'l';
-}
-
-/**
- * DEPRECATED
- */
-export function themeProperty(color: string): boolean {
-  return color === 'primary' || color === 'accent' || color === 'other';
 }
 
 @Injectable()
@@ -55,15 +49,15 @@ export class LyTheme {
     }
     this._styleMap = theme.map;
     // Object.assign(this.palette, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
-    this.palette = Object.assign({}, theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
+    this.palette = mergeDeep(theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
     this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
     this.setCoreStyle();
   }
 
   setScheme(scheme: string) {
-    const newPalette = Object.assign({}, this.rootService.getTheme(this.palette.name));
-    this.palette = Object.assign({}, newPalette, ...newPalette.colorSchemes[scheme], { scheme });
+    const newPalette = this.rootService.getTheme(this.palette.name);
+    this.palette = mergeDeep(newPalette, ...newPalette.colorSchemes[scheme], { scheme });
     this.updateOthersStyles();
   }
 
@@ -74,6 +68,7 @@ export class LyTheme {
   colorOf(value: string): string {
     return get(this.palette, value);
   }
+
   private getColorv2(colorName: string, colors: any, shade?: string): string {
     const ar = colors ? colors : this.palette;
     if (ar[colorName]) {
@@ -86,33 +81,45 @@ export class LyTheme {
       return colorName;
     }
   }
-  createStyle(key: string, fn: () => string, forRoot?: boolean) {
-    let mapStyles: Map<string, StyleData>;
-    let newKey;
-    if (forRoot) {
-      newKey = createKeyOf(key);
-      mapStyles = this.rootService.themeRootMap;
-    } else {
-      mapStyles = this._styleMap;
-      newKey = createKeyOf(key + this.Id + this.palette.scheme);
-    }
-    const styleData: StyleData = {key: newKey, value: {
-      fn: fn
-    }} as any;
+
+  /**
+   * Create new style if not exist, for Theme
+   * @param key unique id
+   * @param fn style
+   */
+  setStyle(key: string, fn: () => string): string {
+    const newKey = createKeyOf(key + this.Id + this.palette.scheme);
+    const mapStyles = this._styleMap;
+    return this._createStyle(key, newKey, fn, mapStyles, this.Id);
+  }
+
+  /**
+   * Create new style if not exist, for Root
+   * Important: this not update when change theme
+   * @param key unique id
+   * @param fn style
+   */
+  setRootStyle(key: string, fn: () => string): string {
+    const newKey = createKeyOf(key);
+    const mapStyles = this.rootService.themeRootMap;
+    return this._createStyle(key, newKey, fn, mapStyles, 'root');
+  }
+  private _createStyle(key: string, newKey: string, fn: () => string, mapStyles: Map<string, StyleData>, _for: string) {
+    const styleData: StyleData = { key: newKey, fn } as any;
     if (mapStyles.has(newKey)) {
-      return mapStyles.get(newKey);
-    } else if (Platform.isBrowser && (styleData.styleContainer = window.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
+      return mapStyles.get(newKey).id;
+    } else if (Platform.isBrowser && (styleData.styleContainer = this.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
       styleData.styleContent = styleData.styleContainer.innerHTML;
       styleData.id = styleData.styleContainer.dataset.id;
     } else {
       classId++;
       styleData.id = `${prefix}${classId.toString(36)}`;
       styleData.styleContainer = this.rootService.renderer.createElement('style');
-      let content = `.${styleData.id}{${fn()}}`;
-      if (isDevMode()) {
-        content = `/** key: ${key} */\n${content}`;
-      }
-      styleData.styleContent = this.rootService.renderer.createText(content);
+      const content = this.createStyleContent(styleData);
+      // if (isDevMode()) {
+      //   content = `/** key: ${key}, for: ${_for} */\n${content}`;
+      // }
+      styleData.styleContent = content;
       this.rootService.renderer.appendChild(styleData.styleContainer, styleData.styleContent);
       this.rootService.renderer.appendChild(this.rootService.rootContainer, styleData.styleContainer);
       if (!Platform.isBrowser) {
@@ -121,12 +128,12 @@ export class LyTheme {
       }
     }
     mapStyles.set(newKey, styleData);
-    return styleData;
+    return styleData.id;
   }
 
   /** #style */
   private createStyleContent(styleData: StyleData) {
-    return this.rootService.renderer.createText(`.${styleData.id}{${styleData.value.fn(...styleData.value.arg)}}`);
+    return this.rootService.renderer.createText(`.${styleData.id}{${styleData.fn()}}`);
   }
 
   /** Update style of StyleData */
@@ -165,13 +172,16 @@ export class LyTheme {
 
   private setCoreStyle() {
     if (this.isRoot) {
-      const newStyle = this.createStyle('body', () => {
-        return `background-color:${this.palette.background.primary};` +
-        `color:${this.palette.text.default};` +
-        `font-family:${this.palette.typography.fontFamily};` +
-        `margin:0;`;
-      });
-      this.rootService.renderer.addClass(this.document.body, newStyle.id);
+      const classname = this.setStyle(
+        'body',
+        () => (
+          `background-color:${this.palette.background.primary};` +
+          `color:${this.palette.text.default};` +
+          `font-family:${this.palette.typography.fontFamily};` +
+          `margin:0;`
+        )
+      );
+      this.rootService.renderer.addClass(this.document.body, classname);
     }
   }
 
@@ -183,10 +193,7 @@ export interface StyleData {
   key: string;
   styleContainer: any;
   styleContent: any;
-  value: {
-    fn: (...arg) => string,
-    arg: any[];
-  };
+  fn: () => string;
 }
 
 // export function isObject(item) {

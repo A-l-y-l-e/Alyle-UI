@@ -18,6 +18,7 @@
     "component/icon-button",
     "component/ripple",
     "component/responsive",
-    "component/shadow"
+    "component/shadow",
+    "component/flex"
   ]
 }

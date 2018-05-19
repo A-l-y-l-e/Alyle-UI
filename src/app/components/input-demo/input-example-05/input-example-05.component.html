@@ -41,7 +41,7 @@
 <ly-input inputColor="warn" label="warn">
   <input [(ngModel)]="value">
 </ly-input>
-<ly-input [inputColor]="color" [label]="color">
+<!-- <ly-input [inputColor]="color" [label]="color">
   <input [(ngModel)]="color" #_inputColor>
 </ly-input>
 <button ly-button (click)="changeColor(); _inputColor.focus()">
@@ -49,7 +49,7 @@
   <span ly-icon-button>
     <ly-icon src="assets/svg/Brush"></ly-icon>
   </span>
-</button>
+</button> -->
 <h4>Full width</h4>
 <ly-text-field class="full" label="Label">
   <input type="text" [(ngModel)]="full">

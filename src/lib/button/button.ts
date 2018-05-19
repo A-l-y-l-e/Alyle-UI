@@ -10,38 +10,37 @@ import {
   Renderer2,
   SimpleChanges,
   ViewChild,
-  Inject
+  Inject,
+  NgZone,
+  OnDestroy
 } from '@angular/core';
 import {
   IsBoolean,
   LyTheme,
   Platform,
-  StyleData,
   toBoolean,
-  ThemeVariables
+  ThemeVariables,
+  LyGlobalStyles
 } from '@alyle/ui';
-import { LyRipple, Ripple } from '@alyle/ui/ripple';
+import { LyRipple, Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
 import { LyBgColorAndRaised } from '@alyle/ui';
 
 @Component({
   selector: '[ly-button], ly-button',
-  styleUrls: ['button.style.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <div class="ly-button-ripple" lyRipple [lyRippleSensitive]="rippleSensitive"></div>
-  <!--<div class="ly-button-container">
-    <ng-content select="[start]"></ng-content>-->
+  <span #content>
     <ng-content></ng-content>
-    <!--<ng-content select="[end]"></ng-content>
-  </div>-->
+  </span>
   `
 })
-export class LyButton implements AfterViewInit {
+export class LyButton implements AfterViewInit, OnDestroy {
   public _disabled = false;
   private _rippleSensitive = false;
   private _disabledClassName: string;
   private _outlinedClassName: string;
+  private _rippleContainer: Ripple;
   @Input()
   set outlined(val: boolean) {
     const classname = toBoolean(val) === true ? this.buttonService.classes.outlined : '';
@@ -56,12 +55,12 @@ export class LyButton implements AfterViewInit {
     this._rippleSensitive = toBoolean(value);
   }
 
-  @ViewChild(LyRipple) ripple: LyRipple;
+  @ViewChild('content') buttonContent: ElementRef;
 
   @Input()
   set disabled(value: boolean) {
     const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
-    this._disabledClassName = this.theme.createStyle(`btn${key}`, this.disableStyle.bind(this)).id;
+    this._disabledClassName = this.theme.setStyle(`btn${key}`, this.disableStyle.bind(this));
     this._disabled = toBoolean(value);
     if (this._disabled) {
       this.renderer.addClass(this.elementRef.nativeElement, this._disabledClassName);
@@ -77,22 +76,30 @@ export class LyButton implements AfterViewInit {
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private theme: LyTheme,
+    public rippleStyles: LyRippleService,
     private buttonService: LyButtonService,
+    _ngZone: NgZone,
     @Optional() private bgAndColor: LyBgColorAndRaised
   ) {
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
     this.buttonService.applyTheme(renderer, elementRef);
+    if (Platform.isBrowser) {
+      const el = elementRef.nativeElement;
+      this._rippleContainer = new Ripple(_ngZone, rippleStyles.stylesData, el);
+    }
   }
 
   public focused() {
     this.elementRef.nativeElement.focus();
   }
+
   ngAfterViewInit() {
-    if (Platform.isBrowser) {
-     this.ripple.setTriggerElement(this.elementRef.nativeElement);
-    }
+    const classes = this.buttonService.classes;
+      (this.buttonContent.nativeElement as HTMLElement).classList.add(
+        classes.buttonContent
+      );
   }
 
   private disableStyle() {
@@ -105,6 +112,12 @@ export class LyButton implements AfterViewInit {
       style += `background-color: ${this.theme.palette.button.disabled} !important;`;
     }
     return style;
+  }
+
+  ngOnDestroy() {
+    if (Platform.isBrowser) {
+      this._rippleContainer.removeEvents();
+    }
   }
 
 }

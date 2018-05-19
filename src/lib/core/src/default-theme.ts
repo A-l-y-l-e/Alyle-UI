@@ -110,5 +110,9 @@ export const defaultTheme: ThemeVariables = {
   },
   icon: {
     fontSize: '24px'
+  },
+  input: {
+    /** default color */
+    withColor: 'primary'
   }
 };
