@@ -10,7 +10,7 @@
 
 ## Install Alyle UI
 
-`npm i @alyle/ui -s` or `yarn add @alyle/ui`
+`npm i @alyle/ui -s` or `yarn add @alyle/ui@latest`
 
 ## Import
 
