@@ -58,6 +58,7 @@
     "@angular/compiler-cli": "^6.0.0",
     "@angular/http": "^6.0.0",
     "@angularclass/hmr": "^2.1.3",
+    "@stackblitz/sdk": "^1.2.0",
     "@types/chroma-js": "^1.3.3",
     "@types/google.analytics": "^0.0.38",
     "@types/jasmine": "~2.8.3",

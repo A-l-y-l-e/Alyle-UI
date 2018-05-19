@@ -15,6 +15,8 @@ import { Platform } from '@alyle/ui';
 
 import { RoutesAppService } from '../../components/routes-app.service';
 
+import sdk from '@stackblitz/sdk';
+
 @Component({
   selector: 'demo-view',
   templateUrl: './view.component.html',
@@ -59,6 +61,24 @@ export class ViewComponent implements OnInit {
     const host = 'https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/master/src/app/components/';
     const file = this.files[index];
     return `${host}${this.name}-demo/${this.folderName}/${this.folderName}.${file.type}.${file.ext}`;
+  }
+
+  openStackblitz() {
+    const payload = {
+      files: {
+        'index.html': '',
+        'main.ts': ''
+      },
+      title: '',
+      description: '',
+      template: 'angular-cli',
+      dependencies: {
+        '@alyle/ui': '*'
+      }
+    };
+    sdk.openProject(payload, {
+      newWindow: true
+    });
   }
 
   ngOnInit() {

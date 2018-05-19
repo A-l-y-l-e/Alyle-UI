@@ -3,6 +3,7 @@
     <ly-toolbar-item ly-toolbar-item-padding>{{ viewLabel }}</ly-toolbar-item>
   </ly-toolbar>
   <div class="code">
+    <button ly-icon-button (click)="openStackblitz()"><ly-icon>launch</ly-icon></button>
     <button ly-icon-button (click)="toggleCode()"><ly-icon src="assets/svg/code"></ly-icon></button>
   </div>
   <ly-tabs *ngIf="hasCode">
