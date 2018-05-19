@@ -1,5 +1,5 @@
-version: 1.7.0-beta.3n8
-lastUpdate: '2018-05-15T07:11:09.479Z'
+version: 1.7.0-beta.6yqz
+lastUpdate: '2018-05-19T00:08:37.115Z'
 components:
   '@alyle/ui': core
   '@alyle/ui/flex': flex
