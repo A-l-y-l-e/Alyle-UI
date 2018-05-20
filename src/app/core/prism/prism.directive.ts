@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, Inject, Renderer2, ChangeDetectio
 import { PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { Platform } from '@alyle/ui';
+import { PrismService } from './prism.service';
 
 const Prism = require('prismjs');
 const PrismTypescript = require('prismjs/components/prism-typescript');
@@ -18,6 +19,10 @@ export class PrismDirective {
   private _code: string;
   @Input() language = 'ts';
   @Input()
+  set bg(val) {
+    console.log('remove this.', {val});
+  }
+  @Input()
   set code(val) {
     this._code = val;
     this.codeToHtml(val);
@@ -27,9 +32,12 @@ export class PrismDirective {
   constructor(
     private _elementRef: ElementRef,
     private renderer: Renderer2,
+    prismService: PrismService,
     @Inject(DOCUMENT) private document,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {
+    renderer.addClass(_elementRef.nativeElement, prismService.classes.root);
+  }
 
   codeToHtml(val: string) {
     if (Platform.isBrowser) {

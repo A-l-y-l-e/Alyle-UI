@@ -3,14 +3,13 @@ import {
   Input,
   OnInit,
   Optional,
-  ElementRef
+  ElementRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
-import { Observable, of }      from 'rxjs';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, of, merge, concat, throwError }      from 'rxjs';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { map } from 'rxjs/operators';
-
-import { MinimalLS } from '@alyle/ui/ls';
+import { catchError, retry, mergeMap } from 'rxjs/operators';
 import { Platform } from '@alyle/ui';
 
 import { RoutesAppService } from '../../components/routes-app.service';
@@ -21,7 +20,8 @@ import sdk from '@stackblitz/sdk';
   selector: 'demo-view',
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.css'],
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewComponent implements OnInit {
   hasCode = false;
@@ -38,7 +38,6 @@ export class ViewComponent implements OnInit {
   @Input() viewLabel: string;
   constructor(
     private http: HttpClient,
-    private minimalLS: MinimalLS,
     private el: ElementRef,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -48,9 +47,13 @@ export class ViewComponent implements OnInit {
   }
   getFile(index: number): Observable<string> {
     const url = this.url(index);
-    const statusText = `Loading...`;
-    const req = this.http.get(url, { responseType: 'text' });
+    const getUrl = this.http.get(url, { responseType: 'text' })
+    .pipe(
+      retry(10),
+      catchError((err: HttpErrorResponse) => of(`Error: ${err.statusText}`))
+    );
     if (Platform.isBrowser) {
+      const req = merge(of('Loading...'), getUrl);
       return req;
     } else {
       return of();
