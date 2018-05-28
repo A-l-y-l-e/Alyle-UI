@@ -2,7 +2,7 @@ import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject, OnDestr
 import { environment } from './../environments/environment';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { AUI_VERSION } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, LyThemeContainer } from '@alyle/ui';
 import { LyMenu } from '@alyle/ui/menu';
 import { LyTheme, Platform } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
@@ -25,6 +25,7 @@ export class AppComponent implements OnDestroy {
   routeState = false;
   mode = true;
   routerEvent: Subscription;
+  @ViewChild(LyThemeContainer) themeContainer: LyThemeContainer;
   constructor(
     public router: Router,
     public theme: LyTheme,
@@ -49,8 +50,10 @@ export class AppComponent implements OnDestroy {
   }
   changeScheme() {
     this.mode = !this.mode;
-    const scheme = this.mode ? 'light' : 'dark';
-    this.theme.setScheme(scheme);
+    const name = this.mode ? 'minLight' : 'minDark';
+    // this.theme.setScheme(scheme);
+    console.log(name);
+    this.themeContainer.theme.setTheme(name);
   }
   ngOnDestroy() {
     this.routerEvent.unsubscribe();

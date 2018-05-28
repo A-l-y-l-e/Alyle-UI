@@ -26,6 +26,7 @@ export class LyTheme {
   _styleMap: Map<string, StyleData>;
   AlyleUI: {currentTheme: ThemeVariables, palette: any};
   palette: ThemeVariables;
+  private styleMap = new Map<string, DataStyle>();
 
   /** get class name of color */
   getClassKey(color: string, of: 'color' | 'bg') {
@@ -52,7 +53,6 @@ export class LyTheme {
     this.palette = mergeDeep(theme.palette, { scheme: config.scheme }, ...theme.palette.colorSchemes[newConfig.scheme]);
     this.themeName = newConfig.name;
     this.Id = `${this.themeName}`;
-    this.setCoreStyle();
   }
 
   setScheme(scheme: string) {
@@ -87,7 +87,7 @@ export class LyTheme {
    * @param key unique id
    * @param fn style
    */
-  setStyle(key: string, fn: () => string): string {
+  setStyle(key: string, fn: StyleContent): string {
     const newKey = createKeyOf(key + this.Id + this.palette.scheme);
     const mapStyles = this._styleMap;
     return this._createStyle(key, newKey, fn, mapStyles, this.Id);
@@ -99,17 +99,33 @@ export class LyTheme {
    * @param key unique id
    * @param fn style
    */
-  setRootStyle(key: string, fn: () => string): string {
+  setRootStyle(key: string, fn: StyleContent): string {
     const newKey = createKeyOf(key);
     const mapStyles = this.rootService.themeRootMap;
     return this._createStyle(key, newKey, fn, mapStyles, 'root');
   }
-  private _createStyle(key: string, newKey: string, fn: () => string, mapStyles: Map<string, StyleData>, _for: string) {
+
+  // setExtraStyle(key: string, extra: string, fn: StyleContent) {
+  //   const mapStyles = this._styleMap;
+  //   const id = mapStyles.get(key).id;
+  //   if (id) {
+
+  //   }
+  // }
+  // setExtraStyleRoot(key: string, extra: string, fn: StyleContent) {
+  //   const mapStyles = this.rootService.themeRootMap;
+  //   const id = mapStyles.get(key).id;
+  //   if (id) {
+
+  //   }
+  // }
+
+  private _createStyle(key: string, newKey: string, fn: StyleContent, mapStyles: Map<string, StyleData>, _for: string) {
     const styleData: StyleData = { key: newKey, fn } as any;
     if (mapStyles.has(newKey)) {
       return mapStyles.get(newKey).id;
     } else if (Platform.isBrowser && (styleData.styleContainer = this.document.body.querySelector(`ly-core-theme style[data-key="${newKey}"]`))) {
-      styleData.styleContent = styleData.styleContainer.innerHTML;
+      styleData.styleContent = styleData.styleContainer.innerText;
       styleData.id = styleData.styleContainer.dataset.id;
     } else {
       classId++;
@@ -170,22 +186,9 @@ export class LyTheme {
     renderer.addClass(element, newClassname);
   }
 
-  private setCoreStyle() {
-    if (this.isRoot) {
-      const classname = this.setStyle(
-        'body',
-        () => (
-          `background-color:${this.palette.background.primary};` +
-          `color:${this.palette.text.default};` +
-          `font-family:${this.palette.typography.fontFamily};` +
-          `margin:0;`
-        )
-      );
-      this.rootService.renderer.addClass(this.document.body, classname);
-    }
-  }
-
 }
+
+export type StyleContent = () => string;
 
 export interface StyleData {
   /** Class Id */
@@ -195,10 +198,19 @@ export interface StyleData {
   styleContent: any;
   fn: () => string;
 }
+export interface DataStyle {
+  id: string;
+  styleElement: HTMLStyleElement;
+  style: MultipleStyles;
+}
 
 // export function isObject(item) {
 //   return (item && typeof item === 'object' && !Array.isArray(item));
 // }
+
+export interface MultipleStyles {
+  [key: string]: StyleContent;
+}
 
 export function mergeDeep(...objects) {
   // const output = Object.assign({}, target);

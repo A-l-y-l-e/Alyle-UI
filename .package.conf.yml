@@ -2,6 +2,7 @@ version: 1.7.0-beta.6yqz
 lastUpdate: '2018-05-19T00:08:37.115Z'
 components:
   '@alyle/ui': core
+  '@alyle/ui/themes': themes
   '@alyle/ui/flex': flex
   '@alyle/ui/ripple': ripple
   '@alyle/ui/icon-button': icon-button

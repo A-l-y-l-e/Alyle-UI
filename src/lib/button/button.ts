@@ -12,15 +12,16 @@ import {
   ViewChild,
   Inject,
   NgZone,
-  OnDestroy
+  OnDestroy,
+  OnInit
 } from '@angular/core';
 import {
   IsBoolean,
-  LyTheme,
   Platform,
   toBoolean,
   ThemeVariables,
-  LyGlobalStyles
+  LyGlobalStyles,
+  LyTheme2
 } from '@alyle/ui';
 import { LyRipple, Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
@@ -35,7 +36,7 @@ import { LyBgColorAndRaised } from '@alyle/ui';
   </span>
   `
 })
-export class LyButton implements AfterViewInit, OnDestroy {
+export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   public _disabled = false;
   private _rippleSensitive = false;
   private _disabledClassName: string;
@@ -60,7 +61,7 @@ export class LyButton implements AfterViewInit, OnDestroy {
   @Input()
   set disabled(value: boolean) {
     const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
-    this._disabledClassName = this.theme.setStyle(`btn${key}`, this.disableStyle.bind(this));
+    this._disabledClassName = this.theme.setUpStyle(`btn${key}`, {'': this.disableStyle.bind(this)});
     this._disabled = toBoolean(value);
     if (this._disabled) {
       this.renderer.addClass(this.elementRef.nativeElement, this._disabledClassName);
@@ -72,10 +73,22 @@ export class LyButton implements AfterViewInit, OnDestroy {
     return this._disabled;
   }
 
+  get classes() {
+    return {
+      currentConfig: this.theme.setUpStyleSecondary('buttonConfig', {
+        '': () => (
+          `font-family:${this.theme.config.typography.fontFamily};` +
+          `font-size:${this.theme.config.typography.fontSize}px;` +
+          `color:${this.theme.config.text.default};`
+        )
+      })
+    };
+  }
+
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private theme: LyTheme,
+    private theme: LyTheme2,
     public rippleStyles: LyRippleService,
     private buttonService: LyButtonService,
     _ngZone: NgZone,
@@ -84,11 +97,15 @@ export class LyButton implements AfterViewInit, OnDestroy {
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
-    this.buttonService.applyTheme(renderer, elementRef);
     if (Platform.isBrowser) {
       const el = elementRef.nativeElement;
       this._rippleContainer = new Ripple(_ngZone, rippleStyles.stylesData, el);
     }
+  }
+
+  ngOnInit() {
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.currentConfig);
+    this.renderer.addClass(this.elementRef.nativeElement, this.buttonService.classes.root);
   }
 
   public focused() {
@@ -106,10 +123,10 @@ export class LyButton implements AfterViewInit, OnDestroy {
     let style =
     `box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;` +
     `cursor: default;` +
-    `color: ${this.theme.palette.text.disabled} !important;` +
+    `color: ${this.theme.config.text.disabled} !important;` +
     `pointer-events: none;`;
     if (this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg)) {
-      style += `background-color: ${this.theme.palette.button.disabled} !important;`;
+      style += `background-color: ${this.theme.config.button.disabled} !important;`;
     }
     return style;
   }

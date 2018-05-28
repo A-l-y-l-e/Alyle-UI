@@ -24,20 +24,21 @@ import {
   SimpleChanges,
   Inject,
   PLATFORM_ID,
-  OnInit
+  OnInit,
+  Renderer2
 } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CarouselService } from './carousel.service';
-import { Platform } from '@alyle/ui';
+import { Platform, LyTheme2 } from '@alyle/ui';
 
 @Component({
   selector: 'ly-carousel',
   styleUrls: ['carousel.scss'],
   template: `
-  <div class="lycarousel-slide">
+  <div [className]="classes.slide">
     <!--buttons-->
     <div class="carousel-indicators-container">
       <div class="carousel-blur" [style.background-image]="'url('+lyItems.toArray()[_itemSelect]?.src+')'"></div>
@@ -70,6 +71,12 @@ import { Platform } from '@alyle/ui';
   <div class="lycarousel-content ly-carousel-container">
     <ng-content></ng-content>
   </div>
+  <div class="ly-carousel-actions" (click)="focusLeft()">
+    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+  </div>
+  <div class="ly-carousel-actions right" (click)="focusRight()">
+    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+  </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
@@ -83,12 +90,58 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   @ContentChildren(forwardRef(() => LyCarouselItemComponent)) lyItems: QueryList<LyCarouselItemComponent>;
   _itemSelect = 0;
+  classes = {
+    root: this.theme.core.setUpStyle(
+      'carousel', {
+        '': () => (
+          `display: block;` +
+          `-webkit-user-select: none;` +
+          `-moz-user-select: none;` +
+          `-ms-user-select: none;` +
+          `position: relative;`
+        ),
+        ' .ly-carousel-actions': () => (
+          `position: absolute;` +
+          `top: 0;` +
+          `bottom: 0;` +
+          `margin:auto .25em;` +
+          `height:1em;` +
+          `width:1em;` +
+          `font-size:36px;` +
+          `cursor:pointer;` +
+          `color: #fff;` +
+          `background: rgba(0, 0, 0, 0.11);`
+        ),
+        ' .ly-carousel-actions.right': () => (
+          `right: 0;` +
+          `-webkit-transform: rotate(180deg);` +
+          `transform: rotate(180deg);`
+        ),
+        ' svg': () => (
+          `display:block;` +
+          `fill:currentColor;`
+        )
+      }
+    ),
+    slide: this.theme.core.setUpStyleSecondary(
+      'carousel-slide', {
+        '': () => (
+          ``
+        )
+      }
+    )
+  };
   constructor(
     private elementRef: ElementRef,
     private sanitizer: DomSanitizer,
     private cd: ChangeDetectorRef,
+    private theme: LyTheme2,
+    private renderer: Renderer2,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {
+    console.log('theme', theme);
+    this.renderer.addClass(elementRef.nativeElement, this.classes.root);
+  }
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
   }

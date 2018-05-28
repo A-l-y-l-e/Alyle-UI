@@ -1,6 +1,5 @@
 import {
-  LyTheme,
-  ProvidedInTheme
+  LyTheme2, CoreTheme
 } from '@alyle/ui';
 import {
   ElementRef,
@@ -9,31 +8,26 @@ import {
   Renderer2
 } from '@angular/core';
 
-@Injectable(ProvidedInTheme)
+@Injectable({
+  providedIn: 'root'
+})
 export class LyButtonService {
   private rootClassName: string;
   private themeClassName: string;
   classes = {
-    root: this.theme.setRootStyle(
-      'rbtn',
-      rootStyle
-    ),
-    // rootHover: this.theme.setRootStyle(
-    //   'btn',
-    //   () => (
-    //     `color: red;`
-    //   ),
-    //   ':hover'
-    // ),
-    outlined: this.theme.setRootStyle(
+    root: this.coreTheme.setUpStyleSecondary(
+      'button', {
+        '': rootStyle
+      }),
+    outlined: this.coreTheme.setUpStyle(
       'btntlnd',
-      () => (
+      {'': () => (
         `border: 1px solid currentColor`
-      )
+      )}
     ),
-    buttonContent: this.theme.setRootStyle(
+    buttonContent: this.coreTheme.setUpStyle(
       'buttonContent',
-      () => (
+      {'': () => (
         `padding:0;` +
         `display:flex;` +
         `justify-content:inherit;` +
@@ -42,25 +36,12 @@ export class LyButtonService {
         `width: 100%;` +
         `height: 100%;` +
         `box-sizing: border-box;`
-      )
+      )}
     )
   };
   constructor(
-    private theme: LyTheme
-  ) {
-    this.themeClassName = this.theme.setStyle('btn', this.style.bind(this));
-  }
-
-  applyTheme(renderer: Renderer2, elementRef: ElementRef) {
-    renderer.addClass(elementRef.nativeElement, this.classes.root);
-    renderer.addClass(elementRef.nativeElement, this.themeClassName);
-  }
-
-  private style() {
-    return `font-family:${this.theme.palette.typography.fontFamily};` +
-    `font-size:${this.theme.palette.typography.fontSize}px;` +
-    `color:${this.theme.palette.text.default};`;
-  }
+    private coreTheme: CoreTheme
+  ) { }
 }
 
 function rootStyle() {

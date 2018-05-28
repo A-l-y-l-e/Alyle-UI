@@ -1,27 +1,30 @@
 import { Injectable, Inject, Renderer2, ElementRef } from '@angular/core';
-import { LyTheme, LyRootService, ProvidedInTheme } from '@alyle/ui';
+import { LyTheme, ProvidedInTheme, CoreTheme } from '@alyle/ui';
 import { DOCUMENT } from '@angular/common';
 
-@Injectable(ProvidedInTheme)
+@Injectable({
+  providedIn: 'root'
+})
 export class LyRippleService {
   stylesData: string[] = [];
   classes = {
-    root: this.theme.setRootStyle(
-      'ripple',
-      () => (
-        `z-index: 0;` +
-        `border-radius: inherit;`
-      )
+    root: this.coreTheme.setUpStyleSecondary(
+      'ripple', {
+        '': () => (
+          `z-index: 0;` +
+          `border-radius: inherit;`
+        )
+      }
     )
   };
   constructor(
-    private theme: LyTheme
+    private coreTheme: CoreTheme
   ) {
-    const host = this.theme.setRootStyle('ripple', () => {
-      return 'position: relative;';
+    const host = this.coreTheme.setUpStyle('ripple', {
+      '': () => ( 'position: relative;' )
     });
-    const rippleContainer = this.theme.setRootStyle('ripple-cont', () => {
-      return `position: absolute;` +
+    const rippleContainer = this.coreTheme.setUpStyle('ripple-cont', {'': () => (
+      `position: absolute;` +
       `width: 5px;` +
       `height: 5px;` +
       `background: currentColor;` +
@@ -33,8 +36,8 @@ export class LyRippleService {
       `transition: opacity ease,-webkit-transform cubic-bezier(.1, 1, 0.5, 1);` +
       `transition: opacity ease,transform cubic-bezier(.1, 1, 0.5, 1);` +
       `transition: opacity ease,transform cubic-bezier(.1, 1, 0.5, 1);` +
-      `pointer-events: none;`;
-    });
+      `pointer-events: none;`
+    )});
     this.stylesData.push(host, rippleContainer);
   }
 

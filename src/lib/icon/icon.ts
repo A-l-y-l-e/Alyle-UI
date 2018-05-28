@@ -1,8 +1,8 @@
 import { Directive, Input, Renderer2, ElementRef, OnChanges, SimpleChanges, OnInit } from '@angular/core';
-import { LyIconService, LyIconStyle, SvgIcon } from './icon.service';
+import { LyIconService, SvgIcon } from './icon.service';
 import { take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Platform } from '@alyle/ui';
+import { Platform, LyTheme2 } from '@alyle/ui';
 
 @Directive({
   selector: 'ly-icon'
@@ -11,6 +11,20 @@ export class Icon implements OnChanges, OnInit {
   private _defaultClass = 'material-icons';
   private _src: string;
   private _icon: string;
+  get classes() {
+    return {
+      root: this.theme.setUpStyle(
+        'root', {
+          '': () => (
+            `font-size:${this.theme.config.icon.fontSize};` +
+            `width:1em;` +
+            `height:1em;` +
+            `display:inline-flex;`
+          )
+        }
+      )
+    };
+  }
   @Input()
   set src(val: string) {
     this._src = val;
@@ -44,10 +58,8 @@ export class Icon implements OnChanges, OnInit {
     private iconService: LyIconService,
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private iconStyle: LyIconStyle
-  ) {
-    renderer.addClass(elementRef.nativeElement, this.iconStyle.classes.root);
-  }
+    private theme: LyTheme2
+  ) { }
 
   private _isDefault() {
     return !(this.src || this.icon);
@@ -65,7 +77,7 @@ export class Icon implements OnChanges, OnInit {
   }
 
   private _appendChild(svg: SVGElement) {
-    svg.classList.add(this.iconStyle.classes.svg);
+    this.renderer.addClass(svg, this.iconService.classes.svg);
     this.renderer.appendChild(this.elementRef.nativeElement, svg);
   }
 
@@ -79,7 +91,10 @@ export class Icon implements OnChanges, OnInit {
     }
   }
 
-  ngOnInit() { this._updateClass(); }
+  ngOnInit() {
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.root);
+    this._updateClass();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     this._updateClass();

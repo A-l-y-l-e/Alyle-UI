@@ -1,6 +1,6 @@
 import { Directive, Input, OnChanges, SimpleChanges, Inject, Optional, Renderer2, ElementRef, Host, Self } from '@angular/core';
 import { LY_GLOBAL_CONTRAST } from './contrast';
-import { LyTheme } from '../theme.service';
+import { LyTheme2 } from './theme2.service';
 import { SkipSelf } from '@angular/core';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
@@ -42,7 +42,7 @@ export class LyBgColorAndRaised implements OnChanges {
   get raised() { return this._raisedState; }
   @Input() elevation = 3;
   constructor(
-    private theme: LyTheme,
+    private theme: LyTheme2,
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private shadow: LyShadowService,
@@ -60,14 +60,14 @@ export class LyBgColorAndRaised implements OnChanges {
     let key = '';
     if ((this.contrast && !this.color || this.color === 'auto') && this.bg) {
       key = `contrast${this.bg}${this._raisedState}${this.elevation}`;
-      newClassName = this.theme.setStyle(`ly-${key}`, this.contrastStyle.bind(this));
+      newClassName = this.theme.setUpStyle(`ly-${key}`, {'': this.contrastStyle.bind(this)});
     } else if (this.bg && this.color) {
       key = `b&ĸ${this.bg}${this.color}${this._raisedState}${this.elevation}`;
-      newClassName = this.theme.setStyle(`ly-${key}`, this.bgColorStyle.bind(this));
+      newClassName = this.theme.setUpStyle(`ly-${key}`, {'': this.bgColorStyle.bind(this)});
     } else if (this.raised && !this.bg) {
       key = raisedĸey + this.color || '';
-      newClassName = this.theme.setStyle(`ly-${key}`, () => {
-        let styles = `background-color:${this.theme.palette.background.primary};`;
+      newClassName = this.theme.setUpStyle(`ly-${key}`, {'': () => {
+        let styles = `background-color:${this.theme.config.background.primary};`;
         let color = '';
         let colorShadow;
         if (this.color) {
@@ -75,37 +75,37 @@ export class LyBgColorAndRaised implements OnChanges {
           colorShadow = color;
           styles += `color:${color};`;
         } else {
-          colorShadow = this.theme.palette.colorShadow;
+          colorShadow = this.theme.config.colorShadow;
         }
         if (this._raisedState) {
           styles += shadowBuilder(this.elevation, colorShadow);
         }
         return styles;
-      });
+      }});
     } else if (this.bg || this.color) {
       const changeKey = this.bg ? ['bg', 'background', this.bg] : ['ĸ', 'color', this.color];
       const color = changeKey[2];
       key = `${changeKey[0]}${color}${this._raisedState}${this.elevation}`;
 
       /** Create style */
-      newClassName = this.theme.setStyle(`ly-${key}`, () => {
+      newClassName = this.theme.setUpStyle(`ly-${key}`, {'': () => {
         const _color = this.theme.colorOf(this.bg || this.color);
         let styles = `${changeKey[1]}:${_color};`;
         if (this._raisedState) {
           styles += shadowBuilder(this.elevation, _color);
         }
         return styles;
-      });
+      }});
 
     } else {
       key = `raised${this._raisedState}${this.elevation}`;
-      newClassName = this.theme.setStyle(`ly-${key}`, () => {
+      newClassName = this.theme.setUpStyle(`ly-${key}`, {'': () => {
         if (this._raisedState) {
-          return shadowBuilder(this.elevation, this.theme.palette.colorShadow);
+          return shadowBuilder(this.elevation, this.theme.config.colorShadow);
         } else {
-          return shadowBuilder(0, this.theme.palette.colorShadow);
+          return shadowBuilder(0, this.theme.config.colorShadow);
         }
-      });
+      }});
     }
     this.theme.updateClassName(this.elementRef.nativeElement, this.renderer, newClassName, this._currentClassName);
     this._currentClassName = newClassName;

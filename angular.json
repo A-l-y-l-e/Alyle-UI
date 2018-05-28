@@ -94,7 +94,7 @@
                 "input": "styles.scss"
               }
             ],
-            "scripts": [ ],
+            "scripts": [],
             "assets": [
               {
                 "glob": "favicon.ico",

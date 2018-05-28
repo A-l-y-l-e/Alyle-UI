@@ -34,7 +34,7 @@ import {
 import { LyCommonModule, IsBoolean, toBoolean, LyBgColorAndRaised } from '@alyle/ui';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
-import { LyTheme } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
 import { InputService } from './input.service';
 
 @Directive({
@@ -76,7 +76,7 @@ export class LyLabel {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChanges, OnDestroy {
+export class LyInput implements OnInit, AfterContentInit, OnChanges, OnDestroy {
   _value: any;
   _elementType: 'input' | 'textarea';
   _inputColor = 'primary';
@@ -151,7 +151,7 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
   }
 
   constructor(
-    private theme: LyTheme,
+    private theme: LyTheme2,
     private _changeDetectorRef: ChangeDetectorRef,
     private inputService: InputService,
     @Optional() bcr: LyBgColorAndRaised,
@@ -161,18 +161,20 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 
   private updateColor(val: string) {
     const inputColor = () => this.theme.colorOf(val);
-    this._classes.caretColor = this.theme.setStyle(
-      `input:caret${val}`,
-      () => (
-        `caret-color:${inputColor()}`
-      )
+    this._classes.caretColor = this.theme.setUpStyle(
+      `input:caret${val}`, {
+        '': () => (
+          `caret-color:${inputColor()}`
+        )
+      }
     );
-    this._classes.withColor = this.theme.setStyle(
-      `input:${val}`,
-      () => (
-        `color:${inputColor()};` +
-        `background-color:${this.theme.palette.input.underline};`
-      )
+    this._classes.withColor = this.theme.setUpStyle(
+      `input:${val}`, {
+        '': () => (
+          `color:${inputColor()};` +
+          `background-color:${this.theme.config.input.underline};`
+        )
+      }
     );
   }
 
@@ -191,7 +193,7 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
 
   ngOnInit() {
     if (!this.withColor) {
-      this.updateColor(this.theme.palette.input.withColor);
+      this.updateColor(this.theme.config.input.withColor);
     }
     // this._inputColor = this.theme.colorOf(this._color);
     this.focusStateSuscription = this._field.focusState.subscribe((fState: boolean) => {
@@ -202,8 +204,6 @@ export class LyInput implements OnInit, AfterContentInit, AfterViewInit, OnChang
         this.updateError();
       });
     }
-  }
-  ngAfterViewInit() {
   }
   ngAfterContentInit() {
     if (this._field) {

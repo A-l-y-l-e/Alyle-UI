@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { map, share } from 'rxjs/operators';
-import { LyTheme, ProvidedInTheme } from '@alyle/ui';
+import { LyTheme, ProvidedInTheme, CoreTheme } from '@alyle/ui';
 
 export interface SvgIcon {
   obs: Observable<SVGElement>;
@@ -15,10 +15,21 @@ export interface SvgIcon {
 })
 export class LyIconService {
   private svgMap = new Map<string, SvgIcon>();
-
+  classes = {
+    svg: this.coreTheme.setUpStyle(
+      '_svg', {
+        '': () => (
+          `width:inherit;` +
+          `height:inherit;` +
+          `fill:currentColor;`
+        )
+      }
+    )
+  };
   constructor(
     private http: HttpClient,
-    @Optional() @Inject(DOCUMENT) private document: any
+    @Optional() @Inject(DOCUMENT) private document: any,
+    private coreTheme: CoreTheme
   ) { }
 
   setSvg(key: string, url: string) {
@@ -48,27 +59,3 @@ export class LyIconService {
   }
 }
 
-@Injectable(ProvidedInTheme)
-export class LyIconStyle {
-  classes = {
-    root: this.theme.setStyle(
-      'root',
-      () => (
-        `font-size:${this.theme.palette.icon.fontSize};` +
-        `width:1em;` +
-        `height:1em;` +
-        `display:inline-flex;`
-      )
-    ),
-    svg: this.theme.setRootStyle(
-      '_svg',
-      () => (
-        `width:inherit;` +
-        `height:inherit;` +
-        `fill:currentColor;`
-      )
-    )
-  };
-
-  constructor(private theme: LyTheme) { }
-}

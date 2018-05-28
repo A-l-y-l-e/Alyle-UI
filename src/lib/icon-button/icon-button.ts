@@ -20,7 +20,7 @@ import {
 import { CommonModule } from '@angular/common';
 
 import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
-import { Platform, LyBgColorAndRaised } from '@alyle/ui';
+import { Platform, LyBgColorAndRaised, LyTheme2 } from '@alyle/ui';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { LyIconButtonService } from './icon-button.service';
 
@@ -38,20 +38,34 @@ import { LyIconButtonService } from './icon-button.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyIconButton'
 })
-export class LyIconButton {
+export class LyIconButton implements OnInit {
   private _iconStyle: {[key: string]: string | number};
   @ViewChild(LyRipple) ripple: LyRipple;
-
+  get classes() {
+    return {
+      config: this.theme.setUpStyle('iconButtonConfig', {
+        '': () => (
+          `width:${this.theme.config.iconButton.size};` +
+          `height:${this.theme.config.iconButton.size};`
+        )
+      })
+    };
+  }
   constructor(
     public elementRef: ElementRef,
-    renderer: Renderer2,
+    private renderer: Renderer2,
     @Optional() private bgAndColor: LyBgColorAndRaised,
-    public iconButtonService: LyIconButtonService
+    public iconButtonService: LyIconButtonService,
+    private theme: LyTheme2
   ) {
-    renderer.addClass(elementRef.nativeElement, iconButtonService.classes.host);
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
+  }
+
+  ngOnInit() {
+    this.renderer.addClass(this.elementRef.nativeElement, this.iconButtonService.classes.host);
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.config);
   }
 }
 

@@ -25,6 +25,7 @@ import { LyCommonModule } from '@alyle/ui';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
+import { defaultTheme } from '@alyle/ui/themes';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -34,6 +35,27 @@ export class MyHammerConfig extends HammerGestureConfig {
 }
 
 const contrast = '#fff';
+const typography = {
+  fontFamily: `'Roboto', sans-serif`,
+  fontSize: 14
+};
+
+const commonVariables = {
+  iconButton: {
+    size: '48px'
+  },
+  icon: {
+    fontSize: '24px'
+  },
+  input: {
+    /** default color */
+    withColor: 'primary'
+  }
+};
+
+const variables = {
+
+};
 
 @NgModule({
   declarations: [
@@ -47,6 +69,20 @@ const contrast = '#fff';
     BrowserAnimationsModule,
     ResponsiveModule,
     MinimalLSModule,
+    AlyleUIModule.setThemeConfig(defaultTheme.map(theme => {
+      if (theme.name === 'minDark') {
+        theme.shadow = 'rgba(0, 0, 0, 1)';
+        theme.codeColor = '#efefef';
+        theme.codeBg = '#212121';
+        theme.myColor = 'teal';
+      } else {
+        theme.shadow = '#505050';
+        theme.codeColor = 'rgba(0, 23, 31, 0.7)';
+        theme.codeBg = '#F5F5F5';
+        theme.myColor = 'pink';
+      }
+      return theme;
+    })),
     AlyleUIModule.forRoot(
       {
         name: 'RootTheme',
