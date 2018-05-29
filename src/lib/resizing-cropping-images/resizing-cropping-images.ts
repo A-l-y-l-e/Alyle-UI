@@ -137,7 +137,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
     return parseFloat(num.toFixed(0));
   }
   setScale(size: number) {
-    console.log('setScale', size);
     // if (!(size > 0 && size <= 1)) { return; }
     this.scale = size;
     size = size * 100;
@@ -207,13 +206,13 @@ export class LyResizingCroppingImages implements AfterContentInit {
       };
     } else {
       target = {
-        x: event.clientX,
-        y: event.clientY
+        x: event.center.x,
+        y: event.center.y
       };
     }
     this.offset = {
-      x: target.x - rect.x,
-      y: target.y - rect.y,
+      x: event.center.x - rect.x,
+      y: event.center.y - rect.y,
       left: (rect as ClientRect).left - hostRect.x,
       top: (rect as ClientRect).top - hostRect.y
     };

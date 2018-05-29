@@ -14,6 +14,7 @@ export * from './src/dom/lx-dom.module';
 export * from './src/focus-state/focus-state.module';
 export * from './src/alyle-ui.module';
 export * from './src/version';
+export * from './src/gesture/gesture-config';
 export * from './src/theme/contrast';
 export * from './src/theme/bg-color-and-raised.directive';
 export * from './src/theme/shadow.service';

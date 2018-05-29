@@ -3,6 +3,23 @@ import { LyFlexService } from './flex.service';
 import { LNodeType } from '@angular/core/src/render3/interfaces/node';
 import { CoreTheme } from '@alyle/ui';
 
+enum __align {
+  row = 'row',
+  rowReverse = 'row-reverse',
+  column = 'column',
+  columnReverse = 'column-reverse',
+  nowrap = 'nowrap',
+  wrap = 'wrap',
+  wrapReverse = 'wrap-reverse',
+  start = 'flex-start',
+  center = 'center',
+  end = 'flex-end',
+  between = 'space-between',
+  around = 'space-around',
+  evenly = 'space-evenly',
+  baseline = 'baseline',
+  stretch = 'stretch',
+}
 export type Direction = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 export type Wrap = 'nowrap' | 'wrap' | 'wrap-reverse';
 export type Flow = Direction | Wrap;
@@ -28,9 +45,9 @@ export class LyFlex implements OnChanges {
   }
   @Input()
   set fxAlign(val: FxAlign) {
-    const justifyContent = val[0] || 'flex-start';
-    const alignItems = val[1] || 'stretch';
-    const alignContent = val[2];
+    const justifyContent = __align[val[0]] || 'flex-start';
+    const alignItems = __align[val[1]] || 'stretch';
+    const alignContent = __align[val[2]];
     this._fxAlign = (
       `justify-content:${justifyContent};` +
       `align-items:${alignItems};` +
@@ -51,14 +68,20 @@ export class LyFlex implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     let key = '';
     let styles = ``;
-    // tslint:disable-next-line:forin
-    for (const inputKey in changes) {
-      key += inputKey + changes[inputKey].currentValue;
-      styles += this[`_${inputKey}`] || '';
+
+    // if (changes.fxInline) {
+    //   key += `fxInline${changes.fxInline.currentValue}`;
+    //   styles += this._display || '';
+    // }
+    if (changes.fxAlign) {
+      key += `fxAlign${changes.fxAlign.currentValue}`;
+      styles += this._fxAlign || '';
     }
-    // const inputs = Object.keys(changes);
-    // for (let index = 0; index < inputs.length; index++) {
-    //   const inputKey = inputs[index];
+    if (changes.fxDirection) {
+      key += `fxDirection${changes.fxDirection.currentValue}`;
+      styles += this.fxDirection || '';
+    }
+    // for (const inputKey in changes) {
     //   key += inputKey + changes[inputKey].currentValue;
     //   styles += this[`_${inputKey}`] || '';
     // }

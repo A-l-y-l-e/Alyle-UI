@@ -3,9 +3,8 @@
     height: config.height + 'px'
 }"></div>
 <div class="ly-img-container" #_imgContainer
+(panstart)="_moveStart($event)"
 (pan)="_move($event)"
-(touchstart)="_moveStart($event)"
-(mousedown)="_moveStart($event)"
 [ngStyle]="dragData | async">
   <img *ngIf="isLoaded"
   [src]="src">

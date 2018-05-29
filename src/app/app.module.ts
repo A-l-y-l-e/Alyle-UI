@@ -11,7 +11,7 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { AlyleUIModule } from '@alyle/ui';
+import { AlyleUIModule, LY_HAMMER_GESTURE_CONFIG_PROVIDER } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
@@ -134,7 +134,7 @@ const variables = {
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [RoutesAppService, {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig}],
+  providers: [RoutesAppService, LY_HAMMER_GESTURE_CONFIG_PROVIDER],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

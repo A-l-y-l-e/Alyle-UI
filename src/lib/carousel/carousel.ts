@@ -25,20 +25,27 @@ import {
   Inject,
   PLATFORM_ID,
   OnInit,
-  Renderer2
+  Renderer2,
+  HostListener
 } from '@angular/core';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { isPlatformBrowser, isPlatformServer, CommonModule } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CarouselService } from './carousel.service';
 import { Platform, LyTheme2 } from '@alyle/ui';
+export enum CarouselMode {
+  /** full */
+  default,
+  inline
+}
 
 @Component({
   selector: 'ly-carousel',
   styleUrls: ['carousel.scss'],
   template: `
-  <div [className]="classes.slide">
+  <div [className]="classes.slide" [style.left]="positionLeft">
+    <ng-content></ng-content>
+  </div>
+  <div class="lycarousel-slide">
     <!--buttons-->
     <div class="carousel-indicators-container">
       <div class="carousel-blur" [style.background-image]="'url('+lyItems.toArray()[_itemSelect]?.src+')'"></div>
@@ -49,32 +56,29 @@ import { Platform, LyTheme2 } from '@alyle/ui';
       role="button"
       *ngFor="let item of lyItems; let i = index">
       <span color="#000"
-      bg="#fff"
-      [class.active]="_itemSelect==i"
+      bg="background:primary"
+      [class.active]="selectedIndex==i"
       [newRaised]="[6]"></span>
       </li>
     </ul>
-    <!--items-->
+    <!--items
     <div class="lycarousel-items">
       <div [class.active]="_itemSelect==i"
       class="lycarousel-item"
       *ngFor="let item of lyItems; let i = index">
         <img [src]="nullImg"
         [style.background-image]="'url('+item.src+')'">
-      </div>
+      </div>-->
       <!--<div class="lycarousel-content">
       <ng-content></ng-content>
       </div>-->
-    </div>
+    <!--</div>-->
     <!--cursor-->
   </div>
-  <div class="lycarousel-content ly-carousel-container">
-    <ng-content></ng-content>
-  </div>
-  <div class="ly-carousel-actions" (click)="focusLeft()">
+  <div class="ly-carousel-actions" (click)="prev()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
   </div>
-  <div class="ly-carousel-actions right" (click)="focusRight()">
+  <div class="ly-carousel-actions right" (click)="next()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
   </div>
   `,
@@ -85,15 +89,20 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   public data: any;
   public value: any;
   public _selectedIndex: any;
-  public _interval = 60000;
   public _fnInterval: any;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   @ContentChildren(forwardRef(() => LyCarouselItemComponent)) lyItems: QueryList<LyCarouselItemComponent>;
+  @Input() mode: CarouselMode = CarouselMode.default;
+  @Input() interval = 60000;
+  positionLeft: string | number;
   _itemSelect = 0;
+  @Input() selectedIndex = 0;
+  selectedElement: HTMLElement;
   classes = {
     root: this.theme.core.setUpStyle(
       'carousel', {
         '': () => (
+          `overflow: hidden;` +
           `display: block;` +
           `-webkit-user-select: none;` +
           `-moz-user-select: none;` +
@@ -126,11 +135,71 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
     slide: this.theme.core.setUpStyleSecondary(
       'carousel-slide', {
         '': () => (
-          ``
+          `position:absolute;` +
+          `display: flex;` +
+          `width: 100%;` +
+          `top: 0;` +
+          `left: 0;` +
+          `right: 0;` +
+          `bottom: 0;`
+        ),
+        ' > ly-carousel-item': () => (
+          `min-width: 100%;` +
+          `position: relative;` +
+          `background-size: cover;` +
+          `background-position: center;` +
+          `background-repeat: no-repeat;`
+        ),
+        ' > ly-carousel-item > [lyCarouselImg]': () => (
+          `width: 100%;`
         )
       }
-    )
+    ),
+    slideContent: this.theme.core.setUpStyleSecondary(
+      'carousel-slide-content', {
+        '': () => (
+          `display: flex;`
+        )
+      }
+    ),
+    slideAnim: this.theme.core.setUpStyleSecondary(
+      'slide-anim', {
+        ' > div': () => (
+          `transition: left 750ms cubic-bezier(.1, 1, 0.5, 1);`
+        )
+      }
+    ),
   };
+  @HostListener('slidestart', ['$event']) onDragStart(e) {
+    this.renderer.removeClass(this.elementRef.nativeElement, this.classes.slideAnim);
+    this.selectedElement = this.lyItems.find((item, index) => index === this.selectedIndex)._nativeElement;
+  }
+  @HostListener('slide', ['$event']) onDrag(e) {
+    const rect = this.selectedElement.getBoundingClientRect();
+    if (Math.abs(e.deltaX) < rect.width) {
+      this._onPan(e.deltaX);
+    }
+  }
+  @HostListener('slideend', ['$event']) onDragEnd(e) {
+    const rect = this.selectedElement.getBoundingClientRect();
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.slideAnim);
+    this.select(this.selectedIndex);
+
+    if (Math.abs(e.deltaX) > rect.width / 2) {
+      if (0 > e.deltaX) {
+        this.next();
+      } else if (0 < e.deltaX) {
+        this.prev();
+      }
+    } else if (e.additionalEvent) {
+      const eventName = e.additionalEvent;
+      if (eventName === 'slideleft') {
+        this.next();
+      } else if (eventName === 'slideright') {
+        this.prev();
+      }
+    }
+  }
   constructor(
     private elementRef: ElementRef,
     private sanitizer: DomSanitizer,
@@ -139,24 +208,15 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
     private renderer: Renderer2,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    console.log('theme', theme);
     this.renderer.addClass(elementRef.nativeElement, this.classes.root);
+    this.renderer.addClass(elementRef.nativeElement, this.classes.slideAnim);
+  }
+  private _onPan(x) {
+    this.positionLeft = this.sanitizerStyle(`calc(${-100 * this.selectedIndex }% + ${x}px)`) as any;
+    // console.log(`calc(${-100 * this.selectedIndex }% + ${event.deltaX}px)`);
   }
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
-  }
-  @Input('interval')
-  public get interval(): number { return this._interval; }
-  public set interval(value: number) {
-    this._interval = value;
-  }
-  public get stateIndicator() {
-    if (this.lyItems === undefined) {
-      return 0;
-    } else {
-      const st = (this._itemSelect + 1) * 100 / this.lyItems.length;
-      return st;
-    }
   }
 
   public ngOnDestroy() {
@@ -182,30 +242,31 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
           this._itemSelect++;
           this._itemSelect = (this._itemSelect === (this.lyItems.length) ? 0 : this._itemSelect++);
           // console.log('interval state', this._itemSelect);
-          this.setActiveItem();
-        }, this._interval)
+          // this.setActiveItem();
+        }, this.interval)
       };
       clearInterval(this._fnInterval);
       this._fnInterval = intrval$.interval$;
-      this.setActiveItem();
+      // this.setActiveItem();
     }
   }
-  setActiveItem() {
+  resetInterval() {
+
+  }
+  _____setActiveItem() {
     // let activeItems = this.lyItems.filter((tab)=>tab.active);
-    Promise.resolve(null).then(() => {
-      const controlsBottom = this.elementRef.nativeElement.querySelector('.carousel-indicators-container');
-      // controlsBottom.classList.remove('animation');
-      // // tslint:disable-next-line:no-unused-expression
-      // void controlsBottom.offsetWidth;
-      // controlsBottom.classList.add('animation');
-      this.lyItems.forEach((_item: LyCarouselItemComponent) => {
-        _item.lyCarouselActive = false;
-        _item._markForCheck();
-      });
-      const item = this.lyItems.find((a: LyCarouselItemComponent, b: number) => b === this._itemSelect);
-      item.lyCarouselActive = true;
-      this.cd.markForCheck();
-    });
+    // Promise.resolve(null).then(() => {
+    //   const controlsBottom = this.elementRef.nativeElement.querySelector('.carousel-indicators-container');
+    //   controlsBottom.classList.remove('animation');
+    //   // tslint:disable-next-line:no-unused-expression
+    //   void controlsBottom.offsetWidth;
+    //   controlsBottom.classList.add('animation');
+    //   this.lyItems.forEach((_item: LyCarouselItemComponent) => {
+    //     _item._markForCheck();
+    //   });
+    //   const item = this.lyItems.find((a: LyCarouselItemComponent, b: number) => b === this._itemSelect);
+    //   this.cd.markForCheck();
+    // });
   }
 
   _markForCheck() {
@@ -218,13 +279,17 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
       this.lyItems.changes.subscribe((carousel: LyCarouselItemComponent) => {
         this._itemSelect = 0;
         this._intervalCarousel(0);
-        this.setActiveItem();
+        // this.setActiveItem();
         this.cd.markForCheck();
       });
     }
   }
   public select(val: number) {
-    this._intervalCarousel(val);
+    this.selectedIndex = val;
+    if (this.mode === CarouselMode.default) {
+      this.positionLeft = `${-100 * val}%`;
+    }
+    // this._intervalCarousel(val);
   }
   public focusRight() {
     this._intervalCarousel('+');
@@ -232,34 +297,53 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   public focusLeft() {
     this._intervalCarousel('-');
   }
+  prev() {
+    const len = this.lyItems.length - 1;
+    const prev = this.selectedIndex - 1;
+    this.select(prev < 0 ? len : prev);
+  }
+  next() {
+    const len = this.lyItems.length - 1;
+    const next = this.selectedIndex + 1;
+    this.select(next > len ? 0 : next);
+  }
 }
 
 @Component({
   selector: 'ly-carousel-item',
-  styles: [`
-    :host:not(.ly-carousel-item-active) {
-      display: none !important;
-    }
-  `],
-  template: `
-  <ng-template [ngIf]="lyCarouselActive">
-    <ng-content></ng-content>
-  </ng-template>
-  `,
+  template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LyCarouselItemComponent implements OnInit, OnChanges {
+  className: string;
+  /** @deprecated use srcImg */
   @Input() src: string;
-  @Input() @HostBinding('class.ly-carousel-item-active') lyCarouselActive = false;
+  @Input()
+  set srcImg(value: string) {
+    const newImgStyle = this.theme.setUpStyleSecondary(
+      `ly-carousel-img-${value}`, {
+        '': () => (
+          `background-image: url('${value}');`
+        )
+      }
+    );
+    this.theme.updateClassName(this._nativeElement, this.renderer, newImgStyle, this.className);
+    this.className = newImgStyle;
+  }
   private _carousel: LyCarousel;
+  _nativeElement: HTMLElement;
 
   constructor(
     @Optional() carousel: LyCarousel,
     private carouselService: CarouselService,
     private cd: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private theme: LyTheme2,
+    private renderer: Renderer2,
+    elementRef: ElementRef
   ) {
     this._carousel = carousel;
+    this._nativeElement = elementRef.nativeElement;
   }
 
   ngOnChanges(changes: SimpleChanges) { }
