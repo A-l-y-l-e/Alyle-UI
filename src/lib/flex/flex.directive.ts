@@ -1,6 +1,4 @@
 import { Directive, Input, OnChanges, SimpleChanges, Renderer2, ElementRef } from '@angular/core';
-import { LyFlexService } from './flex.service';
-import { LNodeType } from '@angular/core/src/render3/interfaces/node';
 import { CoreTheme } from '@alyle/ui';
 
 enum __align {
@@ -31,6 +29,7 @@ export type AlignItemsAndContent = 'flex-start' | 'center' | 'flex-end' | 'stret
 export type FxAlign = [JustifyContent] | [JustifyContent, AlignItemsAndContent] | [JustifyContent, AlignItems, AlignContent];
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[fxDirection], [fxWrap], [fxAlign], [fxInline]'
 })
 export class LyFlex implements OnChanges {
@@ -81,10 +80,6 @@ export class LyFlex implements OnChanges {
       key += `fxDirection${changes.fxDirection.currentValue}`;
       styles += this.fxDirection || '';
     }
-    // for (const inputKey in changes) {
-    //   key += inputKey + changes[inputKey].currentValue;
-    //   styles += this[`_${inputKey}`] || '';
-    // }
     const classname = this.coreTheme.setUpStyle(key, {
       '': () => (
         `display:${this._display};` +

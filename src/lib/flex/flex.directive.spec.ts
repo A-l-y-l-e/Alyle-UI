@@ -13,13 +13,17 @@ describe('LyFlex', () => {
 
     TestBed.compileComponents();
   }));
-  it('should apply class based on color attribute', () => {
+  it('should add custom class based on fxAlign attribute', () => {
     const fixture = TestBed.createComponent(FlexAlign);
 
     const testComponent = fixture.componentInstance;
     const element = fixture.debugElement.nativeElement.querySelector('div');
     fixture.detectChanges();
+    const computedStyle = getComputedStyle(element);
     expect(element.className.split(' ').length).toEqual(1);
+    expect(computedStyle.justifyContent).toEqual('center');
+    expect(computedStyle.alignItems).toEqual('center');
+    expect(computedStyle.alignContent).toEqual('center');
   });
 });
 
