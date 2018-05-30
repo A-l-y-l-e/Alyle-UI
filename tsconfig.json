@@ -39,9 +39,5 @@
       "@alyle/ui/themes": ["lib/themes"],
       "@env/*": ["environments/*"]
     }
-  },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
+  }
 }

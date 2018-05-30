@@ -4,7 +4,11 @@ import { spawnSync } from 'child_process';
 import { join } from 'path';
 import * as jsyaml from 'js-yaml';
 import * as camelCase from 'camelcase';
+import { tslintConfig } from './config/tslint-config';
+import { tsConfigSpec } from './config/tsconfig-spec';
+import { testConfig } from './config/test-config';
 
+const dirSrc = `${process.cwd()}/src`;
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
 const config = jsyaml.load(readFileSync(`${process.cwd()}/.package.conf.yml`, 'utf8').toString());
@@ -37,6 +41,11 @@ components.forEach(lib => {
     .replace(/{id}/g, camelCase(lib.path))
     .replace(/{version}/g, version);
     writeFileSync(`${dist}/${lib.path}/${pkgConfig}`, file, 'utf8');
+    /** copy test.ts */
+    writeFileSync(`${dist}/${lib.path}/test.ts`, testConfig, 'utf8');
+    copySync(join(dirSrc, 'karma.conf.js'), `${dist}/${lib.path}/karma.conf.js`);
+    writeFileSync(`${dist}/${lib.path}/tslint.json`, JSON.stringify(tslintConfig, undefined, 2), 'utf8');
+    writeFileSync(`${dist}/${lib.path}/tsconfig.spec.json`, JSON.stringify(tsConfigSpec, undefined, 2), 'utf8');
     angularCliConfig['projects'][lib.pkgName] = {
       'root': `dist/lib/${lib.path}`,
       'projectType': 'library',
@@ -56,7 +65,7 @@ components.forEach(lib => {
         'test': {
           'builder': '@angular-devkit/build-angular:karma',
           'options': {
-            'main': `dist/lib/${lib.path}/src/test.ts`,
+            'main': `dist/lib/${lib.path}/test.ts`,
             'tsConfig': `dist/lib/${lib.path}/tsconfig.spec.json`,
             'karmaConfig': `dist/lib/${lib.path}/karma.conf.js`
           }
@@ -79,15 +88,4 @@ components.forEach(lib => {
   });
 });
 
-/** build */
-let previousBuild = Promise.resolve();
-components.forEach((lib) => {
-  previousBuild = previousBuild.then(_ => {
-    console.log(lib.pkgName);
-    const ls = spawnSync('ng', ['build', lib.pkgName, '--prod'], {stdio: 'inherit'});
-    if (ls.status) {
-      process.exit(1);
-    }
-    copySync(join(`${process.cwd()}/dist`, lib.pkgName), `${process.cwd()}/dist/node_modules/${lib.pkgName}`);
-  });
-});
+export const allComponents = components;
