@@ -20,12 +20,11 @@ import {
   Platform,
   toBoolean,
   ThemeVariables,
-  LyGlobalStyles,
-  LyTheme2
+  LyTheme2,
+  LyBgColorAndRaised
 } from '@alyle/ui';
 import { LyRipple, Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
-import { LyBgColorAndRaised } from '@alyle/ui';
 
 @Component({
   selector: '[ly-button], ly-button',

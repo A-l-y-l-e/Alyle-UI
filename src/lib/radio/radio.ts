@@ -9,7 +9,6 @@ import {
   ChangeDetectorRef,
   OnChanges,
   ModuleWithProviders,
-  AfterContentInit,
   AfterViewInit,
   OnInit,
   OnDestroy,
@@ -22,7 +21,8 @@ import {
   SimpleChanges,
   NgZone,
   ViewChild,
-  ElementRef
+  ElementRef,
+  Renderer2
 } from '@angular/core';
 import { LyRippleModule, LyRipple, LyRippleService, Ripple } from '@alyle/ui/ripple';
 import { Subscription , Subject , BehaviorSubject , Observable } from 'rxjs';
@@ -33,13 +33,19 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyTheme, LyCommonModule, Platform, IsBoolean } from '@alyle/ui';
+import { LyTheme, LyCommonModule, Platform, IsBoolean, LyTheme2, LyCoreStyles, toBoolean } from '@alyle/ui';
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyRadioGroup),
   multi: true
 };
+
 let idx = 0;
+
+class UndefinedVal {
+  constructor() { }
+}
+
 @Component({
   selector: 'ly-radio-group',
   styles: [`
@@ -50,66 +56,174 @@ let idx = 0;
   template: `<ng-content></ng-content>`,
   providers: [LY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
+  exportAs: 'lyRadioGroup'
 })
-export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlValueAccessor {
-  _value = null;
+export class LyRadioGroup implements ControlValueAccessor {
+  _value = new UndefinedVal;
   name = `ly-radio-name-${idx++}`;
   _color = 'accent';
+  private _classes;
 
-  @Input() value = null;
+  get classes() {
+    return {
+      label: this.theme.setUpStyle(
+        `k-radio-label`, {
+          '': () => (
+            `cursor: pointer;` +
+            `white-space: nowrap;` +
+            `position: relative;` +
+            `display: flex;` +
+            `align-items: center;`
+          )
+        }
+      ),
+      container: this.theme.setUpStyleSecondary(
+        `k-radio-container`, {
+          '': () => (
+            `position: relative;` +
+            `height: calc(1em * 3);` +
+            `width: 1.5em;`
+          ),
+          '>div': () => (
+            `box-sizing: border-box;`
+          ),
+          '>div *': () => (
+            `box-sizing: border-box;` +
+            `margin:auto;` +
+            `border-radius: 50%;` +
+            `transition: transform cubic-bezier(.1, 1, 0.5, 1);` +
+            `transition-duration: 250ms;` +
+            `width: 1em;` +
+            `height: 1em;`
+          ),
+          ' div>:nth-child(1)': () => (
+            `transform: scale(1);` +
+            `border: solid .08em currentColor;` +
+            `color:${this.theme.config.radio.radioOuterCircle}`
+          ),
+          ' div>:nth-child(2)': () => (
+            `background: currentColor;` +
+            `transform: scale(0);`
+          )
+        }
+      )
+    };
+  }
+
+  @Input()
+  set value(val: any) {
+    if (this._value !== val) {
+      // this._value = val;
+      if (this._radios) {
+        this._updateCheckFromValue(val);
+      }
+    }
+  }
+  get value() {
+    return this._value;
+  }
+
+  @Output() readonly change: EventEmitter<void> = new EventEmitter<void>();
+
+  /** @deprecated use withColor */
   @Input() radioColor = 'accent';
+  @Input() withColor = 'accent';
   @ContentChildren(forwardRef(() => LyRadio)) _radios: QueryList<LyRadio>;
 
-  private changed = new Array<(value: any) => void>();
-  private touched = new Array<() => void>();
+  /** The method to be called in order to update ngModel */
+  _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
-  touch() {
-    this.touched.forEach(f => f());
-  }
+  /**
+   * onTouch function registered via registerOnTouch (ControlValueAccessor).
+   * @docs-private
+   */
+  onTouched: () => any = () => {};
 
-  registerOnChange(fn: (value: any) => void) {
-    this.changed.push(fn);
-  }
-
-  registerOnTouched(fn: () => void) {
-    this.touched.push(fn);
-  }
-
-
-  constructor(
-    private elementRef: ElementRef,
-    public theme: LyTheme,
-    public ngZone: NgZone,
-    private cd: ChangeDetectorRef
-  ) {
+  /**
+   * Mark this group as being "touched" (for ngModel). Meant to be called by the contained
+   * radio buttons upon their blur.
+   */
+  _touch() {
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   writeValue(value: any) {
-    this._value = value;
+    if (!!this._radios) {
+      this.value = value;
+      this.markForCheck();
+    }
   }
 
-  ngAfterContentInit() {
-
+  /**
+   * Registers a callback to be triggered when the model value changes.
+   * Implemented as part of ControlValueAccessor.
+   * @param fn Callback to be registered.
+   */
+  registerOnChange(fn: (value: any) => void) {
+    this._controlValueAccessorChangeFn = fn;
   }
+
+  /**
+   * Registers a callback to be triggered when the control is touched.
+   * Implemented as part of ControlValueAccessor.
+   * @param fn Callback to be registered.
+   */
+  registerOnTouched(fn: any) {
+    this.onTouched = fn;
+  }
+
+  /**
+   * Sets the disabled state of the control. Implemented as a part of ControlValueAccessor.
+   * @param isDisabled Whether the control should be disabled.
+   */
+  setDisabledState(isDisabled: boolean) {
+    // this.disabled = isDisabled;
+    this.markForCheck();
+  }
+
+  constructor(
+    private elementRef: ElementRef,
+    public theme: LyTheme2,
+    public ngZone: NgZone,
+    private cd: ChangeDetectorRef
+  ) { }
+
+  _updateCheckFromValue(val: any) {
+    let newChecked: boolean;
+    this._radios.forEach(radioButton => {
+      if (val === radioButton.value) {
+        this.updatevalue(val);
+        newChecked = true;
+        radioButton.checked = true;
+      } else if (radioButton.checked) {
+        radioButton.checked = false;
+      }
+    });
+    if (!newChecked) {
+      /** when val not exist in radio button !==  */
+      this._controlValueAccessorChangeFn(null);
+      if (this._value !== null) {
+        this._value = null;
+      }
+    }
+  }
+
   updatevalue(value: any) {
     this._value = value;
-    this.changed.forEach(f => f(value));
+    this._controlValueAccessorChangeFn(value);
+    this.change.emit();
+    this.markForCheck();
   }
 
   markForCheck() {
     this.cd.markForCheck();
   }
 
-  ngAfterViewInit() {
-    /**set value null if all checked === false */
-    Promise.resolve(null).then(() => {
-      const stateChecked = this._radios.find((radio: LyRadio, index) => radio.checked);
-        if (!stateChecked) {
-          this.updatevalue(null);
-          this.markForCheck();
-        }
-    });
+  _radioResetChecked() {
+    this._radios.forEach(_ => _._setCheckedToFalsy());
   }
 
 }
@@ -117,20 +231,20 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
   selector: 'ly-radio',
   styleUrls: ['radio.scss'],
   template: `
-  <label #_labelContainer [attr.for]="inputId" class="ly-radio-label">
+  <label #_labelContainer [attr.for]="inputId" [className]="radioGroup.classes.label">
     <input
-      class="ly-radio-input"
-      [class.ly-radio-checked]="checked"
+      [className]="coreStyles.classes.VisuallyHidden"
       [id]="inputId"
       [checked]="checked"
       [name]="name"
       (change)="_onInputChange($event)"
+      (click)="_onInputClick($event)"
       type="radio"
       >
-    <div #_radioContainer [color]="radioGroup.radioColor" class="ly-radio-container">
-      <div class="ly-radio-icon-container">
-      <div class="ly-radio-outer-circle" color="radio:radioOuterCircle"></div>
-      <div class="ly-radio-inner-circle"></div>
+    <div #_radioContainer>
+      <div>
+      <div [className]="coreStyles.classes.Fill"></div>
+      <div [className]="coreStyles.classes.Fill"></div>
       </div>
     </div>
     <div
@@ -142,39 +256,107 @@ export class LyRadioGroup implements AfterContentInit, AfterViewInit, ControlVal
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class LyRadio implements OnInit, OnChanges, OnDestroy {
+export class LyRadio implements OnInit, OnDestroy {
   id = `ly-radio-id-${idx++}`;
   name = '';
   _value = null;
+  private _withColor: string;
   private _rippleContainer: Ripple;
   private _checked = false;
+  private checkedClass: string;
   @ViewChild('_radioContainer') private _radioContainer: ElementRef;
   @ViewChild('_labelContainer') _labelContainer: ElementRef;
+  @Input()
+  set withColor(val: string) {
+    if (this._withColor !== val) {
+      this._withColor = val;
+      if (this.checkedClass) {
+        /** create new class if not exist `this.checkedClass` */
+        const beforeClass = this.checkedClass;
+        this.checkedClass = this._createStyleWithColor(val);
+        this.theme.updateClassName(this._radioContainer.nativeElement, this._renderer, this.checkedClass, beforeClass);
+      }
+    }
+  }
+  get withColor() {
+    return this._withColor;
+  }
   @Output() onCheckedState = new EventEmitter<boolean>();
-  @HostBinding('class.ly-radio-checked') @Input() @IsBoolean() checked: boolean;
+
+  @Input()
+  set value(val) {
+    if (this._value !== val) {
+      this._value = val;
+    }
+  }
+  get value() { return this._value; }
+
+  @Input()
+  set checked(val: boolean) {
+    const newCheckedState = toBoolean(val);
+    const before = this._checked;
+    if (before !== newCheckedState) {
+      this._checked = newCheckedState;
+      if (!before && newCheckedState) {
+        /** Use current checked class or create new class */
+        this.checkedClass = this.checkedClass || this._createStyleWithColor(this.withColor || this.radioGroup.withColor);
+        /** Add class checked */
+        this._renderer.addClass(this._radioContainer.nativeElement, this.checkedClass);
+
+        if (this.value !== this.radioGroup.value) {
+          /** update Value */
+          this.radioGroup.updatevalue(this.value);
+        }
+      } else {
+        /** Remove class checked */
+        this._renderer.removeClass(this._radioContainer.nativeElement, this.checkedClass);
+      }
+      this._markForCheck();
+    }
+  }
+  get checked() {
+    return this._checked;
+  }
   get inputId(): string {
     return `${this.id}-input`;
   }
 
-  @Input() value: any;
-
   _onInputChange(event: any) {
-    this.radioGroup.updatevalue(this.value);
+    event.stopPropagation();
+    this.radioGroup._updateCheckFromValue(this.value);
+    // this.radioGroup._radioResetChecked();
+    // this.checked = true;
+    this.radioGroup._touch();
   }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['checked']) {
-      if (this.checked) {
-        Promise.resolve(null).then(() => {
-          this.radioGroup.updatevalue(this.value);
-        });
+
+  _onInputClick(event: Event) { event.stopPropagation(); }
+
+  _setCheckedToFalsy() {
+    this.checked = false;
+  }
+
+  _createStyleWithColor(val: string) {
+    return this.theme.setUpStyle(
+      `k-radio-checked-${val}`, {
+        '': () => (
+          `color:${this.theme.colorOf(val)};`
+        ),
+        ' div>:nth-child(1)': () => (
+          `transform: scale(1.25);` +
+          `color:${this.theme.colorOf(val)};`
+        ),
+        ' div>:nth-child(2)': () => (
+          `transform: scale(0.7);`
+        ),
       }
-    }
+    );
   }
 
   ngOnInit() {
     if (this.radioGroup) {
       // Copy name from parent radio group
       this.name = this.radioGroup.name;
+      this._renderer.addClass(this._radioContainer.nativeElement, this.radioGroup.classes.container);
     }
     this._rippleContainer = new Ripple(this.ngZone, this._rippleService.stylesData, this._radioContainer.nativeElement, this._elementRef.nativeElement);
     this._rippleContainer.setConfig({
@@ -182,6 +364,7 @@ export class LyRadio implements OnInit, OnChanges, OnDestroy {
       radius: 'containerSize'
     });
   }
+
   _markForCheck() {
     this.changeDetectorRef.markForCheck();
   }
@@ -194,9 +377,11 @@ export class LyRadio implements OnInit, OnChanges, OnDestroy {
   constructor(
     @Optional() public radioGroup: LyRadioGroup,
     private _elementRef: ElementRef,
-    public theme: LyTheme,
+    private _renderer: Renderer2,
+    public theme: LyTheme2,
     private changeDetectorRef: ChangeDetectorRef,
     private ngZone: NgZone,
+    public coreStyles: LyCoreStyles,
     private _rippleService: LyRippleService
   ) { }
 }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'radio-example-01',
@@ -7,11 +7,14 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class RadioExample01Component implements OnInit {
+export class RadioExample01Component {
   val: string;
-  constructor() { }
-
-  ngOnInit() {
-  }
+  favoriteColor = 'red';
+  list = [
+    { value: 'blue' },
+    { value: 'red' },
+    { value: 'green' },
+    { value: 'orange' }
+  ];
 
 }

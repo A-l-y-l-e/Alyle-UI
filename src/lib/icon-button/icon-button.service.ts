@@ -38,8 +38,7 @@ export class LyIconButtonService {
       `align-items:inherit;` +
       `width:inherit;` +
       `height:inherit;` +
-      `overflow:inherit;` +
-      `z-index:0;`
+      `overflow:inherit;`
     )})
   };
   constructor(

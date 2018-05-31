@@ -3,19 +3,11 @@ $circlesize: 0.6;
 :host {
   display: inline-block;
 }
-.ly-radio-input {
-  pointer-events: none;
-  opacity: 0;
-  background: 0 0;
-  position: absolute;
-  width: 0;
-  height: 0;
-}
 .ly-radio-label {
   cursor: pointer;
   white-space: nowrap;
   position: relative;
-  display: inline-block;
+  display: flex;
 }
 
 .ly-radio-container {
