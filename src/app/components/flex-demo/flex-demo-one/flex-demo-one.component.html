@@ -1,3 +1,34 @@
-<div class="container" [fxAlign]="['center', 'center']" color="rgba(0,0,0,.2)">
-  <div class="item" bg="warn" *ngFor="let item of items"></div>
+<div class="container" [fxDirection]="direction" [fxWrap]="wrap" [fxAlign]="[align, crossAlign, multiAlign]" color="rgba(0,0,0,.2)">
+  <div class="item" bg="warn" color="auto" *ngFor="let item of items">
+    <div>{{ item }}</div>
+  </div>
 </div>
+
+<div [fxAlign]="['center']">[fxAlign]="{{ [align, crossAlign, multiAlign] | json }}"</div>
+<div fxDisplay="inline">
+  <ly-radio-group [(ngModel)]="align" fxDirection="column">
+    <h3>Main Align</h3>
+    <ly-radio [value]="item" *ngFor="let item of justifyContentList">{{ item || 'null(start)' }}</ly-radio>
+  </ly-radio-group>
+  
+  <ly-radio-group [(ngModel)]="crossAlign" fxDirection="column">
+    <h3>Cross Align</h3>
+    <ly-radio [value]="item" *ngFor="let item of alignItemsList">{{ item || 'null(stretch)' }}</ly-radio>
+  </ly-radio-group>
+  
+  <ly-radio-group [(ngModel)]="multiAlign" fxDirection="column">
+    <h3>Multi Align</h3>
+    <ly-radio [value]="item" *ngFor="let item of alignContentList">{{ item || 'null' }}</ly-radio>
+  </ly-radio-group>
+</div>
+<div fxDisplay="inline">
+    <ly-radio-group [(ngModel)]="direction" fxDirection="column">
+      <h3>Direction</h3>
+      <ly-radio [value]="item" *ngFor="let item of directionList">{{ item || 'null(row)' }}</ly-radio>
+    </ly-radio-group>
+    
+    <ly-radio-group [(ngModel)]="wrap" fxDirection="column">
+      <h3>Wrapping</h3>
+      <ly-radio [value]="item" *ngFor="let item of wrapList">{{ item || 'null(nowrap)' }}</ly-radio>
+    </ly-radio-group>
+  </div>

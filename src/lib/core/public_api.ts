@@ -23,3 +23,4 @@ export * from './src/theme/theme-config';
 export * from './src/theme/theme.directive';
 export * from './src/theme/theme2.service';
 export * from './src/styles/core-styles';
+export * from './src/undefined';
