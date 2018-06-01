@@ -34,6 +34,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LyTheme, LyCommonModule, Platform, IsBoolean, LyTheme2, LyCoreStyles, toBoolean } from '@alyle/ui';
+import { LyRadioService } from './radio.service';
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyRadioGroup),
@@ -48,11 +49,6 @@ class UndefinedVal {
 
 @Component({
   selector: 'ly-radio-group',
-  styles: [`
-    :host {
-      display: inline-flex;
-    }
-  `],
   template: `<ng-content></ng-content>`,
   providers: [LY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -185,11 +181,15 @@ export class LyRadioGroup implements ControlValueAccessor {
   }
 
   constructor(
+    private _radioService: LyRadioService,
     private elementRef: ElementRef,
+    private _renderer: Renderer2,
     public theme: LyTheme2,
     public ngZone: NgZone,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {
+    _renderer.addClass(elementRef.nativeElement, this._radioService.classes.root);
+  }
 
   _updateCheckFromValue(val: any) {
     let newChecked: boolean;
@@ -229,7 +229,7 @@ export class LyRadioGroup implements ControlValueAccessor {
 }
 @Component({
   selector: 'ly-radio',
-  styleUrls: ['radio.scss'],
+  // styleUrls: ['radio.scss'],
   template: `
   <label #_labelContainer [attr.for]="inputId" [className]="radioGroup.classes.label">
     <input
@@ -248,7 +248,7 @@ export class LyRadioGroup implements ControlValueAccessor {
       </div>
     </div>
     <div
-    class="ly-radio-label-content">
+    [className]="radioGroup._radioService.classes.labelContent">
       <ng-content></ng-content>
     </div>
   </label>
@@ -271,7 +271,7 @@ export class LyRadio implements OnInit, OnDestroy {
     if (this._withColor !== val) {
       this._withColor = val;
       if (this.checkedClass) {
-        /** create new class if not exist `this.checkedClass` */
+        /** create new class if exist `this.checkedClass` */
         const beforeClass = this.checkedClass;
         this.checkedClass = this._createStyleWithColor(val);
         this.theme.updateClassName(this._radioContainer.nativeElement, this._renderer, this.checkedClass, beforeClass);
