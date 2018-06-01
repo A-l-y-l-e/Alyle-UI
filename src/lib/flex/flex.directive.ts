@@ -22,8 +22,8 @@ enum __align {
 }
 
 export type FxDirection = 'row' | 'rowReverse' | 'column' | 'columnReverse' | null;
-export type FxWrap = 'nowrap' | 'wrap' | 'wrap-reverse';
-export type FxFlow = FxDirection | FxWrap;
+export type FxWrap = 'nowrap' | 'wrap' | 'wrap-reverse' | null;
+export type FxFlow = [FxDirection, FxWrap] | string;
 export type FxJustifyContent = 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | null;
 export type FxAlignItems = 'start' | 'end' | 'center' | 'baseline' | 'stretch' | null;
 export type FxAlignContent = 'start' | 'end' | 'center' | 'between' | 'around' | 'stretch' | null;
@@ -33,11 +33,13 @@ export type FxAlign = [FxJustifyContent] | [FxJustifyContent, FxAlignItemsAndCon
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: '[fxDisplay], [fxDirection], [fxWrap], [fxAlign]'
+  selector: '[fxDisplay], [fxFlow], [fxDirection], [fxWrap], [fxAlign]'
 })
 export class LyFlex implements OnChanges {
   private _fxDisplay: 'flex' | 'inline';
-  private _fxDisplayClass: string;
+  private fxDisplayClass: string;
+  private _fxFlow: FxFlow; // <FxDirection> + <FxWrap>
+  private fxFlowClass: string;
   private _fxAlignX: string;
   private _fxAlign: FxAlign;
   private _fxDirectionX: string;
@@ -50,13 +52,34 @@ export class LyFlex implements OnChanges {
   set fxDisplay(val: 'flex' | 'inline') {
     if (this._fxDisplay !== val) {
       this._fxDisplay = val || 'flex';
-      const beforeDisplayClass = this._fxDisplayClass;
-      this._fxDisplayClass = this._createDisplay(this._fxDisplay);
-      this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, this._fxDisplayClass, beforeDisplayClass);
+      const newClass = this._createDisplay(this._fxDisplay);
+      this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxDisplayClass);
+      this.fxDisplayClass = newClass;
     }
   }
   get fxDisplay() {
     return this._fxDisplay;
+  }
+
+  @Input()
+  set fxFlow(val: FxFlow) {
+    if (this._fxFlow !== val) {
+      const valOrDefaultString = val || 'row wrap';
+      const valOrDefaultArray = val || ['row', 'wrap'];
+      const arrayValue = typeof valOrDefaultArray === 'object' ? valOrDefaultArray : valOrDefaultArray.split(' ');
+      const key = typeof valOrDefaultString === 'string' ? valOrDefaultString : valOrDefaultString.join(' ');
+      this._fxFlow = key;
+
+      /** create Style */
+      const newClass = this.coreTheme.setUpStyle(key, {
+        '': () => (
+          `flex-flow:${__align[arrayValue[0]] || 'row'} ${__align[arrayValue[1]] || 'wrap'}`
+        )
+      });
+      /** Add class */
+      this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxFlowClass);
+      this.fxFlowClass = newClass;
+    }
   }
 
   @Input()
@@ -119,7 +142,7 @@ export class LyFlex implements OnChanges {
       key += `fxWrap${this.fxWrap}`;
       styles += this._fxWrapX;
     }
-    if (!this._fxDisplayClass) {
+    if (!this.fxDisplayClass) {
       /** Set default display */
       this.fxDisplay = null;
     }

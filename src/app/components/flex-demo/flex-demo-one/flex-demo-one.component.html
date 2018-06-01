@@ -22,13 +22,13 @@
   </ly-radio-group>
 </div>
 <div fxDisplay="inline">
-    <ly-radio-group [(ngModel)]="direction" fxDirection="column">
-      <h3>Direction</h3>
-      <ly-radio [value]="item" *ngFor="let item of directionList">{{ item || 'null(row)' }}</ly-radio>
-    </ly-radio-group>
-    
-    <ly-radio-group [(ngModel)]="wrap" fxDirection="column">
-      <h3>Wrapping</h3>
-      <ly-radio [value]="item" *ngFor="let item of wrapList">{{ item || 'null(nowrap)' }}</ly-radio>
-    </ly-radio-group>
-  </div>
+  <ly-radio-group [(ngModel)]="direction" fxDirection="column">
+    <h3>Direction</h3>
+    <ly-radio [value]="item" *ngFor="let item of directionList">{{ item || 'null(row)' }}</ly-radio>
+  </ly-radio-group>
+  
+  <ly-radio-group [(ngModel)]="wrap" fxDirection="column">
+    <h3>Wrapping</h3>
+    <ly-radio [value]="item" *ngFor="let item of wrapList">{{ item || 'null(nowrap)' }}</ly-radio>
+  </ly-radio-group>
+</div>
