@@ -27,6 +27,5 @@ import { CoreTheme } from './core-theme.service';
   ],
   exports: [LyThemeContainer],
   declarations: [LyThemeContainer],
-  providers: []
 })
 export class LyThemeModule { }

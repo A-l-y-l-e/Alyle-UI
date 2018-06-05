@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { LyCommonModule } from '@alyle/ui';
 import { LyTabsModule } from '@alyle/ui/tabs';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
@@ -18,7 +19,8 @@ import { ViewComponent } from './view/view.component';
     LyToolbarModule,
     LyIconButtonModule,
     LyIconModule,
-    LyCommonModule
+    LyCommonModule,
+    RouterModule
   ],
   exports: [ViewComponent],
   declarations: [ViewComponent]

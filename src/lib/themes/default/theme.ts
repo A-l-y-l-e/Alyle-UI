@@ -1,8 +1,8 @@
-import { ThemeConfig } from '@alyle/ui';
-import { defaultLight } from './light';
-import { defaultDark } from './dark';
+import { ThemeConfig, LyThemeConfig } from '@alyle/ui';
+import { DefaultLight } from './light';
+import { DefaultDark } from './dark';
 
-export const defaultTheme: ThemeConfig[] = [
-  defaultLight,
-  defaultDark
-];
+export class DefaultTheme implements LyThemeConfig {
+  themes = [DefaultLight, DefaultDark];
+}
+

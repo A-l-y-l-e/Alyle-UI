@@ -181,7 +181,7 @@ export class LyRadioGroup implements ControlValueAccessor {
   }
 
   constructor(
-    private _radioService: LyRadioService,
+    public _radioService: LyRadioService,
     private elementRef: ElementRef,
     private _renderer: Renderer2,
     public theme: LyTheme2,

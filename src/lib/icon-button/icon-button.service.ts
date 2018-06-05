@@ -29,6 +29,7 @@ export class LyIconButtonService {
       `color:currentColor;` +
       `display:inline-flex;` +
       `position:relative;` +
+      `text-decoration: none;` +
       `border-radius:50%;`;
       return style;
     }}),

@@ -1,7 +1,7 @@
 import { Injectable, Optional, Inject, Renderer2, RendererFactory2, isDevMode } from '@angular/core';
-import { THEME_CONFIG, ThemeConfig } from './theme-config';
+import { THEME_CONFIG, ThemeConfig, THEME_CONFIG_EXTRA, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
 import { DOCUMENT } from '@angular/common';
-import { StyleContent, StyleData, DataStyle, MultipleStyles } from '../theme.service';
+import { StyleContent, StyleData, DataStyle, MultipleStyles, mergeDeep } from '../theme.service';
 
 let classId = 0;
 
@@ -16,10 +16,21 @@ export class CoreTheme {
   private _styleMap = new Map<string, Map<string, DataStyle>>();
   private _styleCoreMap = new Map<string, DataStyle>();
   constructor(
-    @Optional() @Inject(THEME_CONFIG) private configs: ThemeConfig | ThemeConfig[],
+    @Optional() @Inject(THEME_CONFIG) configs: ThemeConfig | ThemeConfig[],
+    @Optional() @Inject(THEME_CONFIG_EXTRA) themeExtra: any,
+    @Optional() @Inject(LY_THEME_CONFIG) themeConfig: LyThemeConfig,
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) private _document: any,
   ) {
+    if (!themeConfig) {
+      throw new Error('LY_THEME_CONFIG undefined');
+    }
+    // if (themeExtra) {
+    //   themeConfig = mergeDeep(configs, themeExtra);
+    // } else {
+    //   themeConfig = configs;
+    // }
+    console.log({themeConfig});
     this.renderer = this.rendererFactory.createRenderer(null, null);
     // let container: any;
     // if (Platform.isBrowser && (container = _document.querySelector('ly-core-theme'))) {
@@ -31,14 +42,11 @@ export class CoreTheme {
       this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
     // }
     this.setCoreStyle();
-    if (configs) {
-      if (Array.isArray(configs)) {
-        configs.forEach(item => {
-          this.add(item);
-        });
-      } else {
-        this.add(configs);
-      }
+    if (themeConfig) {
+      themeConfig.themes.forEach(item => {
+        this.add(new item);
+        console.log(new item);
+      });
     }
   }
 

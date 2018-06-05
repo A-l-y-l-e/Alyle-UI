@@ -6,16 +6,21 @@ import { DataStyle } from '../theme.service';
 
 @Directive({
   selector: '[lyTheme]',
-  exportAs: 'lyTheme',
-  providers: [LyTheme2]
+  providers: [LyTheme2],
+  exportAs: 'lyTheme'
 })
 export class LyThemeContainer implements OnInit {
+  private _lyTheme: string;
   /**
    * set theme
    */
   @Input()
   set lyTheme(nam: string) {
+    this._lyTheme = nam;
     this.theme.config = this.theme.core.get(nam);
+  }
+  get lyTheme() {
+    return this._lyTheme;
   }
 
   @Input() shared: true;
@@ -27,8 +32,6 @@ export class LyThemeContainer implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log('shared', this.shared);
-    // this.theme._styleMap = this.theme.core.getStyleMap(this.theme.config.name);
     this.theme._styleMap = new Map<string, DataStyle>();
     this._setContainerStyle(this.elementRef.nativeElement, this.renderer);
   }

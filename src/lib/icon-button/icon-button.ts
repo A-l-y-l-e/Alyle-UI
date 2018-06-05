@@ -15,16 +15,17 @@ import {
   HostListener,
   isDevMode,
   Optional,
-  Renderer2
+  Renderer2,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
 import { Platform, LyBgColorAndRaised, LyTheme2 } from '@alyle/ui';
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { LyIconButtonService } from './icon-button.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'button[ly-icon-button], a[ly-icon-button], span[ly-icon-button]',
   template: `
   <div class="{{ iconButtonService.classes.content }}"
