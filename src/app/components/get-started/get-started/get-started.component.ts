@@ -9,9 +9,7 @@ import { LyTheme } from '@alyle/ui';
 })
 export class GetStartedComponent implements OnInit {
   code: string;
-  constructor(
-    public theme: LyTheme
-  ) {
+  constructor() {
     this.code = `...
 /** Important for Animations */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

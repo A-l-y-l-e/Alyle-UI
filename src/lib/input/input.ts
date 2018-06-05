@@ -24,18 +24,16 @@ import {
   OnDestroy,
   Renderer2
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
+  FormsModule,
   FormControl,
   FormGroupDirective,
   NgControl, NgForm,
 } from '@angular/forms';
-import { LyCommonModule, IsBoolean, toBoolean, LyBgColorAndRaised } from '@alyle/ui';
+import { LyCommonModule, LyTheme2, IsBoolean, toBoolean, LyBgColorAndRaised } from '@alyle/ui';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
-import { LyTheme2 } from '@alyle/ui';
-import { InputService } from './input.service';
 
 @Directive({
   selector: 'ly-default, ly-before, ly-after, ly-input ly-error, ly-input ly-hint'
@@ -153,7 +151,6 @@ export class LyInput implements OnInit, AfterContentInit, OnChanges, OnDestroy {
   constructor(
     private theme: LyTheme2,
     private _changeDetectorRef: ChangeDetectorRef,
-    private inputService: InputService,
     @Optional() bcr: LyBgColorAndRaised,
     renderer: Renderer2,
     elementRef: ElementRef

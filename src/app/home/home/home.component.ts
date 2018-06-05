@@ -8,10 +8,4 @@ import { LyTheme } from '@alyle/ui';
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent {
-
-  constructor(
-    public theme: LyTheme
-  ) { }
-
-}
+export class HomeComponent { }

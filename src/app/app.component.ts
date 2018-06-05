@@ -2,12 +2,10 @@ import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject, OnDestr
 import { environment } from './../environments/environment';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { AUI_VERSION, LyTheme2, LyThemeContainer } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, LyThemeContainer, Platform } from '@alyle/ui';
 import { LyMenu } from '@alyle/ui/menu';
-import { LyTheme, Platform } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { MinimalLS } from '@alyle/ui/ls';
-import { ThemeVariables } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 import { LyIconService } from '@alyle/ui/icon';
 
@@ -28,7 +26,6 @@ export class AppComponent implements OnDestroy {
   @ViewChild(LyThemeContainer) themeContainer: LyThemeContainer;
   constructor(
     public router: Router,
-    public theme: LyTheme,
     public routesApp: RoutesAppService,
     private iconService: LyIconService
   ) {

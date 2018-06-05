@@ -1,5 +1,4 @@
 import {
-  LyTheme,
   ProvidedInTheme,
   CoreTheme
 } from '@alyle/ui';

@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { AlyleUIModule, LY_HAMMER_GESTURE_CONFIG_PROVIDER, LyCommonModule, LyThemeConfig, LY_THEME_CONFIG } from '@alyle/ui';
+import { AlyleUIModule, LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
@@ -63,18 +63,6 @@ const commonVariables = {
   }
 };
 
-const variables = {
-
-};
-// defaultTheme[1].shadow = 'rgba(0, 0, 0, 1)';
-// defaultTheme[1].codeColor = '#efefef';
-// defaultTheme[1].codeBg = '#212121';
-// defaultTheme[1].myColor = 'teal';
-// defaultTheme[0].shadow = '#505050';
-// defaultTheme[0].codeColor = 'rgba(0, 23, 31, 0.7)';
-// defaultTheme[0].codeBg = '#F5F5F5';
-// defaultTheme[0].myColor = 'pink';
-
 @NgModule({
   declarations: [
     AppComponent
@@ -87,44 +75,6 @@ const variables = {
     BrowserAnimationsModule,
     ResponsiveModule,
     MinimalLSModule,
-    AlyleUIModule.forRoot(
-      {
-        name: 'RootTheme',
-        primary: {
-          '300': '#64b5f6'
-        },
-        accent: {
-          default: '#ff4081'
-        },
-        scheme: 'light',
-        lightGreen: '#8bc34a',
-        colorSchemes: {
-          light: {
-            shadow: '#505050',
-            codeColor: 'rgba(0, 23, 31, 0.7)',
-            codeBg: '#F5F5F5',
-            myColor: 'pink',
-            others: {
-              custom: '#00bcd4'
-            }
-          },
-          dark: {
-            shadow: 'rgba(0, 0, 0, 1)',
-            codeColor: '#efefef',
-            codeBg: '#212121',
-            myColor: 'teal'
-          },
-          myCustomScheme: {
-            background: {
-              primary: '#000',
-            },
-            text: {
-              default: '#fff'
-            }
-          }
-        }
-      }
-    ),
     LyCommonModule,
     LyResizingCroppingImageModule,
     LyButtonModule,
@@ -140,10 +90,8 @@ const variables = {
   ],
   providers: [
     RoutesAppService,
-    LY_HAMMER_GESTURE_CONFIG_PROVIDER,
-    {
-      provide: LY_THEME_CONFIG, useClass: MyCustomTheme
-    }
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
+    { provide: LY_THEME_CONFIG, useClass: MyCustomTheme }
   ],
   bootstrap: [AppComponent]
 })

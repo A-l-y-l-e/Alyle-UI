@@ -1,5 +1,5 @@
 import { Injectable, Inject, Renderer2, ElementRef } from '@angular/core';
-import { LyTheme, ProvidedInTheme, CoreTheme } from '@alyle/ui';
+import { CoreTheme } from '@alyle/ui';
 import { DOCUMENT } from '@angular/common';
 
 @Injectable({

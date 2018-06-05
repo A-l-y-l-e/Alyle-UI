@@ -33,7 +33,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyTheme, LyCommonModule, Platform, IsBoolean, LyTheme2, LyCoreStyles, toBoolean } from '@alyle/ui';
+import { LyCommonModule, Platform, IsBoolean, LyTheme2, LyCoreStyles, toBoolean } from '@alyle/ui';
 import { LyRadioService } from './radio.service';
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

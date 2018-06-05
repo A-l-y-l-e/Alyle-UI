@@ -24,7 +24,7 @@ import {
   ChangeDetectionStrategy,
   Inject
 } from '@angular/core';
-import { LyTheme, ThemeVariables } from '@alyle/ui';
+import { ThemeVariables } from '@alyle/ui';
 import { CommonModule } from '@angular/common';
 import { getParents } from '@alyle/ui';
 import { Subscription } from 'rxjs';
@@ -83,7 +83,6 @@ export class LyTabGroupComponent implements OnInit, OnChanges {
     public elementRef: ElementRef,
     private renderer: Renderer,
     private viewContainerRef: ViewContainerRef,
-    public theme: LyTheme,
   ) {
   }
   ngAfterContentInit() {
@@ -195,7 +194,6 @@ export class LyTab {
   get tabStyles() {
     return {color: 'currentColor'};
   }
-  @HostBinding('style.color') hostStyle: string;
   llOorr(...arg: any[]): string {
     return arg[0] < arg[1] ? 'r' : 'l';
   }
@@ -331,9 +329,5 @@ export class LyTab {
       // this.lyTabGroup.tabWidth = this.elementRef.nativeElement.offsetWidth;
       // this.lyTabGroup.tabLeft = this.elementRef.nativeElement.offsetLeft;
     }
-  }
-  ngAfterContentInit() {
-    // this.lyTabGroup.updateTabsHeader();
-    this.hostStyle = this.lyTabGroup.theme.palette.primary.text;
   }
 }

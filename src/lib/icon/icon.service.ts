@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { map, share } from 'rxjs/operators';
-import { LyTheme, ProvidedInTheme, CoreTheme } from '@alyle/ui';
+import { CoreTheme } from '@alyle/ui';
 
 export interface SvgIcon {
   obs: Observable<SVGElement>;
