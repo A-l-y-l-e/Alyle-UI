@@ -23,7 +23,7 @@ import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
-import { DefaultLight, DefaultDark } from '@alyle/ui/themes';
+import { DefaultLight, DefaultDark } from '@alyle/ui/themes/default';
 
 export class CustomDefaultLight extends DefaultLight {
   shadow = '#505050';

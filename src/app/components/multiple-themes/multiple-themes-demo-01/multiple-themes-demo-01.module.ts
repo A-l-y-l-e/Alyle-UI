@@ -11,11 +11,6 @@ import { RouterModule } from '@angular/router';
     LyCommonModule,
     RouterModule,
     LyCommonModule,
-    // AlyleUIModule.forChild({
-    //   name: 'darkTheme',
-    //   scheme: 'dark',
-    //   shadow: 'rgba(0, 0, 0, 1)',
-    // }),
     LyButtonModule
   ],
   declarations: [MultipleThemesDemo01Component],

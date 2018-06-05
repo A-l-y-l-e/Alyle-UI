@@ -30,7 +30,6 @@ export class CoreTheme {
     // } else {
     //   themeConfig = configs;
     // }
-    console.log({themeConfig});
     this.renderer = this.rendererFactory.createRenderer(null, null);
     // let container: any;
     // if (Platform.isBrowser && (container = _document.querySelector('ly-core-theme'))) {
@@ -45,7 +44,6 @@ export class CoreTheme {
     if (themeConfig) {
       themeConfig.themes.forEach(item => {
         this.add(new item);
-        console.log(new item);
       });
     }
   }
