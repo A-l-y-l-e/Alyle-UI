@@ -43,7 +43,7 @@ export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
 
 let idx = 0;
 
-class UndefinedVal {
+export class UndefinedValue {
   constructor() { }
 }
 
@@ -56,7 +56,7 @@ class UndefinedVal {
   exportAs: 'lyRadioGroup'
 })
 export class LyRadioGroup implements ControlValueAccessor {
-  _value = new UndefinedVal;
+  _value = new UndefinedValue;
   name = `ly-radio-name-${idx++}`;
   _color = 'accent';
   private _classes;
