@@ -29,8 +29,8 @@ export class CoreTheme {
       const primaryStyleContainer = this._document.body.querySelector('ly-primary-style-container');
       const secondaryStyleContainer = this._document.body.querySelector('ly-primary-style-container');
       if (primaryStyleContainer) {
-        primaryStyleContainer.removeChild();
-        secondaryStyleContainer.removeChild();
+        _document.removeChild(primaryStyleContainer);
+        _document.removeChild(secondaryStyleContainer);
       }
     }
     this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
