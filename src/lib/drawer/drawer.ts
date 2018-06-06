@@ -162,7 +162,7 @@ export class LyDrawer implements OnChanges {
   @HostBinding('class.ly-show-drawer') isShowDrawer: boolean;
   @HostBinding('@visibilityChanged')
   isOpenDrawer: 'open' | 'close' | boolean = false;
-  @HostBinding('class.ly-drawer-hidden') private isDrawerHidden = true;
+  @HostBinding('class.ly-drawer-hidden') isDrawerHidden = true;
   @Input()
   @IsBoolean()
   set opened(val: boolean) {
