@@ -27,10 +27,10 @@ export class CoreTheme {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     if (Platform.isBrowser) {
       const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
-      const secondaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
+      const secondaryStyleContainer = _document.body.querySelector('ly-secondary-style-container');
       if (primaryStyleContainer) {
-        _document.body.removeChild(primaryStyleContainer);
-        _document.body.removeChild(secondaryStyleContainer);
+        primaryStyleContainer.innerHTML = '';
+        secondaryStyleContainer.innerHTML = '';
       }
     }
     this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
