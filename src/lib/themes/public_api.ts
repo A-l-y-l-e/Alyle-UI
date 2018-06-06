@@ -1,3 +1,3 @@
-export * from './default/theme';
-export * from './default/light';
-export * from './default/dark';
+export * from './minima/theme';
+export * from './minima/light';
+export * from './minima/dark';

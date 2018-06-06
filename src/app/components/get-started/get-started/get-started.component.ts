@@ -11,24 +11,36 @@ export class GetStartedComponent implements OnInit {
   code: string;
   constructor() {
     this.code = `...
-/** Important for Animations */
+/** Angular */
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+
+/** Animations */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /** Core module & common module */
-import { AlyleUIModule, LyCommonModule } from '@alyle/ui';
+import {
+  AlyleUIModule,
+  LyCommonModule,
+  LyThemeConfig,
+  LY_THEME_CONFIG,
+  LyHammerGestureConfig } from '@alyle/ui';
+
+/** Import theme */
+import { MinimaTheme } from '@alyle/ui/themes/minima';
 
 @NgModule({
   ...
   imports: [
     ...
+    BrowserModule,
     BrowserAnimationsModule,
-    AlyleUIModule.forRoot({
-      /** You can put any other name */
-      name: 'default' // it's like the theme id
-    }),
     LyCommonModule // for bg, color, raised, button and other components
     ...
   ],
+  providers: [
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
+    { provide: LY_THEME_CONFIG, useClass: MyCustomTheme }
+  ]
   ...
 })
 export class AppModule { }`;

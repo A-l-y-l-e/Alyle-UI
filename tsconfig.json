@@ -36,7 +36,7 @@
       "@alyle/ui/input": ["lib/input"],
       "@alyle/ui/header-pagination": ["lib/header-pagination"],
       "@alyle/ui/resizing-cropping-images": ["lib/resizing-cropping-images"],
-      "@alyle/ui/themes/default": ["lib/themes"],
+      "@alyle/ui/themes/minima": ["lib/themes/minima"],
       "@env/*": ["environments/*"]
     }
   }

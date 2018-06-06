@@ -47,7 +47,7 @@ export class AppComponent implements OnDestroy {
   }
   changeScheme() {
     this.mode = !this.mode;
-    const name = this.mode ? 'minLight' : 'minDark';
+    const name = this.mode ? 'minima-light' : 'minima-dark';
     // this.theme.setScheme(scheme);
     console.log(name);
     this.themeContainer.theme.setTheme(name);

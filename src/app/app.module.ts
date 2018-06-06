@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Injectable } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { MinimalLSModule } from '@alyle/ui/ls';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
@@ -22,17 +21,16 @@ import { RoutesAppService } from './components/routes-app.service';
 import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
-import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
-import { DefaultLight, DefaultDark } from '@alyle/ui/themes/default';
+import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
-export class CustomDefaultLight extends DefaultLight {
+export class CustomMinimaLight extends MinimaLight {
   shadow = '#505050';
   codeColor = 'rgba(0, 23, 31, 0.7)';
   codeBg = '#F5F5F5';
   myColor = 'pink';
 }
 
-export class CustomDefaultDark extends DefaultDark {
+export class CustomMinimaDark extends MinimaDark {
   shadow = 'rgba(0, 0, 0, 1)';
   codeColor = '#efefef';
   codeBg = '#212121';
@@ -41,27 +39,8 @@ export class CustomDefaultDark extends DefaultDark {
 
 /** Custom Theme */
 export class MyCustomTheme extends LyThemeConfig {
-  themes = [CustomDefaultLight, CustomDefaultDark];
+  themes = [CustomMinimaLight, CustomMinimaDark];
 }
-
-const contrast = '#fff';
-const typography = {
-  fontFamily: `'Roboto', sans-serif`,
-  fontSize: 14
-};
-
-const commonVariables = {
-  iconButton: {
-    size: '48px'
-  },
-  icon: {
-    fontSize: '24px'
-  },
-  input: {
-    /** default color */
-    withColor: 'primary'
-  }
-};
 
 @NgModule({
   declarations: [
@@ -74,9 +53,7 @@ const commonVariables = {
     HttpClientModule,
     BrowserAnimationsModule,
     ResponsiveModule,
-    MinimalLSModule,
     LyCommonModule,
-    LyResizingCroppingImageModule,
     LyButtonModule,
     LyDrawerModule,
     LyToolbarModule,

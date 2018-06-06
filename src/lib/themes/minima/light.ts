@@ -2,8 +2,8 @@ import { typography, iconButton, icon, input } from './variables';
 import { ThemeConfig } from '@alyle/ui';
 
 const contrast = '#fff';
-export class DefaultLight implements ThemeConfig {
-  name = 'minLight';
+export class MinimaLight implements ThemeConfig {
+  name = 'minima-light';
   primary = {
     default: '#2CA7F8',
     contrast
