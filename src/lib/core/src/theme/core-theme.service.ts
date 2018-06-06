@@ -29,13 +29,13 @@ export class CoreTheme {
       const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
       const secondaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
       if (primaryStyleContainer) {
-        _document.removeChild(primaryStyleContainer);
-        _document.removeChild(secondaryStyleContainer);
+        _document.body.removeChild(primaryStyleContainer);
+        _document.body.removeChild(secondaryStyleContainer);
       }
     }
     this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
     this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
-    this.renderer.insertBefore(_document.body, this.primaryStyleContainer, _document.body.querySelector);
+    this.renderer.insertBefore(_document.body, this.primaryStyleContainer, _document.body.firstChild);
     this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
     this.setCoreStyle();
     if (themeConfig) {
