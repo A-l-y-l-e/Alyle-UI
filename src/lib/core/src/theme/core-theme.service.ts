@@ -2,6 +2,7 @@ import { Injectable, Optional, Inject, Renderer2, RendererFactory2, isDevMode } 
 import { THEME_CONFIG, ThemeConfig, THEME_CONFIG_EXTRA, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { StyleContent, StyleData, DataStyle, MultipleStyles, mergeDeep } from '../theme.service';
+import { Platform } from '../platform';
 
 let classId = 0;
 
@@ -16,8 +17,6 @@ export class CoreTheme {
   private _styleMap = new Map<string, Map<string, DataStyle>>();
   private _styleCoreMap = new Map<string, DataStyle>();
   constructor(
-    @Optional() @Inject(THEME_CONFIG) configs: ThemeConfig | ThemeConfig[],
-    @Optional() @Inject(THEME_CONFIG_EXTRA) themeExtra: any,
     @Optional() @Inject(LY_THEME_CONFIG) themeConfig: LyThemeConfig,
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) private _document: any,
@@ -25,21 +24,17 @@ export class CoreTheme {
     if (!themeConfig) {
       throw new Error('LY_THEME_CONFIG undefined');
     }
-    // if (themeExtra) {
-    //   themeConfig = mergeDeep(configs, themeExtra);
-    // } else {
-    //   themeConfig = configs;
-    // }
     this.renderer = this.rendererFactory.createRenderer(null, null);
-    // let container: any;
-    // if (Platform.isBrowser && (container = _document.querySelector('ly-core-theme'))) {
-      // this.rootContainer = container;
-    // } else {
-      this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
-      this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
-      this.renderer.insertBefore(_document.body, this.primaryStyleContainer, _document.body.firstElementChild);
-      this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
-    // }
+    if (Platform.isBrowser) {
+      try {
+        this._document.removeChild(_document.body.querySelector('ly-primary-style-container'));
+        this._document.removeChild(_document.body.querySelector('ly-secondary-style-container'));
+      } catch (error) { }
+    }
+    this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
+    this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
+    this.renderer.insertBefore(_document.body, this.primaryStyleContainer, _document.body.firstElementChild);
+    this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
     this.setCoreStyle();
     if (themeConfig) {
       themeConfig.themes.forEach(item => {
