@@ -26,8 +26,8 @@ export class CoreTheme {
     }
     this.renderer = this.rendererFactory.createRenderer(null, null);
     if (Platform.isBrowser) {
-      const primaryStyleContainer = this._document.body.querySelector('ly-primary-style-container');
-      const secondaryStyleContainer = this._document.body.querySelector('ly-primary-style-container');
+      const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
+      const secondaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
       if (primaryStyleContainer) {
         _document.removeChild(primaryStyleContainer);
         _document.removeChild(secondaryStyleContainer);
@@ -35,7 +35,7 @@ export class CoreTheme {
     }
     this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
     this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
-    this.renderer.insertBefore(_document.body, this.primaryStyleContainer, _document.body.firstElementChild);
+    this.renderer.insertBefore(_document.body, this.primaryStyleContainer, _document.body.querySelector);
     this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
     this.setCoreStyle();
     if (themeConfig) {
