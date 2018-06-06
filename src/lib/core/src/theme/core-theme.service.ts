@@ -26,10 +26,12 @@ export class CoreTheme {
     }
     this.renderer = this.rendererFactory.createRenderer(null, null);
     if (Platform.isBrowser) {
-      try {
-        this._document.removeChild(_document.body.querySelector('ly-primary-style-container'));
-        this._document.removeChild(_document.body.querySelector('ly-secondary-style-container'));
-      } catch (error) { }
+      const primaryStyleContainer = this._document.body.querySelector('ly-primary-style-container');
+      const secondaryStyleContainer = this._document.body.querySelector('ly-primary-style-container');
+      if (primaryStyleContainer) {
+        primaryStyleContainer.removeChild();
+        secondaryStyleContainer.removeChild();
+      }
     }
     this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
     this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
@@ -123,4 +125,3 @@ export class CoreTheme {
   }
 
 }
-
