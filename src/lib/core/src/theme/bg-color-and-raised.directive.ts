@@ -1,7 +1,6 @@
-import { Directive, Input, OnChanges, SimpleChanges, Inject, Optional, Renderer2, ElementRef, Host, Self } from '@angular/core';
+import { Directive, SkipSelf, Input, OnChanges, SimpleChanges, Inject, Optional, Renderer2, ElementRef, Host, Self } from '@angular/core';
 import { LY_GLOBAL_CONTRAST } from './contrast';
 import { LyTheme2 } from './theme2.service';
-import { SkipSelf } from '@angular/core';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
 import { ThemeVariables } from '../alyle-config-service';
