@@ -919,36 +919,36 @@
         }
       }
     },
-    "@alyle/ui/themes": {
-      "root": "dist/lib/themes",
+    "@alyle/ui/themes/minima": {
+      "root": "dist/lib/themes/minima",
       "projectType": "library",
       "prefix": "ly",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "project": "dist/lib/themes/ng-package.json"
+            "project": "dist/lib/themes/minima/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "dist/lib/themes/ng-package.prod.json"
+              "project": "dist/lib/themes/minima/ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "dist/lib/themes/test.ts",
-            "tsConfig": "dist/lib/themes/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/themes/karma.conf.js"
+            "main": "dist/lib/themes/minima/test.ts",
+            "tsConfig": "dist/lib/themes/minima/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/themes/minima/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "dist/lib/themes/tsconfig.lint.json",
-              "dist/lib/themes/tsconfig.spec.json"
+              "dist/lib/themes/minima/tsconfig.lint.json",
+              "dist/lib/themes/minima/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

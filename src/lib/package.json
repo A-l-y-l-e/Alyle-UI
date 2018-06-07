@@ -1,5 +1,5 @@
 {
-  "name": "{name}",
+  "name": "{packageName}",
   "version": "{version}",
   "description": "Minimal Design, a package of components for Angular",
   "scripts": {

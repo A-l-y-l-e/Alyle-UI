@@ -31,13 +31,15 @@ copySync(`${dirLib}/.npmignore`, `${process.cwd()}/dist/@alyle/ui/.npmignore`);
 
 components.forEach(lib => {
   const item = statSync(`${dirLib}/${lib.path}`);
+  const ngPackagePath = join('../', lib.path.split('/').map(() => '../').join(''), lib.pkgName);
   [
     'ng-package.json',
     'ng-package.prod.json',
     'package.json'
   ].forEach(pkgConfig => {
     const file = readFileSync(`${dist}/${pkgConfig}`, 'utf8').toString()
-    .replace(/{name}/g, lib.pkgName)
+    .replace(/{name}/g, ngPackagePath)
+    .replace(/{packageName}/g, lib.pkgName)
     .replace(/{id}/g, camelCase(lib.path))
     .replace(/{version}/g, version);
     writeFileSync(`${dist}/${lib.path}/${pkgConfig}`, file, 'utf8');
