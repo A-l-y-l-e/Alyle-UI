@@ -14,7 +14,8 @@ export class ResizingCroppingImagesExample01Component {
   result: string;
   myConfig: LyResizingCroppingImagesConfig = {
     width: 150, // Default `250`
-    height: 150 // Default `200`
+    height: 150, // Default `200`
+    fill: '#ff2997'
   };
 
   constructor() { }

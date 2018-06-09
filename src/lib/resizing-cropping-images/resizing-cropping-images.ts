@@ -24,13 +24,15 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject ,  Subscription ,  Subject ,  Observable } from 'rxjs';
-import { exactPosition } from '@alyle/ui';
+import { BehaviorSubject , Subscription , Subject , Observable } from 'rxjs';
 
 export interface LyResizingCroppingImagesConfig {
   width: number;
   height: number;
-  type?: string; // if this is not defined, the new image will be automatically defined
+  /** If this is not defined, the new image will be automatically defined */
+  type?: string;
+  /** Background color( default: null), if is null in png is transparent but not in jpg */
+  fill?: string | null;
   output?: {
     width: number;
     height: number;
@@ -379,6 +381,10 @@ export class LyResizingCroppingImages implements AfterContentInit {
     canvasElement.width = config.width / this.scale;
     canvasElement.height = config.height / this.scale;
     const ctx = canvasElement.getContext('2d');
+    if (myConfig.fill) {
+      ctx.fillStyle = myConfig.fill;
+      ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+    }
     ctx.drawImage(this._img,
       -(left / this.scale), -(top / this.scale),
     );

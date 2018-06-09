@@ -1,7 +1,3 @@
-<div #_croppingContainer *ngIf="isLoaded; else content" class="ly-cropping-container" [ngStyle]="{
-    width: config.width + 'px',
-    height: config.height + 'px'
-}"></div>
 <div class="ly-img-container" #_imgContainer
 (panstart)="_moveStart($event)"
 (pan)="_move($event)"
@@ -9,6 +5,10 @@
   <img *ngIf="isLoaded"
   [src]="src">
 </div>
+<div #_croppingContainer *ngIf="isLoaded; else content" class="ly-cropping-container" [ngStyle]="{
+  width: config.width + 'px',
+  height: config.height + 'px'
+}"></div>
 <ng-template #content>
   <div class="ly-cropp-content">
     <input #_fileInput type="file" (change)="selectInputEvent($event)" accept="image/*">

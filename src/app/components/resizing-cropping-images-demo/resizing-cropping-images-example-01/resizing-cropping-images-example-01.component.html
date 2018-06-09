@@ -20,8 +20,6 @@
   (error)="onerror()">
     <span>Drag and drop image</span>
   </ly-cropping>
-  <!-- <ly-cropping #cropping format="png" src="https://dummyimage.com/500x350/000/00ffd5.png"></ly-cropping> -->
-  <!-- <ly-cropping [config]="myConfig" #cropping src="assets/img/Mountains-Blue.jpg"></ly-cropping> -->
   <button *ngIf="cropping.isLoaded" color="accent" (click)="crop()" ly-button>crop</button>
 </div>
 <img *ngIf="cropping.isCropped" [src]="cropping.result">
