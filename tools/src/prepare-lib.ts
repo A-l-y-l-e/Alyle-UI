@@ -7,6 +7,7 @@ import * as camelCase from 'camelcase';
 import { tslintConfig } from './config/tslint-config';
 import { tsConfigSpec } from './config/tsconfig-spec';
 import { testConfig } from './config/test-config';
+import { karmaConf } from './config/karma.conf';
 
 const dirSrc = `${process.cwd()}/src`;
 const dirLib = `${process.cwd()}/src/lib`;
@@ -29,7 +30,8 @@ copySync(dirLib, dist);
 
 components.forEach(lib => {
   const item = statSync(`${dirLib}/${lib.path}`);
-  const ngPackagePath = join('../', lib.path.split('/').map(() => '../').join(''), lib.pkgName);
+  const nh = lib.path.split('/').map(() => '../').join('');
+  const ngPackagePath = join('../', nh, lib.pkgName);
   [
     'ng-package.json',
     'ng-package.prod.json',
@@ -41,51 +43,60 @@ components.forEach(lib => {
     .replace(/{id}/g, camelCase(lib.path))
     .replace(/{version}/g, version);
     writeFileSync(`${dist}/${lib.path}/${pkgConfig}`, file, 'utf8');
-    /** copy test.ts */
-    writeFileSync(`${dist}/${lib.path}/test.ts`, testConfig, 'utf8');
-    copySync(join(dirSrc, 'karma.conf.js'), `${dist}/${lib.path}/karma.conf.js`);
-    writeFileSync(`${dist}/${lib.path}/tslint.json`, JSON.stringify(tslintConfig, undefined, 2), 'utf8');
-    writeFileSync(`${dist}/${lib.path}/tsconfig.spec.json`, JSON.stringify(tsConfigSpec, undefined, 2), 'utf8');
-    angularCliConfig['projects'][lib.pkgName] = {
-      'root': `dist/lib/${lib.path}`,
-      'projectType': 'library',
-      'prefix': 'ly',
-      'architect': {
-        'build': {
-          'builder': '@angular-devkit/build-ng-packagr:build',
-          'options': {
-            'project': `dist/lib/${lib.path}/ng-package.json`
-          },
-          'configurations': {
-            'production': {
-              'project': `dist/lib/${lib.path}/ng-package.prod.json`
-            }
-          }
+  });
+  const libPath = join(nh, '..', '..', 'src/lib', lib.path);
+  /** copy test.ts */
+  writeFileSync(`${dist}/${lib.path}/test.ts`, testConfig.replace('{libPath}', `${libPath}`), 'utf8');
+  writeFileSync(`${dist}/${lib.path}/karma.conf.js`, karmaConf.replace('{name}', `${lib.path}`), 'utf8');
+  writeFileSync(`${dist}/${lib.path}/tslint.json`, JSON.stringify(tslintConfig, undefined, 2), 'utf8');
+  tsConfigSpec.include = [
+    `${libPath}/**/*.spec.ts`,
+    `${libPath}/**/*.d.ts`
+  ];
+  writeFileSync(`${dist}/${lib.path}/tsconfig.spec.json`, JSON.stringify(tsConfigSpec, undefined, 2), 'utf8');
+  angularCliConfig['projects'][lib.pkgName] = {
+    'root': `dist/lib/${lib.path}`,
+    'projectType': 'library',
+    'prefix': 'ly',
+    'architect': {
+      'build': {
+        'builder': '@angular-devkit/build-ng-packagr:build',
+        'options': {
+          'project': `dist/lib/${lib.path}/ng-package.json`
         },
-        'test': {
-          'builder': '@angular-devkit/build-angular:karma',
-          'options': {
-            'main': `dist/lib/${lib.path}/test.ts`,
-            'tsConfig': `dist/lib/${lib.path}/tsconfig.spec.json`,
-            'karmaConfig': `dist/lib/${lib.path}/karma.conf.js`
-          }
-        },
-        'lint': {
-          'builder': '@angular-devkit/build-angular:tslint',
-          'options': {
-            'tsConfig': [
-              `dist/lib/${lib.path}/tsconfig.lint.json`,
-              `dist/lib/${lib.path}/tsconfig.spec.json`
-            ],
-            'exclude': [
-              '**/node_modules/**'
-            ]
+        'configurations': {
+          'production': {
+            'project': `dist/lib/${lib.path}/ng-package.prod.json`
           }
         }
+      },
+      'test': {
+        'builder': '@angular-devkit/build-angular:karma',
+        'options': {
+          'main': `dist/lib/${lib.path}/test.ts`,
+          'tsConfig': `dist/lib/${lib.path}/tsconfig.spec.json`,
+          'karmaConfig': `dist/lib/${lib.path}/karma.conf.js`,
+          'progress': false,
+          'codeCoverage': true,
+          'browsers': 'ChromeHeadless',
+          'codeCoverageExclude': ['dist/lib/core/**/*', 'src/lib/core/**/*']
+        }
+      },
+      'lint': {
+        'builder': '@angular-devkit/build-angular:tslint',
+        'options': {
+          'tsConfig': [
+            `dist/lib/${lib.path}/tsconfig.lint.json`,
+            `dist/lib/${lib.path}/tsconfig.spec.json`
+          ],
+          'exclude': [
+            '**/node_modules/**'
+          ]
+        }
       }
-    };
-    writeFileSync(`${process.cwd()}/angular.json`, JSON.stringify(angularCliConfig, undefined, 2), 'utf8');
-  });
+    }
+  };
+  writeFileSync(`${process.cwd()}/angular.json`, JSON.stringify(angularCliConfig, undefined, 2), 'utf8');
 });
 
 export const allComponents = components;

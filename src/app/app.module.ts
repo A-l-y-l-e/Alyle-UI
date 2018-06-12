@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule, Injectable } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { LyDrawerModule } from '@alyle/ui/drawer';

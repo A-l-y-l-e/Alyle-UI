@@ -180,7 +180,14 @@
           "options": {
             "main": "dist/lib/core/test.ts",
             "tsConfig": "dist/lib/core/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/core/karma.conf.js"
+            "karmaConfig": "dist/lib/core/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -218,7 +225,14 @@
           "options": {
             "main": "dist/lib/button/test.ts",
             "tsConfig": "dist/lib/button/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/button/karma.conf.js"
+            "karmaConfig": "dist/lib/button/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -256,7 +270,14 @@
           "options": {
             "main": "dist/lib/carousel/test.ts",
             "tsConfig": "dist/lib/carousel/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/carousel/karma.conf.js"
+            "karmaConfig": "dist/lib/carousel/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -294,7 +315,14 @@
           "options": {
             "main": "dist/lib/checkbox/test.ts",
             "tsConfig": "dist/lib/checkbox/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/checkbox/karma.conf.js"
+            "karmaConfig": "dist/lib/checkbox/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -332,7 +360,14 @@
           "options": {
             "main": "dist/lib/drawer/test.ts",
             "tsConfig": "dist/lib/drawer/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/drawer/karma.conf.js"
+            "karmaConfig": "dist/lib/drawer/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -370,7 +405,14 @@
           "options": {
             "main": "dist/lib/header-pagination/test.ts",
             "tsConfig": "dist/lib/header-pagination/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/header-pagination/karma.conf.js"
+            "karmaConfig": "dist/lib/header-pagination/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -408,7 +450,14 @@
           "options": {
             "main": "dist/lib/icon-button/test.ts",
             "tsConfig": "dist/lib/icon-button/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/icon-button/karma.conf.js"
+            "karmaConfig": "dist/lib/icon-button/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -446,7 +495,14 @@
           "options": {
             "main": "dist/lib/input/test.ts",
             "tsConfig": "dist/lib/input/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/input/karma.conf.js"
+            "karmaConfig": "dist/lib/input/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -484,7 +540,14 @@
           "options": {
             "main": "dist/lib/ls/test.ts",
             "tsConfig": "dist/lib/ls/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/ls/karma.conf.js"
+            "karmaConfig": "dist/lib/ls/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -522,7 +585,14 @@
           "options": {
             "main": "dist/lib/menu/test.ts",
             "tsConfig": "dist/lib/menu/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/menu/karma.conf.js"
+            "karmaConfig": "dist/lib/menu/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -560,7 +630,14 @@
           "options": {
             "main": "dist/lib/radio/test.ts",
             "tsConfig": "dist/lib/radio/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/radio/karma.conf.js"
+            "karmaConfig": "dist/lib/radio/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -598,7 +675,14 @@
           "options": {
             "main": "dist/lib/resizing-cropping-images/test.ts",
             "tsConfig": "dist/lib/resizing-cropping-images/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/resizing-cropping-images/karma.conf.js"
+            "karmaConfig": "dist/lib/resizing-cropping-images/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -636,7 +720,14 @@
           "options": {
             "main": "dist/lib/responsive/test.ts",
             "tsConfig": "dist/lib/responsive/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/responsive/karma.conf.js"
+            "karmaConfig": "dist/lib/responsive/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -674,7 +765,14 @@
           "options": {
             "main": "dist/lib/ripple/test.ts",
             "tsConfig": "dist/lib/ripple/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/ripple/karma.conf.js"
+            "karmaConfig": "dist/lib/ripple/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -788,7 +886,14 @@
           "options": {
             "main": "dist/lib/tabs/test.ts",
             "tsConfig": "dist/lib/tabs/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/tabs/karma.conf.js"
+            "karmaConfig": "dist/lib/tabs/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -826,7 +931,14 @@
           "options": {
             "main": "dist/lib/toolbar/test.ts",
             "tsConfig": "dist/lib/toolbar/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/toolbar/karma.conf.js"
+            "karmaConfig": "dist/lib/toolbar/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -864,7 +976,14 @@
           "options": {
             "main": "dist/lib/icon/test.ts",
             "tsConfig": "dist/lib/icon/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/icon/karma.conf.js"
+            "karmaConfig": "dist/lib/icon/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -902,7 +1021,14 @@
           "options": {
             "main": "dist/lib/flex/test.ts",
             "tsConfig": "dist/lib/flex/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/flex/karma.conf.js"
+            "karmaConfig": "dist/lib/flex/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
@@ -940,7 +1066,14 @@
           "options": {
             "main": "dist/lib/themes/minima/test.ts",
             "tsConfig": "dist/lib/themes/minima/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/themes/minima/karma.conf.js"
+            "karmaConfig": "dist/lib/themes/minima/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
           }
         },
         "lint": {
