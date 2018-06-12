@@ -23,11 +23,22 @@ import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
+const Quepal = {
+  default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
+  contrast: '#fff'
+};
+const SublimeLight = {
+  default: `linear-gradient(135deg,#FC5C7D 0%,#6A82FB 100%)`,
+  contrast: '#fff'
+};
+
 export class CustomMinimaLight extends MinimaLight {
   shadow = '#505050';
   codeColor = 'rgba(0, 23, 31, 0.7)';
   codeBg = '#F5F5F5';
   myColor = 'pink';
+  Quepal = Quepal;
+  SublimeLight = SublimeLight;
 }
 
 export class CustomMinimaDark extends MinimaDark {
@@ -35,6 +46,8 @@ export class CustomMinimaDark extends MinimaDark {
   codeColor = '#efefef';
   codeBg = '#212121';
   myColor = 'teal';
+  Quepal = Quepal;
+  SublimeLight = SublimeLight;
 }
 
 /** Custom Theme */
