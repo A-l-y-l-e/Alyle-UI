@@ -52,11 +52,11 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   public _selectedIndex: any;
   public _fnInterval: any;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-  private _intervalFn: () => void;
+  private _intervalFn;
   @ViewChild('slideContainer') slideContainer: ElementRef;
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   @Input() mode: CarouselMode = CarouselMode.default;
-  @Input() interval = 60000;
+  @Input() interval = 7000;
   positionLeft: string | number;
   _itemSelect = 0;
   @Input() selectedIndex = 0;
@@ -206,6 +206,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this._resetInterval();
     if (!this.slideEvent) {
       this.slideEvent = false;
     }
@@ -271,28 +272,33 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
       });
     }
   }
-  public select(val: number) {
+  select(val: number, notResetInterval?: boolean) {
     this.selectedIndex = val;
     if (this.mode === CarouselMode.default) {
       this.positionLeft = `${-100 * val}%`;
     }
-    // this._intervalCarousel(val);
-  }
-  public focusRight() {
-    this._intervalCarousel('+');
-  }
-  public focusLeft() {
-    this._intervalCarousel('-');
+    if (!notResetInterval) {
+      this._resetInterval();
+    }
   }
   prev() {
     const len = this.lyItems.length - 1;
     const prev = this.selectedIndex - 1;
     this.select(prev < 0 ? len : prev);
   }
-  next() {
+  next(notResetInterval?: boolean) {
     const len = this.lyItems.length - 1;
     const next = this.selectedIndex + 1;
-    this.select(next > len ? 0 : next);
+    this.select(next > len ? 0 : next, notResetInterval);
+  }
+  private _resetInterval() {
+    if (this._intervalFn) {
+      clearInterval(this._intervalFn);
+    }
+    this._intervalFn = setInterval(() => {
+      this.next(true);
+      this.cd.markForCheck();
+    }, this.interval);
   }
 }
 
