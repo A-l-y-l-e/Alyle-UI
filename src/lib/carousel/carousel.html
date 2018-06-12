@@ -1,0 +1,45 @@
+<div
+(slidestart)="onDragStart($event)"
+(slide)="onDrag($event)"
+(slideend)="onDragEnd($event)"
+>
+  <div [className]="classes.slide" [style.left]="positionLeft">
+    <ng-content></ng-content>
+  </div>
+  <div class="lycarousel-slide">
+    <!--buttons-->
+    <!-- <div class="carousel-indicators-container">
+      <div class="carousel-blur" [style.background-image]="'url('+lyItems.toArray()[_itemSelect]?.src+')'"></div>
+    </div> -->
+    <ul class="carousel-indicators" *ngIf="lyItems.length!=1">
+      <li tabindex="0"
+      (click)="select(i)"
+      role="button"
+      *ngFor="let item of lyItems; let i = index">
+      <span color="#000"
+      bg="background:primary"
+      [class.active]="selectedIndex==i"
+      [newRaised]="[6]"></span>
+      </li>
+    </ul>
+    <!--items
+    <div class="lycarousel-items">
+      <div [class.active]="_itemSelect==i"
+      class="lycarousel-item"
+      *ngFor="let item of lyItems; let i = index">
+        <img [src]="nullImg"
+        [style.background-image]="'url('+item.src+')'">
+      </div>-->
+      <!--<div class="lycarousel-content">
+      <ng-content></ng-content>
+      </div>-->
+    <!--</div>-->
+    <!--cursor-->
+  </div>
+  <div class="ly-carousel-actions" (click)="prev()">
+    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+  </div>
+  <div class="ly-carousel-actions right" (click)="next()">
+    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+  </div>
+</div>

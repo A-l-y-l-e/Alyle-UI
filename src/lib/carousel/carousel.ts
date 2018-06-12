@@ -41,47 +41,7 @@ export enum CarouselMode {
 @Component({
   selector: 'ly-carousel',
   styleUrls: ['carousel.scss'],
-  template: `
-  <div [className]="classes.slide" [style.left]="positionLeft">
-    <ng-content></ng-content>
-  </div>
-  <div class="lycarousel-slide">
-    <!--buttons-->
-    <div class="carousel-indicators-container">
-      <div class="carousel-blur" [style.background-image]="'url('+lyItems.toArray()[_itemSelect]?.src+')'"></div>
-    </div>
-    <ul class="carousel-indicators" *ngIf="lyItems.length!=1">
-      <li tabindex="0"
-      (click)="select(i)"
-      role="button"
-      *ngFor="let item of lyItems; let i = index">
-      <span color="#000"
-      bg="background:primary"
-      [class.active]="selectedIndex==i"
-      [newRaised]="[6]"></span>
-      </li>
-    </ul>
-    <!--items
-    <div class="lycarousel-items">
-      <div [class.active]="_itemSelect==i"
-      class="lycarousel-item"
-      *ngFor="let item of lyItems; let i = index">
-        <img [src]="nullImg"
-        [style.background-image]="'url('+item.src+')'">
-      </div>-->
-      <!--<div class="lycarousel-content">
-      <ng-content></ng-content>
-      </div>-->
-    <!--</div>-->
-    <!--cursor-->
-  </div>
-  <div class="ly-carousel-actions" (click)="prev()">
-    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
-  </div>
-  <div class="ly-carousel-actions right" (click)="next()">
-    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
-  </div>
-  `,
+  templateUrl: './carousel.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
@@ -91,6 +51,7 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   public _selectedIndex: any;
   public _fnInterval: any;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+  private _intervalFn: () => void;
   @ContentChildren(forwardRef(() => LyCarouselItemComponent)) lyItems: QueryList<LyCarouselItemComponent>;
   @Input() mode: CarouselMode = CarouselMode.default;
   @Input() interval = 60000;
@@ -170,17 +131,18 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
       }
     ),
   };
-  @HostListener('slidestart', ['$event']) onDragStart(e) {
+  onDragStart(e) {
     this.renderer.removeClass(this.elementRef.nativeElement, this.classes.slideAnim);
     this.selectedElement = this.lyItems.find((item, index) => index === this.selectedIndex)._nativeElement;
   }
-  @HostListener('slide', ['$event']) onDrag(e) {
+  onDrag(e) {
+    console.log(e);
     const rect = this.selectedElement.getBoundingClientRect();
     if (Math.abs(e.deltaX) < rect.width) {
       this._onPan(e.deltaX);
     }
   }
-  @HostListener('slideend', ['$event']) onDragEnd(e) {
+  onDragEnd(e) {
     const rect = this.selectedElement.getBoundingClientRect();
     this.renderer.addClass(this.elementRef.nativeElement, this.classes.slideAnim);
     this.select(this.selectedIndex);
@@ -252,21 +214,6 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   }
   resetInterval() {
 
-  }
-  _____setActiveItem() {
-    // let activeItems = this.lyItems.filter((tab)=>tab.active);
-    // Promise.resolve(null).then(() => {
-    //   const controlsBottom = this.elementRef.nativeElement.querySelector('.carousel-indicators-container');
-    //   controlsBottom.classList.remove('animation');
-    //   // tslint:disable-next-line:no-unused-expression
-    //   void controlsBottom.offsetWidth;
-    //   controlsBottom.classList.add('animation');
-    //   this.lyItems.forEach((_item: LyCarouselItemComponent) => {
-    //     _item._markForCheck();
-    //   });
-    //   const item = this.lyItems.find((a: LyCarouselItemComponent, b: number) => b === this._itemSelect);
-    //   this.cd.markForCheck();
-    // });
   }
 
   _markForCheck() {
