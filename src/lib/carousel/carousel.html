@@ -2,6 +2,7 @@
 (slidestart)="onDragStart($event)"
 (slide)="onDrag($event)"
 (slideend)="onDragEnd($event)"
+#slideContainer
 >
   <div [className]="classes.slide" [style.left]="positionLeft">
     <ng-content></ng-content>

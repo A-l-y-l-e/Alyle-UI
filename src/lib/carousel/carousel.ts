@@ -26,7 +26,8 @@ import {
   PLATFORM_ID,
   OnInit,
   Renderer2,
-  HostListener
+  HostListener,
+  ViewChild
 } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer, CommonModule } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -52,7 +53,8 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   public _fnInterval: any;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   private _intervalFn: () => void;
-  @ContentChildren(forwardRef(() => LyCarouselItemComponent)) lyItems: QueryList<LyCarouselItemComponent>;
+  @ViewChild('slideContainer') slideContainer: ElementRef;
+  @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   @Input() mode: CarouselMode = CarouselMode.default;
   @Input() interval = 60000;
   positionLeft: string | number;
@@ -63,7 +65,6 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
     root: this.theme.core.setUpStyle(
       'carousel', {
         '': () => (
-          `overflow: hidden;` +
           `display: block;` +
           `-webkit-user-select: none;` +
           `-moz-user-select: none;` +
@@ -90,6 +91,17 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
         ' svg': () => (
           `display:block;` +
           `fill:currentColor;`
+        )
+      }
+    ),
+    slideContainer: this.theme.core.setUpStyle(
+      'k-carousel-slide', {
+        '': () => (
+          `overflow: hidden;` +
+          `display: block;` +
+          `width: 100%;` +
+          `height: 100%;` +
+          `position: relative;`
         )
       }
     ),
@@ -132,11 +144,10 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
     ),
   };
   onDragStart(e) {
-    this.renderer.removeClass(this.elementRef.nativeElement, this.classes.slideAnim);
+    this.renderer.removeClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.selectedElement = this.lyItems.find((item, index) => index === this.selectedIndex)._nativeElement;
   }
   onDrag(e) {
-    console.log(e);
     const rect = this.selectedElement.getBoundingClientRect();
     if (Math.abs(e.deltaX) < rect.width) {
       this._onPan(e.deltaX);
@@ -144,7 +155,7 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   }
   onDragEnd(e) {
     const rect = this.selectedElement.getBoundingClientRect();
-    this.renderer.addClass(this.elementRef.nativeElement, this.classes.slideAnim);
+    this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.select(this.selectedIndex);
 
     if (Math.abs(e.deltaX) > rect.width / 2) {
@@ -171,8 +182,8 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.renderer.addClass(elementRef.nativeElement, this.classes.root);
-    this.renderer.addClass(elementRef.nativeElement, this.classes.slideAnim);
   }
+
   private _onPan(x) {
     this.positionLeft = this.sanitizerStyle(`calc(${-100 * this.selectedIndex }% + ${x}px)`) as any;
     // console.log(`calc(${-100 * this.selectedIndex }% + ${event.deltaX}px)`);
@@ -221,9 +232,11 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideContainer);
     if (isPlatformBrowser(this.platformId)) {
+      this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
       this._intervalCarousel(0);
-      this.lyItems.changes.subscribe((carousel: LyCarouselItemComponent) => {
+      this.lyItems.changes.subscribe((carousel: LyCarouselItem) => {
         this._itemSelect = 0;
         this._intervalCarousel(0);
         // this.setActiveItem();
@@ -256,12 +269,11 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
   }
 }
 
-@Component({
-  selector: 'ly-carousel-item',
-  template: `<ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+@Directive({
+  // tslint:disable-next-line:directive-selector
+  selector: 'ly-carousel-item'
 })
-export class LyCarouselItemComponent implements OnInit, OnChanges {
+export class LyCarouselItem implements OnInit, OnChanges {
   className: string;
   /** @deprecated use srcImg */
   @Input() src: string;
@@ -297,7 +309,4 @@ export class LyCarouselItemComponent implements OnInit, OnChanges {
 
   ngOnInit() { }
 
-  _markForCheck() {
-    this.cd.markForCheck();
-  }
 }
