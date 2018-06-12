@@ -1,7 +1,7 @@
 <div
-(slidestart)="onDragStart($event)"
-(slide)="onDrag($event)"
-(slideend)="onDragEnd($event)"
+(slidestart)="slideEvent && onDragStart($event)"
+(slide)="slideEvent && onDrag($event)"
+(slideend)="slideEvent && onDragEnd($event)"
 #slideContainer
 >
   <div [className]="classes.slide" [style.left]="positionLeft">

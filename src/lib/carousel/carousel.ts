@@ -32,7 +32,7 @@ import {
 import { isPlatformBrowser, isPlatformServer, CommonModule } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CarouselService } from './carousel.service';
-import { Platform, LyTheme2 } from '@alyle/ui';
+import { Platform, LyTheme2, toBoolean } from '@alyle/ui';
 export enum CarouselMode {
   /** full */
   default,
@@ -46,7 +46,7 @@ export enum CarouselMode {
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class LyCarousel implements AfterViewInit, OnDestroy {
+export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   public data: any;
   public value: any;
   public _selectedIndex: any;
@@ -142,7 +142,28 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
         )
       }
     ),
+    slideNoEvent: this.theme.core.setUpStyleSecondary(
+      'k-slide-no-event', {
+        '>div': () => (
+          `touch-action: initial !important;`
+        )
+      }
+    ),
   };
+  private _slideEvent: boolean;
+  @Input()
+  set slideEvent(val: boolean) {
+    const newVal = toBoolean(val);
+    this._slideEvent = newVal;
+    if (newVal) {
+      this.renderer.removeClass(this.elementRef.nativeElement, this.classes.slideNoEvent);
+    } else {
+      this.renderer.addClass(this.elementRef.nativeElement, this.classes.slideNoEvent);
+    }
+  }
+  get slideEvent() {
+    return this._slideEvent;
+  }
   onDragStart(e) {
     this.renderer.removeClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.selectedElement = this.lyItems.find((item, index) => index === this.selectedIndex)._nativeElement;
@@ -182,6 +203,12 @@ export class LyCarousel implements AfterViewInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.renderer.addClass(elementRef.nativeElement, this.classes.root);
+  }
+
+  ngOnInit() {
+    if (!this.slideEvent) {
+      this.slideEvent = false;
+    }
   }
 
   private _onPan(x) {

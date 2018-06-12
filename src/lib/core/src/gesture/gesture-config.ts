@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken, Optional, Inject } from '@angular/core';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
-import { HammerInstance } from '@angular/platform-browser/src/dom/events/hammer_gestures';
+import { CoreTheme } from '../theme/core-theme.service';
+import { HammerOptions, HammerInstance } from './gesture-annotations';
+
+export const LY_HAMMER_OPTIONS = new InjectionToken<HammerOptions>('LY_HAMMER_OPTIONS');
 
 @Injectable()
 export class LyHammerGestureConfig extends HammerGestureConfig {
@@ -12,11 +15,24 @@ export class LyHammerGestureConfig extends HammerGestureConfig {
     'slideright',
     'slideleft'
   ] : [];
-  constructor() {
+  constructor(
+    private coreTheme: CoreTheme,
+    @Optional() @Inject(LY_HAMMER_OPTIONS) private _hammerOptions?: HammerOptions,
+  ) {
     super();
   }
   buildHammer(element: HTMLElement): HammerInstance {
-    const mc = new this._hammer(element, undefined);
+    const newClass = this.coreTheme.setUpStyle('k-hammer-css', {
+      '': () => (
+        `user-select: none;` +
+        `-webkit-user-drag: none;` +
+        `-webkit-tap-highlight-color: rgba(0, 0, 0, 0);`
+      )
+    });
+    element.classList.add(newClass);
+    const mc = new this._hammer(element, this._hammerOptions || {
+      cssProps: null
+    });
 
     const pan = new this._hammer.Pan();
     const swipe = new this._hammer.Swipe();
@@ -40,5 +56,3 @@ export class LyHammerGestureConfig extends HammerGestureConfig {
     return recognizer;
   }
 }
-
-export const LY_HAMMER_GESTURE_CONFIG_PROVIDER = {provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig} as any;
