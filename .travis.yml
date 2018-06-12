@@ -26,19 +26,19 @@ install:
 
 jobs:
   include:
-    - stage: test
+    - stage: build
       script:
         - yarn build:@alyle/ui
         - yarn size-limit
-    - stage: test
+    - stage: build
       script:
-        - yarn build
+        - yarn ng build --aot
     - stage: deploy
       script:
         - yarn build
         - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && yarn firebase deploy --token $FIREBASE_TOKEN --non-interactive || echo ''
 
 stages:
-  - test
+  - build
   - deploy
 
