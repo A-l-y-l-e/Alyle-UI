@@ -53,4 +53,4 @@ yarn-error.log
 firebase-debug.log
 
 #others
-run.sh
+publish.sh
