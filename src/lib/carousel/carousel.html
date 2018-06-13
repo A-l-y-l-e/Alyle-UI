@@ -12,7 +12,7 @@
     <!-- <div class="carousel-indicators-container">
       <div class="carousel-blur" [style.background-image]="'url('+lyItems.toArray()[_itemSelect]?.src+')'"></div>
     </div> -->
-    <ul class="carousel-indicators" *ngIf="lyItems.length!=1">
+    <ul [className]="classes.carouselIndicators" *ngIf="lyItems.length!=1">
       <li tabindex="0"
       (click)="select(i)"
       role="button"

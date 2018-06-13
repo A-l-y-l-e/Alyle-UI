@@ -27,7 +27,8 @@ import {
   OnInit,
   Renderer2,
   HostListener,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer, CommonModule } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -41,10 +42,10 @@ export enum CarouselMode {
 
 @Component({
   selector: 'ly-carousel',
-  styleUrls: ['carousel.scss'],
   templateUrl: './carousel.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
+  encapsulation: ViewEncapsulation.None
 })
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   public _selectedIndex: any;
@@ -142,6 +143,42 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
       'k-slide-no-event', {
         '>div': () => (
           `touch-action: initial !important;`
+        )
+      }
+    ),
+    carouselIndicators: this.theme.core.setUpStyleSecondary(
+      'k-carousel-indicators', {
+        '': () => (
+          `padding: 0;` +
+          `position: absolute;` +
+          `bottom: 0;` +
+          `width: 100%;` +
+          `margin: 0;` +
+          `box-sizing: border-box;` +
+          `background: inherit;` +
+          `display: flex;` +
+          `align-items: center;` +
+          `justify-content: center;` +
+          `height: 48px;`
+        ),
+        '>li': () => (
+          `display: inline-block;` +
+          `border-radius: 50%;` +
+          `cursor: pointer;` +
+          `position: relative;` +
+          `padding: .5em;` +
+          `outline: none`
+        ),
+        '>li span': () => (
+          `transition: 300ms cubic-bezier(0.65, 0.05, 0.36, 1);` +
+          `width: 1em;` +
+          `height: 1em;` +
+          `transform: scale(.5);` +
+          `border-radius: 50%;` +
+          `display: block;`
+        ),
+        '>li>span.active': () => (
+          `transform: scale(1);`
         )
       }
     ),
