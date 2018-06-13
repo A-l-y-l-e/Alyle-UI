@@ -13,7 +13,8 @@ import {
   Inject,
   NgZone,
   OnDestroy,
-  OnInit
+  OnInit,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   IsBoolean,
@@ -33,7 +34,8 @@ import { LyButtonService } from './button.service';
   <span #content>
     <ng-content></ng-content>
   </span>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   public _disabled = false;
