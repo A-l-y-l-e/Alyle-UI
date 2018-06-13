@@ -25,7 +25,8 @@
     "serve:universal": "node dist/server",
     "sw:update": "node dist/tools/update-sw",
     "tools:prepare-lib": "node dist/tools/prepare-lib",
-    "tools:bump-version": "node dist/tools/bump-version"
+    "tools:bump-version": "node dist/tools/bump-version && changelog",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "private": true,
   "dependencies": {
