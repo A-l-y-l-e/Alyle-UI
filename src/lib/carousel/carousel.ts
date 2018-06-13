@@ -50,7 +50,7 @@ export enum CarouselMode {
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   public _selectedIndex: any;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-  private _intervalFn;
+  private _intervalFn = null;
   @ViewChild('slideContainer') slideContainer: ElementRef;
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   @Input() mode: CarouselMode = CarouselMode.default;
@@ -255,7 +255,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    if (isPlatformBrowser(this.platformId)) {
+    if (Platform.isBrowser) {
       this.stop();
     }
   }
@@ -266,7 +266,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideContainer);
-    if (isPlatformBrowser(this.platformId)) {
+    if (Platform.isBrowser) {
       this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     }
   }
@@ -298,7 +298,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   stop() {
-    if (this._intervalFn) {
+    if (this._intervalFn !== null) {
       clearInterval(this._intervalFn);
     }
   }
