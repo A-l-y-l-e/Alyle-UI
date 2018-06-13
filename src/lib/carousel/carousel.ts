@@ -47,18 +47,14 @@ export enum CarouselMode {
   preserveWhitespaces: false
 })
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
-  public data: any;
-  public value: any;
   public _selectedIndex: any;
-  public _fnInterval: any;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   private _intervalFn;
   @ViewChild('slideContainer') slideContainer: ElementRef;
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   @Input() mode: CarouselMode = CarouselMode.default;
   @Input() interval = 7000;
-  positionLeft: string | number;
-  _itemSelect = 0;
+  _positionLeft: string | number;
   @Input() selectedIndex = 0;
   selectedElement: HTMLElement;
   classes = {
@@ -206,15 +202,16 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._resetInterval();
     if (!this.slideEvent) {
       this.slideEvent = false;
+    }
+    if (Platform.isBrowser) {
+      this._resetInterval();
     }
   }
 
   private _onPan(x) {
-    this.positionLeft = this.sanitizerStyle(`calc(${-100 * this.selectedIndex }% + ${x}px)`) as any;
-    // console.log(`calc(${-100 * this.selectedIndex }% + ${event.deltaX}px)`);
+    this._positionLeft = this.sanitizerStyle(`calc(${-100 * this.selectedIndex }% + ${x}px)`) as any;
   }
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
@@ -222,37 +219,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
 
   public ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
-      clearInterval(this._fnInterval);
+      this.stop();
     }
-  }
-  public _intervalCarousel(value: any = '+') {
-    if (isPlatformBrowser(this.platformId)) {
-      if (value === '+') {
-        this._itemSelect++;
-        this._itemSelect = (this._itemSelect === (this.lyItems.length) ? 0 : this._itemSelect);
-        // console.log(this._itemSelect, this.lyItems.length);
-      } else if (value === '-') {
-        this._itemSelect--;
-        this._itemSelect = (this._itemSelect <= -1 ? (this.lyItems.length - 1) : this._itemSelect--);
-        // console.log('--',this._itemSelect, this.lyItems.length);
-      } else {
-        this._itemSelect = value;
-      }
-      const intrval$ = {
-        interval$: setInterval(() => {
-          this._itemSelect++;
-          this._itemSelect = (this._itemSelect === (this.lyItems.length) ? 0 : this._itemSelect++);
-          // console.log('interval state', this._itemSelect);
-          // this.setActiveItem();
-        }, this.interval)
-      };
-      clearInterval(this._fnInterval);
-      this._fnInterval = intrval$.interval$;
-      // this.setActiveItem();
-    }
-  }
-  resetInterval() {
-
   }
 
   _markForCheck() {
@@ -263,19 +231,12 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideContainer);
     if (isPlatformBrowser(this.platformId)) {
       this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
-      this._intervalCarousel(0);
-      this.lyItems.changes.subscribe((carousel: LyCarouselItem) => {
-        this._itemSelect = 0;
-        this._intervalCarousel(0);
-        // this.setActiveItem();
-        this.cd.markForCheck();
-      });
     }
   }
   select(val: number, notResetInterval?: boolean) {
     this.selectedIndex = val;
     if (this.mode === CarouselMode.default) {
-      this.positionLeft = `${-100 * val}%`;
+      this._positionLeft = `${-100 * val}%`;
     }
     if (!notResetInterval) {
       this._resetInterval();
@@ -292,13 +253,17 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     this.select(next > len ? 0 : next, notResetInterval);
   }
   private _resetInterval() {
-    if (this._intervalFn) {
-      clearInterval(this._intervalFn);
-    }
+    this.stop();
     this._intervalFn = setInterval(() => {
       this.next(true);
       this.cd.markForCheck();
     }, this.interval);
+  }
+
+  stop() {
+    if (this._intervalFn) {
+      clearInterval(this._intervalFn);
+    }
   }
 }
 

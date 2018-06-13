@@ -4,7 +4,7 @@
 (slideend)="slideEvent && onDragEnd($event)"
 #slideContainer
 >
-  <div [className]="classes.slide" [style.left]="positionLeft">
+  <div [className]="classes.slide" [style.left]="_positionLeft">
     <ng-content></ng-content>
   </div>
   <div class="lycarousel-slide">
