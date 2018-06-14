@@ -2,6 +2,7 @@ import { Injectable, InjectionToken, Optional, Inject } from '@angular/core';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { CoreTheme } from '../theme/core-theme.service';
 import { HammerOptions, HammerInstance } from './gesture-annotations';
+import { Platform } from '../platform';
 
 export const LY_HAMMER_OPTIONS = new InjectionToken<HammerOptions>('LY_HAMMER_OPTIONS');
 
@@ -16,23 +17,23 @@ export class LyHammerGestureConfig extends HammerGestureConfig {
     'slideleft'
   ] : [];
   constructor(
-    private coreTheme: CoreTheme,
-    @Optional() @Inject(LY_HAMMER_OPTIONS) private _hammerOptions?: HammerOptions,
+    @Optional() @Inject(LY_HAMMER_OPTIONS) private _hammerOptions: HammerOptions,
+    // private coreTheme: CoreTheme,
   ) {
     super();
   }
   buildHammer(element: HTMLElement): HammerInstance {
-    const newClass = this.coreTheme.setUpStyle('k-hammer-css', {
-      '': () => (
-        `user-select: none;` +
-        `-webkit-user-drag: none;` +
-        `-webkit-tap-highlight-color: rgba(0, 0, 0, 0);`
-      )
-    });
-    element.classList.add(newClass);
-    const mc = new this._hammer(element, this._hammerOptions || {
-      cssProps: null
-    });
+    // if (Platform.isBrowser) {
+    //   const newClass = this.coreTheme.setUpStyle('k-hammer-css', {
+    //     '': () => (
+    //       `user-select: none;` +
+    //       `-webkit-user-drag: none;` +
+    //       `-webkit-tap-highlight-color: rgba(0, 0, 0, 0);`
+    //     )
+    //   });
+    //   element.classList.add(newClass);
+    // }
+    const mc = new this._hammer(element, this._hammerOptions || undefined);
 
     const pan = new this._hammer.Pan();
     const swipe = new this._hammer.Swipe();
