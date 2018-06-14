@@ -1,3 +1,23 @@
+<a name="1.7.0-beta.1j64w"></a>
+# [1.7.0-beta.1j64w](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.1fomk...1.7.0-beta.1j64w) (2018-06-14)
+
+
+### Bug Fixes
+
+* **button:** set ViewEncapsulation.None ([725a605](https://github.com/A-l-y-l-e/Alyle-UI/commit/725a605))
+* **carousel:** add styles to slideContainer ([3639ac6](https://github.com/A-l-y-l-e/Alyle-UI/commit/3639ac6))
+* **carousel:** fix interval ([126e420](https://github.com/A-l-y-l-e/Alyle-UI/commit/126e420))
+* **carousel:** fix slide event ([196e7b8](https://github.com/A-l-y-l-e/Alyle-UI/commit/196e7b8))
+* **carousel:** remove styleUrls ([e444309](https://github.com/A-l-y-l-e/Alyle-UI/commit/e444309))
+
+
+### Features
+
+* **carousel:** add slideEvent ([ed63f0b](https://github.com/A-l-y-l-e/Alyle-UI/commit/ed63f0b))
+* **docs:** update get-started ([33a90b7](https://github.com/A-l-y-l-e/Alyle-UI/commit/33a90b7))
+
+
+
 <a name="1.7.0-beta.1fomk"></a>
 # 1.7.0-beta.1fomk (2018-06-12)
 
