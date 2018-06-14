@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { LyTheme } from '@alyle/ui';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-get-started',
