@@ -90,7 +90,7 @@
     "ts-node": "~5.0.1",
     "tsickle": ">=0.25.5",
     "tslint": "~5.10.0",
-    "typescript": "~2.7.2"
+    "typescript": "^2.7.2"
   },
   "greenkeeper": {
     "ignore": [
