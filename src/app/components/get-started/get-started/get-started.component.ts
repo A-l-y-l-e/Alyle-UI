@@ -9,6 +9,11 @@ import { LyTheme } from '@alyle/ui';
 })
 export class GetStartedComponent implements OnInit {
   code: string;
+  codeTheme = `<!-- app.component.ts -->
+<div lyTheme="minima-light">
+  Content
+</div>
+`;
   constructor() {
     this.code = `...
 /** Angular */
