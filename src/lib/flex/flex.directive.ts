@@ -60,7 +60,7 @@ export class LyFlex implements OnChanges {
   set fxDisplay(val: 'flex' | 'inline') {
     if (this._fxDisplay !== val) {
       this._fxDisplay = val || 'flex';
-      const newClass = this._createDisplay(this._fxDisplay);
+      const newClass = this._createDisplayClass(this._fxDisplay);
       this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxDisplayClass);
       this.fxDisplayClass = newClass;
     }
@@ -170,15 +170,12 @@ export class LyFlex implements OnChanges {
     }
   }
 
-  private _createDisplay(val: 'flex' | 'inline') {
-    const displayStyle = val === 'flex' ? `display:flex;` : `display:inline-flex;`;
-    const key = val === 'flex' ? `k-fx-display-flex` : `k-fx-display-inline;`;
+  private _createDisplayClass(val: 'flex' | 'inline' = 'flex') {
     return this.coreTheme.setUpStyle(
-      key, {
-        '': () => (
-          displayStyle
-        )
-      }
+      `k-fx-display-${val}`,
+        () => {
+          return val === 'inline' ? `display:inline-flex;` : `display:flex;`;
+        }
     );
   }
 

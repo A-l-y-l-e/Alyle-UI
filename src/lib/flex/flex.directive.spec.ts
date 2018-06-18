@@ -4,6 +4,7 @@ import { Renderer2, ElementRef, Component, ViewChild, ViewChildren, QueryList } 
 import { LY_THEME_CONFIG } from '@alyle/ui';
 import { MinimaTheme } from '@alyle/ui/themes/minima';
 import { By } from '@angular/platform-browser';
+import { LY_MEDIA_QUERIES, Breakpoints } from '@alyle/ui/responsive';
 
 describe('LyFlex', () => {
   beforeEach(async(() => {
@@ -17,7 +18,7 @@ describe('LyFlex', () => {
         FlexWrap,
         FlexAlignDefault
       ],
-      providers: [{ provide: LY_THEME_CONFIG, useClass: MinimaTheme }]
+      providers: [{ provide: LY_THEME_CONFIG, useClass: MinimaTheme }, { provide: LY_MEDIA_QUERIES, useValue: Breakpoints }],
     });
 
     TestBed.compileComponents();
