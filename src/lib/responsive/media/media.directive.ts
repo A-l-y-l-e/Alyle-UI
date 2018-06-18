@@ -2,29 +2,38 @@ import {
   Directive,
   Input,
   TemplateRef,
-  ViewChild,
   ViewContainerRef,
-  ComponentRef,
   OnInit,
-  AfterViewInit,
   OnDestroy,
-  EmbeddedViewRef,
-  Inject
+  Inject,
+  Optional,
+  Renderer2,
+  ElementRef,
+  PLATFORM_ID
 } from '@angular/core';
-import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { Responsive } from '../media.service';
+import { CoreTheme, InvertMediaQuery } from '@alyle/ui';
+import { LY_MEDIA_QUERIES } from '../tokens';
 
 @Directive({
-  selector: '[lyResponsive]'
+  selector: '[lyResponsive], [lyShow], [lyHide]'
 })
 export class MediaDirective implements OnInit, OnDestroy {
   private _media: string;
   view: Subscription;
+  private _show: string;
+  private _showClass: string;
+  private _hide: string;
+  private _hideClass: string;
   private _TemplateRef: TemplateRef<any>|null = null;
+  classes = {
+    hide: this.coreTheme.setUpStyle('k-media-hide', 'display:none;', 'all')
+  };
 
+  /** @deprecated */
   @Input()
   set lyResponsive(val: string) {
     this._media = val;
@@ -34,16 +43,58 @@ export class MediaDirective implements OnInit, OnDestroy {
   get media(): string {
     return this._media;
   }
+
+  @Input()
+  set lyShow(val: string) {
+    this._show = val;
+    const newClass = this.coreTheme.setUpStyle(`k-media-show-${val}`,
+    (
+      `display: block;`
+    )
+    ,
+    `${this.mediaQueries[val] || val}`// , InvertMediaQuery.Yes
+    );
+    this.coreTheme.updateClassName(this._elementRef.nativeElement, this._renderer, newClass, this._showClass);
+    this._showClass = newClass;
+  }
+
+  get lyShow(): string {
+    return this._show;
+  }
+
+  @Input()
+  set lyHide(val: string) {
+    this._hide = val;
+    const newClass = this.coreTheme.setUpStyle(`k-media-hide-${val}`,
+    (
+      `display: none !important;`
+    )
+    ,
+    `${this.mediaQueries[val] || val}`
+    );
+    this.coreTheme.updateClassName(this._elementRef.nativeElement, this._renderer, newClass, this._hideClass);
+    this._hideClass = newClass;
+  }
+
+  get lyHide(): string {
+    return this._hide;
+  }
+
   constructor(
     private _viewContainer: ViewContainerRef,
-    templateRef: TemplateRef<any>,
+    private _renderer: Renderer2,
+    private _elementRef: ElementRef,
+    @Optional() templateRef: TemplateRef<any>,
     private mediaService: Responsive,
-    @Inject(PLATFORM_ID) private platformId: Object
+    private coreTheme: CoreTheme,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(LY_MEDIA_QUERIES) private mediaQueries: { [key: string]: string; },
   ) {
     this._TemplateRef = templateRef;
   }
 
   ngOnInit() {
+    this._renderer.addClass(this._elementRef.nativeElement, this.classes.hide);
     this.view = this.mediaService.stateView().subscribe(() => {
       this.updateView();
     });

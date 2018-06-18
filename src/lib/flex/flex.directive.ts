@@ -1,5 +1,6 @@
-import { Directive, Input, OnChanges, SimpleChanges, Renderer2, ElementRef, isDevMode } from '@angular/core';
+import { Directive, Input, OnChanges, SimpleChanges, Renderer2, ElementRef, isDevMode, Inject } from '@angular/core';
 import { CoreTheme, Undefined } from '@alyle/ui';
+import { LY_MEDIA_QUERIES } from '@alyle/ui/responsive';
 
 enum __align {
   flex,
@@ -28,7 +29,9 @@ export type FxJustifyContent = 'start' | 'end' | 'center' | 'between' | 'around'
 export type FxAlignItems = 'start' | 'end' | 'center' | 'baseline' | 'stretch' | null;
 export type FxAlignContent = 'start' | 'end' | 'center' | 'between' | 'around' | 'stretch' | null;
 export type FxAlignItemsAndContent = 'start' | 'center' | 'end' | 'stretch' | null;
-
+/**
+ * TODO: remove array type, FxAlign = string;
+ */
 export type FxAlign = [FxJustifyContent] | [FxJustifyContent, FxAlignItemsAndContent] | [FxJustifyContent, FxAlignItems, FxAlignContent] | string;
 
 @Directive({
@@ -49,6 +52,10 @@ export class LyFlex implements OnChanges {
   private fxWrapClass: string;
   private _currentClassname: string;
 
+  @Input()
+  set fx(val: string) {
+    // code
+  }
   @Input()
   set fxDisplay(val: 'flex' | 'inline') {
     if (this._fxDisplay !== val) {
@@ -150,6 +157,7 @@ export class LyFlex implements OnChanges {
     return this._fxWrap;
   }
   constructor(
+    @Inject(LY_MEDIA_QUERIES) private mediaQueries: { [key: string]: string; },
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private coreTheme: CoreTheme

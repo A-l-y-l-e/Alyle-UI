@@ -3,6 +3,7 @@ import { ThemeConfig } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { MultipleStyles, DataStyle } from '../theme.service';
 import { LyThemeContainer } from './theme.directive';
+import { InvertMediaQuery } from '../media/invert-media-query';
 
 @Injectable()
 export class LyTheme2 {
@@ -15,17 +16,20 @@ export class LyTheme2 {
   setUpStyle(
     key: string,
     styles: MultipleStyles,
-    _in?: any
+    media?: string,
+    invertMediaQuery?: InvertMediaQuery
   ) {
     const name = this.config.name;
-    return this.core._ĸreateStyle(key, styles, this._styleMap, name, _in);
+    return this.core._ĸreateStyle(key, styles, this._styleMap, name, this.core.primaryStyleContainer, media, invertMediaQuery);
   }
   setUpStyleSecondary(
     key: string,
-    styles: MultipleStyles
+    styles: MultipleStyles,
+    media?: string,
+    invertMediaQuery?: InvertMediaQuery
   ) {
     const name = this.config.name;
-    return this.core._ĸreateStyle(key, styles, this._styleMap, name, this.core.secondaryStyleContainer);
+    return this.core._ĸreateStyle(key, styles, this._styleMap, name, this.core.secondaryStyleContainer, media, invertMediaQuery);
   }
   colorOf(value: string): string {
     return get(this.config, value);

@@ -201,7 +201,7 @@ export interface StyleData {
 export interface DataStyle {
   id: string;
   styleElement: HTMLStyleElement;
-  style: MultipleStyles;
+  style: Style;
 }
 
 // export function isObject(item) {
@@ -211,6 +211,8 @@ export interface DataStyle {
 export interface MultipleStyles {
   [key: string]: StyleContent;
 }
+
+export type Style = string | StyleContent | MultipleStyles;
 
 export function mergeDeep(...objects) {
   // const output = Object.assign({}, target);

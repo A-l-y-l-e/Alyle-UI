@@ -1,4 +1,4 @@
-import { Platform } from '@alyle/ui';
+import { Platform, StyleContent } from '@alyle/ui';
 import { Injectable, NgZone, Inject } from '@angular/core';
 import { Observable ,  fromEvent ,  merge, of ,  Subscription } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
@@ -18,6 +18,7 @@ export class Responsive {
 
   /**
    * return Observable<boolean>
+   * @deprecated
    */
   observe(value: string): Observable<boolean> {
     let mm = this.matchMedia(value);
@@ -50,4 +51,20 @@ export class Responsive {
     }
   }
 
+}
+
+export function cssMedia(style: StyleContent) {
+  return (key: string) => (
+    `.${key}{${style}}`
+  );
+}
+
+export class CssMedia {
+  key: string;
+  constructor(private style: StyleContent) {
+
+  }
+  get result() {
+    return `.${this.key}{${this.style}}`;
+  }
 }

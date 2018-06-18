@@ -1,8 +1,9 @@
 import { Injectable, Optional, Inject, Renderer2, RendererFactory2, isDevMode } from '@angular/core';
 import { THEME_CONFIG, ThemeConfig, THEME_CONFIG_EXTRA, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
 import { DOCUMENT } from '@angular/common';
-import { StyleContent, StyleData, DataStyle, MultipleStyles, mergeDeep } from '../theme.service';
+import { StyleContent, StyleData, DataStyle, Style, mergeDeep, MultipleStyles } from '../theme.service';
 import { Platform } from '../platform';
+import { InvertMediaQuery, transformMediaQuery } from '../media/invert-media-query';
 
 let classId = 0;
 
@@ -63,34 +64,39 @@ export class CoreTheme {
 
   setUpStyle(
     key: string,
-    styles: MultipleStyles,
-    _in?: any
+    styles: Style,
+    media?: string,
+    invertMediaQuery?: InvertMediaQuery
   ) {
-    return this._ĸreateStyle(key, styles, this._styleCoreMap, 'root', _in);
+    return this._ĸreateStyle(key, styles, this._styleCoreMap, 'root', this.primaryStyleContainer, media, invertMediaQuery);
   }
   setUpStyleSecondary(
     key: string,
-    styles: MultipleStyles
+    styles: Style,
+    media?: string,
+    invertMediaQuery?: InvertMediaQuery
   ) {
-    return this._ĸreateStyle(key, styles, this._styleCoreMap, 'root', this.secondaryStyleContainer);
+    return this._ĸreateStyle(key, styles, this._styleCoreMap, 'root', this.secondaryStyleContainer, media, invertMediaQuery);
   }
 
-  _ĸreateStyle(key, style: MultipleStyles, mapStyles: Map<string, DataStyle>, _for: string, _in?: any) {
+  _ĸreateStyle(key, style: Style, mapStyles: Map<string, DataStyle>, _for: string, _in: any, _media?: string, invertMediaQuery?: InvertMediaQuery) {
     if (mapStyles.has(key)) {
       return mapStyles.get(key).id;
     } else {
       const id = `k${(classId++).toString(36)}`;
       const styleElement = this.renderer.createElement('style');
-      const styleContent = this.renderer.createText(this._createStyleContent(style, id));
+      const media = transformMediaQuery(_media, invertMediaQuery);
+      const styleContent = this.renderer.createText(this._createStyleContent(style, id, media));
       this.renderer.appendChild(styleElement, styleContent);
-      this.renderer.appendChild(_in || this.primaryStyleContainer, styleElement);
+      this.renderer.appendChild(_in, styleElement);
       if (isDevMode()) {
-        this.renderer.setAttribute(styleElement, 'key', `${id}···${key}`, _for);
+        this.renderer.setAttribute(styleElement, 'style_data', `${_for}···${id}···${key}`);
       }
       const dataStyle = {
         id,
         style,
-        styleElement
+        styleElement,
+        media
       };
       mapStyles.set(key, dataStyle);
       return id;
@@ -98,14 +104,21 @@ export class CoreTheme {
   }
 
   /** #style */
-  _createStyleContent(styles: MultipleStyles, id: string) {
+  _createStyleContent(styles: Style, id: string, media?: string | string[]) {
+    const typf = typeof styles;
+    if (typf === 'string') {
+      return toMedia(`.${id}{${styles}}`, media);
+    } else if (typf === 'function') {
+      return toMedia(`.${id}{${(styles as StyleContent)()}}`, media);
+    }
     let content = '';
     // tslint:disable-next-line:forin
-    for (const key$ in styles) {
-      const fn = styles[key$];
-      content += `.${id}${key$}{${fn()}}`;
+    for (const key$ in styles as MultipleStyles) {
+      const val = styles[key$];
+      const text = typeof val === 'function' ? val() : val;
+      content += `.${id}${key$}{${text}}`;
     }
-    return content;
+    return toMedia(content, media);
   }
 
   private setCoreStyle() {
@@ -124,4 +137,20 @@ export class CoreTheme {
     renderer.addClass(element, newClassname);
   }
 
+}
+
+/**
+ * Converter to media query if `media` is present
+ * @param text style content
+ * @param media media query
+ */
+function toMedia(text: string, media?: string | string[]) {
+  if (typeof media === 'string') {
+    return `@media ${media}{${text}}`;
+  } else if (Array.isArray(media)) {
+    let result = '';
+    media.forEach(_ => result += `@media ${_}{${text}}`);
+    return result;
+  }
+  return text;
 }

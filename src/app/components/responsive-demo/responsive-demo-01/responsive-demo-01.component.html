@@ -1,7 +1,10 @@
-<!-- <p *lyResponsive="'(min-width: 320px)'">
-  responsive-demo-01 works!
-</p> -->
-<p>Handset         : {{ responsive.observe('Handset') | async | json }}</p>
+<div *ngFor="let item of queries" [lyShow]="item.key">
+  <p>
+    <strong color="warn">{{ item.key }}: </strong>{{ item.mediaQuery }}
+  </p>
+</div>
+<!-- ···deprecated··· -->
+<!-- <p>Handset         : {{ responsive.observe('Handset') | async | json }}</p>
 <p>Tablet          : {{ responsive.observe('Tablet') | async | json }}</p>
 <p>Web             : {{ responsive.observe('Web') | async | json }}</p>
 <p>HandsetPortrait : {{ responsive.observe('HandsetPortrait') | async | json }}</p>
@@ -9,4 +12,4 @@
 <p>WebPortrait     : {{ responsive.observe('WebPortrait') | async | json }}</p>
 <p>HandsetLandscape: {{ responsive.observe('HandsetLandscape') | async | json }}</p>
 <p>TabletLandscape : {{ responsive.observe('TabletLandscape') | async | json }}</p>
-<p>WebLandscape    : {{ responsive.observe('WebLandscape') | async | json }}</p>
+<p>WebLandscape    : {{ responsive.observe('WebLandscape') | async | json }}</p> -->
