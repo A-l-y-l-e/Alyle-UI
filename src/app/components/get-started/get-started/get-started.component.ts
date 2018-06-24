@@ -42,7 +42,7 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
     ...
   ],
   providers: [
-    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }, Gestures for cropping & carousel
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }, // Gestures for cropping & carousel
     { provide: LY_THEME_CONFIG, useClass: MinimaTheme } // Theme
   ]
   ...

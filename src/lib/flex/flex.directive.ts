@@ -77,11 +77,11 @@ export class LyFlex implements OnChanges {
       this._fxFlow = val || key;
 
       /** create Style */
-      const newClass = this.coreTheme.setUpStyle(key, {
-        '': () => (
+      const newClass = this.coreTheme.setUpStyle(key,
+        () => (
           `flex-flow:${key}`
         )
-      });
+      );
       /** Add class */
       this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxFlowClass);
       this.fxFlowClass = newClass;
