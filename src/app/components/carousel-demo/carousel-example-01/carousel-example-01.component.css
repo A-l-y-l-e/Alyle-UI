@@ -1,7 +1,7 @@
 ly-carousel {
-  width: 100%;
+  max-width: 360px;
   height: 220px;
-
+  margin: auto;
 }
 
 /**

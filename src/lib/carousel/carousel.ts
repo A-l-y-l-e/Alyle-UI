@@ -2,35 +2,24 @@ import {
   Component,
   Directive,
   QueryList,
-  ContentChild,
   ContentChildren,
   Input,
-  Output,
-  EventEmitter,
-  NgModule,
-  TemplateRef,
-  ModuleWithProviders,
-  AfterContentInit,
   AfterViewInit,
   OnDestroy,
   ElementRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  HostBinding,
   Optional,
   forwardRef,
   OnChanges,
-  SimpleChange,
   SimpleChanges,
   Inject,
   PLATFORM_ID,
   OnInit,
   Renderer2,
-  HostListener,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { isPlatformBrowser, isPlatformServer, CommonModule } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CarouselService } from './carousel.service';
 import { Platform, LyTheme2, toBoolean } from '@alyle/ui';
@@ -78,7 +67,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
           `font-size:36px;` +
           `cursor:pointer;` +
           `color: #fff;` +
-          `background: rgba(0, 0, 0, 0.11);`
+          `background: rgba(0, 0, 0, 0.11);` +
+          `will-change: transform;`
         ),
         ' .ly-carousel-actions.right': () => (
           `right: 0;` +
@@ -105,16 +95,15 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     slide: this.theme.core.setUpStyleSecondary(
       'carousel-slide', {
         '': () => (
-          `position:absolute;` +
           `display: flex;` +
           `width: 100%;` +
-          `top: 0;` +
-          `left: 0;` +
-          `right: 0;` +
-          `bottom: 0;`
+          `height: 100%;` +
+          `will-change: transform`
         ),
         ' > ly-carousel-item': () => (
-          `min-width: 100%;` +
+          `width: 100%;` +
+          `flex-shrink: 0;` +
+          `overflow: auto;` +
           `position: relative;` +
           `background-size: cover;` +
           `background-position: center;` +
@@ -135,7 +124,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     slideAnim: this.theme.core.setUpStyleSecondary(
       'slide-anim', {
         ' > div': () => (
-          `transition: left 750ms cubic-bezier(.1, 1, 0.5, 1);`
+          `transition: transform 750ms cubic-bezier(.1, 1, 0.5, 1);`
         )
       }
     ),
@@ -149,19 +138,18 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     carouselIndicators: this.theme.core.setUpStyleSecondary(
       'k-carousel-indicators', {
         '': () => (
-          `padding: 0;` +
           `position: absolute;` +
           `bottom: 0;` +
-          `width: 100%;` +
+          `left: 0;` +
+          `right: 0;` +
           `margin: 0;` +
           `box-sizing: border-box;` +
-          `background: inherit;` +
           `display: flex;` +
           `align-items: center;` +
           `justify-content: center;` +
           `height: 48px;`
         ),
-        '>li': () => (
+        '>div': () => (
           `display: inline-block;` +
           `border-radius: 50%;` +
           `cursor: pointer;` +
@@ -169,15 +157,16 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
           `padding: .5em;` +
           `outline: none`
         ),
-        '>li span': () => (
+        '>div > span': () => (
           `transition: 300ms cubic-bezier(0.65, 0.05, 0.36, 1);` +
           `width: 1em;` +
           `height: 1em;` +
           `transform: scale(.5);` +
           `border-radius: 50%;` +
+          `will-change: transform;` +
           `display: block;`
         ),
-        '>li>span.active': () => (
+        '>div>span.active': () => (
           `transform: scale(1);`
         )
       }
@@ -248,7 +237,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _onPan(x) {
-    this._positionLeft = this.sanitizerStyle(`calc(${-100 * this.selectedIndex }% + ${x}px)`) as any;
+    this._positionLeft = this.sanitizerStyle(`translate(calc(${-100 * this.selectedIndex }% + ${x}px), 0px)`) as any;
   }
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
@@ -273,7 +262,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   select(val: number, notResetInterval?: boolean) {
     this.selectedIndex = val;
     if (this.mode === CarouselMode.default) {
-      this._positionLeft = `${-100 * val}%`;
+      this._positionLeft = `translate(${-100 * val}%, 0px)`;
     }
     if (!notResetInterval) {
       this._resetInterval();

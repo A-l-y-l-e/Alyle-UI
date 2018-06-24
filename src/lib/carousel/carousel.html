@@ -4,12 +4,11 @@
 (slideend)="slideEvent && onDragEnd($event)"
 #slideContainer
 >
-  <div [className]="classes.slide" [style.left]="_positionLeft">
+  <div [className]="classes.slide" [style.transform]="_positionLeft">
     <ng-content></ng-content>
   </div>
-  <div class="lycarousel-slide">
-    <ul [className]="classes.carouselIndicators" *ngIf="lyItems.length!=1">
-      <li tabindex="0"
+  <div [className]="classes.carouselIndicators" *ngIf="lyItems.length !== 1">
+      <div tabindex="0"
       (click)="select(i)"
       role="button"
       *ngFor="let item of lyItems; let i = index">
@@ -17,8 +16,7 @@
       bg="background:primary"
       [class.active]="selectedIndex==i"
       [newRaised]="[6]"></span>
-      </li>
-    </ul>
+      </div>
   </div>
   <div class="ly-carousel-actions" (click)="prev()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>

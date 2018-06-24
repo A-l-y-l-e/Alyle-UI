@@ -3,7 +3,7 @@
 # https://github.com/browserslist/browserslist#queries
 # For IE 9-11 support, please uncomment the last line of the file and adjust as needed
 > 0.5%
-last 2 versions
+last 4 versions
 Firefox ESR
 not dead
-# IE 9-11
+IE 9-11
