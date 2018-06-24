@@ -1,3 +1,33 @@
+<a name="1.7.0-beta.21zck"></a>
+# [1.7.0-beta.21zck](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.1j64w...1.7.0-beta.21zck) (2018-06-24)
+
+
+### Features
+
+* **responsive:** add lyShow & lyHide ([f4dfd04](https://github.com/A-l-y-l-e/Alyle-UI/commit/f4dfd04))
+
+
+### Performance Improvements
+
+* **carousel:** fix animations ([d55a48f](https://github.com/A-l-y-l-e/Alyle-UI/commit/d55a48f))
+
+
+
+<a name="1.7.0-beta.21zck"></a>
+# [1.7.0-beta.21zck](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.1j64w...1.7.0-beta.21zck) (2018-06-24)
+
+
+### Features
+
+* **responsive:** add lyShow & lyHide ([f4dfd04](https://github.com/A-l-y-l-e/Alyle-UI/commit/f4dfd04))
+
+
+### Performance Improvements
+
+* **carousel:** fix animations ([d55a48f](https://github.com/A-l-y-l-e/Alyle-UI/commit/d55a48f))
+
+
+
 <a name="1.7.0-beta.1j64w"></a>
 # [1.7.0-beta.1j64w](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.1fomk...1.7.0-beta.1j64w) (2018-06-14)
 
