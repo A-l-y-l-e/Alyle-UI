@@ -157,7 +157,7 @@ export class LyFlex implements OnChanges {
     return this._fxWrap;
   }
   constructor(
-    @Inject(LY_MEDIA_QUERIES) private mediaQueries: { [key: string]: string; },
+    @Inject(LY_MEDIA_QUERIES) mediaQueries: any,
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private coreTheme: CoreTheme

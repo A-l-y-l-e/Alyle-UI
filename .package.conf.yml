@@ -3,13 +3,13 @@ lastUpdate: '2018-06-14T00:53:03.192Z'
 components:
   '@alyle/ui': core
   '@alyle/ui/themes/minima': themes/minima
+  '@alyle/ui/responsive': responsive
   '@alyle/ui/flex': flex
   '@alyle/ui/ripple': ripple
   '@alyle/ui/icon-button': icon-button
   '@alyle/ui/icon': icon
   '@alyle/ui/button': button
   '@alyle/ui/ls': ls
-  '@alyle/ui/responsive': responsive
   '@alyle/ui/radio': radio
   '@alyle/ui/input': input
   '@alyle/ui/resizing-cropping-images': resizing-cropping-images

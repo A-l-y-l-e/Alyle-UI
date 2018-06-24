@@ -88,7 +88,7 @@ export class MediaDirective implements OnInit, OnDestroy {
     private mediaService: Responsive,
     private coreTheme: CoreTheme,
     @Inject(PLATFORM_ID) private platformId: Object,
-    @Inject(LY_MEDIA_QUERIES) private mediaQueries: { [key: string]: string; },
+    @Inject(LY_MEDIA_QUERIES) private mediaQueries: any, // { [key: string]: string; }
   ) {
     this._TemplateRef = templateRef;
   }
