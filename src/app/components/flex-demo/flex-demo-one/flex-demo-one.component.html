@@ -1,10 +1,10 @@
-<div class="container" [fxDirection]="direction" [fxWrap]="wrap" [fxAlign]="[align, crossAlign, multiAlign]" color="rgba(0,0,0,.2)">
+<div class="container" [fxDirection]="direction" [fxWrap]="wrap" [fxAlign]="[align, crossAlign, multiAlign].join(' ')" color="rgba(0,0,0,.2)">
   <div class="item" bg="warn" color="auto" *ngFor="let item of items">
     <div>{{ item }}</div>
   </div>
 </div>
 
-<div [fxAlign]="['center']">[fxAlign]="{{ [align, crossAlign, multiAlign] | json }}"</div>
+<div fxAlign="center">[fxAlign]="{{ [align, crossAlign, multiAlign].join(' ') }}"</div>
 <div fxDisplay="inline">
   <ly-radio-group [(ngModel)]="align" fxDirection="column">
     <h3>Main Align</h3>

@@ -24,15 +24,16 @@ enum __align {
 
 export type FxDirection = 'row' | 'rowReverse' | 'column' | 'columnReverse' | null;
 export type FxWrap = 'nowrap' | 'wrap' | 'wrap-reverse' | null;
-export type FxFlow = [FxDirection, FxWrap] | string;
+/** [FxDirection, FxWrap] */
+export type FxFlow = string;
 export type FxJustifyContent = 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | null;
 export type FxAlignItems = 'start' | 'end' | 'center' | 'baseline' | 'stretch' | null;
 export type FxAlignContent = 'start' | 'end' | 'center' | 'between' | 'around' | 'stretch' | null;
 export type FxAlignItemsAndContent = 'start' | 'center' | 'end' | 'stretch' | null;
 /**
- * TODO: remove array type, FxAlign = string;
+ * [FxJustifyContent] | [FxJustifyContent, FxAlignItemsAndContent] | [FxJustifyContent, FxAlignItems, FxAlignContent]
  */
-export type FxAlign = [FxJustifyContent] | [FxJustifyContent, FxAlignItemsAndContent] | [FxJustifyContent, FxAlignItems, FxAlignContent] | string;
+export type FxAlign = string;
 
 @Directive({
   // tslint:disable-next-line:directive-selector
@@ -42,25 +43,28 @@ export type FxAlign = [FxJustifyContent] | [FxJustifyContent, FxAlignItemsAndCon
 export class LyFlex implements OnChanges {
   private _fxDisplay: 'flex' | 'inline';
   private fxDisplayClass: string;
-  private _fxFlow: FxFlow; // <FxDirection> + <FxWrap>
+
+  /** <FxDirection> + <FxWrap> */
+  private _fxFlow: FxFlow;
   private fxFlowClass: string;
+
   private _fxAlign: FxAlign;
   private fxAlignClass: string;
+
   private _fxDirection: FxDirection;
   private fxDirectionClass: string;
+
   private _fxWrap: FxWrap;
   private fxWrapClass: string;
-  private _currentClassname: string;
 
   @Input()
-  set fx(val: string) {
-    // code
+  set fx(val: string[]) {
+    // code <div fx="['align:center:lg', 'align:between:xs']"></div>
   }
   @Input()
   set fxDisplay(val: 'flex' | 'inline') {
-    if (this._fxDisplay !== val) {
-      this._fxDisplay = val || 'flex';
-      const newClass = this._createDisplayClass(this._fxDisplay);
+    if (this.fxDisplay !== val) {
+      const newClass = this._createDisplayClass(val);
       this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxDisplayClass);
       this.fxDisplayClass = newClass;
     }
@@ -71,17 +75,8 @@ export class LyFlex implements OnChanges {
 
   @Input()
   set fxFlow(val: FxFlow) {
-    if (this._fxFlow !== val) {
-      const newVal = val || 'row wrap';
-      const key = typeof val === 'string' ? newVal as string : `${val[0]} ${val[1]}`;
-      this._fxFlow = val || key;
-
-      /** create Style */
-      const newClass = this.coreTheme.setUpStyle(key,
-        () => (
-          `flex-flow:${key}`
-        )
-      );
+    if (this.fxFlow !== val) {
+      const newClass = this._createFlowClass(val);
       /** Add class */
       this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxFlowClass);
       this.fxFlowClass = newClass;
@@ -93,23 +88,10 @@ export class LyFlex implements OnChanges {
 
   @Input()
   set fxAlign(val: FxAlign) {
-    if (this._fxAlign !== val) {
-      const arrayVal = typeof val === 'string' ? val.split(' ') : val;
-
-      const justifyContent = arrayVal[0] || 'start';
-      const alignItems = arrayVal[1] || 'stretch';
-      const alignContent = arrayVal[2];
-
-      const key = !!val && typeof val === 'string' ? val : `${justifyContent} ${alignItems} ${alignContent || alignItems}`;
-      this._fxAlign = val || key;
+    if (this.fxAlign !== val) {
       /** create Style */
-      const newClass = this.coreTheme.setUpStyle(key, {
-        '': () => (
-        `justify-content:${__align[justifyContent]};` +
-        `align-items:${__align[alignItems]};` +
-        `align-content:${__align[alignContent || alignItems]};`
-        )
-      });
+      const newClass = this._createAlignClass(val);
+
       /** Add class */
       this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxAlignClass);
       this.fxAlignClass = newClass;
@@ -125,11 +107,7 @@ export class LyFlex implements OnChanges {
       const newKey = val || 'row';
       this._fxDirection = newKey;
       /** create Style */
-      const newClass = this.coreTheme.setUpStyle(newKey, {
-        '': () => (
-          `flex-direction:${__align[newKey]};`
-        )
-      });
+      const newClass = this._createDirectionClass(val);
       this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxDirectionClass);
       this.fxDirectionClass = newClass;
     }
@@ -140,15 +118,9 @@ export class LyFlex implements OnChanges {
 
   @Input()
   set fxWrap(val: FxWrap) {
-    if (this._fxWrap !== val) {
-      const newKey = val || 'wrap';
-      this._fxWrap = newKey;
+    if (this.fxWrap !== val) {
       /** create Style */
-      const newClass = this.coreTheme.setUpStyle(val, {
-        '': () => (
-          `flex-wrap:${__align[newKey]};`
-        )
-      });
+      const newClass = this._createWrapClass(val);
       this.coreTheme.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this.fxWrapClass);
       this.fxWrapClass = newClass;
     }
@@ -164,19 +136,82 @@ export class LyFlex implements OnChanges {
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!this.fxDisplayClass) {
+    if (!this._fxDisplay && !this.fxDisplayClass) {
       /** Set default display */
       this.fxDisplay = null;
     }
   }
 
-  private _createDisplayClass(val: 'flex' | 'inline' = 'flex') {
-    return this.coreTheme.setUpStyle(
-      `k-fx-display-${val}`,
-        () => {
-          return val === 'inline' ? `display:inline-flex;` : `display:flex;`;
-        }
+  private _createDisplayClass(val: 'flex' | 'inline') {
+    this._checkVal(val);
+
+    this._fxDisplay = val || 'flex';
+    return this.coreTheme.setUpStyle(`k-fx-display:${this.fxDisplay}`,
+      () => (
+        val === 'inline' ? `display:inline-flex;` : `display:flex;`
+      )
     );
+  }
+
+  private _createFlowClass(val: string) {
+    this._checkVal(val);
+
+    this._fxFlow = val || 'row wrap';
+
+    /** create Style */
+    return this.coreTheme.setUpStyle(`k-fx-flow:${this.fxFlow}`,
+      () => `flex-flow:${this.fxFlow}`
+    );
+  }
+
+  private _createAlignClass(val: string) {
+    this._checkVal(val);
+
+    this._fxAlign = val || 'start stretch';
+    /** create Style */
+    return this.coreTheme.setUpStyle(`k-fx-align:${this.fxAlign}`,
+      () => {
+        const arrayVal = this.fxAlign.split(' ');
+
+        const justifyContent = arrayVal[0] || 'start';
+        const alignItems = arrayVal[1] || 'stretch';
+        const alignContent = arrayVal[2];
+        return (
+          `justify-content:${__align[justifyContent]};` +
+          `align-items:${__align[alignItems]};` +
+          `align-content:${__align[alignContent || alignItems]};`
+        );
+      }
+    );
+  }
+
+  private _createDirectionClass(val: FxDirection) {
+
+    this._fxDirection = val || 'row';
+    /** create Style */
+    return this.coreTheme.setUpStyle(`k-fx-direction:${this.fxDirection}`, {
+      '': () => (
+        `flex-direction:${__align[this.fxDirection]};`
+      )
+    });
+  }
+
+  private _createWrapClass(val: FxWrap) {
+    this._fxWrap = val || 'wrap';
+    /** create Style */
+    return this.coreTheme.setUpStyle(`k-fx-wrap:${this.fxWrap}`, {
+      '': () => (
+        `flex-wrap:${__align[this.fxWrap]};`
+      )
+    });
+  }
+
+  /** Check if value is string else emit error */
+  private _checkVal(val: any) {
+    if (isDevMode() && Array.isArray(val)) {
+      console.warn(val, this.elementRef, `\n🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋🠋`);
+      throw new Error(`value: '${val}' is not a string in`);
+    }
   }
 
 }

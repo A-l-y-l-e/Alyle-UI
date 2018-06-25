@@ -34,8 +34,8 @@ describe('LyFlex', () => {
     const computedStyleEl1 = getComputedStyle(element1);
     const computedStyleEl2 = getComputedStyle(element2);
     expect(element1.className.split(' ').length).toEqual(2);
-    expect(testComponent.items.first.fxAlign).toEqual([ 'center', 'center' ]);
-    expect(computedStyleEl1.justifyContent).toEqual('center');
+    expect(testComponent.items.first.fxAlign).toEqual('between center');
+    expect(computedStyleEl1.justifyContent).toEqual('space-between');
     expect(computedStyleEl1.display).toEqual('flex');
     expect(computedStyleEl1.alignItems).toEqual('center');
     expect(computedStyleEl1.alignContent).toEqual('center');
@@ -55,7 +55,13 @@ describe('LyFlex', () => {
     fixture.detectChanges();
 
     const testComponent = fixture.componentInstance;
-    expect(testComponent.fx.fxAlign).toEqual(`start stretch stretch`);
+    const element = fixture.debugElement.query(By.css('div')).nativeElement;
+    const computedStyleEl = getComputedStyle(element);
+    expect(testComponent.fx.fxAlign).toEqual(`start stretch`);
+    expect(computedStyleEl.justifyContent).toEqual('flex-start');
+    expect(computedStyleEl.display).toEqual('flex');
+    expect(computedStyleEl.alignItems).toEqual('stretch');
+    expect(computedStyleEl.alignContent).toEqual('stretch');
   });
 
   it('should set default `row wrap` on `fxFlow`', () => {
@@ -67,11 +73,10 @@ describe('LyFlex', () => {
     const computedStyle = getComputedStyle(element);
     expect(computedStyle.flexFlow).toEqual('row wrap');
     expect(testComponent.fx.fxFlow).toEqual('row wrap');
-    testComponent.fx.fxFlow = 'row wrap';
     testComponent.fx.fxFlow = 'row nowrap';
     expect(testComponent.fx.fxFlow).toEqual('row nowrap');
-    testComponent.fx.fxFlow = ['row', 'nowrap'];
-    expect(testComponent.fx.fxFlow).toEqual(['row', 'nowrap']);
+    testComponent.fx.fxFlow = 'row nowrap';
+    expect(testComponent.fx.fxFlow).toEqual('row nowrap');
 
   });
 
@@ -82,10 +87,10 @@ describe('LyFlex', () => {
     const testComponent = fixture.componentInstance;
     const element = fixture.debugElement.query(By.css('div')).nativeElement;
     const computedStyle = getComputedStyle(element);
+    expect(testComponent.fx.fxDisplay).toEqual('inline');
     expect(computedStyle.display).toEqual('inline-flex');
-    expect(testComponent.fx.fxDisplay).toEqual('inline');
-    testComponent.fx.fxDisplay = 'inline';
-    expect(testComponent.fx.fxDisplay).toEqual('inline');
+    // testComponent.fx.fxDisplay = 'inline';
+    // expect(testComponent.fx.fxDisplay).toEqual('inline');
   });
 
   it('should set default `row` on `fxDirection`', () => {
@@ -112,12 +117,11 @@ describe('LyFlex', () => {
     const computedStyle = getComputedStyle(element);
     expect(computedStyle.flexWrap).toEqual('wrap');
     expect(testComponent.fx.fxWrap).toEqual('wrap');
-    testComponent.fx.fxWrap = 'wrap';
   });
 });
 
 @Component({template: `
-  <div a [fxAlign]="['center', 'center']"></div>
+  <div a fxAlign="between center"></div>
   <div b fxAlign="center center"></div>
 `})
 class FlexAlign {
