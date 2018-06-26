@@ -13,7 +13,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 export class ResponsiveDemo01Component implements OnDestroy {
   private _subscription: Subscription;
-  private queries: {key: string, mediaQuery: string}[] = [];
+  queries: {key: string, mediaQuery: string}[] = [];
   constructor(
     @Inject(LY_MEDIA_QUERIES) mediaQueries: { [key: string]: string; },
     public responsive: Responsive
