@@ -9,7 +9,7 @@
 [![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 [![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 
-> Supports server side rendering & AOT
+> Supports Server Side Rendering & AOT
 
 ## Install Alyle UI
 
@@ -36,4 +36,4 @@
 |resizing-cropping-images|:heavy_check_mark:|:heavy_check_mark:
 |ripple|:heavy_check_mark:|:heavy_check_mark:|
 |tab|beta|:x:|
-|toolbar|:heavy_check_mark:|:x:|
+|toolbar|➕➖ |:x:|
