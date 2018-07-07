@@ -8,6 +8,8 @@
 [![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 [![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 
+> Supports server side rendering & AOT
+
 ## Install Alyle UI
 
 `npm i @alyle/ui@latest -s` or `yarn add @alyle/ui@latest`
