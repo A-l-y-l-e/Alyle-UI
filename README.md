@@ -5,6 +5,7 @@
   <a href="https://alyle-ui.firebaseapp.com/">demo</a>
 </div>
 
+[![Build Status](https://travis-ci.org/A-l-y-l-e/Alyle-UI.svg?branch=master)](https://travis-ci.org/A-l-y-l-e/Alyle-UI)
 [![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 [![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 
