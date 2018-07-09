@@ -2,7 +2,7 @@
   <h1>Alyle UI</h1>
   Minimal Design, a package of components for Angular.
   <br/>
-  <a href="https://alyle-ui.firebaseapp.com/">demo</a>
+  <a href="https://alyle-ui.firebaseapp.com/">Docs</a>
 </div>
 
 [![Build Status](https://travis-ci.org/A-l-y-l-e/Alyle-UI.svg?branch=master)](https://travis-ci.org/A-l-y-l-e/Alyle-UI)
@@ -22,7 +22,7 @@
 |button|:heavy_check_mark:|:heavy_check_mark:|
 |carousel|:heavy_check_mark:|:heavy_check_mark:|
 |checkbox|:x:|:heavy_check_mark:|
-|cropping|:heavy_check_mark:|:heavy_check_mark:|
+|img cropper|:heavy_check_mark:|:heavy_check_mark:|
 |core|beta||
 |drawer|beta|:x:|
 |flex layout|beta|:heavy_check_mark:|
@@ -33,7 +33,6 @@
 |input|beta|:heavy_check_mark:|
 |menu|beta|:heavy_check_mark:|
 |radio|:heavy_check_mark:|:heavy_check_mark:|
-|resizing-cropping-images|:heavy_check_mark:|:heavy_check_mark:
 |ripple|:heavy_check_mark:|:heavy_check_mark:|
-|tab|beta|:x:|
+|tabs|beta|:x:|
 |toolbar|➕➖ |:x:|
