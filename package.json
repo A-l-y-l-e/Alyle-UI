@@ -74,7 +74,7 @@
     "codelyzer": "^4.3.0",
     "conventional-changelog-cli": "^2.0.1",
     "firebase-tools": "^3.18.4",
-    "fs-extra": "^6.0.0",
+    "fs-extra": "^7.0.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "^4.2.1",
     "js-yaml": "^3.11.0",
