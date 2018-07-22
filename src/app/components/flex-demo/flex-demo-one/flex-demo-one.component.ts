@@ -19,9 +19,19 @@ export class FlexDemoOneComponent implements OnInit {
   alignItemsList: FxAlignItems[] = ['start', 'end', 'center', 'baseline', 'stretch', null];
   alignContentList: FxAlignContent[] = ['start', 'end', 'center', 'between', 'around', 'stretch', null];
   alignItemsAndContentList: FxAlignItemsAndContent[] = ['start', 'center', 'end', 'stretch', null];
+  responsiveState: boolean;
+  responsive: string[];
   constructor() { }
-
+  toggleFx() {
+    this.responsiveState = !this.responsiveState;
+    if (this.responsiveState) {
+      this.responsive = ['direction:row:Small', 'direction:column:Medium'];
+    } else {
+      this.responsive = ['direction:column:Small', 'direction:row:Medium'];
+    }
+  }
   ngOnInit() {
+    this.toggleFx();
   }
 
 }

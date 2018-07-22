@@ -10,7 +10,6 @@
   height: calc(100% - 64px);
   ly-drawer {
     width: 200px;
-    width: 200px;
     height: calc(100% - 64px);
     bottom: 0;
   }
@@ -27,7 +26,6 @@
   }
 }
 .logo {
-  cursor: pointer;
   button {
     height: 64px;
     border-radius: 0;
@@ -47,7 +45,6 @@
   display: flex;
   border-radius: 0;
   justify-content: flex-start;
-  height: 48px;
 }
 .i-right {
   min-width: 36px;

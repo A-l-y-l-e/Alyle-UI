@@ -4,8 +4,11 @@
 .intra-container {
   text-align: center;
   .intra-content {
-    button {
+    a {
       margin: 8px;
     }
   }
+}
+.buttons {
+  display: inline-flex;
 }

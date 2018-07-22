@@ -6,9 +6,9 @@
     <ly-toolbar-item class="logo">
       <button ly-button sensitive color="#fff" [routerLink]="['./']">
         Alyle UI
-        <span class="version">v{{ version }}</span>
       </button>
     </ly-toolbar-item>
+    <span class="version">v{{ version }}</span>
     <div [style.flex]="1"></div>
     <button ly-icon-button size="24px" (click)="changeScheme()">
       <ly-icon *ngIf="mode" src="assets/svg/theme/sun" [style.font-size.px]="36"></ly-icon>
@@ -22,12 +22,13 @@
     <ly-drawer [config]="{width: 200}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items">
       <div *ngFor="let category of routesComponents">
         <span class="category-name">{{ category.name }}</span>
-        <a ly-button class="nav-button" [routerLink]="[(category.name == 'Components'?'/component/':'/') + component.route]" *ngFor="let component of category.routes">{{ component.name }}</a>
+        <a ly-button class="nav-button" [routerLink]="[category.route, component.route]" *ngFor="let component of category.routes">{{ component.name }}</a>
       </div>
     </ly-drawer>
     <ly-drawer-content>
       <div class="app-container">
         <div class="demo">
+          <app-title [route]="router.url"></app-title>
           <router-outlet></router-outlet>
         </div>
       </div>

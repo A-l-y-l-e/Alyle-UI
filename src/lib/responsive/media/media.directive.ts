@@ -94,7 +94,9 @@ export class MediaDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._renderer.addClass(this._elementRef.nativeElement, this.classes.hide);
+    if (!this.lyHide) {
+      this._renderer.addClass(this._elementRef.nativeElement, this.classes.hide);
+    }
     this.view = this.mediaService.stateView().subscribe(() => {
       this.updateView();
     });

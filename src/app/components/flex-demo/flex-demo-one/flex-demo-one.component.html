@@ -32,3 +32,27 @@
     <ly-radio [value]="item" *ngFor="let item of wrapList">{{ item || 'null(wrap)' }}</ly-radio>
   </ly-radio-group>
 </div>
+
+<h3>fxFlex</h3>
+<div fxDisplay>
+  <div bg="SublimeLight" color="auto" fxFlex="20%">fxFlex=20%</div>
+  <div bg="SublimeLight" color="auto" fxFlex="60%">fxFlex=60%</div>
+  <div bg="SublimeLight" color="auto" fxFlex="20%">fxFlex=20%</div>
+</div>
+
+<!-- <h3>Responsive</h3>
+<p><strong color="warn">Status: </strong>Beta</p>
+<p>
+  value: {{ this.responsive }}
+</p>
+<div [fx]="responsive" (click)="toggleFx()">
+  <span>Hi!</span>
+  <span>Hi!</span>
+  <span>Hi!</span>
+</div>
+<div [fx]="['align:end:Small', 'align:center:Medium']">
+  <span>1!</span>
+  <span>2!</span>
+  <span [fxItem]="['order:-1','order:2:Medium']">3!</span>
+  <span fxFlex>Default fxFlex: 1</span>
+</div> -->

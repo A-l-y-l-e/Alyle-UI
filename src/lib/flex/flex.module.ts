@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
+import { LayoutModule } from '@alyle/ui/layout';
 
-import { LyFlex } from './flex.directive';
-
+/**
+ * @deprecated
+ * use 'LayoutModule' instead
+ */
 @NgModule({
-  imports: [],
-  exports: [LyFlex],
-  declarations: [LyFlex],
-  providers: [],
+  exports: [LayoutModule],
 })
 export class LyFlexModule { }

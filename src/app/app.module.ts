@@ -10,7 +10,7 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { AlyleUIModule, LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig } from '@alyle/ui';
+import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig } from '@alyle/ui';
 import { ResponsiveModule, LY_MEDIA_QUERIES, Breakpoints } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
@@ -22,6 +22,10 @@ import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
+import { FlexDemoModule } from './components/flex-demo/flex-demo.module';
+import { GridDemoModule } from './components/grid-demo/grid-demo.module';
+import { ResponsiveDemoModule } from './components/responsive-demo/responsive-demo.module';
+import { TitleComponent } from './document/title/title.component';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -57,10 +61,16 @@ export class MyCustomTheme extends LyThemeConfig {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TitleComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
+    /** Layout */
+    GridDemoModule,
+    FlexDemoModule,
+    ResponsiveDemoModule,
+
     CommonModule,
     FormsModule,
     HttpClientModule,

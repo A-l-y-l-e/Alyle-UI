@@ -4,8 +4,9 @@
     <p>
       Minimal Design, a package of components for Angular.
     </p>
-    <button bg="primary" ly-button raised [routerLink]="['get-started']">Get started</button>
-    <!-- <button raised="true" [routerLink]="['theming']" ly-button bg="primary">Customization</button> -->
-    <button bg="accent" ly-button raised [routerLink]="['component', 'button']">Components</button>
+    <div class="buttons">
+      <a ly-button outlined color="primary" [routerLink]="['get-started/install']">Get started</a>
+      <a ly-button raised bg="accent" [routerLink]="['components', 'button']" lyHide="XSmall">Components</a>
+    </div>
   </div>
 </div>

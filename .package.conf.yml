@@ -4,6 +4,7 @@ components:
   '@alyle/ui': core
   '@alyle/ui/themes/minima': themes/minima
   '@alyle/ui/responsive': responsive
+  '@alyle/ui/layout': layout
   '@alyle/ui/flex': flex
   '@alyle/ui/ripple': ripple
   '@alyle/ui/icon-button': icon-button

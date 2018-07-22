@@ -4,7 +4,7 @@ import { ResponsiveDemoComponent } from './responsive-demo/responsive-demo.compo
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'layout/responsive',
     component: ResponsiveDemoComponent
   }
 ];

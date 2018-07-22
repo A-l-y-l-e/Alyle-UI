@@ -12,6 +12,7 @@ let classId = 0;
 })
 export class CoreTheme {
   renderer: Renderer2;
+  mediaStyleContainer: HTMLElement;
   primaryStyleContainer: HTMLElement;
   secondaryStyleContainer: HTMLElement;
   private _themeMap = new Map<string, ThemeConfig>();
@@ -27,16 +28,21 @@ export class CoreTheme {
     }
     this.renderer = this.rendererFactory.createRenderer(null, null);
     if (Platform.isBrowser) {
+      const mediaStyleContainer = _document.body.querySelector('ly-media-style-container');
       const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
       const secondaryStyleContainer = _document.body.querySelector('ly-secondary-style-container');
       if (primaryStyleContainer) {
+        (_document.body as HTMLBodyElement).removeChild(mediaStyleContainer);
+        // mediaStyleContainer.innerHTML = '';
         primaryStyleContainer.innerHTML = '';
         secondaryStyleContainer.innerHTML = '';
       }
     }
+    this.mediaStyleContainer = this.renderer.createElement('ly-media-style-container');
     this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
     this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
-    this.renderer.insertBefore(_document.body, this.primaryStyleContainer, _document.body.firstChild);
+    this.renderer.insertBefore(_document.body, this.mediaStyleContainer, _document.body.firstChild);
+    this.renderer.insertBefore(_document.body, this.primaryStyleContainer, this.mediaStyleContainer);
     this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
     this.setCoreStyle();
     if (themeConfig) {
@@ -87,8 +93,9 @@ export class CoreTheme {
       const styleElement = this.renderer.createElement('style');
       const media = transformMediaQuery(_media, invertMediaQuery);
       const styleContent = this.renderer.createText(this._createStyleContent(style, id, media));
+      const saveIn = media ? this.mediaStyleContainer : _in;
       this.renderer.appendChild(styleElement, styleContent);
-      this.renderer.appendChild(_in, styleElement);
+      this.renderer.appendChild(saveIn, styleElement);
       if (isDevMode()) {
         this.renderer.setAttribute(styleElement, 'style_data', `${_for}···${id}···${key}`);
       }
@@ -125,6 +132,11 @@ export class CoreTheme {
     const classname = this.setUpStyle('rootbody', {
       '': () => (
         `margin:0;`
+      ),
+      ', *, *:after, *:before': () => (
+        `-webkit-box-sizing: border-box;` +
+        `-moz-box-sizing: border-box;` +
+        `box-sizing: border-box;`
       )
     });
     this.renderer.addClass(this._document.body, classname);

@@ -1,7 +1,7 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { ThemeConfig } from './theme-config';
 import { CoreTheme } from './core-theme.service';
-import { MultipleStyles, DataStyle } from '../theme.service';
+import { DataStyle, Style } from '../theme.service';
 import { LyThemeContainer } from './theme.directive';
 import { InvertMediaQuery } from '../media/invert-media-query';
 
@@ -15,7 +15,7 @@ export class LyTheme2 {
   ) {}
   setUpStyle(
     key: string,
-    styles: MultipleStyles,
+    styles: Style,
     media?: string,
     invertMediaQuery?: InvertMediaQuery
   ) {
@@ -24,7 +24,7 @@ export class LyTheme2 {
   }
   setUpStyleSecondary(
     key: string,
-    styles: MultipleStyles,
+    styles: Style,
     media?: string,
     invertMediaQuery?: InvertMediaQuery
   ) {

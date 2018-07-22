@@ -3,7 +3,7 @@
   display: block;
 }
 .tab-container {
-  padding: 16px;
+  padding: 48px 16px 16px 16px;
 }
 .tab-content {
   padding: 16px 16px 0 16px;

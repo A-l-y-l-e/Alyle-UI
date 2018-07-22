@@ -24,6 +24,7 @@ export class AppComponent implements OnDestroy {
   mode = true;
   routerEvent: Subscription;
   @ViewChild(LyThemeContainer) themeContainer: LyThemeContainer;
+
   constructor(
     public router: Router,
     public routesApp: RoutesAppService,
