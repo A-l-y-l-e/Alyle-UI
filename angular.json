@@ -1089,6 +1089,51 @@
           }
         }
       }
+    },
+    "@alyle/ui/layout": {
+      "root": "dist/lib/layout",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/layout/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/layout/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/layout/test.ts",
+            "tsConfig": "dist/lib/layout/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/layout/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "dist/lib/layout/tsconfig.lint.json",
+              "dist/lib/layout/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {
