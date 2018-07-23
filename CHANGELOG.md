@@ -1,3 +1,29 @@
+<a name="1.7.0-beta.3jiq1"></a>
+# [1.7.0-beta.3jiq1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.21zck...1.7.0-beta.3jiq1) (2018-07-23)
+
+
+### Bug Fixes
+
+* **doc:** fix docs ([2672bab](https://github.com/A-l-y-l-e/Alyle-UI/commit/2672bab))
+
+
+### Features
+
+* **docs:** update docs ([ce3e0dc](https://github.com/A-l-y-l-e/Alyle-UI/commit/ce3e0dc))
+* **grid:** add initial grid ([45904b3](https://github.com/A-l-y-l-e/Alyle-UI/commit/45904b3)), closes [#40](https://github.com/A-l-y-l-e/Alyle-UI/issues/40) [#41](https://github.com/A-l-y-l-e/Alyle-UI/issues/41)
+
+
+### Performance Improvements
+
+* **flex:** generate style only when the key is different ([a6fc154](https://github.com/A-l-y-l-e/Alyle-UI/commit/a6fc154))
+
+
+### BREAKING CHANGES
+
+* **grid:** * `@alyle/ui/flex` is now in @alyle/ui/layout
+
+
+
 <a name="1.7.0-beta.21zck"></a>
 # [1.7.0-beta.21zck](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.1j64w...1.7.0-beta.21zck) (2018-06-24)
 
