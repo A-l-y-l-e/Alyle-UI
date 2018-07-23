@@ -5,7 +5,7 @@ const contrast = '#fff';
 export class MinimaLight implements ThemeConfig {
   name = 'minima-light';
   primary = {
-    default: '#2CA7F8',
+    default: '#6200EE',
     contrast
   };
   accent = {
@@ -13,7 +13,7 @@ export class MinimaLight implements ThemeConfig {
     contrast
   };
   warn = {
-    default: '#EA404C',
+    default: '#f5414e',
     contrast
   };
   typography = typography;

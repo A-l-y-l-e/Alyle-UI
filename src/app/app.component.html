@@ -4,11 +4,11 @@
       menu
     </button>
     <ly-toolbar-item class="logo">
-      <button ly-button sensitive color="#fff" [routerLink]="['./']">
+      <button ly-button color="primary:contrast" sensitive [routerLink]="['./']">
         Alyle UI
       </button>
     </ly-toolbar-item>
-    <span class="version">v{{ version }}</span>
+    <span lyHide="XSmall" class="version">v{{ version }}</span>
     <div [style.flex]="1"></div>
     <button ly-icon-button size="24px" (click)="changeScheme()">
       <ly-icon *ngIf="mode" src="assets/svg/theme/sun" [style.font-size.px]="36"></ly-icon>

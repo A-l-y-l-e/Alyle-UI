@@ -5,12 +5,12 @@ const contrast = '#fff';
 export class MinimaDark implements ThemeConfig {
   name = 'minima-dark';
   primary = {
-    default: '#9c27b0',
-    contrast
+    default: '#1DE9B6',
+    contrast: 'rgba(0, 0, 0, 0.87)'
   };
   accent = {
-    default: '#ffeb3b',
-    contrast: 'rgba(0, 0, 0, 0.87)'
+    default: '#9C27B0',
+    contrast
   };
   warn = {
     default: '#EA404C',
@@ -19,7 +19,7 @@ export class MinimaDark implements ThemeConfig {
   typography = typography;
   background = {
     default: '#303030', // secondary
-    primary: '#424242',
+    primary: '#2b2b2b',
     secondary: '#303030',
     tertiary: '#212121',
     base: '#0E0E0E'

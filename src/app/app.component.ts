@@ -1,11 +1,8 @@
-import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject, OnDestroy, AfterViewInit} from '@angular/core';
+import { Component, ViewChild, VERSION, ChangeDetectionStrategy, OnDestroy, AfterViewInit} from '@angular/core';
 import { environment } from './../environments/environment';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { AUI_VERSION, LyTheme2, LyThemeContainer, Platform } from '@alyle/ui';
-import { LyMenu } from '@alyle/ui/menu';
+import { Router, NavigationEnd } from '@angular/router';
+import { AUI_VERSION, LyThemeContainer, Platform } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
-import { MinimalLS } from '@alyle/ui/ls';
 import { Subscription } from 'rxjs';
 import { LyIconService } from '@alyle/ui/icon';
 
