@@ -1,48 +1,26 @@
 import {
   Directive,
   Input,
-  TemplateRef,
-  ViewContainerRef,
   OnInit,
-  OnDestroy,
   Inject,
-  Optional,
   Renderer2,
-  ElementRef,
-  PLATFORM_ID
+  ElementRef
 } from '@angular/core';
-import { isPlatformServer } from '@angular/common';
-import { Subscription } from 'rxjs';
 
-import { Responsive } from '../media.service';
-import { CoreTheme, InvertMediaQuery } from '@alyle/ui';
+import { CoreTheme } from '@alyle/ui';
 import { LY_MEDIA_QUERIES } from '../tokens';
 
 @Directive({
-  selector: '[lyResponsive], [lyShow], [lyHide]'
+  selector: '[lyShow], [lyHide]'
 })
-export class MediaDirective implements OnInit, OnDestroy {
-  private _media: string;
-  view: Subscription;
+export class MediaDirective implements OnInit {
   private _show: string;
   private _showClass: string;
   private _hide: string;
   private _hideClass: string;
-  private _TemplateRef: TemplateRef<any>|null = null;
   classes = {
     hide: this.coreTheme.setUpStyle('k-media-hide', 'display:none;', 'all')
   };
-
-  /** @deprecated */
-  @Input()
-  set lyResponsive(val: string) {
-    this._media = val;
-    this.updateView();
-  }
-
-  get media(): string {
-    return this._media;
-  }
 
   @Input()
   set lyShow(val: string) {
@@ -81,40 +59,15 @@ export class MediaDirective implements OnInit, OnDestroy {
   }
 
   constructor(
-    private _viewContainer: ViewContainerRef,
     private _renderer: Renderer2,
     private _elementRef: ElementRef,
-    @Optional() templateRef: TemplateRef<any>,
-    private mediaService: Responsive,
     private coreTheme: CoreTheme,
-    @Inject(PLATFORM_ID) private platformId: Object,
     @Inject(LY_MEDIA_QUERIES) private mediaQueries: any, // { [key: string]: string; }
-  ) {
-    this._TemplateRef = templateRef;
-  }
+  ) { }
 
   ngOnInit() {
     if (!this.lyHide) {
       this._renderer.addClass(this._elementRef.nativeElement, this.classes.hide);
-    }
-    this.view = this.mediaService.stateView().subscribe(() => {
-      this.updateView();
-    });
-  }
-
-  updateView() {
-    if (isPlatformServer(this.platformId) || this.mediaService.matchMedia(this._media)) {
-      if (this._viewContainer.length === 0) {
-        this._viewContainer.createEmbeddedView(this._TemplateRef);
-      }
-    } else if (this._viewContainer.length !== 0) {
-      this._viewContainer.clear();
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.view) {
-      this.view.unsubscribe();
     }
   }
 
