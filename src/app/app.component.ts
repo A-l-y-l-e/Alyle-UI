@@ -1,4 +1,4 @@
-import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject, OnDestroy} from '@angular/core';
+import { Component, ViewChild, VERSION, ChangeDetectionStrategy, Inject, OnDestroy, AfterViewInit} from '@angular/core';
 import { environment } from './../environments/environment';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
@@ -16,7 +16,8 @@ import { LyIconService } from '@alyle/ui/icon';
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, AfterViewInit {
+  linkActive = '';
   routesComponents: any;
   angularVersion = VERSION;
   version = AUI_VERSION;
@@ -28,7 +29,7 @@ export class AppComponent implements OnDestroy {
   constructor(
     public router: Router,
     public routesApp: RoutesAppService,
-    private iconService: LyIconService
+    iconService: LyIconService
   ) {
     iconService.setSvg('Heart', 'assets/svg/Heart');
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
@@ -53,6 +54,17 @@ export class AppComponent implements OnDestroy {
     console.log(name);
     this.themeContainer.theme.setTheme(name);
   }
+
+  ngAfterViewInit() {
+    this.linkActive = this.themeContainer.theme.setUpStyle(
+      'activatedRoute',
+      () => (
+        `color: ${this.themeContainer.theme.config.primary.default};` +
+        `border-right: 3px solid;`
+      )
+    );
+  }
+
   ngOnDestroy() {
     this.routerEvent.unsubscribe();
   }
