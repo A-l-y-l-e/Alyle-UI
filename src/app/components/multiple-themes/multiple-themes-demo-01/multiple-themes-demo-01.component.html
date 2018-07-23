@@ -1,11 +1,16 @@
-<div lyTheme="minima-dark" #theme1="lyTheme">
-  theme name: {{ theme1.theme.config.name }}
-  <p bg="background:primary">
-    multiple-themes-demo-01 works!
+<div lyTheme="minima-dark" #theme1="lyTheme" class="container">
+  <p>theme name: {{ theme1.theme.config.name }}</p>
+  <button ly-button outlined color="primary">primary</button>
+  <button ly-button outlined color="accent">accent</button>
+  <p>
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit enim odit dolorem corrupti beatae ullam nam repellat, quas error accusantium nobis suscipit nisi veniam eveniet dignissimos, fuga dolore neque porro.
   </p>
-  <div bg="primary">primary</div>
-  <button [routerLink]="['./child-theme']" ly-button>show child theme</button>
-  <div lyTheme="minima-light" #theme2>
-    <router-outlet></router-outlet>
+  <div lyTheme="minima-light" #theme2="lyTheme" class="container">
+    <h3>Child theme</h3>
+    <p>
+      theme name: {{ theme2.theme.config.name }}
+    </p>
+    <button ly-button outlined color="primary">primary</button>
+    <button ly-button outlined color="accent">accent</button>
   </div>
 </div>

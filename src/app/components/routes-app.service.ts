@@ -7,10 +7,10 @@ export class RoutesAppService {
   constructor( ) {
     this.routesApp = [
       {
-        name: 'Get Started',
-        route: 'get-started',
+        name: 'Getting Started',
+        route: 'getting-started',
         routes: [
-          { route: 'install', name: 'Install' },
+          { route: 'installation', name: 'Install' }
         ]
       },
       {

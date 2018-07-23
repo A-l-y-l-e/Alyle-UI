@@ -26,6 +26,7 @@ import { FlexDemoModule } from './components/flex-demo/flex-demo.module';
 import { GridDemoModule } from './components/grid-demo/grid-demo.module';
 import { ResponsiveDemoModule } from './components/responsive-demo/responsive-demo.module';
 import { TitleComponent } from './document/title/title.component';
+import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -62,7 +63,9 @@ export class MyCustomTheme extends LyThemeConfig {
 @NgModule({
   declarations: [
     AppComponent,
-    TitleComponent
+    TitleComponent,
+    /** Getting started */
+    InstallationComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
@@ -86,7 +89,7 @@ export class MyCustomTheme extends LyThemeConfig {
     LyRippleModule,
     PrismModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     RoutesAppService,

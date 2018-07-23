@@ -5,9 +5,10 @@ import {
   Optional,
   ElementRef,
   ChangeDetectionStrategy,
-  VERSION
+  VERSION,
+  isDevMode
 } from '@angular/core';
-import { Observable, of, merge, concat, throwError }      from 'rxjs';
+import { Observable, of, merge, concat, throwError } from 'rxjs';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { catchError, retry, mergeMap, take, tap } from 'rxjs/operators';
@@ -46,6 +47,7 @@ export class ViewComponent implements OnInit {
     {label: 'Style', type: 'component', ext: 'css'}
   ];
   @Input() viewLabel: string;
+  @Input() path: string;
   constructor(
     private http: HttpClient,
     private el: ElementRef,
@@ -71,9 +73,10 @@ export class ViewComponent implements OnInit {
   }
 
   url(index: number) {
-    const host = 'https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/master/src/app/components/';
+    const fileName = this.path.split('/').reverse()[0];
+    const host = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/${AUI_VERSION}/src/app/${this.path}`;
     const file = this.files[index];
-    return `${host}${this.name}-demo/${this.folderName}/${this.folderName}.${file.type}.${file.ext}`;
+    return `${host}/${fileName}.${file.type}.${file.ext}`;
   }
 
   openStackblitz() {
@@ -225,14 +228,13 @@ export class ViewComponent implements OnInit {
 
   ngOnInit() {
     this.name = this.router.url.replace(/\//g, '').replace(/component/, '');
-    this.folderName = this.el.nativeElement.querySelector('.tab-container > *').nodeName.toLowerCase();
+    if (isDevMode() && !this.path) {
+      this.folderName = this.el.nativeElement.querySelector('.tab-container > *').nodeName.toLowerCase();
+      console.warn('required path for', this.router.url, this.folderName);
+    }
     this.files.forEach((item, i) => {
       this.files[i]['text'] = this.getFile(i);
     });
-    for (let i = 0; i < this.files.length; i++) {
-      const url = `${this.name}-demo/${this.folderName}/${this.folderName}.${this.files[i].type}.${this.files[i].ext}`;
-      // this.getdata(url);
-    }
   }
 
 }

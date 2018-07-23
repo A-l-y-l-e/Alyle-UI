@@ -6,7 +6,7 @@
     "alyle-ui": {
       "root": "",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "aui",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

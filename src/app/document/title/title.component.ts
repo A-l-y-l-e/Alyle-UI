@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { RoutesAppService } from '../../components/routes-app.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-title',
@@ -17,18 +18,25 @@ export class TitleComponent implements OnInit {
       random
     };
   }
+  defaultTitle = 'Alyle UI';
   @Input()
   set route(val: string) {
     this._route = val;
     const varArray = val.split('/').filter(_ => !!_);
     this.urls = varArray.map(_ => _.charAt(0).toUpperCase() + _.slice(1));
     this.title = findByProp(this.routesAppService.routesApp, 'route', varArray.reverse()[0], 'name');
+    if (this.title) {
+      this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
+    } else {
+      this.titleService.setTitle(this.defaultTitle);
+    }
   }
   get route() {
     return this._route;
   }
   constructor(
-    private routesAppService: RoutesAppService
+    private routesAppService: RoutesAppService,
+    private titleService: Title,
   ) { }
 
   ngOnInit() {

@@ -18,17 +18,17 @@ export class ComponentsComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.routeName = event.urlAfterRedirects.replace(/\//g, '').replace('component', '');
-        this.routesApp.componentState = this.routeName;
-        if (this.routeName) {
-          this.titleService.setTitle(`${this.routeName} - Alyle UI`);
-        } else {
-          this.titleService.setTitle(`Alyle UI`);
-        }
-      }
-    });
+    // this.router.events.subscribe(event => {
+    //   if (event instanceof NavigationEnd) {
+    //     this.routeName = event.urlAfterRedirects.replace(/\//g, '').replace('component', '');
+    //     this.routesApp.componentState = this.routeName;
+    //     if (this.routeName) {
+    //       this.titleService.setTitle(`${this.routeName} - Alyle UI`);
+    //     } else {
+    //       this.titleService.setTitle(`Alyle UI`);
+    //     }
+    //   }
+    // });
   }
 
   ngOnInit() {

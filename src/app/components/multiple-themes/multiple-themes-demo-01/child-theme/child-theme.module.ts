@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ChildThemeRoutingModule } from './child-theme-routing.module';
 import { ChildThemeComponent } from './child-theme.component';
-import { AlyleUIModule, LyCommonModule } from '@alyle/ui';
+import { LyCommonModule } from '@alyle/ui';
 
 @NgModule({
   imports: [
     CommonModule,
-    LyCommonModule,
-    ChildThemeRoutingModule
+    LyCommonModule
   ],
   declarations: [ChildThemeComponent]
 })

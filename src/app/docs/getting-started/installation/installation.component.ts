@@ -1,12 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-get-started',
-  templateUrl: './get-started.component.html',
-  styleUrls: ['./get-started.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aui-installation',
+  templateUrl: './installation.component.html',
+  styleUrls: ['./installation.component.scss']
 })
-export class GetStartedComponent implements OnInit {
+export class InstallationComponent {
   code: string;
   codeTheme = `<!-- app.component.ts -->
 <div lyTheme="minima-light">
@@ -50,9 +49,6 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
 export class AppModule { }`;
   }
 
-  ngOnInit() {
-  }
-
   toJson(val: any) {
     // /** Custom theme */
     // const configAlyleUI = ${this.toJson(this.palette)};
@@ -62,4 +58,3 @@ export class AppModule { }`;
   }
 
 }
-

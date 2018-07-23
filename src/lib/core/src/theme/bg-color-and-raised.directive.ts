@@ -7,13 +7,13 @@ import { ThemeVariables } from '../alyle-config-service';
 import { LyShadowService } from './shadow.service';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[bg], [color], [raised]'
 })
 export class LyBgColorAndRaised implements OnChanges {
   private _raisedState: boolean;
   private _currentClassName: string;
   private _bg: string;
-  private ĸbg: string;
   private _color: string;
   @Input()
   set bg(value: string) {

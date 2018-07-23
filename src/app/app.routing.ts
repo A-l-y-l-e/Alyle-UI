@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { environment } from 'environments/environment';
 import { HomeModule } from './home/home.module';
+import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
 
 const routes: Routes = [
-  /** Get Started */
-  { path: 'get-started/install', loadChildren: './components/get-started/get-started.module#GetStartedModule' },
   /** Customization */
   { path: 'customization/theming', loadChildren: './components/theming/theming.module#ThemingModule' },
   { path: 'customization/multiple-themes', loadChildren: './components/multiple-themes/multiple-themes.module#MultipleThemesModule' },
@@ -13,6 +11,16 @@ const routes: Routes = [
   /** Components */
   { path: 'components', loadChildren: './components/index#ComponentsModule' },
   { path: 'component', redirectTo: 'components' },
+  { path: 'get-started/install', redirectTo: 'getting-started/installation' },
+  { path: 'getting-started', redirectTo: 'getting-started/installation' },
+  {
+    path: 'getting-started',
+    children: [
+      {
+        path: 'installation', component: InstallationComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({
@@ -23,6 +31,8 @@ const routes: Routes = [
       initialNavigation: 'enabled'
     })
   ],
-  exports: [RouterModule]
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }

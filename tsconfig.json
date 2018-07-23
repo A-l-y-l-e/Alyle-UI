@@ -37,7 +37,8 @@
       "@alyle/ui/header-pagination": ["lib/header-pagination"],
       "@alyle/ui/resizing-cropping-images": ["lib/resizing-cropping-images"],
       "@alyle/ui/themes/minima": ["lib/themes/minima"],
-      "@env/*": ["environments/*"]
+      "@env/*": ["environments/*"],
+      "@docs/*": ["app/docs/*"]
     }
   }
 }
