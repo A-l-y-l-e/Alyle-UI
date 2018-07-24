@@ -87,7 +87,7 @@ export class LyTheme {
    * @param key unique id
    * @param fn style
    */
-  setStyle(key: string, fn: StyleContent): string {
+  setStyle(key: string, fn: StyleContent<any>): string {
     const newKey = createKeyOf(key + this.Id + this.palette.scheme);
     const mapStyles = this._styleMap;
     return this._createStyle(key, newKey, fn, mapStyles, this.Id);
@@ -99,7 +99,7 @@ export class LyTheme {
    * @param key unique id
    * @param fn style
    */
-  setRootStyle(key: string, fn: StyleContent): string {
+  setRootStyle(key: string, fn: StyleContent<any>): string {
     const newKey = createKeyOf(key);
     const mapStyles = this.rootService.themeRootMap;
     return this._createStyle(key, newKey, fn, mapStyles, 'root');
@@ -120,7 +120,7 @@ export class LyTheme {
   //   }
   // }
 
-  private _createStyle(key: string, newKey: string, fn: StyleContent, mapStyles: Map<string, StyleData>, _for: string) {
+  private _createStyle(key: string, newKey: string, fn: StyleContent<any>, mapStyles: Map<string, StyleData>, _for: string) {
     const styleData: StyleData = { key: newKey, fn } as any;
     if (mapStyles.has(newKey)) {
       return mapStyles.get(newKey).id;
@@ -188,7 +188,7 @@ export class LyTheme {
 
 }
 
-export type StyleContent = () => string;
+export type StyleContent<T> = (theme?: T) => string;
 
 export interface StyleData {
   /** Class Id */
@@ -201,18 +201,18 @@ export interface StyleData {
 export interface DataStyle {
   id: string;
   styleElement: HTMLStyleElement;
-  style: Style;
+  style: Style<any>;
 }
 
 // export function isObject(item) {
 //   return (item && typeof item === 'object' && !Array.isArray(item));
 // }
 
-export interface MultipleStyles {
-  [key: string]: StyleContent;
+export interface MultipleStyles<T> {
+  [key: string]: StyleContent<T>;
 }
 
-export type Style = string | StyleContent | MultipleStyles;
+export type Style<T> = string | StyleContent<T> | MultipleStyles<T>;
 
 export function mergeDeep(...objects) {
   // const output = Object.assign({}, target);

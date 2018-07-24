@@ -1,9 +1,6 @@
-import { Injectable, Renderer2, ElementRef }       from '@angular/core';
-import * as _chroma from 'chroma-js';
-import { ProvidedInTheme } from '../alyle-ui.module';
+import { Injectable, Renderer2, ElementRef } from '@angular/core';
 import { shadowBuilder } from '../shadow';
 import { LyTheme2 } from './theme2.service';
-const chroma = _chroma;
 
 @Injectable({
   providedIn: 'root'

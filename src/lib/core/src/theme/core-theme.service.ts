@@ -70,29 +70,29 @@ export class CoreTheme {
 
   setUpStyle(
     key: string,
-    styles: Style,
+    styles: Style<null>,
     media?: string,
     invertMediaQuery?: InvertMediaQuery
   ) {
-    return this._ĸreateStyle(key, styles, this._styleCoreMap, 'root', this.primaryStyleContainer, media, invertMediaQuery);
+    return this._ĸreateStyle(undefined, key, styles, this._styleCoreMap, 'root', this.primaryStyleContainer, media, invertMediaQuery);
   }
   setUpStyleSecondary(
     key: string,
-    styles: Style,
+    styles: Style<null>,
     media?: string,
     invertMediaQuery?: InvertMediaQuery
   ) {
-    return this._ĸreateStyle(key, styles, this._styleCoreMap, 'root', this.secondaryStyleContainer, media, invertMediaQuery);
+    return this._ĸreateStyle(undefined, key, styles, this._styleCoreMap, 'root', this.secondaryStyleContainer, media, invertMediaQuery);
   }
 
-  _ĸreateStyle(key, style: Style, mapStyles: Map<string, DataStyle>, _for: string, _in: any, _media?: string, invertMediaQuery?: InvertMediaQuery) {
+  _ĸreateStyle<T>(themeConfig: any, key, style: Style<T>, mapStyles: Map<string, DataStyle>, _for: string, _in: any, _media?: string, invertMediaQuery?: InvertMediaQuery) {
     if (mapStyles.has(key)) {
       return mapStyles.get(key).id;
     } else {
       const id = `k${(classId++).toString(36)}`;
       const styleElement = this.renderer.createElement('style');
       const media = transformMediaQuery(_media, invertMediaQuery);
-      const styleContent = this.renderer.createText(this._createStyleContent(style, id, media));
+      const styleContent = this.renderer.createText(this._createStyleContent<T>(themeConfig, style, id, media));
       const saveIn = media ? this.mediaStyleContainer : _in;
       this.renderer.appendChild(styleElement, styleContent);
       this.renderer.appendChild(saveIn, styleElement);
@@ -111,19 +111,20 @@ export class CoreTheme {
   }
 
   /** #style */
-  _createStyleContent(styles: Style, id: string, media?: string | string[]) {
+  _createStyleContent<T>(themeConfig: T, styles: Style<T>, id: string, media?: string | string[]) {
     const typf = typeof styles;
     if (typf === 'string') {
       return toMedia(`.${id}{${styles}}`, media);
     } else if (typf === 'function') {
-      return toMedia(`.${id}{${(styles as StyleContent)()}}`, media);
+      return toMedia(`.${id}{${(styles as StyleContent<T>)(themeConfig)}}`, media);
     }
     let content = '';
-    // tslint:disable-next-line:forin
-    for (const key$ in styles as MultipleStyles) {
-      const val = styles[key$];
-      const text = typeof val === 'function' ? val() : val;
-      content += `.${id}${key$}{${text}}`;
+    for (const key$ in styles as MultipleStyles<T>) {
+      if (styles.hasOwnProperty(key$)) {
+        const val = styles[key$];
+        const text = typeof val === 'function' ? val(themeConfig) : val;
+        content += `.${id}${key$}{${text}}`;
+      }
     }
     return toMedia(content, media);
   }

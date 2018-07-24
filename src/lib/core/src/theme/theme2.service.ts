@@ -13,23 +13,23 @@ export class LyTheme2 {
   constructor(
     public core: CoreTheme,
   ) {}
-  setUpStyle(
+  setUpStyle<T>(
     key: string,
-    styles: Style,
+    styles: Style<T>,
     media?: string,
     invertMediaQuery?: InvertMediaQuery
   ) {
     const name = this.config.name;
-    return this.core._ĸreateStyle(key, styles, this._styleMap, name, this.core.primaryStyleContainer, media, invertMediaQuery);
+    return this.core._ĸreateStyle<T>(this.config, key, styles, this._styleMap, name, this.core.primaryStyleContainer, media, invertMediaQuery);
   }
-  setUpStyleSecondary(
+  setUpStyleSecondary<T>(
     key: string,
-    styles: Style,
+    styles: Style<T>,
     media?: string,
     invertMediaQuery?: InvertMediaQuery
   ) {
     const name = this.config.name;
-    return this.core._ĸreateStyle(key, styles, this._styleMap, name, this.core.secondaryStyleContainer, media, invertMediaQuery);
+    return this.core._ĸreateStyle<T>(this.config, key, styles, this._styleMap, name, this.core.secondaryStyleContainer, media, invertMediaQuery);
   }
   colorOf(value: string): string {
     return get(this.config, value);
@@ -40,7 +40,7 @@ export class LyTheme2 {
   setTheme(nam: string) {
     this.config = this.core.get(nam);
     this._styleMap.forEach((dataStyle, key) => {
-      dataStyle.styleElement.innerText = this.core._createStyleContent(dataStyle.style, dataStyle.id);
+      dataStyle.styleElement.innerText = this.core._createStyleContent(this.config, dataStyle.style, dataStyle.id);
     });
   }
 }

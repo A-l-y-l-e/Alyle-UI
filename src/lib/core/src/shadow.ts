@@ -4,7 +4,7 @@ const chroma = _chroma;
 const shadowKeyUmbraOpacity = 0.2;
 const shadowKeyPenumbraOpacity = 0.14;
 const shadowAmbientShadowOpacity = 0.12;
-const elevations = [
+export const Shadows = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 1, 3, 0, 0, 1, 1, 0, 0, 2, 1, -1],
   [0, 1, 5, 0, 0, 2, 2, 0, 0, 3, 1, -2],
@@ -38,7 +38,7 @@ export function shadowBuilder(elevation: number = 1, color = '#000') {
     Color.alpha(shadowKeyPenumbraOpacity).css(),
     Color.alpha(shadowAmbientShadowOpacity).css()
   ];
-  const e = elevations[elevation];
+  const e = Shadows[elevation];
   // tslint:disable-next-line:max-line-length
   return `box-shadow:${e[0]}px ${e[1]}px ${e[2]}px ${e[3]}px ${colors[0]},${e[4]}px ${e[5]}px ${e[6]}px ${e[7]}px ${colors[1]},${e[8]}px ${e[9]}px ${e[10]}px ${e[11]}px ${colors[2]};`;
 

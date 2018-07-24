@@ -21,7 +21,7 @@ export class MinimaLight implements ThemeConfig {
     default: '#fafafa', // secondary
     primary: '#fff',
     secondary: '#fafafa',
-    tertiary: '#f5f5f5',
+    tertiary: '#f5f6f7',
     base: '#E0E0E0'
   };
   text = {
@@ -32,7 +32,7 @@ export class MinimaLight implements ThemeConfig {
     hint: 'rgba(0, 0, 0, 0.38)'
   };
   divider = 'rgba(0, 0, 0, 0.12)';
-  colorShadow = '#777777';
+  colorShadow = '#333';
   /** Components variables */
   button = {
     disabled: 'rgba(0, 0, 0, 0.11)'

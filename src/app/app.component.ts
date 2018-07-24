@@ -5,6 +5,7 @@ import { AUI_VERSION, LyThemeContainer, Platform } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { Subscription } from 'rxjs';
 import { LyIconService } from '@alyle/ui/icon';
+import { MinimaLight } from '@alyle/ui/themes/minima';
 
 @Component({
   selector: 'app-root',
@@ -47,16 +48,15 @@ export class AppComponent implements OnDestroy, AfterViewInit {
   changeScheme() {
     this.mode = !this.mode;
     const name = this.mode ? 'minima-light' : 'minima-dark';
-    // this.theme.setScheme(scheme);
     console.log(name);
     this.themeContainer.theme.setTheme(name);
   }
 
   ngAfterViewInit() {
-    this.linkActive = this.themeContainer.theme.setUpStyle(
+    this.linkActive = this.themeContainer.theme.setUpStyle<MinimaLight>(
       'activatedRoute',
-      () => (
-        `color: ${this.themeContainer.theme.config.primary.default};` +
+      theme => (
+        `color: ${theme.primary.default};` +
         `border-right: 3px solid;`
       )
     );

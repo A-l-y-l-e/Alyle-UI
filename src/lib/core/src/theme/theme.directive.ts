@@ -39,7 +39,7 @@ export class LyThemeContainer implements OnInit {
   private _setContainerStyle(element, renderer: Renderer2) {
     const classname = this.theme.setUpStyle(`theme:${this.theme.config.name}`, {
       '': () => (
-        `background-color:${this.theme.config.background.primary};` +
+        `background-color:${this.theme.config.background.default};` +
         `color:${this.theme.config.text.default};` +
         `font-family:${this.theme.config.typography.fontFamily};`
       )
