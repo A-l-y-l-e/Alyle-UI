@@ -73,7 +73,7 @@
     "chalk": "^2.4.1",
     "codelyzer": "^4.3.0",
     "conventional-changelog-cli": "^2.0.1",
-    "firebase-tools": "^3.18.4",
+    "firebase-tools": "^4.0.0",
     "fs-extra": "^6.0.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "^4.2.1",
