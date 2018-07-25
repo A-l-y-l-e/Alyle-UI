@@ -1,6 +1,12 @@
 {
   "hosting": {
     "public": "dist/alyle-ui",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
     "headers": [
       {
         "source": "**",
