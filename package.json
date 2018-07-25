@@ -38,7 +38,7 @@
     "@angular/platform-browser": "^6.0.4",
     "@angular/platform-browser-dynamic": "^6.0.4",
     "@angular/platform-server": "^6.0.4",
-    "@angular/pwa": "^0.6.0",
+    "@angular/pwa": "^0.7.0",
     "@angular/router": "^6.0.4",
     "@angular/service-worker": "^6.0.4",
     "@nguniversal/express-engine": "^6.0.0",
