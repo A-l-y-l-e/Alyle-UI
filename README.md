@@ -17,22 +17,23 @@
 
 ## Components
 
-|name|state|is responsive?|
-|----|-----|--------------|
-|button|:heavy_check_mark:|:heavy_check_mark:|
-|carousel|:heavy_check_mark:|:heavy_check_mark:|
-|checkbox|:x:|:x:|
-|img cropper|:heavy_check_mark:|:heavy_check_mark:|
-|core|beta||
-|drawer|beta|:x:|
-|flex layout|beta|:heavy_check_mark:|
-|grid|:x:|:x:|
-|media|:heavy_check_mark:|:heavy_check_mark:|
-|icon button|:heavy_check_mark:|:heavy_check_mark:|
-|icon|:heavy_check_mark:|:heavy_check_mark:|
-|input|beta|:heavy_check_mark:|
-|menu|beta|:heavy_check_mark:|
-|radio|:heavy_check_mark:|:heavy_check_mark:|
-|ripple|:heavy_check_mark:|:heavy_check_mark:|
-|tabs|beta|:x:|
-|toolbar|➕➖ |:x:|
+|Feature|State|Responsive|Docs|
+|----|-----|----------|----|
+|button|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/button)|
+|carousel|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/carousel)|
+|checkbox|:x:|:x:|-|
+|img cropper|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/resizing-cropping-images)|
+|core|beta||-|
+|drawer|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/drawer)|
+|flex layout|beta|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/layout/flex)|
+|grid|:x:|:x:|[Docs](https://alyle-ui.firebaseapp.com/layout/grid)|
+|media|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/layout/responsive)|
+|icon button|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/icon-button)|
+|icon|:heavy_check_mark:|:heavy_check_mark:|-|
+|input|beta|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/input)|
+|menu|beta|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
+|radio|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/radio)|
+|ripple|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/ripple)|
+|tabs|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|
+|toolbar|➕➖ |:x:|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
+|typography *(new)*|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
