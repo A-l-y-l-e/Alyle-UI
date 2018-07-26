@@ -1,3 +1,15 @@
+<a name="1.7.0-beta.3pcd9"></a>
+# [1.7.0-beta.3pcd9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.3jiq1...1.7.0-beta.3pcd9) (2018-07-26)
+
+
+### Features
+
+* **core:** add parameter for Style ([34405d2](https://github.com/A-l-y-l-e/Alyle-UI/commit/34405d2))
+* **theme:** update theme ([feb65fb](https://github.com/A-l-y-l-e/Alyle-UI/commit/feb65fb))
+* **typography:** initial commit for typography ([288b9e3](https://github.com/A-l-y-l-e/Alyle-UI/commit/288b9e3))
+
+
+
 <a name="1.7.0-beta.3jiq1"></a>
 # [1.7.0-beta.3jiq1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.21zck...1.7.0-beta.3jiq1) (2018-07-23)
 
