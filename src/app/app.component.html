@@ -19,17 +19,21 @@
     </a>
   </ly-toolbar>
   <ly-drawer-container class="drawer">
-    <ly-drawer [config]="{width: 200}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items">
-      <div *ngFor="let category of routesComponents">
-        <span class="category-name">{{ category.name }}</span>
-        <a ly-button class="nav-button" [routerLinkActive]="linkActive" [routerLink]="[category.route, component.route]" *ngFor="let component of category.routes">{{ component.name }}</a>
-      </div>
+    <ly-drawer [config]="{width: 230}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items">
+      <ul *ngFor="let category of routesComponents" [className]="navMenu">
+        <span lyTyp="subheading">{{ category.name }}</span>
+        <li *ngFor="let component of category.routes">
+          <a class="nav-button" ly-button [routerLinkActive]="linkActive" [routerLink]="[category.route, component.route]">{{ component.name }}</a>
+        </li>
+      </ul>
     </ly-drawer>
     <ly-drawer-content>
       <div class="app-container">
         <div class="demo">
           <app-title [route]="router.url"></app-title>
-          <router-outlet></router-outlet>
+          <div class="docs-viewer">
+            <router-outlet></router-outlet>
+          </div>
         </div>
       </div>
     </ly-drawer-content>

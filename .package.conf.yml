@@ -3,6 +3,8 @@ lastUpdate: '2018-07-23T02:32:08.921Z'
 components:
   '@alyle/ui': core
   '@alyle/ui/themes/minima': themes/minima
+  '@alyle/ui/card': card
+  '@alyle/ui/typography': typography
   '@alyle/ui/responsive': responsive
   '@alyle/ui/layout': layout
   '@alyle/ui/flex': flex

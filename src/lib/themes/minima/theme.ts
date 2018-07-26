@@ -6,3 +6,4 @@ export class MinimaTheme implements LyThemeConfig {
   themes = [MinimaLight, MinimaDark];
 }
 
+export interface IMinimaTheme extends MinimaLight, MinimaDark { }

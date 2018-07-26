@@ -9,9 +9,10 @@
 .drawer {
   height: calc(100% - 64px);
   ly-drawer {
-    width: 200px;
+    width: 230px;
     height: calc(100% - 64px);
     bottom: 0;
+    padding: 1rem 0;
   }
 }
 .app-container {
@@ -82,13 +83,10 @@
   font-size: 61%;
   opacity: .7;
 }
-.category-name {
-  opacity: .45;
-  font-size: 14px;
-  font-weight: 300;
-  padding-left: calc(1em / 2);
-}
 .av {
   font-size: 16px;
   font-family: Roboto;
+}
+::ng-deep .docs-viewer p {
+  line-height: 1.5;
 }

@@ -20,6 +20,7 @@
     "components/carousel",
     "components/icon-button",
     "components/ripple",
-    "components/shadow"
+    "components/shadow",
+    "components/typography"
   ]
 }

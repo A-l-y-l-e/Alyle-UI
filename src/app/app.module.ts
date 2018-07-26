@@ -26,7 +26,13 @@ import { FlexDemoModule } from './components/flex-demo/flex-demo.module';
 import { GridDemoModule } from './components/grid-demo/grid-demo.module';
 import { ResponsiveDemoModule } from './components/responsive-demo/responsive-demo.module';
 import { TitleComponent } from './document/title/title.component';
+import { DemoViewModule } from './demo-view';
 import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
+import { CardDemoComponent } from '@docs/components/card-demo/card-demo.component';
+import { CardDemoBasicModule } from '@docs/components/card-demo/card-demo-basic/card-demo-basic.module';
+import { LyTypographyModule } from '@alyle/ui/typography';
+import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
+import { TypographyDemoBasicModule } from '@docs/components/typography-demo/typography-demo-basic/typography-demo-basic.module';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -66,6 +72,9 @@ export class MyCustomTheme extends LyThemeConfig {
     TitleComponent,
     /** Getting started */
     InstallationComponent,
+    /** Components */
+    CardDemoComponent,
+    TypographyDemoComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
@@ -73,7 +82,8 @@ export class MyCustomTheme extends LyThemeConfig {
     GridDemoModule,
     FlexDemoModule,
     ResponsiveDemoModule,
-
+    /** CardDemo > **/CardDemoBasicModule,
+    /** TypographyDemo > **/TypographyDemoBasicModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
@@ -87,7 +97,9 @@ export class MyCustomTheme extends LyThemeConfig {
     LyIconModule,
     LyMenuModule,
     LyRippleModule,
+    LyTypographyModule,
     PrismModule,
+    DemoViewModule,
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
   ],

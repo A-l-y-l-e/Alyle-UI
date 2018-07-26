@@ -3,10 +3,10 @@
   display: block;
 }
 .tab-container {
-  padding: 48px 16px 16px 16px;
+  padding: 48px 24px 24px 24px;
 }
 .tab-content {
-  padding: 16px 16px 0 16px;
+  padding: 24px 24px 0 24px;
 }
 .code {
   position: absolute;

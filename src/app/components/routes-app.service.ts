@@ -36,6 +36,7 @@ export class RoutesAppService {
         route: 'components',
         routes: [
           { route: 'button', name: 'Button' },
+          { route: 'card', name: 'Card' },
           { route: 'carousel', name: 'Carousel' },
           { route: 'drawer', name: 'Drawer' },
           { route: 'icon-button', name: 'Icon button' },
@@ -45,7 +46,8 @@ export class RoutesAppService {
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
           { route: 'ripple', name: 'Ripple' },
           { route: 'shadow', name: 'Shadow' },
-          { route: 'tabs', name: 'Tabs' }
+          { route: 'tabs', name: 'Tabs' },
+          { route: 'typography', name: 'Typography' },
         ]
       }
     ];

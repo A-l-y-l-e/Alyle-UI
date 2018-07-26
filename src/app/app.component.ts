@@ -7,6 +7,11 @@ import { Subscription } from 'rxjs';
 import { LyIconService } from '@alyle/ui/icon';
 import { MinimaLight } from '@alyle/ui/themes/minima';
 
+const linkActiveStyle = theme => (
+  `color: ${theme.primary.default} !important;` +
+  `border-left: 3px solid !important;`
+);
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,6 +21,7 @@ import { MinimaLight } from '@alyle/ui/themes/minima';
 })
 export class AppComponent implements OnDestroy, AfterViewInit {
   linkActive = '';
+  navMenu = '';
   routesComponents: any;
   angularVersion = VERSION;
   version = AUI_VERSION;
@@ -54,11 +60,27 @@ export class AppComponent implements OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.linkActive = this.themeContainer.theme.setUpStyle<MinimaLight>(
-      'activatedRoute',
-      theme => (
-        `color: ${theme.primary.default};` +
-        `border-right: 3px solid;`
-      )
+      'nav-activatedRoute',
+      linkActiveStyle
+    );
+    this.navMenu = this.themeContainer.theme.setUpStyle<MinimaLight>(
+      'nav-ul',
+      {
+        '': () => (
+          `overflow: hidden;` +
+          `position: relative;` +
+          `list-style: none;` +
+          `padding: 1rem 1.8rem;` +
+          `margin: 0;` +
+          `border-bottom: 1px solid rgba(0, 0, 0, 0.11)`
+        ),
+        ' a': () => (
+          `color: #5f6368;` +
+          `font-weight: 400;` +
+          `border-left: 3px solid transparent;`
+        ),
+        ' a:hover': linkActiveStyle
+      }
     );
   }
 
