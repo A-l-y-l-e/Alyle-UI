@@ -21,7 +21,7 @@
 |----|-----|--------------|
 |button|:heavy_check_mark:|:heavy_check_mark:|
 |carousel|:heavy_check_mark:|:heavy_check_mark:|
-|checkbox|:x:|:heavy_check_mark:|
+|checkbox|:x:|:x:|
 |img cropper|:heavy_check_mark:|:heavy_check_mark:|
 |core|beta||
 |drawer|beta|:x:|
