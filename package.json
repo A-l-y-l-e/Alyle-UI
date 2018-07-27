@@ -26,7 +26,8 @@
     "tools:prepare-lib": "node dist/tools/prepare-lib",
     "tools:bump-version": "node dist/tools/bump-version && yarn changelog",
     "tools:deploy": "node dist/tools/deploy",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '150 KB'"
   },
   "private": true,
   "dependencies": {
@@ -69,6 +70,7 @@
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
+    "bundlesize": "^0.17.0",
     "camelcase": "^5.0.0",
     "chalk": "^2.4.1",
     "codelyzer": "^4.4.2",
@@ -86,7 +88,6 @@
     "karma-mocha-reporter": "^2.2.5",
     "ng-packagr": "^3.0.6",
     "protractor": "~5.4.0",
-    "size-limit": "^0.19.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.10.0",
     "typescript": "^2.7.2"
@@ -95,13 +96,5 @@
     "ignore": [
       "typescript"
     ]
-  },
-  "size-limit": [
-    {
-      "path": "dist/@alyle/ui/**/*.umd.min.js",
-      "webpack": false,
-      "gzip": false,
-      "limit": "150 KB"
-    }
-  ]
+  }
 }

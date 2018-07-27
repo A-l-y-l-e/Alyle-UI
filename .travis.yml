@@ -34,7 +34,7 @@ jobs:
     - stage: build
       script:
         - yarn build:@alyle/ui
-        - yarn size-limit
+        - yarn bundlesizelimit
     - stage: build
       script:
         - yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
