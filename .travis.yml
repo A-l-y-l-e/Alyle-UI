@@ -36,7 +36,8 @@ jobs:
     - stage: deploy
       script:
         - yarn build
-        - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && yarn firebase deploy --token $FIREBASE_TOKEN --non-interactive || echo ''
+        - yarn tools:deploy
+        # - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && yarn firebase deploy --token $FIREBASE_TOKEN --non-interactive || echo ''
 
 stages:
   - build

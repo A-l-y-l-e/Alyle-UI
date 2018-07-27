@@ -2,21 +2,20 @@ import { readdirSync, statSync, readFileSync } from 'fs';
 import { writeFileSync, removeSync, copySync, pathExists, pathExistsSync } from 'fs-extra';
 import { spawnSync } from 'child_process';
 import { join } from 'path';
-import * as jsyaml from 'js-yaml';
 import * as camelCase from 'camelcase';
 import { tslintConfig } from './config/tslint-config';
 import { tsConfigSpec } from './config/tsconfig-spec';
 import { testConfig } from './config/test-config';
 import { karmaConf } from './config/karma.conf';
+import { PackageConf } from './config/package.conf';
 
 const dirSrc = `${process.cwd()}/src`;
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
-const config = jsyaml.load(readFileSync(`${process.cwd()}/.package.conf.yml`, 'utf8').toString());
 const angularCliConfig = JSON.parse(readFileSync(`${process.cwd()}/angular.json`, 'utf8').toString());
-const version = config.version;
+const version = PackageConf.version;
 const pkg = JSON.parse(readFileSync(`${process.cwd()}/package.json`, 'utf8').toString());
-let components: { path: string, pkgName: string }[] = config.components;
+let components: { path: string, pkgName: string }[] = PackageConf.components;
 if (pathExistsSync(dist)) {
   console.log('cleaning...');
   removeSync(dist);
@@ -28,22 +27,25 @@ components = Object.keys(components).map((pkgName) => ({ path: components[pkgNam
 /** copy sources */
 copySync(dirLib, dist);
 
-components.forEach(lib => {
+components.forEach((lib, index) => {
   const item = statSync(`${dirLib}/${lib.path}`);
   const nh = lib.path.split('/').map(() => '../').join('');
   const ngPackagePath = join('../', nh, lib.pkgName);
-  [
-    'ng-package.json',
-    'ng-package.prod.json',
-    'package.json'
-  ].forEach(pkgConfig => {
-    const file = readFileSync(`${dist}/${pkgConfig}`, 'utf8').toString()
-    .replace(/{name}/g, ngPackagePath)
-    .replace(/{packageName}/g, lib.pkgName)
-    .replace(/{id}/g, camelCase(lib.path))
-    .replace(/{version}/g, version);
-    writeFileSync(`${dist}/${lib.path}/${pkgConfig}`, file, 'utf8');
-  });
+  // [
+  //   'ng-package.json',
+  //   'ng-package.prod.json',
+  //   'package.json'
+  // ].forEach(pkgConfig => {
+  //   const file = readFileSync(`${dist}/${pkgConfig}`, 'utf8').toString()
+  //   .replace(/{name}/g, ngPackagePath)
+  //   .replace(/{packageName}/g, lib.pkgName)
+  //   .replace(/{id}/g, camelCase(lib.path))
+  //   .replace(/{version}/g, version);
+  //   writeFileSync(`${dist}/${lib.path}/${pkgConfig}`, file, 'utf8');
+  // });
+  if (index) {
+    writeFileSync(`${dist}/${lib.path}/package.json`, `{"ngPackage": {"lib": {"entryFile": "public_api.ts"}}}`, 'utf8');
+  }
   const libPath = join(nh, '..', '..', 'src/lib', lib.path);
   /** copy test.ts */
   writeFileSync(`${dist}/${lib.path}/test.ts`, testConfig.replace('{libPath}', `${libPath}`), 'utf8');

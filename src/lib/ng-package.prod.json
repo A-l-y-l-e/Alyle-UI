@@ -1,8 +1,8 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "{name}",
+  "dest": "../../dist/@alyle/ui",
   "lib": {
-    "entryFile": "public_api.ts",
+    "entryFile": "./src/public_api.ts",
     "umdId": "ly.{id}",
     "amdId": "ly.{id}",
     "umdModuleIds": {
@@ -23,9 +23,9 @@
       "@alyle/ui/tabs": "ly.tabs",
       "@alyle/ui/toolbar": "ly.toolbar",
       "@alyle/ui/drawer": "ly.drawer",
-      "chroma-js": "chroma",
-      "rxjs": "rxjs",
-      "rxjs/operators": "rxjs.operators"
+      "@alyle/ui/card": "ly.card",
+      "@alyle/ui/typography": "ly.typography",
+      "chroma-js": "chroma"
     }
   }
 }

@@ -17,7 +17,7 @@
       "dom"
     ],
     "paths": {
-      "@alyle/ui": ["lib/core"],
+      "@alyle/ui": ["lib"],
       "@alyle/ui/layout": ["lib/layout"],
       "@alyle/ui/flex": ["lib/flex"],
       "@alyle/ui/icon": ["lib/icon"],
