@@ -8,8 +8,8 @@ addons:
   chrome: stable
 
 env:
-  - STATUS=BUILD
-  - STATUS=DEPLOY
+  - MODE=BUILD
+  - MODE=DEPLOY
 
 before_install: yarn global add greenkeeper-lockfile@1
 before_script: greenkeeper-lockfile-update
@@ -31,19 +31,19 @@ install:
 jobs:
   include:
     - stage: build
+      env: MODE=BUILD
       script:
         - yarn build:@alyle/ui
         - yarn size-limit
-      env: STATUS=BUILD
     - stage: build
       script:
         - yarn ng build alyle-ui --aot
-      env: STATUS=BUILD
+      env: MODE=BUILD
     - stage: deploy
+      env: MODE=DEPLOY
       script:
         - yarn build
         - yarn tools:deploy
-      env: STATUS=DEPLOY
 
 stages:
   - build
