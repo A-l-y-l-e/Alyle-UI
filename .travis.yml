@@ -27,10 +27,12 @@ install:
 
 jobs:
   include:
-    - stage: build
+    - stage: prepare
       script:
         - yarn build:tools
         - yarn tools:prepare-lib
+    - stage: build
+      script:
         - yarn build:@alyle/ui
         - yarn size-limit
     - stage: build
@@ -42,6 +44,7 @@ jobs:
         - yarn tools:deploy
 
 stages:
+  - prepare
   - build
   - deploy
 
