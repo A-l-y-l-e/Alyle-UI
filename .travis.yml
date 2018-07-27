@@ -7,6 +7,10 @@ node_js:
 addons:
   chrome: stable
 
+env:
+  - STATUS=BUILD
+  - STATUS=DEPLOY
+
 before_install: yarn global add greenkeeper-lockfile@1
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
@@ -30,14 +34,16 @@ jobs:
       script:
         - yarn build:@alyle/ui
         - yarn size-limit
+      env: STATUS=BUILD
     - stage: build
       script:
         - yarn ng build alyle-ui --aot
+      env: STATUS=BUILD
     - stage: deploy
       script:
         - yarn build
         - yarn tools:deploy
-        # - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && yarn firebase deploy --token $FIREBASE_TOKEN --non-interactive || echo ''
+      env: STATUS=DEPLOY
 
 stages:
   - build
