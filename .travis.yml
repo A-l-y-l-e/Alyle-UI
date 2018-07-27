@@ -7,10 +7,6 @@ node_js:
 addons:
   chrome: stable
 
-env:
-  - MODE=BUILD
-  - MODE=DEPLOY
-
 before_install: yarn global add greenkeeper-lockfile@1
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
@@ -19,6 +15,7 @@ cache:
   yarn: true
   directories:
     - node_modules
+    - dist
 
 branches:
   only:
@@ -31,16 +28,15 @@ install:
 jobs:
   include:
     - stage: build
-      env: MODE=BUILD
       script:
+        - yarn build:tools
+        - yarn tools:prepare-lib
         - yarn build:@alyle/ui
         - yarn size-limit
     - stage: build
       script:
-        - yarn ng build alyle-ui --aot
-      env: MODE=BUILD
+        - yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
     - stage: deploy
-      env: MODE=DEPLOY
       script:
         - yarn build
         - yarn tools:deploy
