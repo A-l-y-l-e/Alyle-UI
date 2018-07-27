@@ -28,9 +28,12 @@ components = Object.keys(components).map((pkgName) => ({ path: components[pkgNam
 copySync(dirLib, dist);
 
 components.forEach((lib, index) => {
-  const item = statSync(`${dirLib}/${lib.path}`);
+  if (index) {
+    writeFileSync(`${dist}/${lib.path}/package.json`, `{"ngPackage": {"lib": {"entryFile": "public_api.ts"}}}`, 'utf8');
+  }
+  // const item = statSync(`${dirLib}/${lib.path}`);
   const nh = lib.path.split('/').map(() => '../').join('');
-  const ngPackagePath = join('../', nh, lib.pkgName);
+  // const ngPackagePath = join('../', nh, lib.pkgName);
   // [
   //   'ng-package.json',
   //   'ng-package.prod.json',
@@ -43,9 +46,6 @@ components.forEach((lib, index) => {
   //   .replace(/{version}/g, version);
   //   writeFileSync(`${dist}/${lib.path}/${pkgConfig}`, file, 'utf8');
   // });
-  if (index) {
-    writeFileSync(`${dist}/${lib.path}/package.json`, `{"ngPackage": {"lib": {"entryFile": "public_api.ts"}}}`, 'utf8');
-  }
   const libPath = join(nh, '..', '..', 'src/lib', lib.path);
   /** copy test.ts */
   writeFileSync(`${dist}/${lib.path}/test.ts`, testConfig.replace('{libPath}', `${libPath}`), 'utf8');

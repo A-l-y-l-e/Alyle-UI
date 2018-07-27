@@ -1,7 +1,7 @@
 version: 1.7.0-beta.3pcd9
 lastUpdate: '2018-07-26T06:00:29.487Z'
 components:
-  '@alyle/ui': core
+  '@alyle/ui': /
   '@alyle/ui/themes/minima': themes/minima
   '@alyle/ui/card': card
   '@alyle/ui/typography': typography

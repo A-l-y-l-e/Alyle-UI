@@ -160,27 +160,27 @@
       }
     },
     "@alyle/ui": {
-      "root": "dist/lib/core",
+      "root": "dist/lib//",
       "projectType": "library",
       "prefix": "ly",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "project": "dist/lib/core/ng-package.json"
+            "project": "dist/lib///ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "dist/lib/core/ng-package.prod.json"
+              "project": "dist/lib///ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "dist/lib/core/test.ts",
-            "tsConfig": "dist/lib/core/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/core/karma.conf.js",
+            "main": "dist/lib///test.ts",
+            "tsConfig": "dist/lib///tsconfig.spec.json",
+            "karmaConfig": "dist/lib///karma.conf.js",
             "progress": false,
             "codeCoverage": true,
             "browsers": "ChromeHeadless",
@@ -194,8 +194,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "dist/lib/core/tsconfig.lint.json",
-              "dist/lib/core/tsconfig.spec.json"
+              "dist/lib///tsconfig.lint.json",
+              "dist/lib///tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
