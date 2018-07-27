@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ng serve --port 1111",
     "hmr": "ng serve --port 1111 --hmr",
-    "build": "yarn build:tools && yarn build:browser && yarn build:server && prerender && yarn sw:update",
+    "build": "yarn build:browser && yarn build:server && prerender && yarn sw:update",
     "build:browser": "ng build alyle-ui --prod",
     "build:server": "ng run alyle-ui:server",
     "build:package": "rm -rf .tmp dist build && gulp build:package",

@@ -36,9 +36,9 @@ jobs:
     - stage: build
       script:
         - yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
+        - yarn build
     - stage: deploy
       script:
-        - yarn build
         - yarn tools:deploy
 
 stages:
