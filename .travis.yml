@@ -36,6 +36,9 @@ jobs:
         - yarn build:@alyle/ui
         - yarn bundlesizelimit
     - stage: build
+      addons:
+        artifacts:
+          working_dir: dist/alyle-ui
       script:
         - yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
         - yarn build
