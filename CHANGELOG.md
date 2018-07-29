@@ -1,3 +1,82 @@
+<a name="1.7.0-beta.3vwyc"></a>
+# [1.7.0-beta.3vwyc](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.3pcd9...1.7.0-beta.3vwyc) (2018-07-29)
+
+
+### Bug Fixes
+
+* **docs:** fix demos for card & typography ([bf04c66](https://github.com/A-l-y-l-e/Alyle-UI/commit/bf04c66))
+
+
+### Documentation
+
+* **theme:** update theme ([a4c0105](https://github.com/A-l-y-l-e/Alyle-UI/commit/a4c0105))
+
+
+### Features
+
+* **theme:** add LyThemeModule ([628491a](https://github.com/A-l-y-l-e/Alyle-UI/commit/628491a))
+
+
+### BREAKING CHANGES
+
+* **theme:** for theming use LyThemeModule or MinimaThemeModule
+
+To set a new theme you should import LyThemeModule
+
+example:
+
+Before:
+
+```html
+<element lyTheme="minima-dark">
+```
+
+After:
+
+
+```ts
+// app.module.ts
+// Available themes: minima-dark & minima-light
+
+@NgModule({
+  ...
+   LyThemeModule.setTheme('minima-dark')
+})
+```
+
+examples for child theme:
+
+Before:
+
+```ts
+@NgModule({
+  ...
+   LyCommonModule, // <-- theme, bg, color, raised & others
+})
+```
+
+```html
+<element lyTheme="minima-dark">
+```
+
+After:
+
+import theme
+
+```ts
+@NgModule({
+  ...
+  LyCommonModule, // <-- bg, color, raised & others
+  MinimaThemeModule // <-- themes
+})
+```
+
+```html
+<element ly-theme-minima-dark>
+```
+
+
+
 <a name="1.7.0-beta.3pcd9"></a>
 # [1.7.0-beta.3pcd9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.3jiq1...1.7.0-beta.3pcd9) (2018-07-26)
 
