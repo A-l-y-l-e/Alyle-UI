@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LyTheme } from '@alyle/ui';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +30,5 @@ export class LyFlexService {
   //     )
   //   ).id
   // };
-  constructor(
-    public theme: LyTheme
-  ) { }
+  constructor() { }
 }

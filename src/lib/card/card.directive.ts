@@ -1,18 +1,20 @@
-import { Directive, Renderer2, ElementRef, Input } from '@angular/core';
+import { Directive, Renderer2, ElementRef, Input, OnInit } from '@angular/core';
 import { LyTheme2, shadowBuilder } from '@alyle/ui';
 
 @Directive({
   selector: 'ly-card'
 })
-export class LyCard {
+export class LyCard implements OnInit {
   @Input() elevation: any;
 
   constructor(
-    styler: LyTheme2,
-    elementRef: ElementRef,
-    renderer: Renderer2
-  ) {
-    const newClass = styler.setUpStyleSecondary<any>(
+    private styler: LyTheme2,
+    private elementRef: ElementRef,
+    private renderer: Renderer2
+  ) { }
+
+  ngOnInit() {
+    const newClass = this.styler.setUpStyleSecondary<any>(
       'k-card',
       theme => (
         `background-color:${theme.background.primary};` +
@@ -23,7 +25,7 @@ export class LyCard {
         `${shadowBuilder(this.elevation)}`
       )
     );
-    renderer.addClass(elementRef.nativeElement, newClass);
+    this.renderer.addClass(this.elementRef.nativeElement, newClass);
   }
 
 }

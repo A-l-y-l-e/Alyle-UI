@@ -1,15 +1,22 @@
-import { Component, ViewChild, VERSION, ChangeDetectionStrategy, OnDestroy, AfterViewInit} from '@angular/core';
+import { Component, ViewChild, VERSION, ChangeDetectionStrategy, OnDestroy, OnInit, Renderer2, ElementRef, Inject} from '@angular/core';
 import { environment } from './../environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
-import { AUI_VERSION, LyThemeContainer, Platform } from '@alyle/ui';
+import { AUI_VERSION, LyThemeContainer, Platform, LyTheme2 } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { Subscription } from 'rxjs';
 import { LyIconService } from '@alyle/ui/icon';
 import { MinimaLight } from '@alyle/ui/themes/minima';
+import { DOCUMENT } from '@angular/platform-browser';
 
 const linkActiveStyle = theme => (
   `color: ${theme.primary.default} !important;` +
   `border-left: 3px solid !important;`
+);
+
+const rootStyle = theme => (
+  `background-color:${theme.background.default};` +
+  `color:${theme.text.default};` +
+  `font-family:${theme.typography.fontFamily};`
 );
 
 @Component({
@@ -19,22 +26,26 @@ const linkActiveStyle = theme => (
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnDestroy, AfterViewInit {
-  linkActive = '';
-  navMenu = '';
+export class AppComponent implements OnDestroy, OnInit {
+  linkActive;
+  navMenu;
   routesComponents: any;
   angularVersion = VERSION;
   version = AUI_VERSION;
   routeState = false;
   mode = true;
   routerEvent: Subscription;
-  @ViewChild(LyThemeContainer) themeContainer: LyThemeContainer;
 
   constructor(
+    @Inject(DOCUMENT) _document: any,
     public router: Router,
     public routesApp: RoutesAppService,
+    private theme: LyTheme2,
+    renderer: Renderer2,
+    elementRef: ElementRef,
     iconService: LyIconService
   ) {
+    renderer.addClass((_document as Document).body, this.theme.setUpStyle('body', rootStyle));
     iconService.setSvg('Heart', 'assets/svg/Heart');
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
     iconService.setSvg('Radiation', 'assets/svg/radiation');
@@ -55,15 +66,15 @@ export class AppComponent implements OnDestroy, AfterViewInit {
     this.mode = !this.mode;
     const name = this.mode ? 'minima-light' : 'minima-dark';
     console.log(name);
-    this.themeContainer.theme.setTheme(name);
+    this.theme.setTheme(name);
   }
 
-  ngAfterViewInit() {
-    this.linkActive = this.themeContainer.theme.setUpStyle<MinimaLight>(
+  ngOnInit() {
+    this.linkActive = this.theme.setUpStyle<MinimaLight>(
       'nav-activatedRoute',
       linkActiveStyle
     );
-    this.navMenu = this.themeContainer.theme.setUpStyle<MinimaLight>(
+    this.navMenu = this.theme.setUpStyle<MinimaLight>(
       'nav-ul',
       {
         '': () => (

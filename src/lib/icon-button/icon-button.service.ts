@@ -1,7 +1,4 @@
-import {
-  ProvidedInTheme,
-  CoreTheme
-} from '@alyle/ui';
+import { CoreTheme } from '@alyle/ui';
 import { Injectable } from '@angular/core';
 
 @Injectable({

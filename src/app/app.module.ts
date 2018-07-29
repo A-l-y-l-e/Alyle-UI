@@ -10,7 +10,7 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig } from '@alyle/ui';
+import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig, LyThemeModule } from '@alyle/ui';
 import { ResponsiveModule, LY_MEDIA_QUERIES, Breakpoints } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
@@ -88,6 +88,7 @@ export class MyCustomTheme extends LyThemeConfig {
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    LyThemeModule.setTheme('minima-light'),
     ResponsiveModule,
     LyCommonModule,
     LyButtonModule,

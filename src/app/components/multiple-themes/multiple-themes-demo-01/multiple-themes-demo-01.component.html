@@ -1,16 +1,14 @@
-<div lyTheme="minima-dark" #theme1="lyTheme" class="container">
-  <p>theme name: {{ theme1.theme.config.name }}</p>
+<ly-card ly-theme-minima-dark bg="background:primary" color="text">
+  <p>ly-theme-minima-dark</p>
   <button ly-button outlined color="primary">primary</button>
   <button ly-button outlined color="accent">accent</button>
   <p>
     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit enim odit dolorem corrupti beatae ullam nam repellat, quas error accusantium nobis suscipit nisi veniam eveniet dignissimos, fuga dolore neque porro.
   </p>
-  <div lyTheme="minima-light" #theme2="lyTheme" class="container">
+  <ly-card ly-theme-minima-light bg="background:primary" color="text">
     <h3>Child theme</h3>
-    <p>
-      theme name: {{ theme2.theme.config.name }}
-    </p>
+    <p>ly-theme-minima-light</p>
     <button ly-button outlined color="primary">primary</button>
     <button ly-button outlined color="accent">accent</button>
-  </div>
-</div>
+  </ly-card>
+</ly-card>
