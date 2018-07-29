@@ -33,6 +33,8 @@ import { CardDemoBasicModule } from '@docs/components/card-demo/card-demo-basic/
 import { LyTypographyModule } from '@alyle/ui/typography';
 import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
 import { TypographyDemoBasicModule } from '@docs/components/typography-demo/typography-demo-basic/typography-demo-basic.module';
+import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
+import { MultipleThemesDemo01Module } from './components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -70,6 +72,8 @@ export class MyCustomTheme extends LyThemeConfig {
   declarations: [
     AppComponent,
     TitleComponent,
+    /** Customization */
+    MultipleThemesComponent,
     /** Getting started */
     InstallationComponent,
     /** Components */
@@ -78,12 +82,14 @@ export class MyCustomTheme extends LyThemeConfig {
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
+    /** Customization */
+    /** MultipleThemes >*/MultipleThemesDemo01Module,
     /** Layout */
     GridDemoModule,
     FlexDemoModule,
     ResponsiveDemoModule,
-    /** CardDemo > **/CardDemoBasicModule,
-    /** TypographyDemo > **/TypographyDemoBasicModule,
+    /** CardDemo > */CardDemoBasicModule,
+    /** TypographyDemo > */TypographyDemoBasicModule,
     CommonModule,
     FormsModule,
     HttpClientModule,

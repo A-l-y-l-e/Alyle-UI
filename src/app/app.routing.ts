@@ -4,11 +4,12 @@ import { HomeModule } from './home/home.module';
 import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
 import { CardDemoComponent } from '@docs/components/card-demo/card-demo.component';
 import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
+import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
 
 const routes: Routes = [
   /** Customization */
   { path: 'customization/theming', loadChildren: './components/theming/theming.module#ThemingModule' },
-  { path: 'customization/multiple-themes', loadChildren: './components/multiple-themes/multiple-themes.module#MultipleThemesModule' },
+  { path: 'customization/multiple-themes', component: MultipleThemesComponent },
   { path: 'customization/bg-color', loadChildren: './components/bg-color-demo/bg-color-demo.module#BgColorDemoModule' },
   /** Components */
   {
