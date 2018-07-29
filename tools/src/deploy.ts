@@ -3,7 +3,7 @@ const projectDir = process.cwd();
 
 console.log({projectDir});
 
-if (process.env.MODE_BUILD) {
+if (process.env.MODE_DEPLOY) {
   firebaseTools.deploy({
     cwd: projectDir,
     token: process.env.FIREBASE_TOKEN
