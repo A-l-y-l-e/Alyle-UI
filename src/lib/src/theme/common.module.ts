@@ -7,8 +7,8 @@ import { LyThemeContainer } from './theme.directive';
 import { LyThemeModule } from './theme.module';
 
 @NgModule({
-  declarations: [LyBgColorAndRaised, LyNewRaised],
-  exports: [LyBgColorAndRaised, LyNewRaised, LyThemeModule],
+  declarations: [LyBgColorAndRaised, LyNewRaised, LyThemeContainer],
+  exports: [LyBgColorAndRaised, LyNewRaised, LyThemeContainer],
   providers: [
     { provide: LY_GLOBAL_CONTRAST, useValue: false }
   ]

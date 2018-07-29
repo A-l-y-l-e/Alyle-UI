@@ -16,8 +16,9 @@ export class LyThemeContainer implements OnInit {
    */
   @Input()
   set lyTheme(nam: string) {
+    console.log(`this.theme.config.name`, this.theme.config.name, nam);
     this._lyTheme = nam;
-    this.theme.config = this.theme.core.get(nam);
+    this.theme.setUpTheme(name);
   }
   get lyTheme() {
     return this._lyTheme;
@@ -32,7 +33,6 @@ export class LyThemeContainer implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.theme._styleMap = new Map<string, DataStyle>();
     this._setContainerStyle(this.elementRef.nativeElement, this.renderer);
   }
 

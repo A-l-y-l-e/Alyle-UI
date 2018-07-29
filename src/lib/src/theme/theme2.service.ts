@@ -1,5 +1,5 @@
-import { Injectable, Renderer2 } from '@angular/core';
-import { ThemeConfig } from './theme-config';
+import { Injectable, Renderer2, Inject, Optional } from '@angular/core';
+import { ThemeConfig, LY_THEME_NAME } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { DataStyle, Style } from '../theme.service';
 import { LyThemeContainer } from './theme.directive';
@@ -12,7 +12,19 @@ export class LyTheme2 {
 
   constructor(
     public core: CoreTheme,
-  ) {}
+    @Optional() @Inject(LY_THEME_NAME) themeName
+  ) {
+    console.log(`new Theme: ${themeName}`);
+    if (themeName) {
+      this.setUpTheme(themeName);
+    }
+  }
+  setUpTheme(themeName: string) {
+    if (!this.config) {
+      this.config = this.core.get(themeName);
+      this._styleMap = new Map<string, DataStyle>();
+    }
+  }
   setUpStyle<T>(
     key: string,
     styles: Style<T>,
@@ -40,6 +52,7 @@ export class LyTheme2 {
   setTheme(nam: string) {
     this.config = this.core.get(nam);
     this._styleMap.forEach((dataStyle, key) => {
+      console.log(key);
       dataStyle.styleElement.innerText = this.core._createStyleContent(this.config, dataStyle.style, dataStyle.id);
     });
   }

@@ -1,8 +1,9 @@
-import { NgModule, Optional, SkipSelf, Self, Host } from '@angular/core';
+import { NgModule, Optional, SkipSelf, Self, Host, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyThemeContainer } from './theme.directive';
 import { LyTheme2 } from './theme2.service';
 import { CoreTheme } from './core-theme.service';
+import { LY_THEME_NAME } from './theme-config';
 
 // export function THEME2_PROVIDER_FACTORY(
 //   parentRegistry: LyTheme2,
@@ -21,11 +22,15 @@ import { CoreTheme } from './core-theme.service';
 //   useFactory: THEME2_PROVIDER_FACTORY,
 // };
 
-@NgModule({
-  imports: [
-    CommonModule
-  ],
-  exports: [LyThemeContainer],
-  declarations: [LyThemeContainer],
-})
-export class LyThemeModule { }
+@NgModule()
+export class LyThemeModule {
+  static setTheme(themeName: string): ModuleWithProviders {
+    return {
+      ngModule: LyThemeModule,
+      providers: [
+        LyTheme2,
+        { provide: LY_THEME_NAME, useValue: themeName }
+      ]
+    };
+  }
+}
