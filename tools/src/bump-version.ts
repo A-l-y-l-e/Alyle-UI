@@ -14,7 +14,7 @@ function updateVersion() {
   const versionContent = `export const AUI_VERSION = '${newVersion.version}';\nexport const AUI_LAST_UPDATE = '${newVersion.lastUpdate}';
 `;
   pkgLib.version = newVersion.version;
-  const fileName = `${libDir}/core/src/version.ts`;
+  const fileName = `${libDir}/src/version.ts`;
   const file = readFileSync(fileName, 'utf8').toString()
   .replace(/{\sversion\s}/g, config.version);
   writeFileSync(fileName, versionContent, 'utf8');
