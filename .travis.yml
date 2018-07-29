@@ -6,8 +6,6 @@ node_js:
 
 addons:
   chrome: stable
-  artifacts:
-    working_dir: dist/alyle-ui
 
 before_install: yarn global add greenkeeper-lockfile@1
 before_script: greenkeeper-lockfile-update
@@ -41,12 +39,8 @@ jobs:
       script:
         - yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
         - yarn build
-    - stage: deploy
-      script:
-        - yarn tools:deploy
 
 stages:
   - prepare
   - build
-  - deploy
 
