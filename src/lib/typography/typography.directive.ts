@@ -36,7 +36,7 @@ export class LyTypography {
     return this.style.setUpStyleSecondary<any/** IMinimaTheme */>(newKey,
       theme => {
         const { typography } = theme;
-        const { fontSize, fontWeight, letterSpacing, textTransform, lineHeight } = typography.typographyVariants[key || 'body1'];
+        const { fontSize, fontWeight, letterSpacing, textTransform, lineHeight } = typography[key || 'body1'];
         let style = (
           `font-size:${theme.pxToRem(fontSize)};` +
           `font-weight:${fontWeight};` +

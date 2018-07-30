@@ -3,32 +3,26 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   Input,
-  OnChanges,
   Optional,
   Renderer2,
-  SimpleChanges,
   ViewChild,
-  Inject,
   NgZone,
   OnDestroy,
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import {
-  IsBoolean,
   Platform,
   toBoolean,
-  ThemeVariables,
   LyTheme2,
   LyBgColorAndRaised
 } from '@alyle/ui';
-import { LyRipple, Ripple, LyRippleService } from '@alyle/ui/ripple';
+import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
 
 @Component({
-  selector: '[ly-button], ly-button',
+  selector: '[ly-button]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <span #content>
@@ -74,18 +68,6 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     return this._disabled;
   }
 
-  get classes() {
-    return {
-      currentConfig: this.theme.setUpStyleSecondary('buttonConfig', {
-        '': () => (
-          `font-family:${this.theme.config.typography.fontFamily};` +
-          `font-size:${this.theme.config.typography.fontSize}px;` +
-          `color:${this.theme.config.text.default};`
-        )
-      })
-    };
-  }
-
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
@@ -105,7 +87,7 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.renderer.addClass(this.elementRef.nativeElement, this.classes.currentConfig);
+    this.renderer.addClass(this.elementRef.nativeElement, this.buttonService.classes.currentConfig);
     this.renderer.addClass(this.elementRef.nativeElement, this.buttonService.classes.root);
   }
 

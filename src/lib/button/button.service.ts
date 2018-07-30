@@ -2,18 +2,13 @@ import {
   LyTheme2, CoreTheme
 } from '@alyle/ui';
 import {
-  ElementRef,
-  Inject,
   Injectable,
-  Renderer2
 } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LyButtonService {
-  private rootClassName: string;
-  private themeClassName: string;
   classes = {
     root: this.coreTheme.setUpStyleSecondary(
       'button', {
@@ -37,10 +32,31 @@ export class LyButtonService {
         `height: 100%;` +
         `box-sizing: border-box;`
       )}
+    ),
+    currentConfig: this.theme.setUpStyleSecondary<any>(
+      'buttonConfig',
+      theme => {
+        const { button, fontFamily } = theme.typography;
+        console.log({button});
+        let styleButton = (
+          `font-family:${button.fontFamily || fontFamily};` +
+          `font-weight:${button.fontWeight};` +
+          `font-size:${theme.pxToRem(button.fontSize)};` +
+          `color:${theme.text.default};`
+        );
+        if (theme.letterSpacing) {
+          styleButton += `letter-spacing:${theme.pxToRem(button.letterSpacing)};`;
+        }
+        if (button.textTransform) {
+          styleButton += `text-transform:${button.textTransform};`;
+        }
+        return styleButton;
+      }
     )
   };
   constructor(
-    private coreTheme: CoreTheme
+    private coreTheme: CoreTheme,
+    private theme: LyTheme2
   ) { }
 }
 

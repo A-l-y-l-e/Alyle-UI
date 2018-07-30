@@ -52,7 +52,6 @@ export class LyTheme2 {
   setTheme(nam: string) {
     this.config = this.core.get(nam);
     this._styleMap.forEach((dataStyle, key) => {
-      console.log(key);
       dataStyle.styleElement.innerText = this.core._createStyleContent(this.config, dataStyle.style, dataStyle.id);
     });
   }
@@ -64,4 +63,8 @@ function get(obj: Object, path: any): string {
     obj = obj[_path[i]] || path;
   }
   return typeof obj === 'string' ? obj as string : obj['default'] as string;
+}
+
+export function toHyphenCase(str: string) {
+  return str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
 }
