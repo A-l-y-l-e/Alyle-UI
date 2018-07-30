@@ -1,3 +1,14 @@
+<a name="1.7.0-beta.3wtkb"></a>
+# [1.7.0-beta.3wtkb](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.3vwyc...1.7.0-beta.3wtkb) (2018-07-30)
+
+
+### Bug Fixes
+
+* **button:** use typography variables for style ([42b800c](https://github.com/A-l-y-l-e/Alyle-UI/commit/42b800c))
+* **theme:** remove logs ([1b95473](https://github.com/A-l-y-l-e/Alyle-UI/commit/1b95473))
+
+
+
 <a name="1.7.0-beta.3vwyc"></a>
 # [1.7.0-beta.3vwyc](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.3pcd9...1.7.0-beta.3vwyc) (2018-07-29)
 
