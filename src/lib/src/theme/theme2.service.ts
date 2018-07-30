@@ -14,7 +14,6 @@ export class LyTheme2 {
     public core: CoreTheme,
     @Optional() @Inject(LY_THEME_NAME) themeName
   ) {
-    console.log(`new Theme: ${themeName}`);
     if (themeName) {
       this.setUpTheme(themeName);
     }

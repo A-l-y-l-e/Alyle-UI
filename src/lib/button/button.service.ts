@@ -37,7 +37,6 @@ export class LyButtonService {
       'buttonConfig',
       theme => {
         const { button, fontFamily } = theme.typography;
-        console.log({button});
         let styleButton = (
           `font-family:${button.fontFamily || fontFamily};` +
           `font-weight:${button.fontWeight};` +
