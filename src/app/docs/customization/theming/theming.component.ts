@@ -1,40 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-theming',
   templateUrl: './theming.component.html',
-  styleUrls: ['./theming.component.css']
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ThemingComponent implements OnInit {
-  code: string;
-  constructor() {
-    this.code = code;
-  }
-
-  /**
-   * TODO: get all color from lyTheme
-   */
-  colors() {
-
-  }
-
-  ngOnInit() {
-  }
-
-}
-
-const code = `
-...
-import { LyThemeConfig, LY_THEME_CONFIG } from '@alyle/ui';
+export class ThemingComponent {
+  code = `...
+import { LyThemeModule, LyThemeConfig, LY_THEME_CONFIG } from '@alyle/ui';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
-/** My custom theme */
 
+/**
+ * Theme name = minima-light
+ */
 export class CustomMinimaLight extends MinimaLight {
   footer = '#24c1a0'; // Footer color
   myColor = 'pink';
 }
 
+/**
+ * Theme name = minima-dark
+ */
 export class CustomMinimaDark extends MinimaDark {
   footer = '#70b8e8'; // Footer color
   myColor = 'teal';
@@ -48,11 +35,16 @@ export class MyCustomTheme extends LyThemeConfig {
 /** set theme */
 @NgModule({
   ...
+  imports: [
+    LyThemeModule.setTheme('minima-dark')
+  ],
   provides: [
     { provide: LY_THEME_CONFIG, useClass: MyCustomTheme }
   ]
   ...
 })
 export class AppModule { }
-
 `;
+
+}
+

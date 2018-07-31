@@ -34,7 +34,6 @@ export class LyCard implements OnInit {
 
   private _createElevationClass(val: string | number) {
     this._elevation = defaultEntry(val, DEFAULT_ELEVATION);
-    console.log(this._elevation);
     return this.styler.setUpStyleSecondary<any>(
       `k-card-e:${this.elevation}`,
       theme => (

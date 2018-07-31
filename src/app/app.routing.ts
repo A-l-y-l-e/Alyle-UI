@@ -5,12 +5,18 @@ import { InstallationComponent } from '@docs/getting-started/installation/instal
 import { CardDemoComponent } from '@docs/components/card-demo/card-demo.component';
 import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
 import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
+import { ThemingComponent } from '@docs/customization/theming/theming.component';
 
 const routes: Routes = [
   /** Customization */
-  { path: 'customization/theming', loadChildren: './components/theming/theming.module#ThemingModule' },
   { path: 'customization/multiple-themes', component: MultipleThemesComponent },
   { path: 'customization/bg-color', loadChildren: './components/bg-color-demo/bg-color-demo.module#BgColorDemoModule' },
+  {
+    path: 'customization',
+    children: [
+      { path: 'theming', component: ThemingComponent }
+    ]
+  },
   /** Components */
   {
     path: 'components',

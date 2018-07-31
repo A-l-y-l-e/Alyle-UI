@@ -35,6 +35,7 @@ import { TypographyDemoComponent } from '@docs/components/typography-demo/typogr
 import { TypographyDemoBasicModule } from '@docs/components/typography-demo/typography-demo-basic/typography-demo-basic.module';
 import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
 import { MultipleThemesDemo01Module } from './components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
+import { DocsModule } from '@docs/docs.module';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -107,6 +108,7 @@ export class MyCustomTheme extends LyThemeConfig {
     LyTypographyModule,
     PrismModule,
     DemoViewModule,
+    DocsModule,
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
   ],
