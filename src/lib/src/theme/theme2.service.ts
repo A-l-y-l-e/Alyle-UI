@@ -48,6 +48,10 @@ export class LyTheme2 {
   updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
     this.core.updateClassName(element, renderer, newClassname, oldClassname);
   }
+  updateClass(element: any, renderer: Renderer2, newClass: string, oldClass?: string) {
+    this.updateClassName(element, renderer, newClass, oldClass);
+    return oldClass;
+  }
   setTheme(nam: string) {
     this.config = this.core.get(nam);
     this._styleMap.forEach((dataStyle, key) => {

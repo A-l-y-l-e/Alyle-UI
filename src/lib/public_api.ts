@@ -6,7 +6,6 @@ export * from './src/parents';
 export * from './src/alyle-config-service';
 export * from './src/root.service';
 export * from './src/platform/index';
-// export * from './src/color-tranformation';
 export * from './src/theme/common.module';
 export * from './src/minimal/index';
 export * from './src/dom/dom.service';

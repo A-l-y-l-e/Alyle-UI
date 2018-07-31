@@ -31,7 +31,7 @@ export const Shadows = [
   [0, 11, 14, -7, 0, 23, 36, 3, 0, 9, 44, 8],
   [0, 11, 15, -7, 0, 24, 38, 3, 0, 9, 46, 8]
 ];
-export function shadowBuilder(elevation: number = 2, color = '#000') {
+export function shadowBuilder(elevation: number | string = 2, color = '#000') {
   const Color = chroma(color);
   const colors = [
     Color.alpha(shadowKeyUmbraOpacity).css(),
