@@ -8,7 +8,7 @@
 /dist-server
 /build
 /out-tsc
-/documentation
+/docs
 
 # dependencies
 /node_modules
