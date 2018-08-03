@@ -7,6 +7,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
 import { LyCommonModule } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
+import { LyTypographyModule } from '@alyle/ui/typography';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ResponsiveModule } from '@alyle/ui/responsive';
     LyCommonModule,
     LyButtonModule,
     HomeRoutingModule,
-    ResponsiveModule
+    ResponsiveModule,
+    LyTypographyModule
   ],
   declarations: [HomeComponent]
 })
