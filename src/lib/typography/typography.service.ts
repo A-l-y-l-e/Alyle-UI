@@ -12,7 +12,8 @@ export class LyTypographyClasses {
     this.root = styleCore.setUpStyleSecondary(
       'k-typ',
       () => (
-        `margin: 1em 0 0.65em 0;` +
+        // `margin: 1em 0 0.65em 0;` +
+        `margin: 0;` +
         `display: block;`
       )
     );

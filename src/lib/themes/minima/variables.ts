@@ -4,6 +4,8 @@ export const typography = {
   fontFamily: `'Roboto', sans-serif`,
   htmlFontSize: 16,
   fontSize: 14,
+  gutterTop: 1,
+  gutterBottom: .35,
   display4: {
     fontSize: 96,
     fontWeight: 300,

@@ -4,6 +4,8 @@ export interface TypographyConfig {
   fontWeight?: number;
   letterSpacing?: number;
   textTransform?: 'uppercase' | 'capitalize' | 'lowercase';
+  gutterTop?: number;
+  gutterBottom?: number;
 }
 
 export class LyStyleUtils {

@@ -1,14 +1,29 @@
-import { Directive, ElementRef, Renderer2, Input } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { Directive, ElementRef, Renderer2, Input, isDevMode, OnInit } from '@angular/core';
+import { LyTheme2, toBoolean } from '@alyle/ui';
 // import { IMinimaTheme } from '../themes';
 import { LyTypographyClasses } from './typography.service';
+
+enum Gutter {
+  default,
+  top,
+  bottom,
+}
 
 @Directive({
   selector: `[lyTyp]`
 })
-export class LyTypography {
+export class LyTypography implements OnInit {
   private _lyTyp: string;
   private _lyTypClass: string;
+
+  private _gutter: boolean;
+  private _gutterClass: string;
+
+  private _gutterTop: boolean;
+  private _gutterTopClass: string;
+
+  private _gutterBottom: boolean;
+  private _gutterBottomClass: string;
 
   @Input()
   set lyTyp(val: string) {
@@ -21,6 +36,46 @@ export class LyTypography {
   get lyTyp() {
     return this._lyTyp;
   }
+
+  @Input()
+  set gutter(val: boolean) {
+    const newVal = toBoolean(val);
+    if (newVal !== this.gutter) {
+      this._gutter = newVal;
+      const newClass = this._createGutterClass(Gutter.default, newVal);
+      this._gutterClass = this.style.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._gutterClass);
+    }
+  }
+  get gutter() {
+    return this._gutter;
+  }
+
+  @Input()
+  set gutterTop(val: boolean) {
+    const newVal = toBoolean(val);
+    if (newVal !== this.gutterTop) {
+      this._gutterTop = newVal;
+      const newClass = this._createGutterClass(Gutter.top, newVal);
+      this._gutterTopClass = this.style.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._gutterTopClass);
+    }
+  }
+  get gutterTop() {
+    return this._gutterTop;
+  }
+
+  @Input()
+  set gutterBottom(val: boolean) {
+    const newVal = toBoolean(val);
+    if (newVal !== this.gutterBottom) {
+      this._gutterBottom = newVal;
+      const newClass = this._createGutterClass(Gutter.bottom, newVal);
+      this._gutterBottomClass = this.style.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._gutterBottomClass);
+    }
+  }
+  get gutterBottom() {
+    return this._gutterBottom;
+  }
+
   constructor(
     private style: LyTheme2,
     private elementRef: ElementRef,
@@ -28,6 +83,12 @@ export class LyTypography {
     classes: LyTypographyClasses
   ) {
     this.renderer.addClass(this.elementRef.nativeElement, classes.root);
+  }
+
+  ngOnInit() {
+    if ((this.gutterTop && this.gutterBottom)) {
+      throw new Error(`use '<element lyTyp gutter>' instead of '<element lyTyp gutterTop gutterBottom>'`);
+    }
   }
 
   private _createTypClass(key: string) {
@@ -53,4 +114,16 @@ export class LyTypography {
     );
   }
 
+  private _createGutterClass(name: Gutter, val: boolean) {
+    return this.style.setUpStyleSecondary<any>(
+      `k-typ-gutter:${name}:${val}`,
+      theme => {
+        const gutter = name === Gutter.default;
+        return (
+          `margin-top:${ val && (gutter || name === Gutter.top) ? theme.typography.gutterTop : 0 }em;` +
+          `margin-bottom:${ val && (gutter || name === Gutter.bottom) ? theme.typography.gutterBottom : 0 }em;`
+        );
+      }
+    );
+  }
 }
