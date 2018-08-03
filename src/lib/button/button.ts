@@ -22,9 +22,21 @@ import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
 const DEFAULT_SIZE = 'medium';
 const Size = {
-  small: theme => `padding:0 8px;font-size:${theme.pxToRem(theme.typography.button.fontSize - 1)};`,
-  medium: theme => `padding:0 14px;font-size:${theme.pxToRem(theme.typography.button.fontSize)};`,
-  large: theme => `padding:0 21px;font-size:${theme.pxToRem(theme.typography.button.fontSize + 1)};`,
+  small: theme => (
+    `padding:0 8px;` +
+    `font-size:${theme.pxToRem(theme.typography.button.fontSize - 1)};` +
+    `min-height: 32px;`
+  ),
+  medium: theme => (
+    `padding:0 14px;` +
+    `font-size:${theme.pxToRem(theme.typography.button.fontSize)};` +
+    `min-height: 36px;`
+  ),
+  large: theme => (
+    `padding:0 21px;` +
+    `font-size:${theme.pxToRem(theme.typography.button.fontSize + 1)};` +
+    `min-height: 40px;`
+  ),
 };
 
 @Component({

@@ -65,8 +65,6 @@ function rootStyle() {
   'border:0;' +
   'padding:0 1em;' +
   '-moz-appearance:none;' +
-  'min-height:36px;' +
-  'height:36px;' +
   'margin:0;' +
   'border-radius:3px;' +
   'outline:none;' +
