@@ -1,5 +1,6 @@
 import { Directive, Renderer2, ElementRef, Input, OnInit } from '@angular/core';
 import { LyTheme2, shadowBuilder, defaultEntry } from '@alyle/ui';
+import { LyCardClasses } from './card.service';
 
 const DEFAULT_ELEVATION = 2;
 
@@ -40,10 +41,43 @@ export class LyCard implements OnInit {
         `background-color:${theme.background.primary};` +
         `display:block;` +
         `position:relative;` +
-        `padding:24px;` +
+        // `padding:24px;` + // remove this
         `border-radius:2px;` +
         `${shadowBuilder(this.elevation)}`
       )
     );
+  }
+}
+
+@Directive({
+  selector: 'ly-card-content'
+})
+export class LyCardContent implements OnInit {
+
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    private classes: LyCardClasses
+  ) { }
+
+  ngOnInit() {
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.cardContent);
+  }
+}
+
+@Directive({
+  selector: 'ly-card-actions'
+})
+export class LyCardActions implements OnInit {
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    private classes: LyCardClasses
+  ) { }
+  ngOnInit() {
+    this.elementRef.nativeElement.childNodes.forEach(element => {
+      this.renderer.addClass(element, this.classes.cardActionsItem);
+    });
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.cardActions);
   }
 }

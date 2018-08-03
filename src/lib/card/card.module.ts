@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyCard } from './card.directive';
+import { LyCard, LyCardContent, LyCardActions } from './card.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  exports: [LyCard],
-  declarations: [LyCard]
+  exports: [LyCard, LyCardContent, LyCardActions],
+  declarations: [LyCard, LyCardContent, LyCardActions]
 })
 export class LyCardModule { }
