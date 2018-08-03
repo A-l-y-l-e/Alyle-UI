@@ -20,6 +20,12 @@ import {
 } from '@alyle/ui';
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { LyButtonService } from './button.service';
+const DEFAULT_SIZE = 'medium';
+const Size = {
+  small: theme => `padding:0 8px;font-size:${theme.pxToRem(theme.typography.button.fontSize - 1)};`,
+  medium: theme => `padding:0 14px;font-size:${theme.pxToRem(theme.typography.button.fontSize)};`,
+  large: theme => `padding:0 21px;font-size:${theme.pxToRem(theme.typography.button.fontSize + 1)};`,
+};
 
 @Component({
   selector: '[ly-button]',
@@ -37,6 +43,8 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   private _disabledClassName: string;
   private _outlinedClassName: string;
   private _rippleContainer: Ripple;
+  private _size: string;
+  private _sizeClass: string;
   @Input()
   set outlined(val: boolean) {
     const classname = toBoolean(val) === true ? this.buttonService.classes.outlined : '';
@@ -49,6 +57,17 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   }
   set rippleSensitive(value: boolean) {
     this._rippleSensitive = toBoolean(value);
+  }
+
+  @Input()
+  set size(val: string) {
+    if (val !== this.size) {
+      const newClass = this._createSizeClass(val);
+      this._sizeClass = this.theme.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._sizeClass);
+    }
+  }
+  get size() {
+    return this._size;
   }
 
   @ViewChild('content') buttonContent: ElementRef;
@@ -89,6 +108,9 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.renderer.addClass(this.elementRef.nativeElement, this.buttonService.classes.currentConfig);
     this.renderer.addClass(this.elementRef.nativeElement, this.buttonService.classes.root);
+    if (!this.size) {
+      this.size = DEFAULT_SIZE;
+    }
   }
 
   public focused() {
@@ -112,6 +134,11 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
       style += `background-color: ${this.theme.config.button.disabled} !important;`;
     }
     return style;
+  }
+
+  private _createSizeClass(val: string): string {
+    this._size = val;
+    return this.theme.setUpStyleSecondary(`k-button-size:${this.size}`, Size[this.size]);
   }
 
   ngOnDestroy() {

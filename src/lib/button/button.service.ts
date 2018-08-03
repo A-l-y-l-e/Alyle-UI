@@ -63,7 +63,7 @@ function rootStyle() {
   return '-webkit-tap-highlight-color:transparent;' +
   'background-color:rgba(0, 0, 0, 0);' +
   'border:0;' +
-  'padding:0 16px;' +
+  'padding:0 1em;' +
   '-moz-appearance:none;' +
   'min-height:36px;' +
   'height:36px;' +
