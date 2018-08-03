@@ -81,7 +81,7 @@ export class AppComponent implements OnDestroy, OnInit {
           `overflow: hidden;` +
           `position: relative;` +
           `list-style: none;` +
-          `padding: 1rem 1.8rem;` +
+          `padding: 2rem 1.8rem;` +
           `margin: 0;` +
           `border-bottom: 1px solid rgba(0, 0, 0, 0.11)`
         ),
