@@ -1,3 +1,23 @@
+<a name="1.7.0-beta.461kq"></a>
+# [1.7.0-beta.461kq](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.3wtkb...1.7.0-beta.461kq) (2018-08-04)
+
+
+### Bug Fixes
+
+* **button:** fix size button ([d445db2](https://github.com/A-l-y-l-e/Alyle-UI/commit/d445db2))
+* **card:** fix elevation with value 0 ([efaae25](https://github.com/A-l-y-l-e/Alyle-UI/commit/efaae25))
+* **card:** rename aspectRatio to ratio ([194f4d6](https://github.com/A-l-y-l-e/Alyle-UI/commit/194f4d6))
+
+
+### Features
+
+* **button:** add small, medium & large button ([b805de3](https://github.com/A-l-y-l-e/Alyle-UI/commit/b805de3))
+* **card:** add ly-card-content & ly-card-card-actions ([916f43a](https://github.com/A-l-y-l-e/Alyle-UI/commit/916f43a))
+* **card:** add ly-card-media ([aba7d55](https://github.com/A-l-y-l-e/Alyle-UI/commit/aba7d55))
+* **typography:** add gutter ([8877028](https://github.com/A-l-y-l-e/Alyle-UI/commit/8877028))
+
+
+
 <a name="1.7.0-beta.3wtkb"></a>
 # [1.7.0-beta.3wtkb](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.3vwyc...1.7.0-beta.3wtkb) (2018-07-30)
 

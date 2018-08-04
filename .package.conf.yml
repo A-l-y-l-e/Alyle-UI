@@ -1,5 +1,5 @@
-version: 1.7.0-beta.3wtkb
-lastUpdate: '2018-07-30T06:55:08.604Z'
+version: 1.7.0-beta.461kq
+lastUpdate: '2018-08-04T06:26:35.968Z'
 components:
   '@alyle/ui': /
   '@alyle/ui/themes/minima': themes/minima
