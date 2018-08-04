@@ -94,8 +94,8 @@ export class LyCardMedia implements OnInit {
   private _bgImg: string;
   private _bgImgClass: string;
 
-  private _aspectRatio: string;
-  private _aspectRatioClass: string;
+  private _ratio: string;
+  private _ratioClass: string;
 
   @Input()
   set bgImg(val: string) {
@@ -108,15 +108,16 @@ export class LyCardMedia implements OnInit {
     return this._bgImg;
   }
 
+  /** Aspect ratio */
   @Input()
-  set aspectRatio(val: string) {
-    if (val !== this.aspectRatio) {
+  set ratio(val: string) {
+    if (val !== this.ratio) {
       const newClass = this._createAspectRatioClass(val);
-      this._aspectRatioClass = this.theme.updateClass(this.el.nativeElement, this.renderer, newClass, this._aspectRatioClass);
+      this._ratioClass = this.theme.updateClass(this.el.nativeElement, this.renderer, newClass, this._ratioClass);
     }
   }
-  get aspectRatio() {
-    return this._aspectRatio;
+  get ratio() {
+    return this._ratio;
   }
 
   constructor(
@@ -126,8 +127,8 @@ export class LyCardMedia implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.aspectRatio) {
-      this.aspectRatio = DEFAULT_ASPECT_RATIO;
+    if (!this.ratio) {
+      this.ratio = DEFAULT_ASPECT_RATIO;
     }
   }
 
@@ -146,15 +147,20 @@ export class LyCardMedia implements OnInit {
   }
 
   private _createAspectRatioClass(val: string) {
-    this._aspectRatio = val;
+    this._ratio = val;
     return this.theme.setUpStyle(
-      `k-card-media-ar:${val}`,
-      () => {
-        return (
-          val.split(':').reduce((valorAnterior, valorActual) => {
-            return `padding-top:${+valorActual / +valorAnterior * 100}%`;
-          })
-        );
+      `k-card-media-ar:${val}`, {
+        ':before': () => {
+          return (
+            val.split(':').reduce((valorAnterior, valorActual) => {
+              return (
+                `padding-top:${+valorActual / +valorAnterior * 100}%;` +
+                `content:'';` +
+                `display:block;`
+              );
+            })
+          );
+        }
       }
     );
   }
