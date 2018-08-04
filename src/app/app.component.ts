@@ -26,7 +26,7 @@ const rootStyle = theme => (
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnDestroy, OnInit {
+export class AppComponent implements OnInit {
   linkActive;
   navMenu;
   routesComponents: any;
@@ -34,7 +34,6 @@ export class AppComponent implements OnDestroy, OnInit {
   version = AUI_VERSION;
   routeState = false;
   mode = true;
-  routerEvent: Subscription;
 
   constructor(
     @Inject(DOCUMENT) _document: any,
@@ -49,17 +48,6 @@ export class AppComponent implements OnDestroy, OnInit {
     iconService.setSvg('Heart', 'assets/svg/Heart');
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
     iconService.setSvg('Radiation', 'assets/svg/radiation');
-    this.routerEvent = this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.routeState = event.urlAfterRedirects !== '/';
-        if (Platform.isBrowser) {
-          if (environment.production) {
-            ga('set', 'page', event.urlAfterRedirects);
-            ga('send', 'pageview');
-          }
-        }
-      }
-    });
     this.routesComponents = this.routesApp.routesApp;
   }
   changeScheme() {
@@ -93,9 +81,5 @@ export class AppComponent implements OnDestroy, OnInit {
         ' a:hover': linkActiveStyle
       }
     );
-  }
-
-  ngOnDestroy() {
-    this.routerEvent.unsubscribe();
   }
 }

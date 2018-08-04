@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { RoutesAppService } from '../../components/routes-app.service';
 import { Title } from '@angular/platform-browser';
+import { Platform } from '@alyle/ui';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-title',
@@ -29,6 +31,12 @@ export class TitleComponent implements OnInit {
       this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
     } else {
       this.titleService.setTitle(this.defaultTitle);
+    }
+    if (Platform.isBrowser) {
+      if (environment.production) {
+        ga('set', 'page', val);
+        ga('send', 'pageview');
+      }
     }
   }
   get route() {
