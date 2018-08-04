@@ -3,6 +3,13 @@ import { LyTheme2 } from '@alyle/ui';
 
 @Injectable({ providedIn: 'root' })
 export class LyCardClasses {
+  card = this.theme.setUpStyleSecondary(
+    'k-card',
+    () => (
+      `display:block;` +
+      `overflow: hidden;`
+    )
+  );
   cardContent = this.theme.setUpStyleSecondary(
     'k-card-content',
     () => (
