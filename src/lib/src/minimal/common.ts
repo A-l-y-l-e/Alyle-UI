@@ -9,32 +9,30 @@ export interface KeyAttribute {
 @Directive({
   selector: '[ngTransclude]'
 })
-export class NgTranscludeDirective implements AfterContentInit, OnDestroy {
-  public viewRef: ViewContainerRef;
+export class NgTranscludeDirective implements OnDestroy {
 
   private _ngTransclude: TemplateRef<any>;
 
   @Input()
-  public set ngTransclude(templateRef: TemplateRef<any>) {
-    this._ngTransclude = templateRef;
+  set status(val: boolean) {
+    console.log('val', val);
+  }
+  @Input()
+  set ngTransclude(templateRef: TemplateRef<any>) {
     if (templateRef) {
-      this.viewRef.createEmbeddedView(templateRef);
+      console.log('creating view');
+      this._ngTransclude = templateRef;
+      this._viewRef.createEmbeddedView(templateRef);
     }
   }
-  @Output() ngTranscludeChange: EventEmitter<any> = new EventEmitter<any>();
 
-  public get ngTransclude(): TemplateRef<any> {
+  get ngTransclude(): TemplateRef<any> {
     return this._ngTransclude;
   }
 
-  public constructor(private _viewRef: ViewContainerRef) {
-    this.viewRef = _viewRef;
-  }
-  ngAfterContentInit() {
-    this.ngTranscludeChange.emit(true);
-  }
+  constructor(private _viewRef: ViewContainerRef) { }
   ngOnDestroy() {
-    this.viewRef.detach();
+    this._viewRef.remove();
   }
 }
 @NgModule({

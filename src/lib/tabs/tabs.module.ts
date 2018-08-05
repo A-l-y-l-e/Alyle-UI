@@ -1,14 +1,14 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgTranscludeModule } from '@alyle/ui';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyTab, LyTabGroupComponent, LyTabContent } from './tabs';
+import { LyTabs, LyTabLabel, LyTab } from './tabs.directive';
 import { LyHeaderPaginationModule } from '@alyle/ui/header-pagination';
 import { LyRippleModule } from '@alyle/ui/ripple';
-import { NgTranscludeModule } from '@alyle/ui';
-import { LyTabLabelDirective } from './tab-label.directive';
+import { LyTabContent } from './tab-content.directive';
 
 @NgModule({
   imports: [CommonModule, LyRippleModule, LyHeaderPaginationModule, NgTranscludeModule],
-  exports: [LyTab, LyTabGroupComponent, LyTabLabelDirective, LyTabContent],
-  declarations: [LyTab, LyTabGroupComponent, LyTabLabelDirective, LyTabContent]
+  exports: [LyTabs, LyTab, LyTabLabel, LyTabContent],
+  declarations: [LyTabs, LyTab, LyTabLabel, LyTabContent]
 })
 export class LyTabsModule { }

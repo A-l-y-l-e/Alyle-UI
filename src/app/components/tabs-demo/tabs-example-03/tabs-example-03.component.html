@@ -1,4 +1,4 @@
-<ly-tabs [(selectedIndex)]="selectedIndex">
+<ly-tabs>
   <ly-tab>
     <button ly-button ly-tab-label>
       Brush
@@ -34,18 +34,18 @@
     <ly-tab-label>{{ tab.label }}</ly-tab-label>
     <div class="content">
       {{ 'Content ' + i }}
-      <ly-input>
+      <!-- <ly-input>
         <input [(ngModel)]="tab.label">
-      </ly-input>
+      </ly-input> -->
     </div>
   </ly-tab>
 </ly-tabs>
-<ly-input class="selected-index">
-  <input [(ngModel)]="selectedIndex" type="number">
-</ly-input>
+<!-- <ly-input class="selected-index"> -->
+  <input [formControl]="selected" type="number">
+<!-- </ly-input> -->
 <br />
 <button ly-button (click)="addTab()">add tab</button>
-<ly-tabs [(selectedIndex)]="selectedIndex" bg="#00bcd4" color="#fff">
+<ly-tabs [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
   <ly-tab *ngFor="let tab of tabs; let i = index">
     <ly-tab-label>{{ 'Label ' + i }}</ly-tab-label>
     <div class="content">

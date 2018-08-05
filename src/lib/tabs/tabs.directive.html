@@ -1,0 +1,11 @@
+<div [className]="classes.tabsLabels">
+  <span [className]="classes.tabsIndicator"></span>
+  <ng-content></ng-content>
+</div>
+<div [className]="classes.tabContents" #tabContents>
+  <ng-template ngFor let-item [ngForOf]="tabsList" let-i="index">
+    <div [className]="classes.tabContent">
+      <ng-template [ngTransclude]="loadTemplate(item, i)"></ng-template>
+    </div>
+  </ng-template>
+</div>

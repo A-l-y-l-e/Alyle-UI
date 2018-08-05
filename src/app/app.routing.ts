@@ -53,7 +53,6 @@ const routes: Routes = [
   imports: [
     HomeModule,
     RouterModule.forRoot(routes, {
-      useHash: false,
       initialNavigation: 'enabled'
     })
   ],

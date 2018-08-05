@@ -22,8 +22,9 @@
   min-height: calc(100vh);
   .demo {
     max-width: 960px;
-    width: 75%;
-    padding: 96px 0;
+    flex: 1;
+    padding: 96px 2rem;
+    width: 100%;
   }
 }
 .logo {
