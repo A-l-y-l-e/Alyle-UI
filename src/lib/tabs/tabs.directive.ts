@@ -16,30 +16,53 @@ import {
   Renderer2,
   ElementRef,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
+  AfterViewInit
 } from '@angular/core';
 import { LyTabContent } from './tab-content.directive';
 import { LyTabsClassesService } from './tabs.clasess.service';
-import { UndefinedValue, Undefined } from '@alyle/ui';
+import { UndefinedValue, Undefined, LyTheme2, Platform } from '@alyle/ui';
 
 @Component({
   selector: 'ly-tabs',
   templateUrl: './tabs.directive.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.Native,
+  encapsulation: ViewEncapsulation.None,
   exportAs: 'lyTabs'
 })
-export class LyTabs implements OnInit {
+export class LyTabs implements OnInit, AfterViewInit {
   _selectedIndex: number | Undefined = UndefinedValue;
   _selectedRequireCheck: boolean;
-  _selectedEl: HTMLElement;
+  _selectedTab: LyTab;
+  _selectedBeforeTab: LyTab;
+  private _isViewInitLoaded: boolean;
+  private _withColor: string;
+  private _withColorClass: string;
   @ViewChild('tabContents') tabContents: ElementRef;
+  @ViewChild('tabsIndicator') tabsIndicator: ElementRef;
+  @Input()
+  set withColor(val: string) {
+    if (val !== this.withColor) {
+      const newClass = this._createWithColorClass(val);
+      this._withColorClass = this.theme.updateClass(this.tabsIndicator.nativeElement, this.renderer, newClass, this._withColorClass);
+      if (this._selectedTab) {
+        this.theme.updateClass(this._selectedTab.tabIndicator.nativeElement, this.renderer, newClass, this._withColorClass);
+      }
+      console.log('current tab from withColor', this._withColorClass, this._selectedTab);
+    }
+  }
+  get withColor() {
+    return this._withColor;
+  }
   @Input()
   set selectedIndex(val: number) {
     if (val !== this.selectedIndex) {
+      console.log(`before:${this.selectedIndex} current: ${val}`, this.tabsList);
       this._selectedIndex = val;
       this.selectedIndexChange.emit(val);
       console.log('set index:', val, this.tabContents);
+      this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
+
       if (this._selectedRequireCheck) {
         this.markForCheck();
         console.log('·······markForCheck()');
@@ -51,12 +74,12 @@ export class LyTabs implements OnInit {
     return this._selectedIndex as number;
   }
   @Output() selectedIndexChange: EventEmitter<any> = new EventEmitter();
-  @Input() withColor: string;
   @Input() withBg: string;
   @ContentChildren(forwardRef(() => LyTab)) tabsList: QueryList<LyTab>;
 
   constructor(
     public classes: LyTabsClassesService,
+    private theme: LyTheme2,
     private renderer: Renderer2,
     private el: ElementRef,
     private cd: ChangeDetectorRef
@@ -64,6 +87,44 @@ export class LyTabs implements OnInit {
 
   ngOnInit() {
     this.renderer.addClass(this.el.nativeElement, this.classes.tabs);
+    const tabsIndicatorEl = this.tabsIndicator.nativeElement;
+    this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);
+    /** Set default Color */
+    if (!this.withColor) {
+      this.withColor = 'primary';
+    }
+  }
+
+  ngAfterViewInit() {
+    this._isViewInitLoaded = true;
+  }
+
+  private _updateIndicator(currentTab: LyTab, beforeTab?: LyTab): void {
+    const currentIndex = this.selectedIndex;
+    if (currentTab) {
+      // currentTab = this.tabsList.find(_ => _.index === currentIndex);
+      if (!this._isViewInitLoaded || !Platform.isBrowser) {
+        /** for before initialize or for server */
+        console.log('for ─ server', this.withColor);
+        this.renderer.addClass(currentTab.tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
+        this.renderer.addClass(currentTab.tabIndicator.nativeElement, this._withColorClass);
+        /**
+         * TODO: tabs: update indicator when change `selectedIndex`
+         */
+      } else {
+        /** for after initialize && for browser */
+        /** Clean before tab */
+        if (beforeTab) {
+          beforeTab._renderer.removeAttribute(beforeTab.tabIndicator.nativeElement, 'class');
+        }
+        const el = currentTab._el.nativeElement as HTMLElement;
+        const rects = el.getBoundingClientRect();
+        console.log({rects});
+        console.log('for ─ browser', rects.width);
+        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'width', `${rects.width}px`);
+        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'left', `${el.offsetLeft}px`);
+      }
+    }
   }
 
   markForCheck() {
@@ -75,13 +136,19 @@ export class LyTabs implements OnInit {
       return null;
     }
     tab.index = index;
-    console.log('tab', this.selectedIndex, 'index', index);
     if (this.selectedIndex === UndefinedValue) {
-      console.warn('isUndefinedValue');
+      this._selectedTab = tab;
+      console.warn('~~~~~isUndefinedValue', tab._el.nativeElement);
       this.selectedIndex = 0;
+    } else if (!this._isViewInitLoaded && this.selectedIndex === tab.index) {
+      this._selectedTab = tab;
+      console.log(`from loadTemplate`);
+      /** Apply style for tabIndicator server */
+      this._updateIndicator(tab);
     }
     if (tab.templateRefLazy) {
       if (this.selectedIndex === index) {
+        console.log('·────loadTemplate');
         tab.loaded = true;
         return tab.templateRefLazy;
       } else {
@@ -92,33 +159,50 @@ export class LyTabs implements OnInit {
       return tab.templateRef;
     }
   }
+
+  private _createWithColorClass(val: string) {
+    this._withColor = val;
+    return this.theme.setUpStyle(
+      `k-tab-with-color:${val}`,
+      () => (
+        `color:${this.theme.colorOf(val)};`
+      )
+    );
+  }
 }
 
 @Component({
   selector: 'ly-tab',
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.Native
+  encapsulation: ViewEncapsulation.None
 })
-export class LyTab implements OnInit {
+export class LyTab implements OnInit, AfterViewInit {
   index: number;
   loaded: boolean;
   @ContentChild(LyTabContent, { read: TemplateRef }) templateRefLazy: TemplateRef<LyTabContent>;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+  @ViewChild('tabIndicator') tabIndicator: ElementRef;
   @HostListener('click') onClick() {
     console.log('click', this.index, this.tabs.selectedIndex);
+    this.tabs._selectedBeforeTab = this.tabs._selectedTab;
+    this.tabs._selectedTab = this;
     this.tabs._selectedRequireCheck = !this.loaded;
     this.tabs.selectedIndex = this.index;
   }
 
   constructor(
     private tabs: LyTabs,
-    private renderer: Renderer2,
-    private el: ElementRef,
+    public _renderer: Renderer2,
+    public _el: ElementRef,
   ) { }
 
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.tabs.classes.tab);
+    this._renderer.addClass(this._el.nativeElement, this.tabs.classes.tab);
+  }
+
+  ngAfterViewInit() {
+    this._renderer.addClass(this.tabIndicator.nativeElement, this.tabs.classes.tabsIndicator);
   }
 }
 
@@ -165,10 +249,3 @@ export class LyTabLabel implements OnInit {
  * => disabled: Disable/enable a tab, default undefined
  * => isActive: Si la pestaña está actualmente activa., default undefined
  */
-
-/**
-* Hasta ahora todo bien
-* agregar esstilo para el tab activo
-* crear markForCheck en LyTab
-* cuando el se establece selectedIndex, deveria de agregar la classe activo y if existe anterior seleccionado eliminar ese
-*/

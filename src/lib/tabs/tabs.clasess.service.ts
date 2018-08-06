@@ -24,6 +24,7 @@ export class LyTabsClassesService {
   tab = this.theme.setUpStyle(
     'k-tab',
     () => (
+      `position: relative;` +
       `display: inline-flex;`
     )
   );
@@ -52,18 +53,24 @@ export class LyTabsClassesService {
       `width: 100%;` +
       `flex-shrink: 0;` +
       `position: relative;` +
-      `cursor: pointer;` +
       `height: 48px;`
     )
   );
   tabsIndicator = this.theme.setUpStyle(
     'k-tabs-indicator',
     () => (
-      `flex-shrink: 0;` +
       `position: absolute;` +
+      `transition: 450ms cubic-bezier(.1, 1, 0.5, 1);` +
       `bottom: 0;` +
       `height: 2px;` +
-      `left: 0;`
+      `left: 0;` +
+      `background: currentColor;`
+    )
+  );
+  tabsIndicatorForServer = this.theme.setUpStyle(
+    'k-tabs-indicator-server',
+    () => (
+      `width: 100%;`
     )
   );
   constructor(
