@@ -44,6 +44,7 @@ export class LyTabsClassesService {
     'k-tab-contents',
     () => (
       `display: flex;` +
+      `transition: 450ms cubic-bezier(.1, 1, 0.5, 1);` +
       `will-change: transform;`
     )
   );

@@ -1,8 +1,5 @@
 import { Directive, Input, Renderer2, ElementRef, OnInit } from '@angular/core';
 import { LyTheme2 } from './theme2.service';
-import { CoreTheme } from './core-theme.service';
-import { ThemeConfig } from './theme-config';
-import { DataStyle } from '../theme.service';
 
 @Directive({
   selector: '[lyTheme]',
@@ -16,7 +13,6 @@ export class LyThemeContainer implements OnInit {
    */
   @Input()
   set lyTheme(nam: string) {
-    console.log(`this.theme.config.name`, this.theme.config.name, nam);
     this._lyTheme = nam;
     this.theme.setUpTheme(name);
   }

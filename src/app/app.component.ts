@@ -1,7 +1,6 @@
-import { Component, ViewChild, VERSION, ChangeDetectionStrategy, OnDestroy, OnInit, Renderer2, ElementRef, Inject} from '@angular/core';
-import { environment } from '@env/environment';
-import { Router, NavigationEnd } from '@angular/router';
-import { AUI_VERSION, LyThemeContainer, Platform, LyTheme2 } from '@alyle/ui';
+import { Component, VERSION, ChangeDetectionStrategy, OnDestroy, OnInit, Renderer2, ElementRef, Inject} from '@angular/core';
+import { Router } from '@angular/router';
+import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { Subscription } from 'rxjs';
 import { LyIconService } from '@alyle/ui/icon';
