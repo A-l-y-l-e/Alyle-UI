@@ -10,6 +10,7 @@
     "layout/grid",
     "layout/flex",
     "layout/responsive",
+    "layout/tabs",
     "components/button",
     "components/drawer",
     "components/input",
