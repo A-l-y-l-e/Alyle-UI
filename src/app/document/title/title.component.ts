@@ -14,6 +14,7 @@ export class TitleComponent implements OnInit {
   private _route: string;
   title: string;
   urls: string[];
+  status: string;
   get routeData() {
     const random = Math.random();
     return {
@@ -25,8 +26,12 @@ export class TitleComponent implements OnInit {
   set route(val: string) {
     this._route = val;
     const varArray = val.split('/').filter(_ => !!_);
+    const ArrayString = varArray.reverse()[0];
     this.urls = varArray.map(_ => _.charAt(0).toUpperCase() + _.slice(1));
-    this.title = findByProp(this.routesAppService.routesApp, 'route', varArray.reverse()[0], 'name');
+    this.title = findByProp(this.routesAppService.routesApp, 'route', ArrayString, 'name');
+    const status = findByProp(this.routesAppService.routesApp, 'route', ArrayString, 'status');
+    this.status = status;
+    console.log(status, this.title);
     if (this.title) {
       this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
     } else {
