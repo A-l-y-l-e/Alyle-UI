@@ -53,8 +53,7 @@ export class LyTabsClassesService {
     () => (
       `width: 100%;` +
       `flex-shrink: 0;` +
-      `position: relative;` +
-      `height: 48px;`
+      `position: relative;`
     )
   );
   tabsIndicator = this.theme.setUpStyle(

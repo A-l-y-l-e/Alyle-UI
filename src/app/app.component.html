@@ -23,7 +23,10 @@
       <ul *ngFor="let category of routesComponents" [className]="navMenu">
         <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
         <li *ngFor="let component of category.routes">
-          <a class="nav-button" ly-button [routerLinkActive]="linkActive" [routerLink]="[category.route, component.route]">{{ component.name }}</a>
+          <a class="nav-button" ly-button [routerLinkActive]="linkActive" [routerLink]="[category.route, component.route]">
+            <span>{{ component.name }}</span>
+            <ly-icon *ngIf="component.status" icon="Experiment"></ly-icon>
+          </a>
         </li>
       </ul>
     </ly-drawer>
