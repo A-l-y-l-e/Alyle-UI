@@ -27,7 +27,7 @@ export class RoutesAppService {
         route: 'layout',
         routes: [
           { route: 'grid', name: 'Grid' },
-          { route: 'flex', name: 'Flex' },
+          { route: 'flex', name: 'Flex', status: 'alpha' },
           { route: 'responsive', name: 'Responsive' },
           { route: 'tabs', name: 'Tabs', status: 'alpha' }
         ]
@@ -46,8 +46,7 @@ export class RoutesAppService {
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
           { route: 'ripple', name: 'Ripple' },
-          { route: 'shadow', name: 'Shadow' },
-          { route: 'tabs', name: 'Tabs' },
+          { route: 'shadow', name: 'Shadow', status: 'alpha' },
           { route: 'typography', name: 'Typography' },
         ]
       }

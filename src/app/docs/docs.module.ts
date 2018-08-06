@@ -7,6 +7,7 @@ import { TabsDemoComponent } from '@docs/layout/tabs-demo/tabs-demo.component';
 import { BasicTabsModule } from '@docs/layout/tabs-demo/basic-tabs/basic-tabs.module';
 import { DocsRoutingModule } from '@docs/docs.routing';
 import { SharedModule } from '../shared/shared.module';
+import { TabsWithLazyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
 
 @NgModule({
   imports: [
@@ -15,8 +16,9 @@ import { SharedModule } from '../shared/shared.module';
     DemoViewModule,
     LyTypographyModule,
     DocsRoutingModule,
-    /** Tabs */
-    BasicTabsModule
+    /** Tabs demos */
+    BasicTabsModule,
+    TabsWithLazyLoadingModule
   ],
   declarations: [
     ThemingComponent,
