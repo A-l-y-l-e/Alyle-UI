@@ -14,7 +14,6 @@
     "components/button",
     "components/drawer",
     "components/input",
-    "components/tabs",
     "components/radio",
     "components/menu",
     "components/resizing-cropping-images",
