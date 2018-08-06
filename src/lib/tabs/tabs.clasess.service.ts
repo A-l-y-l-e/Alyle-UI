@@ -31,7 +31,7 @@ export class LyTabsClassesService {
   tabLabel = this.theme.setUpStyle(
     'k-tab-label',
     () => (
-      `min-width: 160px;` +
+      `min-width: 72px;` +
       `padding: 0 24px;` +
       `cursor: pointer;` +
       `height: 48px;` +
