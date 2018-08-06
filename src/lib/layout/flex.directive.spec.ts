@@ -1,5 +1,5 @@
 import { inject, async, fakeAsync, tick, TestBed } from '@angular/core/testing';
-import { LyFlexModule, LyFlex } from './index';
+import { LyFlexModule, LyFlex } from '@alyle/ui/layout';
 import { Renderer2, ElementRef, Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { LY_THEME_CONFIG } from '@alyle/ui';
 import { MinimaTheme } from '@alyle/ui/themes/minima';

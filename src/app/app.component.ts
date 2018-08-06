@@ -1,5 +1,5 @@
 import { Component, ViewChild, VERSION, ChangeDetectionStrategy, OnDestroy, OnInit, Renderer2, ElementRef, Inject} from '@angular/core';
-import { environment } from './../environments/environment';
+import { environment } from '@env/environment';
 import { Router, NavigationEnd } from '@angular/router';
 import { AUI_VERSION, LyThemeContainer, Platform, LyTheme2 } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';

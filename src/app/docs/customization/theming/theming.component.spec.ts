@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThemingComponent } from './theming.component';
+import { ThemingComponent } from '@docs/customization/theming/theming.component';
 
 describe('ThemingComponent', () => {
   let component: ThemingComponent;

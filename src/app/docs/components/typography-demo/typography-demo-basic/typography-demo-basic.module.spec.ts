@@ -1,4 +1,4 @@
-import { TypographyDemoBasicModule } from './typography-demo-basic.module';
+import { TypographyDemoBasicModule } from '@docs/components/typography-demo/typography-demo-basic/typography-demo-basic.module';
 
 describe('TypographyDemoBasicModule', () => {
   let typographyDemoBasicModule: TypographyDemoBasicModule;

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InstallationComponent } from './installation.component';
+import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
 
 describe('InstallationComponent', () => {
   let component: InstallationComponent;

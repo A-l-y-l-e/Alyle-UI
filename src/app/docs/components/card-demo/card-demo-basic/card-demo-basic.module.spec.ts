@@ -1,4 +1,4 @@
-import { CardDemoBasicModule } from './card-demo-basic.module';
+import { CardDemoBasicModule } from '@docs/components/card-demo/card-demo-basic/card-demo-basic.module';
 
 describe('CardDemoBasicModule', () => {
   let cardDemoBasicModule: CardDemoBasicModule;

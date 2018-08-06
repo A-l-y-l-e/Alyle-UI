@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TypographyDemoBasicComponent } from './typography-demo-basic.component';
+import { TypographyDemoBasicComponent } from '@docs/components/typography-demo/typography-demo-basic/typography-demo-basic.component';
 
 describe('TypographyDemoBasicComponent', () => {
   let component: TypographyDemoBasicComponent;

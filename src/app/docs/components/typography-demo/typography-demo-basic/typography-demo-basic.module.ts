@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TypographyDemoBasicComponent } from './typography-demo-basic.component';
+import { TypographyDemoBasicComponent } from '@docs/components/typography-demo/typography-demo-basic/typography-demo-basic.component';
 import { LyTypographyModule } from '@alyle/ui/typography';
 
 @NgModule({
