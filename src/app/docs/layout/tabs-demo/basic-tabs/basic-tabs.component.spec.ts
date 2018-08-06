@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BasicTabsComponent } from './basic-tabs.component';
+import { BasicTabsComponent } from '@docs/layout/tabs-demo/basic-tabs/basic-tabs.component';
 
 describe('BasicTabsComponent', () => {
   let component: BasicTabsComponent;

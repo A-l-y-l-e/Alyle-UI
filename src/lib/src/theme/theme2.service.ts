@@ -50,7 +50,7 @@ export class LyTheme2 {
   }
   updateClass(element: any, renderer: Renderer2, newClass: string, oldClass?: string) {
     this.updateClassName(element, renderer, newClass, oldClass);
-    return oldClass;
+    return newClass;
   }
   setTheme(nam: string) {
     this.config = this.core.get(nam);
