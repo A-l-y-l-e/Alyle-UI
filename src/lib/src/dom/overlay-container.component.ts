@@ -1,5 +1,5 @@
 import { Directive, Injectable, Optional, NgModule, SkipSelf } from '@angular/core';
-import { Platform } from '../platform';
+import { Platform } from '../platform/index';
 
 @Injectable()
 export class LyOverlayContainer {
