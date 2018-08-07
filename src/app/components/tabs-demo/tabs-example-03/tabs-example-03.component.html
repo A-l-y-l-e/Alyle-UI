@@ -48,9 +48,11 @@
 <ly-tabs [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
   <ly-tab *ngFor="let tab of tabs; let i = index">
     <ly-tab-label>{{ 'Label ' + i }}</ly-tab-label>
-    <div class="content">
-      {{ 'Content ' + i }}
-    </div>
+    <ng-template ly-tab-content>
+      <div class="content">
+        {{ 'Content ' + i }}
+      </div>
+    </ng-template>
   </ly-tab>
 </ly-tabs>
 <!-- <div ly-ripple ly-ripple-disabled="true">hi</div> -->

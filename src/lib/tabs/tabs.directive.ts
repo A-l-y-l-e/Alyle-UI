@@ -32,6 +32,7 @@ import { UndefinedValue, Undefined, LyTheme2, Platform } from '@alyle/ui';
 })
 export class LyTabs implements OnInit, AfterViewInit {
   _selectedIndex: number | Undefined = UndefinedValue;
+  _selectedBeforeIndex: number;
   _selectedRequireCheck: boolean;
   _selectedTab: LyTab;
   _selectedBeforeTab: LyTab;
@@ -48,7 +49,6 @@ export class LyTabs implements OnInit, AfterViewInit {
       if (this._selectedTab) {
         this.theme.updateClass(this._selectedTab.tabIndicator.nativeElement, this.renderer, newClass, this._withColorClass);
       }
-      console.log('current tab from withColor', this._withColorClass, this._selectedTab);
     }
   }
   get withColor() {
@@ -57,15 +57,14 @@ export class LyTabs implements OnInit, AfterViewInit {
   @Input()
   set selectedIndex(val: number) {
     if (val !== this.selectedIndex) {
-      console.log(`before:${this.selectedIndex} current: ${val}`, this.tabsList);
+      this._selectedBeforeIndex = this._selectedIndex as number;
       this._selectedIndex = val;
+      this._selectedBeforeTab = this._selectedTab;
       this.selectedIndexChange.emit(val);
-      console.log('set index:', val, this.tabContents);
       this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
 
       if (this._selectedRequireCheck) {
         this.markForCheck();
-        console.log('·······markForCheck()');
       }
       this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate3d(${val * -100}%,0,0)`);
     }
@@ -105,22 +104,23 @@ export class LyTabs implements OnInit, AfterViewInit {
       // currentTab = this.tabsList.find(_ => _.index === currentIndex);
       if (!this._isViewInitLoaded || !Platform.isBrowser) {
         /** for before initialize or for server */
-        console.log('for ─ server', this.withColor);
         this.renderer.addClass(currentTab.tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
         this.renderer.addClass(currentTab.tabIndicator.nativeElement, this._withColorClass);
         /**
          * TODO: tabs: update indicator when change `selectedIndex`
          */
       } else {
-        /** for after initialize && for browser */
-        /** Clean before tab */
+        // for after initialize && for browser
+        // Clean before tab
         if (beforeTab) {
           beforeTab._renderer.removeAttribute(beforeTab.tabIndicator.nativeElement, 'class');
         }
+        if (currentTab.index !== currentIndex) {
+          // this fixed undefined selected tab
+          currentTab = this.tabsList.toArray()[currentIndex];
+        }
         const el = currentTab._el.nativeElement as HTMLElement;
         const rects = el.getBoundingClientRect();
-        console.log({rects});
-        console.log('for ─ browser', rects.width);
         this.renderer.setStyle(this.tabsIndicator.nativeElement, 'width', `${rects.width}px`);
         this.renderer.setStyle(this.tabsIndicator.nativeElement, 'left', `${el.offsetLeft}px`);
       }
@@ -137,18 +137,16 @@ export class LyTabs implements OnInit, AfterViewInit {
     }
     tab.index = index;
     if (this.selectedIndex === UndefinedValue) {
+      // set 0 if is null
       this._selectedTab = tab;
-      console.warn('~~~~~isUndefinedValue', tab._el.nativeElement);
       this.selectedIndex = 0;
     } else if (!this._isViewInitLoaded && this.selectedIndex === tab.index) {
       this._selectedTab = tab;
-      console.log(`from loadTemplate`);
       /** Apply style for tabIndicator server */
       this._updateIndicator(tab);
     }
     if (tab.templateRefLazy) {
       if (this.selectedIndex === index) {
-        console.log('·────loadTemplate');
         tab.loaded = true;
         return tab.templateRefLazy;
       } else {
@@ -184,9 +182,6 @@ export class LyTab implements OnInit, AfterViewInit {
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   @ViewChild('tabIndicator') tabIndicator: ElementRef;
   @HostListener('click') onClick() {
-    console.log('click', this.index, this.tabs.selectedIndex);
-    this.tabs._selectedBeforeTab = this.tabs._selectedTab;
-    this.tabs._selectedTab = this;
     this.tabs._selectedRequireCheck = !this.loaded;
     this.tabs.selectedIndex = this.index;
   }
