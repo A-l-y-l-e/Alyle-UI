@@ -42,7 +42,7 @@ export class RoutesAppService {
           { route: 'drawer', name: 'Drawer' },
           { route: 'icon-button', name: 'Icon button' },
           { route: 'input', name: 'Input' },
-          { route: 'menu', name: 'Menu' },
+          { route: 'menu', name: 'Menu', status: 'alpha' },
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
           { route: 'ripple', name: 'Ripple' },

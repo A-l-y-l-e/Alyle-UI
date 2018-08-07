@@ -31,7 +31,6 @@ export class TitleComponent implements OnInit {
     this.title = findByProp(this.routesAppService.routesApp, 'route', ArrayString, 'name');
     const status = findByProp(this.routesAppService.routesApp, 'route', ArrayString, 'status');
     this.status = status;
-    console.log(status, this.title);
     if (this.title) {
       this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
     } else {

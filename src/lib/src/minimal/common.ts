@@ -14,13 +14,8 @@ export class NgTranscludeDirective implements OnDestroy {
   private _ngTransclude: TemplateRef<any>;
 
   @Input()
-  set status(val: boolean) {
-    console.log('val', val);
-  }
-  @Input()
   set ngTransclude(templateRef: TemplateRef<any>) {
     if (templateRef) {
-      console.log('creating view');
       this._ngTransclude = templateRef;
       this._viewRef.createEmbeddedView(templateRef);
     }
