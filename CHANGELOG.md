@@ -1,3 +1,18 @@
+<a name="1.7.0-beta.4bkua"></a>
+# [1.7.0-beta.4bkua](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.461kq...1.7.0-beta.4bkua) (2018-08-07)
+
+
+### Bug Fixes
+
+* fix imports ([1de7e2d](https://github.com/A-l-y-l-e/Alyle-UI/commit/1de7e2d))
+* **tabs:** change min-width to 72 ([f994a13](https://github.com/A-l-y-l-e/Alyle-UI/commit/f994a13))
+* **tabs:** fix animations ([a02811b](https://github.com/A-l-y-l-e/Alyle-UI/commit/a02811b))
+* **tabs:** fix color ([e4c946e](https://github.com/A-l-y-l-e/Alyle-UI/commit/e4c946e))
+* **tabs:** fix indicator ([70157ea](https://github.com/A-l-y-l-e/Alyle-UI/commit/70157ea))
+* **theme:** clean styles in browser ([942d270](https://github.com/A-l-y-l-e/Alyle-UI/commit/942d270))
+
+
+
 <a name="1.7.0-beta.461kq"></a>
 # [1.7.0-beta.461kq](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.3wtkb...1.7.0-beta.461kq) (2018-08-04)
 
