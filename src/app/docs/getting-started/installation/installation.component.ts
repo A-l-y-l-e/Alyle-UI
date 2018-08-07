@@ -22,9 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /** Core module & common module */
 import {
-  AlyleUIModule,
+  LyThemeModule,
   LyCommonModule,
-  LyThemeConfig,
   LY_THEME_CONFIG,
   LyHammerGestureConfig } from '@alyle/ui';
 
@@ -37,6 +36,7 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
     ...
     BrowserModule,
     BrowserAnimationsModule,
+    LyThemeModule.setTheme('minima-dark'),
     LyCommonModule // for bg, color, raised, button and other components
     ...
   ],

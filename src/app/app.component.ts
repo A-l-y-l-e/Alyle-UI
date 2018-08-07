@@ -2,7 +2,6 @@ import { Component, VERSION, ChangeDetectionStrategy, OnDestroy, OnInit, Rendere
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
-import { Subscription } from 'rxjs';
 import { LyIconService } from '@alyle/ui/icon';
 import { MinimaLight } from '@alyle/ui/themes/minima';
 import { DOCUMENT } from '@angular/platform-browser';
