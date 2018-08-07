@@ -33,9 +33,8 @@ export class CoreTheme {
       const secondaryStyleContainer = _document.body.querySelector('ly-secondary-style-container');
       if (primaryStyleContainer) {
         (_document.body as HTMLBodyElement).removeChild(mediaStyleContainer);
-        // mediaStyleContainer.innerHTML = '';
-        primaryStyleContainer.innerHTML = '';
-        secondaryStyleContainer.innerHTML = '';
+        (_document.body as HTMLBodyElement).removeChild(primaryStyleContainer);
+        (_document.body as HTMLBodyElement).removeChild(secondaryStyleContainer);
       }
     }
     this.mediaStyleContainer = this.renderer.createElement('ly-media-style-container');
