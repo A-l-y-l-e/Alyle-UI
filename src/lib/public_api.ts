@@ -24,3 +24,4 @@ export * from './src/styles/core-styles';
 export * from './src/undefined';
 export * from './src/media/invert-media-query';
 export * from './src/style-utils';
+export * from './src/theme/dynamic-styles';

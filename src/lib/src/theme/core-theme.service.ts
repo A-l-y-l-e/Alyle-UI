@@ -1,5 +1,5 @@
-import { Injectable, Optional, Inject, Renderer2, RendererFactory2, isDevMode } from '@angular/core';
-import { THEME_CONFIG, ThemeConfig, THEME_CONFIG_EXTRA, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
+import { Injectable, Optional, Inject, Renderer2, RendererFactory2, isDevMode, ViewEncapsulation } from '@angular/core';
+import { THEME_CONFIG, ThemeConfig, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { StyleContent, StyleData, DataStyle, Style, MultipleStyles } from '../theme.service';
 import { Platform } from '../platform';
@@ -26,7 +26,13 @@ export class CoreTheme {
     if (!themeConfig) {
       throw new Error('LY_THEME_CONFIG undefined');
     }
-    this.renderer = this.rendererFactory.createRenderer(null, null);
+    this.renderer = this.rendererFactory.createRenderer(null, {
+      id: 'ly',
+      encapsulation: ViewEncapsulation.Native,
+      styles: [],
+      data: {}
+    });
+    console.log(this.renderer);
     if (Platform.isBrowser) {
       const mediaStyleContainer = _document.body.querySelector('ly-media-style-container');
       const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
