@@ -7,6 +7,7 @@
     "customization/theming",
     "customization/multiple-themes",
     "customization/bg-color",
+    "customization/dynamic-styles",
     "layout/grid",
     "layout/flex",
     "layout/responsive",

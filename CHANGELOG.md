@@ -1,3 +1,35 @@
+<a name="1.7.0-beta.4ih8i"></a>
+# [1.7.0-beta.4ih8i](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4bkua...1.7.0-beta.4ih8i) (2018-08-10)
+
+
+### Bug Fixes
+
+* **button:** fix sizes ([f0e1716](https://github.com/A-l-y-l-e/Alyle-UI/commit/f0e1716))
+* **theme:** fix circular dependency ([ecc90e9](https://github.com/A-l-y-l-e/Alyle-UI/commit/ecc90e9))
+
+
+### Features
+
+* **theme:** add Dynamic styles ([09f9de8](https://github.com/A-l-y-l-e/Alyle-UI/commit/09f9de8))
+
+
+
+<a name="1.7.0-beta.4igt0"></a>
+# [1.7.0-beta.4igt0](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4bkua...1.7.0-beta.4igt0) (2018-08-10)
+
+
+### Bug Fixes
+
+* **button:** fix sizes ([f0e1716](https://github.com/A-l-y-l-e/Alyle-UI/commit/f0e1716))
+* **theme:** fix circular dependency ([ecc90e9](https://github.com/A-l-y-l-e/Alyle-UI/commit/ecc90e9))
+
+
+### Features
+
+* **theme:** add Dynamic styles ([09f9de8](https://github.com/A-l-y-l-e/Alyle-UI/commit/09f9de8))
+
+
+
 <a name="1.7.0-beta.4bkua"></a>
 # [1.7.0-beta.4bkua](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.461kq...1.7.0-beta.4bkua) (2018-08-07)
 
