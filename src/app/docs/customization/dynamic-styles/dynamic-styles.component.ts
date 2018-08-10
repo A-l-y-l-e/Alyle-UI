@@ -1,39 +1,26 @@
-import { Component, OnInit, Injectable, ElementRef, Renderer2 } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
-
-const myStyles = (theme) => ({
-  root: {
-    color: theme.primary.default,
-    '&:hover': {
-      color: theme.accent.default
-    }
-  }
-});
-
-@Injectable({
-  providedIn: 'root'
-})
-export class DynamicStylesService {
-  constructor(
-    public theme: LyTheme2
-  ) {
-    this.theme.addStyleSheet(myStyles, 'myStyles');
-  }
-}
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'aui-dynamic-styles',
   templateUrl: './dynamic-styles.component.html',
   styleUrls: ['./dynamic-styles.component.scss']
 })
-export class DynamicStylesComponent implements OnInit {
-  classes = this.theme.classes;
-  constructor(
-    private dynamicStylesService: DynamicStylesService,
-    private theme: LyTheme2
-  ) { }
-
-  ngOnInit() {
+export class DynamicStylesComponent {
+  codeBasicStyle = `
+const myStyles = (theme) => ({
+  root: {                         // this would be like the name of the class
+    color: theme.primary.default, // style
+    '&:hover': {                  // \`&\`is equal to \`root\` and therefore it would be 'root:hover'
+      color: theme.accent.default // style
+    }
+  },
+  buttonLink: {
+    color: theme.accent.default,
+    'text-decoration': 'inherit',
+    '&:hover': {
+      'text-decoration': 'underline',
+    }
   }
-
+});
+`;
 }

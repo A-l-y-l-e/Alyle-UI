@@ -9,6 +9,7 @@ import { DocsRoutingModule } from '@docs/docs.routing';
 import { SharedModule } from '../shared/shared.module';
 import { TabsWithLazyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
 import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
+import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-basic.module';
 
 @NgModule({
   imports: [
@@ -19,12 +20,15 @@ import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-s
     DocsRoutingModule,
     /** Tabs demos */
     BasicTabsModule,
-    TabsWithLazyLoadingModule
+    TabsWithLazyLoadingModule,
+    /** Ds */
+    DsBasicModule
   ],
   declarations: [
     ThemingComponent,
     /** Tabs */
     TabsDemoComponent,
+    /** Ds */
     DynamicStylesComponent
   ]
 })
