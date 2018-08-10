@@ -69,7 +69,6 @@ function rootStyle() {
   'border-radius:3px;' +
   'outline:none;' +
   'font-weight:500;' +
-  'min-width:88px;' +
   'box-sizing:border-box;' +
   'position:relative;' +
   `justify-content:center;` +

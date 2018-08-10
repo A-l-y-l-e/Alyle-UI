@@ -25,17 +25,20 @@ const Size = {
   small: theme => (
     `padding:0 8px;` +
     `font-size:${theme.pxToRem(theme.typography.button.fontSize - 1)};` +
-    `min-height: 32px;`
+    `min-height: 32px;` +
+    `min-width: 64px;`
   ),
   medium: theme => (
     `padding:0 14px;` +
     `font-size:${theme.pxToRem(theme.typography.button.fontSize)};` +
-    `min-height: 36px;`
+    `min-height: 36px;` +
+    `min-width: 88px;`
   ),
   large: theme => (
     `padding:0 21px;` +
     `font-size:${theme.pxToRem(theme.typography.button.fontSize + 1)};` +
-    `min-height: 40px;`
+    `min-height: 40px;` +
+    `min-width: 112px;`
   ),
 };
 
@@ -74,8 +77,15 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   set size(val: string) {
     if (val !== this.size) {
-      const newClass = this._createSizeClass(val);
-      this._sizeClass = this.theme.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._sizeClass);
+      // const newClass = this._createSizeClass(val);
+      // this._sizeClass = this.theme.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._sizeClass);
+      this._size = val;
+      this._sizeClass = this.theme.addStyle(
+        `k-button-size:${this.size}`,
+        Size[this.size],
+        this.elementRef.nativeElement,
+        this._sizeClass
+      );
     }
   }
   get size() {
