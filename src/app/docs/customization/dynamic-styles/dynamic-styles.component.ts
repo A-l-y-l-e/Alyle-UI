@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable, ElementRef, Renderer2 } from '@angular/core';
-import { LyTheme2, DynamicStyles } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
 
 const myStyles = (theme) => ({
   root: {
