@@ -32,7 +32,6 @@ export class CoreTheme {
       styles: [],
       data: {}
     });
-    console.log(this.renderer);
     if (Platform.isBrowser) {
       const mediaStyleContainer = _document.body.querySelector('ly-media-style-container');
       const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
