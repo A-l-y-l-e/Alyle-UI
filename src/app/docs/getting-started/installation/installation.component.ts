@@ -7,11 +7,6 @@ import { Component } from '@angular/core';
 })
 export class InstallationComponent {
   code: string;
-  codeTheme = `<!-- app.component.ts -->
-<div lyTheme="minima-light">
-  Content
-</div>
-`;
   constructor() {
     this.code = `...
 /** Angular */
@@ -36,7 +31,7 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
     ...
     BrowserModule,
     BrowserAnimationsModule,
-    LyThemeModule.setTheme('minima-dark'),
+    LyThemeModule.setTheme('minima-dark'), // <== set Theme
     LyCommonModule // for bg, color, raised, button and other components
     ...
   ],
