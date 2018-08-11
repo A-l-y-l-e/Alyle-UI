@@ -1,5 +1,5 @@
 import { typography, iconButton, icon, input } from './variables';
-import { ThemeConfig, LyStyleUtils } from '@alyle/ui';
+import { ThemeConfig, LyStyleUtils, TypographyConfig } from '@alyle/ui';
 
 const contrast = '#fff';
 export class MinimaDark extends LyStyleUtils implements ThemeConfig {
