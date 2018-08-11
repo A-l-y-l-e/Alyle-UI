@@ -11,6 +11,10 @@
 
 > Supports Server Side Rendering & AOT
 
+## Demo
+
+[Stackblitz](https://stackblitz.com/edit/angular-alyle-ui-starter?file=src%2Fapp%2Fapp.component.html)
+
 ## Install Alyle UI
 
 `npm i @alyle/ui@latest -s` or `yarn add @alyle/ui@latest`
