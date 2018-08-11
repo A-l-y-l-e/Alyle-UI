@@ -11,7 +11,7 @@
 
 > Supports Server Side Rendering & AOT
 
-## Demo
+## Alyle UI starter project
 
 [Stackblitz](https://stackblitz.com/edit/angular-alyle-ui-starter?file=src%2Fapp%2Fapp.component.html)
 
