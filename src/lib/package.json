@@ -1,6 +1,6 @@
 {
   "name": "@alyle/ui",
-  "version": "1.7.0-beta.4iic8",
+  "version": "1.7.0-beta.4imhk",
   "description": "Minimal Design, a package of components for Angular",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,3 +1,13 @@
+<a name="1.7.0-beta.4imhk"></a>
+# [1.7.0-beta.4imhk](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4iic8...1.7.0-beta.4imhk) (2018-08-11)
+
+
+### Bug Fixes
+
+* **theme:** fix types ([beb2c9b](https://github.com/A-l-y-l-e/Alyle-UI/commit/beb2c9b))
+
+
+
 <a name="1.7.0-beta.4iic8"></a>
 # [1.7.0-beta.4iic8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4ih8i...1.7.0-beta.4iic8) (2018-08-10)
 
