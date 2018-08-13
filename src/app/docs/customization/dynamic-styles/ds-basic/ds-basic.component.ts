@@ -16,7 +16,7 @@ const myStyles = (theme) => ({
     color: theme.accent.default,
     'text-decoration': 'inherit',
     '&:hover': {
-      'text-decoration': 'underline',
+      'text-decoration': 'underline'
     }
   }
 });

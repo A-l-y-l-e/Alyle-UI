@@ -1,5 +1,5 @@
 <div>
-  <ly-toolbar class="header" bg="primary" raised>
+  <ly-toolbar styleName="Header" bg="primary" raised>
     <button ly-icon-button (click)="nav.toggle()" class="material-icons">
       menu
     </button>
@@ -18,12 +18,12 @@
       <ly-icon src="assets/svg/social/social-color-1_logo-github"></ly-icon>
     </a>
   </ly-toolbar>
-  <ly-drawer-container class="drawer">
-    <ly-drawer [config]="{width: 230}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items">
-      <ul *ngFor="let category of routesComponents" [className]="navMenu">
+  <ly-drawer-container styleName="DrawerContainer">
+    <ly-drawer [config]="{width: 230}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items" styleName="Drawer">
+      <ul *ngFor="let category of routesComponents" styleName="DrawerUl">
         <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
         <li *ngFor="let component of category.routes">
-          <a class="nav-button" ly-button [routerLinkActive]="linkActive" [routerLink]="[category.route, component.route]">
+          <a styleName="DrawerButton" class="nav-button" ly-button [routerLinkActive]="classes.OnLinkActive" [routerLink]="[category.route, component.route]">
             <span>{{ component.name }}</span>
             <ly-icon *ngIf="component.status" icon="Experiment"></ly-icon>
           </a>

@@ -5,6 +5,7 @@ import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
 import { MinimaLight } from '@alyle/ui/themes/minima';
 import { DOCUMENT } from '@angular/platform-browser';
+import { AppService } from './app.service';
 
 const linkActiveStyle = theme => (
   `color: ${theme.primary.default} !important;` +
@@ -25,6 +26,7 @@ const rootStyle = theme => (
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
+  classes = this.theme.classes;
   linkActive;
   navMenu;
   routesComponents: any;
@@ -35,6 +37,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     @Inject(DOCUMENT) _document: any,
+    appService: AppService,
     public router: Router,
     public routesApp: RoutesAppService,
     private theme: LyTheme2,
@@ -63,20 +66,20 @@ export class AppComponent implements OnInit {
     this.navMenu = this.theme.setUpStyle<MinimaLight>(
       'nav-ul',
       {
-        '': () => (
-          `overflow: hidden;` +
-          `position: relative;` +
-          `list-style: none;` +
-          `padding: 2rem 1.8rem;` +
-          `margin: 0;` +
-          `border-bottom: 1px solid rgba(0, 0, 0, 0.11)`
-        ),
-        ' a': () => (
-          `color: #5f6368;` +
-          `font-weight: 400;` +
-          `border-left: 3px solid transparent;`
-        ),
-        ' a:hover': linkActiveStyle
+        // '': () => (
+        //   `overflow: hidden;` +
+        //   `position: relative;` +
+        //   `list-style: none;` +
+        //   `padding: 2rem 1.8rem;` +
+        //   `margin: 0;` +
+        //   `border-bottom: 1px solid rgba(0, 0, 0, 0.11)`
+        // ),
+        // ' a': () => (
+        //   `color: #5f6368;` +
+        //   `font-weight: 400;` +
+        //   `border-left: 3px solid transparent;`
+        // ),
+        // ' a:hover': linkActiveStyle
       }
     );
   }
