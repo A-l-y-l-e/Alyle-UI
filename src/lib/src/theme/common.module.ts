@@ -4,11 +4,11 @@ import { LyBgColorAndRaised } from './bg-color-and-raised.directive';
 import { LY_GLOBAL_CONTRAST } from './contrast';
 import { LyNewRaised } from './raised.directive';
 import { LyThemeContainer } from './theme.directive';
-import { LyThemeModule } from './theme.module';
+import { LyStyleName } from './style-name.directive';
 
 @NgModule({
-  declarations: [LyBgColorAndRaised, LyNewRaised, LyThemeContainer],
-  exports: [LyBgColorAndRaised, LyNewRaised, LyThemeContainer],
+  declarations: [LyBgColorAndRaised, LyNewRaised, LyThemeContainer, LyStyleName],
+  exports: [LyBgColorAndRaised, LyNewRaised, LyThemeContainer, LyStyleName],
   providers: [
     { provide: LY_GLOBAL_CONTRAST, useValue: false }
   ]
