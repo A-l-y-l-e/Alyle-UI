@@ -127,8 +127,12 @@ export class LyTheme2 {
   }
 }
 
+export interface StyleContainer {
+  [key: string]: StyleContainer | string | number;
+}
+
 export interface Styles2 {
-  [key: string]: Styles2 | string;
+  [key: string]: StyleContainer;
 }
 export type StylesFn2<T> = (T) => Styles2;
 
