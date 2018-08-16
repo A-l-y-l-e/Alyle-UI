@@ -10,7 +10,7 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig, LyThemeModule } from '@alyle/ui';
+import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig, LyThemeModule, LY_THEME_NAME } from '@alyle/ui';
 import { ResponsiveModule, LY_MEDIA_QUERIES, Breakpoints } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
@@ -36,6 +36,7 @@ import { TypographyDemoBasicModule } from '@docs/components/typography-demo/typo
 import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
 import { MultipleThemesDemo01Module } from './components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
 import { DocsModule } from '@docs/docs.module';
+import { LyTabsModule } from '@alyle/ui/tabs';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -111,9 +112,11 @@ export class MyCustomTheme extends LyThemeConfig {
     DocsModule,
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    LyTabsModule
   ],
   providers: [
     RoutesAppService,
+    { provide: LY_THEME_NAME, useValue: 'minima-light' },
     { provide: LY_THEME_CONFIG, useClass: MyCustomTheme },
     { provide: LY_MEDIA_QUERIES, useValue: Breakpoints },
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }

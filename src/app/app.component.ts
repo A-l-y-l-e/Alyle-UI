@@ -1,22 +1,52 @@
-import { Component, VERSION, ChangeDetectionStrategy, OnDestroy, OnInit, Renderer2, ElementRef, Inject} from '@angular/core';
+import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject} from '@angular/core';
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
-import { MinimaLight } from '@alyle/ui/themes/minima';
 import { DOCUMENT } from '@angular/platform-browser';
-import { AppService } from './app.service';
 
-const linkActiveStyle = theme => (
-  `color: ${theme.primary.default} !important;` +
-  `border-left: 3px solid !important;`
-);
-
-const rootStyle = theme => (
-  `background-color:${theme.background.default};` +
-  `color:${theme.text.default};` +
-  `font-family:${theme.typography.fontFamily};`
-);
+const styles = theme => {
+  const onLinkActive = {
+    color: theme.primary.default,
+    borderLeft: '3px solid'
+  };
+  return {
+    body: {
+      backgroundColor: theme.background.default,
+      color: theme.text.default,
+      'font-family': theme.typography.fontFamily
+    },
+    header: {
+      position: 'fixed',
+      'z-index': 11,
+      width: '100%'
+    },
+    drawerContainer: {
+      height: 'calc(100% - 64px)'
+    },
+    drawer: {
+      width: '230px',
+      height: 'calc(100% - 64px)',
+      bottom: 0,
+      padding: '1rem 0'
+    },
+    drawerUl: {
+      overflow: 'hidden',
+      position: 'relative',
+      'list-style': 'none',
+      padding: '2rem 1.8rem',
+      margin: 0,
+      'border-bottom': '1px solid rgba(0, 0, 0, 0.11)'
+    },
+    drawerButton: {
+      color: '#5f6368',
+      'font-weight': 400,
+      'border-left': '3px solid transparent',
+      '&:hover': onLinkActive
+    },
+    onLinkActive,
+  };
+};
 
 @Component({
   selector: 'app-root',
@@ -25,8 +55,16 @@ const rootStyle = theme => (
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit {
-  classes = this.theme.classes;
+export class AppComponent {
+  classes: {
+    body: string;
+    header: string;
+    drawerContainer: string;
+    drawer: string;
+    drawerUl: string;
+    drawerButton: string;
+    onLinkActive: string;
+  };
   linkActive;
   navMenu;
   routesComponents: any;
@@ -37,50 +75,24 @@ export class AppComponent implements OnInit {
 
   constructor(
     @Inject(DOCUMENT) _document: any,
-    appService: AppService,
     public router: Router,
     public routesApp: RoutesAppService,
     private theme: LyTheme2,
     renderer: Renderer2,
-    elementRef: ElementRef,
     iconService: LyIconService
   ) {
-    renderer.addClass((_document as Document).body, this.theme.setUpStyle('body', rootStyle));
+    this.classes = this.theme.addStyleSheet(styles);
+    renderer.addClass((_document as Document).body, this.classes.body);
     iconService.setSvg('Heart', 'assets/svg/Heart');
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
     iconService.setSvg('Radiation', 'assets/svg/radiation');
     this.routesComponents = this.routesApp.routesApp;
   }
-  changeScheme() {
+  changeTheme() {
     this.mode = !this.mode;
     const name = this.mode ? 'minima-light' : 'minima-dark';
     console.log(name);
     this.theme.setTheme(name);
   }
 
-  ngOnInit() {
-    this.linkActive = this.theme.setUpStyle<MinimaLight>(
-      'nav-activatedRoute',
-      linkActiveStyle
-    );
-    this.navMenu = this.theme.setUpStyle<MinimaLight>(
-      'nav-ul',
-      {
-        // '': () => (
-        //   `overflow: hidden;` +
-        //   `position: relative;` +
-        //   `list-style: none;` +
-        //   `padding: 2rem 1.8rem;` +
-        //   `margin: 0;` +
-        //   `border-bottom: 1px solid rgba(0, 0, 0, 0.11)`
-        // ),
-        // ' a': () => (
-        //   `color: #5f6368;` +
-        //   `font-weight: 400;` +
-        //   `border-left: 3px solid transparent;`
-        // ),
-        // ' a:hover': linkActiveStyle
-      }
-    );
-  }
 }

@@ -1,5 +1,5 @@
 <div>
-  <ly-toolbar styleName="Header" bg="primary" raised>
+  <ly-toolbar [withClass]="classes.header" bg="primary" raised>
     <button ly-icon-button (click)="nav.toggle()" class="material-icons">
       menu
     </button>
@@ -10,7 +10,7 @@
     </ly-toolbar-item>
     <span lyHide="XSmall" class="version">v{{ version }}</span>
     <div [style.flex]="1"></div>
-    <button ly-icon-button size="24px" (click)="changeScheme()">
+    <button ly-icon-button size="24px" (click)="changeTheme()">
       <ly-icon *ngIf="mode" src="assets/svg/theme/sun" [style.font-size.px]="36"></ly-icon>
       <ly-icon *ngIf="!mode" src="assets/svg/theme/moon" [style.font-size.px]="36"></ly-icon>
     </button>
@@ -18,12 +18,12 @@
       <ly-icon src="assets/svg/social/social-color-1_logo-github"></ly-icon>
     </a>
   </ly-toolbar>
-  <ly-drawer-container styleName="DrawerContainer">
-    <ly-drawer [config]="{width: 230}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items" styleName="Drawer">
-      <ul *ngFor="let category of routesComponents" styleName="DrawerUl">
+  <ly-drawer-container [withClass]="classes.drawerContainer">
+    <ly-drawer [config]="{width: 230}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items" [withClass]="classes.drawer">
+      <ul *ngFor="let category of routesComponents" [withClass]="classes.drawerUl">
         <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
         <li *ngFor="let component of category.routes">
-          <a styleName="DrawerButton" class="nav-button" ly-button [routerLinkActive]="classes.OnLinkActive" [routerLink]="[category.route, component.route]">
+          <a [withClass]="classes.drawerButton" class="nav-button" ly-button [routerLinkActive]="classes.onLinkActive" [routerLink]="[category.route, component.route]">
             <span>{{ component.name }}</span>
             <ly-icon *ngIf="component.status" icon="Experiment"></ly-icon>
           </a>
