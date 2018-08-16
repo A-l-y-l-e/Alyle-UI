@@ -14,6 +14,7 @@ export interface StylesElementMap {
 interface StyleMap03 {
   [id: string]: { // example: lyTabs
     styles: StylesFn2<any> | Styles2,
+    media?: string,
     themes: { // example: minima-dark
       /** Css */
       default?: string,
@@ -94,7 +95,7 @@ export class LyTheme2 {
    * @param instance The instance of this, this replaces the existing style with a new one when it changes
    */
   addStyle<T>(id: string, style: Style<T>, el?: any, instance?: string) {
-    const newClass = this.setUpStyle<T>(id, style);
+    const newClass = this.addCss(id, style as any);
     if (instance) {
       el.classList.remove(instance);
     }
@@ -121,14 +122,26 @@ export class LyTheme2 {
     // });
     for (const key in STYLE_MAP_03) {
       if (STYLE_MAP_03.hasOwnProperty(key)) {
-        const { styles } = STYLE_MAP_03[key];
-        this._createStyleContent2(styles, key, true);
+        const { styles, media } = STYLE_MAP_03[key];
+        this._createStyleContent2(styles, key, true, media);
       }
     }
     this._styleMap.forEach((dataStyle) => {
       dataStyle.styleElement.innerText = this.core._createStyleContent(this.config, dataStyle.style, dataStyle.id);
     });
   }
+
+  /**
+   * add style, similar to setUpStyle but this only accept string
+   * @param id id of style
+   * @param css style in string
+   */
+  private addCss(id: string, css: ((t) => string) | string, media?: string): string {
+    const newId = `~>${id}`;
+    this._createStyleContent2(css as any, newId, false, media);
+    return CLASSES_MAP[newId];
+  }
+
   /**
    * Add new add a new style sheet
    * @param styles styles
@@ -141,21 +154,21 @@ export class LyTheme2 {
     return CLASSES_MAP[newId];
   }
 
-  _createStyleContent2<T>(styles: StylesFn2<T> | Styles2, id: string, forChangeTheme?: boolean) {
+  _createStyleContent2<T>(styles: StylesFn2<T> | Styles2, id: string, forChangeTheme?: boolean, media?: string) {
     const styleMap = id in STYLE_MAP_03
     ? STYLE_MAP_03[id]
     : STYLE_MAP_03[id] = {
       styles,
+      media,
       themes: {} as any
     };
-
     if (!(styleMap.themes.default || this.config.name in styleMap.themes)) {
       let css;
       if (typeof styles === 'function') {
-        css = groupStyleToString(styles(this.config), id);
+        css = groupStyleToString(styles(this.config), id, media);
         styleMap.themes[this.config.name] = css;
       } else {
-        css = groupStyleToString(styles, id);
+        css = groupStyleToString(styles, id, media);
         styleMap.themes.default = css;
       }
 
@@ -189,9 +202,15 @@ export interface Styles2 {
 }
 export type StylesFn2<T> = (T) => Styles2;
 
-function groupStyleToString(styles: Styles2, id: string) {
+function groupStyleToString(styles: Styles2, id: string, media?: string) {
   let content = '';
   // let newKey = '';
+  // const string
+  if (typeof styles === 'string') {
+    CLASSES_MAP[id] = `e${nextId++}`;
+    const css = `.${CLASSES_MAP[id]}{${styles}}`;
+    return media ? toMedia(css, media) : css;
+  }
   const classesMap = id in CLASSES_MAP
   ? CLASSES_MAP[id]
   : CLASSES_MAP[id] = {};
@@ -280,5 +299,9 @@ function toHyphenCaseCache(str: string) {
 
 export function capitalizeFirstLetter(str: string) {
   return str[0].toUpperCase() + str.slice(1);
+}
+
+function toMedia(css: string, media: string) {
+  return `@media ${media}{${css}}`;
 }
 
