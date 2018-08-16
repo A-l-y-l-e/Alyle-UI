@@ -1,6 +1,6 @@
 import { Directive, Renderer2, ElementRef, Input, OnInit } from '@angular/core';
 import { LyTheme2, shadowBuilder, defaultEntry, toBoolean } from '@alyle/ui';
-import { LyCardClasses } from './card.service';
+import { LyCardService } from './card.service';
 
 const DEFAULT_ELEVATION = 2;
 const DEFAULT_ASPECT_RATIO = '16:9';
@@ -23,14 +23,14 @@ export class LyCard implements OnInit {
   }
 
   constructor(
-    private classes: LyCardClasses,
+    private cardService: LyCardService,
     private styler: LyTheme2,
     private el: ElementRef,
     private renderer: Renderer2
   ) { }
 
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.classes.card);
+    this.renderer.addClass(this.el.nativeElement, this.cardService.classes.root);
     if (this.elevation === void 0) {
       this.elevation = DEFAULT_ELEVATION;
     }
@@ -59,11 +59,11 @@ export class LyCardContent implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private classes: LyCardClasses
+    private cardService: LyCardService
   ) { }
 
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.classes.cardContent);
+    this.renderer.addClass(this.el.nativeElement, this.cardService.classes.content);
   }
 }
 
@@ -75,13 +75,13 @@ export class LyCardActions implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private classes: LyCardClasses
+    private cardService: LyCardService
   ) { }
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.classes.cardActions);
+    this.renderer.addClass(this.el.nativeElement, this.cardService.classes.actions);
     if (!toBoolean(this.disableActionSpacing)) {
       this.el.nativeElement.childNodes.forEach(element => {
-        this.renderer.addClass(element, this.classes.cardActionsItem);
+        this.renderer.addClass(element, this.cardService.classes.actionsItem);
       });
     }
   }

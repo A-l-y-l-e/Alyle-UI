@@ -1,36 +1,35 @@
 import { Injectable } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
 
+const styles = {
+  root: {
+    display: 'block',
+    overflow: 'hidden'
+  },
+  content: {
+    display: 'block',
+    padding: '16px 24px'
+  },
+  actions: {
+    display: 'block',
+    padding: '8px 12px'
+  },
+  actionsItem: {
+    margin: '0 4px'
+  }
+};
+
 @Injectable({ providedIn: 'root' })
-export class LyCardClasses {
-  card = this.theme.setUpStyleSecondary(
-    'k-card',
-    () => (
-      `display:block;` +
-      `overflow: hidden;`
-    )
-  );
-  cardContent = this.theme.setUpStyleSecondary(
-    'k-card-content',
-    () => (
-      `display:block;` +
-      `padding:16px 24px;`
-    )
-  );
-  cardActions = this.theme.setUpStyleSecondary(
-    'k-card-actions',
-    () => (
-      `display: block;` +
-      `padding: 8px 12px;`
-    )
-  );
-  cardActionsItem = this.theme.setUpStyleSecondary(
-    'k-card-actions-item',
-    () => (
-      `margin: 0 4px;`
-    )
-  );
+export class LyCardService {
+  classes: {
+    root: string,
+    content: string,
+    actions: string,
+    actionsItem: string,
+  };
   constructor(
-    private theme: LyTheme2
-  ) { }
+    theme: LyTheme2
+  ) {
+    this.classes = theme.addStyleSheet(styles, 'lyCard');
+  }
 }
