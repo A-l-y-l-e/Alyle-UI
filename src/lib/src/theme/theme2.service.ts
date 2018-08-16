@@ -1,37 +1,58 @@
-import { Injectable, Renderer2, Inject, Optional } from '@angular/core';
+import { Injectable, Renderer2, Inject, Optional, isDevMode, SkipSelf } from '@angular/core';
 import { ThemeConfig, LY_THEME_NAME } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { DataStyle, Style } from '../theme.service';
-import { LyThemeContainer } from './theme.directive';
 import { InvertMediaQuery } from '../media/invert-media-query';
+import { Platform } from '../platform';
 
-export interface StyleItem {
-  id: string;
+export interface StylesElementMap {
+  // id: string;
   el: any;
-  styles: StylesFn2<any> | Styles2;
+  // styles: StylesFn2<any> | Styles2;
 }
 
+interface StyleMap03 {
+  [id: string]: { // example: lyTabs
+    styles: StylesFn2<any> | Styles2,
+    themes: { // example: minima-dark
+      /** Css */
+      default?: string,
+      [themeName: string]: string
+    }
+  };
+}
+
+const STYLE_MAP_03: StyleMap03 = {} as any;
+
 const STYLE_MAP: {
-  [key: string]: Map<string, StyleItem>
+  [key: string]: Map<string, StylesElementMap>
 } = {};
-const CLASSES_MAP: {
-  [key: string]: string
-} = {};
+const CLASSES_MAP = {};
+const STYLE_KEYS_MAP = {};
 let nextId = 0;
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StylesInDocument {
+  styles = new Set<string>();
+}
+
 @Injectable()
 export class LyTheme2 {
   config: ThemeConfig;
   _styleMap: Map<string, DataStyle>;
   prefix = 'k';
-  private _styleMap2: Map<string, StyleItem>;
+  private _styleMap2: Map<string, StylesElementMap>;
 
   get classes() {
     return CLASSES_MAP;
   }
 
   constructor(
+    private stylesInDocument: StylesInDocument,
     public core: CoreTheme,
-    @Optional() @Inject(LY_THEME_NAME) themeName
+    @Inject(LY_THEME_NAME) themeName
   ) {
     if (themeName) {
       this.setUpTheme(themeName);
@@ -91,10 +112,19 @@ export class LyTheme2 {
     return newClass;
   }
   setTheme(nam: string) {
+    if (!Platform.isBrowser) {
+      throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
+    }
     this.config = this.core.get(nam);
-    this._styleMap2.forEach(dataStyle => {
-      dataStyle.el.innerText = this._createStyleContent2(dataStyle.styles, dataStyle.id).content;
-    });
+    // this._styleMap2.forEach(dataStyle => {
+    //   dataStyle.el.innerText = this._createStyleC ontent2(dataStyle.styles, dataStyle.id);
+    // });
+    for (const key in STYLE_MAP_03) {
+      if (STYLE_MAP_03.hasOwnProperty(key)) {
+        const { styles } = STYLE_MAP_03[key];
+        this._createStyleContent2(styles, key, true);
+      }
+    }
     this._styleMap.forEach((dataStyle) => {
       dataStyle.styleElement.innerText = this.core._createStyleContent(this.config, dataStyle.style, dataStyle.id);
     });
@@ -102,27 +132,50 @@ export class LyTheme2 {
   /**
    * Add new add a new style sheet
    * @param styles styles
-   * @param id unique id for group
+   * @param id unique id for style group
    */
   addStyleSheet<T>(styles: StylesFn2<T> | Styles2, id?: string) {
-    const newId = id || '';
-    const styleContent = this._createStyleContent2(styles, newId);
-    const styleText = this.core.renderer.createText(styleContent.content);
-    const styleElement = this.core.renderer.createElement('style');
-    this.core.renderer.appendChild(styleElement, styleText);
-    this.core.renderer.appendChild(this.core.primaryStyleContainer, styleElement);
-    this._styleMap2.set(styleContent.key, {
-      id: newId,
-      el: styleElement,
-      styles
-    });
+    const newId = `${(id || 'global')}`;
+    // const styleElement = this.core.renderer.createElement('style');
+    this._createStyleContent2(styles, newId);
+    return CLASSES_MAP[newId];
   }
 
-  _createStyleContent2<T>(styles: StylesFn2<T> | Styles2, id: string) {
-    if (typeof styles === 'function') {
-      return groupStyleToString(styles(this.config), id);
-    } else {
-      return groupStyleToString(styles, id);
+  _createStyleContent2<T>(styles: StylesFn2<T> | Styles2, id: string, forChangeTheme?: boolean) {
+    const styleMap = id in STYLE_MAP_03
+    ? STYLE_MAP_03[id]
+    : STYLE_MAP_03[id] = {
+      styles,
+      themes: {} as any
+    };
+
+    if (!(styleMap.themes.default || this.config.name in styleMap.themes)) {
+      let css;
+      if (typeof styles === 'function') {
+        css = groupStyleToString(styles(this.config), id);
+        styleMap.themes[this.config.name] = css;
+      } else {
+        css = groupStyleToString(styles, id);
+        styleMap.themes.default = css;
+      }
+
+      // this.core.renderer.appendChild(this.core.primaryStyleContainer, styleElement);
+      if (!this._styleMap2.has(id)) {
+        const styleElement = this.core.renderer.createElement('style');
+        const styleText = this.core.renderer.createText(css);
+        this.core.renderer.appendChild(styleElement, styleText);
+        this._styleMap2.set(id, {
+          el: styleElement
+        });
+      }
+    }
+    const style = this._styleMap2.get(id);
+    if (!this.stylesInDocument.styles.has(id)) {
+      this.stylesInDocument.styles.add(id);
+      this.core.renderer.appendChild(this.core.primaryStyleContainer, style.el);
+    }
+    if (forChangeTheme && styleMap.themes[this.config.name]) {
+      style.el.innerText = styleMap.themes[this.config.name];
     }
   }
 }
@@ -138,38 +191,44 @@ export type StylesFn2<T> = (T) => Styles2;
 
 function groupStyleToString(styles: Styles2, id: string) {
   let content = '';
-  let newKey = '';
+  // let newKey = '';
+  const classesMap = id in CLASSES_MAP
+  ? CLASSES_MAP[id]
+  : CLASSES_MAP[id] = {};
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
-      newKey += key;
-      // if (styleMap.has(key)) {
-      //   content += styleMap.get(key);
-      // } else {
-        const value = styles[key];
-        if (typeof value === 'object') {
-          const classId = id + capitalizeFirstLetter(key);
-          const className = classId in CLASSES_MAP
-          ? CLASSES_MAP[classId]
-          : CLASSES_MAP[classId] = `e${nextId++}`;
-          const style = styleToString(value as Styles2, `.${className}`);
-          // styleMap.set((key), style);
-          content += style;
-        } else {
-          console.log('value is string', value);
-        }
-      // }
+      const value = styles[key];
+      if (typeof value === 'object') {
+        const className = key in classesMap
+        ? classesMap[key]
+        : classesMap[key] = isDevMode() ? toClassNameValid(`${id}__${key}`) : `e${nextId++}`;
+        const style = styleToString(value as Styles2, `.${className}`);
+        content += style;
+      } else {
+        console.log('value is string', value);
+      }
     }
   }
-  return {
-    key: id + newKey,
-    content
-  };
+  return content;
 }
+
+function createKeyFrame(name: string, ob: Object) {
+  let content = `@keyframes ${name}{`;
+  for (const key in ob) {
+    if (ob.hasOwnProperty(key)) {
+      const element = ob[key];
+      content += `${key}% ${styleToString(element, '')}`;
+    }
+  }
+  content += `}`;
+  return content;
+}
+// console.log('keyframe', createKeyFrame('myanimation', keyFrameObject));
 
 /**
  * {color:'red'} to .className{color: red}
  */
-function styleToString(ob: Object, className: string, parentClassName?: string) {
+function styleToString(ob: Object, className?: string, parentClassName?: string) {
   let content = '';
   let keyAndValue = '';
   for (const styleKey in ob) {
@@ -178,17 +237,20 @@ function styleToString(ob: Object, className: string, parentClassName?: string) 
       if (typeof element === 'object') {
         content += styleToString(element as Styles2, styleKey, className);
       } else {
-        keyAndValue += `${styleKey}:${element};`;
+        keyAndValue += `${toHyphenCaseCache(styleKey)}:${element};`;
       }
     }
   }
-  let newClassName = '';
-  if (parentClassName) {
-    newClassName += className.indexOf('&') === 0 ? `${parentClassName}${className.slice(1)}` : `${parentClassName} .${className}`;
-  } else {
-    newClassName += className;
+  if (className) {
+    let newClassName = '';
+    if (parentClassName) {
+      newClassName += className.indexOf('&') === 0 ? `${parentClassName}${className.slice(1)}` : `${parentClassName} .${className}`;
+    } else {
+      newClassName += className;
+    }
+    content += `${newClassName}`;
   }
-  content += `${newClassName}{${keyAndValue}}`;
+  content += `{${keyAndValue}}`;
   return content;
 }
 
@@ -205,15 +267,18 @@ export function toHyphenCase(str: string) {
   return str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
 }
 
+function toClassNameValid(str: string) {
+  const s = str.replace(/[\W]/g, '');
+  return toHyphenCase(s[0].toLowerCase() + s.slice(1));
+}
+
+function toHyphenCaseCache(str: string) {
+  return str in STYLE_KEYS_MAP
+  ? STYLE_KEYS_MAP[str]
+  : STYLE_KEYS_MAP[str] = toHyphenCase(str);
+}
+
 export function capitalizeFirstLetter(str: string) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class LyClasses {
-  get classes() {
-    return CLASSES_MAP;
-  }
-}
