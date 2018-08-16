@@ -8,7 +8,6 @@
       "@alyle/ui/ripple": "ly.ripple",
       "@alyle/ui/icon-button": "ly.iconButton",
       "@alyle/ui/button": "ly.button",
-      "@alyle/ui/ls": "ly.ls",
       "@alyle/ui/responsive": "ly.responsive",
       "@alyle/ui/radio": "ly.radio",
       "@alyle/ui/input": "ly.input",

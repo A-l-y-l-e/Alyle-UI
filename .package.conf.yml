@@ -12,7 +12,6 @@ components:
   '@alyle/ui/icon-button': icon-button
   '@alyle/ui/icon': icon
   '@alyle/ui/button': button
-  '@alyle/ui/ls': ls
   '@alyle/ui/radio': radio
   '@alyle/ui/input': input
   '@alyle/ui/resizing-cropping-images': resizing-cropping-images

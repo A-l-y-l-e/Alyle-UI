@@ -25,7 +25,6 @@
       "alyle-ui/tabs": ["BASE_URLtabs/"],
       "alyle-ui/ripple": ["BASE_URLripple/"],
       "alyle-ui/radio": ["BASE_URLradio/"],
-      "alyle-ui/ls": ["BASE_URLls/"],
       "alyle-ui/drawer": ["BASE_URLdrawer/"],
       "alyle-ui/menu": ["BASE_URLmenu/"],
       "alyle-ui/toolbar": ["BASE_URLtoolbar/"],
