@@ -1,11 +1,11 @@
-import { Component, Injectable, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
 
 /**
  * Basic style
  * @param theme Theme config
  */
-const myStyles = (theme) => ({
+const styles = theme => ({
   root: {                         // this would be like the name of the class
     color: theme.primary.default, // style
     '&:hover': {                  // `&`is equal to `root` and therefore it would be 'root:hover'
@@ -14,22 +14,12 @@ const myStyles = (theme) => ({
   },
   buttonLink: {
     color: theme.accent.default,
-    'text-decoration': 'inherit',
+    textDecoration: 'inherit',
     '&:hover': {
-      'text-decoration': 'underline'
+      textDecoration: 'underline'
     }
   }
 });
-
-@Injectable({ providedIn: 'root' })
-export class DynamicStylesService {
-  classes;
-  constructor(
-    private theme: LyTheme2
-  ) {
-    this.classes = this.theme.addStyleSheet(myStyles, 'myStyles');
-  }
-}
 
 @Component({
   selector: 'aui-ds-basic',
@@ -37,10 +27,15 @@ export class DynamicStylesService {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsBasicComponent {
-  classes = this.dynamicStylesService.classes;
+  classes: {
+    root: string,
+    buttonLink: string
+  };
 
   constructor(
-    private dynamicStylesService: DynamicStylesService
-  ) { }
+    theme: LyTheme2
+  ) {
+    this.classes = theme.addStyleSheet(styles, 'dsBasic');
+  }
 
 }

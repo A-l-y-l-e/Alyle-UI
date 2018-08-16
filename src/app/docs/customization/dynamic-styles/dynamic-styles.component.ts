@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class DynamicStylesComponent {
   codeBasicStyle = `
-const myStyles = (theme) => ({
+const styles = theme => ({
   root: {                         // this would be like the name of the class
     color: theme.primary.default, // style
     '&:hover': {                  // \`&\`is equal to \`root\` and therefore it would be 'root:hover'
@@ -16,9 +16,9 @@ const myStyles = (theme) => ({
   },
   buttonLink: {
     color: theme.accent.default,
-    'text-decoration': 'inherit',
+    textDecoration: 'inherit',
     '&:hover': {
-      'text-decoration': 'underline',
+      textDecoration: 'underline'
     }
   }
 });
