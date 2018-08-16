@@ -6,9 +6,7 @@ import { InvertMediaQuery } from '../media/invert-media-query';
 import { Platform } from '../platform';
 
 export interface StylesElementMap {
-  // id: string;
   el: any;
-  // styles: StylesFn2<any> | Styles2;
 }
 
 interface StyleMap03 {
@@ -207,8 +205,8 @@ function groupStyleToString(styles: Styles2, id: string, media?: string) {
   // let newKey = '';
   // const string
   if (typeof styles === 'string') {
-    CLASSES_MAP[id] = `e${nextId++}`;
-    const css = `.${CLASSES_MAP[id]}{${styles}}`;
+    const className = CLASSES_MAP[id] ? CLASSES_MAP[id] : CLASSES_MAP[id] = `e${(nextId++).toString(36)}`;
+    const css = `.${className}{${styles}}`;
     return media ? toMedia(css, media) : css;
   }
   const classesMap = id in CLASSES_MAP
@@ -220,7 +218,7 @@ function groupStyleToString(styles: Styles2, id: string, media?: string) {
       if (typeof value === 'object') {
         const className = key in classesMap
         ? classesMap[key]
-        : classesMap[key] = isDevMode() ? toClassNameValid(`${id}__${key}`) : `e${nextId++}`;
+        : classesMap[key] = isDevMode() ? toClassNameValid(`${id}__${key}`) : `e${(nextId++).toString(36)}`;
         const style = styleToString(value as Styles2, `.${className}`);
         content += style;
       } else {
