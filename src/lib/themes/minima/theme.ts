@@ -1,5 +1,5 @@
 import { NgModule, Directive } from '@angular/core';
-import { LyThemeConfig, LY_THEME_NAME, LyTheme2 } from '@alyle/ui';
+import { LyThemeConfig, LY_THEME_NAME, LyTheme2, LyThemeModule } from '@alyle/ui';
 import { MinimaLight } from './light';
 import { MinimaDark } from './dark';
 
@@ -26,9 +26,9 @@ export class ThemeMinimaLight { }
 export class ThemeMinimaDark { }
 
 @NgModule({
-  declarations: [ThemeMinimaLight, ThemeMinimaDark],
-  exports: [ThemeMinimaLight, ThemeMinimaDark]
+  declarations: [ThemeMinimaDark, ThemeMinimaLight],
+  exports: [ThemeMinimaDark, ThemeMinimaLight]
 })
-export class MinimaThemeModule {}
+export class ThemeMinimaModule { }
 
 export interface IMinimaTheme extends MinimaLight, MinimaDark { }
