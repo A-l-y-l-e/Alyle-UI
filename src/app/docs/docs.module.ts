@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { TabsWithLazyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
 import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
 import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-basic.module';
+import { TabsWithAsynchronouslyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-asynchronously-loading/tabs-with-asynchronously-loading.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-ba
     /** Tabs demos */
     BasicTabsModule,
     TabsWithLazyLoadingModule,
+    TabsWithAsynchronouslyLoadingModule,
     /** Ds */
     DsBasicModule
   ],
