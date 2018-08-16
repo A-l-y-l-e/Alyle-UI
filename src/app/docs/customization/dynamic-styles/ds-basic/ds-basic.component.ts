@@ -23,10 +23,11 @@ const myStyles = (theme) => ({
 
 @Injectable({ providedIn: 'root' })
 export class DynamicStylesService {
+  classes;
   constructor(
-    public theme: LyTheme2
+    private theme: LyTheme2
   ) {
-    this.theme.addStyleSheet(myStyles, 'myStyles');
+    this.classes = this.theme.addStyleSheet(myStyles, 'myStyles');
   }
 }
 
@@ -36,7 +37,7 @@ export class DynamicStylesService {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsBasicComponent {
-  classes = this.dynamicStylesService.theme.classes;
+  classes = this.dynamicStylesService.classes;
 
   constructor(
     private dynamicStylesService: DynamicStylesService
