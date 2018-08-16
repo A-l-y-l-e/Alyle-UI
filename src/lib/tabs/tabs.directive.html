@@ -1,10 +1,10 @@
-<div [className]="classes.tabsLabels">
+<div [withClass]="classes.tabsLabels">
   <span #tabsIndicator></span>
   <ng-content></ng-content>
 </div>
-<div [className]="classes.tabContents" #tabContents>
+<div [withClass]="classes.tabContents" #tabContents>
   <ng-template ngFor let-item [ngForOf]="tabsList" let-x="index">
-    <div [className]="classes.tabContent">
+    <div [withClass]="classes.tabContent">
       <ng-template [ngTransclude]="loadTemplate(item, x)"></ng-template>
     </div>
   </ng-template>

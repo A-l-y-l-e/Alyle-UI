@@ -17,11 +17,14 @@ import {
   ElementRef,
   OnInit,
   ViewEncapsulation,
-  AfterViewInit
+  AfterViewInit,
+  AfterContentInit,
+  OnDestroy
 } from '@angular/core';
 import { LyTabContent } from './tab-content.directive';
 import { LyTabsClassesService } from './tabs.clasess.service';
 import { UndefinedValue, Undefined, LyTheme2, Platform } from '@alyle/ui';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ly-tabs',
@@ -30,17 +33,20 @@ import { UndefinedValue, Undefined, LyTheme2, Platform } from '@alyle/ui';
   encapsulation: ViewEncapsulation.None,
   exportAs: 'lyTabs'
 })
-export class LyTabs implements OnInit, AfterViewInit {
-  _selectedIndex: number | Undefined = UndefinedValue;
+export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
+  _selectedIndex = 0;
   _selectedBeforeIndex: number;
   _selectedRequireCheck: boolean;
   _selectedTab: LyTab;
   _selectedBeforeTab: LyTab;
+  private _tabsSubscription = Subscription.EMPTY;
   private _isViewInitLoaded: boolean;
   private _withColor: string;
   private _withColorClass: string;
+  readonly classes;
   @ViewChild('tabContents') tabContents: ElementRef;
   @ViewChild('tabsIndicator') tabsIndicator: ElementRef;
+  @Input() selectedIndexOnChange: 'auto' | number = 'auto';
   @Input()
   set withColor(val: string) {
     if (val !== this.withColor) {
@@ -58,15 +64,15 @@ export class LyTabs implements OnInit, AfterViewInit {
   set selectedIndex(val: number) {
     if (val !== this.selectedIndex) {
       this._selectedBeforeIndex = this._selectedIndex as number;
-      this._selectedIndex = val;
+      this._selectedIndex = this._findIndex(val, 'auto');
       this._selectedBeforeTab = this._selectedTab;
-      this.selectedIndexChange.emit(val);
+      this.selectedIndexChange.emit(this._selectedIndex);
       this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
 
       if (this._selectedRequireCheck) {
         this.markForCheck();
       }
-      this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate3d(${val * -100}%,0,0)`);
+      this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate3d(${this._selectedIndex * -100}%,0,0)`);
     }
   }
   get selectedIndex() {
@@ -77,15 +83,17 @@ export class LyTabs implements OnInit, AfterViewInit {
   @ContentChildren(forwardRef(() => LyTab)) tabsList: QueryList<LyTab>;
 
   constructor(
-    public classes: LyTabsClassesService,
+    tabsService: LyTabsClassesService,
     private theme: LyTheme2,
     private renderer: Renderer2,
     private el: ElementRef,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {
+    this.classes = tabsService.classes;
+  }
 
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.classes.tabs);
+    this.renderer.addClass(this.el.nativeElement, this.classes.root);
     const tabsIndicatorEl = this.tabsIndicator.nativeElement;
     this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);
     /** Set default Color */
@@ -96,6 +104,26 @@ export class LyTabs implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this._isViewInitLoaded = true;
+  }
+  ngAfterContentInit() {
+    this._tabsSubscription = this.tabsList.changes.subscribe(() => {
+      if (this._selectedIndex !== this.selectedIndexOnChange) {
+        this.selectedIndex = this._findIndex(this.selectedIndex, this.selectedIndexOnChange);
+      }
+      this.cd.markForCheck();
+    });
+  }
+  ngOnDestroy() {
+    this._tabsSubscription.unsubscribe();
+  }
+
+  private _findIndex(selectedIndex: number, index: string | number) {
+    if (!this.tabsList) {
+      return selectedIndex;
+    }
+    const indexOfLastTab = this.tabsList.length - 1;
+    const currentIndex = typeof index === 'number' ? index : selectedIndex;
+    return currentIndex < 0 ? 0 : currentIndex > indexOfLastTab ? indexOfLastTab : currentIndex;
   }
 
   private _updateIndicator(currentTab: LyTab, beforeTab?: LyTab): void {
@@ -136,10 +164,10 @@ export class LyTabs implements OnInit, AfterViewInit {
       return null;
     }
     tab.index = index;
-    if (this.selectedIndex === UndefinedValue) {
+    if (this.selectedIndex === tab.index) {
       // set 0 if is null
       this._selectedTab = tab;
-      this.selectedIndex = 0;
+      this._updateIndicator(tab);
     } else if (!this._isViewInitLoaded && this.selectedIndex === tab.index) {
       this._selectedTab = tab;
       /** Apply style for tabIndicator server */
@@ -178,6 +206,7 @@ export class LyTabs implements OnInit, AfterViewInit {
 export class LyTab implements OnInit, AfterViewInit {
   index: number;
   loaded: boolean;
+  protected readonly classes;
   @ContentChild(LyTabContent, { read: TemplateRef }) templateRefLazy: TemplateRef<LyTabContent>;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   @ViewChild('tabIndicator') tabIndicator: ElementRef;
@@ -187,17 +216,20 @@ export class LyTab implements OnInit, AfterViewInit {
   }
 
   constructor(
+    private tabsService: LyTabsClassesService,
     private tabs: LyTabs,
     public _renderer: Renderer2,
     public _el: ElementRef,
-  ) { }
+  ) {
+    this.classes = this.tabsService.classes;
+  }
 
   ngOnInit() {
-    this._renderer.addClass(this._el.nativeElement, this.tabs.classes.tab);
+    this._renderer.addClass(this._el.nativeElement, this.classes.tab);
   }
 
   ngAfterViewInit() {
-    this._renderer.addClass(this.tabIndicator.nativeElement, this.tabs.classes.tabsIndicator);
+    this._renderer.addClass(this.tabIndicator.nativeElement, this.classes.tabsIndicator);
   }
 }
 
@@ -210,11 +242,11 @@ export class LyTabLabel implements OnInit {
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
-    private classes: LyTabsClassesService
+    private tabsService: LyTabsClassesService
   ) { }
 
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.classes.tabLabel);
+    this.renderer.addClass(this.el.nativeElement, this.tabsService.classes.tabLabel);
   }
 }
 /**
@@ -243,4 +275,5 @@ export class LyTabLabel implements OnInit {
  * => native: no aplica los estilos predeterminados, default undefined
  * => disabled: Disable/enable a tab, default undefined
  * => isActive: Si la pestaña está actualmente activa., default undefined
+ * => selectedIndexOnChange, default: auto, opts: number, with auto, the selectedIndex = current o current-1 or latest
  */
