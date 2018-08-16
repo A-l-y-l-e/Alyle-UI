@@ -1,37 +1,20 @@
 import {
-  NgModule,
   Component,
   Directive,
-  ViewEncapsulation,
-  EventEmitter,
   ElementRef,
-  Renderer,
-  ModuleWithProviders,
   Input,
-  AfterContentInit,
   ContentChildren,
   ContentChild,
   QueryList,
   ChangeDetectionStrategy,
-  Output,
-  ViewChild,
-  TemplateRef,
-  ViewContainerRef,
-  ComponentRef,
   forwardRef,
-  OnInit,
   HostBinding,
   Optional,
   Renderer2,
-  AfterViewInit,
   OnChanges,
-  SimpleChanges,
-  ChangeDetectorRef,
-  HostListener
+  SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ControlValueAccessor } from '@angular/forms';
-import { RandomId, NgTranscludeModule, IsBoolean } from '@alyle/ui';
+import { IsBoolean } from '@alyle/ui';
 import { AnimationBuilder, trigger, state, animate, transition, style } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 export interface StyleMargin {

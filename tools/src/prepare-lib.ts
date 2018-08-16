@@ -29,7 +29,7 @@ copySync(dirLib, dist);
 
 components.forEach((lib, index) => {
   if (index) {
-    writeFileSync(`${dist}/${lib.path}/package.json`, `{"ngPackage": {"lib": {"entryFile": "public_api.ts"}}}`, 'utf8');
+    writeFileSync(`${dist}/${lib.path}/package.json`, `{"ngPackage": {"lib": {"entryFile": "index.ts"}}}`, 'utf8');
   }
   // const item = statSync(`${dirLib}/${lib.path}`);
   const nh = lib.path.split('/').map(() => '../').join('');

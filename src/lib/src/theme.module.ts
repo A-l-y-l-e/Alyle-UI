@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf, Self, Host, ModuleWithProviders, InjectionToken } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { LyTheme2 } from './theme/theme2.service';
 import { LY_THEME_NAME } from './theme/theme-config';
 
