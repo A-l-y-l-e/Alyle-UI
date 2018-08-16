@@ -45,7 +45,7 @@
 <!-- </ly-input> -->
 <br />
 <button ly-button (click)="addTab()">add tab</button>
-<ly-tabs [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+<ly-tabs [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" [selectedIndexOnChange]="1">
   <ly-tab *ngFor="let tab of tabs; let i = index">
     <ly-tab-label>{{ 'Label ' + i }}</ly-tab-label>
     <ng-template ly-tab-content>
