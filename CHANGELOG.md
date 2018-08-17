@@ -1,3 +1,32 @@
+<a name="1.7.0-beta.4u2xw"></a>
+# [1.7.0-beta.4u2xw](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4imhk...1.7.0-beta.4u2xw) (2018-08-17)
+
+
+### Bug Fixes
+
+* **button:** change classses to public ([678e0e8](https://github.com/A-l-y-l-e/Alyle-UI/commit/678e0e8))
+* **theme:** rename `styleName` to `withClass` directive ([f9f1c79](https://github.com/A-l-y-l-e/Alyle-UI/commit/f9f1c79))
+* **theme:** rename MinimaThemeModule to ThemeMinimaModule ([ab2e2f4](https://github.com/A-l-y-l-e/Alyle-UI/commit/ab2e2f4))
+* **theme:** update interface for Style ([397653e](https://github.com/A-l-y-l-e/Alyle-UI/commit/397653e))
+
+
+### Features
+
+* **button:** update button with `addStyleSheet` ([e5c9e33](https://github.com/A-l-y-l-e/Alyle-UI/commit/e5c9e33))
+* **tabs:** add `selectedIndexOnChange` for tabs ([865d45a](https://github.com/A-l-y-l-e/Alyle-UI/commit/865d45a))
+* **tabs:** support tabs with async ([dc08d0e](https://github.com/A-l-y-l-e/Alyle-UI/commit/dc08d0e))
+* **theme:** add `withClass` directive ([fba487f](https://github.com/A-l-y-l-e/Alyle-UI/commit/fba487f))
+* **theme:** add styleName directive ([0542d4b](https://github.com/A-l-y-l-e/Alyle-UI/commit/0542d4b))
+* **theme:** converter className id number to string with radix 36 ([f5e5346](https://github.com/A-l-y-l-e/Alyle-UI/commit/f5e5346))
+
+
+### Performance Improvements
+
+* **theme:** cache style ([ecf26d5](https://github.com/A-l-y-l-e/Alyle-UI/commit/ecf26d5))
+* **theme:** now `addStyle` works with CLASSES_MAP ([a77a7e2](https://github.com/A-l-y-l-e/Alyle-UI/commit/a77a7e2))
+
+
+
 <a name="1.7.0-beta.4imhk"></a>
 # [1.7.0-beta.4imhk](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4iic8...1.7.0-beta.4imhk) (2018-08-11)
 
