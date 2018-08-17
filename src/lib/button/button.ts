@@ -52,7 +52,7 @@ const Size = {
   encapsulation: ViewEncapsulation.None
 })
 export class LyButton implements OnInit, OnDestroy {
-  private classes: {
+  classes: {
     root: string,
     outlined: string,
     content: string
