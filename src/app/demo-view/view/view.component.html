@@ -6,7 +6,7 @@
   <ly-tabs *ngIf="hasCode">
     <ly-tab *ngFor="let file of files; let i = index">
       <ly-tab-label>{{ file.label }}</ly-tab-label>
-      <prism [code]="file.text | async" [language]="file.ext" class="tab-content">Loading...</prism>
+      <prism [withClass]="classes.codeContainer" [code]="file.text | async" [language]="file.ext" class="tab-content">Loading...</prism>
     </ly-tab>
   </ly-tabs>
   <div class="tab-container">

@@ -12,11 +12,18 @@ import { Observable, of, merge, concat, throwError } from 'rxjs';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { catchError, retry, mergeMap, take, tap } from 'rxjs/operators';
-import { Platform, AUI_VERSION } from '@alyle/ui';
+import { Platform, AUI_VERSION, LyTheme2 } from '@alyle/ui';
 
 import { RoutesAppService } from '../../components/routes-app.service';
 import sdk from '@stackblitz/sdk';
 import { map } from 'bluebird';
+
+const styles = {
+  codeContainer: {
+    maxHeight: '200px',
+    overflowY: 'auto'
+  }
+};
 
 const toCamelCase = (str) => str.replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/\s+/g, '');
 
@@ -36,6 +43,9 @@ function toPascalCase(str: string) {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewComponent implements OnInit {
+  classes: {
+    codeContainer: string
+  };
   hasCode = false;
   name: string;
   folderName: string;
@@ -52,7 +62,8 @@ export class ViewComponent implements OnInit {
     private http: HttpClient,
     private el: ElementRef,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private theme: LyTheme2
   ) { }
   toggleCode() {
     this.hasCode = !this.hasCode;
@@ -227,6 +238,7 @@ export class ViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.classes = this.theme.addStyleSheet(styles, 'codeView');
     this.name = this.router.url.replace(/\//g, '').replace(/component/, '');
     if (isDevMode() && !this.path) {
       this.folderName = this.el.nativeElement.querySelector('.tab-container > *').nodeName.toLowerCase();
