@@ -16,10 +16,10 @@ import {
   Platform,
   toBoolean,
   LyTheme2,
-  LyBgColorAndRaised
+  LyCommon
 } from '@alyle/ui';
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
-import { LyButtonService } from './button.service';
+import { styles } from './button.style';
 const DEFAULT_SIZE = 'medium';
 const Size = {
   small: theme => (
@@ -30,7 +30,6 @@ const Size = {
   ),
   medium: theme => (
     `padding:0 14px;` +
-    `font-size:${theme.pxToRem(theme.typography.button.fontSize)};` +
     `min-height: 36px;` +
     `min-width: 88px;`
   ),
@@ -46,13 +45,18 @@ const Size = {
   selector: '[ly-button]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <span #content>
+  <span [className]="classes.content">
     <ng-content></ng-content>
   </span>
   `,
   encapsulation: ViewEncapsulation.None
 })
-export class LyButton implements OnInit, AfterViewInit, OnDestroy {
+export class LyButton implements OnInit, OnDestroy {
+  private classes: {
+    root: string,
+    outlined: string,
+    content: string
+  };
   public _disabled = false;
   private _rippleSensitive = false;
   private _disabledClassName: string;
@@ -60,12 +64,14 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   private _rippleContainer: Ripple;
   private _size: string;
   private _sizeClass: string;
+
   @Input()
   set outlined(val: boolean) {
-    const classname = toBoolean(val) === true ? this.buttonService.classes.outlined : '';
+    const classname = toBoolean(val) === true ? this.classes.outlined : '';
     this.theme.updateClassName(this.elementRef.nativeElement, this.renderer, classname, this._outlinedClassName);
     this._outlinedClassName = classname;
   }
+
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
@@ -77,8 +83,6 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   set size(val: string) {
     if (val !== this.size) {
-      // const newClass = this._createSizeClass(val);
-      // this._sizeClass = this.theme.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._sizeClass);
       this._size = val;
       this._sizeClass = this.theme.addStyle(
         `k-button-size:${this.size}`,
@@ -92,15 +96,12 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     return this._size;
   }
 
-  @ViewChild('content') buttonContent: ElementRef;
-
   @Input()
   set disabled(value: boolean) {
-    const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
-    this._disabledClassName = this.theme.setUpStyle(`btn${key}`, {'': this.disableStyle.bind(this)});
     this._disabled = toBoolean(value);
     if (this._disabled) {
-      this.renderer.addClass(this.elementRef.nativeElement, this._disabledClassName);
+      const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
+      this._disabledClassName = this.theme.addStyle(`btn${key}`, this.disableStyle.bind(this), this.elementRef.nativeElement, this._disabledClassName);
     } else {
       this.renderer.removeClass(this.elementRef.nativeElement, this._disabledClassName);
     }
@@ -114,10 +115,10 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     private renderer: Renderer2,
     private theme: LyTheme2,
     public rippleStyles: LyRippleService,
-    private buttonService: LyButtonService,
     _ngZone: NgZone,
-    @Optional() private bgAndColor: LyBgColorAndRaised
+    @Optional() private bgAndColor: LyCommon
   ) {
+    this.classes = this.theme.addStyleSheet(styles, 'lyButton');
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
@@ -128,22 +129,14 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.renderer.addClass(this.elementRef.nativeElement, this.buttonService.classes.currentConfig);
-    this.renderer.addClass(this.elementRef.nativeElement, this.buttonService.classes.root);
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.root);
     if (!this.size) {
       this.size = DEFAULT_SIZE;
     }
   }
 
-  public focused() {
+  public focus() {
     this.elementRef.nativeElement.focus();
-  }
-
-  ngAfterViewInit() {
-    const classes = this.buttonService.classes;
-      (this.buttonContent.nativeElement as HTMLElement).classList.add(
-        classes.buttonContent
-      );
   }
 
   private disableStyle() {
@@ -156,11 +149,6 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
       style += `background-color: ${this.theme.config.button.disabled} !important;`;
     }
     return style;
-  }
-
-  private _createSizeClass(val: string): string {
-    this._size = val;
-    return this.theme.setUpStyleSecondary(`k-button-size:${this.size}`, Size[this.size]);
   }
 
   ngOnDestroy() {

@@ -146,7 +146,7 @@ export class LyTheme2 {
    * @param id unique id for style group
    */
   addStyleSheet<T>(styles: StylesFn2<T> | Styles2, id?: string) {
-    const newId = `${(id || 'global')}`;
+    const newId = id || 'global';
     // const styleElement = this.core.renderer.createElement('style');
     this._createStyleContent2(styles, newId);
     return CLASSES_MAP[newId];
@@ -254,6 +254,10 @@ function styleToString(ob: Object, className?: string, parentClassName?: string)
       if (typeof element === 'object') {
         content += styleToString(element as Styles2, styleKey, className);
       } else {
+        // const styleKeyHyphenCase = toHyphenCaseCache(styleKey);
+        // const styleValue = styleKeyHyphenCase === 'font-size' && typeof element === 'number'
+        // ? this.config.pxToRem(element)
+        // : element;
         keyAndValue += `${toHyphenCaseCache(styleKey)}:${element};`;
       }
     }

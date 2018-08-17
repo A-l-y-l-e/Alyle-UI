@@ -8,7 +8,7 @@ import {
   Optional,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { LyBgColorAndRaised } from '@alyle/ui';
+import { LyCommon } from '@alyle/ui';
 
 @Directive({
   selector: 'ly-toolbar-item',
@@ -24,7 +24,7 @@ export class ToolbarItem {}
 export class LyToolbar {
 
   constructor(
-    @Optional() bgAndColor: LyBgColorAndRaised
+    @Optional() bgAndColor: LyCommon
   ) {
     if (bgAndColor) {
       bgAndColor.setAutoContrast();

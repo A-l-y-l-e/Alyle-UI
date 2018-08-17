@@ -21,7 +21,7 @@ import {
 import { CommonModule } from '@angular/common';
 
 import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
-import { Platform, LyBgColorAndRaised, LyTheme2 } from '@alyle/ui';
+import { Platform, LyCommon, LyTheme2 } from '@alyle/ui';
 import { LyIconButtonService } from './icon-button.service';
 
 @Component({
@@ -55,7 +55,7 @@ export class LyIconButton implements OnInit {
   constructor(
     public elementRef: ElementRef,
     private renderer: Renderer2,
-    @Optional() private bgAndColor: LyBgColorAndRaised,
+    @Optional() private bgAndColor: LyCommon,
     public iconButtonService: LyIconButtonService,
     private theme: LyTheme2
   ) {

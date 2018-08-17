@@ -1,4 +1,4 @@
-import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject} from '@angular/core';
+import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
@@ -55,7 +55,7 @@ const styles = theme => {
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   classes: {
     body: string;
     header: string;
@@ -74,19 +74,22 @@ export class AppComponent {
   mode = true;
 
   constructor(
-    @Inject(DOCUMENT) _document: any,
+    @Inject(DOCUMENT) private _document: any,
     public router: Router,
     public routesApp: RoutesAppService,
     private theme: LyTheme2,
-    renderer: Renderer2,
+    private renderer: Renderer2,
     iconService: LyIconService
   ) {
-    this.classes = this.theme.addStyleSheet(styles);
-    renderer.addClass((_document as Document).body, this.classes.body);
     iconService.setSvg('Heart', 'assets/svg/Heart');
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
     iconService.setSvg('Radiation', 'assets/svg/radiation');
     this.routesComponents = this.routesApp.routesApp;
+  }
+  ngOnInit() {
+    this.classes = this.theme.addStyleSheet(styles);
+    this.renderer.addClass((this._document as Document).body, this.classes.body);
+
   }
   changeTheme() {
     this.mode = !this.mode;

@@ -31,7 +31,7 @@ import {
   FormGroupDirective,
   NgControl, NgForm,
 } from '@angular/forms';
-import { LyCommonModule, LyTheme2, IsBoolean, toBoolean, LyBgColorAndRaised } from '@alyle/ui';
+import { LyCommonModule, LyTheme2, IsBoolean, toBoolean, LyCommon } from '@alyle/ui';
 import { LyInputContents } from './input-contents';
 import { LyFieldDirective } from './ly-field.directive';
 
@@ -151,7 +151,7 @@ export class LyInput implements OnInit, AfterContentInit, OnChanges, OnDestroy {
   constructor(
     private theme: LyTheme2,
     private _changeDetectorRef: ChangeDetectorRef,
-    @Optional() bcr: LyBgColorAndRaised,
+    @Optional() bcr: LyCommon,
     renderer: Renderer2,
     elementRef: ElementRef
   ) { }

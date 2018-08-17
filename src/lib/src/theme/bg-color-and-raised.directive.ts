@@ -1,16 +1,15 @@
-import { Directive, SkipSelf, Input, OnChanges, SimpleChanges, Inject, Optional, Renderer2, ElementRef, Host, Self } from '@angular/core';
+import { Directive, Input, OnChanges, SimpleChanges, Inject, Optional, Renderer2, ElementRef, Host, Self } from '@angular/core';
 import { LY_GLOBAL_CONTRAST } from './contrast';
 import { LyTheme2 } from './theme2.service';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
-import { ThemeVariables } from '../alyle-config-service';
 import { LyShadowService } from './shadow.service';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: '[bg], [color], [raised]'
+  selector: '[bg], [color], [raised], [disabled]'
 })
-export class LyBgColorAndRaised implements OnChanges {
+export class LyCommon implements OnChanges {
   private _raisedState: boolean;
   private _currentClassName: string;
   private _bg: string;
