@@ -40,3 +40,10 @@ stages:
   - prepare
   - build
 
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/1a51030c5bebfd74da7a
+    on_success: always
+    on_failure: never
+    on_start: never
