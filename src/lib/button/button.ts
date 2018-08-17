@@ -21,24 +21,25 @@ import {
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
 const DEFAULT_SIZE = 'medium';
+
 const Size = {
-  small: theme => (
-    `padding:0 8px;` +
-    `font-size:${theme.pxToRem(theme.typography.button.fontSize - 1)};` +
-    `min-height: 32px;` +
-    `min-width: 64px;`
-  ),
-  medium: theme => (
-    `padding:0 14px;` +
-    `min-height: 36px;` +
-    `min-width: 88px;`
-  ),
-  large: theme => (
-    `padding:0 21px;` +
-    `font-size:${theme.pxToRem(theme.typography.button.fontSize + 1)};` +
-    `min-height: 40px;` +
-    `min-width: 112px;`
-  ),
+  small: theme => ({
+    padding: '0 8px',
+    fontSize: theme.pxToRem(theme.typography.button.fontSize - 1),
+    minHeight: '32px',
+    minWidth: '64px'
+  }),
+  medium: ({
+    padding: '0 14px',
+    minHeight: '36px',
+    minWidth: '88px'
+  }),
+  large: (theme) => ({
+    padding: '0 21px',
+    fontSize: theme.pxToRem(theme.typography.button.fontSize + 1),
+    minHeight: '40px',
+    minWidth: '112px'
+  })
 };
 
 @Component({
@@ -85,7 +86,7 @@ export class LyButton implements OnInit, OnDestroy {
     if (val !== this.size) {
       this._size = val;
       this._sizeClass = this.theme.addStyle(
-        `k-button-size:${this.size}`,
+        `lyButton-size:${this.size}`,
         Size[this.size],
         this.elementRef.nativeElement,
         this._sizeClass
@@ -101,7 +102,7 @@ export class LyButton implements OnInit, OnDestroy {
     this._disabled = toBoolean(value);
     if (this._disabled) {
       const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
-      this._disabledClassName = this.theme.addStyle(`btn${key}`, this.disableStyle.bind(this), this.elementRef.nativeElement, this._disabledClassName);
+      this._disabledClassName = this.theme.addStyle(`lyButton-disabled:${key}`, this.disableStyle.bind(this), this.elementRef.nativeElement, this._disabledClassName);
     } else {
       this.renderer.removeClass(this.elementRef.nativeElement, this._disabledClassName);
     }

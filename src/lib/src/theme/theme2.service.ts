@@ -9,10 +9,16 @@ export interface StylesElementMap {
   el: any;
 }
 
+export enum TypeStyle {
+  Multiple,
+  OnlyOne
+}
+
 interface StyleMap03 {
   [id: string]: { // example: lyTabs
     styles: StylesFn2<any> | Styles2,
     media?: string,
+    typeStyle?: TypeStyle,
     themes: { // example: minima-dark
       /** Css */
       default?: string,
@@ -29,6 +35,10 @@ const STYLE_MAP: {
 const CLASSES_MAP = {};
 const STYLE_KEYS_MAP = {};
 let nextId = 0;
+function fn() {
+  return CLASSES_MAP;
+}
+console.log({fn});
 
 @Injectable({
   providedIn: 'root'
@@ -120,8 +130,8 @@ export class LyTheme2 {
     // });
     for (const key in STYLE_MAP_03) {
       if (STYLE_MAP_03.hasOwnProperty(key)) {
-        const { styles, media } = STYLE_MAP_03[key];
-        this._createStyleContent2(styles, key, true, media);
+        const { styles, typeStyle, media } = STYLE_MAP_03[key];
+        this._createStyleContent2(styles, key, typeStyle, true, media);
       }
     }
     this._styleMap.forEach((dataStyle) => {
@@ -136,7 +146,7 @@ export class LyTheme2 {
    */
   private addCss(id: string, css: ((t) => string) | string, media?: string): string {
     const newId = `~>${id}`;
-    this._createStyleContent2(css as any, newId, false, media);
+    this._createStyleContent2(css as any, newId, TypeStyle.OnlyOne, false, media);
     return CLASSES_MAP[newId];
   }
 
@@ -148,25 +158,32 @@ export class LyTheme2 {
   addStyleSheet<T>(styles: StylesFn2<T> | Styles2, id?: string) {
     const newId = id || 'global';
     // const styleElement = this.core.renderer.createElement('style');
-    this._createStyleContent2(styles, newId);
+    this._createStyleContent2(styles, newId, TypeStyle.Multiple);
     return CLASSES_MAP[newId];
   }
 
-  _createStyleContent2<T>(styles: StylesFn2<T> | Styles2, id: string, forChangeTheme?: boolean, media?: string) {
+  _createStyleContent2<T>(
+    styles: StylesFn2<T> | Styles2,
+    id: string,
+    typeStyle: TypeStyle,
+    forChangeTheme?: boolean,
+    media?: string
+  ) {
     const styleMap = id in STYLE_MAP_03
     ? STYLE_MAP_03[id]
     : STYLE_MAP_03[id] = {
       styles,
       media,
+      typeStyle,
       themes: {} as any
     };
     if (!(styleMap.themes.default || this.config.name in styleMap.themes)) {
       let css;
       if (typeof styles === 'function') {
-        css = groupStyleToString(styles(this.config), id, media);
+        css = groupStyleToString(styles(this.config), id, typeStyle, media);
         styleMap.themes[this.config.name] = css;
       } else {
-        css = groupStyleToString(styles, id, media);
+        css = groupStyleToString(styles, id, typeStyle, media);
         styleMap.themes.default = css;
       }
 
@@ -200,15 +217,19 @@ export interface Styles2 {
 }
 export type StylesFn2<T> = (T) => Styles2;
 
-function groupStyleToString(styles: Styles2, id: string, media?: string) {
-  let content = '';
+function groupStyleToString(styles: Styles2, id: string, typeStyle: TypeStyle, media?: string) {
   // let newKey = '';
   // const string
-  if (typeof styles === 'string') {
+  if (typeStyle === TypeStyle.OnlyOne) {
     const className = CLASSES_MAP[id] ? CLASSES_MAP[id] : CLASSES_MAP[id] = `e${(nextId++).toString(36)}`;
-    const css = `.${className}{${styles}}`;
-    return media ? toMedia(css, media) : css;
+    if (typeof styles === 'string') {
+      const css = `.${className}{${styles}}`;
+      return media ? toMedia(css, media) : css;
+    } else {
+      return styleToString(styles, `.${className}`);
+    }
   }
+  let content = '';
   const classesMap = id in CLASSES_MAP
   ? CLASSES_MAP[id]
   : CLASSES_MAP[id] = {};
