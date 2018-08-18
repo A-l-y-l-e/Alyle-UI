@@ -39,6 +39,10 @@ function fn() {
   return CLASSES_MAP;
 }
 console.log({fn});
+function fn2() {
+  return STYLE_MAP_03;
+}
+console.log({fn2});
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +78,7 @@ export class LyTheme2 {
       : STYLE_MAP[themeName] = new Map();
       this.config = this.core.get(themeName);
       this._styleMap = new Map<string, DataStyle>();
+      console.log(themeName, this.config);
     }
   }
   setUpStyle<T>(
@@ -180,10 +185,10 @@ export class LyTheme2 {
     if (!(styleMap.themes.default || this.config.name in styleMap.themes)) {
       let css;
       if (typeof styles === 'function') {
-        css = groupStyleToString(styles(this.config), id, typeStyle, media);
+        css = groupStyleToString(styles(this.config), this.config.name, id, typeStyle, media);
         styleMap.themes[this.config.name] = css;
       } else {
-        css = groupStyleToString(styles, id, typeStyle, media);
+        css = groupStyleToString(styles, this.config.name, id, typeStyle, media);
         styleMap.themes.default = css;
       }
 
@@ -217,7 +222,7 @@ export interface Styles2 {
 }
 export type StylesFn2<T> = (T) => Styles2;
 
-function groupStyleToString(styles: Styles2, id: string, typeStyle: TypeStyle, media?: string) {
+function groupStyleToString(styles: Styles2, themeName: string, id: string, typeStyle: TypeStyle, media?: string) {
   // let newKey = '';
   // const string
   if (typeStyle === TypeStyle.OnlyOne) {

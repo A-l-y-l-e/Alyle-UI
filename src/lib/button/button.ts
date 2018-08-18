@@ -1,12 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
   Optional,
   Renderer2,
-  ViewChild,
   NgZone,
   OnDestroy,
   OnInit,
@@ -60,18 +58,17 @@ export class LyButton implements OnInit, OnDestroy {
   };
   public _disabled = false;
   private _rippleSensitive = false;
-  private _disabledClassName: string;
-  private _outlinedClassName: string;
+  // private _outlinedClassName: string;
   private _rippleContainer: Ripple;
   private _size: string;
   private _sizeClass: string;
 
-  @Input()
-  set outlined(val: boolean) {
-    const classname = toBoolean(val) === true ? this.classes.outlined : '';
-    this.theme.updateClassName(this.elementRef.nativeElement, this.renderer, classname, this._outlinedClassName);
-    this._outlinedClassName = classname;
-  }
+  // @Input()
+  // set outlined(val: boolean) {
+  //   const classname = toBoolean(val) === true ? this.classes.outlined : '';
+  //   this.theme.updateClassName(this.elementRef.nativeElement, this.renderer, classname, this._outlinedClassName);
+  //   this._outlinedClassName = classname;
+  // }
 
   @Input('sensitive')
   get rippleSensitive(): boolean {
@@ -97,16 +94,16 @@ export class LyButton implements OnInit, OnDestroy {
     return this._size;
   }
 
-  @Input()
-  set disabled(value: boolean) {
-    this._disabled = toBoolean(value);
-    if (this._disabled) {
-      const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
-      this._disabledClassName = this.theme.addStyle(`lyButton-disabled:${key}`, this.disableStyle.bind(this), this.elementRef.nativeElement, this._disabledClassName);
-    } else {
-      this.renderer.removeClass(this.elementRef.nativeElement, this._disabledClassName);
-    }
-  }
+  // @Input()
+  // set disabled(value: boolean) {
+  //   this._disabled = toBoolean(value);
+  //   if (this._disabled) {
+  //     const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
+  //     this._disabledClassName = this.theme.addStyle(`lyButton-disabled:${key}`, this.disableStyle.bind(this), this.elementRef.nativeElement, this._disabledClassName);
+  //   } else {
+  //     this.renderer.removeClass(this.elementRef.nativeElement, this._disabledClassName);
+  //   }
+  // }
   get disabled() {
     return this._disabled;
   }
@@ -140,17 +137,17 @@ export class LyButton implements OnInit, OnDestroy {
     this.elementRef.nativeElement.focus();
   }
 
-  private disableStyle() {
-    let style =
-    `box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;` +
-    `cursor: default;` +
-    `color: ${this.theme.config.text.disabled} !important;` +
-    `pointer-events: none;`;
-    if (this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg)) {
-      style += `background-color: ${this.theme.config.button.disabled} !important;`;
-    }
-    return style;
-  }
+  // private disableStyle() {
+  //   let style =
+  //   `box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;` +
+  //   `cursor: default;` +
+  //   `color: ${this.theme.config.text.disabled} !important;` +
+  //   `pointer-events: none;`;
+  //   if (this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg)) {
+  //     style += `background-color: ${this.theme.config.button.disabled} !important;`;
+  //   }
+  //   return style;
+  // }
 
   ngOnDestroy() {
     if (Platform.isBrowser) {

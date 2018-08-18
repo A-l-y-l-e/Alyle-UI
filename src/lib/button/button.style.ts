@@ -26,12 +26,9 @@ export const styles = theme => {
       userSelect: 'none',
       textDecorationLine: 'none',
       '-webkit-text-decoration-line': 'none',
-      transition: 'all 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+      transition: 'background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms',
       overflow: 'hidden',
       ...button
-    },
-    outlined: {
-      border: '1px solid currentColor'
     },
     content: {
       padding: 0,

@@ -1,6 +1,6 @@
-import { NgModule, Optional, SkipSelf, Directive, Input } from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import { LyCommon } from './bg-color-and-raised.directive';
+import { LyCommon } from './common.directive';
 import { LY_GLOBAL_CONTRAST } from './contrast';
 import { LyNewRaised } from './raised.directive';
 import { LyThemeContainer } from './theme.directive';
