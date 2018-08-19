@@ -1,4 +1,4 @@
-import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject, OnInit} from '@angular/core';
+import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
@@ -87,9 +87,8 @@ export class AppComponent implements OnInit {
     this.routesComponents = this.routesApp.routesApp;
   }
   ngOnInit() {
-    this.classes = this.theme.addStyleSheet(styles);
+    this.classes = this.theme.addStyleSheet(styles, 'root', 1);
     this.renderer.addClass((this._document as Document).body, this.classes.body);
-
   }
   changeTheme() {
     this.mode = !this.mode;

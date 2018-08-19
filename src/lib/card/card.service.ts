@@ -4,7 +4,8 @@ import { LyTheme2 } from '@alyle/ui';
 const styles = {
   root: {
     display: 'block',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: '2px'
   },
   content: {
     display: 'block',

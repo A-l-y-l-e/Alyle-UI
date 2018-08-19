@@ -2,25 +2,25 @@
 <button ly-button color="primary">Primary</button>
 <button ly-button color="accent">Accent</button>
 <button ly-button color="warn">Warn</button>
-<button ly-button disabled>Disabled</button>
-<br />
-<button ly-button outlined>Outlined</button>
-<button ly-button outlined color="primary">Primary</button>
-<button ly-button outlined color="accent">Accent</button>
-<button ly-button outlined color="warn">Warn</button>
-<button ly-button outlined disabled>Disabled</button>
-<br />
-<button ly-button bg="background:primary">Flat</button>
-<button ly-button bg="primary">Primary</button>
-<button ly-button bg="accent">Accent</button>
-<button ly-button bg="warn">Warn</button>
-<button ly-button disabled bg="primary">Disabled</button>
+<button ly-button color="warn" disabled>Disabled</button>
 <br />
 <button ly-button raised>Raised</button>
 <button ly-button raised bg="primary">Primary</button>
 <button ly-button raised bg="accent">Accent</button>
 <button ly-button raised bg="warn">Warn</button>
-<button ly-button raised disabled>Disabled</button>
+<button ly-button raised bg="warn" disabled>Disabled</button>
+<br />
+<button ly-button outlined>Outlined</button>
+<button ly-button outlined color="primary">Primary</button>
+<button ly-button outlined color="accent">Accent</button>
+<button ly-button outlined color="warn">Warn</button>
+<button ly-button outlined color="warn" disabled>Disabled</button>
+<br />
+<button ly-button bg="background:primary">Flat</button>
+<button ly-button bg="primary">Primary</button>
+<button ly-button bg="accent">Accent</button>
+<button ly-button bg="warn">Warn</button>
+<button ly-button bg="primary" disabled>Disabled</button>
 
 <p>Sizes</p>
 <button ly-button raised bg="primary" size="small">small</button>
@@ -29,9 +29,6 @@
 <p>
   custom
 </p>
-<button ly-button color="primary" raised>Primary</button>
-<button ly-button bg="pink" raised color="#FF4F8B">pink</button>
-<button ly-button bg="primary" newRaised>newRaised</button>
-<button ly-button color="accent" [newRaised]="[null, 'primary']">accent</button>
-<button ly-button bg="SublimeLight" [newRaised]="[4, '#B36FBC']">SublimeLight</button>
-<button ly-button bg="Quepal" [newRaised]="[4, '#11998e']">Quepal</button>
+<button ly-button raised color="primary">Primary</button>
+<button ly-button bg="Quepal" raised shadowColor="#11998e">Quepal</button>
+<button ly-button bg="SublimeLight" raised shadowColor="#B36FBC">SublimeLight</button>

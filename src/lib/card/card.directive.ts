@@ -1,5 +1,5 @@
-import { Directive, Renderer2, ElementRef, Input, OnInit } from '@angular/core';
-import { LyTheme2, shadowBuilder, defaultEntry, toBoolean } from '@alyle/ui';
+import { Directive, Renderer2, ElementRef, Input, OnInit, Optional } from '@angular/core';
+import { LyTheme2, shadowBuilderDeprecated, defaultEntry, toBoolean, LyCommon } from '@alyle/ui';
 import { LyCardService } from './card.service';
 
 const DEFAULT_ELEVATION = 2;
@@ -9,46 +9,64 @@ const DEFAULT_ASPECT_RATIO = '16:9';
   selector: 'ly-card'
 })
 export class LyCard implements OnInit {
-  private _elevation: string | number;
-  private _elevationClass: string;
-  @Input()
-  set elevation(val: string | number) {
-    if (this.elevation !== val) {
-      const newClass = this._createElevationClass(val);
-      this._elevationClass = this.styler.updateClass(this.el.nativeElement, this.renderer, newClass, this._elevationClass);
-    }
-  }
-  get elevation() {
-    return this._elevation;
-  }
+  // private _elevation: string | number;
+  // private _elevationClass: string;
+  // @Input()
+  // set elevation(val: string | number) {
+  //   if (this.elevation !== val) {
+  //     const newClass = this._createElevationClass(val);
+  //     this._elevationClass = this.styler.updateClass(this.el.nativeElement, this.renderer, newClass, this._elevationClass);
+  //   }
+  // }
+  // get elevation() {
+  //   return this._elevation;
+  // }
 
   constructor(
     private cardService: LyCardService,
-    private styler: LyTheme2,
+    private theme: LyTheme2,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    @Optional() private common: LyCommon
   ) { }
 
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.cardService.classes.root);
-    if (this.elevation === void 0) {
-      this.elevation = DEFAULT_ELEVATION;
+    let requireOnChanges: boolean;
+    if (!this.common.bg) {
+      this.common.bg = 'background:primary';
+      requireOnChanges = true;
     }
+    if (!this.common.elevation) {
+      this.common.elevation = 2;
+      requireOnChanges = true;
+    }
+    if (!this.common.shadowColor) {
+      this.common.shadowColor = this.theme.config.colorShadow;
+      requireOnChanges = true;
+    }
+    if (requireOnChanges) {
+      this.common.ngOnChanges();
+    }
+    this.renderer.addClass(this.el.nativeElement, this.cardService.classes.root);
+    // if (this.elevation === void 0) {
+    //   this.elevation = DEFAULT_ELEVATION;
+    // }
   }
 
-  private _createElevationClass(val: string | number) {
-    this._elevation = defaultEntry(val, DEFAULT_ELEVATION);
-    return this.styler.setUpStyleSecondary<any>(
-      `k-card-e:${this.elevation}`,
-      theme => (
-        `background-color:${theme.background.primary};` +
-        `position:relative;` +
-        // `padding:24px;` + // remove this
-        `border-radius:2px;` +
-        `${shadowBuilder(this.elevation)}`
-      )
-    );
-  }
+  // private _createElevationClass(val: string | number) {
+  //   this._elevation = defaultEntry(val, DEFAULT_ELEVATION);
+  //   console.log('ele', this.elevation);
+  //   return this.styler.setUpStyleSecondary<any>(
+  //     `k-card-e:${this.elevation}`,
+  //     theme => (
+  //       `background-color:${theme.background.primary};` +
+  //       `position:relative;` +
+  //       // `padding:24px;` + // remove this
+  //       `border-radius:2px;` +
+  //       `${shadowBuilderDeprecated(this.elevation)}`
+  //     )
+  //   );
+  // }
 }
 
 @Directive({

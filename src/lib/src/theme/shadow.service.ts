@@ -1,5 +1,5 @@
 import { Injectable, Renderer2, ElementRef } from '@angular/core';
-import { shadowBuilder } from '../shadow';
+import { shadowBuilderDeprecated } from '../shadow';
 import { LyTheme2 } from './theme2.service';
 
 @Injectable({
@@ -22,7 +22,7 @@ export class LyShadowService {
       elevation = this.elevation;
     }
     const classname = theme.setUpStyle(`shadow${keys}`, {'': () => {
-      return `${shadowBuilder(elevation, theme.colorOf(color))}`;
+      return `${shadowBuilderDeprecated(elevation, theme.colorOf(color))}`;
     }});
     theme.updateClassName(elementRef.nativeElement, renderer, classname, oldClassName);
     return classname;

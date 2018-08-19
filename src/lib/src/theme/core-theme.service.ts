@@ -15,6 +15,7 @@ export class CoreTheme {
   mediaStyleContainer: HTMLElement;
   primaryStyleContainer: HTMLElement;
   secondaryStyleContainer: HTMLElement;
+  firstElement: HTMLElement;
   private _themeMap = new Map<string, ThemeConfig>();
   private _styleMap = new Map<string, Map<string, DataStyle>>();
   private _styleCoreMap = new Map<string, DataStyle>();
@@ -26,6 +27,7 @@ export class CoreTheme {
     if (!themeConfig) {
       throw new Error('LY_THEME_CONFIG undefined');
     }
+    this.firstElement = _document.body.firstChild;
     this.renderer = this.rendererFactory.createRenderer(null, {
       id: 'ly',
       encapsulation: ViewEncapsulation.Native,

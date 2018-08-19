@@ -6,4 +6,7 @@
   justify-content: center;
   margin: 1.5em;
   font-size: 14px;
+  text-align: center;
+  white-space: pre-wrap;
+  padding: 1em;
 }
