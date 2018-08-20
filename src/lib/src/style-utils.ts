@@ -17,4 +17,16 @@ export class LyStyleUtils {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
   }
+  colorOf(value: string): string {
+    return get(this, value);
+  }
 }
+
+function get(obj: Object, path: any): string {
+  const _path: string[] = path instanceof Array ? path : path.split(':');
+  for (let i = 0; i < _path.length; i++) {
+    obj = obj[_path[i]] || path;
+  }
+  return typeof obj === 'string' ? obj as string : obj['default'] as string;
+}
+
