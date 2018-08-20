@@ -84,16 +84,16 @@ export class LyCommon implements OnChanges {
         }
       } else {
         if (this.bg) {
-          style.background = this.theme.colorOf(this.bg);
+          style.background = theme.colorOf(this.bg);
           if (this._isContrast) {
-            style.color = this.theme.colorOf(`${this.bg}:contrast`);
+            style.color = theme.colorOf(`${this.bg}:contrast`);
           }
         }
         if (!style.color && this.color) {
-          style.color = this.theme.colorOf(this.color);
+          style.color = theme.colorOf(this.color);
         }
         if (this.raised || this.elevation) {
-          const shadowColor = (this.shadowColor && this.theme.colorOf(this.shadowColor)) || style.background || style.color || theme.colorShadow;
+          const shadowColor = (this.shadowColor && theme.colorOf(this.shadowColor)) || style.background || style.color || theme.colorShadow;
           if (!this.bg) {
             style.background = theme.background.primary;
           }

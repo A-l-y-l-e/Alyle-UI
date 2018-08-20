@@ -144,6 +144,8 @@ export class LyTheme2 {
     el.classList.add(newClass);
     return newClass;
   }
+
+  /** @deprecated */
   colorOf(value: string): string {
     return get(this.config, value);
   }
@@ -158,7 +160,6 @@ export class LyTheme2 {
     if (!Platform.isBrowser) {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
-    // this._createInstanceForTheme(nam);
     this.config = this.core.get(nam);
     // this._styleMap2.forEach(dataStyle => {
     //   dataStyle.el.innerText = this._createStyleC ontent2(dataStyle.styles, dataStyle.id);
@@ -214,14 +215,14 @@ export class LyTheme2 {
     forChangeTheme?: boolean,
     media?: string
   ) {
-    const styleMap = id in STYLE_MAP4
+    const styleMap = (id in STYLE_MAP4
     ? STYLE_MAP4[id]
     : STYLE_MAP4[id] = {
       priority,
       styles,
       type,
       css: {}
-    };
+    });
     // const styles2 = this.config.name in this.stylesInDocument.styles
     // ? this.stylesInDocument.styles[this.config.name]
     // : this.stylesInDocument.styles[this.config.name] = {};
@@ -243,8 +244,11 @@ export class LyTheme2 {
         // ? themeMap[id]
         // : themeMap[id] = this._nextId();
         css = groupStyleToString(styles(this.config), themeName, isCreated, id, type, media);
-        styleMap.css[themeName] = css;
-        styleMap.requireUpdate = true;
+        if (!forChangeTheme) {
+          styleMap.css[themeName] = css;
+          styleMap.requireUpdate = true;
+
+        }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
         CLASSES_MAP[id] = true as any;
@@ -264,12 +268,10 @@ export class LyTheme2 {
       const el = this.elements[id]
       ? this.elements[id]
       : this.elements[id] = this._createElementStyle(
-        typeof styleMap.css === 'string'
-        ? styleMap.css
-        : styleMap.css[themeName]
+        css
       );
       if (forChangeTheme) {
-        this.elements[id].innerText = styleMap.css[themeName];
+        el.innerText = css;
       } else {
         this.core.renderer.appendChild(this._createStyleContainer(priority), el);
       }
@@ -448,7 +450,7 @@ function styleToString(ob: Object, rulesMap: {} | string, className?: string, pa
   return content;
 }
 
-
+/** @deprecated */
 function get(obj: Object, path: any): string {
   const _path: string[] = path instanceof Array ? path : path.split(':');
   for (let i = 0; i < _path.length; i++) {
