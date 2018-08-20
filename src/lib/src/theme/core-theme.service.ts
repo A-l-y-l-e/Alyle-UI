@@ -1,7 +1,7 @@
 import { Injectable, Optional, Inject, Renderer2, RendererFactory2, isDevMode, ViewEncapsulation } from '@angular/core';
-import { THEME_CONFIG, ThemeConfig, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
+import { ThemeConfig, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
 import { DOCUMENT } from '@angular/common';
-import { StyleContent, StyleData, DataStyle, Style, MultipleStyles } from '../theme.service';
+import { StyleContent, DataStyle, Style, MultipleStyles } from '../theme.service';
 import { Platform } from '../platform';
 import { InvertMediaQuery, transformMediaQuery } from '../media/invert-media-query';
 

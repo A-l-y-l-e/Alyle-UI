@@ -6,39 +6,45 @@ import { InvertMediaQuery } from '../media/invert-media-query';
 import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 
-export interface StylesElementMap {
+interface StylesElementMap {
   el: any;
 }
 
-export enum TypeStyle {
+enum TypeStyle {
   Multiple,
   OnlyOne
 }
 const STYLE_MAP4: StyleMap4 = {};
 export interface StyleMap4 {
   [id: string]: {
-    styles: StylesFn2<any> | Styles2,
-    type: TypeStyle,
+    styles: StylesFn2<any> | Styles2
+    type: TypeStyle
+    priority: number
     css: {
       [themeName: string]: string
+    } | string
+    rules?: {
+      [themeName: string]: {
+        [id: string]: string
+      }
     } | string
   };
 }
 
-interface StyleMap03 {
-  [id: string]: { // example: lyTabs
-    styles: StylesFn2<any> | Styles2,
-    media?: string,
-    typeStyle?: TypeStyle,
-    themes: { // example: minima-dark
-      /** Css */
-      default?: string,
-      [themeName: string]: string
-    }
-  };
-}
+// interface StyleMap03 {
+//   [id: string]: { // example: lyTabs
+//     styles: StylesFn2<any> | Styles2,
+//     media?: string,
+//     typeStyle?: TypeStyle,
+//     themes: { // example: minima-dark
+//       /** Css */
+//       default?: string,
+//       [themeName: string]: string
+//     }
+//   };
+// }
 
-const STYLE_MAP_03: StyleMap03 = {} as any;
+// const STYLE_MAP_03: StyleMap03 = {} as any;
 
 const STYLE_MAP: {
   [key: string]: Map<string, StylesElementMap>
@@ -50,14 +56,10 @@ const CLASSES_MAP: {
 } = {};
 const STYLE_KEYS_MAP = {};
 let nextId = 0;
-// function fn() {
-//   return CLASSES_MAP;
-// }
-// console.log({fn});
-// function fn2() {
-//   return STYLE_MAP_03;
-// }
-// console.log({fn2});
+function fn() {
+  return CLASSES_MAP;
+}
+console.log({fn});
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +78,7 @@ export class LyTheme2 {
   config: ThemeConfig;
   _styleMap: Map<string, DataStyle>;
   prefix = 'k';
+  initialTheme: string;
   elements: {
     [key: string]: HTMLStyleElement
   };
@@ -105,8 +108,9 @@ export class LyTheme2 {
       this.elements = themeName in this.stylesInDocument.styles
       ? this.stylesInDocument.styles[themeName]
       : this.stylesInDocument.styles[themeName] = {};
-      if (!(themeName in CLASSES_MAP)) {
-        CLASSES_MAP[themeName] = {};
+      this._createInstanceForTheme(themeName);
+      if (!this.initialTheme) {
+        this.initialTheme = this.config.name;
       }
     }
   }
@@ -158,19 +162,31 @@ export class LyTheme2 {
     if (!Platform.isBrowser) {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
+    this._createInstanceForTheme(nam);
     this.config = this.core.get(nam);
     // this._styleMap2.forEach(dataStyle => {
     //   dataStyle.el.innerText = this._createStyleC ontent2(dataStyle.styles, dataStyle.id);
     // });
-    for (const key in STYLE_MAP_03) {
-      if (STYLE_MAP_03.hasOwnProperty(key)) {
-        const { styles, typeStyle, media } = STYLE_MAP_03[key];
-        // this._createStyleContent2(styles, key, typeStyle, this.core.renderer, true, media);
-      }
-    }
+    // for (const key in STYLE_MAP_03) {
+    //   if (STYLE_MAP_03.hasOwnProperty(key)) {
+    //     const { styles, typeStyle, media } = STYLE_MAP_03[key];
+    //     // this._createStyleContent2(styles, key, typeStyle, this.core.renderer, true, media);
+    //   }
+    // }
     this._styleMap.forEach((dataStyle) => {
       dataStyle.styleElement.innerText = this.core._createStyleContent(this.config, dataStyle.style, dataStyle.id);
     });
+
+    const { styleContainers, styles } = this.stylesInDocument;
+    const currentStyles = this.elements;
+    for (const key in currentStyles) {
+      if (currentStyles.hasOwnProperty(key)) {
+        console.log(`require update for: ${key}`);
+        const htmlStyle = currentStyles[key];
+        const styleData = STYLE_MAP4[key];
+        this._updateStylesBrowser(styleData.styles, key, styleData.priority, styleData.type, true);
+      }
+    }
   }
 
   /**
@@ -180,7 +196,7 @@ export class LyTheme2 {
    */
   private addCss(id: string, css: ((t) => string) | string, priority: number, media?: string): string {
     const newId = `~>${id}`;
-    return this._createStyleContent2(css as any, newId, priority, TypeStyle.OnlyOne, this.core.renderer, false, media) as string;
+    return this._createStyleContent2(css as any, newId, priority, TypeStyle.OnlyOne, false, media) as string;
   }
 
   /**
@@ -191,7 +207,7 @@ export class LyTheme2 {
   addStyleSheet<T>(styles: StylesFn2<T> | Styles2, id?: string, priority?: number) {
     const newId = id || 'global';
     // const styleElement = this.core.renderer.createElement('style');
-    return this._createStyleContent2(styles, newId, priority, TypeStyle.Multiple, this.core.renderer);
+    return this._createStyleContent2(styles, newId, priority, TypeStyle.Multiple);
   }
 
   _createStyleContent2<T>(
@@ -199,13 +215,13 @@ export class LyTheme2 {
     id: string,
     priority: number,
     type: TypeStyle,
-    renderer: Renderer2,
     forChangeTheme?: boolean,
     media?: string
   ) {
     const styleMap = id in STYLE_MAP4
     ? STYLE_MAP4[id]
     : STYLE_MAP4[id] = {
+      priority,
       styles,
       type,
       css: {}
@@ -217,9 +233,10 @@ export class LyTheme2 {
     //   'ccc', typeof styleMap.css !== 'string' && !(id in styleMap.css),
     //   typeof CLASSES_MAP[id] === 'string' || typeof CLASSES_MAP[id] === 'object' || CLASSES_MAP[this.config.name][id]
     // );
-    const themeName = this.config.name;
-    const isCreated = (id in CLASSES_MAP) || CLASSES_MAP[this.config.name][id];
+    const themeName = this.initialTheme;
+    const isCreated = (id in CLASSES_MAP) || CLASSES_MAP[themeName][id];
     if (!isCreated) {
+      console.log('isCreated', isCreated);
       /** create new style for new theme */
       let css;
       if (typeof styles === 'function') {
@@ -230,12 +247,12 @@ export class LyTheme2 {
         // const className = id in (themeMap as Object)
         // ? themeMap[id]
         // : themeMap[id] = this._nextId();
-        css = groupStyleToString(styles(this.config), themeName, null, id, type, media);
+        css = groupStyleToString(styles(this.config), themeName, isCreated, id, type, media);
         styleMap.css[themeName] = css;
       } else {
-        /** create a new id for style that does not require changes */
-        CLASSES_MAP[id] = createNextId();
-        css = groupStyleToString(styles, themeName, null, id, type, media);
+        /** create a new id for style that does not <-<require>-> changes */
+        CLASSES_MAP[id] = 'true';
+        css = groupStyleToString(styles, themeName, isCreated, id, type, media);
         styleMap.css = css;
       }
 
@@ -253,8 +270,14 @@ export class LyTheme2 {
         ? styleMap.css
         : styleMap.css[themeName]
       );
-      this.elements[id] = htmlStyle;
-      this.core.renderer.appendChild(this._createStyleContainer(priority), htmlStyle);
+      const el = this.elements[id]
+      ? this.elements[id]
+      : this.elements[id] = htmlStyle;
+      if (forChangeTheme) {
+        this.elements[id].innerText = el.innerText;
+      } else {
+        this.core.renderer.appendChild(this._createStyleContainer(priority), el);
+      }
     }
 
     // if (!(id in this.elements)) {
@@ -271,7 +294,7 @@ export class LyTheme2 {
     ? CLASSES_MAP[id]
     : typeof CLASSES_MAP[id] === 'object'
     ? CLASSES_MAP[id]
-    : CLASSES_MAP[this.config.name][id];
+    : CLASSES_MAP[themeName][id];
     return classes;
 
     // const style = this._styleMap2.get(id);
@@ -284,11 +307,23 @@ export class LyTheme2 {
     // }
   }
 
+  private _updateStylesBrowser(
+    styles: StylesFn2<any> | Styles2,
+    id: string,
+    priority: number,
+    type: TypeStyle,
+    forChangeTheme?: boolean
+  ) {
+
+  }
+
   private _createStyleContainer(priority = 0) {
     const { styleContainers } = this.stylesInDocument;
     if (!styleContainers.has(priority)) {
-      const el = this.core.renderer.createElement(`ly-style-container-${priority}`);
-      this.core.renderer.setAttribute(el, 'ly-s', '');
+      const el = this.core.renderer.createElement(`ly-s-c`);
+      if (isDevMode()) {
+        this.core.renderer.setAttribute(el, 'priority', `${priority}`);
+      }
       styleContainers.set(priority, el);
       if (styleContainers.size === 0) {
         this.core.renderer.insertBefore(this._document.body, el, this._document.body.firstChild);
@@ -300,26 +335,11 @@ export class LyTheme2 {
     const refChild = this.findNode(priority);
     this.core.renderer.insertBefore(this._document.body, styleContainers.get(priority), refChild);
     return styleContainers.get(priority);
-    // if (priority > this.highestPriority) {
-    //   this.highestPriority = priority;
-    // }
   }
 
   private findNode(index: number) {
     const { styleContainers } = this.stylesInDocument;
-    /**
-     * (10,8)
-     * add item con index 1
-     * (10,8,1)
-     * return null
-     * (10,8,4)
-     * add item con index 5
-     * (10,8,5,4)
-     * return 4
-     */
     const keys = (Array.from(styleContainers.keys())).sort();
-    // const max = Math.max(...keys);
-    const min = Math.max(...keys);
     const key = keys.find(_ => index < _);
     return (key && styleContainers.get(key)) || this.core.firstElement;
   }
@@ -329,6 +349,12 @@ export class LyTheme2 {
     const styleText = this.core.renderer.createText(css);
     this.core.renderer.appendChild(styleElement, styleText);
     return styleElement;
+  }
+
+  private _createInstanceForTheme(themeName: string) {
+    if (!(themeName in CLASSES_MAP)) {
+      CLASSES_MAP[themeName] = {};
+    }
   }
 
 }
@@ -342,31 +368,37 @@ export interface Styles2 {
 }
 export type StylesFn2<T> = (T) => Styles2;
 
-function groupStyleToString(styles: Styles2, themeName: string, xccxxcxc: string, id: string, typeStyle: TypeStyle, media?: string) {
+function groupStyleToString(styles: Styles2, themeName: string, _classes_: string | {}, id: string, typeStyle: TypeStyle, media?: string) {
   // let newKey = '';
   // const string
   // const themeMap = classes[themeName] ? classes[themeName] : classes[themeName] = {};
   if (typeStyle === TypeStyle.OnlyOne) {
     /** use current class or set new */
-    const className = CLASSES_MAP[id] || (CLASSES_MAP[themeName][id] = createNextId());
+    const className = CLASSES_MAP[id]
+    ? CLASSES_MAP[id] = createNextId()
+    : CLASSES_MAP[themeName][id] = createNextId();
     if (typeof styles === 'string') {
       const css = `.${className}{${styles}}`;
+      STYLE_MAP4[id].rules = styles;
       return media ? toMedia(css, media) : css;
     } else {
-      return styleToString(styles, `.${className}`);
+      const rules = styleToString(styles, null, `.${className}`);
+      return rules;
     }
   }
   let content = '';
   // const classesMap = id in themeMap
   // ? themeMap[id]
   // : themeMap[id] = {};
-  const classes = CLASSES_MAP[id] = {};
+  const classes = CLASSES_MAP[id]
+  ? CLASSES_MAP[id] = {}
+  : CLASSES_MAP[themeName][id] = {};
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
       const value = styles[key];
       if (typeof value === 'object') {
-        const className = classes[key] = !isDevMode() ? toClassNameValid(`${id}__${key}`) : `e${(nextId++).toString(36)}`;
-        const style = styleToString(value as Styles2, `.${className}`);
+        const className = classes[key] || (classes[key] = isDevMode() ? toClassNameValid(`${id}---${key}-${createNextId()}`) : createNextId());
+        const style = styleToString(value as Styles2, null, `.${className}`);
         content += style;
       } else {
         console.log('value is string', value);
@@ -376,36 +408,35 @@ function groupStyleToString(styles: Styles2, themeName: string, xccxxcxc: string
   return content;
 }
 
-function createKeyFrame(name: string, ob: Object) {
-  let content = `@keyframes ${name}{`;
-  for (const key in ob) {
-    if (ob.hasOwnProperty(key)) {
-      const element = ob[key];
-      content += `${key}% ${styleToString(element, '')}`;
-    }
-  }
-  content += `}`;
-  return content;
-}
+// function createKeyFrame(name: string, ob: Object) {
+//   let content = `@keyframes ${name}{`;
+//   for (const key in ob) {
+//     if (ob.hasOwnProperty(key)) {
+//       const element = ob[key];
+//       content += `${key}% ${styleToString(element, '')}`;
+//     }
+//   }
+//   content += `}`;
+//   return content;
+// }
 // console.log('keyframe', createKeyFrame('myanimation', keyFrameObject));
 
 /**
  * {color:'red'} to .className{color: red}
  */
-function styleToString(ob: Object, className?: string, parentClassName?: string) {
+function styleToString(ob: Object, rulesMap: {} | string, className?: string, parentClassName?: string) {
   let content = '';
   let keyAndValue = '';
   for (const styleKey in ob) {
     if (ob.hasOwnProperty(styleKey)) {
       const element = ob[styleKey];
       if (typeof element === 'object') {
-        content += styleToString(element as Styles2, styleKey, className);
+        // rulesMap[styleKey] = null;
+        content += styleToString(element as Styles2, null, styleKey, className);
       } else {
-        // const styleKeyHyphenCase = toHyphenCaseCache(styleKey);
-        // const styleValue = styleKeyHyphenCase === 'font-size' && typeof element === 'number'
-        // ? this.config.pxToRem(element)
-        // : element;
-        keyAndValue += `${toHyphenCaseCache(styleKey)}:${element};`;
+        const newStyleKey = toHyphenCaseCache(styleKey);
+        // const style = rulesMap[newStyleKey] = element;
+        keyAndValue += `${newStyleKey}:${element};`;
       }
     }
   }
@@ -436,8 +467,10 @@ export function toHyphenCase(str: string) {
 }
 
 function toClassNameValid(str: string) {
-  const s = str.replace(/[\W]/g, '');
-  return toHyphenCase(s[0].toLowerCase() + s.slice(1));
+  const s = str.replace(/^[0-9]|[^\w\-]/g, _ => {
+    return `_${_.charCodeAt(0)}`;
+  });
+  return toHyphenCase(s);
 }
 
 function toHyphenCaseCache(str: string) {
