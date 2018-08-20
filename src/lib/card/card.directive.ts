@@ -41,7 +41,7 @@ export class LyCard implements OnInit {
       requireOnChanges = true;
     }
     if (!this.common.shadowColor) {
-      this.common.shadowColor = this.theme.config.colorShadow;
+      this.common.shadowColor = 'colorShadow';
       requireOnChanges = true;
     }
     if (requireOnChanges) {

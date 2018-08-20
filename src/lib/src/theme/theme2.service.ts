@@ -23,11 +23,7 @@ export interface StyleMap4 {
     css: {
       [themeName: string]: string
     } | string
-    rules?: {
-      [themeName: string]: {
-        [id: string]: string
-      }
-    } | string
+    requireUpdate?: boolean
   };
 }
 
@@ -56,10 +52,10 @@ const CLASSES_MAP: {
 } = {};
 const STYLE_KEYS_MAP = {};
 let nextId = 0;
-function fn() {
-  return CLASSES_MAP;
-}
-console.log({fn});
+// function fn() {
+//   return CLASSES_MAP;
+// }
+// console.log({fn});
 
 @Injectable({
   providedIn: 'root'
@@ -162,7 +158,7 @@ export class LyTheme2 {
     if (!Platform.isBrowser) {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
-    this._createInstanceForTheme(nam);
+    // this._createInstanceForTheme(nam);
     this.config = this.core.get(nam);
     // this._styleMap2.forEach(dataStyle => {
     //   dataStyle.el.innerText = this._createStyleC ontent2(dataStyle.styles, dataStyle.id);
@@ -181,10 +177,10 @@ export class LyTheme2 {
     const currentStyles = this.elements;
     for (const key in currentStyles) {
       if (currentStyles.hasOwnProperty(key)) {
-        console.log(`require update for: ${key}`);
-        const htmlStyle = currentStyles[key];
         const styleData = STYLE_MAP4[key];
-        this._updateStylesBrowser(styleData.styles, key, styleData.priority, styleData.type, true);
+        if (styleData.requireUpdate) {
+          this._createStyleContent2(styleData.styles, key, styleData.priority, styleData.type, true);
+        }
       }
     }
   }
@@ -235,8 +231,7 @@ export class LyTheme2 {
     // );
     const themeName = this.initialTheme;
     const isCreated = (id in CLASSES_MAP) || CLASSES_MAP[themeName][id];
-    if (!isCreated) {
-      console.log('isCreated', isCreated);
+    if (!isCreated || forChangeTheme) {
       /** create new style for new theme */
       let css;
       if (typeof styles === 'function') {
@@ -249,9 +244,10 @@ export class LyTheme2 {
         // : themeMap[id] = this._nextId();
         css = groupStyleToString(styles(this.config), themeName, isCreated, id, type, media);
         styleMap.css[themeName] = css;
+        styleMap.requireUpdate = true;
       } else {
         /** create a new id for style that does not <-<require>-> changes */
-        CLASSES_MAP[id] = 'true';
+        CLASSES_MAP[id] = true as any;
         css = groupStyleToString(styles, themeName, isCreated, id, type, media);
         styleMap.css = css;
       }
@@ -265,16 +261,15 @@ export class LyTheme2 {
       //     el: styleElement
       //   });
       // }
-      const htmlStyle = this._createElementStyle(
+      const el = this.elements[id]
+      ? this.elements[id]
+      : this.elements[id] = this._createElementStyle(
         typeof styleMap.css === 'string'
         ? styleMap.css
         : styleMap.css[themeName]
       );
-      const el = this.elements[id]
-      ? this.elements[id]
-      : this.elements[id] = htmlStyle;
       if (forChangeTheme) {
-        this.elements[id].innerText = el.innerText;
+        this.elements[id].innerText = styleMap.css[themeName];
       } else {
         this.core.renderer.appendChild(this._createStyleContainer(priority), el);
       }
@@ -375,11 +370,11 @@ function groupStyleToString(styles: Styles2, themeName: string, _classes_: strin
   if (typeStyle === TypeStyle.OnlyOne) {
     /** use current class or set new */
     const className = CLASSES_MAP[id]
-    ? CLASSES_MAP[id] = createNextId()
-    : CLASSES_MAP[themeName][id] = createNextId();
+    ? CLASSES_MAP[id] = _classes_ || createNextId()
+    : CLASSES_MAP[themeName][id] = _classes_ || createNextId();
     if (typeof styles === 'string') {
       const css = `.${className}{${styles}}`;
-      STYLE_MAP4[id].rules = styles;
+      // STYLE_MAP4[id].rules = styles;
       return media ? toMedia(css, media) : css;
     } else {
       const rules = styleToString(styles, null, `.${className}`);
@@ -391,8 +386,8 @@ function groupStyleToString(styles: Styles2, themeName: string, _classes_: strin
   // ? themeMap[id]
   // : themeMap[id] = {};
   const classes = CLASSES_MAP[id]
-  ? CLASSES_MAP[id] = {}
-  : CLASSES_MAP[themeName][id] = {};
+  ? CLASSES_MAP[id] = _classes_ || {}
+  : CLASSES_MAP[themeName][id] = _classes_ || {};
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
       const value = styles[key];
