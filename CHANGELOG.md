@@ -1,3 +1,26 @@
+<a name="1.7.0-beta.50yre"></a>
+# [1.7.0-beta.50yre](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4u2xw...1.7.0-beta.50yre) (2018-08-20)
+
+
+### Bug Fixes
+
+* **theme:** fix `setTheme` multiples themes ([8814f9e](https://github.com/A-l-y-l-e/Alyle-UI/commit/8814f9e))
+* **theme:** fix `setTheme` not working ([bafa607](https://github.com/A-l-y-l-e/Alyle-UI/commit/bafa607))
+* **theme:** fix multiples themes ([093f6de](https://github.com/A-l-y-l-e/Alyle-UI/commit/093f6de))
+* **theme:** get className in `devMode()` ([2b6d25e](https://github.com/A-l-y-l-e/Alyle-UI/commit/2b6d25e))
+
+
+### Features
+
+* **core:** add `colorOf` to `LyStyleUtils` ([9bc08c9](https://github.com/A-l-y-l-e/Alyle-UI/commit/9bc08c9))
+
+
+### Performance Improvements
+
+* **button:** update styles ([8efee2b](https://github.com/A-l-y-l-e/Alyle-UI/commit/8efee2b))
+
+
+
 <a name="1.7.0-beta.4u2xw"></a>
 # [1.7.0-beta.4u2xw](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4imhk...1.7.0-beta.4u2xw) (2018-08-17)
 
