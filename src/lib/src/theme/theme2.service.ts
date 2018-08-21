@@ -201,7 +201,7 @@ export class LyTheme2 {
    * @param styles styles
    * @param id unique id for style group
    */
-  addStyleSheet<T>(styles: StylesFn2<T> | Styles2, id?: string, priority?: number) {
+  addStyleSheet<T>(styles: T & (StylesFn2<T> | Styles2), id?: string, priority?: number): IClasses<T> {
     const newId = id || 'global';
     // const styleElement = this.core.renderer.createElement('style');
     return this._createStyleContent2(styles, newId, priority, TypeStyle.Multiple);
@@ -488,3 +488,4 @@ function createNextId() {
   return `e${(nextId++).toString(36)}`;
 }
 
+type IClasses<T> = Record<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T), string>;

@@ -51,11 +51,7 @@ const Size = {
   encapsulation: ViewEncapsulation.None
 })
 export class LyButton implements OnInit, OnDestroy {
-  classes: {
-    root: string,
-    outlined: string,
-    content: string
-  };
+  classes = this.theme.addStyleSheet(styles, 'lyButton');
   public _disabled = false;
   private _rippleSensitive = false;
   // private _outlinedClassName: string;
@@ -116,7 +112,6 @@ export class LyButton implements OnInit, OnDestroy {
     _ngZone: NgZone,
     @Optional() private bgAndColor: LyCommon
   ) {
-    this.classes = this.theme.addStyleSheet(styles, 'lyButton');
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }

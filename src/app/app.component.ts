@@ -56,15 +56,7 @@ const styles = theme => {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  classes: {
-    body: string;
-    header: string;
-    drawerContainer: string;
-    drawer: string;
-    drawerUl: string;
-    drawerButton: string;
-    onLinkActive: string;
-  };
+  classes = this.theme.addStyleSheet(styles, 'root', 1);
   linkActive;
   navMenu;
   routesComponents: any;
@@ -98,3 +90,5 @@ export class AppComponent implements OnInit {
   }
 
 }
+
+export type Classes<T> = Record<keyof ReturnType<(() => T)>, string>;
