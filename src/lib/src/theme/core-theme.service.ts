@@ -34,16 +34,16 @@ export class CoreTheme {
       styles: [],
       data: {}
     });
-    if (Platform.isBrowser) {
-      const mediaStyleContainer = _document.body.querySelector('ly-media-style-container');
-      const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
-      const secondaryStyleContainer = _document.body.querySelector('ly-secondary-style-container');
-      if (primaryStyleContainer) {
-        (_document.body as HTMLBodyElement).removeChild(mediaStyleContainer);
-        (_document.body as HTMLBodyElement).removeChild(primaryStyleContainer);
-        (_document.body as HTMLBodyElement).removeChild(secondaryStyleContainer);
-      }
-    }
+    // if (Platform.isBrowser) {
+    //   const mediaStyleContainer = _document.body.querySelector('ly-media-style-container');
+    //   const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
+    //   const secondaryStyleContainer = _document.body.querySelector('ly-secondary-style-container');
+    //   if (primaryStyleContainer) {
+    //     (_document.body as HTMLBodyElement).removeChild(mediaStyleContainer);
+    //     (_document.body as HTMLBodyElement).removeChild(primaryStyleContainer);
+    //     (_document.body as HTMLBodyElement).removeChild(secondaryStyleContainer);
+    //   }
+    // }
     this.mediaStyleContainer = this.renderer.createElement('ly-media-style-container');
     this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
     this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');

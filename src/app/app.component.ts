@@ -14,12 +14,20 @@ const styles = theme => {
     body: {
       backgroundColor: theme.background.default,
       color: theme.text.default,
-      'font-family': theme.typography.fontFamily
+      fontFamily: theme.typography.fontFamily
     },
     header: {
       position: 'fixed',
-      'z-index': 11,
-      width: '100%'
+      zIndex: 11,
+      width: '100%',
+      // '@media print': {
+      //   color: 'blue'
+      // },
+      // '&:hover': {
+      //   '@media screen': {
+      //     color: 'red'
+      //   },
+      // },
     },
     drawerContainer: {
       height: 'calc(100% - 64px)'
@@ -33,15 +41,15 @@ const styles = theme => {
     drawerUl: {
       overflow: 'hidden',
       position: 'relative',
-      'list-style': 'none',
+      listStyle: 'none',
       padding: '2rem 1.8rem',
       margin: 0,
-      'border-bottom': '1px solid rgba(0, 0, 0, 0.11)'
+      borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
     },
     drawerButton: {
       color: '#5f6368',
-      'font-weight': 400,
-      'border-left': '3px solid transparent',
+      fontWeight: 400,
+      borderLeft: '3px solid transparent',
       '&:hover': onLinkActive
     },
     onLinkActive,
@@ -79,7 +87,6 @@ export class AppComponent implements OnInit {
     this.routesComponents = this.routesApp.routesApp;
   }
   ngOnInit() {
-    this.classes = this.theme.addStyleSheet(styles, 'root', 1);
     this.renderer.addClass((this._document as Document).body, this.classes.body);
   }
   changeTheme() {

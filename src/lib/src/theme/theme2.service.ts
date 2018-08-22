@@ -6,6 +6,8 @@ import { InvertMediaQuery } from '../media/invert-media-query';
 import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 
+const REF_REG_EXP = /\{([\w-]+)\}/g;
+
 interface StylesElementMap {
   el: any;
 }
@@ -304,16 +306,6 @@ export class LyTheme2 {
     // }
   }
 
-  private _updateStylesBrowser(
-    styles: StylesFn2<any> | Styles2,
-    id: string,
-    priority: number,
-    type: TypeStyle,
-    forChangeTheme?: boolean
-  ) {
-
-  }
-
   private _createStyleContainer(priority = 0) {
     const { styleContainers } = this.stylesInDocument;
     if (!styleContainers.has(priority)) {
@@ -379,7 +371,7 @@ function groupStyleToString(styles: Styles2, themeName: string, _classes_: strin
       // STYLE_MAP4[id].rules = styles;
       return media ? toMedia(css, media) : css;
     } else {
-      const rules = styleToString(styles, null, `.${className}`);
+      const rules = styleToString(id, styles, className as any);
       return rules;
     }
   }
@@ -395,59 +387,64 @@ function groupStyleToString(styles: Styles2, themeName: string, _classes_: strin
       const value = styles[key];
       if (typeof value === 'object') {
         const className = classes[key] || (classes[key] = isDevMode() ? toClassNameValid(`${id}---${key}-${createNextId()}`) : createNextId());
-        const style = styleToString(value as Styles2, null, `.${className}`);
+        const style = styleToString(key, value as Styles2, className);
         content += style;
       } else {
         console.log('value is string', value);
       }
     }
   }
-  return content;
+  return replaceRefs(content, classes);
 }
 
-// function createKeyFrame(name: string, ob: Object) {
-//   let content = `@keyframes ${name}{`;
-//   for (const key in ob) {
-//     if (ob.hasOwnProperty(key)) {
-//       const element = ob[key];
-//       content += `${key}% ${styleToString(element, '')}`;
-//     }
-//   }
-//   content += `}`;
-//   return content;
-// }
-// console.log('keyframe', createKeyFrame('myanimation', keyFrameObject));
+function replaceRefs(str: string, data: Object) {
+  return str.replace(REF_REG_EXP, (match, token) => {
+    return `.${data[token]}`;
+  }
+  );
+}
 
 /**
  * {color:'red'} to .className{color: red}
  */
-function styleToString(ob: Object, rulesMap: {} | string, className?: string, parentClassName?: string) {
+function styleToString(key: string, ob: Object, currentKey: string, parentKey?: string) {
   let content = '';
+  let subContent = '';
   let keyAndValue = '';
+  let newKey;
+  if (parentKey && currentKey.indexOf('&') !== -1) {
+    newKey = currentKey.replace('&', parentKey);
+  } else if (key === '@global') {
+    newKey = key;
+  } else {
+    newKey = currentKey;
+  }
   for (const styleKey in ob) {
     if (ob.hasOwnProperty(styleKey)) {
       const element = ob[styleKey];
       if (typeof element === 'object') {
-        // rulesMap[styleKey] = null;
-        content += styleToString(element as Styles2, null, styleKey, className);
+        subContent += styleToString(key, element as Styles2, styleKey, newKey);
       } else {
         const newStyleKey = toHyphenCaseCache(styleKey);
-        // const style = rulesMap[newStyleKey] = element;
         keyAndValue += `${newStyleKey}:${element};`;
       }
     }
   }
-  if (className) {
-    let newClassName = '';
-    if (parentClassName) {
-      newClassName += className.indexOf('&') === 0 ? `${parentClassName}${className.slice(1)}` : `${parentClassName} .${className}`;
+  // if (!parentKey) {
+  //   console.log({currentKey, key, subContent});
+  // }
+  if (keyAndValue) {
+    if (newKey.indexOf('@media') === 0) {
+      content += `${newKey}`;
+      keyAndValue = `.${parentKey}{${keyAndValue}}`;
+    } else if (parentKey && parentKey === '@global') {
+      content += `${currentKey}`;
     } else {
-      newClassName += className;
+      content += `.${newKey}`;
     }
-    content += `${newClassName}`;
+    content += `{${keyAndValue}}`;
   }
-  content += `{${keyAndValue}}`;
-  return content;
+  return content + subContent;
 }
 
 /** @deprecated */
