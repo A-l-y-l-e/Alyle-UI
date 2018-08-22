@@ -1,3 +1,18 @@
+<a name="1.7.0-beta.54p91"></a>
+# [1.7.0-beta.54p91](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.50yre...1.7.0-beta.54p91) (2018-08-22)
+
+
+### Bug Fixes
+
+* **core:** `addStyleSheet` return named object of the classes ([7478a33](https://github.com/A-l-y-l-e/Alyle-UI/commit/7478a33))
+
+
+### Features
+
+* **core:** add option for global style ([5cdf290](https://github.com/A-l-y-l-e/Alyle-UI/commit/5cdf290))
+
+
+
 <a name="1.7.0-beta.50yre"></a>
 # [1.7.0-beta.50yre](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.4u2xw...1.7.0-beta.50yre) (2018-08-20)
 
