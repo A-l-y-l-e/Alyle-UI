@@ -1,29 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
+
+const styles = theme => ({
+  item: {
+    padding: '8px',
+    textAlign: 'center',
+    background: theme.background.secondary,
+    height: '100%'
+  }
+});
 
 @Component({
   selector: 'grid-demo-responsive',
   templateUrl: './grid-demo-responsive.component.html',
   styleUrls: ['./grid-demo-responsive.component.scss']
 })
-export class GridDemoResponsiveComponent implements OnInit {
+export class GridDemoResponsiveComponent {
 
-  classes = {
-    item: this.theme.setUpStyle(
-      'item-responsive',
-      () => (
-        `padding: 8px;` +
-        `text-align: center;` +
-        `background: ${this.theme.config.background.secondary};` +
-        `height: 100%;`
-      )
-    )
-  };
+  classes = this.theme.addStyleSheet(styles, 'grid-demo-responsive');
   constructor(
     private theme: LyTheme2
   ) { }
-
-  ngOnInit() {
-  }
-
 }

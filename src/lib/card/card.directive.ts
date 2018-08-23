@@ -1,8 +1,7 @@
 import { Directive, Renderer2, ElementRef, Input, OnInit, Optional } from '@angular/core';
-import { LyTheme2, shadowBuilderDeprecated, defaultEntry, toBoolean, LyCommon } from '@alyle/ui';
+import { LyTheme2, toBoolean, LyCommon } from '@alyle/ui';
 import { LyCardService } from './card.service';
 
-const DEFAULT_ELEVATION = 2;
 const DEFAULT_ASPECT_RATIO = '16:9';
 
 @Directive({
