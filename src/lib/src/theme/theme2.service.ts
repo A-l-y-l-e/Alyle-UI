@@ -330,7 +330,7 @@ export class LyTheme2 {
     const { styleContainers } = this.stylesInDocument;
     const keys = (Array.from(styleContainers.keys())).sort();
     const key = keys.find(_ => index < _);
-    return (key && styleContainers.get(key)) || this.core.firstElement;
+    return (key !== undefined && styleContainers.get(key)) || this.core.firstElement;
   }
 
   private _createElementStyle(css: string) {

@@ -1,7 +1,5 @@
-import { Injectable, Host, SkipSelf, Optional, Self } from '@angular/core';
-import { Observable ,  of as observableOf } from 'rxjs';
-import { LyTheme2, LyThemeContainer, CoreTheme } from '@alyle/ui';
-import { LyCarouselModule } from './carousel.module';
+import { Injectable } from '@angular/core';
+import { CoreTheme } from '@alyle/ui';
 @Injectable({
   providedIn: 'root'
 })

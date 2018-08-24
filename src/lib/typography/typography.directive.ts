@@ -1,7 +1,12 @@
 import { Directive, ElementRef, Renderer2, Input, isDevMode, OnInit } from '@angular/core';
 import { LyTheme2, toBoolean } from '@alyle/ui';
-// import { IMinimaTheme } from '../themes';
-import { LyTypographyClasses } from './typography.service';
+
+const styles = ({
+  root: {
+    margin: 0,
+    display: 'block'
+  }
+});
 
 enum Gutter {
   default,
@@ -13,6 +18,7 @@ enum Gutter {
   selector: `[lyTyp]`
 })
 export class LyTypography implements OnInit {
+  classes = this.style.addStyleSheet(styles, 'lyTyp', -1);
   private _lyTyp: string;
   private _lyTypClass: string;
 
@@ -28,9 +34,7 @@ export class LyTypography implements OnInit {
   @Input()
   set lyTyp(val: string) {
     if (val !== this.lyTyp) {
-      const newClass = this._createTypClass(val);
-      this.style.updateClassName(this.elementRef.nativeElement, this.renderer, newClass, this._lyTypClass);
-      this._lyTypClass = newClass;
+      this._lyTypClass = this._createTypClass(val, this._lyTypClass);
     }
   }
   get lyTyp() {
@@ -42,8 +46,7 @@ export class LyTypography implements OnInit {
     const newVal = toBoolean(val);
     if (newVal !== this.gutter) {
       this._gutter = newVal;
-      const newClass = this._createGutterClass(Gutter.default, newVal);
-      this._gutterClass = this.style.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._gutterClass);
+      this._gutterClass = this._createGutterClass(Gutter.default, newVal, this._gutterClass);
     }
   }
   get gutter() {
@@ -55,8 +58,8 @@ export class LyTypography implements OnInit {
     const newVal = toBoolean(val);
     if (newVal !== this.gutterTop) {
       this._gutterTop = newVal;
-      const newClass = this._createGutterClass(Gutter.top, newVal);
-      this._gutterTopClass = this.style.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._gutterTopClass);
+      // const newClass = this._createGutterClass(Gutter.top, newVal);
+      this._gutterTopClass = this._createGutterClass(Gutter.top, newVal, this._gutterTopClass);
     }
   }
   get gutterTop() {
@@ -68,8 +71,7 @@ export class LyTypography implements OnInit {
     const newVal = toBoolean(val);
     if (newVal !== this.gutterBottom) {
       this._gutterBottom = newVal;
-      const newClass = this._createGutterClass(Gutter.bottom, newVal);
-      this._gutterBottomClass = this.style.updateClass(this.elementRef.nativeElement, this.renderer, newClass, this._gutterBottomClass);
+      this._gutterBottomClass = this._createGutterClass(Gutter.bottom, newVal, this._gutterBottomClass);
     }
   }
   get gutterBottom() {
@@ -79,10 +81,9 @@ export class LyTypography implements OnInit {
   constructor(
     private style: LyTheme2,
     private elementRef: ElementRef,
-    private renderer: Renderer2,
-    classes: LyTypographyClasses
+    private renderer: Renderer2
   ) {
-    this.renderer.addClass(this.elementRef.nativeElement, classes.root);
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.root);
   }
 
   ngOnInit() {
@@ -91,10 +92,10 @@ export class LyTypography implements OnInit {
     }
   }
 
-  private _createTypClass(key: string) {
+  private _createTypClass(key: string, instance: string) {
     const newKey = `k-typ:${key}`;
 
-    return this.style.setUpStyleSecondary<any/** IMinimaTheme */>(newKey,
+    return this.style.addStyle<any>(newKey,
       theme => {
         const { typography } = theme;
         const { fontSize, fontWeight, letterSpacing, textTransform, lineHeight } = typography[key || 'body1'];
@@ -110,12 +111,14 @@ export class LyTypography implements OnInit {
           style += `text-transform:${textTransform};`;
         }
         return style;
-      }
+      },
+      this.elementRef.nativeElement,
+      instance
     );
   }
 
-  private _createGutterClass(name: Gutter, val: boolean) {
-    return this.style.setUpStyleSecondary<any>(
+  private _createGutterClass(name: Gutter, val: boolean, instance: string) {
+    return this.style.addStyle<any>(
       `k-typ-gutter:${name}:${val}`,
       theme => {
         const gutter = name === Gutter.default;
@@ -123,7 +126,8 @@ export class LyTypography implements OnInit {
           `margin-top:${ val && (gutter || name === Gutter.top) ? theme.typography.gutterTop : 0 }em;` +
           `margin-bottom:${ val && (gutter || name === Gutter.bottom) ? theme.typography.gutterBottom : 0 }em;`
         );
-      }
+      },
+      this.elementRef.nativeElement, instance
     );
   }
 }

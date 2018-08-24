@@ -50,10 +50,15 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
   @Input()
   set withColor(val: string) {
     if (val !== this.withColor) {
-      const newClass = this._createWithColorClass(val);
-      this._withColorClass = this.theme.updateClass(this.tabsIndicator.nativeElement, this.renderer, newClass, this._withColorClass);
+      this._withColor = val;
+      this._withColorClass = this.theme.addStyle<any>(
+        `k-tab-with-color:${val}`,
+        theme => (
+          `color:${theme.colorOf(val)};`
+        ),
+        this.tabsIndicator.nativeElement, this._withColorClass);
       if (this._selectedTab) {
-        this.theme.updateClass(this._selectedTab.tabIndicator.nativeElement, this.renderer, newClass, this._withColorClass);
+        this.theme.updateClass(this._selectedTab.tabIndicator.nativeElement, this.renderer, this._withColorClass);
       }
     }
   }
@@ -184,16 +189,6 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
       tab.loaded = true;
       return tab.templateRef;
     }
-  }
-
-  private _createWithColorClass(val: string) {
-    this._withColor = val;
-    return this.theme.setUpStyle(
-      `k-tab-with-color:${val}`,
-      () => (
-        `color:${this.theme.colorOf(val)};`
-      )
-    );
   }
 }
 

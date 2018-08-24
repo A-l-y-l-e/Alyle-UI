@@ -53,7 +53,8 @@ const routes: Routes = [
   imports: [
     HomeModule,
     RouterModule.forRoot(routes, {
-      initialNavigation: 'enabled'
+      initialNavigation: 'enabled',
+      scrollPositionRestoration: 'enabled'
     })
   ],
   exports: [
