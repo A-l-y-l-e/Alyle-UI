@@ -44,9 +44,9 @@ export interface StyleMap4 {
 
 // const STYLE_MAP_03: StyleMap03 = {} as any;
 
-const STYLE_MAP: {
-  [key: string]: Map<string, StylesElementMap>
-} = {};
+// const STYLE_MAP: {
+//   [key: string]: Map<string, StylesElementMap>
+// } = {};
 const CLASSES_MAP: {
   [idOrThemeName: string]: {
     [className: string]: string
@@ -80,7 +80,7 @@ export class LyTheme2 {
   elements: {
     [key: string]: HTMLStyleElement
   };
-  private _styleMap2: Map<string, StylesElementMap>;
+  // private _styleMap2: Map<string, StylesElementMap>;
 
   get classes() {
     return CLASSES_MAP;
@@ -98,9 +98,9 @@ export class LyTheme2 {
   }
   setUpTheme(themeName: string) {
     if (!this.config) {
-      this._styleMap2 = themeName in STYLE_MAP
-      ? STYLE_MAP[themeName]
-      : STYLE_MAP[themeName] = new Map();
+      // this._styleMap2 = themeName in STYLE_MAP
+      // ? STYLE_MAP[themeName]
+      // : STYLE_MAP[themeName] = new Map();
       this.config = this.core.get(themeName);
       this._styleMap = new Map<string, DataStyle>();
       this.elements = themeName in this.stylesInDocument.styles

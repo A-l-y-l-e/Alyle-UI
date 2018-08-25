@@ -4,8 +4,6 @@ import { LY_MEDIA_QUERIES } from '@alyle/ui/responsive';
 
 const COL_VALUES = { };
 
-const GRID_REG_EXP = /([0-9]+)(\@[\w]+)*/g;
-
 const styles = ({
   root: {
     width: '100%',
@@ -15,6 +13,17 @@ const styles = ({
   }
 });
 
+/**
+ * example:
+ * <ly-grid container [spacing]="'16 8@XSmall'">
+ *   <ly-grid item [col]="'6 12@XSmall'">
+ *     <div>6 12@XSmall</div>
+ *   </ly-grid>
+ *   <ly-grid item [col]="'6 12@XSmall'">
+ *     <div>6 12@XSmall</div>
+ *   </ly-grid>
+ * </ly-grid>
+ */
 @Directive({
   selector: 'ly-grid[container]'
 })
@@ -26,7 +35,7 @@ export class LyGrid {
 
   /**
    * example:
-   * <ly-grid spacing="24 8@Small@XSmal">
+   * <ly-grid container spacing="24 8@Small@XSmal">
    */
   @Input()
   set spacing(val: string | number) {
