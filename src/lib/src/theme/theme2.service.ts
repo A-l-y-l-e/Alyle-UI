@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, Inject, Optional, isDevMode, SkipSelf } from '@angular/core';
+import { Injectable, Renderer2, Inject, isDevMode } from '@angular/core';
 import { ThemeConfig, LY_THEME_NAME } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { DataStyle, Style } from '../theme.service';
@@ -138,12 +138,14 @@ export class LyTheme2 {
    * @param el Element
    * @param instance The instance of this, this replaces the existing style with a new one when it changes
    */
-  addStyle<T>(id: string, style: Style<T>, el?: any, instance?: string, priority?: number) {
+  addStyle(id: string, style: StyleContainer | ((theme) => StyleContainer) | ((theme) => string) | string, el?: any, instance?: string, priority?: number) {
     const newClass = this.addCss(id, style as any, priority);
-    if (instance) {
-      el.classList.remove(instance);
+    if (el) {
+      if (instance) {
+        el.classList.remove(instance);
+      }
+      el.classList.add(newClass);
     }
-    el.classList.add(newClass);
     return newClass;
   }
 

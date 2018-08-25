@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GridDemoResponsiveComponent } from './grid-demo-responsive.component';
-import { LayoutModule } from '@alyle/ui/layout';
+import { LyGridModule } from '@alyle/ui/grid';
 
 @NgModule({
   imports: [
     CommonModule,
-    LayoutModule
+    LyGridModule
   ],
   declarations: [GridDemoResponsiveComponent],
   exports: [GridDemoResponsiveComponent]

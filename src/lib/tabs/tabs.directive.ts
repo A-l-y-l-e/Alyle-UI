@@ -51,7 +51,7 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
   set withColor(val: string) {
     if (val !== this.withColor) {
       this._withColor = val;
-      this._withColorClass = this.theme.addStyle<any>(
+      this._withColorClass = this.theme.addStyle(
         `k-tab-with-color:${val}`,
         theme => (
           `color:${theme.colorOf(val)};`

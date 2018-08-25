@@ -30,3 +30,19 @@ function get(obj: Object, path: any): string {
   return typeof obj === 'string' ? obj as string : obj['default'] as string;
 }
 
+export function eachMedia(str: string, fn: ((val: string, media: string, len: number) => void)) {
+  const values = str.split(/\s/g);
+  for (let index = 0; index < values.length; index++) {
+    const valItem = values[index].split(/\@/g);
+    const value = valItem.shift();
+    const len = valItem.length;
+    if (len) {
+      for (let j = 0; j < len; j++) {
+        fn.call(undefined, value, valItem[j], valItem.length);
+      }
+    } else {
+      fn.call(undefined, value, undefined, len);
+    }
+  }
+}
+

@@ -85,6 +85,13 @@ export class AppComponent implements OnInit {
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
     iconService.setSvg('Radiation', 'assets/svg/radiation');
     this.routesComponents = this.routesApp.routesApp;
+    const newClass = this.theme.addStyle('idisad', {
+      '@media screen': {
+        color: 'red',
+        backgroundColor: 'blue'
+      }
+    } as any, _document.body);
+    console.log({newClass});
   }
   ngOnInit() {
     this.renderer.addClass((this._document as Document).body, this.classes.body);

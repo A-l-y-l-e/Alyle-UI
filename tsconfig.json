@@ -39,6 +39,7 @@
       "@alyle/ui/themes/minima": ["lib/themes/minima"],
       "@alyle/ui/card": ["lib/card"],
       "@alyle/ui/typography": ["lib/typography"],
+      "@alyle/ui/grid": ["lib/grid"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }

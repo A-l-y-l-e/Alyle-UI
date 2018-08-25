@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { LyTheme2, shadowBuilder } from '@alyle/ui';
 
 const styles = theme => ({
   item: {
-    padding: '8px',
+    padding: '16px',
     textAlign: 'center',
-    background: theme.background.primary
+    background: theme.background.secondary,
+    boxShadow: shadowBuilder(1),
+    borderRadius: '4px',
+    height: '100%'
   }
 });
 

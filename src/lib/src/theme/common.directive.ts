@@ -59,7 +59,7 @@ export class LyCommon implements OnChanges {
                 this.outlined || DEFAULT_VALUE}·${
                   this.shadowColor || DEFAULT_VALUE}·${
                     this._isContrast || DEFAULT_VALUE}`;
-    this._className = this.theme.addStyle<any>(newKey, (theme) => {
+    this._className = this.theme.addStyle(newKey, (theme) => {
       const style: {
         border?: string,
         background?: string,

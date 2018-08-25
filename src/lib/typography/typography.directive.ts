@@ -95,7 +95,7 @@ export class LyTypography implements OnInit {
   private _createTypClass(key: string, instance: string) {
     const newKey = `k-typ:${key}`;
 
-    return this.style.addStyle<any>(newKey,
+    return this.style.addStyle(newKey,
       theme => {
         const { typography } = theme;
         const { fontSize, fontWeight, letterSpacing, textTransform, lineHeight } = typography[key || 'body1'];
@@ -118,7 +118,7 @@ export class LyTypography implements OnInit {
   }
 
   private _createGutterClass(name: Gutter, val: boolean, instance: string) {
-    return this.style.addStyle<any>(
+    return this.style.addStyle(
       `k-typ-gutter:${name}:${val}`,
       theme => {
         const gutter = name === Gutter.default;
