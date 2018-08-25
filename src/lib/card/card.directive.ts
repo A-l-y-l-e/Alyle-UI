@@ -23,7 +23,6 @@ export class LyCard implements OnInit {
 
   constructor(
     private cardService: LyCardService,
-    private theme: LyTheme2,
     private el: ElementRef,
     private renderer: Renderer2,
     @Optional() private common: LyCommon

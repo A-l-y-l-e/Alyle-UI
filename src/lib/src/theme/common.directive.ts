@@ -3,6 +3,8 @@ import { LyTheme2 } from './theme2.service';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
 
+const DEFAULT_VALUE = '';
+
 @Directive({
   selector: `
             [bg],
@@ -107,82 +109,9 @@ export class LyCommon implements OnChanges {
       }
       return style as any;
     }, this._getHostElement(), this._className);
-    /**~ */
-    // const raisedĸey = this.raised === true ? 'raised' : '';
-    // let key = '';
-    // if ((this.contrast && !this.color || this.color === 'auto') && this.bg) {
-    //   key = `bcr-contrast:${this.bg}${raisedĸey}${this.elevation}`;
-    //   this._className = this.theme.addStyle(`ly-${key}`, this.contrastStyle.bind(this), this._getHostElement(), this._className);
-    // } else if (this.bg && this.color) {
-    //   key = `b&ĸ${this.bg}${this.color}${this.raised}${this.elevation}`;
-    //   this._className = this.theme.addStyle(`ly-${key}`, this.bgColorStyle.bind(this), this._getHostElement(), this._className);
-    // } else if (this.raised && !this.bg) {
-    //   key = raisedĸey + this.color || '';
-    //   this._className = this.theme.addStyle<any>(`ly-${key}`, theme => {
-    //     let styles = `background-color:${theme.background.primary};`;
-    //     let color = '';
-    //     let colorShadow;
-    //     if (this.color) {
-    //       color = this.theme.colorOf(this.color);
-    //       colorShadow = color;
-    //       styles += `color:${color};`;
-    //     } else {
-    //       colorShadow = theme.colorShadow;
-    //     }
-    //     if (this._raised) {
-    //       styles += shadowBuilderDeprecated(this.elevation, colorShadow);
-    //     }
-    //     return styles;
-    //   }, this._getHostElement(), this._className);
-    // } else if (this.bg || this.color) {
-    //   const changeKey = this.bg ? ['bg', 'background', this.bg] : ['ĸ', 'color', this.color];
-    //   const color = changeKey[2];
-    //   key = `${changeKey[0]}${color}${this._raised}${this.elevation}`;
-
-    //   /** Create style */
-    //   this._className = this.theme.addStyle(`ly-${key}`, () => {
-    //     const _color = this.theme.colorOf(this.bg || this.color);
-    //     let styles = `${changeKey[1]}:${_color};`;
-    //     if (this._raised) {
-    //       styles += shadowBuilderDeprecated(this.elevation, _color);
-    //     }
-    //     return styles;
-    //   }, this._getHostElement(), this._className);
-
-    // } else {
-    //   key = `raised${this._raised}elxxxxxxxx${this.elevation}`;
-    //   this._className = this.theme.addStyle(`ly-${key}`, () => {
-    //     if (this._raised) {
-    //       return shadowBuilderDeprecated(this.elevation, this.theme.config.colorShadow);
-    //     } else {
-    //       return shadowBuilderDeprecated(0, this.theme.config.colorShadow);
-    //     }
-    //   }, this._getHostElement(), this._className);
-    // }
   }
-  // private contrastStyle() {
-  //   const cssBg = this.theme.colorOf(this.bg);
-  //   this._color = this.theme.colorOf(`${this.bg}:contrast`);
-  //   let styles = `background:${cssBg};color:${this._color};`;
-  //   if (this._raised) {
-  //     styles += shadowBuilderDeprecated(this.elevation, cssBg);
-  //   }
-  //   return styles;
-  // }
-
-  // private bgColorStyle() {
-  //   const cssBg = this.theme.colorOf(this.bg);
-  //   const cssColor = this.theme.colorOf(this.color);
-  //   let styles = `background:${cssBg};color:${cssColor};`;
-  //   if (this._raised) {
-  //     styles += shadowBuilderDeprecated(this.elevation, cssBg);
-  //   }
-  //   return styles;
-  // }
 
   private _getHostElement() {
     return this.elementRef.nativeElement;
   }
 }
-
-const DEFAULT_VALUE = '';

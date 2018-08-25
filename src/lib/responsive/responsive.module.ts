@@ -1,4 +1,4 @@
-import { NgModule, NgZone, ModuleWithProviders, SkipSelf, Optional, Provider } from '@angular/core';
+import { NgModule } from '@angular/core';
 // import { Responsive } from './media.service';
 // import { PLATFORM_ID } from '@angular/core';
 import { MediaDirective } from './media/media.directive';

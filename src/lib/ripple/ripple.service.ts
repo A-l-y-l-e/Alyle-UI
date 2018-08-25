@@ -1,6 +1,5 @@
-import { Injectable, Inject, Renderer2, ElementRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CoreTheme } from '@alyle/ui';
-import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'

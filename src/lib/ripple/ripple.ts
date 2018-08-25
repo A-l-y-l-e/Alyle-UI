@@ -1,4 +1,4 @@
-import { ElementRef, NgZone, Renderer2 } from '@angular/core';
+import { NgZone } from '@angular/core';
 import { Platform } from '@alyle/ui';
 
 export interface RippleConfig {

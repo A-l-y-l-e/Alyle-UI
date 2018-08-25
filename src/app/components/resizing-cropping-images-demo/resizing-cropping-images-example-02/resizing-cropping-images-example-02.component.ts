@@ -1,9 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
   } from '@angular/core';
 import {
   CroppedImage,

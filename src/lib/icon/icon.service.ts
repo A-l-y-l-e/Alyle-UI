@@ -1,7 +1,7 @@
-import { Injectable, Optional, Inject, SecurityContext } from '@angular/core';
+import { Injectable, Optional, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { CoreTheme } from '@alyle/ui';
 

@@ -1,27 +1,15 @@
 import {
-  NgModule,
   Component,
   ElementRef,
-  Input,
-  Directive,
-  ModuleWithProviders,
   OnInit,
-  OnChanges,
-  SimpleChanges,
   ViewChild,
-  AfterViewInit,
-  OnDestroy,
-  HostBinding,
-  HostListener,
-  isDevMode,
   Optional,
   Renderer2,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { LyRippleModule, LyRipple } from '@alyle/ui/ripple';
-import { Platform, LyCommon, LyTheme2 } from '@alyle/ui';
+import { LyRipple } from '@alyle/ui/ripple';
+import { LyCommon, LyTheme2 } from '@alyle/ui';
 import { LyIconButtonService } from './icon-button.service';
 
 @Component({

@@ -1,9 +1,7 @@
 import {
   Injectable,
-  Injector,
   ComponentFactoryResolver,
   EmbeddedViewRef,
-  ApplicationRef,
   TemplateRef,
   ComponentRef,
   ViewContainerRef,

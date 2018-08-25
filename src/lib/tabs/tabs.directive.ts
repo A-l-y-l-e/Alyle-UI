@@ -23,7 +23,7 @@ import {
 } from '@angular/core';
 import { LyTabContent } from './tab-content.directive';
 import { LyTabsClassesService } from './tabs.clasess.service';
-import { UndefinedValue, Undefined, LyTheme2, Platform } from '@alyle/ui';
+import { LyTheme2, Platform } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 
 @Component({

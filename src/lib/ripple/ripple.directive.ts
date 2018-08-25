@@ -1,24 +1,15 @@
 import {
   ElementRef,
-  forwardRef,
   Input,
   Directive,
-  ChangeDetectionStrategy,
   NgZone,
   OnInit,
   OnDestroy,
-  Optional,
-  HostBinding,
-  HostListener,
-  AfterViewInit,
   Renderer2,
   OnChanges,
-  SimpleChanges,
-  Inject,
-  PLATFORM_ID
+  SimpleChanges
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { toBoolean, LyFocusState, Platform } from '@alyle/ui';
+import { toBoolean, Platform } from '@alyle/ui';
 import { Ripple, RippleConfig } from './ripple';
 import { LyRippleService } from './ripple.service';
 

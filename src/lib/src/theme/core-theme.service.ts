@@ -30,7 +30,7 @@ export class CoreTheme {
     this.firstElement = _document.body.firstChild;
     this.renderer = this.rendererFactory.createRenderer(null, {
       id: 'ly',
-      encapsulation: ViewEncapsulation.Native,
+      encapsulation: ViewEncapsulation.None,
       styles: [],
       data: {}
     });

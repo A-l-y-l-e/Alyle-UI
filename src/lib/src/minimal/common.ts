@@ -1,5 +1,5 @@
 import {
-  Directive, Input, TemplateRef, ViewContainerRef, Output, EventEmitter, AfterContentInit, OnDestroy, NgModule
+  Directive, Input, TemplateRef, ViewContainerRef, OnDestroy, NgModule
 } from '@angular/core';
 
 export interface KeyAttribute {

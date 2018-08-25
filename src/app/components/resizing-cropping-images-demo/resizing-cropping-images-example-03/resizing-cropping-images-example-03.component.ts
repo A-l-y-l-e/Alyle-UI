@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { LyResizingCroppingImages, LyResizingCroppingImagesConfig, ImageResolution, CroppedImage } from '@alyle/ui/resizing-cropping-images';
+import { LyResizingCroppingImages, LyResizingCroppingImagesConfig, CroppedImage } from '@alyle/ui/resizing-cropping-images';
 
 @Component({
   selector: 'resizing-cropping-images-example-03',

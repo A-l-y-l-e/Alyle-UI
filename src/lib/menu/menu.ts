@@ -2,29 +2,17 @@ import { BehaviorSubject } from 'rxjs';
 import {
   Component,
   ElementRef,
-  forwardRef,
-  NgModule,
   Input,
   Output,
   Directive,
-  SimpleChange,
   OnChanges,
-  HostBinding,
   OnInit,
-  ModuleWithProviders,
-  AfterContentInit,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
-  Optional,
-  QueryList,
-  ContentChildren,
-  HostListener,
   AfterViewInit,
   EventEmitter,
   OnDestroy,
-  ChangeDetectionStrategy,
-  ComponentRef,
   ChangeDetectorRef,
   SimpleChanges
 } from '@angular/core';
@@ -34,16 +22,9 @@ import {
   state,
   style,
   animate,
-  transition,
-  group
+  transition
 } from '@angular/animations';
-import { DomService, LxDomModule, Platform } from '@alyle/ui';
-import {
-  NG_VALUE_ACCESSOR,
-  ControlValueAccessor,
-  FormsModule,
-} from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { DomService, Platform } from '@alyle/ui';
 
 export type position = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
 export class Origin {

@@ -7,7 +7,6 @@ import {
   SimpleChanges,
   Input,
   Output,
-  ElementRef,
   EventEmitter,
   forwardRef
 } from '@angular/core';

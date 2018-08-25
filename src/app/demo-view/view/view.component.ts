@@ -2,21 +2,17 @@ import {
   Component,
   Input,
   OnInit,
-  Optional,
   ElementRef,
   ChangeDetectionStrategy,
   VERSION,
   isDevMode
 } from '@angular/core';
-import { Observable, of, merge, concat, throwError } from 'rxjs';
-import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { catchError, retry, mergeMap, take, tap } from 'rxjs/operators';
+import { Observable, of, merge } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { catchError, retry, tap } from 'rxjs/operators';
 import { Platform, AUI_VERSION, LyTheme2 } from '@alyle/ui';
 
-import { RoutesAppService } from '../../components/routes-app.service';
-import sdk from '@stackblitz/sdk';
-import { map } from 'bluebird';
 
 const styles = {
   codeContainer: {

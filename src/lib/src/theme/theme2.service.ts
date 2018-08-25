@@ -8,9 +8,9 @@ import { DOCUMENT } from '@angular/common';
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
-interface StylesElementMap {
-  el: any;
-}
+// interface StylesElementMap {
+//   el: any;
+// }
 
 enum TypeStyle {
   Multiple,
@@ -178,7 +178,6 @@ export class LyTheme2 {
       dataStyle.styleElement.innerText = this.core._createStyleContent(this.config, dataStyle.style, dataStyle.id);
     });
 
-    const { styleContainers, styles } = this.stylesInDocument;
     const currentStyles = this.elements;
     for (const key in currentStyles) {
       if (currentStyles.hasOwnProperty(key)) {
@@ -388,8 +387,8 @@ function groupStyleToString(styles: Styles2, themeName: string, _classes_: strin
     if (styles.hasOwnProperty(key)) {
       const value = styles[key];
       if (typeof value === 'object') {
-        const className = classes[key] || (classes[key] = isDevMode() ? toClassNameValid(`${id}---${key}-${createNextId()}`) : createNextId());
-        const style = styleToString(key, value as Styles2, className);
+        const _className = classes[key] || (classes[key] = isDevMode() ? toClassNameValid(`${id}---${key}-${createNextId()}`) : createNextId());
+        const style = styleToString(key, value as Styles2, _className);
         content += style;
       } else {
         console.log('value is string', value);

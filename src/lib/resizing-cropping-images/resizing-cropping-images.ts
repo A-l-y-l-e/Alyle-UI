@@ -4,27 +4,15 @@
 import {
   Component,
   ElementRef,
-  forwardRef,
-  NgModule,
   Input,
   Output,
-  Directive,
-  SimpleChange,
-  OnChanges,
-  ModuleWithProviders,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
   AfterContentInit,
-  EventEmitter,
-  SimpleChanges
+  EventEmitter
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormsModule,
-} from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { BehaviorSubject , Subscription , Subject , Observable } from 'rxjs';
+import { BehaviorSubject , Subject , Observable } from 'rxjs';
 
 export interface LyResizingCroppingImagesConfig {
   width: number;

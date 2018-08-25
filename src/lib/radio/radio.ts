@@ -3,37 +3,28 @@ import {
   forwardRef,
   NgModule,
   Input,
-  Directive,
   Output,
-  SimpleChange,
   ChangeDetectorRef,
-  OnChanges,
-  ModuleWithProviders,
-  AfterViewInit,
   OnInit,
   OnDestroy,
   ContentChildren,
   QueryList,
   Optional,
-  HostBinding,
   EventEmitter,
   ChangeDetectionStrategy,
-  SimpleChanges,
   NgZone,
   ViewChild,
   ElementRef,
   Renderer2
 } from '@angular/core';
-import { LyRippleModule, LyRipple, LyRippleService, Ripple } from '@alyle/ui/ripple';
-import { Subscription , Subject , BehaviorSubject , Observable } from 'rxjs';
+import { LyRippleModule, LyRippleService, Ripple } from '@alyle/ui/ripple';
 import {
-  NgModel,
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule, Platform, IsBoolean, LyTheme2, LyCoreStyles, toBoolean } from '@alyle/ui';
+import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean } from '@alyle/ui';
 import { LyRadioService } from './radio.service';
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

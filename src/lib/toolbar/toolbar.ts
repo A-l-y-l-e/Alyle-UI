@@ -1,10 +1,6 @@
 import {
   Component,
   Directive,
-  Input,
-  OnInit,
-  OnDestroy,
-  HostBinding,
   Optional,
   ChangeDetectionStrategy
 } from '@angular/core';

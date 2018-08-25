@@ -1,5 +1,5 @@
 import { Directive, Input, Renderer2, ElementRef, Inject, Optional } from '@angular/core';
-import { CoreTheme, Undefined } from '@alyle/ui';
+import { CoreTheme } from '@alyle/ui';
 import { LY_MEDIA_QUERIES } from '@alyle/ui/responsive';
 import { LyFlex } from './flex.directive';
 import { LyFlexBase } from './flex-base';

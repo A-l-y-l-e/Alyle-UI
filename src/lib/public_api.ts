@@ -12,7 +12,6 @@ export * from './src/version';
 export * from './src/gesture/gesture-config';
 export * from './src/theme/contrast';
 export * from './src/theme/common.directive';
-export * from './src/theme/shadow.service';
 export * from './src/theme/core-theme.service';
 export * from './src/theme/theme-config';
 export * from './src/theme/theme2.service';

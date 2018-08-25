@@ -1,14 +1,12 @@
 import {
   Directive,
   ElementRef,
-  HostBinding,
   HostListener,
   Input,
   OnDestroy,
   Self,
   Optional,
   OnChanges,
-  SimpleChanges,
   ChangeDetectorRef,
   SimpleChange
 } from '@angular/core';

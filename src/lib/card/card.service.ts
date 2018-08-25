@@ -22,15 +22,8 @@ const styles = {
 
 @Injectable({ providedIn: 'root' })
 export class LyCardService {
-  classes: {
-    root: string,
-    content: string,
-    actions: string,
-    actionsItem: string,
-  };
+  classes = this.theme.addStyleSheet(styles, 'lyCard');
   constructor(
-    theme: LyTheme2
-  ) {
-    this.classes = theme.addStyleSheet(styles, 'lyCard');
-  }
+    private theme: LyTheme2
+  ) { }
 }

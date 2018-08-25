@@ -1,11 +1,4 @@
-import { Component, ViewChild, Directive, Renderer, ElementRef, NgModule, ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LyRippleModule } from '@alyle/ui/ripple';
-import {
-  NG_VALUE_ACCESSOR,
-  ControlValueAccessor,
-  FormsModule,
-} from '@angular/forms';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 @Component({
   selector: 'ly-header-pagination',
   templateUrl: 'header-pagination.html',

@@ -1,8 +1,6 @@
 import { Injectable, InjectionToken, Optional, Inject } from '@angular/core';
-import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
-import { CoreTheme } from '../theme/core-theme.service';
+import { HammerGestureConfig } from '@angular/platform-browser';
 import { HammerOptions, HammerInstance } from './gesture-annotations';
-import { Platform } from '../platform';
 
 export const LY_HAMMER_OPTIONS = new InjectionToken<HammerOptions>('LY_HAMMER_OPTIONS');
 

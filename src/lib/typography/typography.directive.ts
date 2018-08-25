@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2, Input, isDevMode, OnInit } from '@angular/core';
+import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
 import { LyTheme2, toBoolean } from '@alyle/ui';
 
 const styles = ({
@@ -98,7 +98,7 @@ export class LyTypography implements OnInit {
     return this.style.addStyle(newKey,
       theme => {
         const { typography } = theme;
-        const { fontSize, fontWeight, letterSpacing, textTransform, lineHeight } = typography[key || 'body1'];
+        const { fontFamily, fontSize, fontWeight, letterSpacing, textTransform, lineHeight } = typography[key || 'body1'];
         let style = (
           `font-size:${theme.pxToRem(fontSize)};` +
           `font-weight:${fontWeight};` +
@@ -109,6 +109,11 @@ export class LyTypography implements OnInit {
         }
         if (textTransform) {
           style += `text-transform:${textTransform};`;
+        }
+        if (fontFamily) {
+          style += `font-family:${fontFamily};`;
+        } else {
+          style += `font-family:${typography.fontFamily};`;
         }
         return style;
       },

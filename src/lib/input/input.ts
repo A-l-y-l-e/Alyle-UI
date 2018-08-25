@@ -1,21 +1,14 @@
-import { Subscriber ,  Subject ,  BehaviorSubject ,  Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
   Component,
   ElementRef,
-  forwardRef,
   NgModule,
   Input,
-  Output,
   Directive,
-  SimpleChange,
   SimpleChanges,
   OnChanges,
-  ViewChild,
   ContentChild,
-  AfterViewInit,
-  ModuleWithProviders,
   AfterContentInit,
-  Self,
   Optional,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -27,9 +20,6 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
-  FormControl,
-  FormGroupDirective,
-  NgControl, NgForm,
 } from '@angular/forms';
 import { LyCommonModule, LyTheme2, IsBoolean, toBoolean, LyCommon } from '@alyle/ui';
 import { LyInputContents } from './input-contents';

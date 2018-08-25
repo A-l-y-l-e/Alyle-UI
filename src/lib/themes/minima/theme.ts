@@ -1,5 +1,5 @@
 import { NgModule, Directive } from '@angular/core';
-import { LyThemeConfig, LY_THEME_NAME, LyTheme2, LyThemeModule } from '@alyle/ui';
+import { LyThemeConfig, LY_THEME_NAME, LyTheme2 } from '@alyle/ui';
 import { MinimaLight } from './light';
 import { MinimaDark } from './dark';
 

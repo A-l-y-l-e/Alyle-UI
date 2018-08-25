@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, NgZone } from '@angular/core';
 
 @Component({
   selector: 'ripple-demo-01',

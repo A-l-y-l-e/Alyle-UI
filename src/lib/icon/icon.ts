@@ -1,7 +1,6 @@
 import { Directive, Input, Renderer2, ElementRef, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { LyIconService, SvgIcon } from './icon.service';
 import { take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { Platform, LyTheme2 } from '@alyle/ui';
 
 @Directive({

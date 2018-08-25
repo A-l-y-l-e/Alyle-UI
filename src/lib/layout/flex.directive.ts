@@ -1,5 +1,5 @@
-import { Directive, Input, OnChanges, SimpleChanges, Renderer2, ElementRef, isDevMode, Inject, Optional } from '@angular/core';
-import { CoreTheme, Undefined } from '@alyle/ui';
+import { Directive, Input, OnChanges, Renderer2, ElementRef, isDevMode, Inject, Optional } from '@angular/core';
+import { CoreTheme } from '@alyle/ui';
 import { LY_MEDIA_QUERIES } from '@alyle/ui/responsive';
 import { LyFlexBase } from './flex-base';
 

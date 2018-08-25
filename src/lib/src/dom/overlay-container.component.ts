@@ -1,4 +1,4 @@
-import { Directive, Injectable, Optional, NgModule, SkipSelf } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Platform } from '../platform/index';
 
 @Injectable()
