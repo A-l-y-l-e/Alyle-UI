@@ -519,51 +519,6 @@
         }
       }
     },
-    "@alyle/ui/ls": {
-      "root": "dist/lib/ls",
-      "projectType": "library",
-      "prefix": "ly",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "dist/lib/ls/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "dist/lib/ls/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "dist/lib/ls/test.ts",
-            "tsConfig": "dist/lib/ls/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/ls/karma.conf.js",
-            "progress": false,
-            "codeCoverage": true,
-            "browsers": "ChromeHeadless",
-            "codeCoverageExclude": [
-              "dist/lib/core/**/*",
-              "src/lib/core/**/*"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "dist/lib/ls/tsconfig.lint.json",
-              "dist/lib/ls/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "@alyle/ui/menu": {
       "root": "dist/lib/menu",
       "projectType": "library",
@@ -1000,51 +955,6 @@
         }
       }
     },
-    "@alyle/ui/flex": {
-      "root": "dist/lib/flex",
-      "projectType": "library",
-      "prefix": "ly",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "dist/lib/flex/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "dist/lib/flex/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "dist/lib/flex/test.ts",
-            "tsConfig": "dist/lib/flex/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/flex/karma.conf.js",
-            "progress": false,
-            "codeCoverage": true,
-            "browsers": "ChromeHeadless",
-            "codeCoverageExclude": [
-              "dist/lib/core/**/*",
-              "src/lib/core/**/*"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "dist/lib/flex/tsconfig.lint.json",
-              "dist/lib/flex/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "@alyle/ui/themes/minima": {
       "root": "dist/lib/themes/minima",
       "projectType": "library",
@@ -1082,51 +992,6 @@
             "tsConfig": [
               "dist/lib/themes/minima/tsconfig.lint.json",
               "dist/lib/themes/minima/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "@alyle/ui/layout": {
-      "root": "dist/lib/layout",
-      "projectType": "library",
-      "prefix": "ly",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "dist/lib/layout/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "dist/lib/layout/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "dist/lib/layout/test.ts",
-            "tsConfig": "dist/lib/layout/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/layout/karma.conf.js",
-            "progress": false,
-            "codeCoverage": true,
-            "browsers": "ChromeHeadless",
-            "codeCoverageExclude": [
-              "dist/lib/core/**/*",
-              "src/lib/core/**/*"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "dist/lib/layout/tsconfig.lint.json",
-              "dist/lib/layout/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
