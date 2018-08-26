@@ -2,6 +2,7 @@ version: 1.7.0-beta.54p91
 lastUpdate: '2018-08-22T23:36:27.330Z'
 components:
   '@alyle/ui': /
+  '@alyle/ui/grid': grid
   '@alyle/ui/themes/minima': themes/minima
   '@alyle/ui/card': card
   '@alyle/ui/typography': typography
@@ -20,4 +21,3 @@ components:
   '@alyle/ui/tabs': tabs
   '@alyle/ui/toolbar': toolbar
   '@alyle/ui/drawer': drawer
-  '@alyle/ui/grid': grid

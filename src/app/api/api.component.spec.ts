@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FlexDemoOneComponent } from './flex-demo-one.component';
+import { ApiComponent } from './api.component';
 
-describe('FlexDemoOneComponent', () => {
-  let component: FlexDemoOneComponent;
-  let fixture: ComponentFixture<FlexDemoOneComponent>;
+describe('ApiComponent', () => {
+  let component: ApiComponent;
+  let fixture: ComponentFixture<ApiComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlexDemoOneComponent ]
+      declarations: [ ApiComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FlexDemoOneComponent);
+    fixture = TestBed.createComponent(ApiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -10,7 +10,7 @@ for (const key in components) {
   if (components.hasOwnProperty(key)) {
     const pathFolder = components[key];
     console.log(key);
-    const docPathFolder = join('docs', key);
+    const docPathFolder = join('src/api', key);
     const ls = spawnSync(
       'yarn',
       [
@@ -35,6 +35,7 @@ for (const key in components) {
     const docPathFile = join(docPathFolder, 'documentation.json');
     const fileObject = JSON.parse(readFileSync(docPathFile, 'utf8').toString());
     removeKeys(fileObject, ['sourceCode']);
+    removeKeys(fileObject, ['constructorObj']);
     writeFileSync(docPathFile, JSON.stringify(fileObject), 'utf8');
 
   }

@@ -22,7 +22,6 @@ import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
-import { FlexDemoModule } from './components/flex-demo/flex-demo.module';
 import { GridDemoModule } from './components/grid-demo/grid-demo.module';
 import { ResponsiveDemoModule } from './components/responsive-demo/responsive-demo.module';
 import { TitleComponent } from './document/title/title.component';
@@ -37,6 +36,8 @@ import { MultipleThemesComponent } from './components/multiple-themes/multiple-t
 import { MultipleThemesDemo01Module } from './components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
 import { DocsModule } from '@docs/docs.module';
 import { LyTabsModule } from '@alyle/ui/tabs';
+import { ApiComponent } from './api/api.component';
+import { LyCardModule } from '@alyle/ui/card';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -73,6 +74,7 @@ export class MyCustomTheme extends LyThemeConfig {
 @NgModule({
   declarations: [
     AppComponent,
+    ApiComponent,
     TitleComponent,
     /** Customization */
     MultipleThemesComponent,
@@ -88,7 +90,6 @@ export class MyCustomTheme extends LyThemeConfig {
     /** MultipleThemes >*/MultipleThemesDemo01Module,
     /** Layout */
     GridDemoModule,
-    FlexDemoModule,
     ResponsiveDemoModule,
     /** CardDemo > */CardDemoBasicModule,
     /** TypographyDemo > */TypographyDemoBasicModule,
@@ -107,6 +108,7 @@ export class MyCustomTheme extends LyThemeConfig {
     LyMenuModule,
     LyRippleModule,
     LyTypographyModule,
+    LyCardModule,
     PrismModule,
     DemoViewModule,
     DocsModule,

@@ -6,6 +6,7 @@ import { CardDemoComponent } from '@docs/components/card-demo/card-demo.componen
 import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
 import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
 import { ThemingComponent } from '@docs/customization/theming/theming.component';
+import { ApiComponent } from './api/api.component';
 
 const routes: Routes = [
   /** Customization */
@@ -15,6 +16,17 @@ const routes: Routes = [
     path: 'customization',
     children: [
       { path: 'theming', component: ThemingComponent }
+    ]
+  },
+  {
+    path: ':id',
+    children: [
+      {
+        path: ':package',
+        children: [
+          { path: 'api', component: ApiComponent, pathMatch: 'full'}
+        ]
+      }
     ]
   },
   /** Components */

@@ -9,6 +9,7 @@
 /build
 /out-tsc
 /docs
+/src/api
 
 # dependencies
 /node_modules

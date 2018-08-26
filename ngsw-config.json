@@ -7,6 +7,7 @@
       "files": [
         "/favicon.ico",
         "/index.html",
+        "/api/**",
         "/*.css",
         "/*.js",
         "/*.woff2"

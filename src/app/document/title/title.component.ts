@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { RoutesAppService } from '../../components/routes-app.service';
 import { Title } from '@angular/platform-browser';
 import { Platform } from '@alyle/ui';
 import { environment } from '@env/environment';
@@ -15,22 +14,14 @@ export class TitleComponent implements OnInit {
   title: string;
   urls: string[];
   status: string;
-  get routeData() {
-    const random = Math.random();
-    return {
-      random
-    };
-  }
   defaultTitle = 'Alyle UI';
   @Input()
   set route(val: string) {
     this._route = val;
     const varArray = val.split('/').filter(_ => !!_);
-    const ArrayString = varArray.reverse()[0];
+    const latestItem = varArray[varArray.length - 1];
     this.urls = varArray.map(_ => _.charAt(0).toUpperCase() + _.slice(1));
-    this.title = findByProp(this.routesAppService.routesApp, 'route', ArrayString, 'name');
-    const status = findByProp(this.routesAppService.routesApp, 'route', ArrayString, 'status');
-    this.status = status;
+    this.title = toTitle(latestItem === 'api' ? `${varArray[varArray.length - 2]} API` : latestItem);
     if (this.title) {
       this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
     } else {
@@ -47,7 +38,6 @@ export class TitleComponent implements OnInit {
     return this._route;
   }
   constructor(
-    private routesAppService: RoutesAppService,
     private titleService: Title,
   ) { }
 
@@ -56,19 +46,9 @@ export class TitleComponent implements OnInit {
 
 }
 
-function findByProp(o, prop, val, retprop?) {
-  if (o == null) { return false; }
-  if (o[prop] === val) {
-    return (retprop) ? o[retprop] : o;
+function toTitle(str: string) {
+  if (!str) {
+    return str;
   }
-  let result, p;
-  for (p in o) {
-    if (o.hasOwnProperty(p) && typeof o[p] === 'object') {
-      result = findByProp(o[p], prop, val);
-      if (result) {
-        return (retprop) ? result[retprop] : result;
-      }
-    }
-  }
-  return (retprop) ? result[retprop] : result;
+  return str.charAt(0).toUpperCase() + str.slice(1).replace('-', ' ');
 }

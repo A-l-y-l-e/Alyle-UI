@@ -23,9 +23,9 @@
                 "output": "/"
               },
               {
-                "glob": "api/index.html",
-                "input": "src",
-                "output": "/"
+                "glob": "**/*",
+                "input": "src/api",
+                "output": "/api"
               },
               {
                 "glob": "**/*",

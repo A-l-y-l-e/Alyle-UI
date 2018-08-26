@@ -1,0 +1,32 @@
+<h2 [lyTyp]="'headline'" gutter>Modules</h2>
+<div prism language="typescript" [code]="ref((doc | async)?.modules[0].name)"></div>
+<h2 [lyTyp]="'headline'" gutter>Directives</h2>
+<ng-template ngFor let-directive [ngForOf]="(doc | async)?.directives" let-x="index">
+  <h3 [lyTyp]="'title'" gutter>{{ directive.name }}</h3>
+  <p>Selector: <span prism language="typescript" code="'{{directive.selector}}'"></span></p>
+  <h4 [lyTyp]="'subheading'" gutter>Properties</h4>
+  <ly-card>
+    <ly-card-content>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let input of directive.inputsClass">
+            <td prism language="typescript" [code]="inputTemplate(input)"></td>
+            <td [innerHTML]="input.description"></td>
+          </tr>
+          <tr *ngFor="let property of directive.propertiesClass">
+            <td prism language="typescript" [code]="propertyTemplate(property)"></td>
+            <td [innerHTML]="property.description"></td>
+          </tr>
+        </tbody>
+      </table>
+    </ly-card-content>
+  </ly-card>
+</ng-template>
+
+<!-- <pre>{{ doc | async | json }}</pre> -->

@@ -7,7 +7,6 @@ import { LyIconModule } from '@alyle/ui/icon';
 import { LyButtonModule } from '@alyle/ui/button';
 
 import { ButtonExample03Component } from './button-example-03.component';
-import { LyFlexModule } from '@alyle/ui/flex';
 
 @NgModule({
   imports: [
@@ -15,8 +14,7 @@ import { LyFlexModule } from '@alyle/ui/flex';
     LyCommonModule,
     LyButtonModule,
     LyIconButtonModule,
-    LyIconModule,
-    LyFlexModule
+    LyIconModule
   ],
   exports: [ButtonExample03Component],
   declarations: [ButtonExample03Component]

@@ -28,16 +28,22 @@ const styles = ({
   selector: 'ly-grid[container]'
 })
 export class LyGrid {
+  /**
+   * Styles
+   * @ignore
+   */
   classes = this.theme.addStyleSheet(styles, 'lyGrid');
   private _spacing: string | number;
   private _spacingClass: string;
   private _negativeMarginClass: string;
 
   /**
-   * example:
-   * <ly-grid container spacing="24 8@Small@XSmal">
+   * Defines the space between the component with the `item` attribute.
    */
   @Input()
+  get spacing(): string | number {
+    return this._spacing;
+  }
   set spacing(val: string | number) {
     if (val !== this.spacing) {
       this._spacing = val;
@@ -88,9 +94,7 @@ export class LyGrid {
       }, this.elementRef.nativeElement, this._negativeMarginClass);
     }
   }
-  get spacing() {
-    return this._spacing;
-  }
+
   get spacingClass() {
     return this._spacingClass;
   }
@@ -112,6 +116,9 @@ export class LyGridCol implements OnInit {
   private _colClass: string;
 
   @Input()
+  get col(): string | number {
+    return this._col;
+  }
   set col(val: string | number) {
     if (val !== this.col) {
       this._colClass = this.theme.addStyle(`lyGrid-negative-margin:${val}`, () => {
@@ -138,9 +145,6 @@ export class LyGridCol implements OnInit {
         }
       }, this.el.nativeElement, this._colClass);
     }
-  }
-  get col() {
-    return this._col;
   }
 
   constructor(
