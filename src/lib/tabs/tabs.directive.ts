@@ -19,12 +19,14 @@ import {
   ViewEncapsulation,
   AfterViewInit,
   AfterContentInit,
-  OnDestroy
+  OnDestroy,
+  NgZone
 } from '@angular/core';
 import { LyTabContent } from './tab-content.directive';
 import { LyTabsClassesService } from './tabs.clasess.service';
 import { LyTheme2, Platform } from '@alyle/ui';
 import { Subscription } from 'rxjs';
+import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 
 @Component({
   selector: 'ly-tabs',
@@ -47,6 +49,7 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
   @ViewChild('tabContents') tabContents: ElementRef;
   @ViewChild('tabsIndicator') tabsIndicator: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
+  @Input() native: boolean;
   @Input()
   set withColor(val: string) {
     if (val !== this.withColor) {
@@ -92,7 +95,7 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
     private theme: LyTheme2,
     private renderer: Renderer2,
     private el: ElementRef,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.classes = tabsService.classes;
   }
@@ -120,6 +123,10 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
   }
   ngOnDestroy() {
     this._tabsSubscription.unsubscribe();
+  }
+
+  private _getHostElement() {
+    return this.el.nativeElement;
   }
 
   private _findIndex(selectedIndex: number, index: string | number) {
@@ -214,7 +221,7 @@ export class LyTab implements OnInit, AfterViewInit {
     private tabsService: LyTabsClassesService,
     private tabs: LyTabs,
     public _renderer: Renderer2,
-    public _el: ElementRef,
+    public _el: ElementRef
   ) {
     this.classes = this.tabsService.classes;
   }
@@ -231,26 +238,37 @@ export class LyTab implements OnInit, AfterViewInit {
 @Directive({
   selector: 'ly-tab-label, [ly-tab-label]'
 })
-export class LyTabLabel implements OnInit {
-  @Input() native: boolean;
-
+export class LyTabLabel implements OnInit, OnDestroy {
+  private _rippleContainer: Ripple;
   constructor(
     private renderer: Renderer2,
-    private el: ElementRef,
-    private tabsService: LyTabsClassesService
+    private _el: ElementRef,
+    private tabsService: LyTabsClassesService,
+    private rippleService: LyRippleService,
+    private _ngZone: NgZone
   ) { }
 
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.tabsService.classes.tabLabel);
+    this.renderer.addClass(this._el.nativeElement, this.tabsService.classes.label);
+    if (Platform.isBrowser) {
+      this._rippleContainer = new Ripple(this._ngZone, this.rippleService.classes, this._el.nativeElement);
+    }
+  }
+
+  ngOnDestroy() {
+    if (Platform.isBrowser) {
+      this._rippleContainer.removeEvents();
+    }
   }
 }
+
 /**
  * demo basic
  * <ly-tabs withColor="accent">
  *   <ly-tab>
  *     <ly-tab-label>HOME<ly-tab-label>
  *     <button ly-tab-label>HOME<button>
- *     <button ly-tab-label native ly-button>HOME<button>
+ *     <button ly-tab-label-native ly-button>HOME<button>
  *     <a [routerLink]="['home']" ly-tab-label native ly-button>HOME<a>
  *     Content
  *   </ly-tab>

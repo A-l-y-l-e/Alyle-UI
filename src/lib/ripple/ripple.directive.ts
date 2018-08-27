@@ -5,11 +5,9 @@ import {
   NgZone,
   OnInit,
   OnDestroy,
-  Renderer2,
   OnChanges,
-  SimpleChanges
 } from '@angular/core';
-import { toBoolean, Platform } from '@alyle/ui';
+import { toBoolean, Platform, LyTheme2 } from '@alyle/ui';
 import { Ripple, RippleConfig } from './ripple';
 import { LyRippleService } from './ripple.service';
 
@@ -19,7 +17,6 @@ import { LyRippleService } from './ripple.service';
 })
 export class LyRipple implements OnInit, OnChanges, OnDestroy {
   rippleContainer: Ripple;
-  private _containerElement: HTMLElement | null;
   @Input() lyRippleCentered: boolean;
   @Input() lyRippleDisabled: boolean;
   @Input() lyRippleSensitive: boolean;
@@ -37,11 +34,10 @@ export class LyRipple implements OnInit, OnChanges, OnDestroy {
   constructor(
     private rippleService: LyRippleService,
     public _elementRef: ElementRef,
-    private _ngZone: NgZone,
-    private _renderer: Renderer2
+    private _ngZone: NgZone
   ) {
     if (Platform.isBrowser) {
-      this.rippleContainer = new Ripple(this._ngZone, this.rippleService.stylesData, this._elementRef.nativeElement);
+      this.rippleContainer = new Ripple(this._ngZone, this.rippleService.classes, this._elementRef.nativeElement);
     }
   }
 
@@ -49,7 +45,7 @@ export class LyRipple implements OnInit, OnChanges, OnDestroy {
     this._updateRipple();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this._updateRipple();
   }
 

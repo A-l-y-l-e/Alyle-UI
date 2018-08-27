@@ -16,14 +16,16 @@ const tabsStyles = {
     'flex-grow': 1,
     overflow: 'hidden'
   },
-  tabLabel: {
+  label: {
     'min-width': '72px',
     padding: '0 24px',
     cursor: 'pointer',
     height: '48px',
     display: 'inline-flex',
-    'justify-content': 'center',
-    'align-items': 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    overflow: 'hidden'
   },
   tabContents: {
     display: 'flex',

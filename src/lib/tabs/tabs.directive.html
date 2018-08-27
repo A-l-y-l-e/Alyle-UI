@@ -1,6 +1,6 @@
 <div [withClass]="classes.tabsLabels">
-  <span #tabsIndicator></span>
   <ng-content></ng-content>
+  <span #tabsIndicator></span>
 </div>
 <div [withClass]="classes.tabContents" #tabContents>
   <ng-template ngFor let-item [ngForOf]="tabsList" let-x="index">
