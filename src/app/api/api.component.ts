@@ -1,22 +1,27 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'aui-api',
   templateUrl: './api.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ApiComponent implements OnInit {
+export class ApiComponent implements OnInit, OnDestroy {
   pkgName: string;
   doc: Observable<Object>;
+  routeParamsSubscription = Subscription.EMPTY;
   constructor(
     private http: HttpClient,
-    private router: Router
+    public route: ActivatedRoute
+
   ) {
-    this.pkgName = this.router.url.split('/').reverse()[1];
-    this.doc = this.http.get(`api/@alyle/ui/${this.pkgName}/documentation.json`, {responseType: 'json'});
+    this.routeParamsSubscription = this.route.params.subscribe(params => {
+      this.pkgName = params.package;
+      this.doc = this.http
+      .get(`api/@alyle/ui/${this.pkgName}/documentation.json`, {responseType: 'json'});
+    });
   }
 
   ngOnInit() {
@@ -36,6 +41,10 @@ export class ApiComponent implements OnInit {
     type: string
   }) {
     return `${property.name}: ${property.type || 'any'}`;
+  }
+
+  ngOnDestroy() {
+    this.routeParamsSubscription.unsubscribe();
   }
 
 }

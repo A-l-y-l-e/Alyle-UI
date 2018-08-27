@@ -115,6 +115,7 @@ export class LyGridCol implements OnInit {
   private _col: string | number;
   private _colClass: string;
 
+  /** Defines the number of grids */
   @Input()
   get col(): string | number {
     return this._col;

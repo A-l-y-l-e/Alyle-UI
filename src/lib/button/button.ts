@@ -20,6 +20,12 @@ import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
 const DEFAULT_SIZE = 'medium';
 
+interface Size {
+  small: any;
+  medium: any;
+  large: any;
+}
+
 const Size = {
   small: theme => ({
     padding: '0 8px',
@@ -51,21 +57,17 @@ const Size = {
   encapsulation: ViewEncapsulation.None
 })
 export class LyButton implements OnInit, OnDestroy {
+  /**
+   * Style
+   * @ignore
+   */
   classes = this.theme.addStyleSheet(styles, 'lyButton');
-  public _disabled = false;
   private _rippleSensitive = false;
-  // private _outlinedClassName: string;
   private _rippleContainer: Ripple;
-  private _size: string;
+  private _size: Record<keyof Size, string>;
   private _sizeClass: string;
 
-  // @Input()
-  // set outlined(val: boolean) {
-  //   const classname = toBoolean(val) === true ? this.classes.outlined : '';
-  //   this.theme.updateClassName(this.elementRef.nativeElement, this.renderer, classname, this._outlinedClassName);
-  //   this._outlinedClassName = classname;
-  // }
-
+  /** @ignore */
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
@@ -75,74 +77,48 @@ export class LyButton implements OnInit, OnDestroy {
   }
 
   @Input()
-  set size(val: string) {
+  get size(): Record<keyof Size, string> {
+    return this._size;
+  }
+  set size(val: Record<keyof Size, string>) {
     if (val !== this.size) {
       this._size = val;
       this._sizeClass = this.theme.addStyle(
         `lyButton-size:${this.size}`,
-        Size[this.size],
+        Size[this.size as any],
         this.elementRef.nativeElement,
         this._sizeClass
       );
     }
-  }
-  get size() {
-    return this._size;
-  }
-
-  // @Input()
-  // set disabled(value: boolean) {
-  //   this._disabled = toBoolean(value);
-  //   if (this._disabled) {
-  //     const key = this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg) ? 'r' : 'f';
-  //     this._disabledClassName = this.theme.addStyle(`lyButton-disabled:${key}`, this.disableStyle.bind(this), this.elementRef.nativeElement, this._disabledClassName);
-  //   } else {
-  //     this.renderer.removeClass(this.elementRef.nativeElement, this._disabledClassName);
-  //   }
-  // }
-  get disabled() {
-    return this._disabled;
   }
 
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private theme: LyTheme2,
-    public rippleStyles: LyRippleService,
+    rippleService: LyRippleService,
     _ngZone: NgZone,
-    @Optional() private bgAndColor: LyCommon
+    @Optional() bgAndColor: LyCommon
   ) {
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
     if (Platform.isBrowser) {
       const el = elementRef.nativeElement;
-      this._rippleContainer = new Ripple(_ngZone, rippleStyles.stylesData, el);
+      this._rippleContainer = new Ripple(_ngZone, rippleService.classes, el);
     }
   }
 
   ngOnInit() {
     this.renderer.addClass(this.elementRef.nativeElement, this.classes.root);
     if (!this.size) {
-      this.size = DEFAULT_SIZE;
+      this.size = DEFAULT_SIZE as any;
     }
   }
 
   public focus() {
     this.elementRef.nativeElement.focus();
   }
-
-  // private disableStyle() {
-  //   let style =
-  //   `box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;` +
-  //   `cursor: default;` +
-  //   `color: ${this.theme.config.text.disabled} !important;` +
-  //   `pointer-events: none;`;
-  //   if (this.bgAndColor && (this.bgAndColor.raised || this.bgAndColor.bg)) {
-  //     style += `background-color: ${this.theme.config.button.disabled} !important;`;
-  //   }
-  //   return style;
-  // }
 
   ngOnDestroy() {
     if (Platform.isBrowser) {

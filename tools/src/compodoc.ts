@@ -34,6 +34,21 @@ for (const key in components) {
     }
     const docPathFile = join(docPathFolder, 'documentation.json');
     const fileObject = JSON.parse(readFileSync(docPathFile, 'utf8').toString());
+    const c_d = fileObject['c_d'] = [];
+    if ((fileObject.components as any[]).length) {
+      c_d.push({
+        title: 'components',
+        data: fileObject.components
+      });
+    }
+    if ((fileObject.directives as any[]).length) {
+      c_d.push({
+        title: 'directives',
+        data: fileObject.directives
+      });
+    }
+    delete fileObject.components;
+    delete fileObject.directives;
     removeKeys(fileObject, ['sourceCode']);
     removeKeys(fileObject, ['constructorObj']);
     writeFileSync(docPathFile, JSON.stringify(fileObject), 'utf8');

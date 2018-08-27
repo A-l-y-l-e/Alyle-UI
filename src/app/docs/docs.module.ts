@@ -11,6 +11,11 @@ import { TabsWithLazyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-lazy
 import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
 import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-basic.module';
 import { TabsWithAsynchronouslyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-asynchronously-loading/tabs-with-asynchronously-loading.module';
+import { GridDemoBasicModule } from '@docs/layout/grid-demo/grid-demo-basic/grid-demo-basic.module';
+import { GridDemoResponsiveModule } from '@docs/layout/grid-demo/grid-demo-responsive/grid-demo-responsive.module';
+import { GridDemoComponent } from '@docs/layout/grid-demo/grid-demo.component';
+import { ButtonDemoComponent } from '@docs/components/button-demo/button-demo.component';
+import { ButtonTypesDemoModule } from '@docs/components/button-demo/button-types-demo/button-types-demo.module';
 
 @NgModule({
   imports: [
@@ -19,19 +24,29 @@ import { TabsWithAsynchronouslyLoadingModule } from '@docs/layout/tabs-demo/tabs
     DemoViewModule,
     LyTypographyModule,
     DocsRoutingModule,
+    /** Layout */
+    /** Grid */
+    GridDemoBasicModule,
+    GridDemoResponsiveModule,
     /** Tabs demos */
     BasicTabsModule,
     TabsWithLazyLoadingModule,
     TabsWithAsynchronouslyLoadingModule,
-    /** Ds */
-    DsBasicModule
+    /** Dynamic style */
+    DsBasicModule,
+    /** Button */
+    ButtonTypesDemoModule
   ],
   declarations: [
     ThemingComponent,
+    /** Grid */
+    GridDemoComponent,
     /** Tabs */
     TabsDemoComponent,
     /** Ds */
-    DynamicStylesComponent
+    DynamicStylesComponent,
+    /** Button */
+    ButtonDemoComponent
   ]
 })
 export class DocsModule { }

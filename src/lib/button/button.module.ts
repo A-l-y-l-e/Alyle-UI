@@ -7,7 +7,7 @@ import { LyRippleModule } from '@alyle/ui/ripple';
 
 @NgModule({
   imports: [CommonModule, LyRippleModule, LyCommonModule],
-  exports: [LyButton],
+  exports: [LyButton, LyCommonModule],
   declarations: [LyButton]
 })
 export class LyButtonModule {}

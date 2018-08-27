@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeModule } from './home/home.module';
-import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
 import { CardDemoComponent } from '@docs/components/card-demo/card-demo.component';
 import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
 import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
@@ -19,21 +18,15 @@ const routes: Routes = [
     ]
   },
   {
-    path: ':id',
+    path: 'api',
     children: [
-      {
-        path: ':package',
-        children: [
-          { path: 'api', component: ApiComponent, pathMatch: 'full'}
-        ]
-      }
+      { path: ':package', component: ApiComponent, pathMatch: 'full' }
     ]
   },
   /** Components */
   {
     path: 'components',
     children: [
-      { path: 'button', loadChildren: './components/button-demo/button-demo.module#ButtonDemoModule' },
       { path: 'drawer', loadChildren: './components/drawer-demo/drawer-demo.module#DrawerDemoModule' },
       { path: 'input', loadChildren: './components/input-demo/input-demo.module#InputDemoModule' },
       { path: 'tabs', loadChildren: './components/tabs-demo/tabs-demo.module#TabsDemoModule' },
@@ -50,15 +43,7 @@ const routes: Routes = [
   },
   { path: 'component', redirectTo: 'components' },
   { path: 'get-started/install', redirectTo: 'getting-started/installation' },
-  { path: 'getting-started', redirectTo: 'getting-started/installation' },
-  {
-    path: 'getting-started',
-    children: [
-      {
-        path: 'installation', component: InstallationComponent
-      }
-    ]
-  }
+  { path: 'getting-started', redirectTo: 'getting-started/installation' }
 ];
 
 @NgModule({
