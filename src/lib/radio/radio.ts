@@ -38,6 +38,38 @@ export class UndefinedValue {
   constructor() { }
 }
 
+const styles = theme => ({
+  label: {
+    cursor: 'pointer',
+    whiteSpace: 'nowrap',
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  container: {
+    position: 'relative',
+    height: 'calc(1em * 3)',
+    width: '1.5em',
+    '&>div *': {
+      margin: 'auto',
+      borderRadius: '50%',
+      transition: 'transform cubic-bezier(.1, 1, 0.5, 1)',
+      transitionDuration: '250ms',
+      width: '1em',
+      height: '1em'
+    },
+    '& div>:nth-child(2)': {
+      background: 'currentColor',
+      transform: 'scale(0)'
+    },
+    '& div>:nth-child(1)': {
+      transform: 'scale(1)',
+      border: 'solid .08em currentColor',
+      color: theme.radio.radioOuterCircle
+    }
+  }
+});
+// console.log('module.id', module.id);
 @Component({
   selector: 'ly-radio-group',
   template: `<ng-content></ng-content>`,
@@ -50,53 +82,8 @@ export class LyRadioGroup implements ControlValueAccessor {
   _value = new UndefinedValue;
   name = `ly-radio-name-${idx++}`;
   _color = 'accent';
-  private _classes;
 
-  get classes() {
-    return {
-      label: this.theme.setUpStyle(
-        `k-radio-label`, {
-          '': () => (
-            `cursor: pointer;` +
-            `white-space: nowrap;` +
-            `position: relative;` +
-            `display: flex;` +
-            `align-items: center;`
-          )
-        }
-      ),
-      container: this.theme.setUpStyleSecondary(
-        `k-radio-container`, {
-          '': () => (
-            `position: relative;` +
-            `height: calc(1em * 3);` +
-            `width: 1.5em;`
-          ),
-          '>div': () => (
-            `box-sizing: border-box;`
-          ),
-          '>div *': () => (
-            `box-sizing: border-box;` +
-            `margin:auto;` +
-            `border-radius: 50%;` +
-            `transition: transform cubic-bezier(.1, 1, 0.5, 1);` +
-            `transition-duration: 250ms;` +
-            `width: 1em;` +
-            `height: 1em;`
-          ),
-          ' div>:nth-child(1)': () => (
-            `transform: scale(1);` +
-            `border: solid .08em currentColor;` +
-            `color:${this.theme.config.radio.radioOuterCircle}`
-          ),
-          ' div>:nth-child(2)': () => (
-            `background: currentColor;` +
-            `transform: scale(0);`
-          )
-        }
-      )
-    };
-  }
+  classes = this.theme.addStyleSheet(styles, 'lyRadio', -1);
 
   @Input()
   set value(val: any) {
@@ -224,7 +211,7 @@ export class LyRadioGroup implements ControlValueAccessor {
   template: `
   <label #_labelContainer [attr.for]="inputId" [className]="radioGroup.classes.label">
     <input
-      [className]="coreStyles.classes.VisuallyHidden"
+      [className]="coreStyles.classes.visuallyHidden"
       [id]="inputId"
       [checked]="checked"
       [name]="name"
@@ -234,8 +221,8 @@ export class LyRadioGroup implements ControlValueAccessor {
       >
     <div #_radioContainer>
       <div>
-      <div [className]="coreStyles.classes.Fill"></div>
-      <div [className]="coreStyles.classes.Fill"></div>
+      <div [className]="coreStyles.classes.fill"></div>
+      <div [className]="coreStyles.classes.fill"></div>
       </div>
     </div>
     <div
@@ -263,16 +250,14 @@ export class LyRadio implements OnInit, OnDestroy {
       this._withColor = val;
       if (this.checkedClass) {
         /** create new class if exist `this.checkedClass` */
-        const beforeClass = this.checkedClass;
         this.checkedClass = this._createStyleWithColor(val);
-        this.theme.updateClassName(this._radioContainer.nativeElement, this._renderer, this.checkedClass, beforeClass);
       }
     }
   }
   get withColor() {
     return this._withColor;
   }
-  @Output() onCheckedState = new EventEmitter<boolean>();
+  @Output() change = new EventEmitter<boolean>();
 
   @Input()
   set value(val) {
@@ -327,19 +312,19 @@ export class LyRadio implements OnInit, OnDestroy {
   }
 
   _createStyleWithColor(val: string) {
-    return this.theme.setUpStyle(
-      `k-radio-checked-${val}`, {
-        '': () => (
-          `color:${this.theme.colorOf(val)};`
-        ),
-        ' div>:nth-child(1)': () => (
-          `transform: scale(1.25);` +
-          `color:${this.theme.colorOf(val)};`
-        ),
-        ' div>:nth-child(2)': () => (
-          `transform: scale(0.7);`
-        ),
-      }
+    return this.theme.addStyle(
+      `lyRadio-checked:${val}`, theme => ({
+        color: theme.colorOf(val),
+        '& div>:nth-child(1)': {
+          transform: 'scale(1.25)',
+          color: theme.colorOf(val),
+        },
+        '& div>:nth-child(2)': {
+          transform: 'scale(0.7)'
+        },
+      }),
+      this._radioContainer.nativeElement,
+      this.checkedClass
     );
   }
 

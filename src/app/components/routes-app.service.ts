@@ -28,7 +28,6 @@ export class RoutesAppService {
         route: 'layout',
         routes: [
           { route: 'grid', name: 'Grid' },
-          { route: 'flex', name: 'Flex', status: 'alpha' },
           { route: 'responsive', name: 'Responsive' },
           { route: 'tabs', name: 'Tabs', status: 'alpha' }
         ]
