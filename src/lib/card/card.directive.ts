@@ -50,21 +50,6 @@ export class LyCard implements OnInit {
     //   this.elevation = DEFAULT_ELEVATION;
     // }
   }
-
-  // private _createElevationClass(val: string | number) {
-  //   this._elevation = defaultEntry(val, DEFAULT_ELEVATION);
-  //   console.log('ele', this.elevation);
-  //   return this.styler.setUpStyleSecondary<any>(
-  //     `k-card-e:${this.elevation}`,
-  //     theme => (
-  //       `background-color:${theme.background.primary};` +
-  //       `position:relative;` +
-  //       // `padding:24px;` + // remove this
-  //       `border-radius:2px;` +
-  //       `${shadowBuilderDeprecated(this.elevation)}`
-  //     )
-  //   );
-  // }
 }
 
 @Directive({
@@ -116,8 +101,7 @@ export class LyCardMedia implements OnInit {
   @Input()
   set bgImg(val: string) {
     if (val !== this.bgImg) {
-      const newClass = this._createBgImgClass(val);
-      this._bgImgClass = this.theme.updateClass(this.el.nativeElement, this.renderer, newClass, this._bgImgClass);
+      this._bgImgClass = this._createBgImgClass(val, this._bgImgClass);
     }
   }
   get bgImg() {
@@ -128,8 +112,7 @@ export class LyCardMedia implements OnInit {
   @Input()
   set ratio(val: string) {
     if (val !== this.ratio) {
-      const newClass = this._createAspectRatioClass(val);
-      this._ratioClass = this.theme.updateClass(this.el.nativeElement, this.renderer, newClass, this._ratioClass);
+      this._createAspectRatioClass(val);
     }
   }
   get ratio() {
@@ -148,36 +131,36 @@ export class LyCardMedia implements OnInit {
     }
   }
 
-  private _createBgImgClass(val: string) {
+  private _createBgImgClass(val: string, instance: string) {
     this._bgImg = val;
     this.renderer.setStyle(this.el.nativeElement, `background-image`, `url("${val}")`);
-    return this.theme.setUpStyle(
-      `k-card-media:${val}`,
-      () => (
+    return this.theme.addStyle(
+      `lyCard-media:${val}`,
+      (
         `display:block;` +
         `background-size: cover;` +
         `background-repeat: no-repeat;` +
         `background-position: center;`
-      )
+      ),
+      this.el.nativeElement,
+      instance
     );
   }
 
   private _createAspectRatioClass(val: string) {
     this._ratio = val;
-    return this.theme.setUpStyle(
-      `k-card-media-ar:${val}`, {
-        ':before': () => {
-          return (
-            val.split(':').reduce((valorAnterior, valorActual) => {
-              return (
-                `padding-top:${+valorActual / +valorAnterior * 100}%;` +
-                `content:'';` +
-                `display:block;`
-              );
-            })
-          );
-        }
-      }
+    this._ratioClass = this.theme.addStyle(
+      `lyCard-media-ar:${val}`, ({
+        '&:before': val.split(':').reduce((valorAnterior, valorActual) => {
+          return ({
+            paddingTop: `${+valorActual / +valorAnterior * 100}%`,
+            content: `\'\'`,
+            display: 'block'
+          }) as any;
+        })
+      }),
+      this.el.nativeElement,
+      this._ratioClass
     );
   }
 }
