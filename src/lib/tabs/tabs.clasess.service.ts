@@ -13,11 +13,11 @@ const tabsStyles = {
   tabsLabels: {
     display: 'flex',
     position: 'relative',
-    'flex-grow': 1,
+    flexGrow: 1,
     overflow: 'hidden'
   },
   label: {
-    'min-width': '72px',
+    minWidth: '72px',
     padding: '0 24px',
     cursor: 'pointer',
     height: '48px',
@@ -30,11 +30,11 @@ const tabsStyles = {
   tabContents: {
     display: 'flex',
     transition: '450ms cubic-bezier(.1, 1, 0.5, 1)',
-    'will-change': 'transform'
+    willChange: 'transform'
   },
   tabContent: {
     width: '100%',
-    'flex-shrink': 0,
+    flexShrink: 0,
     position: 'relative'
   },
   tabsIndicator: {
