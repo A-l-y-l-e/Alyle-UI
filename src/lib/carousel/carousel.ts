@@ -9,19 +9,13 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Optional,
   forwardRef,
-  OnChanges,
-  SimpleChanges,
-  Inject,
-  PLATFORM_ID,
   OnInit,
   Renderer2,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { CarouselService } from './carousel.service';
 import { Platform, LyTheme2, toBoolean } from '@alyle/ui';
 
 const styles = ({
@@ -201,7 +195,6 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private theme: LyTheme2,
     private renderer: Renderer2,
-    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.renderer.addClass(elementRef.nativeElement, this.classes.root);
   }
@@ -276,7 +269,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   // tslint:disable-next-line:directive-selector
   selector: 'ly-carousel-item'
 })
-export class LyCarouselItem implements OnInit, OnChanges {
+export class LyCarouselItem {
   className: string;
   @Input()
   set srcImg(value: string) {
@@ -290,24 +283,14 @@ export class LyCarouselItem implements OnInit, OnChanges {
     this.theme.updateClassName(this._nativeElement, this.renderer, newImgStyle, this.className);
     this.className = newImgStyle;
   }
-  private _carousel: LyCarousel;
   _nativeElement: HTMLElement;
 
   constructor(
-    @Optional() carousel: LyCarousel,
-    private carouselService: CarouselService,
-    private cd: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformId: Object,
     private theme: LyTheme2,
     private renderer: Renderer2,
     elementRef: ElementRef
   ) {
-    this._carousel = carousel;
     this._nativeElement = elementRef.nativeElement;
   }
-
-  ngOnChanges(changes: SimpleChanges) { }
-
-  ngOnInit() { }
 
 }
