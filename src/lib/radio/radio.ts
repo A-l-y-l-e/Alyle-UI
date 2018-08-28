@@ -349,7 +349,7 @@ export class LyRadio implements OnInit, OnDestroy {
       this.name = this.radioGroup.name;
       this._renderer.addClass(this._radioContainer.nativeElement, this.radioGroup.classes.container);
     }
-    this._rippleContainer = new Ripple(this.ngZone, this._rippleService.stylesData, this._radioContainer.nativeElement, this._elementRef.nativeElement);
+    this._rippleContainer = new Ripple(this.ngZone, this._rippleService.classes, this._radioContainer.nativeElement, this._elementRef.nativeElement);
     this._rippleContainer.setConfig({
       centered: true,
       radius: 'containerSize'
