@@ -23,6 +23,109 @@ import {
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CarouselService } from './carousel.service';
 import { Platform, LyTheme2, toBoolean } from '@alyle/ui';
+
+const styles = ({
+  root: {
+    display: 'block',
+    '-webkit-user-select': 'none',
+    '-moz-user-select': 'none',
+    '-ms-user-select': 'none',
+    position: 'relative',
+    '& .ly-carousel-actions': {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      margin: 'auto .25em',
+      height: '1em',
+      width: '1em',
+      fontSize: '36px',
+      cursor: 'pointer',
+      color: '#fff',
+      background: 'rgba(0, 0, 0, 0.11)',
+      willChange: 'transform'
+    },
+    '& .ly-carousel-actions.right': {
+      right: 0,
+      '-webkit-transform': 'rotate(180deg)',
+      transform: 'rotate(180deg)'
+    },
+    '& svg': {
+      display: 'block',
+      fill: 'currentColor'
+    }
+  },
+  slideContainer: {
+    overflow: 'hidden',
+    display: 'block',
+    width: '100%',
+    height: '100%',
+    position: 'relative'
+  },
+  slide: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    willChange: 'transform',
+    '& > ly-carousel-item': {
+      width: '100%',
+      flexShrink: 0,
+      overflow: 'auto',
+      position: 'relative',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
+    },
+    '& > ly-carousel-item > [lyCarouselImg]': {
+      width: '100%'
+    }
+  },
+  slideContent: {
+    display: 'flex'
+  },
+  slideAnim: {
+    '& > div': {
+      transition: 'transform 750ms cubic-bezier(.1, 1, 0.5, 1)'
+  }
+  },
+  slideNoEvent: {
+    '&>div': {
+      touchAction: 'initial !important'
+    }
+  },
+  carouselIndicators: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    margin: 0,
+    boxSizing: 'border-box',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '48px',
+    '&>div': {
+      display: 'inline-block',
+      borderRadius: '50%',
+      cursor: 'pointer',
+      position: 'relative',
+      padding: '.5em',
+      outline: 'none'
+    },
+    '&>div > span': {
+      transition: '300ms cubic-bezier(0.65, 0.05, 0.36, 1)',
+      width: '1em',
+      height: '1em',
+      transform: 'scale(.5)',
+      borderRadius: '50%',
+      willChange: 'transform',
+      display: 'block'
+    },
+    '&>div>span.active': {
+      transform: 'scale(1)'
+    }
+  }
+});
+
 export enum CarouselMode {
   /** full */
   default,
@@ -47,131 +150,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   _positionLeft: string | number;
   @Input() selectedIndex = 0;
   selectedElement: HTMLElement;
-  classes = {
-    root: this.theme.core.setUpStyle(
-      'carousel', {
-        '': () => (
-          `display: block;` +
-          `-webkit-user-select: none;` +
-          `-moz-user-select: none;` +
-          `-ms-user-select: none;` +
-          `position: relative;`
-        ),
-        ' .ly-carousel-actions': () => (
-          `position: absolute;` +
-          `top: 0;` +
-          `bottom: 0;` +
-          `margin:auto .25em;` +
-          `height:1em;` +
-          `width:1em;` +
-          `font-size:36px;` +
-          `cursor:pointer;` +
-          `color: #fff;` +
-          `background: rgba(0, 0, 0, 0.11);` +
-          `will-change: transform;`
-        ),
-        ' .ly-carousel-actions.right': () => (
-          `right: 0;` +
-          `-webkit-transform: rotate(180deg);` +
-          `transform: rotate(180deg);`
-        ),
-        ' svg': () => (
-          `display:block;` +
-          `fill:currentColor;`
-        )
-      }
-    ),
-    slideContainer: this.theme.core.setUpStyle(
-      'k-carousel-slide', {
-        '': () => (
-          `overflow: hidden;` +
-          `display: block;` +
-          `width: 100%;` +
-          `height: 100%;` +
-          `position: relative;`
-        )
-      }
-    ),
-    slide: this.theme.core.setUpStyleSecondary(
-      'carousel-slide', {
-        '': () => (
-          `display: flex;` +
-          `width: 100%;` +
-          `height: 100%;` +
-          `will-change: transform`
-        ),
-        ' > ly-carousel-item': () => (
-          `width: 100%;` +
-          `flex-shrink: 0;` +
-          `overflow: auto;` +
-          `position: relative;` +
-          `background-size: cover;` +
-          `background-position: center;` +
-          `background-repeat: no-repeat;`
-        ),
-        ' > ly-carousel-item > [lyCarouselImg]': () => (
-          `width: 100%;`
-        )
-      }
-    ),
-    slideContent: this.theme.core.setUpStyleSecondary(
-      'carousel-slide-content', {
-        '': () => (
-          `display: flex;`
-        )
-      }
-    ),
-    slideAnim: this.theme.core.setUpStyleSecondary(
-      'slide-anim', {
-        ' > div': () => (
-          `transition: transform 750ms cubic-bezier(.1, 1, 0.5, 1);`
-        )
-      }
-    ),
-    slideNoEvent: this.theme.core.setUpStyleSecondary(
-      'k-slide-no-event', {
-        '>div': () => (
-          `touch-action: initial !important;`
-        )
-      }
-    ),
-    carouselIndicators: this.theme.core.setUpStyleSecondary(
-      'k-carousel-indicators', {
-        '': () => (
-          `position: absolute;` +
-          `bottom: 0;` +
-          `left: 0;` +
-          `right: 0;` +
-          `margin: 0;` +
-          `box-sizing: border-box;` +
-          `display: flex;` +
-          `align-items: center;` +
-          `justify-content: center;` +
-          `height: 48px;`
-        ),
-        '>div': () => (
-          `display: inline-block;` +
-          `border-radius: 50%;` +
-          `cursor: pointer;` +
-          `position: relative;` +
-          `padding: .5em;` +
-          `outline: none`
-        ),
-        '>div > span': () => (
-          `transition: 300ms cubic-bezier(0.65, 0.05, 0.36, 1);` +
-          `width: 1em;` +
-          `height: 1em;` +
-          `transform: scale(.5);` +
-          `border-radius: 50%;` +
-          `will-change: transform;` +
-          `display: block;`
-        ),
-        '>div>span.active': () => (
-          `transform: scale(1);`
-        )
-      }
-    ),
-  };
+  classes = this.theme.addStyleSheet(styles, 'lyCarousel');
   private _slideEvent: boolean;
   @Input()
   set slideEvent(val: boolean) {
