@@ -1,28 +1,22 @@
 import { Injectable } from '@angular/core';
-import { CoreTheme } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
+
+const styles = ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  labelContent: {
+    padding: '0 0.5em'
+  }
+});
 
 @Injectable({
   providedIn: 'root'
 })
 export class LyRadioService {
-  classes = {
-    root: this.coreTheme.setUpStyle(
-      'k-radio-group', {
-        '': () => (
-          `display: flex;` +
-          `flex-wrap: wrap;`
-        )
-      }
-    ),
-    labelContent: this.coreTheme.setUpStyle(
-      'k-radio-label-content', {
-        '': () => (
-          `padding: 0 0.5em;`
-        )
-      }
-    )
-  };
+  classes = this.theme.addStyleSheet(styles, 'lyRadioStatic');
   constructor(
-    private coreTheme: CoreTheme
+    private theme: LyTheme2
   ) { }
 }
