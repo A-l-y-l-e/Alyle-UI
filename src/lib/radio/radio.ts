@@ -100,8 +100,6 @@ export class LyRadioGroup implements ControlValueAccessor {
 
   @Output() readonly change: EventEmitter<void> = new EventEmitter<void>();
 
-  /** @deprecated use withColor */
-  @Input() radioColor = 'accent';
   @Input() withColor = 'accent';
   @ContentChildren(forwardRef(() => LyRadio)) _radios: QueryList<LyRadio>;
 
@@ -320,7 +318,7 @@ export class LyRadio implements OnInit, OnDestroy {
           color: theme.colorOf(val),
         },
         '& div>:nth-child(2)': {
-          transform: 'scale(0.7)'
+          transform: 'scale(0.8)'
         },
       }),
       this._radioContainer.nativeElement,

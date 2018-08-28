@@ -299,8 +299,6 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
 })
 export class LyCarouselItem implements OnInit, OnChanges {
   className: string;
-  /** @deprecated use srcImg */
-  @Input() src: string;
   @Input()
   set srcImg(value: string) {
     const newImgStyle = this.theme.setUpStyleSecondary(
