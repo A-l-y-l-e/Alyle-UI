@@ -29,7 +29,6 @@ const routes: Routes = [
     children: [
       { path: 'drawer', loadChildren: './components/drawer-demo/drawer-demo.module#DrawerDemoModule' },
       { path: 'input', loadChildren: './components/input-demo/input-demo.module#InputDemoModule' },
-      { path: 'tabs', loadChildren: './components/tabs-demo/tabs-demo.module#TabsDemoModule' },
       { path: 'radio', loadChildren: './components/radio-demo/radio-demo.module#RadioDemoModule' },
       { path: 'menu', loadChildren: './components/menu-demo/menu-demo.module#MenuDemoModule' },
       { path: 'resizing-cropping-images', loadChildren: './components/resizing-cropping-images-demo/resizing-cropping-images-demo.module#ResizingCroppingImagesDemoModule' },
