@@ -27,7 +27,6 @@ export class CoreTheme {
     if (!themeConfig) {
       throw new Error('LY_THEME_CONFIG undefined');
     }
-    this.firstElement = _document.body.firstChild;
     this.renderer = this.rendererFactory.createRenderer(null, {
       id: 'ly',
       encapsulation: ViewEncapsulation.None,
@@ -43,6 +42,7 @@ export class CoreTheme {
         }
       }
     }
+    this.firstElement = _document.body.firstChild;
     // this.mediaStyleContainer = this.renderer.createElement('ly-media-style-container');
     // this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
     // this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
