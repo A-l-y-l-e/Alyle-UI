@@ -12,6 +12,13 @@ import { LyRipple } from '@alyle/ui/ripple';
 import { LyCommon, LyTheme2 } from '@alyle/ui';
 import { LyIconButtonService } from './icon-button.service';
 
+const styles = theme => ({
+  size: {
+    width: theme.iconButton.size,
+    height: theme.iconButton.size
+  }
+});
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'button[ly-icon-button], a[ly-icon-button], span[ly-icon-button]',
@@ -28,22 +35,12 @@ import { LyIconButtonService } from './icon-button.service';
   exportAs: 'lyIconButton'
 })
 export class LyIconButton implements OnInit {
-  private _iconStyle: {[key: string]: string | number};
   @ViewChild(LyRipple) ripple: LyRipple;
-  get classes() {
-    return {
-      config: this.theme.setUpStyle('iconButtonConfig', {
-        '': () => (
-          `width:${this.theme.config.iconButton.size};` +
-          `height:${this.theme.config.iconButton.size};`
-        )
-      })
-    };
-  }
+  classes = this.theme.addStyleSheet(styles, 'lyIconButton');
   constructor(
     public elementRef: ElementRef,
     private renderer: Renderer2,
-    @Optional() private bgAndColor: LyCommon,
+    @Optional() bgAndColor: LyCommon,
     public iconButtonService: LyIconButtonService,
     private theme: LyTheme2
   ) {
@@ -53,8 +50,8 @@ export class LyIconButton implements OnInit {
   }
 
   ngOnInit() {
-    this.renderer.addClass(this.elementRef.nativeElement, this.iconButtonService.classes.host);
-    this.renderer.addClass(this.elementRef.nativeElement, this.classes.config);
+    this.renderer.addClass(this.elementRef.nativeElement, this.iconButtonService.classes.root);
+    this.renderer.addClass(this.elementRef.nativeElement, this.classes.size);
   }
 }
 
