@@ -9,7 +9,6 @@
     "customization/bg-color",
     "customization/dynamic-styles",
     "layout/grid",
-    "layout/flex",
     "layout/responsive",
     "layout/tabs",
     "components/button",
