@@ -11,7 +11,7 @@ export class CarouselExample01Component implements OnInit {
   items: any[] = [
     {
       title: 'Mountains',
-      img: 'assets/img/Mountains-Blue.jpg?k=2'
+      img: 'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2FMountains-Blue.jpg?alt=media&token=d04f0279-79c6-4752-8b5a-cccd73720243'
     },
     {
       title: 'Four Lakes, Queshuachaca',
@@ -20,7 +20,7 @@ export class CarouselExample01Component implements OnInit {
     },
     {
       title: 'Flowers',
-      img: 'assets/img/prv4.jpg?k=2'
+      img: 'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Fprv4.jpg?alt=media&token=b89d963c-18f0-4911-a643-fce82dc64b99'
     }
   ];
 
