@@ -2,56 +2,75 @@ import {
   Directive,
   Input,
   OnInit,
+  OnChanges,
   Inject,
   Renderer2,
   ElementRef
 } from '@angular/core';
 
-import { CoreTheme } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
 import { LY_MEDIA_QUERIES } from '../tokens';
+
+const MEDIA_PRIORITY = 999;
+
+const styles = {
+  hide: {
+    display: 'none'
+  }
+};
 
 @Directive({
   selector: '[lyShow], [lyHide]'
 })
-export class MediaDirective implements OnInit {
+export class MediaDirective implements OnInit, OnChanges {
   private _show: string;
   private _showClass: string;
   private _hide: string;
   private _hideClass: string;
-  classes = {
-    hide: this.coreTheme.setUpStyle('k-media-hide', 'display:none;', 'all')
-  };
 
+  /**
+   * Styles
+   * @ignore
+   */
+  classes = this.theme.addStyleSheet(styles, 'lyMedia');
+
+  /**
+   * Shows the item when the value is resolved as true
+   */
   @Input()
-  set lyShow(val: string) {
-    this._show = val;
-    const newClass = this.coreTheme.setUpStyle(`k-media-show-${val}`,
-    (
-      `display: block;`
-    )
-    ,
-    `${this.mediaQueries[val] || val}`// , InvertMediaQuery.Yes
-    );
-    this.coreTheme.updateClassName(this._elementRef.nativeElement, this._renderer, newClass, this._showClass);
-    this._showClass = newClass;
-  }
-
   get lyShow(): string {
     return this._show;
   }
+  set lyShow(val: string) {
+    this._show = val;
+    this._showClass = this.theme.addStyle(`lyMedia-show:${val}`,
+    {
+      [`@media ${this.mediaQueries[val] || val}`]: {
+        display: `block`
+      }
+    },
+    this._elementRef.nativeElement,
+    this._showClass,
+    MEDIA_PRIORITY
+    );
+  }
 
+  /**
+   * Hides the item when the value is resolved as true
+   */
   @Input()
   set lyHide(val: string) {
     this._hide = val;
-    const newClass = this.coreTheme.setUpStyle(`k-media-hide-${val}`,
-    (
-      `display: none !important;`
-    )
-    ,
-    `${this.mediaQueries[val] || val}`
+    this._hideClass = this.theme.addStyle(`lyMedia-hide:${val}`,
+    {
+      [`@media ${this.mediaQueries[val] || val}`]: {
+        display: 'none'
+      }
+    },
+    this._elementRef.nativeElement,
+    this._hideClass,
+    MEDIA_PRIORITY
     );
-    this.coreTheme.updateClassName(this._elementRef.nativeElement, this._renderer, newClass, this._hideClass);
-    this._hideClass = newClass;
   }
 
   get lyHide(): string {
@@ -61,13 +80,19 @@ export class MediaDirective implements OnInit {
   constructor(
     private _renderer: Renderer2,
     private _elementRef: ElementRef,
-    private coreTheme: CoreTheme,
+    private theme: LyTheme2,
     @Inject(LY_MEDIA_QUERIES) private mediaQueries: any, // { [key: string]: string; }
   ) { }
 
   ngOnInit() {
     if (!this.lyHide) {
       this._renderer.addClass(this._elementRef.nativeElement, this.classes.hide);
+    }
+  }
+
+  ngOnChanges() {
+    if (this.lyHide && this.lyShow) {
+      throw new Error(`use only \`lyHide\` or \`lyShow\` per element`);
     }
   }
 
