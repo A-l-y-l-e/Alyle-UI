@@ -1,3 +1,13 @@
+<a name="1.7.0-beta.5hkh9"></a>
+# [1.7.0-beta.5hkh9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5hie9...1.7.0-beta.5hkh9) (2018-08-29)
+
+
+### Bug Fixes
+
+* **icon:** fix icon default class ([2ec8488](https://github.com/A-l-y-l-e/Alyle-UI/commit/2ec8488))
+
+
+
 <a name="1.7.0-beta.5hie9"></a>
 # [1.7.0-beta.5hie9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5gg5p...1.7.0-beta.5hie9) (2018-08-29)
 
