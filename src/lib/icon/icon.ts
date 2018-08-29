@@ -6,7 +6,7 @@ import { Platform, LyTheme2 } from '@alyle/ui';
 @Directive({
   selector: 'ly-icon'
 })
-export class Icon implements OnChanges, OnInit {
+export class Icon implements OnInit {
   private _defaultClass = 'material-icons';
   private _src: string;
   private _icon: string;
@@ -77,16 +77,13 @@ export class Icon implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    this._updateClass();
     this.theme.addStyle('lyIconRoot', theme => (
       `font-size:${theme.icon.fontSize};` +
       `width:1em;` +
       `height:1em;` +
       `display:inline-flex;`
     ), this.elementRef.nativeElement);
-  }
-
-  ngOnChanges() {
-    this._updateClass();
   }
 
   /**

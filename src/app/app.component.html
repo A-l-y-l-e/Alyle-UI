@@ -1,7 +1,7 @@
 <div>
   <ly-toolbar [withClass]="classes.header" bg="primary" elevation="3">
-    <button ly-icon-button (click)="nav.toggle()" class="material-icons">
-      menu
+    <button ly-icon-button (click)="nav.toggle()">
+      <ly-icon>menu</ly-icon>
     </button>
     <ly-toolbar-item class="logo">
       <button ly-button color="primary:contrast" sensitive [routerLink]="['./']">
