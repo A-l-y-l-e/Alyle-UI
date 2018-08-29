@@ -147,21 +147,14 @@ export class LyInput implements OnInit, AfterContentInit, OnChanges, OnDestroy {
   ) { }
 
   private updateColor(val: string) {
-    const inputColor = () => this.theme.colorOf(val);
-    this._classes.caretColor = this.theme.setUpStyle(
-      `input:caret${val}`, {
-        '': () => (
-          `caret-color:${inputColor()}`
-        )
-      }
+    this._classes.caretColor = this.theme.addStyle(
+      `input:caret${val}`, theme => `caret-color:${theme.colorOf(val)}`
     );
-    this._classes.withColor = this.theme.setUpStyle(
-      `input:${val}`, {
-        '': () => (
-          `color:${inputColor()};` +
-          `background-color:${this.theme.config.input.underline};`
-        )
-      }
+    this._classes.withColor = this.theme.addStyle(
+      `input:${val}`, theme => (
+        `color:${theme.colorOf(val)};` +
+        `background-color:${theme.input.underline};`
+      )
     );
   }
 
