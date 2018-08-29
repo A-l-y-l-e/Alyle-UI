@@ -1,3 +1,67 @@
+<a name="1.7.0-beta.5gch8"></a>
+# [1.7.0-beta.5gch8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.54p91...1.7.0-beta.5gch8) (2018-08-29)
+
+
+### Bug Fixes
+
+* **card:** update styles ([55bc854](https://github.com/A-l-y-l-e/Alyle-UI/commit/55bc854))
+* **carousel:** remove unused variables ([c2b7495](https://github.com/A-l-y-l-e/Alyle-UI/commit/c2b7495))
+* **carousel:** update styles ([ad6bc02](https://github.com/A-l-y-l-e/Alyle-UI/commit/ad6bc02))
+* **carousel:** update styles ([0602a02](https://github.com/A-l-y-l-e/Alyle-UI/commit/0602a02))
+* **core:** fix ssr ([20394eb](https://github.com/A-l-y-l-e/Alyle-UI/commit/20394eb))
+* **core:** remove unused style container ([5c193f3](https://github.com/A-l-y-l-e/Alyle-UI/commit/5c193f3))
+* **core:** update styles ([10f19a7](https://github.com/A-l-y-l-e/Alyle-UI/commit/10f19a7))
+* **grid:** move grid `@alyle/ui/layout` to `@alyle/ui/grid` ([3797aa0](https://github.com/A-l-y-l-e/Alyle-UI/commit/3797aa0))
+* remove unused files ([1506267](https://github.com/A-l-y-l-e/Alyle-UI/commit/1506267))
+* **icon:** update styles ([5ec2ef1](https://github.com/A-l-y-l-e/Alyle-UI/commit/5ec2ef1))
+* **icon-button:** update styles ([a338cea](https://github.com/A-l-y-l-e/Alyle-UI/commit/a338cea))
+* **input:** update styles ([1714ff1](https://github.com/A-l-y-l-e/Alyle-UI/commit/1714ff1))
+* **radio:** remove unused variables ([6339fbf](https://github.com/A-l-y-l-e/Alyle-UI/commit/6339fbf))
+* **radio:** update styles ([4fb7e22](https://github.com/A-l-y-l-e/Alyle-UI/commit/4fb7e22))
+
+
+### Features
+
+* **responsive:** update styles ([783f3b7](https://github.com/A-l-y-l-e/Alyle-UI/commit/783f3b7))
+* **tabs:** add ripple for tabs ([94378f9](https://github.com/A-l-y-l-e/Alyle-UI/commit/94378f9))
+
+
+### BREAKING CHANGES
+
+* **grid:** new grid ultra responsive `@alyle/ui/grid`
+
+With `@alyle/ui/layout`
+
+`@alyle/ui/layout` deprecated
+
+before:
+```html
+<grid [gutter]="16">
+  <grid [col]="'6 12@XSmall'">
+    <p>col=6</p>
+  </grid>
+  <grid [col]="'6 12@XSmall'">
+    <p>col=6</p>
+  </grid>
+</grid>
+```
+
+Import `@alyle/ui/grid`
+
+after:
+```html
+<ly-grid container [spacing]="16 8@XSmall">
+  <ly-grid item [col]="'6 12@XSmall'">
+    <p>col=12</p>
+  </ly-grid>
+  <ly-grid item [col]="'6 12@XSmall'">
+    <p>col=12</p>
+  </ly-grid>
+</ly-grid>
+```
+
+
+
 <a name="1.7.0-beta.54p91"></a>
 # [1.7.0-beta.54p91](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.50yre...1.7.0-beta.54p91) (2018-08-22)
 
