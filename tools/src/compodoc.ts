@@ -10,7 +10,7 @@ for (const key in components) {
   if (components.hasOwnProperty(key)) {
     const pathFolder = components[key];
     console.log(key);
-    const docPathFolder = join('src/api', key);
+    const docPathFolder = join('docs', key);
     const ls = spawnSync(
       'yarn',
       [

@@ -2,6 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { AUI_VERSION } from '@alyle/ui';
+
+const host = `https://raw.githubusercontent.com/A-l-y-l-e/alyle-ui-api/${AUI_VERSION}`;
 
 @Component({
   selector: 'aui-api',
@@ -15,12 +18,11 @@ export class ApiComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     public route: ActivatedRoute
-
   ) {
     this.routeParamsSubscription = this.route.params.subscribe(params => {
       this.pkgName = params.package;
       this.doc = this.http
-      .get(`api/@alyle/ui/${this.pkgName}/documentation.json`, {responseType: 'json'});
+      .get(`${host}/${this.pkgName}/documentation.json`, {responseType: 'json'});
     });
   }
 
