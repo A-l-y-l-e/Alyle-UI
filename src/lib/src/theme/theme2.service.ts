@@ -229,6 +229,16 @@ export class LyTheme2 {
       } else {
         this.core.renderer.appendChild(this._createStyleContainer(priority), el);
       }
+    } else {
+      /**
+       * for ssr
+       * append child style if not exist in dom
+       */
+      if (!Platform.isBrowser && !this.elements[id]) {
+        const _css = styleMap.css[themeName] || styleMap.css;
+        const element = this.elements[id] = this._createElementStyle(_css);
+        this.core.renderer.appendChild(this._createStyleContainer(priority), element);
+      }
     }
 
     const classes = typeof CLASSES_MAP[id] === 'string'
