@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import { LyTheme2 } from '../theme/theme2.service';
 
 const styles = {
+  '@global': {
+    '*, *:after, *:before': {
+      '-webkit-box-sizing': 'border-box',
+      '-moz-box-sizing': 'border-box',
+      'box-sizing': 'border-box'
+    }
+  },
   fill: {
     position: 'absolute',
     top: 0,

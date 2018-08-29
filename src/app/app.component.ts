@@ -14,7 +14,8 @@ const styles = theme => {
     body: {
       backgroundColor: theme.background.default,
       color: theme.text.default,
-      fontFamily: theme.typography.fontFamily
+      fontFamily: theme.typography.fontFamily,
+      margin: 0
     },
     header: {
       position: 'fixed',

@@ -146,9 +146,6 @@ export class CoreTheme {
 
   private setCoreStyle() {
     const classname = this.setUpStyle('rootbody', {
-      '': () => (
-        `margin:0;`
-      ),
       ', *, *:after, *:before': () => (
         `-webkit-box-sizing: border-box;` +
         `-moz-box-sizing: border-box;` +
