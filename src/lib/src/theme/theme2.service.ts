@@ -149,9 +149,6 @@ export class LyTheme2 {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
     this.config = this.core.get(nam);
-    this._styleMap.forEach((dataStyle) => {
-      dataStyle.styleElement.innerText = this.core._createStyleContent(this.config, dataStyle.style, dataStyle.id);
-    });
 
     const currentStyles = this.elements;
     for (const key in currentStyles) {
