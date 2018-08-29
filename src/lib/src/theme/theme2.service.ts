@@ -6,6 +6,16 @@ import { InvertMediaQuery } from '../media/invert-media-query';
 import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 
+const defaultStyles = {
+  '@global': {
+    '*, *:after, *:before': {
+      '-webkit-box-sizing': 'border-box',
+      '-moz-box-sizing': 'border-box',
+      'box-sizing': 'border-box'
+    }
+  }
+};
+
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
 enum TypeStyle {
@@ -83,6 +93,7 @@ export class LyTheme2 {
       if (!this.initialTheme) {
         this.initialTheme = this.config.name;
       }
+      this._addDefaultStyles();
     }
   }
   setUpStyle<T>(
@@ -161,6 +172,9 @@ export class LyTheme2 {
   private addCss(id: string, css: ((t) => string) | string, priority: number, media?: string): string {
     const newId = `~>${id}`;
     return this._createStyleContent2(css as any, newId, priority, TypeStyle.OnlyOne, false, media) as string;
+  }
+  private _addDefaultStyles() {
+    this.addStyleSheet(defaultStyles, 'ly--defaultStyles');
   }
 
   /**

@@ -1,4 +1,4 @@
-import { Directive, Input, OnChanges, ElementRef } from '@angular/core';
+import { Directive, Input, OnChanges, ElementRef, Inject } from '@angular/core';
 import { LyTheme2 } from './theme2.service';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
@@ -44,7 +44,7 @@ export class LyCommon implements OnChanges {
   constructor(
     private theme: LyTheme2,
     private elementRef: ElementRef
-  ) {}
+  ) { }
 
   public setAutoContrast() {
     this._autoContrast = true;

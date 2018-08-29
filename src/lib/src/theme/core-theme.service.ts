@@ -22,7 +22,7 @@ export class CoreTheme {
   constructor(
     @Optional() @Inject(LY_THEME_CONFIG) themeConfig: LyThemeConfig,
     private rendererFactory: RendererFactory2,
-    @Inject(DOCUMENT) private _document: any,
+    @Inject(DOCUMENT) _document: any,
   ) {
     if (!themeConfig) {
       throw new Error('LY_THEME_CONFIG undefined');
@@ -43,23 +43,12 @@ export class CoreTheme {
         }
       }
     }
-    // if (Platform.isBrowser) {
-    //   const mediaStyleContainer = _document.body.querySelector('ly-media-style-container');
-    //   const primaryStyleContainer = _document.body.querySelector('ly-primary-style-container');
-    //   const secondaryStyleContainer = _document.body.querySelector('ly-secondary-style-container');
-    //   if (primaryStyleContainer) {
-    //     (_document.body as HTMLBodyElement).removeChild(mediaStyleContainer);
-    //     (_document.body as HTMLBodyElement).removeChild(primaryStyleContainer);
-    //     (_document.body as HTMLBodyElement).removeChild(secondaryStyleContainer);
-    //   }
-    // }
-    this.mediaStyleContainer = this.renderer.createElement('ly-media-style-container');
-    this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
-    this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
-    this.renderer.insertBefore(_document.body, this.mediaStyleContainer, _document.body.firstChild);
-    this.renderer.insertBefore(_document.body, this.primaryStyleContainer, this.mediaStyleContainer);
-    this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
-    this.setCoreStyle();
+    // this.mediaStyleContainer = this.renderer.createElement('ly-media-style-container');
+    // this.primaryStyleContainer = this.renderer.createElement('ly-primary-style-container');
+    // this.secondaryStyleContainer = this.renderer.createElement('ly-secondary-style-container');
+    // this.renderer.insertBefore(_document.body, this.mediaStyleContainer, _document.body.firstChild);
+    // this.renderer.insertBefore(_document.body, this.primaryStyleContainer, this.mediaStyleContainer);
+    // this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
     if (themeConfig) {
       themeConfig.themes.forEach(item => {
         this.add(new item);
@@ -142,17 +131,6 @@ export class CoreTheme {
       }
     }
     return toMedia(content, media);
-  }
-
-  private setCoreStyle() {
-    const classname = this.setUpStyle('rootbody', {
-      ', *, *:after, *:before': () => (
-        `-webkit-box-sizing: border-box;` +
-        `-moz-box-sizing: border-box;` +
-        `box-sizing: border-box;`
-      )
-    });
-    this.renderer.addClass(this._document.body, classname);
   }
 
   updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
