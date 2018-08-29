@@ -270,18 +270,16 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   selector: 'ly-carousel-item'
 })
 export class LyCarouselItem {
-  className: string;
+  private _className: string;
   @Input()
   set srcImg(value: string) {
-    const newImgStyle = this.theme.setUpStyleSecondary(
-      `ly-carousel-img-${value}`, {
-        '': () => (
-          `background-image: url('${value}');`
-        )
-      }
+    this._className = this.theme.addStyle(
+      `ly-carousel-img:${value}`, (
+        `background-image: url('${value}')`
+      ),
+      this._nativeElement,
+      this._className
     );
-    this.theme.updateClassName(this._nativeElement, this.renderer, newImgStyle, this.className);
-    this.className = newImgStyle;
   }
   _nativeElement: HTMLElement;
 
