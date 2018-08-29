@@ -1,3 +1,13 @@
+<a name="1.7.0-beta.5hie9"></a>
+# [1.7.0-beta.5hie9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5gg5p...1.7.0-beta.5hie9) (2018-08-29)
+
+
+### Bug Fixes
+
+* **core:** fix styles in ssr ([b9b6fde](https://github.com/A-l-y-l-e/Alyle-UI/commit/b9b6fde))
+
+
+
 <a name="1.7.0-beta.5gg5p"></a>
 # [1.7.0-beta.5gg5p](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5gch8...1.7.0-beta.5gg5p) (2018-08-29)
 
