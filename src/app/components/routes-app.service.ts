@@ -41,12 +41,12 @@ export class RoutesAppService {
           { route: 'carousel', name: 'Carousel' },
           { route: 'drawer', name: 'Drawer' },
           { route: 'icon-button', name: 'Icon button' },
-          { route: 'input', name: 'Input' },
+          { route: 'input', name: 'Input', status: 'alpha' },
           { route: 'menu', name: 'Menu', status: 'alpha' },
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
           { route: 'ripple', name: 'Ripple' },
-          { route: 'shadow', name: 'Shadow', status: 'alpha' },
+          { route: 'shadow', name: 'Shadow' },
           { route: 'typography', name: 'Typography' },
         ]
       }
