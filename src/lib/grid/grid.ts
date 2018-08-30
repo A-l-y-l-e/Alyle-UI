@@ -207,6 +207,7 @@ export class LyGridCol implements OnInit {
   }
   set col(val: string | number) {
     if (val !== this.col) {
+      this._col = val;
       this._colClass = this.theme.addStyle(`lyGrid-col:${val}`, () => {
         if (typeof val === 'number') {
           return getColStyle(val);

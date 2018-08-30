@@ -9,8 +9,10 @@ import { PrismModule } from '../core/prism/prism.module';
 import { ThemingComponent } from '@docs/customization/theming/theming.component';
 
 /** Layout */
+/** Grid */
 import { GridDemoComponent } from '@docs/layout/grid-demo/grid-demo.component';
 import { GridDemoBasicModule } from '@docs/layout/grid-demo/grid-demo-basic/grid-demo-basic.module';
+import { GridDemoAutoLayoutModule } from '@docs/layout/grid-demo/grid-demo-auto-layout/grid-demo-auto-layout.module';
 import { GridDemoResponsiveModule } from '@docs/layout/grid-demo/grid-demo-responsive/grid-demo-responsive.module';
 
 /** Tabs */
@@ -39,6 +41,7 @@ import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-ba
     /** Layout */
     /** Grid */
     GridDemoBasicModule,
+    GridDemoAutoLayoutModule,
     GridDemoResponsiveModule,
     /** Tabs demos */
     BasicTabsModule,

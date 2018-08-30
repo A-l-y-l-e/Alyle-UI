@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LyTheme2, shadowBuilder } from '@alyle/ui';
+import { shadowBuilder, LyTheme2 } from '@alyle/ui';
 
 const styles = theme => ({
   item: {
@@ -13,10 +13,10 @@ const styles = theme => ({
 });
 
 @Component({
-  selector: 'grid-demo-basic',
-  templateUrl: './grid-demo-basic.component.html'
+  selector: 'aui-grid-demo-auto-layout',
+  templateUrl: './grid-demo-auto-layout.component.html'
 })
-export class GridDemoBasicComponent {
+export class GridDemoAutoLayoutComponent {
   classes = this.theme.addStyleSheet(styles, 'grid-demo-basic');
   constructor(
     private theme: LyTheme2
