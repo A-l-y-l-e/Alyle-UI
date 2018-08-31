@@ -1,3 +1,13 @@
+<a name="1.7.0-beta.5k53n"></a>
+# [1.7.0-beta.5k53n](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5hkh9...1.7.0-beta.5k53n) (2018-08-31)
+
+
+### Features
+
+* **grid:** add `direction` & `justify` ([b9a331d](https://github.com/A-l-y-l-e/Alyle-UI/commit/b9a331d))
+
+
+
 <a name="1.7.0-beta.5hkh9"></a>
 # [1.7.0-beta.5hkh9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5hie9...1.7.0-beta.5hkh9) (2018-08-29)
 
