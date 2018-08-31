@@ -1,22 +1,4 @@
-<ly-toolbar [withClass]="classes.header" bg="primary" elevation="3">
-  <button ly-icon-button (click)="nav.toggle()">
-    <ly-icon>menu</ly-icon>
-  </button>
-  <ly-toolbar-item class="logo">
-    <button ly-button color="primary:contrast" sensitive [routerLink]="['./']">
-      Alyle UI
-    </button>
-  </ly-toolbar-item>
-  <span lyHide="XSmall" class="version">v{{ version }}</span>
-  <div [style.flex]="1"></div>
-  <button ly-icon-button size="24px" (click)="changeTheme()">
-    <ly-icon *ngIf="mode" src="assets/svg/theme/sun" [style.font-size.px]="36"></ly-icon>
-    <ly-icon *ngIf="!mode" src="assets/svg/theme/moon" [style.font-size.px]="36"></ly-icon>
-  </button>
-  <a ly-icon-button target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="24px">
-    <ly-icon src="assets/svg/social/social-color-1_logo-github"></ly-icon>
-  </a>
-</ly-toolbar>
+<aui-app-bar></aui-app-bar>
 <ly-drawer-container [withClass]="classes.drawerContainer">
   <ly-drawer [config]="{width: 230}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items" [withClass]="classes.drawer">
     <ul *ngFor="let category of routesComponents" [withClass]="classes.drawerUl">

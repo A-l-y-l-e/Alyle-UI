@@ -148,14 +148,16 @@ export class LyTheme2 {
     if (!Platform.isBrowser) {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
-    this.config = this.core.get(nam);
+    if (nam !== this.config.name) {
+      this.config = this.core.get(nam);
 
-    const currentStyles = this.elements;
-    for (const key in currentStyles) {
-      if (currentStyles.hasOwnProperty(key)) {
-        const styleData = STYLE_MAP4[key];
-        if (styleData.requireUpdate) {
-          this._createStyleContent2(styleData.styles, key, styleData.priority, styleData.type, true);
+      const currentStyles = this.elements;
+      for (const key in currentStyles) {
+        if (currentStyles.hasOwnProperty(key)) {
+          const styleData = STYLE_MAP4[key];
+          if (styleData.requireUpdate) {
+            this._createStyleContent2(styleData.styles, key, styleData.priority, styleData.type, true);
+          }
         }
       }
     }

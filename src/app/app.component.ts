@@ -1,9 +1,10 @@
-import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject, OnInit } from '@angular/core';
+import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
 import { DOCUMENT } from '@angular/platform-browser';
+import { LyDrawer } from '@alyle/ui/drawer';
 
 const styles = theme => {
   const onLinkActive = {
@@ -17,19 +18,19 @@ const styles = theme => {
       fontFamily: theme.typography.fontFamily,
       margin: 0
     },
-    header: {
-      position: 'fixed',
-      zIndex: 11,
-      width: '100%',
-      // '@media print': {
-      //   color: 'blue'
-      // },
-      // '&:hover': {
-      //   '@media screen': {
-      //     color: 'red'
-      //   },
-      // },
-    },
+    // header: {
+    //   position: 'fixed',
+    //   zIndex: 11,
+    //   width: '100%',
+    //   // '@media print': {
+    //   //   color: 'blue'
+    //   // },
+    //   // '&:hover': {
+    //   //   '@media screen': {
+    //   //     color: 'red'
+    //   //   },
+    //   // },
+    // },
     drawerContainer: {
       height: 'calc(100% - 64px)'
     },
@@ -53,7 +54,10 @@ const styles = theme => {
       borderLeft: '3px solid transparent',
       '&:hover': onLinkActive
     },
-    onLinkActive,
+    onLinkActive
+    // themePickerText: {
+    //   paddingLeft: '8px'
+    // }
   };
 };
 
@@ -66,13 +70,11 @@ const styles = theme => {
 })
 export class AppComponent implements OnInit {
   classes = this.theme.addStyleSheet(styles, 'root', 1);
-  linkActive;
-  navMenu;
   routesComponents: any;
-  angularVersion = VERSION;
   version = AUI_VERSION;
   routeState = false;
-  mode = true;
+
+  @ViewChild(LyDrawer) drawer: LyDrawer;
 
   constructor(
     @Inject(DOCUMENT) private _document: any,
@@ -82,19 +84,15 @@ export class AppComponent implements OnInit {
     private renderer: Renderer2,
     iconService: LyIconService
   ) {
+    iconService.setSvg('Theme', 'assets/svg/round-format_color_fill-24px');
     iconService.setSvg('Heart', 'assets/svg/Heart');
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
     iconService.setSvg('Radiation', 'assets/svg/radiation');
+    iconService.setSvg('Water', 'assets/svg/Water');
     this.routesComponents = this.routesApp.routesApp;
   }
   ngOnInit() {
     this.renderer.addClass((this._document as Document).body, this.classes.body);
-  }
-  changeTheme() {
-    this.mode = !this.mode;
-    const name = this.mode ? 'minima-light' : 'minima-dark';
-    console.log(name);
-    this.theme.setTheme(name);
   }
 
 }

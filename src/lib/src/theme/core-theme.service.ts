@@ -16,6 +16,7 @@ export class CoreTheme {
   primaryStyleContainer: HTMLElement;
   secondaryStyleContainer: HTMLElement;
   firstElement: HTMLElement;
+  readonly themes = new Set<string>();
   private _themeMap = new Map<string, ThemeConfig>();
   private _styleMap = new Map<string, Map<string, DataStyle>>();
   private _styleCoreMap = new Map<string, DataStyle>();
@@ -51,7 +52,9 @@ export class CoreTheme {
     // this.renderer.insertBefore(_document.body, this.secondaryStyleContainer, this.primaryStyleContainer);
     if (themeConfig) {
       themeConfig.themes.forEach(item => {
-        this.add(new item);
+        const newTheme = new item;
+        this.add(newTheme);
+        this.themes.add(newTheme.name);
       });
     }
   }

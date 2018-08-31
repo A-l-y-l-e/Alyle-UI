@@ -1,4 +1,4 @@
-import { Directive, Input, OnChanges, ElementRef, Inject } from '@angular/core';
+import { Directive, Input, OnChanges, ElementRef } from '@angular/core';
 import { LyTheme2 } from './theme2.service';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
@@ -51,16 +51,23 @@ export class LyCommon implements OnChanges {
   }
 
   ngOnChanges() {
-    this._isContrast = this._autoContrast && !this.color || this.color === 'auto';
+    const __bg = this.bg;
+    const __color = this.color;
+    const __raised = this.raised;
+    const __elevation = this.elevation;
+    const __disabled = this.disabled;
+    const __outlined = this.outlined;
+    const __shadowColor = this.shadowColor;
+    const __isContrast = this._isContrast = this._autoContrast && !__color || __color === 'auto';
     const newKey = `common----:${
-      this.bg || DEFAULT_VALUE}·${
-        this.color || DEFAULT_VALUE}·${
-          this.raised || DEFAULT_VALUE}·${
-            this.elevation || DEFAULT_VALUE}·${
-              this.disabled || DEFAULT_VALUE}·${
-                this.outlined || DEFAULT_VALUE}·${
-                  this.shadowColor || DEFAULT_VALUE}·${
-                    this._isContrast || DEFAULT_VALUE}`;
+      __bg || DEFAULT_VALUE}·${
+        __color || DEFAULT_VALUE}·${
+          __raised || DEFAULT_VALUE}·${
+            __elevation || DEFAULT_VALUE}·${
+              __disabled || DEFAULT_VALUE}·${
+                __outlined || DEFAULT_VALUE}·${
+                  __shadowColor || DEFAULT_VALUE}·${
+                    __isContrast || DEFAULT_VALUE}`;
     this._className = this.theme.addStyle(newKey, (theme) => {
       const style: {
         border?: string,
@@ -75,32 +82,32 @@ export class LyCommon implements OnChanges {
           boxShadow?: string
         }
       } = {};
-      if (this.outlined) {
+      if (__outlined) {
         style.border = '1px solid currentColor';
       }
-      if (this.disabled) {
+      if (__disabled) {
         style.color = theme.text.disabled;
         style.pointerEvents = 'none';
-        if (this.bg) {
+        if (__bg) {
           style.background = theme.button.disabled;
         }
       } else {
-        if (this.bg) {
-          style.background = theme.colorOf(this.bg);
-          if (this._isContrast) {
-            style.color = theme.colorOf(`${this.bg}:contrast`);
+        if (__bg) {
+          style.background = theme.colorOf(__bg);
+          if (__isContrast) {
+            style.color = theme.colorOf(`${__bg}:contrast`);
           }
         }
-        if (!style.color && this.color) {
-          style.color = theme.colorOf(this.color);
+        if (!style.color && __color) {
+          style.color = theme.colorOf(__color);
         }
-        if (this.raised || this.elevation) {
-          const shadowColor = (this.shadowColor && theme.colorOf(this.shadowColor)) || style.background || style.color || theme.colorShadow;
-          if (!this.bg) {
+        if (__raised || __elevation) {
+          const shadowColor = (__shadowColor && theme.colorOf(__shadowColor)) || style.background || style.color || theme.colorShadow;
+          if (!__bg) {
             style.background = theme.background.primary;
           }
-          style.boxShadow = shadowBuilder(this.elevation || 3, shadowColor);
-          if (!this.elevation) {
+          style.boxShadow = shadowBuilder(__elevation || 3, shadowColor);
+          if (!__elevation) {
             style['&:active'] = {
               boxShadow: shadowBuilder(8, shadowColor)
             };
