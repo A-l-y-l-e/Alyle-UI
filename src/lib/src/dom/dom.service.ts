@@ -7,7 +7,7 @@ import {
   ViewContainerRef,
   ViewRef
 } from '@angular/core';
-import { LyOverlayContainer } from './overlay-container.component';
+import { LyOverlayContainer } from './overlay-container';
 
 @Injectable()
 export class DomService {
@@ -37,8 +37,7 @@ export class DomService {
   destroyRef(componentRef: ComponentRef<any>, delay: number) {
     setTimeout(() => {
       if (this._viewContainerRef) {
-        this._viewContainerRef.detach();
-        this._viewContainerRef.clear();
+        this._viewContainerRef.remove();
       }
     }, delay);
   }

@@ -28,7 +28,7 @@ import { ButtonTypesDemoModule } from '@docs/components/button-demo/button-types
 import { LyTypographyModule } from '@alyle/ui/typography';
 import { DocsRoutingModule } from '@docs/docs.routing';
 import { SharedModule } from '../shared/shared.module';
-import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
+import { DynamicStylesComponent } from '@docs/customization/dynamic-styles/dynamic-styles.component';
 import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-basic.module';
 
 @NgModule({

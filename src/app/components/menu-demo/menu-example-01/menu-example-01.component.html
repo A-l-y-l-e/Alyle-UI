@@ -3,14 +3,14 @@
     <ly-icon src="assets/svg/ic_menu_48px"></ly-icon>
   </button>
 </ly-toolbar>
-<ly-menu #_Menu
+<ly-menu-deprecated #_Menu
 (close)="_button.nativeElement.focus()"
 [anchor-origin]="{horizontal: 'middle', vertical: 'center'}"
 [target-origin]="{horizontal: 'middle', vertical: 'center'}">
-  <button ly-button ly-menu-item *ngFor="let item of [{}, {}, {}]; let i = index" [lyMenuTriggerFor]="_Menu">
+  <button ly-button ly-menu-deprecated-item *ngFor="let item of [{}, {}, {}]; let i = index" [lyMenuTriggerFor]="_Menu">
     item {{ i + 1 }}
   </button>
-</ly-menu>
+</ly-menu-deprecated>
 <h4>anchor-origin</h4>
 <ly-radio-group>
   <div>

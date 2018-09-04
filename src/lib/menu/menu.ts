@@ -14,7 +14,16 @@ import {
   EventEmitter,
   OnDestroy,
   ChangeDetectorRef,
-  SimpleChanges
+  SimpleChanges,
+  Optional,
+  Inject,
+  forwardRef,
+  ComponentFactoryResolver,
+  Injector,
+  ApplicationRef,
+  ReflectiveInjector,
+  HostListener,
+  HostBinding
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
@@ -22,9 +31,12 @@ import {
   state,
   style,
   animate,
-  transition
+  transition,
+  keyframes,
+  query,
+  group
 } from '@angular/animations';
-import { DomService, Platform } from '@alyle/ui';
+import { DomService, Platform, LyOverlay, LyOverlayContainer, LyOverlayItem, OverlayFromTemplateRef, ProviderMenu, LyTheme2, shadowBuilder } from '@alyle/ui';
 
 export type position = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
 export class Origin {
@@ -63,7 +75,7 @@ export class LyTemplateMenu implements OnInit, OnDestroy {
 }
 
 @Component({
-  selector: 'ly-menu',
+  selector: 'ly-menu-deprecated',
   styleUrls: ['menu.scss'],
   animations: [
     trigger('menu', [
@@ -93,10 +105,10 @@ export class LyTemplateMenu implements OnInit, OnDestroy {
     (click)="hiddeMenu()"></div>
   </ng-template>
   `,
-  exportAs: 'lyMenu',
+  exportAs: 'lyMenuDeprecated',
   preserveWhitespaces: false
 })
-export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
+export class LyMenuDeprecated implements OnChanges, AfterViewInit, OnInit, OnDestroy {
   isIni = false;
   _color: string;
   stateBg = false;
@@ -110,7 +122,9 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
   xtemplateRef: any;
   menuAnimationsState;
   @Input() opened = false;
+  // tslint:disable-next-line:no-input-rename
   @Input('anchor-origin') _anchorOrigin: Origin = {horizontal: 'left', vertical: 'top'};
+  // tslint:disable-next-line:no-input-rename
   @Input('target-origin') _targetOrigin: Origin = {horizontal: 'left', vertical: 'top'};
   @ViewChild('_menu') _menuElement: ElementRef;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
@@ -262,6 +276,102 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
   }
 
 }
+
+const menuStyles = theme => ({
+  root: {
+    background: theme.background.primary,
+    borderRadius: '2px',
+    boxShadow: shadowBuilder(4),
+    display: 'inline-block',
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    transformOrigin: 'left top 0px'
+  }
+});
+
+/** Menu container */
+@Component({
+  selector: 'ly-menu',
+  animations: [
+    trigger('menuEnter', [
+      transition(':enter', [
+        animate('120ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
+          style({
+            opacity: 0,
+            transform: 'scale(0.8)'
+          }),
+          style({
+            opacity: 1,
+            transform: 'scale(1)'
+          })
+        ]))
+      ]),
+      // state('void', style({
+      //   transform: 'scale(0.8)'
+      // })),
+      // transition('void => enter', group([
+      //   query('[ly-menu-item]', animate('100ms linear', style({opacity: 1}))),
+      //   animate('120ms cubic-bezier(0, 0, 0.2, 1)', style({transform: 'scale(1)'})),
+      // ])),
+    ]),
+    trigger('menuLeave', [
+      transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 })))
+    ])
+  ],
+  styles: [':host {display: block; pointer-events: all;}'],
+  template: '<ng-content></ng-content>',
+  exportAs: 'lyMenu'
+})
+export class LyMenu {
+  classes = this.theme.addStyleSheet(menuStyles, 'lyMenu');
+  /** Destroy menu */
+  destroy: () => void;
+  @Input() ref: LyMenuTriggerFor;
+  @HostBinding('@menuEnter') menuEnter;
+  @HostBinding('@menuLeave') menuLeave2;
+  @HostListener('@menuLeave.done', ['$event']) endAnimation(e) {
+    if (e.toState === 'void') {
+      this.ref.destroy();
+    }
+  }
+  constructor(
+    private theme: LyTheme2,
+    private _el: ElementRef
+    // private _viewContainer: ViewContainerRef,
+    // private _injector: Injector,
+    // private hj: LyMenuTriggerFor
+    // @Inject(ProviderMenu) providerMenu: ProviderMenu
+  ) {
+    this._el.nativeElement.classList.add(this.classes.root);
+  }
+
+}
+
+const menuItemStyles = ({
+  display: 'block',
+  minHeight: '48px',
+  borderRadius: 0,
+  width: '100%'
+});
+
+@Directive({
+  selector: '[ly-menu-item]'
+})
+export class LyMenuItem {
+  @HostListener('click') _click() {
+    if (this._menu.ref) {
+      this._menu.ref._menuRef.detach();
+    }
+  }
+  constructor(
+    @Optional() private _menu: LyMenu,
+    el: ElementRef,
+    theme: LyTheme2
+  ) {
+    theme.addStyle('lyMenuItem', menuItemStyles, el.nativeElement);
+  }
+}
+
 @Directive({
   selector: '[lyMenuTriggerFor]',
   // tslint:disable-next-line:use-host-property-decorator
@@ -269,25 +379,95 @@ export class LyMenu implements OnChanges, AfterViewInit, OnInit, OnDestroy {
     '(click)': '_handleClick($event)'
   }
 })
-export class LyMenuTriggerFor {
-  @Input('lyMenuTriggerFor') lyMenuTriggerFor: LyMenu;
-  constructor(private elementRef: ElementRef) {}
+export class LyMenuTriggerFor implements OnDestroy {
+  /** Current menuRef */
+  _menuRef: OverlayFromTemplateRef;
+  @Input() lyMenuTriggerFor: LyMenu | LyMenuDeprecated | TemplateRef<any>;
+  constructor(
+    private elementRef: ElementRef,
+    private _injector: Injector,
+    private overlay: LyOverlay
+  ) {}
 
   targetPosition() {
     const element: HTMLElement = this.elementRef.nativeElement;
     const rect: ClientRect = element.getBoundingClientRect();
-    const result = {
-      'width': rect.width,
-      'height': rect.height,
-      'left': rect.left,
-      'top': rect.top,
-    };
-    return result;
+    return rect;
   }
 
   _handleClick(e: Event) {
-    this.lyMenuTriggerFor.rootMenu = this.targetPosition();
-    this.lyMenuTriggerFor.toggleMenu();
+    /** @deprecated */
+    if (this.lyMenuTriggerFor instanceof LyMenuDeprecated) {
+      this.lyMenuTriggerFor.rootMenu = this.targetPosition();
+      this.lyMenuTriggerFor.toggleMenu();
+    } else {
+      if (this._menuRef) {
+        this._menuRef.detach();
+      } else {
+        const rect = this.targetPosition();
+        this._menuRef = this.overlay.create(this.lyMenuTriggerFor as TemplateRef<any>, {
+          $implicit: this
+        }, {
+          styles: {
+            top: `${rect.top}px`,
+            left: `${rect.left}px`,
+            right: null,
+            bottom: null,
+          },
+          fnDestroy: this.detach.bind(this)
+        });
+      }
+    }
+  }
+
+  detach() {
+    this._menuRef.detach();
+  }
+
+  destroy() {
+    if (this._menuRef) {
+      this._menuRef.remove();
+      this._menuRef = null;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this._menuRef) {
+      this._menuRef.detach();
+    }
   }
 
 }
+
+
+/**
+ * TODO: menu
+ * @example fail
+ * <ng-template #menu>
+ *   <ly-menu>
+ *     <button ly-menu-item >opt 1</button>
+ *     <button ly-menu-item [lyMenuTriggerFor]="subMenu">opt 2</button>
+ *   </ly-menu>
+ * </ng-template>
+ * <ng-template #subMenu>
+ *   <ly-menu>
+ *     <button ly-menu-item>opt 1</button>
+ *     <button ly-menu-item>opt 2</button>
+ *   </ly-menu>
+ * </ng-template>
+ * <button ly-button [lyMenuTriggerFor]="menu">toggle menu</button>
+ * @example 2
+ * <ng-template #menu let-menu>
+ *   <ly-menu destroyOnClick="menu">
+ *     <button ly-menu-item >opt 1</button>
+ *     <button ly-menu-item [lyMenuTriggerFor]="subMenu">opt 2</button>
+ *   </ly-menu>
+ * </ng-template>
+ * <ng-template #subMenu>
+ *   <ly-menu>
+ *     <button ly-menu-item>opt 1</button>
+ *     <button ly-menu-item>opt 2</button>
+ *   </ly-menu>
+ * </ng-template>
+ * <button ly-button [lyMenuTriggerFor]="menu">toggle menu</button>
+ */

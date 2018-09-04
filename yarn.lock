@@ -114,7 +114,7 @@
     "@angular-devkit/core" "0.7.5"
     rxjs "^6.0.0"
 
-"@angular/animations@^6.1.0":
+"@angular/animations@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-6.1.6.tgz#25a9cd87303aec5556c20631d087447de2330e87"
   dependencies:
@@ -135,13 +135,13 @@
     symbol-observable "^1.2.0"
     yargs-parser "^10.0.0"
 
-"@angular/common@^6.1.0":
+"@angular/common@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/common/-/common-6.1.6.tgz#16597d89dddd72a606d3cc7125ffa30a87f5ee09"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/compiler-cli@^6.1.0":
+"@angular/compiler-cli@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-6.1.6.tgz#cccebfaf66af3b7c19dd528732b945ce378bd65f"
   dependencies:
@@ -150,43 +150,43 @@
     reflect-metadata "^0.1.2"
     tsickle "^0.32.1"
 
-"@angular/compiler@^6.1.0":
+"@angular/compiler@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-6.1.6.tgz#2c858fe78ad1ca5bb3c886bd638bbb144af36e06"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/core@^6.1.0":
+"@angular/core@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-6.1.6.tgz#130758ad49cad5f6f075693f6496bbc7d510db3b"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/forms@^6.1.0":
+"@angular/forms@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-6.1.6.tgz#1c4936993f2dbcee516cb547a534da3c70f84b76"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/http@^6.1.0":
+"@angular/http@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/http/-/http-6.1.6.tgz#4e4b74a9746b14ebd5fd0071a5a3299e945ba2ad"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/platform-browser-dynamic@^6.1.0":
+"@angular/platform-browser-dynamic@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-6.1.6.tgz#49c2048d61b6d0958b2f0deb68cebe638b2f7f63"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/platform-browser@^6.1.0":
+"@angular/platform-browser@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-6.1.6.tgz#9a9498aa455978e974436000ddde8af9f64eef13"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/platform-server@^6.1.0":
+"@angular/platform-server@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-6.1.6.tgz#a3c817421826bd1afa1a1bad9859bb3fa1fbf24c"
   dependencies:
@@ -203,13 +203,13 @@
     "@schematics/angular" "0.7.5"
     typescript "~2.6.2"
 
-"@angular/router@^6.1.0":
+"@angular/router@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-6.1.6.tgz#d280e014e5b4399d9631ac9cfd3dfde0cf3f76ed"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/service-worker@^6.1.0":
+"@angular/service-worker@^6.1.6":
   version "6.1.6"
   resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-6.1.6.tgz#90e677fe96105e7e089a676c1fc244ffc07fcfe0"
   dependencies:

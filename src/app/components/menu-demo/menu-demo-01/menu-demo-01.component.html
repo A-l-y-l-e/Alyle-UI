@@ -1,6 +1,16 @@
-<button #_button ly-icon-button class="material-icons" [lyMenuTriggerFor]="_Menu">more_vert</button>
-<ly-menu #_Menu>
-  <button ly-button ly-menu-item *ngFor="let item of [{}, {}, {}]; let i = index" (click)="_Menu.hiddeMenu()">
-    item {{ i + 1 }}
+<button ly-icon-button [lyMenuTriggerFor]="menu">
+  <ly-icon>more_vert</ly-icon>
+</button>
+<ng-template #menu let-M>
+  <ly-menu [ref]="M">
+    <button ly-button ly-menu-item *ngFor="let item of [{}, {}, {}]; let i = index">
+      Item {{ i + 1 }}
+    </button>
+  </ly-menu>
+</ng-template>
+
+<ly-menu>
+  <button ly-button ly-menu-item *ngFor="let item of [{}, {}, {}]; let i = index">
+    Item {{ i + 1 }}
   </button>
 </ly-menu>
