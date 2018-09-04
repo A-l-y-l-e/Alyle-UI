@@ -409,12 +409,13 @@ export class LyMenuTriggerFor implements OnDestroy {
           $implicit: this
         }, {
           styles: {
-            top: `${rect.top}px`,
-            left: `${rect.left}px`,
+            top: rect.top,
+            left: rect.left,
             right: null,
             bottom: null,
           },
-          fnDestroy: this.detach.bind(this)
+          fnDestroy: this.detach.bind(this),
+          host: this.elementRef.nativeElement
         });
       }
     }

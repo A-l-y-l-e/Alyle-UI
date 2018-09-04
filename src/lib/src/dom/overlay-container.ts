@@ -1,7 +1,10 @@
-import { Injectable, Component, ViewContainerRef, Inject, Directive, ViewChild, OnInit, AfterViewInit, TemplateRef, HostListener, ElementRef } from '@angular/core';
+import { Injectable, Component, ViewContainerRef, Inject, Directive, ViewChild, OnInit, AfterViewInit, TemplateRef, HostListener, ElementRef, OnDestroy } from '@angular/core';
 import { Platform } from '../platform/index';
 import { LyTheme2 } from '../theme/theme2.service';
 import { LyCoreStyles } from '../styles/core-styles';
+import { DOCUMENT } from '@angular/common';
+import { fromEvent ,  Observable, empty, Subscription } from 'rxjs';
+import { map, share, auditTime } from 'rxjs/operators';
 
 const styles = {
   overlayBackdrop: {
@@ -13,6 +16,31 @@ const styles = {
     zIndex: 1000
   }
 };
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class WindowScrollService {
+
+  public scroll$: Observable<number>;
+
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+  ) {
+    if (Platform.isBrowser) {
+      this.scroll$ = fromEvent(window, 'scroll').pipe(
+        auditTime(200),
+        map(event => {
+          return window.scrollY || this.document.documentElement.scrollTop;
+        }),
+        share()
+      );
+    } else {
+      this.scroll$ = empty();
+    }
+  }
+}
 
 @Injectable({
   providedIn: 'root'
