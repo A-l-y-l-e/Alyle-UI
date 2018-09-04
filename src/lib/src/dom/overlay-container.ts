@@ -1,9 +1,9 @@
-import { Injectable, Component, ViewContainerRef, Inject, Directive, ViewChild, OnInit, AfterViewInit, TemplateRef, HostListener, ElementRef, OnDestroy } from '@angular/core';
+import { Injectable, Component, Inject, HostListener, ElementRef } from '@angular/core';
 import { Platform } from '../platform/index';
 import { LyTheme2 } from '../theme/theme2.service';
 import { LyCoreStyles } from '../styles/core-styles';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent ,  Observable, empty, Subscription } from 'rxjs';
+import { fromEvent ,  Observable, empty } from 'rxjs';
 import { map, share, auditTime } from 'rxjs/operators';
 
 const styles = {
@@ -31,7 +31,7 @@ export class WindowScrollService {
     if (Platform.isBrowser) {
       this.scroll$ = fromEvent(window, 'scroll').pipe(
         auditTime(200),
-        map(event => {
+        map(() => {
           return window.scrollY || this.document.documentElement.scrollTop;
         }),
         share()
@@ -100,24 +100,6 @@ export class LyOverlayContainer {
   }
 }
 
-export class ProviderMenu {
-  data: any;
-}
-
-@Component({
-  selector: 'ly-overlay-item',
-  template: `<ng-content></ng-content>`
-})
-export class LyOverlayItem implements OnInit {
-  constructor(
-    @Inject(ProviderMenu) private providerMenu: ProviderMenu
-  ) { }
-
-  ngOnInit() {
-    console.log('asd', this.providerMenu);
-  }
-}
-
 @Component({
   selector: 'ly-overlay-backdrop',
   template: ``
@@ -129,7 +111,6 @@ export class LyOverlayBackdrop {
   constructor(
     private el: ElementRef,
     @Inject('overlayConfig') private _overlayConfig: any,
-    overlayContainer: LyOverlayContainer,
     commonStyles: LyCoreStyles
   ) {
     this.el.nativeElement.classList.add(commonStyles.classes.fill);

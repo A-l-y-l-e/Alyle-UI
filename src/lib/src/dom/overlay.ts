@@ -1,5 +1,5 @@
 import { TemplateRef, EmbeddedViewRef, Injectable, ApplicationRef, ComponentFactoryResolver, Injector, ComponentRef, Type } from '@angular/core';
-import { LyOverlayContainer, LyOverlayItem, LyOverlayBackdrop, WindowScrollService } from './overlay-container';
+import { LyOverlayContainer, LyOverlayBackdrop, WindowScrollService } from './overlay-container';
 import { Subscription } from 'rxjs';
 
 interface OverlayConfig {

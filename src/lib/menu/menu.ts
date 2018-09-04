@@ -16,12 +16,7 @@ import {
   ChangeDetectorRef,
   SimpleChanges,
   Optional,
-  Inject,
-  forwardRef,
-  ComponentFactoryResolver,
   Injector,
-  ApplicationRef,
-  ReflectiveInjector,
   HostListener,
   HostBinding
 } from '@angular/core';
@@ -33,10 +28,8 @@ import {
   animate,
   transition,
   keyframes,
-  query,
-  group
 } from '@angular/animations';
-import { DomService, Platform, LyOverlay, LyOverlayContainer, LyOverlayItem, OverlayFromTemplateRef, ProviderMenu, LyTheme2, shadowBuilder } from '@alyle/ui';
+import { DomService, Platform, LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder } from '@alyle/ui';
 
 export type position = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
 export class Origin {

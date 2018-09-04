@@ -1,4 +1,3 @@
-import { LyOverlayItem } from './overlay-container';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomService } from './dom.service';
