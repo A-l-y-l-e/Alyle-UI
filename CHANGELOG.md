@@ -1,3 +1,14 @@
+<a name="1.7.0-beta.5rfx4"></a>
+# [1.7.0-beta.5rfx4](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5k53n...1.7.0-beta.5rfx4) (2018-09-04)
+
+
+### Features
+
+* **menu:** support lazy loading ([36b3b13](https://github.com/A-l-y-l-e/Alyle-UI/commit/36b3b13))
+* **menu:** update position on scroll ([d696fc9](https://github.com/A-l-y-l-e/Alyle-UI/commit/d696fc9))
+
+
+
 <a name="1.7.0-beta.5k53n"></a>
 # [1.7.0-beta.5k53n](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5hkh9...1.7.0-beta.5k53n) (2018-08-31)
 
