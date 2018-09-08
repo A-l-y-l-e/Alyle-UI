@@ -62,7 +62,6 @@ export class StylesInDocument {
 export class LyTheme2 {
   config: ThemeConfig;
   _styleMap: Map<string, DataStyle>;
-  prefix = 'k';
   initialTheme: string;
   elements: {
     [key: string]: HTMLStyleElement
@@ -95,24 +94,6 @@ export class LyTheme2 {
       }
       this._addDefaultStyles();
     }
-  }
-  setUpStyle<T>(
-    key: string,
-    styles: Style<T>,
-    media?: string,
-    invertMediaQuery?: InvertMediaQuery
-  ) {
-    const name = this.config.name;
-    return this.core._ĸreateStyle<T>(this.config, key, styles, this._styleMap, name, this.core.primaryStyleContainer, media, invertMediaQuery);
-  }
-  setUpStyleSecondary<T>(
-    key: string,
-    styles: Style<T>,
-    media?: string,
-    invertMediaQuery?: InvertMediaQuery
-  ) {
-    const name = this.config.name;
-    return this.core._ĸreateStyle<T>(this.config, key, styles, this._styleMap, name, this.core.secondaryStyleContainer, media, invertMediaQuery);
   }
 
   /**
