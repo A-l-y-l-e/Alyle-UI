@@ -13,12 +13,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { catchError, retry } from 'rxjs/operators';
 import { Platform, AUI_VERSION, LyTheme2 } from '@alyle/ui';
 
-const MODULE_REGEXP = /export\sclass\s([\w]+)/;
+const MODULE_REGEXP = /export\sclass\s([\w]+)Module/;
 const EXPORTS_REGEXP = /exports\:\s?\[[\w]+\]\,?([\s]+)?/;
 const IMPORTS_POINT_REGEXP = /imports\:?(?:[\s]+)?\[(?:[\s]+)?/;
 const DECLARATIONS_REGEXP = /declarations: \[\:?(?:[\s]+)?([\w]+)(?:[\s]+)?\]/;
 const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
-const SELECTOR_APP = 'my-app';
+const SELECTOR_APP = 'root-app';
 
 const styles = {
   codeContainer: {
@@ -92,7 +92,9 @@ export class ViewComponent implements OnInit {
     return `${host}/${fileName}.${file.type}.${file.ext}`;
   }
 
-  openPostStackblitz() {
+  openPostStackblitz(event) {
+    const win = window.open('about:blank', '_blank');
+    win.document.write('Loading...');
     const data = forkJoin(
       this.http.get(this.url(0), { responseType: 'text' }),
       this.http.get(this.url(1), { responseType: 'text' }),
@@ -105,17 +107,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 /** Alyle UI */
-import { LyThemeModule, LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig } from '@alyle/ui';
+import { LyThemeModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig } from '@alyle/ui';
 import { MinimaTheme } from '@alyle/ui/themes/minima';
 `;
+      let moduleName: string;
       const AppModule = otherModules + res3.replace(MODULE_REGEXP, (str, token) => {
+        const name = token + 'App';
+        moduleName = name + 'Module';
         return str
-        .replace(token, 'AppModule');
+        .replace(token, name);
       }).replace(EXPORTS_REGEXP, '')
       .replace(IMPORTS_POINT_REGEXP, (str) => {
         return str + `BrowserModule,
     BrowserAnimationsModule,
-    LyThemeModule.setTheme('minima-dark'),
+    LyThemeModule.setTheme('minima-light'),
     `;
       }).replace(DECLARATIONS_REGEXP, (str, token) => {
         return `bootstrap: [${token}],
@@ -132,15 +137,19 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
       });
 
       const appComponentTs = res2.replace(SELECTOR_REGEXP, (str, token) => str.replace(token, SELECTOR_APP));
-      this.makeForm([res1, appComponentTs, AppModule]);
+      const form = this.makeForm([res1, appComponentTs, AppModule], moduleName);
+      win.document.body.appendChild(form);
+      form.submit();
+      win.document.close();
     });
   }
 
-  makeForm([res1, res2, res3]) {
+  makeForm([res1, res2, res3], moduleName: string) {
     const form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('target', '_blank');
-    form.setAttribute('action', 'https://run.stackblitz.com/api/angular/v1/');
+    form.method = 'POST';
+    form.setAttribute('style', 'display:none;');
+    // form.target = '_blank';
+    form.action = 'https://run.stackblitz.com/api/angular/v1/';
     const name = this.path.split('/').reverse()[0];
     const title = name.replace(/-/g, ' ') + ' | Alyle UI';
     const payload: {
@@ -161,14 +170,14 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
       files: {
         [`app/${name}.component.html`]: res1,
         [`app/${name}.component.ts`]: res2,
-        [`app/app.module.ts`]: res3,
+        [`app/${name}.module.ts`]: res3,
         'main.ts': (
           `import './polyfills';\n` +
           `import { BrowserModule } from '@angular/platform-browser';\n` +
           `import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';\n` +
-          `import { AppModule } from './app/app.module';\n` +
+          `import { ${moduleName} } from './app/${name}.module';\n` +
           `\n` +
-          `platformBrowserDynamic().bootstrapModule(AppModule).then(ref => {\n` +
+          `platformBrowserDynamic().bootstrapModule(${moduleName}).then(ref => {\n` +
           `  // Ensure Angular destroys itself on hot reloads.\n` +
           `  if (window['ngRef']) {\n` +
           `    window['ngRef'].destroy();\n` +
@@ -236,12 +245,13 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
 
     console.log(payload);
 
-    document.body.appendChild(form);
-    const btn = document.createElement('input');
-    btn.setAttribute('type', 'submit');
-    form.appendChild(btn);
+    // document.body.appendChild(form);
+    // const btn = document.createElement('input');
+    // btn.setAttribute('type', 'submit');
+    // form.appendChild(btn);s
     // form.submit();
-    btn.click();
+    return form;
+    // btn.click();
     // document.body.removeChild(form);
   }
 

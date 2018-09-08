@@ -27,15 +27,10 @@ const styles = theme => ({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsBasicComponent {
-  classes: {
-    root: string,
-    buttonLink: string
-  };
+  classes = this.theme.addStyleSheet(styles, 'dsBasic');
 
   constructor(
-    theme: LyTheme2
-  ) {
-    this.classes = theme.addStyleSheet(styles, 'dsBasic');
-  }
+    private theme: LyTheme2
+  ) { }
 
 }

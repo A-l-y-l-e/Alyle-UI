@@ -233,10 +233,10 @@ export class LyTheme2 {
       }
     } else {
       /**
-       * for ssr
        * append child style if not exist in dom
+       * for ssr or hmr
        */
-      if (!Platform.isBrowser && !this.elements[id]) {
+      if (!this.elements[id]) {
         const _css = styleMap.css[themeName] || styleMap.css;
         const element = this.elements[id] = this._createElementStyle(_css);
         this.core.renderer.appendChild(this._createStyleContainer(priority), element);
