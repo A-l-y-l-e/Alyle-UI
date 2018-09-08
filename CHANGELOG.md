@@ -1,3 +1,14 @@
+<a name="1.7.0-beta.603x9"></a>
+# [1.7.0-beta.603x9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5rfx4...1.7.0-beta.603x9) (2018-09-08)
+
+
+### Bug Fixes
+
+* **core:** remove unused variables ([5d2922b](https://github.com/A-l-y-l-e/Alyle-UI/commit/5d2922b))
+* **docs:** add button Stackblitz ([188f3a4](https://github.com/A-l-y-l-e/Alyle-UI/commit/188f3a4))
+
+
+
 <a name="1.7.0-beta.5rfx4"></a>
 # [1.7.0-beta.5rfx4](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.5k53n...1.7.0-beta.5rfx4) (2018-09-04)
 
