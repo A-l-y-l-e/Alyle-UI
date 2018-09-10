@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { LyGrid, LyGridCol } from './grid';
+import { LyGrid, LyGridItem } from './grid';
 
 @NgModule({
-  exports: [LyGrid, LyGridCol],
-  declarations: [LyGrid, LyGridCol]
+  exports: [LyGrid, LyGridItem],
+  declarations: [LyGrid, LyGridItem]
 })
 export class LyGridModule { }

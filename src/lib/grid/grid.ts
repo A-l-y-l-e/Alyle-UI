@@ -198,7 +198,7 @@ export class LyGrid {
 @Directive({
   selector: 'ly-grid[item]'
 })
-export class LyGridCol implements OnInit {
+export class LyGridItem implements OnInit {
   private _col: string | number;
   private _colClass: string;
 
