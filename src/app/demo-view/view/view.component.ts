@@ -120,6 +120,7 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
       .replace(IMPORTS_POINT_REGEXP, (str) => {
         return str + `BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     LyThemeModule.setTheme('minima-light'),
     `;
       }).replace(DECLARATIONS_REGEXP, (str, token) => {
