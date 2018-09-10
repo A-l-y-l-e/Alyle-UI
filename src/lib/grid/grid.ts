@@ -129,6 +129,7 @@ export class LyGrid {
   }
   set justify(val: Justify) {
     if (val !== this.justify) {
+      this._justify = val;
       this._justifyClass = this.theme.addStyle(`lyGrid-justify:${val}`, () => {
         let justifyStyles: {
           justifyContent?: string
@@ -160,6 +161,7 @@ export class LyGrid {
   }
   set direction(val: Direction) {
     if (val !== this.direction) {
+      this._direction = val;
       this._directionClass = this.theme.addStyle(`lyGrid-direction:${val}`, () => {
         let directionStyles: {
           flexDirection?: string
@@ -200,6 +202,9 @@ export class LyGridCol implements OnInit {
   private _col: string | number;
   private _colClass: string;
 
+  private _order: string | number;
+  private _orderClass: string;
+
   /** Defines the number of grids */
   @Input()
   get col(): string | number {
@@ -231,6 +236,38 @@ export class LyGridCol implements OnInit {
           return colStyles as any;
         }
       }, this.el.nativeElement, this._colClass);
+    }
+  }
+
+
+
+  /** Defines the order style property. */
+  @Input()
+  get order(): string | number {
+    return this._order;
+  }
+  set order(val: string | number) {
+    if (val !== this.order) {
+      this._order = val;
+      this._orderClass = this.theme.addStyle(`lyGrid-order:${val}`, () => {
+        let orderStyles: {
+          order?: string
+        };
+        eachMedia(`${val}`, (value, media, isMedia) => {
+          const newOrderStyles = {
+            order: value
+          };
+          if (isMedia) {
+            if (!orderStyles) {
+              orderStyles = {};
+            }
+            orderStyles[`@media ${this.mediaQueries[media]}`] = newOrderStyles;
+          } else {
+            orderStyles = newOrderStyles;
+          }
+        });
+        return orderStyles as any;
+      }, this.el.nativeElement, this._orderClass);
     }
   }
 
