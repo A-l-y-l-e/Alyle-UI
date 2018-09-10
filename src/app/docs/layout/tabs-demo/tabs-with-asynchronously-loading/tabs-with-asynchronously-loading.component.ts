@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { Platform } from '@alyle/ui';
 
@@ -10,7 +10,7 @@ export interface ExampleTab {
 @Component({
   selector: 'aui-tabs-with-asynchronously-loading',
   templateUrl: './tabs-with-asynchronously-loading.component.html',
-  styleUrls: ['./tabs-with-asynchronously-loading.component.scss']
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabsWithAsynchronouslyLoadingComponent {
   asyncTabs: Observable<ExampleTab[]>;

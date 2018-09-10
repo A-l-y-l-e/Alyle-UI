@@ -1,15 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'aui-typography-demo-basic',
-  templateUrl: './typography-demo-basic.component.html',
-  styleUrls: ['./typography-demo-basic.component.scss']
+  templateUrl: './typography-demo-basic.component.html'
 })
-export class TypographyDemoBasicComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class TypographyDemoBasicComponent { }

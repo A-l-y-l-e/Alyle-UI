@@ -1,15 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'aui-card-demo-basic',
-  templateUrl: './card-demo-basic.component.html',
-  styleUrls: ['./card-demo-basic.component.css']
+  templateUrl: './card-demo-basic.component.html'
 })
-export class CardDemoBasicComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class CardDemoBasicComponent { }

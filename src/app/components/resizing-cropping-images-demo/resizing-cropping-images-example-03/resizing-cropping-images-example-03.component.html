@@ -1,4 +1,4 @@
-<div class="actions">
+<div [withClass]="classes.actions">
   <button raised ly-button bg="primary" (click)="_fileInput.click()">
     <ly-icon start>image</ly-icon>
     <span end>Select File</span>
@@ -15,10 +15,11 @@
     <button (click)="cropping.fitToScreen()" ly-button>fit to screen</button>
     <button (click)="cropping['1:1']()" ly-button>1:1</button>
     <ly-cropping #cropping
+    [withClass]="classes.cropping"
     [config]="myConfig">
       <span>Drag and drop image</span>
     </ly-cropping>
-    <button *ngIf="cropping.isLoaded" color="accent" (click)="crop()" ly-button>crop</button>
+    <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>crop</button>
   </div>
   <img *ngIf="cropping.isCropped" [src]="cropping.result">
   

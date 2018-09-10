@@ -1,24 +1,25 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild
-  } from '@angular/core';
-import {
-  CroppedImage,
-  ImageResolution,
-  LyResizingCroppingImages,
-  LyResizingCroppingImagesConfig
-  } from '@alyle/ui/resizing-cropping-images';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ImageResolution, LyResizingCroppingImagesConfig } from '@alyle/ui/resizing-cropping-images';
+import { LyTheme2 } from '@alyle/ui';
+
+const styles = {
+  actions: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  cropping: {
+    maxWidth: '400px',
+    height: '300px'
+  }
+};
 
 @Component({
   selector: 'resizing-cropping-images-example-02',
   templateUrl: './resizing-cropping-images-example-02.component.html',
-  styleUrls: ['./resizing-cropping-images-example-02.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResizingCroppingImagesExample02Component {
-
-  @ViewChild(LyResizingCroppingImages) img: LyResizingCroppingImages;
+  classes = this.theme.addStyleSheet(styles, 'resizing-cropping-images-example-01');
   result: string;
   myConfig: LyResizingCroppingImagesConfig = {
     width: 150, // Default `250`
@@ -26,10 +27,12 @@ export class ResizingCroppingImagesExample02Component {
     output: ImageResolution.OriginalImage // Default ImageResolution.Default
   };
 
-  constructor() { }
+  constructor(
+    private theme: LyTheme2
+  ) { }
 
-  crop() {
-    const imgCropped: CroppedImage = this.img.crop();
+  onCropped(e) {
+    console.log('cropped img: ', e);
   }
 
 }

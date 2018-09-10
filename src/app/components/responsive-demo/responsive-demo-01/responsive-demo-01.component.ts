@@ -4,7 +4,6 @@ import { LY_MEDIA_QUERIES } from '@alyle/ui/responsive';
 @Component({
   selector: 'responsive-demo-01',
   templateUrl: './responsive-demo-01.component.html',
-  styleUrls: ['./responsive-demo-01.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
   encapsulation: ViewEncapsulation.None

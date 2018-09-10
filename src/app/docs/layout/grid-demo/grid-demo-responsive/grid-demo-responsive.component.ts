@@ -14,8 +14,7 @@ const styles = theme => ({
 
 @Component({
   selector: 'grid-demo-responsive',
-  templateUrl: './grid-demo-responsive.component.html',
-  styleUrls: ['./grid-demo-responsive.component.scss']
+  templateUrl: './grid-demo-responsive.component.html'
 })
 export class GridDemoResponsiveComponent {
 

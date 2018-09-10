@@ -299,13 +299,6 @@ const menuStyles = theme => ({
           })
         ]))
       ]),
-      // state('void', style({
-      //   transform: 'scale(0.8)'
-      // })),
-      // transition('void => enter', group([
-      //   query('[ly-menu-item]', animate('100ms linear', style({opacity: 1}))),
-      //   animate('120ms cubic-bezier(0, 0, 0.2, 1)', style({transform: 'scale(1)'})),
-      // ])),
     ]),
     trigger('menuLeave', [
       transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 })))
@@ -361,7 +354,7 @@ export class LyMenuItem {
     el: ElementRef,
     theme: LyTheme2
   ) {
-    theme.addStyle('lyMenuItem', menuItemStyles, el.nativeElement);
+    theme.addStyle('lyMenuItem', menuItemStyles, el.nativeElement, undefined, 0.1);
   }
 }
 
@@ -435,24 +428,9 @@ export class LyMenuTriggerFor implements OnDestroy {
 
 
 /**
- * TODO: menu
- * @example fail
- * <ng-template #menu>
- *   <ly-menu>
- *     <button ly-menu-item >opt 1</button>
- *     <button ly-menu-item [lyMenuTriggerFor]="subMenu">opt 2</button>
- *   </ly-menu>
- * </ng-template>
- * <ng-template #subMenu>
- *   <ly-menu>
- *     <button ly-menu-item>opt 1</button>
- *     <button ly-menu-item>opt 2</button>
- *   </ly-menu>
- * </ng-template>
- * <button ly-button [lyMenuTriggerFor]="menu">toggle menu</button>
- * @example 2
- * <ng-template #menu let-menu>
- *   <ly-menu destroyOnClick="menu">
+ * @example
+ * <ng-template #menu let-M>
+ *   <ly-menu [ref]="M">
  *     <button ly-menu-item >opt 1</button>
  *     <button ly-menu-item [lyMenuTriggerFor]="subMenu">opt 2</button>
  *   </ly-menu>

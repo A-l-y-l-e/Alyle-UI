@@ -1,10 +1,10 @@
-<ly-card class="box">
+<ly-card [withClass]="classes.item">
   with ly-card
 </ly-card>
-<div elevation="2" class="box">
+<div elevation="2" [withClass]="classes.item">
   only elevation: 2
 </div>
 <h2>Elevations</h2>
-<ly-card [elevation]="[elevation]" class="box" *ngFor="let elevation of elevations">
+<ly-card [withClass]="classes.item" [elevation]="[elevation]" *ngFor="let elevation of elevations">
   elevation: {{ elevation }}
 </ly-card>

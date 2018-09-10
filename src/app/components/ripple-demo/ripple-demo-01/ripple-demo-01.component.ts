@@ -1,22 +1,32 @@
-import { Component, OnInit, ChangeDetectionStrategy, NgZone } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { LyTheme2 } from '@alyle/ui';
+
+const styles = {
+  ripple: {
+    display: 'inline-block',
+    boxShadow: '0px 0px 2px rgba(5, 29, 99, 0.1)',
+    cursor: 'default',
+    userSelect: 'none',
+    margin: '1em',
+    padding: 'calc(1em / 2)',
+    overflow: 'hidden',
+    maxWidth: '500px',
+    outline: 'none',
+    position: 'relative',
+  }
+};
 
 @Component({
   selector: 'ripple-demo-01',
   templateUrl: './ripple-demo-01.component.html',
-  styleUrls: ['./ripple-demo-01.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class RippleDemo01Component implements OnInit {
+export class RippleDemo01Component {
   state: any;
+  classes = this.theme.addStyleSheet(styles, 'ripple-demo-01');
   constructor(
-    private ngZone: NgZone
+    private theme: LyTheme2,
   ) { }
-
-  ngOnInit() { }
-
-  log(event) {
-    this.ngZone.run(() => this.state = event);
-  }
 
 }

@@ -3,7 +3,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 @Component({
   selector: 'aui-tabs-with-lazy-loading',
   templateUrl: './tabs-with-lazy-loading.component.html',
-  styleUrls: ['./tabs-with-lazy-loading.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabsWithLazyLoadingComponent {

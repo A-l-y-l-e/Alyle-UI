@@ -1,13 +1,25 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { LyTheme2 } from '@alyle/ui';
+
+const styles = {
+  carousel: {
+    maxWidth: '360px',
+    height: '220px',
+    margin: 'auto'
+  },
+  carouselItem: {
+    textAlign: 'center'
+  }
+};
 
 @Component({
   selector: 'carousel-example-01',
   templateUrl: './carousel-example-01.component.html',
-  styleUrls: ['./carousel-example-01.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class CarouselExample01Component implements OnInit {
+export class CarouselExample01Component {
+  classes = this.theme.addStyleSheet(styles, 'carousel-example-01');
   items: any[] = [
     {
       title: 'Mountains',
@@ -24,10 +36,9 @@ export class CarouselExample01Component implements OnInit {
     }
   ];
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private theme: LyTheme2
+  ) {
 
   }
-
 }

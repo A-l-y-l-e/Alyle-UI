@@ -8,7 +8,7 @@ const LY_CAROUSEL_DIRECTIVES = [LyCarouselItem, LyCarousel];
 
 @NgModule({
   imports: [CommonModule, LyCommonModule, LyRippleModule],
-  exports: [LY_CAROUSEL_DIRECTIVES],
+  exports: [LY_CAROUSEL_DIRECTIVES, LyCommonModule],
   declarations: [LY_CAROUSEL_DIRECTIVES]
 })
 export class LyCarouselModule { }
