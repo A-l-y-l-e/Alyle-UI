@@ -29,7 +29,6 @@
 |img cropper|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/resizing-cropping-images)|
 |core|beta||-|
 |drawer|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/drawer)|
-|flex layout|beta|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/layout/flex)|
 |grid|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/layout/grid)|
 |media|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/layout/responsive)|
 |icon button|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/icon-button)|
@@ -40,5 +39,5 @@
 |ripple|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/ripple)|
 |tabs|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|
 |toolbar|➕➖ |:x:|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
-|typography *(new)*|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
-|card *(new)*|➕➖|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/card)|
+|typography|✔️|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
+|card|➕➖|❌|[Docs](https://alyle-ui.firebaseapp.com/components/card)|
