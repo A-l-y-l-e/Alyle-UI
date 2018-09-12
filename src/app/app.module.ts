@@ -10,7 +10,7 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig, LyThemeModule, LY_THEME_NAME } from '@alyle/ui';
+import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig, LyThemeModule, LY_THEME_NAME, ThemeConfig } from '@alyle/ui';
 import { ResponsiveModule, LY_MEDIA_QUERIES, Breakpoints } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
@@ -53,8 +53,6 @@ export class CustomMinimaLight extends MinimaLight {
   codeColor = 'rgba(0, 23, 31, 0.7)';
   codeBg = '#F5F5F5';
   myColor = 'pink';
-  Quepal = Quepal;
-  SublimeLight = SublimeLight;
 }
 
 export class CustomMinimaDark extends MinimaDark {
@@ -62,13 +60,21 @@ export class CustomMinimaDark extends MinimaDark {
   codeColor = '#efefef';
   codeBg = '#212121';
   myColor = 'teal';
+}
+
+export class GlobalVariables {
+  testVal = '#00bcd4';
   Quepal = Quepal;
   SublimeLight = SublimeLight;
 }
 
 /** Custom Theme */
-export class MyCustomTheme extends LyThemeConfig {
-  themes = [CustomMinimaLight, CustomMinimaDark];
+export class MyCustomTheme implements LyThemeConfig {
+  themes = [
+    new CustomMinimaLight(),
+    new CustomMinimaDark()
+  ];
+  variables = new GlobalVariables();
 }
 
 @NgModule({

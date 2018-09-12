@@ -33,6 +33,7 @@ export class MinimaLight extends LyStyleUtils implements ThemeConfig {
   };
   divider = 'rgba(0, 0, 0, 0.12)';
   colorShadow = '#333';
+  shadow = '#333';
   /** Components variables */
   button = {
     disabled: 'rgba(0, 0, 0, 0.11)'

@@ -1,3 +1,5 @@
+import { ThemeConfig } from './theme/theme-config';
+
 export interface TypographyConfig {
   fontSize: number;
   fontFamily?: string;
@@ -19,6 +21,10 @@ export class LyStyleUtils {
   }
   colorOf(value: string): string {
     return get(this, value);
+  }
+  rewrite(config: Partial<ThemeConfig>) {
+    const ite = mergeDeep(this, config);
+    console.log({ite});
   }
 }
 
@@ -46,3 +52,29 @@ export function eachMedia(str: string, fn: ((val: string, media: string, len: nu
   }
 }
 
+const isObject = obj => obj && typeof obj === 'object';
+
+/**
+ * Performs a deep merge of objects and returns new object. Does not modify
+ * objects (immutable) and merges arrays via concatenation.
+ * @param objects Objects to merge
+ */
+export function mergeDeep(...objects) {
+
+  return objects.reduce((prev, obj) => {
+    Object.keys(obj).forEach(key => {
+      const pVal = prev[key];
+      const oVal = obj[key];
+
+      if (Array.isArray(pVal) && Array.isArray(oVal)) {
+        prev[key] = pVal.concat(...oVal);
+      } else if (isObject(pVal) && isObject(oVal)) {
+        prev[key] = mergeDeep(pVal, oVal);
+      } else {
+        prev[key] = oVal;
+      }
+    });
+
+    return prev;
+  }, {});
+}

@@ -9,11 +9,64 @@ export interface ThemeConfig {
   primary: DefaultVal & PaletteColor;
   accent: DefaultVal & PaletteColor;
   warn: DefaultVal & PaletteColor;
-  [key: string]: any;
+  background: {
+    /** secondary */
+    default: string,
+    primary: string,
+    secondary: string,
+    tertiary: string,
+    base: string
+  };
+  text: {
+    default: string,
+    primary: string,
+    secondary: string,
+    disabled: string,
+    hint: string
+  };
+  /** color for divider */
+  divider: string;
+  shadow: string;
+  /** @deprecated use shadow instead */
+  colorShadow?: string;
+  button: {
+    disabled: string;
+  };
+  radio: {
+    /** color for radio:outerCircle */
+    outerCircle?: string;
+    /** @deprecated use outerCircle instead */
+    radioOuterCircle?: string;
+  };
+  menu: {
+    bg: string;
+  };
+  drawer: {
+    /** color for drawer:backdrop */
+    backdrop: string
+  };
+  input: {
+    label: string,
+    underline: string,
+    /** default color */
+    withColor: string
+  };
+  iconButton: {
+    size: string;
+  };
+  icon: {
+    fontSize: string;
+  };
 }
+
+
+
+export type PartialThemeConfig = Partial<ThemeConfig>;
 
 export class LyThemeConfig {
   themes: any[] = [];
+  /** global variables */
+  variables?: any;
 }
 
 export interface DefaultVal {

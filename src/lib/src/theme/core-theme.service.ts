@@ -3,6 +3,7 @@ import { ThemeConfig, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
+import { mergeDeep } from '../style-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class CoreTheme {
   constructor(
     @Optional() @Inject(LY_THEME_CONFIG) themeConfig: LyThemeConfig,
     private rendererFactory: RendererFactory2,
-    @Inject(DOCUMENT) _document: any,
+    @Inject(DOCUMENT) _document: any
   ) {
     if (!themeConfig) {
       throw new Error('LY_THEME_CONFIG undefined');
@@ -42,7 +43,10 @@ export class CoreTheme {
     this.firstElement = _document.body.firstChild;
     if (themeConfig) {
       themeConfig.themes.forEach(item => {
-        const newTheme = new item;
+        const newTheme = typeof item === 'function' ? new item() : item;
+        if (themeConfig.variables) {
+          Object.assign(newTheme, themeConfig.variables);
+        }
         this.add(newTheme);
         this.themes.add(newTheme.name);
       });

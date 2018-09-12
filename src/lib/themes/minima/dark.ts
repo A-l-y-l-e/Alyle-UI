@@ -47,6 +47,7 @@ export class MinimaDark extends LyStyleUtils implements ThemeConfig {
   bar = '#212121';
   divider = 'rgba(255, 255, 255, 0.12)';
   colorShadow = 'rgba(0, 0, 0, 1)';
+  shadow = 'rgba(0, 0, 0, 1)';
   input = {
     label: 'rgba(255, 255, 255, 0.4)',
     underline: 'rgba(255, 255, 255, 0.11)',
