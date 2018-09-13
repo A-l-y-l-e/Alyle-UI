@@ -22,10 +22,6 @@ export class LyStyleUtils {
   colorOf(value: string, optional?: string): string {
     return get(this, value, optional);
   }
-  rewrite(config: Partial<ThemeConfig>) {
-    const ite = mergeDeep(this, config);
-    console.log({ite});
-  }
 }
 
 /**
@@ -70,30 +66,33 @@ export function eachMedia(str: string, fn: ((val: string, media: string, len: nu
     }
   }
 }
-
-const isObject = obj => obj && typeof obj === 'object';
+/**
+ * Simple object check.
+ * @param item
+ */
+export function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
 
 /**
- * Performs a deep merge of objects and returns new object. Does not modify
- * objects (immutable) and merges arrays via concatenation.
- * @param objects Objects to merge
+ * Deep merge two objects.
+ * @param target
+ * @param ...sources
  */
-export function mergeDeep(...objects) {
+export function mergeDeep(target, ...sources) {
+  if (!sources.length) { return target; }
+  const source = sources.shift();
 
-  return objects.reduce((prev, obj) => {
-    Object.keys(obj).forEach(key => {
-      const pVal = prev[key];
-      const oVal = obj[key];
-
-      if (Array.isArray(pVal) && Array.isArray(oVal)) {
-        prev[key] = pVal.concat(...oVal);
-      } else if (isObject(pVal) && isObject(oVal)) {
-        prev[key] = mergeDeep(pVal, oVal);
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) { Object.assign(target, { [key]: {} }); }
+        mergeDeep(target[key], source[key]);
       } else {
-        prev[key] = oVal;
+        Object.assign(target, { [key]: source[key] });
       }
-    });
+    }
+  }
 
-    return prev;
-  }, {});
+  return mergeDeep(target, ...sources);
 }

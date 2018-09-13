@@ -49,7 +49,7 @@ export class CoreTheme {
       themeConfig.themes.forEach(item => {
         const newTheme = typeof item === 'function' ? new item() : item;
         if (variables) {
-          Object.assign(newTheme, newVariables);
+          mergeDeep(newTheme, newVariables);
         }
         this.add(newTheme);
         this.themes.add(newTheme.name);
