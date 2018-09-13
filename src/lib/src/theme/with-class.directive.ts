@@ -13,6 +13,6 @@ export class LyWithClass {
     this.el.nativeElement.classList.add(val);
   }
   constructor(
-    private el: ElementRef,
+    private el: ElementRef
   ) { }
 }

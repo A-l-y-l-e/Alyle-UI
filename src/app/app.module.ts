@@ -71,10 +71,10 @@ export class GlobalVariables {
 /** Custom Theme */
 export class MyCustomTheme implements LyThemeConfig {
   themes = [
-    new CustomMinimaLight(),
-    new CustomMinimaDark()
+    CustomMinimaLight,
+    CustomMinimaDark
   ];
-  variables = new GlobalVariables();
+  variables = GlobalVariables;
 }
 
 @NgModule({

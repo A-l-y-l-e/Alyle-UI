@@ -42,10 +42,14 @@ export class CoreTheme {
     }
     this.firstElement = _document.body.firstChild;
     if (themeConfig) {
+      const variables = themeConfig.variables;
+      const newVariables = variables && typeof variables === 'function'
+      ? new variables()
+      : variables;
       themeConfig.themes.forEach(item => {
         const newTheme = typeof item === 'function' ? new item() : item;
-        if (themeConfig.variables) {
-          Object.assign(newTheme, themeConfig.variables);
+        if (variables) {
+          Object.assign(newTheme, newVariables);
         }
         this.add(newTheme);
         this.themes.add(newTheme.name);
