@@ -29,6 +29,7 @@ export class LyCard implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.common.setAutoContrast();
     let requireOnChanges: boolean;
     if (!this.common.bg) {
       this.common.bg = 'background:primary';
@@ -38,10 +39,10 @@ export class LyCard implements OnInit {
       this.common.elevation = 2;
       requireOnChanges = true;
     }
-    if (!this.common.shadowColor) {
-      this.common.shadowColor = 'colorShadow';
-      requireOnChanges = true;
-    }
+    // if (!this.common.shadowColor) {
+    //   this.common.shadowColor = 'colorShadow';
+    //   requireOnChanges = true;
+    // }
     if (requireOnChanges) {
       this.common.ngOnChanges();
     }

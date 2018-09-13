@@ -41,11 +41,13 @@ import { AppBarComponent } from './app-bar/app-bar.component';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
-  contrast: '#fff'
+  contrast: '#fff',
+  shadow: '#11998e'
 };
 const SublimeLight = {
   default: `linear-gradient(135deg,#FC5C7D 0%,#6A82FB 100%)`,
-  contrast: '#fff'
+  contrast: '#fff',
+  shadow: '#B36FBC'
 };
 
 export class CustomMinimaLight extends MinimaLight {

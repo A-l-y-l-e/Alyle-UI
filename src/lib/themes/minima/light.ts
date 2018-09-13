@@ -2,6 +2,7 @@ import { typography, iconButton, icon, input } from './variables';
 import { ThemeConfig, LyStyleUtils, TypographyConfig } from '@alyle/ui';
 
 const contrast = '#fff';
+const shadow = '#333';
 export class MinimaLight extends LyStyleUtils implements ThemeConfig {
   name = 'minima-light';
   primary = {
@@ -19,7 +20,10 @@ export class MinimaLight extends LyStyleUtils implements ThemeConfig {
   typography = typography;
   background = {
     default: '#fafafa', // secondary
-    primary: '#fff',
+    primary: {
+      default: '#fff',
+      shadow
+    },
     secondary: '#fafafa',
     tertiary: '#f5f6f7',
     base: '#E0E0E0'

@@ -20,7 +20,7 @@ const classes = theme => ({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrismDirective implements OnInit {
-  classes = this.theme.addStyleSheet(classes, 'prism');
+  classes = this.theme.addStyleSheet(classes, 'prism', -1);
   private _code: string;
   @Input() language = 'ts';
   @Input()

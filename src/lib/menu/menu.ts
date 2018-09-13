@@ -272,7 +272,7 @@ export class LyMenuDeprecated implements OnChanges, AfterViewInit, OnInit, OnDes
 
 const menuStyles = theme => ({
   root: {
-    background: theme.background.primary,
+    background: theme.background.primary.default,
     borderRadius: '2px',
     boxShadow: shadowBuilder(4),
     display: 'inline-block',

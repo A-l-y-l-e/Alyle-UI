@@ -12,7 +12,7 @@ export interface ThemeConfig {
   background: {
     /** secondary */
     default: string,
-    primary: string,
+    primary: DefaultVal & PaletteColor,
     secondary: string,
     tertiary: string,
     base: string
@@ -73,5 +73,7 @@ export interface DefaultVal {
   default: string;
 }
 export interface PaletteColor {
-  contrast: string;
+  contrast?: string;
+  /** shadow color */
+  shadow?: string;
 }

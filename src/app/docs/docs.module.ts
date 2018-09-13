@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 
+import { LyCardModule } from '@alyle/ui/card';
+
 import { DemoViewModule } from '../demo-view';
 import { PrismModule } from '../core/prism/prism.module';
 
@@ -37,6 +39,7 @@ import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-ba
     PrismModule,
     DemoViewModule,
     LyTypographyModule,
+    LyCardModule,
     DocsRoutingModule,
     /** Layout */
     /** Grid */

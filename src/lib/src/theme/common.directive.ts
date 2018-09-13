@@ -102,10 +102,11 @@ export class LyCommon implements OnChanges {
           style.color = theme.colorOf(__color);
         }
         if (__raised || __elevation) {
-          const shadowColor = (__shadowColor && theme.colorOf(__shadowColor)) || style.background || style.color || theme.colorShadow;
           if (!__bg) {
-            style.background = theme.background.primary;
+            style.background = theme.background.primary.default;
           }
+          const backgroundColorCss = style.background !== __bg && theme.colorOf(__bg || 'background:primary', 'shadow');
+          const shadowColor = (__shadowColor && theme.colorOf(__shadowColor)) || backgroundColorCss || style.background || style.color || theme.shadow;
           style.boxShadow = shadowBuilder(__elevation || 3, shadowColor);
           if (!__elevation) {
             style['&:active'] = {

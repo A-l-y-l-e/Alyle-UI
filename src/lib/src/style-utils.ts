@@ -19,8 +19,8 @@ export class LyStyleUtils {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
   }
-  colorOf(value: string): string {
-    return get(this, value);
+  colorOf(value: string, optional?: string): string {
+    return get(this, value, optional);
   }
   rewrite(config: Partial<ThemeConfig>) {
     const ite = mergeDeep(this, config);
@@ -28,12 +28,31 @@ export class LyStyleUtils {
   }
 }
 
-function get(obj: Object, path: any): string {
+/**
+ * get color of object
+ * @param obj object
+ * @param path path
+ * @param optional get optional value, if not exist return default if not is string
+ */
+function get(obj: Object, path: string[] | string, optional: string): string {
   const _path: string[] = path instanceof Array ? path : path.split(':');
   for (let i = 0; i < _path.length; i++) {
-    obj = obj[_path[i]] || path;
+    const posibleOb = obj[_path[i]];
+    if (posibleOb) {
+      obj = posibleOb;
+    } else {
+      /** if not exist */
+      return path as string;
+    }
   }
-  return typeof obj === 'string' ? obj as string : obj['default'] as string;
+  if (typeof obj === 'string') {
+    return obj as string;
+  } else if (optional) {
+    return obj[optional] || obj['default'];
+  } else {
+    return obj['default'];
+  }
+  // return typeof obj === 'string' ? obj as string : obj['default'] as string;
 }
 
 export function eachMedia(str: string, fn: ((val: string, media: string, len: number) => void)) {

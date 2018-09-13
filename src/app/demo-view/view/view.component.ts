@@ -45,9 +45,7 @@ function toPascalCase(str: string) {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewComponent implements OnInit {
-  classes: {
-    codeContainer: string
-  };
+  classes = this.theme.addStyleSheet(styles, 'demo-view');
   hasCode = false;
   name: string;
   folderName: string;
@@ -270,7 +268,6 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
   }
 
   ngOnInit() {
-    this.classes = this.theme.addStyleSheet(styles, 'codeView');
     this.name = this.router.url.replace(/\//g, '').replace(/component/, '');
     if (isDevMode() && !this.path) {
       this.folderName = this.el.nativeElement.querySelector('.tab-container > *').nodeName.toLowerCase();

@@ -2,6 +2,7 @@ import { typography, iconButton, icon, input } from './variables';
 import { ThemeConfig, LyStyleUtils, TypographyConfig } from '@alyle/ui';
 
 const contrast = '#fff';
+const shadow = 'rgba(0, 0, 0, 1)';
 export class MinimaDark extends LyStyleUtils implements ThemeConfig {
   name = 'minima-dark';
   primary = {
@@ -19,7 +20,10 @@ export class MinimaDark extends LyStyleUtils implements ThemeConfig {
   typography = typography;
   background = {
     default: '#303030', // secondary
-    primary: '#2b2b2b',
+    primary: {
+      default: '#2b2b2b',
+      shadow
+    },
     secondary: '#303030',
     tertiary: '#212121',
     base: '#0E0E0E'
@@ -46,8 +50,8 @@ export class MinimaDark extends LyStyleUtils implements ThemeConfig {
   };
   bar = '#212121';
   divider = 'rgba(255, 255, 255, 0.12)';
-  colorShadow = 'rgba(0, 0, 0, 1)';
-  shadow = 'rgba(0, 0, 0, 1)';
+  colorShadow = shadow;
+  shadow = shadow;
   input = {
     label: 'rgba(255, 255, 255, 0.4)',
     underline: 'rgba(255, 255, 255, 0.11)',
