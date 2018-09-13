@@ -55,8 +55,7 @@ export class ViewComponent implements OnInit {
   files = [
     {label: 'Html', type: 'component', ext: 'html'},
     {label: 'Component', type: 'component', ext: 'ts'},
-    {label: 'Module', type: 'module', ext: 'ts'},
-    {label: 'Style', type: 'component', ext: 'css'}
+    {label: 'Module', type: 'module', ext: 'ts'}
   ];
   @Input() viewLabel: string;
   @Input() path: string;
@@ -64,7 +63,6 @@ export class ViewComponent implements OnInit {
     private http: HttpClient,
     private el: ElementRef,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private theme: LyTheme2
   ) { }
   toggleCode() {

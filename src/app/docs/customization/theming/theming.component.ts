@@ -7,11 +7,12 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ThemingComponent {
   code = `...
-import { LyThemeModule, LyThemeConfig, LY_THEME_CONFIG } from '@alyle/ui';
+import { LyThemeModule, LyThemeConfig, LY_THEME_CONFIG, PartialThemeConfig } from '@alyle/ui';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
 
 /**
+ * for light theme
  * Theme name = minima-light
  */
 export class CustomMinimaLight extends MinimaLight {
@@ -20,6 +21,7 @@ export class CustomMinimaLight extends MinimaLight {
 }
 
 /**
+ * for dark theme
  * Theme name = minima-dark
  */
 export class CustomMinimaDark extends MinimaDark {
@@ -27,9 +29,25 @@ export class CustomMinimaDark extends MinimaDark {
   myColor = 'teal';
 }
 
+/**
+ * Global variables
+ */
+export class GlobalVariables implements PartialThemeConfig {
+  primary = {
+    default: '#00bcd4',
+    contrast: '#fff'
+  },
+  accent = {
+    default: '#FFC107',
+    contrast: '#fff'
+  }
+}
+
 /** Add theme */
-export class MyCustomTheme extends LyThemeConfig {
+export class MyCustomTheme implements LyThemeConfig {
   themes = [CustomMinimaLight, CustomMinimaDark];
+  /** overwrite for light & dark */
+  variables = new GlobalVariables;
 }
 
 /** set theme */
