@@ -1,6 +1,5 @@
 import { Directive, Renderer2, ElementRef, Input, OnInit, Optional } from '@angular/core';
 import { LyTheme2, toBoolean, LyCommon, ThemeVariables } from '@alyle/ui';
-import { LyCardService } from './card.service';
 
 const styles = (theme: ThemeVariables) => ({
   root: {

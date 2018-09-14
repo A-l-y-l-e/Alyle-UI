@@ -1,6 +1,5 @@
 import { Directive, ElementRef, Input, Optional, Inject, OnInit } from '@angular/core';
-import { LyTheme2, eachMedia } from '@alyle/ui';
-import { LY_MEDIA_QUERIES } from '@alyle/ui/responsive';
+import { LyTheme2, eachMedia, ThemeVariables } from '@alyle/ui';
 
 const COL_VALUES = { };
 
@@ -70,7 +69,7 @@ export class LyGrid {
   set spacing(val: string | number) {
     if (val !== this.spacing) {
       this._spacing = val;
-      this._spacingClass = this.theme.addStyle(`lyGrid-spacing:${val}`, () => {
+      this._spacingClass = this.theme.addStyle(`lyGrid-spacing:${val}`, (theme: ThemeVariables) => {
         if (typeof val === 'number') {
           return `padding:${val / 2}px;`;
         } else {
@@ -80,7 +79,8 @@ export class LyGrid {
           eachMedia(val, (value, media, len) => {
             const padding = `${(+value) / 2}px`;
             if (len) {
-              spacingStyles[`@media ${this.mediaQueries[media]}`] = {
+              // spacingStyles[`@media ${this.mediaQueries[media]}`] = {
+              spacingStyles[theme.getBreakpoint(media)] = {
                 padding
               };
             } else {
@@ -90,7 +90,7 @@ export class LyGrid {
           return spacingStyles as any;
         }
       });
-      this._negativeMarginClass = this.theme.addStyle(`lyGrid-negative-margin:${val}`, () => {
+      this._negativeMarginClass = this.theme.addStyle(`lyGrid-negative-margin:${val}`, (theme: ThemeVariables) => {
         if (typeof val === 'number') {
           return `margin:${val / -2}px;width: calc(100% + ${val}px);`;
         } else {
@@ -107,7 +107,8 @@ export class LyGrid {
               if (!negativeMarginStyles) {
                 negativeMarginStyles = {};
               }
-              negativeMarginStyles[`@media ${this.mediaQueries[media]}`] = negativeMarginstyles;
+              // negativeMarginStyles[`@media ${this.mediaQueries[media]}`] = negativeMarginstyles;
+              negativeMarginStyles[theme.getBreakpoint(media)] = negativeMarginstyles;
             } else {
               negativeMarginStyles = negativeMarginstyles;
             }
@@ -130,7 +131,7 @@ export class LyGrid {
   set justify(val: Justify) {
     if (val !== this.justify) {
       this._justify = val;
-      this._justifyClass = this.theme.addStyle(`lyGrid-justify:${val}`, () => {
+      this._justifyClass = this.theme.addStyle(`lyGrid-justify:${val}`, (theme: ThemeVariables) => {
         let justifyStyles: {
           justifyContent?: string
         };
@@ -144,7 +145,8 @@ export class LyGrid {
             if (!justifyStyles) {
               justifyStyles = {};
             }
-            justifyStyles[`@media ${this.mediaQueries[media]}`] = newJustifyStyles;
+            // justifyStyles[`@media ${this.mediaQueries[media]}`] = newJustifyStyles;
+            justifyStyles[theme.getBreakpoint(media)] = newJustifyStyles;
           } else {
             justifyStyles = newJustifyStyles;
           }
@@ -162,7 +164,7 @@ export class LyGrid {
   set direction(val: Direction) {
     if (val !== this.direction) {
       this._direction = val;
-      this._directionClass = this.theme.addStyle(`lyGrid-direction:${val}`, () => {
+      this._directionClass = this.theme.addStyle(`lyGrid-direction:${val}`, (theme: ThemeVariables) => {
         let directionStyles: {
           flexDirection?: string
         };
@@ -176,7 +178,8 @@ export class LyGrid {
             if (!directionStyles) {
               directionStyles = {};
             }
-            directionStyles[`@media ${this.mediaQueries[media]}`] = newDirectionStyles;
+            // directionStyles[`@media ${this.mediaQueries[media]}`] = newDirectionStyles;
+            directionStyles[theme.getBreakpoint(media)] = newDirectionStyles;
           } else {
             directionStyles = newDirectionStyles;
           }
@@ -187,7 +190,6 @@ export class LyGrid {
   }
 
   constructor(
-    @Optional() @Inject(LY_MEDIA_QUERIES) private mediaQueries: any,
     private theme: LyTheme2,
     private el: ElementRef,
   ) {
@@ -213,7 +215,7 @@ export class LyGridItem implements OnInit {
   set col(val: string | number) {
     if (val !== this.col) {
       this._col = val;
-      this._colClass = this.theme.addStyle(`lyGrid-col:${val}`, () => {
+      this._colClass = this.theme.addStyle(`lyGrid-col:${val}`, (theme: ThemeVariables) => {
         if (typeof val === 'number') {
           return getColStyle(val);
         } else {
@@ -228,7 +230,8 @@ export class LyGridItem implements OnInit {
               if (!colStyles) {
                 colStyles = {};
               }
-              colStyles[`@media ${this.mediaQueries[media]}`] = newColStyles;
+              // colStyles[`@media ${this.mediaQueries[media]}`] = newColStyles;
+              colStyles[theme.getBreakpoint(media)] = newColStyles;
             } else {
               colStyles = newColStyles;
             }
@@ -249,7 +252,7 @@ export class LyGridItem implements OnInit {
   set order(val: string | number) {
     if (val !== this.order) {
       this._order = val;
-      this._orderClass = this.theme.addStyle(`lyGrid-order:${val}`, () => {
+      this._orderClass = this.theme.addStyle(`lyGrid-order:${val}`, (theme: ThemeVariables) => {
         let orderStyles: {
           order?: string
         };
@@ -261,7 +264,8 @@ export class LyGridItem implements OnInit {
             if (!orderStyles) {
               orderStyles = {};
             }
-            orderStyles[`@media ${this.mediaQueries[media]}`] = newOrderStyles;
+            // orderStyles[`@media ${this.mediaQueries[media]}`] = newOrderStyles;
+            orderStyles[theme.getBreakpoint(media)] = newOrderStyles;
           } else {
             orderStyles = newOrderStyles;
           }
@@ -272,7 +276,6 @@ export class LyGridItem implements OnInit {
   }
 
   constructor(
-    @Optional() @Inject(LY_MEDIA_QUERIES) private mediaQueries: any,
     private gridContainer: LyGrid,
     private el: ElementRef,
     private theme: LyTheme2

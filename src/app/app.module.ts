@@ -11,7 +11,7 @@ import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig, LyThemeModule, ThemeVariables } from '@alyle/ui';
-import { ResponsiveModule, LY_MEDIA_QUERIES, Breakpoints } from '@alyle/ui/responsive';
+import { ResponsiveModule, Breakpoints } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
 
@@ -127,9 +127,7 @@ export class MyCustomTheme implements LyThemeConfig {
   ],
   providers: [
     RoutesAppService,
-    // { provide: LY_THEME_NAME, useValue: 'minima-light' },
     { provide: LY_THEME_CONFIG, useClass: MyCustomTheme },
-    { provide: LY_MEDIA_QUERIES, useValue: Breakpoints },
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ],
   bootstrap: [AppComponent]
