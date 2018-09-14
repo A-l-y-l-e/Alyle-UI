@@ -1,3 +1,23 @@
+<a name="1.7.0-beta.6b7cf"></a>
+# [1.7.0-beta.6b7cf](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.63q2l...1.7.0-beta.6b7cf) (2018-09-14)
+
+
+### Bug Fixes
+
+* **card:** fix responsive ([146d959](https://github.com/A-l-y-l-e/Alyle-UI/commit/146d959))
+* **theme:** move breakpoints in theme ([28e8d42](https://github.com/A-l-y-l-e/Alyle-UI/commit/28e8d42))
+
+
+### Features
+
+* **card:** responsive ([bae0923](https://github.com/A-l-y-l-e/Alyle-UI/commit/bae0923))
+* **core:** add shadow property for PaletteColor ([71cb45f](https://github.com/A-l-y-l-e/Alyle-UI/commit/71cb45f))
+* **core:** fix global variables ([6f95433](https://github.com/A-l-y-l-e/Alyle-UI/commit/6f95433))
+* **core:** option for add optional global variables change theme ([a20a270](https://github.com/A-l-y-l-e/Alyle-UI/commit/a20a270))
+* create property breakpoints in ThemeVariables ([4529fa3](https://github.com/A-l-y-l-e/Alyle-UI/commit/4529fa3))
+
+
+
 <a name="1.7.0-beta.63q2l"></a>
 # [1.7.0-beta.63q2l](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.603x9...1.7.0-beta.63q2l) (2018-09-10)
 
