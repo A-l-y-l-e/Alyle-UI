@@ -1,6 +1,31 @@
 import { Directive, Renderer2, ElementRef, Input, OnInit, Optional } from '@angular/core';
-import { LyTheme2, toBoolean, LyCommon } from '@alyle/ui';
+import { LyTheme2, toBoolean, LyCommon, ThemeVariables } from '@alyle/ui';
 import { LyCardService } from './card.service';
+
+const styles = (theme: ThemeVariables) => ({
+  root: {
+    display: 'block',
+    overflow: 'hidden',
+    borderRadius: '2px'
+  },
+  content: {
+    display: 'block',
+    padding: '16px 24px',
+    [theme.getBreakpoint('XSmall')]: {
+      padding: '16px 16px'
+    }
+  },
+  actions: {
+    display: 'block',
+    padding: '8px 12px',
+    [theme.getBreakpoint('XSmall')]: {
+      padding: '8px 4px'
+    }
+  },
+  actionsItem: {
+    margin: '0 4px'
+  }
+});
 
 const DEFAULT_ASPECT_RATIO = '16:9';
 
@@ -8,21 +33,9 @@ const DEFAULT_ASPECT_RATIO = '16:9';
   selector: 'ly-card'
 })
 export class LyCard implements OnInit {
-  // private _elevation: string | number;
-  // private _elevationClass: string;
-  // @Input()
-  // set elevation(val: string | number) {
-  //   if (this.elevation !== val) {
-  //     const newClass = this._createElevationClass(val);
-  //     this._elevationClass = this.styler.updateClass(this.el.nativeElement, this.renderer, newClass, this._elevationClass);
-  //   }
-  // }
-  // get elevation() {
-  //   return this._elevation;
-  // }
-
+  classes = this.theme.addStyleSheet(styles, 'ly-card');
   constructor(
-    private cardService: LyCardService,
+    private theme: LyTheme2,
     private el: ElementRef,
     private renderer: Renderer2,
     @Optional() private common: LyCommon
@@ -46,7 +59,7 @@ export class LyCard implements OnInit {
     if (requireOnChanges) {
       this.common.ngOnChanges();
     }
-    this.renderer.addClass(this.el.nativeElement, this.cardService.classes.root);
+    this.renderer.addClass(this.el.nativeElement, this.classes.root);
     // if (this.elevation === void 0) {
     //   this.elevation = DEFAULT_ELEVATION;
     // }
@@ -61,11 +74,11 @@ export class LyCardContent implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private cardService: LyCardService
+    private card: LyCard
   ) { }
 
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.cardService.classes.content);
+    this.renderer.addClass(this.el.nativeElement, this.card.classes.content);
   }
 }
 
@@ -77,13 +90,13 @@ export class LyCardActions implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private cardService: LyCardService
+    private card: LyCard
   ) { }
   ngOnInit() {
-    this.renderer.addClass(this.el.nativeElement, this.cardService.classes.actions);
+    this.renderer.addClass(this.el.nativeElement, this.card.classes.actions);
     if (!toBoolean(this.disableActionSpacing)) {
       this.el.nativeElement.childNodes.forEach(element => {
-        this.renderer.addClass(element, this.cardService.classes.actionsItem);
+        this.renderer.addClass(element, this.card.classes.actionsItem);
       });
     }
   }

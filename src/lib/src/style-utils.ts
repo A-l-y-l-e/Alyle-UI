@@ -1,5 +1,3 @@
-import { ThemeConfig } from './theme/theme-config';
-
 export interface TypographyConfig {
   fontSize: number;
   fontFamily?: string;
@@ -15,12 +13,35 @@ export class LyStyleUtils {
     htmlFontSize: number,
     fontSize: number;
   };
+  breakpoints: {
+    XSmall: string,
+    Small: string,
+    Medium: string,
+    Large: string,
+    XLarge: string,
+
+    Handset: string,
+    Tablet: string,
+    Web: string,
+
+    HandsetPortrait: string,
+    TabletPortrait: string,
+    WebPortrait: string,
+
+    HandsetLandscape: string,
+    TabletLandscape: string,
+    WebLandscape: string,
+    [key: string]: string
+  };
   pxToRem(value: number) {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
   }
   colorOf(value: string, optional?: string): string {
     return get(this, value, optional);
+  }
+  getBreakpoint(key: string) {
+    return `@media ${this.breakpoints[key] || key}`;
   }
 }
 
