@@ -1,5 +1,6 @@
 import { typography, iconButton, icon, input } from './variables';
 import { ThemeConfig, LyStyleUtils, TypographyConfig } from '@alyle/ui';
+import { Breakpoints } from '@alyle/ui/responsive';
 
 const contrast = '#fff';
 const shadow = 'rgba(0, 0, 0, 1)';
@@ -59,4 +60,5 @@ export class MinimaDark extends LyStyleUtils implements ThemeConfig {
   };
   iconButton = iconButton;
   icon = icon;
+  breakpoints = Breakpoints;
 }
