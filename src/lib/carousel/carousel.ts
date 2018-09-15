@@ -18,7 +18,7 @@ import {
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform, LyTheme2, toBoolean } from '@alyle/ui';
 
-const STYLE_PRIORITY = 0;
+const STYLE_PRIORITY = -2;
 
 const styles = ({
   root: {
