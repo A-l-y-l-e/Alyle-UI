@@ -1,6 +1,7 @@
 import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
 import { LyTheme2, toBoolean } from '@alyle/ui';
 
+const STYLE_PRIORITY = -2;
 const styles = ({
   root: {
     margin: 0,
@@ -18,7 +19,7 @@ enum Gutter {
   selector: `[lyTyp]`
 })
 export class LyTypography implements OnInit {
-  classes = this.style.addStyleSheet(styles, 'lyTyp', -1);
+  classes = this.style.addStyleSheet(styles, 'lyTyp', STYLE_PRIORITY);
   private _lyTyp: string;
   private _lyTypClass: string;
 
@@ -118,7 +119,8 @@ export class LyTypography implements OnInit {
         return style;
       },
       this.elementRef.nativeElement,
-      instance
+      instance,
+      STYLE_PRIORITY
     );
   }
 
@@ -132,7 +134,9 @@ export class LyTypography implements OnInit {
           `margin-bottom:${ val && (gutter || name === Gutter.bottom) ? theme.typography.gutterBottom : 0 }em;`
         );
       },
-      this.elementRef.nativeElement, instance
+      this.elementRef.nativeElement,
+      instance,
+      STYLE_PRIORITY
     );
   }
 }
