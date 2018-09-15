@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 import { LyTheme2, eachMedia, ThemeVariables } from '@alyle/ui';
 
-const STYLE_PRIORITY = 0.1;
+const STYLE_PRIORITY = -1;
 
 const COL_VALUES = { };
 
