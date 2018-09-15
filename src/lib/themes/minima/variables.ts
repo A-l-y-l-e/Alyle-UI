@@ -83,18 +83,3 @@ export const input = {
   /** default color */
   withColor: 'primary'
 };
-
-export const card = {
-  content: {
-    XSmall: {
-      /** TODO: change this for this breakpoint */
-      padding: '16px 24px'
-    }
-  },
-  actions: {
-    XSmall: {
-      /** TODO: change this for this breakpoint */
-      padding: '8px 12px'
-    }
-  }
-};
