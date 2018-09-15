@@ -1,3 +1,35 @@
+<a name="1.7.0-beta.6d2nq"></a>
+# [1.7.0-beta.6d2nq](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.6b7cf...1.7.0-beta.6d2nq) (2018-09-15)
+
+
+### Bug Fixes
+
+* **button:** add style priority ([2d9ee24](https://github.com/A-l-y-l-e/Alyle-UI/commit/2d9ee24))
+* **button:** fix style priority ([9d30d48](https://github.com/A-l-y-l-e/Alyle-UI/commit/9d30d48))
+* **card:** add style priority ([ac91210](https://github.com/A-l-y-l-e/Alyle-UI/commit/ac91210))
+* **card:** fix style priority ([f6b0e1e](https://github.com/A-l-y-l-e/Alyle-UI/commit/f6b0e1e))
+* **carousel:** add style priority ([3fee681](https://github.com/A-l-y-l-e/Alyle-UI/commit/3fee681))
+* **carousel:** fix style priority ([83be366](https://github.com/A-l-y-l-e/Alyle-UI/commit/83be366))
+* **carousel:** remove unused style ([95eccbd](https://github.com/A-l-y-l-e/Alyle-UI/commit/95eccbd))
+* **grid:** add style priority ([f7adf01](https://github.com/A-l-y-l-e/Alyle-UI/commit/f7adf01))
+* **grid:** fix style priority ([e5a3de4](https://github.com/A-l-y-l-e/Alyle-UI/commit/e5a3de4))
+* **icon:** fix style priority ([a8dd08e](https://github.com/A-l-y-l-e/Alyle-UI/commit/a8dd08e))
+* **icon:** set style priority ([e4ea510](https://github.com/A-l-y-l-e/Alyle-UI/commit/e4ea510))
+* **icon-button:** fix style priority ([9415b18](https://github.com/A-l-y-l-e/Alyle-UI/commit/9415b18))
+* **icon-button:** set style priority ([5076b4f](https://github.com/A-l-y-l-e/Alyle-UI/commit/5076b4f))
+* **menu:** remove LyMenuDeprecated ([452b0d5](https://github.com/A-l-y-l-e/Alyle-UI/commit/452b0d5))
+* **menu:** remove unused styles ([b5088a7](https://github.com/A-l-y-l-e/Alyle-UI/commit/b5088a7))
+* **radio:** set style priority ([b312a8e](https://github.com/A-l-y-l-e/Alyle-UI/commit/b312a8e))
+* **toolbar:** update styles & set style priority ([758f5b3](https://github.com/A-l-y-l-e/Alyle-UI/commit/758f5b3))
+* **typography:** set style priority ([9a59d3e](https://github.com/A-l-y-l-e/Alyle-UI/commit/9a59d3e))
+
+
+### Features
+
+* **image-cropper:** update styles & set style priority ([44dd2fa](https://github.com/A-l-y-l-e/Alyle-UI/commit/44dd2fa))
+
+
+
 <a name="1.7.0-beta.6b7cf"></a>
 # [1.7.0-beta.6b7cf](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.63q2l...1.7.0-beta.6b7cf) (2018-09-14)
 
