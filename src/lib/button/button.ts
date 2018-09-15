@@ -19,6 +19,7 @@ import {
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
 const DEFAULT_SIZE = 'medium';
+const STYLE_PRIORITY = 0;
 
 interface Size {
   small: any;
@@ -61,7 +62,7 @@ export class LyButton implements OnInit, OnDestroy {
    * Style
    * @ignore
    */
-  classes = this.theme.addStyleSheet(styles, 'lyButton');
+  classes = this.theme.addStyleSheet(styles, 'lyButton', STYLE_PRIORITY);
   private _rippleSensitive = false;
   private _rippleContainer: Ripple;
   private _size: Record<keyof Size, string>;
@@ -87,7 +88,8 @@ export class LyButton implements OnInit, OnDestroy {
         `lyButton-size:${this.size}`,
         Size[this.size as any],
         this.elementRef.nativeElement,
-        this._sizeClass
+        this._sizeClass,
+        STYLE_PRIORITY
       );
     }
   }
