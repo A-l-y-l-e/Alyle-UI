@@ -2,11 +2,9 @@
   <button ly-icon-button (click)="drawer.toggle()">
     <ly-icon>menu</ly-icon>
   </button>
-  <ly-toolbar-item>
-    <button ly-button [withClass]="classes.logo" color="primary:contrast" sensitive [routerLink]="['./']">
-      Alyle UI
-    </button>
-  </ly-toolbar-item>
+  <button ly-button [withClass]="classes.logo" color="primary:contrast" sensitive [routerLink]="['./']">
+    Alyle UI
+  </button>
   <span lyHide="XSmall" [withClass]="classes.version">v{{ version }}</span>
   <div [style.flex]="1"></div>
   <button #_button ly-button color="primary:contrast" class="material-icons" [lyMenuTriggerFor]="_Menu">
