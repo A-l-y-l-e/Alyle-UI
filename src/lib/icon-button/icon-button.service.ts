@@ -1,7 +1,7 @@
 import { LyTheme2 } from '@alyle/ui';
 import { Injectable } from '@angular/core';
 
-const STYLE_PRIORITY = -1;
+const STYLE_PRIORITY = -2;
 
 const styles = ({
   root: {

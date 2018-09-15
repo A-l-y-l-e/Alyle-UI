@@ -12,7 +12,7 @@ import { LyRipple } from '@alyle/ui/ripple';
 import { LyCommon, LyTheme2 } from '@alyle/ui';
 import { LyIconButtonService } from './icon-button.service';
 
-const STYLE_PRIORITY = -1;
+const STYLE_PRIORITY = -2;
 
 const styles = theme => ({
   size: {
