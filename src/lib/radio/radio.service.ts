@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
 
+const STYLE_PRIORITY = -2;
+
 const styles = ({
   root: {
     display: 'flex',
@@ -15,7 +17,7 @@ const styles = ({
   providedIn: 'root'
 })
 export class LyRadioService {
-  classes = this.theme.addStyleSheet(styles, 'lyRadioStatic');
+  classes = this.theme.addStyleSheet(styles, 'lyRadioStatic', STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2
   ) { }

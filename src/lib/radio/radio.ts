@@ -26,6 +26,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean } from '@alyle/ui';
 import { LyRadioService } from './radio.service';
+
+const STYLE_PRIORITY = -2;
+
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyRadioGroup),
@@ -83,7 +86,7 @@ export class LyRadioGroup implements ControlValueAccessor {
   name = `ly-radio-name-${idx++}`;
   _color = 'accent';
 
-  classes = this.theme.addStyleSheet(styles, 'lyRadio', -1);
+  classes = this.theme.addStyleSheet(styles, 'lyRadio', STYLE_PRIORITY);
 
   @Input()
   set value(val: any) {
@@ -322,7 +325,8 @@ export class LyRadio implements OnInit, OnDestroy {
         },
       }),
       this._radioContainer.nativeElement,
-      this.checkedClass
+      this.checkedClass,
+      STYLE_PRIORITY
     );
   }
 
