@@ -1,5 +1,7 @@
-import { Directive, ElementRef, Input, Optional, Inject, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 import { LyTheme2, eachMedia, ThemeVariables } from '@alyle/ui';
+
+const STYLE_PRIORITY = 0.1;
 
 const COL_VALUES = { };
 
@@ -46,7 +48,7 @@ export class LyGrid {
    * Styles
    * @ignore
    */
-  classes = this.theme.addStyleSheet(styles, 'lyGrid');
+  classes = this.theme.addStyleSheet(styles, 'lyGrid', STYLE_PRIORITY);
 
   private _spacing: string | number;
   private _spacingClass: string;
@@ -89,7 +91,7 @@ export class LyGrid {
           });
           return spacingStyles as any;
         }
-      });
+      }, undefined, undefined, STYLE_PRIORITY);
       this._negativeMarginClass = this.theme.addStyle(`lyGrid-negative-margin:${val}`, (theme: ThemeVariables) => {
         if (typeof val === 'number') {
           return `margin:${val / -2}px;width: calc(100% + ${val}px);`;
@@ -115,7 +117,7 @@ export class LyGrid {
           });
           return negativeMarginStyles as any;
         }
-      }, this.el.nativeElement, this._negativeMarginClass);
+      }, this.el.nativeElement, this._negativeMarginClass, STYLE_PRIORITY);
     }
   }
 
@@ -152,7 +154,7 @@ export class LyGrid {
           }
         });
         return justifyStyles as any;
-      }, this.el.nativeElement, this._justifyClass);
+      }, this.el.nativeElement, this._justifyClass, STYLE_PRIORITY);
     }
   }
 
@@ -185,7 +187,7 @@ export class LyGrid {
           }
         });
         return directionStyles as any;
-      }, this.el.nativeElement, this._directionClass);
+      }, this.el.nativeElement, this._directionClass, STYLE_PRIORITY);
     }
   }
 
@@ -238,7 +240,7 @@ export class LyGridItem implements OnInit {
           });
           return colStyles as any;
         }
-      }, this.el.nativeElement, this._colClass);
+      }, this.el.nativeElement, this._colClass, STYLE_PRIORITY);
     }
   }
 
@@ -271,7 +273,7 @@ export class LyGridItem implements OnInit {
           }
         });
         return orderStyles as any;
-      }, this.el.nativeElement, this._orderClass);
+      }, this.el.nativeElement, this._orderClass, STYLE_PRIORITY);
     }
   }
 
