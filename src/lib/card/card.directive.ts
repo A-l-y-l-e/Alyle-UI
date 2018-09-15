@@ -28,7 +28,7 @@ const styles = (theme: ThemeVariables) => ({
 
 const DEFAULT_ASPECT_RATIO = '16:9';
 
-const STYLE_PRIORITY = 0.1;
+const STYLE_PRIORITY = -1;
 
 @Directive({
   selector: 'ly-card'
