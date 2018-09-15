@@ -146,9 +146,6 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
         /** for before initialize or for server */
         this.renderer.addClass(currentTab.tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
         this.renderer.addClass(currentTab.tabIndicator.nativeElement, this._withColorClass);
-        /**
-         * TODO: tabs: update indicator when change `selectedIndex`
-         */
       } else {
         // for after initialize && for browser
         // Clean before tab
