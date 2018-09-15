@@ -19,7 +19,7 @@ import {
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
 const DEFAULT_SIZE = 'medium';
-const STYLE_PRIORITY = 0;
+const STYLE_PRIORITY = -2;
 
 interface Size {
   small: any;
