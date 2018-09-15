@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { LyTheme2 } from '@alyle/ui';
 
+const STYLE_PRIORITY = -1;
+
 const styles = {
   svg: {
     width: 'inherit',
@@ -23,7 +25,7 @@ export interface SvgIcon {
 })
 export class LyIconService {
   private svgMap = new Map<string, SvgIcon>();
-  classes = this.theme.addStyleSheet(styles, 'lyIcon');
+  classes = this.theme.addStyleSheet(styles, 'lyIcon', STYLE_PRIORITY);
   constructor(
     private http: HttpClient,
     @Optional() @Inject(DOCUMENT) private document: any,

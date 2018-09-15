@@ -1,7 +1,9 @@
-import { Directive, Input, Renderer2, ElementRef, OnChanges, OnInit } from '@angular/core';
+import { Directive, Input, Renderer2, ElementRef, OnInit } from '@angular/core';
 import { LyIconService, SvgIcon } from './icon.service';
 import { take } from 'rxjs/operators';
 import { Platform, LyTheme2 } from '@alyle/ui';
+
+const STYLE_PRIORITY = -1;
 
 @Directive({
   selector: 'ly-icon'
@@ -83,7 +85,7 @@ export class Icon implements OnInit {
       `width:1em;` +
       `height:1em;` +
       `display:inline-flex;`
-    ), this.elementRef.nativeElement);
+    ), this.elementRef.nativeElement, undefined, STYLE_PRIORITY);
   }
 
   /**
