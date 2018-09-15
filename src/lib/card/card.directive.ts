@@ -28,11 +28,13 @@ const styles = (theme: ThemeVariables) => ({
 
 const DEFAULT_ASPECT_RATIO = '16:9';
 
+const STYLE_PRIORITY = 0.1;
+
 @Directive({
   selector: 'ly-card'
 })
 export class LyCard implements OnInit {
-  classes = this.theme.addStyleSheet(styles, 'ly-card');
+  classes = this.theme.addStyleSheet(styles, 'ly-card', STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2,
     private el: ElementRef,
@@ -156,7 +158,8 @@ export class LyCardMedia implements OnInit {
         `background-position: center;`
       ),
       this.el.nativeElement,
-      instance
+      instance,
+      STYLE_PRIORITY
     );
   }
 
@@ -173,7 +176,8 @@ export class LyCardMedia implements OnInit {
         })
       }),
       this.el.nativeElement,
-      this._ratioClass
+      this._ratioClass,
+      STYLE_PRIORITY
     );
   }
 }
