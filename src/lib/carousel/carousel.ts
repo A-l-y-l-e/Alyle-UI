@@ -18,6 +18,8 @@ import {
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform, LyTheme2, toBoolean } from '@alyle/ui';
 
+const STYLE_PRIORITY = 0;
+
 const styles = ({
   root: {
     display: 'block',
@@ -144,7 +146,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   _positionLeft: string | number;
   @Input() selectedIndex = 0;
   selectedElement: HTMLElement;
-  classes = this.theme.addStyleSheet(styles, 'lyCarousel');
+  classes = this.theme.addStyleSheet(styles, 'lyCarousel', STYLE_PRIORITY);
   private _slideEvent: boolean;
   @Input()
   set slideEvent(val: boolean) {
@@ -278,7 +280,7 @@ export class LyCarouselItem {
         `background-image: url('${value}')`
       ),
       this._nativeElement,
-      this._className
+      this._className, STYLE_PRIORITY
     );
   }
   _nativeElement: HTMLElement;
