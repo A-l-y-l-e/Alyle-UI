@@ -1,5 +1,7 @@
-import { CoreTheme, LyTheme2 } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
 import { Injectable } from '@angular/core';
+
+const STYLE_PRIORITY = -1;
 
 const styles = ({
   root: {
@@ -37,7 +39,7 @@ const styles = ({
   providedIn: 'root'
 })
 export class LyIconButtonService {
-  classes = this.theme.addStyleSheet(styles, 'lyIconButtonStatic');
+  classes = this.theme.addStyleSheet(styles, 'lyIconButtonStatic', STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2
   ) { }

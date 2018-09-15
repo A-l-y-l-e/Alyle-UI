@@ -12,6 +12,8 @@ import { LyRipple } from '@alyle/ui/ripple';
 import { LyCommon, LyTheme2 } from '@alyle/ui';
 import { LyIconButtonService } from './icon-button.service';
 
+const STYLE_PRIORITY = -1;
+
 const styles = theme => ({
   size: {
     width: theme.iconButton.size,
@@ -36,7 +38,7 @@ const styles = theme => ({
 })
 export class LyIconButton implements OnInit {
   @ViewChild(LyRipple) ripple: LyRipple;
-  classes = this.theme.addStyleSheet(styles, 'lyIconButton');
+  classes = this.theme.addStyleSheet(styles, 'lyIconButton', STYLE_PRIORITY);
   constructor(
     public elementRef: ElementRef,
     private renderer: Renderer2,
