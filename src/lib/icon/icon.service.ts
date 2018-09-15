@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { LyTheme2 } from '@alyle/ui';
 
-const STYLE_PRIORITY = -1;
+const STYLE_PRIORITY = -2;
 
 const styles = {
   svg: {

@@ -3,7 +3,7 @@ import { LyIconService, SvgIcon } from './icon.service';
 import { take } from 'rxjs/operators';
 import { Platform, LyTheme2 } from '@alyle/ui';
 
-const STYLE_PRIORITY = -1;
+const STYLE_PRIORITY = -2;
 
 @Directive({
   selector: 'ly-icon'
