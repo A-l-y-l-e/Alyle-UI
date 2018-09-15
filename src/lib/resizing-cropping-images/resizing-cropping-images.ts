@@ -10,9 +10,76 @@ import {
   ChangeDetectorRef,
   ViewChild,
   AfterContentInit,
-  EventEmitter
+  EventEmitter,
+  Renderer2
 } from '@angular/core';
 import { BehaviorSubject , Subject , Observable } from 'rxjs';
+import { LyTheme2 } from '@alyle/ui';
+
+const STYLE_PRIORITY = -2;
+
+const styles = ({
+  root: {
+    '-webkit-user-select': 'none',
+    '-moz-user-select': 'none',
+    '-ms-user-select': 'none',
+    userSelect: 'none',
+    display: 'flex',
+    overflow: 'hidden',
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  imgContainer: {
+    cursor: 'move',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    '& > img': {
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none',
+    }
+  },
+  croppingContainer: {
+    position: 'absolute',
+    pointerEvents: 'none',
+    boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.29)',
+    '&::after': {
+      content: `''`,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      border: 'solid 2px rgb(255, 255, 255)'
+    }
+  },
+  croppContent: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    '& *:not(input)': {
+      pointerEvents: 'none'
+    },
+    '& > input': {
+      position: 'absolute',
+      background: 'transparent',
+      opacity: 0,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      width: '100%',
+      height: '100%'
+    }
+  }
+});
 
 export interface LyResizingCroppingImagesConfig {
   width: number;
@@ -49,19 +116,17 @@ const CONFIG_DEFAULT = <LyResizingCroppingImagesConfig>{
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
   selector: 'ly-cropping',
-  styleUrls: ['./resizing-cropping-images.scss'],
-  templateUrl: './resizing-cropping-images.html',
+  templateUrl: './resizing-cropping-images.html'
  })
 export class LyResizingCroppingImages implements AfterContentInit {
+  classes = this.theme.addStyleSheet(styles, 'ly-image-cropper', STYLE_PRIORITY);
   img: BehaviorSubject<HTMLImageElement> = new BehaviorSubject<HTMLImageElement>(null);
   result: string;
   fileName: string;
 
   private _img: HTMLImageElement;
   private offset: {x: number, y: number, left: number, top: number};
-  private eventDirection: string;
   private scale: number;
-  private _src: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   @ViewChild('_imgContainer') imgContainer: ElementRef;
   @ViewChild('_croppingContainer') croppingContainer: ElementRef;
@@ -81,8 +146,13 @@ export class LyResizingCroppingImages implements AfterContentInit {
   private _dragData: Subject<{width: string, height: string, transform: string}> = new Subject();
   dragData: Observable<{width: string, height: string, transform: string}>;
   private zoomScale = .1;
-  constructor(private elementRef: ElementRef, private cd: ChangeDetectorRef) {
-
+  constructor(
+    private _renderer: Renderer2,
+    private theme: LyTheme2,
+    private elementRef: ElementRef,
+    private cd: ChangeDetectorRef
+  ) {
+    this._renderer.addClass(elementRef.nativeElement, this.classes.root);
     this.dragData = this._dragData.asObservable();
     const img = this.img;
     img.subscribe((imgElement: HTMLImageElement) => {
@@ -185,7 +255,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
 
   _moveStart(event) {
-    this.eventDirection = null;
     const rect = this.imgContainer.nativeElement.getBoundingClientRect();
     const hostRect = this.elementRef.nativeElement.getBoundingClientRect();
     let target;
@@ -208,14 +277,10 @@ export class LyResizingCroppingImages implements AfterContentInit {
     };
   }
   _move(event) {
-    if (event.additionalEvent) {
-      this.eventDirection = event.additionalEvent;
-    }
     let x, y;
     const hostRect = this.elementRef.nativeElement.getBoundingClientRect();
     const rect = this.imgContainer.nativeElement.getBoundingClientRect();
     if (event.srcEvent.shiftKey) {
-      // if (this.eventDirection === 'panleft' || this.eventDirection === 'panright') {
       if (Math.abs(event.deltaX) === Math.max(Math.abs(event.deltaX), Math.abs(event.deltaY))) {
         y = this.offset.top;
       } else {

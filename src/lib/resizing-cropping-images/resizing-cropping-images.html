@@ -1,16 +1,16 @@
-<div class="ly-img-container" #_imgContainer
+<div [className]="classes.imgContainer" #_imgContainer
 (panstart)="_moveStart($event)"
 (pan)="_move($event)"
 [ngStyle]="dragData | async">
   <img *ngIf="isLoaded"
   [src]="src">
 </div>
-<div #_croppingContainer *ngIf="isLoaded; else content" class="ly-cropping-container" [ngStyle]="{
+<div #_croppingContainer *ngIf="isLoaded; else content" [className]="classes.croppingContainer" [ngStyle]="{
   width: config.width + 'px',
   height: config.height + 'px'
 }"></div>
 <ng-template #content>
-  <div class="ly-cropp-content">
+  <div [className]="classes.croppContent">
     <input #_fileInput type="file" (change)="selectInputEvent($event)" accept="image/*">
     <ng-content></ng-content>
   </div>
