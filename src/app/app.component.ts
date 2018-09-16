@@ -1,12 +1,12 @@
 import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, ThemeVariables } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
 import { DOCUMENT } from '@angular/platform-browser';
 import { LyDrawer } from '@alyle/ui/drawer';
 
-const styles = theme => {
+const styles = (theme: ThemeVariables) => {
   const onLinkActive = {
     color: theme.primary.default,
     borderLeft: '3px solid'
