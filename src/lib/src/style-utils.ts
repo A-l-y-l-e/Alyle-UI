@@ -10,6 +10,7 @@ export interface TypographyConfig {
 
 export class LyStyleUtils {
   typography: {
+    fontFamily?: string;
     htmlFontSize: number,
     fontSize: number;
   };
