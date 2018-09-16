@@ -1,12 +1,13 @@
-import { Component, VERSION, ChangeDetectionStrategy, Renderer2, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Renderer2, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2, ThemeVariables } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
 import { DOCUMENT } from '@angular/platform-browser';
 import { LyDrawer } from '@alyle/ui/drawer';
+import { CustomMinimaLight, CustomMinimaDark } from './app.module';
 
-const styles = (theme: ThemeVariables) => {
+const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => {
   const onLinkActive = {
     color: theme.primary.default,
     borderLeft: '3px solid'
@@ -49,7 +50,7 @@ const styles = (theme: ThemeVariables) => {
       borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
     },
     drawerButton: {
-      color: '#5f6368',
+      color: theme.drawerButton,
       fontWeight: 400,
       borderLeft: '3px solid transparent',
       '&:hover': onLinkActive

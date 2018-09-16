@@ -36,11 +36,11 @@ export class GlobalVariables implements PartialThemeConfig {
   primary = {
     default: '#00bcd4',
     contrast: '#fff'
-  },
+  };
   accent = {
     default: '#FFC107',
     contrast: '#fff'
-  }
+  };
 }
 
 /** Add theme */

@@ -55,6 +55,7 @@ export class CustomMinimaLight extends MinimaLight {
   codeColor = 'rgba(0, 23, 31, 0.7)';
   codeBg = '#F5F5F5';
   myColor = 'pink';
+  drawerButton = '#5f6368';
 }
 
 export class CustomMinimaDark extends MinimaDark {
@@ -62,6 +63,7 @@ export class CustomMinimaDark extends MinimaDark {
   codeColor = '#efefef';
   codeBg = '#212121';
   myColor = 'teal';
+  drawerButton = '#abafb5';
 }
 
 export class GlobalVariables {
