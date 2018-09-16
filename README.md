@@ -23,21 +23,20 @@
 
 |Feature|State|Responsive|Docs|
 |----|-----|----------|----|
-|button|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/button)|
-|carousel|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/carousel)|
+|button|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/button)|
+|carousel|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/carousel)|
 |checkbox|:x:|:x:|-|
-|img cropper|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/resizing-cropping-images)|
-|core|beta||-|
+|img cropper|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/resizing-cropping-images)|
 |drawer|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/drawer)|
-|grid|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/layout/grid)|
-|media|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/layout/responsive)|
-|icon button|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/icon-button)|
-|icon|:heavy_check_mark:|:heavy_check_mark:|-|
-|input|beta|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/input)|
-|menu|beta|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
-|radio|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/radio)|
-|ripple|:heavy_check_mark:|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/ripple)|
+|grid|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/grid)|
+|media|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/responsive)|
+|icon button|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/icon-button)|
+|icon|✔️|✔️|-|
+|input|beta|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/input)|
+|menu|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
+|radio|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/radio)|
+|ripple|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/ripple)|
 |tabs|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|
-|toolbar|➕➖ |:x:|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
-|typography|✔️|:heavy_check_mark:|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
-|card|➕➖|❌|[Docs](https://alyle-ui.firebaseapp.com/components/card)|
+|toolbar|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
+|typography|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
+|card|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/card)|

@@ -18,8 +18,8 @@ const styles = {
     fontSize: '20px'
   },
   version: {
-    fontSize: '61%',
-    opacity: .7
+    fontSize: '71%',
+    opacity: .71
   }
 };
 
