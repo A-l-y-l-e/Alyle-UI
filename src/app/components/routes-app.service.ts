@@ -20,7 +20,7 @@ export class RoutesAppService {
           { route: 'theming', name: 'Theming' },
           { route: 'multiple-themes', name: 'Multiple themes' },
           { route: 'bg-color', name: 'Bg & Color' },
-          { route: 'dynamic-styles', name: 'Dynamic styles', status: 'alpha'}
+          { route: 'dynamic-styles', name: 'Dynamic styles'}
         ]
       },
       {
