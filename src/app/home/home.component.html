@@ -1,8 +1,8 @@
-<div class="intra-container">
-  <div class="intra-content">
+<div [className]="classes.intraContainer">
+  <div [className]="classes.intraContent">
     <h1 [lyTyp]="'display2'" gutterBottom>Alyle UI</h1>
     <h2 [lyTyp]="'title'" gutter>Minimal Design, a package of components for Angular.</h2>
-    <div class="buttons">
+    <div [className]="classes.buttons">
       <a ly-button outlined color="primary" [routerLink]="['getting-started', 'installation']">Get started</a>
       <a ly-button raised bg="accent" [routerLink]="['components', 'button']" lyHide="XSmall">Components</a>
     </div>

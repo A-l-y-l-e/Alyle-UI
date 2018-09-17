@@ -38,6 +38,7 @@ import { LyTabsModule } from '@alyle/ui/tabs';
 import { ApiComponent } from './api/api.component';
 import { LyCardModule } from '@alyle/ui/card';
 import { AppBarComponent } from './app-bar/app-bar.component';
+import { HomeComponent } from './home/home.component';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -94,6 +95,8 @@ export class MyCustomTheme implements LyThemeConfig {
     /** Components */
     CardDemoComponent,
     TypographyDemoComponent,
+    /** Pages */
+    HomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),

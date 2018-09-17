@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeModule } from './home/home.module';
+import { HomeComponent } from './home/home.component';
 import { CardDemoComponent } from '@docs/components/card-demo/card-demo.component';
 import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
 import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
@@ -8,6 +8,8 @@ import { ThemingComponent } from '@docs/customization/theming/theming.component'
 import { ApiComponent } from './api/api.component';
 
 const routes: Routes = [
+  /** Pages */
+  { path: '', component: HomeComponent },
   /** Customization */
   { path: 'customization/multiple-themes', component: MultipleThemesComponent },
   { path: 'customization/bg-color', loadChildren: './components/bg-color-demo/bg-color-demo.module#BgColorDemoModule' },
@@ -47,7 +49,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    HomeModule,
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabled',
       scrollPositionRestoration: 'enabled'
