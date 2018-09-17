@@ -4,11 +4,6 @@ import { LyTheme2, CoreTheme as ThemeManager, AUI_VERSION } from '@alyle/ui';
 import { LyDrawer } from '@alyle/ui/drawer';
 
 const styles = {
-  header: {
-    position: 'fixed',
-    zIndex: 11,
-    width: '100%'
-  },
   themePickerText: {
     paddingLeft: '8px'
   },

@@ -10,7 +10,8 @@ const PrismJson = require('prismjs/components/prism-json');
 const classes = theme => ({
   root: {
     color: theme.codeColor,
-    backgroundColor: theme.codeBg
+    backgroundColor: theme.codeBg,
+    margin: '1em 0'
   }
 });
 
