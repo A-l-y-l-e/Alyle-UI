@@ -48,6 +48,7 @@ export class LyToolbar implements OnInit {
   private _positionClass: string;
   @Input()
   set position(val: position) {
+    this._position = val;
     this._positionClass = this.theme.addStyle(`ly-toolbar-position:${val}`, `position:${val}`, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
   }
   get position() {
