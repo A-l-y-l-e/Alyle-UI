@@ -2,31 +2,33 @@ import {
   Directive,
   Optional,
   Renderer2,
-  ElementRef
+  ElementRef,
+  Input,
+  OnInit
 } from '@angular/core';
-import { LyCommon, LyTheme2 } from '@alyle/ui';
+import { LyCommon, LyTheme2, ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
+const DEFAULT_POSITION = 'fixed';
 
-const styles = ({
+const styles = (theme: ThemeVariables) => ({
   root: {
-    display: 'flex',
-    boxSizing: 'border-box',
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: '64px',
-    width: '100%'
-  },
-  row: {
     padding: '0 16px',
     display: 'flex',
     boxSizing: 'border-box',
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    height: '64px',
+    zIndex: 1111,
+    [theme.getBreakpoint('XSmall')]: {
+      height: '56px'
+    }
   }
 });
+
+type position = 'static' | 'absolute' | 'fixed' | 'sticky' | 'relative';
 
 @Directive({
   selector: 'ly-toolbar-item'
@@ -40,33 +42,32 @@ export class ToolbarItem {
 @Directive({
   selector: 'ly-toolbar'
 })
-export class LyToolbar {
+export class LyToolbar implements OnInit {
   classes = this.theme.addStyleSheet(styles, 'ly-toolbar', STYLE_PRIORITY);
-
+  private _position: position;
+  private _positionClass: string;
+  @Input()
+  set position(val: position) {
+    this._positionClass = this.theme.addStyle(`ly-toolbar-position:${val}`, `position:${val}`, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
+  }
+  get position() {
+    return this._position;
+  }
   constructor(
     renderer: Renderer2,
-    el: ElementRef,
+    private _el: ElementRef,
     private theme: LyTheme2,
     @Optional() bgAndColor: LyCommon
   ) {
-    renderer.addClass(el.nativeElement, this.classes.row);
+    renderer.addClass(this._el.nativeElement, this.classes.root);
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
   }
-}
 
-
-@Directive({
-  selector: 'ly-toolbar-row'
-})
-export class LyToolbarRow {
-  constructor(
-    el: ElementRef,
-    renderer2: Renderer2,
-    @Optional() toolbar: LyToolbar
-  ) {
-    renderer2.addClass(el.nativeElement, toolbar.classes.row);
-    /** TODO: fix this */
+  ngOnInit() {
+    if (!this.position) {
+      this.position = DEFAULT_POSITION;
+    }
   }
 }

@@ -40,7 +40,6 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     // this._viewRef.rootNodes.forEach(rootNode => container.appendChild(rootNode));
     const __styles = {
       position: 'absolute',
-      zIndex: 1000,
       display: 'flex',
       top: 0,
       left: 0,
