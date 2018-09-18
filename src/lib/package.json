@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/A-l-y-l-e/Alyle-UI/issues"
   },
-  "homepage": "https://github.com/A-l-y-l-e/Alyle-UI#readme",
+  "homepage": "https://alyle-ui.firebaseapp.com/",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
