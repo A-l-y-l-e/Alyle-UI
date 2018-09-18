@@ -28,12 +28,12 @@ export const typography = {
   } as TypographyConfig,
   headline: {
     fontSize: 24,
-    fontWeight: 500,
+    fontWeight: 400,
     letterSpacing: 0
   } as TypographyConfig,
   title: {
     fontSize: 20,
-    fontWeight: 400,
+    fontWeight: 500,
     letterSpacing: 0.15
   } as TypographyConfig,
   subheading: {
