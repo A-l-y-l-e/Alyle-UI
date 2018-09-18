@@ -1,3 +1,22 @@
+<a name="1.7.0-beta.6gxhn"></a>
+# [1.7.0-beta.6gxhn](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.6d2nq...1.7.0-beta.6gxhn) (2018-09-18)
+
+
+### Bug Fixes
+
+* **core:** 'fontFamily' does not exist on type in theme.typography ([759be9b](https://github.com/A-l-y-l-e/Alyle-UI/commit/759be9b))
+* fix typography variables ([403588c](https://github.com/A-l-y-l-e/Alyle-UI/commit/403588c))
+* **toolbar:** fix cannot determine the module for class ToolbarItem ([3b37b3c](https://github.com/A-l-y-l-e/Alyle-UI/commit/3b37b3c))
+* **toolbar:** fix position on new value ([3a0d23b](https://github.com/A-l-y-l-e/Alyle-UI/commit/3a0d23b))
+* **toolbar:** set default bg ([8eb1696](https://github.com/A-l-y-l-e/Alyle-UI/commit/8eb1696))
+
+
+### Features
+
+* **toolbar:** add the ability to position the toolbar ([baee37d](https://github.com/A-l-y-l-e/Alyle-UI/commit/baee37d))
+
+
+
 <a name="1.7.0-beta.6d2nq"></a>
 # [1.7.0-beta.6d2nq](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.6b7cf...1.7.0-beta.6d2nq) (2018-09-15)
 
