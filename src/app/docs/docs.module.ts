@@ -33,6 +33,9 @@ import { SharedModule } from '../shared/shared.module';
 import { DynamicStylesComponent } from '@docs/customization/dynamic-styles/dynamic-styles.component';
 import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-basic.module';
 
+import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo.component';
+import { ToolbarBasicDemoModule } from '@docs/components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -53,7 +56,9 @@ import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-ba
     /** Dynamic style */
     DsBasicModule,
     /** Button */
-    ButtonTypesDemoModule
+    ButtonTypesDemoModule,
+    /** Toolbar */
+    ToolbarBasicDemoModule
   ],
   declarations: [
     ThemingComponent,
@@ -64,7 +69,9 @@ import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-ba
     /** Ds */
     DynamicStylesComponent,
     /** Button */
-    ButtonDemoComponent
+    ButtonDemoComponent,
+    /** Toolbar */
+    ToolbarDemoComponent
   ]
 })
 export class DocsModule { }

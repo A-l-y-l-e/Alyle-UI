@@ -37,6 +37,6 @@
 |radio|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/radio)|
 |ripple|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/ripple)|
 |tabs|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|
-|toolbar|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
+|toolbar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
 |typography|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
 |card|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/card)|

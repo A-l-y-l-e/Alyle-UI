@@ -5,6 +5,7 @@ import { DynamicStylesComponent } from '@docs/customization/dynamic-styles/dynam
 import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
 import { GridDemoComponent } from '@docs/layout/grid-demo/grid-demo.component';
 import { ButtonDemoComponent } from '@docs/components/button-demo/button-demo.component';
+import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -31,6 +32,7 @@ const routes: Routes = [
     path: 'components',
     children: [
       { path: 'button', component: ButtonDemoComponent },
+      { path: 'toolbar', component: ToolbarDemoComponent }
     ]
   }
 ];
