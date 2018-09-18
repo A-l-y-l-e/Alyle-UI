@@ -32,15 +32,6 @@ const styles = (theme: ThemeVariables) => ({
 type position = 'static' | 'absolute' | 'fixed' | 'sticky' | 'relative';
 
 @Directive({
-  selector: 'ly-toolbar-item'
-})
-export class ToolbarItem {
-  constructor() {
-    console.warn('ly-toolbar-item @deprecated');
-  }
-}
-
-@Directive({
   selector: 'ly-toolbar'
 })
 export class LyToolbar implements OnInit {
