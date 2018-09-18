@@ -15,7 +15,8 @@ const DEFAULT_VALUE = '';
             [elevation],
             [elevation][shadowColor],
             [disabled],
-            ly-card
+            ly-card,
+            ly-toolbar
             `
 })
 export class LyCommon implements OnChanges {

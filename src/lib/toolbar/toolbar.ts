@@ -10,6 +10,7 @@ import { LyCommon, LyTheme2, ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'fixed';
+const DEFAULT_BG = 'background:tertiary';
 
 const styles = (theme: ThemeVariables) => ({
   root: {
@@ -58,17 +59,21 @@ export class LyToolbar implements OnInit {
     renderer: Renderer2,
     private _el: ElementRef,
     private theme: LyTheme2,
-    @Optional() bgAndColor: LyCommon
+    @Optional() private _common: LyCommon
   ) {
     renderer.addClass(this._el.nativeElement, this.classes.root);
-    if (bgAndColor) {
-      bgAndColor.setAutoContrast();
+    if (this._common) {
+      this._common.setAutoContrast();
     }
   }
 
   ngOnInit() {
     if (!this.position) {
       this.position = DEFAULT_POSITION;
+    }
+    if (!this._common.bg) {
+      this._common.bg = DEFAULT_BG;
+      this._common.ngOnChanges();
     }
   }
 }
