@@ -83,3 +83,9 @@ export const input = {
   /** default color */
   withColor: 'primary'
 };
+
+export const zIndex = {
+  toolbar: 1000,
+  drawer: 1100,
+  overlay: 1200
+};

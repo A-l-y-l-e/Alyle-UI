@@ -1,4 +1,4 @@
-import { typography, iconButton, icon, input } from './variables';
+import { typography, iconButton, icon, input, zIndex } from './variables';
 import { ThemeConfig, LyStyleUtils, TypographyConfig } from '@alyle/ui';
 import { Breakpoints } from '@alyle/ui/responsive';
 
@@ -62,4 +62,5 @@ export class MinimaLight extends LyStyleUtils implements ThemeConfig {
   iconButton = iconButton;
   icon = icon;
   breakpoints = Breakpoints;
+  zIndex = zIndex;
 }
