@@ -1,249 +1,339 @@
-import {
-  Component,
-  Directive,
-  ElementRef,
-  Input,
-  ContentChildren,
-  ContentChild,
-  QueryList,
-  ChangeDetectionStrategy,
-  forwardRef,
-  HostBinding,
-  Optional,
-  Renderer2,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
-import { IsBoolean } from '@alyle/ui';
-import { AnimationBuilder, trigger, state, animate, transition, style } from '@angular/animations';
-import { BehaviorSubject } from 'rxjs';
-export interface StyleMargin {
-  top?: string;
-  left?: string;
-  right?: string;
-  bottom?: string;
+import { Directive, Input, ElementRef, Renderer2, OnInit, SimpleChanges, OnChanges, ViewChild, forwardRef, ContentChild } from '@angular/core';
+import { LyTheme2, ThemeVariables, toBoolean, eachMedia } from '@alyle/ui';
+
+const DEFAULT_MODE = 'side';
+const DEFAULT_VALUE = '';
+const STYLE_PRIORITY = -2;
+const DEFAULT_POSITION = 'start';
+
+const styles = (theme: ThemeVariables) => ({
+  drawerContainer: {
+    display: 'block',
+    position: 'relative',
+    overflow: 'hidden',
+    '-webkit-overflow-scrolling': 'touch'
+  },
+  drawer: {
+    display: 'block',
+    position: 'fixed',
+    zIndex: theme.zIndex.drawer,
+    overflow: 'auto'
+  },
+  drawerContent: {
+    display: 'block'
+  },
+  drawerOpened: {
+    transform: 'translate3d(0px, 0px, 0)'
+  }
+});
+
+type position = 'start' | 'end' | 'top' | 'bottom';
+type mode = 'side' | 'over' | 'push';
+
+@Directive({
+  selector: 'ly-drawer-container'
+})
+export class LyDrawerContainer {
+  classes = this._theme.addStyleSheet(styles, 'ly-drawer-container', STYLE_PRIORITY);
+  @ContentChild(forwardRef(() => LyDrawerContent)) drawerContent: LyDrawerContent;
+  constructor(
+    private _theme: LyTheme2,
+    private _renderer: Renderer2,
+    private _el: ElementRef
+  ) {
+    this._renderer.addClass(this._el.nativeElement, this.classes.drawerContainer);
+  }
 }
 
 @Directive({
   selector: 'ly-drawer-content'
 })
 export class LyDrawerContent {
-  @HostBinding('style.margin') margin = '0 0 0 0';
-  _el: HTMLElement;
-  @HostBinding('class.ly--animation') _lyAnimation = true;
   constructor(
-    public elementRef: ElementRef,
-    public renderer: Renderer2,
+    private _theme: LyTheme2,
+    private _renderer: Renderer2,
+    private _el: ElementRef,
+    drawerContainer: LyDrawerContainer
   ) {
-    this._el = elementRef.nativeElement;
+    this._renderer.addClass(this._el.nativeElement, drawerContainer.classes.drawerContent);
   }
-
-  setContentStyle(margin: StyleMargin) {
-    const array = this.margin.split(' ');
-    if (margin.left) {
-      array[3] = `${margin.left}px`;
-    }
-    if (margin.right) {
-      array[1] = `${margin.right}px`;
-    }
-    if (margin.top) {
-      array[0] = `${margin.top}px`;
-    }
-    if (margin.bottom) {
-      array[2] = `${margin.bottom}px`;
-    }
-    this.margin = array.join(' ');
-    // const keys = Object.keys(margin);
-    // for (let i = 0; i < keys.length; i++) {
-    //   const keyName = keys[i];
-    //   this.renderer.setStyle(this._drawerContent.elementRef.nativeElement, `margin-${keyName}`, `${margin[keyName]}px`);
-    // }
+  _getHostElement() {
+    return this._el.nativeElement;
   }
 }
 
-@Component({
-  selector: 'ly-drawer-container',
-  styleUrls: ['drawer.scss'],
-  animations: [
-    trigger('in', [
-      state('inactive, 0' , style({ opacity: '0', 'display': 'none' })),
-      state('active, 1' , style({ opacity: '.6' })),
-      transition('* => active', animate('375ms ease-in')),
-      transition('* => inactive', animate('375ms ease-out')),
-    ])
-  ],
-  template: `
-  <ng-content select="ly-drawer"></ng-content>
-  <ng-content select="ly-drawer-content"></ng-content>
-  <div
-  #bg
-  [class.ly-drawer-bg-opened]="isDrawerBg | async"
-  [class.ly-drawer-bg-closed]="!(isDrawerBg | async)"
-  [@in]="isDrawerBg | async" class="ly-drawer-bg"
-  bg="drawer:backdrop"
-  (click)="_closeAllSideAndPush()"
-  ></div>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false,
-  exportAs: 'lyDrawerContainer'
-})
-export class LyDrawerContainer {
-  isDrawerBg = new BehaviorSubject<'active' | 'inactive' | boolean>(false);
-  @ContentChildren(forwardRef(() => LyDrawer)) _drawers: QueryList<LyDrawer>;
-  @ContentChild(forwardRef(() => LyDrawerContent)) _drawerContent: LyDrawerContent;
-  constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef,
-    private animationBuilder: AnimationBuilder
-  ) {}
-
-  _closeAllSideAndPush() {
-    this._drawers.forEach((drawer: LyDrawer) => {
-      if (drawer.mode === 'over' || drawer.mode === 'push') {
-        drawer.close();
-        this.isDrawerBg.next('inactive');
-      }
-    });
-  }
-
-  /** Close all open drawers */
-  closeAll() {
-    this._drawers.forEach((drawer: LyDrawer) => {
-      if (drawer.open) {
-        drawer.close();
-      }
-    });
-    this.isDrawerBg.next('inactive');
-  }
-}
-
-@Component({
-  selector: 'ly-nav, ly-drawer',
-  styleUrls: ['nav.scss'],
-  animations: [
-    trigger('visibilityChanged', [
-      state('true, open' , style({ transform: 'translate3d(0, 0, 0)' })),
-      transition('* => open, * => close', [
-        animate('375ms cubic-bezier(.45, 0, .25, 1)')
-      ])
-    ])
-  ],
-  template: `<ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false,
+@Directive({
+  selector: 'ly-drawer',
   exportAs: 'lyDrawer'
 })
-export class LyDrawer implements OnChanges {
-  private _opened = false;
-  @Input() config: LyDrawerConfig = {
-    width: 200,
-    height: 200
-  };
-  @HostBinding('attr.mode') @Input() mode: 'side' | 'push' | 'over' = 'side';
-  @HostBinding('attr.position') @Input() position: 'top' | 'bottom' | 'left' | 'right' | 'rtl' = 'left';
-  @HostBinding('class.ly-show-drawer') isShowDrawer: boolean;
-  @HostBinding('@visibilityChanged')
-  isOpenDrawer: 'open' | 'close' | boolean = false;
-  @HostBinding('class.ly-drawer-hidden') isDrawerHidden = true;
+export class LyDrawer implements OnChanges, OnInit {
+  private _opened: boolean;
+  private _openedClass: string;
+
+  private _mode: mode;
+  private _modeClass: string;
+
+  private _width: number | string;
+  private _widthClass: string;
+
+  private _height: number | string;
+  private _heightClass: string;
+
+  private _position: position = DEFAULT_POSITION;
+  private _positionClass: string;
+
+  private _drawerRootClass: string;
+  private _drawerClass: string;
+  private _drawerContentClass: string;
+
+  /** @deprecated */
+  @Input() config: any;
+
   @Input()
-  @IsBoolean()
   set opened(val: boolean) {
-    this.isOpenDrawer = val;
-    this._opened = val;
-    val ? this.open(true) : this.close(false);
-  }
-  get opened(): boolean { return this._opened; }
-
-  constructor(
-    @Optional() private drawerContainer: LyDrawerContainer,
-    private elementRef: ElementRef,
-  ) { }
-
-  get _elementRect(): ClientRect {
-    return this.elementRef.nativeElement.getBoundingClientRect();
-  }
-
-  private updateDrawerMargin() {
-    if (this.mode === 'side' || this.mode === 'push') {
-      const width = this.config.width;
-      const height = this.config.height;
-      if (width !== 0 && this.position === 'left' || this.position === 'right') {
-        const margin = {};
-        margin[this.position] = width;
-        this.drawerContainer._drawerContent.setContentStyle(margin);
-      }
-      if (height !== 0 && this.position === 'top' || this.position === 'bottom') {
-        const margin = {};
-        margin[this.position] = height;
-        this.drawerContainer._drawerContent.setContentStyle(margin);
-      }
+    if (val !== this.opened) {
+      this._opened = toBoolean(val);
     }
   }
+  get opened() {
+    return this._opened;
+  }
+  @Input() mode: mode;
+  @Input() spacingTop: string | number;
+  @Input() spacingBottom: string | number;
+  @Input() spacingStart: string | number;
+  @Input() spacingRight: string | number;
+  @Input() width: number | string;
+  @Input() height: number | string;
+  @Input()
+  set position(val: position) {
+    if (val !== this.position) {
+      this._position = val;
+      this._theme.addStyle(`drawer.position:${val}`, (theme: ThemeVariables) => {
+        let positionVal: string;
+        if (val === 'start' || val === 'end') {
+          positionVal = theme.getDirection(val);
+        } else {
+          positionVal = val;
+        }
+        return {
+          [positionVal]: 0
+        };
+      }, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
+    }
+  }
+  get position() {
+    return this._position;
+  }
 
-  toBoolean(drawerState: boolean | 'open' | 'close'): boolean {
-    if (drawerState === true || drawerState === 'open') {
-      return true;
+  constructor(
+    private _theme: LyTheme2,
+    private _renderer: Renderer2,
+    private _el: ElementRef,
+    private _drawerContainer: LyDrawerContainer
+  ) {
+    this._renderer.addClass(this._el.nativeElement, _drawerContainer.classes.drawer);
+  }
+
+  ngOnChanges() {
+    const __mode = this.mode;
+    const __opened = this.opened;
+    let __width = this.width;
+    const __height = this.height;
+    const __position = this.position;
+    const __spacingTop = this.spacingTop;
+    const __spacingBottom = this.spacingBottom;
+    if (__width && __height) {
+      throw new Error(`\`width\` and \`height\` are defined, you can only define one`);
+    } else if (!__width) {
+      if (!__height) {
+        __width = '230px';
+      }
+    }
+    const newKeyDrawerContent = `ly-drawer-content----:${
+      __mode || DEFAULT_VALUE}·${
+        __opened || DEFAULT_VALUE}·${
+          __width || DEFAULT_VALUE}·${
+            __height || DEFAULT_VALUE}·${
+              __position || DEFAULT_VALUE}`;
+    if (__opened) {
+      this._drawerClass = this._theme.updateClass(this._el.nativeElement, this._renderer, this._drawerContainer.classes.drawerOpened, this._drawerClass);
+
+      this._drawerContentClass = this._theme.addStyle(newKeyDrawerContent, (theme: ThemeVariables) => {
+        const drawerContentStyles: {
+          marginLeft?: string
+          marginRight?: string
+          marginTop?: string
+          marginBottom?: string
+        } = {};
+        let positionVal = 'margin-';
+        if (__position === 'start' || __position === 'end') {
+          positionVal += theme.getDirection(__position);
+        } else {
+          positionVal += __position;
+        }
+        if (__width) {
+          eachMedia(__width, (val, media, isMedia) => {
+            const newStyleWidth = toPx(val);
+            if (isMedia) {
+              const breakPoint = theme.getBreakpoint(media);
+              const styleOfBreakPoint = createEmptyPropOrUseExisting(drawerContentStyles, breakPoint);
+              styleOfBreakPoint[positionVal] = newStyleWidth;
+            } else {
+              drawerContentStyles[positionVal] = newStyleWidth;
+            }
+          });
+        }
+        return drawerContentStyles;
+      },
+      this._drawerContainer.drawerContent._getHostElement(),
+      this._drawerContentClass);
     } else {
-      return false;
+      // this._drawerClass = this._theme.updateClass(this._el.nativeElement, this._renderer, null, this._drawerClass);
+      this._drawerClass = this._theme.addStyle(newKeyDrawerContent, (theme: ThemeVariables) => {
+        const drawerContentNOpenStyles: {
+          transform?: string
+        } = {};
+        let positionVal: string;
+        if (__position === 'start' || __position === 'end') {
+          positionVal = theme.getDirection(__position);
+        } else {
+          positionVal = __position;
+        }
+        const nnn = positionVal === 'left' || positionVal === 'top' ? '-' : '+';
+        if (__width) {
+          eachMedia(__width, (val, media, isMedia) => {
+            const newTranslateX = `translateX(${nnn + toPx(val)})`;
+            if (isMedia) {
+              const breakPoint = theme.getBreakpoint(media);
+              const styleOfBreakPoint = createEmptyPropOrUseExisting(drawerContentNOpenStyles, breakPoint);
+              styleOfBreakPoint.transform = newTranslateX;
+            } else {
+              drawerContentNOpenStyles.transform = newTranslateX;
+            }
+          });
+        }
+        if (__height) {
+          eachMedia(__height, (val, media, isMedia) => {
+            const newTranslateY = `translateY(${nnn + toPx(val)})`;
+            if (isMedia) {
+              const breakPoint = theme.getBreakpoint(media);
+              const styleOfBreakPoint = createEmptyPropOrUseExisting(drawerContentNOpenStyles, breakPoint);
+              styleOfBreakPoint.transform = newTranslateY;
+            } else {
+              drawerContentNOpenStyles.transform = newTranslateY;
+            }
+          });
+        }
+        return drawerContentNOpenStyles;
+      }, this._el.nativeElement, this._drawerClass, STYLE_PRIORITY);
+      this._renderer.removeClass(this._drawerContainer.drawerContent._getHostElement(), this._drawerContentClass);
+      this._drawerContentClass = null;
+    }
+    this._drawerRootClass = this._theme.addStyle(`ly-drawer-root:${__width}·${__height}·${__spacingTop}·${__spacingBottom}`, (theme: ThemeVariables) => {
+      const stylesDrawerRoot: {
+        width?: string
+        height?: string
+        top?: string
+        bottom?: string
+        left?: number
+        right?: number
+      } = { };
+      if (__width) {
+        eachMedia(__width, (val, media, isMedia) => {
+          const newStyleWidth = toPx(val);
+          if (isMedia) {
+            const breakPoint = theme.getBreakpoint(media);
+            const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
+            styleOfBreakPoint.width = newStyleWidth;
+          } else {
+            stylesDrawerRoot.width = newStyleWidth;
+          }
+        });
+      }
+      if (__height) {
+        eachMedia(__height, (val, media, isMedia) => {
+          const newStyleHeight = toPx(val);
+          if (isMedia) {
+            const breakPoint = theme.getBreakpoint(media);
+            const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
+            styleOfBreakPoint.height = newStyleHeight;
+          } else {
+            stylesDrawerRoot.height = newStyleHeight;
+          }
+        });
+      }
+      if (__position === 'start' || __position === 'end') {
+        eachMedia(__spacingTop, (val, media, isMedia) => {
+          const newStyleSpacingTop = toPx(val || 0);
+          if (isMedia) {
+            const breakPoint = theme.getBreakpoint(media);
+            const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
+            styleOfBreakPoint.top = newStyleSpacingTop;
+          } else {
+            stylesDrawerRoot.top = newStyleSpacingTop;
+          }
+        });
+        eachMedia(__spacingBottom, (val, media, isMedia) => {
+          const newStyleSpacingBottom = toPx(val || 0);
+          if (isMedia) {
+            const breakPoint = theme.getBreakpoint(media);
+            const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
+            styleOfBreakPoint.bottom = newStyleSpacingBottom;
+          } else {
+            stylesDrawerRoot.bottom = newStyleSpacingBottom;
+          }
+        });
+      } else {
+        stylesDrawerRoot.left = 0;
+        stylesDrawerRoot.right = 0;
+      }
+      return stylesDrawerRoot;
+    }, this._el.nativeElement, this._drawerRootClass, STYLE_PRIORITY);
+  }
+
+  ngOnInit() {
+    /** Set default position */
+    if (!this.position) {
+      // this.position = DEFAULT_POSITION;
     }
   }
 
   toggle() {
-    this.toBoolean(this.isOpenDrawer) ? this.close() : this.open();
+    this.opened = !this.opened;
+    this.ngOnChanges();
   }
-
-  open(is?: true): 'open' | boolean {
-    this.toogleDrawer(is);
-    this.isDrawerHidden = false;
-    this.isOpenDrawer = is || 'open';
-    this.drawerContainer._drawerContent._lyAnimation = this.isOpenDrawer === 'open';
-    this.updateDrawerMargin();
-    this.setBgState(is || 'active');
-    return this.isOpenDrawer;
-  }
-  close(is?: false): 'close' | boolean {
-    this.toogleDrawer(is);
-    this.resetMargin();
-    this.isOpenDrawer = is === false || is === true ? false : 'close';
-    this.drawerContainer._drawerContent._lyAnimation = this.isOpenDrawer === 'close';
-    this.setBgState(is === false ? false : 'inactive');
-    return this.isOpenDrawer;
-  }
-
-  private toogleDrawer(status: boolean) {
-    this.isShowDrawer = this.toBoolean(status);
-  }
-
-  setBgState(bgState: boolean | 'active' | 'inactive') {
-    if (this.mode === 'over' || this.mode === 'push') {
-      this.drawerContainer.isDrawerBg.next(bgState);
-    }
-  }
-
-  resetMargin() {
-    const margin = {};
-    margin[this.position] = '0';
-    this.drawerContainer._drawerContent.setContentStyle(margin);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    Object.keys(changes).forEach((key) => {
-      /**for `position` changes */
-      if (key === 'position' && changes[key].currentValue === 'rtl') {
-        this.position = 'right';
-      }
-
-      /** Update mode */
-      if (changes['mode'] && !changes[key].firstChange) {
-        this.toBoolean(this.isOpenDrawer) ? this.open(true) : this.close(false);
-      }
-    });
-  }
-
 }
 
-export interface LyDrawerConfig {
-  width?: number;
-  height?: number;
+/**
+ * @dddd
+ */
+function toPx(val: string | number) {
+  if (typeof val === 'number') {
+    return `${val}px`;
+  } else {
+    return val;
+  }
+}
+
+function valWithSpacing(spacingTop?: string | number, spacingBottom?: string | number) {
+  if (spacingTop || spacingBottom) {
+    let styl = 'calc(100%';
+    if (spacingTop) {
+      styl += ` - ${toPx(spacingTop)}`;
+    }
+    if (spacingBottom) {
+      styl += ` - ${toPx(spacingBottom)}`;
+    }
+    styl += ')';
+    return styl;
+  } else {
+    return '100%';
+  }
+}
+
+function createEmptyPropOrUseExisting(object: object, key: string, _new?: any) {
+  return key in object
+  ? object[key]
+  : object[key] = _new || {};
 }
