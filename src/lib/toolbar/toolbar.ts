@@ -22,7 +22,7 @@ const styles = (theme: ThemeVariables) => ({
     alignItems: 'center',
     whiteSpace: 'nowrap',
     height: '64px',
-    zIndex: 1111,
+    zIndex: theme.zIndex.toolbar,
     [theme.getBreakpoint('XSmall')]: {
       height: '56px'
     }

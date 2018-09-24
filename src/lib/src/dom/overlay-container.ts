@@ -5,17 +5,18 @@ import { LyCoreStyles } from '../styles/core-styles';
 import { DOCUMENT } from '@angular/common';
 import { fromEvent ,  Observable, empty } from 'rxjs';
 import { map, share, auditTime } from 'rxjs/operators';
+import { ThemeVariables } from '../theme/theme-config';
 
-const styles = {
+const styles = (theme: ThemeVariables) => ({
   overlayBackdrop: {
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 1300
+    zIndex: theme.zIndex.overlay
   }
-};
+});
 
 
 @Injectable({
