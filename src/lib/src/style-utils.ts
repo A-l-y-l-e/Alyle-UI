@@ -34,6 +34,7 @@ export class LyStyleUtils {
     WebLandscape: string,
     [key: string]: string
   };
+  direction?: 'ltr' | 'rtl';
   pxToRem(value: number) {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
@@ -43,6 +44,14 @@ export class LyStyleUtils {
   }
   getBreakpoint(key: string) {
     return `@media ${this.breakpoints[key] || key}`;
+  }
+
+  getDirection(val: 'start' | 'end') {
+    if (val === 'end') {
+      return this.direction === 'rtl' ? 'left' : 'right';
+    } else {
+      return this.direction === 'rtl' ? 'right' : 'left';
+    }
   }
 }
 
@@ -73,19 +82,23 @@ function get(obj: Object, path: string[] | string, optional: string): string {
   // return typeof obj === 'string' ? obj as string : obj['default'] as string;
 }
 
-export function eachMedia(str: string, fn: ((val: string, media: string, len: number) => void)) {
-  const values = str.split(/\s/g);
-  for (let index = 0; index < values.length; index++) {
-    const valItem = values[index].split(/\@/g);
-    const value = valItem.shift();
-    const len = valItem.length;
-    if (len) {
-      for (let j = 0; j < len; j++) {
-        fn.call(undefined, value, valItem[j], valItem.length);
+export function eachMedia(str: string | number, fn: ((val: string, media: string, isMedia: number) => void)) {
+  if (typeof str === 'string') {
+    const values = str.split(/\s/g);
+    for (let index = 0; index < values.length; index++) {
+      const valItem = values[index].split(/\@/g);
+      const value = valItem.shift();
+      const len = valItem.length;
+      if (len) {
+        for (let j = 0; j < len; j++) {
+          fn.call(undefined, value, valItem[j], valItem.length);
+        }
+      } else {
+        fn.call(undefined, value, undefined, len);
       }
-    } else {
-      fn.call(undefined, value, undefined, len);
     }
+  } else {
+    fn.call(undefined, str, undefined, 0);
   }
 }
 /**
