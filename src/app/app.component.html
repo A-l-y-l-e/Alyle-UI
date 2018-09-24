@@ -1,6 +1,6 @@
 <aui-app-bar></aui-app-bar>
-<ly-drawer-container [withClass]="classes.drawerContainer">
-  <ly-drawer [config]="{width: 230}" bg="background:primary" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left class="items" [withClass]="classes.drawer">
+<ly-drawer-container>
+  <ly-drawer bg="background:primary" [width]="'230px 64px@XSmall'" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="'side'" #_left [spacingTop]="'64px 56px@XSmall'">
     <ul *ngFor="let category of routesComponents" [withClass]="classes.drawerUl">
       <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
       <li *ngFor="let component of category.routes">

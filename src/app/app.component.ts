@@ -35,12 +35,12 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
     drawerContainer: {
       height: 'calc(100% - 64px)'
     },
-    drawer: {
-      width: '230px',
-      height: 'calc(100% - 64px)',
-      bottom: 0,
-      padding: '1rem 0'
-    },
+    // drawer: {
+    //   width: '230px',
+    //   height: 'calc(100% - 64px)',
+    //   bottom: 0,
+    //   padding: '1rem 0'
+    // },
     drawerUl: {
       overflow: 'hidden',
       position: 'relative',
