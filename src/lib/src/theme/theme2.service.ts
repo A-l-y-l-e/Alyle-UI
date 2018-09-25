@@ -121,10 +121,13 @@ export class LyTheme2 {
   colorOf(value: string): string {
     return get(this.config, value);
   }
-  updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
+  private updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
     this.core.updateClassName(element, renderer, newClassname, oldClassname);
   }
   updateClass(element: any, renderer: Renderer2, newClass: string, oldClass?: string) {
+    if (newClass === oldClass) {
+      return newClass;
+    }
     this.updateClassName(element, renderer, newClass, oldClass);
     return newClass;
   }
