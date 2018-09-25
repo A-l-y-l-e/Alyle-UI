@@ -116,11 +116,6 @@ export class LyTheme2 {
     }
     return newClass;
   }
-
-  /** @deprecated */
-  colorOf(value: string): string {
-    return get(this.config, value);
-  }
   private updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
     this.core.updateClassName(element, renderer, newClassname, oldClassname);
   }
