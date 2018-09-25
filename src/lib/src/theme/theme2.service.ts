@@ -105,6 +105,9 @@ export class LyTheme2 {
    */
   addStyle(id: string, style: StyleContainer | ((theme) => StyleContainer) | ((theme) => string) | string, el?: any, instance?: string, priority?: number) {
     const newClass = this.addCss(id, style as any, priority);
+    if (newClass === instance) {
+      return newClass;
+    }
     if (el) {
       if (instance) {
         el.classList.remove(instance);
