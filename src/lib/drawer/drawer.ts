@@ -70,6 +70,7 @@ export class LyDrawerContent {
 })
 export class LyDrawer implements OnChanges {
   private _initialMode: mode;
+  private _forceModeOver: boolean;
   private _opened: boolean;
   private _openedClass: string;
 
@@ -140,6 +141,7 @@ export class LyDrawer implements OnChanges {
 
   ngOnChanges() {
     const __mode = this.mode;
+    const __forceModeOver = this._forceModeOver;
     const __opened = this.opened;
     let __width = this.width;
     const __height = this.height;
@@ -206,7 +208,7 @@ export class LyDrawer implements OnChanges {
 
     /** default styles */
     // tslint:disable-next-line:max-line-length
-    this._drawerRootClass = this._theme.addStyle(`ly-drawer-root:${__width}·${__height}·${__spacingTop}·${__spacingBottom}·${__spacingBottom}·${__position}·${__mode}`, (theme: ThemeVariables) => {
+    this._drawerRootClass = this._theme.addStyle(`ly-drawer-root:${__width}·${__height}·${__spacingTop}·${__spacingBottom}·${__spacingBottom}·${__position}·${__mode}·${__forceModeOver}`, (theme: ThemeVariables) => {
       const stylesDrawerRoot: {
         width?: string
         height?: string
@@ -220,7 +222,7 @@ export class LyDrawer implements OnChanges {
       if (__width) {
         eachMedia(__width, (val, media, isMedia) => {
           console.log({val});
-          if (__mode === 'over' && val === '0') {
+          if ((__mode === 'over' || __forceModeOver) && val === '0') {
             return;
           }
           const newStyleWidth = toPx(val);
@@ -282,13 +284,16 @@ export class LyDrawer implements OnChanges {
   toggle() {
     const width = getComputedStyle(this._el.nativeElement).width;
     console.log({width});
-    if (this.mode === 'side' && width === '0px') {
-      this._initialMode = this.mode;
-      this.mode = 'over';
+    if (width === '0px') {
+      // this._initialMode = this.mode;
+      // this.mode = 'over';
+      this._forceModeOver = true;
       this.opened = true;
     } else {
       if (this._initialMode) {
-        this.mode = this._initialMode;
+        // this.mode = this._initialMode;
+        // this._initialMode = null;
+        this._forceModeOver = false;
       }
       this.opened = !this.opened;
     }
