@@ -26,13 +26,12 @@
   </ly-drawer-content>
 </ly-drawer-container> -->
 
-
 <ly-drawer-container>
-  <ly-drawer position="start" width="150px 48px@XSmall" [mode]="'side over@XSmall'" bg="background:primary" #drawer01="lyDrawer">
+  <ly-drawer opened position="start" width="150px 0@XSmall" bg="background:primary" #drawer01="lyDrawer">
     <p>Hi!</p>
     <button ly-button (click)="drawer01.toggle()">close</button>
   </ly-drawer>
-  <ly-drawer position="end" width="150px 48px@XSmall" [mode]="'side over@XSmall'" bg="background:primary" #drawer02="lyDrawer">
+  <ly-drawer position="end" width="150px 48px@XSmall" [mode]="mode" bg="background:primary" #drawer02="lyDrawer">
     <p>Hi!</p>
     <button ly-button (click)="drawer02.toggle()">close</button>
   </ly-drawer>
@@ -43,14 +42,13 @@
         <button ly-button (click)="drawer02.toggle()">toggle end</button>
         <!-- <button ly-button (click)="opened = !opened">[opened]="{{drawer.opened}}"</button> -->
       </div>
-      <!-- <div>
+      <div>
         mode: {{ mode }}
         <ly-radio-group [(ngModel)]="mode">
           <ly-radio value="over">over</ly-radio>
-          <ly-radio value="side" checked>side</ly-radio>
-          <ly-radio value="push">push</ly-radio>
+          <ly-radio value="side">side</ly-radio>
         </ly-radio-group>
-      </div> -->
+      </div>
     </div>
   </ly-drawer-content>
 </ly-drawer-container>
