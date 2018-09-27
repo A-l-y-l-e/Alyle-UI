@@ -71,6 +71,7 @@ export class LyDrawerContent {
 export class LyDrawer implements OnChanges {
   private _initialMode: mode;
   private _forceModeOver: boolean;
+  private _fromToggle: boolean;
   private _opened: boolean;
   private _openedClass: string;
 
@@ -140,6 +141,9 @@ export class LyDrawer implements OnChanges {
   }
 
   ngOnChanges() {
+    if (this._forceModeOver && !this._fromToggle) {
+      this._resetForceModeOver();
+    }
     const __mode = this.mode;
     const __forceModeOver = this._forceModeOver;
     const __opened = this.opened;
@@ -279,25 +283,28 @@ export class LyDrawer implements OnChanges {
       }
       return stylesDrawerRoot;
     }, this._el.nativeElement, this._drawerRootClass, __mode === 'side' ? STYLE_PRIORITY : STYLE_PRIORITY + 1);
+    this._fromToggle = false;
   }
 
   toggle() {
     const width = getComputedStyle(this._el.nativeElement).width;
-    console.log({width});
+    this._fromToggle = true;
     if (width === '0px') {
-      // this._initialMode = this.mode;
-      // this.mode = 'over';
       this._forceModeOver = true;
       this.opened = true;
     } else {
-      if (this._initialMode) {
-        // this.mode = this._initialMode;
-        // this._initialMode = null;
-        this._forceModeOver = false;
+      if (this._forceModeOver && this.opened) {
+        this._resetForceModeOver();
+      } else {
+        this.opened = !this.opened;
       }
-      this.opened = !this.opened;
     }
     this.ngOnChanges();
+  }
+
+  private _resetForceModeOver() {
+    this._forceModeOver = false;
+    this.opened = false;
   }
 }
 
