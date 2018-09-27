@@ -225,7 +225,6 @@ export class LyDrawer implements OnChanges {
       const positionSign = __position === 'start' || __position === 'top' ? '-' : '+';
       if (__width) {
         eachMedia(__width, (val, media, isMedia) => {
-          console.log({val});
           if ((__mode === 'over' || __forceModeOver) && val === '0') {
             return;
           }
