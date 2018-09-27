@@ -1,6 +1,6 @@
 <div [className]="classes.imgContainer" #_imgContainer
-(panstart)="_moveStart($event)"
-(pan)="_move($event)"
+(slidestart)="_moveStart($event)"
+(slide)="_move($event)"
 [ngStyle]="dragData | async">
   <img *ngIf="isLoaded"
   [src]="src">

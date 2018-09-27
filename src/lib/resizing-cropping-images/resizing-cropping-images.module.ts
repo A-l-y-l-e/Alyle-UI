@@ -1,11 +1,17 @@
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+
+import { LyHammerGestureConfig } from '@alyle/ui';
+
 import { LyResizingCroppingImages } from './resizing-cropping-images';
 
 @NgModule({
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   exports: [LyResizingCroppingImages],
+  providers: [
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
+  ],
   declarations: [LyResizingCroppingImages]
 })
 export class LyResizingCroppingImageModule {}
