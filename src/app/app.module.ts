@@ -132,7 +132,7 @@ export class MyCustomTheme implements LyThemeConfig {
   providers: [
     RoutesAppService,
     { provide: LY_THEME_CONFIG, useClass: MyCustomTheme },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
+    // { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ],
   bootstrap: [AppComponent]
 })

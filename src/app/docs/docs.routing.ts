@@ -6,6 +6,7 @@ import { InstallationComponent } from '@docs/getting-started/installation/instal
 import { GridDemoComponent } from '@docs/layout/grid-demo/grid-demo.component';
 import { ButtonDemoComponent } from '@docs/components/button-demo/button-demo.component';
 import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo.component';
+import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -32,7 +33,8 @@ const routes: Routes = [
     path: 'components',
     children: [
       { path: 'button', component: ButtonDemoComponent },
-      { path: 'toolbar', component: ToolbarDemoComponent }
+      { path: 'toolbar', component: ToolbarDemoComponent },
+      { path: 'resizing-cropping-images', component: ResizingCroppingImagesDemoComponent },
     ]
   }
 ];

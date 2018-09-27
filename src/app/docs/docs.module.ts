@@ -35,6 +35,13 @@ import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-ba
 
 import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo.component';
 import { ToolbarBasicDemoModule } from '@docs/components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
+// tslint:disable-next-line:max-line-length
+import { ResizingCroppingImagesExample01Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-01/resizing-cropping-images-example-01.module';
+// tslint:disable-next-line:max-line-length
+import { ResizingCroppingImagesExample02Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-02/resizing-cropping-images-example-02.module';
+// tslint:disable-next-line:max-line-length
+import { ResizingCroppingImagesExample03Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-03/resizing-cropping-images-example-03.module';
+import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
 
 @NgModule({
   imports: [
@@ -58,7 +65,11 @@ import { ToolbarBasicDemoModule } from '@docs/components/toolbar-demo/toolbar-ba
     /** Button */
     ButtonTypesDemoModule,
     /** Toolbar */
-    ToolbarBasicDemoModule
+    ToolbarBasicDemoModule,
+    /** Image cropper */
+    ResizingCroppingImagesExample01Module,
+    ResizingCroppingImagesExample02Module,
+    ResizingCroppingImagesExample03Module
   ],
   declarations: [
     ThemingComponent,
@@ -71,7 +82,9 @@ import { ToolbarBasicDemoModule } from '@docs/components/toolbar-demo/toolbar-ba
     /** Button */
     ButtonDemoComponent,
     /** Toolbar */
-    ToolbarDemoComponent
+    ToolbarDemoComponent,
+    /** Image cropper */
+    ResizingCroppingImagesDemoComponent
   ]
 })
 export class DocsModule { }

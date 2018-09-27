@@ -33,7 +33,6 @@ const routes: Routes = [
       { path: 'input', loadChildren: './components/input-demo/input-demo.module#InputDemoModule' },
       { path: 'radio', loadChildren: './components/radio-demo/radio-demo.module#RadioDemoModule' },
       { path: 'menu', loadChildren: './components/menu-demo/menu-demo.module#MenuDemoModule' },
-      { path: 'resizing-cropping-images', loadChildren: './components/resizing-cropping-images-demo/resizing-cropping-images-demo.module#ResizingCroppingImagesDemoModule' },
       { path: 'carousel', loadChildren: './components/carousel-demo/carousel-demo.module#CarouselDemoModule' },
       { path: 'icon-button', loadChildren: './components/icon-button-demo/icon-button-demo.module#IconButtonDemoModule' },
       { path: 'ripple', loadChildren: './components/ripple-demo/ripple-demo.module#RippleDemoModule' },
