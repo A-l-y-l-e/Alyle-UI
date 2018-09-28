@@ -42,6 +42,8 @@ import { ResizingCroppingImagesExample02Module } from '@docs/components/resizing
 // tslint:disable-next-line:max-line-length
 import { ResizingCroppingImagesExample03Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-03/resizing-cropping-images-example-03.module';
 import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
+import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
+import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-badge.module';
 
 @NgModule({
   imports: [
@@ -69,7 +71,9 @@ import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-c
     /** Image cropper */
     ResizingCroppingImagesExample01Module,
     ResizingCroppingImagesExample02Module,
-    ResizingCroppingImagesExample03Module
+    ResizingCroppingImagesExample03Module,
+    /** Badge */
+    BasicBadgeModule
   ],
   declarations: [
     ThemingComponent,
@@ -84,7 +88,10 @@ import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-c
     /** Toolbar */
     ToolbarDemoComponent,
     /** Image cropper */
-    ResizingCroppingImagesDemoComponent
+    ResizingCroppingImagesDemoComponent,
+    /** Badge */
+    BadgeDemoComponent
+
   ]
 })
 export class DocsModule { }

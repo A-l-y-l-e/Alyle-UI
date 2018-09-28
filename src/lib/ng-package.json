@@ -23,6 +23,7 @@
       "@alyle/ui/card": "ly.card",
       "@alyle/ui/typography": "ly.typography",
       "@alyle/ui/grid": "ly.grid",
+      "@alyle/ui/badge": "ly.badge",
       "chroma-js": "chroma"
     }
   }

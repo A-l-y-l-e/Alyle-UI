@@ -21,3 +21,4 @@ components:
   '@alyle/ui/tabs': tabs
   '@alyle/ui/toolbar': toolbar
   '@alyle/ui/drawer': drawer
+  '@alyle/ui/badge': badge

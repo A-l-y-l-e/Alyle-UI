@@ -37,6 +37,7 @@
       "@alyle/ui/card": ["lib/card"],
       "@alyle/ui/typography": ["lib/typography"],
       "@alyle/ui/grid": ["lib/grid"],
+      "@alyle/ui/badge": ["lib/badge"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }
