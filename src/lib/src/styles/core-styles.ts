@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LyTheme2 } from '../theme/theme2.service';
 
-const styles = {
+export const LY_COMMON_STYLES = {
   fill: {
     position: 'absolute',
     top: 0,
@@ -26,6 +26,6 @@ const styles = {
 
 @Injectable({ providedIn: 'root' })
 export class LyCoreStyles {
-  classes = this.theme.addStyleSheet(styles, 'lyCoreStyles');
+  classes = this.theme.addStyleSheet(LY_COMMON_STYLES, 'lyCommonStyles');
   constructor(private theme: LyTheme2) { }
 }

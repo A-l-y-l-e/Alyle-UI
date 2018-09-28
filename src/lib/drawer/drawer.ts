@@ -1,5 +1,26 @@
-import { Directive, Input, ElementRef, Renderer2, OnChanges, forwardRef, ContentChild } from '@angular/core';
-import { LyTheme2, ThemeVariables, toBoolean, eachMedia } from '@alyle/ui';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  Directive,
+  ElementRef,
+  EmbeddedViewRef,
+  forwardRef,
+  Input,
+  OnChanges,
+  Renderer2,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef
+  } from '@angular/core';
+import {
+  eachMedia,
+  LyTheme2,
+  ThemeVariables,
+  toBoolean,
+  LY_COMMON_STYLES
+  } from '@alyle/ui';
 
 const DEFAULT_MODE = 'side';
 const DEFAULT_VALUE = '';
@@ -26,6 +47,10 @@ const styles = (theme: ThemeVariables) => ({
   drawerOpened: {
     transform: 'translate3d(0px, 0px, 0)',
     visibility: 'visible'
+  },
+  backdrop: {
+    ...LY_COMMON_STYLES.fill,
+    backgroundColor: theme.drawer.backdrop
   }
 });
 
@@ -52,7 +77,6 @@ export class LyDrawerContainer {
 })
 export class LyDrawerContent {
   constructor(
-    private _theme: LyTheme2,
     private _renderer: Renderer2,
     private _el: ElementRef,
     drawerContainer: LyDrawerContainer
@@ -64,16 +88,20 @@ export class LyDrawerContent {
   }
 }
 
-@Directive({
+@Component({
   selector: 'ly-drawer',
+  templateUrl: './drawer.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyDrawer'
 })
-export class LyDrawer implements OnChanges {
+export class LyDrawer implements OnChanges, AfterViewInit {
+  classes = this._drawerContainer.classes;
   private _initialMode: mode;
   private _forceModeOver: boolean;
   private _fromToggle: boolean;
   private _opened: boolean;
   private _openedClass: string;
+  private _viewRef: EmbeddedViewRef<any>;
 
   private _mode: mode;
   private _modeClass: string;
@@ -91,6 +119,8 @@ export class LyDrawer implements OnChanges {
   private _drawerClass: string;
   private _drawerContentClass: string;
 
+  @ViewChild(TemplateRef) _backdrop: TemplateRef<any>;
+
   /** @deprecated */
   @Input() config: any;
 
@@ -98,6 +128,7 @@ export class LyDrawer implements OnChanges {
   set opened(val: boolean) {
     if (val !== this.opened) {
       this._opened = toBoolean(val);
+      this._updateBackdrop();
     }
   }
   get opened() {
@@ -135,7 +166,8 @@ export class LyDrawer implements OnChanges {
     private _theme: LyTheme2,
     private _renderer: Renderer2,
     private _el: ElementRef,
-    private _drawerContainer: LyDrawerContainer
+    private _drawerContainer: LyDrawerContainer,
+    private _vcr: ViewContainerRef,
   ) {
     this._renderer.addClass(this._el.nativeElement, _drawerContainer.classes.drawer);
   }
@@ -285,6 +317,11 @@ export class LyDrawer implements OnChanges {
     this._fromToggle = false;
   }
 
+  ngAfterViewInit() {
+    // this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
+    // this._viewRef.onDestroy(() => console.log('drawer backdrop destroyed!!'));
+  }
+
   toggle() {
     const width = getComputedStyle(this._el.nativeElement).width;
     this._fromToggle = true;
@@ -304,6 +341,15 @@ export class LyDrawer implements OnChanges {
   private _resetForceModeOver() {
     this._forceModeOver = false;
     this.opened = false;
+  }
+
+  private _updateBackdrop() {
+    if (this.opened && (this._mode === 'over' || this._forceModeOver)) {
+      this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
+    } else {
+      this._vcr.clear();
+      this._viewRef = null;
+    }
   }
 }
 
