@@ -1,3 +1,5 @@
+import { LY_COMMON_STYLES } from '@alyle/ui';
+
 export const styles = theme => {
   const { button, fontFamily } = theme.typography;
   const _styles = ({
@@ -27,7 +29,6 @@ export const styles = theme => {
       textDecorationLine: 'none',
       '-webkit-text-decoration-line': 'none',
       transition: 'background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms',
-      overflow: 'hidden',
       ...button
     },
     content: {
@@ -39,6 +40,12 @@ export const styles = theme => {
       width: '100%',
       height: '100%',
       boxSizing: 'border-box',
+    },
+    rippleContainer: {
+      ...LY_COMMON_STYLES.fill,
+      overflow: 'hidden',
+      pointerEvents: 'none',
+      borderRadius: 'inherit'
     }
   });
   if (typeof _styles.root.fontSize === 'number') {

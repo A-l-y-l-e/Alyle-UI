@@ -8,7 +8,9 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ViewChild,
+  AfterViewInit
 } from '@angular/core';
 import {
   Platform,
@@ -54,19 +56,22 @@ const Size = {
   <span [className]="classes.content">
     <ng-content></ng-content>
   </span>
+  <div #rippleContainer [className]="classes.rippleContainer"></div>
   `,
   encapsulation: ViewEncapsulation.None
 })
-export class LyButton implements OnInit, OnDestroy {
+export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Style
    * @ignore
    */
-  classes = this.theme.addStyleSheet(styles, 'lyButton', STYLE_PRIORITY);
+  classes = this._theme.addStyleSheet(styles, 'lyButton', STYLE_PRIORITY);
   private _rippleSensitive = false;
-  private _rippleContainer: Ripple;
+  private _ripple: Ripple;
   private _size: Record<keyof Size, string>;
   private _sizeClass: string;
+
+  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
   /** @ignore */
   @Input('sensitive')
@@ -84,10 +89,10 @@ export class LyButton implements OnInit, OnDestroy {
   set size(val: Record<keyof Size, string>) {
     if (val !== this.size) {
       this._size = val;
-      this._sizeClass = this.theme.addStyle(
+      this._sizeClass = this._theme.addStyle(
         `lyButton-size:${this.size}`,
         Size[this.size as any],
-        this.elementRef.nativeElement,
+        this._elementRef.nativeElement,
         this._sizeClass,
         STYLE_PRIORITY
       );
@@ -95,36 +100,40 @@ export class LyButton implements OnInit, OnDestroy {
   }
 
   constructor(
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
-    private theme: LyTheme2,
-    rippleService: LyRippleService,
-    _ngZone: NgZone,
+    private _elementRef: ElementRef,
+    private _renderer: Renderer2,
+    private _theme: LyTheme2,
+    private _rippleService: LyRippleService,
+    private _ngZone: NgZone,
     @Optional() bgAndColor: LyCommon
   ) {
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
-    if (Platform.isBrowser) {
-      const el = elementRef.nativeElement;
-      this._rippleContainer = new Ripple(_ngZone, rippleService.classes, el);
-    }
   }
 
   ngOnInit() {
-    this.renderer.addClass(this.elementRef.nativeElement, this.classes.root);
+    this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
     if (!this.size) {
       this.size = DEFAULT_SIZE as any;
     }
   }
 
+  ngAfterViewInit() {
+    if (Platform.isBrowser) {
+      const containerEl = this._rippleContainer.nativeElement;
+      const triggerElement = this._elementRef.nativeElement;
+      this._ripple = new Ripple(this._ngZone, this._rippleService.classes, containerEl, triggerElement);
+    }
+  }
+
   public focus() {
-    this.elementRef.nativeElement.focus();
+    this._elementRef.nativeElement.focus();
   }
 
   ngOnDestroy() {
     if (Platform.isBrowser) {
-      this._rippleContainer.removeEvents();
+      this._ripple.removeEvents();
     }
   }
 
