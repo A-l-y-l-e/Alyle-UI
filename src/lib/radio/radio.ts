@@ -222,8 +222,8 @@ export class LyRadioGroup implements ControlValueAccessor {
       >
     <div #_radioContainer>
       <div>
-      <div [className]="coreStyles.classes.fill"></div>
-      <div [className]="coreStyles.classes.fill"></div>
+        <div [className]="coreStyles.classes.fill"></div>
+        <div [className]="coreStyles.classes.fill"></div>
       </div>
     </div>
     <div
@@ -240,7 +240,7 @@ export class LyRadio implements OnInit, OnDestroy {
   name = '';
   _value = null;
   private _withColor: string;
-  private _rippleContainer: Ripple;
+  private _ripple: Ripple;
   private _checked = false;
   private checkedClass: string;
   @ViewChild('_radioContainer') private _radioContainer: ElementRef;
@@ -336,8 +336,8 @@ export class LyRadio implements OnInit, OnDestroy {
       this.name = this.radioGroup.name;
       this._renderer.addClass(this._radioContainer.nativeElement, this.radioGroup.classes.container);
     }
-    this._rippleContainer = new Ripple(this.ngZone, this._rippleService.classes, this._radioContainer.nativeElement, this._elementRef.nativeElement);
-    this._rippleContainer.setConfig({
+    this._ripple = new Ripple(this.ngZone, this._rippleService.classes, this._radioContainer.nativeElement, this._elementRef.nativeElement);
+    this._ripple.setConfig({
       centered: true,
       radius: 'containerSize'
     });
@@ -348,7 +348,7 @@ export class LyRadio implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._rippleContainer.removeEvents();
+    this._ripple.removeEvents();
   }
 
 

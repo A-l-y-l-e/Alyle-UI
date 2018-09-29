@@ -121,9 +121,9 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     if (Platform.isBrowser) {
-      const containerEl = this._rippleContainer.nativeElement;
+      const rippleContainer = this._rippleContainer.nativeElement;
       const triggerElement = this._elementRef.nativeElement;
-      this._ripple = new Ripple(this._ngZone, this._rippleService.classes, containerEl, triggerElement);
+      this._ripple = new Ripple(this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
     }
   }
 
