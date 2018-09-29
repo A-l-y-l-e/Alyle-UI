@@ -41,9 +41,9 @@ export class Ripple {
       this._eventHandlers.set('mouseup', this.onPointerLeave.bind(this));
       this._eventHandlers.set('mouseleave', this.onPointerLeave.bind(this));
       if (!_triggerElement) {
-        this._triggerElement = _containerElement;
+        _triggerElement = _containerElement;
       }
-      this.setTriggerElement(this._triggerElement);
+      this.setTriggerElement(_triggerElement);
     }
   }
 
@@ -52,7 +52,7 @@ export class Ripple {
   }
 
   private get _rectContainer(): ClientRect {
-    return this._triggerElement.getBoundingClientRect();
+    return this._containerElement.getBoundingClientRect();
   }
 
   private setTriggerElement(element: HTMLElement | null) {
