@@ -40,12 +40,6 @@ export const styles = theme => {
       width: '100%',
       height: '100%',
       boxSizing: 'border-box',
-    },
-    rippleContainer: {
-      ...LY_COMMON_STYLES.fill,
-      overflow: 'hidden',
-      pointerEvents: 'none',
-      borderRadius: 'inherit'
     }
   });
   if (typeof _styles.root.fontSize === 'number') {
