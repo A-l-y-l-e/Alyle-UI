@@ -1,68 +1,84 @@
-import { Directive, Input, ElementRef, Optional, Renderer2, OnInit } from '@angular/core';
+import { Directive, Input, ElementRef, Optional, Renderer2, OnInit, OnChanges } from '@angular/core';
 import { ThemeVariables, LyCommon, LyTheme2 } from '@alyle/ui';
 
+const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'end top';
+const DEFAULT_BG = 'primary';
 
-const styles = (theme: ThemeVariables) => {
-  return {
-    root: {
-      position: 'absolute',
-      width: '22px',
-      height: '22px',
-      borderRadius: '100%',
-      lineHeight: '22px',
-      textAlign: 'center'
-    },
-    sdasdasd: {
-      color: 'red'
-    }
-  };
-};
+const styles = (theme: ThemeVariables) => ({
+  root: {
+    position: 'absolute',
+    width: '22px',
+    height: '22px',
+    borderRadius: '100%',
+    lineHeight: '22px',
+    textAlign: 'center',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    pointerEvents: 'none',
+    zIndex: 1,
+    fontSize: theme.pxToRem(12),
+    fontFamily: theme.typography.fontFamily
+  },
+  relative: {
+    position: 'relative'
+  }
+});
 @Directive({
-  selector: 'ly-badge, [LyBadge]'
+  selector: 'ly-badge, [lyBadge]'
 })
 export class LyBadge implements OnInit {
-  classes = this._theme.addStyleSheet(styles, 'lyBadge');
-  private _badge: string | number;
-  private _position: string | number;
+  classes = this._theme.addStyleSheet(styles, 'lyBadge', STYLE_PRIORITY);
+  private _content: string | number;
+  private _position: 'start top' | 'start bottom' | 'end top' | 'end bottom';
   private _positionClass: string;
+  private _elContainer: any;
+  private _badgeElementRef: any;
+  private _bgClass: string;
 
   /** The content for the badge */
-  @Input()
-  set LyBadge(val: string | number) {
+  @Input('lyBadge')
+  set content(val: string | number) {
     if (val !== this.content) {
-      this._badge = val;
-      this._el.nativeElement.innerText = val;
+      this._content = val;
+      this._createBadge();
     }
   }
   get content() {
-    return this._badge;
+    return this._content;
   }
 
   /** The position for the badge */
-  @Input()
-  set LyBadgePosition(val: 'start top' | 'start bottom' | 'end top' | 'end bottom') {
+  @Input('lyBadgePosition')
+  set position(val: 'start top' | 'start bottom' | 'end top' | 'end bottom') {
     if (val !== this.position) {
+      this._position = val;
       this._positionClass = this._theme.addStyle(`ly-badge.position:${val}`, (theme: ThemeVariables) => {
         const positionStyles: {
           top?: number
           left?: number
           right?: number
           bottom?: number
+          transform?: string
         } = {};
-        if (val === 'start top') {
-          positionStyles.left = 0;
+        const dir = theme.getDirection(val.indexOf('start') !== -1 ? 'start' : 'end');
+        positionStyles[dir] = 0;
+        if (dir === 'left') {
+          positionStyles.transform = 'translateX(-50%)';
+        } else {
+          positionStyles.transform = 'translateX(50%)';
+        }
+        if (val.indexOf('top') !== -1) {
           positionStyles.top = 0;
-        } else if (val === 'start bottom') {
-          positionStyles.left = 0;
+          positionStyles.transform += 'translateY(-50%)';
+        } else if (val.indexOf('bottom') !== -1) {
           positionStyles.bottom = 0;
-        } else if (val === 'end top') {
-          positionStyles.right = 0;
-          positionStyles.top = 0;
+          positionStyles.transform += 'translateY(50%)';
         }
         return positionStyles;
       },
-      this._el.nativeElement, this._positionClass);
+      this._badgeElementRef, this._positionClass, STYLE_PRIORITY);
     }
 
   }
@@ -71,7 +87,21 @@ export class LyBadge implements OnInit {
   }
 
   /** The color of the badge  */
-  @Input() LyBadgeBg: string;
+  @Input('lyBadgeBg')
+  get bg() {
+    return this._bg;
+  }
+  set bg(val: string) {
+    if (val !== this.bg) {
+      this._bg = val;
+      this._bgClass = this._theme.addStyle(`ly-badge.bg:${val}`, (theme: ThemeVariables) => ({
+        backgroundColor: theme.colorOf(val),
+        color: theme.colorOf(`${val}:contrast`)
+      }),
+      this._badgeElementRef, this._bgClass, STYLE_PRIORITY);
+    }
+  }
+  private _bg: string;
 
   constructor(
     private _el: ElementRef,
@@ -79,25 +109,38 @@ export class LyBadge implements OnInit {
     private _renderer: Renderer2,
     @Optional() _common: LyCommon
   ) {
+    this._badgeElementRef = this._el.nativeElement;
     if (_common) {
       _common.setAutoContrast();
     }
-    this._renderer.addClass(this._el.nativeElement, this.classes.root);
   }
 
   ngOnInit() {
-    if (!this.LyBadgePosition) {
-      this.LyBadgePosition = DEFAULT_POSITION;
+
+    /** Add root styles */
+    this._renderer.addClass(this._badgeElementRef, this.classes.root);
+
+    /** Set default position */
+    if (!this.position) {
+      this.position = DEFAULT_POSITION;
+    }
+
+    /** Set default bg */
+    if (this.content && !this.bg) {
+      this.bg = DEFAULT_BG;
     }
   }
 
-}
+  private _createBadge() {
+    if (!this._elContainer) {
+      const container = this._elContainer = this._renderer.createElement('div');
+      this._renderer.appendChild(this._el.nativeElement, container);
+      this._badgeElementRef = container;
 
-/**
- * demo 1:
- * <button badgeRef="badge">button</button>
- * <ly-badge class="hhjk" #badge bg="background:primary" color="primary">8</ly-badge>
- *
- * demo 2:
- * <button LyBadge="8" LyBadgePosition="start top" LyBadgeBg="primary">button</button>
- */
+      /** Add position relative */
+      this._renderer.addClass(this._el.nativeElement, this.classes.relative);
+    }
+    this._elContainer.textContent = `${this.content}`;
+  }
+
+}
