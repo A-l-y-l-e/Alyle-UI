@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
@@ -23,6 +22,7 @@ import {
   } from '@alyle/ui';
 
 const DEFAULT_MODE = 'side';
+const DEFAULT_WIDTH = '230px';
 const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'start';
@@ -62,6 +62,7 @@ type mode = 'side' | 'over';
 })
 export class LyDrawerContainer {
   classes = this._theme.addStyleSheet(styles, 'ly-drawer-container', STYLE_PRIORITY + 1.9);
+  _openDrawers = 0;
   @ContentChild(forwardRef(() => LyDrawerContent)) drawerContent: LyDrawerContent;
   constructor(
     private _theme: LyTheme2,
@@ -94,23 +95,16 @@ export class LyDrawerContent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyDrawer'
 })
-export class LyDrawer implements OnChanges, AfterViewInit {
+export class LyDrawer implements OnChanges {
+  /**
+   * Styles
+   * @ignore
+   */
   classes = this._drawerContainer.classes;
-  private _initialMode: mode;
   private _forceModeOver: boolean;
   private _fromToggle: boolean;
   private _opened: boolean;
-  private _openedClass: string;
   private _viewRef: EmbeddedViewRef<any>;
-
-  private _mode: mode;
-  private _modeClass: string;
-
-  private _width: number | string;
-  private _widthClass: string;
-
-  private _height: number | string;
-  private _heightClass: string;
 
   private _position: position = DEFAULT_POSITION;
   private _positionClass: string;
@@ -119,16 +113,13 @@ export class LyDrawer implements OnChanges, AfterViewInit {
   private _drawerClass: string;
   private _drawerContentClass: string;
 
+  /** @ignore */
   @ViewChild(TemplateRef) _backdrop: TemplateRef<any>;
-
-  /** @deprecated */
-  @Input() config: any;
 
   @Input()
   set opened(val: boolean) {
     if (val !== this.opened) {
       this._opened = toBoolean(val);
-      this._updateBackdrop();
     }
   }
   get opened() {
@@ -141,6 +132,7 @@ export class LyDrawer implements OnChanges, AfterViewInit {
   @Input() spacingRight: string | number;
   @Input() width: number | string;
   @Input() height: number | string;
+
   @Input()
   set position(val: position) {
     if (val !== this.position) {
@@ -173,6 +165,7 @@ export class LyDrawer implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges() {
+    this._updateBackdrop();
     if (this._forceModeOver && !this._fromToggle) {
       this._resetForceModeOver();
     }
@@ -184,11 +177,13 @@ export class LyDrawer implements OnChanges, AfterViewInit {
     const __position = this.position;
     const __spacingTop = this.spacingTop;
     const __spacingBottom = this.spacingBottom;
+
     if (__width && __height) {
       throw new Error(`\`width\` and \`height\` are defined, you can only define one`);
     } else if (!__width) {
       if (!__height) {
-        __width = '230px';
+        /** set default __width if `width` & `height` is `undefined` */
+        __width = DEFAULT_WIDTH;
       }
     }
 
@@ -317,11 +312,6 @@ export class LyDrawer implements OnChanges, AfterViewInit {
     this._fromToggle = false;
   }
 
-  ngAfterViewInit() {
-    // this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
-    // this._viewRef.onDestroy(() => console.log('drawer backdrop destroyed!!'));
-  }
-
   toggle() {
     const width = getComputedStyle(this._el.nativeElement).width;
     this._fromToggle = true;
@@ -344,9 +334,12 @@ export class LyDrawer implements OnChanges, AfterViewInit {
   }
 
   private _updateBackdrop() {
-    if (this.opened && (this._mode === 'over' || this._forceModeOver)) {
+    if (this.opened && (this.mode === 'over' || this._forceModeOver)) {
+      this._drawerContainer._openDrawers++;
       this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
-    } else {
+      (this._viewRef.rootNodes[0] as HTMLDivElement).style.zIndex = `${this._drawerContainer._openDrawers}`;
+    } else if (this._viewRef) {
+      this._drawerContainer._openDrawers--;
       this._vcr.clear();
       this._viewRef = null;
     }

@@ -1,3 +1,36 @@
+<a name="1.7.0-beta.73atw"></a>
+# [1.7.0-beta.73atw](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.6gxhn...1.7.0-beta.73atw) (2018-09-30)
+
+
+### Bug Fixes
+
+* **button:** fix overflow ([2478ccc](https://github.com/A-l-y-l-e/Alyle-UI/commit/2478ccc))
+* **core:** do not update classname when it is equal to the new ([56aeec7](https://github.com/A-l-y-l-e/Alyle-UI/commit/56aeec7))
+* **core:** do not update classname when it is equal to the new ([68ef173](https://github.com/A-l-y-l-e/Alyle-UI/commit/68ef173))
+* **drawer:** fix drawer over ([32e984d](https://github.com/A-l-y-l-e/Alyle-UI/commit/32e984d))
+* **drawer:** fix responsive drawer ([166d8ff](https://github.com/A-l-y-l-e/Alyle-UI/commit/166d8ff))
+* **drawer:** fix styles ([ee4351f](https://github.com/A-l-y-l-e/Alyle-UI/commit/ee4351f))
+* **drawer:** fix toggle drawer ([74c82a9](https://github.com/A-l-y-l-e/Alyle-UI/commit/74c82a9))
+* **drawer:** force mode over ([8cb715d](https://github.com/A-l-y-l-e/Alyle-UI/commit/8cb715d))
+* **image-cropper:** update gesture config ([9d3814c](https://github.com/A-l-y-l-e/Alyle-UI/commit/9d3814c))
+* **responsive:** remove unused files ([b6dc6e5](https://github.com/A-l-y-l-e/Alyle-UI/commit/b6dc6e5))
+* **responsive:** remove unused variables ([4d23dea](https://github.com/A-l-y-l-e/Alyle-UI/commit/4d23dea))
+* **ripple:** fix trigger element ([c00e49b](https://github.com/A-l-y-l-e/Alyle-UI/commit/c00e49b))
+* fix gesture config ([38d6dfa](https://github.com/A-l-y-l-e/Alyle-UI/commit/38d6dfa))
+* remove deprecated method ([8dd555c](https://github.com/A-l-y-l-e/Alyle-UI/commit/8dd555c))
+* **ripple:** fix trigger element container ([5f5d4a3](https://github.com/A-l-y-l-e/Alyle-UI/commit/5f5d4a3))
+* **ripple:** remove unused styles ([8897d89](https://github.com/A-l-y-l-e/Alyle-UI/commit/8897d89))
+* **theme:** fix add zIndex ([3a55727](https://github.com/A-l-y-l-e/Alyle-UI/commit/3a55727))
+* **toolbar:** fix zIndex ([f7e6a59](https://github.com/A-l-y-l-e/Alyle-UI/commit/f7e6a59))
+
+
+### Features
+
+* **drawer:** add responsive drawer ([363ceec](https://github.com/A-l-y-l-e/Alyle-UI/commit/363ceec))
+* add direction property optional ([f3e8e7e](https://github.com/A-l-y-l-e/Alyle-UI/commit/f3e8e7e))
+
+
+
 <a name="1.7.0-beta.6gxhn"></a>
 # [1.7.0-beta.6gxhn](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.6d2nq...1.7.0-beta.6gxhn) (2018-09-18)
 
