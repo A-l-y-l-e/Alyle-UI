@@ -3,6 +3,7 @@ import { LyTheme2 } from './theme2.service';
 import { toBoolean } from '../minimal';
 import { shadowBuilder } from '../shadow';
 
+const STYLE_PRIORITY = -1;
 const DEFAULT_VALUE = '';
 
 @Directive({
@@ -117,7 +118,7 @@ export class LyCommon implements OnChanges {
         }
       }
       return style as any;
-    }, this._getHostElement(), this._className);
+    }, this._getHostElement(), this._className, STYLE_PRIORITY);
   }
 
   private _getHostElement() {
