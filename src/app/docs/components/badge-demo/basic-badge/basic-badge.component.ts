@@ -3,7 +3,7 @@ import { LyTheme2 } from '@alyle/ui';
 
 const styles = {
   root: {
-    '& button': {
+    '& [ly-button]': {
       margin: '1em'
     }
   },
