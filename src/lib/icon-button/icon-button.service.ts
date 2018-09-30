@@ -15,7 +15,6 @@ const styles = ({
     background: 'transparent',
     border: 0,
     padding: 0,
-    overflow: 'hidden',
     cursor: 'pointer',
     outline: 'none',
     boxSizing: 'border-box',
