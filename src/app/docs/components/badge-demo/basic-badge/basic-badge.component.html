@@ -1,11 +1,26 @@
-<p>
-  demo 1:
-</p>
-<button ly-button LyBadge="9">button</button>
-<p>
-  demo 2:
-</p>
-<button ly-button>
-  button
-  <ly-badge bg="primary">9</ly-badge>
-</button>
+<div [className]="classes.root">
+  <p><span lyBadge="9" [withClass]="classes.padding">Text with a badge</span></p>
+
+  <p>
+    Icon with a badge
+    <button ly-icon-button><ly-icon lyBadge="9">favorite</ly-icon></button>
+    <ly-icon lyBadge="9">favorite</ly-icon>
+  </p>
+
+  <button ly-button raised bg="primary">
+    button
+    <ly-badge bg="accent">9</ly-badge>
+  </button>
+  <button ly-button raised bg="primary">
+    button
+    <ly-badge lyBadgePosition="end bottom" bg="accent">9</ly-badge>
+  </button>
+  <button ly-button raised bg="primary">
+    button
+    <ly-badge lyBadgePosition="start bottom" bg="accent">9</ly-badge>
+  </button>
+  <button ly-button raised bg="primary">
+    button
+    <ly-badge lyBadgePosition="start top" bg="accent">9</ly-badge>
+  </button>
+</div>
