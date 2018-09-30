@@ -56,7 +56,7 @@ const Size = {
   <span [className]="classes.content">
     <ng-content></ng-content>
   </span>
-  <div #rippleContainer [className]="classes.rippleContainer"></div>
+  <div #rippleContainer [className]="_rippleService.classes.container"></div>
   `,
   encapsulation: ViewEncapsulation.None
 })
@@ -103,8 +103,8 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     private _elementRef: ElementRef,
     private _renderer: Renderer2,
     private _theme: LyTheme2,
-    private _rippleService: LyRippleService,
     private _ngZone: NgZone,
+    public _rippleService: LyRippleService,
     @Optional() bgAndColor: LyCommon
   ) {
     if (bgAndColor) {
