@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CoreTheme, LyTheme2 } from '@alyle/ui';
+import { LyTheme2, LY_COMMON_STYLES } from '@alyle/ui';
 
 export const styles = ({
   rippleContainer: {
@@ -12,6 +12,12 @@ export const styles = ({
     transform: 'scale(0)',
     transition: 'opacity ease,transform cubic-bezier(.1, 1, 0.5, 1)',
     pointerEvents: 'none'
+  },
+  container: {
+    ...LY_COMMON_STYLES.fill,
+    overflow: 'hidden',
+    pointerEvents: 'none',
+    borderRadius: 'inherit'
   }
 });
 
