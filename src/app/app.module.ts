@@ -1,4 +1,4 @@
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
-import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig, LyThemeModule } from '@alyle/ui';
+import { LyCommonModule, LyThemeConfig, LY_THEME_CONFIG, LyThemeModule } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRippleModule } from '@alyle/ui/ripple';
@@ -131,8 +131,7 @@ export class MyCustomTheme implements LyThemeConfig {
   ],
   providers: [
     RoutesAppService,
-    { provide: LY_THEME_CONFIG, useClass: MyCustomTheme },
-    // { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
+    { provide: LY_THEME_CONFIG, useClass: MyCustomTheme }
   ],
   bootstrap: [AppComponent]
 })
