@@ -103,7 +103,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 /** Alyle UI */
-import { LyThemeModule, LyThemeConfig, LY_THEME_CONFIG, LyHammerGestureConfig } from '@alyle/ui';
+import { LyThemeModule, LyThemeConfig, LY_THEME, LyHammerGestureConfig } from '@alyle/ui';
 import { MinimaTheme } from '@alyle/ui/themes/minima';
 `;
       let moduleName: string;
@@ -127,7 +127,7 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
       useClass: LyHammerGestureConfig
     },
     {
-      provide: LY_THEME_CONFIG,
+      provide: LY_THEME,
       useClass: MinimaTheme
     }
   ],` + str;

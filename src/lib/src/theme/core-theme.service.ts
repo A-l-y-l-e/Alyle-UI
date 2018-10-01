@@ -1,5 +1,5 @@
 import { Injectable, Optional, Inject, Renderer2, RendererFactory2, ViewEncapsulation } from '@angular/core';
-import { ThemeConfig, LY_THEME_CONFIG, LyThemeConfig, ThemeVariables } from './theme-config';
+import { ThemeConfig, LY_THEME, ThemeVariables, LY_THEME_GLOBAL_VARIABLES } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
@@ -18,12 +18,14 @@ export class CoreTheme {
   private _themeMap = new Map<string, ThemeVariables>();
   private _styleMap = new Map<string, Map<string, DataStyle>>();
   constructor(
-    @Optional() @Inject(LY_THEME_CONFIG) themeConfig: LyThemeConfig,
+    @Optional() @Inject(LY_THEME) themeConfig: ThemeConfig[] | ThemeConfig,
+    @Optional() @Inject(LY_THEME_GLOBAL_VARIABLES) globalVariables: ThemeConfig,
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) _document: any
   ) {
+    console.log({themeConfig}, typeof themeConfig);
     if (!themeConfig) {
-      throw new Error('LY_THEME_CONFIG undefined');
+      throw new Error('LY_THEME undefined');
     }
     this.renderer = this.rendererFactory.createRenderer(null, {
       id: 'ly',
@@ -41,19 +43,20 @@ export class CoreTheme {
       }
     }
     this.firstElement = _document.body.firstChild;
-    if (themeConfig) {
-      const variables = themeConfig.variables;
-      const newVariables = variables && typeof variables === 'function'
-      ? new variables()
-      : variables;
-      themeConfig.themes.forEach(item => {
-        const newTheme = typeof item === 'function' ? new item() : item;
-        if (variables) {
-          mergeDeep(newTheme, newVariables);
+    if (Array.isArray(themeConfig)) {
+      themeConfig.forEach(item => {
+        if (globalVariables) {
+          mergeDeep(item, globalVariables);
         }
-        this.add(newTheme);
-        this.themes.add(newTheme.name);
+        this.add(item as any);
+        this.themes.add(item.name);
       });
+    } else {
+      if (globalVariables) {
+        mergeDeep(themeConfig, globalVariables);
+      }
+      this.add(themeConfig as any);
+      this.themes.add(themeConfig.name);
     }
   }
 

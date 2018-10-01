@@ -7,7 +7,13 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ThemingComponent {
   code = `...
-import { LyThemeModule, LyThemeConfig, LY_THEME_CONFIG, PartialThemeConfig } from '@alyle/ui';
+import {
+  LyThemeModule,
+  LY_THEME,
+  LY_THEME_GLOBAL_VARIABLES,
+  ThemeVariables
+} from '@alyle/ui';
+
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
 
@@ -17,7 +23,6 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
  */
 export class CustomMinimaLight extends MinimaLight {
   footer = '#24c1a0'; // Footer color
-  myColor = 'pink';
 }
 
 /**
@@ -26,13 +31,12 @@ export class CustomMinimaLight extends MinimaLight {
  */
 export class CustomMinimaDark extends MinimaDark {
   footer = '#70b8e8'; // Footer color
-  myColor = 'teal';
 }
 
 /**
  * Global variables
  */
-export class GlobalVariables implements PartialThemeConfig {
+export class GlobalVariables implements Partial<ThemeVariables> {
   primary = {
     default: '#00bcd4',
     contrast: '#fff'
@@ -43,13 +47,6 @@ export class GlobalVariables implements PartialThemeConfig {
   };
 }
 
-/** Add theme */
-export class MyCustomTheme implements LyThemeConfig {
-  themes = [CustomMinimaLight, CustomMinimaDark];
-  /** overwrite for light & dark */
-  variables = new GlobalVariables;
-}
-
 /** set theme */
 @NgModule({
   ...
@@ -57,7 +54,10 @@ export class MyCustomTheme implements LyThemeConfig {
     LyThemeModule.setTheme('minima-dark')
   ],
   provides: [
-    { provide: LY_THEME_CONFIG, useClass: MyCustomTheme }
+    ...
+    { provide: LY_THEME, useClass: CustomMinimaLight, multi: true }, // name minima-light
+    { provide: LY_THEME, useClass: CustomMinimaDark, multi: true }, // name minima-dark
+    { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables } // global variables
   ]
   ...
 })

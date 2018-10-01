@@ -8,35 +8,36 @@ export class InstallationComponent {
   code: string;
   constructor() {
     this.code = `...
-/** Angular */
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-
-/** Animations */
+/** Import animations */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-/** Core module & common module */
+/** Import Alyle UI */
 import {
   LyThemeModule,
-  LyCommonModule,
-  LY_THEME_CONFIG,
-  LyHammerGestureConfig } from '@alyle/ui';
+  LY_THEME
+} from '@alyle/ui';
 
-/** Import theme */
-import { MinimaTheme } from '@alyle/ui/themes/minima';
+/** Import components */
+import { LyButtonModule } from '@alyle/ui/button';
+import { LyToolbarModule } from '@alyle/ui/toolbar';
+
+/** Import themes */
+import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
 @NgModule({
   ...
   imports: [
     ...
-    BrowserModule,
     BrowserAnimationsModule,
-    LyThemeModule.setTheme('minima-dark'), // <== set Theme
-    LyCommonModule // for bg, color, raised, button and other components
+    LyThemeModule.setTheme('minima-light'), // <== set Theme
+    LyButtonModule,
+    LyToolbarModule
     ...
   ],
+  /** Add themes */
   providers: [
-    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }, // Gestures for cropping & carousel
-    { provide: LY_THEME_CONFIG, useClass: MinimaTheme } // Theme
+    { provide: LY_THEME, useClass: MinimaLight, multi: true },
+    { provide: LY_THEME, useClass: MinimaDark, multi: true }
   ]
   ...
 })

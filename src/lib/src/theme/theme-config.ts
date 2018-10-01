@@ -1,8 +1,8 @@
 import { InjectionToken } from '@angular/core';
 import { LyStyleUtils } from '../style-utils';
 
-export const THEME_CONFIG = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly.theme.config.root');
-export const LY_THEME_CONFIG = new InjectionToken<LyThemeConfig>('ly_theme_config');
+export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
+export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
 export const LY_THEME_NAME = new InjectionToken<string>('ly.theme.name');
 
 export interface ThemeConfig {
@@ -68,6 +68,7 @@ export interface ThemeConfig {
     overlay: number
     [key: string]: number
   };
+  direction?: 'ltr' | 'rtl';
   animations: {
     curves: {
       standard: string
@@ -84,15 +85,8 @@ export interface ThemeConfig {
   ripple: IRippleVariables;
 }
 
-export type PartialThemeConfig = Partial<ThemeConfig>;
-
 export type ThemeVariables = LyStyleUtils & ThemeConfig;
-
-export class LyThemeConfig {
-  themes: any[] = [];
-  /** global variables */
-  variables?: any;
-}
+export type PartialThemeVariables = Partial<ThemeVariables>;
 
 export interface DefaultVal {
   default: string;
