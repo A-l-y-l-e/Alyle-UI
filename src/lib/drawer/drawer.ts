@@ -53,7 +53,8 @@ const styles = (theme: ThemeVariables) => ({
     backgroundColor: theme.drawer.backdrop
   },
   transition: {
-    transition: `${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}`
+    transition: `${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}`,
+    transitionProperty: 'transform, margin, visibility'
   }
 });
 
