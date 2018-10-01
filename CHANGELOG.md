@@ -1,3 +1,27 @@
+<a name="1.7.0-beta.75cav"></a>
+# [1.7.0-beta.75cav](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.73atw...1.7.0-beta.75cav) (2018-10-01)
+
+
+### Bug Fixes
+
+* **badge:** fix position ([200baba](https://github.com/A-l-y-l-e/Alyle-UI/commit/200baba))
+* **button:** use ripple styles ([319a661](https://github.com/A-l-y-l-e/Alyle-UI/commit/319a661))
+* **core:** add style priority ([881ec78](https://github.com/A-l-y-l-e/Alyle-UI/commit/881ec78))
+* **drawer:** fix animation when toggle drawer ([9142a14](https://github.com/A-l-y-l-e/Alyle-UI/commit/9142a14))
+* **drawer:** remove text content in template backdrop ([f574b28](https://github.com/A-l-y-l-e/Alyle-UI/commit/f574b28))
+* **icon-button:** fix overflow style ([a0dc7c2](https://github.com/A-l-y-l-e/Alyle-UI/commit/a0dc7c2))
+* **icon-button:** remove overflow style ([5e00c54](https://github.com/A-l-y-l-e/Alyle-UI/commit/5e00c54))
+
+
+### Features
+
+* **badge:** initial commit for badge ([a17683d](https://github.com/A-l-y-l-e/Alyle-UI/commit/a17683d))
+* **ripple:** add container style ([ead9a3d](https://github.com/A-l-y-l-e/Alyle-UI/commit/ead9a3d))
+* **ripple:** add ripple variables ([ee59488](https://github.com/A-l-y-l-e/Alyle-UI/commit/ee59488))
+* **theme:** add animations to variables ([d21961d](https://github.com/A-l-y-l-e/Alyle-UI/commit/d21961d))
+
+
+
 <a name="1.7.0-beta.73atw"></a>
 # [1.7.0-beta.73atw](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.6gxhn...1.7.0-beta.73atw) (2018-09-30)
 
