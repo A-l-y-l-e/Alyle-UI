@@ -57,17 +57,31 @@ export interface ThemeConfig {
     withColor: string
   };
   iconButton: {
-    size: string;
+    size: string
   };
   icon: {
-    fontSize: string;
+    fontSize: string
   };
   zIndex: {
-    toolbar: number,
-    drawer: number,
-    overlay: number,
+    toolbar: number
+    drawer: number
+    overlay: number
     [key: string]: number
   };
+  animations: {
+    curves: {
+      standard: string
+      deceleration: string
+      acceleration: string
+      sharp: string
+    },
+    durations: {
+      complex: number
+      entering: number
+      exiting: number
+    }
+  };
+  ripple: IRippleVariables;
 }
 
 export type PartialThemeConfig = Partial<ThemeConfig>;
@@ -87,4 +101,12 @@ export interface PaletteColor {
   contrast?: string;
   /** shadow color */
   shadow?: string;
+}
+
+export interface IRippleVariables {
+  transition: {
+    opacity: string
+    transform: string
+  };
+  duration: number;
 }

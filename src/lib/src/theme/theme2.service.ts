@@ -1,8 +1,7 @@
 import { Injectable, Renderer2, Inject, isDevMode } from '@angular/core';
-import { ThemeConfig, LY_THEME_NAME } from './theme-config';
+import { LY_THEME_NAME, ThemeVariables } from './theme-config';
 import { CoreTheme } from './core-theme.service';
-import { DataStyle, Style } from '../theme.service';
-import { InvertMediaQuery } from '../media/invert-media-query';
+import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 
@@ -60,7 +59,7 @@ export class StylesInDocument {
 
 @Injectable()
 export class LyTheme2 {
-  config: ThemeConfig;
+  config: ThemeVariables;
   _styleMap: Map<string, DataStyle>;
   initialTheme: string;
   elements: {

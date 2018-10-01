@@ -1,5 +1,5 @@
 import { Injectable, Optional, Inject, Renderer2, RendererFactory2, ViewEncapsulation } from '@angular/core';
-import { ThemeConfig, LY_THEME_CONFIG, LyThemeConfig } from './theme-config';
+import { ThemeConfig, LY_THEME_CONFIG, LyThemeConfig, ThemeVariables } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
@@ -15,7 +15,7 @@ export class CoreTheme {
   secondaryStyleContainer: HTMLElement;
   firstElement: HTMLElement;
   readonly themes = new Set<string>();
-  private _themeMap = new Map<string, ThemeConfig>();
+  private _themeMap = new Map<string, ThemeVariables>();
   private _styleMap = new Map<string, Map<string, DataStyle>>();
   constructor(
     @Optional() @Inject(LY_THEME_CONFIG) themeConfig: LyThemeConfig,
@@ -59,9 +59,9 @@ export class CoreTheme {
 
   /**
    * add new theme
-   * @param theme: ThemeConfig
+   * @param theme: ThemeVariables
    */
-  add(theme: ThemeConfig) {
+  add(theme: ThemeVariables) {
     this._themeMap.set(theme.name, theme);
     this._styleMap.set(theme.name, new Map());
   }

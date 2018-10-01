@@ -1,10 +1,10 @@
-import { typography, iconButton, icon, input, zIndex } from './variables';
-import { ThemeConfig, LyStyleUtils, TypographyConfig } from '@alyle/ui';
-import { Breakpoints } from '@alyle/ui/responsive';
+import { input } from './variables';
+import { ThemeConfig } from '@alyle/ui';
+import { MinimaBase } from './base';
 
 const contrast = '#fff';
 const shadow = 'rgba(0, 0, 0, 1)';
-export class MinimaDark extends LyStyleUtils implements ThemeConfig {
+export class MinimaDark extends MinimaBase implements ThemeConfig {
   name = 'minima-dark';
   primary = {
     default: '#1DE9B6',
@@ -18,7 +18,6 @@ export class MinimaDark extends LyStyleUtils implements ThemeConfig {
     default: '#EA404C',
     contrast
   };
-  typography = typography;
   background = {
     default: '#303030', // secondary
     primary: {
@@ -58,8 +57,4 @@ export class MinimaDark extends LyStyleUtils implements ThemeConfig {
     underline: 'rgba(255, 255, 255, 0.11)',
     withColor: input.withColor
   };
-  iconButton = iconButton;
-  icon = icon;
-  breakpoints = Breakpoints;
-  zIndex = zIndex;
 }
