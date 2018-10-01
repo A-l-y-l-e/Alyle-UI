@@ -1,3 +1,56 @@
+<a name="1.7.0-beta.76gq3"></a>
+# [1.7.0-beta.76gq3](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.75cav...1.7.0-beta.76gq3) (2018-10-01)
+
+
+### Bug Fixes
+
+* **drawer:** add transitionProperty ([186c63f](https://github.com/A-l-y-l-e/Alyle-UI/commit/186c63f))
+
+
+### Features
+
+* **core:** update core to apply the customizable theme easily ([0ccfabe](https://github.com/A-l-y-l-e/Alyle-UI/commit/0ccfabe))
+
+
+### BREAKING CHANGES
+
+* **core:** Set theme
+
+before:
+```ts
+/** Add theme */
+export class MyCustomTheme implements LyThemeConfig {
+  themes = [CustomMinimaLight, CustomMinimaDark];
+  /** overwrite for light & dark */
+  variables = new GlobalVariables;
+}
+
+@NgModule({
+  provides: [
+    { provide: LY_THEME_CONFIG, useClass: MyCustomTheme }
+  ]
+  ...
+})
+
+```
+
+after:
+```ts
+@NgModule({
+  ...
+  imports: [
+    LyThemeModule.setTheme('minima-dark')
+  ],
+  provides: [
+    ...
+    { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
+    { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
+    { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables } // global variables, overwrite for light & dark
+  ]
+```
+
+
+
 <a name="1.7.0-beta.75cav"></a>
 # [1.7.0-beta.75cav](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.73atw...1.7.0-beta.75cav) (2018-10-01)
 
