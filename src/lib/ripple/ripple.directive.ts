@@ -34,10 +34,11 @@ export class LyRipple implements OnInit, OnChanges, OnDestroy {
   constructor(
     private rippleService: LyRippleService,
     public _elementRef: ElementRef,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _theme: LyTheme2
   ) {
     if (Platform.isBrowser) {
-      this.rippleContainer = new Ripple(this._ngZone, this.rippleService.classes, this._elementRef.nativeElement);
+      this.rippleContainer = new Ripple(this._theme.config, this._ngZone, this.rippleService.classes, this._elementRef.nativeElement);
     }
   }
 

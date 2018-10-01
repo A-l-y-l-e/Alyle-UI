@@ -1,5 +1,5 @@
 import { NgZone } from '@angular/core';
-import { Platform } from '@alyle/ui';
+import { Platform, ThemeVariables } from '@alyle/ui';
 
 export interface RippleConfig {
   centered?: boolean;
@@ -23,9 +23,10 @@ export class Ripple {
   private _rippleRef: RippleRef;
   private _eventHandlers: Map<string, (e: Event) => void> = new Map<string, (e: Event) => void>();
   private rippleConfig: RippleConfig = {};
-  private _transitionDuration = '950ms';
+  private _transitionDuration = this._themeVariables.ripple.duration;
   private _eventOptions = {passive: true} as any;
   constructor(
+    private _themeVariables: ThemeVariables,
     private _ngZone: NgZone,
     private classes: any,
     private _containerElement: HTMLElement,
@@ -113,12 +114,12 @@ export class Ripple {
     if (rippleConfig.percentageToIncrease) {
       radius += radius * rippleConfig.percentageToIncrease / 100;
     }
-    const ripple = this.createRipple({
+    this.createRipple({
       left: left - radius,
       top: top - radius,
       width: radius * 2,
       height: radius * 2,
-      transitionDuration: this._transitionDuration
+      transitionDuration: `${this._transitionDuration}ms`
     });
   }
 
@@ -128,12 +129,12 @@ export class Ripple {
 
   endRipple() {
     const rippleRef: RippleRef = this._rippleRef || null;
-    const duration = parseFloat(this._transitionDuration);
+    const duration = this._transitionDuration;
     if (rippleRef && rippleRef.state) {
       rippleRef.end();
       this.runTimeoutOutsideZone(() => {
         rippleRef.container.style.opacity = '0';
-        rippleRef.container.style.transitionDuration = '200ms';
+        rippleRef.container.style.transitionDuration = `${this._transitionDuration / 5}ms`;
       // }, rippleRef.timestamp < duration ? duration : 0);
       // }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) : 0);
       }, rippleRef.timestamp < duration ? duration * .15 : 0);

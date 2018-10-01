@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LyTheme2, LY_COMMON_STYLES } from '@alyle/ui';
+import { LyTheme2, LY_COMMON_STYLES, ThemeVariables } from '@alyle/ui';
 
-export const styles = ({
+export const styles = (theme: ThemeVariables) => ({
   rippleContainer: {
     position: 'absolute',
     width: '5px',
@@ -10,7 +10,8 @@ export const styles = ({
     opacity: '.19',
     borderRadius: '100%',
     transform: 'scale(0)',
-    transition: 'opacity ease,transform cubic-bezier(.1, 1, 0.5, 1)',
+    transition: `opacity ${theme.ripple.transition.opacity},transform ${theme.ripple.transition.transform
+    }`,
     pointerEvents: 'none'
   },
   container: {

@@ -242,13 +242,14 @@ export class LyTabLabel implements OnInit, OnDestroy {
     private _el: ElementRef,
     private tabsService: LyTabsClassesService,
     private rippleService: LyRippleService,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _theme: LyTheme2
   ) { }
 
   ngOnInit() {
     this.renderer.addClass(this._el.nativeElement, this.tabsService.classes.label);
     if (Platform.isBrowser) {
-      this._rippleContainer = new Ripple(this._ngZone, this.rippleService.classes, this._el.nativeElement);
+      this._rippleContainer = new Ripple(this._theme.config, this._ngZone, this.rippleService.classes, this._el.nativeElement);
     }
   }
 

@@ -63,7 +63,7 @@ export class LyIconButton implements OnInit, AfterViewInit, OnDestroy {
     if (Platform.isBrowser) {
       const rippleContainer = this._rippleContainer.nativeElement;
       const triggerElement = this._el.nativeElement;
-      this._ripple = new Ripple(this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
+      this._ripple = new Ripple(this.theme.config, this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
       this._ripple.setConfig({
         centered: true
       });
