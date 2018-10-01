@@ -51,6 +51,9 @@ const styles = (theme: ThemeVariables) => ({
   backdrop: {
     ...LY_COMMON_STYLES.fill,
     backgroundColor: theme.drawer.backdrop
+  },
+  transition: {
+    transition: `${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}`
   }
 });
 
@@ -105,6 +108,7 @@ export class LyDrawer implements OnChanges {
   private _fromToggle: boolean;
   private _opened: boolean;
   private _viewRef: EmbeddedViewRef<any>;
+  private _isAnimation: boolean;
 
   private _position: position = DEFAULT_POSITION;
   private _positionClass: string;
@@ -166,6 +170,7 @@ export class LyDrawer implements OnChanges {
 
   ngOnChanges() {
     this._updateBackdrop();
+    this._updateAnimations();
     if (this._forceModeOver && !this._fromToggle) {
       this._resetForceModeOver();
     }
@@ -344,10 +349,22 @@ export class LyDrawer implements OnChanges {
       this._viewRef = null;
     }
   }
+
+  private _updateAnimations() {
+    if (this._fromToggle && !this._isAnimation) {
+      this._renderer.addClass(this._el.nativeElement, this.classes.transition);
+      this._renderer.addClass(this._drawerContainer.drawerContent._getHostElement(), this.classes.transition);
+      this._isAnimation = true;
+    } else if (!this._fromToggle && this._isAnimation) {
+      this._renderer.removeClass(this._el.nativeElement, this.classes.transition);
+      this._renderer.removeClass(this._drawerContainer.drawerContent._getHostElement(), this.classes.transition);
+      this._isAnimation = false;
+    }
+  }
 }
 
 /**
- * @dddd
+ * convert number to px
  */
 function toPx(val: string | number) {
   if (typeof val === 'number') {
