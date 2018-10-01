@@ -1,13 +1,17 @@
-import { readdirSync, statSync, readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import * as jsyaml from 'js-yaml';
+import * as moment from 'moment';
+
 const packageConf = `${process.cwd()}/.package.conf.yml`;
 const config = jsyaml.load(readFileSync(packageConf, 'utf8').toString());
 const libDir = `${process.cwd()}/src/lib`;
 const pkg = JSON.parse(readFileSync(`${process.cwd()}/package.json`, 'utf8').toString());
 const pkgLib = JSON.parse(readFileSync(`${process.cwd()}/src/lib/package.json`, 'utf8').toString());
 
+const isNightly = process.argv.some(_ => _ === '--nightly');
+
 function updateVersion() {
-  const newVersion = createVersion(config.version, config.lastUpdate);
+  const newVersion = createVersion(config.version);
   config.version = newVersion.version;
   pkg.version = newVersion.version;
   config.lastUpdate = newVersion.lastUpdate;
@@ -23,19 +27,29 @@ function updateVersion() {
   writeFileSync(`${process.cwd()}/src/lib/package.json`, JSON.stringify(pkgLib, undefined, 2), 'utf8');
 }
 
-function createVersion(currentVersion: string, lastUpdate: string) {
-  const now = Date.now();
-  const time = Math.floor((now - new Date(config.lastUpdate).getTime()) / 1000);
+function createVersion(currentVersion: string) {
+  const newDate = new Date();
+  const now = newDate.getTime();
+  const date = moment().format('YYYYMMDD');
   const versionArray = currentVersion.split('.');
+  const nightlyVersion = `-nightly.${date}`;
   let version;
-  if (versionArray.length > 3) {
-    const v = parseInt(versionArray[versionArray.length - 1], 36);
-    versionArray[versionArray.length - 1] = `${(time + v).toString(36)}`;
+  if (isNightly) {
+    if (versionArray.length > 3) {
+      versionArray[versionArray.length - 1] = date;
+    } else {
+      versionArray[2] = `${parseFloat(versionArray[2]) + 1}` + nightlyVersion;
+    }
   } else {
-    versionArray[2] += 1;
+    if (versionArray.length > 3) {
+      versionArray.splice(3);
+      versionArray[2] = versionArray[2].replace('-nightly', '');
+    } else {
+      versionArray[2] = `${parseFloat(versionArray[2]) + 1}`;
+    }
   }
   version = versionArray.join('.');
-  lastUpdate = new Date(now).toJSON();
+  const lastUpdate = new Date(now).toJSON();
   return {
     version,
     lastUpdate
