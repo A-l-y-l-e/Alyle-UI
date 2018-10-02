@@ -30,7 +30,7 @@ function updateVersion() {
 function createVersion(currentVersion: string) {
   const newDate = new Date();
   const now = newDate.getTime();
-  const date = moment().format('YYYYMMDD');
+  const date = `${moment().format('YYYYMMDD')}-${Date.now().toString(36)}`;
   const versionArray = currentVersion.split('.');
   const nightlyVersion = `-nightly.${date}`;
   let version;
