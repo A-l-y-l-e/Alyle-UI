@@ -23,7 +23,6 @@ export class CoreTheme {
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) _document: any
   ) {
-    console.log({themeConfig}, typeof themeConfig);
     if (!themeConfig) {
       throw new Error('LY_THEME undefined');
     }
