@@ -1,0 +1,11 @@
+<div [className]="classes.container">
+  <ng-content></ng-content>
+  <div [className]="classes.labelContainer">
+    <div [className]="classes.labelSpacingStart"></div>
+    <div [className]="classes.label">{{ label }}</div>
+    <div [className]="classes.labelSpacingEnd"></div>
+  </div>
+</div>
+<div [className]="classes.underline"></div>
+<div [className]="classes.hint"></div>
+
