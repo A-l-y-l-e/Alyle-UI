@@ -98,13 +98,13 @@ export class ViewComponent implements OnInit {
     );
     data.subscribe(([res1, res2, res3]) => {
       const otherModules = `/** Angular */
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 /** Alyle UI */
-import { LyThemeModule, LyThemeConfig, LY_THEME, LyHammerGestureConfig } from '@alyle/ui';
-import { MinimaTheme } from '@alyle/ui/themes/minima';
+import { LyThemeModule, LY_THEME } from '@alyle/ui';
+import { MinimaLight } from '@alyle/ui/themes/minima';
 `;
       let moduleName: string;
       const AppModule = otherModules + res3.replace(MODULE_REGEXP, (str, token) => {
@@ -123,12 +123,8 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
         return `bootstrap: [${token}],
   providers: [
     {
-      provide: HAMMER_GESTURE_CONFIG,
-      useClass: LyHammerGestureConfig
-    },
-    {
       provide: LY_THEME,
-      useClass: MinimaTheme
+      useClass: MinimaLight
     }
   ],` + str;
       });
@@ -146,8 +142,9 @@ import { MinimaTheme } from '@alyle/ui/themes/minima';
     form.method = 'POST';
     form.setAttribute('style', 'display:none;');
     // form.target = '_blank';
-    form.action = 'https://run.stackblitz.com/api/angular/v1/';
     const name = this.path.split('/').reverse()[0];
+    const htmlName = encodeURIComponent(`app/${name}.component.html`);
+    form.action = `https://run.stackblitz.com/api/angular/v1/?file=${htmlName}`;
     const title = name.replace(/-/g, ' ') + ' | Alyle UI';
     const payload: {
       files: {[path: string]: string};
