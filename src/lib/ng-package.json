@@ -24,6 +24,7 @@
       "@alyle/ui/typography": "ly.typography",
       "@alyle/ui/grid": "ly.grid",
       "@alyle/ui/badge": "ly.badge",
+      "@alyle/ui/field": "ly.field",
       "chroma-js": "chroma"
     }
   }

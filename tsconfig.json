@@ -38,6 +38,7 @@
       "@alyle/ui/typography": ["lib/typography"],
       "@alyle/ui/grid": ["lib/grid"],
       "@alyle/ui/badge": ["lib/badge"],
+      "@alyle/ui/field": ["lib/field"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }

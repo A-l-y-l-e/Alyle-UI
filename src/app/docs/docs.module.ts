@@ -42,8 +42,12 @@ import { ResizingCroppingImagesExample02Module } from '@docs/components/resizing
 // tslint:disable-next-line:max-line-length
 import { ResizingCroppingImagesExample03Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-03/resizing-cropping-images-example-03.module';
 import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
+
 import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
 import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-badge.module';
+
+import { FieldDemoComponent } from './components/field-demo/field-demo.component';
+import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
 
 @NgModule({
   imports: [
@@ -73,7 +77,9 @@ import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-
     ResizingCroppingImagesExample02Module,
     ResizingCroppingImagesExample03Module,
     /** Badge */
-    BasicBadgeModule
+    BasicBadgeModule,
+    /** Field */
+    BasicFieldModule
   ],
   declarations: [
     ThemingComponent,
@@ -90,7 +96,9 @@ import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-
     /** Image cropper */
     ResizingCroppingImagesDemoComponent,
     /** Badge */
-    BadgeDemoComponent
+    BadgeDemoComponent,
+    /** Badge */
+    FieldDemoComponent
 
   ]
 })

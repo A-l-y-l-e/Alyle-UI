@@ -41,6 +41,7 @@ export class RoutesAppService {
           { route: 'card', name: 'Card' },
           { route: 'carousel', name: 'Carousel' },
           { route: 'drawer', name: 'Drawer' },
+          { route: 'text-field', name: 'Text Field' },
           { route: 'icon-button', name: 'Icon button' },
           { route: 'input', name: 'Input', status: 'alpha' },
           { route: 'menu', name: 'Menu' },
