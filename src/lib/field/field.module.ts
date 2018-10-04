@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { LyCommonModule } from '@alyle/ui';
 import { LyField } from './field';
+import { LyInputNative } from './input';
 
 @NgModule({
   imports: [
@@ -8,8 +9,9 @@ import { LyField } from './field';
   ],
   exports: [
     LyField,
+    LyInputNative,
     LyCommonModule
   ],
-  declarations: [ LyField ]
+  declarations: [ LyField, LyInputNative ]
 })
 export class LyFieldModule { }
