@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'aui-basic-field',
-  templateUrl: './basic-field.component.html'
+  templateUrl: './basic-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BasicFieldComponent implements OnInit {
 
