@@ -86,7 +86,7 @@ export const input = {
     standard: {
       input: {
         marginTop: '2em',
-        marginBottom: 'auto'
+        marginBottom: '.25em'
       },
       floatingLabel: {
         top: '-1em'
