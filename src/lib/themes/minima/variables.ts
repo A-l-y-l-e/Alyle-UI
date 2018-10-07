@@ -85,11 +85,11 @@ export const input = {
   appearance: {
     standard: {
       input: {
-        marginTop: 'auto',
-        marginBottom: '.5em'
+        marginTop: '2em',
+        marginBottom: 'auto'
       },
       floatingLabel: {
-        bottom: '2.125em'
+        top: '-1em'
       }
     }, // default & important
     outlined: {},
