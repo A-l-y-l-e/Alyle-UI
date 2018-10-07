@@ -50,7 +50,7 @@ const styles = (theme: ThemeVariables) => {
     labelSpacingEnd: {},
     label: {
       ...LY_COMMON_STYLES.fill,
-      top: null,
+      bottom: null,
       pointerEvents: 'none',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
@@ -131,7 +131,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       this._appearance = val;
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
         return {
-          '& > div > input': (theme.input as any).appearance[val].input,
+          [`& .${this.classes.inputNative}`]: (theme.input as any).appearance[val].input,
           [`& .${this.classes.placeholder}`]: (theme.input as any).appearance[val].input,
           [`& .${this.classes.label}`]: (theme.input as any).appearance[val].input,
           [`& .${this.classes.labelFloating}`]: (theme.input as any).appearance[val].floatingLabel
