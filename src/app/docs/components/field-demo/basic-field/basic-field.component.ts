@@ -6,7 +6,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BasicFieldComponent implements OnInit {
-
+  val = 'valtesdfzz';
   constructor() { }
 
   ngOnInit() {

@@ -1,23 +1,45 @@
-import { Directive, ElementRef, Optional, Self, Input, HostListener, HostBinding } from '@angular/core';
+import { Directive, ElementRef, Optional, Self, Input, HostListener, HostBinding, OnInit, Renderer2, OnDestroy } from '@angular/core';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
-import { toBoolean } from '@alyle/ui';
+import { toBoolean, LyTheme2 } from '@alyle/ui';
+import { Subject } from 'rxjs';
+
+const ATTR_PLACEHOLDER = 'placeholder';
 
 @Directive({
   selector: 'ly-field > input, ly-field > textarea',
   exportAs: 'lyInput'
 })
-export class LyInputNative {
+export class LyInputNative implements OnInit, OnDestroy {
   /** @ignore */
   _hostElement: HTMLInputElement | HTMLTextAreaElement;
   protected _disabled = false;
   protected _required = false;
+  protected _placeholder: string;
+  readonly valueChanges: Subject<void> = new Subject<void>();
+  focused = false;
 
-  @HostListener('input') _onInput() { }
+  @HostListener('input') _onInput() {
+    this.valueChanges.next();
+  }
+
+  @HostListener('blur') _onBlur() {
+    if (this.focused !== false) {
+      this.focused = false;
+      this.valueChanges.next();
+    }
+  }
+  @HostListener('focus') _onFocus() {
+    if (this.focused !== true) {
+      this.focused = true;
+      this.valueChanges.next();
+    }
+  }
 
   @Input()
   set value(val) {
     if (val !== this.value) {
       this._hostElement.value = val;
+      this.valueChanges.next();
     }
   }
   get value() {
@@ -43,14 +65,32 @@ export class LyInputNative {
   }
   get required(): boolean { return this._required; }
 
+  @Input()
+  set placeholder(val: string) {
+    this._placeholder = val;
+  }
+  get placeholder(): string { return this._placeholder; }
+
   constructor(
     private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
+    private _renderer: Renderer2,
+    private _theme: LyTheme2,
     /** @ignore */
     @Optional() @Self() public ngControl: NgControl,
     @Optional() _parentForm: NgForm,
     @Optional() _parentFormGroup: FormGroupDirective,
   ) {
     this._hostElement = this._el.nativeElement;
+  }
+
+  ngOnInit() {
+    if (this.placeholder) {
+      this._renderer.removeAttribute(this._hostElement, ATTR_PLACEHOLDER);
+    }
+  }
+
+  ngOnDestroy() {
+    this.valueChanges.complete();
   }
 
   /** Focuses the input. */

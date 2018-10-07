@@ -55,6 +55,6 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   input = {
     label: 'rgba(255, 255, 255, 0.4)',
     underline: 'rgba(255, 255, 255, 0.11)',
-    withColor: input.withColor
+    ...input
   };
 }

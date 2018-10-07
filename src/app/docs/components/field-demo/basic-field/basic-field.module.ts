@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BasicFieldComponent } from './basic-field.component';
+import { FormsModule } from '@angular/forms';
 import { LyFieldModule } from '@alyle/ui/field';
+import { BasicFieldComponent } from './basic-field.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     LyFieldModule
   ],
   exports: [BasicFieldComponent],

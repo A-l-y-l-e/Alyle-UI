@@ -81,7 +81,23 @@ export const icon = {
 };
 export const input = {
   /** default color */
-  withColor: 'primary'
+  withColor: 'primary',
+  appearance: {
+    standard: {
+      input: {
+        marginTop: 'auto',
+        marginBottom: '.5em'
+      },
+      floatingLabel: {
+        bottom: '2.125em'
+      }
+    }, // default & important
+    outlined: {},
+    filled: {
+      background: '#ccc',
+      container: { }
+    }
+  }
 };
 
 export const zIndex = {
