@@ -121,6 +121,9 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       }, this._el.nativeElement, this._withColorClass, STYLE_PRIORITY);
     }
   }
+  get withColor() {
+    return this._withColor;
+  }
 
   @Input()
   set appearance(val: string) {
