@@ -96,28 +96,42 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   classes = this._theme.addStyleSheet(styles, 'ly-field', STYLE_PRIORITY);
   protected _appearance: string;
   protected _appearanceClass: string;
+  protected _withColor: string;
+  protected _withColorClass: string;
   protected _isFloating: boolean;
-  @Input() withColor: string;
   @ViewChild('_labelCenter') _labelCenter: ElementRef<HTMLDivElement>;
   @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
   @ContentChild(LyInputNative) _input: LyInputNative;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
+  @Input()
+  set withColor(val: string) {
+    if (val !== this._withColor) {
+      this._withColor = val;
+      this._withColorClass = this._theme.addStyle(`ly-field.withColor:${val}`, (theme: ThemeVariables) => {
+        const color = theme.colorOf(val);
+        return {
+          [`&.${this.classes.focused} .${this.classes.labelFloating}`]: {
+            color
+          },
+          [`& .${this.classes.inputNative}`]: {
+            caretColor: color
+          }
+        };
+      }, this._el.nativeElement, this._withColorClass, STYLE_PRIORITY);
+    }
+  }
 
   @Input()
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      const withColor = this.withColor;
-      this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}·${withColor}`, (theme: ThemeVariables) => {
+      this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
         return {
           '& > div > input': (theme.input as any).appearance[val].input,
           [`& .${this.classes.placeholder}`]: (theme.input as any).appearance[val].input,
           [`& .${this.classes.label}`]: (theme.input as any).appearance[val].input,
-          [`& .${this.classes.labelFloating}`]: (theme.input as any).appearance[val].floatingLabel,
-          [`&.${this.classes.focused} .${this.classes.labelFloating}`]: {
-            color: theme.colorOf(withColor)
-          }
+          [`& .${this.classes.labelFloating}`]: (theme.input as any).appearance[val].floatingLabel
         };
       }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY);
     }
