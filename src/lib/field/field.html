@@ -2,29 +2,26 @@
   <ng-content></ng-content>
   <div [className]="classes.fakeContainer">
     <div [className]="classes.labelSpacingStart"></div>
-    <div [className]="classes.labelCenter" #_labelCenter *ngIf="_isLabel()">{{ _input.placeholder }}</div>
+    <div [className]="classes.labelCenter" *ngIf="_isLabel()" #_labelCenter>
+      
+    </div>
+    <div [className]="classes.labelSpacingEnd"></div>
+  </div>
+  <div [className]="classes.labelContainer">
+    <div [className]="classes.labelSpacingStart"></div>
+    <div [className]="classes.labelCenter" *ngIf="_isLabel()" #_labelCenter>
+      <div [className]="classes.label" #_labelContainer *ngIf="_isLabel()">
+        <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
+      </div>
+    </div>
     <div [className]="classes.labelSpacingEnd"></div>
   </div>
   <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _isEmpty() && _input.focused">
     <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
   </div>
-  <div [className]="classes.label" #_labelContainer *ngIf="_isLabel()">
-    <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
-    <!-- <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container> -->
-    
-  </div>
   <div [className]="classes.underline"></div>
   <div [className]="classes.hint"></div>
 </div>
-
-<!-- <ng-template #_placeholderTemplate>
-  <ng-content *ngIf="!_input.placeholder; else elseBlock" select="ly-placeholder"></ng-content>
-  <ng-template #elseBlock>{{ _input.placeholder }}</ng-template>
-</ng-template>
-
-<ng-template #_labelTemplate>
-  <ng-content select="ly-label"></ng-content>
-</ng-template> -->
 
 <ng-template #_labelTemplate>
   <ng-content select="ly-label"></ng-content>

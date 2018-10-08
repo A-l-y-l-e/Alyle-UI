@@ -5,7 +5,6 @@ import { Directive, TemplateRef, ViewContainerRef, ViewRef } from '@angular/core
 })
 export class LyLabel {
   constructor(
-    // public _templateRef: TemplateRef<any>,
     public _vcr: ViewContainerRef
   ) { }
 }
