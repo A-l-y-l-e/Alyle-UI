@@ -85,14 +85,30 @@ export const input = {
   appearance: {
     standard: {
       input: {
-        marginTop: '2em',
-        marginBottom: '.25em'
+        // marginTop && marginBottom === 21px
+        marginTop: '1em',
+        marginBottom: '.3125em'
       },
       floatingLabel: {
-        top: '-1em'
+        transform: 'translateY(-1em)'
       }
     }, // default & important
-    outlined: {},
+    outlined: {
+      containerLabel: {
+        color: 'rgba(0,0,0,.12)',
+        border: '1px currentColor',
+        '&:hover': {
+          border: '2px'
+        }
+      },
+      input: {
+        marginTop: '1.5em',
+        marginBottom: '.5em'
+      },
+      floatingLabel: {
+        transform: 'translateY(-2em)'
+      }
+    },
     filled: {
       background: '#ccc',
       container: { }

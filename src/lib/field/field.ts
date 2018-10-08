@@ -33,24 +33,27 @@ const styles = (theme: ThemeVariables) => {
       position: 'relative'
     },
     container: {
-      minHeight: '3.5em',
+      paddingTop: '1em',
       height: '100%',
       display: 'flex',
       alignItems: 'center',
     },
-    fakeContainer: {
+    labelContainer: {
       ...LY_COMMON_STYLES.fill,
+      paddingTop: '1em',
       pointerEvents: 'none',
       display: 'flex'
     },
     labelSpacingStart: {},
     labelCenter: {
-      opacity: 0
+      display: 'flex'
     },
-    labelSpacingEnd: {},
+    labelSpacingEnd: {
+      flex: 1
+    },
     label: {
-      ...LY_COMMON_STYLES.fill,
-      bottom: null,
+      // ...LY_COMMON_STYLES.fill,
+      // bottom: null,
       pointerEvents: 'none',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
@@ -73,12 +76,14 @@ const styles = (theme: ThemeVariables) => {
     },
     hint: {},
     inputNative: {
+      resize: 'vertical',
       padding: 0,
       outline: 'none',
       border: 'none',
       backgroundColor: 'transparent',
       color: 'inherit',
-      font: 'inherit'
+      font: 'inherit',
+      alignSelf: 'stretch'
     }
   };
 };
@@ -162,9 +167,15 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
   ngAfterContentInit() {
     this._renderer.addClass(this._input._hostElement, this.classes.inputNative);
-    if (this._labelCenter) {
-      this._renderer.appendChild(this._labelCenter, this._labelChild._vcr.element.nativeElement);
-    }
+    // if (this._labelCenter) {
+    //   if (this._labelChild) {
+    //     this._renderer.appendChild(this._labelCenter.nativeElement, this._labelChild._vcr.element.nativeElement);
+    //     console.log(this._labelChild._vcr.element);
+    //   } else if (this._placeholderChild) {
+    //     this._renderer.appendChild(this._labelCenter.nativeElement, this._placeholderChild._vcr.element.nativeElement);
+    //     console.log(this._placeholderChild._vcr.element);
+    //   }
+    // }
 
     this._input.valueChanges.subscribe(() => {
       this._updateFloatingLabel();
