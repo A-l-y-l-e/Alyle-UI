@@ -9,7 +9,7 @@
     </div>
     <div [className]="classes.labelSpacingEnd"></div>
   </div>
-  <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _isEmpty() && _input.focused">
+  <div [className]="classes.placeholder">
     <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
   </div>
   <div [className]="classes.hint"></div>
