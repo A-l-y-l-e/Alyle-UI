@@ -98,8 +98,8 @@ export const input = {
       },
       label: {
         // marginTop && marginBottom === 21px === 1.3125em
-        marginTop: '1em',
-        marginBottom: '.3125em',
+        marginTop: '.75em',
+        marginBottom: '.25em',
         paddingTop: '1em'
       },
       input: {
