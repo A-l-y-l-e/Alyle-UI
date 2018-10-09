@@ -24,7 +24,6 @@ const styles = (theme: ThemeVariables) => {
   const placeholderAndLabel = {
     ...LY_COMMON_STYLES.fill,
     pointerEvents: 'none',
-    top: null,
     color: theme.input.label
   };
   return {
@@ -63,15 +62,10 @@ const styles = (theme: ThemeVariables) => {
       fontSize: '75%'
     },
     placeholder: {
-      ...placeholderAndLabel
+      ...placeholderAndLabel,
+      marginTop: '1em'
     },
     focused: {},
-    underline: {
-      ...LY_COMMON_STYLES.fill,
-      backgroundColor: theme.input.underline,
-      top: null,
-      height: '1px'
-    },
     hint: {},
     inputNative: {
       resize: 'vertical',

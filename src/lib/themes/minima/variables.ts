@@ -80,7 +80,7 @@ export const icon = {
   fontSize: '24px'
 };
 export const input = {
-  /** default color */
+  /** @deprecated default color */
   withColor: 'primary',
   appearance: {
     standard: {
