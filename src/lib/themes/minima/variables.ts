@@ -1,4 +1,4 @@
-import { TypographyConfig } from '@alyle/ui';
+import { TypographyConfig, LY_COMMON_STYLES } from '@alyle/ui';
 
 export const typography = {
   fontFamily: `'Roboto', sans-serif`,
@@ -84,29 +84,94 @@ export const input = {
   withColor: 'primary',
   appearance: {
     standard: {
-      input: {
-        // marginTop && marginBottom === 21px
-        marginTop: '1em',
-        marginBottom: '.3125em'
+      containerLabel: {
+        color: 'rgba(0,0,0,.12)',
+        borderBottom: 'solid 1px currentColor'
       },
-      floatingLabel: {
+      containerLabelFocused: {
+        color: 'currentColor',
+        borderWidth: '2px',
+        borderColor: 'currentColor'
+      },
+      containerLabelHover: {
+        color: 'currentColor'
+      },
+      label: {
+        // marginTop && marginBottom === 21px === 1.3125em
+        marginTop: '1em',
+        marginBottom: '.3125em',
+        paddingTop: '1em'
+      },
+      input: {
+        // marginTop && marginBottom === 21px === 1.3125em
+        paddingTop: '1em',
+        paddingBottom: '.3125em'
+      },
+      labelFloating: {
         transform: 'translateY(-1em)'
       }
     }, // default & important
     outlined: {
       containerLabel: {
         color: 'rgba(0,0,0,.12)',
-        border: '1px currentColor',
-        '&:hover': {
-          border: '2px'
+        '&:before': {
+          ...LY_COMMON_STYLES.fill,
+          content: `\'\'`
+        },
+        '&:after': {
+          ...LY_COMMON_STYLES.fill,
+          content: `\'\'`
+        }
+      },
+      containerLabelHover: {
+        color: 'currentColor'
+      },
+      containerLabelFocused: {
+        color: 'currentColor',
+        '&:after': {
+          borderWidth: '2px',
+          borderColor: 'currentColor',
+        }
+      },
+      label: {
+        margin: 'auto .5em'
+      },
+      containerLabelStart: {
+        paddingRight: '.5em',
+        '&:after': {
+          border: 'solid 1px currentColor',
+          borderRadius: '5px 0 0 5px',
+          borderRight: 'none',
+        }
+      },
+      containerLabelCenter: {
+        '&:before': {
+          borderTop: 'solid 1px currentColor',
+        },
+        '&:after': {
+          borderBottom: 'solid 1px currentColor',
+        }
+      },
+      containerLabelCenterFloating: {
+        '&:before': {
+          borderWidth: '0 !important'
+        }
+      },
+      containerLabelEnd: {
+        paddingRight: '.5em',
+        '&:after': {
+          border: 'solid 1px currentColor',
+          borderRadius: '0 5px 5px 0',
+          borderLeft: 'none'
         }
       },
       input: {
-        marginTop: '1.5em',
-        marginBottom: '.5em'
+        marginTop: '.3125em',
+        marginBottom: '1em',
+        padding: '0 1em'
       },
-      floatingLabel: {
-        transform: 'translateY(-2em)'
+      labelFloating: {
+        transform: 'translateY(-2.25em)'
       }
     },
     filled: {
