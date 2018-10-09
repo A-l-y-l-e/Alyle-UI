@@ -30,7 +30,8 @@ const styles = (theme: ThemeVariables) => {
   return {
     root: {
       display: 'inline-block',
-      position: 'relative'
+      position: 'relative',
+      marginBottom: '1em'
     },
     container: {
       paddingTop: '1em',
@@ -40,7 +41,6 @@ const styles = (theme: ThemeVariables) => {
     },
     labelContainer: {
       ...LY_COMMON_STYLES.fill,
-      paddingTop: '1em',
       pointerEvents: 'none',
       display: 'flex'
     },
@@ -52,8 +52,6 @@ const styles = (theme: ThemeVariables) => {
       flex: 1
     },
     label: {
-      // ...LY_COMMON_STYLES.fill,
-      // bottom: null,
       pointerEvents: 'none',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
@@ -104,7 +102,6 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   protected _withColor: string;
   protected _withColorClass: string;
   protected _isFloating: boolean;
-  @ViewChild('_labelCenter') _labelCenter: ElementRef<HTMLDivElement>;
   @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
   @ContentChild(LyInputNative) _input: LyInputNative;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
@@ -116,14 +113,17 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       this._withColorClass = this._theme.addStyle(`ly-field.withColor:${val}`, (theme: ThemeVariables) => {
         const color = theme.colorOf(val);
         return {
-          [`&.${this.classes.focused} .${this.classes.labelFloating}`]: {
+          [`&.${this.classes.focused} .${this.classes.labelFloating} .${this.classes.label}`]: {
+            color
+          },
+          [`&.${this.classes.focused} .${this.classes.labelContainer}`]: {
             color
           },
           [`& .${this.classes.inputNative}`]: {
             caretColor: color
           }
         };
-      }, this._el.nativeElement, this._withColorClass, STYLE_PRIORITY);
+      }, this._el.nativeElement, this._withColorClass, STYLE_PRIORITY + 1);
     }
   }
   get withColor() {
@@ -135,11 +135,34 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     if (val !== this.appearance) {
       this._appearance = val;
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
+        const appearance = (theme.input as any).appearance[val];
         return {
-          [`& .${this.classes.inputNative}`]: (theme.input as any).appearance[val].input,
-          [`& .${this.classes.placeholder}`]: (theme.input as any).appearance[val].input,
-          [`& .${this.classes.label}`]: (theme.input as any).appearance[val].input,
-          [`& .${this.classes.labelFloating}`]: (theme.input as any).appearance[val].floatingLabel
+          [`& .${this.classes.inputNative}`]: appearance.input,
+          [`& .${this.classes.placeholder}`]: appearance.input,
+          [`& .${this.classes.label}`]: {
+            ...appearance.label
+          },
+          [`& .${this.classes.container}:hover .${this.classes.labelContainer} > div`]: {
+            ...appearance.containerLabelHover
+          },
+          [`&.${this.classes.focused} .${this.classes.labelContainer} > div`]: {
+            ...appearance.containerLabelFocused
+          },
+          [`& .${this.classes.labelContainer} > div`]: {
+            ...appearance.containerLabel,
+            position: 'relative'
+          },
+          [`& .${this.classes.labelFloating} .${this.classes.label}`]: appearance.labelFloating,
+          [`& .${this.classes.labelFloating}`]: appearance.containerLabelCenterFloating,
+          [`& .${this.classes.labelSpacingStart}`]: {
+            ...appearance.containerLabelStart
+          },
+          [`& .${this.classes.labelCenter}`]: {
+            ...appearance.containerLabelCenter
+          },
+          [`& .${this.classes.labelSpacingEnd}`]: {
+            ...appearance.containerLabelEnd
+          }
         };
       }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY);
     }
@@ -167,15 +190,6 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
   ngAfterContentInit() {
     this._renderer.addClass(this._input._hostElement, this.classes.inputNative);
-    // if (this._labelCenter) {
-    //   if (this._labelChild) {
-    //     this._renderer.appendChild(this._labelCenter.nativeElement, this._labelChild._vcr.element.nativeElement);
-    //     console.log(this._labelChild._vcr.element);
-    //   } else if (this._placeholderChild) {
-    //     this._renderer.appendChild(this._labelCenter.nativeElement, this._placeholderChild._vcr.element.nativeElement);
-    //     console.log(this._placeholderChild._vcr.element);
-    //   }
-    // }
 
     this._input.valueChanges.subscribe(() => {
       this._updateFloatingLabel();
