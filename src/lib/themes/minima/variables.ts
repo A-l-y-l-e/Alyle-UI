@@ -104,8 +104,8 @@ export const input = {
       },
       input: {
         // marginTop && marginBottom === 21px === 1.3125em
-        paddingTop: '1em',
-        paddingBottom: '.3125em'
+        paddingTop: '.75em',
+        paddingBottom: '.25em'
       },
       labelFloating: {
         transform: 'translateY(-1em)'
@@ -134,7 +134,8 @@ export const input = {
         }
       },
       label: {
-        margin: 'auto .5em'
+        margin: '0 .5em',
+        marginTop: '1em'
       },
       containerLabelStart: {
         paddingRight: '.5em',
@@ -166,12 +167,12 @@ export const input = {
         }
       },
       input: {
-        marginTop: '.3125em',
-        marginBottom: '1em',
-        padding: '0 1em'
+        margin: '0 1em',
+        marginTop: '.25em',
+        marginBottom: '.75em'
       },
       labelFloating: {
-        transform: 'translateY(-2.25em)'
+        transform: 'translateY(-1.75em)'
       }
     },
     filled: {

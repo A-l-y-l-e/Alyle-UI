@@ -1,51 +1,66 @@
-<ly-field>
-  <input [(ngModel)]="val" #_inputx="lyInput">
-</ly-field>
-{{ val }}
-
-<ly-field>
-  <input value="val" placeholder="label">
-</ly-field>
-
-<ly-field>
-  <ly-label>ly-label</ly-label>
-  <textarea>hi</textarea>
-</ly-field>
-
-<ly-field withColor="accent">
-  <ly-label>ly-label...{{_inputx.value}}</ly-label>
-  <input value="val">
-</ly-field>
-
-<ly-field>
-  <ly-label>ly-label</ly-label>
-  <input value="val" placeholder="placeholder">
-</ly-field>
-
-<ly-field>
-  <ly-label>ly-label</ly-label>
-  <ly-placeholder>ly-placeholder</ly-placeholder>
-  <input value="val">
-</ly-field>
-
-<ly-field>
-  <ly-placeholder>ly-placeholder</ly-placeholder>
-  <input value="val">
-</ly-field>
-<ly-field>
-  <ly-label>ly-label</ly-label>
-  <ly-placeholder>ly-placeholder</ly-placeholder>
-  <input value="value">
-</ly-field>
-<ly-field appearance="outlined">
-  <ly-label>outlined</ly-label>
-  <input value="value">
-</ly-field>
-<ly-field appearance="outlined">
-  <ly-label>outlined</ly-label>
-  <textarea>value</textarea>
-</ly-field>
-
-<ly-field>
-  <input value="disabled" [disabled]="true">
-</ly-field>
+<p>
+  <ly-field>
+    <input [(ngModel)]="val" #_inputx="lyInput">
+  </ly-field>
+  {{ val }}
+</p>
+<p>
+  <ly-field>
+    <input value="val" placeholder="label">
+  </ly-field>
+</p>
+<p>
+  <ly-field>
+    <ly-label>ly-label</ly-label>
+    <textarea>hi</textarea>
+  </ly-field>
+</p>
+<p>
+  <ly-field withColor="accent">
+    <ly-label>ly-label...{{_inputx.value}}</ly-label>
+    <input value="val">
+  </ly-field>
+</p>
+<p>
+  <ly-field>
+    <ly-label>ly-label</ly-label>
+    <input value="val" placeholder="placeholder">
+  </ly-field>
+</p>
+<p>
+  <ly-field>
+    <ly-label>ly-label</ly-label>
+    <ly-placeholder>ly-placeholder</ly-placeholder>
+    <input value="val">
+  </ly-field>
+</p>
+<p>
+  <ly-field>
+    <ly-placeholder>ly-placeholder</ly-placeholder>
+    <input value="val">
+  </ly-field>
+</p>
+<p>
+  <ly-field>
+    <ly-label>ly-label</ly-label>
+    <ly-placeholder>ly-placeholder</ly-placeholder>
+    <input value="value">
+  </ly-field>
+</p>
+<p>
+  <ly-field appearance="outlined">
+    <ly-label>outlined</ly-label>
+    <input value="value">
+  </ly-field>
+</p>
+<p>
+  <ly-field appearance="outlined">
+    <ly-label>outlined</ly-label>
+    <textarea>value</textarea>
+  </ly-field>
+</p>
+<p>
+  <ly-field>
+    <input value="disabled" [disabled]="true">
+  </ly-field>
+</p>
