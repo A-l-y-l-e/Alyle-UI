@@ -9,8 +9,8 @@ import {
   Input,
   OnInit,
   Renderer2,
-  TemplateRef,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
   } from '@angular/core';
 import { LY_COMMON_STYLES, LyTheme2, ThemeVariables } from '@alyle/ui';
 import { LyInputNative } from './input';
@@ -83,7 +83,8 @@ const styles = (theme: ThemeVariables) => {
 @Component({
   selector: 'ly-field',
   templateUrl: 'field.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   /**
@@ -128,11 +129,17 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
+      if (!(this._theme.config.input as any).appearance[val])  {
+        throw new Error(`${val} not found in theme.input.appearance`);
+      }
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
         const appearance = (theme.input as any).appearance[val];
         return {
           [`& .${this.classes.inputNative}`]: appearance.input,
-          [`& .${this.classes.placeholder}`]: appearance.input,
+          [`& .${this.classes.placeholder}`]: {
+            ...appearance.input,
+            ...appearance.placeholder
+          },
           [`& .${this.classes.label}`]: {
             ...appearance.label
           },
@@ -194,7 +201,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
     // Run change detection if the value changes.
     if (ngControl && ngControl.valueChanges) {
-      ngControl.valueChanges.subscribe(() => this._markForCheck());
+      ngControl.valueChanges.subscribe(() => {
+        this._updateFloatingLabel();
+        this._markForCheck();
+      });
     }
   }
 
@@ -226,22 +236,19 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     return val === '' || val === null || val === undefined;
   }
 
-  /** @ignore */
   private _updateFloatingLabel() {
-    if (this._labelContainer) {
-      if (this._input.focused) {
-        this._renderer.addClass(this._el.nativeElement, this.classes.focused);
+    if (this._input.focused) {
+      this._renderer.addClass(this._el.nativeElement, this.classes.focused);
+    } else {
+      this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
+    }
+    const isFloating = this._input.focused || !this._isEmpty();
+    if (this._isFloating !== isFloating) {
+      this._isFloating = isFloating;
+      if (isFloating) {
+        this._renderer.addClass(this._labelContainer.nativeElement, this.classes.labelFloating);
       } else {
-        this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
-      }
-      const isFloating = this._input.focused || !this._isEmpty();
-      if (this._isFloating !== isFloating) {
-        this._isFloating = isFloating;
-        if (isFloating) {
-          this._renderer.addClass(this._labelContainer.nativeElement, this.classes.labelFloating);
-        } else {
-          this._renderer.removeClass(this._labelContainer.nativeElement, this.classes.labelFloating);
-        }
+        this._renderer.removeClass(this._labelContainer.nativeElement, this.classes.labelFloating);
       }
     }
   }
