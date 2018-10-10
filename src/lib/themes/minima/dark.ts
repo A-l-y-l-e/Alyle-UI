@@ -1,5 +1,5 @@
 import { input } from './variables';
-import { ThemeConfig } from '@alyle/ui';
+import { ThemeConfig, mergeDeep } from '@alyle/ui';
 import { MinimaBase } from './base';
 
 const contrast = '#fff';
@@ -52,12 +52,18 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   divider = 'rgba(255, 255, 255, 0.12)';
   colorShadow = shadow;
   shadow = shadow;
-  input = {
+  input = mergeDeep({}, input, {
     /** @deprecated */
     label: 'rgba(255, 255, 255, 0.4)',
     /** @deprecated */
     underline: 'rgba(255, 255, 255, 0.11)',
-    ...input,
-    borderColor: 'rgba(255, 255, 255, 0.12)'
-  };
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+    appearance: {
+      filled: {
+        container: {
+          backgroundColor: 'rgba(255, 255, 255, 0.04)',
+        }
+      }
+    }
+  });
 }

@@ -1,4 +1,4 @@
-import { ThemeConfig } from '@alyle/ui';
+import { ThemeConfig, mergeDeep } from '@alyle/ui';
 import { input } from './variables';
 import { MinimaBase } from './base';
 
@@ -52,12 +52,18 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     backdrop: 'rgba(0,0,0,.6)'
   };
   bar = '#f5f5f5';
-  input = {
+  input = mergeDeep({}, input, {
     /** @deprecated */
     label: 'rgba(0, 0, 0, 0.6)',
     /** @deprecated */
     underline: 'rgba(0, 0, 0, 0.11)',
-    ...input,
-    borderColor: 'rgba(0, 0, 0, 0.12)'
-  };
+    borderColor: 'rgba(0, 0, 0, 0.12)',
+    appearance: {
+      filled: {
+        container: {
+          backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        }
+      }
+    }
+  });
 }
