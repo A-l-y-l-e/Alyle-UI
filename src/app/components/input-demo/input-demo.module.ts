@@ -9,10 +9,14 @@ import { InputDemoExample02Module } from './input-demo-example-02/input-demo-exa
 import { InputDemoExample03Module } from './input-demo-example-03/input-demo-example-03.module';
 import { InputExample04Module } from './input-example-04/input-example-04.module';
 import { InputExample05Module } from './input-example-05/input-example-05.module';
+import { LyCommonModule } from '@alyle/ui';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
+    LyCommonModule,
     CommonModule,
+    RouterModule,
     DemoViewModule,
     InputDemoRoutingModule,
     InputDemoExample01Module,
