@@ -147,6 +147,7 @@ export const input = {
         }
       },
       containerLabelCenter: {
+        maxWidth: 'calc(100% - 1em)',
         '&:before': {
           borderTop: 'solid 1px currentColor',
         },
@@ -202,6 +203,9 @@ export const input = {
       },
       containerLabelStart: {
         paddingRight: '.75em'
+      },
+      containerLabelCenter: {
+        maxWidth: 'calc(100% - 1em)'
       },
       containerLabelEnd: {
         paddingRight: '.75em'

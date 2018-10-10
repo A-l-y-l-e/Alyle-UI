@@ -41,11 +41,13 @@ const styles = (theme: ThemeVariables) => {
     labelContainer: {
       ...LY_COMMON_STYLES.fill,
       pointerEvents: 'none',
-      display: 'flex'
+      display: 'flex',
+      width: '100%'
     },
     labelSpacingStart: {},
     labelCenter: {
-      display: 'flex'
+      display: 'flex',
+      maxWidth: '100%'
     },
     labelSpacingEnd: {
       flex: 1
