@@ -135,6 +135,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
         const appearance = (theme.input as any).appearance[val];
         return {
+          [`& .${this.classes.container}`]: appearance.container,
           [`& .${this.classes.inputNative}`]: appearance.input,
           [`& .${this.classes.placeholder}`]: {
             ...appearance.input,

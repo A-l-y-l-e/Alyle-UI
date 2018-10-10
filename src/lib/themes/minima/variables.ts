@@ -97,13 +97,11 @@ export const input = {
         color: 'currentColor'
       },
       label: {
-        // marginTop && marginBottom === 21px === 1.3125em
         marginTop: '.75em',
         marginBottom: '.25em',
         paddingTop: '1em'
       },
       input: {
-        // marginTop && marginBottom === 21px === 1.3125em
         paddingTop: '.75em',
         paddingBottom: '.25em'
       },
@@ -141,7 +139,7 @@ export const input = {
         paddingTop: '1em'
       },
       containerLabelStart: {
-        paddingRight: '.5em',
+        paddingRight: '.375em',
         '&:after': {
           border: 'solid 1px currentColor',
           borderRadius: '5px 0 0 5px',
@@ -162,7 +160,7 @@ export const input = {
         }
       },
       containerLabelEnd: {
-        paddingRight: '.5em',
+        paddingRight: '.375em',
         '&:after': {
           border: 'solid 1px currentColor',
           borderRadius: '0 5px 5px 0',
@@ -170,7 +168,7 @@ export const input = {
         }
       },
       input: {
-        margin: '0 1em',
+        margin: '0 .75em',
         marginTop: '.25em',
         marginBottom: '.75em'
       },
@@ -179,8 +177,41 @@ export const input = {
       }
     },
     filled: {
-      background: '#ccc',
-      container: { }
+      container: {
+        backgroundColor: 'rgba(0, 0, 0, 0.04)'
+      },
+      containerLabel: {
+        color: 'rgba(0,0,0,.12)',
+        borderBottom: 'solid 1px currentColor'
+      },
+      containerLabelFocused: {
+        color: 'currentColor',
+        borderWidth: '2px',
+        borderColor: 'currentColor'
+      },
+      containerLabelHover: {
+        color: 'currentColor'
+      },
+      input: {
+        margin: '0 .75em',
+        paddingTop: '.75em',
+        paddingBottom: '.25em'
+      },
+      placeholder: {
+        marginTop: '1em'
+      },
+      containerLabelStart: {
+        paddingRight: '.75em'
+      },
+      containerLabelEnd: {
+        paddingRight: '.75em'
+      },
+      label: {
+        marginTop: '1em',
+      },
+      labelFloating: {
+        transform: 'translateY(-.25em)'
+      }
     }
   }
 };
