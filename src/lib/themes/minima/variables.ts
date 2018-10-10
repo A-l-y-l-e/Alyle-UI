@@ -101,6 +101,9 @@ export const input = {
         marginBottom: '.25em',
         paddingTop: '1em'
       },
+      placeholder: {
+        paddingTop: '1em'
+      },
       input: {
         marginTop: '.75em',
         marginBottom: '.25em'
