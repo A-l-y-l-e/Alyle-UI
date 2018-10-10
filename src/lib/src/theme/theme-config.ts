@@ -1,5 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { LyStyleUtils } from '../style-utils';
+import { StyleContainer } from './theme2.service';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -51,10 +52,29 @@ export interface ThemeConfig {
     backdrop: string
   };
   input: {
-    label: string,
-    underline: string,
-    /** default color */
-    withColor: string
+    /** @deprecated */
+    label?: string
+    /** @deprecated */
+    underline?: string
+    /** @deprecated */
+    withColor?: string
+    borderColor: string
+    appearance: {
+      [appearanceName: string]: {
+        containerLabel?: StyleContainer
+        containerLabelFocused?: StyleContainer
+        containerLabelHover?: StyleContainer
+        label?: StyleContainer
+        placeholder?: StyleContainer
+        input?: StyleContainer
+        labelFloating?: StyleContainer
+        containerLabelStart?: StyleContainer
+        containerLabelCenter?: StyleContainer
+        containerLabelCenterFloating?: StyleContainer
+        containerLabelEnd?: StyleContainer
+        container?: StyleContainer
+      }
+    }
   };
   iconButton: {
     size: string

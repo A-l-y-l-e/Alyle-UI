@@ -85,7 +85,6 @@ export const input = {
   appearance: {
     standard: {
       containerLabel: {
-        color: 'rgba(0,0,0,.12)',
         borderBottom: 'solid 1px currentColor'
       },
       containerLabelFocused: {
@@ -114,7 +113,6 @@ export const input = {
     }, // default & important
     outlined: {
       containerLabel: {
-        color: 'rgba(0,0,0,.12)',
         '&:before': {
           ...LY_COMMON_STYLES.fill,
           content: `\'\'`

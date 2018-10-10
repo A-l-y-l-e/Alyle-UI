@@ -53,8 +53,11 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   colorShadow = shadow;
   shadow = shadow;
   input = {
+    /** @deprecated */
     label: 'rgba(255, 255, 255, 0.4)',
+    /** @deprecated */
     underline: 'rgba(255, 255, 255, 0.11)',
-    ...input
+    ...input,
+    borderColor: 'rgba(255, 255, 255, 0.12)'
   };
 }
