@@ -102,8 +102,8 @@ export const input = {
         paddingTop: '1em'
       },
       input: {
-        paddingTop: '.75em',
-        paddingBottom: '.25em'
+        marginTop: '.75em',
+        marginBottom: '.25em'
       },
       labelFloating: {
         transform: 'translateY(-1em)'
@@ -179,10 +179,12 @@ export const input = {
     },
     filled: {
       container: {
-        backgroundColor: 'rgba(0, 0, 0, 0.04)'
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        borderRadius: '5px 5px 0 0'
       },
       containerLabel: {
-        color: 'rgba(0,0,0,.12)',
+        // color: 'rgba(0,0,0,.12)',
+        color: 'transparent',
         borderBottom: 'solid 1px currentColor'
       },
       containerLabelFocused: {
@@ -195,11 +197,11 @@ export const input = {
       },
       input: {
         margin: '0 .75em',
-        paddingTop: '.75em',
-        paddingBottom: '.25em'
+        marginTop: '.75em',
+        marginBottom: '.25em'
       },
       placeholder: {
-        marginTop: '1em'
+        paddingTop: '1em'
       },
       containerLabelStart: {
         paddingRight: '.75em'
