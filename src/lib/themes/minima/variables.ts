@@ -135,7 +135,10 @@ export const input = {
       },
       label: {
         margin: '0 .5em',
-        marginTop: '1em'
+        marginTop: '1em',
+      },
+      placeholder: {
+        paddingTop: '1em'
       },
       containerLabelStart: {
         paddingRight: '.5em',
