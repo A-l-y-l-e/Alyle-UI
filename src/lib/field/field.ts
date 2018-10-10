@@ -64,8 +64,7 @@ const styles = (theme: ThemeVariables) => {
       fontSize: '75%'
     },
     placeholder: {
-      ...placeholderAndLabel,
-      marginTop: '1em'
+      ...placeholderAndLabel
     },
     focused: {},
     hint: {},
