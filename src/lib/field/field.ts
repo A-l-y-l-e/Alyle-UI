@@ -42,7 +42,10 @@ const styles = (theme: ThemeVariables) => {
       ...LY_COMMON_STYLES.fill,
       pointerEvents: 'none',
       display: 'flex',
-      width: '100%'
+      width: '100%',
+      '& > div': {
+        color: theme.input.borderColor
+      }
     },
     labelSpacingStart: {},
     labelCenter: {

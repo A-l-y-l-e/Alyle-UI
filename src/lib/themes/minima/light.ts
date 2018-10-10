@@ -53,9 +53,11 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   };
   bar = '#f5f5f5';
   input = {
+    /** @deprecated */
     label: 'rgba(0, 0, 0, 0.6)',
+    /** @deprecated */
     underline: 'rgba(0, 0, 0, 0.11)',
-    /** default color */
-    ...input
+    ...input,
+    borderColor: 'rgba(0, 0, 0, 0.12)'
   };
 }
