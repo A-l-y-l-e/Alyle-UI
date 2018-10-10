@@ -1,8 +1,23 @@
 <p>
-  <ly-field>
-    <input [(ngModel)]="val" placeholder="Text" #_inputx="lyInput">
+  <ly-radio-group [formControl]="appearance">
+    <p>Appearance:</p>
+    <ly-radio value="standard" checked>Standard</ly-radio>
+    <ly-radio value="outlined">Outlined</ly-radio>
+    <ly-radio value="filled">Filled</ly-radio>
+  </ly-radio-group>
+</p>
+<p>
+  <ly-field [appearance]="appearance.value">
+    <ly-label>Label</ly-label>
+    <input placeholder="Placeholder">
   </ly-field>
-  {{ val }}
+</p>
+<p>
+  <ly-field [appearance]="appearance.value">
+    <ly-label>Label</ly-label>
+    <ly-placeholder>Placeholder</ly-placeholder>
+    <textarea></textarea>
+  </ly-field>
 </p>
 <p>
   <ly-field>
@@ -17,7 +32,7 @@
 </p>
 <p>
   <ly-field withColor="accent">
-    <ly-label>ly-label...{{_inputx.value}}</ly-label>
+    <ly-label>ly-label...</ly-label>
     <input value="val">
   </ly-field>
 </p>

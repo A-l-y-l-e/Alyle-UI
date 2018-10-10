@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'aui-basic-field',
@@ -7,4 +8,5 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 })
 export class BasicFieldComponent {
   val = 'value';
+  appearance = new FormControl();
 }
