@@ -149,9 +149,6 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
           [`& .${this.classes.container}:hover .${this.classes.labelContainer} > div`]: {
             ...appearance.containerLabelHover
           },
-          [`&.${this.classes.focused} .${this.classes.labelContainer} > div`]: {
-            ...appearance.containerLabelFocused
-          },
           [`& .${this.classes.labelContainer} > div`]: {
             ...appearance.containerLabel,
             position: 'relative'
@@ -166,7 +163,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
           },
           [`& .${this.classes.labelSpacingEnd}`]: {
             ...appearance.containerLabelEnd
-          }
+          },
+          [`&.${this.classes.focused} .${this.classes.labelContainer} > div`]: {
+            ...appearance.containerLabelFocused
+          },
         };
       }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY);
     }
