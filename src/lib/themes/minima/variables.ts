@@ -180,7 +180,7 @@ export const input = {
     },
     filled: {
       container: {
-        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        // backgroundColor: 'rgba(0, 0, 0, 0.04)',
         borderRadius: '5px 5px 0 0'
       },
       containerLabel: {

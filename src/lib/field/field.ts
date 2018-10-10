@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewEncapsulation
   } from '@angular/core';
-import { LY_COMMON_STYLES, LyTheme2, ThemeVariables } from '@alyle/ui';
+import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep } from '@alyle/ui';
 import { LyInputNative } from './input';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
@@ -21,11 +21,6 @@ const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
 const DEFAULT_WITH_COLOR = 'primary';
 const styles = (theme: ThemeVariables) => {
-  const placeholderAndLabel = {
-    ...LY_COMMON_STYLES.fill,
-    pointerEvents: 'none',
-    color: theme.input.label
-  };
   return {
     root: {
       display: 'inline-block',
@@ -67,7 +62,9 @@ const styles = (theme: ThemeVariables) => {
       fontSize: '75%'
     },
     placeholder: {
-      ...placeholderAndLabel
+      ...LY_COMMON_STYLES.fill,
+      pointerEvents: 'none',
+      color: theme.input.label
     },
     focused: {},
     hint: {},
@@ -137,7 +134,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
         throw new Error(`${val} not found in theme.input.appearance`);
       }
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
-        const appearance = (theme.input as any).appearance[val];
+        const appearance = mergeDeep({}, theme.input.appearance.any, theme.input.appearance[val]);
         return {
           [`& .${this.classes.container}`]: appearance.container,
           [`& .${this.classes.inputNative}`]: appearance.input,
