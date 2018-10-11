@@ -29,7 +29,9 @@ export class ElementObserver implements OnDestroy {
     const element = elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
     if (!this._observedElements.has(element)) {
       const observer = this._mutationObserverFactory.create(fn);
-      observer.observe(element, options || MUTATION_OBSERVER_INIT);
+      if (observer) {
+        observer.observe(element, options || MUTATION_OBSERVER_INIT);
+      }
       this._observedElements.set(element, observer);
     }
     return this._observedElements.get(element);
