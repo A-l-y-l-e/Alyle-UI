@@ -8,7 +8,9 @@
 </p>
 <p>
   <ly-field [appearance]="appearance.value">
+    <ly-icon lyPrefix>favorite</ly-icon>
     <ly-label>Label</ly-label>
+    <ly-icon lySuffix>favorite</ly-icon>
     <input placeholder="Placeholder">
   </ly-field>
 </p>
@@ -17,6 +19,14 @@
     <ly-label>Label</ly-label>
     <ly-placeholder>Placeholder</ly-placeholder>
     <textarea></textarea>
+  </ly-field>
+</p>
+<p>
+  <ly-field [appearance]="appearance.value" [floatingLabel]="appearance.value === 'filled'">
+    <ly-label>filled</ly-label>
+    <ly-placeholder>Placeholder</ly-placeholder>
+    <span lyPrefix>$&nbsp;</span>
+    <input type="number" val="10">
   </ly-field>
 </p>
 <p>
@@ -86,13 +96,6 @@
     <ly-label>filled</ly-label>
     <ly-placeholder>Placeholder</ly-placeholder>
     <textarea>value</textarea>
-  </ly-field>
-</p>
-<p>
-  <ly-field appearance="filled">
-    <ly-label>filled</ly-label>
-    <ly-placeholder>Placeholder</ly-placeholder>
-    <input type="number" val="10">
   </ly-field>
 </p>
 <p>

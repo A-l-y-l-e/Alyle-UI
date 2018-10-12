@@ -1,16 +1,31 @@
 <div [className]="classes.container">
-  <ng-content></ng-content>
-  <div [className]="classes.labelContainer">
-    <div [className]="classes.labelSpacingStart"></div>
-    <div [className]="classes.labelCenter" #_labelContainer>
-      <div [className]="classes.label" *ngIf="_isLabel()">
-        <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
-      </div>
-    </div>
-    <div [className]="classes.labelSpacingEnd"></div>
+  <div [className]="classes.fix" *ngIf="_prefixChildren.length" #_prefixContainer>
+    <ng-content select="[lyPrefix]"></ng-content>
   </div>
-  <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _isEmpty() && _input.focused">
-    <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
+  <div [className]="classes.fix">
+    <ng-content></ng-content>
+    <!-- <div [className]="classes.labelContainer">
+      <div>
+      </div>
+    </div> -->
+    <!-- <div [className]="classes.labelContainer">
+      <div [className]="classes.labelSpacingStart"></div>
+      <div [className]="classes.labelCenter" #_labelContainer>
+        <div [className]="classes.label" *ngIf="_isLabel()">
+          <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
+        </div>
+      </div>
+      <div [className]="classes.labelSpacingEnd"></div>
+    </div> -->
+    <div [className]="classes.label" *ngIf="_isLabel()" #_labelContainer2>
+      <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
+    </div>
+    <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _isEmpty() && (_input.focused || floatingLabel)">
+      <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
+    </div>
+  </div>
+  <div [className]="classes.fix" *ngIf="_suffixChildren.length">
+    <ng-content select="[lySuffix]"></ng-content>
   </div>
   <div [className]="classes.hint"></div>
 </div>
@@ -26,3 +41,4 @@
   <ng-content select="ly-placeholder"></ng-content>
   <ng-container *ngIf="_input.placeholder">{{ _input.placeholder }}</ng-container>
 </ng-template>
+<!-- TODO: remplace label container with fieldset -->
