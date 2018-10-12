@@ -62,12 +62,11 @@ export interface ThemeConfig {
     appearance: {
       [appearanceName: string]: {
         containerLabel?: StyleContainer
-        containerLabelFocused?: StyleContainer
-        containerLabelHover?: StyleContainer
+        containerFocused?: StyleContainer
         label?: StyleContainer
         placeholder?: StyleContainer
         input?: StyleContainer
-        labelFloating?: StyleContainer
+        floatingLabel?: StyleContainer
         containerLabelStart?: StyleContainer
         containerLabelCenter?: StyleContainer
         containerLabelCenterFloating?: StyleContainer

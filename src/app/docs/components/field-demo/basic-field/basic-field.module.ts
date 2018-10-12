@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LyFieldModule } from '@alyle/ui/field';
 import { BasicFieldComponent } from './basic-field.component';
 import { LyRadioModule } from '@alyle/ui/radio';
+import { LyIconModule } from '@alyle/ui/icon';
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import { LyRadioModule } from '@alyle/ui/radio';
     FormsModule,
     ReactiveFormsModule,
     LyFieldModule,
-    LyRadioModule
+    LyRadioModule,
+    LyIconModule
   ],
   exports: [BasicFieldComponent],
   declarations: [BasicFieldComponent]

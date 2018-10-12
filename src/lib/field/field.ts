@@ -10,12 +10,18 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ContentChildren,
+  QueryList,
+  NgZone
   } from '@angular/core';
-import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep } from '@alyle/ui';
+import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean } from '@alyle/ui';
 import { LyInputNative } from './input';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
+import { LyHint } from './hint';
+import { LyPrefix } from './prefix';
+import { LySuffix } from './suffix';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
@@ -28,19 +34,36 @@ const styles = (theme: ThemeVariables) => {
       marginBottom: '1em'
     },
     container: {
-      paddingTop: '1em',
       height: '100%',
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'baseline',
+      '&:after': {
+        ...LY_COMMON_STYLES.fill,
+        content: `\'\'`,
+        pointerEvents: 'none',
+        borderColor: theme.input.borderColor
+      }
+    },
+    fix: {
+      // paddingTop: '1em',
+      position: 'relative',
+      '&:before': {
+        content: `\'\'`,
+        pointerEvents: 'none',
+        ...LY_COMMON_STYLES.fill
+      }
     },
     labelContainer: {
       ...LY_COMMON_STYLES.fill,
       pointerEvents: 'none',
       display: 'flex',
       width: '100%',
-      '& > div': {
-        color: theme.input.borderColor
-      }
+      borderColor: theme.input.borderColor
+    },
+    fieldset: {
+      margin: 0,
+      borderStyle: 'solid',
+      borderColor: theme.input.borderColor
     },
     labelSpacingStart: {},
     labelCenter: {
@@ -51,14 +74,18 @@ const styles = (theme: ThemeVariables) => {
       flex: 1
     },
     label: {
+      ...LY_COMMON_STYLES.fill,
+      margin: 0,
+      border: 'none',
       pointerEvents: 'none',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
       color: theme.input.label,
+      width: '100%',
       transition: `${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
     },
-    labelFloating: {
+    floatingLabel: {
       fontSize: '75%'
     },
     placeholder: {
@@ -98,10 +125,24 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   protected _withColor: string;
   protected _withColorClass: string;
   protected _isFloating: boolean;
+  protected _floatingLabel: boolean;
   @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('_labelContainer2') _labelContainer2: ElementRef<HTMLDivElement>;
+  @ViewChild('_prefixContainer') _prefixContainer: ElementRef<HTMLDivElement>;
   @ContentChild(LyInputNative) _input: LyInputNative;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
+  @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
+  @ContentChildren(LyPrefix) _prefixChildren: QueryList<LyPrefix>;
+  @ContentChildren(LySuffix) _suffixChildren: QueryList<LySuffix>;
+  @Input()
+  set floatingLabel(val: boolean) {
+    this._floatingLabel = toBoolean(val);
+    this._updateFloatingLabel();
+  }
+  get floatingLabel() {
+    return this._floatingLabel;
+  }
   @Input()
   set withColor(val: string) {
     if (val !== this._withColor) {
@@ -109,10 +150,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       this._withColorClass = this._theme.addStyle(`ly-field.withColor:${val}`, (theme: ThemeVariables) => {
         const color = theme.colorOf(val);
         return {
-          [`&.${this.classes.focused} .${this.classes.labelFloating} .${this.classes.label}`]: {
+          [`&.${this.classes.focused} .${this.classes.container}:after`]: {
             color
           },
-          [`&.${this.classes.focused} .${this.classes.labelContainer}`]: {
+          [`&.${this.classes.focused} .${this.classes.label}`]: {
             color
           },
           [`& .${this.classes.inputNative}`]: {
@@ -139,21 +180,16 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
           [`& .${this.classes.container}`]: appearance.container,
           [`& .${this.classes.inputNative}`]: appearance.input,
           [`& .${this.classes.placeholder}`]: {
-            ...appearance.input,
             ...appearance.placeholder
           },
           [`& .${this.classes.label}`]: {
             ...appearance.label
           },
-          [`& .${this.classes.container}:hover .${this.classes.labelContainer} > div`]: {
-            ...appearance.containerLabelHover
+          [`& .${this.classes.labelContainer}`]: {
+            ...appearance.containerLabel
           },
-          [`& .${this.classes.labelContainer} > div`]: {
-            ...appearance.containerLabel,
-            position: 'relative'
-          },
-          [`& .${this.classes.labelFloating} .${this.classes.label}`]: appearance.labelFloating,
-          [`& .${this.classes.labelFloating}`]: appearance.containerLabelCenterFloating,
+          [`& .${this.classes.floatingLabel}.${this.classes.label}`]: appearance.floatingLabel,
+          [`& .${this.classes.floatingLabel}`]: appearance.containerLabelCenterFloating,
           [`& .${this.classes.labelSpacingStart}`]: {
             ...appearance.containerLabelStart
           },
@@ -163,8 +199,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
           [`& .${this.classes.labelSpacingEnd}`]: {
             ...appearance.containerLabelEnd
           },
-          [`&.${this.classes.focused} .${this.classes.labelContainer} > div`]: {
-            ...appearance.containerLabelFocused
+          [`&.${this.classes.focused} .${this.classes.container}`]: {
+            ...appearance.containerFocused
           },
         };
       }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY);
@@ -176,8 +212,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   constructor(
     private _renderer: Renderer2,
     private _el: ElementRef,
+    private _elementObserver: ElementObserver,
     private _theme: LyTheme2,
-    private _cd: ChangeDetectorRef
+    private _cd: ChangeDetectorRef,
+    private _ngZone: NgZone
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
@@ -193,7 +231,15 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
   ngAfterContentInit() {
     this._renderer.addClass(this._input._hostElement, this.classes.inputNative);
-
+    if (Platform.isBrowser && this._prefixContainer && (this._prefixChildren || this._suffixChildren)) {
+      this._ngZone.runOutsideAngular(() => {
+        const el = this._prefixContainer.nativeElement;
+        this._elementObserver.observe(el, (mutationRecord) => {
+          console.log(mutationRecord);
+          console.log(el.getBoundingClientRect().width);
+        });
+      });
+    }
     this._input.valueChanges.subscribe(() => {
       this._updateFloatingLabel();
       this._markForCheck();
@@ -244,13 +290,15 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     } else {
       this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
     }
-    const isFloating = this._input.focused || !this._isEmpty();
-    if (this._isFloating !== isFloating) {
-      this._isFloating = isFloating;
-      if (isFloating) {
-        this._renderer.addClass(this._labelContainer.nativeElement, this.classes.labelFloating);
-      } else {
-        this._renderer.removeClass(this._labelContainer.nativeElement, this.classes.labelFloating);
+    if (this._labelContainer2) {
+      const isFloating = this._input.focused || !this._isEmpty() || this.floatingLabel;
+      if (this._isFloating !== isFloating) {
+        this._isFloating = isFloating;
+        if (isFloating) {
+          this._renderer.addClass(this._labelContainer2.nativeElement, this.classes.floatingLabel);
+        } else {
+          this._renderer.removeClass(this._labelContainer2.nativeElement, this.classes.floatingLabel);
+        }
       }
     }
   }

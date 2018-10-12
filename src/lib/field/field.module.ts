@@ -5,6 +5,9 @@ import { LyField } from './field';
 import { LyInputNative } from './input';
 import { LyPlaceholder } from './placeholder';
 import { LyLabel } from './label';
+import { LyPrefix } from './prefix';
+import { LySuffix } from './suffix';
+import { LyHint } from './hint';
 
 @NgModule({
   imports: [
@@ -16,8 +19,11 @@ import { LyLabel } from './label';
     LyPlaceholder,
     LyLabel,
     LyInputNative,
+    LyPrefix,
+    LySuffix,
+    LyHint,
     LyCommonModule
   ],
-  declarations: [ LyField, LyPlaceholder, LyLabel, LyInputNative ]
+  declarations: [ LyField, LyPlaceholder, LyLabel, LyInputNative, LyPrefix, LySuffix, LyHint ]
 })
 export class LyFieldModule { }
