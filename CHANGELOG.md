@@ -1,6 +1,33 @@
 <a name="1.7.0"></a>
-# 1.7.0 (2018-10-13)
+# [1.7.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/v1.7.3...1.7.0) (2018-10-13)
 
+
+### Bug Fixes
+
+* **field:** add prefix, suffix & hint ([136b13b](https://github.com/A-l-y-l-e/Alyle-UI/commit/136b13b))
+* **field:** fix align ([4ae2524](https://github.com/A-l-y-l-e/Alyle-UI/commit/4ae2524))
+* **field:** fix appearance ([75d64aa](https://github.com/A-l-y-l-e/Alyle-UI/commit/75d64aa))
+* **field:** fix bg filled in mode dark ([7c085f2](https://github.com/A-l-y-l-e/Alyle-UI/commit/7c085f2))
+* **field:** fix max width label ([ab7188f](https://github.com/A-l-y-l-e/Alyle-UI/commit/ab7188f))
+* **field:** fix placeholder ([1523b19](https://github.com/A-l-y-l-e/Alyle-UI/commit/1523b19))
+* **field:** fix position placeholder ([ac0e7df](https://github.com/A-l-y-l-e/Alyle-UI/commit/ac0e7df))
+* **field:** fix styles for textarea with rows ([e0cb704](https://github.com/A-l-y-l-e/Alyle-UI/commit/e0cb704))
+* **field:** fix textarea ([c29611b](https://github.com/A-l-y-l-e/Alyle-UI/commit/c29611b))
+* **field:** fix theme ([8542964](https://github.com/A-l-y-l-e/Alyle-UI/commit/8542964))
+* **field:** fix variables ([b37f2a5](https://github.com/A-l-y-l-e/Alyle-UI/commit/b37f2a5))
+* **field:** fix withColor ([2d92f6b](https://github.com/A-l-y-l-e/Alyle-UI/commit/2d92f6b))
+* **field:** update styles ([bd43014](https://github.com/A-l-y-l-e/Alyle-UI/commit/bd43014))
+
+
+### Features
+
+* **core:** add mutation observer ([a9ff395](https://github.com/A-l-y-l-e/Alyle-UI/commit/a9ff395))
+* **field:**  add styles for input native ([d29e7a1](https://github.com/A-l-y-l-e/Alyle-UI/commit/d29e7a1))
+* **field:** add caretColor ([d49472d](https://github.com/A-l-y-l-e/Alyle-UI/commit/d49472d))
+* **field:** add filled type ([3392520](https://github.com/A-l-y-l-e/Alyle-UI/commit/3392520))
+* **field:** add outlined type ([ad3feee](https://github.com/A-l-y-l-e/Alyle-UI/commit/ad3feee))
+* **field:** add standard field ([4466623](https://github.com/A-l-y-l-e/Alyle-UI/commit/4466623))
+* **field:** initial commit for field ([3a0cdff](https://github.com/A-l-y-l-e/Alyle-UI/commit/3a0cdff))
 
 
 <a name="1.7.0-beta.76gq3"></a>
