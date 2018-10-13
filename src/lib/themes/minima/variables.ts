@@ -1,4 +1,4 @@
-import { TypographyConfig, LY_COMMON_STYLES } from '@alyle/ui';
+import { TypographyConfig } from '@alyle/ui';
 
 export const typography = {
   fontFamily: `'Roboto', sans-serif`,
@@ -118,17 +118,7 @@ export const input = {
     },
     outlined: {
       container: {
-        padding: '0 0.75em',
-        // '&:after': {
-        //   borderStyle: 'solid',
-        //   borderWidth: '1px',
-        //   borderTopColor: 'transparent',
-        //   borderRadius: '5px'
-        // },
-        // '&:hover:after': {
-        //   borderColor: 'currentColor',
-        //   borderTopColor: 'transparent'
-        // }
+        padding: '0 0.75em'
       },
       fieldset: {
         borderWidth: '1px',
@@ -142,18 +132,11 @@ export const input = {
       fieldsetFocused: {
         borderWidth: '2px'
       },
-      // containerFocused: {
-      //   '&:after': {
-      //     borderWidth: '2px',
-      //     borderColor: 'currentColor',
-      //     borderTopColor: 'transparent',
-      //   }
-      // },
       containerLabelFocused: {
         color: 'currentColor',
         '&:after': {
           borderWidth: '2px',
-          borderColor: 'currentColor',
+          borderColor: 'currentColor'
         }
       },
       prefix: {
@@ -181,21 +164,20 @@ export const input = {
     },
     filled: {
       container: {
-        // backgroundColor: 'rgba(0, 0, 0, 0.04)',
         borderRadius: '5px 5px 0 0',
         padding: '0 0.75em',
         '&:after': {
           borderBottomStyle: 'solid',
           borderBottomColor: 'currentColor',
-          borderBottomWidth: '0',
+          borderBottomWidth: '0'
         },
         '&:hover:after': {
-          borderBottomWidth: '1px',
+          borderBottomWidth: '1px'
         }
       },
       containerFocused: {
         '&:after': {
-          borderBottomWidth: '2px',
+          borderBottomWidth: '2px'
         }
       },
       containerLabelFocused: {
