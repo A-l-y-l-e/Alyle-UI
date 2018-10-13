@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BasicFieldComponent {
+  hide = true;
   val = 'value';
   appearance = new FormControl();
 }

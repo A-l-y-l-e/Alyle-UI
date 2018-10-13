@@ -104,32 +104,51 @@ export const input = {
         color: 'currentColor'
       },
       label: {
-        marginTop: '.75em',
-        marginBottom: '.25em',
+        margin: '0.4375em 0'
       },
       placeholder: {
-        marginTop: '.75em',
-        marginBottom: '.25em',
+        margin: '0.4375em 0'
       },
       input: {
-        marginTop: '.75em',
-        marginBottom: '.25em'
+        margin: '0.4375em 0'
       },
       floatingLabel: {
-        transform: 'translateY(-1em)'
+        transform: 'translateY(-1.25em)'
       }
-    }, // default & important
+    },
     outlined: {
-      containerLabel: {
-        '&:after': {
-          ...LY_COMMON_STYLES.fill,
-          content: `\'\'`,
-          border: '1px solid currentColor'
-        }
+      container: {
+        padding: '0 0.75em',
+        // '&:after': {
+        //   borderStyle: 'solid',
+        //   borderWidth: '1px',
+        //   borderTopColor: 'transparent',
+        //   borderRadius: '5px'
+        // },
+        // '&:hover:after': {
+        //   borderColor: 'currentColor',
+        //   borderTopColor: 'transparent'
+        // }
       },
-      containerLabelHover: {
-        color: 'currentColor'
+      fieldset: {
+        borderWidth: '1px',
+        borderRadius: '5px',
+        padding: '0 .5em'
       },
+      fieldsetHover: {
+        borderWidth: '1px',
+        borderColor: 'currentColor'
+      },
+      fieldsetFocused: {
+        borderWidth: '2px'
+      },
+      // containerFocused: {
+      //   '&:after': {
+      //     borderWidth: '2px',
+      //     borderColor: 'currentColor',
+      //     borderTopColor: 'transparent',
+      //   }
+      // },
       containerLabelFocused: {
         color: 'currentColor',
         '&:after': {
@@ -137,46 +156,24 @@ export const input = {
           borderColor: 'currentColor',
         }
       },
-      label: {
-        // marginTop: '1em'
-      },
-      placeholder: {
-        // marginTop: '1em'
-      },
-      containerLabelStart: {
-        paddingRight: '.375em',
+      prefix: {
         '&:after': {
-          border: 'solid 1px currentColor',
-          borderRadius: '5px 0 0 5px',
-          borderRight: 'none',
+          padding: '0.25em'
         }
       },
-      containerLabelCenter: {
-        maxWidth: 'calc(100% - 1em)',
-        '&:before': {
-          borderTop: 'solid 1px currentColor',
-        },
+      suffix: {
         '&:after': {
-          borderBottom: 'solid 1px currentColor',
-        }
-      },
-      containerLabelCenterFloating: {
-        '&:before': {
-          borderWidth: '0 !important'
-        }
-      },
-      containerLabelEnd: {
-        paddingRight: '.375em',
-        '&:after': {
-          border: 'solid 1px currentColor',
-          borderRadius: '0 5px 5px 0',
-          borderLeft: 'none'
+          padding: '0.25em'
         }
       },
       input: {
-        margin: '0 .75em',
-        marginTop: '.25em',
-        marginBottom: '.75em'
+        margin: '1.1875em 0'
+      },
+      label: {
+        margin: '1.1875em 0'
+      },
+      placeholder: {
+        margin: '1.1875em 0'
       },
       floatingLabel: {
         transform: 'translateY(-1.75em)'
@@ -186,7 +183,7 @@ export const input = {
       container: {
         // backgroundColor: 'rgba(0, 0, 0, 0.04)',
         borderRadius: '5px 5px 0 0',
-        padding: '1em 0.75em 0',
+        padding: '0 0.75em',
         '&:after': {
           borderBottomStyle: 'solid',
           borderBottomColor: 'currentColor',
@@ -210,23 +207,13 @@ export const input = {
         color: 'currentColor'
       },
       input: {
-        marginTop: '.5em',
-        marginBottom: '.5em'
+        margin: '1.78125em 0 0.59375em'
       },
       placeholder: {
-        marginTop: '.5em',
-        marginBottom: '.5em'
+        margin: '1.78125em 0 0.59375em'
       },
       label: {
-      },
-      containerLabelStart: {
-        paddingRight: '.75em'
-      },
-      containerLabelCenter: {
-        maxWidth: 'calc(100% - 1em)'
-      },
-      containerLabelEnd: {
-        paddingRight: '.75em'
+        margin: '1.1875em 0'
       },
       floatingLabel: {
         transform: 'translateY(-.75em)'

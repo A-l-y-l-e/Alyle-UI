@@ -31,12 +31,13 @@ const styles = (theme: ThemeVariables) => {
     root: {
       display: 'inline-block',
       position: 'relative',
-      marginBottom: '1em'
+      marginBottom: '1em',
+      lineHeight: 1.125
     },
     container: {
       height: '100%',
       display: 'flex',
-      alignItems: 'baseline',
+      alignItems: 'center',
       '&:after': {
         ...LY_COMMON_STYLES.fill,
         content: `\'\'`,
@@ -44,13 +45,54 @@ const styles = (theme: ThemeVariables) => {
         borderColor: theme.input.borderColor
       }
     },
-    fix: {
-      // paddingTop: '1em',
-      position: 'relative',
-      '&:before': {
+    fieldset: {
+      ...LY_COMMON_STYLES.fill,
+      margin: 0,
+      borderStyle: 'solid',
+      borderColor: theme.input.borderColor,
+      borderWidth: 0
+    },
+    fieldsetSpan: {
+      padding: 0
+    },
+    labelSpan: {
+      maxWidth: '100%',
+      display: 'inline-block',
+      transition: `font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+    },
+    prefix: {
+      maxHeight: '2em',
+      display: 'flex',
+      alignItems: 'center',
+      '&:after': {
         content: `\'\'`,
         pointerEvents: 'none',
-        ...LY_COMMON_STYLES.fill
+        boxSizing: 'content-box',
+        ...LY_COMMON_STYLES.fill,
+        borderColor: theme.input.borderColor
+      }
+    },
+    infix: {
+      display: 'inline-flex',
+      position: 'relative',
+      '&:after': {
+        content: `\'\'`,
+        pointerEvents: 'none',
+        boxSizing: 'content-box',
+        ...LY_COMMON_STYLES.fill,
+        borderColor: theme.input.borderColor
+      }
+    },
+    suffix: {
+      maxHeight: '2em',
+      display: 'flex',
+      alignItems: 'center',
+      '&:after': {
+        content: `\'\'`,
+        pointerEvents: 'none',
+        boxSizing: 'content-box',
+        ...LY_COMMON_STYLES.fill,
+        borderColor: theme.input.borderColor
       }
     },
     labelContainer: {
@@ -58,11 +100,6 @@ const styles = (theme: ThemeVariables) => {
       pointerEvents: 'none',
       display: 'flex',
       width: '100%',
-      borderColor: theme.input.borderColor
-    },
-    fieldset: {
-      margin: 0,
-      borderStyle: 'solid',
       borderColor: theme.input.borderColor
     },
     labelSpacingStart: {},
@@ -85,8 +122,11 @@ const styles = (theme: ThemeVariables) => {
       width: '100%',
       transition: `${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
     },
+    isFloatingLabel: {},
     floatingLabel: {
-      fontSize: '75%'
+      '& {labelSpan}': {
+        fontSize: '75%'
+      }
     },
     placeholder: {
       ...LY_COMMON_STYLES.fill,
@@ -102,8 +142,7 @@ const styles = (theme: ThemeVariables) => {
       border: 'none',
       backgroundColor: 'transparent',
       color: 'inherit',
-      font: 'inherit',
-      alignSelf: 'stretch'
+      font: 'inherit'
     }
   };
 };
@@ -126,9 +165,15 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   protected _withColorClass: string;
   protected _isFloating: boolean;
   protected _floatingLabel: boolean;
+  protected _fielsetStartClass: string;
+  protected _fielsetEndClass: string;
+  protected _fielsetSpanClass: string;
   @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_labelContainer2') _labelContainer2: ElementRef<HTMLDivElement>;
+  @ViewChild('_labelSpan') _labelSpan: ElementRef<HTMLDivElement>;
   @ViewChild('_prefixContainer') _prefixContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('_suffixContainer') _suffixContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('_fieldsetLegend') _fieldsetLegend: ElementRef<HTMLDivElement>;
   @ContentChild(LyInputNative) _input: LyInputNative;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
@@ -152,6 +197,9 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
         return {
           [`&.${this.classes.focused} .${this.classes.container}:after`]: {
             color
+          },
+          [`&.${this.classes.focused} .${this.classes.fieldset}`]: {
+            borderColor: color
           },
           [`&.${this.classes.focused} .${this.classes.label}`]: {
             color
@@ -177,28 +225,22 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
         const appearance = mergeDeep({}, theme.input.appearance.any, theme.input.appearance[val]);
         return {
-          [`& .${this.classes.container}`]: appearance.container,
-          [`& .${this.classes.inputNative}`]: appearance.input,
+          [`& .${this.classes.container}`]: {...appearance.container},
+          [`& .${this.classes.prefix}`]: {...appearance.prefix},
+          [`& .${this.classes.infix}`]: {...appearance.infix},
+          [`& .${this.classes.suffix}`]: {...appearance.suffix},
+          [`& .${this.classes.inputNative}`]: {...appearance.input},
+          [`& .${this.classes.fieldset}`]: {...appearance.fieldset},
+          [`&:hover .${this.classes.fieldset}`]: {...appearance.fieldsetHover},
+          [`&.${this.classes.focused} .${this.classes.fieldset}`]: {...appearance.fieldsetFocused},
           [`& .${this.classes.placeholder}`]: {
             ...appearance.placeholder
           },
           [`& .${this.classes.label}`]: {
             ...appearance.label
           },
-          [`& .${this.classes.labelContainer}`]: {
-            ...appearance.containerLabel
-          },
-          [`& .${this.classes.floatingLabel}.${this.classes.label}`]: appearance.floatingLabel,
-          [`& .${this.classes.floatingLabel}`]: appearance.containerLabelCenterFloating,
-          [`& .${this.classes.labelSpacingStart}`]: {
-            ...appearance.containerLabelStart
-          },
-          [`& .${this.classes.labelCenter}`]: {
-            ...appearance.containerLabelCenter
-          },
-          [`& .${this.classes.labelSpacingEnd}`]: {
-            ...appearance.containerLabelEnd
-          },
+          [`& .${this.classes.floatingLabel}.${this.classes.label}`]: {...appearance.floatingLabel},
+
           [`&.${this.classes.focused} .${this.classes.container}`]: {
             ...appearance.containerFocused
           },
@@ -231,15 +273,6 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
   ngAfterContentInit() {
     this._renderer.addClass(this._input._hostElement, this.classes.inputNative);
-    if (Platform.isBrowser && this._prefixContainer && (this._prefixChildren || this._suffixChildren)) {
-      this._ngZone.runOutsideAngular(() => {
-        const el = this._prefixContainer.nativeElement;
-        this._elementObserver.observe(el, (mutationRecord) => {
-          console.log(mutationRecord);
-          console.log(el.getBoundingClientRect().width);
-        });
-      });
-    }
     this._input.valueChanges.subscribe(() => {
       this._updateFloatingLabel();
       this._markForCheck();
@@ -258,8 +291,62 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
   ngAfterViewInit() {
     this._updateFloatingLabel();
+    if (Platform.isBrowser) {
+      this._ngZone.runOutsideAngular(() => {
+        if (this._prefixContainer) {
+          const el = this._prefixContainer.nativeElement;
+          this._updateFielset(el, 'start');
+          this._elementObserver.observe(el, () => {
+            this._updateFielset(el, 'start');
+          });
+        }
+        if (this._suffixContainer) {
+          const el = this._suffixContainer.nativeElement;
+          this._updateFielset(el, 'end');
+          this._elementObserver.observe(el, () => {
+            this._updateFielset(el, 'end');
+          });
+        }
+        if (this._labelSpan) {
+          const el = this._labelSpan.nativeElement;
+          this._updateFielsetSpan();
+          this._elementObserver.observe(el, () => {
+            this._updateFielsetSpan();
+          });
+        }
+      });
+    }
   }
 
+  private _updateFielset(el: Element, f: 'start' | 'end') {
+    const { width } = el.getBoundingClientRect();
+    const newClass = this._theme.addStyle(`style.paddingStart:${width}`, (theme: ThemeVariables) => {
+      const direction = theme.getDirection(f);
+      return {
+        [`margin-${direction}`]: `${width}px`
+      };
+    });
+    if (f === 'start') {
+      this._theme.updateClass(this._fieldsetLegend.nativeElement, this._renderer, newClass, this._fielsetStartClass);
+      this._fielsetStartClass = newClass;
+    } else {
+      this._theme.updateClass(this._fieldsetLegend.nativeElement, this._renderer, newClass, this._fielsetEndClass);
+
+      this._fielsetEndClass = newClass;
+    }
+  }
+
+  private _updateFielsetSpan() {
+    let { width } = this._labelSpan.nativeElement.getBoundingClientRect();
+    if (!this._isFloating) {
+      width -= width / 100 * 25;
+    }
+    /** Add 6px of spacing */
+    width += 6;
+    this._fielsetSpanClass = this._theme.addStyle(`style.fieldsetSpanFocused:${width}`, {
+      [`&.${this.classes.isFloatingLabel} .${this.classes.fieldsetSpan}`]: {width: `${width}px`}
+    }, this._el.nativeElement, this._fielsetSpanClass, STYLE_PRIORITY);
+  }
   /** @ignore */
   _isLabel() {
     if (this._input.placeholder && !this._labelChild) {
@@ -285,21 +372,23 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   }
 
   private _updateFloatingLabel() {
-    if (this._input.focused) {
-      this._renderer.addClass(this._el.nativeElement, this.classes.focused);
-    } else {
-      this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
-    }
     if (this._labelContainer2) {
       const isFloating = this._input.focused || !this._isEmpty() || this.floatingLabel;
       if (this._isFloating !== isFloating) {
         this._isFloating = isFloating;
         if (isFloating) {
           this._renderer.addClass(this._labelContainer2.nativeElement, this.classes.floatingLabel);
+          this._renderer.addClass(this._el.nativeElement, this.classes.isFloatingLabel);
         } else {
           this._renderer.removeClass(this._labelContainer2.nativeElement, this.classes.floatingLabel);
+          this._renderer.removeClass(this._el.nativeElement, this.classes.isFloatingLabel);
         }
       }
+    }
+    if (this._input.focused) {
+      this._renderer.addClass(this._el.nativeElement, this.classes.focused);
+    } else {
+      this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
     }
   }
 
