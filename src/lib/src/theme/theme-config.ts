@@ -61,17 +61,23 @@ export interface ThemeConfig {
     borderColor: string
     appearance: {
       [appearanceName: string]: {
-        containerLabel?: StyleContainer
+        // containerLabel?: StyleContainer
+        container?: StyleContainer
+        fieldset?: StyleContainer
+        fieldsetHover?: StyleContainer
+        fieldsetFocused?: StyleContainer
         containerFocused?: StyleContainer
         label?: StyleContainer
         placeholder?: StyleContainer
         input?: StyleContainer
         floatingLabel?: StyleContainer
-        containerLabelStart?: StyleContainer
-        containerLabelCenter?: StyleContainer
-        containerLabelCenterFloating?: StyleContainer
-        containerLabelEnd?: StyleContainer
-        container?: StyleContainer
+        prefix?: StyleContainer
+        infix?: StyleContainer
+        suffix?: StyleContainer
+        // containerLabelStart?: StyleContainer
+        // containerLabelCenter?: StyleContainer
+        // containerLabelCenterFloating?: StyleContainer
+        // containerLabelEnd?: StyleContainer
       }
     }
   };
