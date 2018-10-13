@@ -61,7 +61,6 @@ export interface ThemeConfig {
     borderColor: string
     appearance: {
       [appearanceName: string]: {
-        // containerLabel?: StyleContainer
         container?: StyleContainer
         fieldset?: StyleContainer
         fieldsetHover?: StyleContainer
@@ -74,10 +73,6 @@ export interface ThemeConfig {
         prefix?: StyleContainer
         infix?: StyleContainer
         suffix?: StyleContainer
-        // containerLabelStart?: StyleContainer
-        // containerLabelCenter?: StyleContainer
-        // containerLabelCenterFloating?: StyleContainer
-        // containerLabelEnd?: StyleContainer
       }
     }
   };
