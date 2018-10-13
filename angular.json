@@ -1134,6 +1134,96 @@
           }
         }
       }
+    },
+    "@alyle/ui/badge": {
+      "root": "dist/lib/badge",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/badge/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/badge/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/badge/test.ts",
+            "tsConfig": "dist/lib/badge/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/badge/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "dist/lib/badge/tsconfig.lint.json",
+              "dist/lib/badge/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@alyle/ui/field": {
+      "root": "dist/lib/field",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/field/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/field/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/field/test.ts",
+            "tsConfig": "dist/lib/field/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/field/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "dist/lib/field/tsconfig.lint.json",
+              "dist/lib/field/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {

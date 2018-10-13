@@ -1,3 +1,8 @@
+<a name="1.7.0"></a>
+# 1.7.0 (2018-10-13)
+
+
+
 <a name="1.7.0-beta.76gq3"></a>
 # [1.7.0-beta.76gq3](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0-beta.75cav...1.7.0-beta.76gq3) (2018-10-01)
 
