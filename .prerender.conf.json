@@ -23,6 +23,7 @@
     "components/shadow",
     "components/card",
     "components/typography",
-    "components/badge"
+    "components/badge",
+    "components/field"
   ]
 }

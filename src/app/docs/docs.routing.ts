@@ -38,7 +38,7 @@ const routes: Routes = [
       { path: 'toolbar', component: ToolbarDemoComponent },
       { path: 'resizing-cropping-images', component: ResizingCroppingImagesDemoComponent },
       { path: 'badge', component: BadgeDemoComponent },
-      { path: 'text-field', component: FieldDemoComponent }
+      { path: 'field', component: FieldDemoComponent }
     ]
   }
 ];
