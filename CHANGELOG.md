@@ -1,3 +1,14 @@
+<a name="1.7.1"></a>
+## [1.7.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0...1.7.1) (2018-10-14)
+
+
+### Bug Fixes
+
+* **field:** fix align infix ([e02be6c](https://github.com/A-l-y-l-e/Alyle-UI/commit/e02be6c))
+* **radio:** fix styles ([d2c76cd](https://github.com/A-l-y-l-e/Alyle-UI/commit/d2c76cd))
+
+
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/v1.7.3...1.7.0) (2018-10-13)
 
