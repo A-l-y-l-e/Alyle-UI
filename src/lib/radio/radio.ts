@@ -47,12 +47,12 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
     position: 'relative',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'baseline'
   },
   container: {
     position: 'relative',
-    height: 'calc(1em * 3)',
     width: '1.5em',
+    margin: 'auto',
     '&>div *': {
       margin: 'auto',
       borderRadius: '50%',
@@ -72,7 +72,7 @@ const styles = theme => ({
     }
   }
 });
-// console.log('module.id', module.id);
+
 @Component({
   selector: 'ly-radio-group',
   template: `<ng-content></ng-content>`,
@@ -339,7 +339,8 @@ export class LyRadio implements OnInit, OnDestroy {
     this._ripple = new Ripple(this.theme.config, this.ngZone, this._rippleService.classes, this._radioContainer.nativeElement, this._elementRef.nativeElement);
     this._ripple.setConfig({
       centered: true,
-      radius: 'containerSize'
+      radius: 'containerSize',
+      percentageToIncrease: 100
     });
   }
 
@@ -361,7 +362,9 @@ export class LyRadio implements OnInit, OnDestroy {
     private ngZone: NgZone,
     public coreStyles: LyCoreStyles,
     private _rippleService: LyRippleService
-  ) { }
+  ) {
+    _renderer.addClass(_elementRef.nativeElement, radioGroup._radioService.classes.radioButton);
+  }
 }
 
 @NgModule({

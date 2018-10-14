@@ -5,11 +5,13 @@ const STYLE_PRIORITY = -2;
 
 const styles = ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    display: 'inline-block'
   },
   labelContent: {
     padding: '0 0.5em'
+  },
+  radioButton: {
+    display: 'inline-block'
   }
 });
 
