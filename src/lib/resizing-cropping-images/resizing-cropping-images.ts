@@ -187,7 +187,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
     this.isCropped = false;
     this._dragData.next(null);
     fileReader.addEventListener('loadend', (loadEvent) => {
-      const originalImageUrl = (loadEvent.target as FileReader).result;
+      const originalImageUrl = (loadEvent.target as FileReader).result as string;
       this.setImageUrl(originalImageUrl);
       this.cd.markForCheck();
     });
