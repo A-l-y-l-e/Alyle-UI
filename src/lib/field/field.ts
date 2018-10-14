@@ -75,6 +75,7 @@ const styles = (theme: ThemeVariables) => {
     infix: {
       display: 'inline-flex',
       position: 'relative',
+      alignItems: 'baseline',
       '&:after': {
         content: `\'\'`,
         pointerEvents: 'none',
@@ -142,7 +143,8 @@ const styles = (theme: ThemeVariables) => {
       border: 'none',
       backgroundColor: 'transparent',
       color: 'inherit',
-      font: 'inherit'
+      font: 'inherit',
+      width: '100%'
     }
   };
 };
