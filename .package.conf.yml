@@ -17,7 +17,6 @@ components:
   '@alyle/ui/carousel': carousel
   '@alyle/ui/menu': menu
   '@alyle/ui/checkbox': checkbox
-  '@alyle/ui/header-pagination': header-pagination
   '@alyle/ui/tabs': tabs
   '@alyle/ui/toolbar': toolbar
   '@alyle/ui/drawer': drawer

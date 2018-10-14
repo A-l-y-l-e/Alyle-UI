@@ -16,7 +16,6 @@
       "@alyle/ui/menu": "ly.menu",
       "@alyle/ui/checkbox": "ly.checkbox",
       "@alyle/ui/svg": "ly.svg",
-      "@alyle/ui/header-pagination": "ly.headerPagination",
       "@alyle/ui/tabs": "ly.tabs",
       "@alyle/ui/toolbar": "ly.toolbar",
       "@alyle/ui/drawer": "ly.drawer",
