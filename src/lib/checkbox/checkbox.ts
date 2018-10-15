@@ -1,11 +1,17 @@
-import { Component, Input, forwardRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  forwardRef,
+  ViewEncapsulation,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**
  * This allows it to support [(ngModel)].
  * @ignore
  */
-export const MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
+export const LY_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => LyCheckbox),
   multi: true
@@ -16,6 +22,7 @@ export const MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
   template: 'checkbox.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [LY_CHECKBOX_CONTROL_VALUE_ACCESSOR],
   exportAs: 'lyCheckbox'
 })
 export class LyCheckbox implements ControlValueAccessor {
