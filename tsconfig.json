@@ -38,6 +38,7 @@
       "@alyle/ui/grid": ["lib/grid"],
       "@alyle/ui/badge": ["lib/badge"],
       "@alyle/ui/field": ["lib/field"],
+      "@alyle/ui/checkbox": ["lib/checkbox"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }

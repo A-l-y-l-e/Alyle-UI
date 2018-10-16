@@ -1,0 +1,17 @@
+
+<label for="id5">
+  <input #input
+  id="id5"
+  [className]="_commonStyles.classes.visuallyHidden"
+  type="checkbox"
+  [checked]="checked"
+  [indeterminate]="indeterminate"
+  [required]="required"
+  [attr.value]="value"
+  [disabled]="disabled"
+  (change)="_onInputChange($event)"
+  (click)="_onInputClick($event)"
+  [tabIndex]="0"
+  >
+  <ng-content></ng-content>
+</label>

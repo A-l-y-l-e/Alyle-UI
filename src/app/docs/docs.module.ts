@@ -48,6 +48,8 @@ import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-
 
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
+import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
+import { BasicCheckboxModule } from './components/checkbox-demo/basic-checkbox/basic-checkbox.module';
 
 @NgModule({
   imports: [
@@ -79,7 +81,9 @@ import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-
     /** Badge */
     BasicBadgeModule,
     /** Field */
-    BasicFieldModule
+    BasicFieldModule,
+    /** Field */
+    BasicCheckboxModule
   ],
   declarations: [
     ThemingComponent,
@@ -97,8 +101,10 @@ import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-
     ResizingCroppingImagesDemoComponent,
     /** Badge */
     BadgeDemoComponent,
-    /** Badge */
-    FieldDemoComponent
+    /** Field */
+    FieldDemoComponent,
+    /** Ckeckbox */
+    CheckboxDemoComponent
 
   ]
 })
