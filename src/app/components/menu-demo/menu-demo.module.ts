@@ -6,6 +6,7 @@ import { DemoViewModule } from '../../demo-view';
 import { MenuDemo01Module } from './menu-demo-01/menu-demo-01.module';
 import { MenuDemoComponent } from './menu-demo/menu-demo.component';
 import { MenuDemoRoutingModule } from './menu-demo-routing.module';
+import { PackageStatusModule } from '../../package-status/package-status.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { MenuDemoRoutingModule } from './menu-demo-routing.module';
     CommonModule,
     MenuDemoRoutingModule,
     DemoViewModule,
+    PackageStatusModule,
     LyCommonModule,
     MenuDemo01Module
   ],

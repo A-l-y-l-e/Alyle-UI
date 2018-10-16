@@ -20,7 +20,7 @@ export class RoutesAppService {
           { route: 'theming', name: 'Theming' },
           { route: 'multiple-themes', name: 'Multiple themes' },
           { route: 'bg-color', name: 'Bg & Color' },
-          { route: 'dynamic-styles', name: 'Dynamic styles'}
+          { route: 'dynamic-styles', name: 'Dynamic styles' }
         ]
       },
       {
@@ -29,28 +29,28 @@ export class RoutesAppService {
         routes: [
           { route: 'grid', name: 'Grid' },
           { route: 'responsive', name: 'Responsive' },
-          { route: 'tabs', name: 'Tabs' }
+          { route: 'tabs', name: 'Tabs', status: 'alpha' }
         ]
       },
       {
         name: 'Components',
         route: 'components',
         routes: [
-          { route: 'badge', name: 'Badge' },
+          { route: 'badge', name: 'Badge', status: 'alpha' },
           { route: 'button', name: 'Button' },
           { route: 'card', name: 'Card' },
           { route: 'carousel', name: 'Carousel' },
           { route: 'drawer', name: 'Drawer' },
-          { route: 'field', name: 'Text Field' },
+          { route: 'field', name: 'Field', status: 'alpha' },
           { route: 'icon-button', name: 'Icon button' },
-          { route: 'input', name: 'Input', status: 'alpha' },
-          { route: 'menu', name: 'Menu' },
+          { route: 'input', name: 'Input' },
+          { route: 'menu', name: 'Menu', status: 'alpha' },
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
           { route: 'ripple', name: 'Ripple' },
           { route: 'shadow', name: 'Shadow' },
           { route: 'toolbar', name: 'Toolbar' },
-          { route: 'typography', name: 'Typography' },
+          { route: 'typography', name: 'Typography' }
         ]
       }
     ];

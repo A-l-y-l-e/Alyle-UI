@@ -11,6 +11,7 @@ import { InputExample04Module } from './input-example-04/input-example-04.module
 import { InputExample05Module } from './input-example-05/input-example-05.module';
 import { LyCommonModule } from '@alyle/ui';
 import { RouterModule } from '@angular/router';
+import { PackageStatusModule } from '../../package-status/package-status.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterModule,
     DemoViewModule,
+    PackageStatusModule,
     InputDemoRoutingModule,
     InputDemoExample01Module,
     InputDemoExample02Module,

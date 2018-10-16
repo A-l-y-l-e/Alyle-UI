@@ -1,0 +1,16 @@
+<ly-card
+[bg]="status === 'beta' ? '#ffc107' : 'warn'"
+[color]="status === 'beta' ? 'currentColor' : 'auto'"
+[elevation]="6"
+[withClass]="classes.card">
+  <ly-card-content [withClass]="classes.icon">
+    <ly-icon *ngIf="status === 'beta'" icon="Experiment"></ly-icon>
+    <ly-icon *ngIf="status === 'deprecated'">error</ly-icon>
+  </ly-card-content>
+  <ly-card-content [withClass]="classes.cardContent">
+    Status: {{ status }}
+    <br />
+    <ng-template [ngIf]="status === 'deprecated'">This component is obsolete and will be removed in the next release.</ng-template>
+    <ng-content></ng-content>
+  </ly-card-content>
+</ly-card>

@@ -8,6 +8,5 @@ import { FormControl } from '@angular/forms';
 })
 export class BasicFieldComponent {
   hide = true;
-  val = 'value';
   appearance = new FormControl();
 }

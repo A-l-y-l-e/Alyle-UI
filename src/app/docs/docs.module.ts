@@ -48,12 +48,14 @@ import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-
 
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
+import { PackageStatusModule } from '../package-status/package-status.module';
 
 @NgModule({
   imports: [
     SharedModule,
     PrismModule,
     DemoViewModule,
+    PackageStatusModule,
     LyTypographyModule,
     LyCardModule,
     DocsRoutingModule,
