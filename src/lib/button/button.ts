@@ -72,7 +72,7 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   private _size: keyof Size;
   private _sizeClass: string;
   private _disableRipple: boolean = null;
-
+  /** @ignore */
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
   /** @ignore */
@@ -84,6 +84,7 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     this._rippleSensitive = toBoolean(value);
   }
 
+  /** Whether ripples are disabled. */
   @Input()
   set disableRipple(val: boolean) {
     if (Platform.isBrowser && val !== this._disableRipple) {
@@ -124,6 +125,7 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     private _renderer: Renderer2,
     private _theme: LyTheme2,
     private _ngZone: NgZone,
+    /** @ignore */
     public _rippleService: LyRippleService,
     @Optional() bgAndColor: LyCommon
   ) {
