@@ -21,6 +21,7 @@ import {
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
 const DEFAULT_SIZE = 'medium';
+const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
 
 interface Size {
@@ -68,8 +69,9 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   classes = this._theme.addStyleSheet(styles, 'lyButton', STYLE_PRIORITY);
   private _rippleSensitive = false;
   private _ripple: Ripple;
-  private _size: Record<keyof Size, string>;
+  private _size: keyof Size;
   private _sizeClass: string;
+  private _disableRipple: boolean = null;
 
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
@@ -83,10 +85,28 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @Input()
-  get size(): Record<keyof Size, string> {
+  set disableRipple(val: boolean) {
+    if (Platform.isBrowser && val !== this._disableRipple) {
+      const newVal = this._disableRipple = toBoolean(val);
+      // remove previous ripple if exist
+      this.ngOnDestroy();
+      if (!newVal) {
+        // add ripple
+        const rippleContainer = this._rippleContainer.nativeElement;
+        const triggerElement = this._elementRef.nativeElement;
+        this._ripple = new Ripple(this._theme.config, this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
+      }
+    }
+  }
+  get disableRipple() {
+    return this._disableRipple;
+  }
+
+  @Input()
+  get size(): keyof Size {
     return this._size;
   }
-  set size(val: Record<keyof Size, string>) {
+  set size(val: keyof Size) {
     if (val !== this.size) {
       this._size = val;
       this._sizeClass = this._theme.addStyle(
@@ -115,15 +135,13 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
     if (!this.size) {
-      this.size = DEFAULT_SIZE as any;
+      this.size = DEFAULT_SIZE;
     }
   }
 
   ngAfterViewInit() {
-    if (Platform.isBrowser) {
-      const rippleContainer = this._rippleContainer.nativeElement;
-      const triggerElement = this._elementRef.nativeElement;
-      this._ripple = new Ripple(this._theme.config, this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
+    if (this.disableRipple === null) {
+      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
   }
 
@@ -133,7 +151,10 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     if (Platform.isBrowser) {
-      this._ripple.removeEvents();
+      if (this._ripple) {
+        this._ripple.removeEvents();
+        this._ripple = null;
+      }
     }
   }
 
