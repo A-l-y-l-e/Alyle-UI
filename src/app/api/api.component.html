@@ -41,7 +41,7 @@
   <ng-container *ngIf="api.miscellaneous.variables.length">
     <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
     <ng-container *ngFor="let variable of api.miscellaneous.variables">
-      <p><span prism language="typescript" code="const {{variable.name}} = {{variable.defaultValue}};"></span></p>
+      <p><prism language="typescript" code="const {{variable.name}} = {{variable.defaultValue}};"></prism></p>
     </ng-container>
   </ng-container>
 </ng-container>
