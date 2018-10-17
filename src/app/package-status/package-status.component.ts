@@ -15,7 +15,9 @@ const STYLES = ({
   },
   cardContent: {
     paddingLeft: 0,
-    paddingRight: 0
+    paddingRight: 0,
+    alignItems: 'center',
+    display: 'flex'
   }
 });
 

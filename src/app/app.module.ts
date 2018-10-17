@@ -71,6 +71,10 @@ export class GlobalVariables {
   testVal = '#00bcd4';
   Quepal = Quepal;
   SublimeLight = SublimeLight;
+  Amber = {
+    default: '#ffc107',
+    contrast: 'rgba(0, 0, 0, 0.87)'
+  };
 }
 
 @NgModule({

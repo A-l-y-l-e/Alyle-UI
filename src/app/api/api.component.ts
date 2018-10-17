@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, isDevMode } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -22,7 +22,7 @@ export class ApiComponent implements OnInit, OnDestroy {
     this.routeParamsSubscription = this.route.params.subscribe(params => {
       this.pkgName = params.package;
       this.doc = this.http
-      .get(`${host}/${this.pkgName}/documentation.json`, {responseType: 'json'});
+      .get(isDevMode() ? `${location.origin}/api/${this.pkgName}/documentation.json` : `${host}/${this.pkgName}/documentation.json`, {responseType: 'json'});
     });
   }
 
@@ -30,7 +30,7 @@ export class ApiComponent implements OnInit, OnDestroy {
   }
 
   ref(moduleName: string) {
-    return `import { ${moduleName} } from '@alyle/ui/${this.pkgName}'`;
+    return `import { ${moduleName} } from '@alyle/ui/${this.pkgName}';`;
   }
 
   inputTemplate(input: {name: string, type: string}) {

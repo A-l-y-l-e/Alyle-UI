@@ -47,10 +47,27 @@ for (const key in components) {
         data: fileObject.directives
       });
     }
+    c_d.forEach(_ => {
+      _.data.forEach(__ => {
+        __.propertiesClass = __.propertiesClass.filter(___ => !(___.name as string).startsWith('_'));
+      });
+    });
     delete fileObject.components;
     delete fileObject.directives;
-    removeKeys(fileObject, ['sourceCode']);
-    removeKeys(fileObject, ['constructorObj']);
+    removeKeys(fileObject, [
+      'sourceCode',
+      'groupedVariables',
+      'groupedTypeAliases',
+      'groupedEnumerations',
+      'groupedFunctions',
+      'constructorObj'
+    ]);
+    const arrayVariables = fileObject.miscellaneous.variables;
+    if (arrayVariables) {
+      fileObject.miscellaneous.variables = arrayVariables.filter(function(item) {
+        return (item.name as string).toLowerCase() !== 'styles';
+      });
+    }
     writeFileSync(docPathFile, JSON.stringify(fileObject), 'utf8');
 
   }

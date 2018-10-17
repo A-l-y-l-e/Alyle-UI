@@ -1,13 +1,13 @@
 <ng-container *ngIf="doc | async as api; else loading">
   <h2 [lyTyp]="'headline'" gutter>Module</h2>
-  <div prism language="typescript" [code]="ref(api.modules[0].name)"></div>
+  <prism language="typescript" [code]="ref(api.modules[0].name)"></prism>
   <ng-container *ngFor="let item of api.c_d">
     <h2 [lyTyp]="'headline'" gutter>{{item.title}}</h2>
     <ng-template ngFor let-directive [ngForOf]="item.data" let-x="index">
       <h3 [lyTyp]="'title'" gutter>{{ directive.name }}</h3>
       <p>Selector: <span prism language="typescript" code="'{{directive.selector}}'"></span></p>
       <h4 [lyTyp]="'subheading'" gutter>Properties</h4>
-      <ly-card>
+      <ly-card *ngIf="directive.inputsClass || directive.propertiesClass">
         <ly-card-content>
           <table>
             <thead>
@@ -30,6 +30,19 @@
         </ly-card-content>
       </ly-card>
     </ng-template>
+  </ng-container>
+  <ng-container *ngIf="api.miscellaneous.typealiases.length">
+    <h2 [lyTyp]="'headline'" gutter>Type Aliases</h2>
+    <ng-container *ngFor="let variable of api.miscellaneous.typealiases">
+      <h3 [lyTyp]="'title'" gutter>{{ variable.name }}</h3>
+      <p>Type: <span prism language="typescript" code="{{variable.rawtype}}"></span></p>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="api.miscellaneous.variables.length">
+    <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
+    <ng-container *ngFor="let variable of api.miscellaneous.variables">
+      <p><span prism language="typescript" code="const {{variable.name}} = {{variable.defaultValue}};"></span></p>
+    </ng-container>
   </ng-container>
 </ng-container>
 <ng-template #loading>Loading...</ng-template>

@@ -24,13 +24,10 @@ const DEFAULT_SIZE = 'medium';
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
 
-interface Size {
-  small: any;
-  medium: any;
-  large: any;
-}
+type LyButtonSize = 'small' | 'medium' | 'large';
 
-const Size = {
+/** @ignore */
+const Size: Record<LyButtonSize, any> = {
   small: theme => ({
     padding: '0 8px',
     fontSize: theme.pxToRem(theme.typography.button.fontSize - 1),
@@ -69,7 +66,7 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   classes = this._theme.addStyleSheet(styles, 'lyButton', STYLE_PRIORITY);
   private _rippleSensitive = false;
   private _ripple: Ripple;
-  private _size: keyof Size;
+  private _size: LyButtonSize;
   private _sizeClass: string;
   private _disableRipple: boolean = null;
   /** @ignore */
@@ -102,12 +99,12 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   get disableRipple() {
     return this._disableRipple;
   }
-
+  /** Button size */
   @Input()
-  get size(): keyof Size {
+  get size(): LyButtonSize {
     return this._size;
   }
-  set size(val: keyof Size) {
+  set size(val: LyButtonSize) {
     if (val !== this.size) {
       this._size = val;
       this._sizeClass = this._theme.addStyle(
@@ -125,7 +122,6 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     private _renderer: Renderer2,
     private _theme: LyTheme2,
     private _ngZone: NgZone,
-    /** @ignore */
     public _rippleService: LyRippleService,
     @Optional() bgAndColor: LyCommon
   ) {
