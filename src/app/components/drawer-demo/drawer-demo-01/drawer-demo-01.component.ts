@@ -6,10 +6,6 @@ const styles = {
     height: '225px',
     transform: 'translate3d(0,0,0)'
   },
-  drawer: {
-    height: '100%',
-    width: '150px'
-  },
   drawerContent: {
     justifyContent: 'center',
     alignItems: 'center',
