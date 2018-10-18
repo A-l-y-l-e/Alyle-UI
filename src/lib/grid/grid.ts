@@ -3,6 +3,7 @@ import { LyTheme2, eachMedia, ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 
+/** @ignore */
 const COL_VALUES = { };
 
 const ALIGN_ALIAS = {
