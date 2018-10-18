@@ -1,3 +1,19 @@
+<a name="1.7.2"></a>
+## [1.7.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.1...1.7.2) (2018-10-18)
+
+
+### Bug Fixes
+
+* **grid:** add [@ignore](https://github.com/ignore) tag for COL_VALUES ([38d6fc4](https://github.com/A-l-y-l-e/Alyle-UI/commit/38d6fc4))
+* **grid:** fix type aliases ([4143473](https://github.com/A-l-y-l-e/Alyle-UI/commit/4143473))
+
+
+### Features
+
+* **button:** add disableRipple property ([0c80b69](https://github.com/A-l-y-l-e/Alyle-UI/commit/0c80b69))
+
+
+
 <a name="1.7.1"></a>
 ## [1.7.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0...1.7.1) (2018-10-14)
 
