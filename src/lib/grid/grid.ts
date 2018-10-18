@@ -26,7 +26,7 @@ const styles = ({
 });
 
 type Justify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
-type Direction = 'row' | 'row-reverse' | 'column' | 'column-reverse';
+type Direction = 'row' | 'rowReverse' | 'column' | 'columnReverse';
 
 /**
  * Grid container
