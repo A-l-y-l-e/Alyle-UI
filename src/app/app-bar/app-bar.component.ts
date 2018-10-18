@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { LyTheme2, CoreTheme as ThemeManager, AUI_VERSION } from '@alyle/ui';
 import { LyDrawer } from '@alyle/ui/drawer';
@@ -21,7 +21,8 @@ const styles = {
 @Component({
   selector: 'aui-app-bar',
   templateUrl: './app-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class AppBarComponent implements OnInit {
   classes = this.theme.addStyleSheet(styles, 'aui-app-bar', 1);

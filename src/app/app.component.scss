@@ -1,15 +1,3 @@
-:host {
-  display: block;
-}
-// .drawer {
-//   height: calc(100% - 64px);
-//   ly-drawer {
-//     width: 230px;
-//     height: calc(100% - 64px);
-//     bottom: 0;
-//     padding: 1rem 0;
-//   }
-// }
 .app-container {
   display: flex;
   align-items: center;
@@ -28,11 +16,6 @@
     border-radius: 0;
     font-size: 20px;
   }
-}
-.nav-button {
-  display: flex;
-  border-radius: 0;
-  justify-content: space-between;
 }
 .i-right {
   min-width: 36px;
@@ -71,6 +54,6 @@
   opacity: .7;
 }
 
-::ng-deep .docs-viewer p {
+.docs-viewer p {
   line-height: 1.5;
 }

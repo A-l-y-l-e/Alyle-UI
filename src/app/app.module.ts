@@ -39,6 +39,7 @@ import { ApiComponent } from './api/api.component';
 import { LyCardModule } from '@alyle/ui/card';
 import { AppBarComponent } from './app-bar/app-bar.component';
 import { HomeComponent } from './home/home.component';
+import { PageContentComponent } from './page-content/page-content.component';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -80,6 +81,7 @@ export class GlobalVariables {
 @NgModule({
   declarations: [
     AppComponent,
+    PageContentComponent,
     AppBarComponent,
     ApiComponent,
     TitleComponent,

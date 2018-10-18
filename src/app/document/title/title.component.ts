@@ -34,11 +34,9 @@ export class TitleComponent implements OnInit {
     } else {
       this.titleService.setTitle(this.defaultTitle);
     }
-    if (Platform.isBrowser) {
-      if (environment.production) {
-        ga('set', 'page', val);
-        ga('send', 'pageview');
-      }
+    if (Platform.isBrowser && environment.production) {
+      ga('set', 'page', val);
+      ga('send', 'pageview');
     }
   }
   get route() {

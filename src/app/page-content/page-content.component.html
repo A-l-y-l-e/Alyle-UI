@@ -1,0 +1,9 @@
+<ng-content></ng-content>
+<ng-template [ngIf]="isPkg()">
+  <h2 lyTyp="headline" gutter>API</h2>
+  <ul>
+    <li>
+      <a [routerLink]="['api', pathPkg]">@alyle/ui/{{ pathPkg }}</a>
+    </li>
+  </ul>
+</ng-template>

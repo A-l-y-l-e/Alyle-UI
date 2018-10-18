@@ -4,9 +4,11 @@
     <div class="app-container">
       <div class="demo">
         <app-title [route]="router.url"></app-title>
-        <div class="docs-viewer">
-          <router-outlet></router-outlet>
-        </div>
+        <aui-page-content [routeUrl]="router.url">
+          <div class="docs-viewer">
+            <router-outlet></router-outlet>
+          </div>
+        </aui-page-content>
       </div>
     </div>
   </ly-drawer-content>

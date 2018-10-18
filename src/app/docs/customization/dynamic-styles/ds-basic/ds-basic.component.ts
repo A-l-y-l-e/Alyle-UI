@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { LyTheme2, ThemeVariables } from '@alyle/ui';
 
 /**
  * Basic style
  * @param theme Theme config
  */
-const styles = theme => ({
+const styles = (theme: ThemeVariables) => ({
   root: {                         // this would be like the name of the class
     color: theme.primary.default, // style
     '&:hover': {                  // `&`is equal to `root` and therefore it would be 'root:hover'
@@ -13,7 +13,7 @@ const styles = theme => ({
     }
   },
   buttonLink: {
-    color: theme.accent.default,
+    color: theme.primary.default,
     textDecoration: 'inherit',
     '&:hover': {
       textDecoration: 'underline'
