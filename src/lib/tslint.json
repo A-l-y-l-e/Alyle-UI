@@ -6,6 +6,7 @@
         ],
         "component-selector": [
             false
-        ]
+        ],
+        "no-inferrable-types": false
     }
 }

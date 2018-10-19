@@ -188,6 +188,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
   @ContentChildren(LyPrefix) _prefixChildren: QueryList<LyPrefix>;
   @ContentChildren(LySuffix) _suffixChildren: QueryList<LySuffix>;
+
+  /** Whether the label is floating. */
   @Input()
   set floatingLabel(val: boolean) {
     this._floatingLabel = toBoolean(val);
@@ -196,6 +198,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   get floatingLabel() {
     return this._floatingLabel;
   }
+
+  /** Theme color for the component. */
   @Input()
   set withColor(val: string) {
     if (val !== this._withColor) {
@@ -223,6 +227,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     return this._withColor;
   }
 
+  /** The field appearance style. */
   @Input()
   set appearance(val: string) {
     if (val !== this.appearance) {
@@ -281,7 +286,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
   ngAfterContentInit() {
     this._renderer.addClass(this._input._hostElement, this.classes.inputNative);
-    this._input.valueChanges.subscribe(() => {
+    this._input.stateChanges.subscribe(() => {
       this._updateFloatingLabel();
       this._markForCheck();
     });
