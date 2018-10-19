@@ -20,11 +20,11 @@
               <tbody>
                 <tr *ngFor="let input of directive.inputsClass">
                   <td prism language="typescript" [code]="inputTemplate(input)"></td>
-                  <td [innerHTML]="input.description"></td>
+                  <td [innerHTML]="input.description" lyTyp="body1"></td>
                 </tr>
                 <tr *ngFor="let property of directive.propertiesClass">
                   <td prism language="typescript" [code]="propertyTemplate(property)"></td>
-                  <td [innerHTML]="property.description"></td>
+                  <td [innerHTML]="property.description" lyTyp="body1"></td>
                 </tr>
               </tbody>
             </table>
