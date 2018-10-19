@@ -21,17 +21,17 @@ enum TypeStyle {
   Multiple,
   OnlyOne
 }
-const STYLE_MAP4: StyleMap4 = {};
-export interface StyleMap4 {
-  [id: string]: {
-    styles: StylesFn2<any> | Styles2
-    type: TypeStyle
-    priority: number
-    css: {
-      [themeName: string]: string
-    } | string
-    requireUpdate?: boolean
-  };
+
+const STYLE_MAP5: Map<any, StyleMap5> = new Map();
+
+export interface StyleMap5 {
+  styles: StylesFn2<any> | Styles2;
+  type: TypeStyle;
+  priority: number;
+  css: {
+    [themeName: string]: string
+  } | string;
+  requireUpdate?: boolean;
 }
 const CLASSES_MAP: {
   [idOrThemeName: string]: {
@@ -135,7 +135,7 @@ export class LyTheme2 {
       const currentStyles = this.elements;
       for (const key in currentStyles) {
         if (currentStyles.hasOwnProperty(key)) {
-          const styleData = STYLE_MAP4[key];
+          const styleData = STYLE_MAP5.get(key);
           if (styleData.requireUpdate) {
             this._createStyleContent2(styleData.styles, key, styleData.priority, styleData.type, true);
           }
@@ -168,7 +168,7 @@ export class LyTheme2 {
     return this._createStyleContent2(styles, newId, priority, TypeStyle.Multiple);
   }
 
-  _createStyleContent2<T>(
+  private _createStyleContent2<T>(
     styles: StylesFn2<T> | Styles2,
     id: string,
     priority: number,
@@ -176,14 +176,24 @@ export class LyTheme2 {
     forChangeTheme?: boolean,
     media?: string
   ) {
-    const styleMap = (id in STYLE_MAP4
-    ? STYLE_MAP4[id]
-    : STYLE_MAP4[id] = {
-      priority,
-      styles,
-      type,
-      css: {}
-    });
+    // const styleMap = (id in STYLE_MAP4
+    // ? STYLE_MAP4[id]
+    // : STYLE_MAP4[id] = {
+    //   priority,
+    //   styles,
+    //   type,
+    //   css: {}
+    // });
+    const idMap = id || styles;
+    if (!STYLE_MAP5.has(idMap)) {
+      STYLE_MAP5.set(idMap, {
+        priority,
+        styles,
+        type,
+        css: {}
+      });
+    }
+    const styleMap = STYLE_MAP5.get(idMap);
     const themeName = this.initialTheme;
     const isCreated = (id in CLASSES_MAP) || CLASSES_MAP[themeName][id];
     if (!isCreated || forChangeTheme) {
