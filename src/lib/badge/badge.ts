@@ -29,6 +29,10 @@ const styles = (theme: ThemeVariables) => ({
   selector: 'ly-badge, [lyBadge]'
 })
 export class LyBadge implements OnInit {
+  /**
+   * Styles
+   * @ignore
+   */
   classes = this._theme.addStyleSheet(styles, 'lyBadge', STYLE_PRIORITY);
   private _content: string | number;
   private _position: 'start top' | 'start bottom' | 'end top' | 'end bottom';
@@ -45,7 +49,7 @@ export class LyBadge implements OnInit {
       this._createBadge();
     }
   }
-  get content() {
+  get content(): string | number {
     return this._content;
   }
 
