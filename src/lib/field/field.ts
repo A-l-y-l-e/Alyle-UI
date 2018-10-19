@@ -34,6 +34,14 @@ const styles = (theme: ThemeVariables) => {
       marginBottom: '1em',
       lineHeight: 1.125
     },
+    animations: {
+      '& {labelSpan}': {
+        transition: `font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+      },
+      '& {label}': {
+        transition: `${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+      }
+    },
     container: {
       height: '100%',
       display: 'flex',
@@ -57,8 +65,7 @@ const styles = (theme: ThemeVariables) => {
     },
     labelSpan: {
       maxWidth: '100%',
-      display: 'inline-block',
-      transition: `font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+      display: 'inline-block'
     },
     prefix: {
       maxHeight: '2em',
@@ -120,8 +127,7 @@ const styles = (theme: ThemeVariables) => {
       textOverflow: 'ellipsis',
       overflow: 'hidden',
       color: theme.input.label,
-      width: '100%',
-      transition: `${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+      width: '100%'
     },
     isFloatingLabel: {},
     floatingLabel: {
@@ -318,6 +324,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
         }
       });
     }
+    // this fix with of label
+    this._renderer.addClass(this._el.nativeElement, this.classes.animations);
   }
 
   private _updateFielset(el: Element, f: 'start' | 'end') {
