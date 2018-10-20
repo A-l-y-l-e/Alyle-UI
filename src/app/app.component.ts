@@ -1,80 +1,73 @@
-import { Component, ChangeDetectionStrategy, Renderer2, Inject, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2, ThemeVariables } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
-import { DOCUMENT } from '@angular/platform-browser';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark } from './app.module';
 
-const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => {
-  const onLinkActive = {
-    color: theme.primary.default,
-    borderLeft: '3px solid'
-  };
-  return {
-    '@global': {
-      'body': {
-        backgroundColor: theme.background.default,
-        color: theme.text.default,
-        fontFamily: theme.typography.fontFamily,
-        margin: 0
-      },
+const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
+  '@global': {
+    'body': {
+      backgroundColor: theme.background.default,
+      color: theme.text.default,
+      fontFamily: theme.typography.fontFamily,
+      margin: 0
     },
-    root: {
-      display: 'block',
-      '& a:not([ly-icon-button]):not([ly-button])': {
-        color: theme.accent.default,
-        textDecoration: 'inherit',
-        '&:hover': {
-          textDecoration: 'underline'
-        }
+  },
+  root: {
+    display: 'block',
+    'a:not([ly-icon-button]):not([ly-button])': {
+      color: theme.accent.default,
+      textDecoration: 'inherit',
+      '&:hover': {
+        textDecoration: 'underline'
       }
     },
-    // header: {
-    //   position: 'fixed',
-    //   zIndex: 11,
-    //   width: '100%',
-    //   // '@media print': {
-    //   //   color: 'blue'
-    //   // },
-    //   // '&:hover': {
-    //   //   '@media screen': {
-    //   //     color: 'red'
-    //   //   },
-    //   // },
+    // button: { // => {root} {button}
+    //   color: 'red'
     // },
-    drawerContainer: {
-      height: 'calc(100% - 64px)'
-    },
-    // drawer: {
-    //   width: '230px',
-    //   height: 'calc(100% - 64px)',
-    //   bottom: 0,
-    //   padding: '1rem 0'
-    // },
-    drawerUl: {
-      overflow: 'hidden',
-      position: 'relative',
-      listStyle: 'none',
-      padding: '2rem 1.8rem',
-      margin: 0,
-      borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
-    },
-    drawerButton: {
-      color: theme.drawerButton,
-      fontWeight: 400,
-      borderLeft: '3px solid transparent',
-      display: 'flex',
-      justifyContent: 'space-between',
-      '&:hover': onLinkActive
-    },
-    onLinkActive
-    // themePickerText: {
-    //   paddingLeft: '8px'
+    // '& button:hover, & button:focus': { // => {root} button:hover, {root} button:focus
+    //   color: 'blue'
     // }
-  };
-};
+  },
+  // header: {
+  //   position: 'fixed',
+  //   zIndex: 11,
+  //   width: '100%',
+  //   // '@media print': {
+  //   //   color: 'blue'
+  //   // },
+  //   // '&:hover': {
+  //   //   '@media screen': {
+  //   //     color: 'red'
+  //   //   },
+  //   // },
+  // },
+  drawerContainer: {
+    height: 'calc(100% - 64px)'
+  },
+  drawerUl: {
+    overflow: 'hidden',
+    position: 'relative',
+    listStyle: 'none',
+    padding: '2rem 1.8rem',
+    margin: 0,
+    borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
+  },
+  drawerButton: {
+    color: theme.drawerButton,
+    fontWeight: 400,
+    borderLeft: '3px solid transparent',
+    display: 'flex',
+    justifyContent: 'space-between',
+    '&:hover, &{onLinkActive}': {
+      color: theme.primary.default,
+      borderLeft: '3px solid'
+    }
+  },
+  onLinkActive: {}
+});
 
 @Component({
   selector: 'aui-root',

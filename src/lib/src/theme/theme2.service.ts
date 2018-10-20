@@ -347,11 +347,13 @@ function styleToString(key: string, ob: Object, currentKey: string, parentKey?: 
   let keyAndValue = '';
   let newKey;
   if (parentKey && currentKey.indexOf('&') !== -1) {
-    newKey = currentKey.replace('&', parentKey);
+    newKey = currentKey.replace(/&/g, parentKey);
   } else if (key === '@global') {
     newKey = key;
+  } else if (parentKey) {
+    newKey = `${parentKey} ${currentKey}`;
   } else {
-    newKey = currentKey;
+    newKey = `.${currentKey}`;
   }
   for (const styleKey in ob) {
     if (ob.hasOwnProperty(styleKey)) {
@@ -371,7 +373,7 @@ function styleToString(key: string, ob: Object, currentKey: string, parentKey?: 
     } else if (parentKey && parentKey === '@global') {
       content += `${currentKey}`;
     } else {
-      content += `.${newKey}`;
+      content += `${newKey}`;
     }
     content += `{${keyAndValue}}`;
   }
