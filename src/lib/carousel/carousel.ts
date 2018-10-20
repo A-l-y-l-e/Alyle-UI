@@ -146,7 +146,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   _positionLeft: string | number;
   @Input() selectedIndex = 0;
   selectedElement: HTMLElement;
-  classes = this.theme.addStyleSheet(styles, 'lyCarousel', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _slideEvent: boolean;
   @Input()
   set slideEvent(val: boolean) {

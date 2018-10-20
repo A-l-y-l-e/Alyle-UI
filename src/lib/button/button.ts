@@ -63,7 +63,7 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
    * Style
    * @ignore
    */
-  classes = this._theme.addStyleSheet(styles, 'lyButton', STYLE_PRIORITY);
+  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _rippleSensitive = false;
   private _ripple: Ripple;
   private _size: LyButtonSize;

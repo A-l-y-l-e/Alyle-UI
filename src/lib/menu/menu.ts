@@ -64,7 +64,7 @@ const menuStyles = theme => ({
   exportAs: 'lyMenu'
 })
 export class LyMenu {
-  classes = this.theme.addStyleSheet(menuStyles, 'lyMenu', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(menuStyles, STYLE_PRIORITY);
   /** Destroy menu */
   destroy: () => void;
   @Input() ref: LyMenuTriggerFor;

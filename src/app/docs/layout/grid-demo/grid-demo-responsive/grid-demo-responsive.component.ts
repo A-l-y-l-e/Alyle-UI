@@ -18,7 +18,7 @@ const styles = theme => ({
 })
 export class GridDemoResponsiveComponent {
 
-  classes = this.theme.addStyleSheet(styles, 'grid-demo-responsive');
+  classes = this.theme.addStyleSheet(styles);
   constructor(
     private theme: LyTheme2
   ) { }

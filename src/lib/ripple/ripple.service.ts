@@ -26,7 +26,7 @@ export const styles = (theme: ThemeVariables) => ({
   providedIn: 'root'
 })
 export class LyRippleService {
-  classes = this.theme.addStyleSheet(styles, 'lyRipple');
+  classes = this.theme.addStyleSheet(styles);
   constructor(
     private theme: LyTheme2
   ) { }

@@ -17,7 +17,7 @@ const styles = {
   templateUrl: './basic-badge.component.html'
 })
 export class BasicBadgeComponent {
-  classes = this._theme.addStyleSheet(styles, 'aui-basic-badge');
+  classes = this._theme.addStyleSheet(styles);
 
   constructor(private _theme: LyTheme2) { }
 }

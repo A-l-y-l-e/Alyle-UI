@@ -35,7 +35,7 @@ type position = 'static' | 'absolute' | 'fixed' | 'sticky' | 'relative';
   selector: 'ly-toolbar'
 })
 export class LyToolbar implements OnInit {
-  classes = this.theme.addStyleSheet(styles, 'ly-toolbar', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _position: position;
   private _positionClass: string;
   @Input()

@@ -30,7 +30,7 @@ export class MediaDirective implements OnInit, OnChanges {
    * Styles
    * @ignore
    */
-  classes = this.theme.addStyleSheet(styles, 'lyMedia');
+  classes = this.theme.addStyleSheet(styles);
 
   /**
    * Shows the item when the value is resolved as true

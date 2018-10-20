@@ -19,7 +19,7 @@ enum Gutter {
   selector: `[lyTyp]`
 })
 export class LyTypography implements OnInit {
-  classes = this.style.addStyleSheet(styles, 'lyTyp', STYLE_PRIORITY);
+  classes = this.style.addStyleSheet(styles, STYLE_PRIORITY);
   private _lyTyp: string;
   private _lyTypClass: string;
 

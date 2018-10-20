@@ -166,7 +166,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
    * styles
    * @ignore
    */
-  classes = this._theme.addStyleSheet(styles, 'ly-field', STYLE_PRIORITY);
+  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   protected _appearance: string;
   protected _appearanceClass: string;
   protected _withColor: string;

@@ -49,7 +49,7 @@ export class LyGrid {
    * Styles
    * @ignore
    */
-  classes = this.theme.addStyleSheet(styles, 'lyGrid', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
 
   private _spacing: string | number;
   private _spacingClass: string;

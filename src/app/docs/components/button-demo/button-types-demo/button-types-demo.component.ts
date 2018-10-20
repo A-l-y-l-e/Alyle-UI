@@ -14,7 +14,7 @@ const styles = ({
   templateUrl: './button-types-demo.component.html'
 })
 export class ButtonTypesDemoComponent {
-  classes = this.theme.addStyleSheet(styles, 'aui-button-types-demo');
+  classes = this.theme.addStyleSheet(styles);
   constructor(
     private theme: LyTheme2
   ) { }

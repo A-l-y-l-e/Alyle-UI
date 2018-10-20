@@ -37,7 +37,7 @@ const styles = theme => ({
   exportAs: 'lyIconButton'
 })
 export class LyIconButton implements OnInit, AfterViewInit, OnDestroy {
-  classes = this.theme.addStyleSheet(styles, 'lyIconButton', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _ripple: Ripple;
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   constructor(

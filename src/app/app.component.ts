@@ -13,11 +13,13 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
     borderLeft: '3px solid'
   };
   return {
-    body: {
-      backgroundColor: theme.background.default,
-      color: theme.text.default,
-      fontFamily: theme.typography.fontFamily,
-      margin: 0
+    '@global': {
+      'body': {
+        backgroundColor: theme.background.default,
+        color: theme.text.default,
+        fontFamily: theme.typography.fontFamily,
+        margin: 0
+      },
     },
     root: {
       display: 'block',
@@ -83,7 +85,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
-  classes = this.theme.addStyleSheet(styles, 'root', 1);
+  classes = this.theme.addStyleSheet(styles);
   routesComponents: any;
   version = AUI_VERSION;
   routeState = false;
@@ -91,7 +93,6 @@ export class AppComponent implements OnInit {
   @ViewChild(LyDrawer) drawer: LyDrawer;
 
   constructor(
-    @Inject(DOCUMENT) private _document: any,
     private _el: ElementRef,
     public router: Router,
     public routesApp: RoutesAppService,
@@ -107,12 +108,7 @@ export class AppComponent implements OnInit {
     this.routesComponents = this.routesApp.routesApp;
   }
   ngOnInit() {
-    this.renderer.addClass((this._document as Document).body, this.classes.body);
     this.renderer.addClass(this._el.nativeElement, this.classes.root);
-  }
-
-  isPkg() {
-    console.log(this.router.url);
   }
 
 }

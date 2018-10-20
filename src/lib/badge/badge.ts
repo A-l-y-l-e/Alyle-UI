@@ -33,7 +33,7 @@ export class LyBadge implements OnInit {
    * Styles
    * @ignore
    */
-  classes = this._theme.addStyleSheet(styles, 'lyBadge', STYLE_PRIORITY);
+  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _content: string | number;
   private _position: 'start top' | 'start bottom' | 'end top' | 'end bottom';
   private _positionClass: string;
