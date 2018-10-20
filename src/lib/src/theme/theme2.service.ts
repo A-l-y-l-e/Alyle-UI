@@ -49,13 +49,10 @@ const CLASSES_MAP: {
   } | string
 } = {};
 const STYLE_KEYS_MAP = {};
-let nextId = 0;
 let nextClassId = 0;
 function fn() {
   return CLASSES_MAP;
 }
-console.log({fn});
-console.log(STYLE_MAP5);
 
 @Injectable({
   providedIn: 'root'
@@ -187,14 +184,6 @@ export class LyTheme2 {
     forChangeTheme?: boolean,
     media?: string
   ) {
-    // const styleMap = (id in STYLE_MAP4
-    // ? STYLE_MAP4[id]
-    // : STYLE_MAP4[id] = {
-    //   priority,
-    //   styles,
-    //   type,
-    //   css: {}
-    // });
     const newId = type === TypeStyle.OnlyOne ? id as string : styles;
     let isNewStyle: boolean;
     if (!STYLE_MAP5.has(newId)) {
@@ -221,7 +210,6 @@ export class LyTheme2 {
         }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
-        // CLASSES_MAP[id] = true as any;
         css = groupStyleToString(styleMap, styles, themeName, newId as string, type, media);
         styleMap.css = css;
       }
@@ -245,13 +233,6 @@ export class LyTheme2 {
         this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), this.elements.get(newId));
       }
     }
-
-    // const classes = typeof CLASSES_MAP[id] === 'string'
-    // ? CLASSES_MAP[id]
-    // : typeof CLASSES_MAP[id] === 'object'
-    // ? CLASSES_MAP[id]
-    // : CLASSES_MAP[themeName][id];
-    // return classes;
     return styleMap.classes || styleMap[themeName];
   }
 
@@ -315,11 +296,7 @@ function groupStyleToString(
   media?: string
 ) {
   if (typeStyle === TypeStyle.OnlyOne) {
-    // styleMap.classes = createNextClassId();
-    /** use current class or set new */
-    // const className = CLASSES_MAP[id]
-    // ? CLASSES_MAP[id] = _classes_ || createNextId()
-    // : CLASSES_MAP[themeName][id] = _classes_ || createNextId();
+    // use current class or set new
     const className = styleMap.requireUpdate
     ? styleMap[themeName] || (styleMap[themeName] = createNextClassId())
     : styleMap.classes
@@ -336,9 +313,6 @@ function groupStyleToString(
   // for multiples styles
   const classesMap = styleMap[themeName] || (styleMap[themeName] = {});
   let content = '';
-  // const classes = CLASSES_MAP[id]
-  // ? CLASSES_MAP[id] = _classes_ || {}
-  // : CLASSES_MAP[themeName][id] = _classes_ || {};
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
       // set new id if not exist
@@ -347,7 +321,6 @@ function groupStyleToString(
       : classesMap[key] = isDevMode() ? toClassNameValid(`i---${key}-${createNextClassId()}`) : createNextClassId();
       const value = styles[key];
       if (typeof value === 'object') {
-        // const _className = classes[key] || (classes[key] = isDevMode() ? toClassNameValid(`${id}---${key}-${createNextId()}`) : createNextId());
         const style = styleToString(key, value as Styles2, currentClassName);
         content += style;
       } else {
@@ -430,9 +403,6 @@ function toMedia(css: string, media: string) {
   return `@media ${media}{${css}}`;
 }
 
-function createNextId() {
-  return `e${(nextId++).toString(36)}`;
-}
 function createNextClassId() {
   return `i${(nextClassId++).toString(36)}`;
 }
