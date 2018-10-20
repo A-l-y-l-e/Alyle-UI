@@ -200,7 +200,7 @@ export class LyTheme2 {
     if (!STYLE_MAP5.has(newId)) {
       isNewStyle = true;
       STYLE_MAP5.set(newId, {
-        priority: priority === void 0 ? typeof id === 'number' && id : priority,
+        priority: type === TypeStyle.OnlyOne ? priority : priority === void 0 && typeof id === 'number' ? id as number : priority,
         styles,
         type,
         css: {}
@@ -232,7 +232,7 @@ export class LyTheme2 {
       if (forChangeTheme) {
         el.innerText = css;
       } else {
-        this.core.renderer.appendChild(this._createStyleContainer(priority), el);
+        this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), el);
       }
     } else {
       /**
@@ -242,7 +242,7 @@ export class LyTheme2 {
       if (!this.elements.has(newId)) {
         const _css = styleMap.css[themeName] || styleMap.css;
         this.elements.set(newId, this._createElementStyle(_css));
-        this.core.renderer.appendChild(this._createStyleContainer(priority), this.elements.get(newId));
+        this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), this.elements.get(newId));
       }
     }
 
