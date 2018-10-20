@@ -1,3 +1,14 @@
+<a name="1.7.3"></a>
+## [1.7.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.2...1.7.3) (2018-10-20)
+
+
+### Features
+
+* **core:** support to create multiple styles without key ([#59](https://github.com/A-l-y-l-e/Alyle-UI/issues/59)) ([246e4fb](https://github.com/A-l-y-l-e/Alyle-UI/commit/246e4fb))
+* **field:** add description ([9b9f7d1](https://github.com/A-l-y-l-e/Alyle-UI/commit/9b9f7d1))
+
+
+
 <a name="1.7.2"></a>
 ## [1.7.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.1...1.7.2) (2018-10-18)
 
