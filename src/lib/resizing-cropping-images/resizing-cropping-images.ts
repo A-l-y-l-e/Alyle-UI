@@ -11,9 +11,10 @@ import {
   ViewChild,
   AfterContentInit,
   EventEmitter,
-  Renderer2
+  Renderer2,
+  OnDestroy
 } from '@angular/core';
-import { BehaviorSubject , Subject , Observable } from 'rxjs';
+import { Subject , Observable } from 'rxjs';
 import { LyTheme2 } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
@@ -118,9 +119,9 @@ const CONFIG_DEFAULT = <LyResizingCroppingImagesConfig>{
   selector: 'ly-cropping',
   templateUrl: './resizing-cropping-images.html'
  })
-export class LyResizingCroppingImages implements AfterContentInit {
+export class LyResizingCroppingImages implements AfterContentInit, OnDestroy {
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
-  img: BehaviorSubject<HTMLImageElement> = new BehaviorSubject<HTMLImageElement>(null);
+  img: Subject<HTMLImageElement> = new Subject<HTMLImageElement>();
   result: string;
   fileName: string;
 
@@ -168,6 +169,11 @@ export class LyResizingCroppingImages implements AfterContentInit {
         this.cd.markForCheck();
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.img.complete();
+    this._dragData.complete();
   }
 
   selectInputEvent(img: Event) {
