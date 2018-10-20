@@ -23,7 +23,7 @@ const styles = {
   preserveWhitespaces: false
 })
 export class ShadowDemo01Component {
-  classes = this.theme.addStyleSheet(styles, 'shadow-demo-01', 1); // with 1 of priority
+  classes = this.theme.addStyleSheet(styles, 1); // with 1 of priority
   elevations = Array.from(Array(25).keys());
   constructor(
     private theme: LyTheme2

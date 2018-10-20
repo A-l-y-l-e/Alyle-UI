@@ -34,7 +34,7 @@ const STYLE_PRIORITY = -1;
   selector: 'ly-card'
 })
 export class LyCard implements OnInit {
-  classes = this.theme.addStyleSheet(styles, 'ly-card', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2,
     private el: ElementRef,

@@ -19,7 +19,7 @@ const styles = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResizingCroppingImagesExample02Component {
-  classes = this.theme.addStyleSheet(styles, 'resizing-cropping-images-example-01');
+  classes = this.theme.addStyleSheet(styles);
   result: string;
   myConfig: LyResizingCroppingImagesConfig = {
     width: 150, // Default `250`

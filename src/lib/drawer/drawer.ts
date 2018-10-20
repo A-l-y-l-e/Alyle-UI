@@ -65,7 +65,7 @@ type mode = 'side' | 'over';
   selector: 'ly-drawer-container'
 })
 export class LyDrawerContainer {
-  classes = this._theme.addStyleSheet(styles, 'ly-drawer-container', STYLE_PRIORITY + 1.9);
+  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY + 1.9);
   _openDrawers = 0;
   @ContentChild(forwardRef(() => LyDrawerContent)) drawerContent: LyDrawerContent;
   constructor(

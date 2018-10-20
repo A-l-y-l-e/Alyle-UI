@@ -23,7 +23,7 @@ const styles = {
   preserveWhitespaces: false
 })
 export class RippleDemo01Component {
-  classes = this.theme.addStyleSheet(styles, 'ripple-demo-01');
+  classes = this.theme.addStyleSheet(styles);
   constructor(
     private theme: LyTheme2,
   ) { }

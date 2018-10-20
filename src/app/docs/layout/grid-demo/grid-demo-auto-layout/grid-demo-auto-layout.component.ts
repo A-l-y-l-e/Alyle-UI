@@ -17,7 +17,7 @@ const styles = theme => ({
   templateUrl: './grid-demo-auto-layout.component.html'
 })
 export class GridDemoAutoLayoutComponent {
-  classes = this.theme.addStyleSheet(styles, 'grid-demo-basic');
+  classes = this.theme.addStyleSheet(styles);
   constructor(
     private theme: LyTheme2
   ) { }

@@ -47,7 +47,7 @@ export class WindowScrollService {
   providedIn: 'root'
 })
 export class LyOverlayContainer {
-  private _classes = this.theme.addStyleSheet(styles, 'lyOverlayContainer');
+  private _classes = this.theme.addStyleSheet(styles);
   protected readonly _containerElement: HTMLElement;
   private _items = new Set<any>();
   private _isActiveOverlayContainer: boolean;

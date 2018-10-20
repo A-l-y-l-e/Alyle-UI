@@ -20,7 +20,7 @@ const styles = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DrawerDemo01Component {
-  classes = this._theme.addStyleSheet(styles, 'drawer-demo-01');
+  classes = this._theme.addStyleSheet(styles);
   mode = 'side';
 
   constructor(private _theme: LyTheme2) { }

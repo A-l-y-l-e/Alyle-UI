@@ -21,7 +21,7 @@ const styles = {
   preserveWhitespaces: false
 })
 export class ResizingCroppingImagesExample01Component {
-  classes = this.theme.addStyleSheet(styles, 'resizing-cropping-images-example-01');
+  classes = this.theme.addStyleSheet(styles);
   result: string;
   myConfig: LyResizingCroppingImagesConfig = {
     width: 150, // Default `250`

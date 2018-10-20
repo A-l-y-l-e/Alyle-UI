@@ -119,7 +119,7 @@ const CONFIG_DEFAULT = <LyResizingCroppingImagesConfig>{
   templateUrl: './resizing-cropping-images.html'
  })
 export class LyResizingCroppingImages implements AfterContentInit {
-  classes = this.theme.addStyleSheet(styles, 'ly-image-cropper', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   img: BehaviorSubject<HTMLImageElement> = new BehaviorSubject<HTMLImageElement>(null);
   result: string;
   fileName: string;

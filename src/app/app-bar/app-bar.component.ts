@@ -25,7 +25,7 @@ const styles = {
   encapsulation: ViewEncapsulation.None
 })
 export class AppBarComponent implements OnInit {
-  classes = this.theme.addStyleSheet(styles, 'aui-app-bar', 1);
+  classes = this.theme.addStyleSheet(styles, 1);
   version = AUI_VERSION;
   themes: Set<string>;
   drawer: LyDrawer;

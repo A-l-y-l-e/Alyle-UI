@@ -28,7 +28,7 @@ const STYLES = ({
   encapsulation: ViewEncapsulation.None
 })
 export class PackageStatusComponent implements OnInit {
-  classes = this._theme.addStyleSheet(STYLES, 'aui-package-status');
+  classes = this._theme.addStyleSheet(STYLES);
   @Input() status: 'beta' | 'deprecated';
   @Input() packageName: string;
 

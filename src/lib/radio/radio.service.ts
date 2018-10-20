@@ -19,7 +19,7 @@ const styles = ({
   providedIn: 'root'
 })
 export class LyRadioService {
-  classes = this.theme.addStyleSheet(styles, 'lyRadioStatic', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2
   ) { }

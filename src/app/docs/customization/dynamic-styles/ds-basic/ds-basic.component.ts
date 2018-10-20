@@ -27,7 +27,7 @@ const styles = (theme: ThemeVariables) => ({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsBasicComponent {
-  classes = this.theme.addStyleSheet(styles, 'dsBasic');
+  classes = this.theme.addStyleSheet(styles);
 
   constructor(
     private theme: LyTheme2

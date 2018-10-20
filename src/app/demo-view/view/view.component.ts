@@ -45,7 +45,7 @@ function toPascalCase(str: string) {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewComponent implements OnInit {
-  classes = this.theme.addStyleSheet(styles, 'demo-view');
+  classes = this.theme.addStyleSheet(styles);
   hasCode = false;
   name: string;
   folderName: string;
