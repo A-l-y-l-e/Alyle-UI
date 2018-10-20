@@ -35,10 +35,10 @@
 |icon button|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/icon-button)|
 |icon|✔️|✔️|-|
 |input|deprecated|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/input)|
-|menu|✔️|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
+|menu|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
 |radio|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/radio)|
 |ripple|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/ripple)|
-|tabs|✔️|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|
+|tabs|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|
 |toolbar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
 |typography|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
 |card|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/card)|
