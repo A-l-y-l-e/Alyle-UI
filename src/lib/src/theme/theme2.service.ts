@@ -346,9 +346,6 @@ function styleToString(key: string, ob: Object, currentKey: string, parentKey?: 
   let subContent = '';
   let keyAndValue = '';
   let newKey;
-  if (parentKey && currentKey.indexOf('@media') === 0) {
-    console.log({parentKey, currentKey});
-  }
   if (parentKey && currentKey.indexOf('&') !== -1) {
     newKey = currentKey.replace(/&/g, parentKey);
   } else if (key === '@global') {
