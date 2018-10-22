@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ImageResolution, LyResizingCroppingImagesConfig } from '@alyle/ui/resizing-cropping-images';
+import { ImgResolution, ImgCropperConfig } from '@alyle/ui/resizing-cropping-images';
 import { LyTheme2 } from '@alyle/ui';
 
 const styles = {
@@ -21,10 +21,10 @@ const styles = {
 export class ResizingCroppingImagesExample02Component {
   classes = this.theme.addStyleSheet(styles);
   result: string;
-  myConfig: LyResizingCroppingImagesConfig = {
+  myConfig: ImgCropperConfig = {
     width: 150, // Default `250`
     height: 150, // Default `200`,
-    output: ImageResolution.OriginalImage // Default ImageResolution.Default
+    output: ImgResolution.OriginalImage // Default ImgResolution.Default
   };
 
   constructor(

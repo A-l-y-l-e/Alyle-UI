@@ -17,7 +17,7 @@
   [config]="myConfig"
   (cropped)="onCropped($event)"
   (loaded)="onloaded()"
-  (error)="onerror()">
+  (error)="onerror($event)">
     <span>Drag and drop image</span>
   </ly-cropping>
   <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>crop</button>
