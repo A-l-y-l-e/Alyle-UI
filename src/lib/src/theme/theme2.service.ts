@@ -346,10 +346,15 @@ function styleToString(key: string, ob: Object, currentKey: string, parentKey?: 
   let subContent = '';
   let keyAndValue = '';
   let newKey;
+  if (parentKey && currentKey.indexOf('@media') === 0) {
+    console.log({parentKey, currentKey});
+  }
   if (parentKey && currentKey.indexOf('&') !== -1) {
     newKey = currentKey.replace(/&/g, parentKey);
   } else if (key === '@global') {
     newKey = key;
+  } else if (parentKey && currentKey.indexOf('@media') === 0) {
+    newKey = `${currentKey}`;
   } else if (parentKey) {
     newKey = `${parentKey} ${currentKey}`;
   } else {
@@ -369,7 +374,7 @@ function styleToString(key: string, ob: Object, currentKey: string, parentKey?: 
   if (keyAndValue) {
     if (newKey.indexOf('@media') === 0) {
       content += `${newKey}`;
-      keyAndValue = `.${parentKey}{${keyAndValue}}`;
+      keyAndValue = `${parentKey}{${keyAndValue}}`;
     } else if (parentKey && parentKey === '@global') {
       content += `${currentKey}`;
     } else {
