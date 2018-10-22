@@ -5,12 +5,14 @@ import { LyTheme2 } from '@alyle/ui';
 
 const styles = {
   actions: {
-    display: 'flex',
-    justifyContent: 'space-between'
+    display: 'flex'
   },
   cropping: {
     maxWidth: '400px',
     height: '300px'
+  },
+  flex: {
+    flex: 1
   }
 };
 

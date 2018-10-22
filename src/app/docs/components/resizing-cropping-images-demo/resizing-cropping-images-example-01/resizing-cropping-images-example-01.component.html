@@ -3,6 +3,8 @@
     <ly-icon>image</ly-icon>
     <span>Select File</span>
   </button>
+  <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>crop</button>
+  <span [className]="classes.flex"></span>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropping.selectInputEvent($event)" accept="image/*" hidden>
   <button raised ly-button bg="accent" *ngIf="cropping.isCropped">Upload</button>
@@ -20,6 +22,5 @@
   (error)="onerror($event)">
     <span>Drag and drop image</span>
   </ly-cropping>
-  <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>crop</button>
 </div>
 <img *ngIf="cropping.isCropped" [src]="cropping.result">
