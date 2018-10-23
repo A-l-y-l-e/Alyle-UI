@@ -223,15 +223,12 @@ export class LyResizingCroppingImages implements AfterContentInit {
     });
     fileReader.readAsDataURL(_img.files[0]);
   }
-  fixedNum(num: number) {
-    return parseFloat(num.toFixed(0));
-  }
   setScale(size: number) {
     this.scale = size;
     size = size * 100;
     const initialImg = this._img;
-    const width = this.fixedNum(initialImg.width * size / 100);
-    const height = this.fixedNum(initialImg.height * size / 100);
+    const width = fixedNum(initialImg.width * size / 100);
+    const height = fixedNum(initialImg.height * size / 100);
     this._setPositonForImg({
       width: `${width}px`,
       height: `${height}px`,
@@ -497,3 +494,5 @@ export class LyResizingCroppingImages implements AfterContentInit {
     return url;
   }
 }
+
+const fixedNum = (num: number) => parseFloat(num.toFixed(0));
