@@ -11,6 +11,7 @@ import {
   Renderer2
 } from '@angular/core';
 import { LyTheme2, mergeDeep, LY_COMMON_STYLES } from '@alyle/ui';
+import { $ } from 'protractor';
 
 const STYLE_PRIORITY = -2;
 
@@ -186,7 +187,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
     }
   }
 
-  private _setPositonForImg(newStyles: {
+  private _setStylesForContImg(newStyles: {
     width: string;
     height: string;
     transform: string;
@@ -230,7 +231,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
     const height = fixedNum(initialImg.height * size / 100);
     const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
     if (!this.isLoaded) {
-      this._setPositonForImg({
+      this._setStylesForContImg({
         width: `${width}px`,
         height: `${height}px`,
         transform: this.customCenter(width, height)
@@ -243,7 +244,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
         left: imgContainerRect.left - hostRect.x, // ✓
         top: imgContainerRect.top - hostRect.y // ✓
       };
-      this._setPositonForImg({
+      this._setStylesForContImg({
         width: `${width}px`,
         height: `${height}px`,
       } as any);
@@ -341,7 +342,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
     if (x === undefined) { x = event.center.x - hostRect.x - (this.offset.x); }
     if (y === undefined) { y = event.center.y - hostRect.y - (this.offset.y); }
 
-    this._setPositonForImg({
+    this._setStylesForContImg({
       width: this.imgContainer.nativeElement.offsetWidth,
       height: this.imgContainer.nativeElement.offsetHeight,
       transform: `translate3d(${x}px, ${y}px, 0)`
@@ -381,7 +382,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
       height: `${img.height}px`,
       transform: this.customCenter(img.width, img.height)
     };
-    this._setPositonForImg(newStyles);
+    this._setStylesForContImg(newStyles);
   }
   setImageUrl(src: string) {
     this.src = src;
