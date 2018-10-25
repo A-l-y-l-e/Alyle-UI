@@ -153,6 +153,10 @@ export class LyResizingCroppingImages implements AfterContentInit {
   get config() {
     return this._config;
   }
+  /** get current scale */
+  get scale() {
+    return this._scale;
+  }
   isLoaded: boolean;
   isCropped: boolean;
 
