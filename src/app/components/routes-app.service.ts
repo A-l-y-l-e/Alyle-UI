@@ -18,9 +18,9 @@ export class RoutesAppService {
         route: 'customization',
         routes: [
           { route: 'theming', name: 'Theming' },
-          { route: 'multiple-themes', name: 'Multiple themes' },
           { route: 'bg-color', name: 'Bg & Color' },
-          { route: 'dynamic-styles', name: 'Dynamic styles' }
+          { route: 'dynamic-styles', name: 'Dynamic styles' },
+          { route: 'multiple-themes', name: 'Multiple themes' },
         ]
       },
       {

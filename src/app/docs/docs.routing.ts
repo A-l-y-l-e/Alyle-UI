@@ -9,6 +9,7 @@ import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo
 import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
 import { BadgeDemoComponent } from '@docs/components/badge-demo/badge-demo.component';
 import { FieldDemoComponent } from '@docs/components/field-demo/field-demo.component';
+import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -16,6 +17,7 @@ const routes: Routes = [
     path: 'layout',
     children: [
       { path: 'grid', component: GridDemoComponent },
+      { path: 'responsive', component: ResponsiveDemoComponent },
       { path: 'tabs', component: TabsDemoComponent },
     ]
   },

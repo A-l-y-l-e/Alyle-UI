@@ -49,6 +49,9 @@ import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
 import { PackageStatusModule } from '../package-status/package-status.module';
+import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
+import { ResponsiveDemo01Module } from './layout/responsive/responsive-demo-01/responsive-demo-01.module';
+import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/responsive-with-ds.module';
 
 @NgModule({
   imports: [
@@ -64,6 +67,9 @@ import { PackageStatusModule } from '../package-status/package-status.module';
     GridDemoBasicModule,
     GridDemoAutoLayoutModule,
     GridDemoResponsiveModule,
+    /** Responsive */
+    ResponsiveDemo01Module,
+    ResponsiveWithDsModule,
     /** Tabs demos */
     BasicTabsModule,
     TabsWithLazyLoadingModule,
@@ -87,6 +93,8 @@ import { PackageStatusModule } from '../package-status/package-status.module';
     ThemingComponent,
     /** Grid */
     GridDemoComponent,
+    /** Responsive */
+    ResponsiveDemoComponent,
     /** Tabs */
     TabsDemoComponent,
     /** Ds */

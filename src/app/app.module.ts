@@ -22,7 +22,6 @@ import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
-import { ResponsiveDemoModule } from './components/responsive-demo/responsive-demo.module';
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
 import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
@@ -99,8 +98,6 @@ export class GlobalVariables {
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
     /** Customization */
     /** MultipleThemes >*/MultipleThemesDemo01Module,
-    /** Layout */
-    ResponsiveDemoModule,
     /** CardDemo > */CardDemoBasicModule,
     /** TypographyDemo > */TypographyDemoBasicModule,
     CommonModule,
