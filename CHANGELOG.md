@@ -1,3 +1,14 @@
+<a name="1.7.4"></a>
+## [1.7.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.3...1.7.4) (2018-10-25)
+
+
+### Features
+
+* **core:** support to use more of '&' in multiple styles ([fc2cb75](https://github.com/A-l-y-l-e/Alyle-UI/commit/fc2cb75))
+* **img-cropper:** improve img copper ([#61](https://github.com/A-l-y-l-e/Alyle-UI/issues/61)) ([f9ad2c0](https://github.com/A-l-y-l-e/Alyle-UI/commit/f9ad2c0))
+
+
+
 <a name="1.7.3"></a>
 ## [1.7.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.2...1.7.3) (2018-10-20)
 
