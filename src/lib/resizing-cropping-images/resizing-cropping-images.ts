@@ -140,6 +140,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   private offset: {x: number, y: number, left: number, top: number};
   private _scale: number;
   private _config: ImgCropperConfig;
+  private _minScale: number;
 
   @ViewChild('_imgContainer') imgContainer: ElementRef;
   @ViewChild('_croppingContainer') croppingContainer: ElementRef;
@@ -163,7 +164,6 @@ export class LyResizingCroppingImages implements AfterContentInit {
   @Output() error = new EventEmitter<ImgCropperEvent>();
 
   private defaultType: string;
-  private zoomScale = .1;
   constructor(
     private _renderer: Renderer2,
     private theme: LyTheme2,
@@ -181,7 +181,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
         width: this.config.width / this._img.width * 100,
         height: this.config.height / this._img.height * 100
       };
-      this.zoomScale = Math.max(minScale.width, minScale.height) / 100;
+      this._minScale = Math.max(minScale.width, minScale.height) / 100;
       this.fit();
       this.cd.markForCheck();
     }
@@ -224,6 +224,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
 
   /** Set the size of the image, the values can be 0 between 1, where 1 is the original size */
   setScale(size: number) {
+    // fix min scale
+    size = size > this._minScale && size <= 1 ? size : this._minScale;
     this._scale = size;
     size = size * 100;
     const initialImg = this._img;
@@ -291,11 +293,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
 
   fit() {
-    const minScale = {
-      width: this.config.width / this._img.width * 100,
-      height: this.config.height / this._img.height * 100
-    };
-    this.setScale(Math.max(minScale.width, minScale.height) / 100);
+    this.setScale(0);
   }
 
   _moveStart(event) {
@@ -364,7 +362,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   /**- */
   zoomOut() {
     const scale = this.roundNumber(this._scale - .05);
-    if (scale > this.zoomScale && scale <= 1) {
+    if (scale > this._minScale && scale <= 1) {
       this.setScale(scale);
     } else {
       this.fit();
