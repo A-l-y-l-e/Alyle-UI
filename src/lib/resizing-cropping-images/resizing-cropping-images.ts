@@ -238,22 +238,13 @@ export class LyResizingCroppingImages implements AfterContentInit {
     fileReader.readAsDataURL(_img.files[0]);
   }
   setScale(size: number) {
-    console.log(this._scale, size);
-    const increasedSize = (size - this._scale) * 2;
     this._scale = size;
     size = size * 100;
     const initialImg = this._img;
     const width = fixedNum(initialImg.width * size / 100);
     const height = fixedNum(initialImg.height * size / 100);
-    const el = this.elementRef.nativeElement;
     const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
     if (!this.isLoaded) {
-      // this.offset = {
-      //   x: el.offsetWidth / 2,
-      //   y: el.offsetHeight / 2,
-      //   left: (el.offsetWidth - width) / 2,
-      //   top: (el.offsetHeight - height) / 2
-      // };
       this._setPositonForImg({
         width: `${width}px`,
         height: `${height}px`,
@@ -267,32 +258,13 @@ export class LyResizingCroppingImages implements AfterContentInit {
         left: imgContainerRect.left - hostRect.x, // ✓
         top: imgContainerRect.top - hostRect.y // ✓
       };
-      console.log(width, imgContainerRect.width, increasedSize, this.offset, (hostRect.width / 2 - (this.offset.x * (width / imgContainerRect.width))) + hostRect.x);
       this._setPositonForImg({
         width: `${width}px`,
         height: `${height}px`,
-        // transform: `translate3d(${hostRect.x + this.offset.left + this.offset.x - (width / 2)}px, ${hostRect.y + this.offset.top + this.offset.y - (height / 2)}px, 0)`
       } as any);
-      const leftSize = (width - imgContainerRect.width) / 2;
-      const topSize = (height - imgContainerRect.height) / 2;
-      // console.log(this.zoomScale, leftSize, topSize, this.offset, {
-      //   x: this.croppingContainer.nativeElement.getBoundingClientRect().x + (this.config.width / 2),
-      //   y: this.croppingContainer.nativeElement.getBoundingClientRect().y + (this.config.height / 2),
-      // });
-      // return;
       this._move({
-        // center: {
-        //   // x: hostRect.x + this.offset.left + (imgContainerRect.width / 2),
-        //   // y: hostRect.y + this.offset.top + (imgContainerRect.height / 2),
-        //   x: hostRect.x + this.offset.left,
-        //   y: hostRect.y + this.offset.top,
-        // }
         srcEvent: {},
         center: {
-          // x: this.croppingContainer.nativeElement.getBoundingClientRect().x + (this.config.width / 2),
-          // y: this.croppingContainer.nativeElement.getBoundingClientRect().y + (this.config.height / 2),
-          // x: this.croppingContainer.nativeElement.getBoundingClientRect().x + (this.config.width / 2) - leftSize,
-          // y: this.croppingContainer.nativeElement.getBoundingClientRect().y + (this.config.height / 2) - topSize,
           x: (hostRect.width / 2 - (this.offset.x * (width / imgContainerRect.width))) + hostRect.x + this.offset.x,
           y: (hostRect.height / 2 - (this.offset.y * (height / imgContainerRect.height))) + hostRect.y + this.offset.y
         }
