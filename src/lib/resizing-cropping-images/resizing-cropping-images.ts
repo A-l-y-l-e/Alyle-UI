@@ -41,7 +41,21 @@ const styles = ({
     position: 'absolute',
     pointerEvents: 'none',
     boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.29)',
-    '&::after': {
+    '&:before': {
+      content: `''`,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      width: 0,
+      height: 0,
+      margin: 'auto',
+      borderRadius: '50%',
+      background: '#fff',
+      border: 'solid 2px rgb(255, 255, 255)'
+    },
+    '&:after': {
       content: `''`,
       position: 'absolute',
       top: 0,
@@ -140,7 +154,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
 
   private _img: HTMLImageElement;
   private offset: {x: number, y: number, left: number, top: number};
-  private scale: number;
+  private _scale: number;
   private _config: ImgCropperConfig;
 
   @ViewChild('_imgContainer') imgContainer: ElementRef;
@@ -224,22 +238,72 @@ export class LyResizingCroppingImages implements AfterContentInit {
     fileReader.readAsDataURL(_img.files[0]);
   }
   setScale(size: number) {
-    this.scale = size;
+    console.log(this._scale, size);
+    const increasedSize = (size - this._scale) * 2;
+    this._scale = size;
     size = size * 100;
     const initialImg = this._img;
     const width = fixedNum(initialImg.width * size / 100);
     const height = fixedNum(initialImg.height * size / 100);
-    this._setPositonForImg({
-      width: `${width}px`,
-      height: `${height}px`,
-      transform: this.customCenter(width, height)
-    });
+    const el = this.elementRef.nativeElement;
+    const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
+    if (!this.isLoaded) {
+      // this.offset = {
+      //   x: el.offsetWidth / 2,
+      //   y: el.offsetHeight / 2,
+      //   left: (el.offsetWidth - width) / 2,
+      //   top: (el.offsetHeight - height) / 2
+      // };
+      this._setPositonForImg({
+        width: `${width}px`,
+        height: `${height}px`,
+        transform: this.customCenter(width, height)
+      });
+    } else {
+      const imgContainerRect = this.imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
+      this.offset = {
+        x: (hostRect.width / 2) - (imgContainerRect.x - hostRect.x), // ✓
+        y: (hostRect.height / 2) - (imgContainerRect.y - hostRect.y), // ✓
+        left: imgContainerRect.left - hostRect.x, // ✓
+        top: imgContainerRect.top - hostRect.y // ✓
+      };
+      console.log(width, imgContainerRect.width, increasedSize, this.offset, (hostRect.width / 2 - (this.offset.x * (width / imgContainerRect.width))) + hostRect.x);
+      this._setPositonForImg({
+        width: `${width}px`,
+        height: `${height}px`,
+        // transform: `translate3d(${hostRect.x + this.offset.left + this.offset.x - (width / 2)}px, ${hostRect.y + this.offset.top + this.offset.y - (height / 2)}px, 0)`
+      } as any);
+      const leftSize = (width - imgContainerRect.width) / 2;
+      const topSize = (height - imgContainerRect.height) / 2;
+      // console.log(this.zoomScale, leftSize, topSize, this.offset, {
+      //   x: this.croppingContainer.nativeElement.getBoundingClientRect().x + (this.config.width / 2),
+      //   y: this.croppingContainer.nativeElement.getBoundingClientRect().y + (this.config.height / 2),
+      // });
+      // return;
+      this._move({
+        // center: {
+        //   // x: hostRect.x + this.offset.left + (imgContainerRect.width / 2),
+        //   // y: hostRect.y + this.offset.top + (imgContainerRect.height / 2),
+        //   x: hostRect.x + this.offset.left,
+        //   y: hostRect.y + this.offset.top,
+        // }
+        srcEvent: {},
+        center: {
+          // x: this.croppingContainer.nativeElement.getBoundingClientRect().x + (this.config.width / 2),
+          // y: this.croppingContainer.nativeElement.getBoundingClientRect().y + (this.config.height / 2),
+          // x: this.croppingContainer.nativeElement.getBoundingClientRect().x + (this.config.width / 2) - leftSize,
+          // y: this.croppingContainer.nativeElement.getBoundingClientRect().y + (this.config.height / 2) - topSize,
+          x: (hostRect.width / 2 - (this.offset.x * (width / imgContainerRect.width))) + hostRect.x + this.offset.x,
+          y: (hostRect.height / 2 - (this.offset.y * (height / imgContainerRect.height))) + hostRect.y + this.offset.y
+        }
+      });
+    }
   }
   private customCenter(width: number, height: number) {
     const root = this.elementRef.nativeElement as HTMLElement;
-    const w = (root.offsetWidth - width) / 2;
-    const h = (root.offsetHeight - height) / 2;
-    return `translate3d(${w}px, ${h}px, 0)`;
+    const l = (root.offsetWidth - width) / 2;
+    const r = (root.offsetHeight - height) / 2;
+    return `translate3d(${l}px, ${r}px, 0)`;
   }
 
   '1:1'() {
@@ -277,12 +341,12 @@ export class LyResizingCroppingImages implements AfterContentInit {
 
   _moveStart(event) {
     const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
-    const imgContainerRect = this.imgContainer.nativeElement.getBoundingClientRect();
+    const imgContainerRect = this.imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
     this.offset = {
       x: event.center.x - imgContainerRect.x,
       y: event.center.y - imgContainerRect.y,
-      left: (imgContainerRect as ClientRect).left - hostRect.x,
-      top: (imgContainerRect as ClientRect).top - hostRect.y
+      left: imgContainerRect.left - hostRect.x,
+      top: imgContainerRect.top - hostRect.y
     };
   }
   _move(event) {
@@ -331,7 +395,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
   /**+ */
   zoomIn() {
-    const scale = this.roundNumber(this.scale + .05);
+    const scale = this.roundNumber(this._scale + .05);
     if (scale > 0 && scale <= 1) {
       this.setScale(scale);
     } else {
@@ -340,7 +404,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   }
   /**- */
   zoomOut() {
-    const scale = this.roundNumber(this.scale - .05);
+    const scale = this.roundNumber(this._scale - .05);
     if (scale > this.zoomScale && scale <= 1) {
       this.setScale(scale);
     } else {
@@ -460,15 +524,15 @@ export class LyResizingCroppingImages implements AfterContentInit {
       width: myConfig.width,
       height: myConfig.height
     };
-    canvasElement.width = config.width / this.scale;
-    canvasElement.height = config.height / this.scale;
+    canvasElement.width = config.width / this._scale;
+    canvasElement.height = config.height / this._scale;
     const ctx = canvasElement.getContext('2d');
     if (myConfig.fill) {
       ctx.fillStyle = myConfig.fill;
       ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
     }
     ctx.drawImage(this._img,
-      -(left / this.scale), -(top / this.scale),
+      -(left / this._scale), -(top / this._scale),
     );
     let result = canvasElement;
     const antiAliasedQ = myConfig.antiAliased ? .5 : 1;
