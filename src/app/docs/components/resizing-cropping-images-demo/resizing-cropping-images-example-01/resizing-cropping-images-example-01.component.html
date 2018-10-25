@@ -14,6 +14,7 @@
   <button (click)="cropping.center()" ly-button>center</button>
   <button (click)="cropping.fit()" ly-button>fit</button>
   <button (click)="cropping.fitToScreen()" ly-button>fit to screen</button>
+  <button (click)="cropping.setScale(1)" ly-button>1:1</button>
 </div>
 <ly-cropping [withClass]="classes.cropping" #cropping
 [config]="myConfig"

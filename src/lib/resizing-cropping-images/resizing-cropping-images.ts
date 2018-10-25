@@ -10,7 +10,7 @@ import {
   EventEmitter,
   Renderer2
 } from '@angular/core';
-import { LyTheme2, mergeDeep } from '@alyle/ui';
+import { LyTheme2, mergeDeep, LY_COMMON_STYLES } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 
@@ -41,13 +41,11 @@ const styles = ({
     position: 'absolute',
     pointerEvents: 'none',
     boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.29)',
-    '&:before': {
+    '&:before, &:after': {
+      ...LY_COMMON_STYLES.fill,
       content: `''`,
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
+    },
+    '&:before': {
       width: 0,
       height: 0,
       margin: 'auto',
@@ -56,12 +54,6 @@ const styles = ({
       border: 'solid 2px rgb(255, 255, 255)'
     },
     '&:after': {
-      content: `''`,
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
       border: 'solid 2px rgb(255, 255, 255)'
     }
   },
@@ -69,22 +61,13 @@ const styles = ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    '&, & > input': LY_COMMON_STYLES.fill,
     '& *:not(input)': {
       pointerEvents: 'none'
     },
     '& > input': {
-      position: 'absolute',
       background: 'transparent',
       opacity: 0,
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
       width: '100%',
       height: '100%'
     }
@@ -145,7 +128,7 @@ const CONFIG_DEFAULT = <ImgCropperConfig>{
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
   selector: 'ly-cropping',
-  templateUrl: './resizing-cropping-images.html'
+  templateUrl: 'resizing-cropping-images.html'
  })
 export class LyResizingCroppingImages implements AfterContentInit {
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
@@ -237,6 +220,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
     });
     fileReader.readAsDataURL(_img.files[0]);
   }
+
+  /** Set the size of the image, the values can be 0 between 1, where 1 is the original size */
   setScale(size: number) {
     this._scale = size;
     size = size * 100;
@@ -278,6 +263,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
     return `translate3d(${l}px, ${r}px, 0)`;
   }
 
+  /** @deprecated, instead use setScale(1) */
   '1:1'() {
     this.setScale(1);
   }
