@@ -41,7 +41,7 @@ const styles = ({
   croppingContainer: {
     position: 'absolute',
     pointerEvents: 'none',
-    boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.5)',
+    boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.4)',
     '&:before, &:after': {
       ...LY_COMMON_STYLES.fill,
       content: `''`,
