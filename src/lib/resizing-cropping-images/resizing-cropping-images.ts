@@ -139,8 +139,8 @@ export class LyResizingCroppingImages implements AfterContentInit {
   private _img: HTMLImageElement;
   private offset: {x: number, y: number, left: number, top: number};
   private _scale: number;
-  private _config: ImgCropperConfig;
   private _minScale: number;
+  private _config: ImgCropperConfig;
 
   @ViewChild('_imgContainer') imgContainer: ElementRef;
   @ViewChild('_croppingContainer') croppingContainer: ElementRef;
@@ -156,6 +156,10 @@ export class LyResizingCroppingImages implements AfterContentInit {
   /** get current scale */
   get scale() {
     return this._scale;
+  }
+  /** get min scale */
+  get minScale() {
+    return this._minScale;
   }
   isLoaded: boolean;
   isCropped: boolean;
@@ -229,7 +233,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   /** Set the size of the image, the values can be 0 between 1, where 1 is the original size */
   setScale(size: number) {
     // fix min scale
-    size = size > this._minScale && size <= 1 ? size : this._minScale;
+    size = size > this.minScale && size <= 1 ? size : this.minScale;
     this._scale = size;
     size = size * 100;
     const initialImg = this._img;
@@ -366,7 +370,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   /**- */
   zoomOut() {
     const scale = this.roundNumber(this._scale - .05);
-    if (scale > this._minScale && scale <= 1) {
+    if (scale > this.minScale && scale <= 1) {
       this.setScale(scale);
     } else {
       this.fit();
