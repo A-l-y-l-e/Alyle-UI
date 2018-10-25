@@ -1,10 +1,5 @@
 <a name="1.7.5"></a>
-## [1.7.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.4...1.7.5) (2018-10-25)
-
-
-
-<a name="1.7.4"></a>
-## [1.7.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.3...1.7.4) (2018-10-25)
+## [1.7.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.3...1.7.5) (2018-10-25)
 
 
 ### Features
