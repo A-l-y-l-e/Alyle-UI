@@ -61,7 +61,8 @@ const styles = (theme: ThemeVariables) => {
       borderWidth: 0
     },
     fieldsetSpan: {
-      padding: 0
+      padding: 0,
+      height: '2px'
     },
     labelSpan: {
       maxWidth: '100%',
