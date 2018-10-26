@@ -29,6 +29,9 @@ export const styles = theme => {
       textDecorationLine: 'none',
       '-webkit-text-decoration-line': 'none',
       transition: 'background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms',
+      '&::-moz-focus-inner, &::-moz-focus-inner': {
+        border: 0
+      },
       ...button
     },
     content: {
