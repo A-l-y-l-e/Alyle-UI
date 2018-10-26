@@ -1,3 +1,23 @@
+<a name="1.7.6"></a>
+## [1.7.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.5...1.7.6) (2018-10-26)
+
+
+### Bug Fixes
+
+* add `minScale` property ([c94a7db](https://github.com/A-l-y-l-e/Alyle-UI/commit/c94a7db))
+* **button:** fix styles in firefox ([ba34f6d](https://github.com/A-l-y-l-e/Alyle-UI/commit/ba34f6d))
+* **field:** fix align baseline ([ec65493](https://github.com/A-l-y-l-e/Alyle-UI/commit/ec65493))
+* **field:** fix outlined in firefox ([b8aa2e2](https://github.com/A-l-y-l-e/Alyle-UI/commit/b8aa2e2))
+* **img-cropper:** fix min scale & add scale property ([4d5c851](https://github.com/A-l-y-l-e/Alyle-UI/commit/4d5c851))
+* **theme:** fix theme types ([f193df7](https://github.com/A-l-y-l-e/Alyle-UI/commit/f193df7))
+
+
+### Features
+
+* **img-cropper:** emit ImgCropperEvent on `loaded` ([2136028](https://github.com/A-l-y-l-e/Alyle-UI/commit/2136028))
+
+
+
 <a name="1.7.5"></a>
 ## [1.7.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.3...1.7.5) (2018-10-25)
 
