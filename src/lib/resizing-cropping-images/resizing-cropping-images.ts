@@ -114,6 +114,8 @@ export interface ImgCropperEvent {
   base64: string;
   name: string;
   type: string;
+  width: number;
+  height: number;
 }
 export interface ImageState {
   isLoaded: boolean;
@@ -165,7 +167,7 @@ export class LyResizingCroppingImages implements AfterContentInit {
   isCropped: boolean;
 
   /** On loaded new image */
-  @Output() loaded = new EventEmitter<void>();
+  @Output() loaded = new EventEmitter<ImgCropperEvent>();
   /** On crop new image */
   @Output() cropped = new EventEmitter<ImgCropperEvent>();
   /** issues an error when the loaded image is not valid */
@@ -394,18 +396,24 @@ export class LyResizingCroppingImages implements AfterContentInit {
     this.src = src;
     if (!src) { return; }
     const img = new Image;
+    const cropEvent: ImgCropperEvent = {
+      name: this._fileName,
+      type: this.defaultType,
+      base64: null,
+      base64Image: null,
+      width: null,
+      height: null
+    };
     img.src = src;
     img.addEventListener('error', (err) => {
-      this.error.emit({
-        name: this._fileName,
-        type: null,
-        base64: null,
-        base64Image: null
-      });
+      this.error.emit(cropEvent);
     });
     img.addEventListener('load', () => {
       this._imgLoaded(img);
-      this.loaded.emit(null);
+      cropEvent.width = img.width;
+      cropEvent.height = img.height;
+      console.log({cropEvent});
+      this.loaded.emit(cropEvent);
       this.isLoaded = true;
       this.cd.markForCheck();
     });
@@ -467,19 +475,14 @@ export class LyResizingCroppingImages implements AfterContentInit {
    */
   crop(config?: ImgCropperConfig): ImgCropperEvent {
     const newConfig = config ? mergeDeep({}, this.config || CONFIG_DEFAULT, config) : this.config;
-    const base64 = this.cropp(newConfig);
-    return {
-      base64,
-      base64Image: base64,
-      type: this.defaultType || this.config.type,
-      name: this._fileName
-    };
+    const cropEvent = this.cropp(newConfig);
+    return cropEvent;
   }
 
   /**
    * Deprecated, use crop() instead
    */
-  cropp(myConfig: ImgCropperConfig): string {
+  cropp(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
     const rect = this.croppingContainer.nativeElement.getBoundingClientRect() as ClientRect;
     const img = this.imgContainer.nativeElement.firstElementChild.getBoundingClientRect() as ClientRect;
@@ -513,14 +516,17 @@ export class LyResizingCroppingImages implements AfterContentInit {
       url = result.toDataURL(this.defaultType);
     }
     this.result = (url);
-    this.cropped.emit({
+    const cropEvent = {
       base64Image: url,
       base64: url,
       type: this.defaultType || myConfig.type,
-      name: this._fileName
-    });
+      name: this._fileName,
+      width: config.width,
+      height: config.height
+    };
+    this.cropped.emit(cropEvent);
     this.isCropped = true;
-    return url;
+    return cropEvent;
   }
 }
 

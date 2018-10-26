@@ -38,8 +38,8 @@ export class ResizingCroppingImagesExample01Component {
   onCropped(e: ImgCropperEvent) {
     console.log('cropped img: ', e);
   }
-  onloaded() {
-    console.log('img loaded');
+  onloaded(e: ImgCropperEvent) {
+    console.log('img loaded', e);
   }
   onerror(e: ImgCropperEvent) {
     console.warn(`the '${e.name}' is not a valid image`, e);

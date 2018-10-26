@@ -19,7 +19,7 @@
 <ly-cropping [withClass]="classes.cropping" #cropping
 [config]="myConfig"
 (cropped)="onCropped($event)"
-(loaded)="onloaded()"
+(loaded)="onloaded($event)"
 (error)="onerror($event)">
   <span>Drag and drop image</span>
 </ly-cropping>
