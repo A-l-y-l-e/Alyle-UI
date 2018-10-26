@@ -13,9 +13,10 @@
     "angular",
     "components",
     "material",
-    "design",
+    "material design",
     "minimal",
-    "ui"
+    "ui",
+    "material components web"
   ],
   "author": "Alyle",
   "license": "MIT",
