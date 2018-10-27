@@ -137,8 +137,8 @@ const NOP_STYLES = {};
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrismDirective implements OnInit {
-  classes = this.theme.addStyleSheet(classes, -1);
-  prismClasses = Platform.isBrowser ? this.theme.addStyleSheet(STYLES, -1) : NOP_STYLES;
+  classes = this.theme.addStyleSheet(classes, -2);
+  prismClasses = Platform.isBrowser ? this.theme.addStyleSheet(STYLES, -2) : NOP_STYLES;
   private _code: string;
   @Input() language = 'ts';
   @Input()
