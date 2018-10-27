@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ImgResolution, ImgCropperConfig } from '@alyle/ui/resizing-cropping-images';
+import { ImgResolution, ImgCropperConfig, ImgCropperEvent } from '@alyle/ui/resizing-cropping-images';
 import { LyTheme2 } from '@alyle/ui';
 
 const styles = {
@@ -31,7 +31,7 @@ export class ResizingCroppingImagesExample02Component {
     private theme: LyTheme2
   ) { }
 
-  onCropped(e) {
+  onCropped(e: ImgCropperEvent) {
     console.log('cropped img: ', e);
   }
 
