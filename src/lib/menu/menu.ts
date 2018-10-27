@@ -20,13 +20,7 @@ import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder } from '@aly
 
 const STYLE_PRIORITY = -1;
 
-export type position = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
-export class Origin {
-  horizontal: position;
-  vertical: position;
-}
-
-const menuStyles = theme => ({
+const STYLES = theme => ({
   root: {
     background: theme.background.primary.default,
     borderRadius: '2px',
@@ -64,8 +58,15 @@ const menuStyles = theme => ({
   exportAs: 'lyMenu'
 })
 export class LyMenu {
-  classes = this.theme.addStyleSheet(menuStyles, STYLE_PRIORITY);
-  /** Destroy menu */
+  /**
+   * styles
+   * @ignore
+   */
+  classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  /**
+   * Destroy menu
+   * @ignore
+   */
   destroy: () => void;
   @Input() ref: LyMenuTriggerFor;
   @HostBinding('@menuEnter') menuEnter;
