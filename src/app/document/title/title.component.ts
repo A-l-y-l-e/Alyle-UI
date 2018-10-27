@@ -17,26 +17,28 @@ export class TitleComponent implements OnInit {
   defaultTitle = 'Alyle UI';
   @Input()
   set route(val: string) {
-    this._route = val;
-    const varArray = val.split('/').filter(_ => !!_);
-    const latestItem = varArray[varArray.length - 1];
-    this.urls = varArray.map(_ => _.charAt(0).toUpperCase() + _.slice(1));
-    this.title = toTitle(latestItem);
-    if (this.title) {
-      if (varArray.some(_ => _ === 'layout' || _ === 'components')) {
-        const name = varArray[0] === 'components' ? varArray[0].slice(0, -1) : varArray[0];
-        this.titleService.setTitle(`${this.title} Angular ${name} | ${this.defaultTitle}`);
-      } else if (varArray.some(_ => _ === 'api')) {
-        this.titleService.setTitle(`${this.title} API | ${this.defaultTitle}`);
+    if (val !== this._route) {
+      this._route = val;
+      const varArray = val.split('/').filter(_ => !!_);
+      const latestItem = varArray[varArray.length - 1];
+      this.urls = varArray.map(_ => _.charAt(0).toUpperCase() + _.slice(1));
+      this.title = toTitle(latestItem);
+      if (this.title) {
+        if (varArray.some(_ => _ === 'layout' || _ === 'components')) {
+          const name = varArray[0] === 'components' ? varArray[0].slice(0, -1) : varArray[0];
+          this.titleService.setTitle(`${this.title} Angular ${name} | ${this.defaultTitle}`);
+        } else if (varArray.some(_ => _ === 'api')) {
+          this.titleService.setTitle(`${this.title} API | ${this.defaultTitle}`);
+        } else {
+          this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
+        }
       } else {
-        this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
+        this.titleService.setTitle(this.defaultTitle);
       }
-    } else {
-      this.titleService.setTitle(this.defaultTitle);
-    }
-    if (Platform.isBrowser && environment.production) {
-      ga('set', 'page', val);
-      ga('send', 'pageview');
+      if (Platform.isBrowser && environment.production) {
+        ga('set', 'page', val);
+        ga('send', 'pageview');
+      }
     }
   }
   get route() {
@@ -55,5 +57,5 @@ function toTitle(str: string) {
   if (!str) {
     return str;
   }
-  return str.charAt(0).toUpperCase() + str.slice(1).replace('-', ' ');
+  return str.charAt(0).toUpperCase() + str.slice(1).replace(/\-/g, ' ');
 }
