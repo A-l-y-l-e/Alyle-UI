@@ -37,6 +37,20 @@ export class ApiComponent implements OnInit, OnDestroy {
     return `@Input()\n${input.name}: ${input.type || 'any'}`;
   }
 
+  methodTemplate(method: {
+    args: [{
+      name: string
+      optional?: boolean
+      type: string
+    }]
+    name: string
+    type: string
+    returnType: string
+  }) {
+    const args = method.args.map(_ => `${_.name}${_.optional ? '?' : ''}: ${_.type || 'any'}`).join(', ');
+    return `${method.name}(${args}): ${method.returnType}`;
+  }
+
   propertyTemplate(property: {
     name: string
     defaultValue: string

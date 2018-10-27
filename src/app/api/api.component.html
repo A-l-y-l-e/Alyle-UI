@@ -31,6 +31,27 @@
           </ly-card-content>
         </ly-card>
       </ng-template>
+      <ng-template [ngIf]="directive.methodsClass.length || directive.propertiesClass.length">
+        <h4 [lyTyp]="'subheading'" gutter>Methods</h4>
+        <ly-card>
+          <ly-card-content>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let method of directive.methodsClass">
+                  <td prism language="typescript" [code]="methodTemplate(method)"></td>
+                  <td [innerHTML]="method.description" lyTyp="body1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </ly-card-content>
+        </ly-card>
+      </ng-template>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="api.miscellaneous.typealiases.length">
@@ -46,6 +67,12 @@
       <p><prism language="typescript" code="const {{variable.name}} = {{variable.defaultValue}};"></prism></p>
     </ng-container>
   </ng-container>
+  <ng-template [ngIf]="api.miscellaneous.enumerations.length">
+    <h2 [lyTyp]="'headline'" gutter>Enumerations</h2>
+    <ng-container *ngFor="let _enum of api.miscellaneous.enumerations">
+      <prism language="typescript" [code]="_enum.code"></prism>
+    </ng-container>
+  </ng-template>
 </ng-container>
 <ng-template #loading>Loading...</ng-template>
 

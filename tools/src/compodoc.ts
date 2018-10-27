@@ -50,8 +50,15 @@ for (const key in components) {
     c_d.forEach(_ => {
       _.data.forEach(__ => {
         __.propertiesClass = __.propertiesClass.filter(___ => !(___.name as string).startsWith('_'));
+        __.methodsClass = __.methodsClass.filter(___ => !(___.name as string).startsWith('_'));
       });
     });
+    if (fileObject.miscellaneous.enumerations) {
+      fileObject.miscellaneous.enumerations.forEach(_ => {
+        _.description = _.description.replace(/\<\/?p\>/g, '').trim();
+        _.code = enumerationsTemplate(_);
+      });
+    }
     delete fileObject.components;
     delete fileObject.directives;
     removeKeys(fileObject, [
@@ -71,6 +78,35 @@ for (const key in components) {
     writeFileSync(docPathFile, JSON.stringify(fileObject), 'utf8');
 
   }
+}
+
+function enumerationsTemplate(_enum: {
+  childs: [{
+    name: string
+  }],
+  description: string
+  name: string
+}) {
+  const isMultiline = _enum.description.split(/\n/g).length > 1;
+  const lineStart = isMultiline ? `\n *` : '';
+  const lineEnd = isMultiline ? `\n` : '';
+  const description = _enum.description ? `/**${lineStart} ${_enum.description.replace(/\n/g, `\n *`)}${lineEnd} */\n` : '';
+  const enumContent = `${_enum.childs.map(_ => `  ${_.name}`).join(',\n')}`;
+  return `${description}enum ${_enum.name} {\n${enumContent}\n}`;
+}
+
+function methodTemplate(method: {
+  args: [{
+    name: string
+    optional?: boolean
+    type: string
+  }]
+  name: string
+  type: string
+  returnType: string
+}) {
+  const args = method.args.map(_ => `${_.name}${_.optional ? '?' : ''}: ${_.type || 'any'}`).join(', ');
+  return `${method.name}(${args}): ${method.returnType}`;
 }
 
 /**
