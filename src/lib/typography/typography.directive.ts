@@ -9,6 +9,7 @@ const styles = ({
   }
 });
 
+/** @ignore */
 enum Gutter {
   default,
   top,

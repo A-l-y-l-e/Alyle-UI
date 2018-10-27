@@ -170,8 +170,10 @@ export class LyTheme2 {
    * @param priority priority for style
    */
   addStyleSheet<T>(styles: T & (StylesFn2<T> | Styles2), id?: string | number, priority?: number): IClasses<T> {
-    if (isDevMode() && void 0 === priority && typeof id === 'string') {
-      console.warn(`the value \`${id}\` is no longer necessary for addStyleSheet, this will be an error in the next release.`);
+    if (isDevMode()) {
+      if ((void 0 === priority && typeof id === 'string') || (void 0 !== priority && typeof id === 'string')) {
+        console.warn(`the value \`${id}\` is no longer necessary for addStyleSheet, this will be an error in the next release.`);
+      }
     }
     return this._createStyleContent2(styles, id as any, priority, TypeStyle.Multiple);
   }
