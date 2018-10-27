@@ -65,9 +65,10 @@ type mode = 'side' | 'over';
   selector: 'ly-drawer-container'
 })
 export class LyDrawerContainer {
+  /** @ignore */
   classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY + 1.9);
   _openDrawers = 0;
-  @ContentChild(forwardRef(() => LyDrawerContent)) drawerContent: LyDrawerContent;
+  @ContentChild(forwardRef(() => LyDrawerContent)) _drawerContent: LyDrawerContent;
   constructor(
     private _theme: LyTheme2,
     private _renderer: Renderer2,
@@ -229,15 +230,15 @@ export class LyDrawer implements OnChanges {
           }
           return drawerContentStyles;
         },
-        this._drawerContainer.drawerContent._getHostElement(),
+        this._drawerContainer._drawerContent._getHostElement(),
         this._drawerContentClass);
       } else {
         /** remove styles for <ly-drawer-content> */
-        this._renderer.removeClass(this._drawerContainer.drawerContent._getHostElement(), this._drawerContentClass);
+        this._renderer.removeClass(this._drawerContainer._drawerContent._getHostElement(), this._drawerContentClass);
         this._drawerContentClass = null;
       }
     } else {
-      this._renderer.removeClass(this._drawerContainer.drawerContent._getHostElement(), this._drawerContentClass);
+      this._renderer.removeClass(this._drawerContainer._drawerContent._getHostElement(), this._drawerContentClass);
       this._drawerContentClass = null;
       this._renderer.removeClass(this._el.nativeElement, this._drawerClass);
       this._drawerClass = null;
@@ -354,11 +355,11 @@ export class LyDrawer implements OnChanges {
   private _updateAnimations() {
     if (this._fromToggle && !this._isAnimation) {
       this._renderer.addClass(this._el.nativeElement, this.classes.transition);
-      this._renderer.addClass(this._drawerContainer.drawerContent._getHostElement(), this.classes.transition);
+      this._renderer.addClass(this._drawerContainer._drawerContent._getHostElement(), this.classes.transition);
       this._isAnimation = true;
     } else if (!this._fromToggle && this._isAnimation) {
       this._renderer.removeClass(this._el.nativeElement, this.classes.transition);
-      this._renderer.removeClass(this._drawerContainer.drawerContent._getHostElement(), this.classes.transition);
+      this._renderer.removeClass(this._drawerContainer._drawerContent._getHostElement(), this.classes.transition);
       this._isAnimation = false;
     }
   }
