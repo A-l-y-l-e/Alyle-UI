@@ -53,11 +53,18 @@ for (const key in components) {
         __.methodsClass = __.methodsClass.filter(___ => !(___.name as string).startsWith('_'));
       });
     });
+    const arrayVariables = fileObject.miscellaneous.variables;
+    if (arrayVariables) {
+      fileObject.miscellaneous.variables = arrayVariables.filter(function(item) {
+        return (item.name as string).toLowerCase() !== 'styles';
+      });
+    }
     if (fileObject.miscellaneous.enumerations) {
       fileObject.miscellaneous.enumerations.forEach(_ => {
-        _.description = _.description.replace(/\<\/?p\>/g, '').trim();
         _.code = enumerationsTemplate(_);
       });
+      fileObject.miscellaneous.enumerationsCode = fileObject.miscellaneous.enumerations.map(_ => _.code).join(`\n`);
+      fileObject.miscellaneous.variablesCode = fileObject.miscellaneous.variables.map(_ => `const ${_.name} = ${_.defaultValue};`).join(`\n`);
     }
     delete fileObject.components;
     delete fileObject.directives;
@@ -69,12 +76,6 @@ for (const key in components) {
       'groupedFunctions',
       'constructorObj'
     ]);
-    const arrayVariables = fileObject.miscellaneous.variables;
-    if (arrayVariables) {
-      fileObject.miscellaneous.variables = arrayVariables.filter(function(item) {
-        return (item.name as string).toLowerCase() !== 'styles';
-      });
-    }
     writeFileSync(docPathFile, JSON.stringify(fileObject), 'utf8');
 
   }
@@ -87,12 +88,8 @@ function enumerationsTemplate(_enum: {
   description: string
   name: string
 }) {
-  const isMultiline = _enum.description.split(/\n/g).length > 1;
-  const lineStart = isMultiline ? `\n *` : '';
-  const lineEnd = isMultiline ? `\n` : '';
-  const description = _enum.description ? `/**${lineStart} ${_enum.description.replace(/\n/g, `\n *`)}${lineEnd} */\n` : '';
   const enumContent = `${_enum.childs.map(_ => `  ${_.name}`).join(',\n')}`;
-  return `${description}enum ${_enum.name} {\n${enumContent}\n}`;
+  return `${createDescription(_enum.description)}enum ${_enum.name} {\n${enumContent}\n}`;
 }
 
 function methodTemplate(method: {
@@ -141,4 +138,12 @@ function removeKeys(obj, keys: string[]) {
           }
       }
   }
+}
+
+function createDescription(text: string) {
+  const newText = text.replace(/\<\/?p\>/g, '').trim();
+  const isMultiline = newText.split(/\n/g).length > 1;
+  const lineStart = isMultiline ? `\n *` : '';
+  const lineEnd = isMultiline ? `\n` : '';
+  return newText ? `/**${lineStart} ${newText.replace(/\n/g, `\n * `)}${lineEnd} */\n` : '';
 }
