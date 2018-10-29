@@ -32,18 +32,18 @@ const Size: Record<LyButtonSize, any> = {
     padding: '0 8px',
     fontSize: theme.pxToRem(theme.typography.button.fontSize - 1),
     minHeight: '32px',
-    minWidth: '64px'
+    minWidth: '48px'
   }),
   medium: ({
     padding: '0 14px',
     minHeight: '36px',
-    minWidth: '88px'
+    minWidth: '64px'
   }),
   large: (theme) => ({
     padding: '0 21px',
     fontSize: theme.pxToRem(theme.typography.button.fontSize + 1),
     minHeight: '40px',
-    minWidth: '112px'
+    minWidth: '96px'
   })
 };
 
@@ -83,6 +83,9 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
 
   /** Whether ripples are disabled. */
   @Input()
+  get disableRipple(): boolean {
+    return this._disableRipple;
+  }
   set disableRipple(val: boolean) {
     if (Platform.isBrowser && val !== this._disableRipple) {
       const newVal = this._disableRipple = toBoolean(val);
@@ -95,9 +98,6 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
         this._ripple = new Ripple(this._theme.config, this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
       }
     }
-  }
-  get disableRipple() {
-    return this._disableRipple;
   }
   /** Button size */
   @Input()
