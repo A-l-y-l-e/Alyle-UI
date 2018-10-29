@@ -178,7 +178,7 @@ export class LyResizingCroppingImages {
   /** Emit an error when the loaded image is not valid */
   @Output() error = new EventEmitter<ImgCropperEvent>();
 
-  private defaultType: string;
+  private _defaultType: string;
   constructor(
     private _renderer: Renderer2,
     private theme: LyTheme2,
@@ -223,9 +223,9 @@ export class LyResizingCroppingImages {
     this._fileName = _img.value.replace(/.*(\/|\\)/, '');
 
     /** Set type */
-    this.defaultType = null;
+    this._defaultType = null;
     if (!this.config.type) {
-      this.defaultType = _img.files[0].type;
+      this._defaultType = _img.files[0].type;
     }
     this.isLoaded = false;
     this.isCropped = false;
@@ -374,6 +374,15 @@ export class LyResizingCroppingImages {
       this.setScale(1);
     }
   }
+
+  /** Clean the img cropper */
+  clean() {
+    this._defaultType = null;
+    this.isLoaded = false;
+    this.isCropped = false;
+    this.cd.markForCheck();
+  }
+
   /**- */
   zoomOut() {
     const scale = this.roundNumber(this._scale - .05);
@@ -398,7 +407,7 @@ export class LyResizingCroppingImages {
     const img = new Image;
     const cropEvent: ImgCropperEvent = {
       name: this._fileName,
-      type: this.defaultType,
+      type: this._defaultType,
       base64: null,
       base64Image: null,
       width: null,
@@ -512,13 +521,13 @@ export class LyResizingCroppingImages {
     if (myConfig.type) {
       url = result.toDataURL(`image/${myConfig.type}`);
     } else {
-      url = result.toDataURL(this.defaultType);
+      url = result.toDataURL(this._defaultType);
     }
     this.result = (url);
     const cropEvent = {
       base64Image: url,
       base64: url,
-      type: this.defaultType || myConfig.type,
+      type: this._defaultType || myConfig.type,
       name: this._fileName,
       width: config.width,
       height: config.height
