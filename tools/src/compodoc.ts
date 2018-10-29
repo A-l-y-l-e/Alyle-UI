@@ -64,9 +64,21 @@ for (const key in components) {
 
         const outputs = __.outputsClass.map(___ => outputsTemplate(___));
         delete __.outputsClass;
+
+        const accessors = [];
+        for (const accessorName in __.accessors) {
+          if (__.accessors.hasOwnProperty(accessorName)) {
+            const accessor = __.accessors[accessorName];
+            if (accessor.getSignature) {
+              accessors.push(accessorsTemplate(accessor.getSignature));
+            }
+          }
+        }
+
         __.code = [
           ...properties,
           ...inputs,
+          ...accessors,
           ...outputs,
           ...methods
         ].join(`\n`);
@@ -100,6 +112,15 @@ for (const key in components) {
     writeFileSync(docPathFile, JSON.stringify(fileObject), 'utf8');
 
   }
+}
+
+function accessorsTemplate(accessor: {
+  description: string
+  name: string
+  returnType: string
+  type: string
+}) {
+  return `${createDescription(accessor.description)}get ${accessor.name}()${accessor.returnType ? `: ${accessor.returnType}` : '' }`;
 }
 
 function enumerationsTemplate(_enum: {
