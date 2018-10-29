@@ -50,9 +50,6 @@ const CLASSES_MAP: {
 } = {};
 const STYLE_KEYS_MAP = {};
 let nextClassId = 0;
-function fn() {
-  return CLASSES_MAP;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -348,14 +345,16 @@ function styleToString(key: string, ob: Object, currentKey: string, parentKey?: 
   let subContent = '';
   let keyAndValue = '';
   let newKey;
-  if (parentKey && currentKey.indexOf('&') !== -1) {
-    newKey = currentKey.replace(/&/g, parentKey);
+  if (parentKey) {
+    if (currentKey.indexOf('&') !== -1) {
+      newKey = currentKey.replace(/&/g, parentKey);
+    } else if (currentKey.indexOf('@media') === 0) {
+      newKey = `${currentKey}`;
+    } else {
+      newKey = `${parentKey} ${currentKey}`;
+    }
   } else if (key === '@global') {
     newKey = key;
-  } else if (parentKey && currentKey.indexOf('@media') === 0) {
-    newKey = `${currentKey}`;
-  } else if (parentKey) {
-    newKey = `${parentKey} ${currentKey}`;
   } else {
     newKey = `.${currentKey}`;
   }
