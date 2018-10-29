@@ -34,6 +34,10 @@ const STYLE_PRIORITY = -1;
   selector: 'ly-card'
 })
 export class LyCard implements OnInit {
+  /**
+   * styles
+   * @ignore
+   */
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2,
@@ -53,17 +57,10 @@ export class LyCard implements OnInit {
       this.common.elevation = 2;
       requireOnChanges = true;
     }
-    // if (!this.common.shadowColor) {
-    //   this.common.shadowColor = 'colorShadow';
-    //   requireOnChanges = true;
-    // }
     if (requireOnChanges) {
       this.common.ngOnChanges();
     }
     this.renderer.addClass(this.el.nativeElement, this.classes.root);
-    // if (this.elevation === void 0) {
-    //   this.elevation = DEFAULT_ELEVATION;
-    // }
   }
 }
 
