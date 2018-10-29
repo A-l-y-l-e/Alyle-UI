@@ -89,6 +89,9 @@ const STYLES = (theme: ThemeVariables) => ({
     },
     '&{constant}': {
       color: '#EF5350'
+    },
+    '&{builtin}': {
+      color: '#8796b0'
     }
   },
   keyword: { },
@@ -126,7 +129,8 @@ const STYLES = (theme: ThemeVariables) => ({
   constant: { },
   'attr-value': { },
   'attr-name': { },
-  'class-name': { }
+  'class-name': { },
+  builtin: {}
 });
 
 const NOP_STYLES = {};

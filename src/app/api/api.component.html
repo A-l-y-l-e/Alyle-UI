@@ -2,76 +2,27 @@
   <h2 [lyTyp]="'headline'" gutter>Module</h2>
   <prism language="typescript" [code]="ref(api.modules[0].name)"></prism>
   <ng-container *ngFor="let item of api.c_d">
-    <h2 [lyTyp]="'headline'" gutter>{{item.title}}</h2>
+    <h2 [lyTyp]="'headline'" gutter>{{ item.title }}</h2>
     <ng-template ngFor let-directive [ngForOf]="item.data" let-x="index">
       <h3 [lyTyp]="'title'" gutter>{{ directive.name }}</h3>
-      <p>Selector: <span prism language="typescript" code="'{{directive.selector}}'"></span></p>
-      <ng-template [ngIf]="directive.inputsClass.length || directive.propertiesClass.length">
-        <h4 [lyTyp]="'subheading'" gutter>Properties</h4>
-        <ly-card>
-          <ly-card-content>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let input of directive.inputsClass">
-                  <td prism language="typescript" [code]="inputTemplate(input)"></td>
-                  <td [innerHTML]="input.description" lyTyp="body1"></td>
-                </tr>
-                <tr *ngFor="let property of directive.propertiesClass">
-                  <td prism language="typescript" [code]="propertyTemplate(property)"></td>
-                  <td [innerHTML]="property.description" lyTyp="body1"></td>
-                </tr>
-              </tbody>
-            </table>
-          </ly-card-content>
-        </ly-card>
-      </ng-template>
-      <ng-template [ngIf]="directive.methodsClass.length">
-        <h4 [lyTyp]="'subheading'" gutter>Methods</h4>
-        <ly-card>
-          <ly-card-content>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let method of directive.methodsClass">
-                  <td prism language="typescript" [code]="methodTemplate(method)"></td>
-                  <td [innerHTML]="method.description" lyTyp="body1"></td>
-                </tr>
-              </tbody>
-            </table>
-          </ly-card-content>
-        </ly-card>
-      </ng-template>
+      <p>Selector: <span prism language="typescript" code="'{{ directive.selector }}'"></span></p>
+      <prism *ngIf="directive.code" language="typescript" [code]="directive.code"></prism>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="api.miscellaneous.typealiases.length">
     <h2 [lyTyp]="'headline'" gutter>Type Aliases</h2>
     <ng-container *ngFor="let variable of api.miscellaneous.typealiases">
       <h3 [lyTyp]="'title'" gutter>{{ variable.name }}</h3>
-      <p>Type: <span prism language="typescript" code="{{variable.rawtype}}"></span></p>
+      <p>Type: <span prism language="typescript" code="{{ variable.rawtype }}"></span></p>
     </ng-container>
   </ng-container>
-  <ng-container *ngIf="api.miscellaneous.variables.length">
+  <ng-container *ngIf="api.miscellaneous.variablesCode as code">
     <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
-    <p><prism language="typescript" [code]="api.miscellaneous.variablesCode"></prism></p>
+    <prism language="typescript" [code]="code"></prism>
   </ng-container>
-  <ng-template [ngIf]="api.miscellaneous.enumerations.length">
+  <ng-container *ngIf="api.miscellaneous.enumerationsCode as code">
     <h2 [lyTyp]="'headline'" gutter>Enumerations</h2>
-    <ng-container *ngFor="let _enum of api.miscellaneous.enumerations">
-      <prism language="typescript" [code]="_enum.code"></prism>
-    </ng-container>
-  </ng-template>
+    <prism language="typescript" [code]="code"></prism>
+  </ng-container>
 </ng-container>
 <ng-template #loading>Loading...</ng-template>
-
-<!-- <pre>{{ doc | async | json }}</pre> -->
