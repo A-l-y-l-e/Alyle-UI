@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, Optional, Renderer2, OnInit, OnChanges } from '@angular/core';
-import { ThemeVariables, LyCommon, LyTheme2 } from '@alyle/ui';
+import { ThemeVariables, LyCommon, LyTheme2, Dir } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'end top';
@@ -66,7 +66,7 @@ export class LyBadge implements OnInit {
           bottom?: number
           transform?: string
         } = {};
-        const dir = theme.getDirection(val.indexOf('start') !== -1 ? 'start' : 'end');
+        const dir = theme.getDirection(val.indexOf(Dir.start) !== -1 ? Dir.start : Dir.end);
         positionStyles[dir] = 0;
         if (dir === 'left') {
           positionStyles.transform = 'translateX(-50%)';

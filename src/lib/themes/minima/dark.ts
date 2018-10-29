@@ -1,5 +1,5 @@
 import { input } from './variables';
-import { ThemeConfig, mergeDeep } from '@alyle/ui';
+import { ThemeConfig, mergeDeep, Dir } from '@alyle/ui';
 import { MinimaBase } from './base';
 
 const contrast = '#fff';
@@ -66,5 +66,5 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
       }
     }
   });
-  direction = 'rtl' as 'rtl';
+  direction = Dir.rtl; // beta
 }

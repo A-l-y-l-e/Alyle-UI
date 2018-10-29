@@ -337,9 +337,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   private _updateFielset(el: Element, f: 'start' | 'end') {
     const { width } = el.getBoundingClientRect();
     const newClass = this._theme.addStyle(`style.paddingStart:${width}`, (theme: ThemeVariables) => {
-      const direction = theme.getDirection(f);
       return {
-        [`margin-${direction}`]: `${width}px`
+        [`margin-${f}`]: `${width}px`
       };
     });
     if (f === 'start') {

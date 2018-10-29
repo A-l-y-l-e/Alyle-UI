@@ -34,7 +34,7 @@ export class LyStyleUtils {
     WebLandscape: string,
     [key: string]: string
   };
-  direction?: 'ltr' | 'rtl';
+  direction?: Dir;
   pxToRem(value: number) {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
@@ -59,6 +59,7 @@ export enum Dir {
   start = 'start',
   end = 'end',
   rtl = 'rtl',
+  ltr = 'ltr',
   left = 'left',
   right = 'right'
 }

@@ -144,14 +144,14 @@ export class LyDrawer implements OnChanges {
     if (val !== this.position) {
       this._position = val;
       this._theme.addStyle(`drawer.position:${val}`, (theme: ThemeVariables) => {
-        let positionVal: string;
-        if (val === 'start' || val === 'end') {
-          positionVal = theme.getDirection(val);
-        } else {
-          positionVal = val;
-        }
+        // const positionVal: string;
+        // if (val === 'start' || val === 'end') {
+        //   positionVal = theme.getDirection(val);
+        // } else {
+        //   positionVal = val;
+        // }
         return {
-          [positionVal]: 0
+          [val]: 0
         };
       }, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
     }
@@ -209,12 +209,12 @@ export class LyDrawer implements OnChanges {
             marginTop?: string
             marginBottom?: string
           } = {};
-          let positionVal = 'margin-';
-          if (__position === 'start' || __position === 'end') {
-            positionVal += theme.getDirection(__position);
-          } else {
-            positionVal += __position;
-          }
+          const positionVal = `margin-${__position}`;
+          // if (__position === 'start' || __position === 'end') {
+          //   positionVal += theme.getDirection(__position);
+          // } else {
+          //   positionVal += __position;
+          // }
           eachMedia(__opened as any, () => {});
           if (__width) {
             eachMedia(__width, (val, media, isMedia) => {

@@ -15,4 +15,9 @@ export class MinimaBase extends LyStyleUtils {
   zIndex = zIndex;
   ripple = RippleVariables;
   animations = animations;
+  badge = {
+    position: {
+      // code
+    }
+  };
 }

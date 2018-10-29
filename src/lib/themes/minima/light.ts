@@ -1,4 +1,4 @@
-import { ThemeConfig, mergeDeep } from '@alyle/ui';
+import { ThemeConfig, mergeDeep, Dir } from '@alyle/ui';
 import { input } from './variables';
 import { MinimaBase } from './base';
 
@@ -66,5 +66,5 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       }
     }
   });
-  direction = 'ltr' as 'ltr';
+  direction = Dir.ltr;
 }
