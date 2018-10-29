@@ -7,8 +7,10 @@ import { Component } from '@angular/core';
 export class DynamicStylesComponent {
   codeBasicStyle = `
 const styles = (theme: ThemeVariables) => ({
-  root: {                         // this would be like the name of the class
+  demo: {                         // this would be like the name of the class
     color: theme.primary.default, // style
+    borderStart: '2px solid',     // support for rtl & ltr
+    paddingStart: '.5em',         // support for rtl & ltr
     '&:hover': {                  // \`&\`is equal to \`root\` and therefore it would be 'root:hover'
       color: theme.accent.default // style
     }
