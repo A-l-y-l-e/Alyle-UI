@@ -154,18 +154,18 @@ export class LyResizingCroppingImages {
   /** @deprecated @ignore */
   @Input() src: string;
   @Input()
-  set config(val: ImgCropperConfig) {
-    this._config = mergeDeep({}, CONFIG_DEFAULT, val);
-  }
   get config(): ImgCropperConfig {
     return this._config;
   }
-  /** get current scale */
-  get scale() {
+  set config(val: ImgCropperConfig) {
+    this._config = mergeDeep({}, CONFIG_DEFAULT, val);
+  }
+  /** Get current scale */
+  get scale(): number {
     return this._scale;
   }
-  /** get min scale */
-  get minScale() {
+  /** Get min scale */
+  get minScale(): number {
     return this._minScale;
   }
   isLoaded: boolean;
