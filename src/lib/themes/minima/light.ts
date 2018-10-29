@@ -66,4 +66,5 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       }
     }
   });
+  direction = 'ltr' as 'ltr';
 }

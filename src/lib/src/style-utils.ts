@@ -46,13 +46,21 @@ export class LyStyleUtils {
     return `@media ${this.breakpoints[key] || key}`;
   }
 
-  getDirection(val: 'start' | 'end') {
-    if (val === 'end') {
+  getDirection(val: Dir) {
+    if (val === Dir.end) {
       return this.direction === 'rtl' ? 'left' : 'right';
     } else {
       return this.direction === 'rtl' ? 'right' : 'left';
     }
   }
+}
+
+export enum Dir {
+  start = 'start',
+  end = 'end',
+  rtl = 'rtl',
+  left = 'left',
+  right = 'right'
 }
 
 /**

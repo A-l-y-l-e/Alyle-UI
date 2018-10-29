@@ -4,6 +4,7 @@ import { CoreTheme } from './core-theme.service';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
+import { Dir } from '../style-utils';
 
 const defaultStyles = {
   '@global': {
@@ -14,6 +15,7 @@ const defaultStyles = {
     }
   }
 };
+
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
@@ -202,14 +204,14 @@ export class LyTheme2 {
       let css;
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
-        css = groupStyleToString(styleMap, styles(this.config), themeName, null, type, media);
+        css = groupStyleToString(styleMap, styles(this.config), themeName, null, type, this.config, media);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
 
         }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
-        css = groupStyleToString(styleMap, styles, themeName, newId as string, type, media);
+        css = groupStyleToString(styleMap, styles, themeName, newId as string, type, this.config, media);
         styleMap.css = css;
       }
       if (!this.elements.has(newId)) {
@@ -292,6 +294,7 @@ function groupStyleToString(
   themeName: string,
   id: string,
   typeStyle: TypeStyle,
+  themeVariables: ThemeVariables,
   media?: string
 ) {
   if (typeStyle === TypeStyle.OnlyOne) {
@@ -305,7 +308,7 @@ function groupStyleToString(
       const css = `.${className}{${styles}}`;
       return media ? toMedia(css, media) : css;
     } else {
-      const rules = styleToString(id, styles, className as any);
+      const rules = styleToString(id, styles, themeVariables, className as any);
       return rules;
     }
   }
@@ -320,7 +323,7 @@ function groupStyleToString(
       : classesMap[key] = isDevMode() ? toClassNameValid(`i---${key}-${createNextClassId()}`) : createNextClassId();
       const value = styles[key];
       if (typeof value === 'object') {
-        const style = styleToString(key, value as Styles2, currentClassName);
+        const style = styleToString(key, value as Styles2, themeVariables, currentClassName);
         content += style;
       } else {
         console.log('value is string', value);
@@ -340,7 +343,7 @@ function replaceRefs(str: string, data: Object) {
 /**
  * {color:'red'} to .className{color: red}
  */
-function styleToString(key: string, ob: Object, currentKey: string, parentKey?: string) {
+function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, currentKey: string, parentKey?: string) {
   let content = '';
   let subContent = '';
   let keyAndValue = '';
@@ -362,9 +365,14 @@ function styleToString(key: string, ob: Object, currentKey: string, parentKey?: 
     if (ob.hasOwnProperty(styleKey)) {
       const element = ob[styleKey];
       if (typeof element === 'object') {
-        subContent += styleToString(key, element as Styles2, styleKey, newKey);
+        subContent += styleToString(key, element as Styles2, themeVariables, styleKey, newKey);
       } else {
-        const newStyleKey = toHyphenCaseCache(styleKey);
+        let newStyleKey = toHyphenCaseCache(styleKey);
+        if (newStyleKey.indexOf(Dir.start) !== -1) {
+          newStyleKey = dirCache(newStyleKey, themeVariables, Dir.start);
+        } else if (newStyleKey.indexOf(Dir.end) !== -1) {
+          newStyleKey = dirCache(newStyleKey, themeVariables, Dir.end);
+        }
         keyAndValue += `${newStyleKey}:${element};`;
       }
     }
@@ -394,10 +402,19 @@ function toClassNameValid(str: string) {
   return toHyphenCase(s);
 }
 
-function toHyphenCaseCache(str: string) {
+function toHyphenCaseCache(str: string): string {
   return str in STYLE_KEYS_MAP
   ? STYLE_KEYS_MAP[str]
   : STYLE_KEYS_MAP[str] = toHyphenCase(str);
+}
+
+const STYLE_KEYS_DIRECTIONS_MAP = {};
+
+function dirCache(val: string, themeVariables: ThemeVariables, dir: Dir) {
+  const newKey = themeVariables.direction + val;
+  return newKey in STYLE_KEYS_DIRECTIONS_MAP
+  ? STYLE_KEYS_DIRECTIONS_MAP[newKey]
+  : STYLE_KEYS_DIRECTIONS_MAP[newKey] = val.replace(dir, themeVariables.getDirection(dir));
 }
 
 export function capitalizeFirstLetter(str: string) {

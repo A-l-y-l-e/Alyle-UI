@@ -66,4 +66,5 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
       }
     }
   });
+  direction = 'rtl' as 'rtl';
 }
