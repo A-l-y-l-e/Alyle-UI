@@ -103,6 +103,12 @@ export interface ThemeConfig {
     }
   };
   ripple: IRippleVariables;
+  badge: {
+    root?: StyleContainer,
+    position?: {
+      [positionName: string]: StyleContainer
+    }
+  };
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

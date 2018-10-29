@@ -66,5 +66,5 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       }
     }
   });
-  direction = Dir.ltr;
+  badge = {};
 }

@@ -4,7 +4,7 @@ import { CoreTheme } from './core-theme.service';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
-import { Dir } from '../style-utils';
+import { DirAlias } from '../style-utils';
 
 const defaultStyles = {
   '@global': {
@@ -368,10 +368,10 @@ function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, 
         subContent += styleToString(key, element as Styles2, themeVariables, styleKey, newKey);
       } else {
         let newStyleKey = toHyphenCaseCache(styleKey);
-        if (newStyleKey.indexOf(Dir.start) !== -1) {
-          newStyleKey = dirCache(newStyleKey, themeVariables, Dir.start);
-        } else if (newStyleKey.indexOf(Dir.end) !== -1) {
-          newStyleKey = dirCache(newStyleKey, themeVariables, Dir.end);
+        if (newStyleKey.indexOf(DirAlias.start) !== -1) {
+          newStyleKey = dirCache(newStyleKey, themeVariables, DirAlias.start);
+        } else if (newStyleKey.indexOf(DirAlias.end) !== -1) {
+          newStyleKey = dirCache(newStyleKey, themeVariables, DirAlias.end);
         }
         keyAndValue += `${newStyleKey}:${element};`;
       }
@@ -410,11 +410,11 @@ function toHyphenCaseCache(str: string): string {
 
 const STYLE_KEYS_DIRECTIONS_MAP = {};
 
-function dirCache(val: string, themeVariables: ThemeVariables, dir: Dir) {
+function dirCache(val: string, themeVariables: ThemeVariables, dirAlias: DirAlias) {
   const newKey = themeVariables.direction + val;
   return newKey in STYLE_KEYS_DIRECTIONS_MAP
   ? STYLE_KEYS_DIRECTIONS_MAP[newKey]
-  : STYLE_KEYS_DIRECTIONS_MAP[newKey] = val.replace(dir, themeVariables.getDirection(dir));
+  : STYLE_KEYS_DIRECTIONS_MAP[newKey] = val.replace(dirAlias, themeVariables.getDirection(dirAlias));
 }
 
 export function capitalizeFirstLetter(str: string) {

@@ -12,7 +12,8 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
       backgroundColor: theme.background.default,
       color: theme.text.default,
       fontFamily: theme.typography.fontFamily,
-      margin: 0
+      margin: 0,
+      direction: theme.direction
     },
   },
   root: {
@@ -58,12 +59,12 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
   drawerButton: {
     color: theme.drawerButton,
     fontWeight: 400,
-    borderLeft: '3px solid transparent',
+    borderStart: '3px solid transparent',
     display: 'flex',
     justifyContent: 'space-between',
     '&:hover, &{onLinkActive}': {
       color: theme.primary.default,
-      borderLeft: '3px solid'
+      borderStart: '3px solid'
     }
   },
   onLinkActive: {}

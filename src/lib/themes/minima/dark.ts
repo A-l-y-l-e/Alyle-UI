@@ -66,5 +66,6 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
       }
     }
   });
-  direction = Dir.rtl; // beta
+  badge = {};
+  // direction = Dir.rtl;
 }

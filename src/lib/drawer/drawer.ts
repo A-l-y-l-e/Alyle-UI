@@ -45,7 +45,7 @@ const styles = (theme: ThemeVariables) => ({
     display: 'block'
   },
   drawerOpened: {
-    transform: 'translate3d(0px, 0px, 0)',
+    transform: 'translate(0px, 0px)',
     visibility: 'visible'
   },
   backdrop: {
