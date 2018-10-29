@@ -134,7 +134,12 @@ const CONFIG_DEFAULT = <ImgCropperConfig>{
   templateUrl: 'resizing-cropping-images.html'
  })
 export class LyResizingCroppingImages {
+  /**
+   * styles
+   * @ignore
+   */
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  /** @deprecated */
   result: string;
   private _fileName: string;
 
@@ -152,7 +157,7 @@ export class LyResizingCroppingImages {
   set config(val: ImgCropperConfig) {
     this._config = mergeDeep({}, CONFIG_DEFAULT, val);
   }
-  get config() {
+  get config(): ImgCropperConfig {
     return this._config;
   }
   /** get current scale */
@@ -170,7 +175,7 @@ export class LyResizingCroppingImages {
   @Output() loaded = new EventEmitter<ImgCropperEvent>();
   /** On crop new image */
   @Output() cropped = new EventEmitter<ImgCropperEvent>();
-  /** issues an error when the loaded image is not valid */
+  /** Emit an error when the loaded image is not valid */
   @Output() error = new EventEmitter<ImgCropperEvent>();
 
   private defaultType: string;
