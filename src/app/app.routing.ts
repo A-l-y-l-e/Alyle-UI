@@ -30,7 +30,6 @@ const routes: Routes = [
     path: 'components',
     children: [
       { path: 'drawer', loadChildren: './components/drawer-demo/drawer-demo.module#DrawerDemoModule' },
-      { path: 'input', loadChildren: './components/input-demo/input-demo.module#InputDemoModule' },
       { path: 'radio', loadChildren: './components/radio-demo/radio-demo.module#RadioDemoModule' },
       { path: 'menu', loadChildren: './components/menu-demo/menu-demo.module#MenuDemoModule' },
       { path: 'carousel', loadChildren: './components/carousel-demo/carousel-demo.module#CarouselDemoModule' },

@@ -43,7 +43,6 @@ export class RoutesAppService {
           { route: 'drawer', name: 'Drawer' },
           { route: 'field', name: 'Field', status: 'alpha' },
           { route: 'icon-button', name: 'Icon button' },
-          { route: 'input', name: 'Input' },
           { route: 'menu', name: 'Menu', status: 'alpha' },
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
