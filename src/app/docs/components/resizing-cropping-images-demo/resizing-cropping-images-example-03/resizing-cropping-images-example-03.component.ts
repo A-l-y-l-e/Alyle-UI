@@ -20,6 +20,7 @@ const styles = {
 })
 export class ResizingCroppingImagesExample03Component {
   classes = this.theme.addStyleSheet(styles);
+  croppedImage: string;
   @ViewChild(LyResizingCroppingImages) img: LyResizingCroppingImages;
   result: string;
   myConfig: ImgCropperConfig = {
@@ -30,6 +31,10 @@ export class ResizingCroppingImagesExample03Component {
       height: 50
     }
   };
+
+  onCropped(e) {
+    this.croppedImage = e.base64;
+  }
 
   constructor(
     private theme: LyTheme2

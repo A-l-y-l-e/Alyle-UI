@@ -15,10 +15,11 @@
 <button (click)="cropping['1:1']()" ly-button>1:1</button>
 <ly-cropping #cropping
 [withClass]="classes.cropping"
-[config]="myConfig">
+[config]="myConfig"
+(cropped)="onCropped($event)">
 <span>Drag and drop image</span>
 </ly-cropping>
 <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>
   <ly-icon>crop</ly-icon>crop
 </button>
-<div><img *ngIf="cropping.isCropped" [src]="cropping.result"></div>
+<div><img *ngIf="cropping.isCropped" [src]="croppedImage"></div>

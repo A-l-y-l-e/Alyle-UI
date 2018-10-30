@@ -87,7 +87,7 @@ export interface LyResizingCroppingImagesConfig {
   output?: {
     width: number;
     height: number;
-  } | ImageResolution | ImgResolution;
+  } | ImgResolution;
 }
 export type ImgCropperConfig = LyResizingCroppingImagesConfig;
 
@@ -98,19 +98,8 @@ export enum ImgResolution {
   /** Only cropping */
   OriginalImage
 }
-/** @ignore @deprecated, use `ImgResolution` instead */
-export enum ImageResolution {
-  /** Resizing & cropping */
-  Default,
-  /** Only cropping */
-  OriginalImage
-}
 
-/** @deprecated, use `ImgCropperEvent` instead */
-export type CroppedImage = ImgCropperEvent;
 export interface ImgCropperEvent {
-  /** @deprecated, use `base64` instead */
-  base64Image: string;
   base64: string;
   name: string;
   type: string;
@@ -139,8 +128,7 @@ export class LyResizingCroppingImages {
    * @ignore
    */
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
-  /** @deprecated */
-  result: string;
+  _originalImgBase64: string;
   private _fileName: string;
 
   private _img: HTMLImageElement;
@@ -151,8 +139,6 @@ export class LyResizingCroppingImages {
 
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
-  /** @deprecated @ignore */
-  @Input() src: string;
   @Input()
   get config(): ImgCropperConfig {
     return this._config;
@@ -281,11 +267,6 @@ export class LyResizingCroppingImages {
     return `translate3d(${l}px, ${r}px, 0)`;
   }
 
-  /** @ignore @deprecated, instead use setScale(1) */
-  '1:1'() {
-    this.setScale(1);
-  }
-
   /**
    * Ajustar a la pantalla
    */
@@ -402,14 +383,13 @@ export class LyResizingCroppingImages {
     this._setStylesForContImg(newStyles);
   }
   private _setImageUrl(src: string) {
-    this.src = src;
+    this._originalImgBase64 = src;
     if (!src) { return; }
     const img = new Image;
     const cropEvent: ImgCropperEvent = {
       name: this._fileName,
       type: this._defaultType,
       base64: null,
-      base64Image: null,
       width: null,
       height: null
     };
@@ -483,14 +463,14 @@ export class LyResizingCroppingImages {
    */
   crop(config?: ImgCropperConfig): ImgCropperEvent {
     const newConfig = config ? mergeDeep({}, this.config || CONFIG_DEFAULT, config) : this.config;
-    const cropEvent = this.cropp(newConfig);
+    const cropEvent = this._imgCrop(newConfig);
     return cropEvent;
   }
 
   /**
-   * @ignore @deprecated, use crop() instead
+   * @ignore
    */
-  cropp(myConfig: ImgCropperConfig) {
+  _imgCrop(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
     const rect = this._croppingContainer.nativeElement.getBoundingClientRect() as ClientRect;
     const img = this._imgContainer.nativeElement.firstElementChild.getBoundingClientRect() as ClientRect;
@@ -523,9 +503,7 @@ export class LyResizingCroppingImages {
     } else {
       url = result.toDataURL(this._defaultType);
     }
-    this.result = (url);
     const cropEvent = {
-      base64Image: url,
       base64: url,
       type: this._defaultType || myConfig.type,
       name: this._fileName,
