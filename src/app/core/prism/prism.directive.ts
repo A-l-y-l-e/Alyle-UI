@@ -130,7 +130,8 @@ const STYLES = (theme: ThemeVariables) => ({
   'attr-value': { },
   'attr-name': { },
   'class-name': { },
-  builtin: {}
+  builtin: {},
+  property: {}
 });
 
 const NOP_STYLES = {};

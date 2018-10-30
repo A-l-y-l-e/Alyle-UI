@@ -25,4 +25,10 @@
     <prism language="typescript" [code]="code"></prism>
   </ng-container>
 </ng-container>
+<ng-template [ngIf]="themePkg.length">
+  <ng-template ngFor let-pkg [ngForOf]="themePkg">
+    <h2 [lyTyp]="'headline'" gutter>Theme {{ pkg.name }}</h2>
+    <prism language="json" [code]="pkg.themeJSON"></prism>
+  </ng-template>
+</ng-template>
 <ng-template #loading>Loading...</ng-template>
