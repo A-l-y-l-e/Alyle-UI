@@ -60,11 +60,5 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       }
     }
   });
-  input = {
-    /** @deprecated */
-    label: 'rgba(0, 0, 0, 0.6)',
-    /** @deprecated */
-    underline: 'rgba(0, 0, 0, 0.11)',
-  };
   badge = {};
 }

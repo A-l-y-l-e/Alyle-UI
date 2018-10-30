@@ -60,12 +60,6 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
       }
     }
   });
-  input = {
-    /** @deprecated */
-    label: 'rgba(255, 255, 255, 0.4)',
-    /** @deprecated */
-    underline: 'rgba(255, 255, 255, 0.11)',
-  };
   badge = {};
   // direction = Dir.rtl;
 }
