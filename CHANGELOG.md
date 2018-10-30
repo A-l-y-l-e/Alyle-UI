@@ -1,3 +1,33 @@
+<a name="1.7.7"></a>
+## [1.7.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.6...1.7.7) (2018-10-30)
+
+
+### Bug Fixes
+
+* minor changes ([a576ebc](https://github.com/A-l-y-l-e/Alyle-UI/commit/a576ebc))
+* update peerDependencies ([566656c](https://github.com/A-l-y-l-e/Alyle-UI/commit/566656c))
+* **button:** fix minWidth ([aea9b9f](https://github.com/A-l-y-l-e/Alyle-UI/commit/aea9b9f))
+* **card:** fix api ([1e5c1d7](https://github.com/A-l-y-l-e/Alyle-UI/commit/1e5c1d7))
+* **core:** fix theme ([2af6909](https://github.com/A-l-y-l-e/Alyle-UI/commit/2af6909))
+* **field, menu:** fix theme variables ([957c59b](https://github.com/A-l-y-l-e/Alyle-UI/commit/957c59b))
+* **img-cropper:** fix api ([9693075](https://github.com/A-l-y-l-e/Alyle-UI/commit/9693075))
+* **img-cropper:** fix api ([1c6dbbb](https://github.com/A-l-y-l-e/Alyle-UI/commit/1c6dbbb))
+* **menu:** fix api ([d8f1ae5](https://github.com/A-l-y-l-e/Alyle-UI/commit/d8f1ae5))
+
+
+### Features
+
+* **badge:** add variables for badge ([0c82fc9](https://github.com/A-l-y-l-e/Alyle-UI/commit/0c82fc9))
+* **core:** add directions in styles ([6631ff3](https://github.com/A-l-y-l-e/Alyle-UI/commit/6631ff3))
+* **img-cropper:** add clean method ([a83986b](https://github.com/A-l-y-l-e/Alyle-UI/commit/a83986b))
+
+
+### Performance Improvements
+
+* **theme:** improve the creation of styles ([909a93f](https://github.com/A-l-y-l-e/Alyle-UI/commit/909a93f))
+
+
+
 <a name="1.7.6"></a>
 ## [1.7.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.5...1.7.6) (2018-10-26)
 
