@@ -15,7 +15,7 @@ import {
   QueryList,
   NgZone
   } from '@angular/core';
-import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean } from '@alyle/ui';
+import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
 import { LyInputNative } from './input';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
@@ -25,6 +25,41 @@ import { LySuffix } from './suffix';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
+const DEFAULT_APPEARANCE_THEME = {
+  standard: {
+    container: {
+      padding: '1em 0 0',
+      '&:after': {
+        borderBottomStyle: 'solid',
+        borderBottomWidth: '1px'
+      },
+      '&:hover:after': {
+        borderBottomColor: 'currentColor'
+      }
+    },
+    containerFocused: {
+      '&:after': {
+        borderWidth: '2px',
+        borderColor: 'currentColor'
+      }
+    },
+    containerLabelHover: {
+      color: 'currentColor'
+    },
+    label: {
+      margin: '0.4375em 0'
+    },
+    placeholder: {
+      margin: '0.4375em 0'
+    },
+    input: {
+      margin: '0.4375em 0'
+    },
+    floatingLabel: {
+      transform: 'translateY(-1.25em)'
+    }
+  }
+};
 const DEFAULT_WITH_COLOR = 'primary';
 const styles = (theme: ThemeVariables) => {
   return {
@@ -50,14 +85,14 @@ const styles = (theme: ThemeVariables) => {
         ...LY_COMMON_STYLES.fill,
         content: `\'\'`,
         pointerEvents: 'none',
-        borderColor: theme.input.borderColor
+        borderColor: theme.field.borderColor
       }
     },
     fieldset: {
       ...LY_COMMON_STYLES.fill,
       margin: 0,
       borderStyle: 'solid',
-      borderColor: theme.input.borderColor,
+      borderColor: theme.field.borderColor,
       borderWidth: 0
     },
     fieldsetSpan: {
@@ -77,7 +112,7 @@ const styles = (theme: ThemeVariables) => {
         pointerEvents: 'none',
         boxSizing: 'content-box',
         ...LY_COMMON_STYLES.fill,
-        borderColor: theme.input.borderColor
+        borderColor: theme.field.borderColor
       }
     },
     infix: {
@@ -89,7 +124,7 @@ const styles = (theme: ThemeVariables) => {
         pointerEvents: 'none',
         boxSizing: 'content-box',
         ...LY_COMMON_STYLES.fill,
-        borderColor: theme.input.borderColor
+        borderColor: theme.field.borderColor
       }
     },
     suffix: {
@@ -101,7 +136,7 @@ const styles = (theme: ThemeVariables) => {
         pointerEvents: 'none',
         boxSizing: 'content-box',
         ...LY_COMMON_STYLES.fill,
-        borderColor: theme.input.borderColor
+        borderColor: theme.field.borderColor
       }
     },
     labelContainer: {
@@ -109,7 +144,7 @@ const styles = (theme: ThemeVariables) => {
       pointerEvents: 'none',
       display: 'flex',
       width: '100%',
-      borderColor: theme.input.borderColor
+      borderColor: theme.field.borderColor
     },
     labelSpacingStart: {},
     labelCenter: {
@@ -233,11 +268,11 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      if (!(this._theme.config.input as any).appearance[val])  {
-        throw new Error(`${val} not found in theme.input.appearance`);
+      if (!(this._theme.config.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]))  {
+        throw new Error(`${val} not found in theme.field.appearance`);
       }
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
-        const appearance = mergeDeep({}, theme.input.appearance.any, theme.input.appearance[val]);
+        const appearance = mergeDeep({}, theme.field.appearance.any, theme.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]);
         return {
           [`& .${this.classes.container}`]: {...appearance.container},
           [`& .${this.classes.prefix}`]: {...appearance.prefix},
@@ -309,16 +344,16 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       this._ngZone.runOutsideAngular(() => {
         if (this._prefixContainer) {
           const el = this._prefixContainer.nativeElement;
-          this._updateFielset(el, 'start');
+          this._updateFielset(el, DirAlias.start);
           this._elementObserver.observe(el, () => {
-            this._updateFielset(el, 'start');
+            this._updateFielset(el, DirAlias.start);
           });
         }
         if (this._suffixContainer) {
           const el = this._suffixContainer.nativeElement;
-          this._updateFielset(el, 'end');
+          this._updateFielset(el, DirAlias.end);
           this._elementObserver.observe(el, () => {
-            this._updateFielset(el, 'end');
+            this._updateFielset(el, DirAlias.end);
           });
         }
         if (this._labelSpan) {
@@ -334,14 +369,14 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
   }
 
-  private _updateFielset(el: Element, f: 'start' | 'end') {
+  private _updateFielset(el: Element, f: DirAlias) {
     const { width } = el.getBoundingClientRect();
     const newClass = this._theme.addStyle(`style.paddingStart:${width}`, (theme: ThemeVariables) => {
       return {
         [`margin-${f}`]: `${width}px`
       };
     });
-    if (f === 'start') {
+    if (f === DirAlias.start) {
       this._theme.updateClass(this._fieldsetLegend.nativeElement, this._renderer, newClass, this._fielsetStartClass);
       this._fielsetStartClass = newClass;
     } else {

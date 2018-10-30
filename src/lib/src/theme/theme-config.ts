@@ -45,7 +45,7 @@ export interface ThemeConfig {
     radioOuterCircle?: string;
   };
   menu: {
-    bg: string;
+    root?: StyleContainer
   };
   drawer: {
     /** color for drawer:backdrop */
@@ -58,6 +58,9 @@ export interface ThemeConfig {
     underline?: string
     /** @deprecated */
     withColor?: string
+  };
+  /** @deprecated */
+  field: {
     borderColor: string
     appearance: {
       [appearanceName: string]: {

@@ -16,11 +16,11 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder } from '@alyle/ui';
+import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 
-const STYLES = theme => ({
+const STYLES = (theme: ThemeVariables) => ({
   root: {
     background: theme.background.primary.default,
     borderRadius: '2px',
@@ -28,7 +28,8 @@ const STYLES = theme => ({
     display: 'inline-block',
     paddingTop: '8px',
     paddingBottom: '8px',
-    transformOrigin: 'left top 0px'
+    transformOrigin: 'left top 0px',
+    ...theme.menu.root
   }
 });
 

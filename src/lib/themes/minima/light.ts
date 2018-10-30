@@ -1,5 +1,5 @@
 import { ThemeConfig, mergeDeep, Dir } from '@alyle/ui';
-import { input } from './variables';
+import { field } from './variables';
 import { MinimaBase } from './base';
 
 const contrast = '#fff';
@@ -45,18 +45,12 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   radio = {
     radioOuterCircle: 'rgba(0, 0, 0, 0.43)'
   };
-  menu = {
-    bg: '#fff' // background>primary
-  };
+  menu = {};
   drawer = {
     backdrop: 'rgba(0,0,0,.6)'
   };
   bar = '#f5f5f5';
-  input = mergeDeep({}, input, {
-    /** @deprecated */
-    label: 'rgba(0, 0, 0, 0.6)',
-    /** @deprecated */
-    underline: 'rgba(0, 0, 0, 0.11)',
+  field = mergeDeep({}, field, {
     borderColor: 'rgba(0, 0, 0, 0.12)',
     appearance: {
       filled: {
@@ -66,5 +60,11 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       }
     }
   });
+  input = {
+    /** @deprecated */
+    label: 'rgba(0, 0, 0, 0.6)',
+    /** @deprecated */
+    underline: 'rgba(0, 0, 0, 0.11)',
+  };
   badge = {};
 }
