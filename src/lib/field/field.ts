@@ -162,7 +162,7 @@ const styles = (theme: ThemeVariables) => {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-      color: theme.input.label,
+      color: theme.field.labelColor,
       width: '100%'
     },
     isFloatingLabel: {},
@@ -174,7 +174,7 @@ const styles = (theme: ThemeVariables) => {
     placeholder: {
       ...LY_COMMON_STYLES.fill,
       pointerEvents: 'none',
-      color: theme.input.label
+      color: theme.field.labelColor
     },
     focused: {},
     hint: {},

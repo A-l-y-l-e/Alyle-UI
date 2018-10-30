@@ -52,6 +52,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   bar = '#f5f5f5';
   field = mergeDeep({}, field, {
     borderColor: 'rgba(0, 0, 0, 0.12)',
+    labelColor: 'rgba(0, 0, 0, 0.6)',
     appearance: {
       filled: {
         container: {

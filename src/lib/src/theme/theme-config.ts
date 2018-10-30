@@ -53,6 +53,7 @@ export interface ThemeConfig {
   };
   field: {
     borderColor: string
+    labelColor: string
     appearance: {
       [appearanceName: string]: {
         container?: StyleContainer

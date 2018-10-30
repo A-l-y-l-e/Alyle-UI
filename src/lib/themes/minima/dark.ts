@@ -52,6 +52,7 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   shadow = shadow;
   field = mergeDeep({}, field, {
     borderColor: 'rgba(255, 255, 255, 0.12)',
+    labelColor: 'rgba(255, 255, 255, 0.4)',
     appearance: {
       filled: {
         container: {
