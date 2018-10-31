@@ -102,22 +102,24 @@ export enum ImgResolution {
 }
 
 export interface ImgCropperEvent {
+  /** Cropped image in base64 */
   base64: string;
   name: string;
+  /** Filetype */
   type: string;
   width: number;
   height: number;
+  /** Original Image in base64 */
+  originalBase64: string;
 }
-export interface ImageState {
-  isLoaded: boolean;
-  isCrop: boolean;
-}
+
 const CONFIG_DEFAULT = <ImgCropperConfig>{
   width: 250,
   height: 200,
   output: ImgResolution.Default,
   antiAliased: true
 };
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
@@ -363,6 +365,7 @@ export class LyResizingCroppingImages {
     this._defaultType = null;
     this.isLoaded = false;
     this.isCropped = false;
+    this._originalImgBase64 = null;
     this.cd.markForCheck();
   }
 
@@ -393,7 +396,8 @@ export class LyResizingCroppingImages {
       type: this._defaultType,
       base64: null,
       width: null,
-      height: null
+      height: null,
+      originalBase64: src
     };
     img.src = src;
     img.addEventListener('error', (err) => {
@@ -510,7 +514,8 @@ export class LyResizingCroppingImages {
       type: this._defaultType || myConfig.type,
       name: this._fileName,
       width: config.width,
-      height: config.height
+      height: config.height,
+      originalBase64: this._originalImgBase64
     };
     this.cropped.emit(cropEvent);
     this.isCropped = true;
