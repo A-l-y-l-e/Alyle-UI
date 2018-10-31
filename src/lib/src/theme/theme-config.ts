@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { LyStyleUtils } from '../style-utils';
+import { LyStyleUtils, Dir } from '../style-utils';
 import { StyleContainer } from './theme2.service';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
@@ -45,20 +45,15 @@ export interface ThemeConfig {
     radioOuterCircle?: string;
   };
   menu: {
-    bg: string;
+    root?: StyleContainer
   };
   drawer: {
     /** color for drawer:backdrop */
     backdrop: string
   };
-  input: {
-    /** @deprecated */
-    label?: string
-    /** @deprecated */
-    underline?: string
-    /** @deprecated */
-    withColor?: string
+  field: {
     borderColor: string
+    labelColor: string
     appearance: {
       [appearanceName: string]: {
         container?: StyleContainer
@@ -88,7 +83,7 @@ export interface ThemeConfig {
     overlay: number
     [key: string]: number
   };
-  direction?: 'ltr' | 'rtl';
+  direction?: Dir;
   animations: {
     curves: {
       standard: string
@@ -103,6 +98,12 @@ export interface ThemeConfig {
     }
   };
   ripple: IRippleVariables;
+  badge: {
+    root?: StyleContainer,
+    position?: {
+      [positionName: string]: StyleContainer
+    }
+  };
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

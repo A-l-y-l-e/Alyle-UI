@@ -25,7 +25,7 @@ export interface SvgIcon {
 })
 export class LyIconService {
   private svgMap = new Map<string, SvgIcon>();
-  classes = this.theme.addStyleSheet(styles, 'lyIcon', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   constructor(
     private http: HttpClient,
     @Optional() @Inject(DOCUMENT) private document: any,

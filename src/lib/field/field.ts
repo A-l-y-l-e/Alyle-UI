@@ -15,7 +15,7 @@ import {
   QueryList,
   NgZone
   } from '@angular/core';
-import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean } from '@alyle/ui';
+import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
 import { LyInputNative } from './input';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
@@ -25,6 +25,41 @@ import { LySuffix } from './suffix';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
+const DEFAULT_APPEARANCE_THEME = {
+  standard: {
+    container: {
+      padding: '1em 0 0',
+      '&:after': {
+        borderBottomStyle: 'solid',
+        borderBottomWidth: '1px'
+      },
+      '&:hover:after': {
+        borderBottomColor: 'currentColor'
+      }
+    },
+    containerFocused: {
+      '&:after': {
+        borderWidth: '2px',
+        borderColor: 'currentColor'
+      }
+    },
+    containerLabelHover: {
+      color: 'currentColor'
+    },
+    label: {
+      margin: '0.4375em 0'
+    },
+    placeholder: {
+      margin: '0.4375em 0'
+    },
+    input: {
+      margin: '0.4375em 0'
+    },
+    floatingLabel: {
+      transform: 'translateY(-1.25em)'
+    }
+  }
+};
 const DEFAULT_WITH_COLOR = 'primary';
 const styles = (theme: ThemeVariables) => {
   return {
@@ -34,6 +69,14 @@ const styles = (theme: ThemeVariables) => {
       marginBottom: '1em',
       lineHeight: 1.125
     },
+    animations: {
+      '& {labelSpan}': {
+        transition: `font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+      },
+      '& {label}': {
+        transition: `${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+      }
+    },
     container: {
       height: '100%',
       display: 'flex',
@@ -42,23 +85,23 @@ const styles = (theme: ThemeVariables) => {
         ...LY_COMMON_STYLES.fill,
         content: `\'\'`,
         pointerEvents: 'none',
-        borderColor: theme.input.borderColor
+        borderColor: theme.field.borderColor
       }
     },
     fieldset: {
       ...LY_COMMON_STYLES.fill,
       margin: 0,
       borderStyle: 'solid',
-      borderColor: theme.input.borderColor,
+      borderColor: theme.field.borderColor,
       borderWidth: 0
     },
     fieldsetSpan: {
-      padding: 0
+      padding: 0,
+      height: '2px'
     },
     labelSpan: {
       maxWidth: '100%',
-      display: 'inline-block',
-      transition: `font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+      display: 'inline-block'
     },
     prefix: {
       maxHeight: '2em',
@@ -69,7 +112,7 @@ const styles = (theme: ThemeVariables) => {
         pointerEvents: 'none',
         boxSizing: 'content-box',
         ...LY_COMMON_STYLES.fill,
-        borderColor: theme.input.borderColor
+        borderColor: theme.field.borderColor
       }
     },
     infix: {
@@ -81,7 +124,7 @@ const styles = (theme: ThemeVariables) => {
         pointerEvents: 'none',
         boxSizing: 'content-box',
         ...LY_COMMON_STYLES.fill,
-        borderColor: theme.input.borderColor
+        borderColor: theme.field.borderColor
       }
     },
     suffix: {
@@ -93,7 +136,7 @@ const styles = (theme: ThemeVariables) => {
         pointerEvents: 'none',
         boxSizing: 'content-box',
         ...LY_COMMON_STYLES.fill,
-        borderColor: theme.input.borderColor
+        borderColor: theme.field.borderColor
       }
     },
     labelContainer: {
@@ -101,7 +144,7 @@ const styles = (theme: ThemeVariables) => {
       pointerEvents: 'none',
       display: 'flex',
       width: '100%',
-      borderColor: theme.input.borderColor
+      borderColor: theme.field.borderColor
     },
     labelSpacingStart: {},
     labelCenter: {
@@ -119,9 +162,8 @@ const styles = (theme: ThemeVariables) => {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-      color: theme.input.label,
-      width: '100%',
-      transition: `${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
+      color: theme.field.labelColor,
+      width: '100%'
     },
     isFloatingLabel: {},
     floatingLabel: {
@@ -132,7 +174,7 @@ const styles = (theme: ThemeVariables) => {
     placeholder: {
       ...LY_COMMON_STYLES.fill,
       pointerEvents: 'none',
-      color: theme.input.label
+      color: theme.field.labelColor
     },
     focused: {},
     hint: {},
@@ -160,7 +202,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
    * styles
    * @ignore
    */
-  classes = this._theme.addStyleSheet(styles, 'ly-field', STYLE_PRIORITY);
+  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   protected _appearance: string;
   protected _appearanceClass: string;
   protected _withColor: string;
@@ -182,6 +224,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
   @ContentChildren(LyPrefix) _prefixChildren: QueryList<LyPrefix>;
   @ContentChildren(LySuffix) _suffixChildren: QueryList<LySuffix>;
+
+  /** Whether the label is floating. */
   @Input()
   set floatingLabel(val: boolean) {
     this._floatingLabel = toBoolean(val);
@@ -190,6 +234,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   get floatingLabel() {
     return this._floatingLabel;
   }
+
+  /** Theme color for the component. */
   @Input()
   set withColor(val: string) {
     if (val !== this._withColor) {
@@ -217,15 +263,16 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     return this._withColor;
   }
 
+  /** The field appearance style. */
   @Input()
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      if (!(this._theme.config.input as any).appearance[val])  {
-        throw new Error(`${val} not found in theme.input.appearance`);
+      if (!(this._theme.config.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]))  {
+        throw new Error(`${val} not found in theme.field.appearance`);
       }
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
-        const appearance = mergeDeep({}, theme.input.appearance.any, theme.input.appearance[val]);
+        const appearance = mergeDeep({}, theme.field.appearance.any, theme.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]);
         return {
           [`& .${this.classes.container}`]: {...appearance.container},
           [`& .${this.classes.prefix}`]: {...appearance.prefix},
@@ -275,7 +322,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
   ngAfterContentInit() {
     this._renderer.addClass(this._input._hostElement, this.classes.inputNative);
-    this._input.valueChanges.subscribe(() => {
+    this._input.stateChanges.subscribe(() => {
       this._updateFloatingLabel();
       this._markForCheck();
     });
@@ -297,16 +344,16 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       this._ngZone.runOutsideAngular(() => {
         if (this._prefixContainer) {
           const el = this._prefixContainer.nativeElement;
-          this._updateFielset(el, 'start');
+          this._updateFielset(el, DirAlias.start);
           this._elementObserver.observe(el, () => {
-            this._updateFielset(el, 'start');
+            this._updateFielset(el, DirAlias.start);
           });
         }
         if (this._suffixContainer) {
           const el = this._suffixContainer.nativeElement;
-          this._updateFielset(el, 'end');
+          this._updateFielset(el, DirAlias.end);
           this._elementObserver.observe(el, () => {
-            this._updateFielset(el, 'end');
+            this._updateFielset(el, DirAlias.end);
           });
         }
         if (this._labelSpan) {
@@ -318,17 +365,18 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
         }
       });
     }
+    // this fix with of label
+    this._renderer.addClass(this._el.nativeElement, this.classes.animations);
   }
 
-  private _updateFielset(el: Element, f: 'start' | 'end') {
+  private _updateFielset(el: Element, f: DirAlias) {
     const { width } = el.getBoundingClientRect();
     const newClass = this._theme.addStyle(`style.paddingStart:${width}`, (theme: ThemeVariables) => {
-      const direction = theme.getDirection(f);
       return {
-        [`margin-${direction}`]: `${width}px`
+        [`margin-${f}`]: `${width}px`
       };
     });
-    if (f === 'start') {
+    if (f === DirAlias.start) {
       this._theme.updateClass(this._fieldsetLegend.nativeElement, this._renderer, newClass, this._fielsetStartClass);
       this._fielsetStartClass = newClass;
     } else {

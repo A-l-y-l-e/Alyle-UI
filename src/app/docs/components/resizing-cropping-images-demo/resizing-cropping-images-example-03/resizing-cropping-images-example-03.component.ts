@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { LyResizingCroppingImages, LyResizingCroppingImagesConfig } from '@alyle/ui/resizing-cropping-images';
+import { LyResizingCroppingImages, ImgCropperConfig } from '@alyle/ui/resizing-cropping-images';
 import { LyTheme2 } from '@alyle/ui';
 
 const styles = {
@@ -19,10 +19,11 @@ const styles = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResizingCroppingImagesExample03Component {
-  classes = this.theme.addStyleSheet(styles, 'resizing-cropping-images-example-03');
+  classes = this.theme.addStyleSheet(styles);
+  croppedImage: string;
   @ViewChild(LyResizingCroppingImages) img: LyResizingCroppingImages;
   result: string;
-  myConfig: LyResizingCroppingImagesConfig = {
+  myConfig: ImgCropperConfig = {
     width: 150, // Default `250`
     height: 150, // Default `200`,
     output: {
@@ -30,6 +31,10 @@ export class ResizingCroppingImagesExample03Component {
       height: 50
     }
   };
+
+  onCropped(e) {
+    this.croppedImage = e.base64;
+  }
 
   constructor(
     private theme: LyTheme2

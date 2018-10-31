@@ -1,5 +1,5 @@
-version: 1.7.1
-lastUpdate: '2018-10-14T05:36:40.033Z'
+version: 1.7.7
+lastUpdate: '2018-10-30T02:34:32.333Z'
 components:
   '@alyle/ui': /
   '@alyle/ui/grid': grid
@@ -12,7 +12,6 @@ components:
   '@alyle/ui/icon': icon
   '@alyle/ui/button': button
   '@alyle/ui/radio': radio
-  '@alyle/ui/input': input
   '@alyle/ui/resizing-cropping-images': resizing-cropping-images
   '@alyle/ui/carousel': carousel
   '@alyle/ui/menu': menu

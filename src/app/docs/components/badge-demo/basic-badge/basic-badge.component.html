@@ -10,21 +10,16 @@
   <button ly-button raised bg="primary" lyBadge="9" lyBadgeBg="accent">
     button
   </button>
-  <button ly-button raised bg="primary" lyBadge="9" lyBadgeBg="accent" lyBadgePosition="end bottom">
-    button
-  </button>
-  <button ly-button raised bg="primary" lyBadge="9" lyBadgeBg="accent" lyBadgePosition="start bottom">
-    button
-  </button>
-  <button ly-button raised bg="primary" lyBadge="9" lyBadgeBg="accent" lyBadgePosition="start top">
-    button
-  </button>
 
   <p>
     Customized Badge
     <button ly-button bg="background:tertiary" color="primary" outlined>
       button
       <ly-badge bg="background:tertiary" color="primary" outlined>9</ly-badge>
+    </button>
+    <button ly-icon-button>
+      <ly-icon>notifications</ly-icon>
+      <ly-badge [withClass]="classes.customBadge" bg="primary">9</ly-badge>
     </button>
   </p>
 </div>

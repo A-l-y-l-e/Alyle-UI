@@ -34,7 +34,7 @@ export class LyStyleUtils {
     WebLandscape: string,
     [key: string]: string
   };
-  direction?: 'ltr' | 'rtl';
+  direction?: Dir;
   pxToRem(value: number) {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
@@ -46,13 +46,26 @@ export class LyStyleUtils {
     return `@media ${this.breakpoints[key] || key}`;
   }
 
-  getDirection(val: 'start' | 'end') {
-    if (val === 'end') {
+  getDirection(val: DirAlias) {
+    if (val === DirAlias.end) {
       return this.direction === 'rtl' ? 'left' : 'right';
     } else {
       return this.direction === 'rtl' ? 'right' : 'left';
     }
   }
+}
+
+export enum Dir {
+  rtl = 'rtl',
+  ltr = 'ltr'
+}
+export enum DirAlias {
+  start = 'start',
+  end = 'end'
+}
+export enum DirPosition {
+  left = 'left',
+  right = 'right'
 }
 
 /**

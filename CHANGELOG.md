@@ -1,3 +1,91 @@
+<a name="1.7.7"></a>
+## [1.7.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.6...1.7.7) (2018-10-30)
+
+
+### Bug Fixes
+
+* minor changes ([a576ebc](https://github.com/A-l-y-l-e/Alyle-UI/commit/a576ebc))
+* update peerDependencies ([566656c](https://github.com/A-l-y-l-e/Alyle-UI/commit/566656c))
+* **button:** fix minWidth ([aea9b9f](https://github.com/A-l-y-l-e/Alyle-UI/commit/aea9b9f))
+* **card:** fix api ([1e5c1d7](https://github.com/A-l-y-l-e/Alyle-UI/commit/1e5c1d7))
+* **core:** fix theme ([2af6909](https://github.com/A-l-y-l-e/Alyle-UI/commit/2af6909))
+* **field, menu:** fix theme variables ([957c59b](https://github.com/A-l-y-l-e/Alyle-UI/commit/957c59b))
+* **img-cropper:** fix api ([9693075](https://github.com/A-l-y-l-e/Alyle-UI/commit/9693075))
+* **img-cropper:** fix api ([1c6dbbb](https://github.com/A-l-y-l-e/Alyle-UI/commit/1c6dbbb))
+* **menu:** fix api ([d8f1ae5](https://github.com/A-l-y-l-e/Alyle-UI/commit/d8f1ae5))
+
+
+### Features
+
+* **badge:** add variables for badge ([0c82fc9](https://github.com/A-l-y-l-e/Alyle-UI/commit/0c82fc9))
+* **core:** add directions in styles ([6631ff3](https://github.com/A-l-y-l-e/Alyle-UI/commit/6631ff3))
+* **img-cropper:** add clean method ([a83986b](https://github.com/A-l-y-l-e/Alyle-UI/commit/a83986b))
+
+
+### Performance Improvements
+
+* **theme:** improve the creation of styles ([909a93f](https://github.com/A-l-y-l-e/Alyle-UI/commit/909a93f))
+
+
+
+<a name="1.7.6"></a>
+## [1.7.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.5...1.7.6) (2018-10-26)
+
+
+### Bug Fixes
+
+* add `minScale` property ([c94a7db](https://github.com/A-l-y-l-e/Alyle-UI/commit/c94a7db))
+* **button:** fix styles in firefox ([ba34f6d](https://github.com/A-l-y-l-e/Alyle-UI/commit/ba34f6d))
+* **field:** fix align baseline ([ec65493](https://github.com/A-l-y-l-e/Alyle-UI/commit/ec65493))
+* **field:** fix outlined in firefox ([b8aa2e2](https://github.com/A-l-y-l-e/Alyle-UI/commit/b8aa2e2))
+* **img-cropper:** fix min scale & add scale property ([4d5c851](https://github.com/A-l-y-l-e/Alyle-UI/commit/4d5c851))
+* **theme:** fix theme types ([f193df7](https://github.com/A-l-y-l-e/Alyle-UI/commit/f193df7))
+
+
+### Features
+
+* **img-cropper:** emit ImgCropperEvent on `loaded` ([2136028](https://github.com/A-l-y-l-e/Alyle-UI/commit/2136028))
+
+
+
+<a name="1.7.5"></a>
+## [1.7.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.3...1.7.5) (2018-10-25)
+
+
+### Features
+
+* **core:** support to use more of '&' in multiple styles ([fc2cb75](https://github.com/A-l-y-l-e/Alyle-UI/commit/fc2cb75))
+* **img-cropper:** improve img copper ([#61](https://github.com/A-l-y-l-e/Alyle-UI/issues/61)) ([f9ad2c0](https://github.com/A-l-y-l-e/Alyle-UI/commit/f9ad2c0))
+
+
+
+<a name="1.7.3"></a>
+## [1.7.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.2...1.7.3) (2018-10-20)
+
+
+### Features
+
+* **core:** support to create multiple styles without key ([#59](https://github.com/A-l-y-l-e/Alyle-UI/issues/59)) ([246e4fb](https://github.com/A-l-y-l-e/Alyle-UI/commit/246e4fb))
+* **field:** add description ([9b9f7d1](https://github.com/A-l-y-l-e/Alyle-UI/commit/9b9f7d1))
+
+
+
+<a name="1.7.2"></a>
+## [1.7.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.1...1.7.2) (2018-10-18)
+
+
+### Bug Fixes
+
+* **grid:** add [@ignore](https://github.com/ignore) tag for COL_VALUES ([38d6fc4](https://github.com/A-l-y-l-e/Alyle-UI/commit/38d6fc4))
+* **grid:** fix type aliases ([4143473](https://github.com/A-l-y-l-e/Alyle-UI/commit/4143473))
+
+
+### Features
+
+* **button:** add disableRipple property ([0c80b69](https://github.com/A-l-y-l-e/Alyle-UI/commit/0c80b69))
+
+
+
 <a name="1.7.1"></a>
 ## [1.7.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.0...1.7.1) (2018-10-14)
 

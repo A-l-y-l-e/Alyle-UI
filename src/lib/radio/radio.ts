@@ -86,7 +86,7 @@ export class LyRadioGroup implements ControlValueAccessor {
   name = `ly-radio-name-${idx++}`;
   _color = 'accent';
 
-  classes = this.theme.addStyleSheet(styles, 'lyRadio', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
 
   @Input()
   set value(val: any) {

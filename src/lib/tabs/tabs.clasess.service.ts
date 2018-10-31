@@ -54,7 +54,7 @@ const tabsStyles = {
   providedIn: 'root'
 })
 export class LyTabsClassesService {
-  classes = this.theme.addStyleSheet(tabsStyles, 'lyTabs');
+  classes = this.theme.addStyleSheet(tabsStyles);
   constructor(
     private theme: LyTheme2
   ) { }

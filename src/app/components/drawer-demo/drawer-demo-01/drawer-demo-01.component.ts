@@ -6,10 +6,6 @@ const styles = {
     height: '225px',
     transform: 'translate3d(0,0,0)'
   },
-  drawer: {
-    height: '100%',
-    width: '150px'
-  },
   drawerContent: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -24,7 +20,7 @@ const styles = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DrawerDemo01Component {
-  classes = this._theme.addStyleSheet(styles, 'drawer-demo-01');
+  classes = this._theme.addStyleSheet(styles);
   mode = 'side';
 
   constructor(private _theme: LyTheme2) { }

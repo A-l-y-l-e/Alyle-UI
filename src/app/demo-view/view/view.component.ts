@@ -45,7 +45,7 @@ function toPascalCase(str: string) {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewComponent implements OnInit {
-  classes = this.theme.addStyleSheet(styles, 'demo-view');
+  classes = this.theme.addStyleSheet(styles);
   hasCode = false;
   name: string;
   folderName: string;
@@ -103,8 +103,26 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 /** Alyle UI */
-import { LyThemeModule, LY_THEME } from '@alyle/ui';
+import { LyThemeModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES } from '@alyle/ui';
 import { MinimaLight } from '@alyle/ui/themes/minima';
+
+export class GlobalVariables {
+  testVal = '#00bcd4';
+  Quepal = {
+    default: \`linear-gradient(135deg,#11998e 0%,#38ef7d 100%)\`,
+    contrast: '#fff',
+    shadow: '#11998e'
+  };
+  SublimeLight = {
+    default: \`linear-gradient(135deg,#FC5C7D 0%,#6A82FB 100%)\`,
+    contrast: '#fff',
+    shadow: '#B36FBC'
+  };
+  Amber = {
+    default: '#ffc107',
+    contrast: 'rgba(0, 0, 0, 0.87)'
+  };
+}
 `;
       let moduleName: string;
       const AppModule = otherModules + res3.replace(MODULE_REGEXP, (str, token) => {
@@ -125,7 +143,11 @@ import { MinimaLight } from '@alyle/ui/themes/minima';
     {
       provide: LY_THEME,
       useClass: MinimaLight
-    }
+    },
+    {
+      provide: LY_THEME_GLOBAL_VARIABLES,
+      useClass: GlobalVariables
+    } // global variables
   ],` + str;
       });
 
@@ -185,8 +207,7 @@ import { MinimaLight } from '@alyle/ui/themes/minima';
           `import 'core-js/es6/reflect';\nimport 'core-js/es7/reflect';\nimport 'zone.js/dist/zone';\nimport 'hammerjs';\nimport 'web-animations-js';\n`
         ),
         'index.html': (
-          `<link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">\n` +
-          `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n` +
+          `<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet">\n` +
           `<${SELECTOR_APP}></${SELECTOR_APP}>`
         )
       },

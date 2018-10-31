@@ -13,7 +13,6 @@
     "layout/tabs",
     "components/button",
     "components/drawer",
-    "components/input",
     "components/radio",
     "components/menu",
     "components/resizing-cropping-images",

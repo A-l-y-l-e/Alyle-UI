@@ -47,13 +47,158 @@ for (const key in components) {
         data: fileObject.directives
       });
     }
+    c_d.forEach(_ => {
+      _.data.forEach(__ => {
+        const properties = __.propertiesClass
+        .filter(___ => !(___.name as string).startsWith('_'))
+        .map(___ => propertyTemplate(___));
+        delete __.propertiesClass;
+
+        const methods = __.methodsClass
+        .filter(___ => !(___.name as string).startsWith('_'))
+        .map(___ => methodTemplate(___));
+        delete __.methodsClass;
+
+        const inputs = __.inputsClass.map(___ => inputsTemplate(___));
+        delete __.inputsClass;
+
+        const outputs = __.outputsClass.map(___ => outputsTemplate(___));
+        delete __.outputsClass;
+
+        const accessors = [];
+        for (const accessorName in __.accessors) {
+          if (__.accessors.hasOwnProperty(accessorName)) {
+            const accessor = __.accessors[accessorName];
+            if (accessor.getSignature) {
+              accessors.push(accessorsTemplate(accessor.getSignature));
+            }
+          }
+        }
+
+        __.code = [
+          ...properties,
+          ...inputs,
+          ...accessors,
+          ...outputs,
+          ...methods
+        ].join(`\n\n`);
+      });
+    });
+    const arrayVariables = fileObject.miscellaneous.variables;
+    if (arrayVariables) {
+      fileObject.miscellaneous.variables = arrayVariables.filter((item) => {
+        return (item.name as string).toLowerCase() !== 'styles';
+      });
+    }
+
+    // Create interfaces template
+    fileObject.interfacesCode = fileObject.interfaces.map(_ => interfacesTemplate(_)).join(`\n\n`);
+
+    if (fileObject.miscellaneous.enumerations) {
+      // Create enums template
+      fileObject.miscellaneous.enumerationsCode = fileObject.miscellaneous.enumerations.map(_ => enumerationsTemplate(_)).join(`\n\n`);
+      delete fileObject.miscellaneous.enumerations;
+
+      // Create variables template
+      fileObject.miscellaneous.variablesCode = fileObject.miscellaneous.variables.map(_ => `const ${_.name} = ${_.defaultValue};`).join(`\n\n`);
+      delete fileObject.miscellaneous.variables;
+    }
     delete fileObject.components;
     delete fileObject.directives;
-    removeKeys(fileObject, ['sourceCode']);
-    removeKeys(fileObject, ['constructorObj']);
+    removeKeys(fileObject, [
+      'sourceCode',
+      'groupedVariables',
+      'groupedTypeAliases',
+      'groupedEnumerations',
+      'groupedFunctions',
+      'constructorObj'
+    ]);
     writeFileSync(docPathFile, JSON.stringify(fileObject), 'utf8');
 
   }
+}
+
+function accessorsTemplate(accessor: {
+  description: string
+  name: string
+  returnType: string
+  type: string
+}) {
+  return `${createDescription(accessor.description)}get ${accessor.name}()${accessor.returnType ? `: ${accessor.returnType}` : '' }`;
+}
+
+function enumerationsTemplate(_enum: {
+  childs: [{
+    name: string
+  }],
+  description: string
+  name: string
+}) {
+  const enumContent = `${_enum.childs.map(_ => `  ${_.name}`).join(',\n')}`;
+  return `${createDescription(_enum.description)}enum ${_enum.name} {\n${enumContent}\n}`;
+}
+
+function interfacesTemplate(_interface: {
+  name: string
+  description: string
+  methods: any[]
+  properties: {
+    name: string
+    description: string
+    optional: boolean
+    type: string
+  }[]
+}) {
+  const properties = _interface.properties.map(_ => interfacePropertyTemplate(_)).join(`\n`);
+  return `${createDescription(_interface.description)}interface ${_interface.name} {\n${properties}\n}`;
+}
+
+function propertyTemplate(property: {
+  name: string
+  defaultValue: string
+  type: string
+  description: string
+}) {
+  return `${createDescription(property.description)}${property.name}: ${property.type || 'any'}`;
+}
+
+function interfacePropertyTemplate(property: {
+  name: string
+  description: string
+  optional: boolean
+  type: string
+}) {
+  return `${createDescription(property.description, '  ')}  ${property.name}${property.optional ? '?' : ''}: ${property.type}`;
+}
+
+function inputsTemplate(input: {name: string, type: string, description: string}) {
+  const description = createDescription(input.description);
+  return `${description}@Input() ${input.name}: ${input.type || 'any'}`;
+}
+
+function outputsTemplate(output: {
+  name: string
+  type: string
+  description: string
+  defaultValue: string
+}) {
+  const description = createDescription(output.description);
+  return `${description}@Output() ${output.name} = ${output.defaultValue}`;
+}
+
+function methodTemplate(method: {
+  args: [{
+    name: string
+    optional?: boolean
+    type: string
+  }]
+  name: string
+  type: string
+  returnType: string
+  description: string
+}) {
+  const args = method.args.map(_ => `${_.name}${_.optional ? '?' : ''}: ${_.type || 'any'}`).join(', ');
+  return `${createDescription(method.description)}${method.name}(${args}): ${method.returnType}`;
 }
 
 /**
@@ -88,4 +233,32 @@ function removeKeys(obj, keys: string[]) {
           }
       }
   }
+}
+
+function createDescription(text: string, prefix = '') {
+  if (text) {
+    const newText = decodeEntities(text.replace(/\<\/?p\>/g, '').trim().replace(/\<\/?code\>/g, `\``));
+    const isMultiline = newText.split(/\n/g).length > 1;
+    const lineStart = isMultiline ? `\n *` : '';
+    const lineEnd = isMultiline ? `\n` : '';
+    return newText ? `${prefix}/**${lineStart} ${newText.replace(/\n/g, `\n * `)}${lineEnd} */\n` : '';
+  }
+  return '';
+}
+
+function decodeEntities(encodedString) {
+  const translate_re = /&(nbsp|amp|quot|lt|gt);/g;
+  const translate = {
+      'nbsp': ' ',
+      'amp' : '&',
+      'quot': '"',
+      'lt'  : '<',
+      'gt'  : '>'
+  };
+  return encodedString.replace(translate_re, function(match, entity) {
+      return translate[entity];
+  }).replace(/&#(\d+);/gi, function(match, numStr) {
+      const num = parseInt(numStr, 10);
+      return String.fromCharCode(num);
+  });
 }

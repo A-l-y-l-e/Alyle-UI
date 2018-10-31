@@ -33,7 +33,7 @@ const styles = ({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {
-  classes = this.theme.addStyleSheet(styles, 'aui-home');
+  classes = this.theme.addStyleSheet(styles);
   constructor(
     renderer: Renderer2,
     el: ElementRef,

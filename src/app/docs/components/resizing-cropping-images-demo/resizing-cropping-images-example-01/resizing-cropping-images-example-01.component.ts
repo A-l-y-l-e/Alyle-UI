@@ -1,16 +1,18 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { LyResizingCroppingImagesConfig } from '@alyle/ui/resizing-cropping-images';
+import { ImgCropperConfig, ImgCropperEvent } from '@alyle/ui/resizing-cropping-images';
 import { LyTheme2 } from '@alyle/ui';
 
 const styles = {
   actions: {
-    display: 'flex',
-    justifyContent: 'space-between'
+    display: 'flex'
   },
   cropping: {
     maxWidth: '400px',
     height: '300px'
+  },
+  flex: {
+    flex: 1
   }
 };
 
@@ -21,9 +23,10 @@ const styles = {
   preserveWhitespaces: false
 })
 export class ResizingCroppingImagesExample01Component {
-  classes = this.theme.addStyleSheet(styles, 'resizing-cropping-images-example-01');
+  classes = this.theme.addStyleSheet(styles);
+  croppedImage: string;
   result: string;
-  myConfig: LyResizingCroppingImagesConfig = {
+  myConfig: ImgCropperConfig = {
     width: 150, // Default `250`
     height: 150, // Default `200`
     fill: '#ff2997' // Default transparent if type = png else #000
@@ -33,14 +36,15 @@ export class ResizingCroppingImagesExample01Component {
     private theme: LyTheme2
   ) { }
 
-  onCropped(e) {
+  onCropped(e: ImgCropperEvent) {
+    this.croppedImage = e.base64;
     console.log('cropped img: ', e);
   }
-  onloaded() {
-    console.log('img loaded');
+  onloaded(e: ImgCropperEvent) {
+    console.log('img loaded', e);
   }
-  onerror() {
-    console.warn('img not loaded');
+  onerror(e: ImgCropperEvent) {
+    console.warn(`'${e.name}' is not a valid image`, e);
   }
 
 }

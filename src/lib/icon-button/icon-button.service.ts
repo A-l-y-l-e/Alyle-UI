@@ -38,7 +38,7 @@ const styles = ({
   providedIn: 'root'
 })
 export class LyIconButtonService {
-  classes = this.theme.addStyleSheet(styles, 'lyIconButtonStatic', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2
   ) { }

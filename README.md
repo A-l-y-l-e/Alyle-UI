@@ -23,17 +23,19 @@
 
 |Feature|State|Responsive|Docs|
 |----|-----|----------|----|
+|badge|beta|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/badge)|
 |button|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/button)|
 |carousel|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/carousel)|
-|checkbox|:x:|:x:|-|
+|checkbox|in progress|-|-|
 |img cropper|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/resizing-cropping-images)|
-|drawer|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/drawer)|
+|drawer|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/drawer)|
+|field|beta|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/field)|
 |grid|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/grid)|
 |media|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/responsive)|
 |icon button|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/icon-button)|
 |icon|✔️|✔️|-|
-|input|beta|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/input)|
-|menu|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
+|input|deprecated|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/input)|
+|menu|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
 |radio|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/radio)|
 |ripple|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/ripple)|
 |tabs|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|

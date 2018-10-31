@@ -6,21 +6,17 @@ import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-image
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { LyIconModule } from '@alyle/ui/icon';
-import { LyInputModule } from '@alyle/ui/input';
 
 import { ResizingCroppingImagesExample01Component } from './resizing-cropping-images-example-01.component';
-import { LyCommonModule } from '@alyle/ui';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    LyCommonModule,
     LyResizingCroppingImageModule,
     LyButtonModule,
     LyIconButtonModule,
-    LyIconModule,
-    LyInputModule
+    LyIconModule
   ],
   exports: [ResizingCroppingImagesExample01Component],
   declarations: [ResizingCroppingImagesExample01Component]

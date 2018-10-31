@@ -3,6 +3,7 @@ import { LyTheme2, eachMedia, ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 
+/** @ignore */
 const COL_VALUES = { };
 
 const ALIGN_ALIAS = {
@@ -26,7 +27,7 @@ const styles = ({
 });
 
 type Justify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
-type Direction = 'row' | 'row-reverse' | 'column' | 'column-reverse';
+type Direction = 'row' | 'rowReverse' | 'column' | 'columnReverse';
 
 /**
  * Grid container
@@ -48,7 +49,7 @@ export class LyGrid {
    * Styles
    * @ignore
    */
-  classes = this.theme.addStyleSheet(styles, 'lyGrid', STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
 
   private _spacing: string | number;
   private _spacingClass: string;

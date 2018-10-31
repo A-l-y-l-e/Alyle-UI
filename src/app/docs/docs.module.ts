@@ -50,12 +50,17 @@ import { FieldDemoComponent } from './components/field-demo/field-demo.component
 import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
 import { BasicCheckboxModule } from './components/checkbox-demo/basic-checkbox/basic-checkbox.module';
+import { PackageStatusModule } from '../package-status/package-status.module';
+import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
+import { ResponsiveDemo01Module } from './layout/responsive/responsive-demo-01/responsive-demo-01.module';
+import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/responsive-with-ds.module';
 
 @NgModule({
   imports: [
     SharedModule,
     PrismModule,
     DemoViewModule,
+    PackageStatusModule,
     LyTypographyModule,
     LyCardModule,
     DocsRoutingModule,
@@ -64,6 +69,9 @@ import { BasicCheckboxModule } from './components/checkbox-demo/basic-checkbox/b
     GridDemoBasicModule,
     GridDemoAutoLayoutModule,
     GridDemoResponsiveModule,
+    /** Responsive */
+    ResponsiveDemo01Module,
+    ResponsiveWithDsModule,
     /** Tabs demos */
     BasicTabsModule,
     TabsWithLazyLoadingModule,
@@ -89,6 +97,8 @@ import { BasicCheckboxModule } from './components/checkbox-demo/basic-checkbox/b
     ThemingComponent,
     /** Grid */
     GridDemoComponent,
+    /** Responsive */
+    ResponsiveDemoComponent,
     /** Tabs */
     TabsDemoComponent,
     /** Ds */

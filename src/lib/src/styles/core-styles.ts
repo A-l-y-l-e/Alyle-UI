@@ -26,6 +26,6 @@ export const LY_COMMON_STYLES = {
 
 @Injectable({ providedIn: 'root' })
 export class LyCoreStyles {
-  classes = this.theme.addStyleSheet(LY_COMMON_STYLES, 'lyCommonStyles');
+  classes = this.theme.addStyleSheet(LY_COMMON_STYLES);
   constructor(private theme: LyTheme2) { }
 }

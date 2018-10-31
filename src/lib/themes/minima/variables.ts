@@ -79,43 +79,8 @@ export const iconButton = {
 export const icon = {
   fontSize: '24px'
 };
-export const input = {
-  /** @deprecated default color */
-  withColor: 'primary',
+export const field = {
   appearance: {
-    standard: {
-      container: {
-        padding: '1em 0 0',
-        '&:after': {
-          borderBottomStyle: 'solid',
-          borderBottomWidth: '1px'
-        },
-        '&:hover:after': {
-          borderBottomColor: 'currentColor'
-        }
-      },
-      containerFocused: {
-        '&:after': {
-          borderWidth: '2px',
-          borderColor: 'currentColor'
-        }
-      },
-      containerLabelHover: {
-        color: 'currentColor'
-      },
-      label: {
-        margin: '0.4375em 0'
-      },
-      placeholder: {
-        margin: '0.4375em 0'
-      },
-      input: {
-        margin: '0.4375em 0'
-      },
-      floatingLabel: {
-        transform: 'translateY(-1.25em)'
-      }
-    },
     outlined: {
       container: {
         padding: '0 0.75em'

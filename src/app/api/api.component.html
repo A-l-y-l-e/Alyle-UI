@@ -1,37 +1,38 @@
 <ng-container *ngIf="doc | async as api; else loading">
   <h2 [lyTyp]="'headline'" gutter>Module</h2>
-  <div prism language="typescript" [code]="ref(api.modules[0].name)"></div>
+  <prism language="typescript" [code]="ref(api.modules[0].name)"></prism>
   <ng-container *ngFor="let item of api.c_d">
-    <h2 [lyTyp]="'headline'" gutter>{{item.title}}</h2>
+    <h2 [lyTyp]="'headline'" gutter>{{ item.title }}</h2>
     <ng-template ngFor let-directive [ngForOf]="item.data" let-x="index">
       <h3 [lyTyp]="'title'" gutter>{{ directive.name }}</h3>
-      <p>Selector: <span prism language="typescript" code="'{{directive.selector}}'"></span></p>
-      <h4 [lyTyp]="'subheading'" gutter>Properties</h4>
-      <ly-card>
-        <ly-card-content>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let input of directive.inputsClass">
-                <td prism language="typescript" [code]="inputTemplate(input)"></td>
-                <td [innerHTML]="input.description"></td>
-              </tr>
-              <tr *ngFor="let property of directive.propertiesClass">
-                <td prism language="typescript" [code]="propertyTemplate(property)"></td>
-                <td [innerHTML]="property.description"></td>
-              </tr>
-            </tbody>
-          </table>
-        </ly-card-content>
-      </ly-card>
+      <p>Selector: <span prism language="typescript" code="'{{ directive.selector }}'"></span></p>
+      <prism *ngIf="directive.code" language="typescript" [code]="directive.code"></prism>
     </ng-template>
   </ng-container>
+  <ng-container *ngIf="api.miscellaneous.typealiases.length">
+    <h2 [lyTyp]="'headline'" gutter>Type Aliases</h2>
+    <ng-container *ngFor="let variable of api.miscellaneous.typealiases">
+      <h3 [lyTyp]="'title'" gutter>{{ variable.name }}</h3>
+      <p>Type: <span prism language="typescript" code="{{ variable.rawtype }}"></span></p>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="api.miscellaneous.variablesCode as code">
+    <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
+    <prism language="typescript" [code]="code"></prism>
+  </ng-container>
+  <ng-container *ngIf="api.miscellaneous.enumerationsCode as code">
+    <h2 [lyTyp]="'headline'" gutter>Enumerations</h2>
+    <prism language="typescript" [code]="code"></prism>
+  </ng-container>
+  <ng-container *ngIf="api.interfacesCode as interfaces">
+    <h2 [lyTyp]="'headline'" gutter>Interfaces</h2>
+    <prism language="typescript" [code]="interfaces"></prism>
+  </ng-container>
 </ng-container>
+<ng-template [ngIf]="themePkg.length">
+  <ng-template ngFor let-pkg [ngForOf]="themePkg">
+    <h2 [lyTyp]="'headline'" gutter>Theme {{ pkg.name }}</h2>
+    <prism language="json" [code]="pkg.themeJSON"></prism>
+  </ng-template>
+</ng-template>
 <ng-template #loading>Loading...</ng-template>
-
-<!-- <pre>{{ doc | async | json }}</pre> -->

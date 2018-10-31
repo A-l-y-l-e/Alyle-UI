@@ -30,7 +30,6 @@
       "@alyle/ui/responsive": ["lib/responsive"],
       "@alyle/ui/shadow": ["lib/shadow"],
       "@alyle/ui/carousel": ["lib/carousel"],
-      "@alyle/ui/input": ["lib/input"],
       "@alyle/ui/resizing-cropping-images": ["lib/resizing-cropping-images"],
       "@alyle/ui/themes/minima": ["lib/themes/minima"],
       "@alyle/ui/card": ["lib/card"],

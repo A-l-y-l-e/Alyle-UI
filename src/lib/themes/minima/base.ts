@@ -1,6 +1,8 @@
 import {
   LyStyleUtils,
-  TypographyConfig // Do not delete this, this is necessary to generate the types correctly
+  TypographyConfig, // Do not delete this, this is necessary to generate the types correctly
+  IRippleVariables, // Do not delete this, this is necessary to generate the types correctly
+  Dir
 } from '@alyle/ui';
 import { typography, iconButton, icon, zIndex, animations } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
@@ -14,4 +16,5 @@ export class MinimaBase extends LyStyleUtils {
   zIndex = zIndex;
   ripple = RippleVariables;
   animations = animations;
+  direction = Dir.ltr;
 }

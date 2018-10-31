@@ -1,9 +1,8 @@
-<div [className]="classes.imgContainer" #_imgContainer
+<div #_imgContainer
+[className]="classes.imgContainer"
 (slidestart)="_moveStart($event)"
-(slide)="_move($event)"
-[ngStyle]="dragData | async">
-  <img *ngIf="isLoaded"
-  [src]="src">
+(slide)="_move($event)">
+  <img *ngIf="isLoaded" [src]="_originalImgBase64">
 </div>
 <div #_croppingContainer *ngIf="isLoaded; else content" [className]="classes.croppingContainer" [ngStyle]="{
   width: config.width + 'px',

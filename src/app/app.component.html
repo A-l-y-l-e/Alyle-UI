@@ -1,5 +1,17 @@
 <aui-app-bar></aui-app-bar>
 <ly-drawer-container>
+  <ly-drawer-content>
+    <div class="app-container">
+      <div class="demo">
+        <app-title [route]="router.url"></app-title>
+        <aui-page-content [routeUrl]="router.url">
+          <div class="docs-viewer">
+            <router-outlet></router-outlet>
+          </div>
+        </aui-page-content>
+      </div>
+    </div>
+  </ly-drawer-content>
   <ly-drawer bg="background:primary" [width]="'230px 0@XSmall'" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="router.url !== '/' ? 'side' : 'over'" #_left [spacingTop]="'64px 56px@XSmall'">
     <ul *ngFor="let category of routesComponents" [withClass]="classes.drawerUl">
       <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
@@ -11,14 +23,4 @@
       </li>
     </ul>
   </ly-drawer>
-  <ly-drawer-content>
-    <div class="app-container">
-      <div class="demo">
-        <app-title [route]="router.url"></app-title>
-        <div class="docs-viewer">
-          <router-outlet></router-outlet>
-        </div>
-      </div>
-    </div>
-  </ly-drawer-content>
 </ly-drawer-container>

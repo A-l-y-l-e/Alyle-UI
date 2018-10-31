@@ -24,7 +24,7 @@
               },
               {
                 "glob": "**/*",
-                "input": "src/api",
+                "input": "docs/@alyle/ui",
                 "output": "/api"
               },
               {

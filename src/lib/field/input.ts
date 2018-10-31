@@ -1,8 +1,9 @@
 import { Directive, ElementRef, Optional, Self, Input, HostListener, HostBinding, OnInit, Renderer2, OnDestroy } from '@angular/core';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
-import { toBoolean, LyTheme2 } from '@alyle/ui';
+import { toBoolean } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
+/** @ignore */
 const ATTR_PLACEHOLDER = 'placeholder';
 
 @Directive({
@@ -15,37 +16,39 @@ export class LyInputNative implements OnInit, OnDestroy {
   protected _disabled = false;
   protected _required = false;
   protected _placeholder: string;
-  readonly valueChanges: Subject<void> = new Subject<void>();
-  focused = false;
+  readonly stateChanges: Subject<void> = new Subject<void>();
+  focused: boolean = false;
 
   @HostListener('input') _onInput() {
-    this.valueChanges.next();
+    this.stateChanges.next();
   }
 
   @HostListener('blur') _onBlur() {
     if (this.focused !== false) {
       this.focused = false;
-      this.valueChanges.next();
+      this.stateChanges.next();
     }
   }
   @HostListener('focus') _onFocus() {
     if (this.focused !== true) {
       this.focused = true;
-      this.valueChanges.next();
+      this.stateChanges.next();
     }
   }
 
+  /** @ignore */
   @Input()
   set value(val) {
     if (val !== this.value) {
       this._hostElement.value = val;
-      this.valueChanges.next();
+      this.stateChanges.next();
     }
   }
   get value() {
     return this._hostElement.value;
   }
 
+  /** Whether the input is disabled. */
   @HostBinding()
   @Input()
   set disabled(value: boolean) {
@@ -74,23 +77,20 @@ export class LyInputNative implements OnInit, OnDestroy {
   constructor(
     private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
     private _renderer: Renderer2,
-    private _theme: LyTheme2,
     /** @ignore */
     @Optional() @Self() public ngControl: NgControl,
     @Optional() _parentForm: NgForm,
-    @Optional() _parentFormGroup: FormGroupDirective,
+    @Optional() _parentFormGroup: FormGroupDirective
   ) {
     this._hostElement = this._el.nativeElement;
   }
 
   ngOnInit() {
-    if (this.placeholder) {
-      this._renderer.removeAttribute(this._hostElement, ATTR_PLACEHOLDER);
-    }
+    this._renderer.setAttribute(this._hostElement, ATTR_PLACEHOLDER, '­');
   }
 
   ngOnDestroy() {
-    this.valueChanges.complete();
+    this.stateChanges.complete();
   }
 
   /** Focuses the input. */

@@ -18,9 +18,9 @@ export class RoutesAppService {
         route: 'customization',
         routes: [
           { route: 'theming', name: 'Theming' },
-          { route: 'multiple-themes', name: 'Multiple themes' },
           { route: 'bg-color', name: 'Bg & Color' },
-          { route: 'dynamic-styles', name: 'Dynamic styles'}
+          { route: 'dynamic-styles', name: 'Dynamic styles' },
+          { route: 'multiple-themes', name: 'Multiple themes' },
         ]
       },
       {
@@ -29,7 +29,7 @@ export class RoutesAppService {
         routes: [
           { route: 'grid', name: 'Grid' },
           { route: 'responsive', name: 'Responsive' },
-          { route: 'tabs', name: 'Tabs' }
+          { route: 'tabs', name: 'Tabs', status: 'alpha' }
         ]
       },
       {
@@ -42,16 +42,15 @@ export class RoutesAppService {
           { route: 'carousel', name: 'Carousel' },
           { route: 'checkbox', name: 'Checkbox' },
           { route: 'drawer', name: 'Drawer' },
-          { route: 'field', name: 'Text Field' },
+          { route: 'field', name: 'Field', status: 'alpha' },
           { route: 'icon-button', name: 'Icon button' },
-          { route: 'input', name: 'Input', status: 'alpha' },
-          { route: 'menu', name: 'Menu' },
+          { route: 'menu', name: 'Menu', status: 'alpha' },
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
           { route: 'ripple', name: 'Ripple' },
           { route: 'shadow', name: 'Shadow' },
           { route: 'toolbar', name: 'Toolbar' },
-          { route: 'typography', name: 'Typography' },
+          { route: 'typography', name: 'Typography' }
         ]
       }
     ];

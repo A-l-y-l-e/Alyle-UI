@@ -16,17 +16,11 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder } from '@alyle/ui';
+import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 
-export type position = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
-export class Origin {
-  horizontal: position;
-  vertical: position;
-}
-
-const menuStyles = theme => ({
+const STYLES = (theme: ThemeVariables) => ({
   root: {
     background: theme.background.primary.default,
     borderRadius: '2px',
@@ -34,7 +28,8 @@ const menuStyles = theme => ({
     display: 'inline-block',
     paddingTop: '8px',
     paddingBottom: '8px',
-    transformOrigin: 'left top 0px'
+    transformOrigin: 'left top 0px',
+    ...theme.menu.root
   }
 });
 
@@ -64,8 +59,15 @@ const menuStyles = theme => ({
   exportAs: 'lyMenu'
 })
 export class LyMenu {
-  classes = this.theme.addStyleSheet(menuStyles, 'lyMenu', STYLE_PRIORITY);
-  /** Destroy menu */
+  /**
+   * styles
+   * @ignore
+   */
+  classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  /**
+   * Destroy menu
+   * @ignore
+   */
   destroy: () => void;
   @Input() ref: LyMenuTriggerFor;
   @HostBinding('@menuEnter') menuEnter;

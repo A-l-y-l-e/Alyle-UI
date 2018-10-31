@@ -1,25 +1,30 @@
-import { Directive, Input, ElementRef, Optional, Renderer2, OnInit, OnChanges } from '@angular/core';
+import { Directive, Input, ElementRef, Optional, Renderer2, OnInit } from '@angular/core';
 import { ThemeVariables, LyCommon, LyTheme2 } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
-const DEFAULT_POSITION = 'end top';
+const DEFAULT_POSITION = 'startTop';
 const DEFAULT_BG = 'primary';
-
+const DEFAULT_POSITION_VALUE = {
+  end: '-11px',
+  top: '-11px'
+};
 const styles = (theme: ThemeVariables) => ({
   root: {
     position: 'absolute',
+    display: 'flex',
     width: '22px',
     height: '22px',
     borderRadius: '100%',
-    lineHeight: '22px',
-    textAlign: 'center',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     pointerEvents: 'none',
     zIndex: 1,
     fontSize: theme.pxToRem(12),
-    fontFamily: theme.typography.fontFamily
+    fontFamily: theme.typography.fontFamily,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...theme.badge.root
   },
   relative: {
     position: 'relative'
@@ -29,9 +34,13 @@ const styles = (theme: ThemeVariables) => ({
   selector: 'ly-badge, [lyBadge]'
 })
 export class LyBadge implements OnInit {
-  classes = this._theme.addStyleSheet(styles, 'lyBadge', STYLE_PRIORITY);
+  /**
+   * Styles
+   * @ignore
+   */
+  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _content: string | number;
-  private _position: 'start top' | 'start bottom' | 'end top' | 'end bottom';
+  private _position: string;
   private _positionClass: string;
   private _elContainer: any;
   private _badgeElementRef: any;
@@ -45,38 +54,22 @@ export class LyBadge implements OnInit {
       this._createBadge();
     }
   }
-  get content() {
+  get content(): string | number {
     return this._content;
   }
 
   /** The position for the badge */
   @Input('lyBadgePosition')
-  set position(val: 'start top' | 'start bottom' | 'end top' | 'end bottom') {
+  set position(val: string) {
     if (val !== this.position) {
       this._position = val;
       this._positionClass = this._theme.addStyle(`ly-badge.position:${val}`, (theme: ThemeVariables) => {
-        const positionStyles: {
-          top?: number
-          left?: number
-          right?: number
-          bottom?: number
-          transform?: string
-        } = {};
-        const dir = theme.getDirection(val.indexOf('start') !== -1 ? 'start' : 'end');
-        positionStyles[dir] = 0;
-        if (dir === 'left') {
-          positionStyles.transform = 'translateX(-50%)';
+        const sty = theme.badge.position && theme.badge.position[val] || val === DEFAULT_POSITION ? DEFAULT_POSITION_VALUE : null;
+        if (sty) {
+          return sty;
         } else {
-          positionStyles.transform = 'translateX(50%)';
+          throw new Error(`LyBadge.position \`${val}\` not found in \`ThemeVariables\``);
         }
-        if (val.indexOf('top') !== -1) {
-          positionStyles.top = 0;
-          positionStyles.transform += 'translateY(-50%)';
-        } else if (val.indexOf('bottom') !== -1) {
-          positionStyles.bottom = 0;
-          positionStyles.transform += 'translateY(50%)';
-        }
-        return positionStyles;
       },
       this._badgeElementRef, this._positionClass, STYLE_PRIORITY);
     }

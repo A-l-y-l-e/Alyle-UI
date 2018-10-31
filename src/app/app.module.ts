@@ -22,7 +22,6 @@ import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
-import { ResponsiveDemoModule } from './components/responsive-demo/responsive-demo.module';
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
 import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
@@ -39,6 +38,7 @@ import { ApiComponent } from './api/api.component';
 import { LyCardModule } from '@alyle/ui/card';
 import { AppBarComponent } from './app-bar/app-bar.component';
 import { HomeComponent } from './home/home.component';
+import { PageContentComponent } from './page-content/page-content.component';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -71,11 +71,16 @@ export class GlobalVariables {
   testVal = '#00bcd4';
   Quepal = Quepal;
   SublimeLight = SublimeLight;
+  Amber = {
+    default: '#ffc107',
+    contrast: 'rgba(0, 0, 0, 0.87)'
+  };
 }
 
 @NgModule({
   declarations: [
     AppComponent,
+    PageContentComponent,
     AppBarComponent,
     ApiComponent,
     TitleComponent,
@@ -93,8 +98,6 @@ export class GlobalVariables {
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
     /** Customization */
     /** MultipleThemes >*/MultipleThemesDemo01Module,
-    /** Layout */
-    ResponsiveDemoModule,
     /** CardDemo > */CardDemoBasicModule,
     /** TypographyDemo > */TypographyDemoBasicModule,
     CommonModule,
