@@ -81,7 +81,7 @@ for (const key in components) {
           ...accessors,
           ...outputs,
           ...methods
-        ].join(`\n`);
+        ].join(`\n\n`);
       });
     });
     const arrayVariables = fileObject.miscellaneous.variables;
@@ -90,13 +90,17 @@ for (const key in components) {
         return (item.name as string).toLowerCase() !== 'styles';
       });
     }
+
+    // Create interfaces template
+    fileObject.interfacesCode = fileObject.interfaces.map(_ => interfacesTemplate(_)).join(`\n\n`);
+
     if (fileObject.miscellaneous.enumerations) {
       // Create enums template
-      fileObject.miscellaneous.enumerationsCode = fileObject.miscellaneous.enumerations.map(_ => enumerationsTemplate(_)).join(`\n`);
+      fileObject.miscellaneous.enumerationsCode = fileObject.miscellaneous.enumerations.map(_ => enumerationsTemplate(_)).join(`\n\n`);
       delete fileObject.miscellaneous.enumerations;
 
       // Create variables template
-      fileObject.miscellaneous.variablesCode = fileObject.miscellaneous.variables.map(_ => `const ${_.name} = ${_.defaultValue};`).join(`\n`);
+      fileObject.miscellaneous.variablesCode = fileObject.miscellaneous.variables.map(_ => `const ${_.name} = ${_.defaultValue};`).join(`\n\n`);
       delete fileObject.miscellaneous.variables;
     }
     delete fileObject.components;
@@ -134,6 +138,21 @@ function enumerationsTemplate(_enum: {
   return `${createDescription(_enum.description)}enum ${_enum.name} {\n${enumContent}\n}`;
 }
 
+function interfacesTemplate(_interface: {
+  name: string
+  description: string
+  methods: any[]
+  properties: {
+    name: string
+    description: string
+    optional: boolean
+    type: string
+  }[]
+}) {
+  const properties = _interface.properties.map(_ => interfacePropertyTemplate(_)).join(`\n`);
+  return `${createDescription(_interface.description)}interface ${_interface.name} {\n${properties}\n}`;
+}
+
 function propertyTemplate(property: {
   name: string
   defaultValue: string
@@ -141,6 +160,15 @@ function propertyTemplate(property: {
   description: string
 }) {
   return `${createDescription(property.description)}${property.name}: ${property.type || 'any'}`;
+}
+
+function interfacePropertyTemplate(property: {
+  name: string
+  description: string
+  optional: boolean
+  type: string
+}) {
+  return `${createDescription(property.description, '  ')}  ${property.name}${property.optional ? '?' : ''}: ${property.type}`;
 }
 
 function inputsTemplate(input: {name: string, type: string, description: string}) {
@@ -207,13 +235,13 @@ function removeKeys(obj, keys: string[]) {
   }
 }
 
-function createDescription(text: string) {
+function createDescription(text: string, prefix = '') {
   if (text) {
     const newText = decodeEntities(text.replace(/\<\/?p\>/g, '').trim().replace(/\<\/?code\>/g, `\``));
     const isMultiline = newText.split(/\n/g).length > 1;
     const lineStart = isMultiline ? `\n *` : '';
     const lineEnd = isMultiline ? `\n` : '';
-    return newText ? `/**${lineStart} ${newText.replace(/\n/g, `\n * `)}${lineEnd} */\n` : '';
+    return newText ? `${prefix}/**${lineStart} ${newText.replace(/\n/g, `\n * `)}${lineEnd} */\n` : '';
   }
   return '';
 }

@@ -72,8 +72,8 @@ const styles = ({
     }
   }
 });
-
-export interface LyResizingCroppingImagesConfig {
+/** Image Cropper Config */
+export interface ImgCropperConfig {
   /** Cropper area width*/
   width: number;
   /** Cropper area height*/
@@ -89,7 +89,9 @@ export interface LyResizingCroppingImagesConfig {
     height: number;
   } | ImgResolution;
 }
-export type ImgCropperConfig = LyResizingCroppingImagesConfig;
+
+/** @deprecated */
+export type LyResizingCroppingImagesConfig = ImgCropperConfig;
 
 /** Image output */
 export enum ImgResolution {

@@ -24,6 +24,10 @@
     <h2 [lyTyp]="'headline'" gutter>Enumerations</h2>
     <prism language="typescript" [code]="code"></prism>
   </ng-container>
+  <ng-container *ngIf="api.interfacesCode as interfaces">
+    <h2 [lyTyp]="'headline'" gutter>Interfaces</h2>
+    <prism language="typescript" [code]="interfaces"></prism>
+  </ng-container>
 </ng-container>
 <ng-template [ngIf]="themePkg.length">
   <ng-template ngFor let-pkg [ngForOf]="themePkg">
