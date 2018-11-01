@@ -1,8 +1,8 @@
 
-<label for="id5">
+<label for="id5" [className]="classes.layout">
   <input #input
   id="id5"
-  [className]="_commonStyles.classes.visuallyHidden"
+  [className]="classes.input"
   type="checkbox"
   [checked]="checked"
   [indeterminate]="indeterminate"
@@ -13,5 +13,6 @@
   (click)="_onInputClick($event)"
   [tabIndex]="0"
   >
+  <div [className]="classes.icon"></div>
   <ng-content></ng-content>
 </label>

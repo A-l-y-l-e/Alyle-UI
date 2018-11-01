@@ -11,7 +11,42 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { LyCoreStyles as LyCommonStyles, LyTheme2 } from '@alyle/ui';
+import { LyCoreStyles as LyCommonStyles, LyTheme2, LyCommon, toBoolean, ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
+
+const STYLE_PRIORITY = -2;
+
+const STYLES = (theme: ThemeVariables) => ({
+  root: { },
+  layout: {
+    display: 'inline-flex',
+    alignItems: 'baseline'
+  },
+  icon: {
+    position: 'relative',
+    marginEnd: '8px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    width: '18px',
+    '&::before': {
+      content: `''`,
+      ...LY_COMMON_STYLES.fill,
+      width: '18px',
+      height: '18px',
+      border: 'solid 2px',
+      borderRadius: '2px',
+      margin: 'auto',
+    }
+  },
+  input: {
+    ...LY_COMMON_STYLES.visuallyHidden
+  },
+  disabled: {
+    '&{input}': {
+      visibility: 'hidden'
+    }
+  },
+  animations: { }
+});
 
 /**
  * This allows it to support [(ngModel)].
@@ -40,9 +75,38 @@ export class LyCheckboxChange {
   exportAs: 'lyCheckbox'
 })
 export class LyCheckbox implements ControlValueAccessor {
-
+  /**
+   * styles
+   * @ignore
+   */
+  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  protected _required: boolean;
+  protected _indeterminate: boolean;
+  protected _checked: boolean;
   /** The value attribute of the native input element */
   @Input() value: string;
+
+  /**
+   * Whether the checkbox is checked.
+   */
+  @Input()
+  get checked(): boolean { return this._checked; }
+  set checked(val: boolean) {
+    if (val !== this.checked) {
+      this._checked = val;
+    }
+  }
+
+  @Input()
+  get required() {
+    return this._required;
+  }
+  set required(val: boolean) {
+    this._required = toBoolean(val);
+  }
+  get disabled() {
+    return this._common.disabled;
+  }
 
   /** The native `<input type="checkbox">` element */
   @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
@@ -54,6 +118,7 @@ export class LyCheckbox implements ControlValueAccessor {
     private _renderer: Renderer2,
     private _ngZone: NgZone,
     private _changeDetectorRef: ChangeDetectorRef,
+    private _common: LyCommon
   ) { }
   writeValue(obj: any): void {
     throw new Error('Method not implemented.');
@@ -64,17 +129,21 @@ export class LyCheckbox implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     throw new Error('Method not implemented.');
   }
-  setDisabledState?(isDisabled: boolean): void {
-    throw new Error('Method not implemented.');
+
+  /** Toggles the `checked` state of the checkbox. */
+  toggle() {
+    this.checked = !this.checked;
   }
 
   _onInputChange(event: Event) {
-    // Otherwise the change event, from the input element, will bubble up and
-    // emit its event object to the `change` output.
     event.stopPropagation();
   }
   _onInputClick(event: Event) {
     event.stopPropagation();
+    if (!this.disabled) {
+      this.toggle();
+      console.log(this._el, this.checked);
+    }
   }
 
 }
