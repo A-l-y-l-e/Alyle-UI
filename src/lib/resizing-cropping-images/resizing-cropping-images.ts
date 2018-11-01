@@ -111,6 +111,10 @@ export interface ImgCropperEvent {
   height: number;
   /** Original Image in base64 */
   originalBase64: string;
+  scale?: number;
+  position?: {
+    x, y
+  };
 }
 
 const CONFIG_DEFAULT = <ImgCropperConfig>{
