@@ -62,4 +62,11 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     }
   });
   badge = {};
+  checkbox = {
+    enabled: {
+      unselected: {
+        color: 'rgba(0, 0, 0, .54)'
+      }
+    }
+  };
 }

@@ -1,1 +1,5 @@
-Text<ly-checkbox>Check me!</ly-checkbox><ly-checkbox>Check me!</ly-checkbox>Text<ly-checkbox [checked]="true" disabled>Check me!</ly-checkbox>Text
+Text<ly-checkbox [(ngModel)]="isEnable" [disabled]="isDisable" (change)="onChange()">Check me!</ly-checkbox>
+
+<ly-checkbox>Check me!</ly-checkbox>Text
+
+<ly-checkbox disabled [checked]="true">Check me!</ly-checkbox>Text

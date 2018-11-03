@@ -104,6 +104,11 @@ export interface ThemeConfig {
       [positionName: string]: StyleContainer
     }
   };
+  checkbox: {
+    enabled: {
+      unselected: StyleContainer
+    }
+  };
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

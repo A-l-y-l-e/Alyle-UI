@@ -1,7 +1,6 @@
 
-<label for="id5" [className]="classes.layout">
+<label [className]="classes.layout">
   <input #input
-  id="id5"
   [className]="classes.input"
   type="checkbox"
   [checked]="checked"
@@ -13,6 +12,8 @@
   (click)="_onInputClick($event)"
   [tabIndex]="0"
   >
-  <div [className]="classes.icon"></div>
-  <ng-content></ng-content>
+  <div #innerContainer [className]="classes.icon"></div>
+  <div #label>
+    <ng-content></ng-content>
+  </div>
 </label>

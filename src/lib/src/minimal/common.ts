@@ -1,5 +1,5 @@
 import {
-  Directive, Input, TemplateRef, ViewContainerRef, OnDestroy, NgModule
+  Directive, Input, TemplateRef, ViewContainerRef, OnDestroy, NgModule, ElementRef
 } from '@angular/core';
 
 export interface KeyAttribute {
@@ -36,4 +36,11 @@ export class NgTranscludeDirective implements OnDestroy {
 })
 export class NgTranscludeModule {
 
+}
+
+/**
+ * @ignore
+ */
+export function getNativeElement(element: HTMLElement | ElementRef<HTMLElement>): HTMLElement {
+  return element instanceof ElementRef ? element.nativeElement : element;
 }
