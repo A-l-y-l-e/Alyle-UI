@@ -62,5 +62,12 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     }
   });
   badge = {};
+  checkbox = {
+    enabled: {
+      unselected: {
+        color: 'rgba(255, 255, 255, 0.7)'
+      }
+    }
+  };
   // direction = Dir.rtl;
 }
