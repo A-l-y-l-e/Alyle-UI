@@ -48,8 +48,12 @@ import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-
 
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
+
+/** Checkbox */
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
 import { BasicCheckboxModule } from './components/checkbox-demo/basic-checkbox/basic-checkbox.module';
+import { ComplexCheckboxModule } from './components/checkbox-demo/complex-checkbox/complex-checkbox.module';
+
 import { PackageStatusModule } from '../package-status/package-status.module';
 import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
 import { ResponsiveDemo01Module } from './layout/responsive/responsive-demo-01/responsive-demo-01.module';
@@ -90,8 +94,9 @@ import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/r
     BasicBadgeModule,
     /** Field */
     BasicFieldModule,
-    /** Field */
-    BasicCheckboxModule
+    /** Checkbox */
+    BasicCheckboxModule,
+    ComplexCheckboxModule
   ],
   declarations: [
     ThemingComponent,
