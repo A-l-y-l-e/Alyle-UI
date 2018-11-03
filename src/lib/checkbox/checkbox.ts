@@ -16,10 +16,13 @@ import {
   OnInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { LyCoreStyles as LyCommonStyles, LyTheme2, LyCommon, toBoolean, ThemeVariables, LY_COMMON_STYLES, LyFocusState } from '@alyle/ui';
+import { LyCoreStyles as LyCommonStyles, LyTheme2, LyCommon, toBoolean, ThemeVariables, LY_COMMON_STYLES, LyFocusState, Platform } from '@alyle/ui';
+
+import { LyRippleService, Ripple } from '@alyle/ui/ripple';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_WITH_COLOR = 'primary';
+const DEFAULT_DISABLE_RIPPLE = false;
 
 const STYLES = (theme: ThemeVariables) => ({
   root: {
@@ -116,6 +119,8 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
   protected _checked: boolean;
   protected _disabled;
   private _onFocusByKeyboardState: boolean;
+  private _disableRipple: boolean;
+  private _ripple: Ripple;
   @ViewChild('innerContainer') _innerContainer: ElementRef<HTMLDivElement>;
   /** The value attribute of the native input element */
   @Input() value: string;
@@ -132,6 +137,30 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
           color: theme.colorOf(val)
         }
       }), this._el.nativeElement, this._withColorClass, STYLE_PRIORITY);
+    }
+  }
+
+  /** Whether ripples are disabled. */
+  @Input()
+  get disableRipple(): boolean {
+    return this._disableRipple;
+  }
+  set disableRipple(val: boolean) {
+    if (Platform.isBrowser && val !== this._disableRipple) {
+      const newVal = this._disableRipple = toBoolean(val);
+      // remove previous ripple if exist
+      this._destroyRipple();
+      if (!newVal) {
+        // add ripple
+        const rippleContainer = this._innerContainer.nativeElement;
+        const triggerElement = this._el.nativeElement;
+        this._ripple = new Ripple(this._theme.config, this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
+        this._ripple.setConfig({
+          centered: true,
+          radius: 'containerSize',
+          percentageToIncrease: 150
+        });
+      }
     }
   }
 
@@ -192,10 +221,10 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
     private _theme: LyTheme2,
     private _el: ElementRef,
     private _renderer: Renderer2,
-    private _ngZone: NgZone,
     private _changeDetectorRef: ChangeDetectorRef,
-    private _common: LyCommon,
-    private _focusState: LyFocusState
+    private _focusState: LyFocusState,
+    private _ngZone: NgZone,
+    private _rippleService: LyRippleService
   ) { }
 
   ngOnInit() {
@@ -221,10 +250,24 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
       }
       this._onTouched();
     });
+    // set default ripple
+    if (this.disableRipple === void 0) {
+      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
+    }
+  }
+
+  private _destroyRipple() {
+    if (Platform.isBrowser) {
+      if (this._ripple) {
+        this._ripple.removeEvents();
+        this._ripple = null;
+      }
+    }
   }
 
   ngOnDestroy() {
     this._focusState.unlisten(this._el);
+    this._destroyRipple();
   }
   writeValue(value: any): void {
     this.checked = !!value;
