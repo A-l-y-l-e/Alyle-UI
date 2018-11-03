@@ -303,7 +303,10 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
 
   private _emitChangeEvent() {
     this._controlValueAccessorChangeFn(this.checked);
-    this.change.emit(null);
+    this.change.emit({
+      source: this,
+      checked: this.checked
+    });
   }
 
   private _markForCheck() {
