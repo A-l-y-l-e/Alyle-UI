@@ -68,6 +68,7 @@ export interface ThemeConfig {
         prefix?: StyleContainer
         infix?: StyleContainer
         suffix?: StyleContainer
+        hint?: StyleContainer
       }
     }
   };

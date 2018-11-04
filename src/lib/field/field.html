@@ -17,7 +17,9 @@
   <div [className]="classes.suffix" *ngIf="_suffixChildren.length" #_suffixContainer>
     <ng-content select="[lySuffix]"></ng-content>
   </div>
-  <div [className]="classes.hint"></div>
+</div>
+<div [className]="classes.hint" *ngIf="_hintChildren.length">
+  <ng-content select="ly-hint"></ng-content>
 </div>
 
 <ng-template #_labelTemplate>

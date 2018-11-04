@@ -125,6 +125,9 @@ export const field = {
       },
       floatingLabel: {
         transform: 'translateY(-1.75em)'
+      },
+      hint: {
+        padding: '0 0.75em'
       }
     },
     filled: {
@@ -164,6 +167,9 @@ export const field = {
       },
       floatingLabel: {
         transform: 'translateY(-.75em)'
+      },
+      hint: {
+        padding: '0 0.75em'
       }
     }
   }

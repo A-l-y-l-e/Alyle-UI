@@ -66,7 +66,7 @@ const styles = (theme: ThemeVariables) => {
     root: {
       display: 'inline-block',
       position: 'relative',
-      marginBottom: '1em',
+      marginBottom: '.5em',
       lineHeight: 1.125
     },
     animations: {
@@ -81,6 +81,7 @@ const styles = (theme: ThemeVariables) => {
       height: '100%',
       display: 'flex',
       alignItems: 'center',
+      position: 'relative',
       '&:after': {
         ...LY_COMMON_STYLES.fill,
         content: `\'\'`,
@@ -119,6 +120,7 @@ const styles = (theme: ThemeVariables) => {
       display: 'inline-flex',
       position: 'relative',
       alignItems: 'baseline',
+      width: '100%',
       '&:after': {
         content: `\'\'`,
         pointerEvents: 'none',
@@ -177,7 +179,6 @@ const styles = (theme: ThemeVariables) => {
       color: theme.field.labelColor
     },
     focused: {},
-    hint: {},
     inputNative: {
       resize: 'vertical',
       padding: 0,
@@ -187,7 +188,8 @@ const styles = (theme: ThemeVariables) => {
       color: 'inherit',
       font: 'inherit',
       width: '100%'
-    }
+    },
+    hint: { }
   };
 };
 
@@ -209,9 +211,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   protected _withColorClass: string;
   protected _isFloating: boolean;
   protected _floatingLabel: boolean;
-  protected _fielsetStartClass: string;
-  protected _fielsetEndClass: string;
-  protected _fielsetSpanClass: string;
+  private _fielsetSpanClass: string;
+  private _marginStartClass: string;
+  private _marginEndClass: string;
+  private _fieldsetLegendClass: string;
   @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_labelContainer2') _labelContainer2: ElementRef<HTMLDivElement>;
   @ViewChild('_labelSpan') _labelSpan: ElementRef<HTMLDivElement>;
@@ -287,6 +290,9 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
           },
           [`& .${this.classes.label}`]: {
             ...appearance.label
+          },
+          [`& .${this.classes.hint}`]: {
+            ...appearance.hint
           },
           [`& .${this.classes.floatingLabel}.${this.classes.label}`]: {...appearance.floatingLabel},
 
@@ -369,20 +375,17 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
   }
 
-  private _updateFielset(el: Element, f: DirAlias) {
+  private _updateFielset(el: Element, dir: DirAlias) {
     const { width } = el.getBoundingClientRect();
-    const newClass = this._theme.addStyle(`style.paddingStart:${width}`, (theme: ThemeVariables) => {
-      return {
-        [`margin-${f}`]: `${width}px`
-      };
-    });
-    if (f === DirAlias.start) {
-      this._theme.updateClass(this._fieldsetLegend.nativeElement, this._renderer, newClass, this._fielsetStartClass);
-      this._fielsetStartClass = newClass;
+    const newClass = this._theme.addStyle(`fieldLegendstyle.margin${dir}:${width}`, () => ({
+      [`& .${this.classes.fieldsetSpan}, & .${this.classes.hint}`]: {
+        [`margin-${dir}`]: `${width}px`
+      }
+    }), null, null, STYLE_PRIORITY);
+    if (dir === DirAlias.start) {
+      this._marginStartClass = this._theme.updateClass(this._el.nativeElement, this._renderer, newClass, this._marginStartClass);
     } else {
-      this._theme.updateClass(this._fieldsetLegend.nativeElement, this._renderer, newClass, this._fielsetEndClass);
-
-      this._fielsetEndClass = newClass;
+      this._marginEndClass = this._theme.updateClass(this._el.nativeElement, this._renderer, newClass, this._marginEndClass);
     }
   }
 
