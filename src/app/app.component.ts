@@ -62,6 +62,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
     borderStart: '3px solid transparent',
     display: 'flex',
     justifyContent: 'space-between',
+    borderRadius: 0,
     '&:hover, &{onLinkActive}': {
       color: theme.primary.default,
       borderStart: '3px solid'
