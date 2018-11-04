@@ -10,7 +10,7 @@ const styles = (theme: ThemeVariables) => ({
     color: theme.primary.default, // style
     borderStart: '2px solid',     // support for rtl & ltr
     paddingStart: '.5em',         // support for rtl & ltr
-    '&:hover': {                  // `&`is equal to `root` and therefore it would be 'root:hover'
+    '&:hover': {                  // `&`is equal to `root` and therefore it would be 'demo:hover'
       color: theme.accent.default // style
     }
   },
