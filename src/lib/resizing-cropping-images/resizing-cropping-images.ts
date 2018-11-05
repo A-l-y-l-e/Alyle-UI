@@ -448,7 +448,7 @@ export class LyResizingCroppingImages {
     /** Context */
     const octx = img.getContext('2d');
 
-    const q = Math.pow(quality * 10, numSteps) / Math.pow(10, numSteps);
+    const q = ((quality * 10) ** numSteps) / (10 ** numSteps);
 
     /** If Steps => imageSmoothingQuality */
     if (numSteps) {
