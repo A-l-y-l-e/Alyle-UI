@@ -84,9 +84,10 @@ export interface ImgCropperConfig {
   fill?: string | null;
   /** Set anti-aliased( default: true) */
   antiAliased?: boolean;
+  autoCrop?: boolean;
   output?: {
-    width: number;
-    height: number;
+    width: number
+    height: number
   } | ImgResolution;
 }
 
@@ -267,6 +268,7 @@ export class LyResizingCroppingImages {
         }
       });
     }
+    this._cropIfAutoCrop();
   }
   private customCenter(width: number, height: number) {
     const root = this.elementRef.nativeElement as HTMLElement;
@@ -351,6 +353,16 @@ export class LyResizingCroppingImages {
     });
   }
 
+  _slideEnd(e) {
+    this._cropIfAutoCrop();
+  }
+
+  private _cropIfAutoCrop() {
+    if (this.config.autoCrop) {
+      this.crop();
+    }
+  }
+
   private roundNumber(num: number) {
     return Math.round(num * 100000) / 100000;
   }
@@ -390,6 +402,7 @@ export class LyResizingCroppingImages {
       transform: this.customCenter(img.width, img.height)
     };
     this._setStylesForContImg(newStyles);
+    this._cropIfAutoCrop();
   }
   private _setImageUrl(src: string) {
     this._originalImgBase64 = src;
@@ -416,13 +429,10 @@ export class LyResizingCroppingImages {
       this.cd.markForCheck();
     });
   }
-  private max(...values: number[]) {
-    return Math.max(...values);
-  }
 
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
     /** Calculate total number of steps needed */
-    let  numSteps = Math.ceil(Math.log(this.max(img.width, img.height) / this.max(config.height, config.width)) / Math.log(2)) - 1;
+    let  numSteps = Math.ceil(Math.log(max(img.width, img.height) / max(config.height, config.width)) / Math.log(2)) - 1;
     numSteps = numSteps <= 0 ? 0 : numSteps;
 
     /**Array steps */
@@ -482,10 +492,10 @@ export class LyResizingCroppingImages {
    */
   _imgCrop(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
-    const rect = this._croppingContainer.nativeElement.getBoundingClientRect() as ClientRect;
-    const img = this._imgContainer.nativeElement.firstElementChild.getBoundingClientRect() as ClientRect;
-    const left = rect.left - img.left;
-    const top = rect.top - img.top;
+    const host = this.elementRef.nativeElement.getBoundingClientRect() as ClientRect;
+    const img = this._imgContainer.nativeElement.getBoundingClientRect() as ClientRect;
+    const left = host.left + ((host.width - myConfig.width) / 2) - img.left;
+    const top = host.top + ((host.height - myConfig.height) / 2) - img.top;
     const config = {
       width: myConfig.width,
       height: myConfig.height
@@ -529,3 +539,6 @@ export class LyResizingCroppingImages {
 
 /** @ignore */
 const fixedNum = (num: number) => parseFloat(num.toFixed(0));
+
+/** @ignore */
+const max = (...values: number[]) => Math.max(...values);

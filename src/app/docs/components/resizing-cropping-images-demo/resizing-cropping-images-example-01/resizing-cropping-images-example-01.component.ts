@@ -27,6 +27,7 @@ export class ResizingCroppingImagesExample01Component {
   croppedImage: string;
   result: string;
   myConfig: ImgCropperConfig = {
+    autoCrop: true,
     width: 150, // Default `250`
     height: 150, // Default `200`
     fill: '#ff2997' // Default transparent if type = png else #000
