@@ -140,7 +140,7 @@ export class LyResizingCroppingImages {
    * styles
    * @ignore
    */
-  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   _originalImgBase64: string;
   private _fileName: string;
 
@@ -423,7 +423,7 @@ export class LyResizingCroppingImages {
       originalBase64: src,
     };
     img.src = src;
-    img.addEventListener('error', (err) => {
+    img.addEventListener('error', () => {
       this.error.emit(cropEvent);
     });
     img.addEventListener('load', () => {
@@ -459,7 +459,7 @@ export class LyResizingCroppingImages {
       octx.globalCompositeOperation = 'copy';
 
       /** Steps */
-      (steps as Array<number>).forEach((a, b) => {
+      (steps as Array<number>).forEach(() => {
         octx.drawImage(img,
           0, 0,
           w, h
