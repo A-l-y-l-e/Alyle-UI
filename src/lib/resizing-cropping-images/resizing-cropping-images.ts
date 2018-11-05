@@ -103,15 +103,19 @@ export enum ImgResolution {
 }
 
 export interface ImgCropperEvent {
-  /** Cropped image in base64 */
+  /** Cropped image in base64, @deprecated use instead `dataURL` */
   base64: string;
+  /** Cropped image in URL base64 */
+  dataURL: string;
   name: string;
   /** Filetype */
   type: string;
   width: number;
   height: number;
-  /** Original Image in base64 */
+  /** Original Image in base64, @deprecated use instead `originalDataURL` */
   originalBase64: string;
+  /** Original Image in URL base64 */
+  originalDataURL: string;
   scale?: number;
   position?: {
     x, y
@@ -226,7 +230,7 @@ export class LyResizingCroppingImages {
     this.isCropped = false;
     fileReader.addEventListener('loadend', (loadEvent) => {
       const originalImageUrl = (loadEvent.target as FileReader).result as string;
-      this._setImageUrl(originalImageUrl);
+      this.setImageUrl(originalImageUrl);
       this.cd.markForCheck();
     });
     fileReader.readAsDataURL(_img.files[0]);
@@ -404,17 +408,20 @@ export class LyResizingCroppingImages {
     this._setStylesForContImg(newStyles);
     this._cropIfAutoCrop();
   }
-  private _setImageUrl(src: string) {
+
+  /** Set Img */
+  setImageUrl(src: string) {
     this._originalImgBase64 = src;
-    if (!src) { return; }
     const img = new Image;
     const cropEvent: ImgCropperEvent = {
       name: this._fileName,
       type: this._defaultType,
+      dataURL: null,
       base64: null,
       width: null,
       height: null,
-      originalBase64: src
+      originalDataURL: src,
+      originalBase64: src,
     };
     img.src = src;
     img.addEventListener('error', (err) => {
@@ -524,12 +531,14 @@ export class LyResizingCroppingImages {
       url = result.toDataURL(this._defaultType);
     }
     const cropEvent = {
+      dataURL: url,
       base64: url,
       type: this._defaultType || myConfig.type,
       name: this._fileName,
       width: config.width,
       height: config.height,
-      originalBase64: this._originalImgBase64
+      originalBase64: this._originalImgBase64,
+      originalDataURL: this._originalImgBase64
     };
     this.cropped.emit(cropEvent);
     this.isCropped = true;
