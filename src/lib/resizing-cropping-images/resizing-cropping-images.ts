@@ -197,7 +197,6 @@ export class LyResizingCroppingImages {
       };
       this._minScale = Math.max(minScale.width, minScale.height) / 100;
       this.fit();
-      this.cd.markForCheck();
     }
   }
 
@@ -362,7 +361,7 @@ export class LyResizingCroppingImages {
   }
 
   private _cropIfAutoCrop() {
-    if (this.config.autoCrop) {
+    if (this.config.autoCrop && this.isLoaded) {
       this.crop();
     }
   }
@@ -433,6 +432,7 @@ export class LyResizingCroppingImages {
       cropEvent.height = img.height;
       this.loaded.emit(cropEvent);
       this.isLoaded = true;
+      this._cropIfAutoCrop();
       this.cd.markForCheck();
     });
   }
