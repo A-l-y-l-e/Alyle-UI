@@ -18,6 +18,7 @@
 </div>
 <ly-cropping [withClass]="classes.cropping" #cropping
 [config]="myConfig"
+[(scale)]="scale"
 (cropped)="onCropped($event)"
 (loaded)="onloaded($event)"
 (error)="onerror($event)">
@@ -26,4 +27,5 @@
 <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>
   <ly-icon>crop</ly-icon>crop
 </button>
+<p>scale: {{ scale | json }}</p>
 <div><img *ngIf="cropping.isCropped" [src]="croppedImage"></div>

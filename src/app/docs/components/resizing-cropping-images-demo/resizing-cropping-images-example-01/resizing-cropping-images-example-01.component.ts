@@ -26,6 +26,7 @@ export class ResizingCroppingImagesExample01Component {
   classes = this.theme.addStyleSheet(styles);
   croppedImage: string;
   result: string;
+  scale: number;
   myConfig: ImgCropperConfig = {
     autoCrop: true,
     width: 150, // Default `250`

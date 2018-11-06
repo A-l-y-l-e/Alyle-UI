@@ -8,7 +8,8 @@ import {
   ViewChild,
   EventEmitter,
   Renderer2,
-  NgZone
+  NgZone,
+  HostListener
 } from '@angular/core';
 import { LyTheme2, mergeDeep, LY_COMMON_STYLES } from '@alyle/ui';
 import { take } from 'rxjs/operators';
@@ -119,7 +120,7 @@ export interface ImgCropperEvent {
   /** Original Image in URL base64 */
   originalDataURL: string;
   scale: number;
-  position?: {
+  position: {
     x, y
   };
 }
@@ -158,6 +159,10 @@ export class LyResizingCroppingImages {
   private _scale: number;
   private _minScale: number;
   private _config: ImgCropperConfig;
+  private _currentPosition: {
+    x: number
+    y: number
+  };
 
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
@@ -168,10 +173,18 @@ export class LyResizingCroppingImages {
   set config(val: ImgCropperConfig) {
     this._config = mergeDeep({}, CONFIG_DEFAULT, val);
   }
-  /** Get current scale */
+  /** Set scale */
+  @Input()
   get scale(): number {
     return this._scale;
   }
+  set scale(val: number) {
+    this._scale = val || 0;
+    this.scaleChange.emit(this._scale);
+  }
+
+  @Output() readonly scaleChange = new EventEmitter<number>();
+
   /** Get min scale */
   get minScale(): number {
     return this._minScale;
@@ -180,11 +193,11 @@ export class LyResizingCroppingImages {
   isCropped: boolean;
 
   /** On loaded new image */
-  @Output() loaded = new EventEmitter<ImgCropperEvent>();
+  @Output() readonly loaded = new EventEmitter<ImgCropperEvent>();
   /** On crop new image */
-  @Output() cropped = new EventEmitter<ImgCropperEvent>();
+  @Output() readonly cropped = new EventEmitter<ImgCropperEvent>();
   /** Emit an error when the loaded image is not valid */
-  @Output() error = new EventEmitter<ImgCropperEvent>();
+  @Output() readonly error = new EventEmitter<ImgCropperEvent>();
 
   private _defaultType: string;
   constructor(
@@ -219,6 +232,12 @@ export class LyResizingCroppingImages {
       if (newStyles.hasOwnProperty(key)) {
         this._renderer.setStyle(this._imgContainer.nativeElement, key, newStyles[key]);
       }
+    }
+  }
+
+  @HostListener('window:resize') resize$() {
+    if (this.isLoaded) {
+      this.updatePosition();
     }
   }
 
@@ -283,8 +302,11 @@ export class LyResizingCroppingImages {
         }
       });
     }
+    this.scaleChange.emit(this._scale);
+    this._setPosition();
     this._cropIfAutoCrop();
   }
+
   private customCenter(width: number, height: number) {
     const root = this.elementRef.nativeElement as HTMLElement;
     const l = (root.offsetWidth - width) / 2;
@@ -370,7 +392,37 @@ export class LyResizingCroppingImages {
     });
   }
 
+  private _setPosition() {
+    if (this.isLoaded) {
+      const imgContainerRect = this._imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
+      const croppingContainerRect = this._croppingContainer.nativeElement.getBoundingClientRect() as DOMRect;
+
+      this._currentPosition = {
+        x: imgContainerRect.x - croppingContainerRect.x,
+        y: imgContainerRect.y - croppingContainerRect.y
+      };
+      console.log(this._currentPosition);
+    }
+  }
+
+  updatePosition(x?: number, y?: number) {
+    const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
+    const croppingContainerRect = this._croppingContainer.nativeElement.getBoundingClientRect() as DOMRect;
+    if (x === void 0) {
+      x = this._currentPosition.x;
+      y = this._currentPosition.y;
+    }
+    x += croppingContainerRect.x - hostRect.x;
+    y += croppingContainerRect.y - hostRect.y;
+    this._setStylesForContImg({
+      width: this._imgContainer.nativeElement.offsetWidth,
+      height: this._imgContainer.nativeElement.offsetHeight,
+      transform: `translate3d(${x}px, ${y}px, 0)`
+    });
+  }
+
   _slideEnd(e) {
+    this._setPosition();
     this._cropIfAutoCrop();
   }
 
@@ -419,6 +471,7 @@ export class LyResizingCroppingImages {
       transform: this.customCenter(img.width, img.height)
     };
     this._setStylesForContImg(newStyles);
+    this._setPosition();
     this._cropIfAutoCrop();
   }
 
@@ -436,6 +489,7 @@ export class LyResizingCroppingImages {
       scale: null,
       originalDataURL: src,
       originalBase64: src,
+      position: null
     };
     img.src = src;
     img.addEventListener('error', () => {
@@ -451,7 +505,10 @@ export class LyResizingCroppingImages {
       this._ngZone
           .onStable
           .pipe(take(1))
-          .subscribe(() => this._ngZone.run(() => this._cropIfAutoCrop()));
+          .subscribe(() => this._ngZone.run(() => {
+            this._cropIfAutoCrop();
+            this._setPosition();
+          }));
     });
   }
 
@@ -558,12 +615,8 @@ export class LyResizingCroppingImages {
       originalBase64: this._originalImgBase64,
       originalDataURL: this._originalImgBase64,
       scale: this.scale,
-      position: {
-        x: 0,
-        y: 0
-      }
+      position: this._currentPosition
     };
-    console.log(this.offset);
     this.cropped.emit(cropEvent);
     this.isCropped = true;
     return cropEvent;
