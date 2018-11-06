@@ -451,7 +451,7 @@ export class LyResizingCroppingImages {
       this._ngZone
           .onStable
           .pipe(take(1))
-          .subscribe(() => this._cropIfAutoCrop());
+          .subscribe(() => this._ngZone.run(() => this._cropIfAutoCrop()));
     });
   }
 
