@@ -7,9 +7,11 @@ import {
   ChangeDetectorRef,
   ViewChild,
   EventEmitter,
-  Renderer2
+  Renderer2,
+  NgZone
 } from '@angular/core';
 import { LyTheme2, mergeDeep, LY_COMMON_STYLES } from '@alyle/ui';
+import { take } from 'rxjs/operators';
 
 const STYLE_PRIORITY = -2;
 
@@ -116,7 +118,7 @@ export interface ImgCropperEvent {
   originalBase64: string;
   /** Original Image in URL base64 */
   originalDataURL: string;
-  scale?: number;
+  scale: number;
   position?: {
     x, y
   };
@@ -145,7 +147,14 @@ export class LyResizingCroppingImages {
   private _fileName: string;
 
   private _img: HTMLImageElement;
-  private offset: {x: number, y: number, left: number, top: number};
+  private offset: {
+    centerX: number
+    centerY: number
+    x: number
+    y: number
+    left: number
+    top: number
+  };
   private _scale: number;
   private _minScale: number;
   private _config: ImgCropperConfig;
@@ -182,7 +191,8 @@ export class LyResizingCroppingImages {
     private _renderer: Renderer2,
     private theme: LyTheme2,
     private elementRef: ElementRef<HTMLElement>,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _ngZone: NgZone
   ) {
     this._renderer.addClass(elementRef.nativeElement, this.classes.root);
   }
@@ -254,6 +264,8 @@ export class LyResizingCroppingImages {
     } else {
       const imgContainerRect = this._imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
       this.offset = {
+        centerX: 0,
+        centerY: 0,
         x: (hostRect.width / 2) - (imgContainerRect.x - hostRect.x), // ✓
         y: (hostRect.height / 2) - (imgContainerRect.y - hostRect.y), // ✓
         left: imgContainerRect.left - hostRect.x, // ✓
@@ -309,6 +321,8 @@ export class LyResizingCroppingImages {
     const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
     const imgContainerRect = this._imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
     this.offset = {
+      centerX: 0,
+      centerY: 0,
       x: event.center.x - imgContainerRect.x,
       y: event.center.y - imgContainerRect.y,
       left: imgContainerRect.left - hostRect.x,
@@ -339,7 +353,7 @@ export class LyResizingCroppingImages {
     }
 
     // When press shiftKey
-    if (event.srcEvent.shiftKey) {
+    if (event.srcEvent && event.srcEvent.shiftKey) {
       if (Math.abs(event.deltaX) === Math.max(Math.abs(event.deltaX), Math.abs(event.deltaY))) {
         y = this.offset.top;
       } else {
@@ -419,6 +433,7 @@ export class LyResizingCroppingImages {
       base64: null,
       width: null,
       height: null,
+      scale: null,
       originalDataURL: src,
       originalBase64: src,
     };
@@ -432,8 +447,11 @@ export class LyResizingCroppingImages {
       cropEvent.height = img.height;
       this.loaded.emit(cropEvent);
       this.isLoaded = true;
-      this._cropIfAutoCrop();
       this.cd.markForCheck();
+      this._ngZone
+          .onStable
+          .pipe(take(1))
+          .subscribe(() => this._cropIfAutoCrop());
     });
   }
 
@@ -538,8 +556,14 @@ export class LyResizingCroppingImages {
       width: config.width,
       height: config.height,
       originalBase64: this._originalImgBase64,
-      originalDataURL: this._originalImgBase64
+      originalDataURL: this._originalImgBase64,
+      scale: this.scale,
+      position: {
+        x: 0,
+        y: 0
+      }
     };
+    console.log(this.offset);
     this.cropped.emit(cropEvent);
     this.isCropped = true;
     return cropEvent;
