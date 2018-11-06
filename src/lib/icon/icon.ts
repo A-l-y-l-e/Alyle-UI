@@ -53,14 +53,19 @@ export class Icon implements OnInit {
   }
 
   private _prepareSvgIcon(svgIcon: SvgIcon) {
-    svgIcon.obs
-      .pipe(
-        take(1)
-      )
-      .subscribe((svgElement) => {
-        this._cleanIcon();
-        this._appendChild(svgElement);
-      });
+    if (svgIcon.svg) {
+      this._cleanIcon();
+      this._appendChild(svgIcon.svg.cloneNode(true) as SVGElement);
+    } else {
+      svgIcon.obs
+        .pipe(
+          take(1)
+        )
+        .subscribe((svgElement) => {
+          this._cleanIcon();
+          this._appendChild(svgElement.cloneNode(true) as SVGElement);
+        });
+    }
   }
 
   private _appendChild(svg: SVGElement) {
@@ -69,7 +74,7 @@ export class Icon implements OnInit {
   }
 
   private _appendDefaultSvgIcon() {
-    this._appendChild(this.iconService.textToSvg('<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>'));
+    this._appendChild(this.iconService.defaultSvgIcon);
   }
 
   private _updateClass() {

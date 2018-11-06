@@ -13,7 +13,6 @@ export class TitleComponent implements OnInit {
   private _route: string;
   title: string;
   urls: string[];
-  status: string;
   defaultTitle = 'Alyle UI';
   @Input()
   set route(val: string) {
