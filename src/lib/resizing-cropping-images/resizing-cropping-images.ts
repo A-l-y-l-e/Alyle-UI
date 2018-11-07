@@ -404,7 +404,6 @@ export class LyResizingCroppingImages {
         x: imgContainerRect.x - croppingContainerRect.x,
         y: imgContainerRect.y - croppingContainerRect.y
       };
-      console.log(this._currentPosition);
     }
   }
 

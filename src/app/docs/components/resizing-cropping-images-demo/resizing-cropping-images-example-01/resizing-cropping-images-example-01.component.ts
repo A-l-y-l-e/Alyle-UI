@@ -16,15 +16,17 @@ const styles = (theme: ThemeVariables) => ({
   },
   range: {
     maxWidth: '400px',
+    margin: '1em 0',
 
-    /*removes default webkit styles*/
+    // http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html
+    // removes default webkit styles
     '-webkit-appearance': 'none',
 
-    /*fix for FF unable to apply focus style bug */
+    // fix for FF unable to apply focus style bug
     border: `solid 6px ${theme.background.tertiary}`,
 
-    /*required for proper track sizing in FF*/
-    width: '300px',
+    // required for proper track sizing in FF
+    width: '100%',
     '&::-webkit-slider-runnable-track': {
         width: '300px',
         height: '3px',
@@ -63,7 +65,7 @@ const styles = (theme: ThemeVariables) => ({
         background: theme.primary.default
     },
 
-    /*hide the outline behind the border*/
+    // hide the outline behind the border
     '&:-moz-focusring': {
         outline: '1px solid white',
         outlineOffset: '-1px',
@@ -73,14 +75,14 @@ const styles = (theme: ThemeVariables) => ({
         width: '300px',
         height: '3px',
 
-        /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+        // remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead
         background: 'transparent',
 
-        /*leave room for the larger thumb to overflow with a transparent border */
+        // leave room for the larger thumb to overflow with a transparent border
         borderColor: 'transparent',
         borderWidth: '6px 0',
 
-        /*remove default tick marks*/
+        // remove default tick marks
         color: 'transparent'
     },
     '&::-ms-fill-lower': {
