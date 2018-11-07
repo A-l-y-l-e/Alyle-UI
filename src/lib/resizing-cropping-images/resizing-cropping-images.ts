@@ -121,7 +121,8 @@ export interface ImgCropperEvent {
   originalDataURL: string;
   scale: number;
   position: {
-    x, y
+    x: number
+    y: number
   };
 }
 
@@ -149,8 +150,6 @@ export class LyResizingCroppingImages {
 
   private _img: HTMLImageElement;
   private offset: {
-    centerX: number
-    centerY: number
     x: number
     y: number
     left: number
@@ -276,7 +275,7 @@ export class LyResizingCroppingImages {
     const initialImg = this._img;
     const width = fixedNum(initialImg.width * size / 100);
     const height = fixedNum(initialImg.height * size / 100);
-    const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
+    const hostRect = this._rootRect();
     if (!this.isLoaded) {
       this._setStylesForContImg({
         width: `${width}px`,
@@ -284,10 +283,8 @@ export class LyResizingCroppingImages {
         transform: this.customCenter(width, height)
       });
     } else {
-      const imgContainerRect = this._imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
+      const imgContainerRect = this._imgContainerRect();
       this.offset = {
-        centerX: 0,
-        centerY: 0,
         x: (hostRect.width / 2) - (imgContainerRect.x - hostRect.x), // ✓
         y: (hostRect.height / 2) - (imgContainerRect.y - hostRect.y), // ✓
         left: imgContainerRect.left - hostRect.x, // ✓
@@ -343,11 +340,9 @@ export class LyResizingCroppingImages {
   }
 
   _moveStart(event) {
-    const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
-    const imgContainerRect = this._imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
+    const hostRect = this._rootRect();
+    const imgContainerRect = this._imgContainerRect();
     this.offset = {
-      centerX: 0,
-      centerY: 0,
       x: event.center.x - imgContainerRect.x,
       y: event.center.y - imgContainerRect.y,
       left: imgContainerRect.left - hostRect.x,
@@ -356,9 +351,9 @@ export class LyResizingCroppingImages {
   }
   _move(event) {
     let x, y;
-    const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
-    const imgContainerRect = this._imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
-    const croppingContainerRect = this._croppingContainer.nativeElement.getBoundingClientRect() as DOMRect;
+    const hostRect = this._rootRect();
+    const imgContainerRect = this._imgContainerRect();
+    const croppingContainerRect = this._areaCropperRect();
 
     // Limit for left
     if (event.center.x - this.offset.x >= croppingContainerRect.x) {
@@ -397,8 +392,8 @@ export class LyResizingCroppingImages {
 
   private _setPosition() {
     if (this.isLoaded) {
-      const imgContainerRect = this._imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
-      const croppingContainerRect = this._croppingContainer.nativeElement.getBoundingClientRect() as DOMRect;
+      const imgContainerRect = this._imgContainerRect();
+      const croppingContainerRect = this._areaCropperRect();
 
       this._currentPosition = {
         x: imgContainerRect.x - croppingContainerRect.x,
@@ -408,8 +403,8 @@ export class LyResizingCroppingImages {
   }
 
   updatePosition(x?: number, y?: number) {
-    const hostRect = this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
-    const croppingContainerRect = this._croppingContainer.nativeElement.getBoundingClientRect() as DOMRect;
+    const hostRect = this._rootRect();
+    const croppingContainerRect = this._areaCropperRect();
     if (x === void 0) {
       x = this._currentPosition.x;
       y = this._currentPosition.y;
@@ -516,7 +511,7 @@ export class LyResizingCroppingImages {
 
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
     /** Calculate total number of steps needed */
-    let  numSteps = Math.ceil(Math.log(max(img.width, img.height) / max(config.height, config.width)) / Math.log(2)) - 1;
+    let  numSteps = Math.ceil(Math.log(Math.max(img.width, img.height) / Math.max(config.height, config.width)) / Math.log(2)) - 1;
     numSteps = numSteps <= 0 ? 0 : numSteps;
 
     /**Array steps */
@@ -623,10 +618,19 @@ export class LyResizingCroppingImages {
     this.isCropped = true;
     return cropEvent;
   }
+
+  private _rootRect(): DOMRect {
+    return this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
+  }
+  private _imgContainerRect(): DOMRect {
+    return this._imgContainer.nativeElement.getBoundingClientRect() as DOMRect;
+  }
+
+  private _areaCropperRect(): DOMRect {
+    return this._croppingContainer.nativeElement.getBoundingClientRect() as DOMRect;
+  }
+
 }
 
 /** @ignore */
 const fixedNum = (num: number) => parseFloat(num.toFixed(0));
-
-/** @ignore */
-const max = (...values: number[]) => Math.max(...values);
