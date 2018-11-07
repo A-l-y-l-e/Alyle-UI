@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { ImgCropperConfig, ImgCropperEvent } from '@alyle/ui/resizing-cropping-images';
-import { LyTheme2 } from '@alyle/ui';
+import { LyTheme2, ThemeVariables } from '@alyle/ui';
 
-const styles = {
+const styles = (theme: ThemeVariables) => ({
   actions: {
     display: 'flex'
   },
@@ -13,8 +13,99 @@ const styles = {
   },
   flex: {
     flex: 1
+  },
+  range: {
+    maxWidth: '400px',
+
+    /*removes default webkit styles*/
+    '-webkit-appearance': 'none',
+
+    /*fix for FF unable to apply focus style bug */
+    border: `solid 6px ${theme.background.tertiary}`,
+
+    /*required for proper track sizing in FF*/
+    width: '300px',
+    '&::-webkit-slider-runnable-track': {
+        width: '300px',
+        height: '3px',
+        background: '#ddd',
+        border: 'none',
+        borderRadius: '3px'
+    },
+    '&::-webkit-slider-thumb': {
+        '-webkit-appearance': 'none',
+        border: 'none',
+        height: '16px',
+        width: '16px',
+        borderRadius: '50%',
+        background: theme.primary.default,
+        marginTop: '-6px'
+    },
+    '&:focus': {
+        outline: 'none'
+    },
+    '&:focus::-webkit-slider-runnable-track': {
+        background: '#ccc'
+    },
+
+    '&::-moz-range-track': {
+        width: '300px',
+        height: '3px',
+        background: '#ddd',
+        border: 'none',
+        borderRadius: '3px'
+    },
+    '&::-moz-range-thumb': {
+        border: 'none',
+        height: '16px',
+        width: '16px',
+        borderRadius: '50%',
+        background: theme.primary.default
+    },
+
+    /*hide the outline behind the border*/
+    '&:-moz-focusring': {
+        outline: '1px solid white',
+        outlineOffset: '-1px',
+    },
+
+    '&::-ms-track': {
+        width: '300px',
+        height: '3px',
+
+        /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+        background: 'transparent',
+
+        /*leave room for the larger thumb to overflow with a transparent border */
+        borderColor: 'transparent',
+        borderWidth: '6px 0',
+
+        /*remove default tick marks*/
+        color: 'transparent'
+    },
+    '&::-ms-fill-lower': {
+        background: '#777',
+        borderRadius: '10px'
+    },
+    '&::-ms-fill-': {
+        background: '#ddd',
+        borderRadius: '10px',
+    },
+    '&::-ms-thumb': {
+        border: 'none',
+        height: '16px',
+        width: '16px',
+        borderRadius: '50%',
+        background: theme.primary.default,
+    },
+    '&:focus::-ms-fill-lower': {
+        background: '#888'
+    },
+    '&:focus::-ms-fill-upper': {
+        background: '#ccc'
+    }
   }
-};
+});
 
 @Component({
   selector: 'resizing-cropping-images-example-01',

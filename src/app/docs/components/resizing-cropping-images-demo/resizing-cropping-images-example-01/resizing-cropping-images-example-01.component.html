@@ -24,6 +24,9 @@
 (error)="onerror($event)">
   <span>Drag and drop image</span>
 </ly-cropping>
+<div>
+  <input type="range" [className]="classes.range" [attr.min]="cropping.minScale" max="1" [(ngModel)]="scale" step="any">
+</div>
 <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>
   <ly-icon>crop</ly-icon>crop
 </button>

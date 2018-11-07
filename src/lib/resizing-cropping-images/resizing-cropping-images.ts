@@ -179,8 +179,11 @@ export class LyResizingCroppingImages {
     return this._scale;
   }
   set scale(val: number) {
-    this._scale = val || 0;
-    this.scaleChange.emit(this._scale);
+    if (this.isLoaded && val !== this._scale) {
+      const scale = this._scale = val || 0;
+      this.scaleChange.emit(scale);
+      this.setScale(scale);
+    }
   }
 
   @Output() readonly scaleChange = new EventEmitter<number>();
