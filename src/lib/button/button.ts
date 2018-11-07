@@ -16,7 +16,8 @@ import {
   Platform,
   toBoolean,
   LyTheme2,
-  LyCommon
+  LyCommon,
+  ThemeVariables
 } from '@alyle/ui';
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
@@ -28,9 +29,9 @@ type LyButtonSize = 'small' | 'medium' | 'large';
 
 /** @ignore */
 const Size: Record<LyButtonSize, any> = {
-  small: theme => ({
+  small: (theme: ThemeVariables) => ({
     padding: '0 8px',
-    fontSize: theme.pxToRem(theme.typography.button.fontSize - 1),
+    fontSize: theme.pxToRem(theme.typography.lyTyp.button.fontSize - 1),
     minHeight: '32px',
     minWidth: '48px'
   }),
@@ -39,9 +40,9 @@ const Size: Record<LyButtonSize, any> = {
     minHeight: '36px',
     minWidth: '64px'
   }),
-  large: (theme) => ({
+  large: (theme: ThemeVariables) => ({
     padding: '0 21px',
-    fontSize: theme.pxToRem(theme.typography.button.fontSize + 1),
+    fontSize: theme.pxToRem(theme.typography.lyTyp.button.fontSize + 1),
     minHeight: '40px',
     minWidth: '96px'
   })

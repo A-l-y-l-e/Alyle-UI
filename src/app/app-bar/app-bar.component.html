@@ -7,7 +7,7 @@
   </button>
   <span lyHide="XSmall" [withClass]="classes.version">v{{ version }}</span>
   <div [style.flex]="1"></div>
-  <button #_button ly-button color="primary:contrast" class="material-icons" [lyMenuTriggerFor]="_Menu">
+  <button #_button ly-button color="primary:contrast" [lyMenuTriggerFor]="_Menu">
     <ly-icon icon="Theme"></ly-icon>
     <span [withClass]="classes.themePickerText">{{ theme.config.name }}</span>
   </button>

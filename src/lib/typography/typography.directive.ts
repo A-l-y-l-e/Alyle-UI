@@ -1,11 +1,12 @@
 import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
-import { LyTheme2, toBoolean } from '@alyle/ui';
+import { LyTheme2, toBoolean, ThemeVariables, StyleContainer } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
-const styles = ({
+const styles = (theme: ThemeVariables) => ({
   root: {
     margin: 0,
-    display: 'block'
+    display: 'block',
+    ...theme.typography.root
   }
 });
 
@@ -98,26 +99,16 @@ export class LyTypography implements OnInit {
     const newKey = `k-typ:${key}`;
 
     return this.style.addStyle(newKey,
-      theme => {
+      (theme: ThemeVariables) => {
         const { typography } = theme;
-        const { fontFamily, fontSize, fontWeight, letterSpacing, textTransform, lineHeight } = typography[key || 'body1'];
-        let style = (
-          `font-size:${theme.pxToRem(fontSize)};` +
-          `font-weight:${fontWeight};` +
-          `letter-spacing:${theme.pxToRem(letterSpacing)};`
-        );
-        if (lineHeight) {
-          style += `line-height:${theme.pxToRem(lineHeight)};`;
+        const styl: StyleContainer = Object.assign({ }, typography.lyTyp[key || 'body1']);
+        styl.fontSize = theme.pxToRem(styl.fontSize as number || typography.fontSize);
+        if (styl.lineHeight) {
+          styl.lineHeight = theme.pxToRem(styl.lineHeight as number);
         }
-        if (textTransform) {
-          style += `text-transform:${textTransform};`;
-        }
-        if (fontFamily) {
-          style += `font-family:${fontFamily};`;
-        } else {
-          style += `font-family:${typography.fontFamily};`;
-        }
-        return style;
+        // set default fontFamily
+        styl.fontFamily = styl.fontFamily || typography.fontFamily;
+        return styl;
       },
       this.elementRef.nativeElement,
       instance,
@@ -128,7 +119,7 @@ export class LyTypography implements OnInit {
   private _createGutterClass(name: Gutter, val: boolean, instance: string) {
     return this.style.addStyle(
       `k-typ-gutter:${name}:${val}`,
-      theme => {
+      (theme: ThemeVariables) => {
         const gutter = name === Gutter.default;
         return (
           `margin-top:${ val && (gutter || name === Gutter.top) ? theme.typography.gutterTop : 0 }em;` +

@@ -42,7 +42,7 @@ export class RoutesAppService {
           { route: 'carousel', name: 'Carousel' },
           { route: 'checkbox', name: 'Checkbox' },
           { route: 'drawer', name: 'Drawer' },
-          { route: 'field', name: 'Field', status: 'alpha' },
+          { route: 'field', name: 'Field' },
           { route: 'icon-button', name: 'Icon button' },
           { route: 'menu', name: 'Menu', status: 'alpha' },
           { route: 'radio', name: 'Radio' },

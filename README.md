@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" style="text-align: center">
   <h1>Alyle UI</h1>
   Minimal Design, a package of components for Angular.
   <br/>
@@ -17,7 +17,7 @@
 
 ## Install Alyle UI
 
-`npm i @alyle/ui@latest -s` or `yarn add @alyle/ui@latest`
+[Installation](http://localhost:1111/getting-started/installation)
 
 ## Components
 

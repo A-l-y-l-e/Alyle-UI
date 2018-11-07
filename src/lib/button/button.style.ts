@@ -1,10 +1,10 @@
-import { LY_COMMON_STYLES } from '@alyle/ui';
+import { ThemeVariables } from '@alyle/ui';
 
-export const styles = theme => {
-  const { button, fontFamily } = theme.typography;
+export const styles = (theme: ThemeVariables) => {
+  const typography = theme.typography;
   const _styles = ({
     root: {
-      fontFamily,
+      fontFamily: typography.fontFamily,
       color: theme.text.default,
       '-webkit-tap-highlight-color': 'transparent',
       backgroundColor: `rgba(0, 0, 0, 0)`,
@@ -32,7 +32,7 @@ export const styles = theme => {
       '&::-moz-focus-inner, &::-moz-focus-inner': {
         border: 0
       },
-      ...button
+      ...typography.lyTyp.button
     },
     content: {
       padding: 0,
@@ -42,14 +42,14 @@ export const styles = theme => {
       alignContent: 'inherit',
       width: '100%',
       height: '100%',
-      boxSizing: 'border-box',
+      boxSizing: 'border-box'
     }
   });
   if (typeof _styles.root.fontSize === 'number') {
-    _styles.root.fontSize = theme.pxToRem(_styles.root.fontSize);
+    _styles.root.fontSize = theme.pxToRem(_styles.root.fontSize) as any;
   }
   if (typeof _styles.root.letterSpacing === 'number') {
-    _styles.root.letterSpacing = theme.pxToRem(_styles.root.letterSpacing);
+    _styles.root.letterSpacing = theme.pxToRem(_styles.root.letterSpacing) as any;
   }
   return _styles;
 };

@@ -28,16 +28,19 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
   ...
   imports: [
     ...
+    // Animations
     BrowserAnimationsModule,
-    LyThemeModule.setTheme('minima-light'), // <== set Theme
+    // Set theme
+    LyThemeModule.setTheme('minima-light'),
+    // Add components
     LyButtonModule,
     LyToolbarModule
     ...
   ],
   /** Add themes */
   providers: [
-    { provide: LY_THEME, useClass: MinimaLight, multi: true },
-    { provide: LY_THEME, useClass: MinimaDark, multi: true }
+    { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: \`minima-light\`
+    { provide: LY_THEME, useClass: MinimaDark, multi: true } // name: \`minima-dark\`
   ]
   ...
 })
