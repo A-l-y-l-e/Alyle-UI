@@ -1,3 +1,22 @@
+<a name="1.7.8"></a>
+## [1.7.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.7...1.7.8) (2018-11-08)
+
+
+### Bug Fixes
+
+* **button, typography:** fix variables ([338c350](https://github.com/A-l-y-l-e/Alyle-UI/commit/338c350))
+* **img-cropper:** remove deprecated variables ([32637ed](https://github.com/A-l-y-l-e/Alyle-UI/commit/32637ed))
+
+
+### Features
+
+* **checkbox:** initial commit for checkbox ([#58](https://github.com/A-l-y-l-e/Alyle-UI/issues/58)) ([50b4198](https://github.com/A-l-y-l-e/Alyle-UI/commit/50b4198)), closes [#42](https://github.com/A-l-y-l-e/Alyle-UI/issues/42)
+* **icon:** cache svg icons ([5df9448](https://github.com/A-l-y-l-e/Alyle-UI/commit/5df9448))
+* **img-cropper:** add `originalBase64` to `ImgCropperEvent` ([11f327e](https://github.com/A-l-y-l-e/Alyle-UI/commit/11f327e))
+* **ripple, typography:** create variables ([afe924d](https://github.com/A-l-y-l-e/Alyle-UI/commit/afe924d))
+
+
+
 <a name="1.7.7"></a>
 ## [1.7.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.6...1.7.7) (2018-10-30)
 
