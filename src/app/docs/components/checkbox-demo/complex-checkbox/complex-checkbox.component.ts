@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
 
 
 
@@ -28,6 +28,7 @@ export class ComplexCheckboxComponent {
       this.fruits.map(() => new FormControl(Math.floor(Math.random() * 11) > 5))
     )
   });
+  fruitsAbstractControlArray: AbstractControl[] = (<FormArray>this.form.get('fruits')).controls;
   get selectedFruits() {
     const fruits: boolean[] = this.form.value.fruits;
     return fruits.map((bool, index) => bool ? this.fruits[index].name : null).filter(bool => bool !== null);
