@@ -21,7 +21,7 @@ import { LyCoreStyles as LyCommonStyles, LyTheme2, LyCommon, toBoolean, ThemeVar
 import { LyRippleService, Ripple } from '@alyle/ui/ripple';
 
 const STYLE_PRIORITY = -2;
-const DEFAULT_WITH_COLOR = 'primary';
+const DEFAULT_WITH_COLOR = 'accent';
 const DEFAULT_DISABLE_RIPPLE = false;
 
 const STYLES = (theme: ThemeVariables) => ({
