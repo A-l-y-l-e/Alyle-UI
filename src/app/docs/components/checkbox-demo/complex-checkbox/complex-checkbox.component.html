@@ -1,4 +1,4 @@
-<h4>Fruits</h4>
+<h4 lyTyp="title" gutterBottom>Fruits</h4>
 <form [formGroup]="form">
   <div formArrayName="fruits" *ngFor="let fruit of form.controls.fruits.controls; let i = index">
     <ly-checkbox [formControlName]="i">
