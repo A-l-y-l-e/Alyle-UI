@@ -9,6 +9,7 @@ import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo
 import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
 import { BadgeDemoComponent } from '@docs/components/badge-demo/badge-demo.component';
 import { FieldDemoComponent } from '@docs/components/field-demo/field-demo.component';
+import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
 import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
       { path: 'toolbar', component: ToolbarDemoComponent },
       { path: 'resizing-cropping-images', component: ResizingCroppingImagesDemoComponent },
       { path: 'badge', component: BadgeDemoComponent },
-      { path: 'field', component: FieldDemoComponent }
+      { path: 'field', component: FieldDemoComponent },
+      { path: 'checkbox', component: CheckboxDemoComponent }
     ]
   }
 ];

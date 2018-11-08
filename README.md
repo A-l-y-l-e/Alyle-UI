@@ -23,7 +23,7 @@
 
 |Feature|State|Responsive|Docs|
 |----|-----|----------|----|
-|badge|beta|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/badge)|
+|badge|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/badge)|
 |button|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/button)|
 |carousel|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/carousel)|
 |checkbox|in progress|-|-|
