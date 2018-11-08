@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LyCheckboxModule } from '@alyle/ui/checkbox';
 import { ComplexCheckboxComponent } from './complex-checkbox.component';
 
@@ -8,6 +8,7 @@ import { ComplexCheckboxComponent } from './complex-checkbox.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     LyCheckboxModule
   ],
   exports: [ComplexCheckboxComponent],

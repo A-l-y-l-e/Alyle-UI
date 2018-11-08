@@ -312,12 +312,8 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
     this.checked = !this.checked;
   }
 
-  _onInputChange(event: Event) {
-    // event.stopPropagation();
-  }
-
   _onInputClick(event: Event) {
-    // event.stopPropagation();
+    event.stopPropagation();
     if (!this.disabled) {
       this.toggle();
       this._emitChangeEvent();

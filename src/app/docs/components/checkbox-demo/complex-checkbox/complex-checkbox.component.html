@@ -1,4 +1,9 @@
-<ly-checkbox [(ngModel)]="isDisable">disabled</ly-checkbox>
-<ly-checkbox checked>disabled</ly-checkbox>
-<br />
-<ly-checkbox [(ngModel)]="isEnable" [disabled]="isDisable">Check me!</ly-checkbox>
+<h4>Fruits</h4>
+<form [formGroup]="form">
+  <div formArrayName="fruits" *ngFor="let fruit of form.controls.fruits.controls; let i = index">
+    <ly-checkbox [formControlName]="i">
+      {{ fruits[i].name }}
+    </ly-checkbox>
+  </div>
+</form>
+<pre>{{ selectedFruits | json }}</pre>
