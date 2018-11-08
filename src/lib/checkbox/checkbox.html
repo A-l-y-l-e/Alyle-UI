@@ -1,0 +1,20 @@
+
+<label [className]="classes.layout">
+  <input #input
+  [className]="classes.input"
+  type="checkbox"
+  [checked]="checked"
+  [required]="required"
+  [attr.value]="value"
+  [disabled]="disabled"
+  (click)="_onInputClick($event)"
+  >
+  <div #innerContainer [className]="classes.icon">
+    <svg width="16px" height="16px" viewBox="0 0 20 20">
+      <polyline points="4 11 8 15 16 6"></polyline>
+    </svg>
+  </div>
+  <div #label>
+    <ng-content></ng-content>
+  </div>
+</label>

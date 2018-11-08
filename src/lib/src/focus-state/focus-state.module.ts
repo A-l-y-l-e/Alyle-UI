@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyFocusState } from './focus-state.directive';
+import { LyFocusStateDeprecated } from './focus-state.directive';
 export * from './focus-state.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [LyFocusState],
-  exports: [LyFocusState]
+  declarations: [LyFocusStateDeprecated],
+  exports: [LyFocusStateDeprecated]
 })
 export class LyFocusStateModule { }

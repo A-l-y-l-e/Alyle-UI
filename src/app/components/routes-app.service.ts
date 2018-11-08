@@ -40,6 +40,7 @@ export class RoutesAppService {
           { route: 'button', name: 'Button' },
           { route: 'card', name: 'Card' },
           { route: 'carousel', name: 'Carousel' },
+          { route: 'checkbox', name: 'Checkbox' },
           { route: 'drawer', name: 'Drawer' },
           { route: 'field', name: 'Field' },
           { route: 'icon-button', name: 'Icon button' },

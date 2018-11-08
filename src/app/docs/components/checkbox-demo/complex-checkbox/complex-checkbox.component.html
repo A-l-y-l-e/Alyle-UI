@@ -1,0 +1,9 @@
+<h4 lyTyp="title" gutterBottom>Fruits</h4>
+<form [formGroup]="form">
+  <div formArrayName="fruits" *ngFor="let fruit of fruitsAbstractControlArray; index as i">
+    <ly-checkbox [formControlName]="i">
+      {{ fruits[i].name }}
+    </ly-checkbox>
+  </div>
+</form>
+<pre>{{ selectedFruits | json }}</pre>
