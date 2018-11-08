@@ -12,7 +12,11 @@
   (click)="_onInputClick($event)"
   [tabIndex]="0"
   >
-  <div #innerContainer [className]="classes.icon"></div>
+  <div #innerContainer [className]="classes.icon">
+    <svg width="16px" height="16px" viewBox="0 0 20 20">
+      <polyline points="4 11 8 15 16 6"></polyline>
+    </svg>
+  </div>
   <div #label>
     <ng-content></ng-content>
   </div>

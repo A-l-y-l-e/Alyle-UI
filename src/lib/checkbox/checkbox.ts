@@ -34,7 +34,9 @@ const STYLES = (theme: ThemeVariables) => ({
       opacity: .13,
       borderRadius: '50%'
     },
-    '&:not({checked}) {icon}': theme.checkbox.enabled.unselected
+    '&:not({checked}) {icon}': {
+      ...theme.checkbox.unchecked
+    }
   },
   layout: {
     display: 'inline-flex',
@@ -47,7 +49,9 @@ const STYLES = (theme: ThemeVariables) => ({
     marginTop: 'auto',
     marginBottom: 'auto',
     width: '16px',
+    height: '16px',
     userSelect: 'none',
+    ...theme.checkbox.root,
     '&::before, &::after': {
       content: `''`,
       ...LY_COMMON_STYLES.fill,
@@ -58,11 +62,26 @@ const STYLES = (theme: ThemeVariables) => ({
     '&::before': {
       border: 'solid 2px',
       borderRadius: '2px'
-    }
+    },
+    svg: {
+      position: 'absolute',
+      polyline: {
+        fill: 'none',
+        stroke: theme.background.primary.default,
+        strokeWidth: 2,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+        strokeDasharray: '18px',
+        strokeDashoffset: '18px'
+      }
+    },
   },
   checked: {
     '& {icon}::before': {
       background: 'currentColor'
+    },
+    '& {icon} polyline': {
+      strokeDashoffset: 0
     }
   },
   input: {
@@ -77,7 +96,11 @@ const STYLES = (theme: ThemeVariables) => ({
       color: 'inherit !important'
     }
   },
-  animations: { }
+  animations: {
+    '& {icon} svg polyline': {
+      transition: `all ${theme.animations.durations.entering}ms ${theme.animations.curves.sharp}`
+    }
+  }
 });
 
 /**
@@ -254,6 +277,7 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
     if (this.disableRipple === void 0) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
+    this._renderer.addClass(this._el.nativeElement, this.classes.animations);
   }
 
   private _destroyRipple() {
