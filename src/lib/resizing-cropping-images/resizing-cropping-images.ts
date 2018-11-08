@@ -115,8 +115,6 @@ export interface ImgCropperEvent {
   type: string;
   width: number;
   height: number;
-  /** Original Image in base64, @deprecated use instead `originalDataURL` */
-  originalBase64: string;
   /** Original Image in URL base64 */
   originalDataURL: string;
   scale: number;
@@ -485,7 +483,6 @@ export class LyResizingCroppingImages {
       height: null,
       scale: null,
       originalDataURL: src,
-      originalBase64: src,
       position: null
     };
     img.src = src;
@@ -609,7 +606,6 @@ export class LyResizingCroppingImages {
       name: this._fileName,
       width: config.width,
       height: config.height,
-      originalBase64: this._originalImgBase64,
       originalDataURL: this._originalImgBase64,
       scale: this.scale,
       position: this._currentPosition
