@@ -160,6 +160,7 @@ export class LyResizingCroppingImages {
     x: number
     y: number
   };
+  private _rotateDeg: number;
 
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
@@ -178,7 +179,6 @@ export class LyResizingCroppingImages {
   set scale(val: number) {
     if (this.isLoaded && val !== this._scale) {
       const scale = this._scale = val || 0;
-      this.scaleChange.emit(scale);
       this.setScale(scale);
     }
   }
@@ -189,6 +189,11 @@ export class LyResizingCroppingImages {
   get minScale(): number {
     return this._minScale;
   }
+
+  /** When is loaded image */
+  _isLoadedImg: boolean;
+
+  /** When is loaded image & ready for crop */
   isLoaded: boolean;
   isCropped: boolean;
 
@@ -219,15 +224,22 @@ export class LyResizingCroppingImages {
         height: this.config.height / this._img.height * 100
       };
       this._minScale = Math.max(minScale.width, minScale.height) / 100;
-      this.fit();
+      // this.fit();
     }
   }
 
   private _setStylesForContImg(newStyles: {
-    width: string;
-    height: string;
-    transform: string;
+    width: string
+    height: string
+    transform: string
+    transformOrigin?: string
   }) {
+    if (newStyles.transform) {
+      // const x = this._currentPosition.x;
+      // const y = this._currentPosition.y;
+      newStyles.transform += `rotate(${this._rotateDeg || 0}deg)`;
+      newStyles.transformOrigin = `0px 0px 0px`;
+    }
     for (const key in newStyles) {
       if (newStyles.hasOwnProperty(key)) {
         this._renderer.setStyle(this._imgContainer.nativeElement, key, newStyles[key]);
@@ -254,8 +266,6 @@ export class LyResizingCroppingImages {
     if (!this.config.type) {
       this._defaultType = _img.files[0].type;
     }
-    this.isLoaded = false;
-    this.isCropped = false;
     fileReader.addEventListener('loadend', (loadEvent) => {
       const originalImageUrl = (loadEvent.target as FileReader).result as string;
       this.setImageUrl(originalImageUrl);
@@ -265,7 +275,7 @@ export class LyResizingCroppingImages {
   }
 
   /** Set the size of the image, the values can be 0 between 1, where 1 is the original size */
-  setScale(size: number) {
+  setScale(size: number, noAutoCrop?: boolean) {
     // fix min scale
     size = size > this.minScale && size <= 1 ? size : this.minScale;
     this._scale = size;
@@ -302,7 +312,9 @@ export class LyResizingCroppingImages {
     }
     this.scaleChange.emit(this._scale);
     this._setPosition();
-    this._cropIfAutoCrop();
+    if (!noAutoCrop) {
+      this._cropIfAutoCrop();
+    }
   }
 
   private customCenter(width: number, height: number) {
@@ -389,15 +401,13 @@ export class LyResizingCroppingImages {
   }
 
   private _setPosition() {
-    if (this.isLoaded) {
-      const imgContainerRect = this._imgContainerRect();
-      const croppingContainerRect = this._areaCropperRect();
+    const imgContainerRect = this._imgContainerRect();
+    const croppingContainerRect = this._areaCropperRect();
 
-      this._currentPosition = {
-        x: imgContainerRect.x - croppingContainerRect.x,
-        y: imgContainerRect.y - croppingContainerRect.y
-      };
-    }
+    this._currentPosition = {
+      x: imgContainerRect.x - croppingContainerRect.x,
+      y: imgContainerRect.y - croppingContainerRect.y
+    };
   }
 
   updatePosition(x?: number, y?: number) {
@@ -422,7 +432,7 @@ export class LyResizingCroppingImages {
   }
 
   private _cropIfAutoCrop() {
-    if (this.config.autoCrop && this.isLoaded) {
+    if (this.config.autoCrop) {
       this.crop();
     }
   }
@@ -443,6 +453,7 @@ export class LyResizingCroppingImages {
   /** Clean the img cropper */
   clean() {
     this._defaultType = null;
+    this._isLoadedImg = false;
     this.isLoaded = false;
     this.isCropped = false;
     this._originalImgBase64 = null;
@@ -487,23 +498,33 @@ export class LyResizingCroppingImages {
     };
     img.src = src;
     img.addEventListener('error', () => {
+      this.isLoaded = false;
+      this.isCropped = false;
+      this._isLoadedImg = false;
       this.error.emit(cropEvent);
     });
     img.addEventListener('load', () => {
       this._imgLoaded(img);
       cropEvent.width = img.width;
       cropEvent.height = img.height;
-      this.loaded.emit(cropEvent);
-      this.isLoaded = true;
+      this._isLoadedImg = true;
       this.cd.markForCheck();
       this._ngZone
           .onStable
           .pipe(take(1))
           .subscribe(() => this._ngZone.run(() => {
+            this.isLoaded = false;
+            this.setScale(0, true);
+            this.loaded.emit(cropEvent);
+            this.isLoaded = true;
             this._cropIfAutoCrop();
-            this._setPosition();
+            this.cd.markForCheck();
           }));
     });
+  }
+
+  rotate(degrees: number) {
+    this._rotateDeg = convertToValidDegrees(degrees);
   }
 
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
@@ -568,8 +589,8 @@ export class LyResizingCroppingImages {
    */
   _imgCrop(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
-    const host = this.elementRef.nativeElement.getBoundingClientRect() as ClientRect;
-    const img = this._imgContainer.nativeElement.getBoundingClientRect() as ClientRect;
+    const host = this._rootRect();
+    const img = this._imgContainerRect();
     const left = host.left + ((host.width - myConfig.width) / 2) - img.left;
     const top = host.top + ((host.height - myConfig.height) / 2) - img.top;
     const config = {
@@ -630,3 +651,41 @@ export class LyResizingCroppingImages {
 
 /** @ignore */
 const fixedNum = (num: number) => parseFloat(num.toFixed(0));
+
+/**
+ * convertToValidDegrees(45) === 90
+ * convertToValidDegrees(40) === 0
+ * convertToValidDegrees(100) === 90
+ */
+function convertToValidDegrees(num: number) {
+  const val360 = limitNum(num, 360);
+  const val90 = limitNum(val360.result, 90);
+  if (val90.result >= (90 / 2)) {
+    return 90 * (val90.parts + 1);
+  } else {
+    return val90.parts;
+  }
+}
+
+/**
+ * demo:
+ * limitNum(450, 360) === 90
+ * @ignore
+ */
+function limitNum(num: number, num2: number) {
+  const numAbs = Math.abs(num);
+  const parts = Math.floor(numAbs / num2);
+  let result: number;
+  if (parts) {
+    result = numAbs - (num2 * parts);
+  } else {
+    result = num;
+  }
+  if (numAbs !== num) {
+    result *= -1;
+  }
+  return {
+    result,
+    parts
+  };
+}
