@@ -157,10 +157,6 @@ export class LyResizingCroppingImages {
   private _scale: number;
   private _minScale: number;
   private _config: ImgCropperConfig;
-  private _currentPosition: {
-    x: number
-    y: number
-  };
   private _imgRect: {
     x: number
     y: number
@@ -172,14 +168,10 @@ export class LyResizingCroppingImages {
     wt: number
     ht: number
   } = {} as any;
-  private _rotateDeg: number;
-  /** Is it rotated? */
-  private _isItRotated: boolean;
 
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
   @ViewChild('_imgCanvas') _imgCanvas: ElementRef<HTMLCanvasElement>;
-  private _ctx: CanvasRenderingContext2D;
   @Input()
   get config(): ImgCropperConfig {
     return this._config;
@@ -237,7 +229,7 @@ export class LyResizingCroppingImages {
       const canvas = this._imgCanvas.nativeElement;
       canvas.height = imgElement.height;
       canvas.width = imgElement.width;
-      const ctx = this._ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d');
       ctx.drawImage(imgElement, 0, 0);
       /** set zoom scale */
       const minScale = {
@@ -314,7 +306,6 @@ export class LyResizingCroppingImages {
     size = size > this.minScale && size <= 1 ? size : this.minScale;
     this._scale = size;
     size = size * 100;
-    // const initialImg = this._img;
     const initialImg = this._imgCanvas.nativeElement;
     const width = fixedNum(initialImg.width * size / 100);
     const height = fixedNum(initialImg.height * size / 100);
@@ -323,15 +314,15 @@ export class LyResizingCroppingImages {
       this._setStylesForContImg({
         width,
         height,
-        ...this.customCenter(width, height)
+        ...this._customCenter(width, height)
       });
     } else {
       const originPosition = {...this._imgRect};
       this.offset = {
-        x: (hostRect.width / 2) - (originPosition.x), // ✓
-        y: (hostRect.height / 2) - (originPosition.y), // ✓
-        left: originPosition.x, // ✓
-        top: originPosition.y // ✓
+        x: (hostRect.width / 2) - (originPosition.x),
+        y: (hostRect.height / 2) - (originPosition.y),
+        left: originPosition.x,
+        top: originPosition.y
       };
       this._setStylesForContImg({
         width,
@@ -351,7 +342,7 @@ export class LyResizingCroppingImages {
     }
   }
 
-  private customCenter(width: number, height: number) {
+  private _customCenter(width: number, height: number) {
     const root = this.elementRef.nativeElement as HTMLElement;
     const x = (root.offsetWidth - width) / 2;
     const y = (root.offsetHeight - height) / 2;
@@ -424,8 +415,8 @@ export class LyResizingCroppingImages {
         x = this.offset.left;
       }
     }
-    if (x === undefined) { x = event.center.x - hostRect.x - (this.offset.x); }
-    if (y === undefined) { y = event.center.y - hostRect.y - (this.offset.y); }
+    if (x === void 0) { x = event.center.x - hostRect.x - (this.offset.x); }
+    if (y === void 0) { y = event.center.y - hostRect.y - (this.offset.y); }
 
     this._setStylesForContImg({
       width: this._imgContainer.nativeElement.offsetWidth,
@@ -497,7 +488,7 @@ export class LyResizingCroppingImages {
     const newStyles = {
       width: imgRect.w,
       height: imgRect.h,
-      ...this.customCenter(imgRect.w, imgRect.h)
+      ...this._customCenter(imgRect.w, imgRect.h)
     };
     this._setStylesForContImg(newStyles);
     this._cropIfAutoCrop();
@@ -546,7 +537,7 @@ export class LyResizingCroppingImages {
   }
 
   rotate(degrees: number) {
-    const validDegrees = this._rotateDeg = convertToValidDegrees(degrees);
+    const validDegrees = convertToValidDegrees(degrees);
     const degreesRad = validDegrees * Math.PI / 180;
     const canvas = this._imgCanvas.nativeElement;
     const canvasClon = createCanvasImg(canvas);
@@ -585,6 +576,7 @@ export class LyResizingCroppingImages {
       width: w * this._scale,
       height: h * this._scale
     });
+
     /** update position & autocrop */
     this.setScale(this._scale);
   }
@@ -720,6 +712,7 @@ const fixedNum = (num: number) => parseFloat(num.toFixed(0));
  * convertToValidDegrees(45) === 90
  * convertToValidDegrees(40) === 0
  * convertToValidDegrees(100) === 90
+ * @ignore
  */
 function convertToValidDegrees(num: number) {
   const val360 = limitNum(num, 360);
@@ -754,6 +747,9 @@ function limitNum(num: number, num2: number) {
   };
 }
 
+/**
+ * @ignore
+ */
 function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
 
   // create a new canvas
