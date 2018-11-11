@@ -33,7 +33,9 @@ export class ResizingCroppingImagesExample03Component {
   };
 
   onCropped(e) {
-    this.croppedImage = e.base64;
+    this.croppedImage = e.dataURL;
+    console.log(e);
+    console.log(this.img);
   }
 
   constructor(

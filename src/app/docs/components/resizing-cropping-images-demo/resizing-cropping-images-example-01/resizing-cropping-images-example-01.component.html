@@ -15,14 +15,20 @@
   <button (click)="cropping.fit()" ly-button>fit</button>
   <button (click)="cropping.fitToScreen()" ly-button>fit to screen</button>
   <button (click)="cropping.setScale(1)" ly-button>1:1</button>
+  <button (click)="cropping.rotate(90)" ly-button>rotate 90deg</button>
+  <button (click)="cropping.rotate(180)" ly-button>rotate 180deg</button>
 </div>
 <ly-cropping [withClass]="classes.cropping" #cropping
 [config]="myConfig"
+[(scale)]="scale"
 (cropped)="onCropped($event)"
 (loaded)="onloaded($event)"
 (error)="onerror($event)">
   <span>Drag and drop image</span>
 </ly-cropping>
+<div *ngIf="cropping.isLoaded" [className]="classes.range">
+  <input type="range" [className]="classes.rangeInput" [attr.min]="cropping.minScale" max="1" [(ngModel)]="scale" step="any">
+</div>
 <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>
   <ly-icon>crop</ly-icon>crop
 </button>
