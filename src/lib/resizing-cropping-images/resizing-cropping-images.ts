@@ -505,11 +505,11 @@ export class LyResizingCroppingImages {
     }
   }
   center() {
-    const img = this._imgContainer.nativeElement.firstElementChild;
+    const imgRect = this._imgRect;
     const newStyles = {
-      width: img.width,
-      height: img.height,
-      ...this.customCenter(img.width, img.height)
+      width: imgRect.w,
+      height: imgRect.h,
+      ...this.customCenter(imgRect.w, imgRect.h)
     };
     this._setStylesForContImg(newStyles);
     this._setPosition();
@@ -664,10 +664,9 @@ export class LyResizingCroppingImages {
    */
   _imgCrop(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
-    const host = this._rootRect();
-    const img = this._imgContainerRect();
-    const left = host.left + ((host.width - myConfig.width) / 2) - img.left;
-    const top = host.top + ((host.height - myConfig.height) / 2) - img.top;
+    const imgRect = this._imgRect;
+    const left = imgRect.xc - myConfig.width / 2;
+    const top = imgRect.yc - myConfig.height / 2;
     const config = {
       width: myConfig.width,
       height: myConfig.height
