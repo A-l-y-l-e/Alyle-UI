@@ -655,7 +655,6 @@ export class LyResizingCroppingImages {
     };
     canvasElement.width = config.width / this._scale;
     canvasElement.height = config.height / this._scale;
-    console.warn(canvasElement.height, canvasElement.width);
     const ctx = canvasElement.getContext('2d');
     if (myConfig.fill) {
       ctx.fillStyle = myConfig.fill;
