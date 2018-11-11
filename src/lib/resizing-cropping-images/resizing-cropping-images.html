@@ -1,9 +1,9 @@
 <div #_imgContainer
 [className]="classes.imgContainer"
 (slidestart)="_moveStart($event)"
-(slideend)="_slideEnd($event)"
-(slide)="_move($event)">
-  <img *ngIf="_isLoadedImg" [src]="_originalImgBase64">
+(slide)="_move($event)"
+(slideend)="_slideEnd()">
+  <canvas #_imgCanvas></canvas>
 </div>
 <div #_croppingContainer *ngIf="_isLoadedImg; else content" [className]="classes.croppingContainer" [ngStyle]="{
   width: config.width + 'px',

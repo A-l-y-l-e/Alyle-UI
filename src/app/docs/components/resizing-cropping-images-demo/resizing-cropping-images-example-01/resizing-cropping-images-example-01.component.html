@@ -16,6 +16,7 @@
   <button (click)="cropping.fitToScreen()" ly-button>fit to screen</button>
   <button (click)="cropping.setScale(1)" ly-button>1:1</button>
   <button (click)="cropping.rotate(90)" ly-button>rotate 90deg</button>
+  <button (click)="cropping.rotate(180)" ly-button>rotate 180deg</button>
 </div>
 <ly-cropping [withClass]="classes.cropping" #cropping
 [config]="myConfig"
