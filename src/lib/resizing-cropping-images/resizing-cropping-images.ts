@@ -548,6 +548,9 @@ export class LyResizingCroppingImages {
 
     // rotate canvas image
     this._renderer.setStyle(canvas, 'transform', `rotate(${validDegrees}deg)`);
+    this._renderer.setStyle(canvas, 'transformOrigin', `${this._imgRect.xc}px ${this._imgRect.yc}px 0`);
+    console.log(this._imgRect, '75px 204px 0');
+    const { x, y } = canvas.getBoundingClientRect() as DOMRect;
     this._renderer.setStyle(canvas, 'width', `initial`);
     this._renderer.setStyle(canvas, 'height', `initial`);
 
@@ -572,9 +575,12 @@ export class LyResizingCroppingImages {
     ctx.translate(w / 2, h / 2);
     ctx.rotate(degreesRad);
     ctx.drawImage(canvasClon, -canvasClon.width / 2, -canvasClon.height / 2);
+    const rootRect = this._rootRect();
     this._setStylesForContImg({
       width: w * this._scale,
-      height: h * this._scale
+      height: h * this._scale,
+      x: x - rootRect.x,
+      y: y - rootRect.y
     });
 
     /** update position & autocrop */
