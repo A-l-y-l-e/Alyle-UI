@@ -15,7 +15,11 @@ const styles = (theme: ThemeVariables) => ({
     flex: 1
   },
   range: {
-    maxWidth: '400px',
+    textAlign: 'center',
+    maxWidth: '400px'
+  },
+  rangeInput: {
+    maxWidth: '150px',
     margin: '1em 0',
 
     // http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html

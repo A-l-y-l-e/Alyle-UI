@@ -345,7 +345,6 @@ export class LyResizingCroppingImages {
         }
       });
     }
-    this._setPosition();
     this.scaleChange.emit(this._scale);
     if (!noAutoCrop) {
       this._cropIfAutoCrop();
@@ -435,25 +434,15 @@ export class LyResizingCroppingImages {
     });
   }
 
-  private _setPosition() {
-    const imgContainerRect = this._imgContainerRect();
-    const croppingContainerRect = this._areaCropperRect();
-
-    this._currentPosition = {
-      x: imgContainerRect.x - croppingContainerRect.x,
-      y: imgContainerRect.y - croppingContainerRect.y
-    };
-  }
-
   updatePosition(x?: number, y?: number) {
     const hostRect = this._rootRect();
     const croppingContainerRect = this._areaCropperRect();
-    if (x === void 0) {
-      x = this._currentPosition.x;
-      y = this._currentPosition.y;
+    if (x === void 0 && y === void 0) {
+      x = this._imgRect.xc;
+      y = this._imgRect.yc;
     }
-    x += croppingContainerRect.x - hostRect.x;
-    y += croppingContainerRect.y - hostRect.y;
+    x = (croppingContainerRect.x - hostRect.x) - (x - (this.config.width / 2));
+    y = (croppingContainerRect.y - hostRect.y) - (y - (this.config.height / 2));
     this._setStylesForContImg({
       width: this._imgContainer.nativeElement.offsetWidth,
       height: this._imgContainer.nativeElement.offsetHeight,
@@ -462,7 +451,6 @@ export class LyResizingCroppingImages {
   }
 
   _slideEnd() {
-    this._setPosition();
     this._cropIfAutoCrop();
   }
 
@@ -512,7 +500,6 @@ export class LyResizingCroppingImages {
       ...this.customCenter(imgRect.w, imgRect.h)
     };
     this._setStylesForContImg(newStyles);
-    this._setPosition();
     this._cropIfAutoCrop();
   }
 
@@ -562,7 +549,7 @@ export class LyResizingCroppingImages {
     const validDegrees = this._rotateDeg = convertToValidDegrees(degrees);
     const degreesRad = validDegrees * Math.PI / 180;
     const canvas = this._imgCanvas.nativeElement;
-    const canvasClon = cloneCanvas(canvas);
+    const canvasClon = createCanvasImg(canvas);
     const ctx = canvas.getContext('2d');
 
     // clear
@@ -703,7 +690,10 @@ export class LyResizingCroppingImages {
       height: config.height,
       originalDataURL: this._originalImgBase64,
       scale: this.scale,
-      position: this._currentPosition
+      position: {
+        x: this._imgRect.xc,
+        y: this._imgRect.yc
+      }
     };
     this.cropped.emit(cropEvent);
     this.isCropped = true;
@@ -764,18 +754,18 @@ function limitNum(num: number, num2: number) {
   };
 }
 
-function cloneCanvas(oldCanvas: HTMLCanvasElement) {
+function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
 
   // create a new canvas
   const newCanvas = document.createElement('canvas');
   const context = newCanvas.getContext('2d');
 
   // set dimensions
-  newCanvas.width = oldCanvas.width;
-  newCanvas.height = oldCanvas.height;
+  newCanvas.width = img.width;
+  newCanvas.height = img.height;
 
   // apply the old canvas to the new one
-  context.drawImage(oldCanvas, 0, 0);
+  context.drawImage(img, 0, 0);
 
   // return the new canvas
   return newCanvas;
