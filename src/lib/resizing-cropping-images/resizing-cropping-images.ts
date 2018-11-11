@@ -556,6 +556,7 @@ export class LyResizingCroppingImages {
 
     // remove rotate styles
     this._renderer.removeStyle(canvas, 'transform');
+    this._renderer.removeStyle(canvas, 'transformOrigin');
     this._renderer.removeStyle(canvas, 'width');
     this._renderer.removeStyle(canvas, 'height');
 
@@ -717,10 +718,11 @@ export class LyResizingCroppingImages {
 function convertToValidDegrees(num: number) {
   const val360 = limitNum(num, 360);
   const val90 = limitNum(val360.result, 90);
+  const sign = Math.sign(num);
   if (val90.result >= (90 / 2)) {
-    return 90 * (val90.parts + 1);
+    return 90 * (val90.parts + 1) * sign;
   } else {
-    return 90 * val90.parts;
+    return 90 * val90.parts * sign;
   }
 }
 
