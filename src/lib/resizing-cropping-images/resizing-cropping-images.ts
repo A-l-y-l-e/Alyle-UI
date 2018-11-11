@@ -549,7 +549,6 @@ export class LyResizingCroppingImages {
     // rotate canvas image
     this._renderer.setStyle(canvas, 'transform', `rotate(${validDegrees}deg)`);
     this._renderer.setStyle(canvas, 'transformOrigin', `${this._imgRect.xc}px ${this._imgRect.yc}px 0`);
-    console.log(this._imgRect, '75px 204px 0');
     const { x, y } = canvas.getBoundingClientRect() as DOMRect;
     this._renderer.setStyle(canvas, 'width', `initial`);
     this._renderer.setStyle(canvas, 'height', `initial`);
