@@ -185,8 +185,9 @@ export class LyResizingCroppingImages {
     return this._scale;
   }
   set scale(val: number) {
-    if (this.isLoaded && val !== this._scale) {
-      const scale = this._scale = val || 0;
+    const newScale = fix(val, 4);
+    if (this.isLoaded && newScale !== this._scale) {
+      const scale = (this._scale = newScale || 0);
       this.setScale(scale);
     }
   }
@@ -233,10 +234,11 @@ export class LyResizingCroppingImages {
       ctx.drawImage(imgElement, 0, 0);
       /** set zoom scale */
       const minScale = {
-        width: this.config.width / canvas.width * 100,
-        height: this.config.height / canvas.height * 100
+        width: this.config.width / canvas.width,
+        height: this.config.height / canvas.height
       };
-      this._minScale = Math.max(minScale.width, minScale.height) / 100;
+      this._minScale = +(Math.max(minScale.width, minScale.height)).toPrecision(15);
+      console.log('this._minScale', this._minScale);
     }
   }
 
@@ -255,17 +257,17 @@ export class LyResizingCroppingImages {
       const imgRect = this._imgContainerRect();
       const x = rootRect.width / 2 - (values.x);
       const y = rootRect.height / 2 - (values.y);
-      newStyles.transform = `translate3d(${values.x}px,${values.y}px, 0)`;
+      newStyles.transform = `translate3d(${fix(values.x)}px,${fix(values.y)}px, 0)`;
 
-      this._imgRect.x = values.x;
-      this._imgRect.y = values.y;
-      this._imgRect.xc = x;
-      this._imgRect.yc = y;
-      this._imgRect.wt = imgRect.width;
-      this._imgRect.ht = imgRect.height;
+      this._imgRect.x = fix(values.x);
+      this._imgRect.y = fix(values.y);
+      this._imgRect.xc = fix(x);
+      this._imgRect.yc = fix(y);
+      this._imgRect.wt = fix(imgRect.width);
+      this._imgRect.ht = fix(imgRect.height);
     }
-    this._imgRect.w = values.width;
-    this._imgRect.h = values.height;
+    this._imgRect.w = fix(values.width);
+    this._imgRect.h = fix(values.height);
     for (const key in newStyles) {
       if (newStyles.hasOwnProperty(key)) {
         this._renderer.setStyle(this._imgContainer.nativeElement, key, newStyles[key]);
@@ -305,10 +307,11 @@ export class LyResizingCroppingImages {
     // fix min scale
     size = size > this.minScale && size <= 1 ? size : this.minScale;
     this._scale = size;
-    size = size * 100;
+    size = size;
+    console.log(this._scale, size);
     const initialImg = this._imgCanvas.nativeElement;
-    const width = fixedNum(initialImg.width * size / 100);
-    const height = fixedNum(initialImg.height * size / 100);
+    const width = (initialImg.width * size);
+    const height = (initialImg.height * size);
     const hostRect = this._rootRect();
     if (!this.isLoaded) {
       this._setStylesForContImg({
@@ -363,10 +366,10 @@ export class LyResizingCroppingImages {
     };
     const { width, height } = this._img;
     const minScale = {
-      width: min.width / width * 100,
-      height: min.height / height * 100
+      width: min.width / width,
+      height: min.height / height
     };
-    const result = Math.max(minScale.width, minScale.height) / 100;
+    const result = Math.max(minScale.width, minScale.height);
     this.setScale(result);
   }
 
@@ -391,19 +394,19 @@ export class LyResizingCroppingImages {
     const croppingContainerRect = this._areaCropperRect();
 
     // Limit for left
-    if (event.center.x - this.offset.x >= croppingContainerRect.x) {
+    if (event.center.x - this.offset.x > croppingContainerRect.x) {
       x = croppingContainerRect.x - hostRect.x;
     }
     // Limit for top
-    if (event.center.y - this.offset.y >= croppingContainerRect.y) {
+    if (event.center.y - this.offset.y > croppingContainerRect.y) {
       y = croppingContainerRect.y - hostRect.y;
     }
     // Limit for right
-    if (event.center.x - this.offset.x + imgContainerRect.w <= croppingContainerRect.x + croppingContainerRect.width) {
+    if (event.center.x - this.offset.x + imgContainerRect.w < croppingContainerRect.x + croppingContainerRect.width) {
       x = croppingContainerRect.x - hostRect.x - imgContainerRect.w + croppingContainerRect.width;
     }
     // Limit for bottom
-    if (event.center.y - this.offset.y + imgContainerRect.h <= croppingContainerRect.y + croppingContainerRect.height) {
+    if (event.center.y - this.offset.y + imgContainerRect.h < croppingContainerRect.y + croppingContainerRect.height) {
       y = croppingContainerRect.y - hostRect.y - imgContainerRect.h + croppingContainerRect.height;
     }
 
@@ -451,12 +454,9 @@ export class LyResizingCroppingImages {
     }
   }
 
-  private roundNumber(num: number) {
-    return Math.round(num * 100000) / 100000;
-  }
   /**+ */
   zoomIn() {
-    const scale = this.roundNumber(this._scale + .05);
+    const scale = fix(this._scale + .05, 4);
     if (scale > 0 && scale <= 1) {
       this.setScale(scale);
     } else {
@@ -476,7 +476,7 @@ export class LyResizingCroppingImages {
 
   /**- */
   zoomOut() {
-    const scale = this.roundNumber(this._scale - .05);
+    const scale = fix(this._scale - .05, 4);
     if (scale > this.minScale && scale <= 1) {
       this.setScale(scale);
     } else {
@@ -657,6 +657,7 @@ export class LyResizingCroppingImages {
     };
     canvasElement.width = config.width / this._scale;
     canvasElement.height = config.height / this._scale;
+    console.warn(canvasElement.height, canvasElement.width);
     const ctx = canvasElement.getContext('2d');
     if (myConfig.fill) {
       ctx.fillStyle = myConfig.fill;
@@ -770,4 +771,8 @@ function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
 
   // return the new canvas
   return newCanvas;
+}
+
+function fix(v, decimalPoints?: number) {
+  return +parseFloat(v).toFixed(decimalPoints || 0);
 }
