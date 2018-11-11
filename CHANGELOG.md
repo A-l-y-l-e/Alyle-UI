@@ -1,3 +1,84 @@
+<a name="1.7.9"></a>
+## [1.7.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.8...1.7.9) (2018-11-11)
+
+
+* WIP feat(img-cropper): improve (#63) ([3e5cf53](https://github.com/A-l-y-l-e/Alyle-UI/commit/3e5cf53)), closes [#63](https://github.com/A-l-y-l-e/Alyle-UI/issues/63)
+
+
+### BREAKING CHANGES
+
+* Rename `base64` to `dataURL` & `originalBase64` to `originalDataURL` in `ImgCropperEvent`
+
+before:
+
+```ts
+onCropped(e: ImgCropperEvent) {
+  this.croppedImage = e.base64;
+}
+```
+
+after:
+
+```ts
+onCropped(e: ImgCropperEvent) {
+  this.croppedImage = e.dataUrl;
+}
+```
+
+* order autoCrop
+
+* docs: update docs
+
+* docs: fix docs
+
+* remove unused variables
+
+* update q
+
+* fix autoCrop
+
+* fix autoCrop
+
+* add scale Input
+
+* add range example
+
+* add range input example
+
+* clean
+
+* remove deprecated
+
+* fix autocrop
+
+* add rotate method
+
+* fix center method
+
+* clean
+
+* clean
+
+* update position on rotate
+
+* remove log
+
+* fix
+
+* rm logs
+
+* ­
+
+* ­
+
+* update docs
+
+* remove unused styles & fix negative rotation
+
+* add rotation to `ImgCropperEvent`
+
+
+
 <a name="1.7.8"></a>
 ## [1.7.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.7...1.7.8) (2018-11-08)
 
