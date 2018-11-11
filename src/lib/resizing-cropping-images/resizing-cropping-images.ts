@@ -237,8 +237,7 @@ export class LyResizingCroppingImages {
         width: this.config.width / canvas.width,
         height: this.config.height / canvas.height
       };
-      this._minScale = +(Math.max(minScale.width, minScale.height)).toPrecision(15);
-      console.log('this._minScale', this._minScale);
+      this._minScale = fix(Math.max(minScale.width, minScale.height), 4);
     }
   }
 
@@ -308,7 +307,6 @@ export class LyResizingCroppingImages {
     size = size > this.minScale && size <= 1 ? size : this.minScale;
     this._scale = size;
     size = size;
-    console.log(this._scale, size);
     const initialImg = this._imgCanvas.nativeElement;
     const width = (initialImg.width * size);
     const height = (initialImg.height * size);
