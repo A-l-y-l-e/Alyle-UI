@@ -106,18 +106,20 @@ export enum ImgResolution {
 }
 
 export interface ImgCropperEvent {
-  /** Cropped image in base64, @deprecated use instead `dataURL` */
+  /** Cropped image in base64, !deprecated use instead `dataURL` */
   base64: string;
-  /** Cropped image in URL base64 */
+  /** Cropped image data URL */
   dataURL: string;
   name: string;
   /** Filetype */
   type: string;
   width: number;
   height: number;
-  /** Original Image in URL base64 */
+  /** Original Image data URL */
   originalDataURL: string;
   scale: number;
+  /** Current rotation in degrees */
+  rotation: number;
   position: {
     x: number
     y: number
@@ -168,6 +170,7 @@ export class LyResizingCroppingImages {
     wt: number
     ht: number
   } = {} as any;
+  private _rotation: number;
 
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
@@ -505,6 +508,7 @@ export class LyResizingCroppingImages {
       height: null,
       scale: null,
       originalDataURL: src,
+      rotation: null,
       position: null
     };
     img.src = src;
@@ -535,7 +539,7 @@ export class LyResizingCroppingImages {
   }
 
   rotate(degrees: number) {
-    const validDegrees = convertToValidDegrees(degrees);
+    const validDegrees = this._rotation = convertToValidDegrees(degrees);
     const degreesRad = validDegrees * Math.PI / 180;
     const canvas = this._imgCanvas.nativeElement;
     const canvasClon = createCanvasImg(canvas);
@@ -686,6 +690,7 @@ export class LyResizingCroppingImages {
       height: config.height,
       originalDataURL: this._originalImgBase64,
       scale: this.scale,
+      rotation: this._rotation,
       position: {
         x: this._imgRect.xc,
         y: this._imgRect.yc
