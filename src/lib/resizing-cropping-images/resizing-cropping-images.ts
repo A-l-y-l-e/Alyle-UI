@@ -708,9 +708,6 @@ export class LyResizingCroppingImages {
 
 }
 
-/** @ignore */
-const fixedNum = (num: number) => parseFloat(num.toFixed(0));
-
 /**
  * convertToValidDegrees(45) === 90
  * convertToValidDegrees(40) === 0
