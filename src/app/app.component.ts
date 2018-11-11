@@ -45,8 +45,14 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
   //   //   },
   //   // },
   // },
-  drawerContainer: {
-    height: 'calc(100% - 64px)'
+  drawer: {
+    '&::-webkit-scrollbar-thumb': {
+      background: 'rgba(0,0,0,.26)'
+    },
+    '&::-webkit-scrollbar': {
+      height: '3px',
+      width: '3px'
+    }
   },
   drawerUl: {
     overflow: 'hidden',

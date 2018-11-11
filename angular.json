@@ -34,9 +34,7 @@
               },
               "src/manifest.json"
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": [],
             "scripts": []
           },
           "configurations": {
@@ -94,11 +92,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              {
-                "input": "styles.scss"
-              }
-            ],
+            "styles": [],
             "scripts": [],
             "assets": [
               {

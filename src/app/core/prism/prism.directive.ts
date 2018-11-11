@@ -3,18 +3,65 @@ import { Platform, LyTheme2, ThemeVariables } from '@alyle/ui';
 import { PrismService } from './prism.service';
 
 const Prism = require('prismjs');
-const PrismTypescript = require('prismjs/components/prism-typescript');
-const PrismMarkdown = require('prismjs/components/prism-markdown');
-const PrismBash = require('prismjs/components/prism-bash');
-const PrismJson = require('prismjs/components/prism-json');
+require('prismjs/components/prism-typescript');
+require('prismjs/components/prism-markdown');
+require('prismjs/components/prism-bash');
+require('prismjs/components/prism-json');
 
-const classes = theme => ({
+const $host = 'https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/1.7.0-beta.461kq/src/assets/firacode/';
+
+const GLOBAL_STYLES = {
   '@global': {
+    '@font-face': {
+        fontFamily: 'Fira Code',
+        src: `url('${$host}eot/FiraCode-Light.eot')`,
+        'src ': `url('${$host}eot/FiraCode-Light.eot') format('embedded-opentype'),
+            url('${$host}woff2/FiraCode-Light.woff2') format('woff2'),
+            url('${$host}woff/FiraCode-Light.woff') format('woff'),
+            url('${$host}ttf/FiraCode-Light.ttf') format('truetype')`,
+        fontWeight: 300,
+        fontStyle: 'normal',
+    },
+    '@font-face ': {
+        fontFamily: 'Fira Code',
+        src: `url('${$host}eot/FiraCode-Regular.eot')`,
+        'src ': `url('${$host}eot/FiraCode-Regular.eot') format('embedded-opentype'),` +
+            `url('${$host}woff2/FiraCode-Regular.woff2') format('woff2'),` +
+            `url('${$host}woff/FiraCode-Regular.woff') format('woff'),` +
+            `url('${$host}ttf/FiraCode-Regular.ttf') format('truetype')`,
+        fontWeight: 400,
+        fontStyle: 'normal'
+    },
+
+    '@font-face  ': {
+        fontFamily: 'Fira Code',
+        src: `url('${$host}eot/FiraCode-Medium.eot')`,
+        'src ': `url('${$host}eot/FiraCode-Medium.eot') format('embedded-opentype'),` +
+            `url('${$host}woff2/FiraCode-Medium.woff2') format('woff2'),` +
+            `url('${$host}woff/FiraCode-Medium.woff') format('woff'),` +
+            `url('${$host}ttf/FiraCode-Medium.ttf') format('truetype')`,
+        fontWeight: 500,
+        fontStyle: 'normal'
+    },
+
+    '@font-face   ': {
+        fontFamily: 'Fira Code',
+        src: `url('${$host}eot/FiraCode-Bold.eot')`,
+        'src ': `url('${$host}eot/FiraCode-Bold.eot') format('embedded-opentype'),` +
+            `url('${$host}woff2/FiraCode-Bold.woff2') format('woff2'),` +
+            `url('${$host}woff/FiraCode-Bold.woff') format('woff'),` +
+            `url('${$host}ttf/FiraCode-Bold.ttf') format('truetype')`,
+        fontWeight: 700,
+        fontStyle: 'normal'
+    },
     'prism': {
       display: 'block',
       padding: '1em'
     }
-  },
+  }
+};
+
+const classes = theme => ({
   root: {
     color: theme.codeColor,
     backgroundColor: theme.codeBg,
@@ -159,6 +206,7 @@ export class PrismDirective implements OnInit {
     private renderer: Renderer2,
     _prismService: PrismService
   ) {
+    theme.addStyleSheet(GLOBAL_STYLES);
     _prismService.setCustomClass(this.prismClasses);
   }
 
