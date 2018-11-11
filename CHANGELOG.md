@@ -1,13 +1,19 @@
 <a name="1.7.9"></a>
 ## [1.7.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.8...1.7.9) (2018-11-11)
 
+### Features
 
-* WIP feat(img-cropper): improve (#63) ([3e5cf53](https://github.com/A-l-y-l-e/Alyle-UI/commit/3e5cf53)), closes [#63](https://github.com/A-l-y-l-e/Alyle-UI/issues/63)
+* **img-cropper:** improve (#63) ([3e5cf53](https://github.com/A-l-y-l-e/Alyle-UI/commit/3e5cf53)), closes [#63](https://github.com/A-l-y-l-e/Alyle-UI/issues/63)
+  * Rotate
+  * Autocrop
+  * Assign pictures to the cropper from an URL
+  * Set & get current position, scale
 
 
 ### BREAKING CHANGES
 
-* Rename `base64` to `dataURL` & `originalBase64` to `originalDataURL` in `ImgCropperEvent`
+* `cropperEvent.base64` is now deprecated, use instead `cropperEvent.dataURL`
+
 
 before:
 
@@ -25,57 +31,6 @@ onCropped(e: ImgCropperEvent) {
 }
 ```
 
-* order autoCrop
-
-* docs: update docs
-
-* docs: fix docs
-
-* remove unused variables
-
-* update q
-
-* fix autoCrop
-
-* fix autoCrop
-
-* add scale Input
-
-* add range example
-
-* add range input example
-
-* clean
-
-* remove deprecated
-
-* fix autocrop
-
-* add rotate method
-
-* fix center method
-
-* clean
-
-* clean
-
-* update position on rotate
-
-* remove log
-
-* fix
-
-* rm logs
-
-* ­
-
-* ­
-
-* update docs
-
-* remove unused styles & fix negative rotation
-
-* add rotation to `ImgCropperEvent`
 
 
 
