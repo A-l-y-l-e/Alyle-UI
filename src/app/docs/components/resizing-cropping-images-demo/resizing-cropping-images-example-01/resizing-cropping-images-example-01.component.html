@@ -9,14 +9,13 @@
   <button raised ly-button bg="accent" *ngIf="cropping.isCropped">Upload</button>
 </div>
 <div *ngIf="cropping.isLoaded">
-  <button (click)="cropping.zoomIn()" ly-icon-button class="material-icons">zoom_in</button>
-  <button (click)="cropping.zoomOut()" ly-icon-button class="material-icons">zoom_out</button>
-  <button (click)="cropping.center()" ly-button>center</button>
+  <button (click)="cropping.zoomIn()" ly-icon-button><ly-icon>zoom_in</ly-icon></button>
+  <button (click)="cropping.zoomOut()" ly-icon-button><ly-icon>zoom_out</ly-icon></button>
+  <button (click)="cropping.center()" ly-icon-button><ly-icon>filter_center_focus</ly-icon></button>
   <button (click)="cropping.fit()" ly-button>fit</button>
   <button (click)="cropping.fitToScreen()" ly-button>fit to screen</button>
   <button (click)="cropping.setScale(1)" ly-button>1:1</button>
-  <button (click)="cropping.rotate(90)" ly-button>rotate 90deg</button>
-  <button (click)="cropping.rotate(180)" ly-button>rotate 180deg</button>
+  <button (click)="cropping.rotate(-90)" ly-icon-button><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
 </div>
 <ly-cropping [withClass]="classes.cropping" #cropping
 [config]="myConfig"

@@ -157,6 +157,7 @@ export class LyResizingCroppingImages {
     top: number
   };
   private _scale: number;
+  private _scal3Fix: number;
   private _minScale: number;
   private _config: ImgCropperConfig;
   private _imgRect: {
@@ -175,6 +176,8 @@ export class LyResizingCroppingImages {
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
   @ViewChild('_imgCanvas') _imgCanvas: ElementRef<HTMLCanvasElement>;
+  @Output() readonly scaleChange = new EventEmitter<number>();
+
   @Input()
   get config(): ImgCropperConfig {
     return this._config;
@@ -188,14 +191,8 @@ export class LyResizingCroppingImages {
     return this._scale;
   }
   set scale(val: number) {
-    const newScale = fix(val, 4);
-    if (this.isLoaded && newScale !== this._scale) {
-      const scale = (this._scale = newScale || 0);
-      this.setScale(scale);
-    }
+    this.setScale(val);
   }
-
-  @Output() readonly scaleChange = new EventEmitter<number>();
 
   /** Get min scale */
   get minScale(): number {
@@ -308,8 +305,15 @@ export class LyResizingCroppingImages {
   setScale(size: number, noAutoCrop?: boolean) {
     // fix min scale
     size = size > this.minScale && size <= 1 ? size : this.minScale;
+
+    // check
+    const changed = size === this.scale;
     this._scale = size;
-    size = size;
+    if (changed) {
+      return;
+    }
+
+    size = this._scal3Fix = fix(size, 4);
     const initialImg = this._imgCanvas.nativeElement;
     const width = (initialImg.width * size);
     const height = (initialImg.height * size);
@@ -457,7 +461,7 @@ export class LyResizingCroppingImages {
 
   /**+ */
   zoomIn() {
-    const scale = fix(this._scale + .05, 4);
+    const scale = fix(this._scal3Fix + .05, 4);
     if (scale > 0 && scale <= 1) {
       this.setScale(scale);
     } else {
@@ -472,12 +476,15 @@ export class LyResizingCroppingImages {
     this.isLoaded = false;
     this.isCropped = false;
     this._originalImgBase64 = null;
+    const canvas = this._imgCanvas.nativeElement;
+    canvas.width = 0;
+    canvas.height = 0;
     this.cd.markForCheck();
   }
 
   /**- */
   zoomOut() {
-    const scale = fix(this._scale - .05, 4);
+    const scale = fix(this._scal3Fix - .05, 4);
     if (scale > this.minScale && scale <= 1) {
       this.setScale(scale);
     } else {
@@ -513,9 +520,7 @@ export class LyResizingCroppingImages {
     };
     img.src = src;
     img.addEventListener('error', () => {
-      this.isLoaded = false;
-      this.isCropped = false;
-      this._isLoadedImg = false;
+      this.clean();
       this.error.emit(cropEvent);
     });
     img.addEventListener('load', () => {
@@ -579,14 +584,11 @@ export class LyResizingCroppingImages {
     ctx.drawImage(canvasClon, -canvasClon.width / 2, -canvasClon.height / 2);
     const rootRect = this._rootRect();
     this._setStylesForContImg({
-      width: w * this._scale,
-      height: h * this._scale,
+      width: w * this._scal3Fix,
+      height: h * this._scal3Fix,
       x: x - rootRect.x,
       y: y - rootRect.y
     });
-
-    /** update position & autocrop */
-    this.setScale(this._scale);
   }
 
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
@@ -654,19 +656,20 @@ export class LyResizingCroppingImages {
     const imgRect = this._imgRect;
     const left = imgRect.xc - myConfig.width / 2;
     const top = imgRect.yc - myConfig.height / 2;
+    const scaleFix = this._scal3Fix;
     const config = {
       width: myConfig.width,
       height: myConfig.height
     };
-    canvasElement.width = config.width / this._scale;
-    canvasElement.height = config.height / this._scale;
+    canvasElement.width = config.width / scaleFix;
+    canvasElement.height = config.height / scaleFix;
     const ctx = canvasElement.getContext('2d');
     if (myConfig.fill) {
       ctx.fillStyle = myConfig.fill;
       ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
     }
     ctx.drawImage(this._imgCanvas.nativeElement as any,
-      -(left / this._scale), -(top / this._scale),
+      -(left / scaleFix), -(top / scaleFix),
     );
     let result = canvasElement;
     const antiAliasedQ = myConfig.antiAliased ? .5 : 1;
@@ -696,8 +699,8 @@ export class LyResizingCroppingImages {
         y: this._imgRect.yc
       }
     };
-    this.cropped.emit(cropEvent);
     this.isCropped = true;
+    this.cropped.emit(cropEvent);
     return cropEvent;
   }
 
