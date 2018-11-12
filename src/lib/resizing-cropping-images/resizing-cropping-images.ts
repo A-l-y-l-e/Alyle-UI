@@ -589,6 +589,8 @@ export class LyResizingCroppingImages {
       x: x - rootRect.x,
       y: y - rootRect.y
     });
+
+    this._cropIfAutoCrop();
   }
 
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
