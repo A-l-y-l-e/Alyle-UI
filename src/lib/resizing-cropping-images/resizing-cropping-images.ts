@@ -237,7 +237,7 @@ export class LyResizingCroppingImages {
         width: this.config.width / canvas.width,
         height: this.config.height / canvas.height
       };
-      this._minScale = fix(Math.max(minScale.width, minScale.height), 4);
+      this._minScale = Math.max(minScale.width, minScale.height);
     }
   }
 
@@ -248,8 +248,8 @@ export class LyResizingCroppingImages {
     y?: number
   }) {
     const newStyles = {
-      width: `${values.width}px`,
-      height: `${values.height}px`
+      width: `${fix(values.width)}px`,
+      height: `${fix(values.height)}px`
     } as any;
     if (values.x !== void 0 && values.y !== void 0) {
       const rootRect = this._rootRect();
@@ -322,7 +322,7 @@ export class LyResizingCroppingImages {
       this._setStylesForContImg({
         width,
         height,
-        ...this._customCenter(width, height)
+        ...this._getCenterPoints()
       });
     } else {
       const originPosition = {...this._imgRect};
@@ -350,10 +350,12 @@ export class LyResizingCroppingImages {
     }
   }
 
-  private _customCenter(width: number, height: number) {
+  private _getCenterPoints() {
     const root = this.elementRef.nativeElement as HTMLElement;
-    const x = (root.offsetWidth - width) / 2;
-    const y = (root.offsetHeight - height) / 2;
+    const img = this._imgCanvas.nativeElement;
+    const size = this._scal3Fix;
+    const x = (root.offsetWidth - (img.width * size)) / 2;
+    const y = (root.offsetHeight - (img.height * size)) / 2;
     return {
       x,
       y
@@ -492,11 +494,12 @@ export class LyResizingCroppingImages {
     }
   }
   center() {
+    // TODO: fix this
     const imgRect = this._imgRect;
     const newStyles = {
       width: imgRect.w,
       height: imgRect.h,
-      ...this._customCenter(imgRect.w, imgRect.h)
+      ...this._getCenterPoints()
     };
     this._setStylesForContImg(newStyles);
     this._cropIfAutoCrop();
