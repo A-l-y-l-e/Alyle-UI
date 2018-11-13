@@ -1,3 +1,14 @@
+<a name="1.7.10"></a>
+## [1.7.10](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.9...1.7.10) (2018-11-12)
+
+
+### Bug Fixes
+
+* **img-cropper:** crop if auto crop is available ([3a4c749](https://github.com/A-l-y-l-e/Alyle-UI/commit/3a4c749))
+* **img-cropper:** fix scale ([f9b14bf](https://github.com/A-l-y-l-e/Alyle-UI/commit/f9b14bf))
+
+
+
 <a name="1.7.9"></a>
 ## [1.7.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.8...1.7.9) (2018-11-11)
 
