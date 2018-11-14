@@ -248,7 +248,6 @@ export class LyResizingCroppingImages {
     y?: number
   }) {
     const newStyles = { } as any;
-    // const imgRect = this._imgContainerRect();
     const rootRect = this._rootRect();
     if (values.x !== void 0 && values.y !== void 0) {
       const x = rootRect.width / 2 - (values.x);
@@ -258,11 +257,7 @@ export class LyResizingCroppingImages {
       this._imgRect.y = (values.y);
       this._imgRect.xc = (x);
       this._imgRect.yc = (y);
-      // this._imgRect.wt = (imgRect.width);
-      // this._imgRect.ht = (imgRect.height);
     }
-    // this._imgRect.w = (imgRect.width);
-    // this._imgRect.h = (imgRect.height);
     newStyles.transform = `translate3d(${(this._imgRect.x)}px,${(this._imgRect.y)}px, 0)`;
     newStyles.transform += `scale(${this._scal3Fix})`;
     newStyles.transformOrigin = `${this._imgRect.xc}px ${this._imgRect.yc}px 0`;
