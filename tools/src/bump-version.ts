@@ -19,8 +19,6 @@ function updateVersion() {
 `;
   pkgLib.version = newVersion.version;
   const fileName = `${libDir}/src/version.ts`;
-  const file = readFileSync(fileName, 'utf8').toString()
-  .replace(/{\sversion\s}/g, config.version);
   writeFileSync(fileName, versionContent, 'utf8');
   writeFileSync(packageConf, jsyaml.dump(config), 'utf8');
   writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(pkg, undefined, 2), 'utf8');
@@ -31,10 +29,17 @@ function createVersion(currentVersion: string) {
   const newDate = new Date();
   const now = newDate.getTime();
   const date = `${moment().format('YYYYMMDD')}-${Date.now().toString(36)}`;
-  const versionArray = currentVersion.split('.');
+  let versionArray = currentVersion.split('.');
   const nightlyVersion = `-nightly.${date}`;
   let version;
-  if (isNightly) {
+
+  if (process.env.NEW_VERSION) {
+
+    // Bump custom new version
+
+    // Clean
+    versionArray = [...process.env.NEW_VERSION.split('.')];
+  } else if (isNightly) {
     if (versionArray.length > 3) {
       versionArray[versionArray.length - 1] = date;
     } else {
