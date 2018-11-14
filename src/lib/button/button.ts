@@ -126,19 +126,20 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     public _rippleService: LyRippleService,
     @Optional() bgAndColor: LyCommon
   ) {
+    this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
   }
 
   ngOnInit() {
-    this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
     if (!this.size) {
       this.size = DEFAULT_SIZE;
     }
   }
 
   ngAfterViewInit() {
+    this._renderer.addClass(this._elementRef.nativeElement, this.classes.animations);
     if (this.disableRipple === null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
