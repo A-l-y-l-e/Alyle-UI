@@ -230,9 +230,10 @@ export class LyResizingCroppingImages {
     if (imgElement) {
       this._img = imgElement;
       const canvas = this._imgCanvas.nativeElement;
-      canvas.height = imgElement.height;
       canvas.width = imgElement.width;
+      canvas.height = imgElement.height;
       const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(imgElement, 0, 0);
       /** set zoom scale */
       const minScale = {
@@ -275,15 +276,17 @@ export class LyResizingCroppingImages {
   }
 
   selectInputEvent(img: Event) {
+    console.log('from event');
     const _img = img.target as HTMLInputElement;
     if (_img.files.length !== 1) {
       return;
     }
     const fileReader: FileReader = new FileReader();
+
     this._fileName = _img.value.replace(/.*(\/|\\)/, '');
 
+
     /** Set type */
-    this._defaultType = null;
     if (!this.config.type) {
       this._defaultType = _img.files[0].type;
     }
@@ -301,32 +304,35 @@ export class LyResizingCroppingImages {
     size = size >= this.minScale && size <= 1 ? size : this.minScale;
 
     // check
-    const changed = size === this.scale;
+    const changed = size !== this.scale;
     this._scale = size;
-    if (changed) {
-      return;
-    }
-
     size = this._scal3Fix = size;
-    if (!this.isLoaded) {
+    if (this.isLoaded) {
+      if (changed) {
+        const originPosition = {...this._imgRect};
+        this.offset = {
+          x: originPosition.x,
+          y: originPosition.y,
+          left: originPosition.xc,
+          top: originPosition.yc
+        };
+        this._setStylesForContImg({});
+        this._move({
+          srcEvent: {},
+          deltaX: 0,
+          deltaY: 0
+        });
+      } else {
+        return;
+      }
+    } else if (this.minScale) {
       this._setStylesForContImg({
         ...this._getCenterPoints()
       });
     } else {
-      const originPosition = {...this._imgRect};
-      this.offset = {
-        x: originPosition.x,
-        y: originPosition.y,
-        left: originPosition.xc,
-        top: originPosition.yc
-      };
-      this._setStylesForContImg({});
-      this._move({
-        srcEvent: {},
-        deltaX: 0,
-        deltaY: 0
-      });
+      return;
     }
+
     this.scaleChange.emit(this._scale);
     if (!noAutoCrop) {
       this._cropIfAutoCrop();
@@ -452,6 +458,12 @@ export class LyResizingCroppingImages {
 
   /** Clean the img cropper */
   clean() {
+    this._imgRect = { } as any;
+    this.offset = null;
+    this.scale = null;
+    this._scal3Fix = null;
+    this._rotation = 0;
+    this._minScale = null;
     this._defaultType = null;
     this._isLoadedImg = false;
     this.isLoaded = false;
@@ -482,6 +494,7 @@ export class LyResizingCroppingImages {
 
   /** Set Img */
   setImageUrl(src: string) {
+    this.clean();
     this._originalImgBase64 = src;
     const img = new Image;
     const cropEvent: ImgCropperEvent = {
@@ -498,7 +511,6 @@ export class LyResizingCroppingImages {
     };
     img.src = src;
     img.addEventListener('error', () => {
-      this.clean();
       this.error.emit(cropEvent);
     });
     img.addEventListener('load', () => {
