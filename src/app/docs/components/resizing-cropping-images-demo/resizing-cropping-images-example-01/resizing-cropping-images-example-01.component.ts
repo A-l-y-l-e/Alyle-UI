@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { ImgCropperConfig, ImgCropperEvent } from '@alyle/ui/resizing-cropping-images';
 import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { type } from 'os';
 
 const styles = (theme: ThemeVariables) => ({
   actions: {
@@ -128,7 +129,8 @@ export class ResizingCroppingImagesExample01Component {
     autoCrop: true,
     width: 150, // Default `250`
     height: 150, // Default `200`
-    fill: '#ff2997' // Default transparent if type = png else #000
+    fill: '#ff2997', // Default transparent if type = png else #000,
+    type: 'image/jpeg'
   };
 
   constructor(

@@ -180,16 +180,16 @@ export class LyResizingCroppingImages {
   @ViewChild('_imgCanvas') _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Output() readonly scaleChange = new EventEmitter<number>();
 
-  private get _imgRectFix() {
-    const imgRect = this._imgRect;
-    const imgRectfix = {};
-    for (const key in imgRect) {
-      if (imgRect.hasOwnProperty(key)) {
-        imgRectfix[key] = fix(imgRect[key]);
-      }
-    }
-    return imgRectfix as ImgRect;
-  }
+  // private get _imgRectFix() {
+  //   const imgRect = this._imgRect;
+  //   const imgRectfix = {};
+  //   for (const key in imgRect) {
+  //     if (imgRect.hasOwnProperty(key)) {
+  //       imgRectfix[key] = fix(imgRect[key]);
+  //     }
+  //   }
+  //   return imgRectfix as ImgRect;
+  // }
 
   @Input()
   get config(): ImgCropperConfig {
@@ -329,7 +329,6 @@ export class LyResizingCroppingImages {
     const initialImg = this._imgCanvas.nativeElement;
     const width = (initialImg.width * size);
     const height = (initialImg.height * size);
-    const hostRect = this._rootRect();
     if (!this.isLoaded) {
       this._setStylesForContImg({
         width,
@@ -393,9 +392,7 @@ export class LyResizingCroppingImages {
     this.setScale(0);
   }
 
-  _moveStart(event) {
-    const hostRect = this._rootRect();
-    const imgRect = this._imgContainerRect();
+  _moveStart() {
     this.offset = {
       x: this._imgRect.x,
       y: this._imgRect.y,
