@@ -34,8 +34,8 @@ const styles = ({
     top: 0,
     left: 0,
     '& > canvas': {
-      width: '100%',
-      height: '100%',
+      // width: '100%',
+      // height: '100%',
       pointerEvents: 'none',
     }
   },
@@ -133,6 +133,18 @@ const CONFIG_DEFAULT = <ImgCropperConfig>{
   antiAliased: true
 };
 
+interface ImgRect {
+  x: number;
+  y: number;
+  xc: number;
+  yc: number;
+  w: number;
+  h: number;
+  /** transform with */
+  wt: number;
+  ht: number;
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
@@ -160,23 +172,24 @@ export class LyResizingCroppingImages {
   private _scal3Fix: number;
   private _minScale: number;
   private _config: ImgCropperConfig;
-  private _imgRect: {
-    x: number
-    y: number
-    xc: number
-    yc: number
-    w: number
-    h: number
-    /** transform with */
-    wt: number
-    ht: number
-  } = {} as any;
+  private _imgRect: ImgRect = {} as any;
   private _rotation: number;
 
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
   @ViewChild('_imgCanvas') _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Output() readonly scaleChange = new EventEmitter<number>();
+
+  private get _imgRectFix() {
+    const imgRect = this._imgRect;
+    const imgRectfix = {};
+    for (const key in imgRect) {
+      if (imgRect.hasOwnProperty(key)) {
+        imgRectfix[key] = fix(imgRect[key]);
+      }
+    }
+    return imgRectfix as ImgRect;
+  }
 
   @Input()
   get config(): ImgCropperConfig {
@@ -247,26 +260,25 @@ export class LyResizingCroppingImages {
     x?: number
     y?: number
   }) {
-    const newStyles = {
-      width: `${fix(values.width)}px`,
-      height: `${fix(values.height)}px`
-    } as any;
+    const newStyles = { } as any;
+    const imgRect = this._imgContainerRect();
+    const rootRect = this._rootRect();
     if (values.x !== void 0 && values.y !== void 0) {
-      const rootRect = this._rootRect();
-      const imgRect = this._imgContainerRect();
       const x = rootRect.width / 2 - (values.x);
       const y = rootRect.height / 2 - (values.y);
-      newStyles.transform = `translate3d(${fix(values.x)}px,${fix(values.y)}px, 0)`;
 
-      this._imgRect.x = fix(values.x);
-      this._imgRect.y = fix(values.y);
-      this._imgRect.xc = fix(x);
-      this._imgRect.yc = fix(y);
-      this._imgRect.wt = fix(imgRect.width);
-      this._imgRect.ht = fix(imgRect.height);
+      this._imgRect.x = (values.x);
+      this._imgRect.y = (values.y);
+      this._imgRect.xc = (x);
+      this._imgRect.yc = (y);
+      // this._imgRect.wt = (imgRect.width);
+      // this._imgRect.ht = (imgRect.height);
     }
-    this._imgRect.w = fix(values.width);
-    this._imgRect.h = fix(values.height);
+    this._imgRect.w = (imgRect.width);
+    this._imgRect.h = (imgRect.height);
+    newStyles.transform = `translate3d(${(this._imgRect.x)}px,${(this._imgRect.y)}px, 0)`;
+    newStyles.transform += `scale(${this._scal3Fix})`;
+    newStyles.transformOrigin = `${this._imgRect.xc}px ${this._imgRect.yc}px 0`;
     for (const key in newStyles) {
       if (newStyles.hasOwnProperty(key)) {
         this._renderer.setStyle(this._imgContainer.nativeElement, key, newStyles[key]);
@@ -304,7 +316,7 @@ export class LyResizingCroppingImages {
   /** Set the size of the image, the values can be 0 between 1, where 1 is the original size */
   setScale(size: number, noAutoCrop?: boolean) {
     // fix min scale
-    size = size > this.minScale && size <= 1 ? size : this.minScale;
+    size = size >= this.minScale && size <= 1 ? size : this.minScale;
 
     // check
     const changed = size === this.scale;
@@ -327,10 +339,10 @@ export class LyResizingCroppingImages {
     } else {
       const originPosition = {...this._imgRect};
       this.offset = {
-        x: (hostRect.width / 2) - (originPosition.x),
-        y: (hostRect.height / 2) - (originPosition.y),
-        left: originPosition.x,
-        top: originPosition.y
+        x: originPosition.x,
+        y: originPosition.y,
+        left: originPosition.xc,
+        top: originPosition.yc
       };
       this._setStylesForContImg({
         width,
@@ -338,10 +350,8 @@ export class LyResizingCroppingImages {
       });
       this._move({
         srcEvent: {},
-        center: {
-          x: (hostRect.width / 2 - (this.offset.x * (width / originPosition.w))) + hostRect.x + this.offset.x,
-          y: (hostRect.height / 2 - (this.offset.y * (height / originPosition.h))) + hostRect.y + this.offset.y
-        }
+        deltaX: 0,
+        deltaY: 0
       });
     }
     this.scaleChange.emit(this._scale);
@@ -353,9 +363,8 @@ export class LyResizingCroppingImages {
   private _getCenterPoints() {
     const root = this.elementRef.nativeElement as HTMLElement;
     const img = this._imgCanvas.nativeElement;
-    const size = this._scal3Fix;
-    const x = (root.offsetWidth - (img.width * size)) / 2;
-    const y = (root.offsetHeight - (img.height * size)) / 2;
+    const x = (root.offsetWidth - (img.width)) / 2;
+    const y = (root.offsetHeight - (img.height)) / 2;
     return {
       x,
       y
@@ -386,47 +395,52 @@ export class LyResizingCroppingImages {
 
   _moveStart(event) {
     const hostRect = this._rootRect();
-    const imgRect = this._imgRect;
+    const imgRect = this._imgContainerRect();
     this.offset = {
-      x: event.center.x - hostRect.x - imgRect.x,
-      y: event.center.y - hostRect.y - imgRect.y,
-      left: imgRect.x,
-      top: imgRect.y
+      x: this._imgRect.x,
+      y: this._imgRect.y,
+      left: this._imgRect.xc,
+      top: this._imgRect.yc
     };
   }
   _move(event) {
     let x, y;
-    const hostRect = this._rootRect();
-    const imgContainerRect = this._imgRect;
-    const croppingContainerRect = this._areaCropperRect();
+    const canvas = this._imgCanvas.nativeElement;
+    const scaleFix = this._scal3Fix;
+    const config = this.config;
+    const startP = this.offset;
 
     // Limit for left
-    if (event.center.x - this.offset.x > croppingContainerRect.x) {
-      x = croppingContainerRect.x - hostRect.x;
-    }
-    // Limit for top
-    if (event.center.y - this.offset.y > croppingContainerRect.y) {
-      y = croppingContainerRect.y - hostRect.y;
-    }
-    // Limit for right
-    if (event.center.x - this.offset.x + imgContainerRect.w < croppingContainerRect.x + croppingContainerRect.width) {
-      x = croppingContainerRect.x - hostRect.x - imgContainerRect.w + croppingContainerRect.width;
-    }
-    // Limit for bottom
-    if (event.center.y - this.offset.y + imgContainerRect.h < croppingContainerRect.y + croppingContainerRect.height) {
-      y = croppingContainerRect.y - hostRect.y - imgContainerRect.h + croppingContainerRect.height;
+    if ((config.width / 2 / scaleFix) >= startP.left - (event.deltaX / this._scal3Fix)) {
+      x = startP.x + (startP.left) - (config.width / 2 / scaleFix);
     }
 
-    // When press shiftKey
-    if (event.srcEvent && event.srcEvent.shiftKey) {
-      if (Math.abs(event.deltaX) === Math.max(Math.abs(event.deltaX), Math.abs(event.deltaY))) {
-        y = this.offset.top;
-      } else {
-        x = this.offset.left;
-      }
+    // // Limit for top
+    if ((config.height / 2 / scaleFix) >= startP.top - (event.deltaY / this._scal3Fix)) {
+      y = startP.y + (startP.top) - (config.width / 2 / scaleFix);
     }
-    if (x === void 0) { x = event.center.x - hostRect.x - (this.offset.x); }
-    if (y === void 0) { y = event.center.y - hostRect.y - (this.offset.y); }
+
+    // // Limit for right
+    if ((config.width / 2 / scaleFix) + (canvas.width) - (startP.left - (event.deltaX / this._scal3Fix)) <= config.width / scaleFix) {
+      x = startP.x + (startP.left) + (config.width / 2 / scaleFix) - canvas.width;
+    }
+
+    // // Limit for bottom
+    if ((config.height / 2 / scaleFix) + (canvas.height) - (startP.top - (event.deltaY / this._scal3Fix)) <= config.height / scaleFix) {
+      y = startP.y + (startP.top) + (config.height / 2 / scaleFix) - canvas.height;
+    }
+
+    // When press shiftKey, deprecated
+    // if (event.srcEvent && event.srcEvent.shiftKey) {
+    //   if (Math.abs(event.deltaX) === Math.max(Math.abs(event.deltaX), Math.abs(event.deltaY))) {
+    //     y = this.offset.top;
+    //   } else {
+    //     x = this.offset.left;
+    //   }
+    // }
+
+    if (x === void 0) { x = (event.deltaX / this._scal3Fix) + (this.offset.x); }
+    if (y === void 0) { y = (event.deltaY / this._scal3Fix) + (this.offset.y); }
 
     this._setStylesForContImg({
       width: this._imgContainer.nativeElement.offsetWidth,
@@ -494,7 +508,6 @@ export class LyResizingCroppingImages {
     }
   }
   center() {
-    // TODO: fix this
     const imgRect = this._imgRect;
     const newStyles = {
       width: imgRect.w,
@@ -557,11 +570,9 @@ export class LyResizingCroppingImages {
     ctx.clearRect(0, 0, canvasClon.width, canvasClon.height);
 
     // rotate canvas image
-    this._renderer.setStyle(canvas, 'transform', `rotate(${validDegrees}deg)`);
+    this._renderer.setStyle(canvas, 'transform', `rotate(${validDegrees}deg) scale(${1 / this._scal3Fix})`);
     this._renderer.setStyle(canvas, 'transformOrigin', `${this._imgRect.xc}px ${this._imgRect.yc}px 0`);
     const { x, y } = canvas.getBoundingClientRect() as DOMRect;
-    this._renderer.setStyle(canvas, 'width', `initial`);
-    this._renderer.setStyle(canvas, 'height', `initial`);
 
     // save rect
     const canvasRect = canvas.getBoundingClientRect();
@@ -569,12 +580,12 @@ export class LyResizingCroppingImages {
     // remove rotate styles
     this._renderer.removeStyle(canvas, 'transform');
     this._renderer.removeStyle(canvas, 'transformOrigin');
-    this._renderer.removeStyle(canvas, 'width');
-    this._renderer.removeStyle(canvas, 'height');
 
     // set w & h
+
     const w = canvasRect.width;
     const h = canvasRect.height;
+
     ctx.canvas.width = w;
     ctx.canvas.height = h;
 
@@ -586,11 +597,12 @@ export class LyResizingCroppingImages {
     ctx.rotate(degreesRad);
     ctx.drawImage(canvasClon, -canvasClon.width / 2, -canvasClon.height / 2);
     const rootRect = this._rootRect();
+
     this._setStylesForContImg({
       width: w * this._scal3Fix,
       height: h * this._scal3Fix,
-      x: x - rootRect.x,
-      y: y - rootRect.y
+      x: (x - rootRect.x),
+      y: (y - rootRect.y)
     });
 
     this._cropIfAutoCrop();
@@ -598,7 +610,7 @@ export class LyResizingCroppingImages {
 
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
     /** Calculate total number of steps needed */
-    let  numSteps = Math.ceil(Math.log(Math.max(img.width, img.height) / Math.max(config.height, config.width)) / Math.log(2)) - 1;
+    let  numSteps = Math.ceil(Math.log(Math.max(img.width, img.height) / Math.max(config.width, config.height)) / Math.log(2)) - 1;
     numSteps = numSteps <= 0 ? 0 : numSteps;
 
     /**Array steps */
@@ -608,14 +620,16 @@ export class LyResizingCroppingImages {
     const octx = img.getContext('2d');
 
     const q = ((quality * 10) ** numSteps) / (10 ** numSteps);
-
+    const fileType = this._defaultType;
     /** If Steps => imageSmoothingQuality */
     if (numSteps) {
       /** Set size */
-      const w = img.width * quality;
-      const h = img.height * quality;
+      const w = fix(img.width * quality);
+      const h = fix(img.height * quality);
       /** Only the new img is shown. */
-      octx.globalCompositeOperation = 'copy';
+      if (this._defaultType === 'image/png' || fileType === 'image/svg+xml') {
+        octx.globalCompositeOperation = 'copy';
+      }
 
       /** Steps */
       (steps as Array<number>).forEach(() => {
@@ -636,7 +650,7 @@ export class LyResizingCroppingImages {
     oc.height = config.height;
     ctx.drawImage(img,
       0, 0,
-      img.width * (q), img.height * (q),
+      img.width * q, img.height * q,
       0, 0,
       oc.width, oc.height
     );
@@ -659,9 +673,9 @@ export class LyResizingCroppingImages {
   _imgCrop(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
     const imgRect = this._imgRect;
-    const left = imgRect.xc - myConfig.width / 2;
-    const top = imgRect.yc - myConfig.height / 2;
     const scaleFix = this._scal3Fix;
+    const left = imgRect.xc - (myConfig.width / 2 / scaleFix);
+    const top = imgRect.yc - (myConfig.height / 2 / scaleFix);
     const config = {
       width: myConfig.width,
       height: myConfig.height
@@ -674,7 +688,7 @@ export class LyResizingCroppingImages {
       ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
     }
     ctx.drawImage(this._imgCanvas.nativeElement as any,
-      -(left / scaleFix), -(top / scaleFix),
+      -(left), -(top),
     );
     let result = canvasElement;
     const antiAliasedQ = myConfig.antiAliased ? .5 : 1;
