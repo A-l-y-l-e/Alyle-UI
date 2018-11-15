@@ -1,3 +1,17 @@
+<a name="1.7.11"></a>
+## [1.7.11](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.10...1.7.11) (2018-11-15)
+
+
+### Bug Fixes
+
+* **button:** fix button animation in Firefox ([74c971d](https://github.com/A-l-y-l-e/Alyle-UI/commit/74c971d))
+* **button:** fix button in firefox ([b163c1f](https://github.com/A-l-y-l-e/Alyle-UI/commit/b163c1f))
+* **img-cropper:** fix scale & fix on crop(cropper with fix number) ([f4aa80a](https://github.com/A-l-y-l-e/Alyle-UI/commit/f4aa80a))
+* **img-cropper:** fix when a second image is loaded with the same dimensions as the previous one ([87306d3](https://github.com/A-l-y-l-e/Alyle-UI/commit/87306d3))
+* **img-cropper:** remove fn fix ([c7cfc64](https://github.com/A-l-y-l-e/Alyle-UI/commit/c7cfc64))
+
+
+
 <a name="1.7.10"></a>
 ## [1.7.10](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.9...1.7.10) (2018-11-12)
 
