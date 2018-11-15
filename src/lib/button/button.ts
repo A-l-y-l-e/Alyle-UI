@@ -127,6 +127,13 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     @Optional() bgAndColor: LyCommon
   ) {
     this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
+    if (Platform.FIREFOX) {
+      this._theme.addStyle('button-ff', {
+        '&::-moz-focus-inner,&::-moz-focus-inner,&::-moz-focus-inner,&::-moz-focus-inner': {
+          border: 0
+        }
+      }, this._elementRef.nativeElement, undefined, STYLE_PRIORITY);
+    }
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
