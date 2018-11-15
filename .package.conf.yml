@@ -21,3 +21,4 @@ components:
   '@alyle/ui/drawer': drawer
   '@alyle/ui/badge': badge
   '@alyle/ui/field': field
+  '@alyle/ui/snack-bar': snack-bar

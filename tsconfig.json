@@ -38,6 +38,7 @@
       "@alyle/ui/badge": ["lib/badge"],
       "@alyle/ui/field": ["lib/field"],
       "@alyle/ui/checkbox": ["lib/checkbox"],
+      "@alyle/ui/snack-bar": ["lib/snack-bar"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }
