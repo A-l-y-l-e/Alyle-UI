@@ -20,6 +20,8 @@ import {
 /** Import components */
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
+import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
+...
 
 /** Import themes */
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
@@ -34,7 +36,8 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
     LyThemeModule.setTheme('minima-light'),
     // Add components
     LyButtonModule,
-    LyToolbarModule
+    LyToolbarModule,
+    LyResizingCroppingImageModule
     ...
   ],
   /** Add themes */
