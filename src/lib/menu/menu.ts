@@ -138,7 +138,7 @@ export class LyMenuTriggerFor implements OnDestroy {
       this._menuRef.detach();
     } else {
       const rect = this.targetPosition();
-      this._menuRef = this.overlay.create(this.lyMenuTriggerFor as TemplateRef<any>, {
+      this._menuRef = this.overlay.create(this.lyMenuTriggerFor, {
         $implicit: this
       }, {
         styles: {
@@ -148,7 +148,8 @@ export class LyMenuTriggerFor implements OnDestroy {
           bottom: null,
         },
         fnDestroy: this.detach.bind(this),
-        host: this.elementRef.nativeElement
+        host: this.elementRef.nativeElement,
+        backdrop: true
       });
     }
   }

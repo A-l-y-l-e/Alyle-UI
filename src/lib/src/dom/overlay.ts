@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 interface OverlayConfig {
   styles: Object;
+  backdrop?: boolean;
   fnDestroy?: (...arg) => void;
   host?: any;
 }
@@ -47,6 +48,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       bottom: 0,
       justifyContent: 'center',
       alignItems: 'center',
+      pointerEvents: 'all',
       ...config.styles
     };
     const newInjector = Injector.create([
@@ -62,7 +64,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
 
     this.updateStyles(__styles);
     if (config.host) {
-      this.windowScrollSub = windowScroll.scroll$.subscribe((val) => {
+      this.windowScrollSub = windowScroll.scroll$.subscribe(() => {
         const rect = config.host.getBoundingClientRect();
         if (rect.top !== __styles.top || rect.left !== __styles.left) {
           const newStyles = {

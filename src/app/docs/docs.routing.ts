@@ -11,6 +11,7 @@ import { BadgeDemoComponent } from '@docs/components/badge-demo/badge-demo.compo
 import { FieldDemoComponent } from '@docs/components/field-demo/field-demo.component';
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
 import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
+import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -42,7 +43,8 @@ const routes: Routes = [
       { path: 'resizing-cropping-images', component: ResizingCroppingImagesDemoComponent },
       { path: 'badge', component: BadgeDemoComponent },
       { path: 'field', component: FieldDemoComponent },
-      { path: 'checkbox', component: CheckboxDemoComponent }
+      { path: 'checkbox', component: CheckboxDemoComponent },
+      { path: 'snack-bar', component: SnackBarDemoComponent }
     ]
   }
 ];
