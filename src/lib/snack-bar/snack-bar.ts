@@ -44,7 +44,7 @@ export class LySnackBar {
           margin: '8px',
           padding: '0 16px',
           minHeight: '48px',
-          minWidth: '192px',
+          minWidth: '256px',
           opacity: 0,
           transition: `opacity ${theme.animations.curves.standard} 350ms`,
           fontSize: theme.pxToRem(theme.typography.fontSize),
