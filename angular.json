@@ -1218,6 +1218,51 @@
           }
         }
       }
+    },
+    "@alyle/ui/snack-bar": {
+      "root": "dist/lib/snack-bar",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/snack-bar/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/snack-bar/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/snack-bar/test.ts",
+            "tsConfig": "dist/lib/snack-bar/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/snack-bar/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "dist/lib/snack-bar/tsconfig.lint.json",
+              "dist/lib/snack-bar/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {

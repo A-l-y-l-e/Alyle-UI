@@ -1,3 +1,13 @@
+<a name="1.7.12"></a>
+## [1.7.12](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.11...1.7.12) (2018-11-17)
+
+
+### Features
+
+* **snack-bar:** initial commit for snack-bar ([#64](https://github.com/A-l-y-l-e/Alyle-UI/issues/64)) ([6014122](https://github.com/A-l-y-l-e/Alyle-UI/commit/6014122))
+
+
+
 <a name="1.7.11"></a>
 ## [1.7.11](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.10...1.7.11) (2018-11-15)
 
