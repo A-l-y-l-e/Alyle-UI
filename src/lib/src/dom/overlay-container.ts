@@ -1,4 +1,4 @@
-import { Injectable, Component, Inject, HostListener, ElementRef } from '@angular/core';
+import { Injectable, Component, Inject, HostListener, ElementRef, Renderer2 } from '@angular/core';
 import { Platform } from '../platform/index';
 import { LyTheme2 } from '../theme/theme2.service';
 import { LyCoreStyles } from '../styles/core-styles';
@@ -14,7 +14,8 @@ const styles = (theme: ThemeVariables) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: theme.zIndex.overlay
+    zIndex: theme.zIndex.overlay,
+    pointerEvents: 'none'
   }
 });
 
@@ -101,19 +102,31 @@ export class LyOverlayContainer {
   }
 }
 
+const BACKDROP_STYLES = ({
+  backdrop: {
+    pointerEvents: 'all'
+  }
+});
+
 @Component({
   selector: 'ly-overlay-backdrop',
   template: ``
 })
 export class LyOverlayBackdrop {
+  /** @ignore */
+  classes = this._theme.addStyleSheet(BACKDROP_STYLES);
   @HostListener('click') onclick() {
     this._overlayConfig.fnDestroy();
   }
   constructor(
-    private el: ElementRef,
+    el: ElementRef,
+    private _theme: LyTheme2,
     @Inject('overlayConfig') private _overlayConfig: any,
     commonStyles: LyCoreStyles
   ) {
-    this.el.nativeElement.classList.add(commonStyles.classes.fill);
+    el.nativeElement.classList.add(commonStyles.classes.fill);
+    if (_overlayConfig.backdrop) {
+      el.nativeElement.classList.add(this.classes.backdrop);
+    }
   }
 }

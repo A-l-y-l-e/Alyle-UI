@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 
 interface OverlayConfig {
   styles: Object;
+  classes?: string[];
+  backdrop?: boolean;
   fnDestroy?: (...arg) => void;
   host?: any;
 }
@@ -17,13 +19,19 @@ export interface OverlayFromTemplateRef {
 
   /** Detach & remove */
   destroy: () => void;
+
+  containerElement: HTMLDivElement;
+
 }
 class CreateFromTemplateRef implements OverlayFromTemplateRef {
   private _viewRef: EmbeddedViewRef<any>;
-  private _el: any;
+  private _el: HTMLDivElement;
   private _compRef: ComponentRef<any>;
   private _compRefOverlayBackdrop: ComponentRef<any>;
   windowScrollSub: Subscription = Subscription.EMPTY;
+  get containerElement() {
+    return this._el;
+  }
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _appRef: ApplicationRef,
@@ -47,6 +55,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       bottom: 0,
       justifyContent: 'center',
       alignItems: 'center',
+      pointerEvents: 'all',
       ...config.styles
     };
     const newInjector = Injector.create([
@@ -62,7 +71,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
 
     this.updateStyles(__styles);
     if (config.host) {
-      this.windowScrollSub = windowScroll.scroll$.subscribe((val) => {
+      this.windowScrollSub = windowScroll.scroll$.subscribe(() => {
         const rect = config.host.getBoundingClientRect();
         if (rect.top !== __styles.top || rect.left !== __styles.left) {
           const newStyles = {
@@ -73,6 +82,12 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
         }
       });
     }
+
+    const classes = config.classes;
+    if (classes && classes.length) {
+      classes.forEach((className) => (this._el as HTMLDivElement).classList.add(className));
+    }
+
     this._compRefOverlayBackdrop = this.generateComponent(LyOverlayBackdrop, newInjector);
     this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
     const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;

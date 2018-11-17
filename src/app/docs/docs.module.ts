@@ -59,6 +59,9 @@ import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.com
 import { ResponsiveDemo01Module } from './layout/responsive/responsive-demo-01/responsive-demo-01.module';
 import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/responsive-with-ds.module';
 
+import { BasicSnackBarModule } from './components/snack-bar-demo/basic-snack-bar/basic-snack-bar.module';
+import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -96,7 +99,9 @@ import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/r
     BasicFieldModule,
     /** Checkbox */
     BasicCheckboxModule,
-    ComplexCheckboxModule
+    ComplexCheckboxModule,
+    /** SnackBar */
+    BasicSnackBarModule
   ],
   declarations: [
     ThemingComponent,
@@ -119,7 +124,9 @@ import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/r
     /** Field */
     FieldDemoComponent,
     /** Ckeckbox */
-    CheckboxDemoComponent
+    CheckboxDemoComponent,
+    /** SnackBar */
+    SnackBarDemoComponent
 
   ]
 })
