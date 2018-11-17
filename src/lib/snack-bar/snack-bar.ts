@@ -2,7 +2,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
 import { LyTheme2, LyOverlay, OverlayFromTemplateRef, ThemeVariables, shadowBuilder } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
-const DEFAULT_DURATION = 6e9;
+const DEFAULT_DURATION = 6e3;
 const DEFAULT_HORIZONTAL_POSITION = 'end';
 const DEFAULT_VERTICAL_POSITION = 'bottom';
 
