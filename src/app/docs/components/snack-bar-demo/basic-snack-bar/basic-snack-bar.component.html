@@ -1,8 +1,8 @@
-<button ly-button (click)="snackBar.open()">Show snack-bar</button>
+<button ly-button (click)="sb.open()">Show snack-bar A</button>
 
-<ng-template ly-snack-bar #snackBar="lySnackBar">
+<ng-template ly-snack-bar #sb="lySnackBar" (afterDismissed)="afterDismissed($event)">
   <span>Message</span>
-  <button ly-button color="accent" (click)="snackBar.close()">
-    Close
+  <button ly-button color="accent" (click)="sb.dismiss()">
+    Dismiss
   </button>
 </ng-template>

@@ -1,36 +1,47 @@
-import { Directive, Input, TemplateRef } from '@angular/core';
+import { Directive, Input, TemplateRef, Injectable, Output, EventEmitter } from '@angular/core';
 import { LyTheme2, LyOverlay, OverlayFromTemplateRef, ThemeVariables, shadowBuilder } from '@alyle/ui';
+import { Subject, Observable } from 'rxjs';
+import { LySnackBarService } from './snack-bar.service';
+import { LySnackBarRef } from './snack-bar-ref';
 
 const STYLE_PRIORITY = -2;
-const DEFAULT_DURATION = 6e3;
 const DEFAULT_HORIZONTAL_POSITION = 'end';
 const DEFAULT_VERTICAL_POSITION = 'bottom';
+
+/** Event that is emitted when a snack bar is dismissed. */
+export interface LySnackBarDismiss {
+  /** Whether the snack bar was dismissed using the action fn. */
+  dismissedByAction: boolean;
+}
 
 @Directive({
   selector: 'ng-template[ly-snack-bar]',
   exportAs: 'lySnackBar'
 })
 export class LySnackBar {
-  private _snackBarOverlay: OverlayFromTemplateRef;
-  private _timer: any;
   @Input() duration: number;
   @Input() horizontalPosition: 'start' | 'center' | 'end' | 'left' | 'right';
   @Input() verticalPosition: 'top' | 'bottom';
+  @Output() afterDismissed = new EventEmitter<LySnackBarDismiss>();
   constructor(
     private _templateRef: TemplateRef<any>,
     private _theme: LyTheme2,
-    private _overlay: LyOverlay
+    private _overlay: LyOverlay,
+    private _snackBarService: LySnackBarService
   ) { }
 
   open() {
     // close previous snackBar if exist
-    this.close();
+    const sbrPrev = this._snackBarService._currentSnackBar;
+    if (sbrPrev) {
+      sbrPrev.dismiss();
+    }
 
     const duration = this.duration;
     const horizontalPosition = this.horizontalPosition || DEFAULT_HORIZONTAL_POSITION;
     const verticalPosition = this.verticalPosition || DEFAULT_VERTICAL_POSITION;
 
-    const snackBar = this._snackBarOverlay = this._overlay.create(this._templateRef, undefined, {
+    const snackBar = this._overlay.create(this._templateRef, undefined, {
       styles: {
         // this remove previous style
         justifyContent: null
@@ -81,27 +92,16 @@ export class LySnackBar {
     this._theme.addStyle('SnackBar:open', ({
       opacity: 1
     }), snackBar.containerElement, undefined, STYLE_PRIORITY);
-    this._timer = setTimeout(() => {
-      this.close();
-    }, duration || DEFAULT_DURATION);
+    const sbr = new LySnackBarRef(this._snackBarService, snackBar, this.afterDismissed, duration, this._theme);
+    this._snackBarService._currentSnackBar = sbr;
+    return sbr;
   }
 
-  /** close snackBar */
-  close() {
-    const snackBar = this._snackBarOverlay;
-    const timer = this._timer;
-    if (snackBar) {
-      if (timer) {
-        // clear previous timer
-        clearTimeout(timer);
-      }
-      this._theme.addStyle('SnackBar:close', ({
-        opacity: 0
-      }), snackBar.containerElement, undefined, STYLE_PRIORITY);
-      setTimeout(() => {
-        snackBar.destroy();
-      }, 350);
-      this._snackBarOverlay = null;
+  /** Dismiss snackBar */
+  dismiss() {
+    const sbr = this._snackBarService._currentSnackBar;
+    if (sbr) {
+      sbr.dismissWithAction();
     }
   }
 }
