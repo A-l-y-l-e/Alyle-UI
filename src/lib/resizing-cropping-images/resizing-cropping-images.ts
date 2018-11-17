@@ -276,7 +276,6 @@ export class LyResizingCroppingImages {
   }
 
   selectInputEvent(img: Event) {
-    console.log('from event');
     const _img = img.target as HTMLInputElement;
     if (_img.files.length !== 1) {
       return;
