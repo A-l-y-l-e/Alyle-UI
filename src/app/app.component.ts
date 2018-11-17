@@ -1,10 +1,13 @@
 import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
+import { SwUpdate } from '@angular/service-worker';
 import { Router } from '@angular/router';
-import { AUI_VERSION, LyTheme2, ThemeVariables } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, ThemeVariables, Platform } from '@alyle/ui';
 import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark } from './app.module';
+import { interval } from 'rxjs';
+import { LySnackBar } from '@alyle/ui/snack-bar';
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
   '@global': {
@@ -92,6 +95,7 @@ export class AppComponent implements OnInit {
   routeState = false;
 
   @ViewChild(LyDrawer) drawer: LyDrawer;
+  @ViewChild(LySnackBar) sb: LySnackBar;
 
   constructor(
     private _el: ElementRef,
@@ -99,8 +103,17 @@ export class AppComponent implements OnInit {
     public routesApp: RoutesAppService,
     private theme: LyTheme2,
     private renderer: Renderer2,
-    iconService: LyIconService
+    iconService: LyIconService,
+    updates: SwUpdate
   ) {
+    if (Platform.isBrowser) {
+      // interval(6 * 60 * 60).subscribe(() => updates.checkForUpdate());
+      updates.available.subscribe(event => {
+        console.log('current version is', event.current);
+        console.log('available version is', event.available);
+        updates.activateUpdate().then(() => this.sb.open());
+      });
+    }
     iconService.setSvg('Theme', 'assets/svg/round-format_color_fill-24px');
     iconService.setSvg('Heart', 'assets/svg/Heart');
     iconService.setSvg('Experiment', 'assets/svg/Experiment');
@@ -110,6 +123,10 @@ export class AppComponent implements OnInit {
   }
   ngOnInit() {
     this.renderer.addClass(this._el.nativeElement, this.classes.root);
+  }
+
+  reload() {
+    document.location.reload();
   }
 
 }

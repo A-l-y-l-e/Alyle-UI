@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LySnackBarDismiss } from 'lib/snack-bar/snack-bar';
+import { LySnackBarDismiss } from '@alyle/ui/snack-bar';
 
 @Component({
   selector: 'aui-basic-snack-bar',
