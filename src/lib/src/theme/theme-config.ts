@@ -4,6 +4,7 @@ import { StyleContainer } from './theme2.service';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { CheckboxVariables } from './variables/checkbox';
+import { SnackBarVariables } from './variables/snack-bar';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -106,6 +107,7 @@ export interface ThemeConfig {
     }
   };
   checkbox: CheckboxVariables;
+  snackBar: SnackBarVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

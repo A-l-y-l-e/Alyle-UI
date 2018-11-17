@@ -67,4 +67,10 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       color: 'rgba(0, 0, 0, .54)'
     }
   };
+  snackBar = {
+    root: {
+      background: '#323232',
+      color: 'rgba(255,255,255,.7)'
+    }
+  };
 }

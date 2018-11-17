@@ -1,4 +1,4 @@
-import { Injectable, Component, Inject, HostListener, ElementRef } from '@angular/core';
+import { Injectable, Component, Inject, HostListener, ElementRef, Renderer2 } from '@angular/core';
 import { Platform } from '../platform/index';
 import { LyTheme2 } from '../theme/theme2.service';
 import { LyCoreStyles } from '../styles/core-styles';
@@ -119,14 +119,14 @@ export class LyOverlayBackdrop {
     this._overlayConfig.fnDestroy();
   }
   constructor(
-    private _el: ElementRef,
+    el: ElementRef,
     private _theme: LyTheme2,
     @Inject('overlayConfig') private _overlayConfig: any,
     commonStyles: LyCoreStyles
   ) {
-    this._el.nativeElement.classList.add(commonStyles.classes.fill);
+    el.nativeElement.classList.add(commonStyles.classes.fill);
     if (_overlayConfig.backdrop) {
-      this._el.nativeElement.classList.add(this.classes.backdrop);
+      el.nativeElement.classList.add(this.classes.backdrop);
     }
   }
 }

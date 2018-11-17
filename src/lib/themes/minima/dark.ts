@@ -67,5 +67,11 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
       color: 'rgba(255, 255, 255, 0.7)'
     }
   };
+  snackBar = {
+    root: {
+      background: '#fafafa',
+      color: 'rgba(0,0,0,.87)'
+    }
+  };
   // direction = Dir.rtl; // beta
 }
