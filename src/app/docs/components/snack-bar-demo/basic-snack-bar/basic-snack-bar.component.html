@@ -1,11 +1,8 @@
-<p>
-  basic-snack-bar works!
-</p>
 <button ly-button (click)="snackBar.open()">Show snack-bar</button>
 
 <ng-template ly-snack-bar #snackBar="lySnackBar">
   <span>Message</span>
   <button ly-button color="accent" (click)="snackBar.close()">
-    close
+    Close
   </button>
 </ng-template>
