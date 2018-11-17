@@ -1,6 +1,5 @@
-import { Directive, Input, TemplateRef, Injectable, Output, EventEmitter } from '@angular/core';
-import { LyTheme2, LyOverlay, OverlayFromTemplateRef, ThemeVariables, shadowBuilder } from '@alyle/ui';
-import { Subject, Observable } from 'rxjs';
+import { Directive, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { LyTheme2, LyOverlay, ThemeVariables, shadowBuilder } from '@alyle/ui';
 import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarRef } from './snack-bar-ref';
 
