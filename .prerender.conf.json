@@ -23,6 +23,7 @@
     "components/card",
     "components/typography",
     "components/badge",
-    "components/field"
+    "components/field",
+    "components/snack-bar"
   ]
 }
