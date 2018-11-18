@@ -33,12 +33,13 @@ export class Ripple {
     private _triggerElement?: HTMLElement
   ) {
     if (Platform.isBrowser) {
-      if (typeof TouchEvent === 'function' && !!TouchEvent) {
+      if (typeof PointerEvent === 'function' && !!TouchEvent) {
         this._eventHandlers.set('pointerdown', this.onPointerDown.bind(this));
-        this._eventHandlers.set('touchend', this.onPointerLeave.bind(this));
       } else {
         this._eventHandlers.set('mousedown', this.onPointerDown.bind(this));
       }
+      this._eventHandlers.set('touchend', this.onPointerLeave.bind(this));
+      this._eventHandlers.set('touchcancel', this.onPointerLeave.bind(this));
       this._eventHandlers.set('mouseup', this.onPointerLeave.bind(this));
       this._eventHandlers.set('mouseleave', this.onPointerLeave.bind(this));
       if (!_triggerElement) {

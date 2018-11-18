@@ -4,11 +4,11 @@ import { LyTheme2, LY_COMMON_STYLES, ThemeVariables } from '@alyle/ui';
 export const styles = (theme: ThemeVariables) => ({
   rippleContainer: {
     position: 'absolute',
-    width: '5px',
-    height: '5px',
+    width: '2px',
+    height: '2px',
     background: 'currentColor',
-    opacity: '.19',
-    borderRadius: '100%',
+    opacity: '.2',
+    borderRadius: '50%',
     transform: 'scale(0)',
     transition: `opacity ${theme.ripple.transition.opacity},transform ${theme.ripple.transition.transform
     }`,
