@@ -20,7 +20,13 @@ import {
   ThemeVariables,
   mixinDisabled,
   mixinColor,
-  mixinBg
+  mixinBg,
+  mixinShadowColor,
+  mixinOutlined,
+  mixinFlat,
+  mixinElevation,
+  mixinRaised,
+  mixinDisableRipple
 } from '@alyle/ui';
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
@@ -51,14 +57,18 @@ const Size: Record<LyButtonSize, any> = {
   })
 };
 
-export class LyButtonBase {
-  constructor(
-    public _el: ElementRef,
-    public _theme: LyTheme2
-  ) { }
-}
+export class LyButtonBase {}
 
-export const LyButtonMixinBase = mixinBg(mixinColor(mixinDisabled(LyButtonBase)));
+export const LyButtonMixinBase =
+mixinBg(
+  mixinFlat(
+    mixinColor(
+      mixinRaised(
+        mixinDisabled(
+          mixinOutlined(
+            mixinElevation(
+              mixinShadowColor(
+                mixinDisableRipple(LyButtonBase)))))))));
 
 @Component({
   selector: '[ly-button]',
@@ -71,9 +81,15 @@ export const LyButtonMixinBase = mixinBg(mixinColor(mixinDisabled(LyButtonBase))
   `,
   // tslint:disable-next-line:use-input-property-decorator
   inputs: [
-    'disabled',
+    'bg',
+    'flat',
     'color',
-    'bg'
+    'raised',
+    'disabled',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple',
   ],
   encapsulation: ViewEncapsulation.None
 })
@@ -139,12 +155,12 @@ export class LyButton extends LyButtonMixinBase implements OnInit, AfterViewInit
   constructor(
     private _elementRef: ElementRef,
     private _renderer: Renderer2,
-    _theme: LyTheme2,
+    private _theme: LyTheme2,
     private _ngZone: NgZone,
     public _rippleService: LyRippleService,
     @Optional() bgAndColor: LyCommon
   ) {
-    super(_elementRef, _theme);
+    super();
     this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
     if (Platform.FIREFOX) {
       this._theme.addStyle('button-ff', {
