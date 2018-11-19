@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { ImgCropperConfig, ImgCropperEvent } from '@alyle/ui/resizing-cropping-images';
 import { LyTheme2, ThemeVariables } from '@alyle/ui';
-import { type } from 'os';
 
 const styles = (theme: ThemeVariables) => ({
   actions: {
