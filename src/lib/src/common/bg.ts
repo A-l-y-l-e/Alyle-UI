@@ -1,6 +1,4 @@
 import { Constructor } from './constructor';
-import { CanColor } from './color';
-import { CanDisable } from './disabled';
 
 const DEFAULT_BG = 'primary';
 
@@ -8,7 +6,7 @@ export interface CanBg {
   bg: string;
 }
 
-export function mixinBg<T extends Constructor<Partial<CanDisable> & Partial<CanColor>>>(base: T): Constructor<CanBg> & T {
+export function mixinBg<T extends Constructor>(base: T): Constructor<CanBg> & T {
   return class extends base {
     private _bg: string;
 
