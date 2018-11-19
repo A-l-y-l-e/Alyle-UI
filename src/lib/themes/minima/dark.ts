@@ -36,9 +36,6 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     hint: 'rgba(255, 255, 255, 0.50)'
   };
   /** Components variables */
-  button = {
-    disabled: 'rgba(255, 255, 255, 0.30)'
-  };
   radio = {
     radioOuterCircle: 'rgba(255, 255, 255, 0.55)'
   };

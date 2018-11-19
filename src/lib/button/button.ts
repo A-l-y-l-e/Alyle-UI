@@ -17,7 +17,10 @@ import {
   toBoolean,
   LyTheme2,
   LyCommon,
-  ThemeVariables
+  ThemeVariables,
+  mixinDisabled,
+  mixinColor,
+  mixinBg
 } from '@alyle/ui';
 import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
@@ -48,6 +51,15 @@ const Size: Record<LyButtonSize, any> = {
   })
 };
 
+export class LyButtonBase {
+  constructor(
+    public _el: ElementRef,
+    public _theme: LyTheme2
+  ) { }
+}
+
+export const LyButtonMixinBase = mixinBg(mixinColor(mixinDisabled(LyButtonBase)));
+
 @Component({
   selector: '[ly-button]',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,9 +69,15 @@ const Size: Record<LyButtonSize, any> = {
   </span>
   <div #rippleContainer [className]="_rippleService.classes.container"></div>
   `,
+  // tslint:disable-next-line:use-input-property-decorator
+  inputs: [
+    'disabled',
+    'color',
+    'bg'
+  ],
   encapsulation: ViewEncapsulation.None
 })
-export class LyButton implements OnInit, AfterViewInit, OnDestroy {
+export class LyButton extends LyButtonMixinBase implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Style
    * @ignore
@@ -121,11 +139,12 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private _elementRef: ElementRef,
     private _renderer: Renderer2,
-    private _theme: LyTheme2,
+    _theme: LyTheme2,
     private _ngZone: NgZone,
     public _rippleService: LyRippleService,
     @Optional() bgAndColor: LyCommon
   ) {
+    super(_elementRef, _theme);
     this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
     if (Platform.FIREFOX) {
       this._theme.addStyle('button-ff', {

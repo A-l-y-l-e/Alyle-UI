@@ -23,3 +23,4 @@ export * from './src/dom/overlay-container';
 export * from './src/dom/overlay';
 export * from './src/dom/overlay.module';
 export * from './src/dom/mutation-observer-factory';
+export * from './src/common/index';
