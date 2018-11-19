@@ -17,7 +17,7 @@
 
 ## Install Alyle UI
 
-[Installation](http://localhost:1111/getting-started/installation)
+[Installation](https://alyle-ui.firebaseapp.com/getting-started/installation)
 
 ## Components
 
