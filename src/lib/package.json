@@ -12,11 +12,13 @@
   "keywords": [
     "angular",
     "components",
+    "web-components",
     "material",
     "material design",
     "minimal",
     "ui",
-    "material components web"
+    "material components web",
+    "cropper"
   ],
   "author": "Alyle",
   "license": "MIT",
@@ -25,8 +27,8 @@
   },
   "homepage": "https://alyle-ui.firebaseapp.com/",
   "peerDependencies": {
-    "@angular/common": "^6.1.0 || ^7.0.0-beta.0",
-    "@angular/core": "^6.1.0 || ^7.0.0-beta.0",
+    "@angular/common": "^6.1.0 || ^7.0.0 || ^7.0.0-beta.0",
+    "@angular/core": "^6.1.0 || ^7.0.0 || ^7.0.0-beta.0",
     "chroma-js": "^1.3.6",
     "hammerjs": "^2.0.8"
   }
