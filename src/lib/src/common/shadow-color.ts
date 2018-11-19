@@ -1,11 +1,10 @@
 import { Constructor } from './constructor';
-import { toBoolean } from '../minimal/is-boolean';
 
-export interface CanRaised {
+export interface CanShadowColor {
   shadowColor: string;
 }
 
-export function mixinRaised<T extends Constructor>(base: T): Constructor<CanRaised> & T {
+export function mixinShadowColor<T extends Constructor>(base: T): Constructor<CanShadowColor> & T {
   return class extends base {
     private _shadowColor: string;
 
