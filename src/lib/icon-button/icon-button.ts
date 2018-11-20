@@ -10,7 +10,6 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  LyCommon,
   LyRippleService,
   LyTheme2,
   mixinBg,
@@ -74,15 +73,11 @@ export class LyIconButton extends LyIconButtonMixinBase implements OnInit, OnDes
     public _el: ElementRef,
     public _rippleService: LyRippleService,
     private renderer: Renderer2,
-    @Optional() bgAndColor: LyCommon,
     public iconButtonService: LyIconButtonService,
     private theme: LyTheme2,
     ngZone: NgZone,
   ) {
     super(theme, ngZone);
-    if (bgAndColor) {
-      bgAndColor.setAutoContrast();
-    }
     console.warn('deprecated, instead use `<button ly-button appearance="icon"`>');
   }
 
