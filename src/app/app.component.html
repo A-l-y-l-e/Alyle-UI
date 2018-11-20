@@ -18,7 +18,8 @@
       <li *ngFor="let component of category.routes">
         <a [withClass]="classes.drawerButton" class="nav-button" ly-button [routerLinkActive]="classes.onLinkActive" [routerLink]="[category.route, component.route]">
           <span>{{ component.name }}</span>
-          <ly-icon *ngIf="component.status" icon="Experiment"></ly-icon>
+          <ly-icon *ngIf="component.status === 'alpha'" icon="Experiment"></ly-icon>
+          <ly-icon *ngIf="component.status === 'deprecated'" color="warn">error</ly-icon>
         </a>
       </li>
     </ul>
