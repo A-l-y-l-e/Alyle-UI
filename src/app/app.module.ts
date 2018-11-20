@@ -9,7 +9,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { LyCommonModule, LY_THEME, LyThemeModule, LY_THEME_GLOBAL_VARIABLES } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
@@ -111,7 +110,6 @@ export class GlobalVariables {
     LyButtonModule,
     LyDrawerModule,
     LyToolbarModule,
-    LyIconButtonModule,
     LyIconModule,
     LyMenuModule,
     LyRippleModule,

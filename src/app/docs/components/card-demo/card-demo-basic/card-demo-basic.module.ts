@@ -5,7 +5,6 @@ import { CardDemoBasicComponent } from './card-demo-basic.component';
 import { LyCardModule } from '@alyle/ui/card';
 import { LyTypographyModule } from '@alyle/ui/typography';
 import { LyButtonModule } from '@alyle/ui/button';
-import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { LyIconModule } from '@alyle/ui/icon';
 
 @NgModule({
@@ -15,7 +14,6 @@ import { LyIconModule } from '@alyle/ui/icon';
     LyCardModule,
     LyTypographyModule,
     LyButtonModule,
-    LyIconButtonModule,
     LyIconModule
   ],
   exports: [CardDemoBasicComponent],

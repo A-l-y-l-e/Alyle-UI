@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
 import { LyButtonModule } from '@alyle/ui/button';
-import { LyIconButtonModule } from '@alyle/ui/icon-button';
 import { LyIconModule } from '@alyle/ui/icon';
 
 import { ResizingCroppingImagesExample01Component } from './resizing-cropping-images-example-01.component';
@@ -15,7 +14,6 @@ import { ResizingCroppingImagesExample01Component } from './resizing-cropping-im
     FormsModule,
     LyResizingCroppingImageModule,
     LyButtonModule,
-    LyIconButtonModule,
     LyIconModule
   ],
   exports: [ResizingCroppingImagesExample01Component],

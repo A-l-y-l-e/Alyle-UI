@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { LyCommonModule } from '@alyle/ui';
 import { LyTabsModule } from '@alyle/ui/tabs';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
-import { LyIconButtonModule } from '@alyle/ui/icon-button';
+import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 
 import { PrismModule } from '../core/prism/prism.module';
@@ -18,7 +18,7 @@ import { LyCardModule } from '@alyle/ui/card';
     PrismModule,
     LyTabsModule,
     LyToolbarModule,
-    LyIconButtonModule,
+    LyButtonModule,
     LyIconModule,
     LyCommonModule,
     LyCardModule,
