@@ -78,12 +78,7 @@ mixinBg(
 @Component({
   selector: '[ly-button]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-  <span [className]="classes.content">
-    <ng-content></ng-content>
-  </span>
-  <div #rippleContainer [className]="_rippleService.classes.container"></div>
-  `,
+  templateUrl: 'button.html',
   inputs: [
     'bg',
     'flat',
@@ -94,8 +89,7 @@ mixinBg(
     'elevation',
     'shadowColor',
     'disableRipple'
-  ],
-  encapsulation: ViewEncapsulation.None
+  ]
 })
 export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   /**
@@ -115,7 +109,8 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     return this._rippleSensitive;
   }
   set rippleSensitive(value: boolean) {
-    this._rippleSensitive = toBoolean(value);
+    const newVal = this._rippleSensitive = toBoolean(value);
+    this._rippleConfig.sensitive = newVal;
   }
   /** Button size */
   @Input()
@@ -179,5 +174,4 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   ngOnDestroy() {
     this._removeRippleEvents();
   }
-
 }
