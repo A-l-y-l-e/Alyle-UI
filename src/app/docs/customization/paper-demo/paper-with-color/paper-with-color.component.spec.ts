@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BgColorDemo01Component } from './bg-color-demo-01.component';
+import { PaperWithColorComponent } from './paper-with-color.component';
 
-describe('BgColorDemo01Component', () => {
-  let component: BgColorDemo01Component;
-  let fixture: ComponentFixture<BgColorDemo01Component>;
+describe('PaperWithColorComponent', () => {
+  let component: PaperWithColorComponent;
+  let fixture: ComponentFixture<PaperWithColorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BgColorDemo01Component ]
+      declarations: [ PaperWithColorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BgColorDemo01Component);
+    fixture = TestBed.createComponent(PaperWithColorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

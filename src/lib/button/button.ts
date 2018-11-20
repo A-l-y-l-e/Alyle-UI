@@ -3,23 +3,31 @@ import {
   Component,
   ElementRef,
   Input,
-  Optional,
   Renderer2,
   NgZone,
   OnDestroy,
   OnInit,
-  ViewEncapsulation,
   ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  OnChanges
 } from '@angular/core';
 import {
   Platform,
   toBoolean,
   LyTheme2,
-  LyCommon,
-  ThemeVariables
+  ThemeVariables,
+  mixinDisabled,
+  mixinColor,
+  mixinBg,
+  mixinShadowColor,
+  mixinOutlined,
+  mixinFlat,
+  mixinElevation,
+  mixinRaised,
+  mixinDisableRipple,
+  mixinStyleUpdater,
+  LyRippleService
 } from '@alyle/ui';
-import { Ripple, LyRippleService } from '@alyle/ui/ripple';
 import { styles } from './button.style';
 const DEFAULT_SIZE = 'medium';
 const DEFAULT_DISABLE_RIPPLE = false;
@@ -48,29 +56,50 @@ const Size: Record<LyButtonSize, any> = {
   })
 };
 
+export class LyButtonBase {
+  constructor(
+    public _theme: LyTheme2,
+    public _ngZone: NgZone
+  ) { }
+}
+
+export const LyButtonMixinBase = mixinStyleUpdater(
+mixinBg(
+  mixinFlat(
+    mixinColor(
+      mixinRaised(
+        mixinDisabled(
+          mixinOutlined(
+            mixinElevation(
+              mixinShadowColor(
+                mixinDisableRipple(LyButtonBase))))))))));
+
 @Component({
   selector: '[ly-button]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-  <span [className]="classes.content">
-    <ng-content></ng-content>
-  </span>
-  <div #rippleContainer [className]="_rippleService.classes.container"></div>
-  `,
-  encapsulation: ViewEncapsulation.None
+  templateUrl: 'button.html',
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'disabled',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple'
+  ]
 })
-export class LyButton implements OnInit, AfterViewInit, OnDestroy {
+export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   /**
    * Style
    * @ignore
    */
   classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _rippleSensitive = false;
-  private _ripple: Ripple;
   private _size: LyButtonSize;
   private _sizeClass: string;
-  private _disableRipple: boolean = null;
-  /** @ignore */
+
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
   /** @ignore */
@@ -79,26 +108,8 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
     return this._rippleSensitive;
   }
   set rippleSensitive(value: boolean) {
-    this._rippleSensitive = toBoolean(value);
-  }
-
-  /** Whether ripples are disabled. */
-  @Input()
-  get disableRipple(): boolean {
-    return this._disableRipple;
-  }
-  set disableRipple(val: boolean) {
-    if (Platform.isBrowser && val !== this._disableRipple) {
-      const newVal = this._disableRipple = toBoolean(val);
-      // remove previous ripple if exist
-      this.ngOnDestroy();
-      if (!newVal) {
-        // add ripple
-        const rippleContainer = this._rippleContainer.nativeElement;
-        const triggerElement = this._elementRef.nativeElement;
-        this._ripple = new Ripple(this._theme.config, this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
-      }
-    }
+    const newVal = this._rippleSensitive = toBoolean(value);
+    this._rippleConfig.sensitive = newVal;
   }
   /** Button size */
   @Input()
@@ -121,11 +132,13 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private _elementRef: ElementRef,
     private _renderer: Renderer2,
-    private _theme: LyTheme2,
-    private _ngZone: NgZone,
+    _theme: LyTheme2,
+    _ngZone: NgZone,
     public _rippleService: LyRippleService,
-    @Optional() bgAndColor: LyCommon
   ) {
+    super(_theme, _ngZone);
+    this.setAutoContrast();
+    this._triggerElement = _elementRef;
     this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
     if (Platform.FIREFOX) {
       this._theme.addStyle('button-ff', {
@@ -134,9 +147,9 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
         }
       }, this._elementRef.nativeElement, undefined, STYLE_PRIORITY);
     }
-    if (bgAndColor) {
-      bgAndColor.setAutoContrast();
-    }
+  }
+  ngOnChanges() {
+    this.updateStyle(this._elementRef);
   }
 
   ngOnInit() {
@@ -147,6 +160,7 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this._renderer.addClass(this._elementRef.nativeElement, this.classes.animations);
+    // set default disable ripple
     if (this.disableRipple === null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
@@ -157,12 +171,6 @@ export class LyButton implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (Platform.isBrowser) {
-      if (this._ripple) {
-        this._ripple.removeEvents();
-        this._ripple = null;
-      }
-    }
+    this._removeRippleEvents();
   }
-
 }

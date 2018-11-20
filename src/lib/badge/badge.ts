@@ -1,5 +1,24 @@
-import { Directive, Input, ElementRef, Optional, Renderer2, OnInit } from '@angular/core';
-import { ThemeVariables, LyCommon, LyTheme2 } from '@alyle/ui';
+import {
+  Directive,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  Renderer2
+  } from '@angular/core';
+import {
+  LyTheme2,
+  mixinBg,
+  mixinColor,
+  mixinDisabled,
+  mixinElevation,
+  mixinFlat,
+  mixinOutlined,
+  mixinRaised,
+  mixinShadowColor,
+  mixinStyleUpdater,
+  ThemeVariables
+  } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'startTop';
@@ -30,10 +49,37 @@ const styles = (theme: ThemeVariables) => ({
     position: 'relative'
   }
 });
+
+export class LyBadgeBase {
+  constructor(
+    public _theme: LyTheme2
+  ) { }
+}
+
+export const LyBadgeMixinBase = mixinStyleUpdater(
+mixinBg(
+  mixinFlat(
+    mixinColor(
+      mixinRaised(
+        mixinDisabled(
+          mixinOutlined(
+            mixinElevation(
+              mixinShadowColor(LyBadgeBase)))))))));
+
 @Directive({
-  selector: 'ly-badge, [lyBadge]'
+  selector: 'ly-badge, [lyBadge]',
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'disabled',
+    'outlined',
+    'elevation',
+    'shadowColor'
+  ]
 })
-export class LyBadge implements OnInit {
+export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit {
   /**
    * Styles
    * @ignore
@@ -44,7 +90,7 @@ export class LyBadge implements OnInit {
   private _positionClass: string;
   private _elContainer: any;
   private _badgeElementRef: any;
-  private _bgClass: string;
+  private _lyBadgeBgClass: string;
 
   /** The content for the badge */
   @Input('lyBadge')
@@ -79,32 +125,36 @@ export class LyBadge implements OnInit {
     return this._position;
   }
 
-  /** The color of the badge  */
-  @Input('lyBadgeBg')
-  get bg() {
-    return this._bg;
+  /** The color of the badge */
+  @Input()
+  get lyBadgeBg() {
+    return this._lyBadgeBg;
   }
-  set bg(val: string) {
-    if (val !== this.bg) {
-      this._bg = val;
-      this._bgClass = this._theme.addStyle(`ly-badge.bg:${val}`, (theme: ThemeVariables) => ({
+  set lyBadgeBg(val: string) {
+    if (val !== this.lyBadgeBg) {
+      this._lyBadgeBg = val;
+      this._lyBadgeBgClass = this._theme.addStyle(`ly-badge.bg:${val}`, (theme: ThemeVariables) => ({
         backgroundColor: theme.colorOf(val),
         color: theme.colorOf(`${val}:contrast`)
       }),
-      this._badgeElementRef, this._bgClass, STYLE_PRIORITY);
+      this._badgeElementRef, this._lyBadgeBgClass, STYLE_PRIORITY);
     }
   }
-  private _bg: string;
+  private _lyBadgeBg: string;
 
   constructor(
     private _el: ElementRef,
-    private _theme: LyTheme2,
-    private _renderer: Renderer2,
-    @Optional() _common: LyCommon
+    _theme: LyTheme2,
+    private _renderer: Renderer2
   ) {
+    super(_theme);
+    this.setAutoContrast();
     this._badgeElementRef = this._el.nativeElement;
-    if (_common) {
-      _common.setAutoContrast();
+  }
+
+  ngOnChanges() {
+    if (!this.content) {
+      this.updateStyle(this._el);
     }
   }
 
@@ -119,8 +169,8 @@ export class LyBadge implements OnInit {
     }
 
     /** Set default bg */
-    if (this.content && !this.bg) {
-      this.bg = DEFAULT_BG;
+    if (this.content && !this.lyBadgeBg) {
+      this.lyBadgeBg = DEFAULT_BG;
     }
   }
 

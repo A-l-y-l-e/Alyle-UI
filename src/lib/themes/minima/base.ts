@@ -14,4 +14,21 @@ export class MinimaBase extends LyStyleUtils {
   ripple = RippleVariables;
   animations = animations;
   direction = Dir.ltr;
+  button = {
+    size: {
+      small: {
+        fontSize: this.pxToRem(16)
+      },
+      medium: {
+        fontSize: this.pxToRem(16)
+      },
+      large: {
+        fontSize: this.pxToRem(16)
+      }
+    },
+    appearance: {
+      fab: {},
+      miniFab: {}
+    }
+  };
 }

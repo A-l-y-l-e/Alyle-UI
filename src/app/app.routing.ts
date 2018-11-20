@@ -12,7 +12,6 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   /** Customization */
   { path: 'customization/multiple-themes', component: MultipleThemesComponent },
-  { path: 'customization/bg-color', loadChildren: './components/bg-color-demo/bg-color-demo.module#BgColorDemoModule' },
   {
     path: 'customization',
     children: [

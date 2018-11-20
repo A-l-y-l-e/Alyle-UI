@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { LyCommonModule } from '@alyle/ui';
 import { Icon } from './icon';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
   declarations: [Icon],
-  exports: [Icon]
+  exports: [Icon, LyCommonModule]
 })
 export class LyIconModule { }

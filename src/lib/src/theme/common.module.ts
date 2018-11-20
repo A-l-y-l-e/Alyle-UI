@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { LyCommon } from './common.directive';
+import { LyPaper } from './paper';
 import { LyWithClass } from './with-class.directive';
 
 @NgModule({
-  declarations: [LyCommon, LyWithClass],
-  exports: [LyCommon, LyWithClass]
+  declarations: [LyWithClass, LyPaper],
+  exports: [LyWithClass, LyPaper]
 })
 export class LyCommonModule { }

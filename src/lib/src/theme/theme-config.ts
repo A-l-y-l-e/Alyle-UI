@@ -5,6 +5,7 @@ import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { CheckboxVariables } from './variables/checkbox';
 import { SnackBarVariables } from './variables/snack-bar';
+import { ButtonVariables } from './variables/button';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -36,9 +37,6 @@ export interface ThemeConfig {
   shadow: string;
   /** @deprecated use shadow instead */
   colorShadow?: string;
-  button: {
-    disabled: string;
-  };
   radio: {
     /** color for radio:outerCircle */
     outerCircle?: string;
@@ -108,6 +106,7 @@ export interface ThemeConfig {
   };
   checkbox: CheckboxVariables;
   snackBar: SnackBarVariables;
+  button: ButtonVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

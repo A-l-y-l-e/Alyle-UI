@@ -10,6 +10,7 @@ import { LyIconModule } from '@alyle/ui/icon';
 import { PrismModule } from '../core/prism/prism.module';
 
 import { ViewComponent } from './view/view.component';
+import { LyCardModule } from '@alyle/ui/card';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ViewComponent } from './view/view.component';
     LyIconButtonModule,
     LyIconModule,
     LyCommonModule,
+    LyCardModule,
     RouterModule
   ],
   exports: [ViewComponent],

@@ -1,4 +1,5 @@
-<div [elevation]="3" shadowColor="background:secondary" bg="background:tertiary">
+<!-- <div [elevation]="3" shadowColor="background:secondary" bg="background:tertiary"> -->
+<ly-card [elevation]="3" shadowColor="background:secondary" bg="background:tertiary">
   <div class="code">
     <button ly-icon-button (click)="openPostStackblitz($event)"><ly-icon>launch</ly-icon></button>
     <button ly-icon-button (click)="toggleCode()"><ly-icon src="assets/svg/code"></ly-icon></button>
@@ -12,4 +13,4 @@
   <div class="tab-container">
     <ng-content></ng-content>
   </div>
-</div>
+</ly-card>

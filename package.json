@@ -29,7 +29,7 @@
     "tools:deploy": "node dist/tools/deploy",
     "tools:compodoc": "node dist/tools/compodoc",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '150 KB'"
+    "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '200 KB'"
   },
   "private": true,
   "dependencies": {

@@ -39,9 +39,6 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   colorShadow = '#333';
   shadow = '#333';
   /** Components variables */
-  button = {
-    disabled: 'rgba(0, 0, 0, 0.11)'
-  };
   radio = {
     radioOuterCircle: 'rgba(0, 0, 0, 0.43)'
   };

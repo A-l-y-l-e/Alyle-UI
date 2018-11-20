@@ -1,14 +1,39 @@
-import { Directive, Input, Renderer2, ElementRef, OnInit } from '@angular/core';
+import { Directive, Input, Renderer2, ElementRef, OnInit, OnChanges } from '@angular/core';
 import { LyIconService, SvgIcon } from './icon.service';
 import { take } from 'rxjs/operators';
-import { Platform, LyTheme2 } from '@alyle/ui';
+import { Platform, LyTheme2, mixinStyleUpdater, mixinBg, mixinFlat, mixinColor, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 
+export class LyButtonBase {
+  constructor(
+    public _theme: LyTheme2
+  ) { }
+}
+
+export const LyButtonMixinBase = mixinStyleUpdater(
+mixinBg(
+  mixinFlat(
+    mixinColor(
+      mixinRaised(
+        mixinOutlined(
+          mixinElevation(
+            mixinShadowColor(LyButtonBase))))))));
+
+
 @Directive({
-  selector: 'ly-icon'
+  selector: 'ly-icon',
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'outlined',
+    'elevation',
+    'shadowColor',
+  ],
 })
-export class Icon implements OnInit {
+export class Icon extends LyButtonMixinBase implements OnChanges, OnInit {
   private _defaultClass = 'material-icons';
   private _src: string;
   private _icon: string;
@@ -43,10 +68,17 @@ export class Icon implements OnInit {
 
   constructor(
     private iconService: LyIconService,
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
-    private theme: LyTheme2
-  ) { }
+    private _el: ElementRef,
+    private _renderer: Renderer2,
+    theme: LyTheme2
+  ) {
+    super(theme);
+    this.setAutoContrast();
+  }
+
+  ngOnChanges() {
+    this.updateStyle(this._el);
+  }
 
   private _isDefault() {
     return !(this.src || this.icon);
@@ -69,8 +101,8 @@ export class Icon implements OnInit {
   }
 
   private _appendChild(svg: SVGElement) {
-    this.renderer.addClass(svg, this.iconService.classes.svg);
-    this.renderer.appendChild(this.elementRef.nativeElement, svg);
+    this._renderer.addClass(svg, this.iconService.classes.svg);
+    this._renderer.appendChild(this._el.nativeElement, svg);
   }
 
   private _appendDefaultSvgIcon() {
@@ -79,18 +111,18 @@ export class Icon implements OnInit {
 
   private _updateClass() {
     if (this._isDefault()) {
-      this.renderer.addClass(this.elementRef.nativeElement, this._defaultClass);
+      this._renderer.addClass(this._el.nativeElement, this._defaultClass);
     }
   }
 
   ngOnInit() {
     this._updateClass();
-    this.theme.addStyle('lyIconRoot', theme => (
+    this._theme.addStyle('lyIconRoot', theme => (
       `font-size:${theme.icon.fontSize};` +
       `width:1em;` +
       `height:1em;` +
       `display:inline-flex;`
-    ), this.elementRef.nativeElement, undefined, STYLE_PRIORITY);
+    ), this._el.nativeElement, undefined, STYLE_PRIORITY);
   }
 
   /**
@@ -98,9 +130,9 @@ export class Icon implements OnInit {
    * remove current icon
    */
   private _cleanIcon() {
-    const icon = this.elementRef.nativeElement.querySelector('svg');
+    const icon = this._el.nativeElement.querySelector('svg');
     if (icon) {
-      this.renderer.removeChild(this.elementRef, icon);
+      this._renderer.removeChild(this._el, icon);
     }
   }
 }

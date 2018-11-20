@@ -13,9 +13,12 @@ import {
   ViewEncapsulation,
   ContentChildren,
   QueryList,
-  NgZone
+  NgZone,
+  OnChanges,
+  SimpleChanges,
+  isDevMode
   } from '@angular/core';
-import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
+import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias, mixinColor } from '@alyle/ui';
 import { LyInputNative } from './input';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
@@ -193,13 +196,18 @@ const styles = (theme: ThemeVariables) => {
   };
 };
 
+export class LyFieldBase { }
+
+export const LyFieldMixinBase = mixinColor(LyFieldBase);
+
 @Component({
   selector: 'ly-field',
   templateUrl: 'field.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  inputs: ['color']
 })
-export class LyField implements OnInit, AfterContentInit, AfterViewInit {
+export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, AfterContentInit, AfterViewInit {
   /**
    * styles
    * @ignore
@@ -214,7 +222,6 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   private _fielsetSpanClass: string;
   private _marginStartClass: string;
   private _marginEndClass: string;
-  private _fieldsetLegendClass: string;
   @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_labelContainer2') _labelContainer2: ElementRef<HTMLDivElement>;
   @ViewChild('_labelSpan') _labelSpan: ElementRef<HTMLDivElement>;
@@ -238,7 +245,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     return this._floatingLabel;
   }
 
-  /** Theme color for the component. */
+  /** Deprecated, instead use `[color], theme color for the component. */
   @Input()
   set withColor(val: string) {
     if (val !== this._withColor) {
@@ -314,7 +321,17 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     private _cd: ChangeDetectorRef,
     private _ngZone: NgZone
   ) {
+    super();
     _renderer.addClass(_el.nativeElement, this.classes.root);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.color) {
+      this.withColor = changes.color.currentValue;
+    }
+    if (isDevMode() && changes.withColor) {
+      console.warn('`LyField` > `[withColor]` is deprecated, instead use `[color]`');
+    }
   }
 
   ngOnInit() {

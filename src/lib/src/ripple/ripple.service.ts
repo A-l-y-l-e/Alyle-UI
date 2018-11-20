@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LyTheme2, LY_COMMON_STYLES, ThemeVariables } from '@alyle/ui';
+import { ThemeVariables } from '../theme/theme-config';
+import { LY_COMMON_STYLES } from '../styles/core-styles';
+import { LyTheme2 } from '../theme/theme2.service';
 
 export const styles = (theme: ThemeVariables) => ({
   rippleContainer: {
