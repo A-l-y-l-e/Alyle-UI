@@ -4,8 +4,12 @@ import { LyTheme2 } from '@alyle/ui';
 const STYLES = {
   paper: {
     display: 'block',
+    position: 'relative',
     margin: '.5em',
-    padding: '1em'
+    padding: '1em',
+    cursor: 'pointer',
+    overflow: 'hidden',
+    userSelect: 'none'
   }
 };
 
