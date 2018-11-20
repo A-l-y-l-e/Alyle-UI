@@ -10,6 +10,7 @@ import { CanShadowColor } from './shadow-color';
 import { LyTheme2 } from '../theme/theme2.service';
 import { ElementRef } from '@angular/core';
 import { getNativeElement } from '../minimal/common';
+import { ThemeVariables } from '../theme/theme-config';
 
 const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -1;
@@ -50,7 +51,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
                   __outlined || DEFAULT_VALUE}·${
                     __shadowColor || DEFAULT_VALUE}·${
                       __isContrast || DEFAULT_VALUE}`;
-      this._classNameAnonymous = this._theme.addStyle(newKey, (theme) => {
+      this._classNameAnonymous = this._theme.addStyle(newKey, (theme: ThemeVariables) => {
         const style: {
           border?: string,
           background?: string,
@@ -71,7 +72,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
           style.color = theme.text.disabled;
           style.pointerEvents = 'none';
           if (__bg) {
-            style.background = theme.button.disabled;
+            style.background = theme.disabled;
           }
         } else {
           if (__bg) {

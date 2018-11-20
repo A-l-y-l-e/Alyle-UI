@@ -18,6 +18,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     default: '#f5414e',
     contrast
   };
+  disabled = 'rgba(0, 0, 0, 0.11)';
   background = {
     default: '#fafafa', // secondary
     primary: {
