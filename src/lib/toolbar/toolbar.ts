@@ -1,12 +1,24 @@
 import {
   Directive,
-  Optional,
   Renderer2,
   ElementRef,
   Input,
-  OnInit
+  OnInit,
+  OnChanges,
 } from '@angular/core';
-import { LyCommon, LyTheme2, ThemeVariables } from '@alyle/ui';
+import {
+  LyTheme2,
+  mixinBg,
+  mixinColor,
+  mixinDisabled,
+  mixinElevation,
+  mixinFlat,
+  mixinOutlined,
+  mixinRaised,
+  mixinShadowColor,
+  mixinStyleUpdater,
+  ThemeVariables
+} from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'fixed';
@@ -31,10 +43,35 @@ const styles = (theme: ThemeVariables) => ({
 
 type position = 'static' | 'absolute' | 'fixed' | 'sticky' | 'relative';
 
+export class LyToolbarBase {
+  constructor(
+    public _theme: LyTheme2
+  ) { }
+}
+
+export const LyToolbarMixinBase = mixinStyleUpdater(
+  mixinBg(
+    mixinFlat(
+      mixinColor(
+        mixinRaised(
+          mixinDisabled(
+            mixinOutlined(
+              mixinElevation(
+                mixinShadowColor(LyToolbarBase)))))))));
+
 @Directive({
-  selector: 'ly-toolbar'
+  selector: 'ly-toolbar',
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'outlined',
+    'elevation',
+    'shadowColor'
+  ]
 })
-export class LyToolbar implements OnInit {
+export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _position: position;
   private _positionClass: string;
@@ -50,21 +87,23 @@ export class LyToolbar implements OnInit {
     renderer: Renderer2,
     private _el: ElementRef,
     private theme: LyTheme2,
-    @Optional() private _common: LyCommon
   ) {
+    super(theme);
+    this.setAutoContrast();
     renderer.addClass(this._el.nativeElement, this.classes.root);
-    if (this._common) {
-      this._common.setAutoContrast();
-    }
+  }
+
+  ngOnChanges() {
+    this.updateStyle(this._el);
   }
 
   ngOnInit() {
     if (!this.position) {
       this.position = DEFAULT_POSITION;
     }
-    if (!this._common.bg) {
-      this._common.bg = DEFAULT_BG;
-      this._common.ngOnChanges();
+    if (!this.bg) {
+      this.bg = DEFAULT_BG;
+      this.updateStyle(this._el);
     }
   }
 }

@@ -1,5 +1,6 @@
 import { NgZone } from '@angular/core';
-import { Platform, ThemeVariables } from '@alyle/ui';
+import { Platform } from '../platform';
+import { ThemeVariables } from '../theme/theme-config';
 
 export interface RippleConfig {
   centered?: boolean;
@@ -22,7 +23,7 @@ export class RippleRef {
 export class Ripple {
   private _rippleRef: RippleRef;
   private _eventHandlers: Map<string, (e: Event) => void> = new Map<string, (e: Event) => void>();
-  private rippleConfig: RippleConfig = {};
+  config: RippleConfig = {};
   private _transitionDuration = this._themeVariables.ripple.duration;
   private _eventOptions = {passive: true} as any;
   constructor(
@@ -50,7 +51,7 @@ export class Ripple {
   }
 
   setConfig(config: RippleConfig) {
-    this.rippleConfig = config;
+    this.config = config;
   }
 
   private get _rectContainer(): ClientRect {
@@ -89,14 +90,14 @@ export class Ripple {
   }
 
   private onPointerDown(event: MouseEvent) {
-    if (!this.rippleConfig.disabled) {
+    if (!this.config.disabled) {
       /**Destroy previous ripple if exist */
       this.endRipple();
-      this.startRipple(event, this.rippleConfig);
+      this.startRipple(event, this.config);
     }
   }
   private onPointerLeave(event: MouseEvent) {
-    if (!this.rippleConfig.disabled) {
+    if (!this.config.disabled) {
       this.endRipple();
     }
   }

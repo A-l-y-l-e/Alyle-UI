@@ -1,5 +1,28 @@
-import { Directive, Renderer2, ElementRef, Input, OnInit, Optional } from '@angular/core';
-import { LyTheme2, toBoolean, LyCommon, ThemeVariables } from '@alyle/ui';
+import {
+  Directive,
+  ElementRef,
+  Input,
+  NgZone,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Renderer2
+  } from '@angular/core';
+import {
+  LyTheme2,
+  mixinBg,
+  mixinColor,
+  mixinDisabled,
+  mixinDisableRipple,
+  mixinElevation,
+  mixinFlat,
+  mixinOutlined,
+  mixinRaised,
+  mixinShadowColor,
+  mixinStyleUpdater,
+  ThemeVariables,
+  toBoolean
+  } from '@alyle/ui';
 
 const styles = (theme: ThemeVariables) => ({
   root: {
@@ -30,10 +53,38 @@ const DEFAULT_ASPECT_RATIO = '16:9';
 
 const STYLE_PRIORITY = -1;
 
+export class LyCardBase {
+  constructor(
+    public _theme: LyTheme2,
+    public _ngZone: NgZone
+  ) { }
+}
+
+export const LyCardMixinBase = mixinStyleUpdater(
+mixinBg(
+  mixinFlat(
+    mixinColor(
+      mixinRaised(
+        mixinDisabled(
+          mixinOutlined(
+            mixinElevation(
+              mixinShadowColor(
+                mixinDisableRipple(LyCardBase))))))))));
+
 @Directive({
-  selector: 'ly-card'
+  selector: 'ly-card',
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple',
+  ]
 })
-export class LyCard implements OnInit {
+export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDestroy {
   /**
    * styles
    * @ignore
@@ -41,26 +92,36 @@ export class LyCard implements OnInit {
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2,
-    private el: ElementRef,
+    private _el: ElementRef,
     private renderer: Renderer2,
-    @Optional() private common: LyCommon
-  ) { }
+    ngZone: NgZone
+  ) {
+    super(theme, ngZone);
+    this.setAutoContrast();
+  }
+
+  ngOnChanges() {
+    this.updateStyle(this._el);
+  }
 
   ngOnInit() {
-    this.common.setAutoContrast();
     let requireOnChanges: boolean;
-    if (!this.common.bg) {
-      this.common.bg = 'background:primary';
+    if (!this.bg) {
+      this.bg = 'background:primary';
       requireOnChanges = true;
     }
-    if (!this.common.elevation) {
-      this.common.elevation = 2;
+    if (!this.elevation) {
+      this.elevation = 2;
       requireOnChanges = true;
     }
     if (requireOnChanges) {
-      this.common.ngOnChanges();
+      this.updateStyle(this._el);
     }
-    this.renderer.addClass(this.el.nativeElement, this.classes.root);
+    this.renderer.addClass(this._el.nativeElement, this.classes.root);
+  }
+
+  ngOnDestroy() {
+    this._removeRippleEvents();
   }
 }
 
@@ -135,7 +196,7 @@ export class LyCardMedia implements OnInit {
     private el: ElementRef,
     private renderer: Renderer2,
     private theme: LyTheme2
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (!this.ratio) {

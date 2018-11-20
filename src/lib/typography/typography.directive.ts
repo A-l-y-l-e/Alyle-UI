@@ -106,6 +106,9 @@ export class LyTypography implements OnInit {
         if (styl.lineHeight) {
           styl.lineHeight = theme.pxToRem(styl.lineHeight as number);
         }
+        if (typeof styl.letterSpacing === 'number') {
+          styl.letterSpacing = `${styl.letterSpacing}px`;
+        }
         // set default fontFamily
         styl.fontFamily = styl.fontFamily || typography.fontFamily;
         return styl;

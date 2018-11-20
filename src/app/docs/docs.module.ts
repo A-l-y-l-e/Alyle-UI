@@ -62,6 +62,11 @@ import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/r
 import { BasicSnackBarModule } from './components/snack-bar-demo/basic-snack-bar/basic-snack-bar.module';
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
 
+/** Paper demo */
+import { BasicPaperModule } from './customization/paper-demo/basic-paper/basic-paper.module';
+import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
+import { PaperWithColorModule } from './customization/paper-demo/paper-with-color/paper-with-color.module';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -101,7 +106,10 @@ import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-dem
     BasicCheckboxModule,
     ComplexCheckboxModule,
     /** SnackBar */
-    BasicSnackBarModule
+    BasicSnackBarModule,
+    /** Paper */
+    BasicPaperModule,
+    PaperWithColorModule
   ],
   declarations: [
     ThemingComponent,
@@ -126,7 +134,8 @@ import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-dem
     /** Ckeckbox */
     CheckboxDemoComponent,
     /** SnackBar */
-    SnackBarDemoComponent
+    SnackBarDemoComponent,
+    PaperDemoComponent
 
   ]
 })

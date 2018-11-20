@@ -1,24 +1,39 @@
 import {
-  Component,
-  Input,
-  forwardRef,
-  ViewEncapsulation,
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
   ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Output,
   Renderer2,
   ViewChild,
-  NgZone,
-  ChangeDetectorRef,
-  AfterViewInit,
-  OnDestroy,
-  EventEmitter,
-  Output,
-  OnInit
-} from '@angular/core';
+  ViewEncapsulation
+  } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { LyCoreStyles as LyCommonStyles, LyTheme2, LyCommon, toBoolean, ThemeVariables, LY_COMMON_STYLES, LyFocusState, Platform } from '@alyle/ui';
-
-import { LyRippleService, Ripple } from '@alyle/ui/ripple';
+import {
+  LY_COMMON_STYLES,
+  LyCoreStyles as LyCommonStyles,
+  LyFocusState,
+  LyTheme2,
+  mixinBg,
+  mixinColor,
+  mixinDisabled,
+  mixinDisableRipple,
+  mixinElevation,
+  mixinFlat,
+  mixinOutlined,
+  mixinRaised,
+  mixinShadowColor,
+  mixinStyleUpdater,
+  ThemeVariables,
+  toBoolean
+  } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_WITH_COLOR = 'accent';
@@ -121,15 +136,43 @@ export class LyCheckboxChange {
   checked: boolean;
 }
 
+export class LyCheckboxBase {
+  constructor(
+    public _theme: LyTheme2,
+    public _ngZone: NgZone
+  ) { }
+}
+
+export const LyCheckboxMixinBase = mixinStyleUpdater(
+mixinBg(
+  mixinFlat(
+    mixinColor(
+      mixinRaised(
+        (
+          mixinOutlined(
+            mixinElevation(
+              mixinShadowColor(
+                mixinDisableRipple(LyCheckboxBase))))))))));
+
 @Component({
   selector: 'ly-checkbox',
   templateUrl: 'checkbox.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LY_CHECKBOX_CONTROL_VALUE_ACCESSOR],
-  exportAs: 'lyCheckbox'
+  exportAs: 'lyCheckbox',
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple'
+  ]
 })
-export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
+export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
   /**
    * styles
    * @ignore
@@ -142,8 +185,6 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
   protected _checked: boolean;
   protected _disabled;
   private _onFocusByKeyboardState: boolean;
-  private _disableRipple: boolean;
-  private _ripple: Ripple;
   @ViewChild('innerContainer') _innerContainer: ElementRef<HTMLDivElement>;
   /** The value attribute of the native input element */
   @Input() value: string;
@@ -160,30 +201,6 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
           color: theme.colorOf(val)
         }
       }), this._el.nativeElement, this._withColorClass, STYLE_PRIORITY);
-    }
-  }
-
-  /** Whether ripples are disabled. */
-  @Input()
-  get disableRipple(): boolean {
-    return this._disableRipple;
-  }
-  set disableRipple(val: boolean) {
-    if (Platform.isBrowser && val !== this._disableRipple) {
-      const newVal = this._disableRipple = toBoolean(val);
-      // remove previous ripple if exist
-      this._destroyRipple();
-      if (!newVal) {
-        // add ripple
-        const rippleContainer = this._innerContainer.nativeElement;
-        const triggerElement = this._el.nativeElement;
-        this._ripple = new Ripple(this._theme.config, this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
-        this._ripple.setConfig({
-          centered: true,
-          radius: 'containerSize',
-          percentageToIncrease: 150
-        });
-      }
     }
   }
 
@@ -241,14 +258,21 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
 
   constructor(
     public _commonStyles: LyCommonStyles,
-    private _theme: LyTheme2,
+    _theme: LyTheme2,
     private _el: ElementRef,
     private _renderer: Renderer2,
     private _changeDetectorRef: ChangeDetectorRef,
     private _focusState: LyFocusState,
-    private _ngZone: NgZone,
-    private _rippleService: LyRippleService
-  ) { }
+    ngZone: NgZone,
+  ) {
+    super(_theme, ngZone);
+    this._triggerElement = this._el;
+    this._rippleConfig = {
+      centered: true,
+      radius: 'containerSize',
+      percentageToIncrease: 150
+    };
+  }
 
   ngOnInit() {
     this._renderer.addClass(this._el.nativeElement, this.classes.root);
@@ -260,7 +284,6 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
 
   ngAfterViewInit() {
     this._focusState.listen(this._inputElement, this._el).subscribe((event) => {
-      // console.log(event.by, event.event.type);
       if (this._onFocusByKeyboardState === true) {
         this._renderer.removeClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
         this._onFocusByKeyboardState = false;
@@ -273,25 +296,19 @@ export class LyCheckbox implements ControlValueAccessor, OnInit, AfterViewInit, 
       }
       this._onTouched();
     });
-    // set default ripple
-    if (this.disableRipple === void 0) {
+
+    this._rippleContainer = this._innerContainer;
+
+    // set default disable ripple
+    if (this.disableRipple === null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
   }
 
-  private _destroyRipple() {
-    if (Platform.isBrowser) {
-      if (this._ripple) {
-        this._ripple.removeEvents();
-        this._ripple = null;
-      }
-    }
-  }
-
   ngOnDestroy() {
     this._focusState.unlisten(this._el);
-    this._destroyRipple();
+    this._removeRippleEvents();
   }
   writeValue(value: any): void {
     this.checked = !!value;
