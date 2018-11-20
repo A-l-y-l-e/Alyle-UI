@@ -32,7 +32,6 @@
 |field|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/field)|
 |grid|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/grid)|
 |icon|✔️|✔️|-|
-|icon button|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/icon-button)|
 |img cropper|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/resizing-cropping-images)|
 |media|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/responsive)|
 |menu|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
