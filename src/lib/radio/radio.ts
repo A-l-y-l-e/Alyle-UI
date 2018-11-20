@@ -221,7 +221,6 @@ export const LyRadioMixinBase = mixinDisableRipple(mixinColor(LyRadioBase));
 
 @Component({
   selector: 'ly-radio',
-  // styleUrls: ['radio.scss'],
   template: `
   <label #_labelContainer [attr.for]="inputId" [className]="radioGroup.classes.label">
     <input
