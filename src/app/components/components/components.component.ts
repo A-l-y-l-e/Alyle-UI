@@ -4,8 +4,7 @@ import { RoutesAppService } from '../routes-app.service';
 
 @Component({
   selector: 'app-components',
-  templateUrl: './components.component.html',
-  styleUrls: ['./components.component.css']
+  templateUrl: './components.component.html'
 })
 export class ComponentsComponent {
   routeName: string;

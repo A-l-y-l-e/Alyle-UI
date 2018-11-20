@@ -5,7 +5,8 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   VERSION,
-  isDevMode
+  isDevMode,
+  Renderer2
 } from '@angular/core';
 import { Observable, of, merge, forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -21,9 +22,26 @@ const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
 const SELECTOR_APP = 'root-app';
 
 const styles = {
+  root: {
+    position: 'relative',
+    display: 'block'
+  },
   codeContainer: {
     maxHeight: '200px',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    padding: '24px 24px 0 24px'
+  },
+  tabContainer: {
+    padding: '48px 24px 24px 24px'
+  },
+  tabContent: {
+    padding: '24px 24px 0 24px'
+  },
+  code: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1
   }
 };
 
@@ -40,12 +58,11 @@ function toPascalCase(str: string) {
 @Component({
   selector: 'demo-view',
   templateUrl: './view.component.html',
-  styleUrls: ['./view.component.css'],
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewComponent implements OnInit {
-  classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.theme.addStyleSheet(styles);
   hasCode = false;
   name: string;
   folderName: string;
@@ -58,11 +75,14 @@ export class ViewComponent implements OnInit {
   @Input() viewLabel: string;
   @Input() path: string;
   constructor(
+    renderer: Renderer2,
     private http: HttpClient,
     private el: ElementRef,
     private router: Router,
     private theme: LyTheme2
-  ) { }
+  ) {
+    renderer.addClass(el.nativeElement, this.classes.root);
+  }
   toggleCode() {
     this.hasCode = !this.hasCode;
   }

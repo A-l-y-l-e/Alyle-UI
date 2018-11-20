@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-menu-demo',
-  templateUrl: './menu-demo.component.html',
-  styleUrls: ['./menu-demo.component.css']
+  templateUrl: './menu-demo.component.html'
 })
 export class MenuDemoComponent implements OnInit {
 
