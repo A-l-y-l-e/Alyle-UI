@@ -154,7 +154,6 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes, this._el);
     if (!this.content) {
       this.updateStyle(this._el);
     }
