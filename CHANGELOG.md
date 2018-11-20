@@ -1,3 +1,62 @@
+<a name="1.8.1"></a>
+## [1.8.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.12...1.8.1) (2018-11-20)
+
+
+### Features
+
+* **button:** add icon, fab & minifab ([08dfc50](https://github.com/A-l-y-l-e/Alyle-UI/commit/08dfc50))
+* **core:** add mixins & `ly-paper` ([f08cd48](https://github.com/A-l-y-l-e/Alyle-UI/commit/f08cd48))
+
+
+### BREAKING CHANGES
+
+* **core:** LyCommon will be eliminated
+
+before:
+
+```html
+<div color="primary">Demo</div>
+```
+
+after:
+
+```ts
+const styles = (theme: ThemeVariables) => ({
+  demo: {
+    color: theme.primary.default
+    // .. others styles
+  }
+});
+```
+
+```html
+<div [className]="classes.demo">Demo</div>
+```
+
+OR
+
+```html
+<ly-paper color="primary">Demo</ly-paper>
+<div ly-paper color="primary">Demo</div>
+```
+
+
+this will only affect the components that use the `withColor` and `withBg` attribute, it will be replaced with `color`, `bg`
+
+example:
+
+before:
+```html
+<ly-checkbox withColor="primary">checkbox</ly-checkbox>
+```
+
+after:
+```html
+<ly-checkbox color="primary">checkbox</ly-checkbox>
+```
+
+
+
 <a name="1.7.12"></a>
 ## [1.7.12](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.11...1.7.12) (2018-11-17)
 
