@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
 
-const styles = ({
+const styles = () => ({
   root: {
-    '& button': {
-      margin: '5px'
+    button: {
+      marginEnd: '1em',
+      marginTop: '.5em',
+      marginBottom: '.5em'
     }
+  },
+  row: {
+    display: 'flex',
+    marginBottom: '.5em'
   }
 });
 

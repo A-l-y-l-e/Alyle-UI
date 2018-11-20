@@ -99,6 +99,8 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   private _rippleSensitive = false;
   private _size: LyButtonSize;
   private _sizeClass: string;
+  private _appearance: string;
+  private _appearanceClass: string;
 
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
@@ -111,6 +113,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     const newVal = this._rippleSensitive = toBoolean(value);
     this._rippleConfig.sensitive = newVal;
   }
+
   /** Button size */
   @Input()
   get size(): LyButtonSize {
@@ -120,12 +123,30 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     if (val !== this.size) {
       this._size = val;
       this._sizeClass = this._theme.addStyle(
-        `lyButton-size:${this.size}`,
+        `lyButton.size:${this.size}`,
         Size[this.size as any],
         this._elementRef.nativeElement,
         this._sizeClass,
         STYLE_PRIORITY
       );
+    }
+  }
+
+  /** Button appearance */
+  @Input()
+  get appearance(): string { return this._appearance; }
+  set appearance(val: string) {
+    if (val !== this.appearance) {
+      if (val === 'icon' && !this._rippleConfig.centered) {
+        this._rippleConfig.centered = true;
+      }
+      this._appearance = val;
+      this._appearanceClass = this._theme.addStyle(
+        `lyButton.appearance:${val}`,
+        (theme: ThemeVariables) => (theme.button.appearance[val]),
+        this._elementRef.nativeElement,
+        this._appearanceClass,
+        STYLE_PRIORITY);
     }
   }
 

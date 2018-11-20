@@ -8,6 +8,7 @@ export interface ButtonVariables {
     large: StyleContainer
   };
   appearance: {
+    icon: StyleContainer
     fab: StyleContainer
     miniFab: StyleContainer
   };

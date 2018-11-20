@@ -23,14 +23,39 @@
   <button ly-button bg="warn">Warn</button>
   <button ly-button bg="primary" disabled>Disabled</button>
   
-  <p>Sizes</p>
+  <h3>Sizes</h3>
   <button ly-button raised bg="primary" size="small">small</button>
   <button ly-button raised bg="primary" size="medium">medium</button>
   <button ly-button raised bg="primary" size="large">large</button>
-  <p>
-    custom
-  </p>
-  <button ly-button raised bg="accent" color="primary">Primary</button>
-  <button ly-button bg="Quepal" raised>Quepal</button>
-  <button ly-button bg="SublimeLight" raised>SublimeLight</button>
+
+  <h3 lyTyp="title">icon</h3>
+  <div [className]="classes.row">
+    <button ly-button appearance="icon"><ly-icon>favorite</ly-icon></button>
+    <button ly-button appearance="icon" color="primary"><ly-icon>favorite</ly-icon></button>
+    <button ly-button appearance="icon" color="accent"><ly-icon>favorite</ly-icon></button>
+    <button ly-button appearance="icon" color="warn"><ly-icon>favorite</ly-icon></button>
+    <button ly-button appearance="icon" color="primary" disabled><ly-icon>favorite</ly-icon></button>
+  </div>
+  <h3 lyTyp="title">Fab</h3>
+  <div [className]="classes.row">
+    <button ly-button raised appearance="fab" bg="primary">Basic</button>
+    <button ly-button raised appearance="fab" bg="primary">Primary</button>
+    <button ly-button raised appearance="fab" bg="accent">Accent</button>
+    <button ly-button raised appearance="fab" bg="warn">Warn</button>
+    <button ly-button raised appearance="fab" bg="primary"><ly-icon>favorite</ly-icon></button>
+  </div>
+
+  <h3 lyTyp="title">Mini fab</h3>
+  <div [className]="classes.row">
+    <button ly-button raised appearance="miniFab" bg="primary">Basic</button>
+    <button ly-button raised appearance="miniFab" bg="primary">Primary</button>
+    <button ly-button raised appearance="miniFab" bg="accent">Accent</button>
+    <button ly-button raised appearance="miniFab" bg="warn">Warn</button>
+    <button ly-button raised appearance="miniFab" bg="primary"><ly-icon>favorite</ly-icon></button>
+  </div>
+
+  <h3 lyTyp="title">Custom</h3>
+  <button ly-button raised color="primary">Primary</button>
+  <button ly-button raised bg="Quepal">Quepal</button>
+  <button ly-button raised bg="SublimeLight">SublimeLight</button>
 </div>

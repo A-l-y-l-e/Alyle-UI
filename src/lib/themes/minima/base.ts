@@ -27,8 +27,27 @@ export class MinimaBase extends LyStyleUtils {
       }
     },
     appearance: {
-      fab: {},
-      miniFab: {}
+      icon: {
+        minWidth: '0',
+        width: '40px',
+        height: '40px',
+        padding: 0,
+        borderRadius: '50%'
+      },
+      fab: {
+        minWidth: '0',
+        width: '56px',
+        height: '56px',
+        padding: 0,
+        borderRadius: '50%'
+      },
+      miniFab: {
+        minWidth: '0',
+        width: '40px',
+        height: '40px',
+        padding: 0,
+        borderRadius: '50%'
+      }
     }
   };
 }
