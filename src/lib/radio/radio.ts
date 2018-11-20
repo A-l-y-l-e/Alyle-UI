@@ -15,16 +15,18 @@ import {
   NgZone,
   ViewChild,
   ElementRef,
-  Renderer2
+  Renderer2,
+  SimpleChanges,
+  OnChanges
 } from '@angular/core';
-import { LyRippleModule, LyRippleService, Ripple } from '@alyle/ui/ripple';
+import { LyRippleModule } from '@alyle/ui/ripple';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean } from '@alyle/ui';
+import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, Ripple, LyRippleService, mixinColor } from '@alyle/ui';
 import { LyRadioService } from './radio.service';
 
 const STYLE_PRIORITY = -2;
@@ -91,7 +93,6 @@ export class LyRadioGroup implements ControlValueAccessor {
   @Input()
   set value(val: any) {
     if (this._value !== val) {
-      // this._value = val;
       if (this._radios) {
         this._updateCheckFromValue(val);
       }
@@ -103,7 +104,7 @@ export class LyRadioGroup implements ControlValueAccessor {
 
   @Output() readonly change: EventEmitter<void> = new EventEmitter<void>();
 
-  @Input() withColor = 'accent';
+  @Input() color = 'accent';
   @ContentChildren(forwardRef(() => LyRadio)) _radios: QueryList<LyRadio>;
 
   /** The method to be called in order to update ngModel */
@@ -206,6 +207,11 @@ export class LyRadioGroup implements ControlValueAccessor {
   }
 
 }
+
+export class LyRadioBase { }
+
+export const LyRadioMixinBase = mixinColor(LyRadioBase);
+
 @Component({
   selector: 'ly-radio',
   // styleUrls: ['radio.scss'],
@@ -233,31 +239,32 @@ export class LyRadioGroup implements ControlValueAccessor {
   </label>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
+  inputs: ['color']
 })
-export class LyRadio implements OnInit, OnDestroy {
+export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, OnDestroy {
   id = `ly-radio-id-${idx++}`;
   name = '';
   _value = null;
-  private _withColor: string;
+  // private _withColor: string;
   private _ripple: Ripple;
   private _checked = false;
   private checkedClass: string;
   @ViewChild('_radioContainer') private _radioContainer: ElementRef;
   @ViewChild('_labelContainer') _labelContainer: ElementRef;
-  @Input()
-  set withColor(val: string) {
-    if (this._withColor !== val) {
-      this._withColor = val;
-      if (this.checkedClass) {
-        /** create new class if exist `this.checkedClass` */
-        this.checkedClass = this._createStyleWithColor(val);
-      }
-    }
-  }
-  get withColor() {
-    return this._withColor;
-  }
+  // @Input()
+  // set withColor(val: string) {
+  //   if (this._withColor !== val) {
+  //     this._withColor = val;
+  //     if (this.checkedClass) {
+  //       /** create new class if exist `this.checkedClass` */
+  //       this.checkedClass = this._createStyleWithColor(val);
+  //     }
+  //   }
+  // }
+  // get withColor() {
+  //   return this._withColor;
+  // }
   @Output() change = new EventEmitter<boolean>();
 
   @Input()
@@ -276,7 +283,7 @@ export class LyRadio implements OnInit, OnDestroy {
       this._checked = newCheckedState;
       if (!before && newCheckedState) {
         /** Use current checked class or create new class */
-        this.checkedClass = this.checkedClass || this._createStyleWithColor(this.withColor || this.radioGroup.withColor);
+        this.checkedClass = this.checkedClass || this._createStyleWithColor(this.color || this.radioGroup.color);
         /** Add class checked */
         this._renderer.addClass(this._radioContainer.nativeElement, this.checkedClass);
 
@@ -301,8 +308,6 @@ export class LyRadio implements OnInit, OnDestroy {
   _onInputChange(event: any) {
     event.stopPropagation();
     this.radioGroup._updateCheckFromValue(this.value);
-    // this.radioGroup._radioResetChecked();
-    // this.checked = true;
     this.radioGroup._touch();
   }
 
@@ -328,6 +333,15 @@ export class LyRadio implements OnInit, OnDestroy {
       this.checkedClass,
       STYLE_PRIORITY
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.color) {
+      if (this.checkedClass) {
+        /** create new class if exist `this.checkedClass` */
+        this.checkedClass = this._createStyleWithColor(changes.color.currentValue);
+      }
+    }
   }
 
   ngOnInit() {
@@ -363,6 +377,7 @@ export class LyRadio implements OnInit, OnDestroy {
     public coreStyles: LyCoreStyles,
     private _rippleService: LyRippleService
   ) {
+    super();
     _renderer.addClass(_elementRef.nativeElement, radioGroup._radioService.classes.radioButton);
   }
 }

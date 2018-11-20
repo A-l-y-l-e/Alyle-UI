@@ -4,7 +4,7 @@ import { LyCommon } from './common.directive';
 import { LyWithClass } from './with-class.directive';
 
 @NgModule({
-  declarations: [LyCommon, LyWithClass],
-  exports: [LyCommon, LyWithClass]
+  declarations: [LyWithClass],
+  exports: [LyWithClass]
 })
 export class LyCommonModule { }

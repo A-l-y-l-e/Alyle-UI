@@ -6,7 +6,18 @@ import { Platform, LyTheme2 } from '@alyle/ui';
 const STYLE_PRIORITY = -2;
 
 @Directive({
-  selector: 'ly-icon'
+  selector: 'ly-icon',
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'disabled',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple',
+  ],
 })
 export class Icon implements OnInit {
   private _defaultClass = 'material-icons';

@@ -47,7 +47,9 @@ export class LyCommon implements OnChanges {
   constructor(
     private theme: LyTheme2,
     private elementRef: ElementRef
-  ) { }
+  ) {
+    console.log('@deprecated');
+  }
 
   public setAutoContrast() {
     this._autoContrast = true;

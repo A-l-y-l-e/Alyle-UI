@@ -21,9 +21,9 @@
 
 <div>#radioC.value: {{ radioC.value | json }}</div>
 
-<h3>withColor</h3>
+<h3>color</h3>
 <ly-radio-group [(ngModel)]="favoriteColor" #radio="lyRadioGroup">
-  <ly-radio [withColor]="item.value" *ngFor="let item of list" [value]="item.value">{{ item.value }}</ly-radio>
+  <ly-radio [color]="item.value" *ngFor="let item of list" [value]="item.value">{{ item.value }}</ly-radio>
 </ly-radio-group>
 
 <div>value: {{ favoriteColor | json }}</div>

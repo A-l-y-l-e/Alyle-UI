@@ -1,4 +1,4 @@
-export { buildCommonBehaviors } from './build-common-behaviors';
+export { mixinStyleUpdater } from './build-common-behaviors';
 export { mixinDisableRipple } from './disable-ripple';
 export { mixinDisabled } from './disabled';
 export { mixinColor } from './color';

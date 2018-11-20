@@ -1,28 +1,59 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  NgZone,
+  OnDestroy,
   OnInit,
-  ViewChild,
   Optional,
   Renderer2,
-  ChangeDetectionStrategy,
-  AfterViewInit,
-  NgZone,
-  OnDestroy
+  ViewChild
 } from '@angular/core';
-
-import { LyRippleService, Ripple } from '@alyle/ui/ripple';
-import { LyCommon, LyTheme2, Platform } from '@alyle/ui';
+import {
+  LyCommon,
+  LyRippleService,
+  LyTheme2,
+  mixinBg,
+  mixinColor,
+  mixinDisabled,
+  mixinDisableRipple,
+  mixinElevation,
+  mixinFlat,
+  mixinOutlined,
+  mixinRaised,
+  mixinShadowColor,
+  mixinStyleUpdater,
+  ThemeVariables,
+} from '@alyle/ui';
 import { LyIconButtonService } from './icon-button.service';
+
 
 const STYLE_PRIORITY = -2;
 
-const styles = theme => ({
+const styles = (theme: ThemeVariables) => ({
   size: {
     width: theme.iconButton.size,
     height: theme.iconButton.size
   }
 });
+
+export class LyIconButtonBase {
+  constructor(
+    public _theme: LyTheme2,
+    public _ngZone: NgZone
+  ) { }
+}
+
+export const LyIconButtonMixinBase = mixinStyleUpdater(
+mixinBg(
+  mixinFlat(
+    mixinColor(
+      mixinRaised(
+        mixinDisabled(
+          mixinOutlined(
+            mixinElevation(
+              mixinShadowColor(
+                mixinDisableRipple(LyIconButtonBase))))))))));
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -36,22 +67,23 @@ const styles = theme => ({
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyIconButton'
 })
-export class LyIconButton implements OnInit, AfterViewInit, OnDestroy {
+export class LyIconButton extends LyIconButtonMixinBase implements OnInit, OnDestroy {
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
-  private _ripple: Ripple;
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   constructor(
     public _el: ElementRef,
+    public _rippleService: LyRippleService,
     private renderer: Renderer2,
     @Optional() bgAndColor: LyCommon,
     public iconButtonService: LyIconButtonService,
     private theme: LyTheme2,
-    private _ngZone: NgZone,
-    public _rippleService: LyRippleService,
+    ngZone: NgZone,
   ) {
+    super(theme, ngZone);
     if (bgAndColor) {
       bgAndColor.setAutoContrast();
     }
+    console.warn('deprecated, instead use `<button ly-button appearance="icon"`>');
   }
 
   ngOnInit() {
@@ -59,21 +91,8 @@ export class LyIconButton implements OnInit, AfterViewInit, OnDestroy {
     this.renderer.addClass(this._el.nativeElement, this.classes.size);
   }
 
-  ngAfterViewInit() {
-    if (Platform.isBrowser) {
-      const rippleContainer = this._rippleContainer.nativeElement;
-      const triggerElement = this._el.nativeElement;
-      this._ripple = new Ripple(this.theme.config, this._ngZone, this._rippleService.classes, rippleContainer, triggerElement);
-      this._ripple.setConfig({
-        centered: true
-      });
-    }
-  }
-
   ngOnDestroy() {
-    if (Platform.isBrowser) {
-      this._ripple.removeEvents();
-    }
+    this._removeRippleEvents();
   }
 }
 

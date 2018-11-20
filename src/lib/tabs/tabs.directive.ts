@@ -1,41 +1,87 @@
 import {
-  Component,
-  Directive,
-  Input,
-  ChangeDetectionStrategy,
-  ContentChildren,
-  QueryList,
-  Output,
-  TemplateRef,
-  ContentChild,
-  ViewChild,
-  HostListener,
-  forwardRef,
-  EventEmitter,
-  ChangeDetectorRef,
-  Renderer2,
-  ElementRef,
-  OnInit,
-  ViewEncapsulation,
-  AfterViewInit,
   AfterContentInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChild,
+  ContentChildren,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostListener,
+  Input,
+  NgZone,
+  OnChanges,
   OnDestroy,
-  NgZone
-} from '@angular/core';
+  OnInit,
+  Output,
+  QueryList,
+  Renderer2,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
+  SimpleChanges,
+  isDevMode
+  } from '@angular/core';
+import {
+  LyTheme2,
+  mixinBg,
+  mixinColor,
+  mixinDisabled,
+  mixinDisableRipple,
+  mixinElevation,
+  mixinFlat,
+  mixinOutlined,
+  mixinRaised,
+  mixinShadowColor,
+  mixinStyleUpdater,
+  Platform,
+  } from '@alyle/ui';
 import { LyTabContent } from './tab-content.directive';
 import { LyTabsClassesService } from './tabs.clasess.service';
-import { LyTheme2, Platform } from '@alyle/ui';
 import { Subscription } from 'rxjs';
-import { Ripple, LyRippleService } from '@alyle/ui/ripple';
+
+const DEFAULT_DISABLE_RIPPLE = false;
+
+export class LyTabsBase {
+  constructor(
+    public _theme: LyTheme2
+  ) { }
+}
+
+export const LyTabsMixinBase = mixinBg(mixinFlat(mixinColor(LyTabsBase)));
+
+export class LyTabLabelBase {
+  constructor(
+    public _theme: LyTheme2,
+    public _ngZone: NgZone
+  ) { }
+}
+
+export const LyTabLabelMixinBase = mixinStyleUpdater(
+mixinBg(
+  mixinFlat(
+    mixinColor(
+      mixinRaised(
+        mixinDisabled(
+          mixinOutlined(
+            mixinElevation(
+              mixinShadowColor(
+                mixinDisableRipple(LyTabLabelBase))))))))));
 
 @Component({
   selector: 'ly-tabs',
   templateUrl: './tabs.directive.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  exportAs: 'lyTabs'
+  exportAs: 'lyTabs',
+  inputs: [
+    'bg', 'flat', 'color'
+  ]
 })
-export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
+export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   _selectedIndex = 0;
   _selectedBeforeIndex: number;
   _selectedRequireCheck: boolean;
@@ -95,9 +141,25 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
     private theme: LyTheme2,
     private renderer: Renderer2,
     private el: ElementRef,
-    private cd: ChangeDetectorRef,
+    private cd: ChangeDetectorRef
   ) {
+    super(theme);
     this.classes = tabsService.classes;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.color) {
+      this.withColor = changes.color.currentValue;
+    }
+    if (changes.bg) {
+      this.withBg = changes.color.currentValue;
+    }
+    if (isDevMode() && changes.withColor) {
+      console.warn(`LyTabs > \`withColor\` is deprecated, instead use \`color\``);
+    }
+    if (isDevMode() && changes.withBg) {
+      console.warn(`LyTabs > \`withColor\` is deprecated, instead use \`bg\``);
+    }
   }
 
   ngOnInit() {
@@ -105,7 +167,7 @@ export class LyTabs implements OnInit, AfterViewInit, AfterContentInit, OnDestro
     const tabsIndicatorEl = this.tabsIndicator.nativeElement;
     this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);
     /** Set default Color */
-    if (!this.withColor) {
+    if (!this.withColor && !this.color) {
       this.withColor = 'primary';
     }
   }
@@ -235,28 +297,34 @@ export class LyTab implements OnInit, AfterViewInit {
 @Directive({
   selector: 'ly-tab-label, [ly-tab-label]'
 })
-export class LyTabLabel implements OnInit, OnDestroy {
-  private _rippleContainer: Ripple;
+export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit, OnDestroy {
   constructor(
     private renderer: Renderer2,
     private _el: ElementRef,
-    private tabsService: LyTabsClassesService,
-    private rippleService: LyRippleService,
-    private _ngZone: NgZone,
-    private _theme: LyTheme2
-  ) { }
+    private _tabsService: LyTabsClassesService,
+    _ngZone: NgZone,
+    _theme: LyTheme2
+  ) {
+    super(_theme, _ngZone);
+    this.setAutoContrast();
+    this._triggerElement = _el;
+    this._rippleContainer = _el;
+  }
+
+  ngOnChanges() {
+    this.updateStyle(this._el);
+  }
 
   ngOnInit() {
-    this.renderer.addClass(this._el.nativeElement, this.tabsService.classes.label);
-    if (Platform.isBrowser) {
-      this._rippleContainer = new Ripple(this._theme.config, this._ngZone, this.rippleService.classes, this._el.nativeElement);
+    this.renderer.addClass(this._el.nativeElement, this._tabsService.classes.label);
+    // set default disable ripple
+    if (this.disableRipple === null) {
+      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
   }
 
   ngOnDestroy() {
-    if (Platform.isBrowser) {
-      this._rippleContainer.removeEvents();
-    }
+    this._removeRippleEvents();
   }
 }
 
