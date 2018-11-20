@@ -2,8 +2,6 @@ import { Directive, OnChanges, ElementRef, NgZone, OnInit, OnDestroy } from '@an
 import { LyTheme2 } from './theme2.service';
 import { mixinStyleUpdater, mixinBg, mixinFlat, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor, mixinDisableRipple, mixinColor } from '../common/index';
 
-const DEFAULT_DISABLE_RIPPLE = false;
-
 export class LyPaperBase {
   constructor(
     public _theme: LyTheme2,
@@ -34,7 +32,7 @@ mixinBg(
     'disableRipple'
   ]
 })
-export class LyPaper extends LyPaperMixinBase implements OnInit, OnChanges, OnDestroy {
+export class LyPaper extends LyPaperMixinBase implements OnChanges, OnDestroy {
 
   constructor(
     theme: LyTheme2,
@@ -49,13 +47,6 @@ export class LyPaper extends LyPaperMixinBase implements OnInit, OnChanges, OnDe
 
   ngOnChanges() {
     this.updateStyle(this._el);
-  }
-
-  ngOnInit() {
-    // set default disable ripple
-    if (this.disableRipple === null) {
-      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
-    }
   }
 
   ngOnDestroy() {

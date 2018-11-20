@@ -1,9 +1,9 @@
 <ly-drawer-container [withClass]="classes.drawerContainer">
-  <ly-drawer opened position="start" [mode]="mode" width="150px 0@XSmall" bg="background:primary" #drawer01="lyDrawer">
+  <ly-drawer ly-paper opened position="start" [mode]="mode" width="150px 0@XSmall" bg="background:primary" #drawer01="lyDrawer">
     <p>Hi!</p>
     <button ly-button (click)="drawer01.toggle()">close</button>
   </ly-drawer>
-  <ly-drawer position="end" width="150px 48px@XSmall" bg="background:primary" #drawer02="lyDrawer">
+  <ly-drawer ly-paper position="end" width="150px 48px@XSmall" bg="background:primary" #drawer02="lyDrawer">
     <p>Hi!</p>
     <button ly-button (click)="drawer02.toggle()">close</button>
   </ly-drawer>
