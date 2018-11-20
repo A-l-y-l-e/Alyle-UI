@@ -17,7 +17,8 @@ import {
   ElementRef,
   Renderer2,
   SimpleChanges,
-  OnChanges
+  OnChanges,
+  AfterViewInit
 } from '@angular/core';
 import { LyRippleModule } from '@alyle/ui/ripple';
 import {
@@ -26,10 +27,11 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, Ripple, LyRippleService, mixinColor } from '@alyle/ui';
+import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinColor, mixinDisableRipple } from '@alyle/ui';
 import { LyRadioService } from './radio.service';
 
 const STYLE_PRIORITY = -2;
+const DEFAULT_DISABLE_RIPPLE = false;
 
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -208,9 +210,14 @@ export class LyRadioGroup implements ControlValueAccessor {
 
 }
 
-export class LyRadioBase { }
+export class LyRadioBase {
+  constructor(
+    public _theme: LyTheme2,
+    public _ngZone: NgZone
+  ) { }
+}
 
-export const LyRadioMixinBase = mixinColor(LyRadioBase);
+export const LyRadioMixinBase = mixinDisableRipple(mixinColor(LyRadioBase));
 
 @Component({
   selector: 'ly-radio',
@@ -240,14 +247,16 @@ export const LyRadioMixinBase = mixinColor(LyRadioBase);
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
-  inputs: ['color']
+  inputs: [
+    'color',
+    'disableRipple'
+  ]
 })
-export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, OnDestroy {
+export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   id = `ly-radio-id-${idx++}`;
   name = '';
   _value = null;
   // private _withColor: string;
-  private _ripple: Ripple;
   private _checked = false;
   private checkedClass: string;
   @ViewChild('_radioContainer') private _radioContainer: ElementRef;
@@ -318,7 +327,7 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, OnDe
   }
 
   _createStyleWithColor(val: string) {
-    return this.theme.addStyle(
+    return this._theme.addStyle(
       `lyRadio-checked:${val}`, theme => ({
         color: theme.colorOf(val),
         '& div>:nth-child(1)': {
@@ -350,12 +359,15 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, OnDe
       this.name = this.radioGroup.name;
       this._renderer.addClass(this._radioContainer.nativeElement, this.radioGroup.classes.container);
     }
-    this._ripple = new Ripple(this.theme.config, this.ngZone, this._rippleService.classes, this._radioContainer.nativeElement, this._elementRef.nativeElement);
-    this._ripple.setConfig({
-      centered: true,
-      radius: 'containerSize',
-      percentageToIncrease: 100
-    });
+  }
+
+  ngAfterViewInit() {
+    this._rippleContainer = this._radioContainer;
+
+    // set default disable ripple
+    if (this.disableRipple === null) {
+      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
+    }
   }
 
   _markForCheck() {
@@ -363,7 +375,7 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, OnDe
   }
 
   ngOnDestroy() {
-    this._ripple.removeEvents();
+    this._removeRippleEvents();
   }
 
 
@@ -371,13 +383,18 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, OnDe
     @Optional() public radioGroup: LyRadioGroup,
     private _elementRef: ElementRef,
     private _renderer: Renderer2,
-    public theme: LyTheme2,
+    theme: LyTheme2,
     private changeDetectorRef: ChangeDetectorRef,
-    private ngZone: NgZone,
-    public coreStyles: LyCoreStyles,
-    private _rippleService: LyRippleService
+    ngZone: NgZone,
+    public coreStyles: LyCoreStyles
   ) {
-    super();
+    super(theme, ngZone);
+    this._triggerElement = this._elementRef;
+    this._rippleConfig = {
+      centered: true,
+      radius: 'containerSize',
+      percentageToIncrease: 100
+    };
     _renderer.addClass(_elementRef.nativeElement, radioGroup._radioService.classes.radioButton);
   }
 }
