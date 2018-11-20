@@ -4,8 +4,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Renderer2,
-  SimpleChanges
+  Renderer2
   } from '@angular/core';
 import {
   LyTheme2,
@@ -153,7 +152,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit {
     this._badgeElementRef = this._el.nativeElement;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (!this.content) {
       this.updateStyle(this._el);
     }
