@@ -7,7 +7,6 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
-  ViewEncapsulation,
   ViewChild,
   AfterViewInit,
   OnChanges
