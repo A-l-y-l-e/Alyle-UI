@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2, ThemeVariables, Platform } from '@alyle/ui';
@@ -6,7 +6,6 @@ import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark } from './app.module';
-import { interval } from 'rxjs';
 import { LySnackBar } from '@alyle/ui/snack-bar';
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
@@ -19,6 +18,24 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
       direction: theme.direction
     },
   },
+  appContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 'calc(100vh)',
+    '{demo}': {
+      maxWidth: '960px',
+      flex: 1,
+      padding: '96px 2rem',
+      width: '100%',
+    }
+  },
+  demo: {},
+  docsViewer: {
+    p: {
+      lineHeight: 1.5
+    }
+  },
   root: {
     display: 'block',
     '& .docs-viewer > * > a:not([ly-icon-button]):not([ly-button]), & ul a:not([ly-icon-button]):not([ly-button])': {
@@ -28,12 +45,6 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
         textDecoration: 'underline'
       }
     },
-    // button: { // => {root} {button}
-    //   color: 'red'
-    // },
-    // '& button:hover, & button:focus': { // => {root} button:hover, {root} button:focus
-    //   color: 'blue'
-    // }
   },
   // header: {
   //   position: 'fixed',
@@ -83,10 +94,8 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
 @Component({
   selector: 'aui-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
   preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
   classes = this.theme.addStyleSheet(styles);
@@ -107,7 +116,6 @@ export class AppComponent implements OnInit {
     updates: SwUpdate
   ) {
     if (Platform.isBrowser) {
-      // interval(6 * 60 * 60).subscribe(() => updates.checkForUpdate());
       updates.available.subscribe(event => {
         console.log('current version is', event.current);
         console.log('available version is', event.available);
@@ -128,5 +136,4 @@ export class AppComponent implements OnInit {
   reload() {
     document.location.reload();
   }
-
 }
