@@ -146,7 +146,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
         (theme: ThemeVariables) => (theme.button.appearance[val]),
         this._elementRef.nativeElement,
         this._appearanceClass,
-        STYLE_PRIORITY);
+        STYLE_PRIORITY + 1);
     }
   }
 
