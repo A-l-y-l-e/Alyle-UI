@@ -12,6 +12,7 @@ import { FieldDemoComponent } from '@docs/components/field-demo/field-demo.compo
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
 import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
+import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -27,6 +28,7 @@ const routes: Routes = [
     path: 'customization',
     children: [
       { path: 'dynamic-styles', component: DynamicStylesComponent },
+      { path: 'paper', component: PaperDemoComponent }
     ]
   },
   {

@@ -17,10 +17,10 @@ export class RoutesAppService {
         name: 'Customization',
         route: 'customization',
         routes: [
-          { route: 'theming', name: 'Theming' },
-          { route: 'bg-color', name: 'Bg & Color' },
           { route: 'dynamic-styles', name: 'Dynamic styles' },
-          { route: 'multiple-themes', name: 'Multiple themes' },
+          { route: 'theming', name: 'Theming' },
+          { route: 'paper', name: 'Paper' },
+          { route: 'multiple-themes', name: 'Multiple themes' }
         ]
       },
       {
