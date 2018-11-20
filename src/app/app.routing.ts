@@ -34,7 +34,6 @@ const routes: Routes = [
       { path: 'carousel', loadChildren: './components/carousel-demo/carousel-demo.module#CarouselDemoModule' },
       { path: 'icon-button', loadChildren: './components/icon-button-demo/icon-button-demo.module#IconButtonDemoModule' },
       { path: 'ripple', loadChildren: './components/ripple-demo/ripple-demo.module#RippleDemoModule' },
-      { path: 'shadow', loadChildren: './components/shadow-demo/shadow-demo.module#ShadowDemoModule' },
       { path: 'card', component: CardDemoComponent },
       { path: 'typography', component: TypographyDemoComponent },
     ]
