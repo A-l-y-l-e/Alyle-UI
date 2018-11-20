@@ -1,3 +1,13 @@
+<a name="1.8.2"></a>
+## [1.8.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.1...1.8.2) (2018-11-20)
+
+
+### Bug Fixes
+
+* **button:** update STYLE_PRIORITY for `appearance` ([6c0a4df](https://github.com/A-l-y-l-e/Alyle-UI/commit/6c0a4df))
+
+
+
 <a name="1.8.1"></a>
 ## [1.8.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.7.12...1.8.1) (2018-11-20)
 
