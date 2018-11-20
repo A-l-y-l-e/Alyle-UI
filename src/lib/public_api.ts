@@ -10,7 +10,7 @@ export * from './src/dom/lx-dom.module';
 export * from './src/focus-state/focus-state.module';
 export * from './src/version';
 export * from './src/gesture/gesture-config';
-export * from './src/theme/common.directive';
+export * from './src/theme/paper';
 export * from './src/theme/core-theme.service';
 export * from './src/theme/theme-config';
 export * from './src/theme/theme2.service';

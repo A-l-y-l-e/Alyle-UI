@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { LyPaper } from './common.directive';
+import { LyPaper } from './paper';
 import { LyWithClass } from './with-class.directive';
 
 @NgModule({

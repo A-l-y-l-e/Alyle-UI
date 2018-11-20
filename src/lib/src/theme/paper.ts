@@ -16,29 +16,39 @@ mixinBg(
   mixinFlat(
     mixinColor(
       mixinRaised(
-          mixinOutlined(
-            mixinElevation(
-              mixinShadowColor(
-                mixinDisableRipple(LyPaperBase)))))))));
+        mixinOutlined(
+          mixinElevation(
+            mixinShadowColor(
+              mixinDisableRipple(LyPaperBase)))))))));
 
 @Directive({
-  selector: `ly-paper`
+  selector: `ly-paper, [ly-paper]`,
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple'
+  ]
 })
 export class LyPaper extends LyPaperMixinBase implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     theme: LyTheme2,
     ngZone: NgZone,
-    private _elementRef: ElementRef
+    private _el: ElementRef
   ) {
     super(theme, ngZone);
     this.setAutoContrast();
-    this._triggerElement = this._elementRef;
-    this._rippleContainer = this._elementRef;
+    this._triggerElement = this._el;
+    this._rippleContainer = this._el;
   }
 
   ngOnChanges() {
-    this.updateStyle(this._elementRef);
+    this.updateStyle(this._el);
   }
 
   ngOnInit() {
