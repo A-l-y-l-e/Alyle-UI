@@ -1,5 +1,5 @@
-version: 1.8.2
-lastUpdate: '2018-11-20T08:56:08.020Z'
+version: 1.8.3
+lastUpdate: '2018-11-21T02:36:35.405Z'
 components:
   '@alyle/ui': /
   '@alyle/ui/grid': grid
