@@ -40,7 +40,7 @@ export const styles = (theme: ThemeVariables) => {
         background: 'transparent',
         opacity: 0
       },
-      '&{onFocusByKeyboard}::after': {
+      '&{onFocusByKeyboard}::after, &:hover::after': {
         background: 'currentColor',
         opacity: .13,
         borderRadius: 'inherit'
