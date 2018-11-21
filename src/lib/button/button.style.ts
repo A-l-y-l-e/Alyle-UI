@@ -1,4 +1,4 @@
-import { ThemeVariables } from '@alyle/ui';
+import { ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
 
 export const styles = (theme: ThemeVariables) => {
   const typography = theme.typography;
@@ -31,7 +31,20 @@ export const styles = (theme: ThemeVariables) => {
       '&::-moz-focus-inner, &::-moz-focus-inner': {
         border: 0
       },
-      ...typography.lyTyp.button
+      ...typography.lyTyp.button,
+      '&::after': {
+        content: `''`,
+        ...LY_COMMON_STYLES.fill,
+        width: '100%',
+        height: '100%',
+        background: 'transparent',
+        opacity: 0
+      },
+      '&{onFocusByKeyboard}::after': {
+        background: 'currentColor',
+        opacity: .13,
+        borderRadius: 'inherit'
+      }
     },
     content: {
       padding: 0,
@@ -43,8 +56,9 @@ export const styles = (theme: ThemeVariables) => {
       height: '100%',
       boxSizing: 'border-box'
     },
+    onFocusByKeyboard: { },
     animations: {
-      '&': {
+      '&,&::after': {
         transition: 'background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms'
       }
     }

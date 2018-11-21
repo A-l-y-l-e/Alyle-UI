@@ -26,7 +26,8 @@ import {
   mixinRaised,
   mixinDisableRipple,
   mixinStyleUpdater,
-  LyRippleService
+  LyRippleService,
+  LyFocusState
 } from '@alyle/ui';
 import { styles } from './button.style';
 const DEFAULT_SIZE = 'medium';
@@ -101,6 +102,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   private _sizeClass: string;
   private _appearance: string;
   private _appearanceClass: string;
+  private _onFocusByKeyboardState: boolean;
 
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
@@ -125,7 +127,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
       this._sizeClass = this._theme.addStyle(
         `lyButton.size:${this.size}`,
         Size[this.size as any],
-        this._elementRef.nativeElement,
+        this._el.nativeElement,
         this._sizeClass,
         STYLE_PRIORITY
       );
@@ -144,33 +146,34 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
       this._appearanceClass = this._theme.addStyle(
         `lyButton.appearance:${val}`,
         (theme: ThemeVariables) => (theme.button.appearance[val]),
-        this._elementRef.nativeElement,
+        this._el.nativeElement,
         this._appearanceClass,
         STYLE_PRIORITY + 1);
     }
   }
 
   constructor(
-    private _elementRef: ElementRef,
+    private _el: ElementRef,
     private _renderer: Renderer2,
     _theme: LyTheme2,
     _ngZone: NgZone,
     public _rippleService: LyRippleService,
+    private _focusState: LyFocusState,
   ) {
     super(_theme, _ngZone);
     this.setAutoContrast();
-    this._triggerElement = _elementRef;
-    this._renderer.addClass(this._elementRef.nativeElement, this.classes.root);
+    this._triggerElement = _el;
+    this._renderer.addClass(this._el.nativeElement, this.classes.root);
     if (Platform.FIREFOX) {
       this._theme.addStyle('button-ff', {
         '&::-moz-focus-inner,&::-moz-focus-inner,&::-moz-focus-inner,&::-moz-focus-inner': {
           border: 0
         }
-      }, this._elementRef.nativeElement, undefined, STYLE_PRIORITY);
+      }, this._el.nativeElement, undefined, STYLE_PRIORITY);
     }
   }
   ngOnChanges() {
-    this.updateStyle(this._elementRef);
+    this.updateStyle(this._el);
   }
 
   ngOnInit() {
@@ -180,18 +183,31 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngAfterViewInit() {
-    this._renderer.addClass(this._elementRef.nativeElement, this.classes.animations);
+    this._renderer.addClass(this._el.nativeElement, this.classes.animations);
     // set default disable ripple
     if (this.disableRipple === null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
+    this._focusState.listen(this._el).subscribe((event) => {
+      if (this._onFocusByKeyboardState === true) {
+        this._renderer.removeClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
+        this._onFocusByKeyboardState = false;
+      }
+      if (event.by === 'keyboard') {
+        if (event.event.type === 'focus') {
+          this._onFocusByKeyboardState = true;
+          this._renderer.addClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
+        }
+      }
+    });
   }
 
   public focus() {
-    this._elementRef.nativeElement.focus();
+    this._el.nativeElement.focus();
   }
 
   ngOnDestroy() {
+    this._focusState.unlisten(this._el);
     this._removeRippleEvents();
   }
 }
