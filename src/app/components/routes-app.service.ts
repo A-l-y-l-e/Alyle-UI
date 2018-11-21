@@ -48,7 +48,6 @@ export class RoutesAppService {
           { route: 'menu', name: 'Menu', status: 'alpha' },
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
-          { route: 'ripple', name: 'Ripple' },
           { route: 'toolbar', name: 'Toolbar' },
           { route: 'typography', name: 'Typography' }
         ]

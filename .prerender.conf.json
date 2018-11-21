@@ -18,7 +18,6 @@
     "components/resizing-cropping-images",
     "components/carousel",
     "components/icon-button",
-    "components/ripple",
     "components/card",
     "components/typography",
     "components/badge",
