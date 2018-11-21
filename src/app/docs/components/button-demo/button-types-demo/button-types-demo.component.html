@@ -23,7 +23,7 @@
   <button ly-button bg="warn">Warn</button>
   <button ly-button bg="primary" disabled>Disabled</button>
   
-  <h3>Sizes</h3>
+  <h3 lyTyp="title">Sizes</h3>
   <button ly-button raised bg="primary" size="small">small</button>
   <button ly-button raised bg="primary" size="medium">medium</button>
   <button ly-button raised bg="primary" size="large">large</button>
@@ -56,7 +56,10 @@
   </div>
 
   <h3 lyTyp="title">Custom</h3>
-  <button ly-button raised color="primary">Primary</button>
-  <button ly-button raised bg="Quepal">Quepal</button>
-  <button ly-button raised bg="SublimeLight">SublimeLight</button>
+  <div [className]="classes.row">
+    <button ly-button raised color="primary">Primary</button>
+    <button ly-button raised bg="Quepal">Quepal</button>
+    <button ly-button raised bg="SublimeLight">SublimeLight</button>
+    <button ly-button raised appearance="miniFab" bg="Quepal"><ly-icon>favorite</ly-icon></button>
+  </div>
 </div>
