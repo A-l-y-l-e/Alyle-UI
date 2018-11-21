@@ -74,6 +74,7 @@ const STYLES = (theme: ThemeVariables) => ({
       height: '16px',
       margin: 'auto'
     },
+    // border icon
     '&::before': {
       border: 'solid 2px',
       borderRadius: '2px'
