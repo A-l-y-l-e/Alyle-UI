@@ -12,7 +12,6 @@ import { LyMenuModule } from '@alyle/ui/menu';
 import { LyCommonModule, LY_THEME, LyThemeModule, LY_THEME_GLOBAL_VARIABLES } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
-import { LyRippleModule } from '@alyle/ui/ripple';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -112,7 +111,6 @@ export class GlobalVariables {
     LyToolbarModule,
     LyIconModule,
     LyMenuModule,
-    LyRippleModule,
     LyTypographyModule,
     LyCardModule,
     PrismModule,

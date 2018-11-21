@@ -5,7 +5,6 @@
     "entryFile": "./index.ts",
     "umdModuleIds": {
       "@alyle/ui": "ly.core",
-      "@alyle/ui/ripple": "ly.ripple",
       "@alyle/ui/icon-button": "ly.iconButton",
       "@alyle/ui/button": "ly.button",
       "@alyle/ui/responsive": "ly.responsive",

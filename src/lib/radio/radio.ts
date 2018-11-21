@@ -20,7 +20,6 @@ import {
   OnChanges,
   AfterViewInit
 } from '@angular/core';
-import { LyRippleModule } from '@alyle/ui/ripple';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
@@ -399,7 +398,7 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, Afte
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, LyRippleModule, LyCommonModule],
+  imports: [CommonModule, FormsModule, LyCommonModule],
   exports: [LyRadioGroup, LyRadio],
   declarations: [LyRadioGroup, LyRadio],
 })
