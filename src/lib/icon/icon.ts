@@ -33,7 +33,7 @@ mixinBg(
     'shadowColor',
   ],
 })
-export class Icon extends LyButtonMixinBase implements OnChanges, OnInit {
+export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
   private _defaultClass = 'material-icons';
   private _src: string;
   private _icon: string;
@@ -54,16 +54,17 @@ export class Icon extends LyButtonMixinBase implements OnChanges, OnInit {
     return this._src;
   }
 
-  @Input() set icon(val: string) {
+  @Input()
+  get icon() {
+    return this._icon;
+  }
+  set icon(val: string) {
     this._icon = val;
     if (Platform.isBrowser) {
       this._prepareSvgIcon(this.iconService.getSvg(val));
     } else {
       this._appendDefaultSvgIcon();
     }
-  }
-  get icon() {
-    return this._icon;
   }
 
   constructor(

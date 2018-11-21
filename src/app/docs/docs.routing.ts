@@ -13,6 +13,7 @@ import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.
 import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
 import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
+import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -46,7 +47,8 @@ const routes: Routes = [
       { path: 'badge', component: BadgeDemoComponent },
       { path: 'field', component: FieldDemoComponent },
       { path: 'checkbox', component: CheckboxDemoComponent },
-      { path: 'snack-bar', component: SnackBarDemoComponent }
+      { path: 'snack-bar', component: SnackBarDemoComponent },
+      { path: 'icon', component: IconDemoComponent }
     ]
   }
 ];

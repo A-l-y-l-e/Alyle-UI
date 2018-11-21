@@ -41,13 +41,14 @@ export class RoutesAppService {
           { route: 'card', name: 'Card' },
           { route: 'carousel', name: 'Carousel' },
           { route: 'checkbox', name: 'Checkbox' },
-          { route: 'snack-bar', name: 'SnackBar' },
           { route: 'drawer', name: 'Drawer' },
           { route: 'field', name: 'Field' },
+          { route: 'icon', name: 'Icon' },
           { route: 'icon-button', name: 'Icon button', status: 'deprecated' },
           { route: 'menu', name: 'Menu', status: 'alpha' },
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
+          { route: 'snack-bar', name: 'SnackBar' },
           { route: 'toolbar', name: 'Toolbar' },
           { route: 'typography', name: 'Typography' }
         ]

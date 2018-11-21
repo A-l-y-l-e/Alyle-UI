@@ -38,7 +38,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
   },
   root: {
     display: 'block',
-    '& .docs-viewer > * > a:not([ly-icon-button]):not([ly-button]), & ul a:not([ly-icon-button]):not([ly-button])': {
+    '& .docs-viewer > * > a:not([ly-button]), & ul a:not([ly-button]), & p > a': {
       color: theme.accent.default,
       textDecoration: 'inherit',
       '&:hover': {

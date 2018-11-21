@@ -66,6 +66,8 @@ import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-dem
 import { BasicPaperModule } from './customization/paper-demo/basic-paper/basic-paper.module';
 import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
 import { PaperWithColorModule } from './customization/paper-demo/paper-with-color/paper-with-color.module';
+import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
+import { IconsModule } from './components/icon-demo/icons/icons.module';
 
 @NgModule({
   imports: [
@@ -109,7 +111,9 @@ import { PaperWithColorModule } from './customization/paper-demo/paper-with-colo
     BasicSnackBarModule,
     /** Paper */
     BasicPaperModule,
-    PaperWithColorModule
+    PaperWithColorModule,
+    /** Icon */
+    IconsModule
   ],
   declarations: [
     ThemingComponent,
@@ -135,7 +139,10 @@ import { PaperWithColorModule } from './customization/paper-demo/paper-with-colo
     CheckboxDemoComponent,
     /** SnackBar */
     SnackBarDemoComponent,
-    PaperDemoComponent
+    /** Paper */
+    PaperDemoComponent,
+    /** Icon */
+    IconDemoComponent
 
   ]
 })
