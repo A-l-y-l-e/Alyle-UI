@@ -40,6 +40,8 @@ export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
   private _previousFontSet: FontClassOptions;
   private _currentClass: string;
   private _fontIcon: string;
+
+  /** deprecated */
   @Input()
   set src(val: string) {
     this._src = val;
