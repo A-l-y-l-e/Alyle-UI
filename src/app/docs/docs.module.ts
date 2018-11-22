@@ -66,8 +66,11 @@ import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-dem
 import { BasicPaperModule } from './customization/paper-demo/basic-paper/basic-paper.module';
 import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
 import { PaperWithColorModule } from './customization/paper-demo/paper-with-color/paper-with-color.module';
+
+/** Icon demo */
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { IconsModule } from './components/icon-demo/icons/icons.module';
+import { IconWithCustomFontModule } from './components/icon-demo/icon-with-custom-font/icon-with-custom-font.module';
 
 @NgModule({
   imports: [
@@ -113,7 +116,8 @@ import { IconsModule } from './components/icon-demo/icons/icons.module';
     BasicPaperModule,
     PaperWithColorModule,
     /** Icon */
-    IconsModule
+    IconsModule,
+    IconWithCustomFontModule
   ],
   declarations: [
     ThemingComponent,

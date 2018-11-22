@@ -7,6 +7,13 @@ import { LyTheme2 } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 
+export interface FontClassOptions {
+  key: string;
+  /** Class name */
+  class?: string;
+  /** Frefix class */
+  prefix?: string;
+}
 const styles = {
   svg: {
     width: 'inherit',
@@ -24,9 +31,19 @@ export interface SvgIcon {
   providedIn: 'root'
 })
 export class LyIconService {
+  private _defaultClass = 'material-icons';
+  private _defaultClassPrefix: string;
   private svgMap = new Map<string, SvgIcon>();
+  private _fontClasses = new Map<string, FontClassOptions>();
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   readonly defaultSvgIcon: SVGElement;
+  get defaultClass() {
+    return this._defaultClass;
+  }
+  get defaultClassPrefix() {
+    return this._defaultClassPrefix;
+  }
+
   constructor(
     private http: HttpClient,
     @Optional() @Inject(DOCUMENT) private document: any,
@@ -72,6 +89,35 @@ export class LyIconService {
 
   getSvg(key: string): SvgIcon {
     return this.svgMap.get(key);
+  }
+  /**
+   * Set default className for `ly-icon`
+   * @param className class name
+   * @param prefix Class prefix,
+   * For example if you use FontAwesome your prefix would be `fa-`,
+   * then in the template it is no longer necessary to use the prefix
+   * Example: `<ly-icon fontIcon="alarm">`
+   */
+  setDefaultClass(className: string | null, prefix?: string) {
+    this._defaultClass = className;
+    this._defaultClassPrefix = prefix;
+  }
+
+  /**
+   * Register new font class alias
+   * demo:
+   * For FontAwesome
+   * registerFontClass('fa', 'fa', 'fa-')
+   * @param key
+   * @param className
+   * @param prefix Class prefix
+   */
+  registerFontClass(opt: FontClassOptions) {
+    this._fontClasses.set(opt.key, opt);
+  }
+
+  getFontClass(key: string) {
+    return this._fontClasses.get(key);
   }
 }
 

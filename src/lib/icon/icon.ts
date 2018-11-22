@@ -1,5 +1,5 @@
 import { Directive, Input, Renderer2, ElementRef, OnInit, OnChanges } from '@angular/core';
-import { LyIconService, SvgIcon } from './icon.service';
+import { LyIconService, SvgIcon, FontClassOptions } from './icon.service';
 import { take } from 'rxjs/operators';
 import { Platform, LyTheme2, mixinStyleUpdater, mixinBg, mixinFlat, mixinColor, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor } from '@alyle/ui';
 
@@ -34,9 +34,12 @@ mixinBg(
   ],
 })
 export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
-  private _defaultClass = 'material-icons';
   private _src: string;
   private _icon: string;
+  private _fontSet: string;
+  private _previousFontSet: FontClassOptions;
+  private _currentClass: string;
+  private _fontIcon: string;
   @Input()
   set src(val: string) {
     this._src = val;
@@ -67,6 +70,22 @@ export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
     }
   }
 
+  @Input()
+  get fontSet(): string {
+    return this._fontSet;
+  }
+  set fontSet(key: string) {
+    this._fontSet = key;
+  }
+
+  @Input()
+  get fontIcon(): string {
+    return this._fontIcon;
+  }
+  set fontIcon(key: string) {
+    this._fontIcon = key;
+  }
+
   constructor(
     private iconService: LyIconService,
     private _el: ElementRef,
@@ -78,11 +97,14 @@ export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
+    if (this.fontSet || this.fontIcon) {
+      this._updateFontClass();
+    }
     this.updateStyle(this._el);
   }
 
   private _isDefault() {
-    return !(this.src || this.icon);
+    return !(this.src || this.icon || this.fontSet);
   }
 
   private _prepareSvgIcon(svgIcon: SvgIcon) {
@@ -112,7 +134,7 @@ export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
 
   private _updateClass() {
     if (this._isDefault()) {
-      this._renderer.addClass(this._el.nativeElement, this._defaultClass);
+      this._renderer.addClass(this._el.nativeElement, this.iconService.defaultClass);
     }
   }
 
@@ -135,5 +157,29 @@ export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
     if (icon) {
       this._renderer.removeChild(this._el, icon);
     }
+  }
+
+  private _updateFontClass() {
+
+    const currentClass = this._currentClass;
+    const fontSetKey = this.fontSet;
+    const icon = this.fontIcon;
+    const el = this._el.nativeElement;
+    const iconClass = this.iconService.getFontClass(fontSetKey);
+    if (currentClass) {
+      this._renderer.removeClass(el, currentClass);
+    }
+    if (this._previousFontSet) {
+      if (this._previousFontSet.class) {
+        this._renderer.removeClass(el, this._previousFontSet.class);
+      }
+    }
+    if (iconClass) {
+      this._previousFontSet = iconClass;
+    } else {
+      Error('Icon not found');
+    }
+    this._currentClass = `${iconClass.prefix}${icon}`;
+    this._renderer.addClass(el, this._currentClass);
   }
 }
