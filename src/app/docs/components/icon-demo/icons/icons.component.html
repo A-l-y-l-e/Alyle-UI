@@ -4,8 +4,14 @@
 <ly-icon [ngClass]="[classes.icon, classes.iconLarge]" color="primary">change_history</ly-icon>
 <ly-icon [ngClass]="[classes.icon, classes.iconExtraLarge]" color="accent">change_history</ly-icon>
 
-<h3 [lyTyp]="'title'" gutter>SVG icon</h3>
+<h3 [lyTyp]="'title'" gutter>SVG icon url</h3>
 
-<ly-icon [withClass]="classes.icon" icon="rocket"></ly-icon>
-<ly-icon [ngClass]="[classes.icon, classes.iconLarge]" icon="rocket"></ly-icon>
-<ly-icon [ngClass]="[classes.icon, classes.iconExtraLarge]" icon="rocket"></ly-icon>
+<ly-icon icon="rocket" [withClass]="classes.icon"></ly-icon>
+<ly-icon icon="rocket" [ngClass]="[classes.icon, classes.iconLarge]"></ly-icon>
+<ly-icon icon="rocket" [ngClass]="[classes.icon, classes.iconExtraLarge]"></ly-icon>
+
+<h3 [lyTyp]="'title'" gutter>SVG icon literal</h3>
+
+<ly-icon icon="lab" [withClass]="classes.icon"></ly-icon>
+<ly-icon icon="lab" [ngClass]="[classes.icon, classes.iconLarge]" color="primary"></ly-icon>
+<ly-icon icon="lab" [ngClass]="[classes.icon, classes.iconExtraLarge]" color="accent"></ly-icon>

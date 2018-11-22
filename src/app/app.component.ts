@@ -7,6 +7,7 @@ import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark } from './app.module';
 import { LySnackBar } from '@alyle/ui/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
   '@global': {
@@ -112,6 +113,7 @@ export class AppComponent implements OnInit {
     public routesApp: RoutesAppService,
     private theme: LyTheme2,
     private renderer: Renderer2,
+    sanitizer: DomSanitizer,
     iconService: LyIconService,
     updates: SwUpdate
   ) {
@@ -122,11 +124,14 @@ export class AppComponent implements OnInit {
         updates.activateUpdate().then(() => this.sb.open());
       });
     }
-    iconService.setSvg('Theme', 'assets/svg/round-format_color_fill-24px');
-    iconService.setSvg('Heart', 'assets/svg/Heart');
-    iconService.setSvg('Experiment', 'assets/svg/Experiment');
-    iconService.setSvg('Radiation', 'assets/svg/radiation');
-    iconService.setSvg('Water', 'assets/svg/Water');
+    iconService.setSvg('github', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/social/social-color-1_logo-github'));
+    iconService.setSvg('code', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/code'));
+    iconService.setSvg('Theme', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/round-format_color_fill-24px'));
+    iconService.setSvg('Heart', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Heart'));
+    iconService.setSvg('Experiment', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Experiment'));
+    iconService.setSvg('Radiation', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/radiation'));
+    iconService.setSvg('Water', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Water'));
+    iconService.setSvg('Snow', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Snow'));
     this.routesComponents = this.routesApp.routesApp;
   }
   ngOnInit() {

@@ -1,9 +1,10 @@
-import { Injectable, Optional, Inject } from '@angular/core';
+import { Injectable, Optional, Inject, SecurityContext } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { LyTheme2 } from '@alyle/ui';
+import { SafeHtml, DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 const STYLE_PRIORITY = -2;
 
@@ -23,7 +24,7 @@ const styles = {
 };
 
 export interface SvgIcon {
-  obs: Observable<SVGElement>;
+  obs?: Observable<SVGElement>;
   svg?: SVGElement;
 }
 
@@ -46,17 +47,18 @@ export class LyIconService {
 
   constructor(
     private http: HttpClient,
+    private _sanitizer: DomSanitizer,
     @Optional() @Inject(DOCUMENT) private document: any,
     private theme: LyTheme2
   ) {
     this.defaultSvgIcon = this._textToSvg('<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>');
   }
 
-  setSvg(key: string, url: string) {
+  setSvg(key: string, url: SafeResourceUrl) {
     if (!this.svgMap.has(key)) {
-      url = `${url}.svg`;
+      const urlSanitized = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, url);
       const svgIcon: SvgIcon = {
-        obs: this.http.get(url, { responseType: 'text' })
+        obs: this.http.get(`${urlSanitized}.svg`, { responseType: 'text' })
         .pipe(
           share(),
           map(svgText => {
@@ -70,6 +72,16 @@ export class LyIconService {
         )
       };
       this.svgMap.set(key, svgIcon);
+    }
+  }
+
+  addSvgIconLiteral(key: string, literal: SafeHtml) {
+    if (!this.svgMap.has(key)) {
+      const sanitizedLiteral = this._sanitizer.sanitize(SecurityContext.HTML, literal);
+      const svg = this._textToSvg(sanitizedLiteral);
+      this.svgMap.set(key, {
+        svg
+      });
     }
   }
 
@@ -120,4 +132,3 @@ export class LyIconService {
     return this._fontClasses.get(key);
   }
 }
-

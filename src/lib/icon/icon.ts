@@ -177,7 +177,7 @@ export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
     if (iconClass) {
       this._previousFontSet = iconClass;
     } else {
-      Error('Icon not found');
+      Error(`Icon with key${fontSetKey} not found`);
     }
     this._currentClass = `${iconClass.prefix}${icon}`;
     this._renderer.addClass(el, this._currentClass);

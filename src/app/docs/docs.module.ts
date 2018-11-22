@@ -70,7 +70,6 @@ import { PaperWithColorModule } from './customization/paper-demo/paper-with-colo
 /** Icon demo */
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { IconsModule } from './components/icon-demo/icons/icons.module';
-import { IconWithCustomFontModule } from './components/icon-demo/icon-with-custom-font/icon-with-custom-font.module';
 
 @NgModule({
   imports: [
@@ -116,8 +115,7 @@ import { IconWithCustomFontModule } from './components/icon-demo/icon-with-custo
     BasicPaperModule,
     PaperWithColorModule,
     /** Icon */
-    IconsModule,
-    IconWithCustomFontModule
+    IconsModule
   ],
   declarations: [
     ThemingComponent,
