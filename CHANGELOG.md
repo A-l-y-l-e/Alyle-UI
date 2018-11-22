@@ -1,3 +1,16 @@
+<a name="1.8.4"></a>
+## [1.8.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.3...1.8.4) (2018-11-22)
+
+
+### Features
+
+* **button:** add focus state ([d350bd0](https://github.com/A-l-y-l-e/Alyle-UI/commit/d350bd0))
+* **button:** add hover state ([93d9246](https://github.com/A-l-y-l-e/Alyle-UI/commit/93d9246))
+* **docs:** add icon demo ([7e4b75c](https://github.com/A-l-y-l-e/Alyle-UI/commit/7e4b75c))
+* **icon:** add `registerFontClass` ([514ed99](https://github.com/A-l-y-l-e/Alyle-UI/commit/514ed99))
+
+
+
 <a name="1.8.3"></a>
 ## [1.8.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.2...1.8.3) (2018-11-21)
 
