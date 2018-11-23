@@ -22,6 +22,9 @@
     "components/typography",
     "components/badge",
     "components/field",
-    "components/snack-bar"
+    "components/snack-bar",
+    "components/checkbox",
+    "components/icon",
+    "components/toolbar"
   ]
 }
