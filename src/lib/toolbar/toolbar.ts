@@ -72,7 +72,11 @@ export const LyToolbarMixinBase = mixinStyleUpdater(
   ]
 })
 export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
-  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  /**
+   * Styles
+   * @docs-private
+   */
+  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _position: position;
   private _positionClass: string;
   @Input()
@@ -80,7 +84,7 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
     this._position = val;
     this._positionClass = this.theme.addStyle(`ly-toolbar-position:${val}`, `position:${val}`, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
   }
-  get position() {
+  get position(): position {
     return this._position;
   }
   constructor(

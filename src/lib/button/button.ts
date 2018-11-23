@@ -94,9 +94,9 @@ mixinBg(
 export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   /**
    * Style
-   * @ignore
+   * @docs-private
    */
-  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _rippleSensitive = false;
   private _size: LyButtonSize;
   private _sizeClass: string;
