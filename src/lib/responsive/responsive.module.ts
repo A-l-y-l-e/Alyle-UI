@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 // import { Responsive } from './media.service';
 // import { PLATFORM_ID } from '@angular/core';
-import { MediaDirective } from './media/media.directive';
+import { MediaDirective } from './media.directive';
 
 // export function responsiveProviderFactory(
 //   parent: Responsive, ngZone: NgZone, platformId: Object): Responsive {
