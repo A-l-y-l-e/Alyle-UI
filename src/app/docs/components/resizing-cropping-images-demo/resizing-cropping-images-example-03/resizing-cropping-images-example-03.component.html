@@ -1,25 +1,33 @@
-<div [withClass]="classes.actions">
+<div [className]="classes.actions">
   <button ly-button color="primary" (click)="_fileInput.click()">
     <ly-icon>image</ly-icon>
     <span>Select File</span>
   </button>
+  <span [className]="classes.flex"></span>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropping.selectInputEvent($event)" accept="image/*" hidden>
   <button raised ly-button bg="accent" *ngIf="cropping.isCropped">Upload</button>
 </div>
-<button (click)="cropping.zoomIn()" ly-button appearance="icon" class="material-icons">zoom_in</button>
-<button (click)="cropping.zoomOut()" ly-button appearance="icon" class="material-icons">zoom_out</button>
-<button (click)="cropping.center()" ly-button>center</button>
-<button (click)="cropping.fit()" ly-button>fit</button>
-<button (click)="cropping.fitToScreen()" ly-button>fit to screen</button>
-<button (click)="cropping.setScale(1)" ly-button>1:1</button>
-<ly-cropping #cropping
-[withClass]="classes.cropping"
+
+<div *ngIf="cropping.isLoaded">
+  <button (click)="cropping.zoomIn()" ly-button appearance="icon"><ly-icon>zoom_in</ly-icon></button>
+  <button (click)="cropping.zoomOut()" ly-button appearance="icon"><ly-icon>zoom_out</ly-icon></button>
+  <button (click)="cropping.center()" ly-button appearance="icon"><ly-icon>filter_center_focus</ly-icon></button>
+  <button (click)="cropping.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
+  <button (click)="cropping.fit()" ly-button>Fit</button>
+  <button (click)="cropping.fitToScreen()" ly-button>Fit to screen</button>
+  <button (click)="cropping.setScale(1)" ly-button>1:1</button>
+  <button (click)="cropping.clean()" ly-button>Clean</button>
+</div>
+
+<ly-cropping [withClass]="classes.cropping" #cropping
 [config]="myConfig"
 (cropped)="onCropped($event)">
-<span>Drag and drop image</span>
+  <span>Drag and drop image</span>
 </ly-cropping>
+
 <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>
   <ly-icon>crop</ly-icon>crop
 </button>
+
 <div><img *ngIf="cropping.isCropped" [src]="croppedImage"></div>
