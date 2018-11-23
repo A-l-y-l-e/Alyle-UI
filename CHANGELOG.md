@@ -1,3 +1,15 @@
+<a name="1.8.5"></a>
+## [1.8.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.4...1.8.5) (2018-11-23)
+
+
+### Bug Fixes
+
+* **button:** fix ssr ([5e5aede](https://github.com/A-l-y-l-e/Alyle-UI/commit/5e5aede))
+* **checkbox:** fix ssr ([29b166f](https://github.com/A-l-y-l-e/Alyle-UI/commit/29b166f))
+* **core:** fix focus state in ssr ([e8bcb68](https://github.com/A-l-y-l-e/Alyle-UI/commit/e8bcb68))
+
+
+
 <a name="1.8.4"></a>
 ## [1.8.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.3...1.8.4) (2018-11-22)
 
