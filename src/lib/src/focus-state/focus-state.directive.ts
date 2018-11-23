@@ -169,6 +169,9 @@ export class LyFocusState implements OnDestroy {
   }
 
   unlisten(element: HTMLElement | ElementRef<HTMLElement>) {
+    if (!Platform.isBrowser) {
+      return;
+    }
     const focusStateInfo = this._elementMap.get(getNativeElement(element));
     if (focusStateInfo) {
       focusStateInfo.unlisten();
