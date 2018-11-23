@@ -264,7 +264,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
     private _renderer: Renderer2,
     private _changeDetectorRef: ChangeDetectorRef,
     private _focusState: LyFocusState,
-    ngZone: NgZone,
+    ngZone: NgZone
   ) {
     super(_theme, ngZone);
     this._triggerElement = this._el;
@@ -284,19 +284,22 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
   }
 
   ngAfterViewInit() {
-    this._focusState.listen(this._inputElement, this._el).subscribe((event) => {
-      if (this._onFocusByKeyboardState === true) {
-        this._renderer.removeClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
-        this._onFocusByKeyboardState = false;
-      }
-      if (event.by === 'keyboard') {
-        if (event.event.type === 'focus') {
-          this._onFocusByKeyboardState = true;
-          this._renderer.addClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
+    const focusState = this._focusState.listen(this._inputElement, this._el);
+    if (focusState) {
+      focusState.subscribe((event) => {
+        if (this._onFocusByKeyboardState === true) {
+          this._renderer.removeClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
+          this._onFocusByKeyboardState = false;
         }
-      }
-      this._onTouched();
-    });
+        if (event.by === 'keyboard') {
+          if (event.event.type === 'focus') {
+            this._onFocusByKeyboardState = true;
+            this._renderer.addClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
+          }
+        }
+        this._onTouched();
+      });
+    }
 
     this._rippleContainer = this._innerContainer;
 
