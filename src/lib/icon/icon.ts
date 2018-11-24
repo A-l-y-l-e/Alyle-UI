@@ -5,20 +5,20 @@ import { Platform, LyTheme2, mixinStyleUpdater, mixinBg, mixinFlat, mixinColor, 
 
 const STYLE_PRIORITY = -2;
 
-export class LyButtonBase {
+export class LyIconBase {
   constructor(
     public _theme: LyTheme2
   ) { }
 }
 
-export const LyButtonMixinBase = mixinStyleUpdater(
+export const LyIconMixinBase = mixinStyleUpdater(
 mixinBg(
   mixinFlat(
     mixinColor(
       mixinRaised(
         mixinOutlined(
           mixinElevation(
-            mixinShadowColor(LyButtonBase))))))));
+            mixinShadowColor(LyIconBase))))))));
 
 
 @Directive({
@@ -33,7 +33,7 @@ mixinBg(
     'shadowColor',
   ],
 })
-export class LyIcon extends LyButtonMixinBase implements OnChanges, OnInit {
+export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
   private _src: string;
   private _icon: string;
   private _fontSet: string;
