@@ -122,6 +122,7 @@ const styles = ({
   }
 });
 
+/** @docs-private */
 export enum CarouselMode {
   /** full */
   default,

@@ -196,8 +196,10 @@ const styles = (theme: ThemeVariables) => {
   };
 };
 
+/** @docs-private */
 export class LyFieldBase { }
 
+/** @docs-private */
 export const LyFieldMixinBase = mixinColor(LyFieldBase);
 
 @Component({

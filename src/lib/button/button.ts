@@ -57,6 +57,7 @@ const Size: Record<LyButtonSize, any> = {
   })
 };
 
+/** @docs-private */
 export class LyButtonBase {
   constructor(
     public _theme: LyTheme2,
@@ -64,6 +65,7 @@ export class LyButtonBase {
   ) { }
 }
 
+/** @docs-private */
 export const LyButtonMixinBase = mixinStyleUpdater(
 mixinBg(
   mixinFlat(

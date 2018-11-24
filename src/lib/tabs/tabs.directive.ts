@@ -45,14 +45,17 @@ import { Subscription } from 'rxjs';
 
 const DEFAULT_DISABLE_RIPPLE = false;
 
+/** @docs-private */
 export class LyTabsBase {
   constructor(
     public _theme: LyTheme2
   ) { }
 }
 
+/** @docs-private */
 export const LyTabsMixinBase = mixinBg(mixinFlat(mixinColor(LyTabsBase)));
 
+/** @docs-private */
 export class LyTabLabelBase {
   constructor(
     public _theme: LyTheme2,
@@ -60,6 +63,7 @@ export class LyTabLabelBase {
   ) { }
 }
 
+/** @docs-private */
 export const LyTabLabelMixinBase = mixinStyleUpdater(
 mixinBg(
   mixinFlat(

@@ -53,6 +53,7 @@ const DEFAULT_ASPECT_RATIO = '16:9';
 
 const STYLE_PRIORITY = -1;
 
+/** @docs-private */
 export class LyCardBase {
   constructor(
     public _theme: LyTheme2,
@@ -60,6 +61,7 @@ export class LyCardBase {
   ) { }
 }
 
+/** @docs-private */
 export const LyCardMixinBase = mixinStyleUpdater(
 mixinBg(
   mixinFlat(

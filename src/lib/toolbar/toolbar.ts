@@ -43,12 +43,14 @@ const styles = (theme: ThemeVariables) => ({
 
 type position = 'static' | 'absolute' | 'fixed' | 'sticky' | 'relative';
 
+/** @docs-private */
 export class LyToolbarBase {
   constructor(
     public _theme: LyTheme2
   ) { }
 }
 
+/** @docs-private */
 export const LyToolbarMixinBase = mixinStyleUpdater(
   mixinBg(
     mixinFlat(

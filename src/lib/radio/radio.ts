@@ -209,6 +209,7 @@ export class LyRadioGroup implements ControlValueAccessor {
 
 }
 
+/** @docs-private */
 export class LyRadioBase {
   constructor(
     public _theme: LyTheme2,
@@ -216,6 +217,7 @@ export class LyRadioBase {
   ) { }
 }
 
+/** @docs-private */
 export const LyRadioMixinBase = mixinDisableRipple(mixinColor(LyRadioBase));
 
 @Component({

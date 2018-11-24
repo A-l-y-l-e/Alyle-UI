@@ -5,12 +5,14 @@ import { Platform, LyTheme2, mixinStyleUpdater, mixinBg, mixinFlat, mixinColor, 
 
 const STYLE_PRIORITY = -2;
 
+/** @docs-private */
 export class LyIconBase {
   constructor(
     public _theme: LyTheme2
   ) { }
 }
 
+/** @docs-private */
 export const LyIconMixinBase = mixinStyleUpdater(
 mixinBg(
   mixinFlat(

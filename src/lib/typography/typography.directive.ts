@@ -10,7 +10,7 @@ const styles = (theme: ThemeVariables) => ({
   }
 });
 
-/** @ignore */
+/** @docs-private */
 enum Gutter {
   default,
   top,
@@ -21,7 +21,8 @@ enum Gutter {
   selector: `[lyTyp]`
 })
 export class LyTypography implements OnInit {
-  classes = this.style.addStyleSheet(styles, STYLE_PRIORITY);
+  /** @docs-private */
+  readonly classes = this.style.addStyleSheet(styles, STYLE_PRIORITY);
   private _lyTyp: string;
   private _lyTypClass: string;
 

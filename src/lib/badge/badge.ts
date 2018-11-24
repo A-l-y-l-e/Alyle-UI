@@ -50,12 +50,14 @@ const styles = (theme: ThemeVariables) => ({
   }
 });
 
+/** @docs-private */
 export class LyBadgeBase {
   constructor(
     public _theme: LyTheme2
   ) { }
 }
 
+/** @docs-private */
 export const LyBadgeMixinBase = mixinStyleUpdater(
 mixinBg(
   mixinFlat(
@@ -82,7 +84,7 @@ mixinBg(
 export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit {
   /**
    * Styles
-   * @ignore
+   * @docs-private
    */
   classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _content: string | number;

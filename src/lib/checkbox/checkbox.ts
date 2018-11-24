@@ -137,6 +137,7 @@ export class LyCheckboxChange {
   checked: boolean;
 }
 
+/** @docs-private */
 export class LyCheckboxBase {
   constructor(
     public _theme: LyTheme2,
@@ -144,6 +145,7 @@ export class LyCheckboxBase {
   ) { }
 }
 
+/** @docs-private */
 export const LyCheckboxMixinBase = mixinStyleUpdater(
 mixinBg(
   mixinFlat(

@@ -3,11 +3,9 @@ import { CommonModule } from '@angular/common';
 import { LyCarouselItem, LyCarousel } from './carousel';
 import { LyCommonModule } from '@alyle/ui';
 
-const LY_CAROUSEL_DIRECTIVES = [LyCarouselItem, LyCarousel];
-
 @NgModule({
   imports: [CommonModule, LyCommonModule],
-  exports: [LY_CAROUSEL_DIRECTIVES, LyCommonModule],
-  declarations: [LY_CAROUSEL_DIRECTIVES]
+  exports: [LyCarouselItem, LyCarousel, LyCommonModule],
+  declarations: [LyCarouselItem, LyCarousel]
 })
 export class LyCarouselModule { }
