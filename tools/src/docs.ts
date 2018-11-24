@@ -5,7 +5,7 @@
 import { existsSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
 
-import { ProjectReflection, DeclarationReflection, ParameterReflection } from 'typedoc';
+import { ProjectReflection, DeclarationReflection, ParameterReflection, Reflection } from 'typedoc';
 import { ensureDirSync } from 'fs-extra';
 
 interface DocsPackage {
@@ -18,18 +18,20 @@ interface DocsPackageLarge {
   directiveList: {
     name: string
     selector: string
-    exportAs: string
     inputs: string
+    exportAs: string
+    children: string
   }[];
   componentList: {
     name: string
     selector: string
     inputs: string
     exportAs: string
-    children: string[]
+    children: string
   }[];
   [type: string]: {
     name: string
+    children: string
   }[];
 }
 
@@ -71,9 +73,10 @@ docsJSON.children.forEach(child => {
         name,
         type
       });
+      const Type = `${toCamelcase(type)}List`;
       if (type === 'Component' || type === 'Directive') {
-        const selector = ((/selector:\s?\`?\'?\`?([\w\-\,\[\]\s]+)\'?\'?/).exec(decorators[0].arguments.obj))[1];
-        const exportAs = ((/exportAs:\s?\`?\'?\`?([\w\-\,\[\]\s]+)\'?\'?/).exec(decorators[0].arguments.obj) || [])[1] || null;
+        const selector = ((/selector:\s?\`?\'?\`?([\w\-\,\[\]\s\>]+)\'?\'?/).exec(decorators[0].arguments.obj))[1];
+        const exportAs = ((/exportAs:\s?\`?\'?\`?([\w\-\,\[\]\s\>]+)\'?\'?/).exec(decorators[0].arguments.obj) || [])[1] || null;
         const __data = {
           name,
           selector,
@@ -96,7 +99,7 @@ docsJSON.children.forEach(child => {
             )) { // ignore for names start with '_'
               let comment = '';
               if (de.comment) {
-                comment += createDescription(de.comment.shortText);
+                comment += createDescription(de.comment);
                 items.push(comment);
               }
               if (de.kindString === 'Property') {
@@ -127,14 +130,87 @@ docsJSON.children.forEach(child => {
           __data.children = items.join(`\n`);
         }
 
-      } else {
-        const Type = `${toCamelcase(type)}List`;
+      } else if (_child.flags.isExported || (kindString === 'Variable' && _child.flags.isConst)) {
         if (!APIListLarge[pkgName][Type]) {
           APIListLarge[pkgName][Type] = [];
         }
-        APIListLarge[pkgName][Type].push({
-          name
-        });
+        if (kindString === 'Variable' && _child.flags.isConst) {
+
+          let items = `const ${name}`;
+
+          if (_child.type) {
+            if (_child.type.type !== 'unknown') {
+              items += `: ${getType(_child.type, 'any')}`;
+            }
+             if (_child.defaultValue) {
+              items += ` = ${_child.defaultValue.trim()}`;
+            }
+          }
+          APIListLarge[pkgName][Type].push({
+            name,
+            children: items
+          });
+        } else if (type === 'NgModule') {
+          APIListLarge[pkgName][Type].push({
+            name,
+            children: `import { ${name} } from '${join('@alyle/ui', pkgName === 'root' ? '' : pkgName)}'`
+          });
+        } else if (type === 'Enumeration') {
+          let line = `enum ${name} `;
+          line += `{\n`;
+          line += _child.children.map(_ => {
+            let k = `  `;
+            if (_.comment) {
+              k += `${createDescription(_.comment)}\n  `;
+            }
+            k += `${_.name}`;
+            if (_.defaultValue) {
+              k += ` = ${_.defaultValue}`;
+            }
+            return k;
+          }).join(`,\n`);
+          line += `\n}`;
+          APIListLarge[pkgName][Type].push({
+            name,
+            children: line
+          });
+        } else if (type === 'Interface' && _child.children) {
+          let line = `interface ${name} `;
+          line += `{\n`;
+
+          line += _child.children.map(_ => {
+            let k = `  `;
+            if (_.comment) {
+              k += `${createDescription(_.comment)}\n  `;
+            }
+            k += `${_.name}`;
+            if (_.type) {
+              k += `: ${getType(_.type, 'any')}`;
+            }
+            return k;
+          }).join(`,\n`);
+          line += `\n}`;
+          APIListLarge[pkgName][Type].push({
+            name,
+            children: line
+          });
+        } else if (kindString === 'Type alias') {
+          let line = '';
+          if (_child.comment) {
+            line += `${createDescription(_child.comment)}\n`;
+          }
+          line += `type ${name}`;
+
+          if (_child.type) {
+            if (_child.type.type !== 'unknown') {
+              line += ` = ${getType(_child.type, 'any')}`;
+            }
+          }
+          APIListLarge[pkgName][Type].push({
+            name,
+            children: line
+          });
+        }
       }
     });
   }
@@ -143,12 +219,14 @@ docsJSON.children.forEach(child => {
 // console.log(JSON.stringify(APIList, undefined, 2));
 // console.log(JSON.stringify(APIListLarge, undefined, 2));
 
+ensureDirSync(OUT_DIR);
+
 writeFileSync(join(OUT_DIR, 'APIList.json'), JSON.stringify(APIList, undefined, 2), 'utf8');
 writeFileSync(join(OUT_DIR, 'APIList.min.json'), JSON.stringify(APIList), 'utf8');
 writeFileSync(join(OUT_DIR, 'APIListLarge.json'), JSON.stringify(APIListLarge, undefined, 2), 'utf8');
 writeFileSync(join(OUT_DIR, 'APIListLarge.min.json'), JSON.stringify(APIListLarge), 'utf8');
 
-ensureDirSync(OUT_DIR);
+console.log('Finish compile docs.');
 
 for (const key in APIListLarge) {
   if (APIListLarge.hasOwnProperty(key)) {
@@ -211,22 +289,24 @@ function methodTemplate(de: DeclarationReflection) {
 
 function getType(ty: ParameterReflection['type'], defaultType = 'void') {
   if (ty) {
-    if (ty.type === 'intrinsic' || ty.type === 'reference') {
+    if (ty.type === 'stringLiteral') {
+      return `'${ty['value']}'`;
+    } else if (ty.type === 'intrinsic' || ty.type === 'reference') {
       return ty['name'];
     } else if (ty.type === 'union') {
-      return (ty['types'] as any[]).map(_ => getType(_)).join(' | ');
+      return (ty['types'] as any[]).map(_ => getType(_, defaultType)).join(' | ');
     }
   }
   return defaultType;
 }
 
-function createDescription(text: string, prefix = '') {
-  if (text) {
-    const newText = (text);
+function createDescription(comment: Reflection['comment']) {
+  if (comment && comment.shortText) {
+    const newText = (comment.shortText);
     const isMultiline = newText.split(/\n/g).length > 1;
     const lineStart = isMultiline ? `\n *` : '';
     const lineEnd = isMultiline ? `\n` : '';
-    return newText ? `${prefix}/**${lineStart} ${newText.replace(/\n/g, `\n * `)}${lineEnd} */` : '';
+    return newText ? `/**${lineStart} ${newText.replace(/\n/g, `\n * `)}${lineEnd} */` : '';
   }
   return '';
 }

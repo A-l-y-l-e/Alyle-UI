@@ -1,32 +1,39 @@
 <ng-container *ngIf="doc | async as api; else loading">
   <h2 [lyTyp]="'headline'" gutter>Module</h2>
-  <prism language="typescript" [code]="ref(api.modules[0].name)"></prism>
-  <ng-container *ngFor="let item of api.c_d">
-    <h2 [lyTyp]="'headline'" gutter>{{ item.title }}</h2>
-    <ng-template ngFor let-directive [ngForOf]="item.data" let-x="index">
+  <prism language="typescript" [code]="api.ngModuleList[0].children"></prism>
+  <ng-template [ngIf]="api.componentList.length">
+    <h2 [lyTyp]="'headline'" gutter>Components</h2>
+    <ng-template ngFor let-component [ngForOf]="api.componentList" let-x="index">
+      <h3 [lyTyp]="'title'" gutter>{{ component.name }}</h3>
+      <p>Selector: <span prism language="typescript" code="'{{ component.selector }}'"></span></p>
+      <p *ngIf="component.exportAs as exportAs">ExportAs: <span prism language="typescript" code="'{{ exportAs }}'"></span></p>
+      <prism *ngIf="component.children" language="typescript" [code]="component.children"></prism>
+    </ng-template>
+  </ng-template>
+  <ng-template [ngIf]="api.directiveList.length">
+    <h2 [lyTyp]="'headline'" gutter>Directives</h2>
+    <ng-template ngFor let-directive [ngForOf]="api.directiveList" let-x="index">
       <h3 [lyTyp]="'title'" gutter>{{ directive.name }}</h3>
       <p>Selector: <span prism language="typescript" code="'{{ directive.selector }}'"></span></p>
-      <prism *ngIf="directive.code" language="typescript" [code]="directive.code"></prism>
+      <p *ngIf="directive.exportAs as exportAs">ExportAs: <span prism language="typescript" code="'{{ exportAs }}'"></span></p>
+      <prism *ngIf="directive.children" language="typescript" [code]="directive.children"></prism>
     </ng-template>
-  </ng-container>
-  <ng-container *ngIf="api.miscellaneous.typealiases.length">
+  </ng-template>
+  <ng-container *ngIf="api.typeAliasList as typeAliasList">
     <h2 [lyTyp]="'headline'" gutter>Type Aliases</h2>
-    <ng-container *ngFor="let variable of api.miscellaneous.typealiases">
-      <h3 [lyTyp]="'title'" gutter>{{ variable.name }}</h3>
-      <p>Type: <span prism language="typescript" code="{{ variable.rawtype }}"></span></p>
-    </ng-container>
+    <prism language="typescript" [code]="joinList(typeAliasList)"></prism>
   </ng-container>
-  <ng-container *ngIf="api.miscellaneous.variablesCode as code">
-    <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
-    <prism language="typescript" [code]="code"></prism>
-  </ng-container>
-  <ng-container *ngIf="api.miscellaneous.enumerationsCode as code">
-    <h2 [lyTyp]="'headline'" gutter>Enumerations</h2>
-    <prism language="typescript" [code]="code"></prism>
-  </ng-container>
-  <ng-container *ngIf="api.interfacesCode as interfaces">
+  <ng-container *ngIf="api.interfaceList as interfaces">
     <h2 [lyTyp]="'headline'" gutter>Interfaces</h2>
-    <prism language="typescript" [code]="interfaces"></prism>
+    <prism language="typescript" [code]="joinList(interfaces)"></prism>
+  </ng-container>
+  <ng-container *ngIf="api.enumerationList as enumerationList">
+    <h2 [lyTyp]="'headline'" gutter>Enumerations</h2>
+    <prism language="typescript" [code]="joinList(enumerationList)"></prism>
+  </ng-container>
+  <ng-container *ngIf="api.variableList as variableList">
+    <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
+    <prism language="typescript" [code]="joinList(variableList)"></prism>
   </ng-container>
 </ng-container>
 <ng-template [ngIf]="themePkg.length">

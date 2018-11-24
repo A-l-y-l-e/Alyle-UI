@@ -94,7 +94,10 @@ export interface ImgCropperConfig {
   } | ImgResolution;
 }
 
-/** @deprecated */
+/**
+ * Deprecated, use instead ImgCropperConfig
+ * @deprecated
+ */
 export type LyResizingCroppingImagesConfig = ImgCropperConfig;
 
 /** Image output */

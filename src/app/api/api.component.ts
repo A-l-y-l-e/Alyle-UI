@@ -24,14 +24,14 @@ export class ApiComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     public route: ActivatedRoute,
     public theme: LyTheme2,
-    @Inject(LY_THEME) private themeConfig
+    @Inject(LY_THEME) themeConfig
   ) {
     this.routeParamsSubscription = this.route.params.subscribe(params => {
       this.themeJson = null;
       this.themePkg = [];
       this.pkgName = params.package;
       this.doc = this.http
-      .get(isDevMode() ? `${location.origin}/api/${this.pkgName}/documentation.json` : `${host}/${this.pkgName}/documentation.json`, {responseType: 'json'});
+      .get(isDevMode() ? `${location.origin}/api/${this.pkgName}.json` : `${host}/${this.pkgName}.min.json`, {responseType: 'json'});
       themeConfig.forEach(pkg => {
         if (this.pkgName in pkg && Object.keys(pkg[this.pkgName]).length) {
           this.themePkg.push({
@@ -56,6 +56,10 @@ export class ApiComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routeParamsSubscription.unsubscribe();
+  }
+
+  joinList(_) {
+    return _.map(__ => __.children).join(`\n`);
   }
 
 }
