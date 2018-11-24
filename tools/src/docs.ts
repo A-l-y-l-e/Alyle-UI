@@ -130,7 +130,7 @@ docsJSON.children.forEach(child => {
           __data.children = items.join(`\n`);
         }
 
-      } else if (_child.flags.isExported || (kindString === 'Variable' && _child.flags.isConst)) {
+      } else if ((_child.flags.isExported || (kindString === 'Variable' && _child.flags.isConst)) && !checkIfContainTagPrivate(_child)) {
         if (!APIListLarge[pkgName][Type]) {
           APIListLarge[pkgName][Type] = [];
         }
@@ -226,8 +226,6 @@ writeFileSync(join(OUT_DIR, 'APIList.min.json'), JSON.stringify(APIList), 'utf8'
 writeFileSync(join(OUT_DIR, 'APIListLarge.json'), JSON.stringify(APIListLarge, undefined, 2), 'utf8');
 writeFileSync(join(OUT_DIR, 'APIListLarge.min.json'), JSON.stringify(APIListLarge), 'utf8');
 
-console.log('Finish compile docs.');
-
 for (const key in APIListLarge) {
   if (APIListLarge.hasOwnProperty(key)) {
     const item = APIListLarge[key];
@@ -241,6 +239,8 @@ for (const key in APIListLarge) {
     writeFileSync(join(OUT_DIR, `${key}.min.json`), JSON.stringify(item), 'utf8');
   }
 }
+
+console.log('Finish compile docs.');
 
 function getPackageName(name: string) {
   // ignore src
