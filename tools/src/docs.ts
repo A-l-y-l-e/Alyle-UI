@@ -2,10 +2,11 @@
  * Generate templates
  */
 
-import * as fs from 'fs';
+import { existsSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 import { ProjectReflection, DeclarationReflection, ParameterReflection } from 'typedoc';
+import { ensureDirSync } from 'fs-extra';
 
 interface DocsPackage {
   children: {
@@ -32,7 +33,9 @@ interface DocsPackageLarge {
   }[];
 }
 
-const docsJSON: ProjectReflection = JSON.parse(fs.readFileSync(join(process.cwd(), 'dist/docs.json')).toString());
+const docsJSON: ProjectReflection = JSON.parse(readFileSync(join(process.cwd(), 'dist/docs.json')).toString());
+
+const OUT_DIR = join(process.cwd(), `docs/@alyle/ui`);
 
 const APIList: {[name: string]: DocsPackage} = {};
 const APIListLarge: {[name: string]: DocsPackageLarge} = {};
@@ -137,10 +140,29 @@ docsJSON.children.forEach(child => {
   }
 });
 
-fs.writeFileSync(join(process.cwd(), 'docs/APIList.json'), JSON.stringify(APIList, undefined, 2), 'utf8');
-fs.writeFileSync(join(process.cwd(), 'docs/APIList.min.json'), JSON.stringify(APIList), 'utf8');
-fs.writeFileSync(join(process.cwd(), 'docs/APIListLarge.json'), JSON.stringify(APIListLarge, undefined, 2), 'utf8');
-fs.writeFileSync(join(process.cwd(), 'docs/APIListLarge.min.json'), JSON.stringify(APIListLarge), 'utf8');
+// console.log(JSON.stringify(APIList, undefined, 2));
+// console.log(JSON.stringify(APIListLarge, undefined, 2));
+
+writeFileSync(join(OUT_DIR, 'APIList.json'), JSON.stringify(APIList, undefined, 2), 'utf8');
+writeFileSync(join(OUT_DIR, 'APIList.min.json'), JSON.stringify(APIList), 'utf8');
+writeFileSync(join(OUT_DIR, 'APIListLarge.json'), JSON.stringify(APIListLarge, undefined, 2), 'utf8');
+writeFileSync(join(OUT_DIR, 'APIListLarge.min.json'), JSON.stringify(APIListLarge), 'utf8');
+
+ensureDirSync(OUT_DIR);
+
+for (const key in APIListLarge) {
+  if (APIListLarge.hasOwnProperty(key)) {
+    const item = APIListLarge[key];
+
+    const fullPath = join(OUT_DIR, key.split('/').slice(0, -1).join('/'));
+    if (!existsSync(fullPath)) {
+      ensureDirSync(fullPath);
+    }
+
+    writeFileSync(join(OUT_DIR, `${key}.json`), JSON.stringify(item, undefined, 2), 'utf8');
+    writeFileSync(join(OUT_DIR, `${key}.min.json`), JSON.stringify(item), 'utf8');
+  }
+}
 
 function getPackageName(name: string) {
   // ignore src
