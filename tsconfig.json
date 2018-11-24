@@ -40,6 +40,7 @@
       "@alyle/ui/field": ["lib/field"],
       "@alyle/ui/checkbox": ["lib/checkbox"],
       "@alyle/ui/snack-bar": ["lib/snack-bar"],
+      "@alyle/ui/tooltip": ["lib/tooltip"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }
