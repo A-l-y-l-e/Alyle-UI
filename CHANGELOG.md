@@ -1,3 +1,13 @@
+<a name="1.8.6"></a>
+## [1.8.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.5...1.8.6) (2018-11-24)
+
+
+### Features
+
+* **docs:** update docs ([58a54c2](https://github.com/A-l-y-l-e/Alyle-UI/commit/58a54c2))
+
+
+
 <a name="1.8.5"></a>
 ## [1.8.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.4...1.8.5) (2018-11-23)
 
