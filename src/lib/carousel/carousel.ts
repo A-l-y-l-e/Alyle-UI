@@ -17,10 +17,10 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Platform, LyTheme2, toBoolean, ThemeVariables } from '@alyle/ui';
-import * as chroma from 'chroma-js';
+import * as _chroma from 'chroma-js';
 
 /** @docs-private */
-// const chroma = _chroma;
+const chroma = _chroma;
 
 const STYLE_PRIORITY = -2;
 
