@@ -1,9 +1,9 @@
 <div
-(slidestart)="touch && onDragStart($event)"
-(slideleft)="touch && onDrag($event)"
-(slideright)="touch && onDrag($event)"
-(slidecancel)="touch && ondragCancel($event)"
-(slideend)="touch && onDragEnd($event)"
+(slidestart)="touch && _onDragStart()"
+(slideleft)="touch && _onDrag($event)"
+(slideright)="touch && _onDrag($event)"
+(slidecancel)="touch && _onDragCancel()"
+(slideend)="touch && _onDragEnd($event)"
 #slideContainer
 >
   <div [className]="classes.slide" [style.transform]="_positionLeft">
@@ -23,10 +23,10 @@
       ></span>
       </div>
   </div>
-  <div class="ly-carousel-actions" (click)="prev()">
+  <div [className]="classes.actions" (click)="prev()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
   </div>
-  <div class="ly-carousel-actions right" (click)="next()">
+  <div [ngClass]="[classes.actions, 'right']" (click)="next()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
   </div>
 </div>

@@ -31,20 +31,7 @@ const styles = (theme: ThemeVariables) => ({
     '-moz-user-select': 'none',
     '-ms-user-select': 'none',
     position: 'relative',
-    '& .ly-carousel-actions': {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      margin: 'auto .25em',
-      height: '1em',
-      width: '1em',
-      fontSize: '36px',
-      cursor: 'pointer',
-      color: theme.background.primary.default,
-      background: chroma(theme.text.primary).alpha(.25).css(),
-      willChange: 'transform'
-    },
-    '& .ly-carousel-actions.right': {
+    '& {actions}.right': {
       right: 0,
       '-webkit-transform': 'rotate(180deg)',
       transform: 'rotate(180deg)'
@@ -53,6 +40,19 @@ const styles = (theme: ThemeVariables) => ({
       display: 'block',
       fill: 'currentColor'
     }
+  },
+  actions: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    margin: 'auto .25em',
+    height: '1em',
+    width: '1em',
+    fontSize: '36px',
+    cursor: 'pointer',
+    color: theme.background.primary.default,
+    background: chroma(theme.text.primary).alpha(.25).css(),
+    willChange: 'transform'
   },
   slideContainer: {
     overflow: 'hidden',
@@ -74,9 +74,6 @@ const styles = (theme: ThemeVariables) => ({
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
-    },
-    '& > ly-carousel-item > [lyCarouselImg]': {
-      width: '100%'
     }
   },
   slideContent: {
@@ -143,6 +140,8 @@ export enum CarouselMode {
   encapsulation: ViewEncapsulation.None
 })
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
+  /** docs-private */
+  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   public _selectedIndex: any;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   private _intervalFn = null;
@@ -153,7 +152,6 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   _positionLeft: string | number;
   @Input() selectedIndex = 0;
   selectedElement: HTMLElement;
-  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _touch: boolean;
   @Input()
   set touch(val: boolean) {
@@ -168,12 +166,16 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   get touch() {
     return this._touch;
   }
-  onDragStart(e) {
+
+  /** docs-private */
+  _onDragStart() {
     this.stop();
     this.renderer.removeClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.selectedElement = this.lyItems.find((item, index) => index === this.selectedIndex)._nativeElement;
   }
-  onDrag(e) {
+
+  /** docs-private */
+  _onDrag(e) {
     const rect = this.selectedElement.getBoundingClientRect();
     if (Math.abs(e.deltaX) < rect.width) {
       this._onPan(e.deltaX);
@@ -181,7 +183,9 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
       this._onPan(rect.width * Math.sign(e.deltaX));
     }
   }
-  onDragEnd(e) {
+
+  /** docs-private */
+  _onDragEnd(e) {
     const rect = this.selectedElement.getBoundingClientRect();
     this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.select(this.selectedIndex);
@@ -202,7 +206,9 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     }
     this._resetInterval();
   }
-  ondragCancel() {
+
+  /** docs-private */
+  _onDragCancel() {
     this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.select(this.selectedIndex);
     this._resetInterval();
@@ -233,12 +239,13 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     return this.sanitizer.bypassSecurityTrustStyle(val);
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     if (Platform.isBrowser) {
       this.stop();
     }
   }
 
+  /** docs-private */
   _markForCheck() {
     this.cd.markForCheck();
   }
@@ -279,6 +286,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   stop() {
     if (this._intervalFn !== null) {
       clearInterval(this._intervalFn);
+      this._intervalFn = null;
     }
   }
 }
