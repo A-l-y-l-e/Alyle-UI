@@ -1,7 +1,9 @@
 <div
-(slidestart)="slideEvent && onDragStart($event)"
-(slide)="slideEvent && onDrag($event)"
-(slideend)="slideEvent && onDragEnd($event)"
+(slidestart)="touch && onDragStart($event)"
+(slideleft)="touch && onDrag($event)"
+(slideright)="touch && onDrag($event)"
+(slidecancel)="touch && ondragCancel($event)"
+(slideend)="touch && onDragEnd($event)"
 #slideContainer
 >
   <div [className]="classes.slide" [style.transform]="_positionLeft">
@@ -16,7 +18,9 @@
       color="#000"
       bg="background:primary"
       [class.active]="selectedIndex==i"
-      [elevation]="6"></span>
+      [elevation]="8"
+      [shadowColor]="'text'"
+      ></span>
       </div>
   </div>
   <div class="ly-carousel-actions" (click)="prev()">

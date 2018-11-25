@@ -9,7 +9,8 @@ const HAMMER_GESTURES_EVENTS = [
   'slidestart',
   'slideend',
   'slideright',
-  'slideleft'
+  'slideleft',
+  'slidecancel'
 ];
 
 @Injectable()
@@ -22,7 +23,7 @@ export class LyHammerGestureConfig extends HammerGestureConfig {
   }
   buildHammer(element: HTMLElement): HammerInstance {
     const hammer = typeof window !== 'undefined' ? (window as any).Hammer : null;
-    const mc = new hammer(element, this._hammerOptions || undefined);
+    const mc = new hammer(element, this._hammerOptions || {});
 
     const pan = new hammer.Pan();
     const swipe = new hammer.Swipe();

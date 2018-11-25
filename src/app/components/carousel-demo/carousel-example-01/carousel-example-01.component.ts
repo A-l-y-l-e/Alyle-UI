@@ -20,7 +20,7 @@ const styles = {
 })
 export class CarouselExample01Component {
   classes = this.theme.addStyleSheet(styles);
-  items: any[] = [
+  items = [
     {
       title: 'Mountains',
       img: 'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2FMountains-Blue.jpg?alt=media&token=d04f0279-79c6-4752-8b5a-cccd73720243'

@@ -16,11 +16,15 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { Platform, LyTheme2, toBoolean } from '@alyle/ui';
+import { Platform, LyTheme2, toBoolean, ThemeVariables } from '@alyle/ui';
+import * as _chroma from 'chroma-js';
+
+/** @docs-private */
+const chroma = _chroma;
 
 const STYLE_PRIORITY = -2;
 
-const styles = ({
+const styles = (theme: ThemeVariables) => ({
   root: {
     display: 'block',
     '-webkit-user-select': 'none',
@@ -36,8 +40,8 @@ const styles = ({
       width: '1em',
       fontSize: '36px',
       cursor: 'pointer',
-      color: '#fff',
-      background: 'rgba(0, 0, 0, 0.11)',
+      color: theme.background.primary.default,
+      background: chroma(theme.text.primary).alpha(.25).css(),
       willChange: 'transform'
     },
     '& .ly-carousel-actions.right': {
@@ -55,7 +59,8 @@ const styles = ({
     display: 'block',
     width: '100%',
     height: '100%',
-    position: 'relative'
+    position: 'relative',
+    touchAction: 'pan-y !important'
   },
   slide: {
     display: 'flex',
@@ -65,7 +70,6 @@ const styles = ({
     '& > ly-carousel-item': {
       width: '100%',
       flexShrink: 0,
-      overflow: 'auto',
       position: 'relative',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -114,10 +118,12 @@ const styles = ({
       transform: 'scale(.5)',
       borderRadius: '50%',
       willChange: 'transform',
-      display: 'block'
+      display: 'block',
+      opacity: .65
     },
     '&>div>span.active': {
-      transform: 'scale(1)'
+      transform: 'scale(1)',
+      opacity: 1
     }
   }
 });
@@ -148,21 +154,22 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   @Input() selectedIndex = 0;
   selectedElement: HTMLElement;
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
-  private _slideEvent: boolean;
+  private _touch: boolean;
   @Input()
-  set slideEvent(val: boolean) {
+  set touch(val: boolean) {
     const newVal = toBoolean(val);
-    this._slideEvent = newVal;
+    this._touch = newVal;
     if (newVal) {
       this.renderer.removeClass(this.elementRef.nativeElement, this.classes.slideNoEvent);
     } else {
       this.renderer.addClass(this.elementRef.nativeElement, this.classes.slideNoEvent);
     }
   }
-  get slideEvent() {
-    return this._slideEvent;
+  get touch() {
+    return this._touch;
   }
   onDragStart(e) {
+    this.stop();
     this.renderer.removeClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.selectedElement = this.lyItems.find((item, index) => index === this.selectedIndex)._nativeElement;
   }
@@ -170,6 +177,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     const rect = this.selectedElement.getBoundingClientRect();
     if (Math.abs(e.deltaX) < rect.width) {
       this._onPan(e.deltaX);
+    } else {
+      this._onPan(rect.width * Math.sign(e.deltaX));
     }
   }
   onDragEnd(e) {
@@ -191,20 +200,26 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
         this.prev();
       }
     }
+    this._resetInterval();
+  }
+  ondragCancel() {
+    this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
+    this.select(this.selectedIndex);
+    this._resetInterval();
   }
   constructor(
     private elementRef: ElementRef,
     private sanitizer: DomSanitizer,
     private cd: ChangeDetectorRef,
     private theme: LyTheme2,
-    private renderer: Renderer2,
+    private renderer: Renderer2
   ) {
     this.renderer.addClass(elementRef.nativeElement, this.classes.root);
   }
 
   ngOnInit() {
-    if (!this.slideEvent) {
-      this.slideEvent = false;
+    if (!this.touch) {
+      this.touch = false;
     }
     if (Platform.isBrowser) {
       this._resetInterval();
@@ -212,7 +227,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _onPan(x) {
-    this._positionLeft = this.sanitizerStyle(`translate(calc(${-100 * this.selectedIndex }% + ${x}px), 0px)`) as any;
+    this._positionLeft = this.sanitizerStyle(`translate3d(calc(${-100 * this.selectedIndex }% + ${x}px), 0px, 0)`) as any;
   }
   private sanitizerStyle(val: any): SafeStyle {
     return this.sanitizer.bypassSecurityTrustStyle(val);
@@ -237,7 +252,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   select(val: number, notResetInterval?: boolean) {
     this.selectedIndex = val;
     if (this.mode === CarouselMode.default) {
-      this._positionLeft = `translate(${-100 * val}%, 0px)`;
+      this._positionLeft = `translate3d(${-100 * val}%, 0px, 0)`;
     }
     if (!notResetInterval) {
       this._resetInterval();
