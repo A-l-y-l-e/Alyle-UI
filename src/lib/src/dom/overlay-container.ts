@@ -1,9 +1,9 @@
-import { Injectable, Component, Inject, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { Injectable, Component, Inject, HostListener, ElementRef, NgZone } from '@angular/core';
 import { Platform } from '../platform/index';
 import { LyTheme2 } from '../theme/theme2.service';
 import { LyCoreStyles } from '../styles/core-styles';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent ,  Observable, empty } from 'rxjs';
+import { fromEvent , Observable, empty } from 'rxjs';
 import { map, share, auditTime } from 'rxjs/operators';
 import { ThemeVariables } from '../theme/theme-config';
 
@@ -29,15 +29,18 @@ export class WindowScrollService {
 
   constructor(
     @Inject(DOCUMENT) private document: any,
+    ngZone: NgZone
   ) {
     if (Platform.isBrowser) {
-      this.scroll$ = fromEvent(window, 'scroll').pipe(
-        auditTime(200),
-        map(() => {
-          return window.scrollY || this.document.documentElement.scrollTop;
-        }),
-        share()
-      );
+      ngZone.runOutsideAngular(() => {
+        this.scroll$ = fromEvent(window.document, 'scroll').pipe(
+          auditTime(20),
+          map(() => {
+            return window.scrollY || this.document.documentElement.scrollTop;
+          }),
+          share()
+        );
+      });
     } else {
       this.scroll$ = empty();
     }
