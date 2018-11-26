@@ -35,6 +35,8 @@ import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-ba
 
 import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo.component';
 import { ToolbarBasicDemoModule } from '@docs/components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
+import { ToolbarWithIconsModule } from './components/toolbar-demo/toolbar-with-icons/toolbar-with-icons.module';
+
 // tslint:disable-next-line:max-line-length
 import { ResizingCroppingImagesExample01Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-01/resizing-cropping-images-example-01.module';
 // tslint:disable-next-line:max-line-length
@@ -98,6 +100,7 @@ import { IconsModule } from './components/icon-demo/icons/icons.module';
     ButtonTypesDemoModule,
     /** Toolbar */
     ToolbarBasicDemoModule,
+    ToolbarWithIconsModule,
     /** Image cropper */
     ResizingCroppingImagesExample01Module,
     ResizingCroppingImagesExample02Module,
