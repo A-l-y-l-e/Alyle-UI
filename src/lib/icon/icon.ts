@@ -147,6 +147,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
     this._theme.addStyle('lyIconRoot', theme => (
       `font-size:${theme.icon.fontSize};` +
       `width:1em;` +
+      `position:relative;` +
       `height:1em;` +
       `display:inline-flex;`
     ), this._el.nativeElement, undefined, STYLE_PRIORITY);

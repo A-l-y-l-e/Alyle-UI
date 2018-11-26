@@ -26,7 +26,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       shadow
     },
     secondary: '#fafafa',
-    tertiary: '#f5f6f7',
+    tertiary: '#efefef',
     base: '#E0E0E0'
   };
   text = {

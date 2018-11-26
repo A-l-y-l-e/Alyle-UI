@@ -65,7 +65,7 @@ const classes = theme => ({
   root: {
     color: theme.codeColor,
     backgroundColor: theme.codeBg,
-    margin: '1em 0',
+    marginBottom: '.5em',
     'pre[class*="language-"]': {
       padding: '1em',
       margin: '.5em 0',

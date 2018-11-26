@@ -34,7 +34,7 @@ export class Ripple {
     private _triggerElement?: HTMLElement
   ) {
     if (Platform.isBrowser) {
-      if (typeof PointerEvent === 'function' && !!TouchEvent) {
+      if (typeof PointerEvent === 'function' && typeof TouchEvent  === 'function') {
         this._eventHandlers.set('pointerdown', this.onPointerDown.bind(this));
       } else {
         this._eventHandlers.set('mousedown', this.onPointerDown.bind(this));

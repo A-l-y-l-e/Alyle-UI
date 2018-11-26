@@ -5,8 +5,6 @@ export * from './src/alyle-config-service';
 export * from './src/platform/index';
 export * from './src/theme/common.module';
 export * from './src/minimal/index';
-export * from './src/dom/dom.service';
-export * from './src/dom/lx-dom.module';
 export * from './src/focus-state/focus-state.module';
 export * from './src/version';
 export * from './src/gesture/gesture-config';

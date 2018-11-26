@@ -1,5 +1,6 @@
-<ly-carousel [withClass]="classes.carousel">
+<ly-carousel [withClass]="classes.carousel" [touch]="true">
   <ly-carousel-item [withClass]="classes.carouselItem" *ngFor="let item of items" [srcImg]="item.img">
     <h1>{{item.title}}</h1>
+    <button ly-button bg="background:primary">Button</button>
   </ly-carousel-item>
 </ly-carousel>

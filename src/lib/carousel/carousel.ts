@@ -16,31 +16,22 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { Platform, LyTheme2, toBoolean } from '@alyle/ui';
+import { Platform, LyTheme2, toBoolean, ThemeVariables } from '@alyle/ui';
+import * as _chroma from 'chroma-js';
+
+/** @docs-private */
+const chroma = _chroma;
 
 const STYLE_PRIORITY = -2;
 
-const styles = ({
+const styles = (theme: ThemeVariables) => ({
   root: {
     display: 'block',
     '-webkit-user-select': 'none',
     '-moz-user-select': 'none',
     '-ms-user-select': 'none',
     position: 'relative',
-    '& .ly-carousel-actions': {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      margin: 'auto .25em',
-      height: '1em',
-      width: '1em',
-      fontSize: '36px',
-      cursor: 'pointer',
-      color: '#fff',
-      background: 'rgba(0, 0, 0, 0.11)',
-      willChange: 'transform'
-    },
-    '& .ly-carousel-actions.right': {
+    '& {actions}.right': {
       right: 0,
       '-webkit-transform': 'rotate(180deg)',
       transform: 'rotate(180deg)'
@@ -50,12 +41,26 @@ const styles = ({
       fill: 'currentColor'
     }
   },
+  actions: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    margin: 'auto .25em',
+    height: '1em',
+    width: '1em',
+    fontSize: '36px',
+    cursor: 'pointer',
+    color: theme.background.primary.default,
+    background: chroma(theme.text.primary).alpha(.25).css(),
+    willChange: 'transform'
+  },
   slideContainer: {
     overflow: 'hidden',
     display: 'block',
     width: '100%',
     height: '100%',
-    position: 'relative'
+    position: 'relative',
+    touchAction: 'pan-y !important'
   },
   slide: {
     display: 'flex',
@@ -65,14 +70,10 @@ const styles = ({
     '& > ly-carousel-item': {
       width: '100%',
       flexShrink: 0,
-      overflow: 'auto',
       position: 'relative',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
-    },
-    '& > ly-carousel-item > [lyCarouselImg]': {
-      width: '100%'
     }
   },
   slideContent: {
@@ -114,10 +115,12 @@ const styles = ({
       transform: 'scale(.5)',
       borderRadius: '50%',
       willChange: 'transform',
-      display: 'block'
+      display: 'block',
+      opacity: .65
     },
     '&>div>span.active': {
-      transform: 'scale(1)'
+      transform: 'scale(1)',
+      opacity: 1
     }
   }
 });
@@ -137,42 +140,85 @@ export enum CarouselMode {
   encapsulation: ViewEncapsulation.None
 })
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
+  /** @docs-private */
+  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   public _selectedIndex: any;
   public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   private _intervalFn = null;
+  /** @docs-private */
+  _positionLeft: string | number;
   @ViewChild('slideContainer') slideContainer: ElementRef;
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   @Input() mode: CarouselMode = CarouselMode.default;
   @Input() interval = 7000;
-  _positionLeft: string | number;
   @Input() selectedIndex = 0;
   selectedElement: HTMLElement;
-  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
-  private _slideEvent: boolean;
+  private _touch: boolean;
   @Input()
-  set slideEvent(val: boolean) {
+  set touch(val: boolean) {
     const newVal = toBoolean(val);
-    this._slideEvent = newVal;
+    this._touch = newVal;
     if (newVal) {
-      this.renderer.removeClass(this.elementRef.nativeElement, this.classes.slideNoEvent);
+      this.renderer.removeClass(this._el.nativeElement, this.classes.slideNoEvent);
     } else {
-      this.renderer.addClass(this.elementRef.nativeElement, this.classes.slideNoEvent);
+      this.renderer.addClass(this._el.nativeElement, this.classes.slideNoEvent);
     }
   }
-  get slideEvent() {
-    return this._slideEvent;
+  get touch() {
+    return this._touch;
   }
-  onDragStart(e) {
+
+  constructor(
+    private _el: ElementRef,
+    private _sanitizer: DomSanitizer,
+    private cd: ChangeDetectorRef,
+    private theme: LyTheme2,
+    private renderer: Renderer2
+  ) {
+    this.renderer.addClass(_el.nativeElement, this.classes.root);
+  }
+
+  ngOnInit() {
+    if (!this.touch) {
+      this.touch = false;
+    }
+    if (Platform.isBrowser) {
+      this._resetInterval();
+    }
+  }
+
+  ngAfterViewInit() {
+    this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideContainer);
+    if (Platform.isBrowser) {
+      this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
+    }
+  }
+
+  ngOnDestroy() {
+    if (Platform.isBrowser) {
+      this.stop();
+    }
+  }
+
+  /** @docs-private */
+  _onDragStart() {
+    this.stop();
     this.renderer.removeClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.selectedElement = this.lyItems.find((item, index) => index === this.selectedIndex)._nativeElement;
   }
-  onDrag(e) {
+
+  /** @docs-private */
+  _onDrag(e) {
     const rect = this.selectedElement.getBoundingClientRect();
     if (Math.abs(e.deltaX) < rect.width) {
       this._onPan(e.deltaX);
+    } else {
+      this._onPan(rect.width * Math.sign(e.deltaX));
     }
   }
-  onDragEnd(e) {
+
+  /** @docs-private */
+  _onDragEnd(e) {
     const rect = this.selectedElement.getBoundingClientRect();
     this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this.select(this.selectedIndex);
@@ -191,85 +237,68 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
         this.prev();
       }
     }
-  }
-  constructor(
-    private elementRef: ElementRef,
-    private sanitizer: DomSanitizer,
-    private cd: ChangeDetectorRef,
-    private theme: LyTheme2,
-    private renderer: Renderer2,
-  ) {
-    this.renderer.addClass(elementRef.nativeElement, this.classes.root);
+    this._resetInterval();
   }
 
-  ngOnInit() {
-    if (!this.slideEvent) {
-      this.slideEvent = false;
-    }
-    if (Platform.isBrowser) {
-      this._resetInterval();
-    }
+  /** @docs-private */
+  _onDragCancel() {
+    this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
+    this.select(this.selectedIndex);
+    this._resetInterval();
   }
 
-  private _onPan(x) {
-    this._positionLeft = this.sanitizerStyle(`translate(calc(${-100 * this.selectedIndex }% + ${x}px), 0px)`) as any;
-  }
-  private sanitizerStyle(val: any): SafeStyle {
-    return this.sanitizer.bypassSecurityTrustStyle(val);
-  }
-
-  public ngOnDestroy() {
-    if (Platform.isBrowser) {
-      this.stop();
-    }
-  }
-
-  _markForCheck() {
-    this.cd.markForCheck();
-  }
-
-  ngAfterViewInit() {
-    this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideContainer);
-    if (Platform.isBrowser) {
-      this.renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
-    }
-  }
   select(val: number, notResetInterval?: boolean) {
     this.selectedIndex = val;
     if (this.mode === CarouselMode.default) {
-      this._positionLeft = `translate(${-100 * val}%, 0px)`;
+      this._positionLeft = `translate3d(${-100 * val}%, 0px, 0)`;
     }
     if (!notResetInterval) {
       this._resetInterval();
     }
   }
+
   prev() {
     const len = this.lyItems.length - 1;
     const prev = this.selectedIndex - 1;
     this.select(prev < 0 ? len : prev);
   }
+
   next(notResetInterval?: boolean) {
     const len = this.lyItems.length - 1;
     const next = this.selectedIndex + 1;
     this.select(next > len ? 0 : next, notResetInterval);
   }
-  private _resetInterval() {
-    this.stop();
-    this._intervalFn = setInterval(() => {
-      this.next(true);
-      this.cd.markForCheck();
-    }, this.interval);
-  }
 
   stop() {
     if (this._intervalFn !== null) {
       clearInterval(this._intervalFn);
+      this._intervalFn = null;
     }
   }
+
+  private _resetInterval() {
+    this.stop();
+    this._intervalFn = setInterval(() => {
+      this.next(true);
+      this._markForCheck();
+    }, this.interval);
+  }
+
+  private _onPan(x) {
+    this._positionLeft = this._sanitizerStyle(`translate3d(calc(${-100 * this.selectedIndex }% + ${x}px), 0px, 0)`) as any;
+  }
+  private _sanitizerStyle(val: any): SafeStyle {
+    return this._sanitizer.bypassSecurityTrustStyle(val);
+  }
+
+  /** @docs-private */
+  private _markForCheck() {
+    this.cd.markForCheck();
+  }
+
 }
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
   selector: 'ly-carousel-item'
 })
 export class LyCarouselItem {
@@ -284,14 +313,15 @@ export class LyCarouselItem {
       this._className, STYLE_PRIORITY
     );
   }
+
+  /** @docs-private */
   _nativeElement: HTMLElement;
 
   constructor(
     private theme: LyTheme2,
-    private renderer: Renderer2,
-    elementRef: ElementRef
+    _el: ElementRef
   ) {
-    this._nativeElement = elementRef.nativeElement;
+    this._nativeElement = _el.nativeElement;
   }
 
 }
