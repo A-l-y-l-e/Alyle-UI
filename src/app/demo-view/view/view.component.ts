@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Observable, of, merge, forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { catchError, retry } from 'rxjs/operators';
 import { Platform, AUI_VERSION, LyTheme2 } from '@alyle/ui';
 
@@ -29,7 +29,8 @@ const styles = {
   codeContainer: {
     maxHeight: '200px',
     overflowY: 'auto',
-    padding: '24px 24px 0 24px'
+    padding: '24px',
+    height: '100%'
   },
   tabContainer: {
     padding: '48px 24px 24px 24px'
@@ -40,7 +41,7 @@ const styles = {
   code: {
     position: 'absolute',
     right: 0,
-    top: 0,
+    top: '4px',
     zIndex: 1
   }
 };

@@ -53,7 +53,7 @@ const SublimeLight = {
 export class CustomMinimaLight extends MinimaLight {
   shadow = '#505050';
   codeColor = 'rgba(0, 23, 31, 0.7)';
-  codeBg = '#F5F5F5';
+  codeBg = '#fff';
   myColor = 'pink';
   drawerButton = '#5f6368';
 }
@@ -61,7 +61,7 @@ export class CustomMinimaLight extends MinimaLight {
 export class CustomMinimaDark extends MinimaDark {
   shadow = 'rgba(0, 0, 0, 1)';
   codeColor = '#efefef';
-  codeBg = '#212121';
+  codeBg = '#1b1b1b';
   myColor = 'teal';
   drawerButton = '#abafb5';
 }
