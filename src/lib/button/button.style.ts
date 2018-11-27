@@ -32,6 +32,7 @@ export const styles = (theme: ThemeVariables) => {
         border: 0
       },
       ...typography.lyTyp.button,
+      ...theme.button.root,
       '&::after': {
         content: `''`,
         ...LY_COMMON_STYLES.fill,
