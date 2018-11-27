@@ -1,6 +1,5 @@
-import { readdirSync, statSync, readFileSync } from 'fs';
-import { writeFileSync, removeSync, copySync, pathExists, pathExistsSync } from 'fs-extra';
-import { spawnSync } from 'child_process';
+import { readFileSync } from 'fs';
+import { writeFileSync, removeSync, copySync, pathExistsSync } from 'fs-extra';
 import { join } from 'path';
 import * as camelCase from 'camelcase';
 import { tslintConfig } from './config/tslint-config';
@@ -9,12 +8,9 @@ import { testConfig } from './config/test-config';
 import { karmaConf } from './config/karma.conf';
 import { PackageConf } from './config/package.conf';
 
-const dirSrc = `${process.cwd()}/src`;
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
 const angularCliConfig = JSON.parse(readFileSync(`${process.cwd()}/angular.json`, 'utf8').toString());
-const version = PackageConf.version;
-const pkg = JSON.parse(readFileSync(`${process.cwd()}/package.json`, 'utf8').toString());
 let components: { path: string, pkgName: string }[] = PackageConf.components;
 if (pathExistsSync(dist)) {
   console.log('cleaning...');
@@ -29,7 +25,17 @@ copySync(dirLib, dist);
 
 components.forEach((lib, index) => {
   if (index) {
-    writeFileSync(`${dist}/${lib.path}/package.json`, `{"ngPackage": {"lib": {"entryFile": "index.ts"}}}`, 'utf8');
+    writeFileSync(`${dist}/${lib.path}/package.json`, JSON.stringify({
+      ngPackage: {
+        lib: {
+          entryFile: 'index.ts',
+          umdId: `ly.${camelCase(lib.path)}`,
+          umdModuleIds: {
+            'chroma-js': 'chroma'
+          }
+        },
+      }
+    }), 'utf8');
   }
   // const item = statSync(`${dirLib}/${lib.path}`);
   const nh = lib.path.split('/').map(() => '../').join('');

@@ -3,25 +3,8 @@
   "dest": "../../dist/@alyle/ui",
   "lib": {
     "entryFile": "./index.ts",
+    "umdId": "ly.core",
     "umdModuleIds": {
-      "@alyle/ui": "ly.core",
-      "@alyle/ui/icon-button": "ly.iconButton",
-      "@alyle/ui/button": "ly.button",
-      "@alyle/ui/responsive": "ly.responsive",
-      "@alyle/ui/radio": "ly.radio",
-      "@alyle/ui/resizing-cropping-images": "ly.resizingCroppingImages",
-      "@alyle/ui/carousel": "ly.carousel",
-      "@alyle/ui/menu": "ly.menu",
-      "@alyle/ui/checkbox": "ly.checkbox",
-      "@alyle/ui/svg": "ly.svg",
-      "@alyle/ui/tabs": "ly.tabs",
-      "@alyle/ui/toolbar": "ly.toolbar",
-      "@alyle/ui/drawer": "ly.drawer",
-      "@alyle/ui/card": "ly.card",
-      "@alyle/ui/typography": "ly.typography",
-      "@alyle/ui/grid": "ly.grid",
-      "@alyle/ui/badge": "ly.badge",
-      "@alyle/ui/field": "ly.field",
       "chroma-js": "chroma"
     }
   }
