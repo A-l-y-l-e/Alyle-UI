@@ -6,6 +6,7 @@ import { TypographyVariables } from './variables/typography';
 import { CheckboxVariables } from './variables/checkbox';
 import { SnackBarVariables } from './variables/snack-bar';
 import { ButtonVariables } from './variables/button';
+import { TooltipVariables } from './variables/tooltip';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -108,6 +109,7 @@ export interface ThemeConfig {
   checkbox: CheckboxVariables;
   snackBar: SnackBarVariables;
   button: ButtonVariables;
+  tooltip: TooltipVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

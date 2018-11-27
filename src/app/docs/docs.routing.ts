@@ -14,6 +14,7 @@ import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.com
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
 import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
+import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -48,7 +49,8 @@ const routes: Routes = [
       { path: 'field', component: FieldDemoComponent },
       { path: 'checkbox', component: CheckboxDemoComponent },
       { path: 'snack-bar', component: SnackBarDemoComponent },
-      { path: 'icon', component: IconDemoComponent }
+      { path: 'icon', component: IconDemoComponent },
+      { path: 'tooltip', component: TooltipDemoComponent },
     ]
   }
 ];

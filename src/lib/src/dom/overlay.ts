@@ -35,7 +35,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _appRef: ApplicationRef,
-    _templateRef: TemplateRef<any>,
+    _templateRef: TemplateRef<any> | string,
     private _overlayContainer: LyOverlayContainer,
     _context: any,
     private _injector: Injector,
@@ -109,7 +109,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     }
   }
 
-  private _appendComponentToBody(type: TemplateRef<any> | Type<any>, context, injector: Injector) {
+  private _appendComponentToBody(type: TemplateRef<any> | Type<any> | string, context, injector: Injector) {
     if (type instanceof TemplateRef) {
       // Create a component reference from the component
       const viewRef = this._viewRef = type.createEmbeddedView(context || {});
@@ -120,8 +120,11 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
 
       // Append DOM element to the body
       this._overlayContainer._add(this._el);
+    } else if (typeof type === 'string') {
+      this._el.innerText = type;
+      this._overlayContainer._add(this._el);
     } else {
-      this._compRef = this.generateComponent(type, injector);
+      this._compRef = this.generateComponent(type as Type<any>, injector);
       this._el = this._compRef.location.nativeElement;
       this._overlayContainer._add(this._el);
     }
@@ -145,6 +148,10 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       this._el = null;
     } else if (this._compRef) {
       this._compRef.destroy();
+      this._overlayContainer._remove(this._el);
+      this._el = null;
+    } else if (this._el) {
+      // remove if content is string
       this._overlayContainer._remove(this._el);
       this._el = null;
     }
@@ -176,7 +183,7 @@ export class LyOverlay {
     private _windowScroll: WindowScrollService
   ) { }
 
-  create(template: TemplateRef<any>, context?: any, config?: OverlayConfig): OverlayFromTemplateRef {
+  create(template: TemplateRef<any> | string, context?: any, config?: OverlayConfig): OverlayFromTemplateRef {
     return new CreateFromTemplateRef(this._componentFactoryResolver, this._appRef, template, this._overlayContainer, context, this._injector, this._windowScroll, config);
   }
 }

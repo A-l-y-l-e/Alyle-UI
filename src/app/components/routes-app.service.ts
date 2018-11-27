@@ -50,6 +50,7 @@ export class RoutesAppService {
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
           { route: 'snack-bar', name: 'SnackBar' },
           { route: 'toolbar', name: 'Toolbar' },
+          { route: 'tooltip', name: 'Tooltip' },
           { route: 'typography', name: 'Typography' }
         ]
       }
