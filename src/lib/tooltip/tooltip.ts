@@ -30,7 +30,7 @@ export class LyTooltip implements OnDestroy {
     return this._tooltip;
   }
   @Input() lyTooltipShowDelay: number = 0;
-  @Input() lyTooltipHideDelay: number = 1000;
+  @Input() lyTooltipHideDelay: number = 500;
   constructor(
     private _theme: LyTheme2,
     private _overlay: LyOverlay,
