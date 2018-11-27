@@ -16,9 +16,10 @@ import {
 
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
+// Here we extend the two themes to be able to change their variables.
 
 /**
- * for light theme
+ * For light theme
  * Theme name = minima-light
  */
 export class CustomMinimaLight extends MinimaLight {
@@ -26,7 +27,7 @@ export class CustomMinimaLight extends MinimaLight {
 }
 
 /**
- * for dark theme
+ * For dark theme
  * Theme name = minima-dark
  */
 export class CustomMinimaDark extends MinimaDark {
@@ -35,6 +36,8 @@ export class CustomMinimaDark extends MinimaDark {
 
 /**
  * Global variables
+ * This replaces the variables to all the themes,
+ * you can also add new variables
  */
 export class GlobalVariables implements Partial<ThemeVariables> {
   primary = {
@@ -45,6 +48,16 @@ export class GlobalVariables implements Partial<ThemeVariables> {
     default: '#FFC107',
     contrast: '#fff'
   };
+  SublimeLight: {
+    default: 'linear-gradient(135deg,#FC5C7D 0%,#6A82FB 100%)',
+    contrast: '#fff',
+    shadow: '#B36FBC'
+  }; // demo: <button ly-button raised bg="SublimeLight">Button</button>
+  button: {
+    root: {
+      borderRadius: '2em'
+    }
+  }
 }
 
 /** set theme */
