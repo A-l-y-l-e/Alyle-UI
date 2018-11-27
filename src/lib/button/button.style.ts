@@ -38,7 +38,8 @@ export const styles = (theme: ThemeVariables) => {
         width: '100%',
         height: '100%',
         background: 'transparent',
-        opacity: 0
+        opacity: 0,
+        pointerEvents: 'none'
       },
       '&{onFocusByKeyboard}::after, &:hover::after': {
         background: 'currentColor',
