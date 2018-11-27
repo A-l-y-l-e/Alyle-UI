@@ -1,3 +1,22 @@
+<a name="1.8.7"></a>
+## [1.8.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.6...1.8.7) (2018-11-27)
+
+
+### Bug Fixes
+
+* **button:** fix style on mouseenter ([8aff164](https://github.com/A-l-y-l-e/Alyle-UI/commit/8aff164))
+* **carousel:** fix touch ([36bad35](https://github.com/A-l-y-l-e/Alyle-UI/commit/36bad35))
+* **icon:** add position relative css ([3631a7c](https://github.com/A-l-y-l-e/Alyle-UI/commit/3631a7c))
+* **ripple:** fix ripple in Firefox ([8aab7d5](https://github.com/A-l-y-l-e/Alyle-UI/commit/8aab7d5))
+* **theme:** update background:tertiary ([5c593eb](https://github.com/A-l-y-l-e/Alyle-UI/commit/5c593eb))
+
+
+### Features
+
+* **tooltip:** initial commit for Tooltip ([#66](https://github.com/A-l-y-l-e/Alyle-UI/issues/66)) ([9696883](https://github.com/A-l-y-l-e/Alyle-UI/commit/9696883))
+
+
+
 <a name="1.8.6"></a>
 ## [1.8.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.5...1.8.6) (2018-11-24)
 
