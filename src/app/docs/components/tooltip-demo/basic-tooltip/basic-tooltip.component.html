@@ -1,0 +1,8 @@
+<button ly-button
+        appearance="icon"
+        lyTooltip="Delete"
+        #_tooltip="lyTooltip">
+  <ly-icon>delete_forever</ly-icon>
+</button>
+<br />
+<button ly-button (click)="_tooltip.toggle()">toggle</button>

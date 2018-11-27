@@ -71,4 +71,10 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       color: 'rgba(255,255,255,.7)'
     }
   };
+  tooltip = {
+    root: {
+      background: 'rgba(50, 50, 50, 0.85)',
+      color: 'rgba(255,255,255,.7)'
+    }
+  };
 }

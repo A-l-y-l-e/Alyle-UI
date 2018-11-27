@@ -71,5 +71,11 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
       color: 'rgba(0,0,0,.87)'
     }
   };
+  tooltip = {
+    root: {
+      background: 'rgba(250, 250, 250, 0.85)',
+      color: 'rgba(0,0,0,.87)'
+    }
+  };
   // direction = Dir.rtl; // beta
 }

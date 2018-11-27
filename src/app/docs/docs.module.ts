@@ -72,6 +72,10 @@ import { PaperWithColorModule } from './customization/paper-demo/paper-with-colo
 /** Icon demo */
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { IconsModule } from './components/icon-demo/icons/icons.module';
+import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
+
+/** Tooltip */
+import { BasicTooltipModule } from './components/tooltip-demo/basic-tooltip/basic-tooltip.module';
 
 @NgModule({
   imports: [
@@ -118,7 +122,9 @@ import { IconsModule } from './components/icon-demo/icons/icons.module';
     BasicPaperModule,
     PaperWithColorModule,
     /** Icon */
-    IconsModule
+    IconsModule,
+    /** Tooltip */
+    BasicTooltipModule
   ],
   declarations: [
     ThemingComponent,
@@ -147,8 +153,9 @@ import { IconsModule } from './components/icon-demo/icons/icons.module';
     /** Paper */
     PaperDemoComponent,
     /** Icon */
-    IconDemoComponent
-
+    IconDemoComponent,
+    /** Tooltip */
+    TooltipDemoComponent
   ]
 })
 export class DocsModule { }
