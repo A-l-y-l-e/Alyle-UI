@@ -25,6 +25,7 @@
     "components/snack-bar",
     "components/checkbox",
     "components/icon",
-    "components/toolbar"
+    "components/toolbar",
+    "components/tooltip"
   ]
 }
