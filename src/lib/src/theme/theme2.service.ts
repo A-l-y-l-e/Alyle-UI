@@ -44,6 +44,7 @@ export interface StyleMap5 {
     } | string
   };
   requireUpdate?: boolean;
+  id: string;
 }
 const CLASSES_MAP: {
   [idOrThemeName: string]: {
@@ -139,7 +140,7 @@ export class LyTheme2 {
       this.elements.forEach((_, key) => {
         const styleData = STYLE_MAP5.get(key);
         if (styleData.requireUpdate) {
-          this._createStyleContent2(styleData.styles, key, styleData.priority, styleData.type, true);
+          this._createStyleContent2(styleData.styles, styleData.id, styleData.priority, styleData.type, true);
         }
       });
     }
@@ -158,42 +159,34 @@ export class LyTheme2 {
     this.addStyleSheet(defaultStyles);
   }
 
-  addStyleSheet<T>(styles: T & (StylesFn2<T> | Styles2), priority?: number): IClasses<T>;
-  addStyleSheet<T>(styles: T & (StylesFn2<T> | Styles2), id: string): IClasses<T>;
-  addStyleSheet<T>(styles: T & (StylesFn2<T> | Styles2), id: string | string, priority: number): IClasses<T>;
 
   /**
    * Add new add a new style sheet
    * @param styles styles
-   * @param id deprecated, unique id for style group
    * @param priority priority for style
    */
-  addStyleSheet<T>(styles: T & (StylesFn2<T> | Styles2), id?: string | number, priority?: number): IClasses<T> {
-    if (isDevMode()) {
-      if ((void 0 === priority && typeof id === 'string') || (void 0 !== priority && typeof id === 'string')) {
-        console.warn(`the value \`${id}\` is no longer necessary for addStyleSheet, this will be an error in the next release.`);
-      }
-    }
-    return this._createStyleContent2(styles, id as any, priority, TypeStyle.Multiple);
+  addStyleSheet<T>(styles: T & (StylesFn2<T> | Styles2), priority?: number): IClasses<T> {
+    return this._createStyleContent2(styles, null, priority, TypeStyle.Multiple);
   }
 
   private _createStyleContent2<T>(
     styles: StylesFn2<T> | Styles2,
-    id: string | object | number,
+    id: string,
     priority: number,
     type: TypeStyle,
     forChangeTheme?: boolean,
     media?: string
   ) {
-    const newId = type === TypeStyle.OnlyOne ? id as string : styles;
+    const newId = id as string || styles;
     let isNewStyle: boolean;
     if (!STYLE_MAP5.has(newId)) {
       isNewStyle = true;
       STYLE_MAP5.set(newId, {
-        priority: type === TypeStyle.OnlyOne ? priority : priority === void 0 && typeof id === 'number' ? id as number : priority,
+        priority,
         styles,
         type,
-        css: {}
+        css: {},
+        id
       });
     }
     const styleMap = STYLE_MAP5.get(newId);
