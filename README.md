@@ -39,4 +39,5 @@
 |snack bar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/snack-bar)|
 |tabs|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|
 |toolbar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
+|tooltip|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/tooltip)|
 |typography|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
