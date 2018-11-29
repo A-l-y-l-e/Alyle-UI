@@ -28,7 +28,7 @@ enum TypeStyle {
 const STYLE_MAP5: Map<any, StyleMap5> = new Map();
 
 export interface StyleMap5 {
-  styles: StylesFn2<any> | Styles2;
+  styles: StylesFn2 | Styles2;
   type: TypeStyle;
   priority: number;
   css: {
@@ -170,12 +170,12 @@ export class LyTheme2 {
    * @param styles styles
    * @param priority priority for style
    */
-  addStyleSheet<T>(styles: T & (StylesFn2<T> | Styles2), priority?: number): IClasses<T> {
+  addStyleSheet<T>(styles: T & Styles, priority?: number): IClasses<T> {
     return this._createStyleContent2(styles, null, priority, TypeStyle.Multiple);
   }
 
   private _createStyleContent2<T>(
-    styles: StylesFn2<T> | Styles2,
+    styles: StylesFn2 | Styles2,
     id: string,
     priority: number,
     type: TypeStyle,
@@ -213,7 +213,6 @@ export class LyTheme2 {
         css = groupStyleToString(styleMap, styles, themeName, newId as string, type, config, media);
         styleMap.css = css;
       }
-
       if (!this.elements.has(newId)) {
         const newEl = this._createElementStyle(css);
         if (styleMap.requireUpdate) {
@@ -243,7 +242,7 @@ export class LyTheme2 {
           this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), this.elements.get(newId));
         } else if (!map.has(newId)) {
           map.set(newId, this._createElementStyle(_css));
-          this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), this.elements.get(newId));
+          this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), map.get(newId));
         }
       }
     }
@@ -291,9 +290,13 @@ export interface StyleContainer {
 }
 
 export interface Styles2 {
-  [key: string]: StyleContainer;
+  /** Prefix name */
+  $name?: string;
+  [key: string]: StyleContainer | string;
 }
-export type StylesFn2<T> = (T) => Styles2;
+export type StylesFn2 = (T) => Styles2;
+
+export type Styles = StylesFn2 | Styles2;
 
 function groupStyleToString(
   styleMap: StyleMap5,
@@ -304,6 +307,7 @@ function groupStyleToString(
   themeVariables: ThemeVariables,
   media?: string
 ) {
+  // for styles type string
   if (typeStyle === TypeStyle.OnlyOne) {
     // use current class or set new
     const className = styleMap.requireUpdate
@@ -322,18 +326,17 @@ function groupStyleToString(
   // for multiples styles
   const classesMap = styleMap[themeName] || (styleMap[themeName] = {});
   let content = '';
+  const name = styles.name ? `${styles.name}_` : '';
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
       // set new id if not exist
       const currentClassName = key in classesMap
       ? classesMap[key]
-      : classesMap[key] = isDevMode() ? toClassNameValid(`i-${key}-${createNextClassId()}`) : createNextClassId();
+      : classesMap[key] = isDevMode() ? toClassNameValid(`i-${name}${key}-${createNextClassId()}`) : createNextClassId();
       const value = styles[key];
       if (typeof value === 'object') {
         const style = styleToString(key, value as Styles2, themeVariables, currentClassName);
         content += style;
-      } else {
-        console.log('value is string', value);
       }
     }
   }
