@@ -16,8 +16,6 @@ const defaultStyles = {
   }
 };
 
-const IS_DEV_OR_SERVER = isDevMode() || !Platform.isBrowser;
-
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
 enum TypeStyle {
@@ -74,6 +72,7 @@ export class LyTheme2 {
   elements: Map<string | object, HTMLStyleElement>;
   _elementsMap = new Map<any, HTMLStyleElement>();
   private themeMap = THEME_MAP;
+  private isDevOrServer = isDevMode() || !Platform.isBrowser;
 
   constructor(
     private stylesInDocument: StylesInDocument,
@@ -218,7 +217,7 @@ export class LyTheme2 {
         if (styleMap.requireUpdate) {
           // This is required for when a theme changes
           this.elements.set(newId, newEl);
-        } else if (IS_DEV_OR_SERVER) {
+        } else if (this.isDevOrServer) {
           // in dev mode or server it is not necessary
           // since the styles will not change
           this.stylesInDocument.styleElementGlobalMap.set(newId, newEl);
@@ -229,7 +228,7 @@ export class LyTheme2 {
         const el = this.elements.get(newId);
         el.innerText = css;
       }
-    } else if (IS_DEV_OR_SERVER) {
+    } else if (this.isDevOrServer) {
       /**
        * append child style if not exist in dom
        * for ssr & hmr
