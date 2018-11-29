@@ -1,3 +1,8 @@
+<a name="1.8.9"></a>
+## [1.8.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.8...1.8.9) (2018-11-29)
+
+
+
 <a name="1.8.8"></a>
 ## [1.8.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.7...1.8.8) (2018-11-29)
 
