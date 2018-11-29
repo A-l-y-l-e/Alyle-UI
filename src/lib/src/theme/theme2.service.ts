@@ -46,11 +46,6 @@ export interface StyleMap5 {
   requireUpdate?: boolean;
   id: string;
 }
-const CLASSES_MAP: {
-  [idOrThemeName: string]: {
-    [className: string]: string
-  } | string
-} = {};
 const STYLE_KEYS_MAP = {};
 let nextClassId = 0;
 
@@ -62,7 +57,13 @@ export class StylesInDocument {
     [themeName: string]: Map<string | object, HTMLStyleElement>
   } = {};
   styleContainers = new Map<number, HTMLElement>();
+  styleElementGlobalMap = new Map<string | object, HTMLStyleElement>();
 }
+
+const THEME_MAP = new Map<string, {
+  base: string
+  change: string | null
+}>();
 
 @Injectable()
 export class LyTheme2 {
@@ -71,10 +72,7 @@ export class LyTheme2 {
   initialTheme: string;
   elements: Map<string | object, HTMLStyleElement>;
   _elementsMap = new Map<any, HTMLStyleElement>();
-
-  get classes() {
-    return CLASSES_MAP;
-  }
+  private themeMap = THEME_MAP;
 
   constructor(
     private stylesInDocument: StylesInDocument,
@@ -93,9 +91,14 @@ export class LyTheme2 {
       this.elements = themeName in this.stylesInDocument.styles
       ? this.stylesInDocument.styles[themeName]
       : this.stylesInDocument.styles[themeName] = new Map();
-      this._createInstanceForTheme(themeName);
       if (!this.initialTheme) {
         this.initialTheme = this.config.name;
+      }
+      if (!this.themeMap.has(this.initialTheme)) {
+        this.themeMap.set(this.initialTheme, {
+          base: this.initialTheme,
+          change: null
+        });
       }
       this._addDefaultStyles();
     }
@@ -136,6 +139,7 @@ export class LyTheme2 {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
     if (nam !== this.config.name) {
+      this.themeMap.get(this.initialTheme).change = nam;
       this.config = this.core.get(nam);
       this.elements.forEach((_, key) => {
         const styleData = STYLE_MAP5.get(key);
@@ -195,36 +199,51 @@ export class LyTheme2 {
     if (isCreated || forChangeTheme) {
       /** create new style for new theme */
       let css;
+      const themeMap = this.themeMap.get(this.initialTheme);
+      const config = this.core.get(themeMap.change || themeName);
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
-        css = groupStyleToString(styleMap, styles(this.config), themeName, null, type, this.config, media);
+        css = groupStyleToString(styleMap, styles(config), themeName, null, type, config, media);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
-
         }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
-        css = groupStyleToString(styleMap, styles, themeName, newId as string, type, this.config, media);
+        css = groupStyleToString(styleMap, styles, themeName, newId as string, type, config, media);
         styleMap.css = css;
       }
+
+      if (newId === `~>lyButton.size:medium`) {
+        console.log(newId, this.elements.has(newId));
+      }
       if (!this.elements.has(newId)) {
-        this.elements.set(newId, this._createElementStyle(css));
+        const newEl = this._createElementStyle(css);
+        if (styleMap.requireUpdate) {
+          this.elements.set(newId, newEl);
+        } else {
+          this.stylesInDocument.styleElementGlobalMap.set(newId, newEl);
+        }
+        this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), newEl);
       }
       const el = this.elements.get(newId);
       if (forChangeTheme) {
         el.innerText = css;
-      } else {
-        this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), el);
       }
-    } else {
+    } else if (isDevMode() || !Platform.isBrowser) {
       /**
        * append child style if not exist in dom
        * for ssr & hmr
        */
       if (!this.elements.has(newId)) {
         const _css = styleMap.css[themeName] || styleMap.css;
-        this.elements.set(newId, this._createElementStyle(_css));
-        this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), this.elements.get(newId));
+        const map = this.stylesInDocument.styleElementGlobalMap;
+        if (styleMap.requireUpdate) {
+          this.elements.set(newId, this._createElementStyle(_css));
+          this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), this.elements.get(newId));
+        } else if (!map.has(newId)) {
+          map.set(newId, this._createElementStyle(_css));
+          this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), this.elements.get(newId));
+        }
       }
     }
     return styleMap.classes || styleMap[themeName];
@@ -262,12 +281,6 @@ export class LyTheme2 {
     const styleText = this.core.renderer.createText(css);
     this.core.renderer.appendChild(styleElement, styleText);
     return styleElement;
-  }
-
-  private _createInstanceForTheme(themeName: string) {
-    if (!(themeName in CLASSES_MAP)) {
-      CLASSES_MAP[themeName] = {};
-    }
   }
 
 }
@@ -313,7 +326,7 @@ function groupStyleToString(
       // set new id if not exist
       const currentClassName = key in classesMap
       ? classesMap[key]
-      : classesMap[key] = isDevMode() ? toClassNameValid(`i---${key}-${createNextClassId()}`) : createNextClassId();
+      : classesMap[key] = isDevMode() ? toClassNameValid(`i-${key}-${createNextClassId()}`) : createNextClassId();
       const value = styles[key];
       if (typeof value === 'object') {
         const style = styleToString(key, value as Styles2, themeVariables, currentClassName);
