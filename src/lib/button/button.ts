@@ -127,8 +127,8 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     if (val !== this.size) {
       this._size = val;
       this._sizeClass = this._theme.addStyle(
-        `lyButton.size:${this.size}`,
-        Size[this.size as any],
+        `lyButton.size:${val}`,
+        Size[val as any],
         this._el.nativeElement,
         this._sizeClass,
         STYLE_PRIORITY
