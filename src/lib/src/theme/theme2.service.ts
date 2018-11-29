@@ -170,7 +170,7 @@ export class LyTheme2 {
    * @param styles styles
    * @param priority priority for style
    */
-  addStyleSheet<T>(styles: T & Styles, priority?: number): IClasses<T> {
+  addStyleSheet<T>(styles: T & Styles, priority?: number): OnlyClasses<T> {
     return this._createStyleContent2(styles, null, priority, TypeStyle.Multiple);
   }
 
@@ -326,7 +326,7 @@ function groupStyleToString(
   // for multiples styles
   const classesMap = styleMap[themeName] || (styleMap[themeName] = {});
   let content = '';
-  const name = styles.name ? `${styles.name}_` : '';
+  const name = styles.$name ? `${styles.$name}-` : '';
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
       // set new id if not exist
@@ -439,4 +439,7 @@ function createNextClassId() {
   return `i${(nextClassId++).toString(36)}`;
 }
 
-type IClasses<T> = Record<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T), string>;
+type OnlyClasses<T> = Record<(
+  Exclude<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T), '$name' | '$sheet'>
+), string>;
+
