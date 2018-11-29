@@ -16,6 +16,7 @@ const defaultStyles = {
   }
 };
 
+const IS_DEV_OR_SERVER = isDevMode() || !Platform.isBrowser;
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
@@ -213,23 +214,23 @@ export class LyTheme2 {
         styleMap.css = css;
       }
 
-      if (newId === `~>lyButton.size:medium`) {
-        console.log(newId, this.elements.has(newId));
-      }
       if (!this.elements.has(newId)) {
         const newEl = this._createElementStyle(css);
         if (styleMap.requireUpdate) {
+          // This is required for when a theme changes
           this.elements.set(newId, newEl);
-        } else {
+        } else if (IS_DEV_OR_SERVER) {
+          // in dev mode or server it is not necessary
+          // since the styles will not change
           this.stylesInDocument.styleElementGlobalMap.set(newId, newEl);
         }
         this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), newEl);
       }
-      const el = this.elements.get(newId);
       if (forChangeTheme) {
+        const el = this.elements.get(newId);
         el.innerText = css;
       }
-    } else if (isDevMode() || !Platform.isBrowser) {
+    } else if (IS_DEV_OR_SERVER) {
       /**
        * append child style if not exist in dom
        * for ssr & hmr
