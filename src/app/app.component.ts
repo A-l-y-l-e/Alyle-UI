@@ -10,6 +10,7 @@ import { LySnackBar } from '@alyle/ui/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
+  $name: 'app',
   '@global': {
     'body': {
       backgroundColor: theme.background.default,
@@ -31,7 +32,8 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
       width: '100%',
     }
   },
-  demo: {},
+  $sheet: '',
+  demo: null,
   docsViewer: {
     p: {
       lineHeight: 1.5
@@ -89,7 +91,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
       borderStart: '3px solid'
     }
   },
-  onLinkActive: {}
+  onLinkActive: null
 });
 
 @Component({
