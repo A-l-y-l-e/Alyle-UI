@@ -1,10 +1,5 @@
 <a name="1.8.9"></a>
-## [1.8.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.8...1.8.9) (2018-11-29)
-
-
-
-<a name="1.8.8"></a>
-## [1.8.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.7...1.8.8) (2018-11-29)
+## [1.8.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.7...1.8.9) (2018-11-29)
 
 
 ### Bug Fixes
@@ -21,6 +16,11 @@
 * **core:** add `$name` to name styles ([c6c17fc](https://github.com/A-l-y-l-e/Alyle-UI/commit/c6c17fc))
 
 
+
+<a name="1.8.8"></a>
+## [1.8.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.7...1.8.8) (2018-11-29)
+
+> Fail in prod mode
 
 <a name="1.8.7"></a>
 ## [1.8.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.6...1.8.7) (2018-11-27)
