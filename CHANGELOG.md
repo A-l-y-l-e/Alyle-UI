@@ -1,3 +1,22 @@
+<a name="1.8.8"></a>
+## [1.8.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.7...1.8.8) (2018-11-29)
+
+
+### Bug Fixes
+
+* **button:** ability to set styles from the theme ([0970dd5](https://github.com/A-l-y-l-e/Alyle-UI/commit/0970dd5))
+* **core:** fix when the theme is changed with multiple themes ([397c499](https://github.com/A-l-y-l-e/Alyle-UI/commit/397c499))
+* **core:** remove deprecated param `key` for `addStyleSheet` ([47d012c](https://github.com/A-l-y-l-e/Alyle-UI/commit/47d012c))
+* **tooltip:** fix `No component factory found for LyOverlayBackdrop` ([0a3db67](https://github.com/A-l-y-l-e/Alyle-UI/commit/0a3db67))
+* **tooltip:** update default `lyTooltipHideDelay` to `0` ([e4c8022](https://github.com/A-l-y-l-e/Alyle-UI/commit/e4c8022))
+
+
+### Features
+
+* **core:** add `$name` to name styles ([c6c17fc](https://github.com/A-l-y-l-e/Alyle-UI/commit/c6c17fc))
+
+
+
 <a name="1.8.7"></a>
 ## [1.8.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.6...1.8.7) (2018-11-27)
 
