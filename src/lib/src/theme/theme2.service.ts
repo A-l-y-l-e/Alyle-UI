@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, Inject, isDevMode } from '@angular/core';
+import { Injectable, Renderer2, Inject, isDevMode, NgZone } from '@angular/core';
 import { LY_THEME_NAME, ThemeVariables } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { DataStyle } from '../theme.service';
@@ -47,6 +47,7 @@ export interface StyleMap5 {
 }
 const STYLE_KEYS_MAP = {};
 let nextClassId = 0;
+let nextKeyFrameId = 0;
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,8 @@ export class LyTheme2 {
     private stylesInDocument: StylesInDocument,
     public core: CoreTheme,
     @Inject(LY_THEME_NAME) themeName,
-    @Inject(DOCUMENT) private _document: any
+    @Inject(DOCUMENT) private _document: any,
+    private _ngZone: NgZone
   ) {
     if (themeName) {
       this.setUpTheme(themeName);
@@ -282,10 +284,22 @@ export class LyTheme2 {
     return styleElement;
   }
 
+  requestAnimationFrame(fn: (...args: any[]) => void) {
+    if (typeof requestAnimationFrame === 'function') {
+      this._ngZone.runOutsideAngular(() => {
+        requestAnimationFrame(() => {
+          fn();
+        });
+      });
+    } else {
+      fn();
+    }
+  }
+
 }
 
 export interface StyleContainer {
-  [key: string]: StyleContainer | string | number;
+  [key: string]: StyleContainer | string | number | string[];
 }
 
 export interface Styles2 {
@@ -296,6 +310,12 @@ export interface Styles2 {
 export type StylesFn2 = (T) => Styles2;
 
 export type Styles = StylesFn2 | Styles2;
+
+export interface Keyframes {
+  [name: string]: {
+    [percent: number]: StyleContainer
+  };
+}
 
 function groupStyleToString(
   styleMap: StyleMap5,
@@ -328,23 +348,34 @@ function groupStyleToString(
   const name = styles.$name ? `${styles.$name}-` : '';
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
-      // set new id if not exist
-      const currentClassName = key in classesMap
-      ? classesMap[key]
-      : classesMap[key] = isDevMode() ? toClassNameValid(`i-${name}${key}-${createNextClassId()}`) : createNextClassId();
       const value = styles[key];
-      if (typeof value === 'object') {
+      if (key === '$keyframes') {
+        content += keyframesToString(name, classesMap, value as Keyframes, themeVariables);
+      } else if (typeof value === 'object' || value === null) {
+        // set new id if not exist
+        const currentClassName = key in classesMap
+        ? classesMap[key]
+        : classesMap[key] = isDevMode() ? toClassNameValid(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
+
         const style = styleToString(key, value as Styles2, themeVariables, currentClassName);
         content += style;
       }
     }
+  }
+  if (styles.$keyframes) {
+    console.log(classesMap);
   }
   return replaceRefs(content, classesMap);
 }
 
 function replaceRefs(str: string, data: Object) {
   return str.replace(REF_REG_EXP, (match, token) => {
-    return `.${data[token]}`;
+    const className = data[token];
+    if (className) {
+      return `.${data[token]}`;
+    } else {
+      return data[`@г.->-${token}`];
+    }
   }
   );
 }
@@ -373,16 +404,11 @@ function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, 
   for (const styleKey in ob) {
     if (ob.hasOwnProperty(styleKey)) {
       const element = ob[styleKey];
-      if (typeof element === 'object') {
+      // Check if is Object literal
+      if (element.constructor === Object) {
         subContent += styleToString(key, element as Styles2, themeVariables, styleKey, newKey);
       } else {
-        let newStyleKey = toHyphenCaseCache(styleKey);
-        if (newStyleKey.indexOf(DirAlias.start) !== -1) {
-          newStyleKey = dirCache(newStyleKey, themeVariables, DirAlias.start);
-        } else if (newStyleKey.indexOf(DirAlias.end) !== -1) {
-          newStyleKey = dirCache(newStyleKey, themeVariables, DirAlias.end);
-        }
-        keyAndValue += `${newStyleKey}:${element};`;
+        keyAndValue += convertToStyleValue(styleKey, element, themeVariables);
       }
     }
   }
@@ -398,6 +424,57 @@ function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, 
     content += `{${keyAndValue}}`;
   }
   return content + subContent;
+}
+
+function convertToStyleValue(key: string, value: string | string[], themeVariables: ThemeVariables) {
+  let newStyleKey = toHyphenCaseCache(key);
+  if (newStyleKey.indexOf(DirAlias.start) !== -1) {
+    newStyleKey = dirCache(newStyleKey, themeVariables, DirAlias.start);
+  } else if (newStyleKey.indexOf(DirAlias.end) !== -1) {
+    newStyleKey = dirCache(newStyleKey, themeVariables, DirAlias.end);
+  }
+  if (value.constructor === Array) {
+    let lin = '';
+    for (let index = 0; index < value.length; index++) {
+      lin += `${newStyleKey}:${value[index]};`;
+    }
+    return lin;
+  } else {
+    return `${newStyleKey}:${value};`;
+  }
+}
+
+function keyframesToString(styleName: string, keysMap: object, keyframes: Keyframes, themeVariables: ThemeVariables) {
+  let content = '';
+
+  for (const name in keyframes) {
+    if (keyframes.hasOwnProperty(name)) {
+      const keyframe = keyframes[name];
+      // Sometimes the name of a class can be the same as the name of a keyframe,
+      // so we add a character to be different
+      const newUniqueName = `@г.->-${name}`;
+      // set new id if not exist
+      const newName = newUniqueName in keysMap
+      ? keysMap[newUniqueName]
+      : keysMap[newUniqueName] = isDevMode() ? toClassNameValid(`${styleName}${name}-${createNextKeyframeId()}-v`) : createNextKeyframeId();
+      content += `@keyframes ${newName}{`;
+      for (const percent in keyframe) {
+        if (keyframe.hasOwnProperty(percent)) {
+          content += `${percent}%{`;
+          const styles = keyframe[percent];
+          for (const key in styles) {
+            if (styles.hasOwnProperty(key)) {
+              const val = styles[key];
+              content += convertToStyleValue(key, val as string | string[], themeVariables);
+            }
+          }
+          content += `}`;
+        }
+      }
+      content += `}`;
+    }
+  }
+  return content;
 }
 
 export function toHyphenCase(str: string) {
@@ -437,8 +514,12 @@ function toMedia(css: string, media: string) {
 function createNextClassId() {
   return `i${(nextClassId++).toString(36)}`;
 }
+function createNextKeyframeId() {
+  return `k${(nextKeyFrameId++).toString(36)}`;
+}
 
 type OnlyClasses<T> = Record<(
-  Exclude<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T), '$name' | '$sheet'>
+  Exclude<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T),
+  '$name' | '$sheet' | '$keyframes'>
 ), string>;
 
