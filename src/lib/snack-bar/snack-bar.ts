@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Directive, Input, TemplateRef, Output, EventEmitter, NgZone } from '@angular/core';
 import { LyTheme2, LyOverlay, ThemeVariables, shadowBuilder } from '@alyle/ui';
 import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarRef } from './snack-bar-ref';
@@ -83,14 +83,13 @@ export class LySnackBar {
         }, undefined, undefined, STYLE_PRIORITY)
       ]
     });
-    /**
-     * TODO: add support for `@keyframes`
-     */
-    getComputedStyle(snackBar.containerElement).getPropertyValue('opacity');
 
-    this._theme.addStyle('SnackBar:open', ({
-      opacity: 1
-    }), snackBar.containerElement, undefined, STYLE_PRIORITY);
+    this._theme.requestAnimationFrame(() => {
+      this._theme.addStyle('SnackBar:open', ({
+        opacity: 1
+      }), snackBar.containerElement, undefined, STYLE_PRIORITY);
+    });
+
     const sbr = new LySnackBarRef(this._snackBarService, snackBar, this.afterDismissed, duration, this._theme);
     this._snackBarService._currentSnackBar = sbr;
     return sbr;
