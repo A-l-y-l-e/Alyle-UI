@@ -32,7 +32,6 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
       width: '100%',
     }
   },
-  $sheet: '',
   demo: null,
   docsViewer: {
     p: {
