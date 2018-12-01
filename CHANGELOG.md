@@ -10,7 +10,28 @@
 ### Features
 
 * **core:** add `before`, `after` to `DirAlias` ([66ce443](https://github.com/A-l-y-l-e/Alyle-UI/commit/66ce443))
-* **core:** support for `[@keyframes](https://github.com/keyframes)` ([847d9cc](https://github.com/A-l-y-l-e/Alyle-UI/commit/847d9cc)), closes [#000](https://github.com/A-l-y-l-e/Alyle-UI/issues/000)
+* **core:** support for `@keyframes` css ([847d9cc](https://github.com/A-l-y-l-e/Alyle-UI/commit/847d9cc))
+
+example:
+
+```ts
+const styles = ({
+  item: {
+    animation: '{pulse} 5s infinite'
+  },
+  $keyframes: {
+    pulse: {
+      0: {
+        backgroundColor: '#000'
+      },
+      100: {
+        backgroundColor: 'red'
+      }
+    }
+  }
+});
+```
+
 * **menu:** support to position the menu ([35ccf32](https://github.com/A-l-y-l-e/Alyle-UI/commit/35ccf32))
 
 
