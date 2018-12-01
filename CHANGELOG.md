@@ -1,3 +1,20 @@
+<a name="1.9.0"></a>
+# [1.9.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.9...1.9.0) (2018-12-01)
+
+
+### Bug Fixes
+
+* **core:** prevent selection when many clicks are made in overlay ([08eb9eb](https://github.com/A-l-y-l-e/Alyle-UI/commit/08eb9eb))
+
+
+### Features
+
+* **core:** add `before`, `after` to `DirAlias` ([66ce443](https://github.com/A-l-y-l-e/Alyle-UI/commit/66ce443))
+* **core:** support for `[@keyframes](https://github.com/keyframes)` ([847d9cc](https://github.com/A-l-y-l-e/Alyle-UI/commit/847d9cc)), closes [#000](https://github.com/A-l-y-l-e/Alyle-UI/issues/000)
+* **menu:** support to position the menu ([35ccf32](https://github.com/A-l-y-l-e/Alyle-UI/commit/35ccf32))
+
+
+
 <a name="1.8.9"></a>
 ## [1.8.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.7...1.8.9) (2018-11-29)
 
