@@ -15,6 +15,7 @@ import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-dem
 import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
+import { MenuDemoComponent } from './components/menu-demo/menu-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -51,6 +52,7 @@ const routes: Routes = [
       { path: 'snack-bar', component: SnackBarDemoComponent },
       { path: 'icon', component: IconDemoComponent },
       { path: 'tooltip', component: TooltipDemoComponent },
+      { path: 'menu', component: MenuDemoComponent }
     ]
   }
 ];

@@ -1,0 +1,35 @@
+<button ly-button [lyMenuTriggerFor]="menu">Default</button>
+
+<ng-template #menu let-M>
+  <ly-menu [ref]="M">
+    <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>
+
+<h3 [lyTyp]="'title'" [gutter]="true">Placement</h3>
+
+<button ly-button appearance="icon" [lyMenuTriggerFor]="menu2">
+  <ly-icon>more_vert</ly-icon>
+</button>
+<ng-template #menu2 let-M>
+  <ly-menu [ref]="M" placement="after">
+    <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>
+
+<h3 [lyTyp]="'title'" [gutter]="true">Placement + Position</h3>
+
+<button ly-button [lyMenuTriggerFor]="menuAfterBelow">
+  after below
+</button>
+<ng-template #menuAfterBelow let-M>
+  <ly-menu [ref]="M" placement="after" yPosition="below">
+    <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>

@@ -4,13 +4,15 @@ import { MenuDemo01Component } from './menu-demo-01.component';
 import { LyMenuModule } from '@alyle/ui/menu';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
+import { LyTypographyModule } from '@alyle/ui/typography';
 
 @NgModule({
   imports: [
     CommonModule,
     LyMenuModule,
     LyIconModule,
-    LyButtonModule
+    LyButtonModule,
+    LyTypographyModule
   ],
   exports: [MenuDemo01Component],
   declarations: [MenuDemo01Component]

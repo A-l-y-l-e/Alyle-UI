@@ -72,10 +72,15 @@ import { PaperWithColorModule } from './customization/paper-demo/paper-with-colo
 /** Icon demo */
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { IconsModule } from './components/icon-demo/icons/icons.module';
-import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
 
 /** Tooltip */
+import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
 import { BasicTooltipModule } from './components/tooltip-demo/basic-tooltip/basic-tooltip.module';
+
+/** Menu */
+import { MenuDemoComponent } from './components/menu-demo/menu-demo.component';
+import { MenuDemo01Module } from './components/menu-demo/menu-demo-01/menu-demo-01.module';
+
 
 @NgModule({
   imports: [
@@ -124,7 +129,9 @@ import { BasicTooltipModule } from './components/tooltip-demo/basic-tooltip/basi
     /** Icon */
     IconsModule,
     /** Tooltip */
-    BasicTooltipModule
+    BasicTooltipModule,
+    /** Menu */
+    MenuDemo01Module
   ],
   declarations: [
     ThemingComponent,
@@ -155,7 +162,9 @@ import { BasicTooltipModule } from './components/tooltip-demo/basic-tooltip/basi
     /** Icon */
     IconDemoComponent,
     /** Tooltip */
-    TooltipDemoComponent
+    TooltipDemoComponent,
+    /** Menu */
+    MenuDemoComponent
   ]
 })
 export class DocsModule { }
