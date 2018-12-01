@@ -107,7 +107,8 @@ export class LyOverlayContainer {
 
 const BACKDROP_STYLES = ({
   backdrop: {
-    pointerEvents: 'all'
+    pointerEvents: 'all',
+    userSelect: 'none'
   }
 });
 
