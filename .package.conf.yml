@@ -7,7 +7,6 @@ components:
   '@alyle/ui/card': card
   '@alyle/ui/typography': typography
   '@alyle/ui/responsive': responsive
-  '@alyle/ui/icon-button': icon-button
   '@alyle/ui/icon': icon
   '@alyle/ui/button': button
   '@alyle/ui/radio': radio

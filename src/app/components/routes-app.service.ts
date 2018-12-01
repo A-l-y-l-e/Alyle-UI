@@ -44,7 +44,6 @@ export class RoutesAppService {
           { route: 'drawer', name: 'Drawer' },
           { route: 'field', name: 'Field' },
           { route: 'icon', name: 'Icon' },
-          { route: 'icon-button', name: 'Icon button', status: 'deprecated' },
           { route: 'menu', name: 'Menu' },
           { route: 'radio', name: 'Radio' },
           { route: 'resizing-cropping-images', name: 'Resizing & cropping' },

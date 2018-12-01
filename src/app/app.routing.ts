@@ -31,7 +31,6 @@ const routes: Routes = [
       { path: 'drawer', loadChildren: './components/drawer-demo/drawer-demo.module#DrawerDemoModule' },
       { path: 'radio', loadChildren: './components/radio-demo/radio-demo.module#RadioDemoModule' },
       { path: 'carousel', loadChildren: './components/carousel-demo/carousel-demo.module#CarouselDemoModule' },
-      { path: 'icon-button', loadChildren: './components/icon-button-demo/icon-button-demo.module#IconButtonDemoModule' },
       { path: 'card', component: CardDemoComponent },
       { path: 'typography', component: TypographyDemoComponent },
     ]

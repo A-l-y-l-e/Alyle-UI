@@ -17,7 +17,6 @@
     "components/menu",
     "components/resizing-cropping-images",
     "components/carousel",
-    "components/icon-button",
     "components/card",
     "components/typography",
     "components/badge",

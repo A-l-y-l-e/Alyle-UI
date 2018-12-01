@@ -20,7 +20,6 @@
     "paths": {
       "@alyle/ui": ["lib"],
       "@alyle/ui/icon": ["lib/icon"],
-      "@alyle/ui/icon-button": ["lib/icon-button"],
       "@alyle/ui/button": ["lib/button"],
       "@alyle/ui/tabs": ["lib/tabs"],
       "@alyle/ui/ripple": ["lib/ripple"],
