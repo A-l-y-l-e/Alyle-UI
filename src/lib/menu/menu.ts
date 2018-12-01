@@ -7,7 +7,10 @@ import {
   OnDestroy,
   Optional,
   HostListener,
-  HostBinding
+  HostBinding,
+  AfterViewInit,
+  Renderer2,
+  OnInit
 } from '@angular/core';
 import {
   trigger,
@@ -16,19 +19,22 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables } from '@alyle/ui';
+import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables, Placement, XPosition, YPosition, DirPosition } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
+const DEFAULT_PLACEMENT = YPosition.below;
+const DEFAULT_XPOSITION = XPosition.after;
 
 const STYLES = (theme: ThemeVariables) => ({
-  root: {
+  container: {
     background: theme.background.primary.default,
     borderRadius: '2px',
     boxShadow: shadowBuilder(4),
     display: 'inline-block',
     paddingTop: '8px',
     paddingBottom: '8px',
-    transformOrigin: 'left top 0px',
+    transformOrigin: 'inherit',
+    pointerEvents: 'all',
     ...theme.menu.root
   }
 });
@@ -38,8 +44,8 @@ const STYLES = (theme: ThemeVariables) => ({
   selector: 'ly-menu',
   animations: [
     trigger('menuEnter', [
-      transition(':enter', [
-        animate('120ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
+      transition('void => in', [
+        animate('125ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
           style({
             opacity: 0,
             transform: 'scale(0.8)'
@@ -52,25 +58,34 @@ const STYLES = (theme: ThemeVariables) => ({
       ]),
     ]),
     trigger('menuLeave', [
-      transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 })))
+      transition('* => void', animate('150ms linear', style({ opacity: 0 })))
     ])
   ],
-  template: '<ng-content></ng-content>',
+  templateUrl: 'menu.html',
   exportAs: 'lyMenu'
 })
-export class LyMenu {
+export class LyMenu implements OnInit, AfterViewInit {
   /**
    * styles
-   * @ignore
+   * @docs-private
    */
-  classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   /**
    * Destroy menu
-   * @ignore
+   * @docs-private
    */
   destroy: () => void;
   @Input() ref: LyMenuTriggerFor;
-  @HostBinding('@menuEnter') menuEnter;
+
+  /** Position where the menu will be placed. */
+  @Input() placement: Placement;
+
+  /** The x-axis position of the menu. */
+  @Input() xPosition: XPosition;
+
+  /** The y-axis position of the menu. */
+  @Input() yPosition: YPosition;
+
   @HostBinding('@menuLeave') menuLeave2;
   @HostListener('@menuLeave.done', ['$event']) endAnimation(e) {
     if (e.toState === 'void') {
@@ -78,10 +93,88 @@ export class LyMenu {
     }
   }
   constructor(
-    private theme: LyTheme2,
-    private _el: ElementRef
-  ) {
-    this._el.nativeElement.classList.add(this.classes.root);
+    private _theme: LyTheme2,
+    private _el: ElementRef,
+    private _renderer: Renderer2
+  ) { }
+
+  ngOnInit() {
+    if (!this.placement && !this.xPosition && !this.yPosition) {
+      this.xPosition = DEFAULT_XPOSITION;
+      this.placement = DEFAULT_PLACEMENT;
+    }
+  }
+
+  ngAfterViewInit() {
+    this._updatePlacement();
+  }
+
+  private _updatePlacement () {
+    const el = this._el.nativeElement as HTMLElement;
+    const rects = el.getBoundingClientRect() as ClientRect;
+    const targetRects = this.ref._targetPosition();
+    const placement = this.placement;
+    const xPosition = this.xPosition;
+    const yPosition = this.yPosition;
+    if (xPosition && yPosition) {
+      throw new Error(`You can not use \`xPosition\` and \`yPosition\` together, use only one of them.`);
+    }
+    if ((xPosition || yPosition) && !placement) {
+      throw new Error(`\`placement\` is required.`);
+    }
+    let x = 0,
+        y = 0,
+        ox = 'center',
+        oy = 'center';
+    if (placement || xPosition || yPosition) {
+      if (placement) {
+        if (placement === YPosition.above) {
+          x = (targetRects.width - rects.width) / 2;
+          y = -rects.height;
+          oy = 'bottom';
+        } else if (placement === YPosition.below) {
+          x = (targetRects.width - rects.width) / 2;
+          y = targetRects.height;
+          oy = 'top';
+        } else {
+          const dir = this._theme.config.getDirection(placement as any);
+          if (dir === DirPosition.left) {
+            ox = '100%';
+            x = -rects.width;
+            y = (targetRects.height - rects.height) / 2;
+          } else if (dir === DirPosition.right) {
+            ox = '0%';
+            x = targetRects.width;
+            y = (targetRects.height - rects.height) / 2;
+          }
+        }
+      }
+
+      if (xPosition) {
+        const dir = this._theme.config.getDirection(xPosition as any);
+        if (dir === DirPosition.right) {
+          ox = '0%';
+          x = 0;
+        } else if (dir === DirPosition.left) {
+          ox = '100%';
+          x = targetRects.width - rects.width;
+        }
+      } else if (yPosition) {
+        if (yPosition === YPosition.above) {
+          y = 0;
+          oy = '0%';
+        } else if (yPosition === YPosition.below) {
+          y = targetRects.height - rects.height;
+          oy = '100%';
+        }
+      }
+    }
+    this._setTransform(`translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`);
+    this._renderer.setStyle(this._el.nativeElement, 'transform-origin', `${ox} ${oy} 0`);
+  }
+
+  private _setTransform(val: string) {
+    this._renderer.setStyle(this._el.nativeElement, 'transform', val);
   }
 
 }
@@ -125,9 +218,10 @@ export class LyMenuTriggerFor implements OnDestroy {
   constructor(
     private elementRef: ElementRef,
     private overlay: LyOverlay
-  ) {}
+  ) { }
 
-  targetPosition() {
+  /** @docs-private */
+  _targetPosition() {
     const element: HTMLElement = this.elementRef.nativeElement;
     const rect: ClientRect = element.getBoundingClientRect();
     return rect;
@@ -137,7 +231,7 @@ export class LyMenuTriggerFor implements OnDestroy {
     if (this._menuRef) {
       this._menuRef.detach();
     } else {
-      const rect = this.targetPosition();
+      const rect = this._targetPosition();
       this._menuRef = this.overlay.create(this.lyMenuTriggerFor, {
         $implicit: this
       }, {
@@ -146,6 +240,7 @@ export class LyMenuTriggerFor implements OnDestroy {
           left: rect.left,
           right: null,
           bottom: null,
+          pointerEvents: null
         },
         fnDestroy: this.detach.bind(this),
         host: this.elementRef.nativeElement,
