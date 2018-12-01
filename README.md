@@ -34,7 +34,7 @@
 |icon|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/icon)|
 |img cropper|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/resizing-cropping-images)|
 |media|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/responsive)|
-|menu|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
+|menu|✔️|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
 |radio|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/radio)|
 |snack bar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/snack-bar)|
 |tabs|beta|:x:|[Docs](https://alyle-ui.firebaseapp.com/components/tabs)|
