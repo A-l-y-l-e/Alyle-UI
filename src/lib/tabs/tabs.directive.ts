@@ -153,7 +153,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this.withColor = changes.color.currentValue;
     }
     if (changes.bg) {
-      this.withBg = changes.color.currentValue;
+      this.withBg = changes.bg.currentValue;
     }
     if (isDevMode() && changes.withColor) {
       console.warn(`LyTabs > \`withColor\` is deprecated, instead use \`color\``);

@@ -3,12 +3,14 @@
     <button ly-button appearance="icon" (click)="openPostStackblitz($event)" [lyTooltip]="'Edit in Stackblitz'"><ly-icon>launch</ly-icon></button>
     <button ly-button appearance="icon" (click)="toggleCode()" [lyTooltip]="'View source'"><ly-icon icon="code"></ly-icon></button>
   </div>
-  <ly-tabs *ngIf="hasCode">
-    <ly-tab *ngFor="let file of files; let i = index">
-      <ly-tab-label>{{ file.label }}</ly-tab-label>
-      <prism [withClass]="classes.codeContainer" [code]="file.text | async" [language]="file.ext">Loading...</prism>
-    </ly-tab>
-  </ly-tabs>
+  <ly-paper *ngIf="hasCode" bg="codeBg">
+    <ly-tabs>
+      <ly-tab *ngFor="let file of files; let i = index">
+        <ly-tab-label>{{ file.label }}</ly-tab-label>
+        <prism [withClass]="classes.codeContainer" [code]="file.text | async" [language]="file.ext">Loading...</prism>
+      </ly-tab>
+    </ly-tabs>
+  </ly-paper>
   <div [className]="classes.tabContainer">
     <ng-content></ng-content>
   </div>

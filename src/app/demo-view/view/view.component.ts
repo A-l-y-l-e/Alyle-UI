@@ -24,7 +24,10 @@ const SELECTOR_APP = 'root-app';
 const styles = {
   root: {
     position: 'relative',
-    display: 'block'
+    display: 'block',
+    'ly-paper': {
+      display: 'block'
+    }
   },
   codeContainer: {
     overflowY: 'auto',
