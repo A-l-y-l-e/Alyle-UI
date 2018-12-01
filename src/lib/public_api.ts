@@ -21,6 +21,7 @@ export * from './src/dom/overlay-container';
 export * from './src/dom/overlay';
 export * from './src/dom/overlay.module';
 export * from './src/dom/mutation-observer-factory';
+export * from './src/dom/resize';
 export * from './src/common/index';
 export * from './src/ripple/index';
 export * from './src/position/position';

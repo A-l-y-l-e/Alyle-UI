@@ -1,6 +1,7 @@
 import { TemplateRef, EmbeddedViewRef, Injectable, ApplicationRef, ComponentFactoryResolver, Injector, ComponentRef, Type } from '@angular/core';
 import { LyOverlayContainer, LyOverlayBackdrop, WindowScrollService } from './overlay-container';
-import { Subscription } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
+import { ResizeService } from './resize';
 
 interface OverlayConfig {
   styles: Object;
@@ -28,7 +29,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
   private _el: HTMLDivElement;
   private _compRef: ComponentRef<any>;
   private _compRefOverlayBackdrop: ComponentRef<any>;
-  windowScrollSub: Subscription = Subscription.EMPTY;
+  windowSRSub: Subscription = Subscription.EMPTY;
   get containerElement() {
     return this._el;
   }
@@ -40,6 +41,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     _context: any,
     private _injector: Injector,
     windowScroll: WindowScrollService,
+    resizeService: ResizeService,
     config?: OverlayConfig
   ) {
     // this._viewRef = _templateRef.createEmbeddedView(_context);
@@ -71,15 +73,13 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
 
     this.updateStyles(__styles);
     if (config.host) {
-      this.windowScrollSub = windowScroll.scroll$.subscribe(() => {
+      this.windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
         const rect = config.host.getBoundingClientRect();
-        if (rect.top !== __styles.top || rect.left !== __styles.left) {
-          const newStyles = {
-            top: rect.top,
-            left: rect.left
-          };
-          this.updateStyles(newStyles);
-        }
+        const newStyles = {
+          top: rect.top,
+          left: rect.left
+        };
+        this.updateStyles(newStyles);
       });
     }
 
@@ -161,7 +161,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
       this._overlayContainer._remove(backdropEl);
     }
-    this.windowScrollSub.unsubscribe();
+    this.windowSRSub.unsubscribe();
   }
 
   destroy() {
@@ -180,10 +180,12 @@ export class LyOverlay {
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _appRef: ApplicationRef,
     private _injector: Injector,
-    private _windowScroll: WindowScrollService
+    private _windowScroll: WindowScrollService,
+    private _resizeService: ResizeService
   ) { }
 
   create(template: TemplateRef<any> | string, context?: any, config?: OverlayConfig): OverlayFromTemplateRef {
-    return new CreateFromTemplateRef(this._componentFactoryResolver, this._appRef, template, this._overlayContainer, context, this._injector, this._windowScroll, config);
+    return new CreateFromTemplateRef(
+      this._componentFactoryResolver, this._appRef, template, this._overlayContainer, context, this._injector, this._windowScroll, this._resizeService, config);
   }
 }
