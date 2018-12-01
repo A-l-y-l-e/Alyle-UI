@@ -88,7 +88,6 @@ mixinBg(
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   _selectedIndex = 0;
   _selectedBeforeIndex: number;
-  _selectedRequireCheck: boolean;
   _selectedTab: LyTab;
   _selectedBeforeTab: LyTab;
   private _tabsSubscription = Subscription.EMPTY;
@@ -127,9 +126,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this.selectedIndexChange.emit(this._selectedIndex);
       this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
 
-      if (this._selectedRequireCheck) {
-        this.markForCheck();
-      }
+      this.markForCheck();
       this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate3d(${this._selectedIndex * -100}%,0,0)`);
     }
   }
@@ -235,29 +232,16 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   }
 
   loadTemplate(tab: LyTab, index: number): TemplateRef<LyTabContent> | null {
-    if (tab.loaded) {
-      return null;
-    }
     tab.index = index;
     if (this.selectedIndex === tab.index) {
       // set 0 if is null
       this._selectedTab = tab;
       this._updateIndicator(tab);
-    } else if (!this._isViewInitLoaded && this.selectedIndex === tab.index) {
-      this._selectedTab = tab;
-      /** Apply style for tabIndicator server */
-      this._updateIndicator(tab);
     }
-    if (tab.templateRefLazy) {
-      if (this.selectedIndex === index) {
-        tab.loaded = true;
-        return tab.templateRefLazy;
-      } else {
-        return null;
-      }
+    if (this.selectedIndex === tab.index) {
+      return tab.templateRefLazy || tab.templateRef;
     } else {
-      tab.loaded = true;
-      return tab.templateRef;
+      return null;
     }
   }
 }
@@ -270,13 +254,11 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 })
 export class LyTab implements OnInit, AfterViewInit {
   index: number;
-  loaded: boolean;
   protected readonly classes;
   @ContentChild(LyTabContent, { read: TemplateRef }) templateRefLazy: TemplateRef<LyTabContent>;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   @ViewChild('tabIndicator') tabIndicator: ElementRef;
   @HostListener('click') onClick() {
-    this.tabs._selectedRequireCheck = !this.loaded;
     this.tabs.selectedIndex = this.index;
   }
 
