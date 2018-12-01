@@ -36,7 +36,7 @@ const STYLE_PRIORITY = -2;
 
 type LyButtonSize = 'small' | 'medium' | 'large';
 
-/** @ignore */
+/** @docs-private */
 const Size: Record<LyButtonSize, any> = {
   small: (theme: ThemeVariables) => ({
     padding: '0 8px',
@@ -108,7 +108,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
 
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
-  /** @ignore */
+  /** @docs-private */
   @Input('sensitive')
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
@@ -128,7 +128,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
       this._size = val;
       this._sizeClass = this._theme.addStyle(
         `lyButton.size:${val}`,
-        Size[val as any],
+        (theme: ThemeVariables) => theme.button.size[val],
         this._el.nativeElement,
         this._sizeClass,
         STYLE_PRIORITY

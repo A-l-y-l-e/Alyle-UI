@@ -16,15 +16,23 @@ export class MinimaBase extends LyStyleUtils {
   direction = Dir.ltr;
   button = {
     size: {
-      small: {
-        fontSize: this.pxToRem(16)
-      },
-      medium: {
-        fontSize: this.pxToRem(16)
-      },
-      large: {
-        fontSize: this.pxToRem(16)
-      }
+      small: ({
+        padding: '0 8px',
+        fontSize: this.pxToRem(this.typography.lyTyp.button.fontSize - 1),
+        minHeight: '32px',
+        minWidth: '48px'
+      }),
+      medium: ({
+        padding: '0 14px',
+        minHeight: '36px',
+        minWidth: '64px'
+      }),
+      large: ({
+        padding: '0 21px',
+        fontSize: this.pxToRem(this.typography.lyTyp.button.fontSize + 1),
+        minHeight: '40px',
+        minWidth: '96px'
+      })
     },
     appearance: {
       icon: {
