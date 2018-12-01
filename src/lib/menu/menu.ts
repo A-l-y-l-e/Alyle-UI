@@ -179,6 +179,7 @@ export class LyMenu implements OnInit, AfterViewInit {
 
 }
 
+/** @docs-private */
 const menuItemStyles = ({
   display: 'block',
   minHeight: '48px',
