@@ -1,35 +1,48 @@
 <p>
   For getting started a new project use Angular CLI and for an existing one follow the next steps.
 </p>
-<h2 lyTyp="headline" gutter>Install Alyle UI</h2>
+<h2 lyTyp="headline" gutter>Step 1: Install Alyle UI</h2>
 
 <prism language="bash" code="yarn add @alyle/ui"></prism>
 
 <p>or</p>
 
-<prism language="bash" code="npm i @alyle/ui"></prism>
+<prism language="bash" code="npm install --save @alyle/ui"></prism>
 
-<h2 lyTyp="headline" gutter>Import Alyle UI in AppModule</h2>
+<h2 lyTyp="headline" gutter>Step 2: Import Alyle UI in AppModule</h2>
 
 <prism language="typescript" [code]="code"></prism>
 
-<h2 lyTyp="headline" gutter>Install HammerJs</h2>
+<p>
+  This library uses Roboto Font & Google's Material Icons, you can add this in <span prism code="src/index.html" language="bash"></span>
+</p>
+<prism language="html" [code]="iconAndFont"></prism>
+
+<h2 lyTyp="headline" gutter>Step 3: Install HammerJs</h2>
+<p>
+  The <span prism code="ly-carousel" language="bash"></span> and <span prism code="ly-img-cropper" language="bash"></span> components require HammerJs for gestures.
+</p>
 
 <prism language="bash" code="yarn add hammerjs"></prism>
 
 <p>or</p>
 
-<prism language="bash" code="npm i hammerjs"></prism>
+<prism language="bash" code="npm install --save hammerjs"></prism>
 
 <p>Import in src/main.ts</p>
 
 <prism language="typescript" code="import 'hammerjs';"></prism>
 
-<h2 lyTyp="headline" gutter>And install ChromaJS</h2>
+<h2 lyTyp="headline" gutter>Step 3: And install ChromaJS</h2>
+<p>
+  ChromaJS is necessary to create the shadows for the <span prism code="[ly-button], ly-paper, ly-card" language="bash"></span> and others.
+</p>
 
 <prism language="bash" code="yarn add chroma-js"></prism>
 
 <p>or</p>
 
-<prism language="bash" code="npm i chroma-js"></prism>
+<prism language="bash" code="npm install --save chroma-js"></prism>
 
+<h2 lyTyp="headline" gutter>Step 4: Use the components</h2>
+<prism language="html" code="<button ly-button raised>Hello World</button>"></prism>
