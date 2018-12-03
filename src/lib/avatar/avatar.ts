@@ -62,6 +62,7 @@ export const LyAvatarMixinBase = mixinStyleUpdater(
   ]
 })
 export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
+  /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _size: number;
   private _sizeClass: string;
