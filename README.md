@@ -11,13 +11,13 @@
 
 > Supports Server Side Rendering & AOT
 
-## Alyle UI starter project
-
-[Stackblitz](https://stackblitz.com/edit/angular-alyle-ui-starter?file=src%2Fapp%2Fapp.component.html)
-
 ## Install Alyle UI
 
 [Installation](https://alyle-ui.firebaseapp.com/getting-started/installation)
+
+## Alyle UI starter project
+
+[Stackblitz](https://stackblitz.com/edit/angular-alyle-ui-starter?file=src%2Fapp%2Fapp.component.html)
 
 ## Components
 

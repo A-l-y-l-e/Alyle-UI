@@ -1,6 +1,6 @@
 <ng-container *ngIf="doc | async as api; else loading">
-  <h2 [lyTyp]="'headline'" gutter>Module</h2>
-  <prism language="typescript" [code]="api.ngModuleList[0].children"></prism>
+  <h2 [lyTyp]="'headline'" gutter>Modules</h2>
+  <prism language="typescript" [code]="joinList(api.ngModuleList)"></prism>
   <ng-template [ngIf]="api.componentList.length">
     <h2 [lyTyp]="'headline'" gutter>Components</h2>
     <ng-template ngFor let-component [ngForOf]="api.componentList" let-x="index">
