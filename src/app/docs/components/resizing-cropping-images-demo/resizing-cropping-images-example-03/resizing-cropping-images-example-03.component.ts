@@ -29,8 +29,8 @@ export class ResizingCroppingImagesExample03Component {
     width: 150, // Default `250`
     height: 150, // Default `200`,
     output: {
-      width: 50,
-      height: 50
+      width: 40,
+      height: 40
     }
   };
 
