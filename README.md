@@ -23,6 +23,7 @@
 
 |Feature|State|Responsive|Docs|
 |----|-----|----------|----|
+|avatar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/avatar)|
 |badge|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/badge)|
 |button|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/button)|
 |card|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/card)|
