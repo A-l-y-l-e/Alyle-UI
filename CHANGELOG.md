@@ -1,3 +1,20 @@
+<a name="1.9.1"></a>
+## [1.9.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.0...1.9.1) (2018-12-03)
+
+
+### Bug Fixes
+
+* **button:** fix size in theme ([0eb348f](https://github.com/A-l-y-l-e/Alyle-UI/commit/0eb348f))
+* **tabs:** fix height ([45214c6](https://github.com/A-l-y-l-e/Alyle-UI/commit/45214c6))
+
+
+### Features
+
+* **core:** add resize event ([78d9c9f](https://github.com/A-l-y-l-e/Alyle-UI/commit/78d9c9f))
+* **snack-bar:** update animation ([bbe5e17](https://github.com/A-l-y-l-e/Alyle-UI/commit/bbe5e17))
+
+
+
 <a name="1.9.0"></a>
 # [1.9.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.8.9...1.9.0) (2018-12-01)
 
