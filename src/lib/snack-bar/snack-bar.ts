@@ -1,11 +1,11 @@
-import { Directive, Input, TemplateRef, Output, EventEmitter, NgZone } from '@angular/core';
-import { LyTheme2, LyOverlay, ThemeVariables, shadowBuilder } from '@alyle/ui';
+import { Directive, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { LyTheme2, LyOverlay, ThemeVariables, shadowBuilder, XPosition, YPosition } from '@alyle/ui';
 import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarRef } from './snack-bar-ref';
 
 const STYLE_PRIORITY = -2;
-const DEFAULT_HORIZONTAL_POSITION = 'end';
-const DEFAULT_VERTICAL_POSITION = 'bottom';
+const DEFAULT_HORIZONTAL_POSITION = XPosition.after;
+const DEFAULT_VERTICAL_POSITION = YPosition.below;
 
 /** Event that is emitted when a snack bar is dismissed. */
 export interface LySnackBarDismiss {
@@ -19,8 +19,8 @@ export interface LySnackBarDismiss {
 })
 export class LySnackBar {
   @Input() duration: number;
-  @Input() horizontalPosition: 'start' | 'center' | 'end' | 'left' | 'right';
-  @Input() verticalPosition: 'top' | 'bottom';
+  @Input() horizontalPosition: 'start' | 'center' | 'end' | 'left' | 'right' | XPosition;
+  @Input() verticalPosition: YPosition;
   @Output() afterDismissed = new EventEmitter<LySnackBarDismiss>();
   constructor(
     private _templateRef: TemplateRef<any>,
@@ -54,30 +54,40 @@ export class LySnackBar {
           margin: '8px',
           padding: '0 16px',
           minHeight: '48px',
-          minWidth: '256px',
+          minWidth: '320px',
+          maxWidth: '320px',
           opacity: 0,
-          transition: `opacity ${theme.animations.curves.standard} 350ms`,
+          transition: `opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms`,
           fontSize: theme.pxToRem(theme.typography.fontSize),
           boxShadow: shadowBuilder(4, theme.snackBar.root.background as string),
           [theme.getBreakpoint('XSmall')]: {
-            width: 'calc(100% - 16px)'
+            width: 'calc(100% - 16px)',
+            minWidth: 'calc(100% - 16px)'
           },
           ...theme.snackBar.root,
         }), undefined, undefined, STYLE_PRIORITY),
-        this._theme.addStyle(`SnackBar.hp:${horizontalPosition}.vp:${verticalPosition}`, () => {
+        this._theme.addStyle(`SnackBar.hp:${horizontalPosition}.vp:${verticalPosition}`, (theme: ThemeVariables) => {
           const __styles: {
             marginLeft?: 'auto',
             left?: 0,
             marginRight?: 'auto',
             right?: 0,
-          } = {
-            [verticalPosition]: 0
-          };
+            transform?: string,
+            top?: number
+            bottom?: number
+          } = { };
+          if (verticalPosition === YPosition.above) {
+            __styles.transform = 'translateY(-180%)';
+            __styles.top = 0;
+          } if (verticalPosition === YPosition.below) {
+            __styles.transform = 'translateY(180%)';
+            __styles.bottom = 0;
+          }
           if (horizontalPosition === 'center') {
             __styles.marginRight = __styles.marginLeft = 'auto';
             __styles.left = __styles.right = 0;
           } else {
-            __styles[horizontalPosition] = 0;
+            __styles[theme.getDirection(horizontalPosition as any)] = 0;
           }
           return __styles;
         }, undefined, undefined, STYLE_PRIORITY)
@@ -86,7 +96,8 @@ export class LySnackBar {
 
     this._theme.requestAnimationFrame(() => {
       this._theme.addStyle('SnackBar:open', ({
-        opacity: 1
+        opacity: 1,
+        transform: 'translateY(0)'
       }), snackBar.containerElement, undefined, STYLE_PRIORITY);
     });
 

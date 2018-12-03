@@ -5,5 +5,6 @@ import { LySnackBarRef } from './snack-bar-ref';
   providedIn: 'root'
 })
 export class LySnackBarService {
+  /** @docs-private */
   _currentSnackBar: LySnackBarRef;
 }
