@@ -8,8 +8,7 @@ import {
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
-  mixinStyleUpdater,
-  ThemeVariables
+  mixinStyleUpdater
   } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
@@ -48,9 +47,15 @@ export const LyAvatarMixinBase = mixinStyleUpdater(
 
 @Directive({
   selector: 'ly-avatar',
-  // host: {
-  //   '[class]': 'classes.root'
-  // }
+  inputs: [
+    'bg',
+    'flat',
+    'color',
+    'raised',
+    'outlined',
+    'elevation',
+    'shadowColor',
+  ]
 })
 export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
