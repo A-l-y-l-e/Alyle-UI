@@ -1263,6 +1263,51 @@
           }
         }
       }
+    },
+    "@alyle/ui/avatar": {
+      "root": "dist/lib/avatar",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/avatar/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/avatar/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/avatar/test.ts",
+            "tsConfig": "dist/lib/avatar/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/avatar/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "dist/lib/avatar/tsconfig.lint.json",
+              "dist/lib/avatar/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {

@@ -1,3 +1,19 @@
+<a name="1.9.2"></a>
+## [1.9.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.1...1.9.2) (2018-12-03)
+
+
+### Bug Fixes
+
+* **img-cropper:** fix the file type output ([0ba5290](https://github.com/A-l-y-l-e/Alyle-UI/commit/0ba5290))
+
+
+### Features
+
+* **avatar:** add `size` property ([a214c34](https://github.com/A-l-y-l-e/Alyle-UI/commit/a214c34))
+* **avatar:** initial commit for `ly-avatar` ([e323455](https://github.com/A-l-y-l-e/Alyle-UI/commit/e323455))
+
+
+
 <a name="1.9.1"></a>
 ## [1.9.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.0...1.9.1) (2018-12-03)
 
