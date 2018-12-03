@@ -21,3 +21,4 @@ components:
   '@alyle/ui/field': field
   '@alyle/ui/snack-bar': snack-bar
   '@alyle/ui/tooltip': tooltip
+  '@alyle/ui/avatar': avatar
