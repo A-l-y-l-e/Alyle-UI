@@ -20,14 +20,14 @@
   <button (click)="cropping.clean()" ly-button>Clean</button>
 </div>
 
-<ly-cropping [withClass]="classes.cropping" #cropping
+<ly-img-cropper [withClass]="classes.cropping" #cropping
 [config]="myConfig"
 [(scale)]="scale"
 (cropped)="onCropped($event)"
 (loaded)="onloaded($event)"
 (error)="onerror($event)">
   <span>Drag and drop image</span>
-</ly-cropping>
+</ly-img-cropper>
 
 <div *ngIf="cropping.isLoaded" [className]="classes.range">
   <input type="range" [className]="classes.rangeInput" [attr.min]="cropping.minScale" max="1" [(ngModel)]="scale" step="any">
