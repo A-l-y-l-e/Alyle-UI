@@ -39,28 +39,30 @@ const STYLES = (theme: ThemeVariables) => ({
   }
 });
 
+const ANIMATIONS = [
+  trigger('menuEnter', [
+    transition('void => in', [
+      animate('125ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
+        style({
+          opacity: 0,
+          transform: 'scale(0.8)'
+        }),
+        style({
+          opacity: 1,
+          transform: 'scale(1)'
+        })
+      ]))
+    ]),
+  ]),
+  trigger('menuLeave', [
+    transition('* => void', animate('150ms linear', style({ opacity: 0 })))
+  ])
+];
+
 /** Menu container */
 @Component({
   selector: 'ly-menu',
-  animations: [
-    trigger('menuEnter', [
-      transition('void => in', [
-        animate('125ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
-          style({
-            opacity: 0,
-            transform: 'scale(0.8)'
-          }),
-          style({
-            opacity: 1,
-            transform: 'scale(1)'
-          })
-        ]))
-      ]),
-    ]),
-    trigger('menuLeave', [
-      transition('* => void', animate('150ms linear', style({ opacity: 0 })))
-    ])
-  ],
+  animations: [...ANIMATIONS],
   templateUrl: 'menu.html',
   exportAs: 'lyMenu'
 })
@@ -207,7 +209,6 @@ export class LyMenuItem {
 
 @Directive({
   selector: '[lyMenuTriggerFor]',
-  // tslint:disable-next-line:use-host-property-decorator
   host: {
     '(click)': '_handleClick($event)'
   }
