@@ -16,6 +16,7 @@ import { PaperDemoComponent } from './customization/paper-demo/paper-demo.compon
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
 import { MenuDemoComponent } from './components/menu-demo/menu-demo.component';
+import { AvatarDemoComponent } from './components/avatar-demo/avatar-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -52,7 +53,8 @@ const routes: Routes = [
       { path: 'snack-bar', component: SnackBarDemoComponent },
       { path: 'icon', component: IconDemoComponent },
       { path: 'tooltip', component: TooltipDemoComponent },
-      { path: 'menu', component: MenuDemoComponent }
+      { path: 'menu', component: MenuDemoComponent },
+      { path: 'avatar', component: AvatarDemoComponent },
     ]
   }
 ];

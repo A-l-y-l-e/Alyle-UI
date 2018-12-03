@@ -36,6 +36,7 @@ export class RoutesAppService {
         name: 'Components',
         route: 'components',
         routes: [
+          { route: 'avatar', name: 'Avatar' },
           { route: 'badge', name: 'Badge' },
           { route: 'button', name: 'Button' },
           { route: 'card', name: 'Card' },

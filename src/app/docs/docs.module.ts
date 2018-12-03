@@ -81,6 +81,10 @@ import { BasicTooltipModule } from './components/tooltip-demo/basic-tooltip/basi
 import { MenuDemoComponent } from './components/menu-demo/menu-demo.component';
 import { MenuDemo01Module } from './components/menu-demo/menu-demo-01/menu-demo-01.module';
 
+/** Avatar */
+import { AvatarDemoComponent } from './components/avatar-demo/avatar-demo.component';
+import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avatar/basic-uses-avatar.module';
+
 
 @NgModule({
   imports: [
@@ -131,7 +135,9 @@ import { MenuDemo01Module } from './components/menu-demo/menu-demo-01/menu-demo-
     /** Tooltip */
     BasicTooltipModule,
     /** Menu */
-    MenuDemo01Module
+    MenuDemo01Module,
+    /** Avatar */
+    BasicUsesAvatarModule
   ],
   declarations: [
     ThemingComponent,
@@ -164,7 +170,9 @@ import { MenuDemo01Module } from './components/menu-demo/menu-demo-01/menu-demo-
     /** Tooltip */
     TooltipDemoComponent,
     /** Menu */
-    MenuDemoComponent
+    MenuDemoComponent,
+    /** Avatar */
+    AvatarDemoComponent,
   ]
 })
 export class DocsModule { }
