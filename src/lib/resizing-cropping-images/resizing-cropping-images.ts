@@ -88,10 +88,12 @@ export interface ImgCropperConfig {
   /** Set anti-aliased( default: true) */
   antiAliased?: boolean;
   autoCrop?: boolean;
-  output?: {
-    width: number
-    height: number
-  } | ImgResolution;
+  output?: ImgOutput | ImgResolution;
+}
+
+export interface ImgOutput {
+  width: number;
+  height: number;
 }
 
 /**
