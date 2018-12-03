@@ -24,7 +24,11 @@ const STYLES = ({
     userSelect: 'none',
     borderRadius: '50%',
     textAlign: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    '&>img': {
+      width: '100%',
+      height: '100%'
+    }
   }
 });
 
