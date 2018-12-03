@@ -1,8 +1,8 @@
 <div *ngFor="let item of queries" [lyShow]="item.key">
   <p>
-    <strong color="warn">{{ item.key }}: </strong>{{ item.mediaQuery }}
+    <strong color="warn" ly-paper>{{ item.key }}: </strong>{{ item.mediaQuery }}
   </p>
 </div>
-<p lyHide="print" color="text:secondary">
+<p ly-paper lyHide="print" color="primary">
   Hide for printer, press Ctrl + p
 </p>

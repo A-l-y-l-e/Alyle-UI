@@ -1,22 +1,9 @@
 import { NgModule } from '@angular/core';
-// import { Responsive } from './media.service';
-// import { PLATFORM_ID } from '@angular/core';
 import { MediaDirective } from './media.directive';
-
-// export function responsiveProviderFactory(
-//   parent: Responsive, ngZone: NgZone, platformId: Object): Responsive {
-// return parent || new Responsive(ngZone, platformId);
-// }
-
-// export const responsiveProvider: Provider = {
-//   provide: Responsive,
-//   deps: [[new Optional(), new SkipSelf(), Responsive], NgZone, PLATFORM_ID],
-//   useFactory: responsiveProviderFactory
-// };
+import { LyCommonModule } from '@alyle/ui';
 
 @NgModule({
   declarations: [MediaDirective],
-  exports: [MediaDirective],
-  // providers: [responsiveProvider]
+  exports: [MediaDirective, LyCommonModule],
 })
 export class ResponsiveModule { }
