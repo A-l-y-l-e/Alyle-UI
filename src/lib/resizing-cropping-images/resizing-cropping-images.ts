@@ -287,14 +287,13 @@ export class LyResizingCroppingImages {
 
     this._fileName = _img.value.replace(/.*(\/|\\)/, '');
 
-
-    /** Set type */
-    if (!this.config.type) {
-      this._defaultType = _img.files[0].type;
-    }
     fileReader.addEventListener('loadend', (loadEvent) => {
       const originalImageUrl = (loadEvent.target as FileReader).result as string;
       this.setImageUrl(originalImageUrl);
+      /** Set type */
+      if (!this.config.type) {
+        this._defaultType = _img.files[0].type;
+      }
       this.cd.markForCheck();
     });
     fileReader.readAsDataURL(_img.files[0]);
@@ -601,7 +600,7 @@ export class LyResizingCroppingImages {
       const w = img.width * quality;
       const h = img.height * quality;
       /** Only the new img is shown. */
-      if (this._defaultType === 'image/png' || fileType === 'image/svg+xml') {
+      if (fileType === 'image/png' || fileType === 'image/svg+xml') {
         octx.globalCompositeOperation = 'copy';
       }
 
@@ -673,7 +672,7 @@ export class LyResizingCroppingImages {
     }
     let url;
     if (myConfig.type) {
-      url = result.toDataURL(`image/${myConfig.type}`);
+      url = result.toDataURL(`${myConfig.type}`);
     } else {
       url = result.toDataURL(this._defaultType);
     }
