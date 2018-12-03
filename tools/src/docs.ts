@@ -105,15 +105,24 @@ docsJSON.children.forEach(child => {
               if (de.kindString === 'Property') {
                 let line = '';
                 if (de.decorators) {
-                  de.decorators.forEach(_ => line += `@${_.name}() `);
+                  de.decorators.forEach(_ => {
+                      line += `@${_.name}() `;
+                  });
                 }
                 line += `${de.name}: `;
-                line += `${de.type && de.type['name'] ? de.type['name'] : 'any'}`;
+                line += de.type && de.type['name'] ? de.type['name'] : 'any';
                 items.push(line);
               } else if (de.kindString === 'Accessor') {
+
                 let line = '';
                 if (de.decorators) {
-                  de.decorators.forEach(_ => line += `@${_.name}() `);
+                  de.decorators.forEach(_ => {
+                    line += `@${_.name}(`;
+                    if (_.arguments.bindingPropertyName) {
+                      line += _.arguments.bindingPropertyName;
+                    }
+                    line += `) `;
+                  });
                 }
                 line += `${de.name}: `;
                 line += `${de.getSignature && (de.getSignature.type.type === 'intrinsic' || de.getSignature.type.type === 'reference')
@@ -139,7 +148,7 @@ docsJSON.children.forEach(child => {
           let items = `const ${name}`;
 
           if (_child.type) {
-            if (_child.type.type !== 'unknown') {
+            if (_child.type.type !== 'unknown' && !_child.defaultValue) {
               items += `: ${getType(_child.type, 'any')}`;
             }
              if (_child.defaultValue) {
