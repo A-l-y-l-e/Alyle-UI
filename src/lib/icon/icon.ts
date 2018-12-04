@@ -41,24 +41,6 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
   private _currentClass: string;
   private _fontIcon: string;
 
-  /** deprecated */
-  @Input()
-  set src(val: string) {
-    this._src = val;
-    if (Platform.isBrowser) {
-      if (val) {
-        const key = `_url:${val}`;
-        this.iconService.setSvg(key, val);
-        this._prepareSvgIcon(this.iconService.getSvg(key));
-      }
-    } else {
-      this._appendDefaultSvgIcon();
-    }
-  }
-  get src() {
-    return this._src;
-  }
-
   @Input()
   get icon() {
     return this._icon;
@@ -106,7 +88,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
   }
 
   private _isDefault() {
-    return !(this.src || this.icon || this.fontSet);
+    return !(this.icon || this.fontSet);
   }
 
   private _prepareSvgIcon(svgIcon: SvgIcon) {
