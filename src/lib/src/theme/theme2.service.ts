@@ -45,7 +45,7 @@ export interface StyleMap5 {
   requireUpdate?: boolean;
   id: string;
 }
-const STYLE_KEYS_MAP = {};
+
 let nextClassId = 0;
 let nextKeyFrameId = 0;
 
@@ -362,9 +362,6 @@ function groupStyleToString(
       }
     }
   }
-  if (styles.$keyframes) {
-    console.log(classesMap);
-  }
   return replaceRefs(content, classesMap);
 }
 
@@ -427,12 +424,7 @@ function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, 
 }
 
 function convertToStyleValue(key: string, value: string | string[], themeVariables: ThemeVariables) {
-  let newStyleKey = toHyphenCaseCache(key);
-  if (newStyleKey.indexOf(DirAlias.start) !== -1) {
-    newStyleKey = dirCache(newStyleKey, themeVariables, DirAlias.start);
-  } else if (newStyleKey.indexOf(DirAlias.end) !== -1) {
-    newStyleKey = dirCache(newStyleKey, themeVariables, DirAlias.end);
-  }
+  const newStyleKey = converterToCssKeyAndStyleCache(key, themeVariables);
   if (value.constructor === Array) {
     let lin = '';
     for (let index = 0; index < value.length; index++) {
@@ -477,8 +469,24 @@ function keyframesToString(styleName: string, keysMap: object, keyframes: Keyfra
   return content;
 }
 
-export function toHyphenCase(str: string) {
-  return str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
+function warnDeprecatedKeyStyle(str: string, key: string, to: string) {
+  console.warn(`Style key \`${key}\` deprecated for \`${str}\`, change \`${key}\` to \`${to}\`\n`);
+}
+
+export function converterToCssKeyAndStyle(str: string, themeVariables: ThemeVariables) {
+  const hyphenCase = toHyphenCase(str);
+  if (hyphenCase.indexOf(DirAlias.start) !== -1) {
+    warnDeprecatedKeyStyle(str, DirAlias.start, DirAlias.before);
+    return dirCache(str, hyphenCase, themeVariables, DirAlias.start);
+  } else if (hyphenCase.indexOf(DirAlias.end) !== -1) {
+    warnDeprecatedKeyStyle(str, DirAlias.end, DirAlias.after);
+    return dirCache(str, hyphenCase, themeVariables, DirAlias.end);
+  } else if (hyphenCase.indexOf(DirAlias.before) !== -1) {
+    return dirCache(str, hyphenCase, themeVariables, DirAlias.before);
+  } else if (hyphenCase.indexOf(DirAlias.after) !== -1) {
+    return dirCache(str, hyphenCase, themeVariables, DirAlias.after);
+  }
+  return hyphenCase;
 }
 
 function toClassNameValid(str: string) {
@@ -488,19 +496,38 @@ function toClassNameValid(str: string) {
   return toHyphenCase(s);
 }
 
-function toHyphenCaseCache(str: string): string {
-  return str in STYLE_KEYS_MAP
-  ? STYLE_KEYS_MAP[str]
-  : STYLE_KEYS_MAP[str] = toHyphenCase(str);
+
+function toHyphenCase(str: string) {
+  return str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
 }
 
-const STYLE_KEYS_DIRECTIONS_MAP = {};
+function converterToCssKeyAndStyleCache(str: string, themeVariables: ThemeVariables): string {
+  const map = STYLE_KEYS_MAP[themeVariables.direction];
+  return str in map
+  ? map[str]
+  : map[str] = converterToCssKeyAndStyle(str, themeVariables);
+}
 
-function dirCache(val: string, themeVariables: ThemeVariables, dirAlias: DirAlias) {
-  const newKey = themeVariables.direction + val;
-  return newKey in STYLE_KEYS_DIRECTIONS_MAP
-  ? STYLE_KEYS_DIRECTIONS_MAP[newKey]
-  : STYLE_KEYS_DIRECTIONS_MAP[newKey] = val.replace(dirAlias, themeVariables.getDirection(dirAlias));
+const ignoreCSSKEY = {
+  'break-after': 'break-after',
+  'break-before': 'break-before',
+  'page-break-after': 'page-break-after',
+  'page-break-before': 'page-break-before'
+};
+
+const STYLE_KEYS_MAP = {
+  rtl: {
+    ...ignoreCSSKEY
+  },
+  ltr: {
+    ...ignoreCSSKEY
+  }
+};
+
+function dirCache(original, val: string, themeVariables: ThemeVariables, dirAlias: DirAlias) {
+  const map = STYLE_KEYS_MAP[themeVariables.direction];
+  // Replace in original, for do not repeat this again
+  return map[original] = val.replace(dirAlias, themeVariables.getDirection(dirAlias));
 }
 
 export function capitalizeFirstLetter(str: string) {
