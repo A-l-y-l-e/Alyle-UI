@@ -3,7 +3,7 @@ import { LyTheme2, eachMedia, ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 
-/** @ignore */
+/** @docs-private */
 const COL_VALUES = { };
 
 const ALIGN_ALIAS = {
@@ -26,8 +26,8 @@ const styles = ({
   }
 });
 
-type Justify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
-type Direction = 'row' | 'rowReverse' | 'column' | 'columnReverse';
+export type Justify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+export type Direction = 'row' | 'rowReverse' | 'column' | 'columnReverse';
 
 /**
  * Grid container
@@ -47,7 +47,7 @@ type Direction = 'row' | 'rowReverse' | 'column' | 'columnReverse';
 export class LyGrid {
   /**
    * Styles
-   * @ignore
+   * @docs-private
    */
   classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
 
@@ -82,7 +82,6 @@ export class LyGrid {
           eachMedia(val, (value, media, len) => {
             const padding = `${(+value) / 2}px`;
             if (len) {
-              // spacingStyles[`@media ${this.mediaQueries[media]}`] = {
               spacingStyles[theme.getBreakpoint(media)] = {
                 padding
               };
@@ -110,7 +109,6 @@ export class LyGrid {
               if (!negativeMarginStyles) {
                 negativeMarginStyles = {};
               }
-              // negativeMarginStyles[`@media ${this.mediaQueries[media]}`] = negativeMarginstyles;
               negativeMarginStyles[theme.getBreakpoint(media)] = negativeMarginstyles;
             } else {
               negativeMarginStyles = negativeMarginstyles;
@@ -122,6 +120,7 @@ export class LyGrid {
     }
   }
 
+  /** @docs-private */
   get spacingClass() {
     return this._spacingClass;
   }
@@ -148,7 +147,6 @@ export class LyGrid {
             if (!justifyStyles) {
               justifyStyles = {};
             }
-            // justifyStyles[`@media ${this.mediaQueries[media]}`] = newJustifyStyles;
             justifyStyles[theme.getBreakpoint(media)] = newJustifyStyles;
           } else {
             justifyStyles = newJustifyStyles;
@@ -181,7 +179,6 @@ export class LyGrid {
             if (!directionStyles) {
               directionStyles = {};
             }
-            // directionStyles[`@media ${this.mediaQueries[media]}`] = newDirectionStyles;
             directionStyles[theme.getBreakpoint(media)] = newDirectionStyles;
           } else {
             directionStyles = newDirectionStyles;
@@ -233,7 +230,6 @@ export class LyGridItem implements OnInit {
               if (!colStyles) {
                 colStyles = {};
               }
-              // colStyles[`@media ${this.mediaQueries[media]}`] = newColStyles;
               colStyles[theme.getBreakpoint(media)] = newColStyles;
             } else {
               colStyles = newColStyles;
@@ -267,7 +263,6 @@ export class LyGridItem implements OnInit {
             if (!orderStyles) {
               orderStyles = {};
             }
-            // orderStyles[`@media ${this.mediaQueries[media]}`] = newOrderStyles;
             orderStyles[theme.getBreakpoint(media)] = newOrderStyles;
           } else {
             orderStyles = newOrderStyles;
