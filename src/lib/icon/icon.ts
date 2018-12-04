@@ -1,7 +1,7 @@
 import { Directive, Input, Renderer2, ElementRef, OnInit, OnChanges } from '@angular/core';
 import { LyIconService, SvgIcon, FontClassOptions } from './icon.service';
 import { take } from 'rxjs/operators';
-import { Platform, LyTheme2, mixinStyleUpdater, mixinBg, mixinFlat, mixinColor, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor } from '@alyle/ui';
+import { Platform, LyTheme2, mixinStyleUpdater, mixinBg, mixinColor, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 
@@ -15,19 +15,17 @@ export class LyIconBase {
 /** @docs-private */
 export const LyIconMixinBase = mixinStyleUpdater(
 mixinBg(
-  mixinFlat(
-    mixinColor(
-      mixinRaised(
-        mixinOutlined(
-          mixinElevation(
-            mixinShadowColor(LyIconBase))))))));
+  mixinColor(
+    mixinRaised(
+      mixinOutlined(
+        mixinElevation(
+          mixinShadowColor(LyIconBase)))))));
 
 
 @Directive({
   selector: 'ly-icon',
   inputs: [
     'bg',
-    'flat',
     'color',
     'raised',
     'outlined',

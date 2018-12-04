@@ -1,6 +1,6 @@
-import { Directive, OnChanges, ElementRef, NgZone, OnInit, OnDestroy } from '@angular/core';
+import { Directive, OnChanges, ElementRef, NgZone, OnDestroy } from '@angular/core';
 import { LyTheme2 } from './theme2.service';
-import { mixinStyleUpdater, mixinBg, mixinFlat, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor, mixinDisableRipple, mixinColor } from '../common/index';
+import { mixinStyleUpdater, mixinBg, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor, mixinDisableRipple, mixinColor } from '../common/index';
 
 export class LyPaperBase {
   constructor(
@@ -11,13 +11,12 @@ export class LyPaperBase {
 
 export const LyPaperMixinBase = mixinStyleUpdater(
 mixinBg(
-  mixinFlat(
-    mixinColor(
-      mixinRaised(
-        mixinOutlined(
-          mixinElevation(
-            mixinShadowColor(
-              mixinDisableRipple(LyPaperBase)))))))));
+  mixinColor(
+    mixinRaised(
+      mixinOutlined(
+        mixinElevation(
+          mixinShadowColor(
+            mixinDisableRipple(LyPaperBase))))))));
 
 @Directive({
   selector: `ly-paper, [ly-paper]`,

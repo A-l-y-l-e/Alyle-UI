@@ -6,6 +6,7 @@
     <ng-template ngFor let-component [ngForOf]="api.componentList" let-x="index">
       <h3 [lyTyp]="'title'" gutter>{{ component.name }}</h3>
       <p>Selector: <span prism language="typescript" code="'{{ component.selector }}'"></span></p>
+      <p *ngIf="component.inputs as inputs">Inputs: <prism language="typescript" code="{{ inputs | json }}"></prism></p>
       <p *ngIf="component.exportAs as exportAs">ExportAs: <span prism language="typescript" code="'{{ exportAs }}'"></span></p>
       <prism *ngIf="component.children" language="typescript" [code]="component.children"></prism>
     </ng-template>

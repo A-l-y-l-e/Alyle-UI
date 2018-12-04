@@ -12,7 +12,6 @@ import {
   mixinColor,
   mixinDisabled,
   mixinElevation,
-  mixinFlat,
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
@@ -60,19 +59,17 @@ export class LyBadgeBase {
 /** @docs-private */
 export const LyBadgeMixinBase = mixinStyleUpdater(
 mixinBg(
-  mixinFlat(
-    mixinColor(
-      mixinRaised(
-        mixinDisabled(
-          mixinOutlined(
-            mixinElevation(
-              mixinShadowColor(LyBadgeBase)))))))));
+  mixinColor(
+    mixinRaised(
+      mixinDisabled(
+        mixinOutlined(
+          mixinElevation(
+            mixinShadowColor(LyBadgeBase))))))));
 
 @Directive({
   selector: 'ly-badge, [lyBadge]',
   inputs: [
     'bg',
-    'flat',
     'color',
     'raised',
     'disabled',

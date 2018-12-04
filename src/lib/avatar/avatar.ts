@@ -4,7 +4,6 @@ import {
   mixinBg,
   mixinColor,
   mixinElevation,
-  mixinFlat,
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
@@ -43,18 +42,16 @@ export class LyAvatarBase {
 /** @docs-private */
 export const LyAvatarMixinBase = mixinStyleUpdater(
   mixinBg(
-    mixinFlat(
-      mixinColor(
-        mixinRaised(
-          mixinOutlined(
-            mixinElevation(
-              mixinShadowColor(LyAvatarBase))))))));
+    mixinColor(
+      mixinRaised(
+        mixinOutlined(
+          mixinElevation(
+            mixinShadowColor(LyAvatarBase)))))));
 
 @Directive({
   selector: 'ly-avatar',
   inputs: [
     'bg',
-    'flat',
     'color',
     'raised',
     'outlined',

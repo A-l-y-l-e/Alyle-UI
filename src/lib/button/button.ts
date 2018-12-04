@@ -21,7 +21,6 @@ import {
   mixinBg,
   mixinShadowColor,
   mixinOutlined,
-  mixinFlat,
   mixinElevation,
   mixinRaised,
   mixinDisableRipple,
@@ -68,14 +67,13 @@ export class LyButtonBase {
 /** @docs-private */
 export const LyButtonMixinBase = mixinStyleUpdater(
 mixinBg(
-  mixinFlat(
     mixinColor(
       mixinRaised(
         mixinDisabled(
           mixinOutlined(
             mixinElevation(
               mixinShadowColor(
-                mixinDisableRipple(LyButtonBase))))))))));
+                mixinDisableRipple(LyButtonBase)))))))));
 
 @Component({
   selector: '[ly-button]',
@@ -83,7 +81,6 @@ mixinBg(
   templateUrl: 'button.html',
   inputs: [
     'bg',
-    'flat',
     'color',
     'raised',
     'disabled',

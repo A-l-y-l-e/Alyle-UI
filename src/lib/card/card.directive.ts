@@ -15,7 +15,6 @@ import {
   mixinDisabled,
   mixinDisableRipple,
   mixinElevation,
-  mixinFlat,
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
@@ -64,20 +63,18 @@ export class LyCardBase {
 /** @docs-private */
 export const LyCardMixinBase = mixinStyleUpdater(
 mixinBg(
-  mixinFlat(
-    mixinColor(
-      mixinRaised(
-        mixinDisabled(
-          mixinOutlined(
-            mixinElevation(
-              mixinShadowColor(
-                mixinDisableRipple(LyCardBase))))))))));
+  mixinColor(
+    mixinRaised(
+      mixinDisabled(
+        mixinOutlined(
+          mixinElevation(
+            mixinShadowColor(
+              mixinDisableRipple(LyCardBase)))))))));
 
 @Directive({
   selector: 'ly-card',
   inputs: [
     'bg',
-    'flat',
     'color',
     'raised',
     'outlined',

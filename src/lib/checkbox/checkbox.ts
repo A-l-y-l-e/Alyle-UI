@@ -26,7 +26,6 @@ import {
   mixinDisabled,
   mixinDisableRipple,
   mixinElevation,
-  mixinFlat,
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
@@ -148,14 +147,12 @@ export class LyCheckboxBase {
 /** @docs-private */
 export const LyCheckboxMixinBase = mixinStyleUpdater(
 mixinBg(
-  mixinFlat(
-    mixinColor(
-      mixinRaised(
-        (
-          mixinOutlined(
-            mixinElevation(
-              mixinShadowColor(
-                mixinDisableRipple(LyCheckboxBase))))))))));
+  mixinColor(
+    mixinRaised(
+      mixinOutlined(
+        mixinElevation(
+          mixinShadowColor(
+            mixinDisableRipple(LyCheckboxBase))))))));
 
 @Component({
   selector: 'ly-checkbox',
@@ -166,7 +163,6 @@ mixinBg(
   exportAs: 'lyCheckbox',
   inputs: [
     'bg',
-    'flat',
     'color',
     'raised',
     'outlined',

@@ -12,7 +12,6 @@ import {
   mixinColor,
   mixinDisabled,
   mixinElevation,
-  mixinFlat,
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
@@ -53,13 +52,12 @@ export class LyToolbarBase {
 /** @docs-private */
 export const LyToolbarMixinBase = mixinStyleUpdater(
   mixinBg(
-    mixinFlat(
       mixinColor(
         mixinRaised(
           mixinDisabled(
             mixinOutlined(
               mixinElevation(
-                mixinShadowColor(LyToolbarBase)))))))));
+                mixinShadowColor(LyToolbarBase))))))));
 
 @Directive({
   selector: 'ly-toolbar',

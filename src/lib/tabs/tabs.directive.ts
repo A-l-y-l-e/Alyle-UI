@@ -32,7 +32,6 @@ import {
   mixinDisabled,
   mixinDisableRipple,
   mixinElevation,
-  mixinFlat,
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
@@ -53,7 +52,7 @@ export class LyTabsBase {
 }
 
 /** @docs-private */
-export const LyTabsMixinBase = mixinBg(mixinFlat(mixinColor(LyTabsBase)));
+export const LyTabsMixinBase = mixinBg(mixinColor(LyTabsBase));
 
 /** @docs-private */
 export class LyTabLabelBase {
@@ -66,14 +65,13 @@ export class LyTabLabelBase {
 /** @docs-private */
 export const LyTabLabelMixinBase = mixinStyleUpdater(
 mixinBg(
-  mixinFlat(
-    mixinColor(
-      mixinRaised(
-        mixinDisabled(
-          mixinOutlined(
-            mixinElevation(
-              mixinShadowColor(
-                mixinDisableRipple(LyTabLabelBase))))))))));
+  mixinColor(
+    mixinRaised(
+      mixinDisabled(
+        mixinOutlined(
+          mixinElevation(
+            mixinShadowColor(
+              mixinDisableRipple(LyTabLabelBase)))))))));
 
 @Component({
   selector: 'ly-tabs',
@@ -82,7 +80,7 @@ mixinBg(
   encapsulation: ViewEncapsulation.None,
   exportAs: 'lyTabs',
   inputs: [
-    'bg', 'flat', 'color'
+    'bg', 'color'
   ]
 })
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
