@@ -6,6 +6,7 @@
 </div>
 
 [![Build Status](https://travis-ci.org/A-l-y-l-e/Alyle-UI.svg?branch=master)](https://travis-ci.org/A-l-y-l-e/Alyle-UI)
+[![Build Status](https://dev.azure.com/Alyle/Alyle%20UI/_apis/build/status/Alyle%20UI)](https://dev.azure.com/Alyle/Alyle%20UI/_build/latest?definitionId=1)
 [![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 [![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui) [![Join the chat at https://gitter.im/A-l-y-l-e/Alyle-UI](https://badges.gitter.im/A-l-y-l-e/Alyle-UI.svg)](https://gitter.im/A-l-y-l-e/Alyle-UI?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
