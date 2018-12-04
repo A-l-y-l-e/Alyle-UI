@@ -5,6 +5,7 @@ import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 import { DirAlias } from '../style-utils';
+import { YPosition } from '../position/position';
 
 const defaultStyles = {
   '@global': {
@@ -485,6 +486,10 @@ export function converterToCssKeyAndStyle(str: string, themeVariables: ThemeVari
     return dirCache(str, hyphenCase, themeVariables, DirAlias.before);
   } else if (hyphenCase.indexOf(DirAlias.after) !== -1) {
     return dirCache(str, hyphenCase, themeVariables, DirAlias.after);
+  } else if (hyphenCase.indexOf(YPosition.above) !== -1) {
+    return YPositionCache(str, hyphenCase, themeVariables, YPosition.above, TOP);
+  } else if (hyphenCase.indexOf(YPosition.below) !== -1) {
+    return YPositionCache(str, hyphenCase, themeVariables, YPosition.below, BOTTOM);
   }
   return hyphenCase;
 }
@@ -524,10 +529,19 @@ const STYLE_KEYS_MAP = {
   }
 };
 
+const BOTTOM = 'bottom';
+const TOP = 'top';
+
 function dirCache(original, val: string, themeVariables: ThemeVariables, dirAlias: DirAlias) {
   const map = STYLE_KEYS_MAP[themeVariables.direction];
   // Replace in original, for do not repeat this again
   return map[original] = val.replace(dirAlias, themeVariables.getDirection(dirAlias));
+}
+
+function YPositionCache(original, val: string, themeVariables: ThemeVariables, pos: YPosition, to: 'top' | 'bottom') {
+  const map = STYLE_KEYS_MAP[themeVariables.direction];
+  // Replace in original, for do not repeat this again
+  return map[original] = val.replace(pos, to);
 }
 
 export function capitalizeFirstLetter(str: string) {
