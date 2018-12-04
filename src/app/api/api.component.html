@@ -36,11 +36,12 @@
     <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
     <prism language="typescript" [code]="joinList(variableList)"></prism>
   </ng-container>
+  <ng-container *ngIf="themePkg.length as len">
+    <ng-template ngFor let-pkg [ngForOf]="themePkg">
+      <h2 [lyTyp]="'headline'" gutter *ngIf="len === 1">Global theme</h2>
+      <h2 [lyTyp]="'headline'" gutter *ngIf="len > 1">Theme {{ pkg.name }}</h2>
+      <prism language="json" [code]="pkg.themeJSON"></prism>
+    </ng-template>
+  </ng-container>
 </ng-container>
-<ng-template [ngIf]="themePkg.length">
-  <ng-template ngFor let-pkg [ngForOf]="themePkg">
-    <h2 [lyTyp]="'headline'" gutter>Theme {{ pkg.name }}</h2>
-    <prism language="json" [code]="pkg.themeJSON"></prism>
-  </ng-template>
-</ng-template>
 <ng-template #loading>Loading...</ng-template>

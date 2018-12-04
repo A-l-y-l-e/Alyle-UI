@@ -40,6 +40,9 @@ export class ApiComponent implements OnInit, OnDestroy {
           });
         }
       });
+      if (this.themePkg.length && this.themePkg[0].themeJSON === this.themePkg[1].themeJSON) {
+        this.themePkg.pop();
+      }
     });
   }
 
