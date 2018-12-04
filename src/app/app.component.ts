@@ -81,13 +81,13 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
   drawerButton: {
     color: theme.drawerButton,
     fontWeight: 400,
-    borderStart: '3px solid transparent',
+    borderBefore: '3px solid transparent',
     display: 'flex',
     justifyContent: 'space-between',
     borderRadius: 0,
     '&:hover, &{onLinkActive}': {
       color: theme.primary.default,
-      borderStart: '3px solid'
+      borderBefore: '3px solid'
     }
   },
   onLinkActive: null

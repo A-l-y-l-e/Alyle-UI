@@ -18,7 +18,8 @@ import {
   LyTheme2,
   ThemeVariables,
   toBoolean,
-  LY_COMMON_STYLES
+  LY_COMMON_STYLES,
+  Placement
   } from '@alyle/ui';
 
 const DEFAULT_MODE = 'side';
@@ -58,7 +59,7 @@ const styles = (theme: ThemeVariables) => ({
   }
 });
 
-type position = 'start' | 'end' | 'top' | 'bottom';
+export type position = 'start' | 'end' | 'top' | 'bottom' | Placement;
 type mode = 'side' | 'over';
 
 @Directive({
@@ -132,16 +133,28 @@ export class LyDrawer implements OnChanges {
     return this._opened;
   }
   @Input() mode: mode = DEFAULT_MODE;
+
+  @Input() spacingAbove: string | number;
   @Input() spacingTop: string | number;
+
+  @Input() spacingBelow: string | number;
   @Input() spacingBottom: string | number;
+
   @Input() spacingStart: string | number;
+  @Input() spacingBefore: string | number;
+
+  @Input() spacingAfter: string | number;
   @Input() spacingRight: string | number;
+
   @Input() width: number | string;
   @Input() height: number | string;
 
   @Input()
   set position(val: position) {
     if (val !== this.position) {
+      if (val === 'start' || val === 'end') {
+        console.warn(`LyDrawer: position ${val} is deprecated, use instead \`before\` or \`after\``);
+      }
       this._position = val;
       this._theme.addStyle(`drawer.position:${val}`, (theme: ThemeVariables) => {
         return {
@@ -150,7 +163,7 @@ export class LyDrawer implements OnChanges {
       }, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
     }
   }
-  get position() {
+  get position(): position {
     return this._position;
   }
 
