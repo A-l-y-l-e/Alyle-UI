@@ -65,8 +65,8 @@ type mode = 'side' | 'over';
   selector: 'ly-drawer-container'
 })
 export class LyDrawerContainer {
-  /** @ignore */
-  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY + 1.9);
+  /** @docs-private */
+  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY + 1.9);
   _openDrawers = 0;
   @ContentChild(forwardRef(() => LyDrawerContent)) _drawerContent: LyDrawerContent;
   constructor(
@@ -103,9 +103,9 @@ export class LyDrawerContent {
 export class LyDrawer implements OnChanges {
   /**
    * Styles
-   * @ignore
+   * @docs-private
    */
-  classes = this._drawerContainer.classes;
+  readonly classes = this._drawerContainer.classes;
   private _forceModeOver: boolean;
   private _fromToggle: boolean;
   private _opened: boolean;
@@ -144,12 +144,6 @@ export class LyDrawer implements OnChanges {
     if (val !== this.position) {
       this._position = val;
       this._theme.addStyle(`drawer.position:${val}`, (theme: ThemeVariables) => {
-        // const positionVal: string;
-        // if (val === 'start' || val === 'end') {
-        //   positionVal = theme.getDirection(val);
-        // } else {
-        //   positionVal = val;
-        // }
         return {
           [val]: 0
         };
