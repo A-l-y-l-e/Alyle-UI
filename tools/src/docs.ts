@@ -75,13 +75,19 @@ docsJSON.children.forEach(child => {
       });
       const Type = `${toCamelcase(type)}List`;
       if (type === 'Component' || type === 'Directive') {
-        const selector = ((/selector:\s?\`?\'?\`?([\w\-\,\[\]\s\>]+)\'?\'?/).exec(decorators[0].arguments.obj))[1];
-        const exportAs = ((/exportAs:\s?\`?\'?\`?([\w\-\,\[\]\s\>]+)\'?\'?/).exec(decorators[0].arguments.obj) || [])[1] || null;
+        const replObj = decorators[0].arguments.obj.replace(
+          /(providers|animations).*\n/g, ''
+        ).replace(/\n/g, '');
+        const ARGS = (new Function(
+          `const ChangeDetectionStrategy = {};
+          const ViewEncapsulation = {}
+          return ${replObj}`
+        ))();
         const __data = {
           name,
-          selector,
-          inputs: null,
-          exportAs,
+          selector: ARGS.selector,
+          inputs: ARGS.inputs,
+          exportAs: ARGS.exportAs,
           children: ''
         };
         (
