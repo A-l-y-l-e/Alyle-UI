@@ -31,7 +31,7 @@
       true,
       180
     ],
-    "member-access": false,
+    "member-access": [true, "no-public"],
     "member-ordering": [
       true,
       {
@@ -116,13 +116,20 @@
       "check-separator",
       "check-type"
     ],
-    "no-output-on-prefix": true,
     "use-output-property-decorator": true,
-    "no-input-rename": true,
     "no-output-rename": true,
-    "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "no-duplicate-imports": true,
-    "no-unused-variable": true
+    "no-unused-variable": true,
+    "no-duplicate-variable": true,
+    "linebreak-style": [true, "LF"],
+    "no-namespace": true,
+    // Codelyzer
+    "banana-in-box": true,
+    "contextual-life-cycle": true,
+    "decorator-not-allowed": true,
+    "no-output-on-prefix": true,
+    "templates-no-negated-async": true,
+    "use-life-cycle-interface": true
   }
 }

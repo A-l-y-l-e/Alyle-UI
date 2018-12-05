@@ -90,18 +90,7 @@ components.forEach((lib, index) => {
           'codeCoverageExclude': ['dist/lib/core/**/*', 'src/lib/core/**/*']
         }
       },
-      'lint': {
-        'builder': '@angular-devkit/build-angular:tslint',
-        'options': {
-          'tsConfig': [
-            `dist/lib/${lib.path}/tsconfig.lint.json`,
-            `dist/lib/${lib.path}/tsconfig.spec.json`
-          ],
-          'exclude': [
-            '**/node_modules/**'
-          ]
-        }
-      }
+      'lint': { }
     }
   };
   writeFileSync(`${process.cwd()}/angular.json`, JSON.stringify(angularCliConfig, undefined, 2), 'utf8');
