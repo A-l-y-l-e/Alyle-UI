@@ -11,8 +11,8 @@ const styles = (theme: ThemeVariables) => ({
     padding: '0 1em'
   },
   customBadge: {
-    end: 0,
-    top: 0,
+    after: 0,
+    above: 0,
     bottom: 0,
     margin: 'auto 0',
     border: `2px solid ${theme.background.tertiary}`
