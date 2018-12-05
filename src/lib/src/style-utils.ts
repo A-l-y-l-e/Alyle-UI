@@ -24,7 +24,7 @@ export class LyStyleUtils {
     WebLandscape: string,
     [key: string]: string
   };
-  direction?: Dir;
+  direction: Dir;
   pxToRem(value: number) {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
