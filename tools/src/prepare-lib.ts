@@ -89,8 +89,7 @@ components.forEach((lib, index) => {
           'browsers': 'ChromeHeadless',
           'codeCoverageExclude': ['dist/lib/core/**/*', 'src/lib/core/**/*']
         }
-      },
-      'lint': { }
+      }
     }
   };
   writeFileSync(`${process.cwd()}/angular.json`, JSON.stringify(angularCliConfig, undefined, 2), 'utf8');
