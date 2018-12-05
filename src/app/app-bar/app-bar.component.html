@@ -25,6 +25,10 @@
       </button>
     </ly-menu>
   </ng-template>
+  <button ly-button color="primary:contrast" [appearance]="'icon'" (click)="theme.toggleDirection()">
+    <ly-icon *ngIf="theme.config.direction === 'ltr'">format_textdirection_r_to_l</ly-icon>
+    <ly-icon *ngIf="theme.config.direction === 'rtl'">format_textdirection_l_to_r</ly-icon>
+  </button>
   <a ly-button appearance="icon" color="primary:contrast" target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI" size="24px">
     <ly-icon icon="github"></ly-icon>
   </a>
