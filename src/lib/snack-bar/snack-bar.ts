@@ -19,7 +19,7 @@ export interface LySnackBarDismiss {
 })
 export class LySnackBar {
   @Input() duration: number;
-  @Input() horizontalPosition: 'start' | 'center' | 'end' | 'left' | 'right' | XPosition;
+  @Input() horizontalPosition: 'center' | XPosition;
   @Input() verticalPosition: YPosition;
   @Output() afterDismissed = new EventEmitter<LySnackBarDismiss>();
   constructor(
