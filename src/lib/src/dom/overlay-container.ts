@@ -25,7 +25,7 @@ const styles = (theme: ThemeVariables) => ({
 })
 export class WindowScrollService {
 
-  public scroll$: Observable<number>;
+  scroll$: Observable<number>;
 
   constructor(
     @Inject(DOCUMENT) private document: any,

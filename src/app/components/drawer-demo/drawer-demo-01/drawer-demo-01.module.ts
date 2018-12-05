@@ -7,10 +7,8 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyRadioModule } from '@alyle/ui/radio';
 import { LyIconModule } from '@alyle/ui/icon';
-import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyTypographyModule } from '@alyle/ui/typography';
-import { LyCheckboxModule } from '@alyle/ui/checkbox';
 
 @NgModule({
   imports: [

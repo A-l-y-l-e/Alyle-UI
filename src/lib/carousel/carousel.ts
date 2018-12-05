@@ -142,8 +142,8 @@ export enum CarouselMode {
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */
   readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
-  public _selectedIndex: any;
-  public nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+  _selectedIndex: any;
+  nullImg = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   private _intervalFn = null;
   /** @docs-private */
   _positionLeft: string | number;

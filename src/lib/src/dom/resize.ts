@@ -10,7 +10,7 @@ import { Platform } from '../platform/index';
 })
 export class ResizeService {
 
-  public resize$: Observable<number>;
+  resize$: Observable<number>;
 
   constructor(
     @Inject(DOCUMENT) private document: any,

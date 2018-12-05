@@ -205,7 +205,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     }
   }
 
-  public focus() {
+  focus() {
     this._el.nativeElement.focus();
   }
 

@@ -1,5 +1,5 @@
 import { field } from './variables';
-import { ThemeConfig, mergeDeep, Dir } from '@alyle/ui';
+import { ThemeConfig, mergeDeep } from '@alyle/ui';
 import { MinimaBase } from './base';
 
 const contrast = '#fff';

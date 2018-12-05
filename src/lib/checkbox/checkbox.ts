@@ -23,7 +23,6 @@ import {
   LyTheme2,
   mixinBg,
   mixinColor,
-  mixinDisabled,
   mixinDisableRipple,
   mixinElevation,
   mixinOutlined,

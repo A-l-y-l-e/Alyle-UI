@@ -1,4 +1,4 @@
-import { ThemeConfig, mergeDeep, Dir } from '@alyle/ui';
+import { ThemeConfig, mergeDeep } from '@alyle/ui';
 import { field } from './variables';
 import { MinimaBase } from './base';
 
