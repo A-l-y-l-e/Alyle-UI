@@ -16,11 +16,12 @@
       bg="background:primary"
       [withClass]="classes.drawerContent">
       <ly-radio-group [(ngModel)]="mode">
-        <ly-radio value="over">over</ly-radio>
-        <ly-radio value="side">side</ly-radio>
+        <label lyTyp="subheading" gutterBottom>Mode:</label>
+        <ly-radio value="over">Over</ly-radio>
+        <ly-radio value="side">Side</ly-radio>
       </ly-radio-group>
       <ly-radio-group [(ngModel)]="hasBackdrop">
-        Has backdrop
+        <label lyTyp="subheading" gutter>Has backdrop:</label>
         <ly-radio>Unset</ly-radio>
         <ly-radio [value]="true">True</ly-radio>
         <ly-radio [value]="false">False</ly-radio>
