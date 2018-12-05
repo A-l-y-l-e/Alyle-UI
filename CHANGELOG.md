@@ -1,3 +1,43 @@
+<a name="1.9.3"></a>
+## [1.9.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.2...1.9.3) (2018-12-05)
+
+
+### Bug Fixes
+
+* **css-in-js:** change `start` to `before` & `end` to `after` ([e8ddd6c](https://github.com/A-l-y-l-e/Alyle-UI/commit/e8ddd6c))
+* **snack-bar:** remove type `'start' | 'end'` in `horizontalPosition` ([2ab77da](https://github.com/A-l-y-l-e/Alyle-UI/commit/2ab77da))
+* **theme:** remove optional type for `direction` ([248c061](https://github.com/A-l-y-l-e/Alyle-UI/commit/248c061))
+
+
+### Features
+
+* **core:** add method `toggleDirection` ([0b14178](https://github.com/A-l-y-l-e/Alyle-UI/commit/0b14178))
+* **css-in-js:** add key style `above` & `below` ([e52c570](https://github.com/A-l-y-l-e/Alyle-UI/commit/e52c570))
+* **drawer:** add `spacingBefore`, `spacingAfter` & `hasBackdrop` ([f779d88](https://github.com/A-l-y-l-e/Alyle-UI/commit/f779d88))
+
+
+### BREAKING CHANGES
+
+* **css-in-js:** before:
+
+```ts
+const style = ({
+  start: '1em',
+  marginStart: '1em'
+});
+```
+
+after:
+
+```ts
+const style = ({
+  before: '1em',
+  marginBefore: '1em'
+});
+```
+
+
+
 <a name="1.9.2"></a>
 ## [1.9.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.1...1.9.2) (2018-12-03)
 
