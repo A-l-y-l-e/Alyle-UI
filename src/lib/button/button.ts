@@ -36,27 +36,6 @@ const STYLE_PRIORITY = -2;
 type LyButtonSize = 'small' | 'medium' | 'large';
 
 /** @docs-private */
-const Size: Record<LyButtonSize, any> = {
-  small: (theme: ThemeVariables) => ({
-    padding: '0 8px',
-    fontSize: theme.pxToRem(theme.typography.lyTyp.button.fontSize - 1),
-    minHeight: '32px',
-    minWidth: '48px'
-  }),
-  medium: ({
-    padding: '0 14px',
-    minHeight: '36px',
-    minWidth: '64px'
-  }),
-  large: (theme: ThemeVariables) => ({
-    padding: '0 21px',
-    fontSize: theme.pxToRem(theme.typography.lyTyp.button.fontSize + 1),
-    minHeight: '40px',
-    minWidth: '96px'
-  })
-};
-
-/** @docs-private */
 export class LyButtonBase {
   constructor(
     public _theme: LyTheme2,

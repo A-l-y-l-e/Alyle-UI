@@ -5,8 +5,6 @@ import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarDismiss } from './snack-bar';
 
 const DEFAULT_DURATION = 6e3;
-/** @ignore */
-const STYLE_PRIORITY = -2;
 
 export class LySnackBarRef {
   private _timer: any;

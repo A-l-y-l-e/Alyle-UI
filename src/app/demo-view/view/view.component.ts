@@ -48,16 +48,6 @@ const styles = {
   }
 };
 
-const toCamelCase = (str) => str.replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/\s+/g, '');
-
-function toPascalCase(str: string) {
-  return str.match(/[a-z]+/gi)
-    .map(function (word) {
-      return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
-    })
-    .join('');
-}
-
 @Component({
   selector: 'demo-view',
   templateUrl: './view.component.html',
@@ -300,12 +290,6 @@ export class GlobalVariables {
     }
 
     return buf.join('');
-  }
-
-  private _file(path: string, data: string) {
-    return (
-      `<input type="hidden" name="[files][${path}]" value="${this.encode(data)}">`
-    );
   }
 
   ngOnInit() {

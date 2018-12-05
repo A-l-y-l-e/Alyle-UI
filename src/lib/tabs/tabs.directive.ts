@@ -186,10 +186,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this._tabsSubscription.unsubscribe();
   }
 
-  private _getHostElement() {
-    return this.el.nativeElement;
-  }
-
   private _findIndex(selectedIndex: number, index: string | number) {
     if (!this.tabsList) {
       return selectedIndex;

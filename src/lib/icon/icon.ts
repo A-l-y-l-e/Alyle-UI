@@ -34,7 +34,6 @@ mixinBg(
   ],
 })
 export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
-  private _src: string;
   private _icon: string;
   private _fontSet: string;
   private _previousFontSet: FontClassOptions;

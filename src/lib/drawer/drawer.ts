@@ -211,8 +211,8 @@ export class LyDrawer implements OnChanges {
     const __spacingBelow = this.spacingBelow;
     const __spacingBefore = this.spacingBefore;
     const __spacingAfter = this.spacingAfter;
-    const __spacingRight = this.spacingRight;
-    const __spacingLeft = this.spacingLeft;
+    // const __spacingRight = this.spacingRight;
+    // const __spacingLeft = this.spacingLeft;
 
     if (__spacingTop || __spacingBottom) {
       console.warn(`LyDrawer: \`spacingTop\` and spacingBottom is deprecated use \`spacingAbove\` or \`spacingBelow\` instead`);
