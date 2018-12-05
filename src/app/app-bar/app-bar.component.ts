@@ -3,9 +3,9 @@ import { AppComponent } from '../app.component';
 import { LyTheme2, CoreTheme as ThemeManager, AUI_VERSION } from '@alyle/ui';
 import { LyDrawer } from '@alyle/ui/drawer';
 
-const styles = {
+const styles = () => ({
   themePickerText: {
-    paddingLeft: '8px'
+    paddingBefore: '8px'
   },
   logo: {
     height: '64px',
@@ -16,7 +16,7 @@ const styles = {
     fontSize: '71%',
     opacity: .71
   }
-};
+});
 
 @Component({
   selector: 'aui-app-bar',

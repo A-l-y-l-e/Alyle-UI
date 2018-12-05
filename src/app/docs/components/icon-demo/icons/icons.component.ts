@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 const styles = ({
   icon: {
-    marginEnd: '.5em'
+    marginAfter: '.5em'
   },
   iconLarge: {
     fontSize: '48px'

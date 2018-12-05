@@ -59,7 +59,7 @@ const STYLES = (theme: ThemeVariables) => ({
   },
   icon: {
     position: 'relative',
-    marginEnd: '8px',
+    marginAfter: '8px',
     marginTop: 'auto',
     marginBottom: 'auto',
     width: '16px',

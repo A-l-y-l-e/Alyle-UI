@@ -369,16 +369,16 @@ export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, Afte
       this._ngZone.runOutsideAngular(() => {
         if (this._prefixContainer) {
           const el = this._prefixContainer.nativeElement;
-          this._updateFielset(el, DirAlias.start);
+          this._updateFielset(el, DirAlias.before);
           this._elementObserver.observe(el, () => {
-            this._updateFielset(el, DirAlias.start);
+            this._updateFielset(el, DirAlias.before);
           });
         }
         if (this._suffixContainer) {
           const el = this._suffixContainer.nativeElement;
-          this._updateFielset(el, DirAlias.end);
+          this._updateFielset(el, DirAlias.after);
           this._elementObserver.observe(el, () => {
-            this._updateFielset(el, DirAlias.end);
+            this._updateFielset(el, DirAlias.after);
           });
         }
         if (this._labelSpan) {

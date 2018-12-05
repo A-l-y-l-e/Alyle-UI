@@ -4,7 +4,7 @@ import { LyTheme2 } from '@alyle/ui';
 const styles = () => ({
   root: {
     button: {
-      marginEnd: '1em',
+      marginAfter: '1em',
       marginTop: '.5em',
       marginBottom: '.5em'
     }
