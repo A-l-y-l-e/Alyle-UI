@@ -397,7 +397,7 @@ export class LyDrawer implements OnChanges {
   }
 
   private _updateBackdrop() {
-    if (this.opened && (this.hasBackdrop !== null ? this.hasBackdrop : (this.mode === 'over' || this._forceModeOver))) {
+    if (this.opened && (this.hasBackdrop != null ? this.hasBackdrop : (this.mode === 'over' || this._forceModeOver))) {
       if (!this._viewRef) {
         this._drawerContainer._openDrawers++;
         this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
