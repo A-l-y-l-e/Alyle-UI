@@ -8,7 +8,7 @@ pool:
 
 steps:
 - script: yarn
-  displayName: 'Install'
+  displayName: 'Yarn'
 
 - script: |
     yarn ng lint
