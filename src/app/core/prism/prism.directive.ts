@@ -66,10 +66,11 @@ const classes = theme => ({
     color: theme.codeColor,
     backgroundColor: theme.codeBg,
     marginBottom: '.5em',
+    direction: 'ltr',
     'pre[class*="language-"]': {
       padding: '1em',
       margin: '.5em 0',
-      overflow: 'auto'
+      overflow: 'auto',
     },
     '& code[class*="language-"], & pre[class*="language-"]': {
       background: 'none',
