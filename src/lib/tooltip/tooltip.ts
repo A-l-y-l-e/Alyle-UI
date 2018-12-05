@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, OnDestroy, ElementRef, NgZone, ChangeDetectorRef } from '@angular/core';
-import { LyTheme2, LY_COMMON_STYLES, LyOverlay, OverlayFromTemplateRef, Platform, LyFocusState, ThemeVariables, WindowScrollService } from '@alyle/ui';
+import { LyTheme2, LY_COMMON_STYLES, LyOverlay, OverlayFromTemplateRef, Platform, LyFocusState, ThemeVariables, WindowScrollService, Placement } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 
 const STYLE_PRIORITY = -2;
@@ -14,6 +14,7 @@ const styles = ({
   exportAs: 'lyTooltip'
 })
 export class LyTooltip implements OnDestroy {
+  /** @docs-private */
   readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _tooltip: string | TemplateRef<any> | null;
   private _tooltipOverlay: OverlayFromTemplateRef;
@@ -31,6 +32,7 @@ export class LyTooltip implements OnDestroy {
   }
   @Input() lyTooltipShowDelay: number = 0;
   @Input() lyTooltipHideDelay: number = 0;
+  @Input('lyTooltipPlacement') placement: Placement;
   constructor(
     private _theme: LyTheme2,
     private _overlay: LyOverlay,
