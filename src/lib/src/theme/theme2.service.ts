@@ -4,7 +4,7 @@ import { CoreTheme } from './core-theme.service';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
-import { DirAlias } from '../style-utils';
+import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
 
 const defaultStyles = {
@@ -144,13 +144,24 @@ export class LyTheme2 {
     if (nam !== this.config.name) {
       this.themeMap.get(this.initialTheme).change = nam;
       this.config = this.core.get(nam);
-      this.elements.forEach((_, key) => {
-        const styleData = STYLE_MAP5.get(key);
-        if (styleData.requireUpdate) {
-          this._createStyleContent2(styleData.styles, styleData.id, styleData.priority, styleData.type, true);
-        }
-      });
+      this._updateAllStyles();
     }
+  }
+
+  /** Toggle right-to-left/left-to-right */
+  toggleDirection() {
+    const current = this.config.direction;
+    this.config.direction = current === Dir.ltr ? Dir.rtl : Dir.ltr;
+    this._updateAllStyles();
+  }
+
+  private _updateAllStyles() {
+    this.elements.forEach((_, key) => {
+      const styleData = STYLE_MAP5.get(key);
+      if (styleData.requireUpdate) {
+        this._createStyleContent2(styleData.styles, styleData.id, styleData.priority, styleData.type, true);
+      }
+    });
   }
 
   /**
