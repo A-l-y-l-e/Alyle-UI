@@ -23,8 +23,8 @@ const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'startTop';
 const DEFAULT_BG = 'primary';
 const DEFAULT_POSITION_VALUE = {
-  end: '-11px',
-  top: '-11px'
+  after: '-11px',
+  above: '-11px'
 };
 const styles = (theme: ThemeVariables) => ({
   root: {
