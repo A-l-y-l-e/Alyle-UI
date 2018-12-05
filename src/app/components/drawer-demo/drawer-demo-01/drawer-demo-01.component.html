@@ -1,24 +1,40 @@
-<ly-drawer-container [withClass]="classes.drawerContainer">
-  <ly-drawer ly-paper opened position="start" [mode]="mode" width="150px 0@XSmall" bg="background:primary" #drawer01="lyDrawer">
-    <p>Hi!</p>
-    <button ly-button (click)="drawer01.toggle()">close</button>
-  </ly-drawer>
-  <ly-drawer ly-paper position="end" width="150px 48px@XSmall" bg="background:primary" #drawer02="lyDrawer">
-    <p>Hi!</p>
-    <button ly-button (click)="drawer02.toggle()">close</button>
-  </ly-drawer>
-  <ly-drawer-content [withClass]="classes.drawerContent">
-    <div>
+<div ly-paper bg="background">
+  <ly-toolbar position="static" bg="primary" [elevation]="3">
+    <button ly-button color="primary:contrast" appearance="icon" (click)="drawer01.toggle()">
+      <ly-icon>menu</ly-icon>
+    </button>
+    <h6 lyTyp="title">Title</h6>
+  </ly-toolbar>
+  <ly-drawer-container [withClass]="classes.drawerContainer">
+    <ly-drawer #drawer01="lyDrawer"
+      ly-paper
+      opened
+      position="before"
+      [mode]="mode"
+      width="150px 0@XSmall"
+      [hasBackdrop]="hasBackdrop"
+      bg="background:primary"
+      [withClass]="classes.drawerContent">
+      <ly-radio-group [(ngModel)]="mode">
+        <ly-radio value="over">over</ly-radio>
+        <ly-radio value="side">side</ly-radio>
+      </ly-radio-group>
+      <ly-radio-group [(ngModel)]="hasBackdrop">
+        Has backdrop
+        <ly-radio>Unset</ly-radio>
+        <ly-radio [value]="true">True</ly-radio>
+        <ly-radio [value]="false">False</ly-radio>
+      </ly-radio-group>
+      <button ly-button (click)="drawer01.toggle()">Close</button>
+    </ly-drawer>
+    <ly-drawer-content [withClass]="classes.drawerContent">
       <ly-radio-group [(ngModel)]="mode">
         <ly-radio value="over">over</ly-radio>
         <ly-radio value="side">side</ly-radio>
       </ly-radio-group>
       <div>
-        <button ly-button (click)="drawer01.toggle()">toggle start</button>
-        <button ly-button (click)="drawer02.toggle()">toggle end</button>
+        <button ly-button (click)="drawer01.toggle()">toggle</button>
       </div>
-    </div>
-  </ly-drawer-content>
-</ly-drawer-container>
-
-
+    </ly-drawer-content>
+  </ly-drawer-container>
+</div>

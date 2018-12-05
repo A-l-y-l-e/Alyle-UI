@@ -3,14 +3,11 @@ import { LyTheme2 } from '@alyle/ui';
 
 const styles = {
   drawerContainer: {
-    height: '225px',
+    height: '240px',
     transform: 'translate3d(0,0,0)'
   },
   drawerContent: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    display: 'flex'
+    padding: '1em'
   }
 };
 
@@ -22,6 +19,7 @@ const styles = {
 export class DrawerDemo01Component {
   classes = this._theme.addStyleSheet(styles);
   mode = 'side';
+  hasBackdrop: boolean | null = null;
 
   constructor(private _theme: LyTheme2) { }
 }

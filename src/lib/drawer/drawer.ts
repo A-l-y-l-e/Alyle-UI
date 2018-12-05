@@ -19,14 +19,17 @@ import {
   ThemeVariables,
   toBoolean,
   LY_COMMON_STYLES,
-  Placement
+  Placement,
+  XPosition,
+  DirPosition,
+  YPosition
   } from '@alyle/ui';
 
 const DEFAULT_MODE = 'side';
 const DEFAULT_WIDTH = '230px';
 const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -2;
-const DEFAULT_POSITION = 'start';
+const DEFAULT_POSITION = XPosition.before;
 
 const styles = (theme: ThemeVariables) => ({
   drawerContainer: {
@@ -112,6 +115,7 @@ export class LyDrawer implements OnChanges {
   private _opened: boolean;
   private _viewRef: EmbeddedViewRef<any>;
   private _isAnimation: boolean;
+  private _hasBackdrop: boolean | null;
 
   private _position: position = DEFAULT_POSITION;
   private _positionClass: string;
@@ -135,32 +139,43 @@ export class LyDrawer implements OnChanges {
   @Input() mode: mode = DEFAULT_MODE;
 
   @Input() spacingAbove: string | number;
+  /** @deprecated, use `spacingAbove` instead */
   @Input() spacingTop: string | number;
 
   @Input() spacingBelow: string | number;
+  /** @deprecated, use `spacingBelow` instead */
   @Input() spacingBottom: string | number;
 
-  @Input() spacingStart: string | number;
   @Input() spacingBefore: string | number;
 
   @Input() spacingAfter: string | number;
+
   @Input() spacingRight: string | number;
+  @Input() spacingLeft: string | number;
 
   @Input() width: number | string;
   @Input() height: number | string;
 
   @Input()
+  get hasBackdrop() {
+    return this._hasBackdrop;
+  }
+  set hasBackdrop(val: any) {
+    this._hasBackdrop = val == null ? null : toBoolean(val);
+  }
+
+  @Input()
   set position(val: position) {
     if (val !== this.position) {
       if (val === 'start' || val === 'end') {
-        console.warn(`LyDrawer: position ${val} is deprecated, use instead \`before\` or \`after\``);
+        console.warn(`LyDrawer: position ${val} is deprecated, use \`before\` or \`after\` instead`);
       }
       this._position = val;
-      this._theme.addStyle(`drawer.position:${val}`, (theme: ThemeVariables) => {
-        return {
-          [val]: 0
-        };
-      }, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
+      this._theme.addStyle(`drawer.position:${val}`,
+      // the style needs to be a function so that it can be changed dynamically
+      () => ({
+        [val]: 0
+      }), this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
     }
   }
   get position(): position {
@@ -191,6 +206,17 @@ export class LyDrawer implements OnChanges {
     const __position = this.position;
     const __spacingTop = this.spacingTop;
     const __spacingBottom = this.spacingBottom;
+
+    const __spacingAbove = this.spacingAbove;
+    const __spacingBelow = this.spacingBelow;
+    const __spacingBefore = this.spacingBefore;
+    const __spacingAfter = this.spacingAfter;
+    const __spacingRight = this.spacingRight;
+    const __spacingLeft = this.spacingLeft;
+
+    if (__spacingTop || __spacingBottom) {
+      console.warn(`LyDrawer: \`spacingTop\` and spacingBottom is deprecated use \`spacingAbove\` or \`spacingBelow\` instead`);
+    }
 
     if (__width && __height) {
       throw new Error(`\`width\` and \`height\` are defined, you can only define one`);
@@ -252,8 +278,9 @@ export class LyDrawer implements OnChanges {
     }
 
     /** default styles */
-    // tslint:disable-next-line:max-line-length
-    this._drawerRootClass = this._theme.addStyle(`ly-drawer-root:${__width}·${__height}·${__spacingTop}·${__spacingBottom}·${__spacingBottom}·${__position}·${__mode}·${__forceModeOver}`, (theme: ThemeVariables) => {
+    this._drawerRootClass = this._theme.addStyle(
+      `ly-drawer-root:${__width}·${__height}·${__spacingAbove}·${__spacingBelow}·${__spacingBefore}·${__spacingAfter}·${__position}·${__mode}·${__forceModeOver}`,
+      (theme: ThemeVariables) => {
       const stylesDrawerRoot: {
         width?: string
         height?: string
@@ -261,16 +288,20 @@ export class LyDrawer implements OnChanges {
         bottom?: string
         left?: number
         right?: number
+        before?: string
+        after?: string
         transform?: string
       } = { };
-      const positionSign = __position === 'start' || __position === 'top' ? '-' : '+';
+      const pos = theme.getDirection(__position as any);
+      const positionSign = __position === 'above' ? '-' : '+';
       if (__width) {
+        const dirXSign = pos === DirPosition.left ? '-' : '+';
         eachMedia(__width, (val, media, isMedia) => {
           if ((__mode === 'over' || __forceModeOver) && val === '0') {
             return;
           }
           const newStyleWidth = toPx(val);
-          const newTranslateX = `translateX(${positionSign + toPx(val)})`;
+          const newTranslateX = `translateX(${dirXSign + toPx(val)})`;
           if (isMedia) {
             const breakPoint = theme.getBreakpoint(media);
             const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
@@ -296,8 +327,8 @@ export class LyDrawer implements OnChanges {
           }
         });
       }
-      if (__position === 'start' || __position === 'end') {
-        eachMedia(__spacingTop, (val, media, isMedia) => {
+      if (__position === 'before' || __position === 'after') {
+        eachMedia(__spacingAbove, (val, media, isMedia) => {
           const newStyleSpacingTop = toPx(val || 0);
           if (isMedia) {
             const breakPoint = theme.getBreakpoint(media);
@@ -307,7 +338,7 @@ export class LyDrawer implements OnChanges {
             stylesDrawerRoot.top = newStyleSpacingTop;
           }
         });
-        eachMedia(__spacingBottom, (val, media, isMedia) => {
+        eachMedia(__spacingBelow, (val, media, isMedia) => {
           const newStyleSpacingBottom = toPx(val || 0);
           if (isMedia) {
             const breakPoint = theme.getBreakpoint(media);
@@ -317,9 +348,27 @@ export class LyDrawer implements OnChanges {
             stylesDrawerRoot.bottom = newStyleSpacingBottom;
           }
         });
-      } else {
-        stylesDrawerRoot.left = 0;
-        stylesDrawerRoot.right = 0;
+      } else if (__position === YPosition.above || __position === YPosition.below) {
+        eachMedia(__spacingBefore, (val, media, isMedia) => {
+          const newStyleSpacingBefore = toPx(val || 0);
+          if (isMedia) {
+            const breakPoint = theme.getBreakpoint(media);
+            const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
+            styleOfBreakPoint.before = newStyleSpacingBefore;
+          } else {
+            stylesDrawerRoot.before = newStyleSpacingBefore;
+          }
+        });
+        eachMedia(__spacingAfter, (val, media, isMedia) => {
+          const newStyleSpacingAfter = toPx(val || 0);
+          if (isMedia) {
+            const breakPoint = theme.getBreakpoint(media);
+            const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
+            styleOfBreakPoint.after = newStyleSpacingAfter;
+          } else {
+            stylesDrawerRoot.after = newStyleSpacingAfter;
+          }
+        });
       }
       return stylesDrawerRoot;
     }, this._el.nativeElement, this._drawerRootClass, __mode === 'side' ? STYLE_PRIORITY : STYLE_PRIORITY + 1);
@@ -348,10 +397,12 @@ export class LyDrawer implements OnChanges {
   }
 
   private _updateBackdrop() {
-    if (this.opened && (this.mode === 'over' || this._forceModeOver)) {
-      this._drawerContainer._openDrawers++;
-      this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
-      (this._viewRef.rootNodes[0] as HTMLDivElement).style.zIndex = `${this._drawerContainer._openDrawers}`;
+    if (this.opened && (this.hasBackdrop !== null ? this.hasBackdrop : (this.mode === 'over' || this._forceModeOver))) {
+      if (!this._viewRef) {
+        this._drawerContainer._openDrawers++;
+        this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
+        (this._viewRef.rootNodes[0] as HTMLDivElement).style.zIndex = `${this._drawerContainer._openDrawers}`;
+      }
     } else if (this._viewRef) {
       this._drawerContainer._openDrawers--;
       this._vcr.clear();
