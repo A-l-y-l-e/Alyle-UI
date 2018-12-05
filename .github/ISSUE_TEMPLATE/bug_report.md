@@ -4,25 +4,25 @@ about: Create a report to help us improve
 
 ---
 
-# 🐞 Bug report
+# :beetle: Bug report
 
-## Describe the bug
+### Describe the bug
 A clear and concise description of what the bug is.
 
-## Minimal Reproduction
+### Minimal Reproduction
 Steps to reproduce the behavior:
 <!--
 Provide a reproduction in StackBlitz
 StackBlitz starter: https://stackblitz.com/fork/angular-alyle-ui-starter
 -->
 
-## Exception or Error
+### Exception or Error
 <pre><code>
 <!-- If the issue is accompanied by an exception or an error, please share it below: -->
 
 </code></pre>
 
-**Screenshots**
+### Screenshots
 <!-- If applicable, add screenshots to help explain your problem. -->
 
 ### Which versions of Angular, Alyle UI, OS, TypeScript, browsers are affected?
