@@ -7,7 +7,7 @@
   </button>
   <span lyHide="XSmall" [withClass]="classes.version">v{{ version }}</span>
   <div [style.flex]="1"></div>
-  <button #_button ly-button color="primary:contrast" [lyMenuTriggerFor]="_Menu">
+  <button #_button ly-button color="primary:contrast" [lyMenuTriggerFor]="_Menu" lyTooltip="Select a theme!">
     <ly-icon icon="Theme"></ly-icon>
     <span [withClass]="classes.themePickerText">{{ theme.config.name }}</span>
   </button>
@@ -25,7 +25,7 @@
       </button>
     </ly-menu>
   </ng-template>
-  <button ly-button color="primary:contrast" [appearance]="'icon'" (click)="theme.toggleDirection()">
+  <button ly-button color="primary:contrast" [appearance]="'icon'" (click)="theme.toggleDirection()" lyTooltip="Toggle rtl/ltr">
     <ly-icon *ngIf="theme.config.direction === 'ltr'">format_textdirection_r_to_l</ly-icon>
     <ly-icon *ngIf="theme.config.direction === 'rtl'">format_textdirection_l_to_r</ly-icon>
   </button>
