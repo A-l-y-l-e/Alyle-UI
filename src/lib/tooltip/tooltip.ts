@@ -147,7 +147,7 @@ export class LyTooltip implements OnInit, OnDestroy {
           ],
           host: this._el.nativeElement,
         });
-        const position = getPosition(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 7);
+        const position = getPosition(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 13);
         tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0px)`;
 
         this._showTimeoutId = null;

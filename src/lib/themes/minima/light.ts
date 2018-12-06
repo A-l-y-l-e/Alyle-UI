@@ -68,13 +68,13 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   snackBar = {
     root: {
       background: '#323232',
-      color: 'rgba(255,255,255,.7)'
+      color: '#fff'
     }
   };
   tooltip = {
     root: {
       background: 'rgba(50, 50, 50, 0.85)',
-      color: 'rgba(255,255,255,.7)'
+      color: '#fff'
     }
   };
 }
