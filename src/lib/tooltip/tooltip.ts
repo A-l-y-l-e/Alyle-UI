@@ -1,7 +1,30 @@
-import { Directive, Input, TemplateRef, OnDestroy, ElementRef, NgZone, ChangeDetectorRef } from '@angular/core';
-import { LyTheme2, LY_COMMON_STYLES, LyOverlay, OverlayFromTemplateRef, Platform, LyFocusState, ThemeVariables, WindowScrollService, Placement } from '@alyle/ui';
+import {
+  ChangeDetectorRef,
+  Directive,
+  ElementRef,
+  Input,
+  NgZone,
+  OnDestroy,
+  TemplateRef,
+  OnInit
+  } from '@angular/core';
+import {
+  LY_COMMON_STYLES,
+  LyFocusState,
+  LyOverlay,
+  LyTheme2,
+  OverlayFromTemplateRef,
+  Placement,
+  Platform,
+  ThemeVariables,
+  WindowScrollService,
+  XPosition,
+  YPosition,
+  getPosition
+  } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 
+const DEFAULT_PLACEMENT = YPosition.below;
 const STYLE_PRIORITY = -2;
 const styles = ({
   root: {
@@ -13,14 +36,14 @@ const styles = ({
   selector: '[lyTooltip]',
   exportAs: 'lyTooltip'
 })
-export class LyTooltip implements OnDestroy {
+export class LyTooltip implements OnInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _tooltip: string | TemplateRef<any> | null;
   private _tooltipOverlay: OverlayFromTemplateRef;
   private _listeners = new Map<string, EventListenerOrEventListenerObject>();
   private _scrollSub: Subscription;
-  // private _scrollVal = 0;
+  private _scrollVal = 0;
   private _showTimeoutId: number | null;
   private _hideTimeoutId: number | null;
   @Input('lyTooltip')
@@ -33,6 +56,8 @@ export class LyTooltip implements OnDestroy {
   @Input() lyTooltipShowDelay: number = 0;
   @Input() lyTooltipHideDelay: number = 0;
   @Input('lyTooltipPlacement') placement: Placement;
+  @Input('lyTooltipXPosition') xPosition: XPosition;
+  @Input('lyTooltipYPosition') yPosition: YPosition;
   constructor(
     private _theme: LyTheme2,
     private _overlay: LyOverlay,
@@ -56,11 +81,11 @@ export class LyTooltip implements OnDestroy {
 
       this._scrollSub = scroll.scroll$.subscribe(() => {
         if (this._tooltipOverlay) {
-          // this._scrollVal++;
-          // if (this._scrollVal > 10) {
+          this._scrollVal++;
+          if (this._scrollVal > 10) {
             ngZone.run(() => this.hide(0));
-            // this._scrollVal = 0;
-          // }
+            this._scrollVal = 0;
+          }
         }
       });
 
@@ -71,6 +96,12 @@ export class LyTooltip implements OnDestroy {
           ngZone.run(() => this.hide());
         }
       });
+    }
+  }
+
+  ngOnInit() {
+    if (!this.placement && !this.xPosition && !this.yPosition) {
+      this.placement = DEFAULT_PLACEMENT;
     }
   }
 
@@ -100,8 +131,7 @@ export class LyTooltip implements OnDestroy {
         const tooltip = this._tooltipOverlay = this._overlay.create(this.tooltip, undefined, {
           styles: {
             top: rect.y,
-            left: rect.x,
-            pointerEvents: null
+            left: rect.x
           },
           classes: [
             this._theme.addStyle('LyTooltip', (theme: ThemeVariables) => ({
@@ -114,10 +144,11 @@ export class LyTooltip implements OnDestroy {
                 fontSize: '14px',
               }
             }))
-          ]
+          ],
+          host: this._el.nativeElement,
         });
-        const tooltipRect = tooltip.containerElement.getBoundingClientRect();
-        tooltip.containerElement.style.transform = `translate3d(${Math.round(rect.width / 2 - tooltipRect.width / 2)}px,${Math.round(rect.height * .2 + rect.height)}px,0px)`;
+        const position = getPosition(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 7);
+        tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0px)`;
 
         this._showTimeoutId = null;
         this._markForCheck();
