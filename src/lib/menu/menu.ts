@@ -19,7 +19,7 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables, Placement, XPosition, YPosition, DirPosition, getPosition } from '@alyle/ui';
+import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables, Placement, XPosition, YPosition, getPosition } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 const DEFAULT_PLACEMENT = YPosition.below;
