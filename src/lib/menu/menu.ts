@@ -19,7 +19,7 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables, Placement, XPosition, YPosition, DirPosition } from '@alyle/ui';
+import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables, Placement, XPosition, YPosition, DirPosition, getPosition } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 const DEFAULT_PLACEMENT = YPosition.below;
@@ -113,72 +113,10 @@ export class LyMenu implements OnInit, AfterViewInit {
 
   private _updatePlacement () {
     const el = this._el.nativeElement as HTMLElement;
-    const rects = el.getBoundingClientRect() as ClientRect;
-    const targetRects = this.ref._targetPosition();
-    const placement = this.placement;
-    const xPosition = this.xPosition;
-    const yPosition = this.yPosition;
-    if (xPosition && yPosition) {
-      throw new Error(`You can not use \`xPosition\` and \`yPosition\` together, use only one of them.`);
-    }
-    if ((xPosition || yPosition) && !placement) {
-      throw new Error(`\`placement\` is required.`);
-    }
-    let x = 0,
-        y = 0,
-        ox = 'center',
-        oy = 'center';
-    if (placement || xPosition || yPosition) {
-      if (placement) {
-        if (placement === YPosition.above) {
-          x = (targetRects.width - rects.width) / 2;
-          y = -rects.height;
-          oy = 'bottom';
-        } else if (placement === YPosition.below) {
-          x = (targetRects.width - rects.width) / 2;
-          y = targetRects.height;
-          oy = 'top';
-        } else {
-          const dir = this._theme.config.getDirection(placement as any);
-          if (dir === DirPosition.left) {
-            ox = '100%';
-            x = -rects.width;
-            y = (targetRects.height - rects.height) / 2;
-          } else if (dir === DirPosition.right) {
-            ox = '0%';
-            x = targetRects.width;
-            y = (targetRects.height - rects.height) / 2;
-          }
-        }
-      }
-
-      if (xPosition) {
-        const dir = this._theme.config.getDirection(xPosition as any);
-        if (dir === DirPosition.right) {
-          ox = '0%';
-          x = 0;
-        } else if (dir === DirPosition.left) {
-          ox = '100%';
-          x = targetRects.width - rects.width;
-        }
-      } else if (yPosition) {
-        if (yPosition === YPosition.above) {
-          y = 0;
-          oy = '0%';
-        } else if (yPosition === YPosition.below) {
-          y = targetRects.height - rects.height;
-          oy = '100%';
-        }
-      }
-    }
-    this._setTransform(`translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`);
-    this._renderer.setStyle(this._el.nativeElement, 'transform-origin', `${ox} ${oy} 0`);
+    const position = getPosition(this.placement, this.xPosition, this.yPosition, this.ref._getHostElement(), el, this._theme.config);
+    this._renderer.setStyle(el, 'transform', `translate3d(${position.x}px, ${position.y}px, 0)`);
+    this._renderer.setStyle(el, 'transform-origin', `${position.ox} ${position.oy} 0`);
   }
-
-  private _setTransform(val: string) {
-    this._renderer.setStyle(this._el.nativeElement, 'transform', val);
-  }
-
 }
 
 /** @docs-private */
@@ -266,6 +204,10 @@ export class LyMenuTriggerFor implements OnDestroy {
     if (this._menuRef) {
       this._menuRef.detach();
     }
+  }
+
+  _getHostElement() {
+    return this.elementRef.nativeElement;
   }
 
 }
