@@ -6,7 +6,8 @@ import {
   NgZone,
   OnDestroy,
   TemplateRef,
-  OnInit
+  OnInit,
+  Renderer2
   } from '@angular/core';
 import {
   LY_COMMON_STYLES,
@@ -62,6 +63,7 @@ export class LyTooltip implements OnInit, OnDestroy {
     private _theme: LyTheme2,
     private _overlay: LyOverlay,
     private _el: ElementRef,
+    private _renderer: Renderer2,
     private _cd: ChangeDetectorRef,
     focusState: LyFocusState,
     ngZone: NgZone,
@@ -174,7 +176,8 @@ export class LyTooltip implements OnInit, OnDestroy {
     if (tooltipOverlay && !this._hideTimeoutId) {
 
       this._hideTimeoutId = <any>setTimeout(() => {
-        tooltipOverlay.destroy();
+        this._renderer.removeClass(tooltipOverlay.containerElement, this._theme.addStyle('lyTooltip:open', null));
+        setTimeout(() => tooltipOverlay.destroy(), 300);
         this._tooltipOverlay = null;
 
         this._hideTimeoutId = null;
