@@ -139,16 +139,24 @@ export class LyTooltip implements OnInit, OnDestroy {
               ...theme.tooltip.root,
               fontSize: '10px',
               padding: '6px 8px',
+              opacity: 0,
+              transition: `opacity ${theme.animations.curves.standard} 300ms`,
               [theme.getBreakpoint('XSmall')]: {
                 padding: '8px 16px',
                 fontSize: '14px',
               }
-            }))
+            }), null, null, STYLE_PRIORITY)
           ],
           host: this._el.nativeElement,
         });
         const position = getPosition(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 13);
-        tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0px)`;
+        tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0)`;
+
+        this._theme.requestAnimationFrame(() => {
+          this._theme.addStyle('lyTooltip:open', ({
+            opacity: 1,
+          }), tooltip.containerElement, null, STYLE_PRIORITY);
+        });
 
         this._showTimeoutId = null;
         this._markForCheck();
