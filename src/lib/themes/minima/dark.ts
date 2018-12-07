@@ -77,5 +77,4 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
       color: 'rgba(0,0,0,.87)'
     }
   };
-  // direction = Dir.rtl; // beta
 }

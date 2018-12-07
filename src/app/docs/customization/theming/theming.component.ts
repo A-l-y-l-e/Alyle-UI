@@ -11,7 +11,8 @@ import {
   LyThemeModule,
   LY_THEME,
   LY_THEME_GLOBAL_VARIABLES,
-  ThemeVariables
+  ThemeVariables,
+  Dir
 } from '@alyle/ui';
 
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
@@ -23,7 +24,14 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
  * Theme name = minima-light
  */
 export class CustomMinimaLight extends MinimaLight {
-  footer = '#24c1a0'; // Footer color
+  primary = {
+    default: '#2196f3',
+    contrast: '#fff'
+  };
+  accent = {
+    default: '#e91e63',
+    contrast: '#fff'
+  };
 }
 
 /**
@@ -31,7 +39,14 @@ export class CustomMinimaLight extends MinimaLight {
  * Theme name = minima-dark
  */
 export class CustomMinimaDark extends MinimaDark {
-  footer = '#70b8e8'; // Footer color
+  primary = {
+    default: '#9C27B0',
+    contrast: '#fff'
+  };
+  accent = {
+    default: '#69F0AE',
+    contrast: '#202020'
+  };
 }
 
 /**
@@ -40,24 +55,17 @@ export class CustomMinimaDark extends MinimaDark {
  * you can also add new variables
  */
 export class GlobalVariables implements Partial<ThemeVariables> {
-  primary = {
-    default: '#3f51b5',
-    contrast: '#fff'
-  };
-  accent = {
-    default: '#e91e63',
-    contrast: '#fff'
-  };
-  SublimeLight: {
+  SublimeLight = {
     default: \`linear-gradient(135deg, \${'#FC5C7D'} 0%,\${'#6A82FB'} 100%)\`,
     contrast: '#fff',
     shadow: '#B36FBC'
   }; // demo: <button ly-button raised bg="SublimeLight">Button</button>
-  button: {
+  button = {
     root: {
       borderRadius: '2em'
     }
-  }
+  };
+  // direction = Dir.rtl;
 }
 
 /** set theme */
