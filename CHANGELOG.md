@@ -1,3 +1,22 @@
+<a name="1.9.4"></a>
+## [1.9.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.3...1.9.4) (2018-12-07)
+
+
+### Bug Fixes
+
+* **button:** fix apply default size ([0171a69](https://github.com/A-l-y-l-e/Alyle-UI/commit/0171a69))
+* **tooltip, snackbar:** update theme ([6825ec5](https://github.com/A-l-y-l-e/Alyle-UI/commit/6825ec5))
+
+
+### Features
+
+* **core:** add `getPosition`method ([abb2ca8](https://github.com/A-l-y-l-e/Alyle-UI/commit/abb2ca8))
+* **grid:** add property `alignItems` ([3f9a079](https://github.com/A-l-y-l-e/Alyle-UI/commit/3f9a079))
+* **tooltip:** ability to position tooltip ([d67d17b](https://github.com/A-l-y-l-e/Alyle-UI/commit/d67d17b))
+* **tooltip:** add animation ([2f6f704](https://github.com/A-l-y-l-e/Alyle-UI/commit/2f6f704))
+
+
+
 <a name="1.9.3"></a>
 ## [1.9.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.2...1.9.3) (2018-12-05)
 
