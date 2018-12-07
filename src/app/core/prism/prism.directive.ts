@@ -1,12 +1,35 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ChangeDetectionStrategy } from '@angular/core';
-import { Platform, LyTheme2, ThemeVariables } from '@alyle/ui';
+import { Platform, LyTheme2, ThemeVariables, getContrastYIQ } from '@alyle/ui';
 import { PrismService } from './prism.service';
 
+import * as _chroma from 'chroma-js';
+const chroma = _chroma;
+
 const Prism = require('prismjs');
-require('prismjs/components/prism-typescript');
+Prism.languages.typescript = Prism.languages.extend('javascript', {
+  // tslint:disable-next-line:max-line-length
+  keyword: /\b(?:abstract|as|async|await|break|case|catch|class|const|constructor|continue|debugger|declare|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|is|keyof|let|module|namespace|new|null|of|package|private|protected|public|readonly|return|require|set|static|super|switch|this|throw|try|type|typeof|var|void|while|with|yield)\b/,
+  builtin: /\b(?:string|Function|any|number|boolean|Array|symbol|console|Promise|unknown|never)\b/,
+});
+Prism.languages.ts = Prism.languages.typescript;
+
 require('prismjs/components/prism-markdown');
 require('prismjs/components/prism-bash');
 require('prismjs/components/prism-json');
+Prism.hooks.add('wrap', function(env) {
+  if (env.type === 'string') {
+    if (
+      /(#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))/i
+.test(env.content)) {
+      const VALUE = env.content.slice(1).slice(0, -1);
+      try {
+        const chromaColor = chroma(VALUE);
+        const luminance = chromaColor.luminance();
+        env.attributes.style = `background:${VALUE};color:${luminance < 0.5 ? 'white' : '#202020'};opacity:${chromaColor.alpha()}`;
+      } catch (error) { }
+    }
+  }
+});
 
 const $host = 'https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/1.7.0-beta.461kq/src/assets/firacode/';
 

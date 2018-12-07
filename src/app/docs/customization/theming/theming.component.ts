@@ -41,15 +41,15 @@ export class CustomMinimaDark extends MinimaDark {
  */
 export class GlobalVariables implements Partial<ThemeVariables> {
   primary = {
-    default: '#00bcd4',
+    default: '#3f51b5',
     contrast: '#fff'
   };
   accent = {
-    default: '#FFC107',
+    default: '#e91e63',
     contrast: '#fff'
   };
   SublimeLight: {
-    default: 'linear-gradient(135deg,#FC5C7D 0%,#6A82FB 100%)',
+    default: \`linear-gradient(135deg, \${'#FC5C7D'} 0%,\${'#6A82FB'} 100%)\`,
     contrast: '#fff',
     shadow: '#B36FBC'
   }; // demo: <button ly-button raised bg="SublimeLight">Button</button>
