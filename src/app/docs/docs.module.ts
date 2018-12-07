@@ -24,8 +24,10 @@ import { TabsWithAsynchronouslyLoadingModule } from '@docs/layout/tabs-demo/tabs
 import { TabsWithLazyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
 
 /** Components */
+/** Button */
 import { ButtonDemoComponent } from '@docs/components/button-demo/button-demo.component';
 import { ButtonTypesDemoModule } from '@docs/components/button-demo/button-types-demo/button-types-demo.module';
+import { IconLabelButtonsModule } from './components/button-demo/icon-label-buttons/icon-label-buttons.module';
 
 import { LyTypographyModule } from '@alyle/ui/typography';
 import { DocsRoutingModule } from '@docs/docs.routing';
@@ -111,6 +113,7 @@ import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avata
     DsBasicModule,
     /** Button */
     ButtonTypesDemoModule,
+    IconLabelButtonsModule,
     /** Toolbar */
     ToolbarBasicDemoModule,
     ToolbarWithIconsModule,
