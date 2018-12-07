@@ -17,6 +17,8 @@ const ALIGN_ALIAS = {
   evenly: 'space-evenly',
 };
 
+export type AlignItems = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
+
 const styles = ({
   root: {
     width: '100%',
@@ -62,8 +64,12 @@ export class LyGrid {
   private _direction: Direction;
   private _directionClass: string;
 
+  private _alignItems: AlignItems;
+  private _alignItemsClass: string;
+
   /**
    * Defines the space between the component with the `item` attribute.
+   * Support breakpoints
    */
   @Input()
   get spacing(): string | number {
@@ -74,7 +80,7 @@ export class LyGrid {
       this._spacing = val;
       this._spacingClass = this.theme.addStyle(`lyGrid-spacing:${val}`, (theme: ThemeVariables) => {
         if (typeof val === 'number') {
-          return `padding:${val / 2}px;`;
+          return `padding:${val / 2}px;` as any;
         } else {
           const spacingStyles: {
             padding?: string
@@ -89,12 +95,12 @@ export class LyGrid {
               spacingStyles.padding = padding;
             }
           });
-          return spacingStyles as any;
+          return spacingStyles;
         }
       }, undefined, undefined, STYLE_PRIORITY);
       this._negativeMarginClass = this.theme.addStyle(`lyGrid-negative-margin:${val}`, (theme: ThemeVariables) => {
         if (typeof val === 'number') {
-          return `margin:${val / -2}px;width: calc(100% + ${val}px);`;
+          return `margin:${val / -2}px;width: calc(100% + ${val}px);` as any;
         } else {
           let negativeMarginStyles: {
             margin?: string
@@ -114,7 +120,7 @@ export class LyGrid {
               negativeMarginStyles = negativeMarginstyles;
             }
           });
-          return negativeMarginStyles as any;
+          return negativeMarginStyles;
         }
       }, this.el.nativeElement, this._negativeMarginClass, STYLE_PRIORITY);
     }
@@ -125,7 +131,10 @@ export class LyGrid {
     return this._spacingClass;
   }
 
-  /** Defines the justify-content style property. */
+  /**
+   * Defines the justify-content style property.
+   * Support breakpoints
+   */
   @Input()
   get justify(): Justify {
     return this._justify;
@@ -152,12 +161,15 @@ export class LyGrid {
             justifyStyles = newJustifyStyles;
           }
         });
-        return justifyStyles as any;
+        return justifyStyles;
       }, this.el.nativeElement, this._justifyClass, STYLE_PRIORITY);
     }
   }
 
-  /** Defines the justify-content style property. */
+  /**
+   * Defines the justify-content style property.
+   * Support breakpoints
+   */
   @Input()
   get direction(): Direction {
     return this._direction;
@@ -184,9 +196,45 @@ export class LyGrid {
             directionStyles = newDirectionStyles;
           }
         });
-        return directionStyles as any;
+        return directionStyles;
       }, this.el.nativeElement, this._directionClass, STYLE_PRIORITY);
     }
+  }
+
+  /**
+   * Defines the `align-items` style property.
+   * Support breakpoints
+   */
+  @Input()
+  set alignItems(val: AlignItems) {
+    this._alignItems = val;
+    this._alignItemsClass = this.theme.addStyle(`lyGrid-direction:${val}`, (theme: ThemeVariables) => {
+      let alignItemsStyles: {
+        alignItems?: string,
+        [media: string]: {
+          alignItems?: string
+        } | string
+      };
+      eachMedia(val, (value, media, isMedia) => {
+        const newAlignItemsStyles = {
+          alignItems: value in ALIGN_ALIAS
+          ? ALIGN_ALIAS[value]
+          : value
+        };
+        if (isMedia) {
+          if (!alignItemsStyles) {
+            alignItemsStyles = {};
+          }
+          alignItemsStyles[theme.getBreakpoint(media)] = newAlignItemsStyles;
+        } else {
+          alignItemsStyles = newAlignItemsStyles;
+        }
+      });
+      return alignItemsStyles;
+    }, this.el.nativeElement, this._alignItemsClass, STYLE_PRIORITY);
+  }
+  get alignItems() {
+    return this._alignItems;
   }
 
   constructor(
@@ -207,7 +255,10 @@ export class LyGridItem implements OnInit {
   private _order: string | number;
   private _orderClass: string;
 
-  /** Defines the number of grids */
+  /**
+   * Defines the number of grids
+   * Support breakpoints
+   */
   @Input()
   get col(): string | number {
     return this._col;
@@ -235,7 +286,7 @@ export class LyGridItem implements OnInit {
               colStyles = newColStyles;
             }
           });
-          return colStyles as any;
+          return colStyles;
         }
       }, this.el.nativeElement, this._colClass, STYLE_PRIORITY);
     }
@@ -243,7 +294,10 @@ export class LyGridItem implements OnInit {
 
 
 
-  /** Defines the order style property. */
+  /**
+   * Defines the order style property.
+   * Support breakpoints
+   */
   @Input()
   get order(): string | number {
     return this._order;
@@ -268,7 +322,7 @@ export class LyGridItem implements OnInit {
             orderStyles = newOrderStyles;
           }
         });
-        return orderStyles as any;
+        return orderStyles;
       }, this.el.nativeElement, this._orderClass, STYLE_PRIORITY);
     }
   }
