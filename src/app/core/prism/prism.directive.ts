@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ChangeDetectionStrategy } from '@angular/core';
-import { Platform, LyTheme2, ThemeVariables, getContrastYIQ } from '@alyle/ui';
+import { Platform, LyTheme2, ThemeVariables } from '@alyle/ui';
 import { PrismService } from './prism.service';
 
 import * as _chroma from 'chroma-js';
@@ -25,7 +25,6 @@ Prism.hooks.add('wrap', function(env) {
         const chromaColor = chroma(VALUE);
         const luminance = chromaColor.luminance();
         env.attributes.style = `background:${VALUE};color:${luminance < 0.5 ? 'white' : '#202020'};opacity:${chromaColor.alpha()}`;
-        console.log(env);
       } catch (error) { }
     }
   }
