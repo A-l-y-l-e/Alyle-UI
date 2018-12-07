@@ -17,10 +17,10 @@ export interface TypographyVariables {
 }
 
 export interface TypographyTypeVariables extends StyleContainer {
-  fontSize?: number;
+  fontSize?: string;
   fontFamily?: string;
   fontWeight?: number;
-  letterSpacing?: number;
+  letterSpacing?: string;
   textTransform?: string;
   gutterTop?: number;
   gutterBottom?: number;
