@@ -1,8 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
 
-
-
 export interface Fruits {
   id: number;
   name: string;
