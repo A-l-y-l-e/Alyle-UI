@@ -18,14 +18,14 @@ require('prismjs/components/prism-bash');
 require('prismjs/components/prism-json');
 Prism.hooks.add('wrap', function(env) {
   if (env.type === 'string') {
+    const VALUE = env.content.slice(1).slice(0, -1);
     if (
-      /(#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))/i
-.test(env.content)) {
-      const VALUE = env.content.slice(1).slice(0, -1);
+      /(#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))/i.test(env.content) || VALUE in chroma['colors']) {
       try {
         const chromaColor = chroma(VALUE);
         const luminance = chromaColor.luminance();
         env.attributes.style = `background:${VALUE};color:${luminance < 0.5 ? 'white' : '#202020'};opacity:${chromaColor.alpha()}`;
+        console.log(env);
       } catch (error) { }
     }
   }
