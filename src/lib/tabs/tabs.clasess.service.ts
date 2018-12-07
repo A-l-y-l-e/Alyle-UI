@@ -3,8 +3,7 @@ import { LyTheme2 } from '@alyle/ui';
 
 const tabsStyles = {
   root: {
-    display: 'block',
-    overflow: 'hidden'
+    display: 'block'
   },
   tab: {
     position: 'relative',
@@ -13,8 +12,7 @@ const tabsStyles = {
   tabsLabels: {
     display: 'flex',
     position: 'relative',
-    flexGrow: 1,
-    overflow: 'hidden'
+    flexGrow: 1
   },
   label: {
     minWidth: '72px',
