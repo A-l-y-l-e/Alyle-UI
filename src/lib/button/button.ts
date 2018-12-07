@@ -33,7 +33,7 @@ const DEFAULT_SIZE = 'medium';
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
 
-type LyButtonSize = 'small' | 'medium' | 'large';
+export type LyButtonSize = 'small' | 'medium' | 'large';
 
 /** @docs-private */
 export class LyButtonBase {
@@ -155,7 +155,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngOnInit() {
-    if (!this.size) {
+    if (!this.size && !this.appearance) {
       this.size = DEFAULT_SIZE;
     }
   }
