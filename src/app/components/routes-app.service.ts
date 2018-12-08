@@ -29,7 +29,7 @@ export class RoutesAppService {
         routes: [
           { route: 'grid', name: 'Grid' },
           { route: 'responsive', name: 'Responsive' },
-          { route: 'tabs', name: 'Tabs', status: 'alpha' }
+          { route: 'tabs', name: 'Tabs' }
         ]
       },
       {
