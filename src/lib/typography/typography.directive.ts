@@ -103,7 +103,6 @@ export class LyTypography implements OnInit {
       (theme: ThemeVariables) => {
         const { typography } = theme;
         const styl: StyleContainer = Object.assign({ }, typography.lyTyp[key || 'body1']);
-        styl.fontSize = theme.pxToRem(styl.fontSize as number || typography.fontSize);
         if (styl.lineHeight) {
           styl.lineHeight = theme.pxToRem(styl.lineHeight as number);
         }
