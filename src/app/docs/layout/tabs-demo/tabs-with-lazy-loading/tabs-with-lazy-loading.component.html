@@ -1,26 +1,28 @@
-<ly-tabs>
-  <ly-tab>
-    <ly-tab-label>Home</ly-tab-label>
-    <ng-template ly-tab-content>
-      <p lyTyp="body1">
-        Home content - loaded: {{ getTime(1) | date:'EEEE, h:mm:ss a' }}
-      </p>
-    </ng-template>
-  </ly-tab>
-  <ly-tab>
-    <ly-tab-label>Pages</ly-tab-label>
-    <ng-template ly-tab-content>
-      <p lyTyp="body1">
-        Pages content - loaded: {{ getTime(2) | date:'EEEE, h:mm:ss a' }}
-      </p>
-    </ng-template>
-  </ly-tab>
-  <ly-tab>
-    <ly-tab-label>Post</ly-tab-label>
-    <ng-template ly-tab-content>
-      <p lyTyp="body1">
-        Post content - loaded: {{ getTime(3) | date:'EEEE, h:mm:ss a' }}
-      </p>
-    </ng-template>
-  </ly-tab>
-</ly-tabs>
+<div ly-paper bg="background:primary">
+  <ly-tabs>
+    <ly-tab>
+      <ly-tab-label>Home</ly-tab-label>
+      <ng-template ly-tab-content>
+        <p lyTyp="body1" [withClass]="classes.content">
+          Home content - loaded: {{ getTime(1) | date:'EEEE, h:mm:ss a' }}
+        </p>
+      </ng-template>
+    </ly-tab>
+    <ly-tab>
+      <ly-tab-label>Pages</ly-tab-label>
+      <ng-template ly-tab-content>
+        <p lyTyp="body1" [withClass]="classes.content">
+          Pages content - loaded: {{ getTime(2) | date:'EEEE, h:mm:ss a' }}
+        </p>
+      </ng-template>
+    </ly-tab>
+    <ly-tab>
+      <ly-tab-label>Post</ly-tab-label>
+      <ng-template ly-tab-content>
+        <p lyTyp="body1" [withClass]="classes.content">
+          Post content - loaded: {{ getTime(3) | date:'EEEE, h:mm:ss a' }}
+        </p>
+      </ng-template>
+    </ly-tab>
+  </ly-tabs>
+</div>

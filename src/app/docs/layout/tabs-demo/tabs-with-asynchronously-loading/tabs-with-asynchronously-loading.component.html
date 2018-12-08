@@ -1,10 +1,11 @@
 <ng-container *ngIf="(asyncTabs | async) === null">
   Loading tabs...
 </ng-container>
-
-<ly-tabs>
-  <ly-tab *ngFor="let tab of asyncTabs | async">
-    <ly-tab-label>{{tab.label}}</ly-tab-label>
-    {{tab.content}}
-  </ly-tab>
-</ly-tabs>
+<div ly-paper bg="background:primary">
+  <ly-tabs>
+    <ly-tab *ngFor="let tab of asyncTabs | async">
+      <ly-tab-label>{{ tab.label }}</ly-tab-label>
+      <div [style.padding.px]="24">{{ tab.content }}</div>
+    </ly-tab>
+  </ly-tabs>
+</div>

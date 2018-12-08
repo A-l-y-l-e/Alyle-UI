@@ -1,10 +1,12 @@
-<ly-tabs color="accent" [selectedIndex]="1">
-  <ly-tab>
-    <ly-tab-label>Home</ly-tab-label>
-    <div lyTyp="body1">Home content</div>
-  </ly-tab>
-  <ly-tab>
-    <ly-tab-label>Pages</ly-tab-label>
-    <div lyTyp="body1">Pages content</div>
-  </ly-tab>
-</ly-tabs>
+<div ly-paper bg="background:primary">
+  <ly-tabs [selectedIndex]="1">
+    <ly-tab>
+      <button ly-tab-label>Item One</button>
+      <div [withClass]="classes.content" lyTyp="body1">Item One</div>
+    </ly-tab>
+    <ly-tab>
+      <ly-tab-label>Item Two</ly-tab-label>
+      <div [withClass]="classes.content" lyTyp="body1">Item Two</div>
+    </ly-tab>
+  </ly-tabs>
+</div>
