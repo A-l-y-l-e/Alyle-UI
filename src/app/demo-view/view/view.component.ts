@@ -32,7 +32,8 @@ const styles = {
   codeContainer: {
     overflowY: 'auto',
     padding: '24px',
-    height: '100%'
+    height: '100%',
+    background: 'transparent'
   },
   tabContainer: {
     padding: '48px 24px 24px 24px'

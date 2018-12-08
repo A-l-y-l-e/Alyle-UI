@@ -1,10 +1,19 @@
-<ly-card [elevation]="8" shadowColor="background:secondary" bg="background:tertiary">
+<div ly-paper
+  [elevation]="8"
+  shadowColor="background:secondary"
+  bg="background:tertiary"
+>
   <div [className]="classes.code">
     <button ly-button appearance="icon" (click)="openPostStackblitz($event)" [lyTooltip]="'Edit in Stackblitz'"><ly-icon>launch</ly-icon></button>
     <button ly-button appearance="icon" (click)="toggleCode()" [lyTooltip]="'View source'"><ly-icon icon="code"></ly-icon></button>
   </div>
   <ly-paper *ngIf="hasCode" bg="codeBg">
-    <ly-tabs>
+    <ly-tabs
+      [indicatorColor]="'primary'"
+      [textColor]="'primary'"
+      [elevation]="8"
+      [shadowColor]="'background:secondary'"
+    >
       <ly-tab *ngFor="let file of files; let i = index">
         <ly-tab-label>{{ file.label }}</ly-tab-label>
         <prism [withClass]="classes.codeContainer" [code]="file.text | async" [language]="file.ext">Loading...</prism>
@@ -14,4 +23,4 @@
   <div [className]="classes.tabContainer">
     <ng-content></ng-content>
   </div>
-</ly-card>
+</div>
