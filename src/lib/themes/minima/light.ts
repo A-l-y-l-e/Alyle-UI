@@ -29,6 +29,10 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     tertiary: '#efefef',
     base: '#E0E0E0'
   };
+  paper = {
+    default: '#fff',
+    shadow
+  };
   text = {
     default: 'rgba(0, 0, 0, 0.87)',
     primary: 'rgba(0, 0, 0, 0.87)',

@@ -29,6 +29,10 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     tertiary: '#212121',
     base: '#0E0E0E'
   };
+  paper = {
+    default: '#2b2b2b',
+    shadow
+  };
   text = {
     default: '#fff',
     primary: '#fff',
