@@ -22,7 +22,7 @@ const styles = () => ({
   templateUrl: './button-types-demo.component.html'
 })
 export class ButtonTypesDemoComponent {
-  classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.theme.addStyleSheet(styles);
   constructor(
     private theme: LyTheme2
   ) { }
