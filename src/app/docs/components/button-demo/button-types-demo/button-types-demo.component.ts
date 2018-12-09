@@ -11,6 +11,7 @@ const styles = () => ({
   },
   row: {
     display: 'flex',
+    flexWrap: 'wrap',
     marginBottom: '.5em',
     alignItems: 'center'
   }
