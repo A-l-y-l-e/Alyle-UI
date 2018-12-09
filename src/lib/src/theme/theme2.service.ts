@@ -217,7 +217,7 @@ export class LyTheme2 {
       const config = this.core.get(themeMap.change || themeName);
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
-        css = groupStyleToString(styleMap, styles(config), themeName, null, type, config, media);
+        css = groupStyleToString(styleMap, styles(config), themeName, id, type, config, media);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }
@@ -350,7 +350,7 @@ function groupStyleToString(
       const css = `.${className}{${styles}}`;
       return media ? toMedia(css, media) : css;
     } else {
-      const rules = styleToString(id, styles, themeVariables, className as any);
+      const rules = styleToString(id, null, styles, themeVariables, className as any);
       return rules;
     }
   }
@@ -369,7 +369,7 @@ function groupStyleToString(
         ? classesMap[key]
         : classesMap[key] = isDevMode() ? toClassNameValid(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
 
-        const style = styleToString(key, value as Styles2, themeVariables, currentClassName);
+        const style = styleToString(key, styles.$name, value as Styles2, themeVariables, currentClassName);
         content += style;
       }
     }
@@ -392,7 +392,7 @@ function replaceRefs(str: string, data: Object) {
 /**
  * {color:'red'} to .className{color: red}
  */
-function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, currentKey: string, parentKey?: string) {
+function styleToString(key: string, $name: string, ob: Object, themeVariables: ThemeVariables, currentKey: string, parentKey?: string) {
   let content = '';
   let subContent = '';
   let keyAndValue = '';
@@ -417,7 +417,7 @@ function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, 
       if (element != null) {
         // Check if is Object literal
         if (element.constructor === Object) {
-          subContent += styleToString(key, element as Styles2, themeVariables, styleKey, newKey);
+          subContent += styleToString(key, $name, element as Styles2, themeVariables, styleKey, newKey);
         } else {
           keyAndValue += convertToStyleValue(styleKey, element, themeVariables);
         }
@@ -425,6 +425,14 @@ function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, 
     }
   }
   if (keyAndValue) {
+    if (isDevMode()) {
+      let lin = '\n\n';
+      if ($name) {
+        lin += `/** Style Sheet name: ${$name} */\n`;
+      }
+      lin += `/** Style Key: ${key} */\n`;
+      content += `${lin}`;
+    }
     if (newKey.indexOf('@media') === 0) {
       content += `${newKey}`;
       keyAndValue = `${parentKey}{${keyAndValue}}`;
