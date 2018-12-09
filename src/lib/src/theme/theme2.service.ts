@@ -413,11 +413,14 @@ function styleToString(key: string, ob: Object, themeVariables: ThemeVariables, 
   for (const styleKey in ob) {
     if (ob.hasOwnProperty(styleKey)) {
       const element = ob[styleKey];
-      // Check if is Object literal
-      if (element.constructor === Object) {
-        subContent += styleToString(key, element as Styles2, themeVariables, styleKey, newKey);
-      } else {
-        keyAndValue += convertToStyleValue(styleKey, element, themeVariables);
+      // Omit style with value null
+      if (element != null) {
+        // Check if is Object literal
+        if (element.constructor === Object) {
+          subContent += styleToString(key, element as Styles2, themeVariables, styleKey, newKey);
+        } else {
+          keyAndValue += convertToStyleValue(styleKey, element, themeVariables);
+        }
       }
     }
   }
