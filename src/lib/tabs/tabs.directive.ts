@@ -264,7 +264,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
 
       this._markForCheck();
-      const position = this._flexDirection === 'column' ? 'X' : 'Y';
+      const position = this._flexDirection === 'column' ? 'Y' : 'X';
       this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate${position}(${this._selectedIndex * -100}%)`);
     }
   }
