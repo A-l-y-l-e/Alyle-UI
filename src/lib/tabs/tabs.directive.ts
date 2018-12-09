@@ -135,23 +135,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   get indicatorColor() {
     return this._color;
   }
-  @Input()
-  set selectedIndex(val: number) {
-    if (val !== this.selectedIndex) {
-      this._selectedBeforeIndex = this._selectedIndex as number;
-      this._selectedIndex = this._findIndex(val, 'auto');
-      this._selectedBeforeTab = this._selectedTab;
-      this.selectedIndexChange.emit(this._selectedIndex);
-      this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
-
-      this._markForCheck();
-      const position = this._flexDirection === 'row' ? 'X' : 'Y';
-      this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate${position}(${this._selectedIndex * -100}%)`);
-    }
-  }
-  get selectedIndex() {
-    return this._selectedIndex as number;
-  }
 
   @Input()
   set headerPlacement(val: LyTabsHeaderPlacement) {
@@ -215,7 +198,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           width
         },
         [`.${this.classes.tabsIndicatorForServer}`]: {
-          '--black': 'x',
           width: widthServer,
           height: heightServer
         },
@@ -272,6 +254,24 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     return this._textColor;
   }
 
+  @Input()
+  set selectedIndex(val: number) {
+    if (val !== this.selectedIndex) {
+      this._selectedBeforeIndex = this._selectedIndex as number;
+      this._selectedIndex = this._findIndex(val, 'auto');
+      this._selectedBeforeTab = this._selectedTab;
+      this.selectedIndexChange.emit(this._selectedIndex);
+      this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
+
+      this._markForCheck();
+      const position = this._flexDirection === 'column' ? 'X' : 'Y';
+      this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate${position}(${this._selectedIndex * -100}%)`);
+    }
+  }
+  get selectedIndex() {
+    return this._selectedIndex as number;
+  }
+
   @Output() selectedIndexChange: EventEmitter<any> = new EventEmitter();
   @ContentChildren(forwardRef(() => LyTab)) tabsList: QueryList<LyTab>;
 
@@ -287,7 +287,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this.setAutoContrast();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (this._isViewInitLoaded) {
       this.updateStyle(this.tabsRef.nativeElement);
     }
