@@ -30,7 +30,8 @@
     "tools:typedoc": "yarn typedoc --mode modules --json dist/docs.json --tsconfig tsconfig.td.json --excludePrivate --excludeProtected --excludeExternals",
     "tools:docs": "yarn tools:typedoc && node dist/tools/docs",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '200 KB'"
+    "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '200 KB'",
+    "serve:lib": "hs src/app -p 1212 -g --cors 'Access-Control-Allow-Origin'"
   },
   "private": true,
   "dependencies": {
