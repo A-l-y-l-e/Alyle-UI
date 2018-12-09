@@ -25,3 +25,4 @@ export * from './src/dom/resize';
 export * from './src/common/index';
 export * from './src/ripple/index';
 export * from './src/position/position';
+export * from './src/position/align';
