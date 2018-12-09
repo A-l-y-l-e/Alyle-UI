@@ -14,18 +14,20 @@
       width="170px 0@XSmall"
       [hasBackdrop]="hasBackdrop"
       bg="background:primary"
-      [withClass]="classes.drawerContent">
-      <ly-radio-group [(ngModel)]="mode">
-        <label lyTyp="subheading" gutterBottom>Mode:</label>
-        <ly-radio value="over">Over</ly-radio>
-        <ly-radio value="side">Side</ly-radio>
-      </ly-radio-group>
-      <ly-radio-group [(ngModel)]="hasBackdrop">
-        <label lyTyp="subheading" gutter>Has backdrop:</label>
-        <ly-radio>Unset</ly-radio>
-        <ly-radio [value]="true">True</ly-radio>
-        <ly-radio [value]="false">False</ly-radio>
-      </ly-radio-group>
+    >
+      <div [className]="classes.drawerContent">
+        <ly-radio-group [(ngModel)]="mode">
+          <label lyTyp="subheading" gutterBottom>Mode:</label>
+          <ly-radio value="over">Over</ly-radio>
+          <ly-radio value="side">Side</ly-radio>
+        </ly-radio-group>
+        <ly-radio-group [(ngModel)]="hasBackdrop">
+          <label lyTyp="subheading" gutter>Has backdrop:</label>
+          <ly-radio>Unset</ly-radio>
+          <ly-radio [value]="true">True</ly-radio>
+          <ly-radio [value]="false">False</ly-radio>
+        </ly-radio-group>
+      </div>
       <button ly-button (click)="drawer01.toggle()">Close</button>
     </ly-drawer>
     <ly-drawer-content [withClass]="classes.drawerContent">

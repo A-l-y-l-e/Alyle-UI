@@ -3,7 +3,7 @@ import { LyTheme2 } from '@alyle/ui';
 
 const styles = {
   drawerContainer: {
-    height: '240px',
+    height: '270px',
     transform: 'translate3d(0,0,0)'
   },
   drawerContent: {
