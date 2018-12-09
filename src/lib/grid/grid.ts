@@ -208,7 +208,7 @@ export class LyGrid {
   @Input()
   set alignItems(val: AlignItems) {
     this._alignItems = val;
-    this._alignItemsClass = this.theme.addStyle(`lyGrid-direction:${val}`, (theme: ThemeVariables) => {
+    this._alignItemsClass = this.theme.addStyle(`lyGrid.align:${val}`, (theme: ThemeVariables) => {
       let alignItemsStyles: {
         alignItems?: string,
         [media: string]: {
