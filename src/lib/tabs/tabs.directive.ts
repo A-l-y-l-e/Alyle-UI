@@ -23,7 +23,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   SimpleChanges,
-  isDevMode
+  DoCheck
   } from '@angular/core';
 import {
   LyTheme2,
@@ -37,13 +37,24 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   Platform,
+  Placement,
+  ThemeVariables,
+  AlignAlias,
+  YPosition,
+  XPosition,
   } from '@alyle/ui';
 import { LyTabContent } from './tab-content.directive';
 import { LyTabsClassesService } from './tabs.clasess.service';
 import { Subscription } from 'rxjs';
 
 const DEFAULT_DISABLE_RIPPLE = false;
-
+const STYLE_PRIORITY = -2;
+const DEFAULT_BG = 'primary';
+const DEFAULT_INDICATOR_COLOR = 'accent';
+const DEFAULT_ELEVATION = 4;
+const DEFAULT_HEADER_PLACEMENT = 'above';
+export type AlignTabs = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
+export type LyTabsHeaderPlacement = 'before' | 'after' | 'above' | 'below';
 /** @docs-private */
 export class LyTabsBase {
   constructor(
@@ -52,7 +63,7 @@ export class LyTabsBase {
 }
 
 /** @docs-private */
-export const LyTabsMixinBase = mixinBg(mixinColor(LyTabsBase));
+export const LyTabsMixinBase = mixinStyleUpdater(mixinBg(mixinElevation(mixinShadowColor(LyTabsBase))));
 
 /** @docs-private */
 export class LyTabLabelBase {
@@ -80,7 +91,7 @@ mixinBg(
   encapsulation: ViewEncapsulation.None,
   exportAs: 'lyTabs',
   inputs: [
-    'bg', 'color'
+    'bg', 'elevation', 'shadowColor'
   ]
 })
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
@@ -90,30 +101,39 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   _selectedBeforeTab: LyTab;
   private _tabsSubscription = Subscription.EMPTY;
   private _isViewInitLoaded: boolean;
-  private _withColor: string;
-  private _withColorClass: string;
+  private _color: string;
+  private _colorClass: string;
+  private _headerPlacement: LyTabsHeaderPlacement;
+  private _headerPlacementClass: string;
+  private _alignTabs: AlignTabs;
+  private _alignTabsClass: string;
+  private _textColor: string;
+  private _textColorClass: string;
+
+  private _flexDirection: string;
   readonly classes;
+  @ViewChild('tabs') tabsRef: ElementRef;
   @ViewChild('tabContents') tabContents: ElementRef;
   @ViewChild('tabsIndicator') tabsIndicator: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
   @Input() native: boolean;
   @Input()
-  set withColor(val: string) {
-    if (val !== this.withColor) {
-      this._withColor = val;
-      this._withColorClass = this.theme.addStyle(
-        `k-tab-with-color:${val}`,
+  set indicatorColor(val: string) {
+    if (val !== this.indicatorColor) {
+      this._color = val;
+      this._colorClass = this.theme.addStyle(
+        `k-tab-indicator-color:${val}`,
         theme => (
           `color:${theme.colorOf(val)};`
         ),
-        this.tabsIndicator.nativeElement, this._withColorClass);
+        this.tabsIndicator.nativeElement, this._colorClass);
       if (this._selectedTab) {
-        this.theme.updateClass(this._selectedTab.tabIndicator.nativeElement, this.renderer, this._withColorClass);
+        this.theme.updateClass(this._selectedTab.tabIndicator.nativeElement, this.renderer, this._colorClass);
       }
     }
   }
-  get withColor() {
-    return this._withColor;
+  get indicatorColor() {
+    return this._color;
   }
   @Input()
   set selectedIndex(val: number) {
@@ -124,15 +144,135 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this.selectedIndexChange.emit(this._selectedIndex);
       this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
 
-      this.markForCheck();
-      this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate3d(${this._selectedIndex * -100}%,0,0)`);
+      this._markForCheck();
+      const position = this._flexDirection === 'row' ? 'X' : 'Y';
+      this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate${position}(${this._selectedIndex * -100}%)`);
     }
   }
   get selectedIndex() {
     return this._selectedIndex as number;
   }
+
+  @Input()
+  set headerPlacement(val: LyTabsHeaderPlacement) {
+    this._headerPlacement = val;
+    let flexDirection: string;
+    if (val === YPosition.above || val === YPosition.above) {
+      flexDirection = 'row';
+    } else {
+      flexDirection = 'column';
+    }
+    this._flexDirection = flexDirection;
+    this._headerPlacementClass = this.theme.addStyle(`lyTabs.headerPlacement:${val}`,
+    () => {
+      let flexDirectionContainer: string;
+      let position: string;
+      let height: string = null;
+      let width: string = null;
+      let heightServer: string = null;
+      let widthServer: string = null;
+      switch (val) {
+        case YPosition.above:
+          flexDirectionContainer = 'column';
+          position = YPosition.below;
+          height = '2px';
+          widthServer = '100%';
+          break;
+        case YPosition.below:
+          flexDirectionContainer = 'column-reverse';
+          position = YPosition.above;
+          height = '2px';
+          widthServer = '100%';
+          break;
+        case XPosition.before:
+          flexDirectionContainer = 'row';
+          position = XPosition.after;
+          width = '2px';
+          heightServer = '100%';
+          break;
+        case XPosition.after:
+          flexDirectionContainer = 'row-reverse';
+          position = XPosition.before;
+          width = '2px';
+          heightServer = '100%';
+          break;
+
+        default:
+          throw new Error(`LyTabs: value:${val} do not is valid for \`headerPlacement\``);
+      }
+      if (val === YPosition.above || val === YPosition.above) {
+        flexDirection = 'row';
+      } else {
+        flexDirection = 'column';
+      }
+      return {
+        [`.${this.classes.container}`]: {
+          flexDirection: flexDirectionContainer
+        },
+        [`& .${this.classes.tabsIndicator},& .${this.classes.tabsIndicatorForServer}`]: {
+          [position]: 0,
+          height,
+          width
+        },
+        [`.${this.classes.tabsIndicatorForServer}`]: {
+          '--black': 'x',
+          width: widthServer,
+          height: heightServer
+        },
+        [`& .${this.classes.tabsLabels},& .${this.classes.tabContents}`]: { flexDirection },
+        [`.${this.classes.tabContents}`]: { flexDirection }
+      };
+    },
+    this.el.nativeElement,
+    this._headerPlacementClass,
+    STYLE_PRIORITY);
+  }
+  get headerPlacement() {
+    return this._headerPlacement;
+  }
+
+  @Input()
+  set alignTabs(val: AlignTabs) {
+    this._alignTabs = val;
+    this._alignTabsClass = this.theme.addStyle(`lyAlignTabs: ${val}`,
+    (
+      val === 'stretch' ? {
+        [`&>.${this.classes.tabsLabels} .${this.classes.tab}`]: {
+          flexBasis: 0,
+          flexGrow: 1
+        }
+      } : {
+        [`&>.${this.classes.tabsLabels}`]: {
+          justifyContent: val in AlignAlias ? AlignAlias[val] : val
+        }
+      }
+    ),
+    this.el.nativeElement,
+    this._alignTabsClass,
+    STYLE_PRIORITY);
+  }
+  get alignTabs() {
+    return this._alignTabs;
+  }
+
+  @Input()
+  set textColor(val: string) {
+    this._textColor = val;
+    this._textColorClass = this.theme.addStyle(`lyTabs.textColor:${val}`,
+    (theme: ThemeVariables) => ({
+      [`& .${this.classes.tabLabelActive}`]: {
+        color: theme.colorOf(val)
+      }
+    }),
+    this.el.nativeElement,
+    this._textColorClass,
+    STYLE_PRIORITY);
+  }
+  get textColor() {
+    return this._textColor;
+  }
+
   @Output() selectedIndexChange: EventEmitter<any> = new EventEmitter();
-  @Input() withBg: string;
   @ContentChildren(forwardRef(() => LyTab)) tabsList: QueryList<LyTab>;
 
   constructor(
@@ -144,20 +284,12 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   ) {
     super(theme);
     this.classes = tabsService.classes;
+    this.setAutoContrast();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.color) {
-      this.withColor = changes.color.currentValue;
-    }
-    if (changes.bg) {
-      this.withBg = changes.bg.currentValue;
-    }
-    if (isDevMode() && changes.withColor) {
-      console.warn(`LyTabs > \`withColor\` is deprecated, instead use \`color\``);
-    }
-    if (isDevMode() && changes.withBg) {
-      console.warn(`LyTabs > \`withColor\` is deprecated, instead use \`bg\``);
+    if (this._isViewInitLoaded) {
+      this.updateStyle(this.tabsRef.nativeElement);
     }
   }
 
@@ -166,14 +298,16 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     const tabsIndicatorEl = this.tabsIndicator.nativeElement;
     this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);
     /** Set default Color */
-    if (!this.withColor && !this.color) {
-      this.withColor = 'primary';
+    if (!this.indicatorColor && !this.bg && !this.textColor && !this.elevation) {
+      this.indicatorColor = DEFAULT_INDICATOR_COLOR;
+      this.bg = DEFAULT_BG;
+      this.elevation = DEFAULT_ELEVATION;
+    }
+    if (!this.headerPlacement) {
+      this.headerPlacement = DEFAULT_HEADER_PLACEMENT;
     }
   }
 
-  ngAfterViewInit() {
-    this._isViewInitLoaded = true;
-  }
   ngAfterContentInit() {
     this._tabsSubscription = this.tabsList.changes.subscribe(() => {
       if (this._selectedIndex !== this.selectedIndexOnChange) {
@@ -182,6 +316,12 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this.cd.markForCheck();
     });
   }
+
+  ngAfterViewInit() {
+    this.updateStyle(this.tabsRef.nativeElement);
+    this._isViewInitLoaded = true;
+  }
+
   ngOnDestroy() {
     this._tabsSubscription.unsubscribe();
   }
@@ -195,14 +335,13 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     return currentIndex < 0 ? 0 : currentIndex > indexOfLastTab ? indexOfLastTab : currentIndex;
   }
 
-  private _updateIndicator(currentTab: LyTab, beforeTab?: LyTab): void {
+  _updateIndicator(currentTab: LyTab, beforeTab?: LyTab): void {
     const currentIndex = this.selectedIndex;
     if (currentTab) {
-      // currentTab = this.tabsList.find(_ => _.index === currentIndex);
       if (!this._isViewInitLoaded || !Platform.isBrowser) {
         /** for before initialize or for server */
         this.renderer.addClass(currentTab.tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
-        this.renderer.addClass(currentTab.tabIndicator.nativeElement, this._withColorClass);
+        this.renderer.addClass(currentTab.tabIndicator.nativeElement, this._colorClass);
       } else {
         // for after initialize && for browser
         // Clean before tab
@@ -215,13 +354,19 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
         }
         const el = currentTab._el.nativeElement as HTMLElement;
         const rects = el.getBoundingClientRect();
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'width', `${rects.width}px`);
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'left', `${el.offsetLeft}px`);
+
+        if (this.headerPlacement === XPosition.after || this.headerPlacement === XPosition.before) {
+          this.renderer.setStyle(this.tabsIndicator.nativeElement, 'height', `${rects.height}px`);
+          this.renderer.setStyle(this.tabsIndicator.nativeElement, 'top', `${el.offsetTop}px`);
+        } else {
+          this.renderer.setStyle(this.tabsIndicator.nativeElement, 'width', `${rects.width}px`);
+          this.renderer.setStyle(this.tabsIndicator.nativeElement, 'left', `${el.offsetLeft}px`);
+        }
       }
     }
   }
 
-  markForCheck() {
+  _markForCheck() {
     this.cd.markForCheck();
   }
 
@@ -270,20 +415,23 @@ export class LyTab implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this._renderer.addClass(this.tabIndicator.nativeElement, this.classes.tabsIndicator);
+    // this._renderer.addClass(this.tabIndicator.nativeElement, this.classes.tabsIndicator);
   }
 }
 
 @Directive({
   selector: 'ly-tab-label, [ly-tab-label]'
 })
-export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit, OnDestroy {
+export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit, DoCheck, OnDestroy {
+  private _active: boolean;
   constructor(
     private renderer: Renderer2,
     private _el: ElementRef,
     private _tabsService: LyTabsClassesService,
     _ngZone: NgZone,
-    _theme: LyTheme2
+    _theme: LyTheme2,
+    private _tab: LyTab,
+    private _tabs: LyTabs
   ) {
     super(_theme, _ngZone);
     this.setAutoContrast();
@@ -303,6 +451,24 @@ export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit
     }
   }
 
+  ngDoCheck() {
+    Promise.resolve(null).then(() => {
+      if (this._tabs._selectedIndex === this._tab.index) {
+        if (!this._active) {
+          this._active = true;
+          this.renderer.addClass(this._el.nativeElement, this._tabsService.classes.tabLabelActive);
+          /** Update tab indicator */
+          if (Platform.isBrowser) {
+            this._tabs._updateIndicator(this._tab);
+          }
+        }
+      } else if (this._active) {
+        this._active = false;
+        this.renderer.removeClass(this._el.nativeElement, this._tabsService.classes.tabLabelActive);
+      }
+    });
+  }
+
   ngOnDestroy() {
     this._removeRippleEvents();
   }
@@ -313,9 +479,10 @@ export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit
  * <ly-tabs withColor="accent">
  *   <ly-tab>
  *     <ly-tab-label>HOME<ly-tab-label>
+ *     Content
+ *   </ly-tab>
+ *   <ly-tab>
  *     <button ly-tab-label>HOME<button>
- *     <button ly-tab-label-native ly-button>HOME<button>
- *     <a [routerLink]="['home']" ly-tab-label native ly-button>HOME<a>
  *     Content
  *   </ly-tab>
  *   ...
@@ -329,10 +496,5 @@ export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit
  *   </ly-tab>
  *   ...
  * </ly-tabs>
- * => withColor: color del label activa, default primary
- * => withBg: color de fondo para la tab, default background:primary
- * => native: no aplica los estilos predeterminados, default undefined
- * => disabled: Disable/enable a tab, default undefined
- * => isActive: Si la pestaña está actualmente activa., default undefined
  * => selectedIndexOnChange, default: auto, opts: number, with auto, the selectedIndex = current o current-1 or latest
  */

@@ -6,7 +6,7 @@ import { LyTabContent } from './tab-content.directive';
 
 @NgModule({
   imports: [LyThemeModule, CommonModule, LyCommonModule, NgTranscludeModule],
-  exports: [LyTabs, LyTab, LyTabLabel, LyTabContent],
+  exports: [LyCommonModule, LyTabs, LyTab, LyTabLabel, LyTabContent],
   declarations: [LyTabs, LyTab, LyTabLabel, LyTabContent]
 })
 export class LyTabsModule { }

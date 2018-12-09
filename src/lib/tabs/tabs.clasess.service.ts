@@ -1,20 +1,33 @@
 import { Injectable } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { LyTheme2, ThemeVariables } from '@alyle/ui';
 
-const tabsStyles = {
+const tabsStyles = (theme: ThemeVariables) => ({
   root: {
     display: 'block'
+  },
+  container: {
+    display: 'flex'
   },
   tab: {
     position: 'relative',
     display: 'inline-flex'
   },
-  tabsLabels: {
-    display: 'flex',
-    position: 'relative',
+  /** Tab content */
+  contentContainer: {
+    overflow: 'hidden',
     flexGrow: 1
   },
+  /** Tab header */
+  tabsLabels: {
+    display: 'flex',
+    position: 'relative'
+  },
   label: {
+    '-webkit-tap-highlight-color': 'transparent',
+    '-webkit-appearance': 'none',
+    backgroundColor: 'transparent',
+    userSelect: 'none',
+    border: 0,
     minWidth: '72px',
     padding: '0 24px',
     cursor: 'pointer',
@@ -23,30 +36,45 @@ const tabsStyles = {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.pxToRem(theme.typography.fontSize),
+    letterSpacing: '0.02857em',
+    color: 'currentColor',
+    outline: 'none',
+    width: '100%',
+    fontWeight: 500,
+    opacity: .7,
+    [theme.getBreakpoint('XSmall')]: {
+      padding: '0 8px'
+    }
+  },
+  tabLabelActive: {
+    opacity: 1
   },
   tabContents: {
     display: 'flex',
     transition: '450ms cubic-bezier(.1, 1, 0.5, 1)',
-    willChange: 'transform'
+    willChange: 'transform',
+    height: '100%'
   },
   tabContent: {
     width: '100%',
+    height: '100%',
     flexShrink: 0,
     position: 'relative'
   },
   tabsIndicator: {
     position: 'absolute',
-    transition: '450ms cubic-bezier(.1, 1, 0.5, 1)',
-    bottom: 0,
     height: '2px',
-    left: 0,
+    transition: '450ms cubic-bezier(.1, 1, 0.5, 1)',
     background: 'currentColor'
   },
   tabsIndicatorForServer: {
-    width: '100%'
+    position: 'absolute',
+    background: 'currentColor'
   }
-};
+});
 
 @Injectable({
   providedIn: 'root'
