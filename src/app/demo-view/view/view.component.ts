@@ -21,6 +21,8 @@ const DECLARATIONS_REGEXP = /declarations: \[\:?(?:[\s]+)?([\w]+)(?:[\s]+)?\]/;
 const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
 const SELECTOR_APP = 'root-app';
 
+const HOST_DEV = 'http://localhost:1212/';
+const HOST_PROD = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/${AUI_VERSION}/src/app/`;
 const styles = {
   root: {
     position: 'relative',
@@ -97,7 +99,7 @@ export class ViewComponent implements OnInit {
 
   url(index: number) {
     const fileName = this.path.split('/').reverse()[0];
-    const host = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/${AUI_VERSION}/src/app/${this.path}`;
+    const host = `${isDevMode() ? HOST_DEV : HOST_PROD}${this.path}`;
     const file = this.files[index];
     return `${host}/${fileName}.${file.type}.${file.ext}`;
   }
