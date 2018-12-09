@@ -1,4 +1,4 @@
-export const enum AlignAlias {
+export enum AlignAlias {
   rowReverse = 'row-reverse',
   columnReverse = 'column-reverse',
   wrapReverse = 'wrap-reverse',
