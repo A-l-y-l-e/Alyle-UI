@@ -5,7 +5,10 @@ import { LyTheme2 } from '@alyle/ui';
 const styles = ({
   form: {
     maxWidth: '320px',
-    margin: '0 auto'
+    margin: '0 auto',
+    'ly-checkbox': {
+      margin: '.35em 0'
+    }
   }
 });
 

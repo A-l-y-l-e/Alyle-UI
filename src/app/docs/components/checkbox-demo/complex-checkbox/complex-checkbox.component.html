@@ -8,8 +8,12 @@
     formArrayName="fruits"
     *ngFor="let fruit of fruitsAbstractControlArray; index as i;"
   >
-    <ly-checkbox [formControlName]="i">{{ fruits[i].name }}</ly-checkbox>
     <ly-checkbox
+      [color]="i === 2 ? 'primary' : 'accent'"
+      [formControlName]="i"
+    >{{ fruits[i].name }}</ly-checkbox>
+    <ly-checkbox
+      [color]="i === 2 ? 'primary' : 'accent'"
       [checked]="fruit.disabled"
       (change)="onDisableChange(fruit, $event.checked, i)"
     >Disabled</ly-checkbox>
