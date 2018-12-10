@@ -10,4 +10,5 @@ export class BasicFieldComponent {
   hide = true;
   appearance = new FormControl();
   isDisabled = new FormControl();
+  password = new FormControl('pass');
 }
