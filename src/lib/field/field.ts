@@ -14,9 +14,6 @@ import {
   ContentChildren,
   QueryList,
   NgZone,
-  OnChanges,
-  SimpleChanges,
-  isDevMode,
   Directive,
   OnDestroy,
   HostListener,
@@ -25,7 +22,7 @@ import {
   Self,
   forwardRef
   } from '@angular/core';
-import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias, mixinColor } from '@alyle/ui';
+import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
@@ -124,39 +121,18 @@ const styles = (theme: ThemeVariables) => {
     prefix: {
       maxHeight: '2em',
       display: 'flex',
-      alignItems: 'center',
-      // '&:after': {
-      //   content: `\'\'`,
-      //   pointerEvents: 'none',
-      //   boxSizing: 'content-box',
-      //   ...LY_COMMON_STYLES.fill,
-      //   borderColor: theme.field.borderColor
-      // }
+      alignItems: 'center'
     },
     infix: {
       display: 'inline-flex',
       position: 'relative',
       alignItems: 'baseline',
-      width: '100%',
-      // '&:after': {
-      //   content: `\'\'`,
-      //   pointerEvents: 'none',
-      //   boxSizing: 'content-box',
-      //   ...LY_COMMON_STYLES.fill,
-      //   borderColor: theme.field.borderColor
-      // }
+      width: '100%'
     },
     suffix: {
       maxHeight: '2em',
       display: 'flex',
-      alignItems: 'center',
-      // '&:after': {
-      //   content: `\'\'`,
-      //   pointerEvents: 'none',
-      //   boxSizing: 'content-box',
-      //   ...LY_COMMON_STYLES.fill,
-      //   borderColor: theme.field.borderColor
-      // }
+      alignItems: 'center'
     },
     labelContainer: {
       ...LY_COMMON_STYLES.fill,
@@ -216,20 +192,13 @@ const styles = (theme: ThemeVariables) => {
   };
 };
 
-/** @docs-private */
-export class LyFieldBase { }
-
-/** @docs-private */
-export const LyFieldMixinBase = mixinColor(LyFieldBase);
-
 @Component({
   selector: 'ly-field',
   templateUrl: 'field.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  inputs: ['color']
+  encapsulation: ViewEncapsulation.None
 })
-export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, AfterContentInit, AfterViewInit {
+export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   /**
    * styles
    * @docs-private
@@ -237,8 +206,8 @@ export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, Afte
   readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   protected _appearance: string;
   protected _appearanceClass: string;
-  protected _withColor: string;
-  protected _withColorClass: string;
+  protected _color: string;
+  protected _colorClass: string;
   protected _isFloating: boolean;
   protected _floatingLabel: boolean;
   private _fielsetSpanClass: string;
@@ -267,12 +236,12 @@ export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, Afte
     return this._floatingLabel;
   }
 
-  /** Deprecated, instead use `[color], theme color for the component. */
+  /** Theme color for the component. */
   @Input()
-  set withColor(val: string) {
-    if (val !== this._withColor) {
-      this._withColor = val;
-      this._withColorClass = this._theme.addStyle(`ly-field.withColor:${val}`, (theme: ThemeVariables) => {
+  set color(val: string) {
+    if (val !== this._color) {
+      this._color = val;
+      this._colorClass = this._theme.addStyle(`ly-field.color:${val}`, (theme: ThemeVariables) => {
         const color = theme.colorOf(val);
         return {
           [`&.${this.classes.focused} .${this.classes.container}:after`]: {
@@ -288,11 +257,11 @@ export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, Afte
             caretColor: color
           }
         };
-      }, this._el.nativeElement, this._withColorClass, STYLE_PRIORITY + 1);
+      }, this._el.nativeElement, this._colorClass, STYLE_PRIORITY + 1);
     }
   }
-  get withColor() {
-    return this._withColor;
+  get color() {
+    return this._color;
   }
 
   /** The field appearance style. */
@@ -344,22 +313,12 @@ export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, Afte
     private _cd: ChangeDetectorRef,
     private _ngZone: NgZone
   ) {
-    super();
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.color) {
-      this.withColor = changes.color.currentValue;
-    }
-    if (isDevMode() && changes.withColor) {
-      console.warn('`LyField` > `[withColor]` is deprecated, instead use `[color]`');
-    }
-  }
-
   ngOnInit() {
-    if (!this.withColor) {
-      this.withColor = DEFAULT_WITH_COLOR;
+    if (!this.color) {
+      this.color = DEFAULT_WITH_COLOR;
     }
     if (!this.appearance) {
       this.appearance = DEFAULT_APPEARANCE;
@@ -506,7 +465,7 @@ export class LyInputNative implements OnInit, OnDestroy {
   protected _required = false;
   protected _placeholder: string;
   readonly stateChanges: Subject<void> = new Subject<void>();
-  private _disabledClass: string;
+  private _hasDisabledClass: boolean;
   focused: boolean = false;
 
   @HostListener('input') _onInput() {
@@ -542,17 +501,14 @@ export class LyInputNative implements OnInit, OnDestroy {
   @HostBinding()
   @Input()
   set disabled(val: boolean) {
-    if (val !== this.disabled) {
+    if (val !== this._disabled) {
       this._disabled = toBoolean(val);
-      if (!val && this._disabledClass) {
-        this._renderer.removeClass(this._field._getHostElement(), this._disabledClass);
+      if (!val && this._hasDisabledClass) {
         this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
-        this._disabledClass = null;
+        this._hasDisabledClass = null;
       } else if (val) {
         this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
-        this._disabledClass = this._theme.addStyle(`lyInput.disabled:${val}`, ({
-          '--style': 'x'
-        }), this._field._getHostElement(), this._disabledClass, STYLE_PRIORITY);
+        this._hasDisabledClass = true;
       }
     }
   }
@@ -579,7 +535,6 @@ export class LyInputNative implements OnInit, OnDestroy {
   constructor(
     private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
     private _renderer: Renderer2,
-    private _theme: LyTheme2,
     private _field: LyField,
     /** @docs-private */
     @Optional() @Self() public ngControl: NgControl,
@@ -591,6 +546,13 @@ export class LyInputNative implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._renderer.setAttribute(this._hostElement, 'placeholder', '­');
+    const ngControl = this.ngControl;
+    if (ngControl) {
+
+      ngControl.statusChanges.subscribe((va) => {
+        this.disabled = ngControl.disabled;
+      });
+    }
   }
 
   ngOnDestroy() {
