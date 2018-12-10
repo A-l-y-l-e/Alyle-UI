@@ -339,6 +339,10 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
     this._markForCheck();
   }
 
+  _onChange(event: Event) {
+    event.stopPropagation();
+  }
+
   private _emitChangeEvent() {
     this._controlValueAccessorChangeFn(this.checked);
     this.change.emit({

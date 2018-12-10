@@ -8,6 +8,7 @@
   [attr.value]="value"
   [disabled]="disabled"
   (click)="_onInputClick($event)"
+  (change)="_onChange($event)"
   >
   <div #innerContainer [className]="classes.icon">
     <svg width="16px" height="16px" viewBox="0 0 20 20">
