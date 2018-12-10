@@ -7,7 +7,7 @@ const styles = ({
     maxWidth: '320px',
     margin: '0 auto',
     'ly-checkbox': {
-      margin: '.35em 0'
+      padding: '8px 0'
     }
   }
 });
