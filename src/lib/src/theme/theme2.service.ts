@@ -579,10 +579,6 @@ export function capitalizeFirstLetter(str: string) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-function toMedia(css: string, media: string) {
-  return `@media ${media}{${css}}`;
-}
-
 function createNextClassId() {
   return `i${(nextClassId++).toString(36)}`;
 }
