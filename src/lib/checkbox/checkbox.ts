@@ -39,8 +39,18 @@ const DEFAULT_DISABLE_RIPPLE = false;
 
 const STYLES = (theme: ThemeVariables) => ({
   root: {
-    '&{disabled}{checked} {icon}::before': {
-      border: 0
+    '&{disabled}:not({checked}) {icon}:before': {
+      color: theme.disabled.default
+    },
+    '&{disabled}': {
+      pointerEvents: 'none',
+      '{layout}': {
+        color: theme.disabled.contrast
+      }
+    },
+    '&{disabled}{checked} {icon}:before': {
+      border: 0,
+      background: theme.disabled.default
     },
     '&{onFocusByKeyboard} {icon}::after': {
       boxShadow: '0 0 0 12px',
