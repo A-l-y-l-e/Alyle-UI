@@ -40,6 +40,7 @@ import {
   AlignAlias,
   YPosition,
   XPosition,
+  Dir
   } from '@alyle/ui';
 import { LyTabContent } from './tab-content.directive';
 import { LyTabsClassesService } from './tabs.clasess.service';
@@ -107,6 +108,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _alignTabsClass: string;
   private _textColor: string;
   private _textColorClass: string;
+  private _selectedIndexClass: string;
 
   private _flexDirection: string;
   readonly classes;
@@ -256,14 +258,25 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   set selectedIndex(val: number) {
     if (val !== this.selectedIndex) {
       this._selectedBeforeIndex = this._selectedIndex as number;
-      this._selectedIndex = this._findIndex(val, 'auto');
+      const index = this._selectedIndex = this._findIndex(val, 'auto');
       this._selectedBeforeTab = this._selectedTab;
       this.selectedIndexChange.emit(this._selectedIndex);
       this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
 
       this._markForCheck();
       const position = this._flexDirection === 'column' ? 'Y' : 'X';
-      this.renderer.setStyle(this.tabContents.nativeElement, 'transform', `translate${position}(${this._selectedIndex * -100}%)`);
+      this._selectedIndexClass = this._theme.addStyle(`lyTabs.selectedIndex:${index}·${position}`, (theme: ThemeVariables) => {
+        let sign = 1;
+        if (theme.direction === Dir.ltr || position === 'Y') {
+          sign = -1;
+        }
+        return {
+          transform: `translate${position}(${index * 100 * sign}%)`
+        };
+      }, this.tabContents.nativeElement, this._selectedIndexClass, STYLE_PRIORITY);
+      Promise.resolve(null).then(() => {
+        this.renderer.addClass(this.tabContents.nativeElement, this._selectedIndexClass);
+      });
     }
   }
   get selectedIndex() {
@@ -417,11 +430,15 @@ export class LyTab implements OnInit, AfterViewInit {
   }
 }
 
-@Directive({
-  selector: 'ly-tab-label, [ly-tab-label]'
+@Component({
+  selector: 'ly-tab-label, [ly-tab-label]',
+  template: '<ng-content></ng-content><span *ngIf="_isBrowser" [className]="classes.rippleContainer" #rippleContainer></span>'
 })
 export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit, DoCheck, OnDestroy {
+  readonly classes = this._tabsService.classes;
   private _active: boolean;
+  protected _isBrowser = Platform.isBrowser;
+  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   constructor(
     private renderer: Renderer2,
     private _el: ElementRef,
@@ -434,7 +451,6 @@ export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit
     super(_theme, _ngZone);
     this.setAutoContrast();
     this._triggerElement = _el;
-    this._rippleContainer = _el;
   }
 
   ngOnChanges() {

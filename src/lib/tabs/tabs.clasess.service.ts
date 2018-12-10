@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
 
 const tabsStyles = (theme: ThemeVariables) => ({
   root: {
@@ -73,6 +73,10 @@ const tabsStyles = (theme: ThemeVariables) => ({
   tabsIndicatorForServer: {
     position: 'absolute',
     background: 'currentColor'
+  },
+  rippleContainer: {
+    ...LY_COMMON_STYLES.fill,
+    overflow: 'hidden'
   }
 });
 
