@@ -43,6 +43,8 @@ export interface StyleMap5 {
       [key: string]: string
     } | string
   };
+  /** Only for styles of TypeStyle.one */
+  parentStyle?: Styles;
   requireUpdate?: boolean;
   id: string;
 }
@@ -74,6 +76,7 @@ export class LyTheme2 {
   elements: Map<string | object, HTMLStyleElement>;
   _elementsMap = new Map<any, HTMLStyleElement>();
   private themeMap = THEME_MAP;
+  /** ssr or hmr */
   private isDevOrServer = isDevMode() || !Platform.isBrowser;
 
   constructor(
@@ -113,9 +116,10 @@ export class LyTheme2 {
    * @param style Styles
    * @param el Element
    * @param instance The instance of this, this replaces the existing style with a new one when it changes
+   * @param parentStyle
    */
-  addStyle(id: string, style: StyleContainer | ((theme) => StyleContainer) | ((theme) => string) | string, el?: any, instance?: string, priority?: number) {
-    const newClass = this.addCss(id, style as any, priority);
+  addStyle(id: string, style: StyleContainer | ((theme) => StyleContainer) | ((theme) => string) | string, el?: any, instance?: string, priority?: number, parentStyle?: Styles) {
+    const newClass = this._createStyleContent2(style as any, id, priority, TypeStyle.OnlyOne, false, parentStyle) as string;
     if (newClass === instance) {
       return newClass;
     }
@@ -159,19 +163,20 @@ export class LyTheme2 {
     this.elements.forEach((_, key) => {
       const styleData = STYLE_MAP5.get(key);
       if (styleData.requireUpdate) {
-        this._createStyleContent2(styleData.styles, styleData.id, styleData.priority, styleData.type, true);
+        this._createStyleContent2(styleData.styles, styleData.id, styleData.priority, styleData.type, true, styleData.parentStyle);
       }
     });
   }
 
   /**
-   * add style, similar to setUpStyle but this only accept string
+   * Create a simple style
+   * return className
    * @param id id of style
-   * @param css style in string
+   * @param css style object or string
+   * @param priority style priority
    */
-  private addCss(id: string, css: ((t) => string) | string, priority: number, media?: string): string {
-    const newId = `~>${id}`;
-    return this._createStyleContent2(css as any, newId, priority, TypeStyle.OnlyOne, false, media) as string;
+  addSimpleStyle(id: string, css: ((t) => string) | string, priority?: number): string {
+    return this._createStyleContent2(css as any, id, priority, TypeStyle.OnlyOne, false) as string;
   }
   private _addDefaultStyles() {
     this.addStyleSheet(defaultStyles);
@@ -187,13 +192,13 @@ export class LyTheme2 {
     return this._createStyleContent2(styles, null, priority, TypeStyle.Multiple);
   }
 
-  private _createStyleContent2<T>(
-    styles: StylesFn2 | Styles2,
+  private _createStyleContent2(
+    styles: Styles,
     id: string,
     priority: number,
     type: TypeStyle,
     forChangeTheme?: boolean,
-    media?: string
+    parentStyle?: Styles
   ) {
     const newId = id as string || styles;
     let isNewStyle: boolean;
@@ -204,7 +209,8 @@ export class LyTheme2 {
         styles,
         type,
         css: {},
-        id
+        id,
+        parentStyle
       });
     }
     const styleMap = STYLE_MAP5.get(newId);
@@ -217,13 +223,13 @@ export class LyTheme2 {
       const config = this.core.get(themeMap.change || themeName);
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
-        css = groupStyleToString(styleMap, styles(config), themeName, id, type, config, media);
+        css = groupStyleToString(styleMap, styles(config), themeName, id, type, config);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
-        css = groupStyleToString(styleMap, styles, themeName, newId as string, type, config, media);
+        css = groupStyleToString(styleMap, styles, themeName, newId as string, type, config);
         styleMap.css = css;
       }
       if (!this.elements.has(newId)) {
@@ -245,7 +251,7 @@ export class LyTheme2 {
     } else if (this.isDevOrServer) {
       /**
        * append child style if not exist in dom
-       * for ssr & hmr
+       * for ssr or hmr
        */
       if (!this.elements.has(newId)) {
         const _css = styleMap.css[themeName] || styleMap.css;
@@ -335,8 +341,7 @@ function groupStyleToString(
   themeName: string,
   id: string,
   typeStyle: TypeStyle,
-  themeVariables: ThemeVariables,
-  media?: string
+  themeVariables: ThemeVariables
 ) {
   // for styles type string
   if (typeStyle === TypeStyle.OnlyOne) {
@@ -346,13 +351,17 @@ function groupStyleToString(
     : styleMap.classes
       ? styleMap.classes
       : styleMap.classes = createNextClassId();
+    let rules: string;
     if (typeof styles === 'string') {
-      const css = `.${className}{${styles}}`;
-      return media ? toMedia(css, media) : css;
+      rules = `.${className}{${styles}}`;
     } else {
-      const rules = styleToString(id, null, styles, themeVariables, className as any);
-      return rules;
+      rules = styleToString(id, null, styles, themeVariables, className as any);
     }
+    if (styleMap.parentStyle) {
+      const styleMapOfParentStyle = STYLE_MAP5.get(styleMap.parentStyle);
+      return replaceRefs(rules, styleMapOfParentStyle[themeName]);
+    }
+    return rules;
   }
   // for multiples styles
   const classesMap = styleMap[themeName] || (styleMap[themeName] = {});
