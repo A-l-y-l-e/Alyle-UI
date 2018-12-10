@@ -16,28 +16,42 @@ import {
   NgZone,
   OnChanges,
   SimpleChanges,
-  isDevMode
+  isDevMode,
+  Directive,
+  OnDestroy,
+  HostListener,
+  HostBinding,
+  Optional,
+  Self,
+  forwardRef
   } from '@angular/core';
 import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias, mixinColor } from '@alyle/ui';
-import { LyInputNative } from './input';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
 import { LyPrefix } from './prefix';
 import { LySuffix } from './suffix';
+import { Subject } from 'rxjs';
+import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
 const DEFAULT_APPEARANCE_THEME = {
   standard: {
+    root: {
+      '&:not({disabled}) {container}:hover:after': {
+        borderBottomColor: 'currentColor'
+      },
+      '&{disabled} {container}:after': {
+        borderBottomStyle: 'dotted',
+        borderColor: 'inherit'
+      }
+    },
     container: {
       padding: '1em 0 0',
       '&:after': {
         borderBottomStyle: 'solid',
         borderBottomWidth: '1px'
-      },
-      '&:hover:after': {
-        borderBottomColor: 'currentColor'
       }
     },
     containerFocused: {
@@ -111,38 +125,38 @@ const styles = (theme: ThemeVariables) => {
       maxHeight: '2em',
       display: 'flex',
       alignItems: 'center',
-      '&:after': {
-        content: `\'\'`,
-        pointerEvents: 'none',
-        boxSizing: 'content-box',
-        ...LY_COMMON_STYLES.fill,
-        borderColor: theme.field.borderColor
-      }
+      // '&:after': {
+      //   content: `\'\'`,
+      //   pointerEvents: 'none',
+      //   boxSizing: 'content-box',
+      //   ...LY_COMMON_STYLES.fill,
+      //   borderColor: theme.field.borderColor
+      // }
     },
     infix: {
       display: 'inline-flex',
       position: 'relative',
       alignItems: 'baseline',
       width: '100%',
-      '&:after': {
-        content: `\'\'`,
-        pointerEvents: 'none',
-        boxSizing: 'content-box',
-        ...LY_COMMON_STYLES.fill,
-        borderColor: theme.field.borderColor
-      }
+      // '&:after': {
+      //   content: `\'\'`,
+      //   pointerEvents: 'none',
+      //   boxSizing: 'content-box',
+      //   ...LY_COMMON_STYLES.fill,
+      //   borderColor: theme.field.borderColor
+      // }
     },
     suffix: {
       maxHeight: '2em',
       display: 'flex',
       alignItems: 'center',
-      '&:after': {
-        content: `\'\'`,
-        pointerEvents: 'none',
-        boxSizing: 'content-box',
-        ...LY_COMMON_STYLES.fill,
-        borderColor: theme.field.borderColor
-      }
+      // '&:after': {
+      //   content: `\'\'`,
+      //   pointerEvents: 'none',
+      //   boxSizing: 'content-box',
+      //   ...LY_COMMON_STYLES.fill,
+      //   borderColor: theme.field.borderColor
+      // }
     },
     labelContainer: {
       ...LY_COMMON_STYLES.fill,
@@ -192,7 +206,13 @@ const styles = (theme: ThemeVariables) => {
       font: 'inherit',
       width: '100%'
     },
-    hint: { }
+    hint: { },
+    disabled: {
+      '&, & {label}, & {container}:after': {
+        color: theme.disabled.contrast,
+        cursor: 'default'
+      }
+    }
   };
 };
 
@@ -212,9 +232,9 @@ export const LyFieldMixinBase = mixinColor(LyFieldBase);
 export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, AfterContentInit, AfterViewInit {
   /**
    * styles
-   * @ignore
+   * @docs-private
    */
-  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   protected _appearance: string;
   protected _appearanceClass: string;
   protected _withColor: string;
@@ -230,7 +250,7 @@ export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, Afte
   @ViewChild('_prefixContainer') _prefixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_suffixContainer') _suffixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_fieldsetLegend') _fieldsetLegend: ElementRef<HTMLDivElement>;
-  @ContentChild(LyInputNative) _input: LyInputNative;
+  @ContentChild(forwardRef(() => LyInputNative)) _input: LyInputNative;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
@@ -284,37 +304,38 @@ export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, Afte
         throw new Error(`${val} not found in theme.field.appearance`);
       }
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
-        const appearance = mergeDeep({}, theme.field.appearance.any, theme.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]);
+        const appearance = mergeDeep({}, theme.field.appearance.base, theme.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]);
+        const classes = this.classes;
         return {
-          [`& .${this.classes.container}`]: {...appearance.container},
-          [`& .${this.classes.prefix}`]: {...appearance.prefix},
-          [`& .${this.classes.infix}`]: {...appearance.infix},
-          [`& .${this.classes.suffix}`]: {...appearance.suffix},
-          [`& .${this.classes.inputNative}`]: {...appearance.input},
-          [`& .${this.classes.fieldset}`]: {...appearance.fieldset},
-          [`&:hover .${this.classes.fieldset}`]: {...appearance.fieldsetHover},
-          [`&.${this.classes.focused} .${this.classes.fieldset}`]: {...appearance.fieldsetFocused},
-          [`& .${this.classes.placeholder}`]: {
+          '&': {...appearance.root},
+          [`& .${classes.container}`]: {...appearance.container},
+          [`& .${classes.prefix}`]: {...appearance.prefix},
+          [`& .${classes.infix}`]: {...appearance.infix},
+          [`& .${classes.suffix}`]: {...appearance.suffix},
+          [`& .${classes.inputNative}`]: {...appearance.input},
+          [`& .${classes.fieldset}`]: {...appearance.fieldset},
+          [`& .${classes.placeholder}`]: {
             ...appearance.placeholder
           },
-          [`& .${this.classes.label}`]: {
+          [`& .${classes.label}`]: {
             ...appearance.label
           },
-          [`& .${this.classes.hint}`]: {
+          [`& .${classes.hint}`]: {
             ...appearance.hint
           },
-          [`& .${this.classes.floatingLabel}.${this.classes.label}`]: {...appearance.floatingLabel},
+          [`& .${classes.floatingLabel}.${classes.label}`]: {...appearance.floatingLabel},
 
-          [`&.${this.classes.focused} .${this.classes.container}`]: {
+          [`&.${classes.focused} .${classes.container}`]: {
             ...appearance.containerFocused
           },
         };
-      }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY);
+      }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, styles);
     }
   }
   get appearance() {
     return this._appearance;
   }
+
   constructor(
     private _renderer: Renderer2,
     private _el: ElementRef,
@@ -467,5 +488,116 @@ export class LyField extends LyFieldMixinBase implements OnChanges, OnInit, Afte
   private _markForCheck() {
     this._cd.markForCheck();
   }
+
+  _getHostElement() {
+    return this._el.nativeElement;
+  }
+
+}
+
+
+@Directive({
+  selector: 'ly-field > input, ly-field > textarea',
+  exportAs: 'lyInput'
+})
+export class LyInputNative implements OnInit, OnDestroy {
+  _hostElement: HTMLInputElement | HTMLTextAreaElement;
+  protected _disabled = false;
+  protected _required = false;
+  protected _placeholder: string;
+  readonly stateChanges: Subject<void> = new Subject<void>();
+  private _disabledClass: string;
+  focused: boolean = false;
+
+  @HostListener('input') _onInput() {
+    this.stateChanges.next();
+  }
+
+  @HostListener('blur') _onBlur() {
+    if (this.focused !== false) {
+      this.focused = false;
+      this.stateChanges.next();
+    }
+  }
+  @HostListener('focus') _onFocus() {
+    if (this.focused !== true) {
+      this.focused = true;
+      this.stateChanges.next();
+    }
+  }
+
+  /** @ignore */
+  @Input()
+  set value(val) {
+    if (val !== this.value) {
+      this._hostElement.value = val;
+      this.stateChanges.next();
+    }
+  }
+  get value() {
+    return this._hostElement.value;
+  }
+
+  /** Whether the input is disabled. */
+  @HostBinding()
+  @Input()
+  set disabled(val: boolean) {
+    if (val !== this.disabled) {
+      this._disabled = toBoolean(val);
+      if (!val && this._disabledClass) {
+        this._renderer.removeClass(this._field._getHostElement(), this._disabledClass);
+        this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
+        this._disabledClass = null;
+      } else if (val) {
+        this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
+        this._disabledClass = this._theme.addStyle(`lyInput.disabled:${val}`, ({
+          '--style': 'x'
+        }), this._field._getHostElement(), this._disabledClass, STYLE_PRIORITY);
+      }
+    }
+  }
+  get disabled(): boolean {
+    if (this.ngControl && this.ngControl.disabled !== null) {
+      return this.ngControl.disabled;
+    }
+    return this._disabled;
+  }
+
+  @HostBinding()
+  @Input()
+  set required(value: boolean) {
+    this._required = toBoolean(value);
+  }
+  get required(): boolean { return this._required; }
+
+  @Input()
+  set placeholder(val: string) {
+    this._placeholder = val;
+  }
+  get placeholder(): string { return this._placeholder; }
+
+  constructor(
+    private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
+    private _renderer: Renderer2,
+    private _theme: LyTheme2,
+    private _field: LyField,
+    /** @docs-private */
+    @Optional() @Self() public ngControl: NgControl,
+    @Optional() _parentForm: NgForm,
+    @Optional() _parentFormGroup: FormGroupDirective,
+  ) {
+    this._hostElement = this._el.nativeElement;
+  }
+
+  ngOnInit() {
+    this._renderer.setAttribute(this._hostElement, 'placeholder', '­');
+  }
+
+  ngOnDestroy() {
+    this.stateChanges.complete();
+  }
+
+  /** Focuses the input. */
+  focus(): void { this._hostElement.focus(); }
 
 }

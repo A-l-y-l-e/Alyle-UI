@@ -8,6 +8,15 @@ export const icon = {
 export const field = {
   appearance: {
     outlined: {
+      root: {
+        '&:not({focused}):not({disabled}):hover {fieldset}': {
+          borderColor: 'currentColor'
+        },
+        '&{focused} {fieldset}': {
+          borderWidth: '2px',
+          borderColor: 'inherit'
+        }
+      },
       container: {
         padding: '0 0.75em'
       },
@@ -15,13 +24,6 @@ export const field = {
         borderWidth: '1px',
         borderRadius: '5px',
         padding: '0 .5em'
-      },
-      fieldsetHover: {
-        borderWidth: '1px',
-        borderColor: 'currentColor'
-      },
-      fieldsetFocused: {
-        borderWidth: '2px'
       },
       containerLabelFocused: {
         color: 'currentColor',
@@ -57,6 +59,11 @@ export const field = {
       }
     },
     filled: {
+      root: {
+        '&:not({focused}):not({disabled}) {container}:hover:after': {
+          borderBottomWidth: '1px'
+        }
+      },
       container: {
         borderRadius: '5px 5px 0 0',
         padding: '0 0.75em',
@@ -64,9 +71,6 @@ export const field = {
           borderBottomStyle: 'solid',
           borderBottomColor: 'currentColor',
           borderBottomWidth: '0'
-        },
-        '&:hover:after': {
-          borderBottomWidth: '1px'
         }
       },
       containerFocused: {

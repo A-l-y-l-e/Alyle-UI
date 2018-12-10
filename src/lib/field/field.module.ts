@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyCommonModule } from '@alyle/ui';
-import { LyField } from './field';
-import { LyInputNative } from './input';
+import { LyField, LyInputNative } from './field';
 import { LyPlaceholder } from './placeholder';
 import { LyLabel } from './label';
 import { LyPrefix } from './prefix';

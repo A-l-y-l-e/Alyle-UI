@@ -18,7 +18,10 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     default: '#EA404C',
     contrast
   };
-  disabled = 'rgba(255, 255, 255, 0.30)';
+  disabled = {
+    default: 'rgba(255, 255, 255, 0.30)',
+    contrast: 'rgba(255, 255, 255, 0.50)'
+  };
   background = {
     default: '#303030', // secondary
     primary: {

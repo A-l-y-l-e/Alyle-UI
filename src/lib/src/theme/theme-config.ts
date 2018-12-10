@@ -17,7 +17,7 @@ export interface ThemeConfig {
   primary: DefaultVal & PaletteColor;
   accent: DefaultVal & PaletteColor;
   warn: DefaultVal & PaletteColor;
-  disabled: string;
+  disabled: DefaultVal & PaletteColor;
   background: {
     /** secondary */
     default: string,
@@ -56,11 +56,24 @@ export interface ThemeConfig {
     borderColor: string
     labelColor: string
     appearance: {
-      [appearanceName: string]: {
+      base?: {
+        root?: StyleContainer
         container?: StyleContainer
         fieldset?: StyleContainer
-        fieldsetHover?: StyleContainer
-        fieldsetFocused?: StyleContainer
+        containerFocused?: StyleContainer
+        label?: StyleContainer
+        placeholder?: StyleContainer
+        input?: StyleContainer
+        floatingLabel?: StyleContainer
+        prefix?: StyleContainer
+        infix?: StyleContainer
+        suffix?: StyleContainer
+        hint?: StyleContainer
+      };
+      [appearanceName: string]: {
+        root?: StyleContainer
+        container?: StyleContainer
+        fieldset?: StyleContainer
         containerFocused?: StyleContainer
         label?: StyleContainer
         placeholder?: StyleContainer

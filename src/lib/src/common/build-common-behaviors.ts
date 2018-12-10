@@ -72,7 +72,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
           style.color = theme.text.disabled;
           style.pointerEvents = 'none';
           if (__bg) {
-            style.background = theme.disabled;
+            style.background = theme.disabled.default;
           }
         } else {
           if (__bg) {

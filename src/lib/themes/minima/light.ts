@@ -18,7 +18,6 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     default: '#f5414e',
     contrast
   };
-  disabled = 'rgba(0, 0, 0, 0.11)';
   background = {
     default: '#fafafa', // secondary
     primary: {
@@ -32,6 +31,10 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   paper = {
     default: '#fff',
     shadow
+  };
+  disabled = {
+    default: 'rgba(0, 0, 0, 0.12)',
+    contrast: 'rgba(0, 0, 0, 0.38)'
   };
   text = {
     default: 'rgba(0, 0, 0, 0.87)',
@@ -53,7 +56,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   };
   bar = '#f5f5f5';
   field = mergeDeep({}, field, {
-    borderColor: 'rgba(0, 0, 0, 0.12)',
+    borderColor: 'rgba(0, 0, 0, 0.23)',
     labelColor: 'rgba(0, 0, 0, 0.6)',
     appearance: {
       filled: {
