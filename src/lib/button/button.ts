@@ -55,7 +55,7 @@ mixinBg(
                 mixinDisableRipple(LyButtonBase)))))))));
 
 @Component({
-  selector: '[ly-button]',
+  selector: 'button[ly-button]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'button.html',
   inputs: [
@@ -67,7 +67,10 @@ mixinBg(
     'elevation',
     'shadowColor',
     'disableRipple'
-  ]
+  ],
+  host: {
+    '[disabled]': 'disabled'
+  }
 })
 export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   /**
@@ -191,5 +194,33 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   ngOnDestroy() {
     this._focusState.unlisten(this._el);
     this._removeRippleEvents();
+  }
+}
+
+@Component({
+  selector: 'a[ly-button]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: 'button.html',
+  inputs: [
+    'bg',
+    'color',
+    'raised',
+    'disabled',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple'
+  ]
+})
+export class LyAnchor extends LyButton {
+  constructor(
+    _el: ElementRef,
+    _renderer: Renderer2,
+    _theme: LyTheme2,
+    _ngZone: NgZone,
+    _rippleService: LyRippleService,
+    _focusState: LyFocusState,
+  ) {
+    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState);
   }
 }

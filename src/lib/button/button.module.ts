@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { LyCommonModule } from '@alyle/ui';
-import { LyButton } from './button';
+import { LyButton, LyAnchor } from './button';
 
 @NgModule({
-  exports: [LyButton, LyCommonModule],
-  declarations: [LyButton]
+  exports: [LyCommonModule, LyButton, LyAnchor],
+  declarations: [LyButton, LyAnchor]
 })
 export class LyButtonModule { }
