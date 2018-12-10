@@ -35,10 +35,12 @@ export function mixinDisableRipple<T extends Constructor<RequireParams>>(base: T
         this._removeRippleEvents();
         if (!newVal) {
           // add ripple
-          const rippleContainer = this._rippleContainer.nativeElement;
-          const triggerElement = this._triggerElement.nativeElement;
-          this._ripple = new Ripple(this._theme.config, this._ngZone, this._theme.addStyleSheet(styles), rippleContainer, triggerElement);
-          this._ripple.setConfig(this._rippleConfig);
+          Promise.resolve(null).then(() => {
+            const rippleContainer = this._rippleContainer.nativeElement;
+            const triggerElement = this._triggerElement.nativeElement;
+            this._ripple = new Ripple(this._theme.config, this._ngZone, this._theme.addStyleSheet(styles), rippleContainer, triggerElement);
+            this._ripple.setConfig(this._rippleConfig);
+          });
         }
       }
     }
