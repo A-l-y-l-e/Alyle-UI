@@ -22,7 +22,6 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  SimpleChanges,
   DoCheck
   } from '@angular/core';
 import {
@@ -37,7 +36,6 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   Platform,
-  Placement,
   ThemeVariables,
   AlignAlias,
   YPosition,
