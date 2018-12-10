@@ -547,9 +547,9 @@ export class LyInputNative implements OnInit, OnDestroy {
   ngOnInit() {
     this._renderer.setAttribute(this._hostElement, 'placeholder', '­');
     const ngControl = this.ngControl;
+    // update styles on disabled
     if (ngControl) {
-
-      ngControl.statusChanges.subscribe((va) => {
+      ngControl.statusChanges.subscribe(() => {
         this.disabled = ngControl.disabled;
       });
     }
