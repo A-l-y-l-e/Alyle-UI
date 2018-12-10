@@ -9,4 +9,5 @@ import { FormControl } from '@angular/forms';
 export class BasicFieldComponent {
   hide = true;
   appearance = new FormControl();
+  isDisabled = new FormControl();
 }

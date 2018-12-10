@@ -5,10 +5,16 @@
     <ly-radio value="outlined">Outlined</ly-radio>
     <ly-radio value="filled">Filled</ly-radio>
   </ly-radio-group>
+  <ly-checkbox [formControl]="isDisabled">Is disabled</ly-checkbox>
 </p>
 <p>
   <ly-field [appearance]="appearance.value">
-    <input placeholder="********" [type]="hide ? 'password' : 'text'" value="pass">
+    <input
+      placeholder="********"
+      [type]="hide ? 'password' : 'text'"
+      value="pass"
+      [disabled]="isDisabled.value"
+    >
     <ly-label>Enter your password</ly-label>
     <button ly-button appearance="icon" lySuffix (click)="hide = !hide">
       <ly-icon>{{hide ? 'visibility' : 'visibility_off'}}</ly-icon>
