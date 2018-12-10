@@ -30,7 +30,8 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   ThemeVariables,
-  toBoolean
+  toBoolean,
+  shadowBuilder
   } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
@@ -154,14 +155,7 @@ export class LyCheckboxBase {
 }
 
 /** @docs-private */
-export const LyCheckboxMixinBase = mixinStyleUpdater(
-mixinBg(
-  mixinColor(
-    mixinRaised(
-      mixinOutlined(
-        mixinElevation(
-          mixinShadowColor(
-            mixinDisableRipple(LyCheckboxBase))))))));
+export const LyCheckboxMixinBase = mixinDisableRipple(LyCheckboxBase);
 
 @Component({
   selector: 'ly-checkbox',
@@ -171,12 +165,6 @@ mixinBg(
   providers: [LY_CHECKBOX_CONTROL_VALUE_ACCESSOR],
   exportAs: 'lyCheckbox',
   inputs: [
-    'bg',
-    'color',
-    'raised',
-    'outlined',
-    'elevation',
-    'shadowColor',
     'disableRipple'
   ]
 })
@@ -186,8 +174,8 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
    * @ignore
    */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
-  protected _withColor: string;
-  protected _withColorClass: string;
+  protected _color: string;
+  protected _colorClass: string;
   protected _required: boolean;
   protected _indeterminate: boolean;
   protected _checked: boolean;
@@ -198,17 +186,20 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
   @Input() value: string;
 
   @Input()
-  get withColor(): string {
-    return this._withColor;
+  get color(): string {
+    return this._color;
   }
-  set withColor(val: string) {
-    if (val !== this.withColor) {
-      this._withColor = val;
-      this._withColorClass = this._theme.addStyle(`lyCheckbox.withColor:${val}`, (theme: ThemeVariables) => ({
+  set color(val: string) {
+    if (val !== this.color) {
+      this._color = val;
+      this._colorClass = this._theme.addStyle(`lyCheckbox.color:${val}`, (theme: ThemeVariables) => ({
         [`&.${this.classes.checked} .${this.classes.icon}`]: {
           color: theme.colorOf(val)
+        },
+        [`&{checked}:not({disabled}) {icon}`]: {
+          boxShadow: shadowBuilder(2, theme.colorOf(val))
         }
-      }), this._el.nativeElement, this._withColorClass, STYLE_PRIORITY);
+      }), this._el.nativeElement, this._colorClass, STYLE_PRIORITY, STYLES);
     }
   }
 
@@ -284,9 +275,9 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
 
   ngOnInit() {
     this._renderer.addClass(this._el.nativeElement, this.classes.root);
-    // set default
-    if (!this.withColor) {
-      this.withColor = DEFAULT_WITH_COLOR;
+    // set default color
+    if (!this.color) {
+      this.color = DEFAULT_WITH_COLOR;
     }
   }
 
