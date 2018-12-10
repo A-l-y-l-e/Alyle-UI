@@ -1,18 +1,18 @@
 <h4 lyTyp="title" gutterBottom>Fruits</h4>
-<form [formGroup]="form">
+<form
+  [className]="classes.form"
+  [formGroup]="form"
+>
   <ly-grid container
     justify="between"
     formArrayName="fruits"
     *ngFor="let fruit of fruitsAbstractControlArray; index as i;"
   >
-    <ly-checkbox
-      [withClass]="classes.checkbox"
-      [formControlName]="i"
-    >{{ fruits[i].name }}</ly-checkbox>
+    <ly-checkbox [formControlName]="i">{{ fruits[i].name }}</ly-checkbox>
     <ly-checkbox
       [checked]="fruit.disabled"
       (change)="onDisableChange(fruit, $event.checked, i)"
     >Disabled</ly-checkbox>
   </ly-grid>
 </form>
-<pre>{{ selectedFruits | json }}</pre>
+<pre>selectedFruits: {{ selectedFruits | json }}</pre>

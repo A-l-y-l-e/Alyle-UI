@@ -3,8 +3,9 @@ import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/for
 import { LyTheme2 } from '@alyle/ui';
 
 const styles = ({
-  checkbox: {
-    margingAfter: '1em'
+  form: {
+    maxWidth: '320px',
+    margin: '0 auto'
   }
 });
 
