@@ -196,7 +196,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _selectedIndexClass: string;
   private _tabResizeSub: Subscription;
 
-  private _flexDirection: string;
   @ViewChild('tabs') tabsRef: ElementRef;
   @ViewChild('tabContents') tabContents: ElementRef;
   @ViewChild('tabsIndicator') tabsIndicator: ElementRef;
@@ -225,7 +224,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   set headerPlacement(val: LyTabsHeaderPlacement) {
     if (val !== this.headerPlacement) {
       this._headerPlacement = val;
-      this._flexDirection = this._getFlexDirection(val);
       this._headerPlacementClass = this.theme.addStyle(`lyTabs.headerPlacement:${val}`,
       () => {
         let flexDirectionContainer: string;
