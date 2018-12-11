@@ -42,7 +42,8 @@ import {
   Dir,
   LyRippleService,
   LyFocusState,
-  LY_COMMON_STYLES
+  LY_COMMON_STYLES,
+  ResizeService
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
@@ -193,6 +194,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _textColor: string;
   private _textColorClass: string;
   private _selectedIndexClass: string;
+  private _tabResizeSub: Subscription;
 
   private _flexDirection: string;
   @ViewChild('tabs') tabsRef: ElementRef;
@@ -373,7 +375,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     private theme: LyTheme2,
     private renderer: Renderer2,
     private el: ElementRef,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _resizeService: ResizeService
   ) {
     super(theme);
     this.setAutoContrast();
@@ -412,10 +415,18 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   ngAfterViewInit() {
     this.updateStyle(this.tabsRef.nativeElement);
     this._isViewInitLoaded = true;
+    if (Platform.isBrowser) {
+      this._tabResizeSub = this._resizeService.resize$.subscribe(() => {
+        this._updateIndicator(this._selectedTab);
+      });
+    }
   }
 
   ngOnDestroy() {
     this._tabsSubscription.unsubscribe();
+    if (this._tabResizeSub) {
+      this._tabResizeSub.unsubscribe();
+    }
   }
 
   private _findIndex(selectedIndex: number, index: string | number) {
