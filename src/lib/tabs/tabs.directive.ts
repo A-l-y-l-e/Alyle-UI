@@ -42,11 +42,12 @@ import {
   XPosition,
   Dir,
   LyRippleService,
-  LyFocusState
+  LyFocusState,
+  LY_COMMON_STYLES
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
-import { LyTabsClassesService } from './tabs.clasess.service';
+// import { LyTabsClassesService } from './tabs.clasess.service';
 import { Subscription } from 'rxjs';
 
 const DEFAULT_DISABLE_RIPPLE = false;
@@ -57,6 +58,86 @@ const DEFAULT_ELEVATION = 4;
 const DEFAULT_HEADER_PLACEMENT = 'above';
 export type AlignTabs = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 export type LyTabsHeaderPlacement = 'before' | 'after' | 'above' | 'below';
+
+const styles = (theme: ThemeVariables) => ({
+  root: {
+    display: 'block'
+  },
+  container: {
+    display: 'flex'
+  },
+  tab: {
+    position: 'relative',
+    display: 'inline-flex'
+  },
+  /** Tab content */
+  contentContainer: {
+    overflow: 'hidden',
+    flexGrow: 1
+  },
+  /** Tab header */
+  tabsLabels: {
+    display: 'flex',
+    position: 'relative'
+  },
+  label: {
+    '-webkit-tap-highlight-color': 'transparent',
+    '-webkit-appearance': 'none',
+    backgroundColor: 'transparent',
+    userSelect: 'none',
+    border: 0,
+    minWidth: '72px',
+    padding: '0 24px',
+    cursor: 'pointer',
+    height: '48px',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    overflow: 'hidden',
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.pxToRem(theme.typography.fontSize),
+    letterSpacing: '0.02857em',
+    color: 'currentColor',
+    outline: 'none',
+    width: '100%',
+    fontWeight: 500,
+    opacity: .7,
+    [theme.getBreakpoint('XSmall')]: {
+      padding: '0 12px'
+    }
+  },
+  tabLabelActive: {
+    opacity: 1
+  },
+  tabContents: {
+    display: 'flex',
+    transition: '450ms cubic-bezier(.1, 1, 0.5, 1)',
+    willChange: 'transform',
+    height: '100%'
+  },
+  tabContent: {
+    width: '100%',
+    height: '100%',
+    flexShrink: 0,
+    position: 'relative'
+  },
+  tabsIndicator: {
+    position: 'absolute',
+    height: '2px',
+    transition: '450ms cubic-bezier(.1, 1, 0.5, 1)',
+    background: 'currentColor'
+  },
+  tabsIndicatorForServer: {
+    position: 'absolute',
+    background: 'currentColor'
+  },
+  rippleContainer: {
+    ...LY_COMMON_STYLES.fill,
+    overflow: 'hidden'
+  }
+});
+
 /** @docs-private */
 export class LyTabsBase {
   constructor(
@@ -97,6 +178,8 @@ mixinBg(
   ]
 })
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
+  /** @docs-private */
+  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   _selectedIndex = 0;
   _selectedBeforeIndex: number;
   _selectedTab: LyTab;
@@ -114,7 +197,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _selectedIndexClass: string;
 
   private _flexDirection: string;
-  readonly classes;
   @ViewChild('tabs') tabsRef: ElementRef;
   @ViewChild('tabContents') tabContents: ElementRef;
   @ViewChild('tabsIndicator') tabsIndicator: ElementRef;
@@ -290,14 +372,12 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   @ContentChildren(forwardRef(() => LyTab)) tabsList: QueryList<LyTab>;
 
   constructor(
-    tabsService: LyTabsClassesService,
     private theme: LyTheme2,
     private renderer: Renderer2,
     private el: ElementRef,
     private cd: ChangeDetectorRef
   ) {
     super(theme);
-    this.classes = tabsService.classes;
     this.setAutoContrast();
   }
 
@@ -407,25 +487,18 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 })
 export class LyTab implements OnInit {
   index: number;
-  protected readonly classes;
   @ContentChild(LyTabContent, { read: TemplateRef }) templateRefLazy: TemplateRef<LyTabContent>;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   @ViewChild('tabIndicator') tabIndicator: ElementRef;
-  @HostListener('click') onClick() {
-    this.tabs.selectedIndex = this.index;
-  }
 
   constructor(
-    private tabsService: LyTabsClassesService,
-    private tabs: LyTabs,
+    private _tabs: LyTabs,
     public _renderer: Renderer2,
     public _el: ElementRef
-  ) {
-    this.classes = this.tabsService.classes;
-  }
+  ) { }
 
   ngOnInit() {
-    this._renderer.addClass(this._el.nativeElement, this.classes.tab);
+    this._renderer.addClass(this._el.nativeElement, this._tabs.classes.tab);
   }
 }
 
@@ -450,6 +523,11 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck {
   private _active: boolean;
   protected _isBrowser = Platform.isBrowser;
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
+  @HostListener('click') onClickTab() {
+    if (!this.disabled) {
+      this._tabs.selectedIndex = this._tab.index;
+    }
+  }
   constructor(
     _el: ElementRef,
     _renderer: Renderer2,
@@ -457,7 +535,6 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck {
     _ngZone: NgZone,
     _rippleService: LyRippleService,
     _focusState: LyFocusState,
-    private _tabsService: LyTabsClassesService,
     private _tab: LyTab,
     private _tabs: LyTabs
   ) {
@@ -465,7 +542,7 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this._renderer.addClass(this._el.nativeElement, this._tabsService.classes.label);
+    this._renderer.addClass(this._el.nativeElement, this._tabs.classes.label);
     // set default disable ripple
     if (this.disableRipple === null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
@@ -477,7 +554,7 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck {
       if (this._tabs._selectedIndex === this._tab.index) {
         if (!this._active) {
           this._active = true;
-          this._renderer.addClass(this._el.nativeElement, this._tabsService.classes.tabLabelActive);
+          this._renderer.addClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
           /** Update tab indicator */
           if (Platform.isBrowser) {
             this._tabs._updateIndicator(this._tab);
@@ -485,7 +562,7 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck {
         }
       } else if (this._active) {
         this._active = false;
-        this._renderer.removeClass(this._el.nativeElement, this._tabsService.classes.tabLabelActive);
+        this._renderer.removeClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
       }
     });
   }
