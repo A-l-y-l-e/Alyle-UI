@@ -175,7 +175,7 @@ export class LyTheme2 {
    * @param css style object or string
    * @param priority style priority
    */
-  addSimpleStyle(id: string, css: ((t) => string) | string, priority?: number): string {
+  addSimpleStyle(id: string, css: StyleContainer | ((theme) => StyleContainer), priority?: number): string {
     return this._createStyleContent2(css as any, id, priority, TypeStyle.OnlyOne, false) as string;
   }
   private _addDefaultStyles() {
