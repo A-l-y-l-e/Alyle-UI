@@ -15,7 +15,7 @@
       [shadowColor]="'background:secondary'"
     >
       <ly-tab *ngFor="let file of files; let i = index">
-        <ly-tab-label>{{ file.label }}</ly-tab-label>
+        <button ly-tab-label>{{ file.label }}</button>
         <prism [withClass]="classes.codeContainer" [code]="file.text | async" [language]="file.ext">Loading...</prism>
       </ly-tab>
     </ly-tabs>

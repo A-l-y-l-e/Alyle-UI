@@ -23,7 +23,7 @@ const SELECTOR_APP = 'root-app';
 
 const HOST_DEV = 'http://localhost:1212/';
 const HOST_PROD = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/${AUI_VERSION}/src/app/`;
-const styles = {
+const styles = () => ({
   root: {
     position: 'relative',
     display: 'block',
@@ -45,11 +45,11 @@ const styles = {
   },
   code: {
     position: 'absolute',
-    right: 0,
+    after: 0,
     top: '4px',
     zIndex: 1
   }
-};
+});
 
 @Component({
   selector: 'demo-view',
