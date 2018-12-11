@@ -1,4 +1,4 @@
-import { Directive, OnChanges, ElementRef, NgZone, OnDestroy, Input, OnInit } from '@angular/core';
+import { Directive, OnChanges, ElementRef, NgZone, OnDestroy, Input, OnInit, Renderer2 } from '@angular/core';
 import { LyTheme2 } from './theme2.service';
 import { mixinStyleUpdater, mixinBg, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor, mixinDisableRipple, mixinColor } from '../common/index';
 import { toBoolean } from '../minimal/is-boolean';
@@ -48,7 +48,8 @@ export class LyPaper extends LyPaperMixinBase implements OnChanges, OnInit, OnDe
   constructor(
     theme: LyTheme2,
     ngZone: NgZone,
-    private _el: ElementRef
+    private _el: ElementRef,
+    private _renderer: Renderer2
   ) {
     super(theme, ngZone);
     this.setAutoContrast();
@@ -63,6 +64,13 @@ export class LyPaper extends LyPaperMixinBase implements OnChanges, OnInit, OnDe
   ngOnInit() {
     if (!this.bg && !this.hasText) {
       this.bg = DEFAULT_BG;
+      this.updateStyle(this._el);
+      this._renderer.addClass(this._el.nativeElement, this._theme.addSimpleStyle(
+        'lyPaper',
+        ({
+          display: 'block'
+        })
+        ));
     }
   }
 
