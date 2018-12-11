@@ -6,7 +6,6 @@ import {
   Component,
   ContentChild,
   ContentChildren,
-  Directive,
   ElementRef,
   EventEmitter,
   forwardRef,
@@ -47,7 +46,6 @@ import {
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
-// import { LyTabsClassesService } from './tabs.clasess.service';
 import { Subscription } from 'rxjs';
 
 const DEFAULT_DISABLE_RIPPLE = false;
