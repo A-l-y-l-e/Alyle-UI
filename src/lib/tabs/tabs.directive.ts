@@ -223,77 +223,74 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 
   @Input()
   set headerPlacement(val: LyTabsHeaderPlacement) {
-    this._headerPlacement = val;
-    // let flexDirection: string;
-    // if (val === YPosition.above || val === YPosition.above) {
-    //   flexDirection = 'row';
-    // } else {
-    //   flexDirection = 'column';
-    // }
-    this._flexDirection = this._getFlexDirection(val);
-    this._headerPlacementClass = this.theme.addStyle(`lyTabs.headerPlacement:${val}`,
-    () => {
-      let flexDirectionContainer: string;
-      let flexDirection = this._getFlexDirection(val);
-      let position: string;
-      let height: string = null;
-      let width: string = null;
-      let heightServer: string = null;
-      let widthServer: string = null;
-      switch (val) {
-        case YPosition.above:
-          flexDirectionContainer = 'column';
-          position = YPosition.below;
-          height = '2px';
-          widthServer = '100%';
-          break;
-        case YPosition.below:
-          flexDirectionContainer = 'column-reverse';
-          position = YPosition.above;
-          height = '2px';
-          widthServer = '100%';
-          break;
-        case XPosition.before:
-          flexDirectionContainer = 'row';
-          position = XPosition.after;
-          width = '2px';
-          heightServer = '100%';
-          break;
-        case XPosition.after:
-          flexDirectionContainer = 'row-reverse';
-          position = XPosition.before;
-          width = '2px';
-          heightServer = '100%';
-          break;
+    if (val !== this.headerPlacement) {
+      this._headerPlacement = val;
+      this._flexDirection = this._getFlexDirection(val);
+      this._headerPlacementClass = this.theme.addStyle(`lyTabs.headerPlacement:${val}`,
+      () => {
+        let flexDirectionContainer: string;
+        let flexDirection = this._getFlexDirection(val);
+        let position: string;
+        let height: string = null;
+        let width: string = null;
+        let heightServer: string = null;
+        let widthServer: string = null;
+        switch (val) {
+          case YPosition.above:
+            flexDirectionContainer = 'column';
+            position = YPosition.below;
+            height = '2px';
+            widthServer = '100%';
+            break;
+          case YPosition.below:
+            flexDirectionContainer = 'column-reverse';
+            position = YPosition.above;
+            height = '2px';
+            widthServer = '100%';
+            break;
+          case XPosition.before:
+            flexDirectionContainer = 'row';
+            position = XPosition.after;
+            width = '2px';
+            heightServer = '100%';
+            break;
+          case XPosition.after:
+            flexDirectionContainer = 'row-reverse';
+            position = XPosition.before;
+            width = '2px';
+            heightServer = '100%';
+            break;
 
-        default:
-          throw new Error(`LyTabs: value:${val} do not is valid for \`headerPlacement\``);
-      }
-      if (val === YPosition.above || val === YPosition.below) {
-        flexDirection = 'row';
-      } else {
-        flexDirection = 'column';
-      }
-      return {
-        [`.${this.classes.container}`]: {
-          flexDirection: flexDirectionContainer
-        },
-        [`& .${this.classes.tabsIndicator},& .${this.classes.tabsIndicatorForServer}`]: {
-          [position]: 0,
-          height,
-          width
-        },
-        [`.${this.classes.tabsIndicatorForServer}`]: {
-          width: widthServer,
-          height: heightServer
-        },
-        [`& .${this.classes.tabsLabels},& .${this.classes.tabContents}`]: { flexDirection },
-        [`.${this.classes.tabContents}`]: { flexDirection }
-      };
-    },
-    this.el.nativeElement,
-    this._headerPlacementClass,
-    STYLE_PRIORITY);
+          default:
+            throw new Error(`LyTabs: value:${val} do not is valid for \`headerPlacement\``);
+        }
+        if (val === YPosition.above || val === YPosition.below) {
+          flexDirection = 'row';
+        } else {
+          flexDirection = 'column';
+        }
+        return {
+          [`.${this.classes.container}`]: {
+            flexDirection: flexDirectionContainer
+          },
+          [`& .${this.classes.tabsIndicator},& .${this.classes.tabsIndicatorForServer}`]: {
+            [position]: 0,
+            height,
+            width
+          },
+          [`.${this.classes.tabsIndicatorForServer}`]: {
+            width: widthServer,
+            height: heightServer
+          },
+          [`& .${this.classes.tabsLabels},& .${this.classes.tabContents}`]: { flexDirection },
+          [`.${this.classes.tabContents}`]: { flexDirection }
+        };
+      },
+      this.el.nativeElement,
+      this._headerPlacementClass,
+      STYLE_PRIORITY);
+      this._updateStylesOfSelectedTab();
+    }
   }
   get headerPlacement() {
     return this._headerPlacement;
@@ -344,24 +341,13 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   set selectedIndex(val: number) {
     if (val !== this.selectedIndex) {
       this._selectedBeforeIndex = this._selectedIndex as number;
-      const index = this._selectedIndex = this._findIndex(val, 'auto');
+      this._selectedIndex = this._findIndex(val, 'auto');
       this._selectedBeforeTab = this._selectedTab;
       this.selectedIndexChange.emit(this._selectedIndex);
       this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
       this._markForCheck();
       Promise.resolve(null).then(() => {
-        const placement = this.headerPlacement;
-        this._selectedIndexClass = this._theme.addStyle(`lyTabs.selectedIndex:${index}+${placement}`, (theme: ThemeVariables) => {
-          let sign = 1;
-          const position = this._getFlexDirection(placement) === 'column' ? 'Y' : 'X';
-          if (theme.direction === Dir.ltr || position === 'Y') {
-            sign = -1;
-          }
-          return {
-            transform: `translate${position}(${index * 100 * sign}%)`
-          };
-        }, this.tabContents.nativeElement, this._selectedIndexClass, STYLE_PRIORITY);
-        this.renderer.addClass(this.tabContents.nativeElement, this._selectedIndexClass);
+        this._updateStylesOfSelectedTab();
       });
     }
   }
@@ -472,6 +458,22 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
         }
       }
     }
+  }
+
+  private _updateStylesOfSelectedTab() {
+    const index = this._selectedIndex;
+    const placement = this.headerPlacement;
+    this._selectedIndexClass = this._theme.addStyle(`lyTabs.selectedIndex:${index}+${placement}`, (theme: ThemeVariables) => {
+      let sign = 1;
+      const position = this._getFlexDirection(placement) === 'column' ? 'Y' : 'X';
+      if (theme.direction === Dir.ltr || position === 'Y') {
+        sign = -1;
+      }
+      return {
+        transform: `translate${position}(${index * 100 * sign}%)`
+      };
+    }, this.tabContents.nativeElement, this._selectedIndexClass, STYLE_PRIORITY);
+    this.renderer.addClass(this.tabContents.nativeElement, this._selectedIndexClass);
   }
 
   _markForCheck() {
