@@ -547,7 +547,7 @@ export class LyTab implements OnInit {
 })
 export class LyTabLabel extends LyButton implements OnInit, DoCheck {
   private _active: boolean;
-  protected _isBrowser = Platform.isBrowser;
+  _isBrowser = Platform.isBrowser;
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   @HostListener('click') onClickTab() {
     if (!this.disabled) {
