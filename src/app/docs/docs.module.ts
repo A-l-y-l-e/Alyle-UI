@@ -86,6 +86,7 @@ import { MenuDemo01Module } from './components/menu-demo/menu-demo-01/menu-demo-
 /** Avatar */
 import { AvatarDemoComponent } from './components/avatar-demo/avatar-demo.component';
 import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avatar/basic-uses-avatar.module';
+import { TabsAlignModule } from './layout/tabs-demo/tabs-align/tabs-align.module';
 
 
 @NgModule({
@@ -109,6 +110,7 @@ import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avata
     BasicTabsModule,
     TabsWithLazyLoadingModule,
     TabsWithAsynchronouslyLoadingModule,
+    TabsAlignModule,
     /** Dynamic style */
     DsBasicModule,
     /** Button */
