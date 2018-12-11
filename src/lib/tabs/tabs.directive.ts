@@ -302,12 +302,12 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this._alignTabsClass = this.theme.addStyle(`lyAlignTabs: ${val}`,
     (
       val === 'stretch' ? {
-        [`&>.${this.classes.tabsLabels} .${this.classes.tab}`]: {
+        [`& .${this.classes.tabsLabels} .${this.classes.tab}`]: {
           flexBasis: 0,
           flexGrow: 1
         }
       } : {
-        [`&>.${this.classes.tabsLabels}`]: {
+        [`& .${this.classes.tabsLabels}`]: {
           justifyContent: val in AlignAlias ? AlignAlias[val] : val
         }
       }
