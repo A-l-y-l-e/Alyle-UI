@@ -22,6 +22,8 @@ import { TabsDemoComponent } from '@docs/layout/tabs-demo/tabs-demo.component';
 import { BasicTabsModule } from '@docs/layout/tabs-demo/basic-tabs/basic-tabs.module';
 import { TabsWithAsynchronouslyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-asynchronously-loading/tabs-with-asynchronously-loading.module';
 import { TabsWithLazyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
+import { TabsAlignModule } from './layout/tabs-demo/tabs-align/tabs-align.module';
+import { TabsWithIconModule } from './layout/tabs-demo/tabs-with-icon/tabs-with-icon.module';
 
 /** Components */
 /** Button */
@@ -86,7 +88,6 @@ import { MenuDemo01Module } from './components/menu-demo/menu-demo-01/menu-demo-
 /** Avatar */
 import { AvatarDemoComponent } from './components/avatar-demo/avatar-demo.component';
 import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avatar/basic-uses-avatar.module';
-import { TabsAlignModule } from './layout/tabs-demo/tabs-align/tabs-align.module';
 
 
 @NgModule({
@@ -111,6 +112,7 @@ import { TabsAlignModule } from './layout/tabs-demo/tabs-align/tabs-align.module
     TabsWithLazyLoadingModule,
     TabsWithAsynchronouslyLoadingModule,
     TabsAlignModule,
+    TabsWithIconModule,
     /** Dynamic style */
     DsBasicModule,
     /** Button */
