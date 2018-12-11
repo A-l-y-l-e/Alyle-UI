@@ -1,0 +1,21 @@
+<p>
+  <ly-radio-group #_placement="lyRadioGroup">
+    <ly-radio value="above" checked>Above</ly-radio>
+    <ly-radio value="below">Below</ly-radio>
+    <ly-radio value="before">Before</ly-radio>
+    <ly-radio value="after">After</ly-radio>
+  </ly-radio-group>
+</p>
+
+<ly-paper>
+  <ly-tabs [headerPlacement]="_placement.value">
+    <ly-tab>
+      <button ly-tab-label>Item One</button>
+      <div [className]="classes.content" lyTyp="body1">Item One</div>
+    </ly-tab>
+    <ly-tab>
+      <button ly-tab-label>Item Two</button>
+      <div [className]="classes.content" lyTyp="body1">Item Two</div>
+    </ly-tab>
+  </ly-tabs>
+</ly-paper>

@@ -24,6 +24,7 @@ import { TabsWithAsynchronouslyLoadingModule } from '@docs/layout/tabs-demo/tabs
 import { TabsWithLazyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
 import { TabsAlignModule } from './layout/tabs-demo/tabs-align/tabs-align.module';
 import { TabsWithIconModule } from './layout/tabs-demo/tabs-with-icon/tabs-with-icon.module';
+import { TabsPlacementModule } from './layout/tabs-demo/tabs-placement/tabs-placement.module';
 
 /** Components */
 /** Button */
@@ -113,6 +114,7 @@ import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avata
     TabsWithAsynchronouslyLoadingModule,
     TabsAlignModule,
     TabsWithIconModule,
+    TabsPlacementModule,
     /** Dynamic style */
     DsBasicModule,
     /** Button */
