@@ -4,7 +4,7 @@
 <div ly-paper bg="background:primary">
   <ly-tabs>
     <ly-tab *ngFor="let tab of asyncTabs | async">
-      <ly-tab-label>{{ tab.label }}</ly-tab-label>
+      <button ly-tab-label>{{ tab.label }}</button>
       <div [style.padding.px]="24">{{ tab.content }}</div>
     </ly-tab>
   </ly-tabs>
