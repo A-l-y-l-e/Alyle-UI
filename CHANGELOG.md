@@ -1,3 +1,60 @@
+<a name="1.9.5"></a>
+## [1.9.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.4...1.9.5) (2018-12-11)
+
+
+### Bug Fixes
+
+* **button:** change property private to protected ([ee6901e](https://github.com/A-l-y-l-e/Alyle-UI/commit/ee6901e))
+* **button:** fix dynamic disabled button ([4203625](https://github.com/A-l-y-l-e/Alyle-UI/commit/4203625))
+* **checkbox:** fix change event ([81755ba](https://github.com/A-l-y-l-e/Alyle-UI/commit/81755ba))
+* **checkbox:** fix disabled state ([b28abbc](https://github.com/A-l-y-l-e/Alyle-UI/commit/b28abbc))
+* **core:** fix ripple with `viewChild` element ([3664757](https://github.com/A-l-y-l-e/Alyle-UI/commit/3664757))
+* **css-in-ts:** support for styles with value `null` ([b38d049](https://github.com/A-l-y-l-e/Alyle-UI/commit/b38d049))
+* **field:** fix selector for input native ([3bc3d92](https://github.com/A-l-y-l-e/Alyle-UI/commit/3bc3d92))
+* **field:** fix styles for disabled input ([45fee48](https://github.com/A-l-y-l-e/Alyle-UI/commit/45fee48))
+* **grid:** fix key style for `alignItems` ([3b72817](https://github.com/A-l-y-l-e/Alyle-UI/commit/3b72817))
+* **paper:** fix default style ([416f53b](https://github.com/A-l-y-l-e/Alyle-UI/commit/416f53b))
+* **tabs:** fix `alignTabs` ([a4e2b6a](https://github.com/A-l-y-l-e/Alyle-UI/commit/a4e2b6a))
+* **tabs:** fix `headerPlacement` when change value ([e12ef53](https://github.com/A-l-y-l-e/Alyle-UI/commit/e12ef53))
+* **tabs:** fix placement of tab when value is set in `selectedIndex` ([8489345](https://github.com/A-l-y-l-e/Alyle-UI/commit/8489345))
+* **tabs:** fix tabs in direction rtl ([73c3b3e](https://github.com/A-l-y-l-e/Alyle-UI/commit/73c3b3e))
+* **tabs:** fix tabs in multiple themes ([04c7ffd](https://github.com/A-l-y-l-e/Alyle-UI/commit/04c7ffd))
+* **tabs:** fix the contents of the tab when changing `headerPlacement` ([3bff100](https://github.com/A-l-y-l-e/Alyle-UI/commit/3bff100))
+* **tabs:** use `LyButton` with `LyTabLabel` ([eccad38](https://github.com/A-l-y-l-e/Alyle-UI/commit/eccad38))
+* **typography:** change `fontSize` to string ([49430ca](https://github.com/A-l-y-l-e/Alyle-UI/commit/49430ca))
+
+
+### Features
+
+* **checkbox:** add elevation ([de87773](https://github.com/A-l-y-l-e/Alyle-UI/commit/de87773))
+* **core:** add `AlignAlias` ([e01eae6](https://github.com/A-l-y-l-e/Alyle-UI/commit/e01eae6))
+* **core:** add property `ly-text` ([430fccb](https://github.com/A-l-y-l-e/Alyle-UI/commit/430fccb))
+* **css-in-ts:** add info style in dev mode ([8996203](https://github.com/A-l-y-l-e/Alyle-UI/commit/8996203))
+* **css-in-ts:** add param `parentStyle` to `addStyle` ([b8432f8](https://github.com/A-l-y-l-e/Alyle-UI/commit/b8432f8))
+* **tab:** add `headerPlacement, textColor, indicatorColor & alignTabs` ([a8ff27f](https://github.com/A-l-y-l-e/Alyle-UI/commit/a8ff27f))
+* **tabs:** update tab indicator on resize ([23fffd7](https://github.com/A-l-y-l-e/Alyle-UI/commit/23fffd7))
+
+
+### BREAKING CHANGES
+
+* **field:** before:
+
+```html
+<ly-field>
+  <input>
+</ly-field>
+```
+
+after:
+
+```html
+<ly-field>
+  <input lyInput>
+</ly-field>
+```
+
+
+
 <a name="1.9.4"></a>
 ## [1.9.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.3...1.9.4) (2018-12-07)
 
