@@ -134,8 +134,8 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   constructor(
-    private _el: ElementRef,
-    private _renderer: Renderer2,
+    protected _el: ElementRef,
+    protected _renderer: Renderer2,
     _theme: LyTheme2,
     _ngZone: NgZone,
     public _rippleService: LyRippleService,
@@ -144,7 +144,6 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     super(_theme, _ngZone);
     this.setAutoContrast();
     this._triggerElement = _el;
-    this._renderer.addClass(this._el.nativeElement, this.classes.root);
     if (Platform.FIREFOX) {
       this._theme.addStyle('button-ff', {
         '&::-moz-focus-inner,&::-moz-focus-inner,&::-moz-focus-inner,&::-moz-focus-inner': {
@@ -158,6 +157,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngOnInit() {
+    this._renderer.addClass(this._el.nativeElement, this.classes.root);
     if (!this.size && !this.appearance) {
       this.size = DEFAULT_SIZE;
     }
