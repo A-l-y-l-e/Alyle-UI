@@ -46,7 +46,7 @@ const tabsStyles = (theme: ThemeVariables) => ({
     fontWeight: 500,
     opacity: .7,
     [theme.getBreakpoint('XSmall')]: {
-      padding: '0 8px'
+      padding: '0 12px'
     }
   },
   tabLabelActive: {

@@ -40,8 +40,11 @@ import {
   AlignAlias,
   YPosition,
   XPosition,
-  Dir
+  Dir,
+  LyRippleService,
+  LyFocusState
   } from '@alyle/ui';
+import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
 import { LyTabsClassesService } from './tabs.clasess.service';
 import { Subscription } from 'rxjs';
@@ -402,7 +405,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class LyTab implements OnInit, AfterViewInit {
+export class LyTab implements OnInit {
   index: number;
   protected readonly classes;
   @ContentChild(LyTabContent, { read: TemplateRef }) templateRefLazy: TemplateRef<LyTabContent>;
@@ -424,41 +427,45 @@ export class LyTab implements OnInit, AfterViewInit {
   ngOnInit() {
     this._renderer.addClass(this._el.nativeElement, this.classes.tab);
   }
-
-  ngAfterViewInit() {
-    // this._renderer.addClass(this.tabIndicator.nativeElement, this.classes.tabsIndicator);
-  }
 }
 
 @Component({
-  selector: 'ly-tab-label, [ly-tab-label]',
-  template: '<ng-content></ng-content><span *ngIf="_isBrowser" [className]="classes.rippleContainer" #rippleContainer></span>'
+  selector: 'button[ly-tab-label]',
+  templateUrl: 'tab-label.html',
+  inputs: [
+    'bg',
+    'color',
+    'raised',
+    'disabled',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple'
+  ],
+  host: {
+    '[disabled]': 'disabled'
+  }
 })
-export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit, DoCheck, OnDestroy {
-  readonly classes = this._tabsService.classes;
+export class LyTabLabel extends LyButton implements OnInit, DoCheck {
   private _active: boolean;
   protected _isBrowser = Platform.isBrowser;
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   constructor(
-    private renderer: Renderer2,
-    private _el: ElementRef,
-    private _tabsService: LyTabsClassesService,
-    _ngZone: NgZone,
+    _el: ElementRef,
+    _renderer: Renderer2,
     _theme: LyTheme2,
+    _ngZone: NgZone,
+    _rippleService: LyRippleService,
+    _focusState: LyFocusState,
+    private _tabsService: LyTabsClassesService,
     private _tab: LyTab,
     private _tabs: LyTabs
   ) {
-    super(_theme, _ngZone);
-    this.setAutoContrast();
-    this._triggerElement = _el;
-  }
-
-  ngOnChanges() {
-    this.updateStyle(this._el);
+    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState);
   }
 
   ngOnInit() {
-    this.renderer.addClass(this._el.nativeElement, this._tabsService.classes.label);
+    this._renderer.addClass(this._el.nativeElement, this._tabsService.classes.label);
     // set default disable ripple
     if (this.disableRipple === null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
@@ -470,7 +477,7 @@ export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit
       if (this._tabs._selectedIndex === this._tab.index) {
         if (!this._active) {
           this._active = true;
-          this.renderer.addClass(this._el.nativeElement, this._tabsService.classes.tabLabelActive);
+          this._renderer.addClass(this._el.nativeElement, this._tabsService.classes.tabLabelActive);
           /** Update tab indicator */
           if (Platform.isBrowser) {
             this._tabs._updateIndicator(this._tab);
@@ -478,13 +485,9 @@ export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit
         }
       } else if (this._active) {
         this._active = false;
-        this.renderer.removeClass(this._el.nativeElement, this._tabsService.classes.tabLabelActive);
+        this._renderer.removeClass(this._el.nativeElement, this._tabsService.classes.tabLabelActive);
       }
     });
-  }
-
-  ngOnDestroy() {
-    this._removeRippleEvents();
   }
 }
 
@@ -492,11 +495,11 @@ export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit
  * demo basic
  * <ly-tabs withColor="accent">
  *   <ly-tab>
- *     <ly-tab-label>HOME<ly-tab-label>
+ *     <button ly-tab-label>HOME</button>
  *     Content
  *   </ly-tab>
  *   <ly-tab>
- *     <button ly-tab-label>HOME<button>
+ *     <button ly-tab-label>HOME</button>
  *     Content
  *   </ly-tab>
  *   ...
@@ -505,7 +508,7 @@ export class LyTabLabel extends LyTabLabelMixinBase implements OnChanges, OnInit
  * demo lazy loading
  * <ly-tabs withBg="primary">
  *   <ly-tab>
- *     <ly-tab-label>HOME<ly-tab-label>
+ *     <button ly-tab-label>HOME</button>
  *     <ng-template ly-tab-content></ng-template>
  *   </ly-tab>
  *   ...
