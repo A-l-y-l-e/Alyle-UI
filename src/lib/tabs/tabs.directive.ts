@@ -348,27 +348,25 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this._selectedBeforeTab = this._selectedTab;
       this.selectedIndexChange.emit(this._selectedIndex);
       this._updateIndicator(this._selectedTab, this._selectedBeforeTab);
-
       this._markForCheck();
-      // const position = this._flexDirection === 'column' ? 'Y' : 'X';
-      const placement = this.headerPlacement;
-      this._selectedIndexClass = this._theme.addStyle(`lyTabs.selectedIndex:${index}+${placement}`, (theme: ThemeVariables) => {
-        let sign = 1;
-        const position = this._getFlexDirection(placement) === 'column' ? 'Y' : 'X';
-        if (theme.direction === Dir.ltr || position === 'Y') {
-          sign = -1;
-        }
-        return {
-          transform: `translate${position}(${index * 100 * sign}%)`
-        };
-      }, this.tabContents.nativeElement, this._selectedIndexClass, STYLE_PRIORITY);
       Promise.resolve(null).then(() => {
+        const placement = this.headerPlacement;
+        this._selectedIndexClass = this._theme.addStyle(`lyTabs.selectedIndex:${index}+${placement}`, (theme: ThemeVariables) => {
+          let sign = 1;
+          const position = this._getFlexDirection(placement) === 'column' ? 'Y' : 'X';
+          if (theme.direction === Dir.ltr || position === 'Y') {
+            sign = -1;
+          }
+          return {
+            transform: `translate${position}(${index * 100 * sign}%)`
+          };
+        }, this.tabContents.nativeElement, this._selectedIndexClass, STYLE_PRIORITY);
         this.renderer.addClass(this.tabContents.nativeElement, this._selectedIndexClass);
       });
     }
   }
   get selectedIndex() {
-    return this._selectedIndex as number;
+    return this._selectedIndex;
   }
 
   @Output() selectedIndexChange: EventEmitter<any> = new EventEmitter();
