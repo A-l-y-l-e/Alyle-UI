@@ -27,7 +27,7 @@ const styles = () => ({
   root: {
     position: 'relative',
     display: 'block',
-    '>ly-paper': {
+    '> div > ly-paper': {
       display: 'block'
     }
   },
