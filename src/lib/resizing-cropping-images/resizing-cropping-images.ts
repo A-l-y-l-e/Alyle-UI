@@ -533,6 +533,12 @@ export class LyResizingCroppingImages {
           .subscribe(() => this._ngZone.run(() => {
             this.isLoaded = false;
 
+            if (fn) {
+              fn();
+            } else {
+              this.setScale(0, true);
+            }
+
             this.loaded.emit(cropEvent);
             this.isLoaded = true;
             this._cropIfAutoCrop();
