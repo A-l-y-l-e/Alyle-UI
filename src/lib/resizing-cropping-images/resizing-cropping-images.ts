@@ -307,7 +307,7 @@ export class LyResizingCroppingImages {
     size = size >= this.minScale && size <= 1 ? size : this.minScale;
 
     // check
-    const changed = size !== this.scale;
+    const changed = this.scale != null && size !== this.scale;
     this._scale = size;
     size = this._scal3Fix = size;
     if (this.isLoaded) {
@@ -463,7 +463,7 @@ export class LyResizingCroppingImages {
   clean() {
     this._imgRect = { } as any;
     this.offset = null;
-    this.scale = null;
+    this._scale = null;
     this._scal3Fix = null;
     this._rotation = 0;
     this._minScale = null;
@@ -495,11 +495,16 @@ export class LyResizingCroppingImages {
     this._cropIfAutoCrop();
   }
 
-  /** Set Img */
-  setImageUrl(src: string) {
+/**
+ * Load Image from URL
+ * @param src URL
+ * @param fn function that will be called before emit the event loaded
+ */
+  setImageUrl(src: string, fn?: () => void) {
     this.clean();
     this._originalImgBase64 = src;
     const img = new Image;
+    img.crossOrigin = 'anonymous';
     const cropEvent: ImgCropperEvent = {
       name: this._fileName,
       type: this._defaultType,
@@ -527,7 +532,7 @@ export class LyResizingCroppingImages {
           .pipe(take(1))
           .subscribe(() => this._ngZone.run(() => {
             this.isLoaded = false;
-            this.setScale(0, true);
+
             this.loaded.emit(cropEvent);
             this.isLoaded = true;
             this._cropIfAutoCrop();
@@ -639,6 +644,7 @@ export class LyResizingCroppingImages {
   crop(config?: ImgCropperConfig): ImgCropperEvent {
     const newConfig = config ? mergeDeep({}, this.config || CONFIG_DEFAULT, config) : this.config;
     const cropEvent = this._imgCrop(newConfig);
+    this.cd.markForCheck();
     return cropEvent;
   }
 
