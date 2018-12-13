@@ -1,8 +1,9 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ChangeDetectionStrategy } from '@angular/core';
-import { Platform, LyTheme2, ThemeVariables } from '@alyle/ui';
+import { Platform, LyTheme2 } from '@alyle/ui';
 import { PrismService } from './prism.service';
 
 import * as _chroma from 'chroma-js';
+import { AUIThemeVariables } from '../../app.module';
 const chroma = _chroma;
 
 const Prism = require('prismjs');
@@ -83,7 +84,7 @@ const GLOBAL_STYLES = {
   }
 };
 
-const classes = theme => ({
+const classes = (theme: AUIThemeVariables) => ({
   root: {
     color: theme.codeColor,
     backgroundColor: theme.codeBg,
@@ -116,10 +117,12 @@ const classes = theme => ({
   }
 });
 
-const STYLES = (theme: ThemeVariables) => ({
+const STYLES = (theme: AUIThemeVariables) => ({
   token: {
+    color: theme.prism.colorText,
     '&{keyword}, &{selector-tag}, &{title}, &{section}, &{doctag}, &{name}, &{strong}': {
-      color: theme.accent.default
+      color: theme.prism.keyword,
+      fontWeight: '600'
     },
     '&{comment}': {
       color: 'rgba(115, 129, 145, 0.65)'
@@ -136,26 +139,23 @@ const STYLES = (theme: ThemeVariables) => ({
     '&{function}': {
       color: '#4584ff'
     },
-    '&{tag} > {punctuation}, &{attr-value} > {punctuation}:first-child': {
-      color: '#39ADB5'
-    },
     '&{attr-name}': {
       color: '#FFB62C'
     },
     '&{attr-value}': {
-      color: '#7c4dff'
+      color: theme.prism.keyword
     },
     '&{string}': {
-      color: '#8BC34A'
+      color: theme.prism.string
     },
     '&{number}': {
       color: 'rgb(36, 212, 158)'
     },
     '&{punctuation}, &{operator}': {
-      color: '#7c4dff'
+      color: '#9786c5'
     },
     '&{class-name}': {
-      color: theme.primary.default
+      color: chroma(theme.accent.default).alpha(.88).css()
     },
     '&{constant}': {
       color: '#EF5350'

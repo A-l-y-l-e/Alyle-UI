@@ -57,6 +57,11 @@ export class CustomMinimaLight extends MinimaLight {
   codeBg = '#fff';
   myColor = 'pink';
   drawerButton = '#5f6368';
+  prism = {
+    colorText: '#626682',
+    string: '#27b98f',
+    keyword: '#7c4dff'
+  };
 }
 
 export class CustomMinimaDark extends MinimaDark {
@@ -65,6 +70,11 @@ export class CustomMinimaDark extends MinimaDark {
   codeBg = '#1b1b1b';
   myColor = 'teal';
   drawerButton = '#abafb5';
+  prism = {
+    colorText: '#ebebef',
+    string: '#89b72c',
+    keyword: '#3cd2ad'
+  };
 }
 
 export class GlobalVariables {
@@ -76,6 +86,8 @@ export class GlobalVariables {
     contrast: 'rgba(0, 0, 0, 0.87)'
   };
 }
+
+export type AUIThemeVariables = CustomMinimaLight & CustomMinimaDark & GlobalVariables;
 
 @NgModule({
   declarations: [
