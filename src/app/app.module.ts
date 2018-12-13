@@ -57,6 +57,7 @@ export class CustomMinimaLight extends MinimaLight {
   codeBg = '#fff';
   myColor = 'pink';
   drawerButton = '#5f6368';
+  demoBg = '#c7c7c7';
   prism = {
     colorText: '#626682',
     string: '#27b98f',
@@ -70,6 +71,7 @@ export class CustomMinimaDark extends MinimaDark {
   codeBg = '#1b1b1b';
   myColor = 'teal';
   drawerButton = '#abafb5';
+  demoBg = '#070707';
   prism = {
     colorText: '#ebebef',
     string: '#89b72c',
