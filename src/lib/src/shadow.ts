@@ -45,7 +45,12 @@ export function shadowBuilderDeprecated(elevation: number | string = 2, color = 
 }
 
 export function shadowBuilder(elevation: number | string, color?: string) {
-  const Color = chroma(color || '#000').darken().saturate(2);
+  let Color = chroma(color || '#000');
+  const rgb = Color.get('rgb') as any as number[];
+  if (!(rgb[0] === rgb[1] && rgb[0] === rgb[2])) {
+    // Darken and saturate if the color is not in the grayscale
+    Color = Color.darken().saturate(2);
+  }
   const colors = [
     Color.alpha(shadowKeyUmbraOpacity).css(),
     Color.alpha(shadowKeyPenumbraOpacity).css(),
