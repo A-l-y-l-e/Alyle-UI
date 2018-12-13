@@ -1,3 +1,22 @@
+<a name="1.9.6"></a>
+## [1.9.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.5...1.9.6) (2018-12-13)
+
+
+### Bug Fixes
+
+* **carousel:** do not change image when the touch is very fast ([53d52be](https://github.com/A-l-y-l-e/Alyle-UI/commit/53d52be))
+* **core:** only darken and saturate if the color is not in the grayscale ([0c4d48d](https://github.com/A-l-y-l-e/Alyle-UI/commit/0c4d48d))
+* **img-cropper:** do not emit event when run `clean()` ([ca0d7c4](https://github.com/A-l-y-l-e/Alyle-UI/commit/ca0d7c4))
+* **img-cropper:** fix img cropper with ChangeDetectionStrategy.Default ([26a211d](https://github.com/A-l-y-l-e/Alyle-UI/commit/26a211d))
+* **tabs:** fix infinite loop with `ChangeDetectionStrategy.Deafult` ([23ff254](https://github.com/A-l-y-l-e/Alyle-UI/commit/23ff254))
+
+
+### Features
+
+* **img-cropper:** add param to `setImageUrl` ([45234ff](https://github.com/A-l-y-l-e/Alyle-UI/commit/45234ff))
+
+
+
 <a name="1.9.5"></a>
 ## [1.9.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.4...1.9.5) (2018-12-11)
 
