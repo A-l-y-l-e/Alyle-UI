@@ -48,7 +48,7 @@
     "@angular/service-worker": "^7.1.0",
     "@nguniversal/express-engine": "^7.0.2",
     "@nguniversal/module-map-ngfactory-loader": "^7.0.2",
-    "chroma-js": "^1.3.7",
+    "chroma-js": "^2.0.2",
     "core-js": "^2.5.7",
     "express": "^4.16.3",
     "hammerjs": "^2.0.8",
