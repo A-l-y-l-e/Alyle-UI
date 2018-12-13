@@ -21,7 +21,8 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  DoCheck
+  DoCheck,
+  Optional
   } from '@angular/core';
 import {
   LyTheme2,
@@ -543,8 +544,9 @@ export class LyTab implements OnInit {
     '[disabled]': 'disabled'
   }
 })
-export class LyTabLabel extends LyButton implements OnInit, DoCheck {
+export class LyTabLabel extends LyButton implements OnInit, DoCheck, AfterViewInit {
   private _active: boolean;
+  private isAfterViewInit: boolean;
   _isBrowser = Platform.isBrowser;
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   @HostListener('click') onClickTab() {
@@ -559,8 +561,8 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck {
     _ngZone: NgZone,
     _rippleService: LyRippleService,
     _focusState: LyFocusState,
-    private _tab: LyTab,
-    private _tabs: LyTabs
+    @Optional() private _tab: LyTab,
+    @Optional() private _tabs: LyTabs
   ) {
     super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState);
   }
@@ -574,7 +576,7 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    Promise.resolve(null).then(() => {
+    if (this.isAfterViewInit) {
       if (this._tabs._selectedIndex === this._tab.index) {
         if (!this._active) {
           this._active = true;
@@ -588,7 +590,11 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck {
         this._active = false;
         this._renderer.removeClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
       }
-    });
+    }
+  }
+
+  ngAfterViewInit() {
+    this.isAfterViewInit = true;
   }
 }
 
