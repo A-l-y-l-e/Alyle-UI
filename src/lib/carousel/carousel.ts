@@ -231,10 +231,12 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
       }
     } else if (e.additionalEvent) {
       const eventName = e.additionalEvent;
-      if (eventName === 'slideleft') {
-        this.next();
-      } else if (eventName === 'slideright') {
-        this.prev();
+      if (Math.abs(e.velocity) >= 0.25) {
+        if (eventName === 'slideleft') {
+          this.next();
+        } else if (eventName === 'slideright') {
+          this.prev();
+        }
       }
     }
     this._resetInterval();
