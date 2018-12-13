@@ -304,12 +304,15 @@ export class LyResizingCroppingImages {
   /** Set the size of the image, the values can be 0 between 1, where 1 is the original size */
   setScale(size: number, noAutoCrop?: boolean) {
     // fix min scale
-    size = size >= this.minScale && size <= 1 ? size : this.minScale;
+    const newSize = size >= this.minScale && size <= 1 ? size : this.minScale;
 
     // check
-    const changed = this.scale != null && size !== this.scale;
+    const changed = size != null && size !== this.scale && newSize !== this.scale;
     this._scale = size;
-    size = this._scal3Fix = size;
+    if (!changed) {
+      return;
+    }
+    this._scal3Fix = newSize;
     if (this.isLoaded) {
       if (changed) {
         const originPosition = {...this._imgRect};
@@ -336,10 +339,11 @@ export class LyResizingCroppingImages {
       return;
     }
 
-    this.scaleChange.emit(this._scale);
+    this.scaleChange.emit(size);
     if (!noAutoCrop) {
       this._cropIfAutoCrop();
     }
+
   }
 
   private _getCenterPoints() {
@@ -372,7 +376,7 @@ export class LyResizingCroppingImages {
   }
 
   fit() {
-    this.setScale(0);
+    this.setScale(this.minScale);
   }
 
   _moveStart() {
@@ -386,7 +390,7 @@ export class LyResizingCroppingImages {
   _move(event) {
     let x, y;
     const canvas = this._imgCanvas.nativeElement;
-    const scaleFix = this._scale;
+    const scaleFix = this._scal3Fix;
     const config = this.config;
     const startP = this.offset;
     // Limit for left
@@ -461,21 +465,23 @@ export class LyResizingCroppingImages {
 
   /** Clean the img cropper */
   clean() {
-    this._imgRect = { } as any;
-    this.offset = null;
-    this._scale = null;
-    this._scal3Fix = null;
-    this._rotation = 0;
-    this._minScale = null;
-    this._defaultType = null;
-    this._isLoadedImg = false;
-    this.isLoaded = false;
-    this.isCropped = false;
-    this._originalImgBase64 = null;
-    const canvas = this._imgCanvas.nativeElement;
-    canvas.width = 0;
-    canvas.height = 0;
-    this.cd.markForCheck();
+    if (this.isLoaded) {
+      this._imgRect = { } as any;
+      this.offset = null;
+      this.scale = null;
+      this._scal3Fix = null;
+      this._rotation = 0;
+      this._minScale = null;
+      this._defaultType = null;
+      this._isLoadedImg = undefined;
+      this.isLoaded = null;
+      this.isCropped = undefined;
+      this._originalImgBase64 = undefined;
+      const canvas = this._imgCanvas.nativeElement;
+      canvas.width = 0;
+      canvas.height = 0;
+      this.cd.markForCheck();
+    }
   }
 
   /**- */
@@ -531,12 +537,12 @@ export class LyResizingCroppingImages {
           .onStable
           .pipe(take(1))
           .subscribe(() => this._ngZone.run(() => {
-            this.isLoaded = false;
+            this.isLoaded = null;
 
             if (fn) {
               fn();
             } else {
-              this.setScale(0, true);
+              this.setScale(this.minScale, true);
             }
 
             this.loaded.emit(cropEvent);
@@ -698,7 +704,7 @@ export class LyResizingCroppingImages {
       width: config.width,
       height: config.height,
       originalDataURL: this._originalImgBase64,
-      scale: this.scale,
+      scale: this._scal3Fix,
       rotation: this._rotation,
       position: {
         x: this._imgRect.xc,
