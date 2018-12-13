@@ -1,7 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-
-import { ImgCropperConfig, ImgCropperEvent } from '@alyle/ui/resizing-cropping-images';
+import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
 import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { ImgCropperConfig, ImgCropperEvent, LyResizingCroppingImages } from '@alyle/ui/resizing-cropping-images';
 
 const styles = (theme: ThemeVariables) => ({
   actions: {
@@ -119,11 +118,12 @@ const styles = (theme: ThemeVariables) => ({
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false
 })
-export class ResizingCroppingImagesExample01Component {
+export class ResizingCroppingImagesExample01Component implements AfterViewInit {
   classes = this.theme.addStyleSheet(styles);
   croppedImage: string;
   result: string;
   scale: number;
+  @ViewChild(LyResizingCroppingImages) cropper: LyResizingCroppingImages;
   myConfig: ImgCropperConfig = {
     autoCrop: true,
     width: 150, // Default `250`
@@ -135,6 +135,28 @@ export class ResizingCroppingImagesExample01Component {
   constructor(
     private theme: LyTheme2
   ) { }
+
+  ngAfterViewInit() {
+
+    // demo: Load image from URL and update position, scale, rotate
+
+    const config = {
+      scale: 0.745864772531767,
+      position: {
+        x: 642.380608078103,
+        y: 236.26357452128866
+      }
+    };
+    this.cropper.setImageUrl(
+      'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash-1.png?alt=media&token=96a29be5-e3ef-4f71-8437-76ac8013372c',
+      () => {
+        this.cropper.setScale(config.scale, true);
+        this.cropper.updatePosition(config.position.x, config.position.y);
+        // You can also rotate the image
+        // this.cropper.rotate(90);
+      }
+    );
+  }
 
   onCropped(e: ImgCropperEvent) {
     this.croppedImage = e.dataURL;
