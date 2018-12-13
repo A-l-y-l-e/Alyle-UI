@@ -4,7 +4,8 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Renderer2
+  Renderer2,
+  OnDestroy
   } from '@angular/core';
 import {
   LyTheme2,
@@ -78,7 +79,7 @@ mixinBg(
     'shadowColor'
   ]
 })
-export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit {
+export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDestroy {
   /**
    * Styles
    * @docs-private
@@ -170,6 +171,12 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit {
     /** Set default bg */
     if (this.content && !this.lyBadgeBg) {
       this.lyBadgeBg = DEFAULT_BG;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this._elContainer) {
+      this._renderer.removeChild(this._el.nativeElement, this._elContainer);
     }
   }
 
