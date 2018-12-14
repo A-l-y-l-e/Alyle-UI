@@ -145,6 +145,7 @@ export class Ripple {
       // }, rippleRef.timestamp < duration ? duration * 2 : duration);
       // }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) * 2 : duration);
       }, rippleRef.timestamp < duration ? duration * 2 : duration);
+      this._rippleRef = null;
     }
   }
   removeEvents() {
