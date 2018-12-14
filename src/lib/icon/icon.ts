@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer2, ElementRef, OnInit, OnChanges } from '@angular/core';
+import { Directive, Input, Renderer2, ElementRef, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { LyIconService, SvgIcon, FontClassOptions } from './icon.service';
 import { take } from 'rxjs/operators';
 import { Platform, LyTheme2, mixinStyleUpdater, mixinBg, mixinColor, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor } from '@alyle/ui';
@@ -33,12 +33,13 @@ mixinBg(
     'shadowColor',
   ],
 })
-export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
+export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDestroy {
   private _icon: string;
   private _fontSet: string;
   private _previousFontSet: FontClassOptions;
   private _currentClass: string;
   private _fontIcon: string;
+  private _iconElement: SVGElement;
 
   @Input()
   get icon() {
@@ -92,7 +93,6 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
 
   private _prepareSvgIcon(svgIcon: SvgIcon) {
     if (svgIcon.svg) {
-      this._cleanIcon();
       this._appendChild(svgIcon.svg.cloneNode(true) as SVGElement);
     } else {
       svgIcon.obs
@@ -100,13 +100,14 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
           take(1)
         )
         .subscribe((svgElement) => {
-          this._cleanIcon();
           this._appendChild(svgElement.cloneNode(true) as SVGElement);
         });
     }
   }
 
   private _appendChild(svg: SVGElement) {
+    this._cleanIcon();
+    this._iconElement = svg;
     this._renderer.addClass(svg, this.iconService.classes.svg);
     this._renderer.appendChild(this._el.nativeElement, svg);
   }
@@ -132,14 +133,19 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit {
     ), this._el.nativeElement, undefined, STYLE_PRIORITY);
   }
 
+  ngOnDestroy() {
+    this._cleanIcon();
+  }
+
   /**
    * run only browser
    * remove current icon
    */
   private _cleanIcon() {
-    const icon = this._el.nativeElement.querySelector('svg');
+    const icon = this._iconElement;
     if (icon) {
-      this._renderer.removeChild(this._el, icon);
+      this._renderer.removeChild(this._el.nativeElement, icon);
+      this._iconElement = null;
     }
   }
 

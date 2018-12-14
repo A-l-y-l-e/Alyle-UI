@@ -1,9 +1,10 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { Platform, LyTheme2 } from '@alyle/ui';
 import { PrismService } from './prism.service';
 
 import * as _chroma from 'chroma-js';
 import { AUIThemeVariables } from '../../app.module';
+import { DOCUMENT } from '@angular/common';
 const chroma = _chroma;
 
 const Prism = require('prismjs');
@@ -227,6 +228,7 @@ export class PrismDirective implements OnInit {
     private theme: LyTheme2,
     private _elementRef: ElementRef,
     private renderer: Renderer2,
+    @Inject(DOCUMENT) private _document: any,
     _prismService: PrismService
   ) {
     theme.addStyleSheet(GLOBAL_STYLES);
@@ -239,7 +241,7 @@ export class PrismDirective implements OnInit {
   codeToHtml(val: string) {
     if (Platform.isBrowser) {
       let code: string;
-      const containerCode = this.renderer.createElement('code');
+      const containerCode = this._document.createElement('code');
       if (this.language === 'ts') {
         this.renderer.addClass(containerCode, 'language-typescript');
         code = Prism.highlight(`${val}`, Prism.languages.javascript);

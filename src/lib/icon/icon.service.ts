@@ -48,7 +48,7 @@ export class LyIconService {
   constructor(
     private http: HttpClient,
     private _sanitizer: DomSanitizer,
-    @Optional() @Inject(DOCUMENT) private document: any,
+    @Optional() @Inject(DOCUMENT) private _document: any,
     private theme: LyTheme2
   ) {
     this.defaultSvgIcon = this._textToSvg('<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>');
@@ -86,7 +86,7 @@ export class LyIconService {
   }
 
   private _textToSvg(str: string): SVGElement {
-    const div = this.document.createElement('DIV');
+    const div = this._document.createElement('DIV');
     div.innerHTML = str;
     const svg = div.querySelector('svg') as SVGElement;
     return svg;
@@ -119,10 +119,11 @@ export class LyIconService {
    * Register new font class alias
    * demo:
    * For FontAwesome
-   * registerFontClass('fa', 'fa', 'fa-')
-   * @param key
-   * @param className
-   * @param prefix Class prefix
+   * registerFontClass({
+   *   key: 'fa',
+   *   class: 'fa'
+   *   prefix: 'fa-'
+   * })
    */
   registerFontClass(opt: FontClassOptions) {
     this._fontClasses.set(opt.key, opt);
