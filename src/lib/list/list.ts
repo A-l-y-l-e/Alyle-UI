@@ -36,6 +36,7 @@ import {
 import { LyAvatar } from '@alyle/ui/avatar';
 
 const STYLE_PRIORITY = 2;
+const DISABLE_PADDING = false;
 const styles = (theme: ThemeVariables) => ({
   list: {
     display: 'block',
@@ -257,7 +258,25 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
 @Directive({
   selector: '[ly-list-icon]'
 })
-export class LyListIcon {
+export class LyListIcon implements OnInit {
+  private _disablePadding: boolean;
+  private _disablePaddingClass: string;
+
+  /** Disable extra padding */
+  @Input()
+  set disablePadding(val: any) {
+    const newVal = this._disablePadding = toBoolean(val);
+    this._disablePaddingClass = this._theme.addStyle(`lyIconPadding:${newVal.toString()}`, () => (
+      {
+        paddingTop: newVal ? '4px' : '8px',
+        paddingBottom: newVal ? '4px' : '8px'
+      }
+    ));
+    this._renderer.addClass(this._el.nativeElement, this._disablePaddingClass);
+  }
+  get disablePadding() {
+    return this._disablePadding;
+  }
   constructor(
     private _theme: LyTheme2,
     private _el: ElementRef,
@@ -269,13 +288,17 @@ export class LyListIcon {
         'lyListIcon',
         (theme: ThemeVariables) => ({
           color: theme.text.secondary,
-          marginAfter: '16px',
-          marginTop: '8px',
-          marginBottom: '8px'
+          paddingAfter: '16px'
         }),
         STYLE_PRIORITY
       )
     );
+  }
+
+  ngOnInit() {
+    if (this.disablePadding == null) {
+      this.disablePadding = DISABLE_PADDING;
+    }
   }
 }
 
