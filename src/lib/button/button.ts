@@ -161,14 +161,14 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     if (!this.size && !this.appearance) {
       this.size = DEFAULT_SIZE;
     }
+    // set default disable ripple
+    if (this.disableRipple == null) {
+      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
+    }
   }
 
   ngAfterViewInit() {
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
-    // set default disable ripple
-    if (this.disableRipple === null) {
-      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
-    }
 
     const focusState = this._focusState.listen(this._el);
     if (focusState) {

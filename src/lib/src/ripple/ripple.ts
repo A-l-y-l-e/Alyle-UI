@@ -60,8 +60,6 @@ export class Ripple {
 
   private setTriggerElement(element: HTMLElement | null) {
     if (element) {
-      // element.classList.add(this.stylesData[0]);
-      // this._renderer.addClass(element, this.stylesData[0].id);
       this._ngZone.runOutsideAngular(() => {
         this._eventHandlers.forEach((fn, type) => element.addEventListener(type, fn, this._eventOptions));
       });

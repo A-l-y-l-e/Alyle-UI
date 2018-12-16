@@ -25,6 +25,8 @@
     "components/checkbox",
     "components/icon",
     "components/toolbar",
-    "components/tooltip"
+    "components/tooltip",
+    "components/avatar",
+    "components/list"
   ]
 }

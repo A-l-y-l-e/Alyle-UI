@@ -21,6 +21,22 @@ export const LY_COMMON_STYLES = {
     outline: 0,
     '-webkit-appearance': 'none',
     '-moz-appearance': 'none'
+  },
+  button: {
+    '-webkit-tap-highlight-color': 'transparent',
+    backgroundColor: `transparent`,
+    border: 0,
+    '-moz-appearance': 'none',
+    '-webkit-appearance': 'none',
+    margin: 0,
+    outline: 'none',
+    boxSizing: 'border-box',
+    position: 'relative',
+    textDecorationLine: 'none',
+    '-webkit-text-decoration-line': 'none',
+    '&::-moz-focus-inner': {
+      border: 0
+    }
   }
 };
 

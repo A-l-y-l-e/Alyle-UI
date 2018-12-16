@@ -17,6 +17,7 @@ import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
 import { MenuDemoComponent } from './components/menu-demo/menu-demo.component';
 import { AvatarDemoComponent } from './components/avatar-demo/avatar-demo.component';
+import { ListDemoComponent } from './components/list-demo/list-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -55,6 +56,7 @@ const routes: Routes = [
       { path: 'tooltip', component: TooltipDemoComponent },
       { path: 'menu', component: MenuDemoComponent },
       { path: 'avatar', component: AvatarDemoComponent },
+      { path: 'list', component: ListDemoComponent }
     ]
   }
 ];

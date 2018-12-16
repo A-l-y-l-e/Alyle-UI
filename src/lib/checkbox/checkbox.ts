@@ -295,7 +295,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
     this._rippleContainer = this._innerContainer;
 
     // set default disable ripple
-    if (this.disableRipple === null) {
+    if (this.disableRipple == null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);

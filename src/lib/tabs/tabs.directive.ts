@@ -570,7 +570,7 @@ export class LyTabLabel extends LyButton implements OnInit, DoCheck, AfterViewIn
   ngOnInit() {
     this._renderer.addClass(this._el.nativeElement, this._tabs.classes.label);
     // set default disable ripple
-    if (this.disableRipple === null) {
+    if (this.disableRipple == null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
   }

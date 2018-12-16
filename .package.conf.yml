@@ -22,3 +22,4 @@ components:
   '@alyle/ui/snack-bar': snack-bar
   '@alyle/ui/tooltip': tooltip
   '@alyle/ui/avatar': avatar
+  '@alyle/ui/list': list

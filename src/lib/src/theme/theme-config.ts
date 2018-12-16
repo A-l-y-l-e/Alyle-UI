@@ -7,6 +7,7 @@ import { CheckboxVariables } from './variables/checkbox';
 import { SnackBarVariables } from './variables/snack-bar';
 import { ButtonVariables } from './variables/button';
 import { TooltipVariables } from './variables/tooltip';
+import { AvatarVariables } from './variables/avatar';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -18,6 +19,7 @@ export interface ThemeConfig {
   accent: DefaultVal & PaletteColor;
   warn: DefaultVal & PaletteColor;
   disabled: DefaultVal & PaletteColor;
+  paper: DefaultVal & PaletteColor;
   background: {
     /** secondary */
     default: string,
@@ -123,6 +125,7 @@ export interface ThemeConfig {
   snackBar: SnackBarVariables;
   button: ButtonVariables;
   tooltip: TooltipVariables;
+  avatar: AvatarVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

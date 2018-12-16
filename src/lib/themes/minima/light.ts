@@ -18,6 +18,10 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     default: '#f5414e',
     contrast
   };
+  action = {
+    default: 'rgba(0,0,0,.6)',
+    contrast: '#fff'
+  };
   background = {
     default: '#fafafa', // secondary
     primary: {
@@ -44,7 +48,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     hint: 'rgba(0, 0, 0, 0.38)'
   };
   divider = 'rgba(0, 0, 0, 0.12)';
-  colorShadow = '#333';
+  colorShadow = '#33base3';
   shadow = '#333';
   /** Components variables */
   radio = {
@@ -84,4 +88,5 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       color: '#fff'
     }
   };
+  avatar = {};
 }

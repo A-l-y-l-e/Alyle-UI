@@ -41,6 +41,7 @@
       "@alyle/ui/snack-bar": ["lib/snack-bar"],
       "@alyle/ui/tooltip": ["lib/tooltip"],
       "@alyle/ui/avatar": ["lib/avatar"],
+      "@alyle/ui/list": ["lib/list"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }

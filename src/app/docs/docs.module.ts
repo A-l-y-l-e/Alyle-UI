@@ -89,6 +89,11 @@ import { MenuDemo01Module } from './components/menu-demo/menu-demo-01/menu-demo-
 /** Avatar */
 import { AvatarDemoComponent } from './components/avatar-demo/avatar-demo.component';
 import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avatar/basic-uses-avatar.module';
+import { ListDemoComponent } from './components/list-demo/list-demo.component';
+
+/** List */
+import { SimpleListModule } from './components/list-demo/simple-list/simple-list.module';
+import { FolderListModule } from './components/list-demo/folder-list/folder-list.module';
 
 
 @NgModule({
@@ -146,7 +151,10 @@ import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avata
     /** Menu */
     MenuDemo01Module,
     /** Avatar */
-    BasicUsesAvatarModule
+    BasicUsesAvatarModule,
+    /** List */
+    SimpleListModule,
+    FolderListModule
   ],
   declarations: [
     ThemingComponent,
@@ -182,6 +190,8 @@ import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avata
     MenuDemoComponent,
     /** Avatar */
     AvatarDemoComponent,
+    /** List */
+    ListDemoComponent,
   ]
 })
 export class DocsModule { }

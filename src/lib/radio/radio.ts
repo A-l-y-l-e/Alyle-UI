@@ -365,7 +365,7 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, Afte
     this._rippleContainer = this._radioContainer;
 
     // set default disable ripple
-    if (this.disableRipple === null) {
+    if (this.disableRipple == null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
   }

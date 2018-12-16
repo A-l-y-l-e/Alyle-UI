@@ -22,6 +22,10 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     default: 'rgba(255, 255, 255, 0.30)',
     contrast: 'rgba(255, 255, 255, 0.50)'
   };
+  action = {
+    default: 'rgba(255, 255, 255, 0.70)',
+    contrast: 'rgba(0, 0, 0, 0.87)'
+  };
   background = {
     default: '#303030', // secondary
     primary: {
@@ -84,4 +88,5 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
       color: 'rgba(0,0,0,.87)'
     }
   };
+  avatar = {};
 }

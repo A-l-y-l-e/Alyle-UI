@@ -7,13 +7,14 @@ import {
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
-  mixinStyleUpdater
+  mixinStyleUpdater,
+  ThemeVariables
   } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_SIZE = 40;
-const DEFAULT_BG = 'background:base';
-const STYLES = ({
+const DEFAULT_BG = 'action';
+const STYLES = (theme: ThemeVariables) => ({
   root: {
     display: 'inline-flex',
     position: 'relative',
@@ -24,6 +25,7 @@ const STYLES = ({
     borderRadius: '50%',
     textAlign: 'center',
     justifyContent: 'center',
+    ...theme.avatar.root,
     '&>img': {
       width: '100%',
       height: '100%',
