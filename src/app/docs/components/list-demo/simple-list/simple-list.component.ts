@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { LyTheme2, ThemeVariables } from '@alyle/ui';
 
 const styles = (theme: ThemeVariables) => ({
@@ -10,8 +10,7 @@ const styles = (theme: ThemeVariables) => ({
 
 @Component({
   selector: 'aui-simple-list',
-  templateUrl: './simple-list.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './simple-list.component.html'
 })
 export class SimpleListComponent {
   readonly classes = this.theme.addStyleSheet(styles);

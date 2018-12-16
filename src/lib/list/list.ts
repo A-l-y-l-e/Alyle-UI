@@ -179,7 +179,6 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
   readonly classes = this._list.classes;
   readonly _isBrowser = Platform.isBrowser;
   private _isActionListItem: boolean;
-  private _lineClass: string;
   private _onFocusByKeyboardState: boolean;
 
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
