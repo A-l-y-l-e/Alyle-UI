@@ -1,3 +1,21 @@
+<a name="1.9.7"></a>
+## [1.9.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.6...1.9.7) (2018-12-16)
+
+
+### Bug Fixes
+
+* **badge:** badge instances not being cleaned up `onDestroy` ([ab02a4e](https://github.com/A-l-y-l-e/Alyle-UI/commit/ab02a4e))
+* **button:** avoid memory leak ([2c7ae88](https://github.com/A-l-y-l-e/Alyle-UI/commit/2c7ae88))
+* **core:** avoid memory leak in icon & `LyFocusState` ([73a8eb3](https://github.com/A-l-y-l-e/Alyle-UI/commit/73a8eb3))
+* **icon:** fix `box-sizing` ([0efd7b8](https://github.com/A-l-y-l-e/Alyle-UI/commit/0efd7b8))
+
+
+### Features
+
+* **list:** add initial commit for `ly-list` ([a69a1c5](https://github.com/A-l-y-l-e/Alyle-UI/commit/a69a1c5))
+
+
+
 <a name="1.9.6"></a>
 ## [1.9.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.5...1.9.6) (2018-12-13)
 
