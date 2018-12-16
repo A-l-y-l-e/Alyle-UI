@@ -133,6 +133,7 @@ const styles = (theme: ThemeVariables) => ({
   }
 })
 export class LyList {
+  /** @docs-private */
   readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2
@@ -186,7 +187,7 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
   @ContentChildren(forwardRef(() => LyLine)) _lines: QueryList<LyLine>;
   @ContentChild(forwardRef(() => LyListIcon)) _icon: LyListIcon;
   @ContentChild(LyAvatar) _avatar: LyAvatar;
-  get listItemClasses() {
+  get _listItemClasses() {
     const { listItemContent, twoLine, oneLine, listItemWithIcon, twoLineWithIcon } = this.classes;
     const classes = [listItemContent];
     const hasIcon = this._icon || this._avatar;

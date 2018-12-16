@@ -1,4 +1,4 @@
-<span [ngClass]="listItemClasses">
+<span [ngClass]="_listItemClasses">
   <ng-content></ng-content>
   <div *ngIf="_lines?.length" [className]="classes.lines">
     <ng-content select="[ly-line]"></ng-content>
