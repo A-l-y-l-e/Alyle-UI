@@ -1,7 +1,26 @@
-import { Directive, Input, Renderer2, ElementRef, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { LyIconService, SvgIcon, FontClassOptions } from './icon.service';
+import {
+  Directive,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Renderer2
+  } from '@angular/core';
+import { FontClassOptions, LyIconService, SvgIcon } from './icon.service';
+import {
+  LyTheme2,
+  mixinBg,
+  mixinColor,
+  mixinElevation,
+  mixinOutlined,
+  mixinRaised,
+  mixinShadowColor,
+  mixinStyleUpdater,
+  Platform,
+  ThemeVariables
+  } from '@alyle/ui';
 import { take } from 'rxjs/operators';
-import { Platform, LyTheme2, mixinStyleUpdater, mixinBg, mixinColor, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 
@@ -124,12 +143,15 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
 
   ngOnInit() {
     this._updateClass();
-    this._theme.addStyle('lyIconRoot', theme => (
+    this._theme.addStyle('lyIconRoot', (theme: ThemeVariables) => (
       `font-size:${theme.icon.fontSize};` +
       `width:1em;` +
       `position:relative;` +
       `height:1em;` +
-      `display:inline-flex;`
+      `display:inline-flex;` +
+      `-webkit-box-sizing: content-box;` +
+      `-moz-box-sizing: content-box;` +
+      `box-sizing: content-box;`
     ), this._el.nativeElement, undefined, STYLE_PRIORITY);
   }
 
