@@ -33,7 +33,7 @@ import {
   Platform,
   ThemeVariables
   } from '@alyle/ui';
-import { LyAvatar } from '../avatar';
+import { LyAvatar } from '@alyle/ui/avatar';
 
 const STYLE_PRIORITY = 2;
 const styles = (theme: ThemeVariables) => ({
