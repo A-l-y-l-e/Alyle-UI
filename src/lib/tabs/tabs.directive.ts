@@ -442,7 +442,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   }
 
   _updateIndicator(currentTab: LyTab, beforeTab?: LyTab): void {
-    const currentIndex = this.selectedIndex;
     if (currentTab) {
       if (beforeTab) {
         beforeTab._renderer.removeAttribute(beforeTab.tabIndicator.nativeElement, 'class');
@@ -562,7 +561,6 @@ export class LyTab implements OnInit {
 })
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _active: boolean;
-  private isAfterViewInit: boolean;
   _isBrowser = Platform.isBrowser;
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   @HostListener('click') onClickTab() {
@@ -618,9 +616,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    this.isAfterViewInit = true;
-  }
+  ngAfterViewInit() { }
 }
 
 /**
