@@ -1,3 +1,19 @@
+<a name="1.9.8"></a>
+## [1.9.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.7...1.9.8) (2018-12-17)
+
+
+### Bug Fixes
+
+* **tabs:** multiple unnecessary indicator updates ([26d0ec2](https://github.com/A-l-y-l-e/Alyle-UI/commit/26d0ec2))
+* **tabs:** styles for the active tab are not applied with `OnPush` ([4cc73ce](https://github.com/A-l-y-l-e/Alyle-UI/commit/4cc73ce))
+
+
+### Features
+
+* **tabs:** add property `scrollable` ([58fc0e6](https://github.com/A-l-y-l-e/Alyle-UI/commit/58fc0e6))
+
+
+
 <a name="1.9.7"></a>
 ## [1.9.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.6...1.9.7) (2018-12-16)
 
