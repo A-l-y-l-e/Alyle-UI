@@ -80,6 +80,9 @@ const styles = (theme: ThemeVariables) => ({
     display: 'flex',
     position: 'relative'
   },
+  tabsLabelsContainer: {
+    overflow: 'hidden'
+  },
   label: {
     '-webkit-tap-highlight-color': 'transparent',
     '-webkit-appearance': 'none',
