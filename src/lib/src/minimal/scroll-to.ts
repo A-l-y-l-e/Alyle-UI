@@ -15,19 +15,41 @@ export function scrollToC(element: HTMLElement, from: any, to: number | HTMLElem
   if (typeof from === 'object') {from = from.offsetTop; }
   if (typeof to === 'object') {to = to.offsetTop; }
 
-  scrollToX(element, from, to, 0, 1 / duration, 20, easeOutCuaic);
+  createScrollWithAnimation(element, from, to, 0, 1 / duration, 20, easeOutCuaic);
 }
 
-function scrollToX(element: HTMLElement, xFrom: number, xTo: any, t01: number, speed: number, step: number, motion: any) {
+export function scrollWithAnimation(
+  element: HTMLElement,
+  to: number,
+  duration: number,
+  p?: 'x' | 'y',
+  motion?: (t: number) => number
+) {
+  const _motion = motion || easeOutCuaic;
+  const { scrollLeft } = element;
+  return createScrollWithAnimation(element, scrollLeft, to, 0, 1 / duration, 20, _motion, p);
+}
+
+function createScrollWithAnimation(
+  element: HTMLElement,
+  xFrom: number,
+  xTo: number,
+  t01: number,
+  speed: number,
+  step: number,
+  motion: (t: number) => number,
+  p?: 'x' | 'y'
+) {
+  const scrollT = p === 'y' ? 'scrollTop' : 'scrollLeft';
   if (t01 < 0 || t01 > 1 || speed <= 0) {
-    element.scrollTop = xTo;
+    element[scrollT] = xTo;
     return;
   }
-  element.scrollTop = xFrom - (xFrom - xTo) * motion(t01);
+  element[scrollT] = xFrom - (xFrom - xTo) * motion(t01);
   t01 += speed * step;
 
-  setTimeout(function() {
-    scrollToX(element, xFrom, xTo, t01, speed, step, motion);
+  setTimeout(() => {
+    createScrollWithAnimation(element, xFrom, xTo, t01, speed, step, motion, p);
   }, step);
 }
 

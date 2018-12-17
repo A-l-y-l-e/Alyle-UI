@@ -43,7 +43,9 @@ import {
   LyRippleService,
   LyFocusState,
   LY_COMMON_STYLES,
-  ResizeService
+  ResizeService,
+  scrollWithAnimation,
+  toBoolean
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
@@ -139,7 +141,8 @@ const styles = (theme: ThemeVariables) => ({
   rippleContainer: {
     ...LY_COMMON_STYLES.fill,
     overflow: 'hidden'
-  }
+  },
+  scrollable: null
 });
 
 /** @docs-private */
@@ -200,12 +203,25 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _textColorClass: string;
   private _selectedIndexClass: string;
   private _tabResizeSub: Subscription;
+  private _scrollable: boolean;
 
   @ViewChild('tabs') tabsRef: ElementRef;
   @ViewChild('tabContents') tabContents: ElementRef;
   @ViewChild('tabsIndicator') tabsIndicator: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
-  @Input() native: boolean;
+  @Input()
+  set scrollable(val: any) {
+    const newVal = toBoolean(val);
+    if (newVal) {
+      this.renderer.addClass(this.el.nativeElement, this.classes.scrollable);
+    } else if (this._scrollable != null) {
+      this.renderer.removeClass(this.el.nativeElement, this.classes.scrollable);
+    }
+    this._scrollable = newVal;
+  }
+  get scrollable() {
+    return this._scrollable;
+  }
   @Input()
   set indicatorColor(val: string) {
     if (val !== this.indicatorColor) {
@@ -581,6 +597,20 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
       if (!this._active) {
         this._active = true;
         this._renderer.addClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
+        if (Platform.isBrowser && this._tabs.scrollable) {
+          const tab = this._tab._el.nativeElement as HTMLElement;
+          const tabContainer = this._tabs.tabsRef.nativeElement as HTMLElement;
+          if (tabContainer.scrollWidth !== tabContainer.offsetWidth) {
+            const dir = this._theme.config.direction;
+            const max = tabContainer.scrollWidth - tabContainer.offsetWidth;
+            const offsetBefore = dir === Dir.rtl
+            ? max + tab.offsetLeft
+            : tab.offsetLeft;
+            const l = offsetBefore + tab.offsetWidth / 2 - tabContainer.offsetWidth / 2;
+            const newVal = l >= max ? max : l <= 0 ? 0 : l;
+            scrollWithAnimation(this._tabs.tabsRef.nativeElement, newVal, 350, 'x');
+          }
+        }
       }
     } else if (this._active) {
       this._active = false;
