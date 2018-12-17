@@ -1,7 +1,8 @@
 <ng-content select="ly-tab-label"></ng-content>
 <ng-content select="[ly-tab-label]"></ng-content>
 <ng-content select="[ly-tab-label-native]"></ng-content>
-<span #tabIndicator></span>
-<ng-template>
+<div></div>
+<span *ngIf="!_isBrowser" #tabIndicator></span>
+<ng-template #_templateNgContent>
   <ng-content></ng-content>
 </ng-template>
