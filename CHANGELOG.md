@@ -4,7 +4,7 @@
 
 ### Bug Fixes
 
-* **cropper:** aspect ratio of the cutter frame when it is not a square ([60f386a](https://github.com/A-l-y-l-e/Alyle-UI/commit/60f386a)), closes [#68](https://github.com/A-l-y-l-e/Alyle-UI/issues/68)
+* **cropper:** aspect ratio of the cropper frame when it is not a square ([60f386a](https://github.com/A-l-y-l-e/Alyle-UI/commit/60f386a)), closes [#68](https://github.com/A-l-y-l-e/Alyle-UI/issues/68)
 * **menu:** responsive ([ba3effe](https://github.com/A-l-y-l-e/Alyle-UI/commit/ba3effe))
 
 
