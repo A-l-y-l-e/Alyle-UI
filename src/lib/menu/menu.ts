@@ -1,17 +1,28 @@
 import {
-  Component,
-  ElementRef,
-  Input,
-  Directive,
-  TemplateRef,
-  OnDestroy,
-  Optional,
-  HostListener,
-  HostBinding,
   AfterViewInit,
+  Component,
+  Directive,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
   Renderer2,
-  OnInit
-} from '@angular/core';
+  TemplateRef
+  } from '@angular/core';
+import {
+  LyOverlay,
+  LyTheme2,
+  OverlayFromTemplateRef,
+  Placement,
+  Positioning,
+  shadowBuilder,
+  ThemeVariables,
+  XPosition,
+  YPosition
+  } from '@alyle/ui';
 import {
   trigger,
   style,
@@ -19,7 +30,6 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables, Placement, XPosition, YPosition, getPosition, Positioning } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 const DEFAULT_PLACEMENT = YPosition.below;
