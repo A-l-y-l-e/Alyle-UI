@@ -25,7 +25,6 @@ mixinBg(
   selector: `ly-paper, [ly-paper], [ly-text]`,
   inputs: [
     'bg',
-    'flat',
     'color',
     'raised',
     'outlined',

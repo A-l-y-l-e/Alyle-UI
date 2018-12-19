@@ -63,7 +63,6 @@ export const LyToolbarMixinBase = mixinStyleUpdater(
   selector: 'ly-toolbar',
   inputs: [
     'bg',
-    'flat',
     'color',
     'raised',
     'outlined',
