@@ -19,7 +19,7 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables, Placement, XPosition, YPosition, getPosition } from '@alyle/ui';
+import { LyOverlay, OverlayFromTemplateRef, LyTheme2, shadowBuilder, ThemeVariables, Placement, XPosition, YPosition, getPosition, Positioning } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 const DEFAULT_PLACEMENT = YPosition.below;
@@ -113,7 +113,7 @@ export class LyMenu implements OnInit, AfterViewInit {
 
   private _updatePlacement () {
     const el = this._el.nativeElement as HTMLElement;
-    const position = getPosition(this.placement, this.xPosition, this.yPosition, this.ref._getHostElement(), el, this._theme.config);
+    const position = new Positioning(this.placement, this.xPosition, this.yPosition, this.ref._getHostElement(), el, this._theme.config);
     this._renderer.setStyle(el, 'transform', `translate3d(${position.x}px, ${position.y}px, 0)`);
     this._renderer.setStyle(el, 'transform-origin', `${position.ox} ${position.oy} 0`);
   }
