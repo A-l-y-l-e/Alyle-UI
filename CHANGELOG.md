@@ -1,3 +1,14 @@
+<a name="1.9.9"></a>
+## [1.9.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.8...1.9.9) (2018-12-19)
+
+
+### Bug Fixes
+
+* **cropper:** aspect ratio of the cutter frame when it is not a square ([60f386a](https://github.com/A-l-y-l-e/Alyle-UI/commit/60f386a)), closes [#68](https://github.com/A-l-y-l-e/Alyle-UI/issues/68)
+* **menu:** responsive ([ba3effe](https://github.com/A-l-y-l-e/Alyle-UI/commit/ba3effe))
+
+
+
 <a name="1.9.8"></a>
 ## [1.9.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.7...1.9.8) (2018-12-17)
 
