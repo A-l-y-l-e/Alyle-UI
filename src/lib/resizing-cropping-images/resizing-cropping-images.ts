@@ -387,8 +387,8 @@ export class LyResizingCroppingImages {
       top: this._imgRect.yc
     };
   }
-  _move(event) {
-    let x, y;
+  _move(event: { srcEvent?: {}; deltaX: any; deltaY: any; }) {
+    let x: number, y: number;
     const canvas = this._imgCanvas.nativeElement;
     const scaleFix = this._scal3Fix;
     const config = this.config;
@@ -400,7 +400,7 @@ export class LyResizingCroppingImages {
 
     // // Limit for top
     if ((config.height / 2 / scaleFix) >= (startP.top - (event.deltaY / scaleFix))) {
-      y = startP.y + (startP.top) - (config.width / 2 / scaleFix);
+      y = startP.y + (startP.top) - (config.height / 2 / scaleFix);
     }
 
     // // Limit for right
