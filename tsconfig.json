@@ -42,6 +42,7 @@
       "@alyle/ui/tooltip": ["lib/tooltip"],
       "@alyle/ui/avatar": ["lib/avatar"],
       "@alyle/ui/list": ["lib/list"],
+      "@alyle/ui/divider": ["lib/divider"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }

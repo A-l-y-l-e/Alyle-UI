@@ -42,6 +42,7 @@ export class RoutesAppService {
           { route: 'card', name: 'Card' },
           { route: 'carousel', name: 'Carousel' },
           { route: 'checkbox', name: 'Checkbox' },
+          { route: 'divider', name: 'Divider' },
           { route: 'drawer', name: 'Drawer' },
           { route: 'field', name: 'Field' },
           { route: 'icon', name: 'Icon' },

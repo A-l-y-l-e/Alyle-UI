@@ -95,6 +95,11 @@ import { ListDemoComponent } from './components/list-demo/list-demo.component';
 import { SimpleListModule } from './components/list-demo/simple-list/simple-list.module';
 import { FolderListModule } from './components/list-demo/folder-list/folder-list.module';
 
+/** Divider */
+import { DividerDemoComponent } from './components/divider-demo/divider-demo.component';
+import { ListDividersModule } from './components/divider-demo/list-dividers/list-dividers.module';
+import { InsetDividersModule } from './components/divider-demo/inset-dividers/inset-dividers.module';
+
 
 @NgModule({
   imports: [
@@ -154,7 +159,10 @@ import { FolderListModule } from './components/list-demo/folder-list/folder-list
     BasicUsesAvatarModule,
     /** List */
     SimpleListModule,
-    FolderListModule
+    FolderListModule,
+    /** Divider */
+    ListDividersModule,
+    InsetDividersModule
   ],
   declarations: [
     ThemingComponent,
@@ -192,6 +200,8 @@ import { FolderListModule } from './components/list-demo/folder-list/folder-list
     AvatarDemoComponent,
     /** List */
     ListDemoComponent,
+    /** Divider */
+    DividerDemoComponent
   ]
 })
 export class DocsModule { }

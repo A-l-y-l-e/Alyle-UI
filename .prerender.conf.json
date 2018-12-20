@@ -27,6 +27,7 @@
     "components/toolbar",
     "components/tooltip",
     "components/avatar",
-    "components/list"
+    "components/list",
+    "components/divider"
   ]
 }

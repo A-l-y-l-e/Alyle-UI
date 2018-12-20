@@ -80,7 +80,7 @@ const GLOBAL_STYLES = {
     'prism': {
       display: 'block',
       padding: '1em',
-      overflow: 'hidden'
+      overflow: 'auto'
     }
   }
 };
