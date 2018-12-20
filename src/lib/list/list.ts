@@ -320,6 +320,7 @@ export class LyLine {
           margin: 0,
           padding: 0,
           fontWeight: 400,
+          textAlign: 'initial',
           '&:first-child': {
             whiteSpace: 'nowrap',
             overflow: 'hidden',
