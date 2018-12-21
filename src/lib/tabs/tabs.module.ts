@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgTranscludeModule, LyCommonModule, LyThemeModule } from '@alyle/ui';
-import { LyTabs, LyTabLabel, LyTab } from './tabs.directive';
+import { LyTabs, LyTabLabel, LyTab } from './tabs';
 import { LyTabContent } from './tab-content.directive';
 
 @NgModule({

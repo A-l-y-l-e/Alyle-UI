@@ -178,7 +178,7 @@ mixinBg(
 
 @Component({
   selector: 'ly-tabs',
-  templateUrl: './tabs.directive.html',
+  templateUrl: './tabs.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   exportAs: 'lyTabs',
@@ -522,7 +522,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 
 @Component({
   selector: 'ly-tab',
-  templateUrl: './tab.component.html',
+  templateUrl: './tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
