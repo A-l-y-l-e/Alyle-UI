@@ -240,12 +240,8 @@ export class LyResizingCroppingImages {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(imgElement, 0, 0);
-      /** set zoom scale */
-      const minScale = {
-        width: this.config.width / canvas.width,
-        height: this.config.height / canvas.height
-      };
-      this._minScale = Math.max(minScale.width, minScale.height);
+      /** set min scale */
+      this._minScale = getMinScale(this.config.width, this.config.height, canvas.width, canvas.height);
     }
   }
 
@@ -274,7 +270,7 @@ export class LyResizingCroppingImages {
     }
   }
 
-  @HostListener('window:resize') resize$() {
+  @HostListener('window:resize') _resize$() {
     if (this.isLoaded) {
       this.updatePosition();
     }
@@ -576,10 +572,8 @@ export class LyResizingCroppingImages {
     this._renderer.removeStyle(canvas, 'transformOrigin');
 
     // set w & h
-
     const w = canvasRect.width;
     const h = canvasRect.height;
-
     ctx.canvas.width = w;
     ctx.canvas.height = h;
 
@@ -590,11 +584,34 @@ export class LyResizingCroppingImages {
     ctx.translate(w / 2, h / 2);
     ctx.rotate(degreesRad);
     ctx.drawImage(canvasClon, -canvasClon.width / 2, -canvasClon.height / 2);
-    const rootRect = this._rootRect();
 
+    // Update min scale
+    this._minScale = getMinScale(this.config.width, this.config.height, canvas.width, canvas.height);
+
+    // set the minimum scale, only if necessary
+    if (this.scale < this.minScale) {
+      this.setScale(0, true);
+    } //                ↑ no AutoCrop
+
+    const rootRect = this._rootRect();
     this._setStylesForContImg({
       x: (x - rootRect.x),
       y: (y - rootRect.y)
+    });
+
+    // keep image inside the frame
+    const originPosition = {...this._imgRect};
+    this.offset = {
+      x: originPosition.x,
+      y: originPosition.y,
+      left: originPosition.xc,
+      top: originPosition.yc
+    };
+    this._setStylesForContImg({});
+    this._move({
+      srcEvent: {},
+      deltaX: 0,
+      deltaY: 0
     });
 
     this._cropIfAutoCrop();
@@ -767,7 +784,7 @@ function limitNum(num: number, num2: number) {
 }
 
 /**
- * @ignore
+ * @docs-private
  */
 function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
 
@@ -784,4 +801,11 @@ function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
 
   // return the new canvas
   return newCanvas;
+}
+
+/**
+ * @docs-private
+ */
+function getMinScale(mw: number, mh: number, w: number, h: number) {
+  return Math.max(mw / w, mh / h);
 }
