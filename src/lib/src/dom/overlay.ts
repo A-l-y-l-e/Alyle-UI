@@ -1,7 +1,8 @@
 import { TemplateRef, EmbeddedViewRef, Injectable, ApplicationRef, ComponentFactoryResolver, Injector, ComponentRef, Type } from '@angular/core';
-import { LyOverlayContainer, LyOverlayBackdrop, WindowScrollService } from './overlay-container';
+import { LyOverlayContainer, LyOverlayBackdrop } from './overlay-container';
 import { Subscription, merge } from 'rxjs';
-import { ResizeService } from './resize';
+import { WinResize } from './resize';
+import { WinScroll } from './scroll';
 
 interface OverlayConfig {
   styles: Object;
@@ -40,8 +41,8 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     private _overlayContainer: LyOverlayContainer,
     _context: any,
     private _injector: Injector,
-    windowScroll: WindowScrollService,
-    resizeService: ResizeService,
+    windowScroll: WinScroll,
+    resizeService: WinResize,
     config?: OverlayConfig
   ) {
     // this._viewRef = _templateRef.createEmbeddedView(_context);
@@ -180,8 +181,8 @@ export class LyOverlay {
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _appRef: ApplicationRef,
     private _injector: Injector,
-    private _windowScroll: WindowScrollService,
-    private _resizeService: ResizeService
+    private _windowScroll: WinScroll,
+    private _resizeService: WinResize
   ) { }
 
   create(template: TemplateRef<any> | string, context?: any, config?: OverlayConfig): OverlayFromTemplateRef {

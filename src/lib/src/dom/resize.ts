@@ -8,7 +8,7 @@ import { Platform } from '../platform/index';
 @Injectable({
   providedIn: 'root'
 })
-export class ResizeService {
+export class WinResize {
 
   resize$: Observable<number>;
 

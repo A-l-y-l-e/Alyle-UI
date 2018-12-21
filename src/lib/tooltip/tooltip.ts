@@ -18,7 +18,7 @@ import {
   Placement,
   Platform,
   ThemeVariables,
-  WindowScrollService,
+  WinScroll,
   XPosition,
   YPosition,
   getPosition
@@ -67,7 +67,7 @@ export class LyTooltip implements OnInit, OnDestroy {
     private _cd: ChangeDetectorRef,
     focusState: LyFocusState,
     ngZone: NgZone,
-    scroll: WindowScrollService
+    scroll: WinScroll
   ) {
     if (Platform.isBrowser) {
       const element: HTMLElement = _el.nativeElement;

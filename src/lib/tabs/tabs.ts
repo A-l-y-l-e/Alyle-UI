@@ -43,7 +43,7 @@ import {
   LyRippleService,
   LyFocusState,
   LY_COMMON_STYLES,
-  ResizeService,
+  WinResize,
   scrollWithAnimation,
   toBoolean
   } from '@alyle/ui';
@@ -381,7 +381,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     private renderer: Renderer2,
     private el: ElementRef,
     private cd: ChangeDetectorRef,
-    private _resizeService: ResizeService
+    private _resizeService: WinResize
   ) {
     super(theme);
     this.setAutoContrast();
