@@ -423,6 +423,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     if (Platform.isBrowser) {
       this._tabResizeSub = this._resizeService.resize$.subscribe(() => {
         this._updateIndicator(this._selectedTab);
+        this._selectedTab._tabLabel._updateTabScroll();
       });
     }
   }
@@ -597,24 +598,28 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
       if (!this._active) {
         this._active = true;
         this._renderer.addClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
-        if (Platform.isBrowser && this._tabs.scrollable) {
-          const tab = this._tab._el.nativeElement as HTMLElement;
-          const tabContainer = this._tabs.tabsRef.nativeElement as HTMLElement;
-          if (tabContainer.scrollWidth !== tabContainer.offsetWidth) {
-            const dir = this._theme.config.direction;
-            const max = tabContainer.scrollWidth - tabContainer.offsetWidth;
-            const offsetBefore = dir === Dir.rtl
-            ? max + tab.offsetLeft
-            : tab.offsetLeft;
-            const l = offsetBefore + tab.offsetWidth / 2 - tabContainer.offsetWidth / 2;
-            const newVal = l >= max ? max : l <= 0 ? 0 : l;
-            scrollWithAnimation(this._tabs.tabsRef.nativeElement, newVal, 350, 'x');
-          }
-        }
+        this._updateTabScroll();
       }
     } else if (this._active) {
       this._active = false;
       this._renderer.removeClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
+    }
+  }
+
+  _updateTabScroll() {
+    if (Platform.isBrowser && this._tabs.scrollable) {
+      const tab = this._tab._el.nativeElement as HTMLElement;
+      const tabContainer = this._tabs.tabsRef.nativeElement as HTMLElement;
+      if (tabContainer.scrollWidth !== tabContainer.offsetWidth) {
+        const dir = this._theme.config.direction;
+        const max = tabContainer.scrollWidth - tabContainer.offsetWidth;
+        const offsetBefore = dir === Dir.rtl
+        ? max + tab.offsetLeft
+        : tab.offsetLeft;
+        const l = offsetBefore + tab.offsetWidth / 2 - tabContainer.offsetWidth / 2;
+        const newVal = l >= max ? max : l <= 0 ? 0 : l;
+        scrollWithAnimation(this._tabs.tabsRef.nativeElement, newVal, 350, 'x');
+      }
     }
   }
 
