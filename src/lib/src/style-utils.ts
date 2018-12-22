@@ -37,9 +37,9 @@ export class LyStyleUtils {
   }
 
   getDirection(val: DirAlias) {
-    if (val === DirAlias.start || val === DirAlias.before) {
+    if (val === DirAlias.before) {
       return this.direction === 'rtl' ? 'right' : 'left';
-    } else if (val === DirAlias.end || val === DirAlias.after) {
+    } else if (val === DirAlias.after) {
       return this.direction === 'rtl' ? 'left' : 'right';
     } else {
       return val;
@@ -52,10 +52,6 @@ export enum Dir {
   ltr = 'ltr'
 }
 export enum DirAlias {
-  /** @deprecated, use `before` instead */
-  start = 'start',
-  /** @deprecated, use `after` instead */
-  end = 'end',
   before = 'before',
   after = 'after'
 }

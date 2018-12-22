@@ -501,19 +501,9 @@ function keyframesToString(styleName: string, keysMap: object, keyframes: Keyfra
   return content;
 }
 
-function warnDeprecatedKeyStyle(str: string, key: string, to: string) {
-  console.warn(`Style key \`${key}\` deprecated for \`${str}\`, change \`${key}\` to \`${to}\`\n`);
-}
-
 export function converterToCssKeyAndStyle(str: string, themeVariables: ThemeVariables) {
   const hyphenCase = toHyphenCase(str);
-  if (hyphenCase.indexOf(DirAlias.start) !== -1) {
-    warnDeprecatedKeyStyle(str, DirAlias.start, DirAlias.before);
-    return dirCache(str, hyphenCase, themeVariables, DirAlias.start);
-  } else if (hyphenCase.indexOf(DirAlias.end) !== -1) {
-    warnDeprecatedKeyStyle(str, DirAlias.end, DirAlias.after);
-    return dirCache(str, hyphenCase, themeVariables, DirAlias.end);
-  } else if (hyphenCase.indexOf(DirAlias.before) !== -1) {
+  if (hyphenCase.indexOf(DirAlias.before) !== -1) {
     return dirCache(str, hyphenCase, themeVariables, DirAlias.before);
   } else if (hyphenCase.indexOf(DirAlias.after) !== -1) {
     return dirCache(str, hyphenCase, themeVariables, DirAlias.after);
