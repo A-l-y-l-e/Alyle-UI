@@ -11,7 +11,7 @@ import {
   LyThemeModule,
   LY_THEME,
   LY_THEME_GLOBAL_VARIABLES,
-  ThemeVariables,
+  PartialThemeVariables,
   Dir
 } from '@alyle/ui';
 
@@ -54,7 +54,7 @@ export class CustomMinimaDark extends MinimaDark {
  * This replaces the variables to all the themes,
  * you can also add new variables
  */
-export class GlobalVariables implements Partial<ThemeVariables> {
+export class GlobalVariables implements PartialThemeVariables {
   SublimeLight = {
     default: \`linear-gradient(135deg, \${'#FC5C7D'} 0%,\${'#6A82FB'} 100%)\`,
     contrast: '#fff',

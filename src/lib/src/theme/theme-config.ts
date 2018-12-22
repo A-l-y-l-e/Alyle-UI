@@ -129,7 +129,7 @@ export interface ThemeConfig {
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;
-export type PartialThemeVariables = Partial<ThemeVariables>;
+export type PartialThemeVariables = RecursivePartial<ThemeVariables>;
 
 export interface DefaultVal {
   default: string;
@@ -139,3 +139,7 @@ export interface PaletteColor {
   /** shadow color */
   shadow?: string;
 }
+
+type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};

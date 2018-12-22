@@ -27,6 +27,9 @@ const styles = ({
     display: 'inline-flex',
     paddingTop: '1em'
   },
+  container: {
+    paddingAbove: '1.5em'
+  },
   gridContainer: {
     position: 'relative',
     textAlign: 'center',
@@ -34,8 +37,7 @@ const styles = ({
     'ly-grid': {
       h2: {
         fontFamily: `'Nunito', sans-serif`,
-        marginTop: '.5em',
-        marginBottom: '1em'
+        marginBelow: '.5em'
       },
       p: {
         opacity: .87

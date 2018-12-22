@@ -9,25 +9,40 @@
     </div>
   </div>
 </div>
-<div>
-  <ly-grid container [spacing]="32" [withClass]="classes.gridContainer">
-    <ly-grid item col="4 12@XSmall">
-      <h2 [lyTyp]="'headline'">Lightweight</h2>
-      <p [lyTyp]="'body2'">
-        Simple, lightweight, on demand components and with support to all modern Web Browsers
-      </p>
+<div [className]="classes.container">
+  <h2 [lyTyp]="'subTitle'">Features</h2>
+  <div [className]="classes.gridContainer">
+    <ly-grid container [spacing]="32">
+      <ly-grid item col="4 12@XSmall">
+        <!-- <ly-card [elevation]="16"> -->
+          <!-- <ly-card-content> -->
+            <h2 [lyTyp]="'title'" ly-text color="primary">Lightweight</h2>
+            <p [lyTyp]="'body1'">
+              Simple, lightweight, on demand components and with support to all modern Web Browsers
+            </p>
+          <!-- </ly-card-content> -->
+        <!-- </ly-card> -->
+      </ly-grid>
+      <ly-grid item col="4 12@XSmall">
+        <!-- <ly-card [elevation]="16"> -->
+          <!-- <ly-card-content> -->
+            <h2 [lyTyp]="'title'" ly-text color="primary">Customizable</h2>
+            <p [lyTyp]="'body1'">
+              The UI is fully customizable, with dynamic themes, and with support for RTL.
+            </p>
+          <!-- </ly-card-content> -->
+        <!-- </ly-card> -->
+      </ly-grid>
+      <ly-grid item col="4 12@XSmall">
+        <!-- <ly-card [elevation]="16"> -->
+          <!-- <ly-card-content> -->
+            <h2 [lyTyp]="'title'" ly-text color="primary">Fully Responsive</h2>
+            <p [lyTyp]="'body1'">
+              Build apps that work across the web, mobile and desktop.
+            </p>
+          <!-- </ly-card-content> -->
+        <!-- </ly-card> -->
+      </ly-grid>
     </ly-grid>
-    <ly-grid item col="4 12@XSmall">
-      <h2 [lyTyp]="'headline'">Customizable</h2>
-      <p [lyTyp]="'body2'">
-        The UI is fully customizable, with dynamic themes, and with support for RTL.
-      </p>
-    </ly-grid>
-    <ly-grid item col="4 12@XSmall">
-      <h2 [lyTyp]="'headline'">Fully Responsive</h2>
-      <p [lyTyp]="'body2'">
-        Build apps that work across the web, mobile and desktop.
-      </p>
-    </ly-grid>
-  </ly-grid>
+  </div>
 </div>

@@ -9,7 +9,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LyThemeModule, LY_THEME_GLOBAL_VARIABLES } from '@alyle/ui';
+import { LyCommonModule, LY_THEME, LyThemeModule, LY_THEME_GLOBAL_VARIABLES, ThemeVariables, PartialThemeVariables } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -80,13 +80,25 @@ export class CustomMinimaDark extends MinimaDark {
   };
 }
 
-export class GlobalVariables {
+export class GlobalVariables implements PartialThemeVariables {
   testVal = '#00bcd4';
   Quepal = Quepal;
   SublimeLight = SublimeLight;
   Amber = {
     default: '#ffc107',
     contrast: 'rgba(0, 0, 0, 0.87)'
+  };
+  typography = {
+    lyTyp: {
+      subTitle: {
+        fontFamily: `'Nunito', sans-serif`,
+        textAlign: 'center',
+        paddingAbove: '1em',
+        opacity: .6,
+        fontSize: '32px',
+        fontWeight: 400
+      }
+    }
   };
 }
 

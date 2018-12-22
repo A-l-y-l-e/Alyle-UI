@@ -1,12 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { LyTheme2, CoreTheme as ThemeManager, Platform, WinScroll } from '@alyle/ui';
+import { LyTheme2, CoreTheme as ThemeManager, Platform, WinScroll, ThemeVariables } from '@alyle/ui';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
-const styles = () => ({
+const styles = (theme: ThemeVariables) => ({
+  root: {
+    transition: `all 350ms ${theme.animations.curves.standard}`
+  },
   themePickerText: {
     paddingBefore: '8px'
   },
@@ -53,22 +56,22 @@ export class AppBarComponent implements OnInit, OnDestroy {
       filter((event) => event instanceof NavigationEnd)
     )
     .subscribe((event: NavigationEnd) => {
-      if (this.router.url === '/') {
+      if (event.url === '/') {
         this.setForHomeStyles();
       } else {
         this.setDefaultStyles();
       }
     });
     if (Platform.isBrowser) {
-      if (this.router.url) {
-        this.scrollSub = this.winScroll.scroll$.subscribe((val) => {
+      this.scrollSub = this.winScroll.scroll$.subscribe((val) => {
+        if (this.router.url === '/') {
           if (val > 90) {
             this.setDefaultStyles();
           } else {
             this.setForHomeStyles();
           }
-        });
-      }
+        }
+      });
     }
   }
 
