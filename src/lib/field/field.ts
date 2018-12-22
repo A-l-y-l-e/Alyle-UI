@@ -381,7 +381,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
         [`margin-${dir}`]: `${width}px`
       }
     }), null, null, STYLE_PRIORITY);
-    if (dir === DirAlias.start) {
+    if (dir === DirAlias.before) {
       this._marginStartClass = this._theme.updateClass(this._el.nativeElement, this._renderer, newClass, this._marginStartClass);
     } else {
       this._marginEndClass = this._theme.updateClass(this._el.nativeElement, this._renderer, newClass, this._marginEndClass);
