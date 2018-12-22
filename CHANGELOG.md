@@ -1,3 +1,87 @@
+<a name="1.9.10"></a>
+## [1.9.10](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.9...1.9.10) (2018-12-22)
+
+
+### Bug Fixes
+
+* **cropper:** min scale not updated after rotating image ([eb57ce3](https://github.com/A-l-y-l-e/Alyle-UI/commit/eb57ce3)), closes [#69](https://github.com/A-l-y-l-e/Alyle-UI/issues/69)
+* **cropper:** remove deprecated variables ([796bb37](https://github.com/A-l-y-l-e/Alyle-UI/commit/796bb37))
+* **css-in-ts:** remove deprecated variables ([79848ad](https://github.com/A-l-y-l-e/Alyle-UI/commit/79848ad))
+* **field:** RTL ([662875e](https://github.com/A-l-y-l-e/Alyle-UI/commit/662875e))
+* **list:** rtl ([1513ae3](https://github.com/A-l-y-l-e/Alyle-UI/commit/1513ae3))
+
+
+### Features
+
+* **divider:** initial commit for divider ([3b66422](https://github.com/A-l-y-l-e/Alyle-UI/commit/3b66422))
+* **tabs:** update tab scroll on resize ([bfd6c80](https://github.com/A-l-y-l-e/Alyle-UI/commit/bfd6c80))
+
+
+### BREAKING CHANGES
+
+* **css-in-ts:** remove deprecated variables
+
+before:
+
+```ts
+const style = ({
+  start: '1em',
+  end: '2em',
+  marginStart: '1em',
+  borderStart: '1px'
+});
+```
+
+after:
+
+```ts
+const style = ({
+  root: {
+    before: '1em',
+    after: '2em',
+    marginBefore: '1em',
+    borderBefore: '1px'
+  }
+});
+```
+
+```css
+/** results LTR: */
+.ib {
+  left: '1em';
+  right: '2em';
+  margin-left: '1em';
+  border-left: '1em';
+}
+
+/** results RTL: */
+.ib {
+  right: '1em';
+  left: '2em';
+  margin-left: '1em';
+  border-left: '1px';
+}
+```
+* **cropper:** `cropperEvent.base64` is now deprecated, use `cropperEvent.dataURL` instead
+
+before:
+
+```ts
+onCropped(e: ImgCropperEvent) {
+  this.croppedImage = e.base64;
+}
+```
+
+after:
+
+```ts
+onCropped(e: ImgCropperEvent) {
+  this.croppedImage = e.dataUrl;
+}
+```
+
+
+
 <a name="1.9.9"></a>
 ## [1.9.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.8...1.9.9) (2018-12-19)
 
