@@ -9,7 +9,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LyThemeModule, LY_THEME_GLOBAL_VARIABLES, ThemeVariables, PartialThemeVariables } from '@alyle/ui';
+import { LyCommonModule, LY_THEME, LyThemeModule, LY_THEME_GLOBAL_VARIABLES, PartialThemeVariables } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 

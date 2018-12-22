@@ -1,4 +1,4 @@
-import { Injectable, Component, Inject, HostListener, ElementRef, NgZone } from '@angular/core';
+import { Injectable, Component, Inject, HostListener, ElementRef } from '@angular/core';
 import { Platform } from '../platform/index';
 import { LyTheme2 } from '../theme/theme2.service';
 import { LyCoreStyles } from '../styles/core-styles';
