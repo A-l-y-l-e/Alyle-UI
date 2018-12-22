@@ -7,8 +7,11 @@ const styles = ({
   },
   intraContainer: {
     textAlign: 'center',
-    margin: 'calc(100vh / 4) 0',
-    color: '#fff'
+    color: '#fff',
+    height: 'calc(100vh - 96px)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   intraContent: {
     position: 'relative',
