@@ -139,12 +139,8 @@ export class LyDrawer implements OnChanges {
   @Input() mode: mode = DEFAULT_MODE;
 
   @Input() spacingAbove: string | number;
-  /** @deprecated, use `spacingAbove` instead */
-  @Input() spacingTop: string | number;
 
   @Input() spacingBelow: string | number;
-  /** @deprecated, use `spacingBelow` instead */
-  @Input() spacingBottom: string | number;
 
   @Input() spacingBefore: string | number;
 
@@ -204,8 +200,6 @@ export class LyDrawer implements OnChanges {
     let __width = this.width;
     const __height = this.height;
     const __position = this.position;
-    const __spacingTop = this.spacingTop;
-    const __spacingBottom = this.spacingBottom;
 
     const __spacingAbove = this.spacingAbove;
     const __spacingBelow = this.spacingBelow;
@@ -213,10 +207,6 @@ export class LyDrawer implements OnChanges {
     const __spacingAfter = this.spacingAfter;
     // const __spacingRight = this.spacingRight;
     // const __spacingLeft = this.spacingLeft;
-
-    if (__spacingTop || __spacingBottom) {
-      console.warn(`LyDrawer: \`spacingTop\` and spacingBottom is deprecated use \`spacingAbove\` or \`spacingBelow\` instead`);
-    }
 
     if (__width && __height) {
       throw new Error(`\`width\` and \`height\` are defined, you can only define one`);
