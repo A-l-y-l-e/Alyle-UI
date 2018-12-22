@@ -85,5 +85,15 @@ export class GlobalVariables implements PartialThemeVariables {
 export class AppModule { }
 `;
 
+  codeTypography = `
+export class GlobalVariables implements PartialThemeVariables {
+  ...
+  typography = {
+    fontFamily: \`'Open Sans', sans-serif\`
+  };
+  ...
+}
+`;
+
 }
 
