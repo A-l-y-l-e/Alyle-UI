@@ -39,6 +39,7 @@ import { HomeComponent } from './home/home.component';
 import { PageContentComponent } from './page-content/page-content.component';
 import { LySnackBarModule } from '@alyle/ui/snack-bar';
 import { LyTooltipModule } from '@alyle/ui/tooltip';
+import { LyGridModule } from '@alyle/ui/grid';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -135,7 +136,8 @@ export type AUIThemeVariables = CustomMinimaLight & CustomMinimaDark & GlobalVar
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     LyTabsModule,
     LySnackBarModule,
-    LyTooltipModule
+    LyTooltipModule,
+    LyGridModule
   ],
   providers: [
     RoutesAppService,

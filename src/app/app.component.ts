@@ -90,7 +90,12 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
       borderBefore: '3px solid'
     }
   },
-  onLinkActive: null
+  onLinkActive: null,
+  footer: {
+    position: 'relative',
+    padding: '1em',
+    textAlign: 'center'
+  }
 });
 
 @Component({

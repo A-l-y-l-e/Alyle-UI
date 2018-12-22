@@ -1,7 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { LyTheme2, CoreTheme as ThemeManager, AUI_VERSION } from '@alyle/ui';
+import { LyTheme2, CoreTheme as ThemeManager, Platform, WinScroll } from '@alyle/ui';
 import { LyDrawer } from '@alyle/ui/drawer';
+import { Subscription } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 const styles = () => ({
   themePickerText: {
@@ -24,21 +27,68 @@ const styles = () => ({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class AppBarComponent implements OnInit {
+export class AppBarComponent implements OnInit, OnDestroy {
   classes = this.theme.addStyleSheet(styles, 1);
-  version = AUI_VERSION;
   themes: Set<string>;
   drawer: LyDrawer;
+  bg = 'transparent';
+  elevation = 0;
+  color = '#fff';
+  private scrollSub: Subscription;
   constructor(
     private appComponent: AppComponent,
     public theme: LyTheme2,
-    public themeManager: ThemeManager
+    public themeManager: ThemeManager,
+    private winScroll: WinScroll,
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
     this.themes = themeManager.themes;
   }
 
   ngOnInit() {
     this.drawer = this.appComponent.drawer;
+    this.router.events
+    .pipe(
+      filter((event) => event instanceof NavigationEnd)
+    )
+    .subscribe((event: NavigationEnd) => {
+      if (this.router.url === '/') {
+        this.setForHomeStyles();
+      } else {
+        this.setDefaultStyles();
+      }
+    });
+    if (Platform.isBrowser) {
+      if (this.router.url) {
+        this.scrollSub = this.winScroll.scroll$.subscribe((val) => {
+          if (val > 90) {
+            this.setDefaultStyles();
+          } else {
+            this.setForHomeStyles();
+          }
+        });
+      }
+    }
+  }
+
+  private setDefaultStyles() {
+    this.bg = 'primary';
+    this.elevation = 3;
+    this.color = 'primary:contrast';
+    this.cd.markForCheck();
+  }
+  private setForHomeStyles() {
+    this.bg = 'transparent';
+    this.elevation = 0;
+    this.color = '#fff';
+    this.cd.markForCheck();
+  }
+
+  ngOnDestroy() {
+    if (Platform.isBrowser) {
+      this.scrollSub.unsubscribe();
+    }
   }
 
 }

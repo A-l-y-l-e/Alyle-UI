@@ -1,6 +1,6 @@
 <div align="center" style="text-align: center">
   <h1>Alyle UI</h1>
-  Minimal Design, a package of components for Angular.
+  Minimal Design, a set of components for Angular.
   <br/>
   <a href="https://alyle-ui.firebaseapp.com/">Docs</a>
 </div>
@@ -44,3 +44,7 @@
 |toolbar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
 |tooltip|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/tooltip)|
 |typography|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/typography)|
+
+## Questions?
+
+If you have any questions, ideas or you want to discuss with Alyle UI community, join the chat at [Gitter](https://gitter.im/A-l-y-l-e/Alyle-UI)

@@ -11,6 +11,13 @@
         </aui-page-content>
       </div>
     </div>
+    <footer ly-paper bg="background:tertiary" [withClass]="classes.footer">
+      <p [lyTyp]="'body1'">Currently v{{ version }}. Released under the MIT License</p>
+      <p>Made with <ly-icon
+        color="#ff1744"
+        [style.vertical-align]="'middle'"
+      >favorite</ly-icon> by <a href="https://github.com/Enlcxx">Enlcxx</a></p>
+    </footer>
   </ly-drawer-content>
   <ly-drawer ly-paper bg="background:primary" [withClass]="classes.drawer" [width]="'230px 0@XSmall'" #nav="lyDrawer" [opened]="router.url !== '/'" [mode]="router.url !== '/' ? 'side' : 'over'" #_left [spacingAbove]="'64px 56px@XSmall'">
     <ul *ngFor="let category of routesComponents" [withClass]="classes.drawerUl">

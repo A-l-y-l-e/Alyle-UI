@@ -1,10 +1,33 @@
 <div [className]="classes.intraContainer">
+  <canvas id="bg" [className]="classes.canvas"></canvas>
   <div [className]="classes.intraContent">
     <h1 [lyTyp]="'display2'" gutterBottom>Alyle UI</h1>
-    <h2 [lyTyp]="'title'" gutter>Minimal Design, a package of components for Angular.</h2>
+    <p [lyTyp]="'title'" gutter>Minimal Design, a set of components for Angular.</p>
     <div [className]="classes.buttons">
-      <a ly-button outlined color="primary" [routerLink]="['getting-started', 'installation']">Get started</a>
+      <a ly-button raised bg="primary:contrast" color="primary" [routerLink]="['getting-started', 'installation']">Get started</a>
       <a ly-button raised bg="accent" [routerLink]="['components', 'button']" lyHide="XSmall">Components</a>
     </div>
   </div>
+</div>
+<div>
+  <ly-grid container [spacing]="32" [withClass]="classes.gridContainer">
+    <ly-grid item col="4 12@XSmall">
+      <h2 [lyTyp]="'headline'">Lightweight</h2>
+      <p [lyTyp]="'body2'">
+        Simple, lightweight, on demand components and with support to all modern Web Browsers
+      </p>
+    </ly-grid>
+    <ly-grid item col="4 12@XSmall">
+      <h2 [lyTyp]="'headline'">Customizable</h2>
+      <p [lyTyp]="'body2'">
+        The UI is fully customizable, with dynamic themes, and with support for RTL.
+      </p>
+    </ly-grid>
+    <ly-grid item col="4 12@XSmall">
+      <h2 [lyTyp]="'headline'">Fully Responsive</h2>
+      <p [lyTyp]="'body2'">
+        Build apps that work across the web, mobile and desktop.
+      </p>
+    </ly-grid>
+  </ly-grid>
 </div>
