@@ -62,7 +62,7 @@ const styles = (theme: ThemeVariables) => ({
   }
 });
 
-export type position = 'start' | 'end' | 'top' | 'bottom' | Placement;
+export type position = Placement;
 type mode = 'side' | 'over';
 
 @Directive({
@@ -163,9 +163,6 @@ export class LyDrawer implements OnChanges {
   @Input()
   set position(val: position) {
     if (val !== this.position) {
-      if (val === 'start' || val === 'end') {
-        console.warn(`LyDrawer: position ${val} is deprecated, use \`before\` or \`after\` instead`);
-      }
       this._position = val;
       this._theme.addStyle(`drawer.position:${val}`,
       // the style needs to be a function so that it can be changed dynamically
