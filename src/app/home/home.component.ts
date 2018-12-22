@@ -31,12 +31,14 @@ const styles = ({
     paddingTop: '1em'
   },
   container: {
-    paddingAbove: '1.5em'
+    paddingAbove: '1.5em',
+    textAlign: 'center',
   },
   gridContainer: {
     position: 'relative',
     textAlign: 'center',
     marginTop: '1em',
+    marginBottom: '1em',
     'ly-grid': {
       h2: {
         fontFamily: `'Nunito', sans-serif`,
