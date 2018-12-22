@@ -96,12 +96,6 @@ export interface ImgOutput {
   height: number;
 }
 
-/**
- * Deprecated, use instead ImgCropperConfig
- * @deprecated
- */
-export type LyResizingCroppingImagesConfig = ImgCropperConfig;
-
 /** Image output */
 export enum ImgResolution {
   /** Resizing & cropping */
@@ -111,8 +105,6 @@ export enum ImgResolution {
 }
 
 export interface ImgCropperEvent {
-  /** Cropped image in base64, !deprecated use instead `dataURL` */
-  base64: string;
   /** Cropped image data URL */
   dataURL: string;
   name: string;
@@ -511,7 +503,6 @@ export class LyResizingCroppingImages {
       name: this._fileName,
       type: this._defaultType,
       dataURL: null,
-      base64: null,
       width: null,
       height: null,
       scale: null,
@@ -713,9 +704,8 @@ export class LyResizingCroppingImages {
     } else {
       url = result.toDataURL(this._defaultType);
     }
-    const cropEvent = {
+    const cropEvent: ImgCropperEvent = {
       dataURL: url,
-      base64: url,
       type: this._defaultType || myConfig.type,
       name: this._fileName,
       width: config.width,
@@ -747,7 +737,7 @@ export class LyResizingCroppingImages {
  * convertToValidDegrees(45) === 90
  * convertToValidDegrees(40) === 0
  * convertToValidDegrees(100) === 90
- * @ignore
+ * @docs-private
  */
 function convertToValidDegrees(num: number) {
   const val360 = limitNum(num, 360);
@@ -763,7 +753,7 @@ function convertToValidDegrees(num: number) {
 /**
  * demo:
  * limitNum(450, 360) === 90
- * @ignore
+ * @docs-private
  */
 function limitNum(num: number, num2: number) {
   const numAbs = Math.abs(num);
