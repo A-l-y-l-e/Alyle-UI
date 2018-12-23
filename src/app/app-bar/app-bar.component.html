@@ -8,7 +8,7 @@
   <div [style.flex]="1"></div>
   <button #_button ly-button [color]="color" [lyMenuTriggerFor]="_Menu" lyTooltip="Select a theme!">
     <ly-icon icon="Theme"></ly-icon>
-    <span [withClass]="classes.themePickerText">{{ theme.config.name }}</span>
+    <span  lyTyp noWrap [withClass]="classes.themePickerText">{{ theme.config.name }}</span>
   </button>
   <ng-template #_Menu let-M>
     <ly-menu [ref]="M">
