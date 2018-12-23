@@ -34,15 +34,42 @@ export class LyTypography implements OnInit {
 
   private _gutterBottom: boolean;
   private _gutterBottomClass: string;
+  private _noWrap: boolean;
+  private _noWrapClass: string;
 
   @Input()
   set lyTyp(val: string) {
     if (val !== this.lyTyp) {
-      this._lyTypClass = this._createTypClass(val, this._lyTypClass);
+      if (val) {
+        this._lyTypClass = this._createTypClass(val, this._lyTypClass);
+      } else if (this._lyTypClass) {
+        this.renderer.removeClass(this.elementRef.nativeElement, this._lyTypClass);
+        this._lyTypClass = null;
+      }
     }
   }
   get lyTyp() {
     return this._lyTyp;
+  }
+
+  /** The text will truncate with an ellipsis. */
+  @Input()
+  set noWrap(val: boolean) {
+    const newValue = toBoolean(val);
+    if (newValue) {
+      this._noWrapClass = this.style.addSimpleStyle('lyTyp.noWrap', {
+        overFlow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis'
+      });
+      this.renderer.addClass(this.elementRef.nativeElement, this._noWrapClass);
+    } else if (this._noWrapClass) {
+      this.renderer.removeClass(this.elementRef.nativeElement, this._noWrapClass);
+      this._noWrapClass = null;
+    }
+  }
+  get noWrap() {
+    return this._noWrap;
   }
 
   @Input()
