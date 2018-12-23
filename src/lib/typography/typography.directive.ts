@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
 import { LyTheme2, toBoolean, ThemeVariables, StyleContainer } from '@alyle/ui';
 
-const STYLE_PRIORITY = -2;
+const STYLE_PRIORITY = -1;
 const styles = (theme: ThemeVariables) => ({
   root: {
     margin: 0,
