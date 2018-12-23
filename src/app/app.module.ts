@@ -15,7 +15,6 @@ import { LyButtonModule } from '@alyle/ui/button';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
-import { RoutesAppService } from './components/routes-app.service';
 import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
@@ -152,7 +151,6 @@ export type AUIThemeVariables = CustomMinimaLight & CustomMinimaDark & GlobalVar
     LyGridModule
   ],
   providers: [
-    RoutesAppService,
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables }

@@ -33,7 +33,7 @@
     [mode]="router.url !== '/' ? 'side' : 'over'"
     [spacingAbove]="router.url !== '/' ? '64px 56px@XSmall' : '0'"
   >
-    <ul *ngFor="let category of routesComponents" [withClass]="classes.drawerUl">
+    <ul *ngFor="let category of routes" [withClass]="classes.drawerUl">
       <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
       <li *ngFor="let component of category.routes">
         <a [withClass]="classes.drawerButton" class="nav-button" ly-button [routerLinkActive]="classes.onLinkActive" [routerLink]="[category.route, component.route]">

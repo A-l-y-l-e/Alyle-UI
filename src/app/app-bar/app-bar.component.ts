@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { AppComponent } from '../app.component';
 import { LyTheme2, CoreTheme as ThemeManager, Platform, WinScroll, ThemeVariables } from '@alyle/ui';
-import { LyDrawer } from '@alyle/ui/drawer';
-import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { LyDrawer } from '@alyle/ui/drawer';
+import { AppComponent } from '../app.component';
 
 const styles = (theme: ThemeVariables) => ({
   root: {
@@ -44,7 +44,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
     public themeManager: ThemeManager,
     private winScroll: WinScroll,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.themes = themeManager.themes;
   }
@@ -53,7 +53,9 @@ export class AppBarComponent implements OnInit, OnDestroy {
     this.drawer = this.appComponent.drawer;
     this.router.events
     .pipe(
-      filter((event) => event instanceof NavigationEnd)
+      filter((event) => {
+        return event instanceof NavigationEnd;
+      })
     )
     .subscribe((event: NavigationEnd) => {
       if (event.url === '/') {

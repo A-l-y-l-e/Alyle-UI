@@ -2,12 +2,12 @@ import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, Eleme
 import { SwUpdate } from '@angular/service-worker';
 import { Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2, ThemeVariables, Platform } from '@alyle/ui';
-import { RoutesAppService } from './components/routes-app.service';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark } from './app.module';
 import { LySnackBar } from '@alyle/ui/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AUIRoutes } from './routes';
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
   $name: 'app',
@@ -108,7 +108,7 @@ export class AppComponent implements OnInit {
   classes = this.theme.addStyleSheet(styles);
   routesComponents: any;
   version = AUI_VERSION;
-  routeState = false;
+  routes = AUIRoutes.slice(1);
 
   @ViewChild(LyDrawer) drawer: LyDrawer;
   @ViewChild(LySnackBar) sb: LySnackBar;
@@ -116,7 +116,6 @@ export class AppComponent implements OnInit {
   constructor(
     private _el: ElementRef,
     public router: Router,
-    public routesApp: RoutesAppService,
     private theme: LyTheme2,
     private renderer: Renderer2,
     sanitizer: DomSanitizer,
@@ -138,7 +137,6 @@ export class AppComponent implements OnInit {
     iconService.setSvg('Radiation', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/radiation'));
     iconService.setSvg('Water', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Water'));
     iconService.setSvg('Snow', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Snow'));
-    this.routesComponents = this.routesApp.routesApp;
   }
   ngOnInit() {
     this.renderer.addClass(this._el.nativeElement, this.classes.root);

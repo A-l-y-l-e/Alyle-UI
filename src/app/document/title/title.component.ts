@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, ViewEncapsulation } 
 import { Title } from '@angular/platform-browser';
 import { Platform } from '@alyle/ui';
 import { environment } from '@env/environment';
+import { AUIRoutesMap } from 'app/routes';
 
 @Component({
   selector: 'app-title',
@@ -17,22 +18,24 @@ export class TitleComponent implements OnInit {
   @Input()
   set route(val: string) {
     if (val !== this._route) {
-      this._route = val;
-      const varArray = val.split('/').filter(_ => !!_);
-      const latestItem = varArray[varArray.length - 1];
-      this.urls = varArray.map(_ => _.charAt(0).toUpperCase() + _.slice(1));
-      this.title = toTitle(latestItem);
-      if (this.title) {
-        if (varArray.some(_ => _ === 'layout' || _ === 'components')) {
-          const name = varArray[0] === 'components' ? varArray[0].slice(0, -1) : varArray[0];
-          this.titleService.setTitle(`${this.title} Angular ${name} | ${this.defaultTitle}`);
-        } else if (varArray.some(_ => _ === 'api')) {
-          this.titleService.setTitle(`${this.title} API | ${this.defaultTitle}`);
+      if (AUIRoutesMap.has(val)) {
+        this._route = val;
+        const varArray = val.split('/').filter(_ => !!_);
+        const latestItem = varArray[varArray.length - 1];
+        this.urls = varArray.map(_ => _.charAt(0).toUpperCase() + _.slice(1));
+        this.title = toTitle(latestItem);
+        if (this.title) {
+          if (varArray.some(_ => _ === 'layout' || _ === 'components')) {
+            const name = varArray[0] === 'components' ? varArray[0].slice(0, -1) : varArray[0];
+            this.titleService.setTitle(`${this.title} Angular ${name} | ${this.defaultTitle}`);
+          } else if (varArray.some(_ => _ === 'api')) {
+            this.titleService.setTitle(`${this.title} API | ${this.defaultTitle}`);
+          } else {
+            this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
+          }
         } else {
-          this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
+          this.titleService.setTitle(this.defaultTitle);
         }
-      } else {
-        this.titleService.setTitle(this.defaultTitle);
       }
       if (Platform.isBrowser && environment.production) {
         ga('set', 'page', val);
