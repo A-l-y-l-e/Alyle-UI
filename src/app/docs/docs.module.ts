@@ -100,17 +100,24 @@ import { DividerDemoComponent } from './components/divider-demo/divider-demo.com
 import { ListDividersModule } from './components/divider-demo/list-dividers/list-dividers.module';
 import { InsetDividersModule } from './components/divider-demo/inset-dividers/inset-dividers.module';
 
+/** Typography */
+import { TypographyDemoComponent } from './components/typography-demo/typography-demo.component';
+import { TruncateTextModule } from './components/typography-demo/truncate-text/truncate-text.module';
+import { TypographyDemoBasicModule } from './components/typography-demo/typography-demo-basic/typography-demo-basic.module';
+
 
 @NgModule({
   imports: [
     SharedModule,
     PrismModule,
     DemoViewModule,
+    DocsRoutingModule,
     PackageStatusModule,
     LyTypographyModule,
     LyCardModule,
-    DocsRoutingModule,
-    /** Layout */
+    /** Typography */
+    TypographyDemoBasicModule,
+    TruncateTextModule,
     /** Grid */
     GridDemoBasicModule,
     GridDemoAutoLayoutModule,
@@ -201,7 +208,9 @@ import { InsetDividersModule } from './components/divider-demo/inset-dividers/in
     /** List */
     ListDemoComponent,
     /** Divider */
-    DividerDemoComponent
+    DividerDemoComponent,
+    /**Typography */
+    TypographyDemoComponent
   ]
 })
 export class DocsModule { }

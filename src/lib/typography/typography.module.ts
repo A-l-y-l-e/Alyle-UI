@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { LyCommonModule } from '@alyle/ui';
+
 import { LyTypography } from './typography.directive';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  exports: [LyTypography],
+  exports: [LyTypography, LyCommonModule],
   declarations: [LyTypography]
 })
 export class LyTypographyModule { }

@@ -25,8 +25,6 @@ import { InstallationComponent } from '@docs/getting-started/installation/instal
 import { CardDemoComponent } from '@docs/components/card-demo/card-demo.component';
 import { CardDemoBasicModule } from '@docs/components/card-demo/card-demo-basic/card-demo-basic.module';
 import { LyTypographyModule } from '@alyle/ui/typography';
-import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
-import { TypographyDemoBasicModule } from '@docs/components/typography-demo/typography-demo-basic/typography-demo-basic.module';
 import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
 import { MultipleThemesDemo01Module } from './components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
 import { DocsModule } from '@docs/docs.module';
@@ -116,7 +114,6 @@ export type AUIThemeVariables = CustomMinimaLight & CustomMinimaDark & GlobalVar
     InstallationComponent,
     /** Components */
     CardDemoComponent,
-    TypographyDemoComponent,
     /** Pages */
     HomeComponent
   ],
@@ -125,7 +122,6 @@ export type AUIThemeVariables = CustomMinimaLight & CustomMinimaDark & GlobalVar
     /** Customization */
     /** MultipleThemes >*/MultipleThemesDemo01Module,
     /** CardDemo > */CardDemoBasicModule,
-    /** TypographyDemo > */TypographyDemoBasicModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
