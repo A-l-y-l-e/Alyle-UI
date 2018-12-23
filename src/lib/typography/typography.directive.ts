@@ -58,7 +58,7 @@ export class LyTypography implements OnInit {
     const newValue = toBoolean(val);
     if (newValue) {
       this._noWrapClass = this.style.addSimpleStyle('lyTyp.noWrap', {
-        overFlow: 'hidden',
+        overflow: 'hidden',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis'
       });
