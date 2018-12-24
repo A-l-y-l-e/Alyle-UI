@@ -64,7 +64,7 @@ export class ViewComponent implements OnInit {
   folderName: string;
   demos: {label: string, url: string, ext: string}[] = [];
   files = [
-    {label: 'Html', type: 'component', ext: 'html'},
+    {label: 'Template', type: 'component', ext: 'html'},
     {label: 'Component', type: 'component', ext: 'ts'},
     {label: 'Module', type: 'module', ext: 'ts'}
   ];

@@ -89,7 +89,6 @@ const classes = (theme: AUIThemeVariables) => ({
   root: {
     color: theme.codeColor,
     backgroundColor: theme.codeBg,
-    marginBottom: '.5em',
     direction: 'ltr',
     'pre[class*="language-"]': {
       padding: '1em',

@@ -59,7 +59,7 @@ const DEFAULT_HEADER_PLACEMENT = 'above';
 export type AlignTabs = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 export type LyTabsHeaderPlacement = 'before' | 'after' | 'above' | 'below';
 
-const styles = (theme: ThemeVariables) => ({
+const STYLES = (theme: ThemeVariables) => ({
   root: {
     display: 'block'
   },
@@ -188,7 +188,7 @@ mixinBg(
 })
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   _selectedIndex = 0;
   _selectedBeforeIndex: number;
   _selectedTab: LyTab;
