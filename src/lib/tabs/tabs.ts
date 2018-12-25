@@ -447,7 +447,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   _updateIndicator(currentTab: LyTab, beforeTab?: LyTab): void {
     if (currentTab) {
       if (beforeTab) {
-        beforeTab._renderer.removeAttribute(beforeTab.tabIndicator.nativeElement, 'class');
+        beforeTab._renderer.removeAttribute(beforeTab._tabIndicator.nativeElement, 'class');
       }
       const el = currentTab._el.nativeElement as HTMLElement;
       const rects = el.getBoundingClientRect();
@@ -496,14 +496,14 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           this._updateIndicator(tab);
         } else {
           /** for server */
-          this.renderer.addClass(this._selectedTab.tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
-          this.renderer.addClass(this._selectedTab.tabIndicator.nativeElement, this._colorClass);
+          this.renderer.addClass(this._selectedTab._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
+          this.renderer.addClass(this._selectedTab._tabIndicator.nativeElement, this._colorClass);
         }
       });
     }
     tab._tabLabel._updateTabState();
     if (this.selectedIndex === tab.index) {
-      return tab.templateRefLazy || tab.templateRef;
+      return tab._templateRefLazy || tab._templateRef;
     } else {
       return null;
     }
@@ -527,11 +527,12 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   encapsulation: ViewEncapsulation.None
 })
 export class LyTab implements OnInit {
+  /** Current tab index */
   index: number;
   _isBrowser = Platform.isBrowser;
-  @ContentChild(LyTabContent, { read: TemplateRef }) templateRefLazy: TemplateRef<LyTabContent>;
-  @ViewChild('_templateNgContent') templateRef: TemplateRef<any>;
-  @ViewChild('tabIndicator') tabIndicator: ElementRef;
+  @ContentChild(LyTabContent, { read: TemplateRef }) _templateRefLazy: TemplateRef<LyTabContent>;
+  @ViewChild('_templateNgContent') _templateRef: TemplateRef<any>;
+  @ViewChild('tabIndicator') _tabIndicator: ElementRef;
   @ContentChild(forwardRef(() => LyTabLabel)) _tabLabel: LyTabLabel;
 
   constructor(
@@ -566,7 +567,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _active: boolean;
   _isBrowser = Platform.isBrowser;
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
-  @HostListener('click') onClickTab() {
+  @HostListener('click') _onClickTab() {
     if (!this.disabled) {
       this._tabs.selectedIndex = this._tab.index;
     }
