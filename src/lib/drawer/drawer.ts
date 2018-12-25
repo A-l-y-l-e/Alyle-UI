@@ -25,6 +25,8 @@ import {
   YPosition
   } from '@alyle/ui';
 
+export type LyDrawerPosition = Placement;
+export type LyDrawerMode = 'side' | 'over';
 const DEFAULT_MODE = 'side';
 const DEFAULT_WIDTH = '230px';
 const DEFAULT_VALUE = '';
@@ -61,9 +63,6 @@ const styles = (theme: ThemeVariables) => ({
     transitionProperty: 'transform, margin, visibility'
   }
 });
-
-export type position = Placement;
-type mode = 'side' | 'over';
 
 @Directive({
   selector: 'ly-drawer-container'
@@ -117,14 +116,13 @@ export class LyDrawer implements OnChanges {
   private _isAnimation: boolean;
   private _hasBackdrop: boolean | null;
 
-  private _position: position = DEFAULT_POSITION;
+  private _position: LyDrawerPosition = DEFAULT_POSITION;
   private _positionClass: string;
 
   private _drawerRootClass: string;
   private _drawerClass: string;
   private _drawerContentClass: string;
 
-  /** @ignore */
   @ViewChild(TemplateRef) _backdrop: TemplateRef<any>;
 
   @Input()
@@ -136,7 +134,7 @@ export class LyDrawer implements OnChanges {
   get opened() {
     return this._opened;
   }
-  @Input() mode: mode = DEFAULT_MODE;
+  @Input() mode: LyDrawerMode = DEFAULT_MODE;
 
   @Input() spacingAbove: string | number;
 
@@ -146,8 +144,8 @@ export class LyDrawer implements OnChanges {
 
   @Input() spacingAfter: string | number;
 
-  @Input() spacingRight: string | number;
-  @Input() spacingLeft: string | number;
+  // @Input() spacingRight: string | number;
+  // @Input() spacingLeft: string | number;
 
   @Input() width: number | string;
   @Input() height: number | string;
@@ -161,7 +159,7 @@ export class LyDrawer implements OnChanges {
   }
 
   @Input()
-  set position(val: position) {
+  set position(val: LyDrawerPosition) {
     if (val !== this.position) {
       this._position = val;
       this._theme.addStyle(`drawer.position:${val}`,
@@ -171,7 +169,7 @@ export class LyDrawer implements OnChanges {
       }), this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
     }
   }
-  get position(): position {
+  get position(): LyDrawerPosition {
     return this._position;
   }
 
