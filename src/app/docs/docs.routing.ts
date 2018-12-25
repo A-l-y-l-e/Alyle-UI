@@ -19,6 +19,7 @@ import { MenuDemoComponent } from './components/menu-demo/menu-demo.component';
 import { AvatarDemoComponent } from './components/avatar-demo/avatar-demo.component';
 import { ListDemoComponent } from './components/list-demo/list-demo.component';
 import { DividerDemoComponent } from './components/divider-demo/divider-demo.component';
+import { DrawerDemoComponent } from './components/drawer-demo/drawer-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -59,6 +60,7 @@ const routes: Routes = [
       { path: 'avatar', component: AvatarDemoComponent },
       { path: 'list', component: ListDemoComponent },
       { path: 'divider', component: DividerDemoComponent },
+      { path: 'drawer', component: DrawerDemoComponent }
     ]
   }
 ];

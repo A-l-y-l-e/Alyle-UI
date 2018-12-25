@@ -105,6 +105,9 @@ import { TypographyDemoComponent } from './components/typography-demo/typography
 import { TruncateTextModule } from './components/typography-demo/truncate-text/truncate-text.module';
 import { TypographyDemoBasicModule } from './components/typography-demo/typography-demo-basic/typography-demo-basic.module';
 
+/** Drawer */
+import { DrawerDemoComponent } from './components/drawer-demo/drawer-demo.component';
+import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/drawer-demo-01.module';
 
 @NgModule({
   imports: [
@@ -169,7 +172,9 @@ import { TypographyDemoBasicModule } from './components/typography-demo/typograp
     FolderListModule,
     /** Divider */
     ListDividersModule,
-    InsetDividersModule
+    InsetDividersModule,
+    /** Drawer */
+    DrawerDemo01Module
   ],
   declarations: [
     ThemingComponent,
@@ -210,7 +215,9 @@ import { TypographyDemoBasicModule } from './components/typography-demo/typograp
     /** Divider */
     DividerDemoComponent,
     /**Typography */
-    TypographyDemoComponent
+    TypographyDemoComponent,
+    /** Drawer */
+    DrawerDemoComponent
   ]
 })
 export class DocsModule { }
