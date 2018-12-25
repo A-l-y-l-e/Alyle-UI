@@ -97,52 +97,7 @@ docsJSON.children.forEach(child => {
         ).push(__data);
 
         if (children) {
-          const items = [];
-          children.forEach(de => {
-            if (!(
-              de.name.startsWith('_') || checkIfContainTagPrivate(de) ||
-              checkIfIsMethodLifecycle(de)
-            )) { // ignore for names start with '_'
-              let comment = '';
-              if (de.comment) {
-                comment += createDescription(de.comment);
-                items.push(comment);
-              }
-              if (de.kindString === 'Property') {
-                let line = '';
-                if (de.decorators) {
-                  de.decorators.forEach(_ => {
-                      line += `@${_.name}() `;
-                  });
-                }
-                line += `${de.name}: `;
-                line += de.type && de.type['name'] ? de.type['name'] : 'any';
-                items.push(line);
-              } else if (de.kindString === 'Accessor') {
-
-                let line = '';
-                if (de.decorators) {
-                  de.decorators.forEach(_ => {
-                    line += `@${_.name}(`;
-                    if (_.arguments.bindingPropertyName) {
-                      line += _.arguments.bindingPropertyName;
-                    }
-                    line += `) `;
-                  });
-                }
-                line += `${de.name}: `;
-                line += `${de.getSignature && (de.getSignature.type.type === 'intrinsic' || de.getSignature.type.type === 'reference')
-                ? (de.getSignature.type['name'])
-                : 'any'}`;
-                items.push(line);
-              } else if (de.kindString === 'Method') {
-                let line = '';
-                line += methodTemplate(de);
-                items.push(line);
-              }
-            }
-          });
-          __data.children = items.join(`\n`);
+          __data.children = createClassContent(children);
         }
 
       } else if ((_child.flags.isExported || (kindString === 'Variable' && _child.flags.isConst)) && !checkIfContainTagPrivate(_child)) {
@@ -175,8 +130,9 @@ docsJSON.children.forEach(child => {
           line += `{\n`;
           line += _child.children.map(_ => {
             let k = `  `;
-            if (_.comment) {
-              k += `${createDescription(_.comment)}\n  `;
+            const comment = createDescription(_);
+            if (comment) {
+              k += `${comment}\n  `;
             }
             k += `${_.name}`;
             if (_.defaultValue) {
@@ -195,8 +151,9 @@ docsJSON.children.forEach(child => {
 
           line += _child.children.map(_ => {
             let k = `  `;
-            if (_.comment) {
-              k += `${createDescription(_.comment)}\n  `;
+            const comment = createDescription(_);
+            if (comment) {
+              k += `${comment}\n  `;
             }
             k += `${_.name}`;
             if (_.type) {
@@ -211,8 +168,9 @@ docsJSON.children.forEach(child => {
           });
         } else if (kindString === 'Type alias') {
           let line = '';
-          if (_child.comment) {
-            line += `${createDescription(_child.comment)}\n`;
+          const comment = createDescription(_child);
+          if (comment) {
+            line += `${comment}\n`;
           }
           line += `type ${name}`;
 
@@ -221,6 +179,33 @@ docsJSON.children.forEach(child => {
               line += ` = ${getType(_child.type, 'any')}`;
             }
           }
+          APIListLarge[pkgName][Type].push({
+            name,
+            children: line
+          });
+        } else if (type === 'Injectable') {
+          let line = '';
+          const comment = createDescription(_child);
+          if (comment) {
+            line += `${comment}\n`;
+          }
+          line += `@Injectable(`;
+          if (
+            _child.decorators &&
+            _child.decorators.length &&
+            _child.decorators[0].name === 'Injectable' &&
+            _child.decorators[0].arguments &&
+            _child.decorators[0].arguments.options
+          ) {
+            line += _child.decorators[0].arguments.options;
+          }
+          line += `)`;
+          line += `\nclass ${name} {\n  `;
+          if (children) {
+            line += createClassContent(children)
+            .replace(/\n/g, `\n  `); // add spaces
+          }
+          line += `\n}`;
           APIListLarge[pkgName][Type].push({
             name,
             children: line
@@ -315,7 +300,8 @@ function getType(ty: ParameterReflection['type'], defaultType = 'void') {
   return defaultType;
 }
 
-function createDescription(comment: Reflection['comment']) {
+function createDescription(refl: Reflection) {
+  const comment: Reflection['comment'] = refl.comment || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : null);
   if (comment && comment.shortText) {
     const newText = (comment.shortText);
     const isMultiline = newText.split(/\n/g).length > 1;
@@ -324,4 +310,52 @@ function createDescription(comment: Reflection['comment']) {
     return newText ? `/**${lineStart} ${newText.replace(/\n/g, `\n * `)}${lineEnd} */` : '';
   }
   return '';
+}
+
+function createClassContent(children: DeclarationReflection[]): string {
+  const items = [];
+  children.forEach(de => {
+    if (!(
+      de.name.startsWith('_') || checkIfContainTagPrivate(de) ||
+      checkIfIsMethodLifecycle(de)
+    )) { // ignore names that start with '_'
+      const comment = createDescription(de);
+      if (comment) {
+        items.push(comment);
+      }
+      if (de.kindString === 'Property') {
+        let line = '';
+        if (de.decorators) {
+          de.decorators.forEach(_ => {
+              line += `@${_.name}() `;
+          });
+        }
+        line += `${de.name}: `;
+        line += de.type && de.type['name'] ? de.type['name'] : 'any';
+        items.push(line);
+      } else if (de.kindString === 'Accessor') {
+
+        let line = '';
+        if (de.decorators) {
+          de.decorators.forEach(_ => {
+            line += `@${_.name}(`;
+            if (_.arguments.bindingPropertyName) {
+              line += _.arguments.bindingPropertyName;
+            }
+            line += `) `;
+          });
+        }
+        line += `${de.name}: `;
+        line += `${de.getSignature && (de.getSignature.type.type === 'intrinsic' || de.getSignature.type.type === 'reference')
+        ? (de.getSignature.type['name'])
+        : 'any'}`;
+        items.push(line);
+      } else if (de.kindString === 'Method') {
+        let line = '';
+        line += methodTemplate(de);
+        items.push(line);
+      }
+    }
+  });
+  return items.join(`\n`);
 }

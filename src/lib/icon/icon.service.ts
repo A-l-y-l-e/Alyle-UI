@@ -15,6 +15,8 @@ export interface FontClassOptions {
   /** Frefix class */
   prefix?: string;
 }
+
+/** The following styles will never be updated */
 const styles = {
   svg: {
     width: 'inherit',
@@ -36,7 +38,11 @@ export class LyIconService {
   private _defaultClassPrefix: string;
   private svgMap = new Map<string, SvgIcon>();
   private _fontClasses = new Map<string, FontClassOptions>();
-  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  /**
+   * Styles
+   * @docs-private
+   */
+  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   readonly defaultSvgIcon: SVGElement;
   get defaultClass() {
     return this._defaultClass;

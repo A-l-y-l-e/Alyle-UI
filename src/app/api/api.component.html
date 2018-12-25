@@ -22,6 +22,10 @@
       <prism *ngIf="directive.children" language="typescript" [code]="directive.children"></prism>
     </ng-template>
   </ng-template>
+  <ng-container *ngIf="api.injectableList as injectables">
+    <h2 [lyTyp]="'headline'" gutter>Injectables</h2>
+    <prism language="typescript" [code]="joinList(injectables)"></prism>
+  </ng-container>
   <ng-container *ngIf="api.typeAliasList as typeAliasList">
     <h2 [lyTyp]="'headline'" gutter>Type Aliases</h2>
     <prism language="typescript" [code]="joinList(typeAliasList)"></prism>
