@@ -32,11 +32,11 @@ export class ApiComponent implements OnInit, OnDestroy {
       this.pkgName = params.package;
       this.doc = this.http
       .get(isDevMode() ? `${location.origin}/api/${this.pkgName}.json` : `${host}/${this.pkgName}.min.json`, {responseType: 'json'});
-      themeConfig.forEach(pkg => {
-        if (this.pkgName in pkg && Object.keys(pkg[this.pkgName]).length) {
+      themeConfig.forEach(themeInfo => {
+        if (this.pkgName in themeInfo && Object.keys(themeInfo[this.pkgName]).length) {
           this.themePkg.push({
-            name: pkg.name,
-            themeJSON: JSON.stringify(pkg[this.pkgName], undefined, 2)
+            name: themeInfo.name,
+            themeJSON: JSON.stringify(themeInfo[this.pkgName], undefined, 2)
           });
         }
       });
