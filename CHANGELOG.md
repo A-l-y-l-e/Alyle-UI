@@ -1,3 +1,20 @@
+<a name="1.9.11"></a>
+## [1.9.11](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.10...1.9.11) (2018-12-27)
+
+
+### Bug Fixes
+
+* **theme:** fix theme for icon button ([2ae61f5](https://github.com/A-l-y-l-e/Alyle-UI/commit/2ae61f5))
+* **typography:** update style priority ([e0895e2](https://github.com/A-l-y-l-e/Alyle-UI/commit/e0895e2))
+
+
+### Features
+
+* **field:** add `@Input() align`for `ly-hint` ([0e46b27](https://github.com/A-l-y-l-e/Alyle-UI/commit/0e46b27))
+* **typography:** add noWrap ([4ab3a5a](https://github.com/A-l-y-l-e/Alyle-UI/commit/4ab3a5a))
+
+
+
 <a name="1.9.10"></a>
 ## [1.9.10](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.9...1.9.10) (2018-12-22)
 
