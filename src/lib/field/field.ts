@@ -182,7 +182,13 @@ const styles = (theme: ThemeVariables) => {
       font: 'inherit',
       width: '100%'
     },
-    hint: { },
+    hint: {
+      display: 'flex',
+      flex: '1 0 auto',
+      maxWidth: '100%',
+      overflow: 'hidden',
+      justifyContent: 'space-between'
+    },
     disabled: {
       '&, & {label}, & {container}:after': {
         color: theme.disabled.contrast,
@@ -377,7 +383,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   private _updateFielset(el: Element, dir: DirAlias) {
     const { width } = el.getBoundingClientRect();
     const newClass = this._theme.addStyle(`fieldLegendstyle.margin${dir}:${width}`, () => ({
-      [`& .${this.classes.fieldsetSpan}, & .${this.classes.hint}`]: {
+      [`& .${this.classes.fieldsetSpan}`]: {
         [`margin-${dir}`]: `${width}px`
       }
     }), null, null, STYLE_PRIORITY);

@@ -53,8 +53,10 @@ import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-c
 import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
 import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-badge.module';
 
+/** Field */
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
+import { FieldPlaygroundModule } from './components/field-demo/field-playground/field-playground.module';
 
 /** Checkbox */
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
@@ -151,6 +153,7 @@ import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/draw
     BasicBadgeModule,
     /** Field */
     BasicFieldModule,
+    FieldPlaygroundModule,
     /** Checkbox */
     BasicCheckboxModule,
     ComplexCheckboxModule,

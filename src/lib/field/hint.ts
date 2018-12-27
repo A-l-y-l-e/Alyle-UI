@@ -1,6 +1,8 @@
-import { Directive, Renderer2, ElementRef } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { Directive, Renderer2, ElementRef, Input } from '@angular/core';
+import { LyTheme2, invertPlacement } from '@alyle/ui';
 
+export type LyHintAlign = 'before' | 'after';
+const STYLE_PRIORITY = -2;
 const STYLES = ({
   root: {
     display: 'block',
@@ -14,12 +16,36 @@ const STYLES = ({
   selector: 'ly-field > ly-hint'
 })
 export class LyHint {
+  private _align: LyHintAlign;
+  private _alignClass: string;
+  @Input()
+  set align(val: LyHintAlign) {
+    const newVal = invertPlacement(val as any);
+    if (val) {
+      this._alignClass = this._theme.addStyle(
+        `lyHint.align:${val}`,
+        () => ({
+          [`margin-${newVal}`]: 'auto'
+        }),
+        this._el.nativeElement,
+        this._alignClass,
+        STYLE_PRIORITY
+      );
+    } else if (this._alignClass) {
+      this._renderer.removeClass(this._el.nativeElement, this._alignClass);
+      this._alignClass = null;
+    }
+    this._align = val;
+  }
+  get align() {
+    return this._align;
+  }
   constructor(
-    _renderer: Renderer2,
-    _el: ElementRef,
-    _theme: LyTheme2
+    private _renderer: Renderer2,
+    private _el: ElementRef,
+    private _theme: LyTheme2
     ) {
-    const className = _theme.addStyleSheet(STYLES).root;
+    const className = _theme.addStyleSheet(STYLES, STYLE_PRIORITY).root;
     _renderer.addClass(_el.nativeElement, className);
   }
 }

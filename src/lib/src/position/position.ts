@@ -247,10 +247,10 @@ export class Positioning {
     }
     if (rest < 0) {
       if (this.placement !== YPosition.above && this.placement !== YPosition.below) {
-        this.placement = this.invertPosition(this.placement);
+        this.placement = invertPlacement(this.placement);
       }
       if (this.xPosition) {
-        this.xPosition = this.invertPosition(this.xPosition) as XPosition;
+        this.xPosition = invertPlacement(this.xPosition) as XPosition;
       }
       return true;
     }
@@ -263,10 +263,10 @@ export class Positioning {
     }
     if (rest < 0) {
       if (this.placement !== YPosition.above && this.placement !== YPosition.below) {
-        this.placement = this.invertPosition(this.placement);
+        this.placement = invertPlacement(this.placement);
       }
       if (this.xPosition) {
-        this.xPosition = this.invertPosition(this.xPosition) as XPosition;
+        this.xPosition = invertPlacement(this.xPosition) as XPosition;
       }
       return true;
     }
@@ -279,10 +279,10 @@ export class Positioning {
     }
     if (rest < 0) {
       if (this.placement === YPosition.above || this.placement === YPosition.below) {
-        this.placement = this.invertPosition(this.placement);
+        this.placement = invertPlacement(this.placement);
       }
       if (this.yPosition) {
-        this.yPosition = this.invertPosition(this.yPosition) as YPosition;
+        this.yPosition = invertPlacement(this.yPosition) as YPosition;
       }
       return true;
     }
@@ -295,10 +295,10 @@ export class Positioning {
     }
     if (rest < 0) {
       if (this.placement === YPosition.above || this.placement === YPosition.below) {
-        this.placement = this.invertPosition(this.placement);
+        this.placement = invertPlacement(this.placement);
       }
       if (this.yPosition) {
-        this.yPosition = this.invertPosition(this.yPosition) as YPosition;
+        this.yPosition = invertPlacement(this.yPosition) as YPosition;
       }
       return true;
     }
@@ -312,21 +312,19 @@ export class Positioning {
     this.checkBottom();
   }
 
-  private invertPosition(placement: Placement): Placement {
-    if (placement === YPosition.above) {
-      return YPosition.below;
-    } else if (placement === YPosition.below) {
-      return YPosition.above;
-    } else if (placement === XPosition.after) {
-      return XPosition.before;
-    } else if (placement === XPosition.before) {
-      return XPosition.after;
-    } else if (placement === XPosition.right) {
-      return XPosition.left;
-    } else if (placement === XPosition.left) {
-      return XPosition.right;
-    }
-  }
-
 }
-
+export function invertPlacement(placement: Placement): Placement {
+  if (placement === YPosition.above) {
+    return YPosition.below;
+  } else if (placement === YPosition.below) {
+    return YPosition.above;
+  } else if (placement === XPosition.after) {
+    return XPosition.before;
+  } else if (placement === XPosition.before) {
+    return XPosition.after;
+  } else if (placement === XPosition.right) {
+    return XPosition.left;
+  } else if (placement === XPosition.left) {
+    return XPosition.right;
+  }
+}

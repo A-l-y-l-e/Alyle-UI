@@ -1,14 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'aui-basic-field',
-  templateUrl: './basic-field.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './basic-field.component.html'
 })
-export class BasicFieldComponent {
-  hide = true;
-  appearance = new FormControl();
-  isDisabled = new FormControl();
-  password = new FormControl('pass');
-}
+export class BasicFieldComponent { }
