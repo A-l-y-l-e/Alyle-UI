@@ -305,16 +305,23 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
     this._focusState.unlisten(this._el);
     this._removeRippleEvents();
   }
+
+  /** @docs-private */
   writeValue(value: any): void {
     this.checked = !!value;
   }
+
+  /** @docs-private */
   registerOnChange(fn: (value: any) => void): void {
     this._controlValueAccessorChangeFn = fn;
   }
+
+  /** @docs-private */
   registerOnTouched(fn: any): void {
     this._onTouched = fn;
   }
 
+  /** @docs-private */
   setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
   }
