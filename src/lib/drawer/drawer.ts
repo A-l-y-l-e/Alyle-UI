@@ -29,11 +29,12 @@ export type LyDrawerPosition = Placement;
 export type LyDrawerMode = 'side' | 'over';
 const DEFAULT_MODE = 'side';
 const DEFAULT_WIDTH = '230px';
+const DEFAULT_MIN_WIDTH = 0;
 const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = XPosition.before;
 
-const styles = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables) => ({
   drawerContainer: {
     display: 'block',
     position: 'relative',
@@ -54,6 +55,7 @@ const styles = (theme: ThemeVariables) => ({
     transform: 'translate(0px, 0px)',
     visibility: 'visible'
   },
+  drawerClosed: null,
   backdrop: {
     ...LY_COMMON_STYLES.fill,
     backgroundColor: theme.drawer.backdrop
@@ -69,7 +71,7 @@ const styles = (theme: ThemeVariables) => ({
 })
 export class LyDrawerContainer {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY + 1.9);
+  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY + 1.9);
   _openDrawers = 0;
   @ContentChild(forwardRef(() => LyDrawerContent)) _drawerContent: LyDrawerContent;
   constructor(
@@ -148,7 +150,10 @@ export class LyDrawer implements OnChanges {
   // @Input() spacingLeft: string | number;
 
   @Input() width: number | string;
+
   @Input() height: number | string;
+
+  @Input() minWidth: number | string = DEFAULT_MIN_WIDTH;
 
   @Input()
   get hasBackdrop() {
@@ -193,6 +198,7 @@ export class LyDrawer implements OnChanges {
     const __forceModeOver = this._forceModeOver;
     const __opened = this.opened;
     let __width = this.width;
+    const __minWidth = toPx(this.minWidth);
     const __height = this.height;
     const __position = this.position;
 
@@ -264,7 +270,7 @@ export class LyDrawer implements OnChanges {
 
     /** default styles */
     this._drawerRootClass = this._theme.addStyle(
-      `ly-drawer-root:${__width}·${__height}·${__spacingAbove}·${__spacingBelow}·${__spacingBefore}·${__spacingAfter}·${__position}·${__mode}·${__forceModeOver}`,
+      `ly-drawer-root:${__width}·${__height}·${__minWidth}·${__spacingAbove}·${__spacingBelow}·${__spacingBefore}·${__spacingAfter}·${__position}·${__mode}·${__forceModeOver}`,
       (theme: ThemeVariables) => {
       const stylesDrawerRoot: {
         width?: string
@@ -282,7 +288,7 @@ export class LyDrawer implements OnChanges {
       if (__width) {
         const dirXSign = pos === DirPosition.left ? '-' : '+';
         eachMedia(__width, (val, media, isMedia) => {
-          if ((__mode === 'over' || __forceModeOver) && val === '0') {
+          if ((__mode === 'over' || __forceModeOver) && (val === '0' || val === __minWidth)) {
             return;
           }
           const newStyleWidth = toPx(val);
@@ -363,7 +369,8 @@ export class LyDrawer implements OnChanges {
   toggle() {
     const width = getComputedStyle(this._el.nativeElement).width;
     this._fromToggle = true;
-    if (width === '0px') {
+    console.log(toPx(this.minWidth), width);
+    if (width === toPx(this.minWidth)) {
       this._forceModeOver = true;
       this.opened = true;
     } else {
