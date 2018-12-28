@@ -92,9 +92,9 @@ export class LyTooltip implements OnInit, OnDestroy {
       });
 
       focusState.listen(element).subscribe(ev => {
-        if (ev.by === 'keyboard' && ev.event.type === 'focus') {
+        if (ev === 'keyboard') {
           ngZone.run(() => this.show());
-        } else if (ev.event.type === 'blur') {
+        } else if (ev == null) {
           ngZone.run(() => this.hide());
         }
       });
