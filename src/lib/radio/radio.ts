@@ -24,7 +24,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinDisableRipple, ThemeVariables } from '@alyle/ui';
+import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinDisableRipple, ThemeVariables, LyFocusState, LY_COMMON_STYLES } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_DISABLE_RIPPLE = false;
@@ -57,7 +57,13 @@ export const STYLES = (theme: ThemeVariables) => ({
           transform: 'scale(0.8)'
         }
       }
-    }
+    },
+    '&{onFocusByKeyboard} {container}::after': {
+      boxShadow: '0 0 0 12px',
+      background: 'currentColor',
+      opacity: .13,
+      borderRadius: '50%',
+    },
   },
   label: {
     cursor: 'pointer',
@@ -82,6 +88,13 @@ export const STYLES = (theme: ThemeVariables) => ({
       width: '1em',
       height: '1em'
     },
+    '&::after': {
+      content: `''`,
+      ...LY_COMMON_STYLES.fill,
+      width: '16px',
+      height: '16px',
+      margin: 'auto'
+    },
     'div:nth-child(2)': {
       background: 'currentColor',
       transform: 'scale(0)'
@@ -98,7 +111,8 @@ export const STYLES = (theme: ThemeVariables) => ({
       transition: 'transform cubic-bezier(.1, 1, 0.5, 1)',
       transitionDuration: '250ms'
     }
-  }
+  },
+  onFocusByKeyboard: null
 });
 
 @Component({
@@ -266,6 +280,7 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   private _color: string;
   private _colorClass: string;
   private _animClass: string;
+  @ViewChild('_input') _input: ElementRef;
   @ViewChild('_radioContainer') private _radioContainer: ElementRef;
   @ViewChild('_labelContainer') _labelContainer: ElementRef;
   @Output() change = new EventEmitter<boolean>();
@@ -336,7 +351,8 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
     theme: LyTheme2,
     private changeDetectorRef: ChangeDetectorRef,
     ngZone: NgZone,
-    public coreStyles: LyCoreStyles
+    public coreStyles: LyCoreStyles,
+    private _focusState: LyFocusState
   ) {
     super(theme, ngZone);
     this._triggerElement = this._elementRef;
@@ -364,6 +380,16 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
     // set default disable ripple
     if (this.disableRipple == null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
+    }
+    const focusState = this._focusState.listen(this._input, this._elementRef);
+    if (focusState) {
+      focusState.subscribe((event) => {
+        if (event === 'keyboard') {
+          this._renderer.addClass(this._elementRef.nativeElement, this.classes.onFocusByKeyboard);
+        } else if (event == null) {
+          this._renderer.removeClass(this._elementRef.nativeElement, this.classes.onFocusByKeyboard);
+        }
+      });
     }
   }
 
