@@ -23,7 +23,8 @@ const styles = ({
     },
     '& > h1': {
       fontFamily: `'Nunito', sans-serif`,
-      letterSpacing: '-.04em'
+      letterSpacing: '-.04em',
+      textShadow: 'rgba(255, 255, 255, 0.4) 0px 0px 11px'
     }
   },
   buttons: {
