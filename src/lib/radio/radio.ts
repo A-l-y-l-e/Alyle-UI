@@ -319,9 +319,12 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
       this._markForCheck();
     }
   }
+
   get checked() {
     return this._checked;
   }
+
+  /** @docs-private */
   get inputId(): string {
     return `${this.id}-input`;
   }
