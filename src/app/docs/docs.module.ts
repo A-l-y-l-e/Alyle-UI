@@ -111,6 +111,11 @@ import { TypographyDemoBasicModule } from './components/typography-demo/typograp
 import { DrawerDemoComponent } from './components/drawer-demo/drawer-demo.component';
 import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/drawer-demo-01.module';
 
+/** Radio */
+import { RadioDemoComponent } from './components/radio-demo/radio-demo.component';
+import { RadioExample01Module } from './components/radio-demo/radio-example-01/radio-example-01.module';
+import { BasicRadioModule } from './components/radio-demo/basic-radio/basic-radio.module';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -177,7 +182,10 @@ import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/draw
     ListDividersModule,
     InsetDividersModule,
     /** Drawer */
-    DrawerDemo01Module
+    DrawerDemo01Module,
+    /** Radio */
+    RadioExample01Module,
+    BasicRadioModule
   ],
   declarations: [
     ThemingComponent,
@@ -220,7 +228,9 @@ import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/draw
     /**Typography */
     TypographyDemoComponent,
     /** Drawer */
-    DrawerDemoComponent
+    DrawerDemoComponent,
+    /** Radio */
+    RadioDemoComponent
   ]
 })
 export class DocsModule { }

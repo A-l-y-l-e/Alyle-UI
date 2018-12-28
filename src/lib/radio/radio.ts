@@ -63,7 +63,7 @@ export const STYLES = (theme: ThemeVariables) => ({
       background: 'currentColor',
       opacity: .13,
       borderRadius: '50%',
-    },
+    }
   },
   label: {
     cursor: 'pointer',
@@ -77,9 +77,7 @@ export const STYLES = (theme: ThemeVariables) => ({
   },
   container: {
     position: 'relative',
-    marginRight: '8px',
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    margin: 'auto 2px',
     width: '16px',
     height: '16px',
     'div': {
@@ -112,7 +110,13 @@ export const STYLES = (theme: ThemeVariables) => ({
       transitionDuration: '250ms'
     }
   },
-  onFocusByKeyboard: null
+  onFocusByKeyboard: null,
+  disabled: {
+    color: theme.disabled.contrast,
+    '{container} div': {
+      color: `${theme.disabled.contrast}!important`
+    }
+  }
 });
 
 @Component({
@@ -280,6 +284,8 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   private _color: string;
   private _colorClass: string;
   private _animClass: string;
+  private _disabled: boolean;
+  private _disabledClass: string;
   @ViewChild('_input') _input: ElementRef;
   @ViewChild('_radioContainer') private _radioContainer: ElementRef;
   @ViewChild('_labelContainer') _labelContainer: ElementRef;
@@ -342,6 +348,21 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   /** @docs-private */
   get inputId(): string {
     return `${this.id}-input`;
+  }
+
+  @Input()
+  get disabled(): boolean { return this._disabled; }
+  set disabled(value) {
+    const newVal = toBoolean(value);
+    if (newVal) {
+      this._renderer.addClass(this._elementRef.nativeElement, this.classes.disabled);
+      this._disabledClass = this.classes.disabled;
+    } else if (this._disabledClass) {
+      this._renderer.removeClass(this._elementRef.nativeElement, this.classes.disabled);
+      this._disabledClass = null;
+    }
+    this._disabled = toBoolean(value);
+    this._markForCheck();
   }
 
   constructor(

@@ -28,7 +28,6 @@ const routes: Routes = [
   {
     path: 'components',
     children: [
-      { path: 'radio', loadChildren: './components/radio-demo/radio-demo.module#RadioDemoModule' },
       { path: 'carousel', loadChildren: './components/carousel-demo/carousel-demo.module#CarouselDemoModule' },
       { path: 'card', component: CardDemoComponent },
       { path: 'typography', component: TypographyDemoComponent },

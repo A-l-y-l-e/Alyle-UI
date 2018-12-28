@@ -6,6 +6,7 @@
     [name]="name"
     (change)="_onInputChange($event)"
     (click)="_onInputClick($event)"
+    [disabled]="disabled"
     type="radio"
     >
   <div #_radioContainer [className]="classes.container">

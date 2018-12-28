@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { LyRadioModule } from '@alyle/ui/radio';
+import { LyTypographyModule } from '@alyle/ui/typography';
 
 import { RadioExample01Component } from './radio-example-01.component';
 
@@ -10,7 +10,8 @@ import { RadioExample01Component } from './radio-example-01.component';
   imports: [
     CommonModule,
     FormsModule,
-    LyRadioModule
+    LyRadioModule,
+    LyTypographyModule
   ],
   exports: [RadioExample01Component],
   declarations: [RadioExample01Component]
