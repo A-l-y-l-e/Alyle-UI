@@ -8,12 +8,12 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 })
 export class RadioExample01Component {
   val: string;
-  favoriteColor = 'red';
+  favoriteColor = '#ff1744';
   list = [
-    { value: 'blue' },
-    { value: 'red' },
-    { value: 'green' },
-    { value: 'orange' }
+    { value: '#2962ff', name: 'blue' },
+    { value: '#ff1744', name: 'red' },
+    { value: '#00c853', name: 'green' },
+    { value: '#ff6d00', name: 'orange' }
   ];
 
 }
