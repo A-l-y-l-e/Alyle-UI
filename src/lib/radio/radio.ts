@@ -16,8 +16,6 @@ import {
   ViewChild,
   ElementRef,
   Renderer2,
-  SimpleChanges,
-  OnChanges,
   AfterViewInit
 } from '@angular/core';
 import {
@@ -27,7 +25,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinDisableRipple, ThemeVariables } from '@alyle/ui';
-import { first } from 'rxjs/operators';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_DISABLE_RIPPLE = false;
@@ -113,10 +110,11 @@ export const STYLES = (theme: ThemeVariables) => ({
   exportAs: 'lyRadioGroup'
 })
 export class LyRadioGroup implements ControlValueAccessor {
+  /** @docs-private */
+  readonly classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _value = new UndefinedValue;
+  /** @docs-private */
   name = `ly-radio-name-${idx++}`;
-
-  classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
 
   @Input()
   set value(val: any) {
@@ -158,7 +156,7 @@ export class LyRadioGroup implements ControlValueAccessor {
   writeValue(value: any) {
     if (!!this._radios) {
       this.value = value;
-      this.markForCheck();
+      this._markForCheck();
     }
   }
 
@@ -185,10 +183,11 @@ export class LyRadioGroup implements ControlValueAccessor {
   /**
    * Sets the disabled state of the control. Implemented as a part of ControlValueAccessor.
    * @param isDisabled Whether the control should be disabled.
+   * @docs-private
    */
   setDisabledState(isDisabled: boolean) {
     // this.disabled = isDisabled;
-    this.markForCheck();
+    this._markForCheck();
   }
 
   constructor(
@@ -220,15 +219,15 @@ export class LyRadioGroup implements ControlValueAccessor {
       }
     }
   }
-
+  /** @docs-private */
   updatevalue(value: any) {
     this._value = value;
     this._controlValueAccessorChangeFn(value);
     this.change.emit();
-    this.markForCheck();
+    this._markForCheck();
   }
 
-  markForCheck() {
+  _markForCheck() {
     this.cd.markForCheck();
   }
 
