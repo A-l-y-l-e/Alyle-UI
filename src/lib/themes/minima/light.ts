@@ -50,9 +50,8 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   divider = 'rgba(0, 0, 0, 0.12)';
   colorShadow = '#33base3';
   shadow = '#333';
-  /** Components variables */
   radio = {
-    radioOuterCircle: 'rgba(0, 0, 0, 0.43)'
+    outerCircle: 'rgba(0, 0, 0, 0.43)'
   };
   menu = {};
   drawer = {

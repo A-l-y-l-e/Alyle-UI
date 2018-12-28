@@ -47,9 +47,8 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     disabled: 'rgba(255, 255, 255, 0.50)',
     hint: 'rgba(255, 255, 255, 0.50)'
   };
-  /** Components variables */
   radio = {
-    radioOuterCircle: 'rgba(255, 255, 255, 0.55)'
+    outerCircle: 'rgba(255, 255, 255, 0.55)'
   };
   menu = {};
   drawer = {

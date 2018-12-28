@@ -26,11 +26,12 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinColor, mixinDisableRipple } from '@alyle/ui';
-import { LyRadioService } from './radio.service';
+import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinDisableRipple, ThemeVariables } from '@alyle/ui';
+import { first } from 'rxjs/operators';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_DISABLE_RIPPLE = false;
+const DEFAULT_COLOR = 'accent';
 
 export const LY_RADIO_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -44,7 +45,23 @@ export class UndefinedValue {
   constructor() { }
 }
 
-const styles = theme => ({
+export const STYLES = (theme: ThemeVariables) => ({
+  radioGroup: {
+    display: 'inline-block'
+  },
+  radio: {
+    display: 'inline-block',
+    '&{checked}': {
+      '{container}': {
+        'div:nth-child(1)': {
+          transform: 'scale(1.25)',
+        },
+        'div:nth-child(2)': {
+          transform: 'scale(0.8)'
+        }
+      }
+    }
+  },
   label: {
     cursor: 'pointer',
     whiteSpace: 'nowrap',
@@ -52,26 +69,37 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'baseline'
   },
+  labelContent: {
+    padding: '0 0.5em'
+  },
   container: {
     position: 'relative',
-    width: '1.5em',
-    margin: 'auto',
-    '&>div *': {
+    marginRight: '8px',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    width: '16px',
+    height: '16px',
+    'div': {
       margin: 'auto',
       borderRadius: '50%',
-      transition: 'transform cubic-bezier(.1, 1, 0.5, 1)',
-      transitionDuration: '250ms',
       width: '1em',
       height: '1em'
     },
-    '& div>:nth-child(2)': {
+    'div:nth-child(2)': {
       background: 'currentColor',
       transform: 'scale(0)'
     },
-    '& div>:nth-child(1)': {
+    'div:nth-child(1)': {
       transform: 'scale(1)',
       border: 'solid .08em currentColor',
-      color: theme.radio.radioOuterCircle
+      color: theme.radio.outerCircle
+    }
+  },
+  checked: null,
+  _animations: {
+    '{container} div': {
+      transition: 'transform cubic-bezier(.1, 1, 0.5, 1)',
+      transitionDuration: '250ms'
     }
   }
 });
@@ -85,11 +113,10 @@ const styles = theme => ({
   exportAs: 'lyRadioGroup'
 })
 export class LyRadioGroup implements ControlValueAccessor {
-  _value = new UndefinedValue;
+  private _value = new UndefinedValue;
   name = `ly-radio-name-${idx++}`;
-  _color = 'accent';
 
-  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
 
   @Input()
   set value(val: any) {
@@ -127,6 +154,7 @@ export class LyRadioGroup implements ControlValueAccessor {
     }
   }
 
+  /** @docs-private */
   writeValue(value: any) {
     if (!!this._radios) {
       this.value = value;
@@ -138,6 +166,7 @@ export class LyRadioGroup implements ControlValueAccessor {
    * Registers a callback to be triggered when the model value changes.
    * Implemented as part of ControlValueAccessor.
    * @param fn Callback to be registered.
+   * @docs-private
    */
   registerOnChange(fn: (value: any) => void) {
     this._controlValueAccessorChangeFn = fn;
@@ -147,6 +176,7 @@ export class LyRadioGroup implements ControlValueAccessor {
    * Registers a callback to be triggered when the control is touched.
    * Implemented as part of ControlValueAccessor.
    * @param fn Callback to be registered.
+   * @docs-private
    */
   registerOnTouched(fn: any) {
     this.onTouched = fn;
@@ -162,14 +192,13 @@ export class LyRadioGroup implements ControlValueAccessor {
   }
 
   constructor(
-    public _radioService: LyRadioService,
     elementRef: ElementRef,
     _renderer: Renderer2,
     public theme: LyTheme2,
     public ngZone: NgZone,
     private cd: ChangeDetectorRef
   ) {
-    _renderer.addClass(elementRef.nativeElement, this._radioService.classes.root);
+    _renderer.addClass(elementRef.nativeElement, this.classes.radioGroup);
   }
 
   _updateCheckFromValue(val: any) {
@@ -218,62 +247,28 @@ export class LyRadioBase {
 }
 
 /** @docs-private */
-export const LyRadioMixinBase = mixinDisableRipple(mixinColor(LyRadioBase));
+export const LyRadioMixinBase = mixinDisableRipple(LyRadioBase);
 
 @Component({
   selector: 'ly-radio',
-  template: `
-  <label #_labelContainer [attr.for]="inputId" [className]="radioGroup.classes.label">
-    <input
-      [className]="coreStyles.classes.visuallyHidden"
-      [id]="inputId"
-      [checked]="checked"
-      [name]="name"
-      (change)="_onInputChange($event)"
-      (click)="_onInputClick($event)"
-      type="radio"
-      >
-    <div #_radioContainer>
-      <div>
-        <div [className]="coreStyles.classes.fill"></div>
-        <div [className]="coreStyles.classes.fill"></div>
-      </div>
-    </div>
-    <div
-    [className]="radioGroup._radioService.classes.labelContent">
-      <ng-content></ng-content>
-    </div>
-  </label>
-  `,
+  templateUrl: 'radio.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
   inputs: [
-    'color',
     'disableRipple'
   ]
 })
-export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
+export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, OnDestroy {
+  readonly classes = this.radioGroup.classes;
   id = `ly-radio-id-${idx++}`;
   name = '';
-  _value = null;
-  // private _withColor: string;
+  private _value = null;
   private _checked = false;
-  private checkedClass: string;
+  private _color: string;
+  private _colorClass: string;
+  private _animClass: string;
   @ViewChild('_radioContainer') private _radioContainer: ElementRef;
   @ViewChild('_labelContainer') _labelContainer: ElementRef;
-  // @Input()
-  // set withColor(val: string) {
-  //   if (this._withColor !== val) {
-  //     this._withColor = val;
-  //     if (this.checkedClass) {
-  //       /** create new class if exist `this.checkedClass` */
-  //       this.checkedClass = this._createStyleWithColor(val);
-  //     }
-  //   }
-  // }
-  // get withColor() {
-  //   return this._withColor;
-  // }
   @Output() change = new EventEmitter<boolean>();
 
   @Input()
@@ -285,16 +280,34 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, Afte
   get value() { return this._value; }
 
   @Input()
+  set color(val) {
+    if (this._color !== val) {
+      this._color = val;
+      this._colorClass = this._theme.addStyle(
+        `lyRadio.color:${val}`,
+        (theme: ThemeVariables) => ({
+          '&{checked} {container}, &{checked} {container} div:nth-child(1), & {container} div:nth-child(2)': {
+            color: theme.colorOf(val)
+          }
+        }),
+        this._elementRef.nativeElement,
+        this._colorClass,
+        STYLE_PRIORITY,
+        STYLES
+      );
+    }
+  }
+  get color() { return this._color; }
+
+  @Input()
   set checked(val: boolean) {
     const newCheckedState = toBoolean(val);
     const before = this._checked;
     if (before !== newCheckedState) {
       this._checked = newCheckedState;
       if (!before && newCheckedState) {
-        /** Use current checked class or create new class */
-        this.checkedClass = this.checkedClass || this._createStyleWithColor(this.color || this.radioGroup.color);
         /** Add class checked */
-        this._renderer.addClass(this._radioContainer.nativeElement, this.checkedClass);
+        this._renderer.addClass(this._elementRef.nativeElement, this.classes.checked);
 
         if (this.value !== this.radioGroup.value) {
           /** update Value */
@@ -302,7 +315,7 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, Afte
         }
       } else {
         /** Remove class checked */
-        this._renderer.removeClass(this._radioContainer.nativeElement, this.checkedClass);
+        this._renderer.removeClass(this._elementRef.nativeElement, this.classes.checked);
       }
       this._markForCheck();
     }
@@ -313,71 +326,6 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, Afte
   get inputId(): string {
     return `${this.id}-input`;
   }
-
-  _onInputChange(event: any) {
-    event.stopPropagation();
-    this.radioGroup._updateCheckFromValue(this.value);
-    this.radioGroup._touch();
-  }
-
-  _onInputClick(event: Event) { event.stopPropagation(); }
-
-  _setCheckedToFalsy() {
-    this.checked = false;
-  }
-
-  _createStyleWithColor(val: string) {
-    return this._theme.addStyle(
-      `lyRadio-checked:${val}`, theme => ({
-        color: theme.colorOf(val),
-        '& div>:nth-child(1)': {
-          transform: 'scale(1.25)',
-          color: theme.colorOf(val),
-        },
-        '& div>:nth-child(2)': {
-          transform: 'scale(0.8)'
-        },
-      }),
-      this._radioContainer.nativeElement,
-      this.checkedClass,
-      STYLE_PRIORITY
-    );
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.color) {
-      if (this.checkedClass) {
-        /** create new class if exist `this.checkedClass` */
-        this.checkedClass = this._createStyleWithColor(changes.color.currentValue);
-      }
-    }
-  }
-
-  ngOnInit() {
-    if (this.radioGroup) {
-      // Copy name from parent radio group
-      this.name = this.radioGroup.name;
-      this._renderer.addClass(this._radioContainer.nativeElement, this.radioGroup.classes.container);
-    }
-  }
-
-  ngAfterViewInit() {
-    this._rippleContainer = this._radioContainer;
-
-    // set default disable ripple
-    if (this.disableRipple == null) {
-      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
-    }
-  }
-
-  _markForCheck() {
-    this.changeDetectorRef.markForCheck();
-  }
-
-  ngOnDestroy() {
-    this._removeRippleEvents();
-  }
-
 
   constructor(
     @Optional() public radioGroup: LyRadioGroup,
@@ -393,10 +341,71 @@ export class LyRadio extends LyRadioMixinBase implements OnChanges, OnInit, Afte
     this._rippleConfig = {
       centered: true,
       radius: 'containerSize',
-      percentageToIncrease: 100
+      percentageToIncrease: 150
     };
-    _renderer.addClass(_elementRef.nativeElement, radioGroup._radioService.classes.radioButton);
+    _renderer.addClass(_elementRef.nativeElement, radioGroup.classes.radio);
   }
+
+  ngOnInit() {
+    if (this.radioGroup) {
+      // Copy name from parent radio group
+      this.name = this.radioGroup.name;
+    }
+    if (!this.color) {
+      this.color = this.radioGroup.color || DEFAULT_COLOR;
+    }
+    // this._elementRef.nativeElement.classList.add(this.classes._animations);
+  }
+
+  ngAfterViewInit() {
+    this._rippleContainer = this._radioContainer;
+
+    // set default disable ripple
+    if (this.disableRipple == null) {
+      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
+    }
+    // this._renderer.addClass(this._elementRef.nativeElement, this.classes._animations);
+    // setTimeout(() => {
+    // }, 0);
+    // Promise.resolve(null).then(() => {
+    //   this._elementRef.nativeElement.classList.add(this.classes._animations);
+    // });
+    // this._ngZone.onMicrotaskEmpty.pipe(first()).subscribe(() => {
+    //   const that = this;
+    //   that._renderer.addClass(that._elementRef.nativeElement, that.classes._animations);
+    //   // console.log(a, b, c);
+    // });
+    // this._elementRef.nativeElement.classList.add(this.classes._animations);
+  }
+
+  _markForCheck() {
+    this.changeDetectorRef.markForCheck();
+  }
+
+  ngOnDestroy() {
+    this._removeRippleEvents();
+  }
+
+  _onInputChange(event: any) {
+    event.stopPropagation();
+    this.radioGroup._updateCheckFromValue(this.value);
+    this.radioGroup._touch();
+    this._addAnim();
+  }
+
+  private _addAnim() {
+    if (!this._animClass) {
+      this._renderer.addClass(this._elementRef.nativeElement, this.classes._animations);
+      this._animClass = this.classes._animations;
+    }
+  }
+
+  _onInputClick(event: Event) { event.stopPropagation(); }
+
+  _setCheckedToFalsy() {
+    this.checked = false;
+  }
+
 }
 
 @NgModule({
