@@ -356,7 +356,6 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
     if (!this.color) {
       this.color = this.radioGroup.color || DEFAULT_COLOR;
     }
-    // this._elementRef.nativeElement.classList.add(this.classes._animations);
   }
 
   ngAfterViewInit() {
@@ -366,18 +365,6 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
     if (this.disableRipple == null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
-    // this._renderer.addClass(this._elementRef.nativeElement, this.classes._animations);
-    // setTimeout(() => {
-    // }, 0);
-    // Promise.resolve(null).then(() => {
-    //   this._elementRef.nativeElement.classList.add(this.classes._animations);
-    // });
-    // this._ngZone.onMicrotaskEmpty.pipe(first()).subscribe(() => {
-    //   const that = this;
-    //   that._renderer.addClass(that._elementRef.nativeElement, that.classes._animations);
-    //   // console.log(a, b, c);
-    // });
-    // this._elementRef.nativeElement.classList.add(this.classes._animations);
   }
 
   _markForCheck() {
