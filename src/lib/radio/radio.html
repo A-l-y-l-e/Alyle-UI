@@ -1,6 +1,6 @@
 <label #_labelContainer [attr.for]="inputId" [className]="classes.label">
   <input #_input
-    [className]="coreStyles.classes.visuallyHidden"
+    [className]="_coreStyles.classes.visuallyHidden"
     [id]="inputId"
     [checked]="checked"
     [name]="name"
@@ -10,8 +10,8 @@
     type="radio"
     >
   <div #_radioContainer [className]="classes.container">
-    <div [className]="coreStyles.classes.fill"></div>
-    <div [className]="coreStyles.classes.fill"></div>
+    <div [className]="_coreStyles.classes.fill"></div>
+    <div [className]="_coreStyles.classes.fill"></div>
   </div>
   <div
   [className]="classes.labelContent">

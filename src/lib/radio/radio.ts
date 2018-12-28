@@ -129,7 +129,7 @@ export const STYLES = (theme: ThemeVariables) => ({
 })
 export class LyRadioGroup implements ControlValueAccessor {
   /** @docs-private */
-  readonly classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _value = new UndefinedValue;
   /** @docs-private */
   name = `ly-radio-name-${idx++}`;
@@ -210,12 +210,11 @@ export class LyRadioGroup implements ControlValueAccessor {
 
   constructor(
     elementRef: ElementRef,
-    _renderer: Renderer2,
-    public theme: LyTheme2,
-    public ngZone: NgZone,
-    private cd: ChangeDetectorRef
+    renderer: Renderer2,
+    private _theme: LyTheme2,
+    private _cd: ChangeDetectorRef
   ) {
-    _renderer.addClass(elementRef.nativeElement, this.classes.radioGroup);
+    renderer.addClass(elementRef.nativeElement, this.classes.radioGroup);
   }
 
   _updateCheckFromValue(val: any) {
@@ -246,7 +245,7 @@ export class LyRadioGroup implements ControlValueAccessor {
   }
 
   _markForCheck() {
-    this.cd.markForCheck();
+    this._cd.markForCheck();
   }
 
   _radioResetChecked() {
@@ -276,8 +275,11 @@ export const LyRadioMixinBase = mixinDisableRipple(LyRadioBase);
   ]
 })
 export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, OnDestroy {
+  /** @docs-private */
   readonly classes = this.radioGroup.classes;
+  /** @docs-private */
   id = `ly-radio-id-${idx++}`;
+  /** @docs-private */
   name = '';
   private _value = null;
   private _checked = false;
@@ -366,13 +368,14 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   }
 
   constructor(
+    /** @docs-private */
     @Optional() public radioGroup: LyRadioGroup,
     private _elementRef: ElementRef,
     private _renderer: Renderer2,
     theme: LyTheme2,
     private changeDetectorRef: ChangeDetectorRef,
     ngZone: NgZone,
-    public coreStyles: LyCoreStyles,
+    public _coreStyles: LyCoreStyles,
     private _focusState: LyFocusState
   ) {
     super(theme, ngZone);
