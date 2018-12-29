@@ -1,15 +1,11 @@
 import { Directive, Renderer2, ElementRef, Input } from '@angular/core';
 import { LyTheme2, invertPlacement } from '@alyle/ui';
+import { STYLES } from './styles';
 
 export type LyHintAlign = 'before' | 'after';
+
+/** LyHint */
 const STYLE_PRIORITY = -2;
-const STYLES = ({
-  root: {
-    display: 'block',
-    fontSize: '.75em',
-    marginTop: '8px'
-  }
-});
 
 /** Hint text to be shown underneath the field. */
 @Directive({
@@ -45,7 +41,7 @@ export class LyHint {
     private _el: ElementRef,
     private _theme: LyTheme2
     ) {
-    const className = _theme.addStyleSheet(STYLES, STYLE_PRIORITY).root;
+    const className = _theme.addStyleSheet(STYLES, STYLE_PRIORITY).hint;
     _renderer.addClass(_el.nativeElement, className);
   }
 }
