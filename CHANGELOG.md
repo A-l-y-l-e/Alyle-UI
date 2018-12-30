@@ -1,5 +1,5 @@
 <a name="2.0.0"></a>
-# [2.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...2.0.0) (2018-12-30)
+# [2.0.0 Stable](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...2.0.0) (2018-12-30)
 
 
 ### Bug Fixes
