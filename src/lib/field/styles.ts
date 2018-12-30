@@ -4,12 +4,12 @@ export const STYLES = (theme: ThemeVariables) => {
     root: {
       display: 'inline-block',
       position: 'relative',
-      marginBottom: '.5em',
+      marginTop: '1em',
       lineHeight: 1.125,
       '& {hint}, & {error}': {
         display: 'block',
         fontSize: '.75em',
-        marginTop: '8px'
+        marginTop: '.5em'
       },
     },
     animations: {
@@ -112,11 +112,14 @@ export const STYLES = (theme: ThemeVariables) => {
       width: '100%'
     },
     hintContainer: {
-      display: 'flex',
-      flex: '1 0 auto',
-      maxWidth: '100%',
-      overflow: 'hidden',
-      justifyContent: 'space-between'
+      minHeight: '1.25em',
+      '>div': {
+        display: 'flex',
+        flex: '1 0 auto',
+        maxWidth: '100%',
+        overflow: 'hidden',
+        justifyContent: 'space-between'
+      }
     },
     disabled: {
       '&, & {label}, & {container}:after': {
@@ -137,8 +140,36 @@ export const STYLES = (theme: ThemeVariables) => {
         caretColor: `${theme.warn.default}!important`
       },
       // hidde all hints except after hint
-      '& {hintContainer} ly-hint:last-child': {
+      '& {hintContainer} ly-hint:not({hintAfter})': {
         display: 'none'
+      },
+      '& {labelSpan}': {
+        animation: `{shake} ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}`
+      }
+    },
+    hintAfter: {
+      marginBefore: 'auto'
+    },
+    hintBefore: {
+      marginAfter: 'auto'
+    },
+    $keyframes: {
+      shake: {
+        0: {
+          marginBefore: 0
+        },
+        40: {
+          marginBefore: '2px'
+        },
+        50: {
+          marginBefore: '-2px'
+        },
+        70: {
+          marginBefore: '2px'
+        },
+        100: {
+          marginBefore: 0
+        },
       }
     }
   };

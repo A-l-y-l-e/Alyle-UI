@@ -11,5 +11,5 @@ export class FieldPlaygroundComponent {
   appearance = new FormControl();
   isReadonly = new FormControl();
   isDisabled = new FormControl();
-  password = new FormControl('', Validators.required);
+  password = new FormControl('', [Validators.required, Validators.minLength(8)]);
 }

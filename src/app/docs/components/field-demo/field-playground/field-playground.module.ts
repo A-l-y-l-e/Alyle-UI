@@ -6,6 +6,7 @@ import { LyRadioModule } from '@alyle/ui/radio';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyCheckboxModule } from '@alyle/ui/checkbox';
+import { LyGridModule } from '@alyle/ui/grid';
 
 import { FieldPlaygroundComponent } from './field-playground.component';
 
@@ -18,7 +19,8 @@ import { FieldPlaygroundComponent } from './field-playground.component';
     LyRadioModule,
     LyIconModule,
     LyButtonModule,
-    LyCheckboxModule
+    LyCheckboxModule,
+    LyGridModule
   ],
   exports: [FieldPlaygroundComponent],
   declarations: [FieldPlaygroundComponent]

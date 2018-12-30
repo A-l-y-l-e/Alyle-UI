@@ -1,11 +1,9 @@
-<p>
-  <ly-radio-group [formControl]="appearance">
-    <span>Appearance:</span>
-    <ly-radio value="standard" checked>Standard</ly-radio>
-    <ly-radio value="outlined">Outlined</ly-radio>
-    <ly-radio value="filled">Filled</ly-radio>
-  </ly-radio-group>
-</p>
+<ly-radio-group [formControl]="appearance">
+  <span>Appearance:</span>
+  <ly-radio value="standard" checked>Standard</ly-radio>
+  <ly-radio value="outlined">Outlined</ly-radio>
+  <ly-radio value="filled">Filled</ly-radio>
+</ly-radio-group>
 
 <ly-checkbox
   [formControl]="isDisabled"
@@ -13,64 +11,71 @@
 >Is disabled</ly-checkbox>
 <ly-checkbox [formControl]="isReadonly">Is readonly</ly-checkbox>
 
-<p>
-  <ly-field [appearance]="appearance.value">
-    <input lyInput
-      placeholder="********"
-      [type]="hide ? 'password' : 'text'"
-      [formControl]="password"
-      [readonly]="isReadonly.value"
-    >
-    <ly-label>Enter your password</ly-label>
-    <button ly-button
-      appearance="icon"
-      lySuffix
-      (click)="hide = !hide"
-      [disabled]="isDisabled.value"
-    >
-      <ly-icon>{{ hide ? 'visibility' : 'visibility_off' }}</ly-icon>
-    </button>
-    <ly-hint>Hint</ly-hint>
-  </ly-field>
-</p>
+<ly-grid container alignItems="center" [spacingX]="16">
+  <ly-grid item [col]="'6 12@XSmall'">
+    <ly-field fullWidth #_field [appearance]="appearance.value">
+      <input
+        lyInput
+        placeholder="********"
+        [type]="hide ? 'password' : 'text'"
+        [formControl]="password"
+        [readonly]="isReadonly.value"
+      >
+      <ly-label>Enter your password</ly-label>
+      <button ly-button
+        appearance="icon"
+        lySuffix
+        (click)="hide = !hide"
+        [disabled]="isDisabled.value"
+        [color]="_field.errorState ? 'warn' : 'text'"
+      >
+        <ly-icon>{{ hide ? 'visibility' : 'visibility_off' }}</ly-icon>
+      </button>
+      <ly-hint>Hint</ly-hint>
+      <ly-hint [align]="'after'">{{ password.value?.length || 0 }}/8</ly-hint>
+      <ly-error *ngIf="password.hasError('minlength')">Min 8 characters</ly-error>
+      <ly-error *ngIf="password.hasError('required')">Required</ly-error>
+    </ly-field>
+  </ly-grid>
 
-<p>
-  <ly-field [appearance]="appearance.value" [style.width.px]="220">
-    <ly-label>Clearable</ly-label>
-    <input #_input
-      lyInput
-      [value]="'Text'"
-      placeholder="Placeholder"
-      type="text"
-      maxlength="10"
-    >
-    <ly-hint>Hint</ly-hint>
-    <ly-hint [align]="'after'">{{ _input.value?.length || 0 }}/10</ly-hint>
-    <button ly-button
-      *ngIf="_input.value"
-      appearance="icon"
-      lySuffix
-      (click)="_input.value = ''"
-    >
-      <ly-icon>close</ly-icon>
-    </button>
-  </ly-field>
-</p>
+  <ly-grid item [col]="'6 12@XSmall'">
+    <ly-field fullWidth [appearance]="appearance.value">
+      <ly-label>Clearable</ly-label>
+      <input #_input
+        lyInput
+        [value]="'Text'"
+        placeholder="Placeholder"
+        type="text"
+        maxlength="10"
+      >
+      <ly-hint>Hint</ly-hint>
+      <ly-hint [align]="'after'">{{ _input.value?.length || 0 }}/10</ly-hint>
+      <button ly-button
+        *ngIf="_input.value"
+        appearance="icon"
+        lySuffix
+        (click)="_input.value = ''"
+      >
+        <ly-icon>close</ly-icon>
+      </button>
+    </ly-field>
+  </ly-grid>
 
-<p>
-  <ly-field [appearance]="appearance.value">
-    <ly-label>Label</ly-label>
-    <ly-placeholder>Placeholder</ly-placeholder>
-    <textarea lyInput></textarea>
-    <ly-hint>Hint</ly-hint>
-  </ly-field>
-</p>
+  <ly-grid item [col]="'6 12@XSmall'">
+    <ly-field fullWidth [appearance]="appearance.value">
+      <ly-label>Label</ly-label>
+      <ly-placeholder>Placeholder</ly-placeholder>
+      <textarea lyInput></textarea>
+      <ly-hint>Hint</ly-hint>
+    </ly-field>
+  </ly-grid>
 
-<p>
-  <ly-field [appearance]="appearance.value" floatingLabel style="width: 125px">
-    <ly-label>Price</ly-label>
-    <span>$&nbsp;</span>
-    <input lyInput type="number" [value]="10">
-    <ly-hint>Hint</ly-hint>
-  </ly-field>
-</p>
+  <ly-grid item [col]="'6 12@XSmall'">
+    <ly-field [appearance]="appearance.value" floatingLabel style="max-width: 125px">
+      <ly-label>Price</ly-label>
+      <span>$&nbsp;</span>
+      <input lyInput type="number" [value]="10">
+      <ly-hint>Hint</ly-hint>
+    </ly-field>
+  </ly-grid>
+</ly-grid>
