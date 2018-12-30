@@ -1,3 +1,22 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...2.0.0) (2018-12-30)
+
+
+### Bug Fixes
+
+* **card:** export `STYLES` ([8930455](https://github.com/A-l-y-l-e/Alyle-UI/commit/8930455))
+* **carousel:** RTL & styles ([fda468e](https://github.com/A-l-y-l-e/Alyle-UI/commit/fda468e))
+* **radio:** fix styles ([4ce2df5](https://github.com/A-l-y-l-e/Alyle-UI/commit/4ce2df5))
+
+
+### Features
+
+* **field:** add `ly-error` ([c5c12be](https://github.com/A-l-y-l-e/Alyle-UI/commit/c5c12be))
+* **grid:** add `@Input() spacingX` & `@Input() spacingY` ([cfa8669](https://github.com/A-l-y-l-e/Alyle-UI/commit/cfa8669))
+* **radio:** add styles for `onFocusByKeyboard` ([bc47a5e](https://github.com/A-l-y-l-e/Alyle-UI/commit/bc47a5e))
+
+
+
 <a name="1.9.11"></a>
 ## [1.9.11](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.10...1.9.11) (2018-12-27)
 
