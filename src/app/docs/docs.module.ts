@@ -115,6 +115,7 @@ import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/draw
 import { RadioDemoComponent } from './components/radio-demo/radio-demo.component';
 import { RadioExample01Module } from './components/radio-demo/radio-example-01/radio-example-01.module';
 import { BasicRadioModule } from './components/radio-demo/basic-radio/basic-radio.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   imports: [
@@ -230,7 +231,8 @@ import { BasicRadioModule } from './components/radio-demo/basic-radio/basic-radi
     /** Drawer */
     DrawerDemoComponent,
     /** Radio */
-    RadioDemoComponent
+    RadioDemoComponent,
+    PageNotFoundComponent
   ]
 })
 export class DocsModule { }
