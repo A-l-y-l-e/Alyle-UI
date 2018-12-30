@@ -1,5 +1,5 @@
 import { Directive, Renderer2, ElementRef, Input } from '@angular/core';
-import { LyTheme2, invertPlacement } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
 import { STYLES } from './styles';
 
 export type LyHintAlign = 'before' | 'after';
