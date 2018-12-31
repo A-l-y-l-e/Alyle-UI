@@ -25,7 +25,8 @@ export class PageContentComponent {
 
   isPkg() {
     const routeUrlArray = this.routeUrl.split('/');
-    const isPkg = AUIRoutesMap.has(this.routeUrl);
+    console.log(this.routeUrl, AUIRoutesMap.has(this.routeUrl), AUIRoutesMap.get(this.routeUrl));
+    const isPkg = AUIRoutesMap.has(this.routeUrl) && AUIRoutesMap.get(this.routeUrl).api;
     if (isPkg) {
       this.pathPkg = routeUrlArray[2];
     }

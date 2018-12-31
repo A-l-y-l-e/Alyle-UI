@@ -63,16 +63,20 @@ export const AUIRoutes: {
   }
 ];
 
-export const AUIRoutesMap = new Map();
+export const AUIRoutesMap = new Map<string, {
+  route: string;
+  name: string;
+  api?: boolean;
+}>();
 
 AUIRoutes.forEach(item => {
-  AUIRoutesMap.set(`/${item.route}`, item.name);
+  AUIRoutesMap.set(`/${item.route}`, item);
   if (item.routes) {
     for (let index = 0; index < item.routes.length; index++) {
       const route = item.routes[index];
-      AUIRoutesMap.set(`/${item.route}/${route.route}`, item.name);
+      AUIRoutesMap.set(`/${item.route}/${route.route}`, route);
       if (route.api) {
-        AUIRoutesMap.set(`/api/${route.route}`, item.name);
+        AUIRoutesMap.set(`/api/${route.route}`, route);
       }
     }
   }
