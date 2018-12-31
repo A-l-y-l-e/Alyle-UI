@@ -15,7 +15,7 @@
     "mv:index.html": "mkdir functions/dist && mv dist/index.html functions/dist/",
     "build:tools": "rm -rf dist && tsc -p tools",
     "w:tools": "rm -rf dist/tools && tsc -p tools -w",
-    "build:@alyle/ui": "node dist/tools/build-lib && node dist/tools/copy-readme && yarn test:sc",
+    "build:@alyle/ui": "node dist/tools/build-lib && node dist/tools/copy-readme && yarn build:schematics",
     "build:universal": "rm -rf dist/server && tsc -p server && yarn build:browser && yarn build:server",
     "serve:universal": "node dist/server",
     "sw:update": "node dist/tools/update-sw",
@@ -28,7 +28,8 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '200 KB'",
     "serve:lib": "hs src/app -p 1212 -g --cors 'Access-Control-Allow-Origin' -c0",
-    "test:sc": "tsc -p src/lib/schematics/tsconfig.json && cp src/lib/schematics/collection.json dist/@alyle/ui/schematics/ && jasmine dist/@alyle/ui/schematics/**/*_spec.js"
+    "build:schematics": "tsc -p src/lib/schematics/tsconfig.json && cp src/lib/schematics/collection.json dist/@alyle/ui/schematics/",
+    "test:sc": "jasmine dist/@alyle/ui/schematics/**/*_spec.js"
   },
   "private": true,
   "dependencies": {
