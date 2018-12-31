@@ -32,5 +32,11 @@
     "@angular/core": "^6.1.0 || ^7.0.0 || ^7.0.0-beta.0",
     "chroma-js": "^1.3.6",
     "hammerjs": "^2.0.8"
+  },
+  "schematics": "./schematics/collection.json",
+  "ng-update": {
+    "packageGroup": [
+      "@@alyle/ui"
+    ]
   }
 }

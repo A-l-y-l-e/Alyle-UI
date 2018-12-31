@@ -143,6 +143,17 @@
     rxjs "6.3.3"
     source-map "0.7.3"
 
+"@angular-devkit/core@7.1.4", "@angular-devkit/core@^7.1.4":
+  version "7.1.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-7.1.4.tgz#4d903fd2ecc259b716ae76da19695d03993e583c"
+  integrity sha512-3cBVHjSQjMyE/mIyOX82ekdybNRQlN+kUfmdZS6oVW9aV48vdxcVbEGdl8t1H4enMf89u8kXiAAET9jFaqWopg==
+  dependencies:
+    ajv "6.5.3"
+    chokidar "2.0.4"
+    fast-json-stable-stringify "2.0.0"
+    rxjs "6.3.3"
+    source-map "0.7.3"
+
 "@angular-devkit/schematics@0.8.5":
   version "0.8.5"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-0.8.5.tgz#4639616cdc2e8e943d487318adac140134d529d8"
@@ -157,6 +168,14 @@
   integrity sha512-S/3CrBDoh/BD4mBq8RNGQ8sgNFDsveCuFHDkOyct8+NDg2wcRkEGigyq8eZwVN/iVKCwjxc0I/bC336edoNMIQ==
   dependencies:
     "@angular-devkit/core" "7.0.6"
+    rxjs "6.3.3"
+
+"@angular-devkit/schematics@^7.1.4":
+  version "7.1.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-7.1.4.tgz#d2828fb86b5453395fab12a36779d0fd9fbdadc2"
+  integrity sha512-+rn3ppcC3grsi9vV2uUIYh/5mUBEJ+JRCKW11BJoUqLMeu8W7h+vbVonyfwJXsk3FSTf9ZY0C7F7UqggRS3cWw==
+  dependencies:
+    "@angular-devkit/core" "7.1.4"
     rxjs "6.3.3"
 
 "@angular/animations@^7.1.0":

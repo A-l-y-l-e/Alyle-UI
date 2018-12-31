@@ -1,0 +1,9 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Adds Alyle UI to the application",
+      "factory": "./ng-add/index#ngAdd"
+    }
+  }
+}

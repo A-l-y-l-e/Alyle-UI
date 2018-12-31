@@ -31,7 +31,8 @@
     "tools:docs": "yarn tools:typedoc && node dist/tools/docs",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '200 KB'",
-    "serve:lib": "hs src/app -p 1212 -g --cors 'Access-Control-Allow-Origin' -c0"
+    "serve:lib": "hs src/app -p 1212 -g --cors 'Access-Control-Allow-Origin' -c0",
+    "test:sc": "tsc -p src/lib/schematics/tsconfig.json && cp src/lib/schematics/collection.json dist/@alyle/ui/schematics/ && jasmine dist/@alyle/ui/schematics/**/*_spec.js"
   },
   "private": true,
   "dependencies": {
@@ -63,6 +64,8 @@
     "@alyle/angular-prerender": "^0.4.1",
     "@angular-devkit/build-angular": "^0.10.1",
     "@angular-devkit/build-ng-packagr": "^0.10.1",
+    "@angular-devkit/core": "^7.1.4",
+    "@angular-devkit/schematics": "^7.1.4",
     "@angular/cli": "^7.0.6",
     "@angular/compiler-cli": "^7.1.0",
     "@angular/http": "^7.1.0",
