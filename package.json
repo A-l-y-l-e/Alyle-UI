@@ -29,7 +29,7 @@
     "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '200 KB'",
     "serve:lib": "hs src/app -p 1212 -g --cors 'Access-Control-Allow-Origin' -c0",
     "build:schematics": "tsc -p src/lib/schematics/tsconfig.json && cp src/lib/schematics/collection.json dist/@alyle/ui/schematics/",
-    "test:sc": "jasmine dist/@alyle/ui/schematics/**/*_spec.js"
+    "test:sc": "jasmine dist/@alyle/ui/schematics/**/*.spec.js"
   },
   "private": true,
   "dependencies": {

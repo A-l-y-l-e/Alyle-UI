@@ -23,8 +23,5 @@
       "jasmine",
       "node"
     ]
-  },
-  "exclude": [
-    "**/*.spec.ts"
-  ]
+  }
 }
