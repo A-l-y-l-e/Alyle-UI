@@ -1,3 +1,13 @@
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.0...2.0.1) (2019-01-01)
+
+
+### Features
+
+* **schematics:** support for schematics ([2874891](https://github.com/A-l-y-l-e/Alyle-UI/commit/2874891))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0 Stable](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...2.0.0) (2018-12-30)
 
