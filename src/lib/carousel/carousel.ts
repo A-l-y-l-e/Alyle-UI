@@ -209,7 +209,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   _onDragStart() {
     this.stop();
     this._renderer.removeClass(this.slideContainer.nativeElement, this.classes.slideAnim);
-    this._selectedElement = this.lyItems.find((item, index) => index === this.selectedIndex)._nativeElement;
+    this._selectedElement = this.lyItems.find((_item, index) => index === this.selectedIndex)._nativeElement;
   }
 
   _onDrag(e) {

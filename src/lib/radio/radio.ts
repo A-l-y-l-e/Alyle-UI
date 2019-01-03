@@ -200,10 +200,10 @@ export class LyRadioGroup implements ControlValueAccessor {
 
   /**
    * Sets the disabled state of the control. Implemented as a part of ControlValueAccessor.
-   * @param isDisabled Whether the control should be disabled.
+   * @param _isDisabled Whether the control should be disabled.
    * @docs-private
    */
-  setDisabledState(isDisabled: boolean) {
+  setDisabledState(_isDisabled: boolean) {
     // this.disabled = isDisabled;
     this._markForCheck();
   }
