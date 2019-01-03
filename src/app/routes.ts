@@ -76,7 +76,7 @@ AUIRoutes.forEach(item => {
       const route = item.routes[index];
       AUIRoutesMap.set(`/${item.route}/${route.route}`, route);
       if (route.api) {
-        AUIRoutesMap.set(`/api/${route.route}`, route);
+        AUIRoutesMap.set(`/api/${route.route}`, { ...route , api: null });
       }
     }
   }
