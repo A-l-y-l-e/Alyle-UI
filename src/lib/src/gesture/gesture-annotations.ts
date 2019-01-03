@@ -19,9 +19,7 @@ export interface Recognizer {
   recognizeWith(otherRecognizer: Recognizer | string): Recognizer;
 }
 
-export interface RecognizerStatic {
-  new(options?: any): Recognizer;
-}
+export type RecognizerStatic = new(options?: any) => Recognizer;
 
 export interface HammerInstance {
   on(eventName: string, callback: Function): void;
