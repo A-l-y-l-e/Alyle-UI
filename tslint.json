@@ -118,7 +118,6 @@
     "no-output-rename": true,
     "use-pipe-transform-interface": true,
     "no-duplicate-imports": true,
-    "no-unused-variable": true,
     "no-duplicate-variable": true,
     "linebreak-style": [true, "LF"],
     "no-namespace": true,
