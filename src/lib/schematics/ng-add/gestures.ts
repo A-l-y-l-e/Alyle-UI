@@ -9,6 +9,9 @@ const hammerjsImportStatement = `import 'hammerjs';`;
 /** Adds HammerJS to the main file of the specified Angular CLI project. */
 export function addHammerJsToMain(options: Schema): Rule {
   return (host: Tree) => {
+    if (!options.gestures) {
+      return;
+    }
     const workspace = getWorkspace(host);
     const project = getProjectFromWorkspace(workspace, options.project);
     const mainFile = getProjectTargetOptions(project, 'build').main;

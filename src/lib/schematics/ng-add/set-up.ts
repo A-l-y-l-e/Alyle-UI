@@ -15,7 +15,6 @@ import {
   Tree
   } from '@angular-devkit/schematics';
 import { Schema } from './schema';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 checkVersionAngularCLI();
 
@@ -156,14 +155,12 @@ export function setUpAppModule(_options: Schema): Rule {
           updateAppModule(host, _context, _options, selectedTheme, themes);
           _.next(host);
           _.complete();
-          _context.addTask(new NodePackageInstallTask());
         });
       } else {
         const selectedTheme = [...(_options.themes as string[]), 'minima-light'][0];
         updateAppModule(host, _context, _options, selectedTheme, [selectedTheme]);
         _.next(host);
         _.complete();
-        _context.addTask(new NodePackageInstallTask());
       }
     });
   };
