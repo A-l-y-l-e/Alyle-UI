@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
 
-const styles = (theme: ThemeVariables) => ({
+const styles = ({
   root: {
     width: '100%',
     maxWidth: '360px'

@@ -5,7 +5,7 @@
 >
   <div [className]="classes.code">
     <button ly-button appearance="icon" (click)="toggleCode()" [lyTooltip]="'View source'"><ly-icon icon="code"></ly-icon></button>
-    <button ly-button appearance="icon" (click)="openPostStackblitz($event)" [lyTooltip]="'Edit in Stackblitz'"><ly-icon>launch</ly-icon></button>
+    <button ly-button appearance="icon" (click)="openPostStackblitz()" [lyTooltip]="'Edit in Stackblitz'"><ly-icon>launch</ly-icon></button>
   </div>
   <ly-paper *ngIf="hasCode" bg="codeBg">
     <ly-tabs
