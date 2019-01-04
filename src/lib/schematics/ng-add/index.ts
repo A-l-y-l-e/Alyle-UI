@@ -6,7 +6,7 @@ import { Schema } from './schema';
 import { setUpAppModule } from './set-up';
 
 const AUI_VERSION = require(`@alyle/ui/package.json`).version;
-const ANGULAR_CORE_VERSION = require(join(process.cwd(), 'package.json')).devDependencies['@angular/core'];
+const ANGULAR_CORE_VERSION = require(join(process.cwd(), 'package.json')).dependencies['@angular/core'];
 const HAMMERJS_VERSION = '^2.0.8';
 const CHROMA_JS_VERSION = '^1.3.6';
 
