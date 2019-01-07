@@ -1,7 +1,7 @@
 import * as inquirer from 'inquirer';
 import * as semver from 'semver';
 import { strings } from '@angular-devkit/core';
-import * as ts from '@schematics/angular/node_modules/typescript/lib/typescript';
+import * as ts from '@schematics/angular/node_modules/typescript';
 import { addSymbolToNgModuleMetadata, insertImport, isImported } from '@schematics/angular/utility/ast-utils';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets, targetBuildNotFoundError } from '@schematics/angular/utility/project-targets';
