@@ -1,12 +1,10 @@
-import * as inquirer from 'inquirer';
-import * as semver from 'semver';
+import { prompt } from 'inquirer';
 import { strings } from '@angular-devkit/core';
 import * as ts from '@schematics/angular/node_modules/typescript';
 import { addSymbolToNgModuleMetadata, insertImport, isImported } from '@schematics/angular/utility/ast-utils';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets, targetBuildNotFoundError } from '@schematics/angular/utility/project-targets';
 import { InsertChange } from '@schematics/angular/utility/change';
-import { join } from 'path';
 import { Observable } from 'rxjs';
 import {
   Rule,
@@ -15,15 +13,6 @@ import {
   Tree
   } from '@angular-devkit/schematics';
 import { Schema } from './schema';
-
-checkVersionAngularCLI();
-
-function checkVersionAngularCLI() {
-  const version = require(join(process.cwd(), 'package.json')).devDependencies['@angular/cli'];
-  if (!semver.satisfies(semver.coerce(version)!, '>=7.2.0-rc.0 || 7.2.x')) {
-    throw new SchematicsException(`Alyle UI Schematics require "@angular/cli@>=7.2.0-rc.0 || 7.2.x"`);
-  }
-}
 
 function updateAppModule(host: Tree, _context: SchematicContext, options: any, themeName: string, themes: string[]) {
   _context.logger.debug('Updating appmodule');
@@ -139,29 +128,41 @@ function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
 // per file.
 export function setUpAppModule(_options: Schema): Rule {
   return (host: Tree, _context: SchematicContext) => {
+    const themeList = [ 'minima-light', 'minima-dark' ];
     return new Observable((_) => {
-      if (_options.themes.length > 1) {
-        inquirer
-        .prompt([
-          {
-            type: 'list',
-            name: 'selectedTheme',
-            message: 'Set Theme',
-            choices: _options.themes
-          },
-        ])
-        .then(({selectedTheme}: { selectedTheme: string }) => {
-          const themes = _options.themes;
-          updateAppModule(host, _context, _options, selectedTheme, themes);
+      // Select Theme for AppModule
+      prompt([
+        {
+          type: 'checkbox',
+          name: 'themes',
+          message: 'Select the themes that will be added to AppModule',
+          choices: themeList,
+          default: [ themeList[0] ]
+        }
+      ])
+      .then(({ themes }: { themes: string[] }) => {
+        if (themes.length > 1) {
+          prompt([
+            {
+              type: 'list',
+              name: 'selectedTheme',
+              message: 'Set Theme for AppModule',
+              choices: themes,
+              default: themes[0]
+            }
+          ])
+          .then(({ selectedTheme }: { selectedTheme: string }) => {
+            updateAppModule(host, _context, _options, selectedTheme, themes);
+            _.next(host);
+            _.complete();
+          });
+        } else {
+          const selectedTheme = [...(themes as string[]), 'minima-light'][0];
+          updateAppModule(host, _context, _options, selectedTheme, [selectedTheme]);
           _.next(host);
           _.complete();
-        });
-      } else {
-        const selectedTheme = [...(_options.themes as string[]), 'minima-light'][0];
-        updateAppModule(host, _context, _options, selectedTheme, [selectedTheme]);
-        _.next(host);
-        _.complete();
-      }
+        }
+      });
     });
   };
 }

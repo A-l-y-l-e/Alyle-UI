@@ -84,7 +84,6 @@ export function setUpStyles(options: Schema, filePath: string): (host: Tree) => 
 
     prettierConstructorParameters(host, filePath, constructor);
 
-    console.log(host.read(filePath)!.toString());
     return host;
   };
 }

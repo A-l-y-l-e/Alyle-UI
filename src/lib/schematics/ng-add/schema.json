@@ -16,22 +16,6 @@
       "default": true,
       "description": "Whether gesture support should be set up.",
       "x-prompt": "Set up HammerJS for gesture recognition?"
-    },
-    "themes": {
-      "type": "array",
-      "x-prompt": {
-        "message": "Select the themes that will be added to AppModule",
-        "type": "list",
-        "multiselect": true,
-        "items": [
-          {
-            "value": "minima-light", "label": "Minima Light"
-          },
-          {
-            "value": "minima-dark", "label": "Minima Dark"
-          }
-        ]
-      }
     }
   },
   "required": []
