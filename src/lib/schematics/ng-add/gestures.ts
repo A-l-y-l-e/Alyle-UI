@@ -8,7 +8,8 @@ const hammerjsImportStatement = `import 'hammerjs';`;
 
 /** Adds HammerJS to the main file of the specified Angular CLI project. */
 export function addHammerJsToMain(options: Schema): Rule {
-  return (host: Tree) => {
+  return (host: Tree, context) => {
+    context.logger.debug('addHammerJsToMain');
     if (!options.gestures) {
       return;
     }
