@@ -13,10 +13,10 @@ const changes = replace.sync({
 // fix path
 const changesSchematics = replace.sync({
   files: 'dist/@alyle/ui/schematics/**/*.js',
-  from: /require(\"\@schematics\/angular\/node_modules\/typescript\")/g,
+  from: /require\(\"\@schematics\/angular\/node_modules\/typescript\"\)/g,
   to: 'require("typescript")'
 });
 
 console.log('fix typings', { changes });
-console.log('fix typings', { changesSchematics });
+console.log('fix path', { changesSchematics });
 
