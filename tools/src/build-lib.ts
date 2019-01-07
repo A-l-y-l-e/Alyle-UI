@@ -1,12 +1,10 @@
 import { allComponents } from './prepare-lib';
-import { spawnSync } from 'child_process';
-import { join } from 'path';
-import { copySync } from 'fs-extra';
-import { writeFileSync, readFileSync} from 'fs';
+import { spawn } from 'child_process';
 const replace = require('replace-in-file');
 
 /** build all */
-const ls = spawnSync('yarn', ['ng-packagr', '-p', 'dist/lib/ng-package.json'], {stdio: 'inherit'});
+spawn('yarn', ['ng-packagr', '-p', 'dist/lib/ng-package.json'], {stdio: 'inherit'});
+spawn('yarn', ['build:schematics'], {stdio: 'inherit'});
 
 // fix typings
 const changes = replace.sync({
@@ -15,8 +13,13 @@ const changes = replace.sync({
   to: '@alyle/ui'
 });
 
-console.log('fix typings', {changes});
+// fix path
+const changesSchematics = replace.sync({
+  files: 'dist/@alyle/ui/schematics/**/*.js',
+  from: /require(\"\@schematics\/angular\/node_modules\/typescript\")/g,
+  to: 'require("typescript")'
+});
 
-if (ls.status) {
-  process.exit(1);
-}
+console.log('fix typings', { changes });
+console.log('fix typings', { changesSchematics });
+
