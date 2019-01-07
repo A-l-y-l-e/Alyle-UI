@@ -15,7 +15,7 @@
     "mv:index.html": "mkdir functions/dist && mv dist/index.html functions/dist/",
     "build:tools": "rm -rf dist && tsc -p tools",
     "w:tools": "rm -rf dist/tools && tsc -p tools -w",
-    "build:@alyle/ui": "node dist/tools/build-lib && node dist/tools/copy-readme",
+    "build:@alyle/ui": "yarn ng-packagr -p dist/lib/ng-package.json && yarn build:schematics && node dist/tools/build-lib && node dist/tools/copy-readme",
     "build:universal": "rm -rf dist/server && tsc -p server && yarn build:browser && yarn build:server",
     "serve:universal": "node dist/server",
     "sw:update": "node dist/tools/update-sw",

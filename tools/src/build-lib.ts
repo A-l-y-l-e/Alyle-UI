@@ -2,9 +2,6 @@ import { allComponents } from './prepare-lib';
 import { spawn } from 'child_process';
 const replace = require('replace-in-file');
 
-/** build all */
-spawn('yarn', ['ng-packagr', '-p', 'dist/lib/ng-package.json'], {stdio: 'inherit'});
-spawn('yarn', ['build:schematics'], {stdio: 'inherit'});
 
 // fix typings
 const changes = replace.sync({
