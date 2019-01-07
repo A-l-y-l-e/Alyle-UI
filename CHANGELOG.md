@@ -1,3 +1,13 @@
+## [2.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.1...2.0.2) (2019-01-07)
+
+
+### Features
+
+* **schematics:** add fonts & dynamic styles ([d2bb27e](https://github.com/A-l-y-l-e/Alyle-UI/commit/d2bb27e))
+* **schematics:** support for schematics ([340e8ef](https://github.com/A-l-y-l-e/Alyle-UI/commit/340e8ef))
+
+
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.0...2.0.1) (2019-01-01)
 
