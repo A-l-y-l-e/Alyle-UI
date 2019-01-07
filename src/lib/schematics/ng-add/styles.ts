@@ -47,7 +47,7 @@ export function setUpStyles(options: Schema, filePath: string): (host: Tree) => 
     let constructor: ts.ConstructorDeclaration;
     let __recorder = host.beginUpdate(filePath);
     const propertyValue = `\n  readonly classes = this.theme.addStyleSheet(STYLES);\n`;
-    const constructorCall = `  constructor(\n    private theme: LyTheme\n  ) { }\n`;
+    const constructorCall = `  constructor(\n    private theme: LyTheme2\n  ) { }\n`;
     const OpenBraceTokenPos = findNodes(component, ts.SyntaxKind.OpenBraceToken)
     .filter(prop => prop.parent === component).map(prop => prop.end)[0];
 
