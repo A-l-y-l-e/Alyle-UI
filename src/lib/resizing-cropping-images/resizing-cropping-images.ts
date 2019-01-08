@@ -9,10 +9,12 @@ import {
   EventEmitter,
   Renderer2,
   NgZone,
-  HostListener
+  HostListener,
+  OnDestroy
 } from '@angular/core';
 import { LyTheme2, mergeDeep, LY_COMMON_STYLES } from '@alyle/ui';
 import { take } from 'rxjs/operators';
+import { fromEvent, Subscription } from 'rxjs';
 
 const STYLE_PRIORITY = -2;
 
@@ -148,10 +150,10 @@ interface ImgRect {
   selector: 'ly-img-cropper, ly-cropping',
   templateUrl: 'resizing-cropping-images.html'
  })
-export class LyResizingCroppingImages {
+export class LyResizingCroppingImages implements OnDestroy {
   /**
    * styles
-   * @ignore
+   * @docs-private
    */
   readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   _originalImgBase64: string;
@@ -171,6 +173,7 @@ export class LyResizingCroppingImages {
   private _config: ImgCropperConfig;
   private _imgRect: ImgRect = {} as any;
   private _rotation: number;
+  private _listeners = new Set<Subscription>();
 
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
@@ -221,6 +224,11 @@ export class LyResizingCroppingImages {
     private _ngZone: NgZone
   ) {
     this._renderer.addClass(elementRef.nativeElement, this.classes.root);
+  }
+
+  ngOnDestroy() {
+    this._listeners.forEach(listen => listen.unsubscribe());
+    this._listeners.clear();
   }
 
   private _imgLoaded(imgElement: HTMLImageElement) {
@@ -277,7 +285,9 @@ export class LyResizingCroppingImages {
 
     this._fileName = _img.value.replace(/.*(\/|\\)/, '');
 
-    fileReader.addEventListener('loadend', (loadEvent) => {
+    const listener = fromEvent(fileReader, 'loadend')
+    .pipe(take(1))
+    .subscribe(loadEvent => {
       const originalImageUrl = (loadEvent.target as FileReader).result as string;
       this.setImageUrl(originalImageUrl);
       /** Set type */
@@ -285,7 +295,11 @@ export class LyResizingCroppingImages {
         this._defaultType = _img.files[0].type;
       }
       this.cd.markForCheck();
+      this._listeners.delete(listener);
     });
+
+    this._listeners.add(listener);
+
     fileReader.readAsDataURL(_img.files[0]);
   }
 
@@ -511,10 +525,17 @@ export class LyResizingCroppingImages {
       position: null
     };
     img.src = src;
-    img.addEventListener('error', () => {
+    const errorListen = fromEvent(img, 'error').pipe(
+      take(1)
+    ).subscribe(() => {
       this.error.emit(cropEvent);
+      this._listeners.delete(errorListen);
     });
-    img.addEventListener('load', () => {
+    this._listeners.add(errorListen);
+    const loadListen = fromEvent(img, 'load')
+    .pipe(
+      take(1)
+    ).subscribe(() => {
       this._imgLoaded(img);
       cropEvent.width = img.width;
       cropEvent.height = img.height;
@@ -537,7 +558,9 @@ export class LyResizingCroppingImages {
             this._cropIfAutoCrop();
             this.cd.markForCheck();
           }));
+      this._listeners.delete(loadListen);
     });
+    this._listeners.add(loadListen);
   }
 
   rotate(degrees: number) {
