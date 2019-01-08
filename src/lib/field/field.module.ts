@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyCommonModule } from '@alyle/ui';
-import { LyField, LyInputNative } from './field';
+import { LyField, LyNativeControl } from './field';
 import { LyPlaceholder } from './placeholder';
 import { LyLabel } from './label';
 import { LyPrefix } from './prefix';
@@ -18,13 +18,13 @@ import { LyError } from './error';
     LyField,
     LyPlaceholder,
     LyLabel,
-    LyInputNative,
+    LyNativeControl,
     LyPrefix,
     LySuffix,
     LyHint,
     LyError,
     LyCommonModule
   ],
-  declarations: [ LyField, LyPlaceholder, LyLabel, LyInputNative, LyPrefix, LySuffix, LyHint, LyError ]
+  declarations: [ LyField, LyPlaceholder, LyLabel, LyNativeControl, LyPrefix, LySuffix, LyHint, LyError ]
 })
 export class LyFieldModule { }

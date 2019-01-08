@@ -18,7 +18,7 @@ formControl(password):
   <ly-grid item [col]="'6 12@XSmall'">
     <ly-field fullWidth #_field [appearance]="appearance.value">
       <input
-        lyInput
+        lyNativeControl
         placeholder="********"
         [type]="hide ? 'password' : 'text'"
         [formControl]="password"
@@ -45,7 +45,7 @@ formControl(password):
     <ly-field fullWidth [appearance]="appearance.value">
       <ly-label>Clearable</ly-label>
       <input #_input
-        lyInput
+        lyNativeControl
         [value]="'Text'"
         placeholder="Placeholder"
         type="text"
@@ -68,7 +68,7 @@ formControl(password):
     <ly-field fullWidth [appearance]="appearance.value">
       <ly-label>Label</ly-label>
       <ly-placeholder>Placeholder</ly-placeholder>
-      <textarea lyInput></textarea>
+      <textarea lyNativeControl></textarea>
       <ly-hint>Hint</ly-hint>
     </ly-field>
   </ly-grid>
@@ -77,7 +77,7 @@ formControl(password):
     <ly-field [appearance]="appearance.value" floatingLabel style="max-width: 125px">
       <ly-label>Price</ly-label>
       <span>$&nbsp;</span>
-      <input lyInput type="number" [value]="10">
+      <input lyNativeControl type="number" [value]="10">
       <ly-hint>Hint</ly-hint>
     </ly-field>
   </ly-grid>

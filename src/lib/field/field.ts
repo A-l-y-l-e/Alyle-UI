@@ -110,7 +110,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   @ViewChild('_prefixContainer') _prefixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_suffixContainer') _suffixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_fieldsetLegend') _fieldsetLegend: ElementRef<HTMLDivElement>;
-  @ContentChild(forwardRef(() => LyInputNative)) _input: LyInputNative;
+  @ContentChild(forwardRef(() => LyNativeControl)) _input: LyNativeControl;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
@@ -374,10 +374,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 }
 
 @Directive({
-  selector: 'input[lyInput], textarea[lyInput]',
+  selector: 'input[lyInput], textarea[lyInput], input[lyNativeControl], textarea[lyNativeControl]',
   exportAs: 'lyInput'
 })
-export class LyInputNative implements OnInit, DoCheck, OnDestroy {
+export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
   _hostElement: HTMLInputElement | HTMLTextAreaElement;
   protected _disabled = false;
   protected _required = false;
@@ -424,12 +424,14 @@ export class LyInputNative implements OnInit, DoCheck, OnDestroy {
   set disabled(val: boolean) {
     if (val !== this._disabled) {
       this._disabled = toBoolean(val);
-      if (!val && this._hasDisabledClass) {
-        this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
-        this._hasDisabledClass = null;
-      } else if (val) {
-        this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
-        this._hasDisabledClass = true;
+      if (this._field) {
+        if (!val && this._hasDisabledClass) {
+          this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
+          this._hasDisabledClass = null;
+        } else if (val) {
+          this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
+          this._hasDisabledClass = true;
+        }
       }
     }
   }
@@ -456,7 +458,7 @@ export class LyInputNative implements OnInit, DoCheck, OnDestroy {
   constructor(
     private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
     private _renderer: Renderer2,
-    private _field: LyField,
+    @Optional() private _field: LyField,
     /** @docs-private */
     @Optional() @Self() public ngControl: NgControl,
     @Optional() private _parentForm: NgForm,
@@ -481,13 +483,15 @@ export class LyInputNative implements OnInit, DoCheck, OnDestroy {
     const newVal = !!(this.ngControl && this.ngControl.invalid && (this.ngControl.touched || (this._form && this._form.submitted)));
     if (newVal !== oldVal) {
       this.errorState = newVal;
-      const errorClass = this._field.classes.errorState;
-      if (newVal) {
-        this._renderer.addClass(this._field._getHostElement(), errorClass);
-        this._errorClass = errorClass;
-      } else if (this._errorClass) {
-        this._renderer.removeClass(this._field._getHostElement(), errorClass);
-        this._errorClass = null;
+      if (this._field) {
+        const errorClass = this._field.classes.errorState;
+        if (newVal) {
+          this._renderer.addClass(this._field._getHostElement(), errorClass);
+          this._errorClass = errorClass;
+        } else if (this._errorClass) {
+          this._renderer.removeClass(this._field._getHostElement(), errorClass);
+          this._errorClass = null;
+        }
       }
     }
   }
