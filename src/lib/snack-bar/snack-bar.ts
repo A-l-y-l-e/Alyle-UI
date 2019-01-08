@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Directive, Input, TemplateRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { LyTheme2, LyOverlay, ThemeVariables, shadowBuilder, XPosition, YPosition } from '@alyle/ui';
 import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarRef } from './snack-bar-ref';
@@ -17,7 +17,7 @@ export interface LySnackBarDismiss {
   selector: 'ng-template[ly-snack-bar]',
   exportAs: 'lySnackBar'
 })
-export class LySnackBar {
+export class LySnackBar implements OnDestroy {
   @Input() duration: number;
   @Input() horizontalPosition: 'center' | XPosition;
   @Input() verticalPosition: YPosition;
@@ -28,6 +28,10 @@ export class LySnackBar {
     private _overlay: LyOverlay,
     private _snackBarService: LySnackBarService
   ) { }
+
+  ngOnDestroy() {
+    this.dismiss();
+  }
 
   open() {
     // close previous snackBar if exist
