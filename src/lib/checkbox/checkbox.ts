@@ -33,6 +33,9 @@ const DEFAULT_DISABLE_RIPPLE = false;
 
 const STYLES = (theme: ThemeVariables) => ({
   root: {
+    marginAfter: '16px',
+    marginBefore: '-16px',
+    display: 'inline-flex',
     '&{disabled}:not({checked}) {icon}:before': {
       color: theme.disabled.default
     },
@@ -58,7 +61,8 @@ const STYLES = (theme: ThemeVariables) => ({
   layout: {
     display: 'inline-flex',
     alignItems: 'baseline',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginBefore: '16px'
   },
   icon: {
     position: 'relative',
