@@ -5,12 +5,15 @@
   <ly-radio value="filled">Filled</ly-radio>
 </ly-radio-group>
 
+<br />
+
+formControl(password): 
 <ly-checkbox
   [formControl]="isDisabled"
   (change)="$event.checked ? password.disable() : password.enable()"
 >Is disabled</ly-checkbox>
 <ly-checkbox [formControl]="isReadonly">Is readonly</ly-checkbox>
-
+<button ly-button color="primary" (click)="password.reset()" [disabled]="password.untouched">reset</button>
 <ly-grid container alignItems="center" [spacingX]="16">
   <ly-grid item [col]="'6 12@XSmall'">
     <ly-field fullWidth #_field [appearance]="appearance.value">
