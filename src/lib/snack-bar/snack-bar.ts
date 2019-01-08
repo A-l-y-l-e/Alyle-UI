@@ -101,6 +101,8 @@ export class LySnackBar {
       }), snackBar.containerElement, undefined, STYLE_PRIORITY);
     });
 
+    window.getComputedStyle(snackBar.containerElement).getPropertyValue('opacity');
+
     const sbr = new LySnackBarRef(this._snackBarService, snackBar, this.afterDismissed, duration, this._theme);
     this._snackBarService._currentSnackBar = sbr;
     return sbr;
