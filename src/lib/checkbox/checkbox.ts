@@ -62,7 +62,9 @@ const STYLES = (theme: ThemeVariables) => ({
     display: 'inline-flex',
     alignItems: 'baseline',
     cursor: 'pointer',
-    marginBefore: '16px'
+    marginBefore: '16px',
+    paddingTop: '12px',
+    paddingBottom: '12px'
   },
   icon: {
     position: 'relative',
