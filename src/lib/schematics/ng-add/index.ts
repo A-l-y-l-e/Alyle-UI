@@ -6,7 +6,7 @@ import { Schema } from './schema';
 import { setUpAppModule } from './set-up';
 import { addFontsToIndex } from './fonts';
 import { getAppComponentPath } from '../utils/get-app-component-path';
-import { setUpStyles } from './styles';
+import { setUpStyles } from '../utils/styles';
 
 let AUI_VERSION: string;
 try {
@@ -56,14 +56,23 @@ function installPkgs(options: Schema): Rule {
   };
 }
 
-// You don't have to export the function as default. You can also have more than one rule factory
-// per file.
-export function ngAdd(options: Schema): Rule {
+export default function (options: Schema): Rule {
+  const STYLES = `\n\nconst STYLES = (theme: ThemeVariables) => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.background.default,
+      color: theme.text.default,
+      fontFamily: theme.typography.fontFamily,
+      margin: 0,
+      direction: theme.direction
+    }
+  }
+});`;
   return (host: Tree) => chain([
     addHammerJsToMain(options),
     setUpAppModule(options),
     addFontsToIndex(options),
-    setUpStyles(options, getAppComponentPath(host, options)),
+    setUpStyles(options, getAppComponentPath(host, options), STYLES),
     installPkgs(options)
   ]);
 }

@@ -1,12 +1,11 @@
 import * as ts from '@schematics/angular/node_modules/typescript';
 import { Tree, SchematicsException } from '@angular-devkit/schematics';
-import { Schema } from './schema';
 import { getProjectTargets, targetBuildNotFoundError } from '@schematics/angular/utility/project-targets';
 import { addImport, getTsSourceFile, prettierConstructorParameters } from '../utils/ast';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 
 /** Adds the styles to the src/app/app.component.ts file. */
-export function setUpStyles(options: Schema, filePath: string): (host: Tree) => Tree {
+export function setUpStyles(options: any, filePath: string, content?: string): (host: Tree) => Tree {
   return (host: Tree) => {
     const projectTargets = getProjectTargets(host, options.project);
 
@@ -26,18 +25,9 @@ export function setUpStyles(options: Schema, filePath: string): (host: Tree) => 
     let component = getComponentOrDirective(host, filePath);
     const componentStartPos = component.decorators![0].pos;
 
+    const defaultContentStyle = `\n\nconst STYLES = (_theme: ThemeVariables) => ({ });`;
     const recorder = host.beginUpdate(filePath);
-    recorder.insertLeft(componentStartPos, `\n\nconst STYLES = (theme: ThemeVariables) => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.background.default,
-      color: theme.text.default,
-      fontFamily: theme.typography.fontFamily,
-      margin: 0,
-      direction: theme.direction
-    }
-  }
-});`);
+    recorder.insertLeft(componentStartPos, content || defaultContentStyle);
     host.commitUpdate(recorder);
 
     component = getComponentOrDirective(host, filePath);
