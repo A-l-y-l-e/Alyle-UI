@@ -84,7 +84,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
    * Styles
    * @docs-private
    */
-  classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _content: string | number;
   private _position: string;
   private _positionClass: string;
