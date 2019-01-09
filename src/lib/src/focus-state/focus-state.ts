@@ -15,10 +15,7 @@ export interface FocusStateInfo {
   subject: Subject<FocusState>;
 }
 
-export interface FocusState {
-  event: FocusEvent;
-  by: 'keyboard' | 'mouse';
-}
+export type FocusState = 'keyboard' | 'mouse' | null;
 
 @Injectable({
   providedIn: 'root'
@@ -82,10 +79,11 @@ export class LyFocusState implements OnDestroy {
   }
 
   private _on(event: FocusEvent, subject: Subject<FocusState>) {
-    this._ngZone.run(() => subject.next({
-      event,
-      by: this._currentEvent || 'keyboard'
-    }));
+    let by: FocusState = null;
+    if (event.type === 'focus') {
+      by = this._currentEvent || 'keyboard';
+    }
+    this._ngZone.run(() => subject.next(by));
   }
 
   private _addGlobalListeners() {

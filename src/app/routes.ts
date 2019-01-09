@@ -1,4 +1,12 @@
-export const AUIRoutes = [
+export const AUIRoutes: {
+  route: string
+  name: string
+  routes?: {
+    route: string
+    name: string
+    api?: boolean
+  }[]
+}[] = [
   {
     route: '',
     name: 'Alyle UI'
@@ -24,45 +32,52 @@ export const AUIRoutes = [
     name: 'Layout',
     route: 'layout',
     routes: [
-      { route: 'grid', name: 'Grid' },
-      { route: 'responsive', name: 'Responsive' },
-      { route: 'tabs', name: 'Tabs' }
+      { route: 'grid', api: true , name: 'Grid' },
+      { route: 'responsive', api: true , name: 'Responsive' },
+      { route: 'tabs', api: true , name: 'Tabs' }
     ]
   },
   {
     name: 'Components',
     route: 'components',
     routes: [
-      { route: 'avatar', name: 'Avatar' },
-      { route: 'badge', name: 'Badge' },
-      { route: 'button', name: 'Button' },
-      { route: 'card', name: 'Card' },
-      { route: 'carousel', name: 'Carousel' },
-      { route: 'checkbox', name: 'Checkbox' },
-      { route: 'divider', name: 'Divider' },
-      { route: 'drawer', name: 'Drawer' },
-      { route: 'field', name: 'Field' },
-      { route: 'icon', name: 'Icon' },
-      { route: 'list', name: 'List' },
-      { route: 'menu', name: 'Menu' },
-      { route: 'radio', name: 'Radio' },
-      { route: 'resizing-cropping-images', name: 'Resizing & cropping' },
-      { route: 'snack-bar', name: 'SnackBar' },
-      { route: 'toolbar', name: 'Toolbar' },
-      { route: 'tooltip', name: 'Tooltip' },
-      { route: 'typography', name: 'Typography' }
+      { route: 'avatar', api: true , name: 'Avatar'},
+      { route: 'badge', api: true , name: 'Badge' },
+      { route: 'button', api: true , name: 'Button' },
+      { route: 'card', api: true , name: 'Card' },
+      { route: 'carousel', api: true , name: 'Carousel' },
+      { route: 'checkbox', api: true , name: 'Checkbox' },
+      { route: 'divider', api: true , name: 'Divider' },
+      { route: 'drawer', api: true , name: 'Drawer' },
+      { route: 'field', api: true , name: 'Field' },
+      { route: 'icon', api: true , name: 'Icon' },
+      { route: 'list', api: true , name: 'List' },
+      { route: 'menu', api: true , name: 'Menu' },
+      { route: 'radio', api: true , name: 'Radio' },
+      { route: 'resizing-cropping-images', api: true , name: 'Resizing & cropping' },
+      { route: 'snack-bar', api: true , name: 'SnackBar' },
+      { route: 'toolbar', api: true , name: 'Toolbar' },
+      { route: 'tooltip', api: true , name: 'Tooltip' },
+      { route: 'typography', api: true , name: 'Typography' }
     ]
   }
 ];
 
-export const AUIRoutesMap = new Map();
+export const AUIRoutesMap = new Map<string, {
+  route: string;
+  name: string;
+  api?: boolean;
+}>();
 
 AUIRoutes.forEach(item => {
-  AUIRoutesMap.set(`/${item.route}`, item.name);
+  AUIRoutesMap.set(`/${item.route}`, item);
   if (item.routes) {
     for (let index = 0; index < item.routes.length; index++) {
       const route = item.routes[index];
-      AUIRoutesMap.set(`/${item.route}/${route.route}`, item.name);
+      AUIRoutesMap.set(`/${item.route}/${route.route}`, route);
+      if (route.api) {
+        AUIRoutesMap.set(`/api/${route.route}`, { ...route , api: null });
+      }
     }
   }
 });

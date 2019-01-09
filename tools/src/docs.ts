@@ -257,9 +257,10 @@ function toCamelcase(str: string) {
   });
 }
 
-function checkIfContainTagPrivate(de: DeclarationReflection): boolean {
-  if (de.comment && de.comment.tags) {
-    return de.comment.tags.some(_ => _['tag'] === 'docs-private');
+function checkIfContainTagPrivate(refl: DeclarationReflection): boolean {
+  const comment: Reflection['comment'] = refl.comment || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : null);
+  if (comment && comment.tags) {
+    return comment.tags.some(_ => _['tag'] === 'docs-private');
   } else {
     return false;
   }

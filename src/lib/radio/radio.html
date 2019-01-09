@@ -1,0 +1,20 @@
+<label #_labelContainer [attr.for]="inputId" [className]="classes.label">
+  <input #_input
+    [className]="_coreStyles.classes.visuallyHidden"
+    [id]="inputId"
+    [checked]="checked"
+    [name]="name"
+    (change)="_onInputChange($event)"
+    (click)="_onInputClick($event)"
+    [disabled]="disabled"
+    type="radio"
+    >
+  <div #_radioContainer [className]="classes.container">
+    <div [className]="_coreStyles.classes.fill"></div>
+    <div [className]="_coreStyles.classes.fill"></div>
+  </div>
+  <div
+  [className]="classes.labelContent">
+    <ng-content></ng-content>
+  </div>
+</label>

@@ -18,7 +18,7 @@ export class TitleComponent implements OnInit {
   @Input()
   set route(val: string) {
     if (val !== this._route) {
-      if (AUIRoutesMap.has(val)) {
+      if (AUIRoutesMap.has(val) || val.indexOf('/api/') !== -1) {
         this._route = val;
         const varArray = val.split('/').filter(_ => !!_);
         const latestItem = varArray[varArray.length - 1];

@@ -94,7 +94,7 @@ export class Ripple {
       this.startRipple(event, this.config);
     }
   }
-  private onPointerLeave(event: MouseEvent) {
+  private onPointerLeave(_event: MouseEvent) {
     if (!this.config.disabled) {
       this.endRipple();
     }

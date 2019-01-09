@@ -51,10 +51,17 @@ export class LyGrid {
    * Styles
    * @docs-private
    */
-  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
 
   private _spacing: string | number;
-  private _spacingClass: string;
+  _spacingClass: string;
+
+  private _spacingX: string | number;
+  _spacingXClass: string;
+
+  private _spacingY: string | number;
+  _spacingYClass: string;
+
 
   private _negativeMarginClass: string;
 
@@ -67,6 +74,28 @@ export class LyGrid {
   private _alignItems: AlignItems;
   private _alignItemsClass: string;
 
+  @Input()
+  get spacingX(): string | number {
+    return this._spacingX;
+  }
+  set spacingX(val: string | number) {
+    if (val !== this.spacingX) {
+      this._spacingX = val;
+      this._createSpacingClass(null, val);
+    }
+  }
+
+  @Input()
+  get spacingY(): string | number {
+    return this._spacingY;
+  }
+  set spacingY(val: string | number) {
+    if (val !== this.spacingY) {
+      this._spacingY = val;
+      this._createSpacingClass(null, null, val);
+    }
+  }
+
   /**
    * Defines the space between the component with the `item` attribute.
    * Support breakpoints
@@ -78,57 +107,80 @@ export class LyGrid {
   set spacing(val: string | number) {
     if (val !== this.spacing) {
       this._spacing = val;
-      this._spacingClass = this.theme.addStyle(`lyGrid-spacing:${val}`, (theme: ThemeVariables) => {
-        if (typeof val === 'number') {
-          return `padding:${val / 2}px;` as any;
-        } else {
-          const spacingStyles: {
-            padding?: string
-          } = {};
-          eachMedia(val, (value, media, len) => {
-            const padding = `${(+value) / 2}px`;
-            if (len) {
-              spacingStyles[theme.getBreakpoint(media)] = {
-                padding
-              };
-            } else {
-              spacingStyles.padding = padding;
-            }
-          });
-          return spacingStyles;
-        }
-      }, undefined, undefined, STYLE_PRIORITY);
-      this._negativeMarginClass = this.theme.addStyle(`lyGrid-negative-margin:${val}`, (theme: ThemeVariables) => {
-        if (typeof val === 'number') {
-          return `margin:${val / -2}px;width: calc(100% + ${val}px);` as any;
-        } else {
-          let negativeMarginStyles: {
-            margin?: string
-            width?: string
-          };
-          eachMedia(val, (value, media, len) => {
-            const negativeMarginstyles = {
-              margin: `${(-value) / 2}px`,
-              width: `calc(100% + ${value}px)`
-            };
-            if (len) {
-              if (!negativeMarginStyles) {
-                negativeMarginStyles = {};
-              }
-              negativeMarginStyles[theme.getBreakpoint(media)] = negativeMarginstyles;
-            } else {
-              negativeMarginStyles = negativeMarginstyles;
-            }
-          });
-          return negativeMarginStyles;
-        }
-      }, this.el.nativeElement, this._negativeMarginClass, STYLE_PRIORITY);
+      this._createSpacingClass(val);
     }
   }
 
-  /** @docs-private */
-  get spacingClass() {
-    return this._spacingClass;
+  /**
+   * Only one param must be defined
+   */
+  private _createSpacingClass(xy?: string | number, x?: string | number, y?: string | number) {
+    const newSpacingClass = this.theme.addStyle(`lyGrid-spacing:${xy}·${x}·${y}`, (theme: ThemeVariables) => {
+      const val = xy || x || y;
+      const spacingStyles: {
+        padding?: string
+      } = {};
+      eachMedia(val, (value, media) => {
+        const valuePadding = `${(+value) / 2}px`;
+        const padding = xy != null
+          ? valuePadding
+          : x != null
+            ? `0 ${valuePadding}`
+            : `${valuePadding} 0`;
+        if (media) {
+          spacingStyles[theme.getBreakpoint(media)] = {
+            padding
+          };
+        } else {
+          spacingStyles.padding = padding;
+        }
+      });
+      return spacingStyles;
+    }, undefined, undefined, STYLE_PRIORITY);
+
+    if (xy) {
+      this._spacingClass = newSpacingClass;
+    } else {
+      if (x) {
+        this._spacingXClass = newSpacingClass;
+      }
+      if (y) {
+        this._spacingYClass = newSpacingClass;
+      }
+    }
+
+    this._negativeMarginClass = this.theme.addStyle(`lyGrid-negative-margin:${xy}·${x}·${y}`, (theme: ThemeVariables) => {
+      const val = xy || x || y;
+      let negativeMarginStyles: {
+        margin?: string
+        width?: string
+      };
+      eachMedia(val, (value, media, len) => {
+        const valueMargin = `${(-value) / 2}px`;
+        const margin = xy != null
+          ? valueMargin
+          : x != null
+            ? `0 ${valueMargin}`
+            : `${valueMargin} 0`;
+        const negativeMarginstyles: {
+          margin: string
+          width?: string
+        } = { margin };
+
+        if (xy != null || x != null) {
+          negativeMarginstyles.width = `calc(100% + ${value}px)`;
+        }
+        if (len) {
+          if (!negativeMarginStyles) {
+            negativeMarginStyles = {};
+          }
+          negativeMarginStyles[theme.getBreakpoint(media)] = negativeMarginstyles;
+        } else {
+          negativeMarginStyles = negativeMarginstyles;
+        }
+      });
+      return negativeMarginStyles;
+    }, this.el.nativeElement, this._negativeMarginClass, STYLE_PRIORITY);
   }
 
   /**
@@ -333,7 +385,7 @@ export class LyGridItem implements OnInit {
     private theme: LyTheme2
   ) {
     if (!gridContainer) {
-      throw new Error(`Require parent grid`);
+      throw new Error(`Require parent <ly-grid container>`);
     }
   }
 
@@ -342,8 +394,15 @@ export class LyGridItem implements OnInit {
   }
 
   private _updateSpacing() {
-    if (this.gridContainer.spacingClass) {
-      this.el.nativeElement.classList.add(this.gridContainer.spacingClass);
+    if (this.gridContainer._spacingClass) {
+      this.el.nativeElement.classList.add(this.gridContainer._spacingClass);
+    } else {
+      if (this.gridContainer._spacingXClass) {
+        this.el.nativeElement.classList.add(this.gridContainer._spacingXClass);
+      }
+      if (this.gridContainer._spacingYClass) {
+        this.el.nativeElement.classList.add(this.gridContainer._spacingYClass);
+      }
     }
   }
 

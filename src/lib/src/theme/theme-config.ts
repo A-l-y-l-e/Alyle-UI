@@ -44,8 +44,6 @@ export interface ThemeConfig {
   radio: {
     /** color for radio:outerCircle */
     outerCircle?: string;
-    /** @deprecated use outerCircle instead */
-    radioOuterCircle?: string;
   };
   menu: {
     root?: StyleContainer

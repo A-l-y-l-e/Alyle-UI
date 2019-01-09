@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AUIRoutesMap } from '../routes';
 
 @Component({
   selector: 'aui-page-content',
@@ -7,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class PageContentComponent implements OnInit {
+export class PageContentComponent {
   pathPkg: string;
   private _routeUrl: string;
   @Input()
@@ -22,15 +23,9 @@ export class PageContentComponent implements OnInit {
     public router: Router
   ) { }
 
-  ngOnInit() {
-  }
-
   isPkg() {
     const routeUrlArray = this.routeUrl.split('/');
-    if (routeUrlArray.some(_ => _ === 'shadow')) {
-      return false;
-    }
-    const isPkg = routeUrlArray.some(_ => (_ === 'components' || _ === 'layout'));
+    const isPkg = AUIRoutesMap.has(this.routeUrl) && AUIRoutesMap.get(this.routeUrl).api;
     if (isPkg) {
       this.pathPkg = routeUrlArray[2];
     }

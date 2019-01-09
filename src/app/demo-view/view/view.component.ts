@@ -104,7 +104,7 @@ export class ViewComponent implements OnInit {
     return `${host}/${fileName}.${file.type}.${file.ext}`;
   }
 
-  openPostStackblitz(event) {
+  openPostStackblitz() {
     const win = window.open('about:blank', '_blank');
     win.document.write('Loading...');
     const data = forkJoin(
@@ -301,7 +301,7 @@ export class GlobalVariables {
       this.folderName = this.el.nativeElement.querySelector('.tab-container > *').nodeName.toLowerCase();
       console.warn('required path for', this.router.url, this.folderName);
     }
-    this.files.forEach((item, i) => {
+    this.files.forEach((_item, i) => {
       this.files[i]['text'] = this.getFile(i);
     });
   }

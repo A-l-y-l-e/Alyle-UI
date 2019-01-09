@@ -33,6 +33,9 @@ const DEFAULT_DISABLE_RIPPLE = false;
 
 const STYLES = (theme: ThemeVariables) => ({
   root: {
+    marginAfter: '16px',
+    marginBefore: '-16px',
+    display: 'inline-flex',
     '&{disabled}:not({checked}) {icon}:before': {
       color: theme.disabled.default
     },
@@ -58,7 +61,10 @@ const STYLES = (theme: ThemeVariables) => ({
   layout: {
     display: 'inline-flex',
     alignItems: 'baseline',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginBefore: '16px',
+    paddingTop: '12px',
+    paddingBottom: '12px'
   },
   icon: {
     position: 'relative',
@@ -282,11 +288,9 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
           this._renderer.removeClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
           this._onFocusByKeyboardState = false;
         }
-        if (event.by === 'keyboard') {
-          if (event.event.type === 'focus') {
-            this._onFocusByKeyboardState = true;
-            this._renderer.addClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
-          }
+        if (event === 'keyboard') {
+          this._onFocusByKeyboardState = true;
+          this._renderer.addClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
         }
         this._onTouched();
       });
@@ -305,16 +309,23 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
     this._focusState.unlisten(this._el);
     this._removeRippleEvents();
   }
+
+  /** @docs-private */
   writeValue(value: any): void {
     this.checked = !!value;
   }
+
+  /** @docs-private */
   registerOnChange(fn: (value: any) => void): void {
     this._controlValueAccessorChangeFn = fn;
   }
+
+  /** @docs-private */
   registerOnTouched(fn: any): void {
     this._onTouched = fn;
   }
 
+  /** @docs-private */
   setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
   }

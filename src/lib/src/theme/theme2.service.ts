@@ -387,7 +387,7 @@ function groupStyleToString(
 }
 
 function replaceRefs(str: string, data: Object) {
-  return str.replace(REF_REG_EXP, (match, token) => {
+  return str.replace(REF_REG_EXP, (_match, token) => {
     const className = data[token];
     if (className) {
       return `.${data[token]}`;

@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Adds Alyle UI to the application",
+      "factory": "./ng-add",
+      "schema": "./ng-add/schema.json"
+    },
+    "component": {
+      "aliases": [ "c" ],
+      "factory": "./component",
+      "description": "Create an Angular component with dynamic styles.",
+      "schema": "./component/schema.json"
+    },
+    "directive": {
+      "aliases": [ "d" ],
+      "factory": "./directive",
+      "description": "Create an Angular directive with dynamic styles.",
+      "schema": "./directive/schema.json"
+    }
+  }
+}

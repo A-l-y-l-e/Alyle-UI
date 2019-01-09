@@ -6,12 +6,12 @@
 (slideend)="touch && _onDragEnd($event)"
 #slideContainer
 >
-  <div [className]="classes.slide" [style.transform]="_positionLeft">
+  <div #_slide [className]="classes.slide">
     <ng-content></ng-content>
   </div>
   <div [className]="classes.carouselIndicators" *ngIf="lyItems.length !== 1">
       <div tabindex="0"
-      (click)="select(i)"
+      (click)="_select(i)"
       role="button"
       *ngFor="let item of lyItems; let i = index">
       <span ly-paper
@@ -23,7 +23,7 @@
       ></span>
       </div>
   </div>
-  <div [className]="classes.actions" (click)="prev()">
+  <div [ngClass]="[classes.actions, 'left']" (click)="prev()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
   </div>
   <div [ngClass]="[classes.actions, 'right']" (click)="next()">

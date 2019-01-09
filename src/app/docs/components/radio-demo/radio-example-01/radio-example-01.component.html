@@ -3,28 +3,29 @@
   <ly-radio [value]="2">Label 2</ly-radio>
   <ly-radio [value]="3">Label 3</ly-radio>
 </ly-radio-group>
-
 <div>value: {{ val | json }}</div>
 <div>#radioA.value: {{ radioA.value | json }}</div>
+
+<br />
 
 <ly-radio-group #radioB="lyRadioGroup">
   <ly-radio [value]="1">Label 1</ly-radio>
   <ly-radio [value]="2" checked>Label 2</ly-radio>
   <ly-radio withColor="primary" [value]="3">Label 3</ly-radio>
 </ly-radio-group>
-
 <div>#radioB.value: {{ radioB.value | json }}</div>
+
+<br />
 
 <ly-radio-group #radioC="lyRadioGroup">
   <ly-radio [checked]="item === 3" *ngFor="let item of [ 1, 2, 3, 4, 5 ]" [value]="item">Label {{ item }}</ly-radio>
 </ly-radio-group>
-
 <div>#radioC.value: {{ radioC.value | json }}</div>
 
-<h3>color</h3>
-<ly-radio-group [(ngModel)]="favoriteColor" #radio="lyRadioGroup">
-  <ly-radio [color]="item.value" *ngFor="let item of list" [value]="item.value">{{ item.value }}</ly-radio>
-</ly-radio-group>
+<br />
 
-<div>value: {{ favoriteColor | json }}</div>
+<ly-radio-group [(ngModel)]="favoriteColor" #radio="lyRadioGroup">
+  <ly-radio [color]="color.value" *ngFor="let color of list" [value]="color.value">{{ color.name }}</ly-radio>
+</ly-radio-group>
+<div>ngModel: {{ favoriteColor | json }}</div>
 <div>radioGroup.value: {{ radio.value | json }}</div>

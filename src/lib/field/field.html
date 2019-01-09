@@ -10,7 +10,7 @@
         <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
       </span>
     </div>
-    <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _isEmpty() && (_input.focused || floatingLabel)">
+    <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _isEmpty() && (_input._focused || floatingLabel)">
       <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
     </div>
   </div>
@@ -18,8 +18,14 @@
     <ng-content select="[lySuffix]"></ng-content>
   </div>
 </div>
-<div [className]="classes.hint" *ngIf="_hintChildren.length">
-  <ng-content select="ly-hint"></ng-content>
+
+<div [className]="classes.hintContainer">
+  <div *ngIf="_hintChildren.length && (persistentHint || errorState || _input._focused)">
+    <span *ngIf="_input.errorState">
+      <ng-content select="ly-error"></ng-content>
+    </span>
+    <ng-content select="ly-hint"></ng-content>
+  </div>
 </div>
 
 <ng-template #_labelTemplate>

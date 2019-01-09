@@ -96,7 +96,7 @@ export function eachMedia(str: string | number, fn: ((val: string, media: string
       const len = valItem.length;
       if (len) {
         for (let j = 0; j < len; j++) {
-          fn.call(undefined, value, valItem[j], valItem.length);
+          fn.call(undefined, value, valItem[j], len);
         }
       } else {
         fn.call(undefined, value, undefined, len);

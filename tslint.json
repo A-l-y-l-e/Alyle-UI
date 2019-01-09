@@ -64,7 +64,6 @@
       "ignore-params"
     ],
     "no-misused-new": true,
-    "no-non-null-assertion": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
@@ -119,7 +118,6 @@
     "no-output-rename": true,
     "use-pipe-transform-interface": true,
     "no-duplicate-imports": true,
-    "no-unused-variable": true,
     "no-duplicate-variable": true,
     "linebreak-style": [true, "LF"],
     "no-namespace": true,

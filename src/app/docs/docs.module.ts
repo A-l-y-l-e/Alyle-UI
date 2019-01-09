@@ -53,8 +53,10 @@ import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-c
 import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
 import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-badge.module';
 
+/** Field */
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
+import { FieldPlaygroundModule } from './components/field-demo/field-playground/field-playground.module';
 
 /** Checkbox */
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
@@ -109,6 +111,12 @@ import { TypographyDemoBasicModule } from './components/typography-demo/typograp
 import { DrawerDemoComponent } from './components/drawer-demo/drawer-demo.component';
 import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/drawer-demo-01.module';
 
+/** Radio */
+import { RadioDemoComponent } from './components/radio-demo/radio-demo.component';
+import { RadioExample01Module } from './components/radio-demo/radio-example-01/radio-example-01.module';
+import { BasicRadioModule } from './components/radio-demo/basic-radio/basic-radio.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -151,6 +159,7 @@ import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/draw
     BasicBadgeModule,
     /** Field */
     BasicFieldModule,
+    FieldPlaygroundModule,
     /** Checkbox */
     BasicCheckboxModule,
     ComplexCheckboxModule,
@@ -174,7 +183,10 @@ import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/draw
     ListDividersModule,
     InsetDividersModule,
     /** Drawer */
-    DrawerDemo01Module
+    DrawerDemo01Module,
+    /** Radio */
+    RadioExample01Module,
+    BasicRadioModule
   ],
   declarations: [
     ThemingComponent,
@@ -217,7 +229,10 @@ import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/draw
     /**Typography */
     TypographyDemoComponent,
     /** Drawer */
-    DrawerDemoComponent
+    DrawerDemoComponent,
+    /** Radio */
+    RadioDemoComponent,
+    PageNotFoundComponent
   ]
 })
 export class DocsModule { }

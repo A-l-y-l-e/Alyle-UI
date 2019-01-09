@@ -23,7 +23,7 @@ import {
   toBoolean
   } from '@alyle/ui';
 
-const styles = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables) => ({
   root: {
     display: 'block',
     overflow: 'hidden',
@@ -86,9 +86,9 @@ mixinBg(
 export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDestroy {
   /**
    * styles
-   * @ignore
+   * @docs-private
    */
-  classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   constructor(
     private theme: LyTheme2,
     private _el: ElementRef,

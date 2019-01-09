@@ -239,11 +239,9 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
               this._renderer.removeClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
               this._onFocusByKeyboardState = false;
             }
-            if (event.by === 'keyboard') {
-              if (event.event.type === 'focus') {
-                this._onFocusByKeyboardState = true;
-                this._renderer.addClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
-              }
+            if (event === 'keyboard') {
+              this._onFocusByKeyboardState = true;
+              this._renderer.addClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
             }
           });
         }

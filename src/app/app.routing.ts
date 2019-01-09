@@ -6,6 +6,7 @@ import { TypographyDemoComponent } from '@docs/components/typography-demo/typogr
 import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
 import { ThemingComponent } from '@docs/customization/theming/theming.component';
 import { ApiComponent } from './api/api.component';
+import { PageNotFoundComponent } from '@docs/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   /** Pages */
@@ -28,7 +29,6 @@ const routes: Routes = [
   {
     path: 'components',
     children: [
-      { path: 'radio', loadChildren: './components/radio-demo/radio-demo.module#RadioDemoModule' },
       { path: 'carousel', loadChildren: './components/carousel-demo/carousel-demo.module#CarouselDemoModule' },
       { path: 'card', component: CardDemoComponent },
       { path: 'typography', component: TypographyDemoComponent },
@@ -36,7 +36,8 @@ const routes: Routes = [
   },
   { path: 'component', redirectTo: 'components' },
   { path: 'get-started/install', redirectTo: 'getting-started/installation' },
-  { path: 'getting-started', redirectTo: 'getting-started/installation' }
+  { path: 'getting-started', redirectTo: 'getting-started/installation' },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

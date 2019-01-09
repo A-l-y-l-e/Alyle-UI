@@ -1,3 +1,73 @@
+## [2.0.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.2...2.0.3) (2019-01-09)
+
+
+### Bug Fixes
+
+* **checkbox:** add spacing between checkboxes ([cb13548](https://github.com/A-l-y-l-e/Alyle-UI/commit/cb13548))
+* **checkbox:** add spacing between checkboxes ([ffc31c1](https://github.com/A-l-y-l-e/Alyle-UI/commit/ffc31c1))
+* **field:** rename `LyInput` ([3320f20](https://github.com/A-l-y-l-e/Alyle-UI/commit/3320f20))
+* **img-cropper:** delete manually created events when the component is destroyed ([79b5079](https://github.com/A-l-y-l-e/Alyle-UI/commit/79b5079))
+* **radio:** add spacing between radio ([9bd3548](https://github.com/A-l-y-l-e/Alyle-UI/commit/9bd3548))
+* **snack-bar:** destroy the `snack-bar` when the component destroyed ([659c0f2](https://github.com/A-l-y-l-e/Alyle-UI/commit/659c0f2))
+* **snack-bar:** fix animations when opening snack-bar ([7b8ee55](https://github.com/A-l-y-l-e/Alyle-UI/commit/7b8ee55))
+
+
+### Features
+
+* **schematics:** add option to create components with dynamic styles ([5752224](https://github.com/A-l-y-l-e/Alyle-UI/commit/5752224))
+
+
+
+## [2.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.1...2.0.2) (2019-01-07)
+
+
+### Features
+
+* **schematics:** add fonts & dynamic styles ([d2bb27e](https://github.com/A-l-y-l-e/Alyle-UI/commit/d2bb27e))
+* **schematics:** support for schematics ([340e8ef](https://github.com/A-l-y-l-e/Alyle-UI/commit/340e8ef))
+
+
+
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.0...2.0.1) (2019-01-01)
+
+
+<a name="2.0.0"></a>
+# [2.0.0 Stable](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...2.0.0) (2018-12-30)
+
+
+### Bug Fixes
+
+* **card:** export `STYLES` ([8930455](https://github.com/A-l-y-l-e/Alyle-UI/commit/8930455))
+* **carousel:** RTL & styles ([fda468e](https://github.com/A-l-y-l-e/Alyle-UI/commit/fda468e))
+* **radio:** fix styles ([4ce2df5](https://github.com/A-l-y-l-e/Alyle-UI/commit/4ce2df5))
+
+
+### Features
+
+* **field:** add `ly-error` ([c5c12be](https://github.com/A-l-y-l-e/Alyle-UI/commit/c5c12be))
+* **grid:** add `@Input() spacingX` & `@Input() spacingY` ([cfa8669](https://github.com/A-l-y-l-e/Alyle-UI/commit/cfa8669))
+* **radio:** add styles for `onFocusByKeyboard` ([bc47a5e](https://github.com/A-l-y-l-e/Alyle-UI/commit/bc47a5e))
+
+
+
+<a name="1.9.11"></a>
+## [1.9.11](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.10...1.9.11) (2018-12-27)
+
+
+### Bug Fixes
+
+* **theme:** fix theme for icon button ([2ae61f5](https://github.com/A-l-y-l-e/Alyle-UI/commit/2ae61f5))
+* **typography:** update style priority ([e0895e2](https://github.com/A-l-y-l-e/Alyle-UI/commit/e0895e2))
+
+
+### Features
+
+* **field:** add `@Input() align`for `ly-hint` ([0e46b27](https://github.com/A-l-y-l-e/Alyle-UI/commit/0e46b27))
+* **typography:** add noWrap ([4ab3a5a](https://github.com/A-l-y-l-e/Alyle-UI/commit/4ab3a5a))
+
+
+
 <a name="1.9.10"></a>
 ## [1.9.10](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.9...1.9.10) (2018-12-22)
 

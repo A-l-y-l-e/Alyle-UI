@@ -20,9 +20,10 @@ import {
   HostBinding,
   Optional,
   Self,
-  forwardRef
+  forwardRef,
+  DoCheck
   } from '@angular/core';
-import { LY_COMMON_STYLES, LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
@@ -30,7 +31,10 @@ import { LyPrefix } from './prefix';
 import { LySuffix } from './suffix';
 import { Subject } from 'rxjs';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
+import { LyError } from './error';
+import { STYLES } from './styles';
 
+/** LyField */
 const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
 const DEFAULT_APPEARANCE_THEME = {
@@ -75,125 +79,10 @@ const DEFAULT_APPEARANCE_THEME = {
   }
 };
 const DEFAULT_WITH_COLOR = 'primary';
-const styles = (theme: ThemeVariables) => {
-  return {
-    root: {
-      display: 'inline-block',
-      position: 'relative',
-      marginBottom: '.5em',
-      lineHeight: 1.125
-    },
-    animations: {
-      '& {labelSpan}': {
-        transition: `font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
-      },
-      '& {label}': {
-        transition: `${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s`
-      }
-    },
-    container: {
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      position: 'relative',
-      '&:after': {
-        ...LY_COMMON_STYLES.fill,
-        content: `\'\'`,
-        pointerEvents: 'none',
-        borderColor: theme.field.borderColor
-      }
-    },
-    fieldset: {
-      ...LY_COMMON_STYLES.fill,
-      margin: 0,
-      borderStyle: 'solid',
-      borderColor: theme.field.borderColor,
-      borderWidth: 0
-    },
-    fieldsetSpan: {
-      padding: 0,
-      height: '2px'
-    },
-    labelSpan: {
-      maxWidth: '100%',
-      display: 'inline-block'
-    },
-    prefix: {
-      maxHeight: '2em',
-      display: 'flex',
-      alignItems: 'center'
-    },
-    infix: {
-      display: 'inline-flex',
-      position: 'relative',
-      alignItems: 'baseline',
-      width: '100%'
-    },
-    suffix: {
-      maxHeight: '2em',
-      display: 'flex',
-      alignItems: 'center'
-    },
-    labelContainer: {
-      ...LY_COMMON_STYLES.fill,
-      pointerEvents: 'none',
-      display: 'flex',
-      width: '100%',
-      borderColor: theme.field.borderColor
-    },
-    labelSpacingStart: {},
-    labelCenter: {
-      display: 'flex',
-      maxWidth: '100%'
-    },
-    labelSpacingEnd: {
-      flex: 1
-    },
-    label: {
-      ...LY_COMMON_STYLES.fill,
-      margin: 0,
-      border: 'none',
-      pointerEvents: 'none',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      color: theme.field.labelColor,
-      width: '100%'
-    },
-    isFloatingLabel: {},
-    floatingLabel: {
-      '& {labelSpan}': {
-        fontSize: '75%'
-      }
-    },
-    placeholder: {
-      ...LY_COMMON_STYLES.fill,
-      pointerEvents: 'none',
-      color: theme.field.labelColor
-    },
-    focused: {},
-    inputNative: {
-      resize: 'vertical',
-      padding: 0,
-      outline: 'none',
-      border: 'none',
-      backgroundColor: 'transparent',
-      color: 'inherit',
-      font: 'inherit',
-      width: '100%'
-    },
-    hint: { },
-    disabled: {
-      '&, & {label}, & {container}:after': {
-        color: theme.disabled.contrast,
-        cursor: 'default'
-      }
-    }
-  };
-};
 
 @Component({
   selector: 'ly-field',
+  exportAs: 'lyFormField',
   templateUrl: 'field.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
@@ -203,7 +92,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
    * styles
    * @docs-private
    */
-  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   protected _appearance: string;
   protected _appearanceClass: string;
   protected _color: string;
@@ -213,18 +102,48 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   private _fielsetSpanClass: string;
   private _marginStartClass: string;
   private _marginEndClass: string;
+  private _fullWidth: boolean;
+  private _fullWidthClass: string;
   @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_labelContainer2') _labelContainer2: ElementRef<HTMLDivElement>;
   @ViewChild('_labelSpan') _labelSpan: ElementRef<HTMLDivElement>;
   @ViewChild('_prefixContainer') _prefixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_suffixContainer') _suffixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_fieldsetLegend') _fieldsetLegend: ElementRef<HTMLDivElement>;
-  @ContentChild(forwardRef(() => LyInputNative)) _input: LyInputNative;
+  @ContentChild(forwardRef(() => LyNativeControl)) _input: LyNativeControl;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
   @ContentChildren(LyPrefix) _prefixChildren: QueryList<LyPrefix>;
   @ContentChildren(LySuffix) _suffixChildren: QueryList<LySuffix>;
+  @ContentChildren(LyError) _errorChildren: QueryList<LyError>;
+
+  get errorState() {
+    return this._input.errorState;
+  }
+
+  @Input() persistentHint: boolean;
+
+  @Input()
+  set fullWidth(val: boolean) {
+    const newVal = toBoolean(val);
+    if (newVal) {
+      this._fullWidthClass = this._theme.addStyle(
+        `fullWidth`,
+        { width: '100%' },
+        this._getHostElement(),
+        this._fullWidthClass,
+        STYLE_PRIORITY
+      );
+    } else if (this._fullWidthClass) {
+      this._renderer.removeClass(this._getHostElement(), this._fullWidthClass);
+      this._fullWidthClass = null;
+    }
+    this._fullWidth = newVal;
+  }
+  get fullWidth() {
+    return this._fullWidth;
+  }
 
   /** Whether the label is floating. */
   @Input()
@@ -289,7 +208,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
           [`& .${classes.label}`]: {
             ...appearance.label
           },
-          [`& .${classes.hint}`]: {
+          [`& .${classes.hintContainer}`]: {
             ...appearance.hint
           },
           [`& .${classes.floatingLabel}.${classes.label}`]: {...appearance.floatingLabel},
@@ -298,7 +217,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
             ...appearance.containerFocused
           },
         };
-      }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, styles);
+      }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, STYLES);
     }
   }
   get appearance() {
@@ -377,7 +296,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   private _updateFielset(el: Element, dir: DirAlias) {
     const { width } = el.getBoundingClientRect();
     const newClass = this._theme.addStyle(`fieldLegendstyle.margin${dir}:${width}`, () => ({
-      [`& .${this.classes.fieldsetSpan}, & .${this.classes.hint}`]: {
+      [`& .${this.classes.fieldsetSpan}`]: {
         [`margin-${dir}`]: `${width}px`
       }
     }), null, null, STYLE_PRIORITY);
@@ -425,7 +344,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
   private _updateFloatingLabel() {
     if (this._labelContainer2) {
-      const isFloating = this._input.focused || !this._isEmpty() || this.floatingLabel;
+      const isFloating = this._input._focused || !this._isEmpty() || this.floatingLabel;
       if (this._isFloating !== isFloating) {
         this._isFloating = isFloating;
         if (isFloating) {
@@ -437,7 +356,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
         }
       }
     }
-    if (this._input.focused) {
+    if (this._input._focused) {
       this._renderer.addClass(this._el.nativeElement, this.classes.focused);
     } else {
       this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
@@ -454,33 +373,35 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
 
 }
 
-
 @Directive({
-  selector: 'input[lyInput], textarea[lyInput]',
-  exportAs: 'lyInput'
+  selector: 'input[lyInput], textarea[lyInput], input[lyNativeControl], textarea[lyNativeControl]',
+  exportAs: 'LyNativeControl'
 })
-export class LyInputNative implements OnInit, OnDestroy {
+export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
   _hostElement: HTMLInputElement | HTMLTextAreaElement;
   protected _disabled = false;
   protected _required = false;
   protected _placeholder: string;
   readonly stateChanges: Subject<void> = new Subject<void>();
   private _hasDisabledClass: boolean;
-  focused: boolean = false;
+  private _errorClass: string;
+  private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
+  _focused: boolean = false;
+  errorState: boolean = false;
 
   @HostListener('input') _onInput() {
     this.stateChanges.next();
   }
 
   @HostListener('blur') _onBlur() {
-    if (this.focused !== false) {
-      this.focused = false;
+    if (this._focused !== false) {
+      this._focused = false;
       this.stateChanges.next();
     }
   }
   @HostListener('focus') _onFocus() {
-    if (this.focused !== true) {
-      this.focused = true;
+    if (this._focused !== true) {
+      this._focused = true;
       this.stateChanges.next();
     }
   }
@@ -503,12 +424,14 @@ export class LyInputNative implements OnInit, OnDestroy {
   set disabled(val: boolean) {
     if (val !== this._disabled) {
       this._disabled = toBoolean(val);
-      if (!val && this._hasDisabledClass) {
-        this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
-        this._hasDisabledClass = null;
-      } else if (val) {
-        this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
-        this._hasDisabledClass = true;
+      if (this._field) {
+        if (!val && this._hasDisabledClass) {
+          this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
+          this._hasDisabledClass = null;
+        } else if (val) {
+          this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
+          this._hasDisabledClass = true;
+        }
       }
     }
   }
@@ -535,11 +458,11 @@ export class LyInputNative implements OnInit, OnDestroy {
   constructor(
     private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
     private _renderer: Renderer2,
-    private _field: LyField,
+    @Optional() private _field: LyField,
     /** @docs-private */
     @Optional() @Self() public ngControl: NgControl,
-    @Optional() _parentForm: NgForm,
-    @Optional() _parentFormGroup: FormGroupDirective,
+    @Optional() private _parentForm: NgForm,
+    @Optional() private _parentFormGroup: FormGroupDirective,
   ) {
     this._hostElement = this._el.nativeElement;
   }
@@ -552,6 +475,24 @@ export class LyInputNative implements OnInit, OnDestroy {
       ngControl.statusChanges.subscribe(() => {
         this.disabled = ngControl.disabled;
       });
+    }
+  }
+
+  ngDoCheck() {
+    const oldVal = this.errorState;
+    const newVal = !!(this.ngControl && this.ngControl.invalid && (this.ngControl.touched || (this._form && this._form.submitted)));
+    if (newVal !== oldVal) {
+      this.errorState = newVal;
+      if (this._field) {
+        const errorClass = this._field.classes.errorState;
+        if (newVal) {
+          this._renderer.addClass(this._field._getHostElement(), errorClass);
+          this._errorClass = errorClass;
+        } else if (this._errorClass) {
+          this._renderer.removeClass(this._field._getHostElement(), errorClass);
+          this._errorClass = null;
+        }
+      }
     }
   }
 
