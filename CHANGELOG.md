@@ -1,3 +1,23 @@
+## [2.0.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.2...2.0.3) (2019-01-09)
+
+
+### Bug Fixes
+
+* **checkbox:** add spacing between checkboxes ([cb13548](https://github.com/A-l-y-l-e/Alyle-UI/commit/cb13548))
+* **checkbox:** add spacing between checkboxes ([ffc31c1](https://github.com/A-l-y-l-e/Alyle-UI/commit/ffc31c1))
+* **field:** rename `LyInput` ([3320f20](https://github.com/A-l-y-l-e/Alyle-UI/commit/3320f20))
+* **img-cropper:** delete manually created events when the component is destroyed ([79b5079](https://github.com/A-l-y-l-e/Alyle-UI/commit/79b5079))
+* **radio:** add spacing between radio ([9bd3548](https://github.com/A-l-y-l-e/Alyle-UI/commit/9bd3548))
+* **snack-bar:** destroy the `snack-bar` when the component destroyed ([659c0f2](https://github.com/A-l-y-l-e/Alyle-UI/commit/659c0f2))
+* **snack-bar:** fix animations when opening snack-bar ([7b8ee55](https://github.com/A-l-y-l-e/Alyle-UI/commit/7b8ee55))
+
+
+### Features
+
+* **schematics:** add option to create components with dynamic styles ([5752224](https://github.com/A-l-y-l-e/Alyle-UI/commit/5752224))
+
+
+
 ## [2.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.1...2.0.2) (2019-01-07)
 
 
