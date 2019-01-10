@@ -66,7 +66,7 @@ export enum DirPosition {
  * @param path path
  * @param optional get optional value, if not exist return default if not is string
  */
-function get(obj: Object, path: string[] | string, optional: string): string {
+function get(obj: Object, path: string[] | string, optional?: string): string {
   const _path: string[] = path instanceof Array ? path : path.split(':');
   for (let i = 0; i < _path.length; i++) {
     const posibleOb = obj[_path[i]];
@@ -87,7 +87,7 @@ function get(obj: Object, path: string[] | string, optional: string): string {
   // return typeof obj === 'string' ? obj as string : obj['default'] as string;
 }
 
-export function eachMedia(str: string | number, fn: ((val: string, media: string, isMedia: number) => void)) {
+export function eachMedia(str: string | number | undefined, fn: ((val: string, media: string, isMedia: number) => void)) {
   if (typeof str === 'string') {
     const values = str.split(/\s/g);
     for (let index = 0; index < values.length; index++) {

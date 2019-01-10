@@ -120,7 +120,7 @@ const styles = (theme: ThemeVariables) => ({
 })
 export class ResizingCroppingImagesExample01Component implements AfterViewInit {
   classes = this.theme.addStyleSheet(styles);
-  croppedImage: string;
+  croppedImage?: string;
   result: string;
   scale: number;
   @ViewChild(LyResizingCroppingImages) cropper: LyResizingCroppingImages;

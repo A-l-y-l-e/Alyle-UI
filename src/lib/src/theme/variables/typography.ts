@@ -12,7 +12,7 @@ export interface TypographyVariables {
    */
   lyTyp: {
     any?: TypographyTypeVariables
-    [name: string]: TypographyTypeVariables
+    [name: string]: TypographyTypeVariables | undefined
   };
 }
 

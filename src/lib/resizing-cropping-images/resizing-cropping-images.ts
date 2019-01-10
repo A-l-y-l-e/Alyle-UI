@@ -108,18 +108,18 @@ export enum ImgResolution {
 
 export interface ImgCropperEvent {
   /** Cropped image data URL */
-  dataURL: string;
+  dataURL?: string;
   name: string;
   /** Filetype */
-  type: string;
-  width: number;
-  height: number;
+  type?: string;
+  width?: number;
+  height?: number;
   /** Original Image data URL */
-  originalDataURL: string;
-  scale: number;
+  originalDataURL?: string;
+  scale?: number;
   /** Current rotation in degrees */
-  rotation: number;
-  position: {
+  rotation?: number;
+  position?: {
     x: number
     y: number
   };
@@ -156,20 +156,20 @@ export class LyResizingCroppingImages implements OnDestroy {
    * @docs-private
    */
   readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
-  _originalImgBase64: string;
+  _originalImgBase64?: string;
   private _fileName: string;
 
   /** Original image */
   private _img: HTMLImageElement;
-  private offset: {
+  private offset?: {
     x: number
     y: number
     left: number
     top: number
   };
-  private _scale: number;
-  private _scal3Fix: number;
-  private _minScale: number;
+  private _scale?: number;
+  private _scal3Fix?: number;
+  private _minScale?: number;
   private _config: ImgCropperConfig;
   private _imgRect: ImgRect = {} as any;
   private _rotation: number;
@@ -189,15 +189,15 @@ export class LyResizingCroppingImages implements OnDestroy {
   }
   /** Set scale */
   @Input()
-  get scale(): number {
+  get scale(): number | undefined {
     return this._scale;
   }
-  set scale(val: number) {
+  set scale(val: number | undefined) {
     this.setScale(val);
   }
 
   /** Get min scale */
-  get minScale(): number {
+  get minScale(): number | undefined {
     return this._minScale;
   }
 
@@ -215,7 +215,7 @@ export class LyResizingCroppingImages implements OnDestroy {
   /** Emit an error when the loaded image is not valid */
   @Output() readonly error = new EventEmitter<ImgCropperEvent>();
 
-  private _defaultType: string;
+  private _defaultType?: string;
   constructor(
     private _renderer: Renderer2,
     private theme: LyTheme2,
@@ -237,7 +237,7 @@ export class LyResizingCroppingImages implements OnDestroy {
       const canvas = this._imgCanvas.nativeElement;
       canvas.width = imgElement.width;
       canvas.height = imgElement.height;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d')!;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(imgElement, 0, 0);
       /** set min scale */
@@ -278,7 +278,7 @@ export class LyResizingCroppingImages implements OnDestroy {
 
   selectInputEvent(img: Event) {
     const _img = img.target as HTMLInputElement;
-    if (_img.files.length !== 1) {
+    if (_img.files && _img.files.length !== 1) {
       return;
     }
     const fileReader: FileReader = new FileReader();
@@ -292,7 +292,7 @@ export class LyResizingCroppingImages implements OnDestroy {
       this.setImageUrl(originalImageUrl);
       /** Set type */
       if (!this.config.type) {
-        this._defaultType = _img.files[0].type;
+        this._defaultType = _img.files![0].type;
       }
       this.cd.markForCheck();
       this._listeners.delete(listener);
@@ -300,13 +300,13 @@ export class LyResizingCroppingImages implements OnDestroy {
 
     this._listeners.add(listener);
 
-    fileReader.readAsDataURL(_img.files[0]);
+    fileReader.readAsDataURL(_img.files![0]);
   }
 
   /** Set the size of the image, the values can be 0 between 1, where 1 is the original size */
-  setScale(size: number, noAutoCrop?: boolean) {
+  setScale(size?: number, noAutoCrop?: boolean) {
     // fix min scale
-    const newSize = size >= this.minScale && size <= 1 ? size : this.minScale;
+    const newSize = size! >= this.minScale! && size! <= 1 ? size : this.minScale;
 
     // check
     const changed = size != null && size !== this.scale && newSize !== this.scale;
@@ -390,11 +390,14 @@ export class LyResizingCroppingImages implements OnDestroy {
     };
   }
   _move(event: { srcEvent?: {}; deltaX: any; deltaY: any; }) {
-    let x: number, y: number;
+    let x: number | undefined, y: number | undefined;
     const canvas = this._imgCanvas.nativeElement;
     const scaleFix = this._scal3Fix;
     const config = this.config;
     const startP = this.offset;
+    if (!scaleFix || !startP) {
+      return;
+    }
     // Limit for left
     if ((config.width / 2 / scaleFix) >= startP.left - (event.deltaX / scaleFix)) {
       x = startP.x + (startP.left) - (config.width / 2 / scaleFix);
@@ -424,8 +427,8 @@ export class LyResizingCroppingImages implements OnDestroy {
     //   }
     // }
 
-    if (x === void 0) { x = (event.deltaX / scaleFix) + (this.offset.x); }
-    if (y === void 0) { y = (event.deltaY / scaleFix) + (this.offset.y); }
+    if (x === void 0) { x = (event.deltaX / scaleFix) + (startP.x); }
+    if (y === void 0) { y = (event.deltaY / scaleFix) + (startP.y); }
     this._setStylesForContImg({
       x, y
     });
@@ -434,12 +437,12 @@ export class LyResizingCroppingImages implements OnDestroy {
   updatePosition(x?: number, y?: number) {
     const hostRect = this._rootRect();
     const croppingContainerRect = this._areaCropperRect();
-    if (x === void 0 && y === void 0) {
+    if (x === undefined && y === undefined) {
       x = this._imgRect.xc;
       y = this._imgRect.yc;
     }
-    x = (croppingContainerRect.x - hostRect.x) - (x - (this.config.width / 2));
-    y = (croppingContainerRect.y - hostRect.y) - (y - (this.config.height / 2));
+    x = (croppingContainerRect.x - hostRect.x) - (x! - (this.config.width / 2));
+    y = (croppingContainerRect.y - hostRect.y) - (y! - (this.config.height / 2));
     this._setStylesForContImg({
       x, y
     });
@@ -457,7 +460,7 @@ export class LyResizingCroppingImages implements OnDestroy {
 
   /**+ */
   zoomIn() {
-    const scale = this._scal3Fix + .05;
+    const scale = this._scal3Fix! + .05;
     if (scale > 0 && scale <= 1) {
       this.setScale(scale);
     } else {
@@ -469,15 +472,15 @@ export class LyResizingCroppingImages implements OnDestroy {
   clean() {
     if (this.isLoaded) {
       this._imgRect = { } as any;
-      this.offset = null;
-      this.scale = null;
-      this._scal3Fix = null;
+      this.offset = undefined;
+      this.scale = undefined as any;
+      this._scal3Fix = undefined;
       this._rotation = 0;
-      this._minScale = null;
-      this._defaultType = null;
-      this._isLoadedImg = undefined;
-      this.isLoaded = null;
-      this.isCropped = undefined;
+      this._minScale = undefined;
+      this._defaultType = undefined;
+      this._isLoadedImg = false;
+      this.isLoaded = false;
+      this.isCropped = false;
       this._originalImgBase64 = undefined;
       const canvas = this._imgCanvas.nativeElement;
       canvas.width = 0;
@@ -488,8 +491,8 @@ export class LyResizingCroppingImages implements OnDestroy {
 
   /**- */
   zoomOut() {
-    const scale = this._scal3Fix - .05;
-    if (scale > this.minScale && scale <= 1) {
+    const scale = this._scal3Fix! - .05;
+    if (scale > this.minScale! && scale <= 1) {
       this.setScale(scale);
     } else {
       this.fit();
@@ -516,13 +519,7 @@ export class LyResizingCroppingImages implements OnDestroy {
     const cropEvent: ImgCropperEvent = {
       name: this._fileName,
       type: this._defaultType,
-      dataURL: null,
-      width: null,
-      height: null,
-      scale: null,
       originalDataURL: src,
-      rotation: null,
-      position: null
     };
     img.src = src;
     const errorListen = fromEvent(img, 'error').pipe(
@@ -545,7 +542,7 @@ export class LyResizingCroppingImages implements OnDestroy {
           .onStable
           .pipe(take(1))
           .subscribe(() => this._ngZone.run(() => {
-            this.isLoaded = null;
+            this.isLoaded = false;
 
             if (fn) {
               fn();
@@ -568,13 +565,13 @@ export class LyResizingCroppingImages implements OnDestroy {
     const degreesRad = validDegrees * Math.PI / 180;
     const canvas = this._imgCanvas.nativeElement;
     const canvasClon = createCanvasImg(canvas);
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d')!;
 
     // clear
     ctx.clearRect(0, 0, canvasClon.width, canvasClon.height);
 
     // rotate canvas image
-    this._renderer.setStyle(canvas, 'transform', `rotate(${validDegrees}deg) scale(${1 / this._scal3Fix})`);
+    this._renderer.setStyle(canvas, 'transform', `rotate(${validDegrees}deg) scale(${1 / this._scal3Fix!})`);
     this._renderer.setStyle(canvas, 'transformOrigin', `${this._imgRect.xc}px ${this._imgRect.yc}px 0`);
     const { x, y } = canvas.getBoundingClientRect() as DOMRect;
 
@@ -603,7 +600,7 @@ export class LyResizingCroppingImages implements OnDestroy {
     this._minScale = getMinScale(this.config.width, this.config.height, canvas.width, canvas.height);
 
     // set the minimum scale, only if necessary
-    if (this.scale < this.minScale) {
+    if (this.scale! < this.minScale!) {
       this.setScale(0, true);
     } //                ↑ no AutoCrop
 
@@ -640,7 +637,7 @@ export class LyResizingCroppingImages implements OnDestroy {
     const steps = Array.from(Array(numSteps).keys());
 
     /** Context */
-    const octx = img.getContext('2d');
+    const octx = img.getContext('2d')!;
 
     const q = ((quality * 10) ** numSteps) / (10 ** numSteps);
     const fileType = this._defaultType;
@@ -668,7 +665,7 @@ export class LyResizingCroppingImages implements OnDestroy {
      * Resizing & cropping image
      */
     const oc = document.createElement('canvas'),
-    ctx = oc.getContext('2d');
+    ctx = oc.getContext('2d')!;
     oc.width = config.width;
     oc.height = config.height;
     ctx.drawImage(img,
@@ -692,12 +689,12 @@ export class LyResizingCroppingImages implements OnDestroy {
   }
 
   /**
-   * @ignore
+   * @docs-private
    */
-  _imgCrop(myConfig: ImgCropperConfig) {
+  private _imgCrop(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
-    const imgRect = this._imgRect;
-    const scaleFix = this._scal3Fix;
+    const imgRect = this._imgRect!;
+    const scaleFix = this._scal3Fix!;
     const left = imgRect.xc - (myConfig.width / 2 / scaleFix);
     const top = imgRect.yc - (myConfig.height / 2 / scaleFix);
     const config = {
@@ -706,7 +703,7 @@ export class LyResizingCroppingImages implements OnDestroy {
     };
     canvasElement.width = config.width / scaleFix;
     canvasElement.height = config.height / scaleFix;
-    const ctx = canvasElement.getContext('2d');
+    const ctx = canvasElement.getContext('2d')!;
     if (myConfig.fill) {
       ctx.fillStyle = myConfig.fill;
       ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
@@ -803,7 +800,7 @@ function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
 
   // create a new canvas
   const newCanvas = document.createElement('canvas');
-  const context = newCanvas.getContext('2d');
+  const context = newCanvas.getContext('2d')!;
 
   // set dimensions
   newCanvas.width = img.width;

@@ -1,4 +1,4 @@
-import * as ts from '@schematics/angular/node_modules/typescript';
+import * as ts from 'typescript';
 import { Tree, SchematicsException } from '@angular-devkit/schematics';
 import { getProjectTargets, targetBuildNotFoundError } from '@schematics/angular/utility/project-targets';
 import { addImport, getTsSourceFile, prettierConstructorParameters } from '../utils/ast';

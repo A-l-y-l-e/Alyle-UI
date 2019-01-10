@@ -41,14 +41,14 @@ export class LyTooltip implements OnInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _tooltip: string | TemplateRef<any> | null;
-  private _tooltipOverlay: OverlayFromTemplateRef;
+  private _tooltipOverlay: OverlayFromTemplateRef | null;
   private _listeners = new Map<string, EventListenerOrEventListenerObject>();
   private _scrollSub: Subscription;
   private _scrollVal = 0;
   private _showTimeoutId: number | null;
   private _hideTimeoutId: number | null;
   @Input('lyTooltip')
-  set tooltip(val: string | TemplateRef<any>) {
+  set tooltip(val: string | TemplateRef<any> | null) {
     this._tooltip = val;
   }
   get tooltip() {
@@ -91,7 +91,7 @@ export class LyTooltip implements OnInit, OnDestroy {
         }
       });
 
-      focusState.listen(element).subscribe(ev => {
+      focusState.listen(element)!.subscribe(ev => {
         if (ev === 'keyboard') {
           ngZone.run(() => this.show());
         } else if (ev == null) {
@@ -127,10 +127,11 @@ export class LyTooltip implements OnInit, OnDestroy {
       this._hideTimeoutId = null;
     }
     if (!this._tooltipOverlay && this.tooltip && !this._showTimeoutId) {
+      const tooltipRef = this.tooltip;
 
       this._showTimeoutId = <any>setTimeout(() => {
         const rect = this._el.nativeElement.getBoundingClientRect();
-        const tooltip = this._tooltipOverlay = this._overlay.create(this.tooltip, undefined, {
+        const tooltip = this._tooltipOverlay = this._overlay.create(tooltipRef, undefined, {
           styles: {
             top: rect.y,
             left: rect.x
@@ -147,7 +148,7 @@ export class LyTooltip implements OnInit, OnDestroy {
                 padding: '8px 16px',
                 fontSize: '14px',
               }
-            }), null, null, STYLE_PRIORITY)
+            }), undefined, undefined, STYLE_PRIORITY)
           ],
           host: this._el.nativeElement,
         });
@@ -157,7 +158,7 @@ export class LyTooltip implements OnInit, OnDestroy {
         this._theme.requestAnimationFrame(() => {
           this._theme.addStyle('lyTooltip:open', ({
             opacity: 1,
-          }), tooltip.containerElement, null, STYLE_PRIORITY);
+          }), tooltip.containerElement, undefined, STYLE_PRIORITY);
         });
 
         this._showTimeoutId = null;

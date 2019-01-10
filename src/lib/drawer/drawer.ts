@@ -114,7 +114,7 @@ export class LyDrawer implements OnChanges {
   private _forceModeOver: boolean;
   private _fromToggle: boolean;
   private _opened: boolean;
-  private _viewRef: EmbeddedViewRef<any>;
+  private _viewRef?: EmbeddedViewRef<any>;
   private _isAnimation: boolean;
   private _hasBackdrop: boolean | null;
 
@@ -122,8 +122,8 @@ export class LyDrawer implements OnChanges {
   private _positionClass: string;
 
   private _drawerRootClass: string;
-  private _drawerClass: string;
-  private _drawerContentClass: string;
+  private _drawerClass?: string;
+  private _drawerContentClass?: string;
 
   @ViewChild(TemplateRef) _backdrop: TemplateRef<any>;
 
@@ -256,16 +256,20 @@ export class LyDrawer implements OnChanges {
         },
         this._drawerContainer._drawerContent._getHostElement(),
         this._drawerContentClass);
-      } else {
+      } else if (this._drawerContentClass) {
         /** remove styles for <ly-drawer-content> */
         this._renderer.removeClass(this._drawerContainer._drawerContent._getHostElement(), this._drawerContentClass);
-        this._drawerContentClass = null;
+        this._drawerContentClass = undefined;
       }
     } else {
-      this._renderer.removeClass(this._drawerContainer._drawerContent._getHostElement(), this._drawerContentClass);
-      this._drawerContentClass = null;
-      this._renderer.removeClass(this._el.nativeElement, this._drawerClass);
-      this._drawerClass = null;
+      if (this._drawerContentClass) {
+        this._renderer.removeClass(this._drawerContainer._drawerContent._getHostElement(), this._drawerContentClass);
+        this._drawerContentClass = undefined;
+      }
+      if (this._drawerClass) {
+        this._renderer.removeClass(this._el.nativeElement, this._drawerClass);
+        this._drawerClass = undefined;
+      }
     }
 
     /** default styles */
@@ -398,7 +402,7 @@ export class LyDrawer implements OnChanges {
     } else if (this._viewRef) {
       this._drawerContainer._openDrawers--;
       this._vcr.clear();
-      this._viewRef = null;
+      this._viewRef = undefined;
     }
   }
 

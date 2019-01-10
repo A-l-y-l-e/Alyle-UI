@@ -43,7 +43,7 @@ export class ElementObserver implements OnDestroy {
   destroy(elementOrRef: Element | ElementRef<Element>) {
     const element = elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
     if (this._observedElements.has(element)) {
-      this._observedElements.get(element).disconnect();
+      this._observedElements.get(element)!.disconnect();
       this._observedElements.delete(element);
     }
   }
