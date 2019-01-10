@@ -2,7 +2,7 @@ import { Tree } from '@angular-devkit/schematics';
 import { getProjectTargets, targetBuildNotFoundError } from '@schematics/angular/utility/project-targets';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getDecoratorMetadata, findNode } from '@schematics/angular/utility/ast-utils';
-import * as ts from '@schematics/angular/node_modules/typescript';
+import * as ts from 'typescript';
 import { dirname } from 'path';
 import { normalize } from '@angular-devkit/core';
 import { getTsSourceFile } from './ast';

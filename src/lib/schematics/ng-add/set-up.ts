@@ -1,6 +1,6 @@
 import { prompt } from 'inquirer';
 import { strings } from '@angular-devkit/core';
-import * as ts from '@schematics/angular/node_modules/typescript';
+import * as ts from 'typescript';
 import { addSymbolToNgModuleMetadata, insertImport, isImported } from '@schematics/angular/utility/ast-utils';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets, targetBuildNotFoundError } from '@schematics/angular/utility/project-targets';
