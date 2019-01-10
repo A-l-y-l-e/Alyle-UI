@@ -149,7 +149,7 @@ export enum CarouselMode {
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
-  private _intervalFn = null;
+  private _intervalFn: number | null = null;
   @ViewChild('slideContainer') slideContainer: ElementRef;
   @ViewChild('_slide') _slide: ElementRef;
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
@@ -209,7 +209,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   _onDragStart() {
     this.stop();
     this._renderer.removeClass(this.slideContainer.nativeElement, this.classes.slideAnim);
-    this._selectedElement = this.lyItems.find((_item, index) => index === this.selectedIndex)._nativeElement;
+    this._selectedElement = this.lyItems.find((_item, index) => index === this.selectedIndex)!._nativeElement;
   }
 
   _onDrag(e) {
@@ -306,7 +306,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     this._intervalFn = setInterval(() => {
       this.next(true);
       this._markForCheck();
-    }, this.interval);
+    }, this.interval) as any;
   }
 
   private _onPan(x) {

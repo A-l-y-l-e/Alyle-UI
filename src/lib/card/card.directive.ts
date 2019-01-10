@@ -104,7 +104,7 @@ export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDest
   }
 
   ngOnInit() {
-    let requireOnChanges: boolean;
+    let requireOnChanges: boolean | undefined;
     if (!this.bg) {
       this.bg = 'background:primary';
       requireOnChanges = true;

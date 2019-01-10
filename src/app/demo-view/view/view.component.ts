@@ -105,7 +105,7 @@ export class ViewComponent implements OnInit {
   }
 
   openPostStackblitz() {
-    const win = window.open('about:blank', '_blank');
+    const win = window.open('about:blank', '_blank')!;
     win.document.write('Loading...');
     const data = forkJoin(
       this.http.get(this.url(0), { responseType: 'text' }),
@@ -168,7 +168,7 @@ export class GlobalVariables {
       });
 
       const appComponentTs = res2.replace(SELECTOR_REGEXP, (str, token) => str.replace(token, SELECTOR_APP));
-      const form = this.makeForm([res1, appComponentTs, AppModule], moduleName);
+      const form = this.makeForm([res1, appComponentTs, AppModule], moduleName!);
       win.document.body.appendChild(form);
       form.submit();
       win.document.close();
@@ -286,7 +286,7 @@ export class GlobalVariables {
   }
 
   encode(str: string) {
-    const buf = [];
+    const buf: string[] = [];
 
     for (let i = str.length - 1; i >= 0; i--) {
       buf.unshift(['&#', str[i].charCodeAt(0), ';'].join(''));

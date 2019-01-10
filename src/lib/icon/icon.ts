@@ -58,7 +58,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
   private _previousFontSet: FontClassOptions;
   private _currentClass: string;
   private _fontIcon: string;
-  private _iconElement: SVGElement;
+  private _iconElement?: SVGElement;
 
   @Input()
   get icon() {
@@ -114,7 +114,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
     if (svgIcon.svg) {
       this._appendChild(svgIcon.svg.cloneNode(true) as SVGElement);
     } else {
-      svgIcon.obs
+      svgIcon.obs!
         .pipe(
           take(1)
         )
@@ -136,7 +136,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
   }
 
   private _updateClass() {
-    if (this._isDefault()) {
+    if (this._isDefault() && this.iconService.defaultClass) {
       this._renderer.addClass(this._el.nativeElement, this.iconService.defaultClass);
     }
   }
@@ -167,7 +167,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
     const icon = this._iconElement;
     if (icon) {
       this._renderer.removeChild(this._el.nativeElement, icon);
-      this._iconElement = null;
+      this._iconElement = undefined;
     }
   }
 
@@ -189,7 +189,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
     if (iconClass) {
       this._previousFontSet = iconClass;
     } else {
-      Error(`Icon with key${fontSetKey} not found`);
+      throw new Error(`Icon with key${fontSetKey} not found`);
     }
     this._currentClass = `${iconClass.prefix}${icon}`;
     this._renderer.addClass(el, this._currentClass);

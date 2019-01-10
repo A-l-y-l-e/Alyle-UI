@@ -1,5 +1,5 @@
 import { Tree, SchematicsException } from '@angular-devkit/schematics';
-import * as ts from '@schematics/angular/node_modules/typescript';
+import * as ts from 'typescript';
 import { isImported, insertImport } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 

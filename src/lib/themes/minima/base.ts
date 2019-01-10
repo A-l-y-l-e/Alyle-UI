@@ -12,7 +12,7 @@ export class MinimaBase extends LyStyleUtils {
     fontSize: 14,
     gutterTop: 1,
     gutterBottom: .35,
-    lyTyp: null
+    lyTyp: {}
   };
   iconButton = iconButton;
   icon = icon;

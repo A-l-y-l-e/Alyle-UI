@@ -105,7 +105,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.theme.addStyleSheet(styles);
   routesComponents: any;
   version = AUI_VERSION;
   routes = AUIRoutes.slice(1);

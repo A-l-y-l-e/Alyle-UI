@@ -11,7 +11,7 @@ export interface KeyAttribute {
 })
 export class NgTranscludeDirective implements OnDestroy {
 
-  private _ngTransclude: TemplateRef<any>;
+  private _ngTransclude: TemplateRef<any> | null;
 
   @Input()
   set ngTransclude(templateRef: TemplateRef<any>) {
@@ -24,7 +24,7 @@ export class NgTranscludeDirective implements OnDestroy {
     }
   }
 
-  get ngTransclude(): TemplateRef<any> {
+  get getNgTransclude() {
     return this._ngTransclude;
   }
 

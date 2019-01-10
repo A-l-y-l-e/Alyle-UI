@@ -27,9 +27,9 @@ enum TypeStyle {
 const STYLE_MAP5: Map<any, StyleMap5> = new Map();
 
 export interface StyleMap5 {
-  styles: StylesFn2 | Styles2;
+  styles: Styles;
   type: TypeStyle;
-  priority: number;
+  priority?: number | null;
   css: {
     [themeName: string]: string
   } | string;
@@ -46,7 +46,7 @@ export interface StyleMap5 {
   /** Only for styles of TypeStyle.one */
   parentStyle?: Styles;
   requireUpdate?: boolean;
-  id: string;
+  id: string | null;
 }
 
 let nextClassId = 0;
@@ -57,10 +57,10 @@ let nextKeyFrameId = 0;
 })
 export class StylesInDocument {
   styles: {
-    [themeName: string]: Map<string | object, HTMLStyleElement>
+    [themeName: string]: Map<string | Styles, HTMLStyleElement>
   } = {};
   styleContainers = new Map<number, HTMLElement>();
-  styleElementGlobalMap = new Map<string | object, HTMLStyleElement>();
+  styleElementGlobalMap = new Map<string | Styles, HTMLStyleElement>();
 }
 
 const THEME_MAP = new Map<string, {
@@ -73,7 +73,7 @@ export class LyTheme2 {
   config: ThemeVariables;
   _styleMap: Map<string, DataStyle>;
   initialTheme: string;
-  elements: Map<string | object, HTMLStyleElement>;
+  elements: Map<string | Styles, HTMLStyleElement>;
   _elementsMap = new Map<any, HTMLStyleElement>();
   private themeMap = THEME_MAP;
   /** ssr or hmr */
@@ -92,7 +92,11 @@ export class LyTheme2 {
   }
   setUpTheme(themeName: string) {
     if (!this.config) {
-      this.config = this.core.get(themeName);
+      const theme = this.core.get(themeName);
+      if (theme === undefined) {
+        throw new Error(`Theme ${themeName} not found in CoreTheme`);
+      }
+      this.config = theme;
       this._styleMap = new Map<string, DataStyle>();
       this.elements = themeName in this.stylesInDocument.styles
       ? this.stylesInDocument.styles[themeName]
@@ -118,8 +122,13 @@ export class LyTheme2 {
    * @param instance The instance of this, this replaces the existing style with a new one when it changes
    * @param parentStyle
    */
-  addStyle(id: string, style: StyleContainer | ((theme) => StyleContainer) | ((theme) => string) | string, el?: any, instance?: string, priority?: number, parentStyle?: Styles) {
-    const newClass = this._createStyleContent2(style as any, id, priority, TypeStyle.OnlyOne, false, parentStyle) as string;
+  addStyle(id: string,
+    style?: StyleContainerFn,
+    el?: any,
+    instance?: string | null,
+    priority?: number | null,
+    parentStyle?: Styles) {
+    const newClass = this._createStyleContent2(style, id, priority, TypeStyle.OnlyOne, false, parentStyle) as string;
     if (newClass === instance) {
       return newClass;
     }
@@ -146,8 +155,12 @@ export class LyTheme2 {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
     if (nam !== this.config.name) {
-      this.themeMap.get(this.initialTheme).change = nam;
-      this.config = this.core.get(nam);
+      const theme = this.themeMap.get(this.initialTheme);
+      if (theme == null) {
+        throw new Error(`Theme ${nam} not found in themeMap`);
+      }
+      theme.change = nam;
+      this.config = this.core.get(nam)!;
       this._updateAllStyles();
     }
   }
@@ -161,7 +174,7 @@ export class LyTheme2 {
 
   private _updateAllStyles() {
     this.elements.forEach((_, key) => {
-      const styleData = STYLE_MAP5.get(key);
+      const styleData = STYLE_MAP5.get(key)!;
       if (styleData.requireUpdate) {
         this._createStyleContent2(styleData.styles, styleData.id, styleData.priority, styleData.type, true, styleData.parentStyle);
       }
@@ -193,43 +206,43 @@ export class LyTheme2 {
   }
 
   private _createStyleContent2(
-    styles: Styles,
-    id: string,
-    priority: number,
+    styles: Styles | StyleContainerFn,
+    id: string | null,
+    priority: number | undefined | null,
     type: TypeStyle,
     forChangeTheme?: boolean,
     parentStyle?: Styles
   ) {
-    const newId = id as string || styles;
-    let isNewStyle: boolean;
+    const newId = id || styles as Styles;
+    let isNewStyle: boolean | null = null;
     if (!STYLE_MAP5.has(newId)) {
       isNewStyle = true;
       STYLE_MAP5.set(newId, {
         priority,
-        styles,
+        styles: styles as Styles,
         type,
         css: {},
         id,
         parentStyle
       });
     }
-    const styleMap = STYLE_MAP5.get(newId);
+    const styleMap = STYLE_MAP5.get(newId)!;
     const themeName = this.initialTheme;
     const isCreated = isNewStyle || !(styleMap.classes || styleMap[themeName]);
     if (isCreated || forChangeTheme) {
       /** create new style for new theme */
-      let css;
-      const themeMap = this.themeMap.get(this.initialTheme);
-      const config = this.core.get(themeMap.change || themeName);
+      let css: string | { [themeName: string]: string; };
+      const themeMap = this.themeMap.get(this.initialTheme)!;
+      const config = this.core.get(themeMap.change || themeName) as ThemeVariables;
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
-        css = groupStyleToString(styleMap, styles(config), themeName, id, type, config);
+        css = groupStyleToString(styleMap, styles(config) as StyleGroup, themeName, id, type, config);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
-        css = groupStyleToString(styleMap, styles, themeName, newId as string, type, config);
+        css = groupStyleToString(styleMap, styles as StyleGroup, themeName, newId as string, type, config);
         styleMap.css = css;
       }
       if (!this.elements.has(newId)) {
@@ -245,7 +258,7 @@ export class LyTheme2 {
         this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), newEl);
       }
       if (forChangeTheme) {
-        const el = this.elements.get(newId);
+        const el = this.elements.get(newId) as HTMLStyleElement;
         el.innerText = css;
       }
     } else if (this.isDevOrServer) {
@@ -268,7 +281,8 @@ export class LyTheme2 {
     return styleMap.classes || styleMap[themeName];
   }
 
-  private _createStyleContainer(priority = 0) {
+  private _createStyleContainer(priority: number | null | undefined) {
+    priority = priority || 0;
     const { styleContainers } = this.stylesInDocument;
     if (!styleContainers.has(priority)) {
       const el = this.core.renderer.createElement(`ly-s-c`);
@@ -315,19 +329,26 @@ export class LyTheme2 {
   }
 
 }
-
+/**
+ * Style Object
+ */
 export interface StyleContainer {
-  [key: string]: StyleContainer | string | number | string[];
+  [key: string]: StyleContainer | string | number | string[] | null | undefined;
 }
 
-export interface Styles2 {
+export interface StyleGroup {
   /** Prefix name */
   $name?: string;
-  [key: string]: StyleContainer | string;
+  $keyframes?: Keyframes;
+  [key: string]: StyleContainer | string | undefined | null;
 }
-export type StylesFn2 = (T) => Styles2;
 
-export type Styles = StylesFn2 | Styles2;
+/**
+ * StyleContainer or fn that return StyleContainer
+ */
+export type StyleContainerFn = ((T: any) => StyleContainer | string) | StyleContainer | string | null | undefined;
+
+export type Styles = ((T: any) => StyleGroup) | StyleGroup | undefined | null;
 
 export interface Keyframes {
   [name: string]: {
@@ -337,9 +358,9 @@ export interface Keyframes {
 
 function groupStyleToString(
   styleMap: StyleMap5,
-  styles: Styles2,
+  styles: StyleGroup,
   themeName: string,
-  id: string,
+  id: string | null,
   typeStyle: TypeStyle,
   themeVariables: ThemeVariables
 ) {
@@ -355,10 +376,13 @@ function groupStyleToString(
     if (typeof styles === 'string') {
       rules = `.${className}{${styles}}`;
     } else {
-      rules = styleToString(id, null, styles, themeVariables, className as any);
+      rules = styleToString(id, null, styles as StyleContainer, themeVariables, className as any);
     }
     if (styleMap.parentStyle) {
       const styleMapOfParentStyle = STYLE_MAP5.get(styleMap.parentStyle);
+      if (!styleMapOfParentStyle) {
+        throw new Error(`The parentStyle not exist or is called before being created.`);
+      }
       return replaceRefs(rules, styleMapOfParentStyle[themeName]);
     }
     return rules;
@@ -378,7 +402,7 @@ function groupStyleToString(
         ? classesMap[key]
         : classesMap[key] = isDevMode() ? toClassNameValid(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
 
-        const style = styleToString(key, styles.$name, value as Styles2, themeVariables, currentClassName);
+        const style = styleToString(key, styles.$name, value as StyleGroup, themeVariables, currentClassName);
         content += style;
       }
     }
@@ -401,7 +425,7 @@ function replaceRefs(str: string, data: Object) {
 /**
  * {color:'red'} to .className{color: red}
  */
-function styleToString(key: string, $name: string, ob: Object, themeVariables: ThemeVariables, currentKey: string, parentKey?: string) {
+function styleToString(key: string | null, $name: string | null | undefined, ob: StyleContainer, themeVariables: ThemeVariables, currentKey: string, parentKey?: string) {
   let content = '';
   let subContent = '';
   let keyAndValue = '';
@@ -426,9 +450,9 @@ function styleToString(key: string, $name: string, ob: Object, themeVariables: T
       if (element != null) {
         // Check if is Object literal
         if (element.constructor === Object) {
-          subContent += styleToString(key, $name, element as Styles2, themeVariables, styleKey, newKey);
+          subContent += styleToString(key, $name, element as StyleGroup, themeVariables, styleKey, newKey);
         } else {
-          keyAndValue += convertToStyleValue(styleKey, element, themeVariables);
+          keyAndValue += convertToStyleValue(styleKey, element as string | string[], themeVariables);
         }
       }
     }
@@ -578,6 +602,6 @@ function createNextKeyframeId() {
 
 type OnlyClasses<T> = Record<(
   Exclude<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T),
-  '$name' | '$sheet' | '$keyframes'>
+  '$name' | '$keyframes'>
 ), string>;
 

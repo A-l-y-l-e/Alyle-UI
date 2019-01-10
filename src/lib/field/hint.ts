@@ -14,7 +14,7 @@ const STYLE_PRIORITY = -2;
 export class LyHint {
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _align: LyHintAlign;
-  private _alignClass: string;
+  private _alignClass?: string;
   @Input()
   set align(val: LyHintAlign) {
     if (val) {
@@ -27,7 +27,7 @@ export class LyHint {
       }
     } else if (this._alignClass) {
       this._renderer.removeClass(this._el.nativeElement, this._alignClass);
-      this._alignClass = null;
+      this._alignClass = undefined;
     }
     this._align = val;
   }

@@ -24,7 +24,7 @@ export function mixinDisableRipple<T extends Constructor<RequireParams>>(base: T
     _rippleContainer: ElementRef;
     _triggerElement: ElementRef;
     _rippleConfig: RippleConfig = {};
-    private _ripple: Ripple;
+    private _ripple: Ripple | null;
     private _disableRipple;
 
     get disableRipple(): boolean { return this._disableRipple; }

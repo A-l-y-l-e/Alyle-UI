@@ -136,7 +136,7 @@ export const STYLES = (theme: ThemeVariables) => ({
 export class LyRadioGroup implements ControlValueAccessor {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
-  private _value = new UndefinedValue;
+  private _value: any;
   /** @docs-private */
   name = `ly-radio-name-${idx++}`;
 
@@ -234,10 +234,10 @@ export class LyRadioGroup implements ControlValueAccessor {
         radioButton.checked = false;
       }
     });
-    if (!newChecked) {
+    if (!newChecked!) {
       /** when val not exist in radio button !==  */
       this._controlValueAccessorChangeFn(null);
-      if (this._value !== null) {
+      if (this._value != null) {
         this._value = null;
       }
     }
@@ -293,7 +293,7 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   private _colorClass: string;
   private _animClass: string;
   private _disabled: boolean;
-  private _disabledClass: string;
+  private _disabledClass?: string;
   @ViewChild('_input') _input: ElementRef;
   @ViewChild('_radioContainer') private _radioContainer: ElementRef;
   @ViewChild('_labelContainer') _labelContainer: ElementRef;
@@ -367,7 +367,7 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
       this._disabledClass = this.classes.disabled;
     } else if (this._disabledClass) {
       this._renderer.removeClass(this._elementRef.nativeElement, this.classes.disabled);
-      this._disabledClass = null;
+      this._disabledClass = undefined;
     }
     this._disabled = toBoolean(value);
     this._markForCheck();

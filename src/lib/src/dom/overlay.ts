@@ -27,12 +27,12 @@ export interface OverlayFromTemplateRef {
 }
 class CreateFromTemplateRef implements OverlayFromTemplateRef {
   private _viewRef: EmbeddedViewRef<any>;
-  private _el: HTMLDivElement;
+  private _el?: HTMLDivElement;
   private _compRef: ComponentRef<any>;
   private _compRefOverlayBackdrop: ComponentRef<any>;
   windowSRSub: Subscription = Subscription.EMPTY;
   get containerElement() {
-    return this._el;
+    return this._el as HTMLDivElement;
   }
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
@@ -58,9 +58,11 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       bottom: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      pointerEvents: 'all',
-      ...config.styles
+      pointerEvents: 'all'
     };
+    if (config) {
+      Object.assign(__styles, config.styles);
+    }
     const newInjector = Injector.create([
       {
         provide: 'overlayConfig',
@@ -73,7 +75,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     ], this._injector);
 
     this.updateStyles(__styles);
-    if (config.host) {
+    if (config && config.host) {
       this.windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
         const rect = config.host.getBoundingClientRect();
         const newStyles = {
@@ -84,8 +86,8 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       });
     }
 
-    const classes = config.classes;
-    if (classes && classes.length) {
+    if (config && config.classes) {
+      const classes = config.classes;
       classes.forEach((className) => (this._el as HTMLDivElement).classList.add(className));
     }
 
@@ -104,7 +106,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       if (__styles.hasOwnProperty(key)) {
         const styleVal = __styles[key];
         if (styleVal) {
-          this._el.style[key] = typeof __styles[key] === 'number' ? `${styleVal}px` : styleVal;
+          this._el!.style[key] = typeof __styles[key] === 'number' ? `${styleVal}px` : styleVal;
         }
       }
     }
@@ -117,12 +119,12 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       this._appRef.attachView(viewRef);
 
       // Get DOM element from component
-      viewRef.rootNodes.forEach(_ => this._el.appendChild(_));
+      viewRef.rootNodes.forEach(_ => this._el!.appendChild(_));
 
       // Append DOM element to the body
       this._overlayContainer._add(this._el);
     } else if (typeof type === 'string') {
-      this._el.innerText = type;
+      this._el!.innerText = type;
       this._overlayContainer._add(this._el);
     } else {
       this._compRef = this.generateComponent(type as Type<any>, injector);
@@ -146,15 +148,15 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     if (this._viewRef) {
       this._viewRef.destroy();
       this._overlayContainer._remove(this._el);
-      this._el = null;
+      this._el = undefined;
     } else if (this._compRef) {
       this._compRef.destroy();
       this._overlayContainer._remove(this._el);
-      this._el = null;
+      this._el = undefined;
     } else if (this._el) {
       // remove if content is string
       this._overlayContainer._remove(this._el);
-      this._el = null;
+      this._el = undefined;
     }
     if (this._compRefOverlayBackdrop) {
       this._appRef.detachView(this._compRefOverlayBackdrop.hostView);

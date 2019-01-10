@@ -125,14 +125,14 @@ export class Intra {
   private screenHeight: number;
   private centerX: number;
   private centerY: number;
-  private particles = [];
+  private particles: Particle[] = [];
   private hueBase = 0;
   private simplexNoise: { noise3D: (arg0: number, arg1: number, arg2: number) => number; };
   private zoff = 0;
   private can2: HTMLCanvasElement;
   private ctx2: CanvasRenderingContext2D;
   private ctx: CanvasRenderingContext2D;
-  private requestId: number;
+  private requestId?: number;
   private timeoutId: any;
 
   // Initialize
@@ -153,13 +153,14 @@ export class Intra {
     }, this.duration);
     this.canvas = document.getElementById('bg') as HTMLCanvasElement;
     this.can2 =  document.createElement('canvas');
-    this.ctx = this.can2.getContext('2d');
-    this.ctx2 = this.canvas.getContext('2d');
+    this.ctx = this.can2.getContext('2d')!;
+    this.ctx2 = this.canvas.getContext('2d')!;
 
     this.updatePosition();
 
     for (let i = 0, len = this.particleNum; i < len; i++) {
-        this.initParticle((this.particles[i] = new Particle()));
+      this.particles[i] = new Particle();
+      this.initParticle(this.particles[i]);
     }
 
     // canvas.addEventListener('click', onCanvasClick, true);
@@ -214,7 +215,7 @@ export class Intra {
     return sum;
   }
 
-  initParticle(p: { x: number; pastX: number; y: number; pastY: number; color: { h: number; s: number; l: number; a: number; }; }) {
+  initParticle(p: Particle) {
     p.x = p.pastX = this.screenWidth * Math.random();
     p.y = p.pastY = this.screenHeight * Math.random();
     p.color.h = this.hueBase + Math.atan2(this.centerY - p.y, this.centerX - p.x) * 200 / Math.PI;
@@ -229,18 +230,7 @@ export class Intra {
   update(time: number) {
     const step = this.step;
     const base = this.base;
-    let i: number, p: {
-      pastX: any
-      x: number
-      pastY: any
-      y: number
-      color: {
-        h: number;
-        s: number;
-        l: number;
-        a: number;
-      }
-    }, angle: number;
+    let i: number, p: Particle, angle: number;
 
     for (i = 0; i < this.particles.length; i++) {
         p = this.particles[i];
@@ -292,7 +282,7 @@ export class Intra {
     }
     if (this.requestId) {
       cancelAnimationFrame(this.requestId);
-      this.requestId = null;
+      this.requestId = undefined;
     }
   }
 }
@@ -301,24 +291,26 @@ export class Intra {
 /**
 * HSLA
 */
-function HSLA(h?: number, s?: number, l?: number, a?: number) {
-  this.h = h || 0;
-  this.s = s || 0;
-  this.l = l || 0;
-  this.a = a || 0;
+class HSLA {
+  constructor(public h = 0, public s = 0, public l = 0, public a = 0) { }
+  toString() {
+    return 'hsla(' + this.h + ',' + (this.s * 100) + '%,' + (this.l * 100) + '%,' + this.a + ')';
+  }
 }
 
-HSLA.prototype.toString = function() {
-  return 'hsla(' + this.h + ',' + (this.s * 100) + '%,' + (this.l * 100) + '%,' + this.a + ')';
-};
 
 /**
 * Particle
 */
-function Particle(x?: number, y?: number, color?: undefined) {
-  this.x = x || 0;
-  this.y = y || 0;
-  this.color = color || new HSLA();
-  this.pastX = this.x;
-  this.pastY = this.y;
+class Particle {
+  x: number;
+  y: number;
+  color: HSLA;
+  pastX = this.x;
+  pastY = this.y;
+  constructor(x?: number, y?: number, color?: { h: number; s: number; l: number; a: number; }) {
+    this.x = x || 0;
+    this.y = y || 0;
+    this.color = color || new HSLA();
+  }
 }

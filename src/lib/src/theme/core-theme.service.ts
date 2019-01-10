@@ -36,7 +36,7 @@ export class CoreTheme {
       const nodes: NodeList = _document.body.querySelectorAll('ly-s-c');
       if (nodes.length) {
         for (let index = 0; index < nodes.length; index++) {
-          const element = nodes.item(index);
+          const element = nodes.item(index)!;
           (_document.body as HTMLBodyElement).removeChild(element);
         }
       }

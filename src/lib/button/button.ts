@@ -107,7 +107,12 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
       this._size = val;
       this._sizeClass = this._theme.addStyle(
         `lyButton.size:${val}`,
-        (theme: ThemeVariables) => theme.button.size[val],
+        (theme: ThemeVariables) => {
+          if (!(theme.button.size && theme.button.size[val])) {
+            throw new Error(`Value button.size['${val}'] not found in ThemeVariables`);
+          }
+          return theme.button.size[val]!;
+        },
         this._el.nativeElement,
         this._sizeClass,
         STYLE_PRIORITY
@@ -126,7 +131,12 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
       this._appearance = val;
       this._appearanceClass = this._theme.addStyle(
         `lyButton.appearance:${val}`,
-        (theme: ThemeVariables) => (theme.button.appearance[val]),
+        (theme: ThemeVariables) => {
+          if (!(theme.button.appearance && theme.button.appearance[val])) {
+            throw new Error(`Value button.appearance['${val}'] not found in ThemeVariables`);
+          }
+          return theme.button.appearance[val]!;
+        },
         this._el.nativeElement,
         this._appearanceClass,
         STYLE_PRIORITY + 1);
