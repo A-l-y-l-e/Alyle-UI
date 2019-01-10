@@ -28,7 +28,7 @@ export const styles = (theme: ThemeVariables) => {
       userSelect: 'none',
       textDecorationLine: 'none',
       '-webkit-text-decoration-line': 'none',
-      fontSize: this.pxToRem(14),
+      fontSize: theme.pxToRem(14),
       '&::-moz-focus-inner': {
         border: 0
       },

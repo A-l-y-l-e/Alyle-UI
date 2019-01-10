@@ -109,7 +109,7 @@ export class LyIconService {
   }
 
   getSvg(key: string): SvgIcon {
-    if (this.svgMap.has(key)) {
+    if (!this.svgMap.has(key)) {
       throw new Error(`LyIconService: Icon ${key} not found`);
     }
     return this.svgMap.get(key)!;

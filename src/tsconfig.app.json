@@ -5,7 +5,7 @@
     "baseUrl": "./"
   },
   "exclude": [
-    "src/test.ts",
+    "test.ts",
     "lib/schematics/**/*.ts",
     "**/*.spec.ts"
   ]
