@@ -103,7 +103,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
   private _marginStartClass: string;
   private _marginEndClass: string;
   private _fullWidth: boolean;
-  private _fullWidthClass: string;
+  private _fullWidthClass?: string;
   @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_labelContainer2') _labelContainer2: ElementRef<HTMLDivElement>;
   @ViewChild('_labelSpan') _labelSpan: ElementRef<HTMLDivElement>;
@@ -137,7 +137,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       );
     } else if (this._fullWidthClass) {
       this._renderer.removeClass(this._getHostElement(), this._fullWidthClass);
-      this._fullWidthClass = null;
+      this._fullWidthClass = undefined;
     }
     this._fullWidth = newVal;
   }
@@ -299,7 +299,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
       [`& .${this.classes.fieldsetSpan}`]: {
         [`margin-${dir}`]: `${width}px`
       }
-    }), null, null, STYLE_PRIORITY);
+    }), undefined, undefined, STYLE_PRIORITY);
     if (dir === DirAlias.before) {
       this._marginStartClass = this._theme.updateClass(this._el.nativeElement, this._renderer, newClass, this._marginStartClass);
     } else {
@@ -383,8 +383,8 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
   protected _required = false;
   protected _placeholder: string;
   readonly stateChanges: Subject<void> = new Subject<void>();
-  private _hasDisabledClass: boolean;
-  private _errorClass: string;
+  private _hasDisabledClass?: boolean;
+  private _errorClass?: string;
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
   _focused: boolean = false;
   errorState: boolean = false;
@@ -427,7 +427,7 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
       if (this._field) {
         if (!val && this._hasDisabledClass) {
           this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
-          this._hasDisabledClass = null;
+          this._hasDisabledClass = undefined;
         } else if (val) {
           this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
           this._hasDisabledClass = true;
@@ -471,9 +471,9 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
     this._renderer.setAttribute(this._hostElement, 'placeholder', '­');
     const ngControl = this.ngControl;
     // update styles on disabled
-    if (ngControl) {
+    if (ngControl && ngControl.statusChanges) {
       ngControl.statusChanges.subscribe(() => {
-        this.disabled = ngControl.disabled;
+        this.disabled = !!ngControl.disabled;
       });
     }
   }
@@ -490,7 +490,7 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
           this._errorClass = errorClass;
         } else if (this._errorClass) {
           this._renderer.removeClass(this._field._getHostElement(), errorClass);
-          this._errorClass = null;
+          this._errorClass = undefined;
         }
       }
     }

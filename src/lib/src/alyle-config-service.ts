@@ -10,7 +10,7 @@ export interface Default {
 export interface PaletteVariables {
   default?: string;
   contrast?: string;
-  [key: string]: string;
+  [key: string]: string | undefined;
 }
 
 export interface ColorScheme {

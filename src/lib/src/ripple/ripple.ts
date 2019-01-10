@@ -21,7 +21,7 @@ export class RippleRef {
 }
 
 export class Ripple {
-  private _rippleRef: RippleRef;
+  private _rippleRef?: RippleRef;
   private _eventHandlers: Map<string, (e: Event) => void> = new Map<string, (e: Event) => void>();
   config: RippleConfig = {};
   private _transitionDuration = this._themeVariables.ripple.duration;
@@ -58,7 +58,7 @@ export class Ripple {
     return this._containerElement.getBoundingClientRect();
   }
 
-  private setTriggerElement(element: HTMLElement | null) {
+  private setTriggerElement(element: HTMLElement) {
     if (element) {
       this._ngZone.runOutsideAngular(() => {
         this._eventHandlers.forEach((fn, type) => element.addEventListener(type, fn, this._eventOptions));
@@ -128,7 +128,7 @@ export class Ripple {
   }
 
   endRipple() {
-    const rippleRef: RippleRef = this._rippleRef || null;
+    const rippleRef: RippleRef | undefined = this._rippleRef;
     const duration = this._transitionDuration;
     if (rippleRef && rippleRef.state) {
       rippleRef.end();
@@ -139,17 +139,17 @@ export class Ripple {
       // }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) : 0);
       }, rippleRef.timestamp < duration ? duration * .15 : 0);
       this.runTimeoutOutsideZone(() => {
-        rippleRef.container.parentNode.removeChild(rippleRef.container);
+        rippleRef.container.parentNode!.removeChild(rippleRef.container);
       // }, rippleRef.timestamp < duration ? duration * 2 : duration);
       // }, rippleRef.timestamp < duration ? duration / (duration * .001 + 1) * 2 : duration);
       }, rippleRef.timestamp < duration ? duration * 2 : duration);
-      this._rippleRef = null;
+      this._rippleRef = undefined;
     }
   }
   removeEvents() {
     if (this._triggerElement) {
       this._eventHandlers.forEach((fn, type) => {
-        this._triggerElement.removeEventListener(type, fn, this._eventOptions);
+        this._triggerElement!.removeEventListener(type, fn, this._eventOptions);
       });
     }
   }

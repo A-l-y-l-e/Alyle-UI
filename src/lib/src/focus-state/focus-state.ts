@@ -40,11 +40,11 @@ export class LyFocusState implements OnDestroy {
     const key = keyElement && getNativeElement(keyElement) || nativeElement;
 
     if (this._elementMap.has(key)) {
-      return this._elementMap.get(key).subject.asObservable();
+      return this._elementMap.get(key)!.subject.asObservable();
     }
 
     const focusState: FocusStateInfo = {
-      unlisten: null,
+      unlisten: null as any,
       subject: new Subject<FocusState>()
     };
     this._incrementCount();

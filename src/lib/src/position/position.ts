@@ -327,4 +327,5 @@ export function invertPlacement(placement: Placement): Placement {
   } else if (placement === XPosition.left) {
     return XPosition.right;
   }
+  return placement;
 }

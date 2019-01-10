@@ -7,8 +7,8 @@ export function supportsPassiveEventListeners(): boolean {
           supportsPassive = true;
         }
       });
-      window.addEventListener('testPassive', null, opts);
-      window.removeEventListener('testPassive', null, opts);
+      window.addEventListener('testPassive', null as any, opts);
+      window.removeEventListener('testPassive', null as any, opts);
     } catch (e) { }
   }
   return supportsPassive;

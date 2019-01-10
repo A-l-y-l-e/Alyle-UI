@@ -16,7 +16,7 @@ export class ApiComponent implements OnInit, OnDestroy {
   pkgName: string;
   doc: Observable<Object>;
   routeParamsSubscription = Subscription.EMPTY;
-  themeJson: string;
+  themeJson: string | null;
   themePkg: {
     name: string
     themeJSON: any

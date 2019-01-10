@@ -24,7 +24,7 @@ export class LyTypography implements OnInit {
   /** @docs-private */
   readonly classes = this.style.addStyleSheet(styles, STYLE_PRIORITY);
   private _lyTyp: string;
-  private _lyTypClass: string;
+  private _lyTypClass?: string;
 
   private _gutter: boolean;
   private _gutterClass: string;
@@ -35,7 +35,7 @@ export class LyTypography implements OnInit {
   private _gutterBottom: boolean;
   private _gutterBottomClass: string;
   private _noWrap: boolean;
-  private _noWrapClass: string;
+  private _noWrapClass?: string;
 
   @Input()
   set lyTyp(val: string) {
@@ -44,7 +44,7 @@ export class LyTypography implements OnInit {
         this._lyTypClass = this._createTypClass(val, this._lyTypClass);
       } else if (this._lyTypClass) {
         this.renderer.removeClass(this.elementRef.nativeElement, this._lyTypClass);
-        this._lyTypClass = null;
+        this._lyTypClass = undefined;
       }
     }
   }
@@ -65,7 +65,7 @@ export class LyTypography implements OnInit {
       this.renderer.addClass(this.elementRef.nativeElement, this._noWrapClass);
     } else if (this._noWrapClass) {
       this.renderer.removeClass(this.elementRef.nativeElement, this._noWrapClass);
-      this._noWrapClass = null;
+      this._noWrapClass = undefined;
     }
   }
   get noWrap() {
@@ -123,7 +123,7 @@ export class LyTypography implements OnInit {
     }
   }
 
-  private _createTypClass(key: string, instance: string) {
+  private _createTypClass(key: string, instance?: string) {
     const newKey = `k-typ:${key}`;
 
     return this.style.addStyle(newKey,

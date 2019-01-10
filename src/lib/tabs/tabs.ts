@@ -250,10 +250,10 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
         let flexDirectionContainer: string;
         let flexDirection = this._getFlexDirection(val);
         let position: string;
-        let height: string = null;
-        let width: string = null;
-        let heightServer: string = null;
-        let widthServer: string = null;
+        let height: string | null = null;
+        let width: string | null = null;
+        let heightServer: string | null = null;
+        let widthServer: string | null = null;
         switch (val) {
           case YPosition.above:
             flexDirectionContainer = 'column';

@@ -111,6 +111,9 @@ export class LyMenu implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    if (!this.ref) {
+      throw new Error('LyMenu: require @Input() ref');
+    }
     if (!this.placement && !this.xPosition && !this.yPosition) {
       this.xPosition = DEFAULT_XPOSITION;
       this.placement = DEFAULT_PLACEMENT;
@@ -142,7 +145,7 @@ const menuItemStyles = ({
 })
 export class LyMenuItem {
   @HostListener('click') _click() {
-    if (this._menu.ref) {
+    if (this._menu.ref && this._menu.ref._menuRef) {
       this._menu.ref._menuRef.detach();
     }
   }
@@ -163,7 +166,7 @@ export class LyMenuItem {
 })
 export class LyMenuTriggerFor implements OnDestroy {
   /** Current menuRef */
-  _menuRef: OverlayFromTemplateRef;
+  _menuRef?: OverlayFromTemplateRef;
   @Input() lyMenuTriggerFor: TemplateRef<any>;
   constructor(
     private elementRef: ElementRef,
@@ -200,13 +203,15 @@ export class LyMenuTriggerFor implements OnDestroy {
   }
 
   detach() {
-    this._menuRef.detach();
+    if (this._menuRef) {
+      this._menuRef.detach();
+    }
   }
 
   destroy() {
     if (this._menuRef) {
       this._menuRef.remove();
-      this._menuRef = null;
+      this._menuRef = undefined;
     }
   }
 

@@ -34,8 +34,8 @@ export interface SvgIcon {
   providedIn: 'root'
 })
 export class LyIconService {
-  private _defaultClass = 'material-icons';
-  private _defaultClassPrefix: string;
+  private _defaultClass?: string = 'material-icons';
+  private _defaultClassPrefix?: string;
   private svgMap = new Map<string, SvgIcon>();
   private _fontClasses = new Map<string, FontClassOptions>();
   /**
@@ -84,6 +84,9 @@ export class LyIconService {
   addSvgIconLiteral(key: string, literal: SafeHtml) {
     if (!this.svgMap.has(key)) {
       const sanitizedLiteral = this._sanitizer.sanitize(SecurityContext.HTML, literal);
+      if (!sanitizedLiteral) {
+        throw new Error(`LyIconService: Failed sanitize '${key}'`);
+      }
       const svg = this._textToSvg(sanitizedLiteral);
       this.svgMap.set(key, {
         svg
@@ -100,13 +103,16 @@ export class LyIconService {
 
   private _cacheSvgIcon(svg: SVGElement, key: string) {
     const svgIconInfo = this.svgMap.get(key);
-    if (!svgIconInfo.svg) {
-      this.svgMap.get(key).svg = svg;
+    if (!svgIconInfo!.svg) {
+      this.svgMap.get(key)!.svg = svg;
     }
   }
 
   getSvg(key: string): SvgIcon {
-    return this.svgMap.get(key);
+    if (this.svgMap.has(key)) {
+      throw new Error(`LyIconService: Icon ${key} not found`);
+    }
+    return this.svgMap.get(key)!;
   }
   /**
    * Set default className for `ly-icon`
@@ -116,7 +122,7 @@ export class LyIconService {
    * then in the template it is no longer necessary to use the prefix
    * Example: `<ly-icon fontIcon="alarm">`
    */
-  setDefaultClass(className: string | null, prefix?: string) {
+  setDefaultClass(className?: string, prefix?: string) {
     this._defaultClass = className;
     this._defaultClassPrefix = prefix;
   }

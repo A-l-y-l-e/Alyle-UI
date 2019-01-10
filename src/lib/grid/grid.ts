@@ -54,25 +54,25 @@ export class LyGrid {
   readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
 
   private _spacing: string | number;
-  _spacingClass: string;
+  _spacingClass?: string;
 
   private _spacingX: string | number;
-  _spacingXClass: string;
+  _spacingXClass?: string;
 
   private _spacingY: string | number;
-  _spacingYClass: string;
+  _spacingYClass?: string;
 
 
-  private _negativeMarginClass: string;
+  private _negativeMarginClass?: string;
 
   private _justify: Justify;
-  private _justifyClass: string;
+  private _justifyClass?: string;
 
   private _direction: Direction;
-  private _directionClass: string;
+  private _directionClass?: string;
 
   private _alignItems: AlignItems;
-  private _alignItemsClass: string;
+  private _alignItemsClass?: string;
 
   @Input()
   get spacingX(): string | number {
@@ -81,7 +81,7 @@ export class LyGrid {
   set spacingX(val: string | number) {
     if (val !== this.spacingX) {
       this._spacingX = val;
-      this._createSpacingClass(null, val);
+      this._createSpacingClass(undefined, val);
     }
   }
 
@@ -92,7 +92,7 @@ export class LyGrid {
   set spacingY(val: string | number) {
     if (val !== this.spacingY) {
       this._spacingY = val;
-      this._createSpacingClass(null, null, val);
+      this._createSpacingClass(undefined, undefined, val);
     }
   }
 
@@ -179,7 +179,7 @@ export class LyGrid {
           negativeMarginStyles = negativeMarginstyles;
         }
       });
-      return negativeMarginStyles;
+      return negativeMarginStyles!;
     }, this.el.nativeElement, this._negativeMarginClass, STYLE_PRIORITY);
   }
 
@@ -213,7 +213,7 @@ export class LyGrid {
             justifyStyles = newJustifyStyles;
           }
         });
-        return justifyStyles;
+        return justifyStyles!;
       }, this.el.nativeElement, this._justifyClass, STYLE_PRIORITY);
     }
   }
@@ -248,7 +248,7 @@ export class LyGrid {
             directionStyles = newDirectionStyles;
           }
         });
-        return directionStyles;
+        return directionStyles!;
       }, this.el.nativeElement, this._directionClass, STYLE_PRIORITY);
     }
   }
@@ -265,7 +265,7 @@ export class LyGrid {
         alignItems?: string,
         [media: string]: {
           alignItems?: string
-        } | string
+        } | string | undefined
       };
       eachMedia(val, (value, media, isMedia) => {
         const newAlignItemsStyles = {
@@ -282,7 +282,7 @@ export class LyGrid {
           alignItemsStyles = newAlignItemsStyles;
         }
       });
-      return alignItemsStyles;
+      return alignItemsStyles!;
     }, this.el.nativeElement, this._alignItemsClass, STYLE_PRIORITY);
   }
   get alignItems() {
@@ -338,7 +338,7 @@ export class LyGridItem implements OnInit {
               colStyles = newColStyles;
             }
           });
-          return colStyles;
+          return colStyles!;
         }
       }, this.el.nativeElement, this._colClass, STYLE_PRIORITY);
     }
@@ -374,7 +374,7 @@ export class LyGridItem implements OnInit {
             orderStyles = newOrderStyles;
           }
         });
-        return orderStyles;
+        return orderStyles!;
       }, this.el.nativeElement, this._orderClass, STYLE_PRIORITY);
     }
   }

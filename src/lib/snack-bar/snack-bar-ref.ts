@@ -19,7 +19,7 @@ export class LySnackBarRef {
   }
   constructor(
     private _snackBarService: LySnackBarService,
-    private _overlay: OverlayFromTemplateRef,
+    private _overlay: OverlayFromTemplateRef | null,
     private _afterDismissedEventEmitter: EventEmitter<LySnackBarDismiss>,
     duration: number,
     private _theme: LyTheme2

@@ -22,7 +22,7 @@ const styles = {
 })
 export class ResizingCroppingImagesExample02Component {
   classes = this.theme.addStyleSheet(styles);
-  croppedImage: string;
+  croppedImage?: string;
   result: string;
   myConfig: ImgCropperConfig = {
     width: 150, // Default `250`

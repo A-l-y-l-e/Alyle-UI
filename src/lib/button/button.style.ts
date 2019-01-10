@@ -28,10 +28,10 @@ export const styles = (theme: ThemeVariables) => {
       userSelect: 'none',
       textDecorationLine: 'none',
       '-webkit-text-decoration-line': 'none',
-      '&::-moz-focus-inner, &::-moz-focus-inner': {
+      fontSize: this.pxToRem(14),
+      '&::-moz-focus-inner': {
         border: 0
       },
-      ...typography.lyTyp.button,
       ...theme.button.root,
       '&::after': {
         content: `''`,
@@ -58,18 +58,12 @@ export const styles = (theme: ThemeVariables) => {
       height: '100%',
       boxSizing: 'border-box'
     },
-    onFocusByKeyboard: { },
+    onFocusByKeyboard: null,
     animations: {
       '&,&::after': {
         transition: 'background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms'
       }
     }
   });
-  if (typeof _styles.root.fontSize === 'number') {
-    _styles.root.fontSize = theme.pxToRem(_styles.root.fontSize) as any;
-  }
-  if (typeof _styles.root.letterSpacing === 'number') {
-    _styles.root.letterSpacing = theme.pxToRem(_styles.root.letterSpacing) as any;
-  }
   return _styles;
 };
