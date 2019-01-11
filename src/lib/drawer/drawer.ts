@@ -233,11 +233,10 @@ export class LyDrawer implements OnChanges {
           // } else {
           //   positionVal += __position;
           // }
-          eachMedia(__opened as any, () => {});
           if (__width) {
-            eachMedia(__width, (val, media, isMedia) => {
+            eachMedia(__width, (val, media) => {
               const newStyleWidth = toPx(val);
-              if (isMedia) {
+              if (media) {
                 const breakPoint = theme.getBreakpoint(media);
                 const styleOfBreakPoint = createEmptyPropOrUseExisting(drawerContentStyles, breakPoint);
                 styleOfBreakPoint[positionVal] = newStyleWidth;
@@ -285,13 +284,13 @@ export class LyDrawer implements OnChanges {
       const positionSign = __position === 'above' ? '-' : '+';
       if (__width) {
         const dirXSign = pos === DirPosition.left ? '-' : '+';
-        eachMedia(__width, (val, media, isMedia) => {
+        eachMedia(__width, (val, media) => {
           if ((__mode === 'over' || __forceModeOver) && val === '0') {
             return;
           }
           const newStyleWidth = toPx(val);
           const newTranslateX = `translateX(${dirXSign + toPx(val)})`;
-          if (isMedia) {
+          if (media) {
             const breakPoint = theme.getBreakpoint(media);
             const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
             styleOfBreakPoint.width = newStyleWidth;
@@ -302,10 +301,10 @@ export class LyDrawer implements OnChanges {
           }
         });
       } else if (__height) {
-        eachMedia(__height, (val, media, isMedia) => {
+        eachMedia(__height, (val, media) => {
           const newStyleHeight = toPx(val);
           const newTranslateY = `translateY(${positionSign + toPx(val)})`;
-          if (isMedia) {
+          if (media) {
             const breakPoint = theme.getBreakpoint(media);
             const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
             styleOfBreakPoint.height = newStyleHeight;
@@ -317,9 +316,9 @@ export class LyDrawer implements OnChanges {
         });
       }
       if (__position === 'before' || __position === 'after') {
-        eachMedia(__spacingAbove, (val, media, isMedia) => {
+        eachMedia(__spacingAbove, (val, media) => {
           const newStyleSpacingTop = toPx(val || 0);
-          if (isMedia) {
+          if (media) {
             const breakPoint = theme.getBreakpoint(media);
             const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
             styleOfBreakPoint.top = newStyleSpacingTop;
@@ -327,9 +326,9 @@ export class LyDrawer implements OnChanges {
             stylesDrawerRoot.top = newStyleSpacingTop;
           }
         });
-        eachMedia(__spacingBelow, (val, media, isMedia) => {
+        eachMedia(__spacingBelow, (val, media) => {
           const newStyleSpacingBottom = toPx(val || 0);
-          if (isMedia) {
+          if (media) {
             const breakPoint = theme.getBreakpoint(media);
             const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
             styleOfBreakPoint.bottom = newStyleSpacingBottom;
@@ -338,9 +337,9 @@ export class LyDrawer implements OnChanges {
           }
         });
       } else if (__position === YPosition.above || __position === YPosition.below) {
-        eachMedia(__spacingBefore, (val, media, isMedia) => {
+        eachMedia(__spacingBefore, (val, media) => {
           const newStyleSpacingBefore = toPx(val || 0);
-          if (isMedia) {
+          if (media) {
             const breakPoint = theme.getBreakpoint(media);
             const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
             styleOfBreakPoint.before = newStyleSpacingBefore;
@@ -348,9 +347,9 @@ export class LyDrawer implements OnChanges {
             stylesDrawerRoot.before = newStyleSpacingBefore;
           }
         });
-        eachMedia(__spacingAfter, (val, media, isMedia) => {
+        eachMedia(__spacingAfter, (val, media) => {
           const newStyleSpacingAfter = toPx(val || 0);
-          if (isMedia) {
+          if (media) {
             const breakPoint = theme.getBreakpoint(media);
             const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
             styleOfBreakPoint.after = newStyleSpacingAfter;

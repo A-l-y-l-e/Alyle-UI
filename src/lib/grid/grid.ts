@@ -155,7 +155,7 @@ export class LyGrid {
         margin?: string
         width?: string
       };
-      eachMedia(val, (value, media, len) => {
+      eachMedia(val, (value, media) => {
         const valueMargin = `${(-value) / 2}px`;
         const margin = xy != null
           ? valueMargin
@@ -170,7 +170,7 @@ export class LyGrid {
         if (xy != null || x != null) {
           negativeMarginstyles.width = `calc(100% + ${value}px)`;
         }
-        if (len) {
+        if (media) {
           if (!negativeMarginStyles) {
             negativeMarginStyles = {};
           }
@@ -198,13 +198,13 @@ export class LyGrid {
         let justifyStyles: {
           justifyContent?: string
         };
-        eachMedia(val, (value, media, isMedia) => {
+        eachMedia(val, (value, media) => {
           const newJustifyStyles = {
             justifyContent: value in ALIGN_ALIAS
             ? ALIGN_ALIAS[value]
             : value
           };
-          if (isMedia) {
+          if (media) {
             if (!justifyStyles) {
               justifyStyles = {};
             }
@@ -233,13 +233,13 @@ export class LyGrid {
         let directionStyles: {
           flexDirection?: string
         };
-        eachMedia(val, (value, media, isMedia) => {
+        eachMedia(val, (value, media) => {
           const newDirectionStyles = {
             flexDirection: value in ALIGN_ALIAS
             ? ALIGN_ALIAS[value]
             : value
           };
-          if (isMedia) {
+          if (media) {
             if (!directionStyles) {
               directionStyles = {};
             }
@@ -267,13 +267,13 @@ export class LyGrid {
           alignItems?: string
         } | string | undefined
       };
-      eachMedia(val, (value, media, isMedia) => {
+      eachMedia(val, (value, media) => {
         const newAlignItemsStyles = {
           alignItems: value in ALIGN_ALIAS
           ? ALIGN_ALIAS[value]
           : value
         };
-        if (isMedia) {
+        if (media) {
           if (!alignItemsStyles) {
             alignItemsStyles = {};
           }
@@ -327,9 +327,9 @@ export class LyGridItem implements OnInit {
             flexBasis?: string | number
             flexGrow?: number
           };
-          eachMedia(val, (value, media, len) => {
+          eachMedia(val, (value, media) => {
             const newColStyles = getColStyle(+value);
-            if (len) {
+            if (media) {
               if (!colStyles) {
                 colStyles = {};
               }
@@ -361,11 +361,11 @@ export class LyGridItem implements OnInit {
         let orderStyles: {
           order?: string
         };
-        eachMedia(`${val}`, (value, media, isMedia) => {
+        eachMedia(`${val}`, (value, media) => {
           const newOrderStyles = {
             order: value
           };
-          if (isMedia) {
+          if (media) {
             if (!orderStyles) {
               orderStyles = {};
             }
