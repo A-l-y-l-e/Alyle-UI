@@ -206,8 +206,6 @@ export class LyDrawer implements OnChanges {
     const __spacingBelow = this.spacingBelow;
     const __spacingBefore = this.spacingBefore;
     const __spacingAfter = this.spacingAfter;
-    // const __spacingRight = this.spacingRight;
-    // const __spacingLeft = this.spacingLeft;
 
     if (__width && __height) {
       throw new Error(`\`width\` and \`height\` are defined, you can only define one`);
