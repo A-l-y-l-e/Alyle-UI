@@ -11,7 +11,11 @@ import {
   Renderer2,
   TemplateRef,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  NgZone
   } from '@angular/core';
 import {
   eachMedia,
@@ -22,14 +26,16 @@ import {
   Placement,
   XPosition,
   DirPosition,
-  YPosition
+  YPosition,
+  WinResize,
+  Platform
   } from '@alyle/ui';
+import { Subscription } from 'rxjs';
 
 export type LyDrawerPosition = Placement;
 export type LyDrawerMode = 'side' | 'over';
 const DEFAULT_MODE = 'side';
 const DEFAULT_WIDTH = '230px';
-const DEFAULT_MIN_WIDTH = 0;
 const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = XPosition.before;
@@ -81,6 +87,10 @@ export class LyDrawerContainer {
   ) {
     this._renderer.addClass(this._el.nativeElement, this.classes.drawerContainer);
   }
+
+  _getHostElement() {
+    return this._el.nativeElement;
+  }
 }
 
 @Directive({
@@ -105,13 +115,13 @@ export class LyDrawerContent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyDrawer'
 })
-export class LyDrawer implements OnChanges {
+export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   /**
    * Styles
    * @docs-private
    */
   readonly classes = this._drawerContainer.classes;
-  private _forceModeOver: boolean;
+  private _forceModeOverOpened: boolean;
   private _fromToggle: boolean;
   private _opened: boolean;
   private _viewRef?: EmbeddedViewRef<any>;
@@ -124,6 +134,8 @@ export class LyDrawer implements OnChanges {
   private _drawerRootClass: string;
   private _drawerClass?: string;
   private _drawerContentClass?: string;
+  private _tabResizeSub: Subscription;
+  private _isOpen: boolean;
 
   @ViewChild(TemplateRef) _backdrop: TemplateRef<any>;
 
@@ -131,6 +143,7 @@ export class LyDrawer implements OnChanges {
   set opened(val: boolean) {
     if (val !== this.opened) {
       this._opened = toBoolean(val);
+      this._isOpen = this._opened;
     }
   }
   get opened() {
@@ -146,14 +159,9 @@ export class LyDrawer implements OnChanges {
 
   @Input() spacingAfter: string | number;
 
-  // @Input() spacingRight: string | number;
-  // @Input() spacingLeft: string | number;
-
   @Input() width: number | string;
 
   @Input() height: number | string;
-
-  @Input() minWidth: number | string = DEFAULT_MIN_WIDTH;
 
   @Input()
   get hasBackdrop() {
@@ -184,6 +192,9 @@ export class LyDrawer implements OnChanges {
     private _el: ElementRef,
     private _drawerContainer: LyDrawerContainer,
     private _vcr: ViewContainerRef,
+    private _winResize: WinResize,
+    private _cd: ChangeDetectorRef,
+    private _zone: NgZone
   ) {
     this._renderer.addClass(this._el.nativeElement, _drawerContainer.classes.drawer);
   }
@@ -191,14 +202,11 @@ export class LyDrawer implements OnChanges {
   ngOnChanges() {
     this._updateBackdrop();
     this._updateAnimations();
-    if (this._forceModeOver && !this._fromToggle) {
-      this._resetForceModeOver();
-    }
+
     const __mode = this.mode;
-    const __forceModeOver = this._forceModeOver;
+    const __forceModeOverOpened = this._forceModeOverOpened;
     const __opened = this.opened;
     let __width = this.width;
-    const __minWidth = toPx(this.minWidth);
     const __height = this.height;
     const __position = this.position;
 
@@ -216,14 +224,14 @@ export class LyDrawer implements OnChanges {
       }
     }
 
-    if (__opened) {
+    if ((this._isOpen && __opened) || (this._isOpen) || __forceModeOverOpened) {
       /** create styles for mode side */
       this._drawerClass = this._theme.updateClass(this._el.nativeElement, this._renderer, this._drawerContainer.classes.drawerOpened, this._drawerClass);
+      // styles for <ly-drawer-content>
       if (__mode === 'side') {
         const newKeyDrawerContent = `ly-drawer-content----:${
-          __opened || DEFAULT_VALUE}·${
-            __width || DEFAULT_VALUE}·${
-              __position || DEFAULT_VALUE}`;
+          __width || DEFAULT_VALUE}·${
+            __position || DEFAULT_VALUE}`;
         this._drawerContentClass = this._theme.addStyle(newKeyDrawerContent, (theme: ThemeVariables) => {
           const drawerContentStyles: {
             marginLeft?: string
@@ -232,14 +240,9 @@ export class LyDrawer implements OnChanges {
             marginBottom?: string
           } = {};
           const positionVal = `margin-${__position}`;
-          // if (__position === 'start' || __position === 'end') {
-          //   positionVal += theme.getDirection(__position);
-          // } else {
-          //   positionVal += __position;
-          // }
           if (__width) {
             eachMedia(__width, (val, media) => {
-              const newStyleWidth = toPx(val);
+              const newStyleWidth = val === 'over' ? '0px' : toPx(val);
               if (media) {
                 const breakPoint = theme.getBreakpoint(media);
                 const styleOfBreakPoint = createEmptyPropOrUseExisting(drawerContentStyles, breakPoint);
@@ -271,7 +274,7 @@ export class LyDrawer implements OnChanges {
 
     /** default styles */
     this._drawerRootClass = this._theme.addStyle(
-      `ly-drawer-root:${__width}·${__height}·${__minWidth}·${__spacingAbove}·${__spacingBelow}·${__spacingBefore}·${__spacingAfter}·${__position}·${__mode}·${__forceModeOver}`,
+      `ly-drawer-root:${__width}·${__height}·${__spacingAbove}·${__spacingBelow}·${__spacingBefore}·${__spacingAfter}·${__position}·${__mode}·${__forceModeOverOpened}`,
       (theme: ThemeVariables) => {
       const stylesDrawerRoot: {
         width?: string
@@ -289,11 +292,12 @@ export class LyDrawer implements OnChanges {
       if (__width) {
         const dirXSign = pos === DirPosition.left ? '-' : '+';
         eachMedia(__width, (val, media) => {
-          if ((__mode === 'over' || __forceModeOver) && val === '0' || val === __minWidth) {
+          if ((__mode === 'over' || __forceModeOverOpened) && (val === '0' || val === 'over')) {
             return;
           }
-          const newStyleWidth = toPx(val);
-          const newTranslateX = `translateX(${dirXSign + toPx(val)})`;
+          const newVal = val === 'over' ? '0px' : toPx(val);
+          const newStyleWidth = newVal;
+          const newTranslateX = `translateX(${dirXSign + newVal})`;
           if (media) {
             const breakPoint = theme.getBreakpoint(media);
             const styleOfBreakPoint = createEmptyPropOrUseExisting(stylesDrawerRoot, breakPoint);
@@ -367,39 +371,69 @@ export class LyDrawer implements OnChanges {
     this._fromToggle = false;
   }
 
+  ngAfterViewInit() {
+    if (Platform.isBrowser) {
+      this._tabResizeSub = this._winResize.resize$.subscribe(() => {
+        this.ngOnChanges();
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this._tabResizeSub) {
+      this._tabResizeSub.unsubscribe();
+    }
+  }
+
   toggle() {
     const width = getComputedStyle(this._el.nativeElement).width;
     this._fromToggle = true;
-    console.log(toPx(this.minWidth), width);
-    if (width === toPx(this.minWidth)) {
-      this._forceModeOver = true;
-      this.opened = true;
+    if (width === '0px') {
+      this._forceModeOverOpened = true;
+      this._isOpen = true;
     } else {
-      if (this._forceModeOver && this.opened) {
-        this._resetForceModeOver();
+      if (this._forceModeOverOpened) {
+        this._forceModeOverOpened = false;
+        this._isOpen = this.opened;
       } else {
-        this.opened = !this.opened;
+        this._isOpen = !this._isOpen;
       }
     }
     this.ngOnChanges();
   }
 
-  private _resetForceModeOver() {
-    this._forceModeOver = false;
-    this.opened = false;
+  private _contentHasMargin() {
+    const content = this._drawerContainer._drawerContent._getHostElement() as HTMLElement;
+    const container = this._drawerContainer._getHostElement() as HTMLElement;
+    return (content.offsetWidth === container.offsetWidth);
   }
 
   private _updateBackdrop() {
-    if (this.opened && (this.hasBackdrop != null ? this.hasBackdrop : (this.mode === 'over' || this._forceModeOver))) {
+    if (((this._isOpen && this.opened) || this._isOpen) &&
+      (this.hasBackdrop != null
+        ? this.hasBackdrop
+        : (this.mode === 'over' || (this._forceModeOverOpened && this._contentHasMargin())))) {
+
+      // create only if is necessary
       if (!this._viewRef) {
-        this._drawerContainer._openDrawers++;
-        this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
-        (this._viewRef.rootNodes[0] as HTMLDivElement).style.zIndex = `${this._drawerContainer._openDrawers}`;
+        this._zone.run(() => {
+          this._drawerContainer._openDrawers++;
+          this._viewRef = this._vcr.createEmbeddedView(this._backdrop);
+          this._cd.markForCheck();
+          (this._viewRef.rootNodes[0] as HTMLDivElement).style.zIndex = `${this._drawerContainer._openDrawers}`;
+        });
       }
     } else if (this._viewRef) {
-      this._drawerContainer._openDrawers--;
-      this._vcr.clear();
-      this._viewRef = undefined;
+      this._zone.run(() => {
+        this._drawerContainer._openDrawers--;
+        this._vcr.clear();
+        this._viewRef = undefined;
+        this._cd.markForCheck();
+        if (this._forceModeOverOpened) {
+          this._forceModeOverOpened = false;
+          this._isOpen = this.opened;
+        }
+      });
     }
   }
 

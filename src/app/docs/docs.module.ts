@@ -110,11 +110,13 @@ import { TypographyDemoBasicModule } from './components/typography-demo/typograp
 /** Drawer */
 import { DrawerDemoComponent } from './components/drawer-demo/drawer-demo.component';
 import { DrawerDemo01Module } from './components/drawer-demo/drawer-demo-01/drawer-demo-01.module';
+import { MiniDrawerModule } from './components/drawer-demo/mini-drawer/mini-drawer.module';
 
 /** Radio */
 import { RadioDemoComponent } from './components/radio-demo/radio-demo.component';
 import { RadioExample01Module } from './components/radio-demo/radio-example-01/radio-example-01.module';
 import { BasicRadioModule } from './components/radio-demo/basic-radio/basic-radio.module';
+
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
@@ -184,6 +186,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     InsetDividersModule,
     /** Drawer */
     DrawerDemo01Module,
+    MiniDrawerModule,
     /** Radio */
     RadioExample01Module,
     BasicRadioModule
