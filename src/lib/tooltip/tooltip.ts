@@ -65,7 +65,7 @@ export class LyTooltip implements OnInit, OnDestroy {
     private _el: ElementRef,
     private _renderer: Renderer2,
     private _cd: ChangeDetectorRef,
-    focusState: LyFocusState,
+    private _focusState: LyFocusState,
     ngZone: NgZone,
     scroll: WinScroll
   ) {
@@ -91,7 +91,7 @@ export class LyTooltip implements OnInit, OnDestroy {
         }
       });
 
-      focusState.listen(element)!.subscribe(ev => {
+      _focusState.listen(element)!.subscribe(ev => {
         if (ev === 'keyboard') {
           ngZone.run(() => this.show());
         } else if (ev == null) {
@@ -118,6 +118,8 @@ export class LyTooltip implements OnInit, OnDestroy {
     if (this._scrollSub) {
       this._scrollSub.unsubscribe();
     }
+
+    this._focusState.unlisten(this._el);
   }
 
   show(delay?: number) {

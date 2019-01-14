@@ -428,6 +428,7 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   }
 
   ngOnDestroy() {
+    this._focusState.unlisten(this._elementRef);
     this._removeRippleEvents();
   }
 

@@ -87,7 +87,7 @@ const DEFAULT_WITH_COLOR = 'primary';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class LyField implements OnInit, AfterContentInit, AfterViewInit {
+export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
   /**
    * styles
    * @docs-private
@@ -291,6 +291,21 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit {
     }
     // this fix with of label
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
+  }
+
+  ngOnDestroy() {
+    if (this._prefixContainer) {
+      const el = this._prefixContainer;
+      this._elementObserver.destroy(el);
+    }
+    if (this._suffixContainer) {
+      const el = this._suffixContainer;
+      this._elementObserver.destroy(el);
+    }
+    if (this._labelSpan) {
+      const el = this._labelSpan;
+      this._elementObserver.destroy(el);
+    }
   }
 
   private _updateFielset(el: Element, dir: DirAlias) {

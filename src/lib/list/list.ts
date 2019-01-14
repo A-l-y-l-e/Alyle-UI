@@ -13,7 +13,8 @@ import {
   ContentChild,
   AfterContentInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnDestroy
   } from '@angular/core';
 import {
   LY_COMMON_STYLES,
@@ -176,7 +177,7 @@ mixinBg(
   ],
   exportAs: 'lyListItem'
 })
-export class LyListItem extends LyListItemMixinBase implements OnInit, AfterContentInit {
+export class LyListItem extends LyListItemMixinBase implements OnInit, AfterContentInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._list.classes;
   readonly _isBrowser = Platform.isBrowser;
@@ -251,6 +252,10 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
 
   ngAfterContentInit() {
     this._lines.changes.subscribe(() => this._cd.markForCheck());
+  }
+
+  ngOnDestroy() {
+    this._focusState.unlisten(this._el);
   }
 }
 
