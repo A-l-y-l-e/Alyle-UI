@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { shadowBuilder, LyTheme2 } from '@alyle/ui';
+import { shadowBuilder, LyTheme2, ThemeVariables } from '@alyle/ui';
 
-const styles = theme => ({
+const styles = (theme: ThemeVariables) => ({
   item: {
     padding: '16px',
     textAlign: 'center',
