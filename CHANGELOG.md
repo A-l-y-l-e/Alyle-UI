@@ -1,3 +1,19 @@
+## [2.0.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.3...2.0.4) (2019-01-15)
+
+
+### Bug Fixes
+
+* enable strictNullChecks ([#71](https://github.com/A-l-y-l-e/Alyle-UI/issues/71)) ([5b19d13](https://github.com/A-l-y-l-e/Alyle-UI/commit/5b19d13))
+* **core:** improve `eachMedia` ([a5f2937](https://github.com/A-l-y-l-e/Alyle-UI/commit/a5f2937))
+* **field, list, radio, tooltip:** fix memory leaks ([c02b212](https://github.com/A-l-y-l-e/Alyle-UI/commit/c02b212))
+
+
+### Features
+
+* **drawer:** improve drawer ([#70](https://github.com/A-l-y-l-e/Alyle-UI/issues/70)) ([c90232c](https://github.com/A-l-y-l-e/Alyle-UI/commit/c90232c))
+
+
+
 ## [2.0.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.2...2.0.3) (2019-01-09)
 
 
