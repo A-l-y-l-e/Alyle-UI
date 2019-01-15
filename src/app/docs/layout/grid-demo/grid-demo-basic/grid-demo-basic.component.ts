@@ -17,7 +17,7 @@ const styles = theme => ({
   templateUrl: './grid-demo-basic.component.html'
 })
 export class GridDemoBasicComponent {
-  classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.theme.addStyleSheet(styles);
   constructor(
     private theme: LyTheme2
   ) { }
