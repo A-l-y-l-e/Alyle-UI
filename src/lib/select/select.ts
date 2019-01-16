@@ -1,6 +1,11 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { SelectControlValueAccessor } from '@angular/forms';
-import { SELECT_VALUE_ACCESSOR } from '@angular/forms/src/directives/select_control_value_accessor';
+import { Component, ChangeDetectionStrategy, forwardRef, StaticProvider } from '@angular/core';
+import { SelectControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+export const SELECT_VALUE_ACCESSOR: StaticProvider = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => SelectControlValueAccessor),
+  multi: true
+};
 
 @Component({
   templateUrl: 'select.html',
