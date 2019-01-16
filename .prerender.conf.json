@@ -28,6 +28,7 @@
     "components/tooltip",
     "components/avatar",
     "components/list",
-    "components/divider"
+    "components/divider",
+    "components/select"
   ]
 }

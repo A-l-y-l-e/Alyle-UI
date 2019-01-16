@@ -1,3 +1,7 @@
+function sort(a: any, b: any) {
+  return a.route > b.route ? 1 : a.route < b.route ? -1 : 0;
+}
+
 export const AUIRoutes: {
   route: string
   name: string
@@ -35,7 +39,7 @@ export const AUIRoutes: {
       { route: 'grid', api: true , name: 'Grid' },
       { route: 'responsive', api: true , name: 'Responsive' },
       { route: 'tabs', api: true , name: 'Tabs' }
-    ]
+    ].sort(sort)
   },
   {
     name: 'Components',
@@ -58,8 +62,9 @@ export const AUIRoutes: {
       { route: 'snack-bar', api: true , name: 'SnackBar' },
       { route: 'toolbar', api: true , name: 'Toolbar' },
       { route: 'tooltip', api: true , name: 'Tooltip' },
-      { route: 'typography', api: true , name: 'Typography' }
-    ]
+      { route: 'typography', api: true , name: 'Typography' },
+      { route: 'select', api: true , name: 'Select' }
+    ].sort(sort)
   }
 ];
 

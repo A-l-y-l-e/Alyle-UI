@@ -47,6 +47,7 @@
       "@alyle/ui/avatar": ["lib/avatar"],
       "@alyle/ui/list": ["lib/list"],
       "@alyle/ui/divider": ["lib/divider"],
+      "@alyle/ui/select": ["lib/select"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }

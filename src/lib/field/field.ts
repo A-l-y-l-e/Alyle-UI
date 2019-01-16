@@ -389,7 +389,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
 }
 
 @Directive({
-  selector: 'input[lyInput], textarea[lyInput], input[lyNativeControl], textarea[lyNativeControl]',
+  selector:
+      'input[lyInput], textarea[lyInput], input[lyNativeControl], textarea[lyNativeControl], select[lyNativeControl]',
   exportAs: 'LyNativeControl'
 })
 export class LyNativeControl implements OnInit, DoCheck, OnDestroy {

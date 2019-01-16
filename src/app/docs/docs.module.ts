@@ -117,7 +117,12 @@ import { RadioDemoComponent } from './components/radio-demo/radio-demo.component
 import { RadioExample01Module } from './components/radio-demo/radio-example-01/radio-example-01.module';
 import { BasicRadioModule } from './components/radio-demo/basic-radio/basic-radio.module';
 
+/** 404 */
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+/** Select */
+import { SelectDemoComponent } from './components/select-demo/select-demo.component';
+import { BasicSelectModule } from './components/select-demo/basic-select/basic-select.module';
 
 @NgModule({
   imports: [
@@ -189,7 +194,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MiniDrawerModule,
     /** Radio */
     RadioExample01Module,
-    BasicRadioModule
+    BasicRadioModule,
+    /** Select */
+    BasicSelectModule
   ],
   declarations: [
     ThemingComponent,
@@ -235,7 +242,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     DrawerDemoComponent,
     /** Radio */
     RadioDemoComponent,
-    PageNotFoundComponent
+    /** 404 */
+    PageNotFoundComponent,
+    /** Select */
+    SelectDemoComponent
   ]
 })
 export class DocsModule { }
