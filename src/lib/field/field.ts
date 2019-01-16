@@ -80,6 +80,15 @@ const DEFAULT_APPEARANCE_THEME = {
 };
 const DEFAULT_WITH_COLOR = 'primary';
 
+const inputText = [
+  'text',
+  'number',
+  'password',
+  'search',
+  'tel',
+  'url'
+];
+
 @Component({
   selector: 'ly-field',
   exportAs: 'lyFormField',
@@ -224,6 +233,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
     return this._appearance;
   }
 
+  @HostListener('focus') onFocus() {
+    this._el.nativeElement.focus();
+  }
+
   constructor(
     private _renderer: Renderer2,
     private _el: ElementRef,
@@ -245,7 +258,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   }
 
   ngAfterContentInit() {
-    this._renderer.addClass(this._input._hostElement, this.classes.inputNative);
+    this._renderer.addClass(this._input._getHostElement(), this.classes.inputNative);
     this._input.stateChanges.subscribe(() => {
       this._updateFloatingLabel();
       this._markForCheck();
@@ -288,6 +301,16 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
           });
         }
       });
+
+      const nativeElement = this._input._getHostElement();
+      if (nativeElement instanceof HTMLTextAreaElement ||
+          inputText.some(type => type === nativeElement.type)) {
+        this._theme.addStyle('field.text', {
+          '& {container}': {
+            cursor: 'text'
+          }
+        }, this._el.nativeElement, null, null, STYLES);
+      }
     }
     // this fix with of label
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
@@ -425,12 +448,12 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
   @Input()
   set value(val) {
     if (val !== this.value) {
-      this._hostElement.value = val;
+      this._getHostElement().value = val;
       this.stateChanges.next();
     }
   }
   get value() {
-    return this._hostElement.value;
+    return this._getHostElement().value;
   }
 
   /** Whether the input is disabled. */
@@ -478,12 +501,10 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
     @Optional() @Self() public ngControl: NgControl,
     @Optional() private _parentForm: NgForm,
     @Optional() private _parentFormGroup: FormGroupDirective,
-  ) {
-    this._hostElement = this._el.nativeElement;
-  }
+  ) { }
 
   ngOnInit() {
-    this._renderer.setAttribute(this._hostElement, 'placeholder', '­');
+    this._renderer.setAttribute(this._getHostElement(), 'placeholder', '­');
     const ngControl = this.ngControl;
     // update styles on disabled
     if (ngControl && ngControl.statusChanges) {
@@ -516,6 +537,10 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
   }
 
   /** Focuses the input. */
-  focus(): void { this._hostElement.focus(); }
+  focus(): void { this._getHostElement().focus(); }
+
+  _getHostElement() {
+    return this._el.nativeElement;
+  }
 
 }
