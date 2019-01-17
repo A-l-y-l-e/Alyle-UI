@@ -419,7 +419,6 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   ]
 })
 export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnDestroy {
-  _hostElement: HTMLInputElement | HTMLTextAreaElement;
   protected _disabled = false;
   protected _required = false;
   protected _placeholder: string;
