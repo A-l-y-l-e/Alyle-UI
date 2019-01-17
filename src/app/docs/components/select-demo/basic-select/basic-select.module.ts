@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyFieldModule } from '@alyle/ui/field';
+import { LySelectModule } from '@alyle/ui/select';
 
 import { BasicSelectComponent } from './basic-select.component';
 
@@ -8,7 +9,8 @@ import { BasicSelectComponent } from './basic-select.component';
   declarations: [BasicSelectComponent],
   imports: [
     CommonModule,
-    LyFieldModule
+    LyFieldModule,
+    LySelectModule,
   ],
   exports: [BasicSelectComponent]
 })

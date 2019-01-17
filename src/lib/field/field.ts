@@ -33,6 +33,7 @@ import { Subject } from 'rxjs';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
 import { LyError } from './error';
 import { STYLES } from './styles';
+import { LyFieldControlBase } from './field-control-base';
 
 /** LyField */
 const STYLE_PRIORITY = -2;
@@ -119,7 +120,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   @ViewChild('_prefixContainer') _prefixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_suffixContainer') _suffixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_fieldsetLegend') _fieldsetLegend: ElementRef<HTMLDivElement>;
-  @ContentChild(forwardRef(() => LyNativeControl)) _input: LyNativeControl;
+  @ContentChild(forwardRef(() => LyFieldControlBase)) _control: LyFieldControlBase;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
@@ -128,7 +129,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   @ContentChildren(LyError) _errorChildren: QueryList<LyError>;
 
   get errorState() {
-    return this._input.errorState;
+    return this._control.errorState;
   }
 
   @Input() persistentHint: boolean;
@@ -171,6 +172,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
       this._color = val;
       this._colorClass = this._theme.addStyle(`ly-field.color:${val}`, (theme: ThemeVariables) => {
         const color = theme.colorOf(val);
+        const contrast = theme.colorOf(`${val}:contrast`);
         return {
           [`&.${this.classes.focused} .${this.classes.container}:after`]: {
             color
@@ -183,9 +185,17 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
           },
           [`& .${this.classes.inputNative}`]: {
             caretColor: color
+          },
+          '& {inputNative}::selection': {
+            backgroundColor: color,
+            color: contrast
+          },
+          '& {inputNative}::-moz-selection': {
+            backgroundColor: color,
+            color: contrast
           }
         };
-      }, this._el.nativeElement, this._colorClass, STYLE_PRIORITY + 1);
+      }, this._el.nativeElement, this._colorClass, STYLE_PRIORITY + 1, STYLES);
     }
   }
   get color() {
@@ -258,13 +268,12 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   }
 
   ngAfterContentInit() {
-    this._renderer.addClass(this._input._getHostElement(), this.classes.inputNative);
-    this._input.stateChanges.subscribe(() => {
+    this._control.stateChanges.subscribe(() => {
       this._updateFloatingLabel();
       this._markForCheck();
     });
 
-    const ngControl = this._input.ngControl;
+    const ngControl = this._control.ngControl;
 
     // Run change detection if the value changes.
     if (ngControl && ngControl.valueChanges) {
@@ -301,16 +310,6 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
           });
         }
       });
-
-      const nativeElement = this._input._getHostElement();
-      if (nativeElement instanceof HTMLTextAreaElement ||
-          inputText.some(type => type === nativeElement.type)) {
-        this._theme.addStyle('field.text', {
-          '& {container}': {
-            cursor: 'text'
-          }
-        }, this._el.nativeElement, null, null, STYLES);
-      }
     }
     // this fix with of label
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
@@ -358,7 +357,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   }
   /** @ignore */
   _isLabel() {
-    if (this._input.placeholder && !this._labelChild) {
+    if (this._control.placeholder && !this._labelChild) {
       return true;
     } else if (this._labelChild || this._placeholderChild) {
       return true;
@@ -368,7 +367,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
 
   /** @ignore */
   _isPlaceholder() {
-    if ((this._labelChild && this._input.placeholder) || (this._labelChild && this._placeholderChild)) {
+    if ((this._labelChild && this._control.placeholder) || (this._labelChild && this._placeholderChild)) {
       return true;
     }
     return false;
@@ -376,13 +375,13 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
 
   /** @ignore */
   _isEmpty() {
-    const val = this._input.value;
+    const val = this._control.value;
     return val === '' || val === null || val === undefined;
   }
 
   private _updateFloatingLabel() {
     if (this._labelContainer2) {
-      const isFloating = this._input._focused || !this._isEmpty() || this.floatingLabel;
+      const isFloating = this._control.focused || !this._isEmpty() || this.floatingLabel;
       if (this._isFloating !== isFloating) {
         this._isFloating = isFloating;
         if (isFloating) {
@@ -394,7 +393,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
         }
       }
     }
-    if (this._input._focused) {
+    if (this._control.focused) {
       this._renderer.addClass(this._el.nativeElement, this.classes.focused);
     } else {
       this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
@@ -414,9 +413,12 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
 @Directive({
   selector:
       'input[lyInput], textarea[lyInput], input[lyNativeControl], textarea[lyNativeControl], select[lyNativeControl]',
-  exportAs: 'LyNativeControl'
+  exportAs: 'LyNativeControl',
+  providers: [
+    { provide: LyFieldControlBase, useExisting: LyNativeControl }
+  ]
 })
-export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
+export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnDestroy {
   _hostElement: HTMLInputElement | HTMLTextAreaElement;
   protected _disabled = false;
   protected _required = false;
@@ -494,14 +496,24 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
   }
   get placeholder(): string { return this._placeholder; }
 
+  get focused() {
+    return this._focused;
+  }
+
+  get empty() {
+    const val = this.value;
+    return val === '' || val === null || val === undefined;
+  }
+
   constructor(
+    private _theme: LyTheme2,
     private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
     private _renderer: Renderer2,
     @Optional() private _field: LyField,
     /** @docs-private */
     @Optional() @Self() public ngControl: NgControl,
     @Optional() private _parentForm: NgForm,
-    @Optional() private _parentFormGroup: FormGroupDirective,
+    @Optional() private _parentFormGroup: FormGroupDirective
   ) { }
 
   ngOnInit() {
@@ -513,6 +525,26 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
         this.disabled = !!ngControl.disabled;
       });
     }
+
+    const { nativeElement } = this._el;
+
+    // apply class {selectArrow} to `<select>`
+    if (this._field && nativeElement.type === 'select-one') {
+      this._renderer.addClass(this._field._getHostElement(), this._field.classes.selectArrow);
+    }
+
+    // apply style cursor
+    if (nativeElement instanceof HTMLTextAreaElement ||
+        inputText.some(type => type === nativeElement.type)) {
+      this._theme.addStyle('field.text', {
+        '& {container}': {
+          cursor: 'text'
+        }
+      }, this._el.nativeElement, null, null, STYLES);
+    }
+
+    // apply default styles
+    this._renderer.addClass(nativeElement, this._field.classes.inputNative);
   }
 
   ngDoCheck() {
@@ -535,6 +567,11 @@ export class LyNativeControl implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.stateChanges.complete();
+  }
+
+  /** @docs-private */
+  onContainerClick() {
+    this._getHostElement().focus();
   }
 
   /** Focuses the input. */
