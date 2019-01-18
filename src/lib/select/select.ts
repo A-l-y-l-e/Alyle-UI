@@ -11,17 +11,22 @@ import {
   Optional,
   Renderer2,
   Self,
-  StaticProvider
+  StaticProvider,
+  Directive,
+  Host,
+  ViewChild,
+  TemplateRef
   } from '@angular/core';
 import {
   FormGroupDirective,
   NG_VALUE_ACCESSOR,
   NgControl,
   NgForm,
-  SelectControlValueAccessor
+  SelectControlValueAccessor,
+  ControlValueAccessor
   } from '@angular/forms';
 import { LyField, LyFieldControlBase } from '@alyle/ui/field';
-import { toBoolean, LyTheme2 } from '@alyle/ui';
+import { toBoolean, LyTheme2, LySelectionModel, LyOverlay, OverlayFromTemplateRef } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 export const STYLES = () => ({
@@ -48,7 +53,7 @@ export const SELECT_VALUE_ACCESSOR: StaticProvider = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lySelect',
   host: {
-    '(change)': 'onChange($event.target.value)',
+    '(click)': 'open()',
     'tabindex': '0'
   },
   providers: [
@@ -57,10 +62,11 @@ export const SELECT_VALUE_ACCESSOR: StaticProvider = {
   ]
 })
 export class LySelect
-    extends SelectControlValueAccessor
-    implements LyFieldControlBase, OnInit, DoCheck, OnDestroy {
+    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, OnDestroy {
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  _selectionModel: LySelectionModel<LyOption> = new LySelectionModel();
   private _value: any;
+  private _menuRef: OverlayFromTemplateRef | null;
   protected _disabled = false;
   protected _required = false;
   protected _placeholder: string;
@@ -68,8 +74,20 @@ export class LySelect
   private _hasDisabledClass?: boolean;
   private _errorClass?: string;
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
+  private _multiple: boolean;
   _focused: boolean = false;
   errorState: boolean = false;
+  @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+
+  /**
+   * The registered callback function called when a change event occurs on the input element.
+   */
+  onChange = (_: any) => {};
+
+  /**
+   * The registered callback function called when a blur event occurs on the input element.
+   */
+  onTouched = () => {};
 
   @HostListener('blur') _onBlur() {
     this.onTouched();
@@ -90,6 +108,7 @@ export class LySelect
   set value(val) {
     if (val !== this.value) {
       this._value = val;
+      this.writeValue(val);
       this.stateChanges.next();
     }
   }
@@ -104,10 +123,10 @@ export class LySelect
       this._disabled = toBoolean(val);
       if (this._field) {
         if (!val && this._hasDisabledClass) {
-          this._renderer2.removeClass(this._field._getHostElement(), this._field.classes.disabled);
+          this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
           this._hasDisabledClass = undefined;
         } else if (val) {
-          this._renderer2.addClass(this._field._getHostElement(), this._field.classes.disabled);
+          this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
           this._hasDisabledClass = true;
         }
       }
@@ -127,6 +146,12 @@ export class LySelect
   get required(): boolean { return this._required; }
 
   @Input()
+  set multiple(value: boolean) {
+    this._multiple = toBoolean(value);
+  }
+  get multiple(): boolean { return this._multiple; }
+
+  @Input()
   set placeholder(val: string) {
     this._placeholder = val;
   }
@@ -138,19 +163,18 @@ export class LySelect
 
   get empty() {
     const val = this.value;
-    return val === '' || val === null || val === undefined;
+    return this.multiple ? this._selectionModel.isEmpty() : val == null || this._selectionModel.isEmpty();
   }
 
   constructor(private _theme: LyTheme2,
-              private _renderer2: Renderer2,
+              private _renderer: Renderer2,
               private _el: ElementRef,
+              private _overlay: LyOverlay,
               @Optional() private _field: LyField,
               /** @docs-private */
               @Optional() @Self() public ngControl: NgControl,
               @Optional() private _parentForm: NgForm,
-              @Optional() private _parentFormGroup: FormGroupDirective) {
-    super(_renderer2, _el);
-  }
+              @Optional() private _parentFormGroup: FormGroupDirective) { }
 
   ngOnInit() {
     const ngControl = this.ngControl;
@@ -162,11 +186,11 @@ export class LySelect
     }
 
     // apply class {selectArrow} to `<select>`
-    this._renderer2.addClass(this._field._getHostElement(), this._field.classes.selectArrow);
+    this._renderer.addClass(this._field._getHostElement(), this._field.classes.selectArrow);
 
     // apply default styles
-    this._renderer2.addClass(this._el.nativeElement, this._field.classes.inputNative);
-    this._renderer2.addClass(this._el.nativeElement, this.classes.root);
+    this._renderer.addClass(this._el.nativeElement, this._field.classes.inputNative);
+    this._renderer.addClass(this._el.nativeElement, this.classes.root);
   }
 
   ngDoCheck() {
@@ -177,10 +201,10 @@ export class LySelect
       if (this._field) {
         const errorClass = this._field.classes.errorState;
         if (newVal) {
-          this._renderer2.addClass(this._field._getHostElement(), errorClass);
+          this._renderer.addClass(this._field._getHostElement(), errorClass);
           this._errorClass = errorClass;
         } else if (this._errorClass) {
-          this._renderer2.removeClass(this._field._getHostElement(), errorClass);
+          this._renderer.removeClass(this._field._getHostElement(), errorClass);
           this._errorClass = undefined;
         }
       }
@@ -189,6 +213,9 @@ export class LySelect
 
   ngOnDestroy() {
     this.stateChanges.complete();
+    if (this._menuRef) {
+      this._menuRef.destroy();
+    }
   }
 
   /** @docs-private */
@@ -202,4 +229,73 @@ export class LySelect
   _getHostElement() {
     return this._el.nativeElement;
   }
+
+  /**
+   * Sets the "value" property on the input element.
+   *
+   * @param value The checked value
+   */
+  writeValue(value: any): void {
+    this.value = value;
+    console.log({value});
+  }
+
+  /**
+   * Registers a function called when the control value changes.
+   *
+   * @param fn The callback function
+   */
+  registerOnChange(fn: (value: any) => any): void {
+    this.onChange = (valueString: string) => {
+      this.value = valueString;
+      console.log({valueString});
+      fn(this.value);
+    };
+  }
+
+  /**
+   * Registers a function called when the control is touched.
+   *
+   * @param fn The callback function
+   */
+  registerOnTouched(fn: () => any): void { this.onTouched = fn; }
+
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+    this.stateChanges.next();
+  }
+
+  open() {
+    this._menuRef = this._overlay.create(this.templateRef);
+  }
+
+}
+
+@Directive({
+  selector: 'ly-option'
+})
+export class LyOption {
+  private _value: any;
+
+  @HostListener('click') _onClick() {
+    this._select._selectionModel.select(this);
+    this._select.writeValue(this._value);
+    // this._select.onChange(this._value);
+    console.log('onclick', this._select._selectionModel, this._select.value);
+  }
+
+  /**
+   * Tracks simple string values bound to the option element.
+   */
+  @Input('value')
+  set value(value: any) {
+    this._value = value;
+  }
+
+
+  constructor(/*private _element: ElementRef,
+              private _renderer: Renderer2,*/
+              @Optional() @Host() private _select: LySelect) { }
+
+  _setElementValue() {}
 }

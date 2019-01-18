@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LySelect } from './select';
+import { LySelect, LyOption } from './select';
 
 @NgModule({
-  declarations: [LySelect],
+  declarations: [LySelect, LyOption],
   imports: [
     CommonModule
   ],
-  exports: [LySelect]
+  exports: [LySelect, LyOption]
 })
 export class LySelectModule { }
