@@ -8,21 +8,25 @@ interface OverlayConfig {
   styles: Object;
   classes?: string[];
   backdrop?: boolean;
-  fnDestroy?: (...arg) => void;
+  fnDestroy?: (...arg: any) => void;
+  /** @deprecated */
   host?: any;
 }
 
 export interface OverlayFromTemplateRef {
-  /** Detaches a view from dirty checking again of ApplicationRef.  */
-  detach: () => void;
+  /** Detaches a view from dirty checking again of ApplicationRef. */
+  readonly detach: () => void;
 
   /** Remove element of DOM */
-  remove: () => void;
+  readonly remove: () => void;
 
   /** Detach & remove */
-  destroy: () => void;
+  readonly destroy: () => void;
 
-  containerElement: HTMLDivElement;
+  /** Function that will be called on scroll or resize event */
+  onResizeScroll: (() => void) | null;
+
+  readonly containerElement: HTMLDivElement;
 
 }
 class CreateFromTemplateRef implements OverlayFromTemplateRef {
@@ -31,6 +35,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
   private _compRef: ComponentRef<any>;
   private _compRefOverlayBackdrop: ComponentRef<any>;
   windowSRSub: Subscription = Subscription.EMPTY;
+  onResizeScroll: (() => void) | null;
   get containerElement() {
     return this._el as HTMLDivElement;
   }
@@ -77,12 +82,16 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     this.updateStyles(__styles);
     if (config && config.host) {
       this.windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
-        const rect = config.host.getBoundingClientRect();
-        const newStyles = {
-          top: rect.top,
-          left: rect.left
-        };
-        this.updateStyles(newStyles);
+        if (this.onResizeScroll) {
+          this.onResizeScroll!();
+        } else {
+          const rect = config.host.getBoundingClientRect();
+          const newStyles = {
+            top: rect.top,
+            left: rect.left
+          };
+          this.updateStyles(newStyles);
+        }
       });
     }
 
@@ -154,7 +163,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       this._overlayContainer._remove(this._el);
       this._el = undefined;
     } else if (this._el) {
-      // remove if content is string
+      // remove if template is string
       this._overlayContainer._remove(this._el);
       this._el = undefined;
     }

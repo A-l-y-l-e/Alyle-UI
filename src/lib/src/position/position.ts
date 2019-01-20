@@ -15,6 +15,8 @@ export enum XPosition {
 
 export type Placement = XPosition | YPosition;
 
+const INITIAL_WH = 'initial';
+
 /** @deprecated in favor of `Positioning` */
 export function getPosition(
   placement: Placement,
@@ -119,8 +121,8 @@ export class Positioning {
   ay: number;
   ox: string;
   oy: string;
-  width: number;
-  height: number;
+  width = INITIAL_WH;
+  height = INITIAL_WH;
   constructor(
     private placement: Placement,
     private xPosition: XPosition,
@@ -130,6 +132,7 @@ export class Positioning {
     private themeVariables: ThemeVariables,
     private offset = 0
   ) {
+    const offsetCheckx2 = this.offsetCheck * 2;
     this.createPosition();
 
     for (let index = 0; index < 2; index++) {
@@ -140,27 +143,32 @@ export class Positioning {
 
     // Where there is not enough space
     if (this.checkAll()) {
-      const _max_width = this.overlayElementRect.width + this.offsetCheck * 2 > window.innerWidth;
-      const _max_height = this.overlayElementRect.height + this.offsetCheck * 2 > window.innerHeight;
+      const _max_width = this.overlayElementRect.width + offsetCheckx2 > window.innerWidth;
+      const _max_height = this.overlayElementRect.height + offsetCheckx2 > window.innerHeight;
       if (_max_width || _max_height) {
         if (_max_height) {
-          this.y = this.originRect.y - this.offsetCheck;
-          this.y *= -1;
+          this.y = this.offsetCheck;
+          this.height = `${window.innerHeight - offsetCheckx2}px`;
         }
         if (_max_width) {
-          this.x = this.originRect.x - this.offsetCheck;
-          this.x *= -1;
+          this.x = this.offsetCheck;
+          this.width = `${window.innerWidth - offsetCheckx2}px`;
         }
-      } else if (this.checkBottom()) {
-        this.y += this.checkBottom(true) as number;
-      } else if (this.checkTop()) {
-        this.y -= this.checkTop(true) as number;
+      } else {
+        if (this.checkBottom()) {
+          this.y += this.checkBottom(true) as number;
+        } else if (this.checkTop()) {
+          this.y -= this.checkTop(true) as number;
+        }
+        if (this.checkRight()) {
+          this.x += this.checkRight(true) as number;
+        } else if (this.checkLeft()) {
+          this.x -= this.checkLeft(true) as number;
+        }
       }
-      if (this.checkRight()) {
-        this.x += this.checkRight(true) as number;
-      } else if (this.checkLeft()) {
-        this.x -= this.checkLeft(true) as number;
-      }
+
+      // update origin
+      this.updateOrigin();
     }
 
     // round result
@@ -179,30 +187,30 @@ export class Positioning {
     if ((this.xPosition || this.yPosition) && !this.placement) {
       throw new Error(`\`placement\` is required.`);
     }
-    let x = 0,
-        y = 0,
+    let x = this.originRect.x,
+        y = this.originRect.y,
         ox = 'center',
         oy = 'center';
-    if (this.placement || this.xPosition || this.yPosition) {
+    if (this.placement) {
       if (this.placement) {
         if (this.placement === YPosition.above) {
-          x = (this.originRect.width - this.overlayElementRect.width) / 2;
-          y = -this.overlayElementRect.height - this.offset;
+          x += (this.originRect.width - this.overlayElementRect.width) / 2;
+          y += -this.overlayElementRect.height - this.offset;
           oy = 'bottom';
         } else if (this.placement === YPosition.below) {
-          x = (this.originRect.width - this.overlayElementRect.width) / 2;
-          y = this.originRect.height + this.offset;
+          x += (this.originRect.width - this.overlayElementRect.width) / 2;
+          y += this.originRect.height + this.offset;
           oy = 'top';
         } else {
           const dir = this.themeVariables.getDirection(this.placement as any);
           if (dir === DirPosition.left) {
             ox = '100%';
-            x = -this.overlayElementRect.width - this.offset;
-            y = (this.originRect.height - this.overlayElementRect.height) / 2;
+            x += -this.overlayElementRect.width - this.offset;
+            y += (this.originRect.height - this.overlayElementRect.height) / 2;
           } else if (dir === DirPosition.right) {
             ox = '0%';
-            x = this.originRect.width + this.offset;
-            y = (this.originRect.height - this.overlayElementRect.height) / 2;
+            x += this.originRect.width + this.offset;
+            y += (this.originRect.height - this.overlayElementRect.height) / 2;
           }
         }
       }
@@ -211,25 +219,25 @@ export class Positioning {
         const dir = this.themeVariables.getDirection(this.xPosition as any);
         if (dir === DirPosition.right) {
           ox = '0%';
-          x = 0;
+          x = this.originRect.x;
         } else if (dir === DirPosition.left) {
           ox = '100%';
-          x = this.originRect.width - this.overlayElementRect.width;
+          x = this.originRect.x + this.originRect.width - this.overlayElementRect.width;
         }
       } else if (this.yPosition) {
         if (this.yPosition === YPosition.above) {
-          y = 0;
+          y = this.originRect.y;
           oy = '0%';
         } else if (this.yPosition === YPosition.below) {
-          y = this.originRect.height - this.overlayElementRect.height;
+          y = this.originRect.y + this.originRect.height - this.overlayElementRect.height;
           oy = '100%';
         }
       }
     }
     this.x = x;
     this.y = y;
-    this.ax = x + this.overlayElementRect.x;
-    this.ay = y + this.overlayElementRect.y;
+    this.ax = x;
+    this.ay = y;
     this.ox = ox;
     this.oy = oy;
     return {
@@ -310,6 +318,9 @@ export class Positioning {
     this.checkRight() ||
     this.checkTop() ||
     this.checkBottom();
+  }
+
+  private updateOrigin() {
   }
 
 }

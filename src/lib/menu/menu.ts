@@ -10,7 +10,8 @@ import {
   OnInit,
   Optional,
   Renderer2,
-  TemplateRef
+  TemplateRef,
+  ViewChild
   } from '@angular/core';
 import {
   LyOverlay,
@@ -40,11 +41,12 @@ const STYLES = (theme: ThemeVariables) => ({
     background: theme.background.primary.default,
     borderRadius: '2px',
     boxShadow: shadowBuilder(4),
-    display: 'inline-block',
+    display: 'block',
     paddingTop: '8px',
     paddingBottom: '8px',
     transformOrigin: 'inherit',
     pointerEvents: 'all',
+    overflow: 'auto',
     ...theme.menu.root
   }
 });
@@ -87,6 +89,7 @@ export class LyMenu implements OnInit, AfterViewInit {
    * @docs-private
    */
   destroy: () => void;
+  @ViewChild('container') _container: ElementRef<HTMLDivElement>;
   @Input() ref: LyMenuTriggerFor;
 
   /** Position where the menu will be placed. */
@@ -121,14 +124,20 @@ export class LyMenu implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    if (this.ref._menuRef) {
+      this.ref._menuRef.onResizeScroll = this._updatePlacement.bind(this);
+    }
     this._updatePlacement();
   }
 
   private _updatePlacement () {
-    const el = this._el.nativeElement as HTMLElement;
+    const el = this.ref._menuRef!.containerElement as HTMLElement;
+    const container = this._container.nativeElement;
     const position = new Positioning(this.placement, this.xPosition, this.yPosition, this.ref._getHostElement(), el, this._theme.config);
     this._renderer.setStyle(el, 'transform', `translate3d(${position.x}px, ${position.y}px, 0)`);
-    this._renderer.setStyle(el, 'transform-origin', `${position.ox} ${position.oy} 0`);
+    this._renderer.setStyle(this._el.nativeElement, 'transform-origin', `${position.ox} ${position.oy} 0`);
+    this._renderer.setStyle(container, 'height', position.height);
+    this._renderer.setStyle(container, 'width', position.width);
   }
 }
 
@@ -184,15 +193,15 @@ export class LyMenuTriggerFor implements OnDestroy {
     if (this._menuRef) {
       this._menuRef.detach();
     } else {
-      const rect = this._targetPosition();
+      // const rect = this._targetPosition();
       this._menuRef = this.overlay.create(this.lyMenuTriggerFor, {
         $implicit: this
       }, {
         styles: {
-          top: rect.top,
-          left: rect.left,
-          right: null,
-          bottom: null,
+          // top: null,
+          // left: null,
+          // right: null,
+          // bottom: null,
           pointerEvents: null
         },
         fnDestroy: this.detach.bind(this),
