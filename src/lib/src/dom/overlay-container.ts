@@ -86,8 +86,8 @@ const BACKDROP_STYLES = ({
   template: ``
 })
 export class LyOverlayBackdrop {
-  /** @ignore */
-  classes = this._theme.addStyleSheet(BACKDROP_STYLES);
+  /** @docs-private */
+  readonly classes = this._theme.addStyleSheet(BACKDROP_STYLES);
   @HostListener('click') onclick() {
     this._overlayConfig.fnDestroy();
   }

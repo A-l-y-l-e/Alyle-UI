@@ -321,6 +321,12 @@ export class Positioning {
   }
 
   private updateOrigin() {
+    const oax = this.originRect.x + this.originRect.width / 2;
+    const oay = this.originRect.y + this.originRect.height / 2;
+    const vax = this.x + this.overlayElementRect.width / 2;
+    const vay = this.y + this.overlayElementRect.height / 2;
+    this.ox = `${oax - vax + this.overlayElementRect.width / 2}px`;
+    this.oy = `${oay - vay + this.overlayElementRect.height / 2}px`;
   }
 
 }
