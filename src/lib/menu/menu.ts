@@ -47,6 +47,8 @@ const STYLES = (theme: ThemeVariables) => ({
     transformOrigin: 'inherit',
     pointerEvents: 'all',
     overflow: 'auto',
+    maxHeight: 'inherit',
+    maxWidth: 'inherit',
     ...theme.menu.root
   }
 });
