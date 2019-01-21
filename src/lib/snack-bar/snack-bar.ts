@@ -41,7 +41,6 @@ export class LySnackBar implements OnDestroy {
     }
 
     const duration = this.duration;
-    console.log({duration});
     const horizontalPosition = this.horizontalPosition || DEFAULT_HORIZONTAL_POSITION;
     const verticalPosition = this.verticalPosition || DEFAULT_VERTICAL_POSITION;
 

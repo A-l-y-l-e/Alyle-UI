@@ -28,8 +28,6 @@ export class LySnackBarRef {
       this._timer = setTimeout(() => {
         this.dismiss();
       }, duration || DEFAULT_DURATION);
-    } else {
-      this.dismiss();
     }
   }
 
@@ -45,10 +43,7 @@ export class LySnackBarRef {
         clearTimeout(timer);
       }
 
-      
-      if (duration !== 'Infinity') {
-
-      }snackBar.containerElement.classList.remove(this._theme.addStyle('SnackBar:open', null, null, null, null));
+      snackBar.containerElement.classList.remove(this._theme.addStyle('SnackBar:open', null, null, null, null));
       setTimeout(() => {
         snackBar.destroy();
       }, 350);
