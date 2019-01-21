@@ -197,9 +197,10 @@ export class LyMenuTriggerFor implements OnDestroy {
         $implicit: this
       }, {
         styles: {
+          top: 0,
+          left: 0,
           pointerEvents: null
         },
-        onResizeScroll: () => (this.lyMenuTriggerFor),
         fnDestroy: this.detach.bind(this),
         host: this.elementRef.nativeElement,
         backdrop: true

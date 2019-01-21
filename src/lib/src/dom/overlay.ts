@@ -61,9 +61,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      pointerEvents: 'all',
-      top: 0,
-      left: 0
+      pointerEvents: 'all'
     };
     if (config) {
       Object.assign(__styles, config.styles);
@@ -89,6 +87,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
 
       if (config.host) {
         this.windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
+          console.log('change');
           if (this.onResizeScroll) {
             this.onResizeScroll();
           } else {
