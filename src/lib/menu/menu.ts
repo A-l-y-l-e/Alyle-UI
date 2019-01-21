@@ -193,17 +193,13 @@ export class LyMenuTriggerFor implements OnDestroy {
     if (this._menuRef) {
       this._menuRef.detach();
     } else {
-      // const rect = this._targetPosition();
       this._menuRef = this.overlay.create(this.lyMenuTriggerFor, {
         $implicit: this
       }, {
         styles: {
-          // top: null,
-          // left: null,
-          // right: null,
-          // bottom: null,
           pointerEvents: null
         },
+        onResizeScroll: () => (this.lyMenuTriggerFor),
         fnDestroy: this.detach.bind(this),
         host: this.elementRef.nativeElement,
         backdrop: true

@@ -9,6 +9,8 @@ interface OverlayConfig {
   classes?: string[];
   backdrop?: boolean;
   fnDestroy?: (...arg: any) => void;
+  /** Function that will be called on scroll or resize event */
+  onResizeScroll?: (() => void);
   /** @deprecated */
   host?: any;
 }
@@ -57,13 +59,11 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     const __styles = {
       position: 'absolute',
       display: 'flex',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      pointerEvents: 'all'
+      pointerEvents: 'all',
+      top: 0,
+      left: 0
     };
     if (config) {
       Object.assign(__styles, config.styles);
@@ -80,25 +80,34 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     ], this._injector);
 
     this.updateStyles(__styles);
-    if (config && config.host) {
-      this.windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
-        if (this.onResizeScroll) {
-          this.onResizeScroll();
-        } else {
-          const rect = config.host.getBoundingClientRect();
-          const newStyles = {
-            top: rect.top,
-            left: rect.left
-          };
-          this.updateStyles(newStyles);
-        }
-      });
+    if (config) {
+      if (config.onResizeScroll) {
+        this.onResizeScroll = config.onResizeScroll;
+        // this.onResizeScroll();
+      } else {
+      }
+
+      if (config.host) {
+        this.windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
+          if (this.onResizeScroll) {
+            this.onResizeScroll();
+          } else {
+            const rect = config.host.getBoundingClientRect();
+            const newStyles = {
+              top: rect.top,
+              left: rect.left
+            };
+            this.updateStyles(newStyles);
+          }
+        });
+      }
+
+      if (config.classes) {
+        const classes = config.classes;
+        classes.forEach((className) => (this._el as HTMLDivElement).classList.add(className));
+      }
     }
 
-    if (config && config.classes) {
-      const classes = config.classes;
-      classes.forEach((className) => (this._el as HTMLDivElement).classList.add(className));
-    }
 
     this._compRefOverlayBackdrop = this.generateComponent(LyOverlayBackdrop, newInjector);
     this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
@@ -108,13 +117,13 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
 
   }
 
-  updateStyles(__styles) {
+  updateStyles(__styles: object) {
     /** Apply styles */
     /** set styles */
     for (const key in __styles) {
       if (__styles.hasOwnProperty(key)) {
         const styleVal = __styles[key];
-        if (styleVal) {
+        if (styleVal != null) {
           this._el!.style[key] = typeof __styles[key] === 'number' ? `${styleVal}px` : styleVal;
         }
       }
