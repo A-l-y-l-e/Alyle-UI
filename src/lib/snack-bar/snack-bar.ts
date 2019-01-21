@@ -18,7 +18,7 @@ export interface LySnackBarDismiss {
   exportAs: 'lySnackBar'
 })
 export class LySnackBar implements OnDestroy {
-  @Input() duration: number;
+  @Input() duration: number | 'Infinity';
   @Input() horizontalPosition: 'center' | XPosition;
   @Input() verticalPosition: YPosition;
   @Output() afterDismissed = new EventEmitter<LySnackBarDismiss>();
@@ -72,11 +72,11 @@ export class LySnackBar implements OnDestroy {
         }), undefined, undefined, STYLE_PRIORITY),
         this._theme.addStyle(`SnackBar.hp:${horizontalPosition}.vp:${verticalPosition}`, (theme: ThemeVariables) => {
           const __styles: {
-            marginLeft?: 'auto',
-            left?: 0,
-            marginRight?: 'auto',
-            right?: 0,
-            transform?: string,
+            marginLeft?: 'auto'
+            left?: 0
+            marginRight?: 'auto'
+            right?: 0
+            transform?: string
             top?: number
             bottom?: number
           } = { };

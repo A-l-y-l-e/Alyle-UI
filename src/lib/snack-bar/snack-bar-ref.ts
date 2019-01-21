@@ -21,12 +21,14 @@ export class LySnackBarRef {
     private _snackBarService: LySnackBarService,
     private _overlay: OverlayFromTemplateRef | null,
     private _afterDismissedEventEmitter: EventEmitter<LySnackBarDismiss>,
-    duration: number,
+    duration: number | 'Infinity',
     private _theme: LyTheme2
   ) {
-    this._timer = setTimeout(() => {
-      this.dismiss();
-    }, duration || DEFAULT_DURATION);
+    if (duration !== 'Infinity') {
+      this._timer = setTimeout(() => {
+        this.dismiss();
+      }, duration || DEFAULT_DURATION);
+    }
   }
 
   dismiss() {

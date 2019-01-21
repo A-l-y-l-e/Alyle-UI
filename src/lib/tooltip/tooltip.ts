@@ -21,7 +21,7 @@ import {
   WinScroll,
   XPosition,
   YPosition,
-  getPosition
+  Positioning
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 
@@ -132,12 +132,13 @@ export class LyTooltip implements OnInit, OnDestroy {
       const tooltipRef = this.tooltip;
 
       this._showTimeoutId = <any>setTimeout(() => {
-        const rect = this._el.nativeElement.getBoundingClientRect();
+        // const rect = this._el.nativeElement.getBoundingClientRect();
         const tooltip = this._tooltipOverlay = this._overlay.create(tooltipRef, undefined, {
           styles: {
-            top: rect.y,
-            left: rect.x
+            // top: rect.y,
+            // left: rect.x
           },
+          onResizeScroll: this._updatePosition.bind(this),
           classes: [
             this._theme.addStyle('LyTooltip', (theme: ThemeVariables) => ({
               borderRadius: '4px',
@@ -154,8 +155,9 @@ export class LyTooltip implements OnInit, OnDestroy {
           ],
           host: this._el.nativeElement,
         });
-        const position = getPosition(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 13);
-        tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0)`;
+        this._updatePosition();
+        // const position = new Positioning(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 13);
+        // tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0)`;
 
         this._theme.requestAnimationFrame(() => {
           this._theme.addStyle('lyTooltip:open', ({
@@ -199,5 +201,13 @@ export class LyTooltip implements OnInit, OnDestroy {
 
   private _markForCheck() {
     this._cd.markForCheck();
+  }
+
+  private _updatePosition() {
+    const tooltip = this._tooltipOverlay;
+    if (tooltip) {
+      const position = new Positioning(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 13);
+      tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0)`;
+    }
   }
 }
