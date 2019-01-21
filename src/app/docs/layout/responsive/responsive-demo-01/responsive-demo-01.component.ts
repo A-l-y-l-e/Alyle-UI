@@ -14,7 +14,7 @@ export class ResponsiveDemo01Component {
   constructor(
     theme: LyTheme2
   ) {
-    const breakpoints = (theme.config as ThemeVariables).breakpoints;
+    const breakpoints = (theme.variables as ThemeVariables).breakpoints;
     Object.keys(breakpoints).forEach(key => {
       this.queries.push({
         key,

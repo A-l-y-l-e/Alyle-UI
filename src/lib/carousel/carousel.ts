@@ -223,7 +223,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
 
   _onDragEnd(e) {
     const rect = this._selectedElement.getBoundingClientRect();
-    const dir = this._theme.config.getDirection(DirAlias.before);
+    const dir = this._theme.variables.getDirection(DirAlias.before);
     this._renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     this._select(this.selectedIndex);
 
@@ -310,7 +310,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _onPan(x) {
-    const sign = this._theme.config.getDirection(DirAlias.before) === 'left' ? -1 : 1;
+    const sign = this._theme.variables.getDirection(DirAlias.before) === 'left' ? -1 : 1;
     this._renderer.setStyle(this._slide.nativeElement, 'transform', `translateX(calc(${sign * 100 * this.selectedIndex }% + ${x}px))`);
   }
 

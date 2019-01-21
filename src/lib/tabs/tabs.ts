@@ -612,7 +612,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
       const tab = this._tab._el.nativeElement as HTMLElement;
       const tabContainer = this._tabs.tabsRef.nativeElement as HTMLElement;
       if (tabContainer.scrollWidth !== tabContainer.offsetWidth) {
-        const dir = this._theme.config.direction;
+        const dir = this._theme.variables.direction;
         const max = tabContainer.scrollWidth - tabContainer.offsetWidth;
         const offsetBefore = dir === Dir.rtl
         ? max + tab.offsetLeft

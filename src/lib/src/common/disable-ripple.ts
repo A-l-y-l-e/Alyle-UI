@@ -38,7 +38,7 @@ export function mixinDisableRipple<T extends Constructor<RequireParams>>(base: T
           Promise.resolve(null).then(() => {
             const triggerElement = this._triggerElement.nativeElement;
             const rippleContainer = (this._rippleContainer && this._rippleContainer.nativeElement) || triggerElement;
-            this._ripple = new Ripple(this._theme.config, this._ngZone, this._theme.addStyleSheet(styles), rippleContainer, triggerElement);
+            this._ripple = new Ripple(this._theme.variables, this._ngZone, this._theme.addStyleSheet(styles), rippleContainer, triggerElement);
             this._ripple.setConfig(this._rippleConfig);
           });
         }
