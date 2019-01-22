@@ -207,7 +207,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      if (!(this._theme.config.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]))  {
+      if (!(this._theme.variables.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]))  {
         throw new Error(`${val} not found in theme.field.appearance`);
       }
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {

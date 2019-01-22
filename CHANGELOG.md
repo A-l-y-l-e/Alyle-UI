@@ -1,3 +1,21 @@
+
+## [2.0.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.4...2.0.7) (2019-01-22)
+
+
+### Bug Fixes
+
+* **core:** add `variables` ([d0720e3](https://github.com/A-l-y-l-e/Alyle-UI/commit/d0720e3))
+* **menu:** improve `transform-orgin` ([136b4a0](https://github.com/A-l-y-l-e/Alyle-UI/commit/136b4a0))
+* **menu:** update position of menu on scroll or resize ([a48261d](https://github.com/A-l-y-l-e/Alyle-UI/commit/a48261d))
+
+
+### Features
+
+* **field:** add the `focusEvent` to `<ly-field>` ([87efa4c](https://github.com/A-l-y-l-e/Alyle-UI/commit/87efa4c))
+* **snack-bar:** support for Infinity duration ([90ffd1c](https://github.com/A-l-y-l-e/Alyle-UI/commit/90ffd1c))
+
+
+
 ## [2.0.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.3...2.0.4) (2019-01-15)
 
 

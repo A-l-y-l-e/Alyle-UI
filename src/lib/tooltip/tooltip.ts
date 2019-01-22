@@ -156,7 +156,7 @@ export class LyTooltip implements OnInit, OnDestroy {
           host: this._el.nativeElement,
         });
         this._updatePosition();
-        // const position = new Positioning(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 13);
+        // const position = new Positioning(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.variables, 13);
         // tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0)`;
 
         this._theme.requestAnimationFrame(() => {
@@ -206,7 +206,7 @@ export class LyTooltip implements OnInit, OnDestroy {
   private _updatePosition() {
     const tooltip = this._tooltipOverlay;
     if (tooltip) {
-      const position = new Positioning(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.config, 13);
+      const position = new Positioning(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.variables, 13);
       tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0)`;
     }
   }

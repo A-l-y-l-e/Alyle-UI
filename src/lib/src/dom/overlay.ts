@@ -87,7 +87,6 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
 
       if (config.host) {
         this.windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
-          console.log('change');
           if (this.onResizeScroll) {
             this.onResizeScroll();
           } else {

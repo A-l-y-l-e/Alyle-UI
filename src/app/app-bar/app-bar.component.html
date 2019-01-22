@@ -8,25 +8,25 @@
   <div [style.flex]="1"></div>
   <button #_button ly-button [color]="color" [lyMenuTriggerFor]="_Menu" lyTooltip="Select a theme!">
     <ly-icon icon="Theme"></ly-icon>
-    <span  lyTyp noWrap [withClass]="classes.themePickerText">{{ theme.config.name }}</span>
+    <span  lyTyp noWrap [withClass]="classes.themePickerText">{{ theme.variables.name }}</span>
   </button>
   <ng-template #_Menu let-M>
     <ly-menu [ref]="M">
       <button
       ly-button
       ly-menu-item
-      [bg]="theme.config.name === themeName ? 'primary' : 'background:primary'"
+      [bg]="theme.variables.name === themeName ? 'primary' : 'background:primary'"
       *ngFor="let themeName of themes; let i = index"
       (click)="theme.setTheme(themeName)"
       >
-        <ly-icon [color]="theme.config.name === themeName ? 'background:primary' : themeManager.get(themeName).primary.default">lens</ly-icon>
+        <ly-icon [color]="theme.variables.name === themeName ? 'background:primary' : themeManager.get(themeName).primary.default">lens</ly-icon>
         <span [withClass]="classes.themePickerText">{{ themeName }}</span>
       </button>
     </ly-menu>
   </ng-template>
   <button ly-button [color]="color" [appearance]="'icon'" (click)="theme.toggleDirection()" lyTooltip="Toggle rtl/ltr">
-    <ly-icon *ngIf="theme.config.direction === 'ltr'">format_textdirection_r_to_l</ly-icon>
-    <ly-icon *ngIf="theme.config.direction === 'rtl'">format_textdirection_l_to_r</ly-icon>
+    <ly-icon *ngIf="theme.variables.direction === 'ltr'">format_textdirection_r_to_l</ly-icon>
+    <ly-icon *ngIf="theme.variables.direction === 'rtl'">format_textdirection_l_to_r</ly-icon>
   </button>
   <a ly-button appearance="icon" [color]="color" target="_blank" rel="noopener" href="https://github.com/A-l-y-l-e/Alyle-UI">
     <ly-icon icon="github"></ly-icon>

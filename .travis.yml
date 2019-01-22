@@ -37,6 +37,9 @@ jobs:
       script:
         - yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
         - yarn build
+    - stage: build
+      script:
+        - yarn tools:typedoc && node dist/tools/docs
 
 stages:
   - prepare

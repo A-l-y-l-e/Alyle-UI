@@ -42,7 +42,7 @@ const OUT_DIR = join(process.cwd(), `docs/@alyle/ui`);
 const APIList: {[name: string]: DocsPackage} = {};
 const APIListLarge: {[name: string]: DocsPackageLarge} = {};
 
-docsJSON.children.forEach(child => {
+docsJSON.children!.forEach(child => {
   if (child.children) {
     const pkgName = getPackageName(child.name);
 
@@ -314,7 +314,7 @@ function createDescription(refl: Reflection) {
 }
 
 function createClassContent(children: DeclarationReflection[]): string {
-  const items = [];
+  const items: string[] = [];
   children.forEach(de => {
     if (!(
       de.name.startsWith('_') || checkIfContainTagPrivate(de) ||
@@ -347,7 +347,7 @@ function createClassContent(children: DeclarationReflection[]): string {
           });
         }
         line += `${de.name}: `;
-        line += `${de.getSignature && (de.getSignature.type.type === 'intrinsic' || de.getSignature.type.type === 'reference')
+        line += `${de.getSignature && ((de.getSignature.type && de.getSignature.type.type === 'intrinsic') || (de.getSignature.type && de.getSignature.type.type === 'reference'))
         ? (de.getSignature.type['name'])
         : 'any'}`;
         items.push(line);

@@ -135,9 +135,18 @@ export class LyMenu implements OnInit, AfterViewInit {
   private _updatePlacement () {
     const el = this.ref._menuRef!.containerElement as HTMLElement;
     const container = this._container.nativeElement;
-    const position = new Positioning(this.placement, this.xPosition, this.yPosition, this.ref._getHostElement(), el, this._theme.config);
+
+    // reset height & width
+    this._renderer.setStyle(container, 'height', 'initial');
+    this._renderer.setStyle(container, 'width', 'initial');
+
+    const position = new Positioning(this.placement, this.xPosition, this.yPosition, this.ref._getHostElement(), el, this._theme.variables);
+
+    // set position
     this._renderer.setStyle(el, 'transform', `translate3d(${position.x}px, ${position.y}px, 0)`);
     this._renderer.setStyle(this._el.nativeElement, 'transform-origin', `${position.ox} ${position.oy} 0`);
+
+    // set height & width
     this._renderer.setStyle(container, 'height', position.height);
     this._renderer.setStyle(container, 'width', position.width);
   }

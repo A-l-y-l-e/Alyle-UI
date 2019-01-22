@@ -70,11 +70,19 @@ const THEME_MAP = new Map<string, {
 
 @Injectable()
 export class LyTheme2 {
+  /**
+   * @deprecated use `themeVariables` instead
+   */
   config: ThemeVariables;
   _styleMap: Map<string, DataStyle>;
   initialTheme: string;
   elements: Map<string | Styles, HTMLStyleElement>;
   _elementsMap = new Map<any, HTMLStyleElement>();
+
+  /** Get Theme Variables */
+  get variables(): ThemeVariables {
+    return this.config;
+  }
   private themeMap = THEME_MAP;
   /** ssr or hmr */
   private isDevOrServer = isDevMode() || !Platform.isBrowser;
