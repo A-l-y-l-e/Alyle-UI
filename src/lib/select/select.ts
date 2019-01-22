@@ -1,9 +1,19 @@
 import {
+  animate,
+  keyframes,
+  style,
+  transition,
+  trigger
+  } from '@angular/animations';
+import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  Directive,
   DoCheck,
   ElementRef,
   forwardRef,
+  Host,
   HostListener,
   Input,
   OnDestroy,
@@ -12,33 +22,73 @@ import {
   Renderer2,
   Self,
   StaticProvider,
-  Directive,
-  Host,
-  ViewChild,
-  TemplateRef
+  TemplateRef,
+  ViewChild
   } from '@angular/core';
 import {
+  ControlValueAccessor,
   FormGroupDirective,
   NG_VALUE_ACCESSOR,
   NgControl,
   NgForm,
-  SelectControlValueAccessor,
-  ControlValueAccessor
+  SelectControlValueAccessor
   } from '@angular/forms';
 import { LyField, LyFieldControlBase } from '@alyle/ui/field';
-import { toBoolean, LyTheme2, LySelectionModel, LyOverlay, OverlayFromTemplateRef } from '@alyle/ui';
+import {
+  LyOverlay,
+  LySelectionModel,
+  LyTheme2,
+  OverlayFromTemplateRef,
+  shadowBuilder,
+  ThemeVariables,
+  toBoolean
+  } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
-export const STYLES = () => ({
+export const STYLES = (theme: ThemeVariables) => ({
   root: {
     display: 'block',
     paddingAfter: '1em',
     minWidth: '3em',
     cursor: 'pointer',
     height: '1.125em'
+  },
+  container: {
+    background: theme.background.primary.default,
+    borderRadius: '2px',
+    boxShadow: shadowBuilder(4),
+    display: 'block',
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    transformOrigin: 'inherit',
+    pointerEvents: 'all',
+    overflow: 'auto',
+    maxHeight: 'inherit',
+    maxWidth: 'inherit'
   }
 });
 const STYLE_PRIORITY = -2;
+
+/** @docs-private */
+const ANIMATIONS = [
+  trigger('selectEnter', [
+    transition('void => in', [
+      animate('125ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
+        style({
+          opacity: 0,
+          transform: 'scale(0.8)'
+        }),
+        style({
+          opacity: 1,
+          transform: 'scale(1)'
+        })
+      ]))
+    ]),
+  ]),
+  trigger('selectLeave', [
+    transition('* => void', animate('150ms linear', style({ opacity: 0 })))
+  ])
+];
 
 export const SELECT_VALUE_ACCESSOR: StaticProvider = {
   provide: NG_VALUE_ACCESSOR,
@@ -56,6 +106,7 @@ export const SELECT_VALUE_ACCESSOR: StaticProvider = {
     '(click)': 'open()',
     'tabindex': '0'
   },
+  animations: [...ANIMATIONS],
   providers: [
     SELECT_VALUE_ACCESSOR,
     { provide: LyFieldControlBase, useExisting: LySelect }
@@ -66,7 +117,7 @@ export class LySelect
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   _selectionModel: LySelectionModel<LyOption> = new LySelectionModel();
   private _value: any;
-  private _menuRef: OverlayFromTemplateRef | null;
+  private _overlayRef: OverlayFromTemplateRef | null;
   protected _disabled = false;
   protected _required = false;
   protected _placeholder: string;
@@ -90,7 +141,6 @@ export class LySelect
   onTouched = () => {};
 
   @HostListener('blur') _onBlur() {
-    this.onTouched();
     if (this._focused !== false) {
       this._focused = false;
       this.stateChanges.next();
@@ -103,6 +153,14 @@ export class LySelect
     }
   }
 
+  endAnimation(e) {
+    console.log('destroy on done anim');
+    if (e.toState === 'void') {
+      this._overlayRef!.remove();
+      this._overlayRef = null;
+    }
+  }
+
   /** @docs-private */
   @Input()
   set value(val) {
@@ -110,6 +168,7 @@ export class LySelect
       this._value = val;
       this.writeValue(val);
       this.stateChanges.next();
+      this._cd.markForCheck();
     }
   }
   get value() {
@@ -171,6 +230,7 @@ export class LySelect
               private _el: ElementRef,
               private _overlay: LyOverlay,
               @Optional() private _field: LyField,
+              private _cd: ChangeDetectorRef,
               /** @docs-private */
               @Optional() @Self() public ngControl: NgControl,
               @Optional() private _parentForm: NgForm,
@@ -213,9 +273,31 @@ export class LySelect
 
   ngOnDestroy() {
     this.stateChanges.complete();
-    if (this._menuRef) {
-      this._menuRef.destroy();
+    if (this._overlayRef) {
+      this._overlayRef.destroy();
     }
+  }
+
+  open() {
+    this._overlayRef = this._overlay.create(this.templateRef, null, {
+      styles: {
+        top: 0,
+        left: 0,
+        pointerEvents: null
+      },
+      fnDestroy: this.close.bind(this),
+      backdrop: true
+    });
+    this._onFocus();
+  }
+
+  close() {
+    if (this._overlayRef) {
+      this.onTouched();
+      this._overlayRef.detach();
+    }
+    this._onFocus();
+    this._getHostElement().focus();
   }
 
   /** @docs-private */
@@ -263,10 +345,6 @@ export class LySelect
   setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
     this.stateChanges.next();
-  }
-
-  open() {
-    this._menuRef = this._overlay.create(this.templateRef);
   }
 
 }

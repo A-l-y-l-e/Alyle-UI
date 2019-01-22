@@ -569,7 +569,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   }
 
   /** @docs-private */
-  onContainerClick() {
+  onContainerClick(_e: MouseEvent) {
     this._getHostElement().focus();
   }
 
