@@ -126,6 +126,7 @@ export class LySelect
   private _errorClass?: string;
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
   private _multiple: boolean;
+  private _opened: boolean;
   _focused: boolean = false;
   errorState: boolean = false;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
@@ -141,7 +142,7 @@ export class LySelect
   onTouched = () => {};
 
   @HostListener('blur') _onBlur() {
-    if (this._focused !== false) {
+    if (this._focused !== false && !this._opened) {
       this._focused = false;
       this.stateChanges.next();
     }
@@ -154,7 +155,6 @@ export class LySelect
   }
 
   endAnimation(e) {
-    console.log('destroy on done anim');
     if (e.toState === 'void') {
       this._overlayRef!.remove();
       this._overlayRef = null;
@@ -279,6 +279,7 @@ export class LySelect
   }
 
   open() {
+    this._opened = true;
     this._overlayRef = this._overlay.create(this.templateRef, null, {
       styles: {
         top: 0,
@@ -295,9 +296,10 @@ export class LySelect
     if (this._overlayRef) {
       this.onTouched();
       this._overlayRef.detach();
+      this._onFocus();
+      this._getHostElement().focus();
+      this._opened = false;
     }
-    this._onFocus();
-    this._getHostElement().focus();
   }
 
   /** @docs-private */
@@ -357,8 +359,7 @@ export class LyOption {
 
   @HostListener('click') _onClick() {
     this._select._selectionModel.select(this);
-    this._select.writeValue(this._value);
-    // this._select.onChange(this._value);
+    this._select.value = this._value;
     console.log('onclick', this._select._selectionModel, this._select.value);
   }
 

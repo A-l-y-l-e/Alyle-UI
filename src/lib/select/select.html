@@ -1,4 +1,4 @@
-<div>{{ value }}</div>
+<div>{{ value ? value : '\u00A0' }}</div>
 <ng-template>
   <div [class]="classes.container" [@selectEnter]="'in'" (@selectLeave.done)="endAnimation($event)">
     <ng-content></ng-content>
