@@ -381,7 +381,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
 
   private _updateFloatingLabel() {
     if (this._labelContainer2) {
-      const isFloating = this._control.focused || !this._isEmpty() || this.floatingLabel;
+      const isFloating = this._control.floatingLabel || this.floatingLabel;
       if (this._isFloating !== isFloating) {
         this._isFloating = isFloating;
         if (isFloating) {
@@ -502,6 +502,10 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   get empty() {
     const val = this.value;
     return val === '' || val === null || val === undefined;
+  }
+
+  get floatingLabel() {
+    return this.focused || !this.empty;
   }
 
   constructor(

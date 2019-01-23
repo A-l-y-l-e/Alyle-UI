@@ -13,6 +13,7 @@ export abstract class LyFieldControlBase<T = any> {
   readonly empty: boolean;
   readonly disabled: boolean;
   readonly required: boolean;
+  readonly floatingLabel: boolean;
   /** Handles a click on the control's container. */
   abstract onContainerClick?(event: MouseEvent): void;
 }

@@ -22,7 +22,7 @@ export type FocusState = 'keyboard' | 'mouse' | null;
 })
 export class LyFocusState implements OnDestroy {
   private _elementMap = new Map<HTMLElement, FocusStateInfo>();
-  private _currentEvent: 'mouse' | 'keyboard';
+  private _currentEvent: FocusState;
   private _removeGlobalListeners: () => void;
   private _count = 0;
 
@@ -63,6 +63,16 @@ export class LyFocusState implements OnDestroy {
       nativeElement.addEventListener('blur', blurListener, true);
     });
     return focusState.subject.asObservable();
+  }
+
+  focusElement(element: HTMLElement | ElementRef<HTMLElement>, origin: FocusState, options: FocusOptions) {
+    const nativeElement = getNativeElement(element);
+
+    this._currentEvent = origin;
+
+    if (typeof nativeElement.focus === 'function') {
+      nativeElement.focus(options);
+    }
   }
 
   unlisten(element: HTMLElement | ElementRef<HTMLElement>) {

@@ -115,7 +115,7 @@ export const SELECT_VALUE_ACCESSOR: StaticProvider = {
 export class LySelect
     implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, OnDestroy {
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
-  _selectionModel: LySelectionModel<LyOption> = new LySelectionModel();
+  _selectionModel: LySelectionModel<LyOption>;
   private _value: any;
   private _overlayRef: OverlayFromTemplateRef | null;
   protected _disabled = false;
@@ -156,8 +156,10 @@ export class LySelect
 
   endAnimation(e) {
     if (e.toState === 'void') {
-      this._overlayRef!.remove();
-      this._overlayRef = null;
+      if (this._overlayRef) {
+        this._overlayRef.remove();
+        this._overlayRef = null;
+      }
     }
   }
 
@@ -225,6 +227,10 @@ export class LySelect
     return this.multiple ? this._selectionModel.isEmpty() : val == null || this._selectionModel.isEmpty();
   }
 
+  get floatingLabel() {
+    return this._opened ? true : !this.empty;
+  }
+
   constructor(private _theme: LyTheme2,
               private _renderer: Renderer2,
               private _el: ElementRef,
@@ -237,6 +243,9 @@ export class LySelect
               @Optional() private _parentFormGroup: FormGroupDirective) { }
 
   ngOnInit() {
+    this._selectionModel = new LySelectionModel({
+      multiple: this.multiple ? true : undefined
+    });
     const ngControl = this.ngControl;
     // update styles on disabled
     if (ngControl && ngControl.statusChanges) {
@@ -280,6 +289,7 @@ export class LySelect
 
   open() {
     this._opened = true;
+    this.stateChanges.next();
     this._overlayRef = this._overlay.create(this.templateRef, null, {
       styles: {
         top: 0,
@@ -296,9 +306,9 @@ export class LySelect
     if (this._overlayRef) {
       this.onTouched();
       this._overlayRef.detach();
-      this._onFocus();
-      this._getHostElement().focus();
       this._opened = false;
+      this._getHostElement().focus();
+      this.stateChanges.next();
     }
   }
 
@@ -360,6 +370,9 @@ export class LyOption {
   @HostListener('click') _onClick() {
     this._select._selectionModel.select(this);
     this._select.value = this._value;
+    if (!this._select.multiple) {
+      this._select.close();
+    }
     console.log('onclick', this._select._selectionModel, this._select.value);
   }
 
@@ -376,5 +389,4 @@ export class LyOption {
               private _renderer: Renderer2,*/
               @Optional() @Host() private _select: LySelect) { }
 
-  _setElementValue() {}
 }
