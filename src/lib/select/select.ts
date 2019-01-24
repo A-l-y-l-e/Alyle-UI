@@ -74,8 +74,6 @@ export const STYLES = (theme: ThemeVariables) => ({
     borderRadius: '2px',
     boxShadow: shadowBuilder(4),
     display: 'block',
-    paddingTop: '8px',
-    paddingBottom: '8px',
     transformOrigin: 'inherit',
     pointerEvents: 'all',
     overflow: 'auto'

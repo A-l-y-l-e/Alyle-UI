@@ -123,6 +123,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 /** Select */
 import { SelectDemoComponent } from './components/select-demo/select-demo.component';
 import { BasicSelectModule } from './components/select-demo/basic-select/basic-select.module';
+import { SelectWithNgModelModule } from './components/select-demo/select-with-ng-model/select-with-ng-model.module';
 
 @NgModule({
   imports: [
@@ -196,7 +197,8 @@ import { BasicSelectModule } from './components/select-demo/basic-select/basic-s
     RadioExample01Module,
     BasicRadioModule,
     /** Select */
-    BasicSelectModule
+    BasicSelectModule,
+    SelectWithNgModelModule
   ],
   declarations: [
     ThemingComponent,

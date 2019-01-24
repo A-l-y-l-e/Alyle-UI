@@ -60,7 +60,8 @@ export const STYLES = (theme: ThemeVariables) => {
       display: 'inline-flex',
       position: 'relative',
       alignItems: 'baseline',
-      width: '100%'
+      minWidth: 0,
+      width: '180px'
     },
     suffix: {
       maxHeight: '2em',
