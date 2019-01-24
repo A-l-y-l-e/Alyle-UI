@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Directive,
   DoCheck,
   ElementRef,
   forwardRef,
@@ -23,7 +22,10 @@ import {
   Self,
   StaticProvider,
   TemplateRef,
-  ViewChild
+  ViewChild,
+  NgZone,
+  OnChanges,
+  QueryList
   } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -41,10 +43,27 @@ import {
   OverlayFromTemplateRef,
   shadowBuilder,
   ThemeVariables,
-  toBoolean
+  toBoolean,
+  Positioning,
+  mixinStyleUpdater,
+  mixinBg,
+  mixinColor,
+  mixinRaised,
+  mixinDisabled,
+  mixinOutlined,
+  mixinElevation,
+  mixinShadowColor,
+  mixinDisableRipple,
+  LyRippleService,
+  XPosition,
+  Dir
   } from '@alyle/ui';
 import { Subject } from 'rxjs';
+import { YPosition } from 'lib/src/position/position';
+import { take } from 'rxjs/operators';
 
+const DEFAULT_DISABLE_RIPPLE = false;
+const STYLE_PRIORITY = -2;
 export const STYLES = (theme: ThemeVariables) => ({
   root: {
     display: 'block',
@@ -62,12 +81,42 @@ export const STYLES = (theme: ThemeVariables) => ({
     paddingBottom: '8px',
     transformOrigin: 'inherit',
     pointerEvents: 'all',
-    overflow: 'auto',
-    maxHeight: 'inherit',
-    maxWidth: 'inherit'
+    overflow: 'auto'
+  },
+  option: {
+    display: 'flex',
+    fontFamily: theme.typography.fontFamily,
+    color: theme.text.default,
+    '-webkit-tap-highlight-color': 'transparent',
+    backgroundColor: `rgba(0, 0, 0, 0)`,
+    border: 0,
+    padding: '0 1em',
+    margin: 0,
+    outline: 'none',
+    boxSizing: 'border-box',
+    position: 'relative',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    alignContent: 'center',
+    cursor: 'pointer',
+    '-webkit-user-select': 'none',
+    '-moz-user-select': 'none',
+    '-ms-user-select': 'none',
+    userSelect: 'none',
+    lineHeight: '3em',
+    height: '3em'
+  },
+  content: {
+    padding: 0,
+    display: 'flex',
+    justifyContent: 'inherit',
+    alignItems: 'inherit',
+    alignContent: 'inherit',
+    width: '100%',
+    height: '100%',
+    boxSizing: 'border-box'
   }
 });
-const STYLE_PRIORITY = -2;
 
 /** @docs-private */
 const ANIMATIONS = [
@@ -130,6 +179,8 @@ export class LySelect
   _focused: boolean = false;
   errorState: boolean = false;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+  /** @internal */
+  @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
 
   /**
    * The registered callback function called when a change event occurs on the input element.
@@ -231,12 +282,28 @@ export class LySelect
     return this._opened ? true : !this.empty;
   }
 
+  /** The value displayed in the trigger. */
+  get triggerValue(): string {
+    if (this._multiple) {
+      const selectedOptions = this._selectionModel.selected.map(option => option.viewValue);
+
+      if (this._theme.variables.direction === Dir.rtl) {
+        selectedOptions.reverse();
+      }
+
+      return selectedOptions.join(', ');
+    }
+
+    return this._selectionModel.selected[0].viewValue;
+  }
+
   constructor(private _theme: LyTheme2,
               private _renderer: Renderer2,
               private _el: ElementRef,
               private _overlay: LyOverlay,
               @Optional() private _field: LyField,
               private _cd: ChangeDetectorRef,
+              private _ngZone: NgZone,
               /** @docs-private */
               @Optional() @Self() public ngControl: NgControl,
               @Optional() private _parentForm: NgForm,
@@ -297,9 +364,12 @@ export class LySelect
         pointerEvents: null
       },
       fnDestroy: this.close.bind(this),
+      onResizeScroll: this._updatePlacement.bind(this),
       backdrop: true
     });
-    this._onFocus();
+    this._ngZone.onStable.pipe(
+      take(1)
+    ).subscribe(() => this._updatePlacement());
   }
 
   close() {
@@ -359,13 +429,90 @@ export class LySelect
     this.stateChanges.next();
   }
 
+  private _updatePlacement() {
+    const el = this._overlayRef!.containerElement as HTMLElement;
+    const container = el.querySelector('div')!;
+
+    // reset height & width
+    this._renderer.setStyle(container, 'height', 'initial');
+    this._renderer.setStyle(container, 'width', 'initial');
+
+    const { nativeElement } = this._el;
+    console.log(nativeElement.offsetHeight, this._options);
+
+
+    const selectedElement: HTMLElement = this._selectionModel.isEmpty()
+        ? el.querySelector('ly-option')!
+        : this._selectionModel.selected[0]._getHostElement();
+
+    const offset = {
+      y: -(nativeElement.offsetHeight / 2 + selectedElement.offsetTop + selectedElement.offsetHeight / 2),
+      x: -16
+    };
+
+    console.log(offset, selectedElement.offsetTop);
+
+    const position = new Positioning(
+      YPosition.below,
+      XPosition.after,
+      null as any,
+      this._getHostElement(),
+      el,
+      this._theme.variables,
+      offset,
+      false
+    );
+
+    // set position
+    this._renderer.setStyle(el, 'transform', `translate3d(${position.x}px, ${position.y}px, 0)`);
+    this._renderer.setStyle(el, 'transform-origin', `${position.ox} ${position.oy} 0`);
+
+    // set height & width
+    this._renderer.setStyle(container, 'height', position.height);
+    this._renderer.setStyle(container, 'width', position.width);
+  }
+
 }
 
-@Directive({
-  selector: 'ly-option'
+/** @docs-private */
+export class LyOptionBase {
+  constructor(
+    public _theme: LyTheme2,
+    public _ngZone: NgZone
+  ) { }
+}
+
+/** @docs-private */
+export const LyOptionMixinBase = mixinStyleUpdater(
+  mixinBg(
+      mixinColor(
+        mixinRaised(
+          mixinDisabled(
+            mixinOutlined(
+              mixinElevation(
+                mixinShadowColor(
+                  mixinDisableRipple(LyOptionBase)))))))));
+
+@Component({
+  selector: 'ly-option',
+  templateUrl: './option.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  inputs: [
+    'bg',
+    'color',
+    'raised',
+    'disabled',
+    'outlined',
+    'elevation',
+    'shadowColor',
+    'disableRipple'
+  ]
 })
-export class LyOption {
+export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
+  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _value: any;
+
+  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
   @HostListener('click') _onClick() {
     this._select._selectionModel.select(this);
@@ -384,9 +531,37 @@ export class LyOption {
     this._value = value;
   }
 
+  /** The displayed value of the option. */
+  get viewValue(): string {
+    return ((this._getHostElement() as Element).textContent || '').trim();
+  }
 
-  constructor(/*private _element: ElementRef,
-              private _renderer: Renderer2,*/
-              @Optional() @Host() private _select: LySelect) { }
+  constructor(@Host() private _select: LySelect,
+              private _el: ElementRef,
+              /** @internal */
+              public _rippleService: LyRippleService,
+              _renderer: Renderer2,
+              _theme: LyTheme2,
+              _ngZone: NgZone) {
+    super(_theme, _ngZone);
+    _renderer.addClass(_el.nativeElement, this.classes.option);
+    this.setAutoContrast();
+    this._triggerElement = _el;
+  }
+
+  ngOnInit() {
+    if (this.disableRipple == null) {
+      this.disableRipple = DEFAULT_DISABLE_RIPPLE;
+    }
+  }
+
+  ngOnChanges() {
+    this.updateStyle(this._el);
+  }
+
+  /** @internal */
+  _getHostElement() {
+    return this._el.nativeElement;
+  }
 
 }
