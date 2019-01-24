@@ -20,7 +20,6 @@ import {
   Optional,
   Renderer2,
   Self,
-  StaticProvider,
   TemplateRef,
   ViewChild,
   NgZone,
@@ -30,10 +29,8 @@ import {
 import {
   ControlValueAccessor,
   FormGroupDirective,
-  NG_VALUE_ACCESSOR,
   NgControl,
-  NgForm,
-  SelectControlValueAccessor
+  NgForm
   } from '@angular/forms';
 import { LyField, LyFieldControlBase } from '@alyle/ui/field';
 import {
@@ -139,12 +136,6 @@ const ANIMATIONS = [
   ])
 ];
 
-export const SELECT_VALUE_ACCESSOR: StaticProvider = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SelectControlValueAccessor),
-  multi: true
-};
-
 @Component({
   selector:
       'ly-select:not([multiple]),ly-select:not([multiple]),[formControlName],ly-select:not([multiple])[formControl],ly-select:not([multiple])[ngModel]',
@@ -157,7 +148,6 @@ export const SELECT_VALUE_ACCESSOR: StaticProvider = {
   },
   animations: [...ANIMATIONS],
   providers: [
-    SELECT_VALUE_ACCESSOR,
     { provide: LyFieldControlBase, useExisting: LySelect }
   ]
 })
@@ -307,7 +297,13 @@ export class LySelect
               /** @docs-private */
               @Optional() @Self() public ngControl: NgControl,
               @Optional() private _parentForm: NgForm,
-              @Optional() private _parentFormGroup: FormGroupDirective) { }
+              @Optional() private _parentFormGroup: FormGroupDirective) {
+    if (this.ngControl) {
+      // Note: we provide the value accessor through here, instead of
+      // the `providers` to avoid running into a circular import.
+      this.ngControl.valueAccessor = this;
+    }
+  }
 
   ngOnInit() {
     this._selectionModel = new LySelectionModel({
@@ -401,6 +397,7 @@ export class LySelect
    */
   writeValue(value: any): void {
     this.value = value;
+    this.onChange(this.value);
     console.log({value});
   }
 
@@ -411,7 +408,6 @@ export class LySelect
    */
   registerOnChange(fn: (value: any) => any): void {
     this.onChange = (valueString: string) => {
-      this.value = valueString;
       console.log({valueString});
       fn(this.value);
     };
