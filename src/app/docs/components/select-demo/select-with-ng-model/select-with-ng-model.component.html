@@ -1,10 +1,10 @@
 <ly-field>
-  <ly-select placeholder="Placeholder" [(ngModel)]="selected">
+  <ly-select placeholder="Label" [(ngModel)]="selected">
     <ly-option>None</ly-option>
-    <ly-option [value]="1">Item 1</ly-option>
-    <ly-option [value]="2">Item 2</ly-option>
-    <ly-option [value]="3">Item 3</ly-option>
+    <ly-option value="option 1">Option 1</ly-option>
+    <ly-option value="option 2">Option 2</ly-option>
+    <ly-option value="option 3">Option 3</ly-option>
   </ly-select>
 </ly-field>
-
-<p>You selected: {{selected}}</p>
+<input [(ngModel)]="selected">
+<p>You selected: {{ selected }}</p>

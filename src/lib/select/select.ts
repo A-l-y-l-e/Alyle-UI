@@ -24,7 +24,8 @@ import {
   ViewChild,
   NgZone,
   OnChanges,
-  QueryList
+  QueryList,
+  ContentChildren
   } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -169,6 +170,7 @@ export class LySelect
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   /** @internal */
   @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
+  @ContentChildren(forwardRef(() => LyOption), { descendants: true }) options: QueryList<LyOption>;
 
   /**
    * The registered callback function called when a change event occurs on the input element.
@@ -208,6 +210,16 @@ export class LySelect
     if (val !== this.value) {
       this._value = val;
       this.writeValue(val);
+      this.onChange(val);
+      if (this.options) {
+        console.warn(this.options);
+        const selected = this.options.find(option => option.value === this.value);
+        if (selected) {
+          selected.select();
+        } else {
+          this._selectionModel.clear();
+        }
+      }
       this.stateChanges.next();
       this._cd.markForCheck();
     }
@@ -395,7 +407,6 @@ export class LySelect
    */
   writeValue(value: any): void {
     this.value = value;
-    this.onChange(this.value);
     console.log({value});
   }
 
@@ -426,13 +437,11 @@ export class LySelect
   private _updatePlacement() {
     const el = this._overlayRef!.containerElement as HTMLElement;
     const container = el.querySelector('div')!;
+    const { nativeElement } = this._el;
 
     // reset height & width
     this._renderer.setStyle(container, 'height', 'initial');
-    this._renderer.setStyle(container, 'width', 'initial');
-
-    const { nativeElement } = this._el;
-    console.log(nativeElement.offsetHeight, this._options);
+    this._renderer.setStyle(container, 'width', nativeElement.offsetWidth);
 
 
     const selectedElement: HTMLElement = this._selectionModel.isEmpty()
@@ -443,8 +452,6 @@ export class LySelect
       y: -(nativeElement.offsetHeight / 2 + selectedElement.offsetTop + selectedElement.offsetHeight / 2),
       x: -16
     };
-
-    console.log(offset, selectedElement.offsetTop);
 
     const position = new Positioning(
       YPosition.below,
@@ -463,7 +470,10 @@ export class LySelect
 
     // set height & width
     this._renderer.setStyle(container, 'height', position.height);
-    this._renderer.setStyle(container, 'width', position.width);
+    const width = position.width === 'initial'
+          ? `${nativeElement.offsetWidth}px`
+          : position.width;
+    this._renderer.setStyle(container, 'width', width);
   }
 
 }
@@ -509,8 +519,7 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
   @HostListener('click') _onClick() {
-    this._select._selectionModel.select(this);
-    this._select.value = this._value;
+    this.select();
     if (!this._select.multiple) {
       this._select.close();
     }
@@ -523,6 +532,9 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
   @Input('value')
   set value(value: any) {
     this._value = value;
+  }
+  get value() {
+    return this._value;
   }
 
   /** The displayed value of the option. */
@@ -547,10 +559,24 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     if (this.disableRipple == null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
+
+    Promise.resolve(null).then(() => {
+      console.log(this._value, this._select.value);
+      if (this._value != null && this._value === this._select.value) {
+        console.log('select', this._select._selectionModel, this._select.value);
+        this.select();
+        this._select.stateChanges.next();
+      }
+    });
   }
 
   ngOnChanges() {
     this.updateStyle(this._el);
+  }
+
+  select() {
+    this._select._selectionModel.select(this);
+    this._select.value = this._value;
   }
 
   /** @internal */
