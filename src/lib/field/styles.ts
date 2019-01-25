@@ -61,7 +61,8 @@ export const STYLES = (theme: ThemeVariables) => {
       position: 'relative',
       alignItems: 'baseline',
       minWidth: 0,
-      width: '180px'
+      width: '180px',
+      flex: '1 0'
     },
     suffix: {
       maxHeight: '2em',
