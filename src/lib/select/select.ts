@@ -252,7 +252,12 @@ export class LySelect
           if (selected) {
             selected.select();
           } else {
+            // reset
+            const selecteds = this._selectionModel.selected;
             this._selectionModel.clear();
+            if (selecteds.length) {
+            selecteds.forEach(opt => opt.ngOnChanges());
+            }
           }
         }
       }

@@ -425,6 +425,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   readonly stateChanges: Subject<void> = new Subject<void>();
   private _hasDisabledClass?: boolean;
   private _errorClass?: string;
+  private _isSelectInput: boolean;
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
   _focused: boolean = false;
   errorState: boolean = false;
@@ -501,16 +502,16 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
 
   get empty() {
     const val = this.value;
-    return val === '' || val === null || val === undefined;
+    return val === '' || val == null;
   }
 
   get floatingLabel() {
-    return this.focused || !this.empty;
+    return this.focused || !this.empty || (this._isSelectInput ? this._hasLabelSelectionOption() : false);
   }
 
   constructor(
     private _theme: LyTheme2,
-    private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
+    private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
     private _renderer: Renderer2,
     @Optional() private _field: LyField,
     /** @docs-private */
@@ -530,6 +531,10 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
     }
 
     const { nativeElement } = this._el;
+
+    if (nativeElement.type === 'select-one' || nativeElement.type === 'select-multiple') {
+      this._isSelectInput = true;
+    }
 
     // apply class {selectArrow} to `<select>`
     if (this._field && nativeElement.type === 'select-one') {
@@ -582,6 +587,11 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
 
   _getHostElement() {
     return this._el.nativeElement;
+  }
+
+  private _hasLabelSelectionOption() {
+    const option = (this._getHostElement() as HTMLSelectElement).selectedOptions.item(0);
+    return option ? !!option.label : false;
   }
 
 }

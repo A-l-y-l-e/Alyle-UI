@@ -1,0 +1,38 @@
+<h4 lyTyp="title" gutter>native html select</h4>
+<ly-field>
+  <ly-label>Label</ly-label>
+  <select lyNativeControl [formControl]="selectFormControl">
+    <option label="-- select something --"></option>
+    <option value="1">item 1</option>
+    <option value="2">item 2</option>
+    <option value="3">item 3</option>
+  </select>
+  <ly-hint>Hint</ly-hint>
+  <ly-error *ngIf="selectFormControl.hasError('required')">Required</ly-error>
+</ly-field>
+
+<h4 lyTyp="title" gutter>ly-select</h4>
+<ly-field>
+  <ly-label>Label</ly-label>
+  <ly-select placeholder="Label" [formControl]="selectFormControlTwo">
+    <ly-option>--</ly-option>
+    <ly-option value="1">Item 1</ly-option>
+    <ly-option value="2">Item 2</ly-option>
+    <ly-option value="3">Item 3</ly-option>
+  </ly-select>
+  <ly-hint>Hint</ly-hint>
+  <ly-error *ngIf="selectFormControlTwo.hasError('required')">Required</ly-error>
+</ly-field>
+
+<h4 lyTyp="title" gutter>ly-select multiple</h4>
+<ly-field>
+  <ly-label>Label</ly-label>
+  <ly-select placeholder="Label" [formControl]="selectFormControlThree" multiple>
+    <ly-option value="1">Item 1</ly-option>
+    <ly-option value="2">Item 2</ly-option>
+    <ly-option value="3">Item 3</ly-option>
+  </ly-select>
+  <ly-error *ngIf="selectFormControlThree.hasError('required')">Required</ly-error>
+  <ly-hint>Hint</ly-hint>
+  <ly-hint [align]="'after'">{{ selectFormControlThree.value?.length || 0 }}/3 items</ly-hint>
+</ly-field>

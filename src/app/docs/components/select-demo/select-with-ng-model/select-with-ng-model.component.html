@@ -1,7 +1,7 @@
 <h4 lyTyp="title">native html select</h4>
 <ly-field>
   <select lyNativeControl placeholder="Label" [(ngModel)]="selected">
-    <option>None</option>
+    <option value="">None</option>
     <option *ngFor="let item of items; index as i" [ngValue]="i">option {{ i }}</option>
   </select>
 </ly-field>
