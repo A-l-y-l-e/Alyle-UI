@@ -69,7 +69,8 @@ export const STYLES = (theme: ThemeVariables) => ({
     paddingAfter: '1em',
     minWidth: '3em',
     cursor: 'pointer',
-    height: '1.125em'
+    height: '1.125em',
+    '-webkit-tap-highlight-color': 'transparent'
   },
   container: {
     background: theme.background.primary.default,
