@@ -1,5 +1,5 @@
 <h4 lyTyp="title" gutter>ly-select</h4>
-<ly-field>
+<ly-field appearance="outlined">
   <ly-label>Label</ly-label>
   <ly-select placeholder="Placeholder" [formControl]="fruitControl" [valueKey]="valueKeyFn" multiple>
     <ly-option *ngFor="let fruit of fruits" [value]="fruit">{{ fruit.viewValue }}</ly-option>
@@ -8,4 +8,4 @@
   <ly-error *ngIf="fruitControl.hasError('required')">Required</ly-error>
 </ly-field>
 
-<p>You selected: {{ fruitControl.value | json }}</p>
+<pre>You selected: {{ fruitControl.value | json }}</pre>
