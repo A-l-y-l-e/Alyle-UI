@@ -77,7 +77,13 @@ export const STYLES = (theme: ThemeVariables) => ({
     display: 'block',
     transformOrigin: 'inherit',
     pointerEvents: 'all',
-    overflow: 'auto'
+    overflow: 'auto',
+    maxHeight: '250px'
+  },
+  valueText: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
   },
   option: {
     display: 'flex',
@@ -136,8 +142,7 @@ const ANIMATIONS = [
 ];
 
 @Component({
-  selector:
-      'ly-select:not([multiple]),ly-select:not([multiple]),[formControlName],ly-select:not([multiple])[formControl],ly-select:not([multiple])[ngModel]',
+  selector: 'ly-select',
   templateUrl: 'select.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lySelect',
@@ -153,6 +158,7 @@ const ANIMATIONS = [
 export class LySelect
     implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, OnDestroy {
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  /** @internal */
   _selectionModel: LySelectionModel<LyOption>;
   private _value: any;
   private _overlayRef: OverlayFromTemplateRef | null;
@@ -167,6 +173,8 @@ export class LySelect
   private _opened: boolean;
   _focused: boolean = false;
   errorState: boolean = false;
+  /** @internal */
+  _selectedClass: string;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   /** @internal */
   @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
@@ -207,17 +215,43 @@ export class LySelect
   /** @docs-private */
   @Input()
   set value(val) {
-    if (val !== this.value) {
+    if (val !== this.value && this._selectionModel) {
       this._value = val;
       this.writeValue(val);
       this.onChange(val);
       if (this.options) {
-        console.warn(this.options);
-        const selected = this.options.find(option => option.value === this.value);
-        if (selected) {
-          selected.select();
+        if (this.multiple && Array.isArray(this.value)) {
+          const values: LyOption[] = [];
+          this.options.forEach(opt => {
+            if (this.value.some(_ => !this._selectionModel._selectionMap.has(_) && _ === opt.value)) {
+              values.push(opt);
+            }
+          });
+
+          if (values.length) {
+            const beforeSelecteds = this._selectionModel.selected;
+            // reset
+            this._selectionModel.clear();
+            // select values
+            values.forEach(opt => opt.select());
+
+            // deselect old values
+            if (beforeSelecteds.length) {
+              console.warn(beforeSelecteds);
+              beforeSelecteds.forEach(opt => {
+                opt.ngOnChanges();
+                opt._cd.markForCheck();
+              });
+            }
+          }
         } else {
-          this._selectionModel.clear();
+          const selected = this.options.find(opt => opt.value === this.value);
+          // console.warn({selected: selected});
+          if (selected) {
+            selected.select();
+          } else {
+            this._selectionModel.clear();
+          }
         }
       }
       this.stateChanges.next();
@@ -301,7 +335,8 @@ export class LySelect
               private _renderer: Renderer2,
               private _el: ElementRef,
               private _overlay: LyOverlay,
-              @Optional() private _field: LyField,
+              /** @internal */
+              @Optional() public _field: LyField,
               private _cd: ChangeDetectorRef,
               private _ngZone: NgZone,
               /** @docs-private */
@@ -316,8 +351,10 @@ export class LySelect
   }
 
   ngOnInit() {
+    console.log(this._field.color);
     this._selectionModel = new LySelectionModel({
-      multiple: this.multiple ? true : undefined
+      multiple: this.multiple ? true : undefined,
+      getKey: (option) => (option.value)
     });
     const ngControl = this.ngControl;
     // update styles on disabled
@@ -361,6 +398,7 @@ export class LySelect
   }
 
   open() {
+    this._updateSelectedClass();
     this._opened = true;
     this.stateChanges.next();
     this._overlayRef = this._overlay.create(this.templateRef, null, {
@@ -434,6 +472,16 @@ export class LySelect
     this.stateChanges.next();
   }
 
+  private _updateSelectedClass() {
+    const color = this._field.color;
+    this._selectedClass = this._theme.addSimpleStyle(
+      `lySelect.selected:${color}`,
+      (theme: ThemeVariables) => ({
+        color: theme.colorOf(color)
+      })
+    );
+  }
+
   private _updatePlacement() {
     const el = this._overlayRef!.containerElement as HTMLElement;
     const container = el.querySelector('div')!;
@@ -441,7 +489,7 @@ export class LySelect
 
     // reset height & width
     this._renderer.setStyle(container, 'height', 'initial');
-    this._renderer.setStyle(container, 'width', nativeElement.offsetWidth);
+    this._renderer.setStyle(container, 'width', `${nativeElement.offsetWidth + 32}px`);
 
 
     const selectedElement: HTMLElement = this._selectionModel.isEmpty()
@@ -452,6 +500,20 @@ export class LySelect
       y: -(nativeElement.offsetHeight / 2 + selectedElement.offsetTop + selectedElement.offsetHeight / 2),
       x: -16
     };
+
+    // scroll to selected option
+    if (container.scrollHeight !== container.offsetHeight) {
+      // console.warn(offset.y, container.scrollHeight, container.offsetHeight);
+      container.scrollTop = selectedElement.offsetTop;
+      if (container.scrollTop === selectedElement.offsetTop) {
+        container.scrollTop = container.scrollTop - (container.offsetHeight / 2) + selectedElement.offsetHeight / 2;
+      } else {
+        // console.log(container.scrollTop, selectedElement.offsetTop);
+        container.scrollTop = container.scrollTop - (container.offsetHeight / 2 - (selectedElement.offsetTop - container.scrollTop)) + selectedElement.offsetHeight / 2;
+      }
+      console.log(container.scrollTop, offset.y);
+      offset.y = container.scrollTop + offset.y;
+    }
 
     const position = new Positioning(
       YPosition.below,
@@ -471,7 +533,7 @@ export class LySelect
     // set height & width
     this._renderer.setStyle(container, 'height', position.height);
     const width = position.width === 'initial'
-          ? `${nativeElement.offsetWidth}px`
+          ? `${nativeElement.offsetWidth + 32}px`
           : position.width;
     this._renderer.setStyle(container, 'width', width);
   }
@@ -519,9 +581,11 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
   @HostListener('click') _onClick() {
-    this.select();
     if (!this._select.multiple) {
+      this.select();
       this._select.close();
+    } else {
+      this.toggle();
     }
     console.log('onclick', this._select._selectionModel, this._select.value);
   }
@@ -542,12 +606,23 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     return ((this._getHostElement() as Element).textContent || '').trim();
   }
 
-  constructor(@Host() private _select: LySelect,
+  get color() {
+    return this._select._selectionModel.isSelected(this) ? this._select._field.color : '';
+  }
+
+  get isSelected() {
+    return this._select._selectionModel.isSelected(this);
+  }
+
+  constructor(/** @internal */
+              @Host() public _select: LySelect,
               private _el: ElementRef,
               /** @internal */
               public _rippleService: LyRippleService,
               _renderer: Renderer2,
               _theme: LyTheme2,
+              /** @internal */
+              public _cd: ChangeDetectorRef,
               _ngZone: NgZone) {
     super(_theme, _ngZone);
     _renderer.addClass(_el.nativeElement, this.classes.option);
@@ -560,14 +635,14 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
 
-    Promise.resolve(null).then(() => {
-      console.log(this._value, this._select.value);
-      if (this._value != null && this._value === this._select.value) {
-        console.log('select', this._select._selectionModel, this._select.value);
-        this.select();
-        this._select.stateChanges.next();
-      }
-    });
+    // Promise.resolve(null).then(() => {
+    //   console.log(this._value, this._select.value);
+    //   if (this._value != null && this._value === this._select.value) {
+    //     console.log('select', this._select._selectionModel, this._select.value);
+    //     this.select();
+    //     this._select.stateChanges.next();
+    //   }
+    // });
   }
 
   ngOnChanges() {
@@ -575,8 +650,49 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
   }
 
   select() {
-    this._select._selectionModel.select(this);
-    this._select.value = this._value;
+    if (this._select.multiple) {
+      const beforeSelecteds = this._select._selectionModel.selected;
+      this._select._selectionModel.select(this);
+      this._select.value = this._select._selectionModel.selected.map(opt => opt.value);
+      this.updateStyle(this._el);
+      if (beforeSelecteds.length) {
+        beforeSelecteds.forEach(opt => opt.ngOnChanges());
+      }
+    } else {
+      if (!this._select._selectionModel.isSelected(this)) {
+        const beforeSelecteds = this._select._selectionModel.selected;
+        this._select._selectionModel.select(this);
+        this._select.value = this._value;
+        this.updateStyle(this._el);
+        if (beforeSelecteds.length) {
+          beforeSelecteds.forEach(opt => opt.ngOnChanges());
+        }
+      }
+    }
+    this._cd.markForCheck();
+  }
+
+  toggle() {
+    if (this._select.multiple) {
+      const beforeSelecteds = this._select._selectionModel.selected;
+      this._select._selectionModel.toggle(this);
+      this._select.value = this._select._selectionModel.selected.map(opt => opt.value);
+      this.updateStyle(this._el);
+      if (beforeSelecteds.length) {
+        beforeSelecteds.forEach(opt => opt.ngOnChanges());
+      }
+    } else {
+      if (!this._select._selectionModel.isSelected(this)) {
+        const beforeSelecteds = this._select._selectionModel.selected;
+        this._select._selectionModel.toggle(this);
+        this._select.value = this._value;
+        this.updateStyle(this._el);
+        if (beforeSelecteds.length) {
+          beforeSelecteds.forEach(opt => opt.ngOnChanges());
+        }
+      }
+    }
+    this._cd.markForCheck();
   }
 
   /** @internal */

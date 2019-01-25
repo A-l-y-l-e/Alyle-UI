@@ -14,7 +14,7 @@ function same(o: any): unknown {
 }
 
 export class LySelectionModel<T = any> {
-  private readonly _selectionMap = new Map<unknown, T>();
+  readonly _selectionMap = new Map<unknown, T>();
   private _multiple?: true;
   private _getKeyFn: (o: T) => unknown = same;
 

@@ -5,5 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './select-with-ng-model.component.html'
 })
 export class SelectWithNgModelComponent {
-  selected = 'option 2';
+  items = Array.from(Array(25).keys());
+  selected = 2;
 }

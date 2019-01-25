@@ -1,4 +1,5 @@
 <span [className]="classes.content">
+  <ly-checkbox [color]="color" [checked]="isSelected" *ngIf="_select.multiple" (click)="$event.preventDefault()"></ly-checkbox>
   <ng-content></ng-content>
 </span>
 <div #rippleContainer [className]="_rippleService.classes.container"></div>

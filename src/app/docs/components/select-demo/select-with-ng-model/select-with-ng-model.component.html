@@ -1,10 +1,7 @@
 <ly-field>
   <ly-select placeholder="Label" [(ngModel)]="selected">
     <ly-option>None</ly-option>
-    <ly-option value="option 1">Option 1</ly-option>
-    <ly-option value="option 2">Option 2</ly-option>
-    <ly-option value="option 3">Option 3</ly-option>
+    <ly-option *ngFor="let item of items; index as i" [value]="i">option {{ i }}</ly-option>
   </ly-select>
 </ly-field>
-<input [(ngModel)]="selected">
 <p>You selected: {{ selected }}</p>
