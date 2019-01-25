@@ -171,6 +171,7 @@ export class LySelect
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
   private _multiple: boolean;
   private _opened: boolean;
+  private _valueKey: (opt: unknown) => unknown = same;
   _focused: boolean = false;
   errorState: boolean = false;
   /** @internal */
@@ -305,6 +306,12 @@ export class LySelect
   get multiple(): boolean { return this._multiple; }
 
   @Input()
+  set valueKey(fn: (opt: unknown) => unknown) {
+    this._valueKey = fn;
+  }
+  get valueKey(): (opt: unknown) => unknown { return this._valueKey; }
+
+  @Input()
   set placeholder(val: string) {
     this._placeholder = val;
   }
@@ -361,7 +368,7 @@ export class LySelect
     console.log(this._field.color);
     this._selectionModel = new LySelectionModel({
       multiple: this.multiple ? true : undefined,
-      getKey: (option) => (option.value)
+      getKey: (option) => (this.valueKey(option.value))
     });
     const ngControl = this.ngControl;
     // update styles on disabled
@@ -707,4 +714,8 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     return this._el.nativeElement;
   }
 
+}
+
+function same(o: unknown): unknown {
+  return o;
 }
