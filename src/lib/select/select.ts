@@ -220,33 +220,35 @@ export class LySelect
       this.writeValue(val);
       this.onChange(val);
       if (this.options) {
-        if (this.multiple && Array.isArray(this.value)) {
-          const values: LyOption[] = [];
-          this.options.forEach(opt => {
-            if (this.value.some(_ => !this._selectionModel._selectionMap.has(_) && _ === opt.value)) {
-              values.push(opt);
-            }
-          });
+        if (this.multiple) {
+          if (Array.isArray(this.value)) {
+            const values: LyOption[] = [];
+            this.options.forEach(opt => {
+              if (this.value.some(_ => !this._selectionModel._selectionMap.has(_) && _ === opt.value)) {
+                values.push(opt);
+              }
+            });
 
-          if (values.length) {
-            const beforeSelecteds = this._selectionModel.selected;
-            // reset
-            this._selectionModel.clear();
-            // select values
-            values.forEach(opt => opt.select());
+            if (values.length) {
+              const beforeSelecteds = this._selectionModel.selected;
+              // reset
+              this._selectionModel.clear();
+              // select values
+              values.forEach(opt => opt.select());
 
-            // deselect old values
-            if (beforeSelecteds.length) {
-              console.warn(beforeSelecteds);
-              beforeSelecteds.forEach(opt => {
-                opt.ngOnChanges();
-                opt._cd.markForCheck();
-              });
+              // deselect old values
+              if (beforeSelecteds.length) {
+                console.warn(beforeSelecteds);
+                beforeSelecteds.forEach(opt => {
+                  opt.ngOnChanges();
+                  opt._cd.markForCheck();
+                });
+              }
             }
           }
         } else {
           const selected = this.options.find(opt => opt.value === this.value);
-          // console.warn({selected: selected});
+          console.warn({selected: selected, val});
           if (selected) {
             selected.select();
           } else {
