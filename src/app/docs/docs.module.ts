@@ -126,6 +126,7 @@ import { BasicSelectModule } from './components/select-demo/basic-select/basic-s
 import { SelectWithNgModelModule } from './components/select-demo/select-with-ng-model/select-with-ng-model.module';
 import { SelectMultipleModule } from './components/select-demo/select-multiple/select-multiple.module';
 import { SelectReactiveFormModule } from './components/select-demo/select-reactive-form/select-reactive-form.module';
+import { SelectOptionObjectValueModule } from './components/select-demo/select-option-object-value/select-option-object-value.module';
 
 @NgModule({
   imports: [
@@ -202,7 +203,8 @@ import { SelectReactiveFormModule } from './components/select-demo/select-reacti
     BasicSelectModule,
     SelectWithNgModelModule,
     SelectMultipleModule,
-    SelectReactiveFormModule
+    SelectReactiveFormModule,
+    SelectOptionObjectValueModule
   ],
   declarations: [
     ThemingComponent,

@@ -25,7 +25,8 @@ import {
   NgZone,
   OnChanges,
   QueryList,
-  ContentChildren
+  ContentChildren,
+  AfterViewInit
   } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -156,7 +157,7 @@ const ANIMATIONS = [
   ]
 })
 export class LySelect
-    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, OnDestroy {
+    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterViewInit, OnDestroy {
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   /** @internal */
   _selectionModel: LySelectionModel<LyOption>;
@@ -171,7 +172,7 @@ export class LySelect
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
   private _multiple: boolean;
   private _opened: boolean;
-  private _valueKey: (opt: unknown) => unknown = same;
+  private _valueKey: (opt: LyOption) => unknown = same;
   _focused: boolean = false;
   errorState: boolean = false;
   /** @internal */
@@ -225,7 +226,7 @@ export class LySelect
           if (Array.isArray(this.value)) {
             const values: LyOption[] = [];
             this.options.forEach(opt => {
-              if (this.value.some(_ => !this._selectionModel._selectionMap.has(_) && _ === opt.value)) {
+              if (this.value.some(_ => !this._selectionModel._selectionMap.has(_) && _ === this.valueKey(opt))) {
                 values.push(opt);
               }
             });
@@ -248,17 +249,21 @@ export class LySelect
             }
           }
         } else {
-          const selected = this.options.find(opt => opt.value === this.value);
+          // reset
+          const selecteds = this._selectionModel.selected;
+          this._selectionModel.clear();
+          if (selecteds.length) {
+            console.warn('__cxczxc', {selecteds, val});
+            selecteds.forEach(opt => {
+              opt.ngOnChanges();
+              opt._cd.markForCheck();
+            });
+          }
+
+          const selected = this.options.find(opt => this.valueKey(opt) === this.valueKey(this));
           console.warn({selected: selected, val});
           if (selected) {
             selected.select();
-          } else {
-            // reset
-            const selecteds = this._selectionModel.selected;
-            this._selectionModel.clear();
-            if (selecteds.length) {
-            selecteds.forEach(opt => opt.ngOnChanges());
-            }
           }
         }
       }
@@ -307,7 +312,7 @@ export class LySelect
 
   @Input()
   set valueKey(fn: (opt: unknown) => unknown) {
-    this._valueKey = fn;
+    this._valueKey = (opt: LyOption) => fn(same(opt));
   }
   get valueKey(): (opt: unknown) => unknown { return this._valueKey; }
 
@@ -345,6 +350,11 @@ export class LySelect
     return this._selectionModel.selected[0].viewValue;
   }
 
+  get selected() {
+    const selected = this._selectionModel.selected;
+    return this.multiple ? selected.map(option => option.value) : selected[0].value;
+  }
+
   constructor(private _theme: LyTheme2,
               private _renderer: Renderer2,
               private _el: ElementRef,
@@ -366,9 +376,9 @@ export class LySelect
 
   ngOnInit() {
     console.log(this._field.color);
-    this._selectionModel = new LySelectionModel({
+    this._selectionModel = new LySelectionModel<LyOption>({
       multiple: this.multiple ? true : undefined,
-      getKey: (option) => (this.valueKey(option.value))
+      getKey: this.valueKey
     });
     const ngControl = this.ngControl;
     // update styles on disabled
@@ -401,6 +411,32 @@ export class LySelect
           this._errorClass = undefined;
         }
       }
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.options) {
+      this.options.changes.subscribe(() => {
+        // update selected options
+        console.log('onChange', this.selected, this._selectionModel.selected);
+        // this.value = null;
+        // this._selectionModel.select(this.selected);
+        // this.value = this.selected;
+
+        const selecteds: LyOption[] = [];
+        this.options.forEach(option => {
+          if (option.isSelected) {
+            console.warn('´´´dx: is selected');
+            selecteds.push(option);
+          }
+        });
+
+        // this only update the refs
+        if (selecteds.length) {
+          this._selectionModel.clear();
+          selecteds.forEach(option => this._selectionModel.select(option));
+        }
+      });
     }
   }
 
@@ -716,6 +752,6 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
 
 }
 
-function same(o: unknown): unknown {
-  return o;
+function same(o: LyOption): unknown {
+  return o.value;
 }
