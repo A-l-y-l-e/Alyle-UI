@@ -241,7 +241,6 @@ export class LySelect
 
               // deselect old values
               if (beforeSelecteds.length) {
-                console.warn(beforeSelecteds);
                 beforeSelecteds.forEach(opt => {
                   opt.ngOnChanges();
                   opt._cd.markForCheck();
@@ -254,7 +253,6 @@ export class LySelect
           const selecteds = this._selectionModel.selected;
           this._selectionModel.clear();
           if (selecteds.length) {
-            console.warn('__cxczxc', {selecteds, val});
             selecteds.forEach(opt => {
               opt.ngOnChanges();
               opt._cd.markForCheck();
@@ -262,7 +260,6 @@ export class LySelect
           }
 
           const selected = this.options.find(opt => this.valueKey(opt) === this.valueKey(this));
-          console.warn({selected: selected, val});
           if (selected) {
             selected.select();
           }
@@ -376,7 +373,6 @@ export class LySelect
   }
 
   ngOnInit() {
-    console.log(this._field.color);
     this._selectionModel = new LySelectionModel<LyOption>({
       multiple: this.multiple ? true : undefined,
       getKey: this.valueKey
@@ -418,16 +414,10 @@ export class LySelect
   ngAfterViewInit() {
     if (this.options) {
       this.options.changes.subscribe(() => {
-        // update selected options
-        console.log('onChange', this.selected, this._selectionModel.selected);
-        // this.value = null;
-        // this._selectionModel.select(this.selected);
-        // this.value = this.selected;
 
         const selecteds: LyOption[] = [];
         this.options.forEach(option => {
           if (option.isSelected) {
-            console.warn('´´´dx: is selected');
             selecteds.push(option);
           }
         });
@@ -496,7 +486,6 @@ export class LySelect
    */
   writeValue(value: any): void {
     this.value = value;
-    console.log({value});
   }
 
   /**
@@ -505,8 +494,7 @@ export class LySelect
    * @param fn The callback function
    */
   registerOnChange(fn: (value: any) => any): void {
-    this.onChange = (valueString: string) => {
-      console.log({valueString});
+    this.onChange = (_valueString: string) => {
       fn(this.value);
     };
   }
@@ -554,15 +542,12 @@ export class LySelect
 
     // scroll to selected option
     if (container.scrollHeight !== container.offsetHeight) {
-      // console.warn(offset.y, container.scrollHeight, container.offsetHeight);
       container.scrollTop = selectedElement.offsetTop;
       if (container.scrollTop === selectedElement.offsetTop) {
         container.scrollTop = container.scrollTop - (container.offsetHeight / 2) + selectedElement.offsetHeight / 2;
       } else {
-        // console.log(container.scrollTop, selectedElement.offsetTop);
         container.scrollTop = container.scrollTop - (container.offsetHeight / 2 - (selectedElement.offsetTop - container.scrollTop)) + selectedElement.offsetHeight / 2;
       }
-      console.log(container.scrollTop, offset.y);
       offset.y = container.scrollTop + offset.y;
     }
 
@@ -638,7 +623,6 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     } else {
       this.toggle();
     }
-    console.log('onclick', this._select._selectionModel, this._select.value);
   }
 
   /**
@@ -685,15 +669,6 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     if (this.disableRipple == null) {
       this.disableRipple = DEFAULT_DISABLE_RIPPLE;
     }
-
-    // Promise.resolve(null).then(() => {
-    //   console.log(this._value, this._select.value);
-    //   if (this._value != null && this._value === this._select.value) {
-    //     console.log('select', this._select._selectionModel, this._select.value);
-    //     this.select();
-    //     this._select.stateChanges.next();
-    //   }
-    // });
   }
 
   ngOnChanges() {
