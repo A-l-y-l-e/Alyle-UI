@@ -44,6 +44,7 @@ import {
   ThemeVariables,
   toBoolean,
   Positioning,
+  CanDisableCtor,
   mixinStyleUpdater,
   mixinBg,
   mixinColor,
@@ -53,12 +54,13 @@ import {
   mixinElevation,
   mixinShadowColor,
   mixinDisableRipple,
+  mixinTabIndex,
   LyRippleService,
   XPosition,
+  YPosition,
   Dir
   } from '@alyle/ui';
 import { Subject } from 'rxjs';
-import { YPosition } from 'lib/src/position/position';
 import { take } from 'rxjs/operators';
 
 const DEFAULT_DISABLE_RIPPLE = false;
@@ -119,6 +121,9 @@ export const STYLES = (theme: ThemeVariables) => ({
     width: '100%',
     height: '100%',
     boxSizing: 'border-box'
+  },
+  disabled: {
+    cursor: 'default !important'
   }
 });
 
@@ -143,6 +148,11 @@ const ANIMATIONS = [
   ])
 ];
 
+/** @docs-private */
+export class LySelectBase { }
+
+export const LySelectMixinBase = mixinTabIndex(LySelectBase as CanDisableCtor);
+
 @Component({
   selector: 'ly-select',
   templateUrl: 'select.html',
@@ -150,15 +160,18 @@ const ANIMATIONS = [
   exportAs: 'lySelect',
   host: {
     '(click)': 'open()',
-    'tabindex': '0'
+    '[attr.tabindex]': 'tabIndex'
   },
   animations: [...ANIMATIONS],
+  inputs: ['tabIndex'],
   providers: [
     { provide: LyFieldControlBase, useExisting: LySelect }
   ]
 })
 export class LySelect
+    extends LySelectMixinBase
     implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterViewInit, OnDestroy {
+  /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   /** @internal */
   _selectionModel: LySelectionModel<LyOption>;
@@ -200,7 +213,7 @@ export class LySelect
     }
   }
   @HostListener('focus') _onFocus() {
-    if (this._focused !== true) {
+    if (this._focused !== true && !this.disabled) {
       this._focused = true;
       this.stateChanges.next();
     }
@@ -281,9 +294,11 @@ export class LySelect
       if (this._field) {
         if (!val && this._hasDisabledClass) {
           this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
+          this._renderer.removeClass(this._getHostElement(), this.classes.disabled);
           this._hasDisabledClass = undefined;
         } else if (val) {
           this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
+          this._renderer.addClass(this._getHostElement(), this.classes.disabled);
           this._hasDisabledClass = true;
         }
       }
@@ -365,6 +380,7 @@ export class LySelect
               @Optional() @Self() public ngControl: NgControl,
               @Optional() private _parentForm: NgForm,
               @Optional() private _parentFormGroup: FormGroupDirective) {
+    super();
     if (this.ngControl) {
       // Note: we provide the value accessor through here, instead of
       // the `providers` to avoid running into a circular import.
@@ -439,6 +455,9 @@ export class LySelect
   }
 
   open() {
+    if (this.disabled) {
+      return;
+    }
     this._updateSelectedClass();
     this._opened = true;
     this.stateChanges.next();
@@ -611,6 +630,7 @@ export const LyOptionMixinBase = mixinStyleUpdater(
   ]
 })
 export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
+  /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _value: any;
 
@@ -676,6 +696,9 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
   }
 
   select() {
+    if (this.disabled) {
+      return;
+    }
     if (this._select.multiple) {
       const beforeSelecteds = this._select._selectionModel.selected;
       this._select._selectionModel.select(this);
@@ -699,6 +722,9 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
   }
 
   toggle() {
+    if (this.disabled) {
+      return;
+    }
     if (this._select.multiple) {
       const beforeSelecteds = this._select._selectionModel.selected;
       this._select._selectionModel.toggle(this);

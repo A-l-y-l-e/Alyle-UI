@@ -1,0 +1,23 @@
+<p>
+  <ly-checkbox [formControl]="disableSelect">Disable select</ly-checkbox>
+</p>
+
+<h4 lyTyp="title" gutter>native html select</h4>
+<ly-field>
+  <ly-label>Label</ly-label>
+  <select lyNativeControl placeholder="Placeholder" [disabled]="disableSelect.value">
+    <option value="1">item 1</option>
+    <option value="2" disabled>item 2</option>
+    <option value="3">item 3</option>
+  </select>
+</ly-field>
+
+<h4 lyTyp="title" gutter>ly-select</h4>
+<ly-field>
+  <ly-label>Label</ly-label>
+  <ly-select placeholder="Placeholder" [disabled]="disableSelect.value">
+    <ly-option value="1">Item 1</ly-option>
+    <ly-option value="2" disabled>Item 2</ly-option>
+    <ly-option value="3">Item 3</ly-option>
+  </ly-select>
+</ly-field>

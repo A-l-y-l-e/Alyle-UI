@@ -125,10 +125,10 @@ export const STYLES = (theme: ThemeVariables) => {
         boxSizing: 'border-box',
         paddingAfter: '1em',
         cursor: 'pointer',
-        option: {
+        'option:not([disabled])': {
           color: 'initial'
         },
-        optgroup: {
+        'optgroup:not([disabled])': {
           color: 'initial'
         }
       },

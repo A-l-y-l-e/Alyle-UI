@@ -541,7 +541,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
       this._renderer.addClass(this._field._getHostElement(), this._field.classes.selectArrow);
     }
 
-    // apply style cursor
+    // apply style cursor only for input of type text
     if (nativeElement instanceof HTMLTextAreaElement ||
         inputText.some(type => type === nativeElement.type)) {
       this._theme.addStyle('field.text', {
