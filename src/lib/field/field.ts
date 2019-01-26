@@ -425,6 +425,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   readonly stateChanges: Subject<void> = new Subject<void>();
   private _hasDisabledClass?: boolean;
   private _errorClass?: string;
+  private _cursorClass: string | null;
   private _isSelectInput: boolean;
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
   _focused: boolean = false;
@@ -468,9 +469,15 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
       if (this._field) {
         if (!val && this._hasDisabledClass) {
           this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
+          if (this._cursorClass) {
+            this._renderer.addClass(this._field._getHostElement(), this._cursorClass);
+          }
           this._hasDisabledClass = undefined;
         } else if (val) {
           this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
+          if (this._cursorClass) {
+            this._renderer.removeClass(this._field._getHostElement(), this._cursorClass);
+          }
           this._hasDisabledClass = true;
         }
       }
@@ -522,21 +529,14 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
 
   ngOnInit() {
     this._renderer.setAttribute(this._getHostElement(), 'placeholder', '­');
-    const ngControl = this.ngControl;
-    // update styles on disabled
-    if (ngControl && ngControl.statusChanges) {
-      ngControl.statusChanges.subscribe(() => {
-        this.disabled = !!ngControl.disabled;
-      });
-    }
 
     const { nativeElement } = this._el;
 
-    if (nativeElement.type === 'select-one' || nativeElement.type === 'select-multiple') {
+    if (nativeElement.nodeName.toLowerCase() === 'select') {
       this._isSelectInput = true;
     }
 
-    // apply class {selectArrow} to `<select>`
+    // apply class {selectArrow} to `<select> not multiple`
     if (this._field && nativeElement.type === 'select-one') {
       this._renderer.addClass(this._field._getHostElement(), this._field.classes.selectArrow);
     }
@@ -544,15 +544,35 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
     // apply style cursor only for input of type text
     if (nativeElement instanceof HTMLTextAreaElement ||
         inputText.some(type => type === nativeElement.type)) {
-      this._theme.addStyle('field.text', {
-        '& {container}': {
+      this._cursorClass = this._theme.addSimpleStyle('lyField.text', {
+        '& {infix}': {
           cursor: 'text'
         }
-      }, this._el.nativeElement, null, null, STYLES);
+      }, STYLE_PRIORITY, STYLES);
+    }
+
+    if (this._isSelectInput) {
+      this._cursorClass = this._theme.addSimpleStyle('lyField.select', {
+        '& {infix}': {
+          cursor: 'pointer'
+        }
+      }, STYLE_PRIORITY, STYLES);
+    }
+
+    if (this._cursorClass) {
+      this._renderer.addClass(this._field._getHostElement(), this._cursorClass);
     }
 
     // apply default styles
     this._renderer.addClass(nativeElement, this._field.classes.inputNative);
+
+    const ngControl = this.ngControl;
+    // update styles on disabled
+    if (ngControl && ngControl.statusChanges) {
+      ngControl.statusChanges.subscribe(() => {
+        this.disabled = !!ngControl.disabled;
+      });
+    }
   }
 
   ngDoCheck() {

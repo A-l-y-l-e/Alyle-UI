@@ -34,7 +34,7 @@ import {
   NgControl,
   NgForm
   } from '@angular/forms';
-import { LyField, LyFieldControlBase } from '@alyle/ui/field';
+import { LyField, LyFieldControlBase, STYLES as FIELD_STYLES } from '@alyle/ui/field';
 import {
   LyOverlay,
   LySelectionModel,
@@ -70,7 +70,6 @@ export const STYLES = (theme: ThemeVariables) => ({
     display: 'block',
     paddingAfter: '1em',
     minWidth: '3em',
-    cursor: 'pointer',
     height: '1.125em',
     '-webkit-tap-highlight-color': 'transparent'
   },
@@ -121,9 +120,6 @@ export const STYLES = (theme: ThemeVariables) => ({
     width: '100%',
     height: '100%',
     boxSizing: 'border-box'
-  },
-  disabled: {
-    cursor: 'default !important'
   }
 });
 
@@ -189,8 +185,7 @@ export class LySelect
   private _valueKey: (opt: LyOption) => unknown = same;
   _focused: boolean = false;
   errorState: boolean = false;
-  /** @internal */
-  _selectedClass: string;
+  private _cursorClass: string;
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   /** @internal */
   @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
@@ -294,11 +289,15 @@ export class LySelect
       if (this._field) {
         if (!val && this._hasDisabledClass) {
           this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
-          this._renderer.removeClass(this._getHostElement(), this.classes.disabled);
+          if (this._cursorClass) {
+            this._renderer.addClass(this._field._getHostElement(), this._cursorClass);
+          }
           this._hasDisabledClass = undefined;
         } else if (val) {
           this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
-          this._renderer.addClass(this._getHostElement(), this.classes.disabled);
+          if (this._cursorClass) {
+            this._renderer.removeClass(this._field._getHostElement(), this._cursorClass);
+          }
           this._hasDisabledClass = true;
         }
       }
@@ -386,6 +385,12 @@ export class LySelect
       // the `providers` to avoid running into a circular import.
       this.ngControl.valueAccessor = this;
     }
+
+    this._cursorClass = this._theme.addStyle('lyField.select', {
+      '& {container}': {
+        cursor: 'pointer'
+      }
+    }, this._field._getHostElement(), null, STYLE_PRIORITY, FIELD_STYLES);
   }
 
   ngOnInit() {
@@ -458,7 +463,7 @@ export class LySelect
     if (this.disabled) {
       return;
     }
-    this._updateSelectedClass();
+    // this._updateSelectedClass();
     this._opened = true;
     this.stateChanges.next();
     this._overlayRef = this._overlay.create(this.templateRef, null, {
@@ -528,16 +533,6 @@ export class LySelect
   setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
     this.stateChanges.next();
-  }
-
-  private _updateSelectedClass() {
-    const color = this._field.color;
-    this._selectedClass = this._theme.addSimpleStyle(
-      `lySelect.selected:${color}`,
-      (theme: ThemeVariables) => ({
-        color: theme.colorOf(color)
-      })
-    );
   }
 
   private _updatePlacement() {
