@@ -5,9 +5,9 @@
     <h2 [lyTyp]="'headline'" gutter>Components</h2>
     <ng-template ngFor let-component [ngForOf]="api.componentList" let-x="index">
       <h3 [lyTyp]="'title'" gutter>{{ component.name }}</h3>
-      <p>Selector: <span prism language="typescript" code="'{{ component.selector }}'"></span></p>
-      <p *ngIf="component.inputs as inputs">Inputs: <prism language="typescript" code="{{ inputs | json }}"></prism></p>
-      <p *ngIf="component.exportAs as exportAs">ExportAs: <span prism language="typescript" code="'{{ exportAs }}'"></span></p>
+      <p>Selector: <span prism language="typescript" [code]="component.selector"></span></p>
+      <p *ngIf="component.inputs as inputs">Inputs: <prism language="typescript" code="{{ inputs }}"></prism></p>
+      <p *ngIf="component.exportAs as exportAs">ExportAs: <span prism language="typescript" [code]="exportAs"></span></p>
       <prism *ngIf="component.children" language="typescript" [code]="component.children"></prism>
     </ng-template>
   </ng-template>
@@ -15,10 +15,10 @@
     <h2 [lyTyp]="'headline'" gutter>Directives</h2>
     <ng-template ngFor let-directive [ngForOf]="api.directiveList" let-x="index">
       <h3 [lyTyp]="'title'" gutter>{{ directive.name }}</h3>
-      <p>Selector: <span prism language="typescript" code="'{{ directive.selector }}'"></span></p>
-      <p *ngIf="directive.inputs as inputs">Inputs: <prism language="typescript" code="{{ inputs | json }}"></prism></p>
+      <p>Selector: <span prism language="typescript" [code]="directive.selector"></span></p>
+      <p *ngIf="directive.inputs as inputs">Inputs: <prism language="typescript" code="{{ inputs }}"></prism></p>
 
-      <p *ngIf="directive.exportAs as exportAs">ExportAs: <span prism language="typescript" code="'{{ exportAs }}'"></span></p>
+      <p *ngIf="directive.exportAs as exportAs">ExportAs: <span prism language="typescript" [code]="exportAs"></span></p>
       <prism *ngIf="directive.children" language="typescript" [code]="directive.children"></prism>
     </ng-template>
   </ng-template>

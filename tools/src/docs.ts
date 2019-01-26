@@ -2,11 +2,13 @@
  * Generate templates
  */
 
+import * as ts from 'typescript';
 import { existsSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 import { ProjectReflection, DeclarationReflection, ParameterReflection, Reflection } from 'typedoc';
 import { ensureDirSync } from 'fs-extra';
+import { findNodes } from '@schematics/angular/utility/ast-utils';
 
 interface DocsPackage {
   children: {
@@ -75,21 +77,29 @@ docsJSON.children!.forEach(child => {
       });
       const Type = `${toCamelcase(type)}List`;
       if (type === 'Component' || type === 'Directive') {
-        const replObj = decorators[0].arguments.obj.replace(
-          /(providers|animations).*\n/g, ''
-        ).replace(/\n/g, '');
-        const ARGS = (new Function(
-          `const ChangeDetectionStrategy = {};
-          const ViewEncapsulation = {}
-          return ${replObj}`
-        ))();
+        const source = ts.createSourceFile('', `const data = ${decorators[0].arguments.obj}`, ts.ScriptTarget.Latest, true);
+        const props = findNodes(source.getChildren()[0], ts.SyntaxKind.PropertyAssignment);
+        const properties = [
+          'selector',
+          'exportAs',
+          'inputs'
+        ];
         const __data = {
           name,
-          selector: ARGS.selector,
-          inputs: ARGS.inputs,
-          exportAs: ARGS.exportAs,
+          selector: '',
+          inputs: '',
+          exportAs: '',
           children: ''
         };
+        props
+        .filter(
+          (_: ts.PropertyAssignment) => properties.some(p => p === _.name.getText())
+        )
+        .forEach((cbNode: ts.PropertyAssignment) => {
+          const value = cbNode.getChildAt(2).getText();
+          __data[cbNode.name.getText()] = value;
+        });
+
         (
           type === 'Component'
           ? APIListLarge[pkgName].componentList
