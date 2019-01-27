@@ -9,7 +9,7 @@ export const STYLES = (theme: ThemeVariables) => {
       display: 'inline-block',
       position: 'relative',
       marginTop: '1em',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       '& {hint}, & {error}': {
         display: 'block',
         fontSize: '.75em',
