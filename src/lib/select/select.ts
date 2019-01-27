@@ -217,7 +217,8 @@ export class LySelect
     }
   }
 
-  endAnimation(e) {
+  /** @internal */
+  _endAnimation(e) {
     if (e.toState === 'void') {
       if (this._overlayRef) {
         this._overlayRef.remove();
@@ -366,6 +367,7 @@ export class LySelect
     return this._selectionModel.selected[0].viewValue;
   }
 
+  /** Current selecteds */
   get selected() {
     const selected = this._selectionModel.selected;
     return this.multiple ? selected.map(option => option.value) : selected[0].value;
@@ -546,8 +548,15 @@ export class LySelect
    */
   registerOnTouched(fn: () => any): void { this.onTouched = fn; }
 
+  /**
+   * Disables the select. Part of the ControlValueAccessor interface required
+   * to integrate with Angular's core forms API.
+   *
+   * @param isDisabled Sets whether the component is disabled.
+   */
   setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
+    this._cd.markForCheck();
     this.stateChanges.next();
   }
 
@@ -672,11 +681,12 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     return ((this._getHostElement() as Element).textContent || '').trim();
   }
 
-  get color() {
+  /** The color of Select */
+  get _color() {
     return this._select._selectionModel.isSelected(this) ? this._select._field.color : '';
   }
 
-  get isSelected() {
+  get isSelected(): boolean {
     return this._select._selectionModel.isSelected(this);
   }
 
