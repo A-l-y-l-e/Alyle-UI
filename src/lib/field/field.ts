@@ -174,7 +174,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
         const color = theme.colorOf(val);
         const contrast = theme.colorOf(`${val}:contrast`);
         return {
-          [`&.${this.classes.focused} .${this.classes.container}:after`]: {
+          [`&.${this.classes.focused} .${this.classes.container}:after, &{focused}{selectArrow} {infix}:after`]: {
             color
           },
           [`&.${this.classes.focused} .${this.classes.fieldset}`]: {

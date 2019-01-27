@@ -165,7 +165,7 @@ export const STYLES = (theme: ThemeVariables) => {
     hint: null,
     error: null,
     errorState: {
-      '& {label}, & {hintContainer}': {
+      '& {label}, & {hintContainer}, &{selectArrow} {infix}:after': {
         color: `${theme.warn.default}!important`
       },
       '& {fieldset}, & {container}:after': {

@@ -12,7 +12,7 @@ export interface Fruit {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectOptionObjectValueComponent {
-  fruitControl = new FormControl('', [Validators.required]);
+  fruitControl = new FormControl([], [Validators.required]);
   fruits: Fruit[] = [
     { value: 'apple-0', viewValue: 'Apple' },
     { value: 'banana-1', viewValue: 'Banana' },
