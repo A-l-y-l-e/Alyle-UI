@@ -610,7 +610,8 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   }
 
   private _hasLabelSelectionOption() {
-    const option = (this._getHostElement() as HTMLSelectElement).selectedOptions.item(0);
+    const el = this._getHostElement() as HTMLSelectElement;
+    const option = el.selectedOptions ? el.selectedOptions.item(0) : null;
     return option ? !!option.label : false;
   }
 
