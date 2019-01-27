@@ -147,7 +147,7 @@ const ANIMATIONS = [
 
 /** @docs-private */
 export class LySelectBase { }
-
+/** @docs-private */
 export const LySelectMixinBase = mixinTabIndex(LySelectBase as CanDisableCtor);
 
 @Component({
