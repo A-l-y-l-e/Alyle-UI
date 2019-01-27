@@ -104,7 +104,6 @@ export const STYLES = (theme: ThemeVariables) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
     alignContent: 'center',
-    cursor: 'pointer',
     '-webkit-user-select': 'none',
     '-moz-user-select': 'none',
     '-ms-user-select': 'none',
