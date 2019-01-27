@@ -109,7 +109,8 @@ export const STYLES = (theme: ThemeVariables) => ({
     '-ms-user-select': 'none',
     userSelect: 'none',
     lineHeight: '3em',
-    height: '3em'
+    height: '3em',
+    cursor: 'pointer'
   },
   content: {
     padding: 0,

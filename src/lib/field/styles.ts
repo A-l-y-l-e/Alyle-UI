@@ -124,7 +124,6 @@ export const STYLES = (theme: ThemeVariables) => {
         display: 'inline-flex',
         boxSizing: 'border-box',
         paddingAfter: '1em',
-        cursor: 'pointer',
         'option:not([disabled])': {
           color: 'initial'
         },
