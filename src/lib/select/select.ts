@@ -26,7 +26,8 @@ import {
   OnChanges,
   QueryList,
   ContentChildren,
-  AfterViewInit
+  AfterViewInit,
+  AfterContentInit
   } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -166,12 +167,13 @@ export const LySelectMixinBase = mixinTabIndex(LySelectBase as CanDisableCtor);
 })
 export class LySelect
     extends LySelectMixinBase
-    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterViewInit, OnDestroy {
+    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterContentInit, AfterViewInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   /** @internal */
   _selectionModel: LySelectionModel<LyOption>;
-  private _value: any;
+  /** @internal */
+  _value: any;
   private _overlayRef: OverlayFromTemplateRef | null;
   protected _disabled = false;
   protected _required = false;
@@ -182,7 +184,8 @@ export class LySelect
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
   private _multiple: boolean;
   private _opened: boolean;
-  private _valueKey: (opt: LyOption) => unknown = same;
+  private _valueKey: (opt: unknown) => unknown = same;
+  private _valueKeyFn: (opt: LyOption) => unknown = getValue;
   _focused: boolean = false;
   errorState: boolean = false;
   private _cursorClass: string;
@@ -235,7 +238,7 @@ export class LySelect
           if (Array.isArray(this.value)) {
             const values: LyOption[] = [];
             this.options.forEach(opt => {
-              if (this.value.some(_ => !this._selectionModel._selectionMap.has(_) && _ === this.valueKey(opt))) {
+              if (this.value.some(_ => !this._selectionModel._selectionMap.has(this.valueKey(_)) && this._valueKey(_) === this._valueKeyFn(opt))) {
                 values.push(opt);
               }
             });
@@ -267,7 +270,7 @@ export class LySelect
             });
           }
 
-          const selected = this.options.find(opt => this.valueKey(opt) === this.valueKey(this));
+          const selected = this.options.find(opt => this._valueKeyFn(opt) === this.valueKey(this.value));
           if (selected) {
             selected.select();
           }
@@ -324,7 +327,8 @@ export class LySelect
 
   @Input()
   set valueKey(fn: (opt: unknown) => unknown) {
-    this._valueKey = (opt: LyOption) => fn(same(opt));
+    this._valueKeyFn = (opt: LyOption) => fn(getValue(opt));
+    this._valueKey = fn;
   }
   get valueKey(): (opt: unknown) => unknown { return this._valueKey; }
 
@@ -373,7 +377,8 @@ export class LySelect
               private _overlay: LyOverlay,
               /** @internal */
               @Optional() public _field: LyField,
-              private _cd: ChangeDetectorRef,
+              /** @internal */
+              public _cd: ChangeDetectorRef,
               private _ngZone: NgZone,
               /** @docs-private */
               @Optional() @Self() public ngControl: NgControl,
@@ -396,7 +401,7 @@ export class LySelect
   ngOnInit() {
     this._selectionModel = new LySelectionModel<LyOption>({
       multiple: this.multiple ? true : undefined,
-      getKey: this.valueKey
+      getKey: this._valueKeyFn
     });
     const ngControl = this.ngControl;
     // update styles on disabled
@@ -430,6 +435,14 @@ export class LySelect
         }
       }
     }
+  }
+
+  ngAfterContentInit() {
+    Promise.resolve().then(() => {
+      this.value = this.ngControl ? this.ngControl.value : this._value;
+      this.stateChanges.next();
+      this._cd.markForCheck();
+    });
   }
 
   ngAfterViewInit() {
@@ -509,7 +522,10 @@ export class LySelect
    * @param value The checked value
    */
   writeValue(value: any): void {
-    this.value = value;
+    if (this.options) {
+      this.value = value;
+
+    }
   }
 
   /**
@@ -697,7 +713,7 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     if (this._select.multiple) {
       const beforeSelecteds = this._select._selectionModel.selected;
       this._select._selectionModel.select(this);
-      this._select.value = this._select._selectionModel.selected.map(opt => opt.value);
+      this._select._value = this._select._selectionModel.selected.map(opt => opt.value);
       this.updateStyle(this._el);
       if (beforeSelecteds.length) {
         beforeSelecteds.forEach(opt => opt.ngOnChanges());
@@ -706,13 +722,16 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
       if (!this._select._selectionModel.isSelected(this)) {
         const beforeSelecteds = this._select._selectionModel.selected;
         this._select._selectionModel.select(this);
-        this._select.value = this._value;
+        this._select._value = this._value;
         this.updateStyle(this._el);
         if (beforeSelecteds.length) {
           beforeSelecteds.forEach(opt => opt.ngOnChanges());
         }
       }
     }
+    this._select.onChange(this._select._value);
+    this._select._cd.markForCheck();
+    this._select.stateChanges.next();
     this._cd.markForCheck();
   }
 
@@ -723,7 +742,7 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     if (this._select.multiple) {
       const beforeSelecteds = this._select._selectionModel.selected;
       this._select._selectionModel.toggle(this);
-      this._select.value = this._select._selectionModel.selected.map(opt => opt.value);
+      this._select._value = this._select._selectionModel.selected.map(opt => opt.value);
       this.updateStyle(this._el);
       if (beforeSelecteds.length) {
         beforeSelecteds.forEach(opt => opt.ngOnChanges());
@@ -732,13 +751,16 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
       if (!this._select._selectionModel.isSelected(this)) {
         const beforeSelecteds = this._select._selectionModel.selected;
         this._select._selectionModel.toggle(this);
-        this._select.value = this._value;
+        this._select._value = this._value;
         this.updateStyle(this._el);
         if (beforeSelecteds.length) {
           beforeSelecteds.forEach(opt => opt.ngOnChanges());
         }
       }
     }
+    this._select.onChange(this._select._value);
+    this._select._cd.markForCheck();
+    this._select.stateChanges.next();
     this._cd.markForCheck();
   }
 
@@ -749,6 +771,9 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
 
 }
 
-function same(o: LyOption): unknown {
+function same(o: unknown): unknown {
+  return o;
+}
+function getValue(o: LyOption): unknown {
   return o.value;
 }
