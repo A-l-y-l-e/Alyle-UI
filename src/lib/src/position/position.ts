@@ -29,6 +29,17 @@ export class Positioning {
   oy: string;
   width: string = INITIAL_WH;
   height: string = INITIAL_WH;
+  private _origin: boolean;
+  get offsetX(): number {
+    return typeof this._offset === 'number'
+    ? this._offset
+    : this._offset.x || 0;
+  }
+  get offsetY(): number {
+    return typeof this._offset === 'number'
+    ? this._offset
+    : this._offset.y || 0;
+  }
   constructor(
     private placement: Placement,
     private xPosition: XPosition,
@@ -36,14 +47,21 @@ export class Positioning {
     private origin: Element,
     private overlayElement: Element,
     private _themeVariables: ThemeVariables,
-    private offset = 0
+    private _offset: number | {
+      x?: number
+      y?: number
+    } = 0,
+    _flip = true
   ) {
+
     const offsetCheckx2 = this._offsetCheck * 2;
     this.createPosition();
 
-    for (let index = 0; index < 2; index++) {
-      if (this.checkAll()) {
-        this.createPosition();
+    if (_flip) {
+      for (let index = 0; index < 2; index++) {
+        if (this.checkAll()) {
+          this.createPosition();
+        }
       }
     }
 
@@ -73,7 +91,10 @@ export class Positioning {
         }
       }
 
-      // update origin
+      this.updateOrigin();
+    }
+
+    if (this._offset) {
       this.updateOrigin();
     }
 
@@ -98,26 +119,36 @@ export class Positioning {
         ox = 'center',
         oy = 'center';
     if (this.placement) {
-      if (this.placement) {
-        if (this.placement === YPosition.above) {
-          x += (this._originRect.width - this._overlayElementRect.width) / 2;
-          y += -this._overlayElementRect.height - this.offset;
-          oy = 'bottom';
-        } else if (this.placement === YPosition.below) {
-          x += (this._originRect.width - this._overlayElementRect.width) / 2;
-          y += this._originRect.height + this.offset;
-          oy = 'top';
-        } else {
-          const dir = this._themeVariables.getDirection(this.placement as any);
-          if (dir === DirPosition.left) {
-            ox = '100%';
-            x += -this._overlayElementRect.width - this.offset;
-            y += (this._originRect.height - this._overlayElementRect.height) / 2;
-          } else if (dir === DirPosition.right) {
-            ox = '0%';
-            x += this._originRect.width + this.offset;
-            y += (this._originRect.height - this._overlayElementRect.height) / 2;
-          }
+      if (this.placement === YPosition.above) {
+        x += (this._originRect.width - this._overlayElementRect.width) / 2;
+        y += -this._overlayElementRect.height;
+        oy = 'bottom';
+
+        // set offset
+        y -= this.offsetY;
+      } else if (this.placement === YPosition.below) {
+        x += (this._originRect.width - this._overlayElementRect.width) / 2;
+        y += this._originRect.height;
+        oy = 'top';
+
+        // set offset
+        y += this.offsetY;
+      } else {
+        const dir = this._themeVariables.getDirection(this.placement as any);
+        if (dir === DirPosition.left) {
+          ox = '100%';
+          x += -this._overlayElementRect.width;
+          y += (this._originRect.height - this._overlayElementRect.height) / 2;
+
+          // set offset
+          x -= this.offsetX;
+        } else if (dir === DirPosition.right) {
+          ox = '0%';
+          x += this._originRect.width;
+          y += (this._originRect.height - this._overlayElementRect.height) / 2;
+
+          // set offset
+          x += this.offsetX;
         }
       }
 
@@ -126,17 +157,29 @@ export class Positioning {
         if (dir === DirPosition.right) {
           ox = '0%';
           x = this._originRect.x;
+
+          // set offset
+          x += this.offsetX;
         } else if (dir === DirPosition.left) {
           ox = '100%';
           x = this._originRect.x + this._originRect.width - this._overlayElementRect.width;
+
+          // set offset
+          x -= this.offsetX;
         }
       } else if (this.yPosition) {
         if (this.yPosition === YPosition.above) {
           y = this._originRect.y;
           oy = '0%';
+
+          // set offset
+          y -= this.offsetY;
         } else if (this.yPosition === YPosition.below) {
           y = this._originRect.y + this._originRect.height - this._overlayElementRect.height;
           oy = '100%';
+
+          // set offset
+          y += this.offsetY;
         }
       }
     }
@@ -227,6 +270,13 @@ export class Positioning {
   }
 
   private updateOrigin() {
+
+    // do not update if it is defined
+    if (this._origin) {
+      return;
+    }
+
+    this._origin = true;
     const oax = this._originRect.x + this._originRect.width / 2;
     const oay = this._originRect.y + this._originRect.height / 2;
     const vax = this.x + this._overlayElementRect.width / 2;

@@ -1,0 +1,16 @@
+<h4 lyTyp="title">native html select</h4>
+<ly-field>
+  <select lyNativeControl placeholder="Label" [(ngModel)]="selected">
+    <option value="">None</option>
+    <option *ngFor="let item of items; index as i" [ngValue]="i">option {{ i }}</option>
+  </select>
+</ly-field>
+
+<h4 lyTyp="title">ly-select</h4>
+<ly-field>
+  <ly-select placeholder="Label" [(ngModel)]="selected">
+    <ly-option>None</ly-option>
+    <ly-option *ngFor="let item of items; index as i" [value]="i">option {{ i }}</ly-option>
+  </ly-select>
+</ly-field>
+<p>You selected: {{ selected }}</p>

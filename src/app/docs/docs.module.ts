@@ -117,7 +117,17 @@ import { RadioDemoComponent } from './components/radio-demo/radio-demo.component
 import { RadioExample01Module } from './components/radio-demo/radio-example-01/radio-example-01.module';
 import { BasicRadioModule } from './components/radio-demo/basic-radio/basic-radio.module';
 
+/** 404 */
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+/** Select */
+import { SelectDemoComponent } from './components/select-demo/select-demo.component';
+import { BasicSelectModule } from './components/select-demo/basic-select/basic-select.module';
+import { SelectWithNgModelModule } from './components/select-demo/select-with-ng-model/select-with-ng-model.module';
+import { SelectMultipleModule } from './components/select-demo/select-multiple/select-multiple.module';
+import { SelectReactiveFormModule } from './components/select-demo/select-reactive-form/select-reactive-form.module';
+import { SelectOptionObjectValueModule } from './components/select-demo/select-option-object-value/select-option-object-value.module';
+import { SelectDisableModule } from './components/select-demo/select-disable/select-disable.module';
 
 @NgModule({
   imports: [
@@ -189,7 +199,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MiniDrawerModule,
     /** Radio */
     RadioExample01Module,
-    BasicRadioModule
+    BasicRadioModule,
+    /** Select */
+    BasicSelectModule,
+    SelectWithNgModelModule,
+    SelectMultipleModule,
+    SelectReactiveFormModule,
+    SelectOptionObjectValueModule,
+    SelectDisableModule
   ],
   declarations: [
     ThemingComponent,
@@ -235,7 +252,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     DrawerDemoComponent,
     /** Radio */
     RadioDemoComponent,
-    PageNotFoundComponent
+    /** 404 */
+    PageNotFoundComponent,
+    /** Select */
+    SelectDemoComponent
   ]
 })
 export class DocsModule { }

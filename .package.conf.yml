@@ -24,3 +24,4 @@ components:
   '@alyle/ui/avatar': avatar
   '@alyle/ui/list': list
   '@alyle/ui/divider': divider
+  '@alyle/ui/select': select

@@ -2,10 +2,13 @@ import { Constructor } from './constructor';
 import { toBoolean } from '../minimal/is-boolean';
 
 export interface CanDisable {
-  disabled: string;
+  disabled: boolean;
 }
 
-export function mixinDisabled<T extends Constructor>(base: T): Constructor<CanDisable> & T {
+/** @docs-private */
+export type CanDisableCtor = Constructor<CanDisable>;
+
+export function mixinDisabled<T extends Constructor>(base: T): CanDisableCtor & T {
   return class extends base {
     private _disabled: boolean = false;
 

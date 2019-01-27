@@ -1,5 +1,9 @@
 import { ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
 export const STYLES = (theme: ThemeVariables) => {
+  const selectionStyle = {
+    backgroundColor: `${theme.warn.default} !important`,
+    color: `${theme.warn.contrast} !important`
+  };
   return {
     root: {
       display: 'inline-block',
@@ -56,7 +60,9 @@ export const STYLES = (theme: ThemeVariables) => {
       display: 'inline-flex',
       position: 'relative',
       alignItems: 'baseline',
-      width: '100%'
+      minWidth: 0,
+      width: '180px',
+      flex: '1 0'
     },
     suffix: {
       maxHeight: '2em',
@@ -109,7 +115,35 @@ export const STYLES = (theme: ThemeVariables) => {
       backgroundColor: 'transparent',
       color: 'inherit',
       font: 'inherit',
-      width: '100%'
+      width: '100%',
+      'select&': {
+        '-moz-appearance': 'none',
+        '-webkit-appearance': 'none',
+        position: 'relative',
+        backgroundColor: 'transparent',
+        display: 'inline-flex',
+        boxSizing: 'border-box',
+        paddingAfter: '1em',
+        'option:not([disabled])': {
+          color: 'initial'
+        },
+        'optgroup:not([disabled])': {
+          color: 'initial'
+        }
+      },
+      'select&::-ms-expand': {
+        display: 'none'
+      },
+      'select&::-moz-focus-inner': {
+        border: 0
+      },
+      'select&:not(:disabled)': {
+        cursor: 'pointer'
+      },
+      'select&::-ms-value': {
+        color: 'inherit',
+        background: '0 0'
+      }
     },
     hintContainer: {
       minHeight: '1.25em',
@@ -130,7 +164,7 @@ export const STYLES = (theme: ThemeVariables) => {
     hint: null,
     error: null,
     errorState: {
-      '& {label}, & {hintContainer}': {
+      '& {label}, & {hintContainer}, &{selectArrow} {infix}:after': {
         color: `${theme.warn.default}!important`
       },
       '& {fieldset}, & {container}:after': {
@@ -145,13 +179,32 @@ export const STYLES = (theme: ThemeVariables) => {
       },
       '& {labelSpan}': {
         animation: `{shake} ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}`
-      }
+      },
+      '& {inputNative}::selection': selectionStyle,
+      '& {inputNative}::-moz-selection': selectionStyle
     },
     hintAfter: {
       marginBefore: 'auto'
     },
     hintBefore: {
       marginAfter: 'auto'
+    },
+    selectArrow: {
+      '{infix}': {
+        '&:after': {
+          position: 'absolute',
+          content: `\'\'`,
+          width: 0,
+          height: 0,
+          borderLeft: '0.3125em solid transparent',
+          borderRight: '0.3125em solid transparent',
+          borderTop: '0.3125em solid',
+          top: '50%',
+          after: 0,
+          marginTop: '-0.15625em',
+          pointerEvents: 'none'
+        }
+      }
     },
     $keyframes: {
       shake: {

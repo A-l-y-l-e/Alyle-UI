@@ -38,6 +38,7 @@
 |menu|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/menu)|
 |radio|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/radio)|
 |snack bar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/snack-bar)|
+|select|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/select)|
 |tabs|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/tabs)|
 |toolbar|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/toolbar)|
 |tooltip|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/tooltip)|
