@@ -65,6 +65,12 @@ export const field = {
       root: {
         '&:not({focused}):not({disabled}) {container}:hover:after': {
           borderBottomWidth: '1px'
+        },
+        'textarea{inputNative}': {
+          margin: '1.59375em 0 0.40625em'
+        },
+        '{inputNative}:not(textarea)': {
+          padding: '1.59375em 0 0.40625em'
         }
       },
       container: {
@@ -88,9 +94,6 @@ export const field = {
       },
       containerLabelHover: {
         color: 'currentColor'
-      },
-      input: {
-        margin: '1.59375em 0 0.40625em'
       },
       placeholder: {
         margin: '1.59375em 0 0.40625em'
