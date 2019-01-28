@@ -47,6 +47,12 @@ const DEFAULT_APPEARANCE_THEME = {
       '&{disabled} {container}:after': {
         borderBottomStyle: 'dotted',
         borderColor: 'inherit'
+      },
+      'textarea{inputNative}': {
+        margin: '0.25em 0'
+      },
+      '{inputNative}:not(textarea)': {
+        padding: '0.25em 0'
       }
     },
     container: {
@@ -66,13 +72,10 @@ const DEFAULT_APPEARANCE_THEME = {
       color: 'currentColor'
     },
     label: {
-      margin: '0.4375em 0'
+      margin: '0.25em 0'
     },
     placeholder: {
-      margin: '0.4375em 0'
-    },
-    input: {
-      margin: '0.4375em 0'
+      margin: '0.25em 0'
     },
     floatingLabel: {
       transform: 'translateY(-1.25em)'

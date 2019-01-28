@@ -71,7 +71,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     display: 'block',
     paddingAfter: '1em',
     minWidth: '3em',
-    height: '1.125em',
+    minHeight: '1.5em',
     '-webkit-tap-highlight-color': 'transparent'
   },
   container: {

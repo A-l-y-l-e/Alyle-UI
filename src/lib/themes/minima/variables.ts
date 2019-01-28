@@ -15,6 +15,12 @@ export const field = {
         '&{focused} {fieldset}': {
           borderWidth: '2px',
           borderColor: 'inherit'
+        },
+        'textarea{inputNative}': {
+          margin: '1em 0'
+        },
+        '{inputNative}:not(textarea)': {
+          padding: '1em 0'
         }
       },
       container: {
@@ -42,14 +48,11 @@ export const field = {
           padding: '0.25em'
         }
       },
-      input: {
-        margin: '1.1875em 0'
-      },
       label: {
-        margin: '1.1875em 0'
+        margin: '1em 0'
       },
       placeholder: {
-        margin: '1.1875em 0'
+        margin: '1em 0'
       },
       floatingLabel: {
         transform: 'translateY(-1.75em)'
@@ -87,13 +90,13 @@ export const field = {
         color: 'currentColor'
       },
       input: {
-        margin: '1.78125em 0 0.59375em'
+        margin: '1.59375em 0 0.40625em'
       },
       placeholder: {
-        margin: '1.78125em 0 0.59375em'
+        margin: '1.59375em 0 0.40625em'
       },
       label: {
-        margin: '1.1875em 0'
+        margin: '1em 0'
       },
       floatingLabel: {
         transform: 'translateY(-.75em)'
