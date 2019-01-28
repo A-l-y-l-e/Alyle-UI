@@ -3,8 +3,8 @@
   <ly-drawer-content>
     <div [className]="classes.appContainer">
       <div [className]="classes.demo">
-        <app-title [route]="router.url"></app-title>
         <aui-page-content [routeUrl]="router.url">
+          <app-title [route]="router.url"></app-title>
           <div class="docs-viewer">
             <router-outlet></router-outlet>
           </div>

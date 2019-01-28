@@ -15,7 +15,7 @@ const styles = ({
   },
   intraContent: {
     position: 'relative',
-    '& a': {
+    '& {buttons} a': {
       margin: '8px'
     },
     '& > p': {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AUIRoutesMap } from '../routes';
 
@@ -20,7 +20,8 @@ export class PageContentComponent {
   }
   constructor(
     public route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    private _el: ElementRef<HTMLElement>
   ) { }
 
   isPkg() {
@@ -30,6 +31,10 @@ export class PageContentComponent {
       this.pathPkg = routeUrlArray[2];
     }
     return isPkg;
+  }
+
+  _getHostElement() {
+    return this._el.nativeElement;
   }
 
 }
