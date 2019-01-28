@@ -62,7 +62,7 @@ import {
   Dir
   } from '@alyle/ui';
 import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
@@ -131,11 +131,17 @@ const ANIMATIONS = [
       animate('125ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
         style({
           opacity: 0,
-          transform: 'scale(0.8)'
+          transform: 'scale(0.75)',
+          offset: 0
+        }),
+        style({
+          opacity: .75,
+          transform: 'scale(1)',
+          offset: .75
         }),
         style({
           opacity: 1,
-          transform: 'scale(1)'
+          offset: 1
         })
       ]))
     ]),
@@ -189,6 +195,10 @@ export class LySelect
   _focused: boolean = false;
   errorState: boolean = false;
   private _cursorClass: string;
+
+  /** Emits whenever the component is destroyed. */
+  private readonly _destroy = new Subject<void>();
+
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   /** @internal */
   @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
@@ -408,7 +418,7 @@ export class LySelect
     const ngControl = this.ngControl;
     // update styles on disabled
     if (ngControl && ngControl.statusChanges) {
-      ngControl.statusChanges.subscribe(() => {
+      ngControl.statusChanges.pipe(takeUntil(this._destroy)).subscribe(() => {
         this.disabled = !!ngControl.disabled;
       });
     }
@@ -449,7 +459,9 @@ export class LySelect
 
   ngAfterViewInit() {
     if (this.options) {
-      this.options.changes.subscribe(() => {
+      this.options.changes.pipe(
+        takeUntil(this._destroy)
+      ).subscribe(() => {
 
         const selecteds: LyOption[] = [];
         this.options.forEach(option => {
@@ -468,6 +480,8 @@ export class LySelect
   }
 
   ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
     this.stateChanges.complete();
     if (this._overlayRef) {
       this._overlayRef.destroy();
