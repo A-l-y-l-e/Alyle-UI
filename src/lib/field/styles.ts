@@ -13,7 +13,7 @@ export const STYLES = (theme: ThemeVariables) => {
       '& {hint}, & {error}': {
         display: 'block',
         fontSize: '.75em',
-        marginTop: '.5em'
+        marginTop: '.25em'
       },
     },
     animations: {
@@ -147,6 +147,7 @@ export const STYLES = (theme: ThemeVariables) => {
     },
     hintContainer: {
       minHeight: '1.25em',
+      lineHeight: '1.25',
       '>div': {
         display: 'flex',
         flex: '1 0 auto',
