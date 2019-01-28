@@ -131,23 +131,17 @@ const ANIMATIONS = [
       animate('125ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
         style({
           opacity: 0,
-          transform: 'scale(0.75)',
-          offset: 0
-        }),
-        style({
-          opacity: .75,
-          transform: 'scale(1)',
-          offset: .75
+          transform: 'scaleY(0.8)'
         }),
         style({
           opacity: 1,
-          offset: 1
+          transform: 'scaleY(1)'
         })
       ]))
     ]),
   ]),
   trigger('selectLeave', [
-    transition('* => void', animate('150ms linear', style({ opacity: 0 })))
+    transition('* => void', animate('100ms linear', style({ opacity: 0 })))
   ])
 ];
 
