@@ -1,3 +1,17 @@
+# [2.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.7...2.1.0) (2019-01-29)
+
+
+### Bug Fixes
+
+* **field:** increase `line-height` ([#73](https://github.com/A-l-y-l-e/Alyle-UI/issues/73)) ([ea1aa2d](https://github.com/A-l-y-l-e/Alyle-UI/commit/ea1aa2d))
+
+
+### Features
+
+* **select:** initial commit for select ([#72](https://github.com/A-l-y-l-e/Alyle-UI/issues/72)) ([93a7d57](https://github.com/A-l-y-l-e/Alyle-UI/commit/93a7d57))
+
+
+
 
 ## [2.0.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.4...2.0.7) (2019-01-22)
 
