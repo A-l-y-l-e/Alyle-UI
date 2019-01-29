@@ -1,7 +1,11 @@
 <ly-field appearance="outlined">
   <ly-label>Label</ly-label>
-  <ly-select placeholder="Placeholder" [formControl]="fruitControl" [valueKey]="valueKeyFn" multiple>
-    <ly-option *ngFor="let fruit of fruits" [value]="fruit">{{ fruit.viewValue }}</ly-option>
+  <ly-select placeholder="Placeholder"
+    [formControl]="fruitControl"
+    [valueKey]="valueKeyFn"
+    multiple>
+    <ly-option *ngFor="let fruit of fruits"
+      [value]="fruit">{{ fruit.viewValue }}</ly-option>
   </ly-select>
   <ly-hint>Hint</ly-hint>
   <ly-error *ngIf="fruitControl.hasError('required')">Required</ly-error>

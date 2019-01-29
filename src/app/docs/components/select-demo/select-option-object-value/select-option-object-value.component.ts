@@ -18,7 +18,13 @@ export class SelectOptionObjectValueComponent {
     { value: 'cherry-2', viewValue: 'Cherry' },
     { value: 'mango-3', viewValue: 'Mango' }
   ];
-  fruitControl = new FormControl([this.fruits[2]], [Validators.required]);
-  valueKeyFn = (opt: Fruit) => opt.value;
+  fruitControl = new FormControl([
+    { value: 'cherry-2', viewValue: 'Cherry' }
+  ], [Validators.required]);
+
+  /** For `<ly-select>` */
+  valueKeyFn(opt: Fruit) {
+    return opt.value;
+  }
 
 }
