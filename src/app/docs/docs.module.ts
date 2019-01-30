@@ -57,6 +57,7 @@ import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
 import { FieldPlaygroundModule } from './components/field-demo/field-playground/field-playground.module';
+import { SimpleFormModule } from './components/field-demo/simple-form/simple-form.module';
 
 /** Checkbox */
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
@@ -172,6 +173,7 @@ import { SelectDisableModule } from './components/select-demo/select-disable/sel
     /** Field */
     BasicFieldModule,
     FieldPlaygroundModule,
+    SimpleFormModule,
     /** Checkbox */
     BasicCheckboxModule,
     ComplexCheckboxModule,

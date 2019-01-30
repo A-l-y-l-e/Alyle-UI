@@ -1,0 +1,50 @@
+<form [formGroup]="profileForm"
+  (ngSubmit)="onSubmit()"
+  [className]="classes.container"
+>
+  <ly-field appearance="filled" fullWidth>
+    <input lyNativeControl
+      type="text"
+      placeholder="Username"
+      formControlName="username"
+    >
+    <ly-hint>Hint</ly-hint>
+    <ly-error *ngIf="username.hasError('minlength')">Min 5 characters</ly-error>
+    <ly-error *ngIf="username.hasError('maxlength')">Max 16 characters</ly-error>
+    <ly-error *ngIf="username.hasError('required')">Required</ly-error>
+    <ly-hint [align]="'after'">{{ username.value?.length || 0 }}/32</ly-hint>
+  </ly-field>
+
+  <ly-field appearance="filled" fullWidth>
+    <input lyNativeControl
+      type="number"
+      placeholder="Phone number"
+      formControlName="phone"
+    >
+    <ly-hint>Hint</ly-hint>
+    <ly-error>Required</ly-error>
+  </ly-field>
+
+  <ly-field appearance="filled" fullWidth>
+    <input lyNativeControl
+      type="text"
+      placeholder="Email address"
+      formControlName="email"
+    >
+    <ly-hint>Hint</ly-hint>
+    <ly-error>Required</ly-error>
+  </ly-field>
+
+  <ly-field appearance="filled" fullWidth>
+    <ly-select placeholder="Select something"
+      formControlName="option"
+    >
+      <ly-option value="opt-1">Item 1</ly-option>
+      <ly-option value="opt-2">Item 2</ly-option>
+      <ly-option value="opt-3">Item 3</ly-option>
+    </ly-select>
+    <ly-hint>Hint</ly-hint>
+    <ly-error>Required</ly-error>
+  </ly-field>
+  <button ly-button bg="primary" raised type="submit">Submit</button>
+</form>
