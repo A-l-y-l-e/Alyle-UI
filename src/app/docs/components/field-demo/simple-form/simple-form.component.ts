@@ -30,7 +30,7 @@ export class SimpleFormComponent {
   });
 
   get username() {
-    return this.profileForm.get('username');
+    return this.profileForm.get('username')!;
   }
 
   constructor(private theme: LyTheme2) { }
