@@ -232,6 +232,7 @@ export class GlobalVariables {
       template: 'angular-cli',
       dependencies: {
         '@alyle/ui': AUI_VERSION,
+        '@angular/cli': '^7.1.0',
         '@angular/core': VERSION.full,
         '@angular/common': VERSION.full,
         '@angular/forms': VERSION.full,
