@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
 import { LyTheme2, ThemeVariables, Platform } from '@alyle/ui';
-import { ImgCropperConfig, ImgCropperEvent, LyResizingCroppingImages } from '@alyle/ui/resizing-cropping-images';
+import { ImgCropperConfig, ImgCropperEvent, LyResizingCroppingImages, ImgCropperErrorEvent } from '@alyle/ui/resizing-cropping-images';
 
 const styles = (theme: ThemeVariables) => ({
   actions: {
@@ -168,7 +168,7 @@ export class ResizingCroppingImagesExample01Component implements AfterViewInit {
   onloaded(e: ImgCropperEvent) {
     console.log('img loaded', e);
   }
-  onerror(e: ImgCropperEvent) {
+  onerror(e: ImgCropperErrorEvent) {
     console.warn(`'${e.name}' is not a valid image`, e);
   }
 
