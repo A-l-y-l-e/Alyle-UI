@@ -1,3 +1,12 @@
+## [2.1.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.1.1...2.1.2) (2019-01-31)
+
+
+### Features
+
+* **img-cropper:** add property `maxFileSize` ([6d845df](https://github.com/A-l-y-l-e/Alyle-UI/commit/6d845df))
+
+
+
 ## [2.1.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.1.0...2.1.1) (2019-01-31)
 
 
