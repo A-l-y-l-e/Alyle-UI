@@ -92,6 +92,11 @@ export interface ImgCropperConfig {
   antiAliased?: boolean;
   autoCrop?: boolean;
   output?: ImgOutput | ImgResolution;
+  /**
+   * Emit event `error` if the file size for the limit.
+   * Note: It only works when the image is received from the `<input>` event.
+   */
+  maxFileSize?: number | null;
 }
 
 export interface ImgOutput {
@@ -203,14 +208,16 @@ export class LyResizingCroppingImages implements OnDestroy {
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
   @ViewChild('_imgCanvas') _imgCanvas: ElementRef<HTMLCanvasElement>;
-  @Output() readonly scaleChange = new EventEmitter<number>();
-
   @Input()
   get config(): ImgCropperConfig {
     return this._config;
   }
   set config(val: ImgCropperConfig) {
     this._config = mergeDeep({}, CONFIG_DEFAULT, val);
+    const maxFileSize = this._config.maxFileSize;
+    if (maxFileSize) {
+      this.maxFileSize = maxFileSize;
+    }
   }
   /** Set scale */
   @Input()
@@ -221,7 +228,10 @@ export class LyResizingCroppingImages implements OnDestroy {
     this.setScale(val);
   }
 
-  /** Emit event `error` if the file size for the limit. */
+  /**
+   * Emit event `error` if the file size for the limit.
+   * Note: It only works when the image is received from the `<input>` event.
+   */
   @Input() maxFileSize: number;
 
   /** Get min scale */
@@ -229,6 +239,7 @@ export class LyResizingCroppingImages implements OnDestroy {
     return this._minScale;
   }
 
+  @Output() readonly scaleChange = new EventEmitter<number>();
   /** On loaded new image */
   @Output() readonly loaded = new EventEmitter<ImgCropperEvent>();
   /** On crop new image */
