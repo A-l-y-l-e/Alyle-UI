@@ -1,3 +1,12 @@
+## [2.1.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.1.0...2.1.1) (2019-01-31)
+
+
+### Bug Fixes
+
+* **field, select:** show hint error when it is validated ([35c0a9c](https://github.com/A-l-y-l-e/Alyle-UI/commit/35c0a9c))
+
+
+
 # [2.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.0.7...2.1.0) (2019-01-29)
 
 
