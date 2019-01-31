@@ -42,9 +42,10 @@ const styles = ({
     }
   },
   croppingContainer: {
-    position: 'absolute',
     pointerEvents: 'none',
     boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.4)',
+    ...LY_COMMON_STYLES.fill,
+    margin: 'auto',
     '&:before, &:after': {
       ...LY_COMMON_STYLES.fill,
       content: `''`,
@@ -285,7 +286,7 @@ export class LyResizingCroppingImages implements OnDestroy {
 
     this._fileName = _img.value.replace(/.*(\/|\\)/, '');
 
-    const listener = fromEvent(fileReader, 'loadend')
+    const listener = fromEvent(fileReader, 'load')
     .pipe(take(1))
     .subscribe(loadEvent => {
       const originalImageUrl = (loadEvent.target as FileReader).result as string;
