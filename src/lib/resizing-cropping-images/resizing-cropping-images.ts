@@ -80,13 +80,13 @@ const styles = ({
 });
 /** Image Cropper Config */
 export interface ImgCropperConfig {
-  /** Cropper area width*/
+  /** Cropper area width */
   width: number;
-  /** Cropper area height*/
+  /** Cropper area height */
   height: number;
-  /** If this is not defined, the new image will be automatically defined */
+  /** If this is not defined, the new image will be automatically defined. */
   type?: string;
-  /** Background color( default: null), if is null in png is transparent but not in jpg */
+  /** Background color( default: null), if is null in png is transparent but not in jpg. */
   fill?: string | null;
   /** Set anti-aliased( default: true) */
   antiAliased?: boolean;
@@ -107,10 +107,18 @@ export enum ImgResolution {
   OriginalImage
 }
 
+/** Image output */
+export enum ImgCropperError {
+  /** The loaded image exceeds the size limit set. */
+  Size,
+  /** The file loaded is not image. */
+  Type
+}
+
 export interface ImgCropperEvent {
   /** Cropped image data URL */
   dataURL?: string;
-  name: string;
+  name: string | null;
   /** Filetype */
   type?: string;
   width?: number;
@@ -120,10 +128,17 @@ export interface ImgCropperEvent {
   scale?: number;
   /** Current rotation in degrees */
   rotation?: number;
+  /** Size of the image in bytes */
+  size?: number;
   position?: {
     x: number
     y: number
   };
+}
+
+export interface ImgCropperErrorEvent extends ImgCropperEvent {
+  /** Type of error */
+  error: ImgCropperError;
 }
 
 const CONFIG_DEFAULT = <ImgCropperConfig>{
@@ -138,8 +153,6 @@ interface ImgRect {
   y: number;
   xc: number;
   yc: number;
-  // w: number;
-  // h: number;
   /** transform with */
   wt: number;
   ht: number;
@@ -158,7 +171,7 @@ export class LyResizingCroppingImages implements OnDestroy {
    */
   readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   _originalImgBase64?: string;
-  private _fileName: string;
+  private _fileName: string | null;
 
   /** Original image */
   private _img: HTMLImageElement;
@@ -175,6 +188,17 @@ export class LyResizingCroppingImages implements OnDestroy {
   private _imgRect: ImgRect = {} as any;
   private _rotation: number;
   private _listeners = new Set<Subscription>();
+  private _sizeInBytes: number | null;
+
+  /**
+   * When is loaded image
+   * @internal
+   */
+  _isLoadedImg: boolean;
+
+  /** When is loaded image & ready for crop */
+  isLoaded: boolean;
+  isCropped: boolean;
 
   @ViewChild('_imgContainer') _imgContainer: ElementRef;
   @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
@@ -197,24 +221,20 @@ export class LyResizingCroppingImages implements OnDestroy {
     this.setScale(val);
   }
 
+  /** Emit event `error` if the file size for the limit. */
+  @Input() maxFileSize: number;
+
   /** Get min scale */
   get minScale(): number | undefined {
     return this._minScale;
   }
-
-  /** When is loaded image */
-  _isLoadedImg: boolean;
-
-  /** When is loaded image & ready for crop */
-  isLoaded: boolean;
-  isCropped: boolean;
 
   /** On loaded new image */
   @Output() readonly loaded = new EventEmitter<ImgCropperEvent>();
   /** On crop new image */
   @Output() readonly cropped = new EventEmitter<ImgCropperEvent>();
   /** Emit an error when the loaded image is not valid */
-  @Output() readonly error = new EventEmitter<ImgCropperEvent>();
+  @Output() readonly error = new EventEmitter<ImgCropperErrorEvent>();
 
   private _defaultType?: string;
   constructor(
@@ -282,19 +302,38 @@ export class LyResizingCroppingImages implements OnDestroy {
     if (_img.files && _img.files.length !== 1) {
       return;
     }
-    const fileReader: FileReader = new FileReader();
+    const fileSize = _img.files![0].size;
+    const fileName = _img.value.replace(/.*(\/|\\)/, '');
 
-    this._fileName = _img.value.replace(/.*(\/|\\)/, '');
+    if (this.maxFileSize && fileSize > this.maxFileSize) {
+      const cropEvent: ImgCropperErrorEvent = {
+        name: fileName,
+        type: _img.files![0].type,
+        size: fileSize,
+        error: ImgCropperError.Size
+      };
+      this.clean();
+      this.error.emit(cropEvent as ImgCropperErrorEvent);
+      return;
+    }
+
+    const fileReader: FileReader = new FileReader();
 
     const listener = fromEvent(fileReader, 'load')
     .pipe(take(1))
     .subscribe(loadEvent => {
       const originalImageUrl = (loadEvent.target as FileReader).result as string;
-      this.setImageUrl(originalImageUrl);
-      /** Set type */
+      // Set type
       if (!this.config.type) {
         this._defaultType = _img.files![0].type;
       }
+      // set name
+      this._fileName = fileName;
+      // set file size
+      this._sizeInBytes = _img.files![0].size;
+
+      this.setImageUrl(originalImageUrl);
+
       this.cd.markForCheck();
       this._listeners.delete(listener);
     });
@@ -478,7 +517,6 @@ export class LyResizingCroppingImages implements OnDestroy {
       this._scal3Fix = undefined;
       this._rotation = 0;
       this._minScale = undefined;
-      this._defaultType = undefined;
       this._isLoadedImg = false;
       this.isLoaded = false;
       this.isCropped = false;
@@ -516,20 +554,24 @@ export class LyResizingCroppingImages implements OnDestroy {
     this.clean();
     this._originalImgBase64 = src;
     const img = new Image;
+
+    const fileSize = this._sizeInBytes;
+    const fileName = this._fileName;
+    const defaultType = this._defaultType;
+
     img.crossOrigin = 'anonymous';
     const cropEvent: ImgCropperEvent = {
-      name: this._fileName,
-      type: this._defaultType,
-      originalDataURL: src,
+      name: fileName,
+      type: defaultType,
+      originalDataURL: src
     };
+
     img.src = src;
-    const errorListen = fromEvent(img, 'error').pipe(
-      take(1)
-    ).subscribe(() => {
-      this.error.emit(cropEvent);
-      this._listeners.delete(errorListen);
-    });
-    this._listeners.add(errorListen);
+
+    if (fileSize) {
+      cropEvent.size = fileSize;
+    }
+
     const loadListen = fromEvent(img, 'load')
     .pipe(
       take(1)
@@ -557,8 +599,26 @@ export class LyResizingCroppingImages implements OnDestroy {
             this.cd.markForCheck();
           }));
       this._listeners.delete(loadListen);
+      this.ngOnDestroy();
     });
+
     this._listeners.add(loadListen);
+
+    const errorListen = fromEvent(img, 'error').pipe(
+      take(1)
+    ).subscribe(() => {
+      (cropEvent as ImgCropperErrorEvent).error = ImgCropperError.Type;
+      this.error.emit(cropEvent as ImgCropperErrorEvent);
+      this._listeners.delete(errorListen);
+      this.ngOnDestroy();
+    });
+
+    this._listeners.add(errorListen);
+
+    // clear
+    this._sizeInBytes = null;
+    this._fileName = null;
+    this._defaultType = undefined;
   }
 
   rotate(degrees: number) {
@@ -739,6 +799,7 @@ export class LyResizingCroppingImages implements OnDestroy {
         y: this._imgRect.yc
       }
     };
+
     this.isCropped = true;
     this.cropped.emit(cropEvent);
     return cropEvent;
