@@ -1,3 +1,4 @@
+<span class="ad"></span>
 <ng-container *ngIf="doc | async as api; else loading">
   <h2 [lyTyp]="'headline'" gutter>Modules</h2>
   <prism language="typescript" [code]="joinList(api.ngModuleList)"></prism>

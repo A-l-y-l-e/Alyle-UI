@@ -53,6 +53,9 @@ export class TitleComponent implements OnInit {
             if (!ref) {
               ref = this.pageContent._getHostElement().querySelector('demo-view');
             }
+            if (!ref) {
+              ref = this.pageContent._getHostElement().querySelector('.ad');
+            }
             if (ref) {
               const Div = this._renderer.createElement('div');
               const CodeFund = this._renderer.createElement('div');
