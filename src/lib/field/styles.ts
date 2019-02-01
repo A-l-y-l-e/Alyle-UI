@@ -29,6 +29,7 @@ export const STYLES = (theme: ThemeVariables) => {
       display: 'flex',
       alignItems: 'center',
       position: 'relative',
+      '-webkit-tap-highlight-color': 'transparent',
       '&:after': {
         ...LY_COMMON_STYLES.fill,
         content: `\'\'`,
