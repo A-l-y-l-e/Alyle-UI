@@ -82,7 +82,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     transformOrigin: 'inherit',
     pointerEvents: 'all',
     overflow: 'auto',
-    maxHeight: '250px'
+    maxHeight: '256px'
   },
   valueText: {
     overflow: 'hidden',
@@ -112,6 +112,11 @@ export const STYLES = (theme: ThemeVariables) => ({
     height: '3em',
     cursor: 'pointer'
   },
+  optionText: {
+    'ly-checkbox ~ &': {
+      marginBefore: '-16px'
+    }
+  },
   content: {
     padding: 0,
     display: 'flex',
@@ -131,7 +136,7 @@ const ANIMATIONS = [
       animate('125ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
         style({
           opacity: 0,
-          transform: 'scaleY(0.8)'
+          transform: 'scaleY(0.9)'
         }),
         style({
           opacity: 1,
@@ -141,7 +146,7 @@ const ANIMATIONS = [
     ]),
   ]),
   trigger('selectLeave', [
-    transition('* => void', animate('100ms linear', style({ opacity: 0 })))
+    transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 })))
   ])
 ];
 
@@ -574,10 +579,18 @@ export class LySelect
     const el = this._overlayRef!.containerElement as HTMLElement;
     const container = el.querySelector('div')!;
     const { nativeElement } = this.valueTextDivRef;
+    let panelWidth: number;
+
+    if (this.multiple) {
+      panelWidth = nativeElement.offsetWidth + 32 * 2;
+    } else {
+      panelWidth = nativeElement.offsetWidth + 32;
+    }
+
 
     // reset height & width
     this._renderer.setStyle(container, 'height', 'initial');
-    this._renderer.setStyle(container, 'width', `${nativeElement.offsetWidth + 32}px`);
+    this._renderer.setStyle(container, 'width', `${panelWidth}px`);
 
 
     const selectedElement: HTMLElement = this._selectionModel.isEmpty()
@@ -600,6 +613,10 @@ export class LySelect
       offset.y = container.scrollTop + offset.y;
     }
 
+    if (this.multiple) {
+      offset.x -= 24;
+    }
+
     const position = new Positioning(
       YPosition.below,
       XPosition.after,
@@ -618,7 +635,7 @@ export class LySelect
     // set height & width
     this._renderer.setStyle(container, 'height', position.height);
     const width = position.width === 'initial'
-          ? `${nativeElement.offsetWidth + 32}px`
+          ? `${panelWidth}px`
           : position.width;
     this._renderer.setStyle(container, 'width', width);
   }
