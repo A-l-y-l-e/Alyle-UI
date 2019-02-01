@@ -120,7 +120,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 /** Alyle UI */
 import { LyThemeModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES } from '@alyle/ui';
-import { MinimaLight } from '@alyle/ui/themes/minima';
+import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
 export class GlobalVariables {
   testVal = '#00bcd4';
@@ -158,7 +158,13 @@ export class GlobalVariables {
   providers: [
     {
       provide: LY_THEME,
-      useClass: MinimaLight
+      useClass: MinimaLight,
+      multi: true
+    },
+    {
+      provide: LY_THEME,
+      useClass: MinimaDark,
+      multi: true
     },
     {
       provide: LY_THEME_GLOBAL_VARIABLES,

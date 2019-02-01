@@ -33,7 +33,7 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
     ...
     // Animations
     BrowserAnimationsModule,
-    // Set theme
+    // Set main theme
     LyThemeModule.setTheme('minima-light'),
     // Add components
     LyButtonModule,
