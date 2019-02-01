@@ -24,7 +24,10 @@ export class CoreTheme {
     @Inject(DOCUMENT) _document: any
   ) {
     if (!themeConfig) {
-      throw new Error('LY_THEME undefined');
+      throw new Error(
+        `LY_THEME undefined: no theme has been added, please add at least one theme\n\n` +
+        `Follow the steps of the documentation https://goo.gl/8V486A`
+      );
     }
     this.renderer = this.rendererFactory.createRenderer(null, {
       id: 'ly',
