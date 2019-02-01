@@ -16,7 +16,8 @@ import {
   mixinRaised,
   mixinShadowColor,
   mixinStyleUpdater,
-  ThemeVariables
+  ThemeVariables,
+  toBoolean
 } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
@@ -37,6 +38,9 @@ const styles = (theme: ThemeVariables) => ({
     [theme.getBreakpoint('XSmall')]: {
       height: '56px'
     }
+  },
+  dense: {
+    height: '56px'
   }
 });
 
@@ -78,22 +82,38 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _position: position;
   private _positionClass: string;
+  private _dense: boolean;
   @Input()
   set position(val: position) {
     this._position = val;
-    this._positionClass = this.theme.addStyle(`ly-toolbar-position:${val}`, `position:${val}`, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
+    this._positionClass = this.theme.addStyle(`lyToolbar.position:${val}`, `position:${val}`, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
   }
   get position(): position {
     return this._position;
   }
+
+  @Input()
+  set dense(val: boolean) {
+    const newVal = toBoolean(val);
+    if (newVal !== this.dense) {
+      if (newVal) {
+        this._renderer.addClass(this._el.nativeElement, this.classes.dense);
+      } else {
+        this._renderer.removeClass(this._el.nativeElement, this.classes.dense);
+      }
+    }
+  }
+  get dense(): boolean {
+    return this._dense;
+  }
   constructor(
-    renderer: Renderer2,
+    private _renderer: Renderer2,
     private _el: ElementRef,
     private theme: LyTheme2,
   ) {
     super(theme);
     this.setAutoContrast();
-    renderer.addClass(this._el.nativeElement, this.classes.root);
+    _renderer.addClass(this._el.nativeElement, this.classes.root);
   }
 
   ngOnChanges() {
