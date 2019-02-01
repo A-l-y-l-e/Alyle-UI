@@ -22,6 +22,7 @@ import { DividerDemoComponent } from './components/divider-demo/divider-demo.com
 import { DrawerDemoComponent } from './components/drawer-demo/drawer-demo.component';
 import { RadioDemoComponent } from './components/radio-demo/radio-demo.component';
 import { SelectDemoComponent } from './components/select-demo/select-demo.component';
+import { DialogDemoComponent } from './components/dialog-demo/dialog-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -64,7 +65,8 @@ const routes: Routes = [
       { path: 'divider', component: DividerDemoComponent },
       { path: 'drawer', component: DrawerDemoComponent },
       { path: 'radio', component: RadioDemoComponent },
-      { path: 'select', component: SelectDemoComponent }
+      { path: 'select', component: SelectDemoComponent },
+      { path: 'dialog', component: DialogDemoComponent }
     ]
   }
 ];
