@@ -1,4 +1,4 @@
-<div [className]="classes.valueText">{{ empty ? '\u00A0' : triggerValue }}</div>
+<div [className]="classes.valueText" #valueText>{{ empty ? '\u00A0' : triggerValue }}</div>
 <ng-template>
   <div #container [className]="classes.container" [@selectEnter]="'in'" (@selectLeave.done)="_endAnimation($event)">
     <ng-content></ng-content>

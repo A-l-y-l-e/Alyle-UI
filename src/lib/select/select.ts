@@ -194,6 +194,7 @@ export class LySelect
   private readonly _destroy = new Subject<void>();
 
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+  @ViewChild('valueText') valueTextDivRef: ElementRef<HTMLDivElement>;
   /** @internal */
   @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
   @ContentChildren(forwardRef(() => LyOption), { descendants: true }) options: QueryList<LyOption>;
@@ -572,7 +573,7 @@ export class LySelect
   private _updatePlacement() {
     const el = this._overlayRef!.containerElement as HTMLElement;
     const container = el.querySelector('div')!;
-    const { nativeElement } = this._el;
+    const { nativeElement } = this.valueTextDivRef;
 
     // reset height & width
     this._renderer.setStyle(container, 'height', 'initial');
@@ -603,7 +604,7 @@ export class LySelect
       YPosition.below,
       XPosition.after,
       null as any,
-      this._getHostElement(),
+      nativeElement,
       el,
       this._theme.variables,
       offset,
