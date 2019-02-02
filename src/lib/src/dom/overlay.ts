@@ -44,7 +44,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _appRef: ApplicationRef,
-    _templateRef: TemplateRef<any> | string,
+    _templateRefOrComponent: TemplateRef<any> | Type<any> | string,
     private _overlayContainer: LyOverlayContainer,
     _context: any,
     private _injector: Injector,
@@ -107,7 +107,7 @@ class CreateFromTemplateRef implements OverlayFromTemplateRef {
     this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
     const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
     this._overlayContainer._add(backdropEl);
-    this._appendComponentToBody(_templateRef, _context, this._injector);
+    this._appendComponentToBody(_templateRefOrComponent, _context, this._injector);
 
   }
 
@@ -199,8 +199,8 @@ export class LyOverlay {
     private _resizeService: WinResize
   ) { }
 
-  create(template: TemplateRef<any> | string, context?: any, config?: OverlayConfig): OverlayFromTemplateRef {
+  create(templateOrComponent: Type<any> | TemplateRef<any> | string, context?: any, config?: OverlayConfig): OverlayFromTemplateRef {
     return new CreateFromTemplateRef(
-      this._componentFactoryResolver, this._appRef, template, this._overlayContainer, context, this._injector, this._windowScroll, this._resizeService, config);
+      this._componentFactoryResolver, this._appRef, templateOrComponent, this._overlayContainer, context, this._injector, this._windowScroll, this._resizeService, config);
   }
 }
