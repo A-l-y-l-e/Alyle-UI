@@ -1,6 +1,9 @@
 <button ly-button (click)="sb.open()">Show snack-bar</button>
 
-<ng-template ly-snack-bar #sb="lySnackBar" (afterDismissed)="afterDismissed($event)" [duration]="'Infinity'">
+<ng-template ly-snack-bar
+  #sb="lySnackBar"
+  (afterDismissed)="afterDismissed($event)"
+>
   <span>Message</span>
   <button ly-button color="accent" (click)="sb.dismiss()">
     Dismiss
