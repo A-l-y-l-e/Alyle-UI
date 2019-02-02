@@ -2,19 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyCommonModule } from '@alyle/ui';
 
-import { LyDialog } from './dialog';
+import { LyDialogContainer } from './dialog-container.directive';
 
 @NgModule({
-  declarations: [
-    LyDialog
+  entryComponents: [
+    LyDialogContainer
   ],
   imports: [
     CommonModule,
     LyCommonModule
   ],
   exports: [
-    LyCommonModule,
-    LyDialog
+    LyCommonModule
   ]
 })
 export class LyDialogModule { }
