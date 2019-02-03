@@ -10,12 +10,28 @@ import {
   ComponentRef,
   EmbeddedViewRef,
   ChangeDetectionStrategy,
+  Renderer2,
+  ElementRef,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
-import { OverlayRef } from '@alyle/ui';
+import { OverlayRef, LyTheme2, ThemeVariables, shadowBuilder } from '@alyle/ui';
+import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
-import { Subject } from 'rxjs';
+const STYLE_PRIORITY = -2;
+const STYLES = (theme: ThemeVariables) => ({
+  root: {
+    backgroundColor: theme.background.primary.default,
+    borderRadius: '4px',
+    boxShadow: shadowBuilder(12),
+    padding: '24px',
+    overflow: 'auto',
+    width: '100%',
+    height: '100%',
+    minHeight: 'inherit',
+    maxHeight: 'inherit'
+  }
+});
 
 /** @docs-private */
 @Component({
@@ -34,10 +50,12 @@ import { Subject } from 'rxjs';
   ],
   host: {
     '[@dialogContainer]': '_state',
+    '(@dialogContainer.start)': '_onAnimationStart($event)',
     '(@dialogContainer.done)': '_onAnimationDone($event)'
   }
 })
 export class LyDialogContainer implements OnInit {
+  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _embeddedViewRef: EmbeddedViewRef<any>;
   private _componentRef: ComponentRef<any>;
 
@@ -65,7 +83,12 @@ export class LyDialogContainer implements OnInit {
   constructor(
     private _appRef: ApplicationRef,
     private _overlayRef: OverlayRef,
-  ) { }
+    private _theme: LyTheme2,
+    renderer: Renderer2,
+    private _el: ElementRef<HTMLElement>,
+  ) {
+    renderer.addClass(_el.nativeElement, this.classes.root);
+  }
   ngOnInit() {
     if (this._componentFactoryOrTemplate instanceof TemplateRef) {
       this._embeddedViewRef = this.viewContainerRef.createEmbeddedView(this._componentFactoryOrTemplate);
@@ -87,6 +110,12 @@ export class LyDialogContainer implements OnInit {
    */
   _startClose() {
     this._state = 'exit';
+  }
+
+  _onAnimationStart(event: AnimationEvent) {
+    if (event.toState === 'enter') {
+      this._overlayRef.config!.onResizeScroll!();
+    }
   }
 
   /** @internal */
@@ -112,5 +141,10 @@ export class LyDialogContainer implements OnInit {
       this._embeddedViewRef.detach();
       this._embeddedViewRef.destroy();
     }
+  }
+
+  /** @internal */
+  _getHostElement() {
+    return this._el.nativeElement;
   }
 }

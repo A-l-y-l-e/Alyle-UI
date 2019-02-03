@@ -21,7 +21,9 @@ export class BasicDialogComponent implements OnInit {
   }
 
   open() {
-    const dialogRef = this._dialog.open(DialogDemo);
+    const dialogRef = this._dialog.open(DialogDemo, {
+      width: 250
+    });
     dialogRef.beforeClosed.subscribe((result) => console.warn(result));
   }
 
