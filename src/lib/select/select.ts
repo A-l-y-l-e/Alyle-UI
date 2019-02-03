@@ -40,7 +40,7 @@ import {
   LyOverlay,
   LySelectionModel,
   LyTheme2,
-  OverlayFromTemplateRef,
+  OverlayFactory,
   shadowBuilder,
   ThemeVariables,
   toBoolean,
@@ -179,7 +179,7 @@ export class LySelect
   _selectionModel: LySelectionModel<LyOption>;
   /** @internal */
   _value: any;
-  private _overlayRef: OverlayFromTemplateRef | null;
+  private _overlayRef: OverlayFactory | null;
   protected _disabled = false;
   protected _required = false;
   protected _placeholder: string;

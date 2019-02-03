@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { LyOverlayBackdrop } from './overlay-container';
+import { LyOverlayBackdrop } from './overlay-backdrop';
 
 @NgModule({
   declarations: [LyOverlayBackdrop],
