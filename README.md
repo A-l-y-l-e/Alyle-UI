@@ -7,7 +7,8 @@
 [![Build Status](https://travis-ci.org/A-l-y-l-e/Alyle-UI.svg?branch=master)](https://travis-ci.org/A-l-y-l-e/Alyle-UI)
 [![Build Status](https://dev.azure.com/Alyle/Alyle%20UI/_apis/build/status/Alyle%20UI)](https://dev.azure.com/Alyle/Alyle%20UI/_build/latest?definitionId=1)
 [![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
-[![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui) [![Join the chat at https://gitter.im/A-l-y-l-e/Alyle-UI](https://badges.gitter.im/A-l-y-l-e/Alyle-UI.svg)](https://gitter.im/A-l-y-l-e/Alyle-UI?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
+[![Join the chat at https://discord.gg/65hMpAJ](https://img.shields.io/badge/chat-on%20discord-738BD7.svg?style=flat-square)](https://discord.gg/65hMpAJ)
 
 ## Install Alyle UI
 
@@ -46,4 +47,4 @@
 
 ## Questions?
 
-If you have any questions, ideas or you want to discuss with Alyle UI community, join the chat at [Gitter](https://gitter.im/A-l-y-l-e/Alyle-UI)
+If you have any questions, ideas or you want to discuss with Alyle UI community, join the chat at [Discord](https://discord.gg/65hMpAJ)
