@@ -45,7 +45,7 @@ export class LyDialog {
       onResizeScroll: onReziseScroll,
       backdropStyleBlock: STYLES_BACKDROP_WITH_BG,
       fnDestroy: () => {
-        newInjector.get(LyDialogRef).close();
+        dialogRef.close();
       }
     });
 
