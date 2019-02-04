@@ -1,11 +1,19 @@
-// import { Injectable } from '@angular/core';
-import { LyOverlayConfig } from './overlay-config';
-import { OverlayFactoryRef } from './overlay-factory';
+import { ComponentRef } from '@angular/core';
 
 // @Injectable()
-export class OverlayRef {
-  constructor(
-    public config: LyOverlayConfig,
-    public ref: OverlayFactoryRef
-  ) { }
+export class LyOverlayRef<T = any> {
+  containerElement: HTMLDivElement;
+  componentRef: ComponentRef<T> | null;
+
+  /** Function that will be called on scroll or resize event */
+  onResizeScroll: (() => void) | null;
+
+  /** Detaches a view from dirty checking again of ApplicationRef. */
+  readonly detach: () => void;
+
+  /** Remove element of DOM */
+  remove: () => void;
+
+  /** Detach & remove */
+  destroy: () => void;
 }

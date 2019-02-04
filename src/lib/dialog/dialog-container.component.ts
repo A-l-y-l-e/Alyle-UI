@@ -14,7 +14,7 @@ import {
   ElementRef,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
-import { OverlayRef, LyTheme2, ThemeVariables, shadowBuilder } from '@alyle/ui';
+import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
@@ -82,7 +82,7 @@ export class LyDialogContainer implements OnInit {
 
   constructor(
     private _appRef: ApplicationRef,
-    private _overlayRef: OverlayRef,
+    private _overlayRef: LyOverlayRef,
     private _theme: LyTheme2,
     renderer: Renderer2,
     private _el: ElementRef<HTMLElement>,
@@ -114,7 +114,7 @@ export class LyDialogContainer implements OnInit {
 
   _onAnimationStart(event: AnimationEvent) {
     if (event.toState === 'enter') {
-      this._overlayRef.config!.onResizeScroll!();
+      this._overlayRef!.onResizeScroll!();
     }
   }
 
@@ -123,7 +123,7 @@ export class LyDialogContainer implements OnInit {
     if (event.toState === 'exit') {
       const dialogRef = this._newInjector.get(LyDialogRef);
       this._destroy();
-      this._overlayRef.ref.destroy();
+      this._overlayRef.destroy();
       this._afterClosed.next(dialogRef.result);
       this._afterClosed.complete();
     } else if (event.toState === 'enter') {

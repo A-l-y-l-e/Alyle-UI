@@ -47,25 +47,6 @@ export class OverlayFactory<T = any> {
     if (config) {
       Object.assign(__styles, config.styles);
     }
-    // const newInjector = Injector.create([
-    //   {
-    //     provide: OverlayRef,
-    //     useClass: OverlayRef,
-    //     deps: [
-    //       {
-    //         fnDestroy: this.destroy.bind(this),
-    //         ...config,
-    //         styles: __styles,
-    //       },
-    //       this
-    //     ]
-    //     // <LyOverlayConfig>{
-    //     //   fnDestroy: this.destroy.bind(this),
-    //     //   ...config,
-    //     //   styles: __styles,
-    //     // }
-    //   }
-    // ], this._injector);
 
     const newInjector = createOverlayInjector(this._injector, {
       fnDestroy: this.destroy.bind(this),

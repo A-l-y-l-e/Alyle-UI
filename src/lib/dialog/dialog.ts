@@ -1,5 +1,5 @@
 import { Injectable, Type, TemplateRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
-import { LyOverlay, OverlayRef } from '@alyle/ui';
+import { LyOverlay, LyOverlayRef } from '@alyle/ui';
 
 import { LyDialogContainer } from './dialog-container.component';
 import { LyDialogRef } from './dialog-ref';
@@ -62,7 +62,7 @@ export class LyDialog {
     const newInjector = new DynamicInjector(Injector.create([
       {
         provide: LyDialogRef,
-        useValue: new LyDialogRef(overlayRef.componentRef!.injector.get(OverlayRef))
+        useValue: new LyDialogRef(overlayRef.componentRef!.injector.get(LyOverlayRef))
       }
     ], overlayRef.componentRef!.injector), overlayRef.componentRef!.injector);
     instance._init(componentFactoryOrTemplate, newInjector);
