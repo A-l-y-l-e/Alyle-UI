@@ -148,6 +148,22 @@ export class LyTheme2 {
     }
     return newClass;
   }
+
+  /**
+   * Create basic style
+   * @param style Styles.
+   * Note: Use only with inmutable variable.
+   * @param priority Priority of style
+   * @param parentStyle
+   */
+  style(style: StyleContainerFn, priority?: number | null, parentStyle?: Styles): string {
+    return this._createStyleContent2(style,
+      null,
+      priority,
+      TypeStyle.OnlyOne,
+      false, parentStyle) as string;
+  }
+
   private updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
     this.core.updateClassName(element, renderer, newClassname, oldClassname);
   }
@@ -608,8 +624,9 @@ function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;
 }
 
+// Convert all properties to `string` type, and exclude properties that not is class name
 type OnlyClasses<T> = Record<(
   Exclude<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T),
-  '$name' | '$keyframes'>
+  '$name' | '$keyframes' | '@global'>
 ), string>;
 
