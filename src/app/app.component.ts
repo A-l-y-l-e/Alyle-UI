@@ -137,6 +137,7 @@ export class AppComponent implements OnInit {
     iconService.setSvg('Radiation', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/radiation'));
     iconService.setSvg('Water', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Water'));
     iconService.setSvg('Snow', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Snow'));
+    iconService.setSvg('Discord', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/social/discord'));
   }
   ngOnInit() {
     this.renderer.addClass(this._el.nativeElement, this.classes.root);
