@@ -31,7 +31,7 @@ export class BasicDialogComponent implements OnInit {
 
 @Component({
   template: `
-  <h4 lyTyp="title" gutterBottom>Title</h4>
+  <h4 ly-dialog-title gutterBottom>Title</h4>
   <ly-grid container justify="end">
 
   <button ly-button color="primary" (click)="dialogRef.close('data')">Ok</button>
