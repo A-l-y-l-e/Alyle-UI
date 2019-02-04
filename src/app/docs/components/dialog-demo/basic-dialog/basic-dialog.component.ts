@@ -30,7 +30,7 @@ export class BasicDialogComponent implements OnInit {
 }
 
 @Component({
-  template: '<button ly-button (click)="dialogRef.close()">close</button>'
+  template: '<h4 lyTyp="title" gutterBottom>Title</h4><button ly-button (click)="dialogRef.close()">close</button>'
 })
 export class DialogDemo {
   constructor(
