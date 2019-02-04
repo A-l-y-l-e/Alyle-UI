@@ -3,7 +3,7 @@ import { WinResize } from './resize';
 import { WinScroll } from './scroll';
 import { LyOverlayContainer } from './overlay-container';
 import { OverlayFactory } from './overlay-factory';
-import { OverlayConfig } from './overlay-config';
+import { LyOverlayConfig } from './overlay-config';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class LyOverlay {
     private _resizeService: WinResize
   ) { }
 
-  create<T>(templateOrComponent: Type<T> | TemplateRef<any> | string, context?: any, config?: OverlayConfig) {
+  create<T>(templateOrComponent: Type<T> | TemplateRef<any> | string, context?: any, config?: LyOverlayConfig) {
     return new OverlayFactory<T>(
       this._componentFactoryResolver, this._appRef, templateOrComponent, this._overlayContainer, context, this._injector, this._windowScroll, this._resizeService, config);
   }

@@ -1,9 +1,9 @@
 import { Injector } from '@angular/core';
 import { OverlayRef } from './overlay-ref';
-import { OverlayConfig } from './overlay-config';
+import { LyOverlayConfig } from './overlay-config';
 import { OverlayFactory } from './overlay-factory';
 
-export function createOverlayInjector(parent: Injector, config: OverlayConfig, overlayFactory: OverlayFactory) {
+export function createOverlayInjector(parent: Injector, config: LyOverlayConfig, overlayFactory: OverlayFactory) {
   return Injector.create({
     providers: [
       {

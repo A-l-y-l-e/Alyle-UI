@@ -212,9 +212,7 @@ export class LyMenuTriggerFor implements OnDestroy {
           left: 0,
           pointerEvents: null
         },
-        fnDestroy: this.detach.bind(this),
-        host: this.elementRef.nativeElement,
-        backdrop: true
+        fnDestroy: this.detach.bind(this)
       });
     }
   }

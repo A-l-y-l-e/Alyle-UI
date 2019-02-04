@@ -5,6 +5,7 @@ import { LyDialogContainer } from './dialog-container.component';
 import { LyDialogRef } from './dialog-ref';
 import { DynamicInjector } from './dynamic-injector';
 import { LyDialogConfig } from './dialog-config';
+import { STYLES_BACKDROP_WITH_BG } from 'lib/src/dom/overlay-styles';
 
 @Injectable()
 export class LyDialog {
@@ -40,8 +41,9 @@ export class LyDialog {
         top: 0,
         left: 0
       },
-      backdrop: config.hasBackdrop,
+      hasBackdrop: config.hasBackdrop,
       onResizeScroll: onReziseScroll,
+      backdropStyleBlock: STYLES_BACKDROP_WITH_BG,
       fnDestroy: () => {
         newInjector.get(LyDialogRef).close();
       }

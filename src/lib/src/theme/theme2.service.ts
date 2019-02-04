@@ -131,7 +131,7 @@ export class LyTheme2 {
    * @param parentStyle
    */
   addStyle(id: string,
-    style?: StyleContainerFn,
+    style?: StyleDeclarationsBlock,
     el?: any,
     instance?: string | null,
     priority?: number | null,
@@ -156,7 +156,7 @@ export class LyTheme2 {
    * @param priority Priority of style
    * @param parentStyle
    */
-  style(style: StyleContainerFn, priority?: number | null, parentStyle?: Styles): string {
+  style(style: StyleDeclarationsBlock, priority?: number | null, parentStyle?: Styles): string {
     return this._createStyleContent2(style,
       null,
       priority,
@@ -230,7 +230,7 @@ export class LyTheme2 {
   }
 
   private _createStyleContent2(
-    styles: Styles | StyleContainerFn,
+    styles: Styles | StyleDeclarationsBlock,
     id: string | null,
     priority: number | undefined | null,
     type: TypeStyle,
@@ -368,9 +368,9 @@ export interface StyleGroup {
 }
 
 /**
- * StyleContainer or fn that return StyleContainer
+ * CSS declarations block
  */
-export type StyleContainerFn = ((T: any) => StyleContainer | string) | StyleContainer | string | null | undefined;
+export type StyleDeclarationsBlock = ((T: any) => StyleContainer | string) | StyleContainer | string | null | undefined;
 
 export type Styles = ((T: any) => StyleGroup) | StyleGroup | undefined | null;
 

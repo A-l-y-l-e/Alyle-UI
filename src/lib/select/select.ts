@@ -503,8 +503,7 @@ export class LySelect
         pointerEvents: null
       },
       fnDestroy: this.close.bind(this),
-      onResizeScroll: this._updatePlacement.bind(this),
-      backdrop: true
+      onResizeScroll: this._updatePlacement.bind(this)
     });
     this._ngZone.onStable.pipe(
       take(1)

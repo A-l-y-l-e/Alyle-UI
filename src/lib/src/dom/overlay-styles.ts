@@ -9,9 +9,9 @@ export const STYLES_BACKDROP_TRANSPARENT = ({
   userSelect: 'none',
 });
 
-export const STYLES_BACKDROP_DEFAULT = (theme: ThemeVariables) => ({
+export const STYLES_BACKDROP_WITH_BG = (theme: ThemeVariables) => ({
   ...STYLES_BACKDROP_TRANSPARENT,
-  backgroundColor: chroma(theme.background.default).alpha(.32).css()
+  backgroundColor: chroma(theme.text.default).alpha(.32).css()
 });
 
 

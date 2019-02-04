@@ -49,6 +49,7 @@ export class LySnackBar implements OnDestroy {
         // this remove previous style
         justifyContent: null
       },
+      hasBackdrop: false,
       classes: [
         this._theme.addStyle('SnackBar', (theme: ThemeVariables) => ({
           borderRadius: '4px',

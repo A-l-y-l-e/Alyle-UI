@@ -2,7 +2,7 @@ import { EmbeddedViewRef, ComponentRef, ComponentFactoryResolver, ApplicationRef
 import { Subscription, merge } from 'rxjs';
 import { WinScroll } from './scroll';
 import { WinResize } from './resize';
-import { OverlayConfig } from './overlay-config';
+import { LyOverlayConfig } from './overlay-config';
 import { LyOverlayBackdrop } from './overlay-backdrop';
 import { LyOverlayContainer } from './overlay-container';
 import { createOverlayInjector } from './overlay-injector';
@@ -33,8 +33,9 @@ export class OverlayFactory<T = any> {
     private _injector: Injector,
     windowScroll: WinScroll,
     resizeService: WinResize,
-    config?: OverlayConfig
+    config?: LyOverlayConfig
   ) {
+    config = { ...new LyOverlayConfig(), ...config };
     this._el = document.createElement('div');
     const __styles = {
       position: 'absolute',
@@ -58,7 +59,7 @@ export class OverlayFactory<T = any> {
     //       },
     //       this
     //     ]
-    //     // <OverlayConfig>{
+    //     // <LyOverlayConfig>{
     //     //   fnDestroy: this.destroy.bind(this),
     //     //   ...config,
     //     //   styles: __styles,
@@ -81,13 +82,6 @@ export class OverlayFactory<T = any> {
       this._windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
         if (this.onResizeScroll) {
           this.onResizeScroll();
-        } else if (config.host) {
-          const rect = config.host.getBoundingClientRect();
-          const newStyles = {
-            top: rect.top,
-            left: rect.left
-          };
-          this._updateStyles(newStyles);
         }
       });
 
@@ -97,11 +91,13 @@ export class OverlayFactory<T = any> {
       }
     }
 
+    if (config.hasBackdrop) {
+      this._compRefOverlayBackdrop = this._generateComponent(LyOverlayBackdrop, newInjector);
+      this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
+      const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
+      this._overlayContainer._add(backdropEl);
+    }
 
-    this._compRefOverlayBackdrop = this._generateComponent(LyOverlayBackdrop, newInjector);
-    this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
-    const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
-    this._overlayContainer._add(backdropEl);
     this._appendComponentToBody(_templateRefOrComponent, _context, newInjector);
 
   }
