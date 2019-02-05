@@ -17,7 +17,6 @@ export * from './src/styles/core-styles';
 export * from './src/undefined';
 export * from './src/style-utils';
 export * from './src/dom/index';
-export * from './src/dom/overlay.module';
 export * from './src/dom/mutation-observer-factory';
 export * from './src/dom/resize';
 export * from './src/dom/scroll';

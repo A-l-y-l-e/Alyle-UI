@@ -1,5 +1,5 @@
-import { StyleDeclarationsBlock } from '@alyle/ui';
 import { STYLES_BACKDROP_TRANSPARENT } from './overlay-styles';
+import { StyleDeclarationsBlock } from '../theme/theme2.service';
 
 export class LyOverlayConfig {
   /** Styles for overlay container */
