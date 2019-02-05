@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, Renderer2, Input, OnInit, OnChanges } from '@angular/core';
 import { LyTheme2, toBoolean, ThemeVariables, StyleContainer, mixinStyleUpdater, mixinColor } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
@@ -31,9 +31,9 @@ export const LyTypographyMixinBase = mixinStyleUpdater(
 @Directive({
   selector: `[lyTyp]`
 })
-export class LyTypography extends LyTypographyMixinBase implements OnInit {
+export class LyTypography extends LyTypographyMixinBase implements OnInit, OnChanges {
   /** @docs-private */
-  readonly classes = this.style.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _lyTyp: string;
   private _lyTypClass?: string;
 
@@ -54,7 +54,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit {
       if (val) {
         this._lyTypClass = this._createTypClass(val, this._lyTypClass);
       } else if (this._lyTypClass) {
-        this.renderer.removeClass(this.elementRef.nativeElement, this._lyTypClass);
+        this.renderer.removeClass(this._el.nativeElement, this._lyTypClass);
         this._lyTypClass = undefined;
       }
     }
@@ -68,14 +68,14 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit {
   set noWrap(val: boolean) {
     const newValue = toBoolean(val);
     if (newValue) {
-      this._noWrapClass = this.style.addSimpleStyle('lyTyp.noWrap', {
+      this._noWrapClass = this._theme.addSimpleStyle('lyTyp.noWrap', {
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis'
       });
-      this.renderer.addClass(this.elementRef.nativeElement, this._noWrapClass);
+      this.renderer.addClass(this._el.nativeElement, this._noWrapClass);
     } else if (this._noWrapClass) {
-      this.renderer.removeClass(this.elementRef.nativeElement, this._noWrapClass);
+      this.renderer.removeClass(this._el.nativeElement, this._noWrapClass);
       this._noWrapClass = undefined;
     }
   }
@@ -121,12 +121,12 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit {
   }
 
   constructor(
-    private style: LyTheme2,
-    private elementRef: ElementRef,
+    _theme: LyTheme2,
+    private _el: ElementRef,
     private renderer: Renderer2
   ) {
-    super(style);
-    this.renderer.addClass(this.elementRef.nativeElement, this.classes.root);
+    super(_theme);
+    this.renderer.addClass(this._el.nativeElement, this.classes.root);
   }
 
   ngOnInit() {
@@ -135,10 +135,14 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit {
     }
   }
 
+  ngOnChanges() {
+    this.updateStyle(this._el.nativeElement);
+  }
+
   private _createTypClass(key: string, instance?: string) {
     const newKey = `k-typ:${key}`;
 
-    return this.style.addStyle(newKey,
+    return this._theme.addStyle(newKey,
       (theme: ThemeVariables) => {
         const { typography } = theme;
         const styl: StyleContainer = Object.assign({ }, typography.lyTyp[key || 'body1']);
@@ -152,14 +156,14 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit {
         styl.fontFamily = styl.fontFamily || typography.fontFamily;
         return styl;
       },
-      this.elementRef.nativeElement,
+      this._el.nativeElement,
       instance,
       STYLE_PRIORITY
     );
   }
 
   private _createGutterClass(name: Gutter, val: boolean, instance: string) {
-    return this.style.addStyle(
+    return this._theme.addStyle(
       `k-typ-gutter:${name}:${val}`,
       (theme: ThemeVariables) => {
         const gutter = name === Gutter.default;
@@ -168,7 +172,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit {
           `margin-bottom:${ val && (gutter || name === Gutter.bottom) ? theme.typography.gutterBottom : 0 }em;`
         );
       },
-      this.elementRef.nativeElement,
+      this._el.nativeElement,
       instance,
       STYLE_PRIORITY
     );
