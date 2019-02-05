@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { AUIRoutesMap } from 'app/routes';
 import { PageContentComponent } from '../../page-content/page-content.component';
 
-let count = -2;
+let count = -1;
 
 @Component({
   selector: 'app-title',
