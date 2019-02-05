@@ -5,6 +5,8 @@ import { LyCommonModule } from '@alyle/ui';
 import { LyDialogContainer } from './dialog-container.component';
 import { LyDialog } from './dialog';
 import { LyDialogTitle } from './dialog-title.directive';
+import { LyDialogContent } from './dialog-content.directive';
+import { LyDialogActions } from './dialog-actions.directive';
 
 @NgModule({
   entryComponents: [
@@ -12,7 +14,9 @@ import { LyDialogTitle } from './dialog-title.directive';
   ],
   declarations: [
     LyDialogContainer,
-    LyDialogTitle
+    LyDialogTitle,
+    LyDialogContent,
+    LyDialogActions
   ],
   imports: [
     CommonModule,
@@ -21,7 +25,9 @@ import { LyDialogTitle } from './dialog-title.directive';
   exports: [
     LyCommonModule,
     LyDialogContainer,
-    LyDialogTitle
+    LyDialogTitle,
+    LyDialogContent,
+    LyDialogActions
   ],
   providers: [
     LyDialog

@@ -21,11 +21,14 @@ import { LyDialogRef } from './dialog-ref';
 const STYLE_PRIORITY = -2;
 const STYLES = (theme: ThemeVariables) => ({
   root: {
+    display: 'flex',
+    position: 'relative',
     backgroundColor: theme.background.primary.default,
     borderRadius: '4px',
     boxShadow: shadowBuilder(12),
     padding: '24px',
     overflow: 'auto',
+    flexDirection: 'column',
     width: '100%',
     height: '100%',
     minHeight: 'inherit',

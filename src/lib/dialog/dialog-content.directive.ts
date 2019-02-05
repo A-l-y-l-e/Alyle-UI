@@ -1,18 +1,16 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
-export const STYLES_DIALOG_CONTENT = (theme: ThemeVariables) => ({
+export const STYLES_DIALOG_CONTENT = ({
   display: 'block',
-  margin: '0 0 20px',
-  fontSize: `20px`,
-  lineHeight: '32px',
-  fontWeight: 500,
-  fontFamily: theme.typography.fontFamily
+  overflowY: 'auto',
+  flex: '1 1 auto',
+  '-webkit-overflow-scrolling': 'touch'
 });
 
 @Directive({
-  selector: '[ly-dialog-content], [lyDialogContent]',
+  selector: 'ly-dialog-content, [ly-dialog-content], [lyDialogContent]',
   exportAs: 'lyDialogContent'
 })
 export class LyDialogContent implements OnInit {
