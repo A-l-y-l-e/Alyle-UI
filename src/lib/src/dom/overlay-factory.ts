@@ -7,7 +7,6 @@ import { LyOverlayBackdrop } from './overlay-backdrop';
 import { LyOverlayContainer } from './overlay-container';
 import { createOverlayInjector } from './overlay-injector';
 
-export type OverlayFactoryRef<T = any> = OverlayFactory<T>;
 export class OverlayFactory<T = any> {
   private _viewRef: EmbeddedViewRef<any>;
   private _el?: HTMLDivElement;
