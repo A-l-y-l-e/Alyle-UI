@@ -21,7 +21,7 @@ export class BasicDialogComponent implements OnInit {
   }
 
   open() {
-    const dialogRef = this._dialog.open(DialogDemo, {
+    const dialogRef = this._dialog.open<DialogDemo, string>(DialogDemo, {
       width: 250
     });
     dialogRef.beforeClosed.subscribe((result) => console.warn(result));
@@ -33,8 +33,7 @@ export class BasicDialogComponent implements OnInit {
   template: `
   <h4 ly-dialog-title gutterBottom>Title</h4>
   <ly-grid ly-dialog-actions container justify="end">
-
-  <button ly-button color="primary" (click)="dialogRef.close('data')">Ok</button>
+    <button ly-button color="primary" (click)="dialogRef.close('data')">Ok</button>
   </ly-grid>
   `
 })
