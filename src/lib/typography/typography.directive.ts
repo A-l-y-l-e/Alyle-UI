@@ -29,7 +29,10 @@ export const LyTypographyMixinBase = mixinStyleUpdater(
     mixinColor((LyTypographyBase)));
 
 @Directive({
-  selector: `[lyTyp]`
+  selector: `[lyTyp]`,
+  inputs: [
+    'color'
+  ]
 })
 export class LyTypography extends LyTypographyMixinBase implements OnInit, OnChanges {
   /** @docs-private */
