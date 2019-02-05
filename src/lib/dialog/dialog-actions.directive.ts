@@ -5,11 +5,10 @@ const STYLE_PRIORITY = -2;
 export const STYLES_DIALOG_ACTIONS = ({
   display: 'flex',
   flex: '0 0 auto',
-  padding: '8px 0',
+  padding: '8px',
   flexWrap: 'wrap',
   minHeight: '52px',
-  alignItems: 'center',
-  marginBottom: '-24px'
+  alignItems: 'center'
 });
 
 @Directive({

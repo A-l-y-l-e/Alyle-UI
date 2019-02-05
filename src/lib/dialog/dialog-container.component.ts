@@ -26,7 +26,6 @@ const STYLES = (theme: ThemeVariables) => ({
     backgroundColor: theme.background.primary.default,
     borderRadius: '4px',
     boxShadow: shadowBuilder(12),
-    padding: '24px',
     overflow: 'auto',
     '> :first-child': {
       display: 'flex',

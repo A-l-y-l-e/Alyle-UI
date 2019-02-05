@@ -6,8 +6,7 @@ export const STYLES_DIALOG_CONTENT = ({
   display: 'block',
   overflowY: 'auto',
   flex: '1 1 auto',
-  margin: '0 -24px',
-  padding: '0 24px',
+  padding: '0 24px 24px',
   '-webkit-overflow-scrolling': 'touch'
 });
 
