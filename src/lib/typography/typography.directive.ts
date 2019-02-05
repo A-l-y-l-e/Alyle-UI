@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
-import { LyTheme2, toBoolean, ThemeVariables, StyleContainer } from '@alyle/ui';
+import { LyTheme2, toBoolean, ThemeVariables, StyleContainer, mixinStyleUpdater, mixinColor } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 const styles = (theme: ThemeVariables) => ({
@@ -14,13 +14,24 @@ const styles = (theme: ThemeVariables) => ({
 enum Gutter {
   default,
   top,
-  bottom,
+  bottom
 }
+
+/** @docs-private */
+export class LyTypographyBase {
+  constructor(
+    public _theme: LyTheme2
+  ) { }
+}
+
+/** @docs-private */
+export const LyTypographyMixinBase = mixinStyleUpdater(
+    mixinColor((LyTypographyBase)));
 
 @Directive({
   selector: `[lyTyp]`
 })
-export class LyTypography implements OnInit {
+export class LyTypography extends LyTypographyMixinBase implements OnInit {
   /** @docs-private */
   readonly classes = this.style.addStyleSheet(styles, STYLE_PRIORITY);
   private _lyTyp: string;
@@ -114,6 +125,7 @@ export class LyTypography implements OnInit {
     private elementRef: ElementRef,
     private renderer: Renderer2
   ) {
+    super(style);
     this.renderer.addClass(this.elementRef.nativeElement, this.classes.root);
   }
 
