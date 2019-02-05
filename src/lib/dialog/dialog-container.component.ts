@@ -30,7 +30,8 @@ const STYLES = (theme: ThemeVariables) => ({
     overflow: 'auto',
     '> :first-child': {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      width: '100%'
     }
   }
 });
