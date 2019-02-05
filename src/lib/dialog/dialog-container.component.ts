@@ -28,11 +28,7 @@ const STYLES = (theme: ThemeVariables) => ({
     boxShadow: shadowBuilder(12),
     padding: '24px',
     overflow: 'auto',
-    flexDirection: 'column',
-    width: '100%',
-    height: '100%',
-    minHeight: 'inherit',
-    maxHeight: 'inherit'
+    flexDirection: 'column'
   }
 });
 
