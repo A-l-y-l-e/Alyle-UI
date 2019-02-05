@@ -12,7 +12,7 @@ export const STYLES_DIALOG_ACTIONS = ({
 });
 
 @Directive({
-  selector: '[ly-dialog-actions], [lyDialogActions]',
+  selector: 'ly-dialog-actions, [ly-dialog-actions], [lyDialogActions]',
   exportAs: 'lyDialogActions'
 })
 export class LyDialogActions implements OnInit {

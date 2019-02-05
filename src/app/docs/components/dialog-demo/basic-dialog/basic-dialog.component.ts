@@ -37,7 +37,7 @@ export class BasicDialogComponent implements OnInit {
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam earum dolor, iusto fugit in dolore.
     </p>
   </div>
-  <ly-grid ly-dialog-actions container justify="end">
+  <ly-grid container justify="end" ly-dialog-actions>
     <button ly-button color="primary" (click)="dialogRef.close()">DISAGREE</button>
     <button ly-button color="primary" (click)="dialogRef.close(true)">AGREE</button>
   </ly-grid>
