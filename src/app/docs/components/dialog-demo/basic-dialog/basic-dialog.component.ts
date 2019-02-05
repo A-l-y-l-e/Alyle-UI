@@ -41,7 +41,8 @@ export class BasicDialogComponent implements OnInit {
     <button ly-button color="primary" (click)="dialogRef.close()">DISAGREE</button>
     <button ly-button color="primary" (click)="dialogRef.close(true)">AGREE</button>
   </ly-grid>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogDemo {
   constructor(
