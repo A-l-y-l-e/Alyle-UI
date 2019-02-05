@@ -1,10 +1,11 @@
-import { Injectable, Type, TemplateRef, ComponentFactoryResolver, ComponentFactory, Injector } from '@angular/core';
-import { LyOverlay, LyOverlayRef, STYLES_BACKDROP_WITH_BG } from '@alyle/ui';
+import { Injectable, Type, TemplateRef, ComponentFactoryResolver, ComponentFactory, Injector, StaticProvider } from '@angular/core';
+import { LyOverlay, LyOverlayRef } from '@alyle/ui';
 
 import { LyDialogContainer } from './dialog-container.component';
 import { LyDialogRef } from './dialog-ref';
 import { DynamicInjector } from './dynamic-injector';
 import { LyDialogConfig } from './dialog-config';
+import { LY_DIALOG_DATA } from './dialog-data';
 
 @Injectable()
 export class LyDialog {
@@ -42,7 +43,7 @@ export class LyDialog {
       },
       hasBackdrop: config.hasBackdrop,
       onResizeScroll: onReziseScroll,
-      backdropStyleBlock: STYLES_BACKDROP_WITH_BG,
+      backdropStyleBlock: config.backdropStyleBlock,
       fnDestroy: () => {
         dialogRef.close();
       }
@@ -58,12 +59,22 @@ export class LyDialog {
     dialogContainerStyle.maxHeight = toPx(config.maxHeight);
     dialogContainerStyle.minHeight = toPx(config.minHeight);
 
-    const newInjector = new DynamicInjector(Injector.create([
+    const providers: StaticProvider[] = [
       {
         provide: LyDialogRef,
         useValue: new LyDialogRef(overlayRef.componentRef!.injector.get(LyOverlayRef))
       }
-    ], overlayRef.componentRef!.injector), overlayRef.componentRef!.injector);
+    ];
+
+    if (config.data != null) {
+      providers.push({
+        provide: LY_DIALOG_DATA,
+        useValue: config.data
+      });
+    }
+
+    const newInjector = new DynamicInjector(
+        Injector.create(providers, overlayRef.componentRef!.injector), overlayRef.componentRef!.injector);
     instance._init(componentFactoryOrTemplate, newInjector);
     const dialogRef = newInjector.get(LyDialogRef);
     return dialogRef;

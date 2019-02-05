@@ -1,4 +1,3 @@
-import { STYLES_BACKDROP_TRANSPARENT } from './overlay-styles';
 import { StyleDeclarationsBlock } from '../theme/theme2.service';
 
 export class LyOverlayConfig {
@@ -6,7 +5,7 @@ export class LyOverlayConfig {
   styles?: Object;
   classes?: string[];
   hasBackdrop?: boolean = true;
-  backdropStyleBlock?: StyleDeclarationsBlock = STYLES_BACKDROP_TRANSPARENT;
+  backdropStyleBlock?: StyleDeclarationsBlock;
   fnDestroy?: (...arg: any) => void;
   /** Function that will be called on scroll or resize event */
   onResizeScroll?: (() => void);

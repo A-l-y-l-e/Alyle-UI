@@ -4,7 +4,7 @@ import { LyTheme2 } from '../theme/theme2.service';
 import { ThemeVariables } from '../theme/theme-config';
 
 const styles = (theme: ThemeVariables) => ({
-  overlayBackdrop: {
+  overlay: {
     position: 'fixed',
     top: 0,
     left: 0,
@@ -64,10 +64,10 @@ export class LyOverlayContainer {
     if (this._items.size) {
       if (!this._isActiveOverlayContainer) {
         this._isActiveOverlayContainer = true;
-        this._containerElement.classList.add(this._classes.overlayBackdrop);
+        this._containerElement.classList.add(this._classes.overlay);
       }
     } else if (this._isActiveOverlayContainer) {
-      this._containerElement.classList.remove(this._classes.overlayBackdrop);
+      this._containerElement.classList.remove(this._classes.overlay);
       this._isActiveOverlayContainer = false;
     }
   }

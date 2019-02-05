@@ -1,3 +1,5 @@
+import { StyleDeclarationsBlock, STYLES_BACKDROP_DARK } from '@alyle/ui';
+
 /**
  * Configuration for opening a modal dialog with the LyDialog service.
  */
@@ -26,4 +28,25 @@ export class LyDialogConfig<DATA = unknown> {
 
   /** Whether the dialog has a backdrop. */
   hasBackdrop?: boolean = true;
+
+  /**
+   * CSS declarations block.
+   * Styles for the backdrop. overrides the current style.
+   * @TODO: Create docs and add link here.
+   */
+  backdropStyleBlock?: StyleDeclarationsBlock = STYLES_BACKDROP_DARK;
+
+  /**
+   * CSS declarations block.
+   * Styles for the dialog container. Merges with the current style.
+   * @TODO: Create docs and add link here.
+   */
+  containerStyleBlock?: StyleDeclarationsBlock;
+
+  /**
+   * CSS declarations block.
+   * Styles for the `<ly-dialog>`. Merges with the current style.
+   * @TODO: Create docs and add link here.
+   */
+  dialogStyleBlock?: StyleDeclarationsBlock;
 }
