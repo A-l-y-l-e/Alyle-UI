@@ -28,7 +28,10 @@ const STYLES = (theme: ThemeVariables) => ({
     boxShadow: shadowBuilder(12),
     padding: '24px',
     overflow: 'auto',
-    flexDirection: 'column'
+    '> :first-child': {
+      display: 'flex',
+      flexDirection: 'column'
+    }
   }
 });
 

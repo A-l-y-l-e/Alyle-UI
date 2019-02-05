@@ -14,11 +14,17 @@ export class LyDialogConfig<DATA = unknown> {
   /** Height of the dialog. */
   height?: number | string;
 
-  /** Min-height of the dialog. If a number is provided, pixel units are assumed. */
-  maxHeight?: number | string;
+  /**
+   * Max-height of the dialog. If a number is provided, pixel units are assumed.
+   * Defaults to calc(100vw - 90px)
+   */
+  maxHeight?: number | string = 'calc(100vh - 90px)';
 
-  /** Max-width of the dialog. If a number is provided, pixel units are assumed. Defaults to 80vw */
-  maxWidth?: number | string = '80vw';
+  /**
+   * Max-width of the dialog. If a number is provided, pixel units are assumed.
+   * Defaults to calc(100vw - 90px)
+   */
+  maxWidth?: number | string = 'calc(100vw - 90px)';
 
   /** Min-height of the dialog. If a number is provided, pixel units are assumed. */
   minHeight?: number | string;
