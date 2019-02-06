@@ -19,6 +19,7 @@ import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder } from '@alyle/ui
 import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
+import { LyDialogConfig } from './dialog-config';
 const STYLE_PRIORITY = -2;
 const STYLES = (theme: ThemeVariables) => ({
   root: {
@@ -89,16 +90,23 @@ export class LyDialogContainer implements OnInit {
     private _theme: LyTheme2,
     private _el: ElementRef<HTMLElement>,
     private _cd: ChangeDetectorRef,
-    renderer: Renderer2
+    private _renderer: Renderer2
   ) {
-    renderer.addClass(_el.nativeElement, this.classes.root);
+    _renderer.addClass(_el.nativeElement, this.classes.root);
   }
   ngOnInit() {
+
     if (this._componentFactoryOrTemplate instanceof TemplateRef) {
       this._embeddedViewRef = this.viewContainerRef.createEmbeddedView(this._componentFactoryOrTemplate);
       this._appRef.attachView(this._embeddedViewRef);
     } else {
       this._componentRef = this.viewContainerRef.createComponent(this._componentFactoryOrTemplate, undefined, this._newInjector);
+    }
+
+    // If exist dialogStyleBlock apply for this component, else do nothing.
+    const { dialogStyleBlock } = this._newInjector.get(LyDialogConfig);
+    if (dialogStyleBlock) {
+      this._renderer.addClass(this._el.nativeElement, this._theme.style(dialogStyleBlock, STYLE_PRIORITY + 1));
     }
   }
 

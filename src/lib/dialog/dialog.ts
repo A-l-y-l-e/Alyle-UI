@@ -63,6 +63,10 @@ export class LyDialog {
       {
         provide: LyDialogRef,
         useValue: new LyDialogRef(overlayRef.componentRef!.injector.get(LyOverlayRef))
+      },
+      {
+        provide: LyDialogConfig,
+        useValue: config
       }
     ];
 

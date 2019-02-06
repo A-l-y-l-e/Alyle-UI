@@ -44,14 +44,7 @@ export class LyDialogConfig<DATA = unknown> {
 
   /**
    * CSS declarations block.
-   * Styles for the dialog container. Merges with the current style.
-   * @TODO: Create docs and add link here.
-   */
-  containerStyleBlock?: StyleDeclarationsBlock;
-
-  /**
-   * CSS declarations block.
-   * Styles for the `<ly-dialog>`. Merges with the current style.
+   * Styles for the `<ly-dialog-container>`. Merges with the current style.
    * @TODO: Create docs and add link here.
    */
   dialogStyleBlock?: StyleDeclarationsBlock;
