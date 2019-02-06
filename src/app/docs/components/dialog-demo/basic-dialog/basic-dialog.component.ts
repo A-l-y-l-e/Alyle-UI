@@ -14,7 +14,7 @@ export class BasicDialogComponent {
 
   open() {
     const dialogRef = this._dialog.open<DialogDemo>(DialogDemo, {
-      width: 320,
+      width: 320
     });
     dialogRef.afterClosed.subscribe((result) => console.log(result));
   }
