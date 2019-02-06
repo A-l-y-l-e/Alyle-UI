@@ -22,6 +22,9 @@ export class LyOverlayContainer {
   private _classes = this.theme.addStyleSheet(styles);
   protected readonly _containerElement: HTMLElement;
   private _items = new Set<any>();
+  get overlayLen() {
+    return this._items.size;
+  }
   private _isActiveOverlayContainer: boolean;
   constructor(
     private theme: LyTheme2

@@ -21,6 +21,15 @@ export class LyOverlay {
 
   create<T>(templateOrComponent: Type<T> | TemplateRef<any> | string, context?: any, config?: LyOverlayConfig) {
     return new OverlayFactory<T>(
-      this._componentFactoryResolver, this._appRef, templateOrComponent, this._overlayContainer, context, this._injector, this._windowScroll, this._resizeService, config);
+      this._componentFactoryResolver,
+      this._appRef,
+      templateOrComponent,
+      this._overlayContainer,
+      context,
+      this._injector,
+      this._windowScroll,
+      this._resizeService,
+      config
+    );
   }
 }

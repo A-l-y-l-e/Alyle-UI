@@ -134,6 +134,8 @@ import { SelectDisableModule } from './components/select-demo/select-disable/sel
 /** Dialog */
 import { DialogDemoComponent } from './components/dialog-demo/dialog-demo.component';
 import { BasicDialogModule } from './components/dialog-demo/basic-dialog/basic-dialog.module';
+import { DialogResponsiveModule } from './components/dialog-demo/dialog-responsive/dialog-responsive.module';
+import { FullScreenDialogModule } from './components/dialog-demo/full-screen-dialog/full-screen-dialog.module';
 
 @NgModule({
   imports: [
@@ -216,7 +218,9 @@ import { BasicDialogModule } from './components/dialog-demo/basic-dialog/basic-d
     SelectOptionObjectValueModule,
     SelectDisableModule,
     /** Dialog */
-    BasicDialogModule
+    BasicDialogModule,
+    DialogResponsiveModule,
+    FullScreenDialogModule
   ],
   declarations: [
     ThemingComponent,

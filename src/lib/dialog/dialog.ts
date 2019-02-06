@@ -9,6 +9,7 @@ import { LY_DIALOG_DATA } from './dialog-data';
 
 @Injectable()
 export class LyDialog {
+
   constructor(
     private _overlay: LyOverlay,
     private _componentFactoryResolver: ComponentFactoryResolver

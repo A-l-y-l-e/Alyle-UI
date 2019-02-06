@@ -6,6 +6,8 @@ import { LY_COMMON_STYLES } from '../styles/core-styles';
 const STYLE_PRIORITY = -2;
 export const STYLES_BACKDROP_ROOT = ({
   ...LY_COMMON_STYLES.fill,
+  width: '100vw',
+  height: '100vh',
   pointerEvents: 'all',
   userSelect: 'none'
 });

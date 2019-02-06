@@ -6,6 +6,7 @@ import { LyOverlayConfig } from './overlay-config';
 import { LyOverlayBackdrop } from './overlay-backdrop';
 import { LyOverlayContainer } from './overlay-container';
 import { createOverlayInjector } from './overlay-injector';
+import { Platform } from '../platform/index';
 
 export class OverlayFactory<T = any> {
   private _viewRef: EmbeddedViewRef<any>;
@@ -13,6 +14,9 @@ export class OverlayFactory<T = any> {
   private _compRef: ComponentRef<T> | null;
   private _compRefOverlayBackdrop: ComponentRef<any>;
   private _windowSRSub: Subscription = Subscription.EMPTY;
+
+  private _paddingRight: string | null;
+  private _config: LyOverlayConfig;
 
   /** Function that will be called on scroll or resize event */
   onResizeScroll: (() => void) | null;
@@ -34,7 +38,7 @@ export class OverlayFactory<T = any> {
     resizeService: WinResize,
     config?: LyOverlayConfig
   ) {
-    config = { ...new LyOverlayConfig(), ...config };
+    this._config = config = { ...new LyOverlayConfig(), ...config };
     this._el = document.createElement('div');
     const __styles = {
       position: 'absolute',
@@ -79,6 +83,7 @@ export class OverlayFactory<T = any> {
     }
 
     this._appendComponentToBody(_templateRefOrComponent, _context, newInjector);
+    this._hiddeScroll();
 
   }
 
@@ -155,11 +160,35 @@ export class OverlayFactory<T = any> {
       this._overlayContainer._remove(backdropEl);
     }
     this._windowSRSub.unsubscribe();
+    this._resetScroll();
   }
 
   /** Detach & remove */
   destroy() {
     this.detach();
     this.remove();
+  }
+
+  private _hiddeScroll() {
+    if (Platform.isBrowser && this._config.hasBackdrop && this._overlayContainer.overlayLen) {
+      const scrollWidth = window.innerWidth - window.document.body.clientWidth;
+      if (scrollWidth) {
+        const computedStyle = getComputedStyle(window.document.body);
+
+        this._paddingRight = computedStyle.getPropertyValue('padding-right');
+        window.document.body.style.paddingRight = `calc(${scrollWidth}px + ${this._paddingRight})`;
+
+        window.document.body.style.overflow = 'hidden';
+      }
+    }
+  }
+  private _resetScroll() {
+    if (Platform.isBrowser && this._config.hasBackdrop && !this._overlayContainer.overlayLen) {
+      if (this._paddingRight) {
+        window.document.body.style.paddingRight = this._paddingRight;
+        this._paddingRight = null;
+      }
+      window.document.body.style.overflow = null;
+    }
   }
 }
