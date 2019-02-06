@@ -16,7 +16,7 @@ export class BasicDialogComponent {
     const dialogRef = this._dialog.open<DialogDemo>(DialogDemo, {
       width: 320
     });
-    dialogRef.beforeClosed.subscribe((result) => console.log(result));
+    dialogRef.afterClosed.subscribe((result) => console.log(result));
   }
 
 }
