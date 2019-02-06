@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { ThemeVariables } from '@alyle/ui';
+import { ThemeVariables, LyTheme2 } from '@alyle/ui';
 import { LyDialogRef, LyDialog } from '@alyle/ui/dialog';
 
 const STYLES_DIALOG = (theme: ThemeVariables) => ({
@@ -21,12 +21,13 @@ const STYLES_DIALOG = (theme: ThemeVariables) => ({
 export class DialogResponsiveComponent {
 
   constructor(
-    private _dialog: LyDialog
+    private _dialog: LyDialog,
+    private _theme: LyTheme2
   ) { }
 
   open() {
     const dialogRef = this._dialog.open<DialogResponsiveDemo>(DialogResponsiveDemo, {
-      dialogStyleBlock: STYLES_DIALOG
+      containerClass: this._theme.style(STYLES_DIALOG)
     });
     dialogRef.afterClosed.subscribe((result) => console.log(result));
   }

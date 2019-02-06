@@ -22,17 +22,16 @@ export class LyOverlayBackdrop {
   }
   constructor(
     private _el: ElementRef<HTMLElement>,
-    private _theme: LyTheme2,
+    _theme: LyTheme2,
     private _config: LyOverlayConfig
   ) {
     _el.nativeElement.classList.add(_theme.style(STYLES_BACKDROP_ROOT, STYLE_PRIORITY));
 
-    // this applies custom styles for backdrop,
+    // this applies custom class for backdrop,
     // if one is not defined, do nothing.
-    const backdropStyleBlock = _config.backdropStyleBlock;
-    if (backdropStyleBlock) {
-      const className = this._theme.style(backdropStyleBlock, STYLE_PRIORITY + 1);
-      this._el.nativeElement.classList.add(className);
+    const backdropClass = _config.backdropClass;
+    if (backdropClass) {
+      this._el.nativeElement.classList.add(backdropClass);
     }
   }
 }

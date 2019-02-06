@@ -104,9 +104,9 @@ export class LyDialogContainer implements OnInit {
     }
 
     // If exist dialogStyleBlock apply for this component, else do nothing.
-    const { dialogStyleBlock } = this._newInjector.get(LyDialogConfig);
-    if (dialogStyleBlock) {
-      this._renderer.addClass(this._el.nativeElement, this._theme.style(dialogStyleBlock, STYLE_PRIORITY + 1));
+    const { containerClass } = this._newInjector.get(LyDialogConfig);
+    if (containerClass) {
+      this._renderer.addClass(this._el.nativeElement, containerClass);
     }
   }
 

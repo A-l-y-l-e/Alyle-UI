@@ -1,5 +1,5 @@
 import { Injectable, Type, TemplateRef, ComponentFactoryResolver, ComponentFactory, Injector, StaticProvider } from '@angular/core';
-import { LyOverlay, LyOverlayRef } from '@alyle/ui';
+import { LyOverlay, LyOverlayRef, LyTheme2, STYLES_BACKDROP_DARK } from '@alyle/ui';
 
 import { LyDialogContainer } from './dialog-container.component';
 import { LyDialogRef } from './dialog-ref';
@@ -12,7 +12,8 @@ export class LyDialog {
 
   constructor(
     private _overlay: LyOverlay,
-    private _componentFactoryResolver: ComponentFactoryResolver
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private _theme: LyTheme2
   ) { }
   open<T, DATA = unknown>(componentOrTemplateRef: Type<T> | TemplateRef<T>,
                           config?: LyDialogConfig<DATA>) {
@@ -44,7 +45,7 @@ export class LyDialog {
       },
       hasBackdrop: config.hasBackdrop,
       onResizeScroll: onReziseScroll,
-      backdropStyleBlock: config.backdropStyleBlock,
+      backdropClass: config.backdropClass || this._theme.style(STYLES_BACKDROP_DARK),
       fnDestroy: () => {
         dialogRef.close();
       }
