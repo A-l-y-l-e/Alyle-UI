@@ -12,6 +12,7 @@ import {
   ChangeDetectionStrategy,
   Renderer2,
   ElementRef,
+  ChangeDetectorRef,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
 import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder } from '@alyle/ui';
@@ -86,8 +87,9 @@ export class LyDialogContainer implements OnInit {
     private _appRef: ApplicationRef,
     private _overlayRef: LyOverlayRef,
     private _theme: LyTheme2,
-    renderer: Renderer2,
     private _el: ElementRef<HTMLElement>,
+    private _cd: ChangeDetectorRef,
+    renderer: Renderer2
   ) {
     renderer.addClass(_el.nativeElement, this.classes.root);
   }
@@ -112,6 +114,7 @@ export class LyDialogContainer implements OnInit {
    */
   _startClose() {
     this._state = 'exit';
+    this._cd.markForCheck();
   }
 
   _onAnimationStart(event: AnimationEvent) {
