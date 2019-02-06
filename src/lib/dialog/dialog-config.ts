@@ -37,14 +37,14 @@ export class LyDialogConfig<DATA = unknown> {
 
   /**
    * CSS declarations block.
-   * Styles for the backdrop. overrides the current style.
+   * Styles for the backdrop. Overrides the current style.
    * @TODO: Create docs and add link here.
    */
   backdropStyleBlock?: StyleDeclarationsBlock = STYLES_BACKDROP_DARK;
 
   /**
    * CSS declarations block.
-   * Styles for the `<ly-dialog-container>`. Merges with the current style.
+   * Styles for the `<ly-dialog-container>`. Overwrite the current style.
    * @TODO: Create docs and add link here.
    */
   dialogStyleBlock?: StyleDeclarationsBlock;
