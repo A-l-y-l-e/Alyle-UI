@@ -33,15 +33,6 @@ export type Direction = 'row' | 'rowReverse' | 'column' | 'columnReverse';
 
 /**
  * Grid container
- * example:
- * <ly-grid container [spacing]="'16 8@XSmall'">
- *   <ly-grid item [col]="'6 12@XSmall'">
- *     <div>6 12@XSmall</div>
- *   </ly-grid>
- *   <ly-grid item [col]="'6 12@XSmall'">
- *     <div>6 12@XSmall</div>
- *   </ly-grid>
- * </ly-grid>
  */
 @Directive({
   selector: 'ly-grid[container]'
@@ -298,7 +289,7 @@ export class LyGrid {
 }
 
 @Directive({
-  selector: 'ly-grid[item]'
+  selector: 'ly-grid[item], [ly-grid-item], [lyGridItem]'
 })
 export class LyGridItem implements OnInit {
   private _col: string | number;
@@ -344,7 +335,10 @@ export class LyGridItem implements OnInit {
     }
   }
 
-
+  @Input('lyGridItem')
+  set gridItemCol(val: string | number) {
+    this.col = val;
+  }
 
   /**
    * Defines the order style property.
