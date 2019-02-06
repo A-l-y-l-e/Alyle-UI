@@ -51,6 +51,13 @@ const styles = () => ({
   }
 });
 
+interface Demos {
+  path?: string;
+  label: string;
+  type?: string;
+  ext?: string;
+}
+
 @Component({
   selector: 'demo-view',
   templateUrl: './view.component.html',
@@ -63,13 +70,24 @@ export class ViewComponent implements OnInit {
   name: string;
   folderName: string;
   demos: {label: string, url: string, ext: string}[] = [];
-  files = [
+  files: Demos[] = [
     {label: 'Template', type: 'component', ext: 'html'},
     {label: 'Component', type: 'component', ext: 'ts'},
     {label: 'Module', type: 'module', ext: 'ts'}
   ];
   @Input() viewLabel: string;
   @Input() path: string;
+  @Input()
+  set extraPaths(val: string[]) {
+    val.forEach(item => {
+      this.files.push({
+        label: item,
+        path: item,
+        ext: getLanguage(item)
+      });
+    });
+    this.files.push();
+  }
   constructor(
     renderer: Renderer2,
     private http: HttpClient,
@@ -98,9 +116,12 @@ export class ViewComponent implements OnInit {
   }
 
   url(index: number) {
-    const fileName = this.path.split('/').reverse()[0];
-    const host = `${isDevMode() ? HOST_DEV : HOST_PROD}${this.path}`;
     const file = this.files[index];
+    const host = `${isDevMode() ? HOST_DEV : HOST_PROD}${this.path}`;
+    if (file.path) {
+      return `${host}/${file.path}`;
+    }
+    const fileName = this.path.split('/').reverse()[0];
     return `${host}/${fileName}.${file.type}.${file.ext}`;
   }
 
@@ -313,4 +334,8 @@ export class GlobalVariables {
     });
   }
 
+}
+
+function getLanguage(str: string) {
+  return str.split(/\./).reverse()[0];
 }
