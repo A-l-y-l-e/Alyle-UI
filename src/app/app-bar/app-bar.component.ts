@@ -41,6 +41,12 @@ export class AppBarComponent implements OnInit, OnDestroy {
   bg = 'transparent';
   elevation = 0;
   color = '#fff';
+
+  supportList = [
+    { label: 'Discord community', href: 'https://discord.gg/65hMpAJ' },
+    { label: 'Report a bug', href: 'https://discord.gg/65hMpAJ' }
+  ];
+
   private scrollSub: Subscription;
   constructor(
     private appComponent: AppComponent,

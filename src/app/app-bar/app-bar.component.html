@@ -6,6 +6,23 @@
     Alyle UI
   </button>
   <div [style.flex]="1"></div>
+
+  <button #_button ly-button [color]="color" [lyMenuTriggerFor]="_MenuSuppor" lyTooltip="Select a theme!">
+    <span lyTyp noWrap>Support</span>
+  </button>
+  <ng-template #_MenuSuppor let-M>
+    <ly-menu [ref]="M">
+      <a
+        ly-button
+        ly-menu-item
+        *ngFor="let item of supportList; let i = index"
+        [href]="item.href"
+      >
+        <span>{{ item.label }}</span>
+    </a>
+    </ly-menu>
+  </ng-template>
+
   <button #_button ly-button [color]="color" [lyMenuTriggerFor]="_Menu" lyTooltip="Select a theme!">
     <ly-icon icon="Theme"></ly-icon>
     <span  lyTyp noWrap [withClass]="classes.themePickerText">{{ theme.variables.name }}</span>
@@ -24,6 +41,7 @@
       </button>
     </ly-menu>
   </ng-template>
+
   <button ly-button [color]="color" [appearance]="'icon'" (click)="theme.toggleDirection()" lyTooltip="Toggle rtl/ltr">
     <ly-icon *ngIf="theme.variables.direction === 'ltr'">format_textdirection_r_to_l</ly-icon>
     <ly-icon *ngIf="theme.variables.direction === 'rtl'">format_textdirection_l_to_r</ly-icon>
