@@ -13,7 +13,8 @@ export class LyDialog {
   constructor(
     private _overlay: LyOverlay,
     private _componentFactoryResolver: ComponentFactoryResolver,
-    private _theme: LyTheme2
+    private _theme: LyTheme2,
+    private _injector: Injector
   ) { }
   open<T, DATA = unknown>(componentOrTemplateRef: Type<T> | TemplateRef<T>,
                           config?: LyDialogConfig<DATA>) {
@@ -80,7 +81,7 @@ export class LyDialog {
     }
 
     const newInjector = new DynamicInjector(
-        Injector.create(providers, overlayRef.componentRef!.injector), overlayRef.componentRef!.injector);
+        Injector.create(providers, overlayRef.componentRef!.injector), this._injector);
     instance._init(componentFactoryOrTemplate, newInjector);
     const dialogRef = newInjector.get(LyDialogRef);
     return dialogRef;
