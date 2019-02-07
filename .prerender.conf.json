@@ -29,6 +29,7 @@
     "components/avatar",
     "components/list",
     "components/divider",
-    "components/select"
+    "components/select",
+    "components/dialog"
   ]
 }

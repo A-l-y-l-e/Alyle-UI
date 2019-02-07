@@ -25,3 +25,4 @@ components:
   '@alyle/ui/list': list
   '@alyle/ui/divider': divider
   '@alyle/ui/select': select
+  '@alyle/ui/dialog': dialog

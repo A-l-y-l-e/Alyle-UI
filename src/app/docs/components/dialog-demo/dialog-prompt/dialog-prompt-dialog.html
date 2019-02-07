@@ -1,0 +1,13 @@
+<h4 ly-dialog-title gutterBottom>What's your name?</h4>
+<div ly-dialog-content>
+  <ly-field>
+    <input lyNativeControl
+      placeholder="Type you name"
+      [(ngModel)]="data.name"
+    >
+  </ly-field>
+</div>
+<ly-grid container justify="end" ly-dialog-actions>
+  <button ly-button color="primary" (click)="dialogRef.close()">CANCEL</button>
+  <button ly-button color="primary" (click)="dialogRef.close(data.name)">DONE</button>
+</ly-grid>

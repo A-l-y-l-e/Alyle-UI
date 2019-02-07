@@ -16,7 +16,7 @@ import {
 import {
   LyOverlay,
   LyTheme2,
-  OverlayFromTemplateRef,
+  OverlayFactory,
   Placement,
   Positioning,
   shadowBuilder,
@@ -186,7 +186,7 @@ export class LyMenuItem {
 })
 export class LyMenuTriggerFor implements OnDestroy {
   /** Current menuRef */
-  _menuRef?: OverlayFromTemplateRef;
+  _menuRef?: OverlayFactory;
   @Input() lyMenuTriggerFor: TemplateRef<any>;
   constructor(
     private elementRef: ElementRef,
@@ -212,9 +212,7 @@ export class LyMenuTriggerFor implements OnDestroy {
           left: 0,
           pointerEvents: null
         },
-        fnDestroy: this.detach.bind(this),
-        host: this.elementRef.nativeElement,
-        backdrop: true
+        fnDestroy: this.detach.bind(this)
       });
     }
   }

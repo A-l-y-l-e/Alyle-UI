@@ -14,7 +14,7 @@ import {
   LyFocusState,
   LyOverlay,
   LyTheme2,
-  OverlayFromTemplateRef,
+  OverlayFactory,
   Placement,
   Platform,
   ThemeVariables,
@@ -41,7 +41,7 @@ export class LyTooltip implements OnInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
   private _tooltip: string | TemplateRef<any> | null;
-  private _tooltipOverlay: OverlayFromTemplateRef | null;
+  private _tooltipOverlay: OverlayFactory | null;
   private _listeners = new Map<string, EventListenerOrEventListenerObject>();
   private _scrollSub: Subscription;
   private _scrollVal = 0;
@@ -153,7 +153,7 @@ export class LyTooltip implements OnInit, OnDestroy {
               }
             }), undefined, undefined, STYLE_PRIORITY)
           ],
-          host: this._el.nativeElement,
+          hasBackdrop: false
         });
         this._updatePosition();
         // const position = new Positioning(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.variables, 13);

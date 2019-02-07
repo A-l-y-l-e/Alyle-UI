@@ -131,6 +131,13 @@ import { SelectReactiveFormModule } from './components/select-demo/select-reacti
 import { SelectOptionObjectValueModule } from './components/select-demo/select-option-object-value/select-option-object-value.module';
 import { SelectDisableModule } from './components/select-demo/select-disable/select-disable.module';
 
+/** Dialog */
+import { DialogDemoComponent } from './components/dialog-demo/dialog-demo.component';
+import { BasicDialogModule } from './components/dialog-demo/basic-dialog/basic-dialog.module';
+import { DialogResponsiveModule } from './components/dialog-demo/dialog-responsive/dialog-responsive.module';
+import { FullScreenDialogModule } from './components/dialog-demo/full-screen-dialog/full-screen-dialog.module';
+import { DialogPromptModule } from './components/dialog-demo/dialog-prompt/dialog-prompt.module';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -210,7 +217,12 @@ import { SelectDisableModule } from './components/select-demo/select-disable/sel
     SelectMultipleModule,
     SelectReactiveFormModule,
     SelectOptionObjectValueModule,
-    SelectDisableModule
+    SelectDisableModule,
+    /** Dialog */
+    BasicDialogModule,
+    DialogResponsiveModule,
+    FullScreenDialogModule,
+    DialogPromptModule
   ],
   declarations: [
     ThemingComponent,
@@ -259,7 +271,9 @@ import { SelectDisableModule } from './components/select-demo/select-disable/sel
     /** 404 */
     PageNotFoundComponent,
     /** Select */
-    SelectDemoComponent
+    SelectDemoComponent,
+    /** Dialog */
+    DialogDemoComponent
   ]
 })
 export class DocsModule { }

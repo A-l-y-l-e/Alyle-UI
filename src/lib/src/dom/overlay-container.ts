@@ -1,11 +1,10 @@
-import { Injectable, Component, Inject, HostListener, ElementRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Platform } from '../platform/index';
 import { LyTheme2 } from '../theme/theme2.service';
-import { LyCoreStyles } from '../styles/core-styles';
 import { ThemeVariables } from '../theme/theme-config';
 
 const styles = (theme: ThemeVariables) => ({
-  overlayBackdrop: {
+  overlay: {
     position: 'fixed',
     top: 0,
     left: 0,
@@ -23,6 +22,9 @@ export class LyOverlayContainer {
   private _classes = this.theme.addStyleSheet(styles);
   protected readonly _containerElement: HTMLElement;
   private _items = new Set<any>();
+  get overlayLen() {
+    return this._items.size;
+  }
   private _isActiveOverlayContainer: boolean;
   constructor(
     private theme: LyTheme2
@@ -65,41 +67,11 @@ export class LyOverlayContainer {
     if (this._items.size) {
       if (!this._isActiveOverlayContainer) {
         this._isActiveOverlayContainer = true;
-        this._containerElement.classList.add(this._classes.overlayBackdrop);
+        this._containerElement.classList.add(this._classes.overlay);
       }
     } else if (this._isActiveOverlayContainer) {
-      this._containerElement.classList.remove(this._classes.overlayBackdrop);
+      this._containerElement.classList.remove(this._classes.overlay);
       this._isActiveOverlayContainer = false;
-    }
-  }
-}
-
-const BACKDROP_STYLES = ({
-  backdrop: {
-    pointerEvents: 'all',
-    userSelect: 'none'
-  }
-});
-
-@Component({
-  selector: 'ly-overlay-backdrop',
-  template: ``
-})
-export class LyOverlayBackdrop {
-  /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(BACKDROP_STYLES);
-  @HostListener('click') onclick() {
-    this._overlayConfig.fnDestroy();
-  }
-  constructor(
-    el: ElementRef,
-    private _theme: LyTheme2,
-    @Inject('overlayConfig') private _overlayConfig: any,
-    commonStyles: LyCoreStyles
-  ) {
-    el.nativeElement.classList.add(commonStyles.classes.fill);
-    if (_overlayConfig.backdrop) {
-      el.nativeElement.classList.add(this.classes.backdrop);
     }
   }
 }

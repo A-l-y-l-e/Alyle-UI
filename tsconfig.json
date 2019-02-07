@@ -48,6 +48,7 @@
       "@alyle/ui/list": ["lib/list"],
       "@alyle/ui/divider": ["lib/divider"],
       "@alyle/ui/select": ["lib/select"],
+      "@alyle/ui/dialog": ["lib/dialog"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"]
     }

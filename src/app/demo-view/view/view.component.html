@@ -2,7 +2,6 @@
   [elevation]="8"
   shadowColor="demoBg"
   bg="background:tertiary"
-  scrollable
 >
   <div [className]="classes.code">
     <button ly-button appearance="icon" (click)="toggleCode()" [lyTooltip]="'View source'"><ly-icon icon="code"></ly-icon></button>
@@ -14,6 +13,7 @@
       [textColor]="'primary'"
       [elevation]="8"
       [shadowColor]="'demoBg'"
+      scrollable
     >
       <ly-tab *ngFor="let file of files; let i = index">
         <button ly-tab-label>{{ file.label }}</button>

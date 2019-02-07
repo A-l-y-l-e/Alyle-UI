@@ -63,7 +63,8 @@ export const AUIRoutes: {
       { route: 'toolbar', api: true , name: 'Toolbar' },
       { route: 'tooltip', api: true , name: 'Tooltip' },
       { route: 'typography', api: true , name: 'Typography' },
-      { route: 'select', api: true , name: 'Select' }
+      { route: 'select', api: true , name: 'Select' },
+      { route: 'dialog', api: true , name: 'Dialog' }
     ].sort(sort)
   }
 ];

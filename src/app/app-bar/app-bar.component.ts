@@ -8,7 +8,11 @@ import { AppComponent } from '../app.component';
 
 const styles = (theme: ThemeVariables) => ({
   root: {
-    transition: `all 350ms ${theme.animations.curves.standard}`
+    transition: `350ms ${theme.animations.curves.standard}`,
+    transitionProperty: 'background, color',
+    width: '100vw',
+    paddingRight: '32px',
+    left: 0
   },
   themePickerText: {
     paddingBefore: '8px'
