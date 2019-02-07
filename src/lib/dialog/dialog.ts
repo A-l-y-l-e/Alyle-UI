@@ -17,7 +17,7 @@ export class LyDialog {
     private _injector: Injector
   ) { }
   open<T, DATA = unknown>(componentOrTemplateRef: Type<T> | TemplateRef<T>,
-                          config?: LyDialogConfig<DATA>) {
+                          config?: LyDialogConfig<DATA>): LyDialogRef {
 
     // merge with default config
     config = { ...new LyDialogConfig(), ...config };
