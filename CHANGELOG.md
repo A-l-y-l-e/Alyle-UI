@@ -1,3 +1,27 @@
+# [2.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.1.2...2.3.0) (2019-02-07)
+
+
+### Bug Fixes
+
+* **core:** allow the creation of dynamic component ([e44ff18](https://github.com/A-l-y-l-e/Alyle-UI/commit/e44ff18))
+* **field:** set tap-highlight-color style to `transparent` ([fa718f3](https://github.com/A-l-y-l-e/Alyle-UI/commit/fa718f3))
+* **menu:** fix styles for `<a ly-button ly-menu-item>` ([1731e5c](https://github.com/A-l-y-l-e/Alyle-UI/commit/1731e5c))
+* **select:** fix `No component factory found for LyOverlayBackdrop.` ([daf0b7b](https://github.com/A-l-y-l-e/Alyle-UI/commit/daf0b7b))
+* **select:** fix positioning ([095407a](https://github.com/A-l-y-l-e/Alyle-UI/commit/095407a))
+* **select:** fix styles for options multiple ([8ed688c](https://github.com/A-l-y-l-e/Alyle-UI/commit/8ed688c))
+* **snack-bar:** error when a snack-bar is open and scroll ([29bb5ad](https://github.com/A-l-y-l-e/Alyle-UI/commit/29bb5ad))
+
+
+### Features
+
+* **dialog:** initial commit for `dialog` ([#74](https://github.com/A-l-y-l-e/Alyle-UI/issues/74)) ([13a3bd9](https://github.com/A-l-y-l-e/Alyle-UI/commit/13a3bd9))
+* **grid:** add property `lyGridItem` ([91d7682](https://github.com/A-l-y-l-e/Alyle-UI/commit/91d7682))
+* **theme:** add method `style` for create style with inmutable variable ([2d876b2](https://github.com/A-l-y-l-e/Alyle-UI/commit/2d876b2))
+* **toolbar:** add property `dense` ([4b14f13](https://github.com/A-l-y-l-e/Alyle-UI/commit/4b14f13))
+* **typography:** add `mixinColor` ([f462be5](https://github.com/A-l-y-l-e/Alyle-UI/commit/f462be5))
+
+
+
 ## [2.1.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.1.1...2.1.2) (2019-01-31)
 
 

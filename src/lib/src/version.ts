@@ -1,2 +1,2 @@
-export const AUI_VERSION = '2.1.2';
-export const AUI_LAST_UPDATE = '2019-01-31T21:25:20.754Z';
+export const AUI_VERSION = '2.3.0';
+export const AUI_LAST_UPDATE = '2019-02-07T06:21:45.408Z';
