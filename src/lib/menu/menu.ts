@@ -154,10 +154,11 @@ export class LyMenu implements OnInit, AfterViewInit {
 
 /** @docs-private */
 const menuItemStyles = ({
-  display: 'block',
+  display: 'flex',
   minHeight: '48px',
   borderRadius: 0,
-  width: '100%'
+  width: '100%',
+  justifyContent: 'flex-start'
 });
 
 @Directive({
