@@ -249,7 +249,7 @@ export class LySelect
           if (Array.isArray(this.value)) {
             const values: LyOption[] = [];
             this.options.forEach(opt => {
-              if (this.value.some(_ => !this._selectionModel._selectionMap.has(this.valueKey(_)) && this._valueKey(_) === this._valueKeyFn(opt))) {
+              if (this.value.some(_ => this._valueKey(_) === this._valueKeyFn(opt))) {
                 values.push(opt);
               }
             });
