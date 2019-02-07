@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule } from '@alyle/ui';
+import { LyCommonModule, LyOverlayModule } from '@alyle/ui';
 
 import { LyDialogContainer } from './dialog-container.component';
 import { LyDialog } from './dialog';
@@ -20,7 +20,8 @@ import { LyDialogActions } from './dialog-actions.directive';
   ],
   imports: [
     CommonModule,
-    LyCommonModule
+    LyCommonModule,
+    LyOverlayModule
   ],
   exports: [
     LyCommonModule,

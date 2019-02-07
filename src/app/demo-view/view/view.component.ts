@@ -128,12 +128,14 @@ export class ViewComponent implements OnInit {
   openPostStackblitz() {
     const win = window.open('about:blank', '_blank')!;
     win.document.write('Loading...');
+    const urls = this.files
+    .map((_item, index) => this.url(index))
+    .map(_ => this.http.get(_, { responseType: 'text' }));
     const data = forkJoin(
-      this.http.get(this.url(0), { responseType: 'text' }),
-      this.http.get(this.url(1), { responseType: 'text' }),
-      this.http.get(this.url(2), { responseType: 'text' }),
+      ...urls
     );
-    data.subscribe(([res1, res2, res3]) => {
+    data.subscribe(([res1, res2, res3, ...others]) => {
+      console.log(others);
       const otherModules = `/** Angular */
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -195,14 +197,14 @@ export class GlobalVariables {
       });
 
       const appComponentTs = res2.replace(SELECTOR_REGEXP, (str, token) => str.replace(token, SELECTOR_APP));
-      const form = this.makeForm([res1, appComponentTs, AppModule], moduleName!);
+      const form = this.makeForm([res1, appComponentTs, AppModule, ...others], moduleName!);
       win.document.body.appendChild(form);
       form.submit();
       win.document.close();
     });
   }
 
-  makeForm([res1, res2, res3], moduleName: string) {
+  makeForm([res1, res2, res3, ...others], moduleName: string) {
     const form = document.createElement('form');
     form.method = 'POST';
     form.setAttribute('style', 'display:none;');
@@ -282,6 +284,11 @@ export class GlobalVariables {
         }
       }
     };
+
+    others.forEach((text, index) => {
+      const filePath = `app/${this.files[index + 3].path!}`;
+      payload.files[filePath] = text;
+    });
 
     for (const key in payload) {
       if (payload.hasOwnProperty(key)) {

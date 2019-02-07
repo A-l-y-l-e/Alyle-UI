@@ -28,6 +28,7 @@
 |card|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/card)|
 |carousel|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/carousel)|
 |checkbox|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/checkbox)|
+|dialog|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/dialog)|
 |divider|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/divider)|
 |drawer|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/drawer)|
 |field|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/field)|
