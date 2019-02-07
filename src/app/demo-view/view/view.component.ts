@@ -135,7 +135,6 @@ export class ViewComponent implements OnInit {
       ...urls
     );
     data.subscribe(([res1, res2, res3, ...others]) => {
-      console.log(others);
       const otherModules = `/** Angular */
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
