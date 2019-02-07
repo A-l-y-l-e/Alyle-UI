@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule } from '@alyle/ui';
+import { LyCommonModule, LyOverlayModule } from '@alyle/ui';
 import { LyCheckboxModule } from '@alyle/ui/checkbox';
 
 import { LySelect, LyOption } from './select';
@@ -10,7 +10,8 @@ import { LySelect, LyOption } from './select';
   imports: [
     CommonModule,
     LyCommonModule,
-    LyCheckboxModule
+    LyCheckboxModule,
+    LyOverlayModule
   ],
   exports: [LySelect, LyOption, LyCommonModule]
 })
