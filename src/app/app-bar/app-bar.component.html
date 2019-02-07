@@ -12,12 +12,16 @@
   </button>
   <ng-template #_MenuSuppor let-M>
     <ly-menu [ref]="M">
+      <span lyTyp="caption" color="text:secondary" gutter [style.padding]="'0 14px'">Get help</span>
       <a
         ly-button
         ly-menu-item
         *ngFor="let item of supportList; let i = index"
         [href]="item.href"
+        target="_blank"
+        rel="noopener"
       >
+        <ly-icon [icon]="item.icon" [withClass]="classes.supportMenuIcon"></ly-icon>
         <span>{{ item.label }}</span>
     </a>
     </ly-menu>

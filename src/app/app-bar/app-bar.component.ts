@@ -25,6 +25,9 @@ const styles = (theme: ThemeVariables) => ({
   version: {
     fontSize: '71%',
     opacity: .71
+  },
+  supportMenuIcon: {
+    paddingAfter: '16px'
   }
 });
 
@@ -43,8 +46,8 @@ export class AppBarComponent implements OnInit, OnDestroy {
   color = '#fff';
 
   supportList = [
-    { label: 'Discord community', href: 'https://discord.gg/65hMpAJ' },
-    { label: 'Report a bug', href: 'https://discord.gg/65hMpAJ' }
+    { label: 'Discord community', icon: 'Discord', href: 'https://discord.gg/65hMpAJ' },
+    { label: 'Report a bug', icon: 'github', href: 'https://github.com/A-l-y-l-e/Alyle-UI/issues/new/choose' }
   ];
 
   private scrollSub: Subscription;
