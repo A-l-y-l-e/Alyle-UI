@@ -1,7 +1,10 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { LyTheme2, ThemeVariables } from '@alyle/ui';
 
+/** @docs-private */
 const STYLE_PRIORITY = -2;
+
+/** @docs-private */
 export const STYLES_DIALOG_TITLE = (theme: ThemeVariables) => ({
   display: 'block',
   flex: '0 0 auto',

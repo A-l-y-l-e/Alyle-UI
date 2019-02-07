@@ -20,7 +20,10 @@ import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
 import { LyDialogConfig } from './dialog-config';
+
 const STYLE_PRIORITY = -2;
+
+/** @docs-private */
 const STYLES = (theme: ThemeVariables) => ({
   root: {
     display: 'flex',
@@ -59,6 +62,7 @@ const STYLES = (theme: ThemeVariables) => ({
   }
 })
 export class LyDialogContainer implements OnInit {
+  /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _embeddedViewRef: EmbeddedViewRef<any>;
   private _componentRef: ComponentRef<any>;

@@ -21,7 +21,10 @@ export class LyDialogRef {
     )._afterClosed.asObservable();
   }
 
-  /** @internal */
+  /**
+   * @internal
+   * @docs-private
+   */
   get result() {
     return this._result;
   }
