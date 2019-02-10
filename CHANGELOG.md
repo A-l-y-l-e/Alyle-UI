@@ -1,3 +1,12 @@
+## [2.3.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.3.0...2.3.1) (2019-02-10)
+
+
+### Bug Fixes
+
+* **select:** fix bug when a new value is established in multiple selection ([210ae61](https://github.com/A-l-y-l-e/Alyle-UI/commit/210ae61))
+
+
+
 # [2.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.1.2...2.3.0) (2019-02-07)
 
 
