@@ -196,7 +196,6 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     if (Platform.isBrowser) {
       this._resetInterval();
     }
-    this.lyItems.changes.pipe(takeUntil(this._destroy)).subscribe(() => this._markForCheck());
   }
 
   ngAfterViewInit() {
@@ -204,6 +203,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     if (Platform.isBrowser) {
       this._renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     }
+
+    this.lyItems.changes.pipe(takeUntil(this._destroy)).subscribe(() => this._markForCheck());
   }
 
   ngOnDestroy() {
