@@ -17,6 +17,8 @@ import {
 } from '@angular/core';
 import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias } from '@alyle/ui';
 import * as _chroma from 'chroma-js';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 /** @docs-private */
 const chroma = _chroma;
@@ -160,6 +162,10 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   _selectedElement: HTMLElement;
   private _touch: boolean;
   private _slideClass: string;
+
+  /** Emits whenever the component is destroyed. */
+  private readonly _destroy = new Subject<void>();
+
   @Input()
   set touch(val: boolean) {
     const newVal = toBoolean(val);
@@ -190,6 +196,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     if (Platform.isBrowser) {
       this._resetInterval();
     }
+    this.lyItems.changes.pipe(takeUntil(this._destroy)).subscribe(() => this._markForCheck());
   }
 
   ngAfterViewInit() {
@@ -200,6 +207,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
     if (Platform.isBrowser) {
       this.stop();
     }
