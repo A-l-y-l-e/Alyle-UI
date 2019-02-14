@@ -29,7 +29,8 @@ const STYLES = (theme: ThemeVariables) => ({
     '&>img': {
       width: '100%',
       height: '100%',
-      borderRadius: '50%'
+      borderRadius: '50%',
+      display: 'block'
     }
   }
 });
