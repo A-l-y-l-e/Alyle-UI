@@ -99,7 +99,7 @@ const classes = (theme: AUIThemeVariables) => ({
       background: 'none',
       fontFamily: `'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace`,
       textAlign: 'left',
-      fontSize: '13px',
+      fontSize: '0.8125em',
       fontWeight: 500,
       whiteSpace: 'pre',
       wordSpacing: 'normal',
@@ -128,7 +128,7 @@ const STYLES = (theme: AUIThemeVariables) => ({
       color: 'rgba(115, 129, 145, 0.65)'
     },
     '&{string}, &{title}, &{section}, &{built_in}, &{literal}, &{type}, &{addition}, &{tag}, &{quote}, &{name}, &{selector-id}, &{selector-class}': {
-      color: '#ff5085'
+      color: theme.prism.keyword
     },
     '&{meta}, &{subst}, &{symbol}, &{regexp}, &{attribute}, &{deletion}, &{variable}, &{template-variable}, &{link}, &{bullet}': {
       color: '#4c81c9'

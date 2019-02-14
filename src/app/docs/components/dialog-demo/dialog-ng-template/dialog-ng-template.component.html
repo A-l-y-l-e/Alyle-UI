@@ -1,0 +1,18 @@
+<button
+  ly-button
+  (click)="dialog.open(_template)">Open</button>
+
+<ng-template
+  #_template
+  let-dialogRef
+>
+  <div> <!-- Container -->
+    <h4 ly-dialog-title gutterBottom>Hi!</h4>
+    <div ly-dialog-actions>
+      <button
+        ly-button
+        color="primary"
+        (click)="dialogRef.close()">Close</button>
+    </div>
+  </div>
+</ng-template>

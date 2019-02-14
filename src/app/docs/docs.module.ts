@@ -137,6 +137,7 @@ import { BasicDialogModule } from './components/dialog-demo/basic-dialog/basic-d
 import { DialogResponsiveModule } from './components/dialog-demo/dialog-responsive/dialog-responsive.module';
 import { FullScreenDialogModule } from './components/dialog-demo/full-screen-dialog/full-screen-dialog.module';
 import { DialogPromptModule } from './components/dialog-demo/dialog-prompt/dialog-prompt.module';
+import { DialogNgTemplateModule } from './components/dialog-demo/dialog-ng-template/dialog-ng-template.module';
 
 @NgModule({
   imports: [
@@ -222,7 +223,8 @@ import { DialogPromptModule } from './components/dialog-demo/dialog-prompt/dialo
     BasicDialogModule,
     DialogResponsiveModule,
     FullScreenDialogModule,
-    DialogPromptModule
+    DialogPromptModule,
+    DialogNgTemplateModule
   ],
   declarations: [
     ThemingComponent,
