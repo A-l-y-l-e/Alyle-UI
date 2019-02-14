@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { LyTheme2, CoreTheme as ThemeManager, Platform, WinScroll, ThemeVariables } from '@alyle/ui';
+import { LyTheme2, CoreTheme as ThemeManager, Platform, WinScroll } from '@alyle/ui';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { AppComponent } from '../app.component';
+import { AUIThemeVariables } from '../app.module';
 
-const styles = (theme: ThemeVariables) => ({
+const styles = (theme: AUIThemeVariables) => ({
   root: {
     transition: `350ms ${theme.animations.curves.standard}`,
     transitionProperty: 'background, color',
@@ -28,6 +29,11 @@ const styles = (theme: ThemeVariables) => ({
   },
   supportMenuIcon: {
     paddingAfter: '16px'
+  },
+  discordHover: {
+    '&:hover ly-icon': {
+      color: theme.discord
+    }
   }
 });
 
@@ -46,8 +52,16 @@ export class AppBarComponent implements OnInit, OnDestroy {
   color = '#fff';
 
   supportList = [
-    { label: 'Discord community', color: '#7289DA', icon: 'Discord', href: 'https://discord.gg/65hMpAJ' },
-    { label: 'Report a bug', color: 'text', icon: 'github', href: 'https://github.com/A-l-y-l-e/Alyle-UI/issues/new/choose' }
+    {
+      label: 'Discord community',
+      classes: [this.classes.discordHover],
+      icon: 'Discord',
+      href: 'https://discord.gg/65hMpAJ' },
+    {
+      label: 'Report a bug',
+      classes: [],
+      icon: 'github',
+      href: 'https://github.com/A-l-y-l-e/Alyle-UI/issues/new/choose' }
   ];
 
   private scrollSub: Subscription;

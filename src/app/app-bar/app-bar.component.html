@@ -20,8 +20,9 @@
         [href]="item.href"
         target="_blank"
         rel="noopener"
+        [ngClass]="item.classes"
       >
-        <ly-icon [icon]="item.icon" [color]="item.color" [withClass]="classes.supportMenuIcon"></ly-icon>
+        <ly-icon [icon]="item.icon" [withClass]="classes.supportMenuIcon"></ly-icon>
         <span>{{ item.label }}</span>
     </a>
     </ly-menu>

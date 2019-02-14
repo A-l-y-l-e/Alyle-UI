@@ -95,6 +95,11 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
     position: 'relative',
     padding: '1em',
     textAlign: 'center'
+  },
+  discordHover: {
+    '&:hover': {
+      color: theme.discord
+    }
   }
 });
 
