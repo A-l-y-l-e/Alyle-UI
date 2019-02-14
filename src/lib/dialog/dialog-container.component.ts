@@ -20,6 +20,7 @@ import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
 import { LyDialogConfig } from './dialog-config';
+import { LY_DIALOG_DATA } from './dialog-data';
 
 const STYLE_PRIORITY = -2;
 
@@ -101,10 +102,14 @@ export class LyDialogContainer implements OnInit {
   ngOnInit() {
 
     if (this._componentFactoryOrTemplate instanceof TemplateRef) {
-      this._embeddedViewRef = this.viewContainerRef.createEmbeddedView(this._componentFactoryOrTemplate);
-      // this._appRef.attachView(this._embeddedViewRef);
+
+      const context = new LyDialogContext(this._newInjector);
+
+      this._embeddedViewRef = this.viewContainerRef
+      .createEmbeddedView(this._componentFactoryOrTemplate, context);
     } else {
-      this._componentRef = this.viewContainerRef.createComponent(this._componentFactoryOrTemplate, undefined, this._newInjector);
+      this._componentRef = this.viewContainerRef
+          .createComponent(this._componentFactoryOrTemplate, undefined, this._newInjector);
     }
 
     // If exist dialogStyleBlock apply for this component, else do nothing.
@@ -164,4 +169,15 @@ export class LyDialogContainer implements OnInit {
   _getHostElement() {
     return this._el.nativeElement;
   }
+}
+
+export class LyDialogContext {
+  $implicit: any = this._injector.get(LyDialogRef);
+  dialogRef = this._injector.get(LyDialogRef);
+
+  get data() {
+    return this._injector.get(LY_DIALOG_DATA);
+  }
+
+  constructor(private _injector: Injector) { }
 }
