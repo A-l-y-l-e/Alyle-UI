@@ -1,0 +1,20 @@
+<ly-grid container justify="evenly">
+  <button
+    ly-button
+    appearance="icon"
+    [lyMenuTriggerFor]="menu"
+  >
+    <ly-avatar
+      [size]="32">
+      <img src="https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash.jpeg?alt=media&token=1db05ae5-9c03-437b-9e8c-764dfb257061">
+    </ly-avatar>
+  </button>
+</ly-grid>
+
+<ng-template #menu let-M>
+  <ly-menu [ref]="M">
+    <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>

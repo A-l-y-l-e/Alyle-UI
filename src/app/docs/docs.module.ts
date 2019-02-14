@@ -94,6 +94,7 @@ import { MenuDemo01Module } from './components/menu-demo/menu-demo-01/menu-demo-
 import { AvatarDemoComponent } from './components/avatar-demo/avatar-demo.component';
 import { BasicUsesAvatarModule } from './components/avatar-demo/basic-uses-avatar/basic-uses-avatar.module';
 import { ListDemoComponent } from './components/list-demo/list-demo.component';
+import { AvatarWithButtonModule } from './components/avatar-demo/avatar-with-button/avatar-with-button.module';
 
 /** List */
 import { SimpleListModule } from './components/list-demo/simple-list/simple-list.module';
@@ -200,6 +201,7 @@ import { DialogNgTemplateModule } from './components/dialog-demo/dialog-ng-templ
     MenuDemo01Module,
     /** Avatar */
     BasicUsesAvatarModule,
+    AvatarWithButtonModule,
     /** List */
     SimpleListModule,
     FolderListModule,
