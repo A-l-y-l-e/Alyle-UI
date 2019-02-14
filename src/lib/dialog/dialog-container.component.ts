@@ -102,7 +102,7 @@ export class LyDialogContainer implements OnInit {
 
     if (this._componentFactoryOrTemplate instanceof TemplateRef) {
       this._embeddedViewRef = this.viewContainerRef.createEmbeddedView(this._componentFactoryOrTemplate);
-      this._appRef.attachView(this._embeddedViewRef);
+      // this._appRef.attachView(this._embeddedViewRef);
     } else {
       this._componentRef = this.viewContainerRef.createComponent(this._componentFactoryOrTemplate, undefined, this._newInjector);
     }
