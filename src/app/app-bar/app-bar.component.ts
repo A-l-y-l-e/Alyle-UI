@@ -46,8 +46,8 @@ export class AppBarComponent implements OnInit, OnDestroy {
   color = '#fff';
 
   supportList = [
-    { label: 'Discord community', icon: 'Discord', href: 'https://discord.gg/65hMpAJ' },
-    { label: 'Report a bug', icon: 'github', href: 'https://github.com/A-l-y-l-e/Alyle-UI/issues/new/choose' }
+    { label: 'Discord community', color: '#7289DA', icon: 'Discord', href: 'https://discord.gg/65hMpAJ' },
+    { label: 'Report a bug', color: 'text', icon: 'github', href: 'https://github.com/A-l-y-l-e/Alyle-UI/issues/new/choose' }
   ];
 
   private scrollSub: Subscription;

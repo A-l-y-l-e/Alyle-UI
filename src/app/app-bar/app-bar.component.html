@@ -21,7 +21,7 @@
         target="_blank"
         rel="noopener"
       >
-        <ly-icon [icon]="item.icon" [withClass]="classes.supportMenuIcon"></ly-icon>
+        <ly-icon [icon]="item.icon" [color]="item.color" [withClass]="classes.supportMenuIcon"></ly-icon>
         <span>{{ item.label }}</span>
     </a>
     </ly-menu>
@@ -29,7 +29,7 @@
 
   <button #_button ly-button [color]="color" [lyMenuTriggerFor]="_Menu" lyTooltip="Select a theme!">
     <ly-icon icon="Theme"></ly-icon>
-    <span  lyTyp noWrap [withClass]="classes.themePickerText">{{ theme.variables.name }}</span>
+    <span lyTyp noWrap [withClass]="classes.themePickerText">{{ theme.variables.name }}</span>
   </button>
   <ng-template #_Menu let-M>
     <ly-menu [ref]="M">
