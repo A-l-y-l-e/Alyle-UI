@@ -26,6 +26,7 @@ const chroma = _chroma;
 /** Default interval in ms */
 const DEFAULT_INTERVAL = 7000;
 const DEFAULT_AUTOPLAY = true;
+const DEFAULT_HAS_PROGRESS_BAR = false;
 const STYLE_PRIORITY = -2;
 
 export const STYLES = (theme: ThemeVariables) => {
@@ -133,6 +134,33 @@ export const STYLES = (theme: ThemeVariables) => {
         transform: 'scale(1)',
         opacity: 1
       }
+    },
+    barContainer: {
+      background: chroma(theme.background.primary.default).alpha(.25).css(),
+      height: '4px',
+      position: 'absolute',
+      bottom: 0,
+      width: '100%',
+    },
+    bar: {
+      height: '4px',
+      position: 'absolute',
+      bottom: 0,
+      width: '100%',
+      animationName: '{interval}',
+      animationTimingFunction: 'linear',
+      animationIterationCount: 'infinite',
+      background: theme.text.primary
+    },
+    $keyframes: {
+      interval: {
+        0: {
+          transform: 'translateX(0%)'
+        },
+        100: {
+          transform: `translateX(${dir === 'left' ? '-' : ''}100%)`
+        }
+      }
     }
   };
 };
@@ -157,6 +185,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   private _intervalFn: number | null = null;
   @ViewChild('slideContainer') slideContainer: ElementRef;
   @ViewChild('_slide') _slide: ElementRef;
+  @ViewChild('_progressBar') _progressBar: ElementRef<HTMLDivElement>;
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   /** @docs-private */
   @Input() mode: CarouselMode = CarouselMode.default;
@@ -165,10 +194,16 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   _selectedElement: HTMLElement;
   private _touch: boolean;
   private _autoplay: boolean;
+  private _hasProgressBar: boolean;
   private _slideClass: string;
 
   /** Emits whenever the component is destroyed. */
   private readonly _destroy = new Subject<void>();
+
+  /** @internal */
+  get _isIntervalFn() {
+    return !!this._intervalFn;
+  }
 
   @Input()
   set touch(val: boolean) {
@@ -198,6 +233,15 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     return this._autoplay;
   }
 
+  @Input()
+  set hasProgressBar(val: boolean) {
+    const newVal = toBoolean(val);
+    this._hasProgressBar = newVal;
+  }
+  get hasProgressBar() {
+    return this._hasProgressBar;
+  }
+
   constructor(
     private _el: ElementRef,
     private _cd: ChangeDetectorRef,
@@ -211,8 +255,11 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     if (!this.touch) {
       this.touch = false;
     }
-    if (this.autoplay != null) {
+    if (this.autoplay == null) {
       this.autoplay = DEFAULT_AUTOPLAY;
+    }
+    if (this.hasProgressBar == null) {
+      this.hasProgressBar = DEFAULT_HAS_PROGRESS_BAR;
     }
   }
 
@@ -334,10 +381,26 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   private _resetInterval() {
     if (Platform.isBrowser) {
       this.stop();
+      this._restartProgressBarAnimation();
+      this._markForCheck();
       this._intervalFn = setInterval(() => {
         this.next(true);
+        this._restartProgressBarAnimation();
         this._markForCheck();
       }, this.interval) as any;
+    }
+  }
+
+  private _restartProgressBarAnimation() {
+    if (this.hasProgressBar && this._progressBar) {
+
+      const el = this._progressBar.nativeElement;
+
+      // Hack for restart animation
+      el.style.animationName = 'øfakeName';
+      window.getComputedStyle(el).getPropertyValue('opacity');
+      el.style.animationName = '';
+
     }
   }
 

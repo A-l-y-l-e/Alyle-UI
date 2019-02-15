@@ -10,23 +10,33 @@
     <ng-content></ng-content>
   </div>
   <div [className]="classes.carouselIndicators" *ngIf="lyItems.length !== 1">
-      <div tabindex="0"
+    <div tabindex="0"
       (click)="_select(i)"
       role="button"
-      *ngFor="let item of lyItems; let i = index">
+      *ngFor="let item of lyItems; index as i"
+    >
       <span ly-paper
       color="#000"
       bg="background:primary"
       [class.active]="selectedIndex==i"
       [elevation]="8"
-      [shadowColor]="'text'"
-      ></span>
-      </div>
+      [shadowColor]="'text'"></span>
+    </div>
   </div>
   <div [ngClass]="[classes.actions, 'left']" (click)="prev()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
   </div>
   <div [ngClass]="[classes.actions, 'right']" (click)="next()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+  </div>
+  <div
+    [className]="classes.barContainer"
+    *ngIf="hasProgressBar && _isIntervalFn && interval && autoplay"
+  >
+    <div
+      [className]="classes.bar"
+      #_progressBar
+      [style.animation-duration]="interval + 'ms'"
+    ></div>
   </div>
 </div>
