@@ -143,6 +143,7 @@ import { DialogNgTemplateModule } from './components/dialog-demo/dialog-ng-templ
 /** Carousel */
 import { CarouselDemoComponent } from './components/carousel-demo/carousel-demo.component';
 import { CarouselExample01Module } from './components/carousel-demo/carousel-example-01/carousel-example-01.module';
+import { CarouselWithGesturesModule } from './components/carousel-demo/carousel-with-gestures/carousel-with-gestures.module';
 import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-bar/carousel-with-bar.module';
 
 @NgModule({
@@ -234,6 +235,7 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
     DialogNgTemplateModule,
     /** Carousel */
     CarouselExample01Module,
+    CarouselWithGesturesModule,
     CarouselWithBarModule
   ],
   declarations: [

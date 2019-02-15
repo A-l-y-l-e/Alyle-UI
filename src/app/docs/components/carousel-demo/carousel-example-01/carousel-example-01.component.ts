@@ -19,7 +19,8 @@ const styles = {
   preserveWhitespaces: false
 })
 export class CarouselExample01Component {
-  classes = this.theme.addStyleSheet(styles);
+
+  readonly classes = this.theme.addStyleSheet(styles);
   items = [
     {
       title: 'Mountains',

@@ -13,11 +13,11 @@ const STYLES = ({
 });
 
 @Component({
-  selector: 'aui-carousel-with-bar',
-  templateUrl: './carousel-with-bar.component.html',
+  selector: 'aui-carousel-with-gestures',
+  templateUrl: './carousel-with-gestures.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CarouselWithBarComponent {
+export class CarouselWithGesturesComponent {
 
   readonly classes = this.theme.addStyleSheet(STYLES);
   items = [
@@ -38,8 +38,6 @@ export class CarouselWithBarComponent {
     }
   ];
 
-  constructor(
-    private theme: LyTheme2
-  ) { }
+  constructor(private theme: LyTheme2) { }
 
 }
