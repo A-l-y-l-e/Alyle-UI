@@ -1,4 +1,9 @@
-<ly-carousel [withClass]="classes.carousel" [touch]="true">
+<ly-carousel
+  [withClass]="classes.carousel"
+  [touch]="true"
+  [autoplay]="false"
+  hasProgressBar
+>
   <ly-carousel-item [withClass]="classes.carouselItem" *ngFor="let item of items" [srcImg]="item.img">
     <h1>{{item.title}}</h1>
   </ly-carousel-item>

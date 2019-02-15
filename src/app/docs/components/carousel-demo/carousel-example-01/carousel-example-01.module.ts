@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { LyCarouselModule } from '@alyle/ui/carousel';
 
 import { CarouselExample01Component } from './carousel-example-01.component';
-import { LyButtonModule } from '@alyle/ui/button';
 
 @NgModule({
   imports: [
     CommonModule,
-    LyCarouselModule,
-    LyButtonModule
+    LyCarouselModule
   ],
   exports: [CarouselExample01Component],
   declarations: [CarouselExample01Component]

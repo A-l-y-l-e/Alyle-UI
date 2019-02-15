@@ -140,6 +140,11 @@ import { FullScreenDialogModule } from './components/dialog-demo/full-screen-dia
 import { DialogPromptModule } from './components/dialog-demo/dialog-prompt/dialog-prompt.module';
 import { DialogNgTemplateModule } from './components/dialog-demo/dialog-ng-template/dialog-ng-template.module';
 
+/** Carousel */
+import { CarouselDemoComponent } from './components/carousel-demo/carousel-demo.component';
+import { CarouselExample01Module } from './components/carousel-demo/carousel-example-01/carousel-example-01.module';
+import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-bar/carousel-with-bar.module';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -226,7 +231,10 @@ import { DialogNgTemplateModule } from './components/dialog-demo/dialog-ng-templ
     DialogResponsiveModule,
     FullScreenDialogModule,
     DialogPromptModule,
-    DialogNgTemplateModule
+    DialogNgTemplateModule,
+    /** Carousel */
+    CarouselExample01Module,
+    CarouselWithBarModule
   ],
   declarations: [
     ThemingComponent,
@@ -277,7 +285,9 @@ import { DialogNgTemplateModule } from './components/dialog-demo/dialog-ng-templ
     /** Select */
     SelectDemoComponent,
     /** Dialog */
-    DialogDemoComponent
+    DialogDemoComponent,
+    /** Carousel */
+    CarouselDemoComponent
   ]
 })
 export class DocsModule { }

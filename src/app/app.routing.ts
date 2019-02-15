@@ -29,7 +29,6 @@ const routes: Routes = [
   {
     path: 'components',
     children: [
-      { path: 'carousel', loadChildren: './components/carousel-demo/carousel-demo.module#CarouselDemoModule' },
       { path: 'card', component: CardDemoComponent },
       { path: 'typography', component: TypographyDemoComponent },
     ]
