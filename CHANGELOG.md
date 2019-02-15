@@ -1,3 +1,22 @@
+## [2.3.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.3.1...2.3.2) (2019-02-15)
+
+
+### Bug Fixes
+
+* **avatar:** fix border on first load ([af1e641](https://github.com/A-l-y-l-e/Alyle-UI/commit/af1e641))
+* **carousel:** fix 'changes' of undefined with `ngFor` ([01f728d](https://github.com/A-l-y-l-e/Alyle-UI/commit/01f728d))
+* **carousel:** update the view when there is a change ([f330fb9](https://github.com/A-l-y-l-e/Alyle-UI/commit/f330fb9))
+* **dialog:** add context for dialogs with `<ng-template>` ([ce35854](https://github.com/A-l-y-l-e/Alyle-UI/commit/ce35854))
+* **dialog:** fix dialog with `ng-template` ([c0d4726](https://github.com/A-l-y-l-e/Alyle-UI/commit/c0d4726))
+
+
+### Features
+
+* **carousel:** add `@Input() autoplay` ([4c5f15c](https://github.com/A-l-y-l-e/Alyle-UI/commit/4c5f15c))
+* **carousel:** add `@Input() hasProgressBar` ([c5c9b8e](https://github.com/A-l-y-l-e/Alyle-UI/commit/c5c9b8e))
+
+
+
 ## [2.3.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.3.0...2.3.1) (2019-02-10)
 
 
