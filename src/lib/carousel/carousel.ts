@@ -23,6 +23,9 @@ import { takeUntil } from 'rxjs/operators';
 /** @docs-private */
 const chroma = _chroma;
 
+/** Default interval in ms */
+const DEFAULT_INTERVAL = 7000;
+const DEFAULT_AUTOPLAY = true;
 const STYLE_PRIORITY = -2;
 
 export const STYLES = (theme: ThemeVariables) => {
@@ -157,10 +160,11 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   /** @docs-private */
   @Input() mode: CarouselMode = CarouselMode.default;
-  @Input() interval = 7000;
+  @Input() interval = DEFAULT_INTERVAL;
   @Input() selectedIndex = 0;
   _selectedElement: HTMLElement;
   private _touch: boolean;
+  private _autoplay: boolean;
   private _slideClass: string;
 
   /** Emits whenever the component is destroyed. */
@@ -180,6 +184,20 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     return this._touch;
   }
 
+  @Input()
+  set autoplay(val: boolean) {
+    const newVal = toBoolean(val);
+    this._autoplay = newVal;
+    if (newVal) {
+      this._resetInterval();
+    } else {
+      this.stop();
+    }
+  }
+  get autoplay() {
+    return this._autoplay;
+  }
+
   constructor(
     private _el: ElementRef,
     private _cd: ChangeDetectorRef,
@@ -193,8 +211,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     if (!this.touch) {
       this.touch = false;
     }
-    if (Platform.isBrowser) {
-      this._resetInterval();
+    if (this.autoplay != null) {
+      this.autoplay = DEFAULT_AUTOPLAY;
     }
   }
 
@@ -288,7 +306,9 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
       );
     }
     if (!notResetInterval) {
-      this._resetInterval();
+      if (this.autoplay) {
+        this._resetInterval();
+      }
     }
   }
 
@@ -312,11 +332,13 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _resetInterval() {
-    this.stop();
-    this._intervalFn = setInterval(() => {
-      this.next(true);
-      this._markForCheck();
-    }, this.interval) as any;
+    if (Platform.isBrowser) {
+      this.stop();
+      this._intervalFn = setInterval(() => {
+        this.next(true);
+        this._markForCheck();
+      }, this.interval) as any;
+    }
   }
 
   private _onPan(x) {
