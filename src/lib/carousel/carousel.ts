@@ -189,12 +189,12 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   /** @docs-private */
   @Input() mode: CarouselMode = CarouselMode.default;
-  @Input() interval = DEFAULT_INTERVAL;
   @Input() selectedIndex = 0;
   _selectedElement: HTMLElement;
   private _touch: boolean;
   private _autoplay: boolean;
   private _hasProgressBar: boolean;
+  private _interval = DEFAULT_INTERVAL;
   private _slideClass: string;
 
   /** Emits whenever the component is destroyed. */
@@ -240,6 +240,15 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
   get hasProgressBar() {
     return this._hasProgressBar;
+  }
+
+  @Input()
+  set interval(val: number) {
+    this._interval = val;
+    this._resetInterval();
+  }
+  get interval() {
+    return this._interval;
   }
 
   constructor(
