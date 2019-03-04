@@ -1,4 +1,21 @@
 import { ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
+
+export const STYLE_SELECT_ARROW = ({
+  '&:after': {
+    position: 'absolute',
+    content: `\'\'`,
+    width: 0,
+    height: 0,
+    borderLeft: '0.3125em solid transparent',
+    borderRight: '0.3125em solid transparent',
+    borderTop: '0.3125em solid',
+    top: '50%',
+    after: 0,
+    marginTop: '-0.15625em',
+    pointerEvents: 'none'
+  }
+});
+
 export const STYLES = (theme: ThemeVariables) => {
   const selectionStyle = {
     backgroundColor: `${theme.warn.default} !important`,
@@ -192,21 +209,7 @@ export const STYLES = (theme: ThemeVariables) => {
       marginAfter: 'auto'
     },
     selectArrow: {
-      '{infix}': {
-        '&:after': {
-          position: 'absolute',
-          content: `\'\'`,
-          width: 0,
-          height: 0,
-          borderLeft: '0.3125em solid transparent',
-          borderRight: '0.3125em solid transparent',
-          borderTop: '0.3125em solid',
-          top: '50%',
-          after: 0,
-          marginTop: '-0.15625em',
-          pointerEvents: 'none'
-        }
-      }
+      '{infix}': STYLE_SELECT_ARROW
     },
     $keyframes: {
       shake: {
