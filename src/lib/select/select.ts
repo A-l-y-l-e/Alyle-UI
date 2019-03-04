@@ -161,7 +161,6 @@ export const LySelectMixinBase = mixinTabIndex(LySelectBase as CanDisableCtor);
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lySelect',
   host: {
-    '(click)': 'open()',
     '[attr.tabindex]': 'tabIndex'
   },
   animations: [...ANIMATIONS],
@@ -521,6 +520,7 @@ export class LySelect
 
   /** @docs-private */
   onContainerClick() {
+    this.open();
     this._getHostElement().focus();
   }
 
