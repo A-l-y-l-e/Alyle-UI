@@ -87,7 +87,6 @@ export class TitleComponent implements OnInit {
       }
       this._cd.markForCheck();
     }
-    console.warn(this._location.path(true) || '/');
     if (Platform.isBrowser && environment.production) {
       ga('set', 'page', this._location.path(true) || '/');
       ga('send', 'pageview');
