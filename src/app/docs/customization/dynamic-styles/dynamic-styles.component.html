@@ -1,14 +1,48 @@
-<h2 lyTyp="headline" gutter>Basic style</h2>
 <p>
   Alyle UI uses dynamic styles, for a better control of the styles.
 </p>
+
 <p>
-  To create styles where some need the configuration of the theme, you can create it in the following way.
+  Dynamic styles is inspired by many other CSS-in-JS libraries, like <a
+  href="https://cssinjs.org"
+  target="_blank"
+  rel="noopener nofollow">JSS</a> and <a
+  href="https://emotion.sh/"
+  target="_blank"
+  rel="noopener nofollow">emotion</a>
 </p>
-<prism language="typescript" [code]="codeBasicStyle"></prism>
+
+<p>
+  Here some of its characteristics:
+</p>
+
+<ul>
+  <li>Collision-free selectors.</li>
+  <li>Support for RTL-LTR.</li>
+  <li>Support for SSR.</li>
+  <li>Reusable styles.</li>
+  <li>Theming with custom properties.</li>
+</ul>
+
+<h2 lyTyp="headline" gutter>Basic style sheet</h2>
+
+<p>
+  To create style sheet where some need the configuration of the theme, you can create it in the following way.
+</p>
+<prism language="typescript" [code]="codeBasicStyleSheet"></prism>
 <p>
   Example:
 </p>
 <demo-view path="docs/customization/dynamic-styles/ds-basic">
   <aui-ds-basic></aui-ds-basic>
+</demo-view>
+
+<h2 lyTyp="headline" gutter>Basic style</h2>
+<p>
+  This is like a CSS declarations block.
+</p>
+
+<prism language="typescript" [code]="codeBasicStyle"></prism>
+<demo-view path="docs/customization/dynamic-styles/ds-css-declarations-block">
+  <aui-ds-css-declarations-block></aui-ds-css-declarations-block>
 </demo-view>

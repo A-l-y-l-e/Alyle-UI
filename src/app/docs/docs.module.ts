@@ -37,6 +37,7 @@ import { DocsRoutingModule } from '@docs/docs.routing';
 import { SharedModule } from '../shared/shared.module';
 import { DynamicStylesComponent } from '@docs/customization/dynamic-styles/dynamic-styles.component';
 import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-basic.module';
+import { DsCssDeclarationsBlockModule } from './customization/dynamic-styles/ds-css-declarations-block/ds-css-declarations-block.module';
 
 import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo.component';
 import { ToolbarBasicDemoModule } from '@docs/components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
@@ -174,6 +175,7 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
     TabsPlacementModule,
     /** Dynamic style */
     DsBasicModule,
+    DsCssDeclarationsBlockModule,
     /** Button */
     ButtonTypesDemoModule,
     IconLabelButtonsModule,

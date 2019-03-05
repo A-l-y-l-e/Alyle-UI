@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './dynamic-styles.component.html'
 })
 export class DynamicStylesComponent {
-  codeBasicStyle = `
+  codeBasicStyleSheet = `
 const styles = (theme: ThemeVariables) => ({
   // Style name, is optional, this is used to add a prefix to all classes,
   // it will only be seen in dev mode
@@ -29,4 +29,20 @@ const styles = (theme: ThemeVariables) => ({
   }
 });
 `;
+
+  codeBasicStyle = `const STYLE_BORDER = ({
+  height: '120px',
+  width: '120px',
+  background: '#ffe259',
+  backgroundImage: \`linear-gradient(\${
+    [
+      '45deg',
+      \`\${'#ffe259'} 0%\`,
+      \`\${'#ffa751'} 100%\`
+    ].join()
+  })\`,
+  borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%'
+});
+`;
+
 }
