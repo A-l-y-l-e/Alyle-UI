@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewEncapsulation, Renderer2, isDevMode } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, isDevMode, ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Platform } from '@alyle/ui';
 import { environment } from '@env/environment';
 import { AUIRoutesMap } from 'app/routes';
 import { PageContentComponent } from '../../page-content/page-content.component';
+import { Location } from '@angular/common';
 
 let count = -1;
 
@@ -18,11 +19,11 @@ export class TitleComponent implements OnInit {
   title: string;
   urls: string[];
   defaultTitle = 'Alyle UI';
-  @Input()
+
   set route(val: string) {
-    if (val !== this._route) {
+    if (val !== this.route) {
+      val = this._route = this._location.path();
       if (AUIRoutesMap.has(val) || val.indexOf('/api/') !== -1) {
-        this._route = val;
         const varArray = val.split('/').filter(_ => !!_);
         const latestItem = varArray[varArray.length - 1];
         this.urls = varArray.map(_ => _.charAt(0).toUpperCase() + _.slice(1));
@@ -39,15 +40,14 @@ export class TitleComponent implements OnInit {
         } else {
           this.titleService.setTitle(this.defaultTitle);
         }
-      }
-      if (Platform.isBrowser && environment.production) {
-        ga('set', 'page', val);
-        ga('send', 'pageview');
+      } else {
+        this.title = '';
+        this.titleService.setTitle(this.defaultTitle);
       }
 
       if (Platform.isBrowser) {
         count++;
-        if (count > 0) {
+        if (count > 0 || val !== '') {
           Promise.resolve(null).then(() => {
             let ref = this.pageContent._getHostElement().querySelector('p');
             if (!ref) {
@@ -85,6 +85,12 @@ export class TitleComponent implements OnInit {
           });
         }
       }
+      this._cd.markForCheck();
+    }
+    console.warn(this._location.path(true) || '/');
+    if (Platform.isBrowser && environment.production) {
+      ga('set', 'page', this._location.path(true) || '/');
+      ga('send', 'pageview');
     }
   }
   get route() {
@@ -93,7 +99,9 @@ export class TitleComponent implements OnInit {
   constructor(
     private titleService: Title,
     private _renderer: Renderer2,
-    private pageContent: PageContentComponent
+    private pageContent: PageContentComponent,
+    private _location: Location,
+    private _cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {

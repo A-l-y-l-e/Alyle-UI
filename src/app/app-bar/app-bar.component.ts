@@ -117,6 +117,13 @@ export class AppBarComponent implements OnInit, OnDestroy {
     this.cd.markForCheck();
   }
 
+  setTheme(themeName: string) {
+    if (typeof localStorage === 'object') {
+      localStorage.setItem('theme-name', themeName);
+    }
+    this.theme.setTheme(themeName);
+  }
+
   ngOnDestroy() {
     if (Platform.isBrowser) {
       this.scrollSub.unsubscribe();

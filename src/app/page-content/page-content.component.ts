@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import { AUIRoutesMap } from '../routes';
 
 @Component({
@@ -10,31 +11,26 @@ import { AUIRoutesMap } from '../routes';
 })
 export class PageContentComponent {
   pathPkg: string;
-  private _routeUrl: string;
-  @Input()
-  set routeUrl(val: string) {
-    this._routeUrl = val;
-  }
-  get routeUrl() {
-    return this._routeUrl;
-  }
+  isPkg: boolean;
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    private _el: ElementRef<HTMLElement>
+    private _el: ElementRef<HTMLElement>,
+    private _cd: ChangeDetectorRef
   ) { }
-
-  isPkg() {
-    const routeUrlArray = this.routeUrl.split('/');
-    const isPkg = AUIRoutesMap.has(this.routeUrl) && AUIRoutesMap.get(this.routeUrl)!.api;
-    if (isPkg) {
-      this.pathPkg = routeUrlArray[2];
-    }
-    return isPkg;
-  }
 
   _getHostElement() {
     return this._el.nativeElement;
+  }
+
+  updateRoute(path: string) {
+    const routeUrlArray = path.split('/');
+    const isPkg = AUIRoutesMap.has(path) && AUIRoutesMap.get(path)!.api;
+    if (isPkg) {
+      this.pathPkg = routeUrlArray[2];
+    }
+    this.isPkg = !!isPkg;
+    this._cd.markForCheck();
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AUI_VERSION, LyTheme2, ThemeVariables, Platform } from '@alyle/ui';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
@@ -8,6 +8,10 @@ import { CustomMinimaLight, CustomMinimaDark } from './app.module';
 import { LySnackBar } from '@alyle/ui/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AUIRoutes } from './routes';
+import { Location } from '@angular/common';
+import { filter } from 'rxjs/operators';
+import { TitleComponent } from './document/title/title.component';
+import { PageContentComponent } from './page-content/page-content.component';
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
   $name: 'app',
@@ -114,15 +118,19 @@ export class AppComponent implements OnInit {
   routesComponents: any;
   version = AUI_VERSION;
   routes = AUIRoutes.slice(1);
+  currentRoutePath: string;
 
   @ViewChild(LyDrawer) drawer: LyDrawer;
   @ViewChild(LySnackBar) sb: LySnackBar;
+  @ViewChild(TitleComponent) titleComponent: TitleComponent;
+  @ViewChild(PageContentComponent) page: PageContentComponent;
 
   constructor(
     private _el: ElementRef,
     public router: Router,
     private theme: LyTheme2,
     private renderer: Renderer2,
+    private _location: Location,
     sanitizer: DomSanitizer,
     iconService: LyIconService,
     updates: SwUpdate
@@ -143,6 +151,17 @@ export class AppComponent implements OnInit {
     iconService.setSvg('Water', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Water'));
     iconService.setSvg('Snow', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Snow'));
     iconService.setSvg('Discord', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/social/discord'));
+
+    this.router.events
+    .pipe(
+      filter((event) => event instanceof NavigationEnd)
+    )
+    .subscribe(() => {
+      const path = this._location.path();
+      this.currentRoutePath = path;
+      this.titleComponent.route = path;
+      this.page.updateRoute(path);
+    });
   }
   ngOnInit() {
     this.renderer.addClass(this._el.nativeElement, this.classes.root);

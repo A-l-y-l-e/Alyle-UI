@@ -39,7 +39,7 @@
       ly-menu-item
       [bg]="theme.variables.name === themeName ? 'primary' : 'background:primary'"
       *ngFor="let themeName of themes; let i = index"
-      (click)="theme.setTheme(themeName)"
+      (click)="setTheme(themeName)"
       >
         <ly-icon [color]="theme.variables.name === themeName ? 'background:primary' : themeManager.get(themeName).primary.default">lens</ly-icon>
         <span [withClass]="classes.themePickerText">{{ themeName }}</span>

@@ -3,8 +3,8 @@
   <ly-drawer-content>
     <div [className]="classes.appContainer">
       <div [className]="classes.demo">
-        <aui-page-content [routeUrl]="router.url">
-          <app-title [route]="router.url"></app-title>
+        <aui-page-content>
+          <app-title></app-title>
           <div class="docs-viewer">
             <router-outlet></router-outlet>
           </div>
@@ -50,9 +50,9 @@
     [withClass]="classes.drawer"
     [width]="'230px 0@XSmall'"
     #nav="lyDrawer"
-    [opened]="router.url !== '/'"
-    [mode]="router.url !== '/' ? 'side' : 'over'"
-    [spacingAbove]="router.url !== '/' ? '64px 56px@XSmall' : '0'"
+    [opened]="currentRoutePath !== ''"
+    [mode]="currentRoutePath !== '' ? 'side' : 'over'"
+    [spacingAbove]="currentRoutePath !== '' ? '64px 56px@XSmall' : '0'"
   >
     <ul *ngFor="let category of routes" [withClass]="classes.drawerUl">
       <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>

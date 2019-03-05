@@ -9,7 +9,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LyThemeModule, LY_THEME_GLOBAL_VARIABLES, PartialThemeVariables } from '@alyle/ui';
+import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, PartialThemeVariables, LY_THEME_NAME, LyTheme2 } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -105,6 +105,16 @@ export class GlobalVariables implements PartialThemeVariables {
 
 export type AUIThemeVariables = MinimaLight & MinimaDark & CustomMinimaLight & CustomMinimaDark & GlobalVariables;
 
+export function themeNameProviderFactory() {
+  if (typeof localStorage === 'object') {
+    const themeName = localStorage.getItem('theme-name');
+    if (themeName) {
+      return themeName;
+    }
+  }
+  return 'minima-light';
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -130,7 +140,7 @@ export type AUIThemeVariables = MinimaLight & MinimaDark & CustomMinimaLight & C
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    LyThemeModule.setTheme('minima-light'),
+    // LyThemeModule.setTheme('minima-light'),
     ResponsiveModule,
     LyCommonModule,
     LyButtonModule,
@@ -151,10 +161,12 @@ export type AUIThemeVariables = MinimaLight & MinimaDark & CustomMinimaLight & C
     LyGridModule
   ],
   providers: [
+    [ LyTheme2 ],
     { provide: LY_THEME, useClass: MinimaLight, multi: true },
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
+    { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory, },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables }
   ],
   bootstrap: [AppComponent]
