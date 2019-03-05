@@ -103,7 +103,7 @@ export class GlobalVariables implements PartialThemeVariables {
   };
 }
 
-export type AUIThemeVariables = CustomMinimaLight & CustomMinimaDark & GlobalVariables;
+export type AUIThemeVariables = MinimaLight & MinimaDark & CustomMinimaLight & CustomMinimaDark & GlobalVariables;
 
 @NgModule({
   declarations: [
