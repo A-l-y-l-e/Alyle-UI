@@ -11,19 +11,17 @@ import {
   LyThemeModule,
   LY_THEME,
   LY_THEME_GLOBAL_VARIABLES,
-  PartialThemeVariables,
-  Dir
+  PartialThemeVariables
 } from '@alyle/ui';
 
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
-
-// Here we extend the two themes to be able to change their variables.
 
 /**
  * For light theme
  * Theme name = minima-light
  */
-export class CustomMinimaLight extends MinimaLight {
+export class CustomMinimaLight implements PartialThemeVariables {
+  name = 'minima-light';
   primary = {
     default: '#2196f3',
     contrast: '#fff'
@@ -38,7 +36,8 @@ export class CustomMinimaLight extends MinimaLight {
  * For dark theme
  * Theme name = minima-dark
  */
-export class CustomMinimaDark extends MinimaDark {
+export class CustomMinimaDark implements PartialThemeVariables {
+  name = 'minima-dark';
   primary = {
     default: '#9C27B0',
     contrast: '#fff'
@@ -65,7 +64,6 @@ export class GlobalVariables implements PartialThemeVariables {
       borderRadius: '2em'
     }
   };
-  // direction = Dir.rtl;
 }
 
 /** set theme */
@@ -76,6 +74,8 @@ export class GlobalVariables implements PartialThemeVariables {
   ],
   provides: [
     ...
+    { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name minima-light
+    { provide: LY_THEME, useClass: MinimaDark, multi: true }, // name minima-dark
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true }, // name minima-light
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true }, // name minima-dark
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables } // global variables
