@@ -21,7 +21,7 @@ const STYLE_BORDER = ({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsCssDeclarationsBlockComponent implements OnInit {
-  styleWaterDrop = this._theme.style(STYLE_BORDER);
+  styleBorder = this._theme.style(STYLE_BORDER);
   constructor(
     private _theme: LyTheme2) { }
 
