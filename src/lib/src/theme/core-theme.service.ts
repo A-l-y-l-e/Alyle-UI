@@ -45,14 +45,27 @@ export class CoreTheme {
       }
     }
     this.firstElement = _document.body.firstChild;
+    const themes = new Map<string, ThemeConfig[]>();
     if (Array.isArray(themeConfig)) {
       themeConfig.forEach(item => {
-        if (globalVariables) {
-          mergeDeep(item, globalVariables);
+        if (themes.has(item.name)) {
+          themes.get(item.name)!.push(item);
+        } else {
+          themes.set(item.name, [item]);
         }
-        this.add(item as any);
-        this.themes.add(item.name);
       });
+
+      themes.forEach((items) => {
+        if (globalVariables) {
+          items.push(globalVariables);
+        }
+        if (items.length > 1) {
+          mergeDeep(items[0], ...items.slice(1));
+        }
+        this.add(items[0] as any);
+        this.themes.add(items[0].name);
+      });
+
     } else {
       if (globalVariables) {
         mergeDeep(themeConfig, globalVariables);
@@ -69,6 +82,11 @@ export class CoreTheme {
   add(theme: ThemeVariables) {
     this._themeMap.set(theme.name, theme);
     this._styleMap.set(theme.name, new Map());
+  }
+
+  hasTheme(theme: ThemeVariables | string) {
+    const name = typeof theme === 'string' ? theme : theme.name;
+    this._themeMap.has(name);
   }
 
   get(name: string) {
