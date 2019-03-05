@@ -49,7 +49,8 @@ const SublimeLight = {
   shadow: '#B36FBC'
 };
 
-export class CustomMinimaLight extends MinimaLight {
+export class CustomMinimaLight {
+  name = 'minima-light';
   shadow = '#505050';
   codeColor = 'rgba(0, 23, 31, 0.7)';
   codeBg = '#fff';
@@ -64,7 +65,8 @@ export class CustomMinimaLight extends MinimaLight {
   };
 }
 
-export class CustomMinimaDark extends MinimaDark {
+export class CustomMinimaDark {
+  name = 'minima-dark';
   shadow = 'rgba(0, 0, 0, 1)';
   codeColor = '#efefef';
   codeBg = '#1b1b1b';
@@ -149,6 +151,8 @@ export type AUIThemeVariables = CustomMinimaLight & CustomMinimaDark & GlobalVar
     LyGridModule
   ],
   providers: [
+    { provide: LY_THEME, useClass: MinimaLight, multi: true },
+    { provide: LY_THEME, useClass: MinimaDark, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables }
