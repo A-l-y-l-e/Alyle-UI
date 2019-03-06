@@ -70,14 +70,14 @@ docsJSON.children!.forEach(child => {
         return;
       }
       const { name, decorators, kindString, children } = _child;
-      const type = decorators ? decorators[0].name : kindString;
+      const type = decorators ? decorators[0].name : kindString!;
       APIList[pkgName].children.push({
         name,
         type
       });
       const Type = `${toCamelcase(type)}List`;
       if (type === 'Component' || type === 'Directive') {
-        const source = ts.createSourceFile('', `const data = ${decorators[0].arguments.obj}`, ts.ScriptTarget.Latest, true);
+        const source = ts.createSourceFile('', `const data = ${decorators![0].arguments.obj}`, ts.ScriptTarget.Latest, true);
         const props = findNodes(source.getChildren()[0], ts.SyntaxKind.PropertyAssignment);
         const properties = [
           'selector',
@@ -97,7 +97,11 @@ docsJSON.children!.forEach(child => {
         )
         .forEach((cbNode: ts.PropertyAssignment) => {
           const value = cbNode.getChildAt(2).getText();
-          __data[cbNode.name.getText()] = value;
+          if (cbNode.name.getText() === 'inputs') {
+            __data[cbNode.name.getText()] = JSON.stringify(new Function(`return ${value}`)(), undefined, 2);
+          } else {
+            __data[cbNode.name.getText()] = value;
+          }
         });
 
         (
@@ -138,7 +142,7 @@ docsJSON.children!.forEach(child => {
         } else if (type === 'Enumeration') {
           let line = `enum ${name} `;
           line += `{\n`;
-          line += _child.children.map(_ => {
+          line += _child.children!.map(_ => {
             let k = `  `;
             const comment = createDescription(_);
             if (comment) {
@@ -261,14 +265,14 @@ function getPackageName(name: string) {
 }
 
 function toCamelcase(str: string) {
-  return str.replace(/^([A-Z])|\s(\w)/g, function(match, p1, p2, offset) {
+  return str.replace(/^([A-Z])|\s(\w)/g, function(_match, p1, p2, _offset) {
     if (p2) { return p2.toUpperCase(); }
     return p1.toLowerCase();
   });
 }
 
 function checkIfContainTagPrivate(refl: DeclarationReflection): boolean {
-  const comment: Reflection['comment'] = refl.comment || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : null);
+  const comment: Reflection['comment'] = refl.comment || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : undefined);
   if (comment && comment.tags) {
     return comment.tags.some(_ => _['tag'] === 'docs-private');
   } else {
@@ -292,7 +296,7 @@ function checkIfIsMethodLifecycle(de: DeclarationReflection) {
 
 function methodTemplate(de: DeclarationReflection) {
   let args = '';
-  if (de.signatures[0].parameters) {
+  if (de.signatures && de.signatures[0].parameters) {
     args += de.signatures[0].parameters.map(_ => `${_.name}${_.flags.isOptional ? '?' : ''}: ${getType(_.type, 'any')}`).join(', ');
   }
   return `${de.name}(${args}): ${getType(de.type)}`;
@@ -357,8 +361,8 @@ function createClassContent(children: DeclarationReflection[]): string {
           });
         }
         line += `${de.name}: `;
-        line += `${de.getSignature && ((de.getSignature.type && de.getSignature.type.type === 'intrinsic') || (de.getSignature.type && de.getSignature.type.type === 'reference'))
-        ? (de.getSignature.type['name'])
+        line += `${de.getSignature && de.getSignature[0]
+        ? getType(de.getSignature[0].type, 'any')
         : 'any'}`;
         items.push(line);
       } else if (de.kindString === 'Method') {
