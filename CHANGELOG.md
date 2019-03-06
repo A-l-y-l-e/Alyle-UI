@@ -1,3 +1,20 @@
+# [2.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.3.2...2.5.0) (2019-03-06)
+
+
+### Bug Fixes
+
+* **carousel:** the `interval` attribute is not updated when the value is changed ([e9c4c03](https://github.com/A-l-y-l-e/Alyle-UI/commit/e9c4c03))
+* **select:** fix `dirty` true on init component ([f8e6093](https://github.com/A-l-y-l-e/Alyle-UI/commit/f8e6093))
+* **select:** list of options is not displayed when you click on the ends of the field ([68ca277](https://github.com/A-l-y-l-e/Alyle-UI/commit/68ca277))
+
+
+### Features
+
+* **core:** ability to merge nested themes ([043f3e5](https://github.com/A-l-y-l-e/Alyle-UI/commit/043f3e5))
+* **field:** expose `STYLE_SELECT_ARROW` ([fbf58c0](https://github.com/A-l-y-l-e/Alyle-UI/commit/fbf58c0))
+
+
+
 ## [2.3.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.3.1...2.3.2) (2019-02-15)
 
 
