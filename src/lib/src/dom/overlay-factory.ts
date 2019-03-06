@@ -178,8 +178,8 @@ export class OverlayFactory<T = any> {
         this._paddingRight = computedStyle.getPropertyValue('padding-right');
         window.document.body.style.paddingRight = `calc(${scrollWidth}px + ${this._paddingRight})`;
 
-        window.document.body.style.overflow = 'hidden';
       }
+      window.document.body.style.overflow = 'hidden';
     }
   }
   private _resetScroll() {
