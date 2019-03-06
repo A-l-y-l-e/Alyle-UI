@@ -3,7 +3,6 @@ import { LyTheme2 } from '@alyle/ui';
 
 const STYLES = {
   paper: {
-    display: 'block',
     margin: '.5em',
     padding: '1em'
   }
