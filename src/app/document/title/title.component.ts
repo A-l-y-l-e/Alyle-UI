@@ -66,7 +66,7 @@ export class TitleComponent implements OnInit {
               CodeFundScript.src = 'https://codefund.app/properties/171/funder.js';
               CodeFundScript.async = 1;
               this._renderer.setStyle(CodeFund, 'display', 'inline-block');
-              this._renderer.setStyle(CodeFund, 'background', '#fff');
+              this._renderer.setStyle(CodeFund, 'background', 'rgb(248, 248, 248)');
               this._renderer.setAttribute(CodeFund, 'id', 'codefund');
               this._renderer.insertBefore(
                 parentNode,
