@@ -339,6 +339,9 @@ export class LyGridItem implements OnInit {
   set gridItemCol(val: string | number) {
     this.col = val;
   }
+  get gridItemCol() {
+    return this.col;
+  }
 
   /**
    * Defines the order style property.
