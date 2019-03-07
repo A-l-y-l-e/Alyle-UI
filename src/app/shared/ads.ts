@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, isDevMode } from '@angular/core';
 import { Platform, LyTheme2 } from '@alyle/ui';
 import { PageContentComponent } from '@app/page-content/page-content.component';
 
@@ -51,14 +51,14 @@ export class Ads {
               Div,
               nextSibling
             );
-            // if (isDevMode()) {
-              // CodeFund.innerHTML = '--ad--';
-            // } else {
+            if (isDevMode()) {
+              CodeFund.innerHTML = '--ad--';
+            } else {
               this._renderer.appendChild(
                 Div,
                 CodeFundScript
               );
-            // }
+            }
           }
         });
       }
