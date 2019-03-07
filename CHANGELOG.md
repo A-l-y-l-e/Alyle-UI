@@ -1,3 +1,12 @@
+## [2.5.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.5.0...2.5.1) (2019-03-07)
+
+
+### Bug Fixes
+
+* **core:** do not scroll when creating an overlay ([dc302a2](https://github.com/A-l-y-l-e/Alyle-UI/commit/dc302a2))
+
+
+
 # [2.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.3.2...2.5.0) (2019-03-06)
 
 
