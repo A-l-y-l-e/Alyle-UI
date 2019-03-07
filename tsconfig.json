@@ -50,7 +50,9 @@
       "@alyle/ui/select": ["lib/select"],
       "@alyle/ui/dialog": ["lib/dialog"],
       "@env/*": ["environments/*"],
-      "@docs/*": ["app/docs/*"]
+      "@docs/*": ["app/docs/*"],
+      "@app/*": ["app/*"],
+      "@shared/*": ["app/shared/*"]
     }
   }
 }

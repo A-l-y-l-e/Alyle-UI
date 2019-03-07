@@ -1,12 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, isDevMode, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Platform } from '@alyle/ui';
+import { Platform, LyTheme2 } from '@alyle/ui';
 import { environment } from '@env/environment';
 import { AUIRoutesMap } from 'app/routes';
 import { PageContentComponent } from '../../page-content/page-content.component';
 import { Location } from '@angular/common';
-
-let count = -1;
+import { Ads } from '@shared/ads';
 
 @Component({
   selector: 'app-title',
@@ -45,46 +44,7 @@ export class TitleComponent implements OnInit {
         this.titleService.setTitle(this.defaultTitle);
       }
 
-      if (Platform.isBrowser) {
-        count++;
-        if (count > 0 || val !== '') {
-          Promise.resolve(null).then(() => {
-            let ref = this.pageContent._getHostElement().querySelector('p');
-            if (!ref) {
-              ref = this.pageContent._getHostElement().querySelector('demo-view');
-            }
-            if (!ref) {
-              ref = this.pageContent._getHostElement().querySelector('.ad');
-            }
-            if (ref) {
-              const Div = this._renderer.createElement('div');
-              const CodeFund = this._renderer.createElement('div');
-              const CodeFundScript = this._renderer.createElement('script');
-              const nextSibling = this._renderer.nextSibling(ref);
-              const parentNode = this._renderer.parentNode(ref);
-              this._renderer.appendChild(Div, CodeFund);
-              CodeFundScript.src = 'https://codefund.app/properties/171/funder.js';
-              CodeFundScript.async = 1;
-              this._renderer.setStyle(CodeFund, 'display', 'inline-block');
-              this._renderer.setStyle(CodeFund, 'background', 'rgb(248, 248, 248)');
-              this._renderer.setAttribute(CodeFund, 'id', 'codefund');
-              this._renderer.insertBefore(
-                parentNode,
-                Div,
-                nextSibling
-              );
-              if (isDevMode()) {
-                CodeFund.innerHTML = '--ad--';
-              } else {
-                this._renderer.appendChild(
-                  Div,
-                  CodeFundScript
-                );
-              }
-            }
-          });
-        }
-      }
+      this._ads.update(val, this._pageContent, this._theme);
       this._cd.markForCheck();
     }
     if (Platform.isBrowser && environment.production) {
@@ -97,10 +57,11 @@ export class TitleComponent implements OnInit {
   }
   constructor(
     private titleService: Title,
-    private _renderer: Renderer2,
-    private pageContent: PageContentComponent,
+    private _pageContent: PageContentComponent,
     private _location: Location,
-    private _cd: ChangeDetectorRef
+    private _cd: ChangeDetectorRef,
+    private _theme: LyTheme2,
+    private _ads: Ads
   ) { }
 
   ngOnInit() {

@@ -6,6 +6,8 @@ import { filter } from 'rxjs/operators';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { AppComponent } from '../app.component';
 import { AUIThemeVariables } from '../app.module';
+import { Ads } from '@shared/ads';
+import { Location } from '@angular/common';
 
 const styles = (theme: AUIThemeVariables) => ({
   root: {
@@ -72,6 +74,8 @@ export class AppBarComponent implements OnInit, OnDestroy {
     private winScroll: WinScroll,
     private router: Router,
     private cd: ChangeDetectorRef,
+    private _ads: Ads,
+    private _location: Location
   ) {
     this.themes = themeManager.themes;
   }
@@ -122,6 +126,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
       localStorage.setItem('theme-name', themeName);
     }
     this.theme.setTheme(themeName);
+    this._ads.update(this._location.path(true), this.appComponent.page, this.theme);
   }
 
   ngOnDestroy() {
