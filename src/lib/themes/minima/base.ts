@@ -65,6 +65,7 @@ export class MinimaBase extends LyStyleUtils {
       }
     }
   };
+  expansion = {};
   constructor() {
     super();
     this.typography.lyTyp = {

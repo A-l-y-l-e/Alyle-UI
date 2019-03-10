@@ -8,6 +8,7 @@ import { SnackBarVariables } from './variables/snack-bar';
 import { ButtonVariables } from './variables/button';
 import { TooltipVariables } from './variables/tooltip';
 import { AvatarVariables } from './variables/avatar';
+import { ExpansionVariables } from './variables/expansion';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -124,6 +125,7 @@ export interface ThemeConfig {
   button: ButtonVariables;
   tooltip: TooltipVariables;
   avatar: AvatarVariables;
+  expansion: ExpansionVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

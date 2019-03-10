@@ -26,3 +26,4 @@ components:
   '@alyle/ui/divider': divider
   '@alyle/ui/select': select
   '@alyle/ui/dialog': dialog
+  '@alyle/ui/expansion': expansion
