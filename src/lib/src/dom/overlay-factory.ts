@@ -139,6 +139,7 @@ export class OverlayFactory<T = any> {
 
   /** Remove element of DOM */
   remove() {
+    this._resetScroll();
     if (this._viewRef) {
       this._viewRef.destroy();
       this._overlayContainer._remove(this._el);
@@ -160,7 +161,6 @@ export class OverlayFactory<T = any> {
       this._overlayContainer._remove(backdropEl);
     }
     this._windowSRSub.unsubscribe();
-    this._resetScroll();
   }
 
   /** Detach & remove */
@@ -183,7 +183,7 @@ export class OverlayFactory<T = any> {
     }
   }
   private _resetScroll() {
-    if (Platform.isBrowser && this._config.hasBackdrop && !this._overlayContainer.overlayLen) {
+    if (Platform.isBrowser && this._config.hasBackdrop && this._overlayContainer.overlayLen) {
       if (this._paddingRight) {
         window.document.body.style.paddingRight = this._paddingRight;
         this._paddingRight = null;
