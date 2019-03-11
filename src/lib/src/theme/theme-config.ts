@@ -125,7 +125,7 @@ export interface ThemeConfig {
   button: ButtonVariables;
   tooltip: TooltipVariables;
   avatar: AvatarVariables;
-  expansion: ExpansionVariables;
+  expansion?: ExpansionVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

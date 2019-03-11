@@ -65,7 +65,18 @@ export class MinimaBase extends LyStyleUtils {
       }
     }
   };
-  expansion = {};
+  expansion = {
+    appearance: {
+      default: {
+        '& {panelHeader}': {
+          height: '48px'
+        },
+        '& {expanded} {panelHeader}': {
+          height: '64px'
+        }
+      }
+    }
+  };
   constructor() {
     super();
     this.typography.lyTyp = {

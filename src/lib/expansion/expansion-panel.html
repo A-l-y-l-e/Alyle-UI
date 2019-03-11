@@ -1,0 +1,14 @@
+<ng-content select="ly-expansion-panel-header"></ng-content>
+<div [className]="classes.panelContent"
+  [@contentExpansion]="{
+    value: _getExpandedState(),
+    params: {
+      panelAnimationTiming: _panelAnimationTiming
+    }
+  }"
+>
+  <div [className]="classes.panelBody">
+    <ng-content></ng-content>
+    <ng-template [ngTransclude]="_lazyContent?._template"></ng-template>
+  </div>
+</div>

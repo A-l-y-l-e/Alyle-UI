@@ -25,3 +25,4 @@ export * from './src/ripple/index';
 export * from './src/position/position';
 export * from './src/position/align';
 export * from './src/selection/selection';
+export * from './src/error/theme-variable-undefined';
