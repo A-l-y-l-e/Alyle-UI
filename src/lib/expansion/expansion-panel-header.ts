@@ -1,9 +1,10 @@
-import { Directive, ElementRef, Renderer2, Inject } from '@angular/core';
+import { Component, ElementRef, Renderer2, Inject } from '@angular/core';
 import { LyAccordion } from './accordion';
 import { LyExpansionPanel } from './expansion-panel';
 
-@Directive({
+@Component({
   selector: 'ly-expansion-panel-header',
+  templateUrl: 'expansion-panel-header.html',
   host: {
     '(click)': 'expansionPanel.toggle()'
   }

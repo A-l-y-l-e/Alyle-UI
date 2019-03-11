@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgTranscludeModule } from '@alyle/ui';
+import { NgTranscludeModule, LyExpansionIconModule } from '@alyle/ui';
 
 import { LyAccordion } from './accordion';
 import { LyExpansionPanel } from './expansion-panel';
@@ -16,6 +16,7 @@ import { LyExpansionPanelContent } from './expansion-panel-content';
   ],
   imports: [
     CommonModule,
+    LyExpansionIconModule,
     NgTranscludeModule
   ],
   exports: [
