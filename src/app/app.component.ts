@@ -157,10 +157,14 @@ export class AppComponent implements OnInit {
       filter((event) => event instanceof NavigationEnd)
     )
     .subscribe(() => {
-      const path = this._location.path();
-      this.currentRoutePath = path;
-      this.titleComponent.route = path;
-      this.page.updateRoute(path);
+      const pathname = Platform.isBrowser
+      ? location.pathname === '/'
+        ? ''
+        : location.pathname
+      : this._location.path();
+      this.currentRoutePath = pathname;
+      this.titleComponent.route = pathname;
+      this.page.updateRoute(pathname);
     });
   }
   ngOnInit() {
