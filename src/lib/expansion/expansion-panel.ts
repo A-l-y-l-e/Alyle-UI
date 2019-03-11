@@ -1,9 +1,8 @@
 import { Component, Input, ChangeDetectionStrategy, Inject, ElementRef, Renderer2, ContentChild, ChangeDetectorRef } from '@angular/core';
-import { toBoolean } from '@alyle/ui';
+import { toBoolean, LyTheme2 } from '@alyle/ui';
 import { LyAccordion } from './accordion';
 import { LyExpansionPanelContent } from './expansion-panel-content';
 import { lyExpansionAnimations } from './expansion-animations';
-import { LyTheme2 } from 'lib/src/theme/theme2.service';
 
 /** LyExpansionPanel's states. */
 export type LyExpansionPanelState = 'expanded' | 'collapsed';
