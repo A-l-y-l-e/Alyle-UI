@@ -1,5 +1,5 @@
 <ng-content></ng-content>
 <ly-expansion-icon
   [up]="expansionPanel.expanded"
-  *ngIf="!expansionPanel.disabled"
+  *ngIf="!expansionPanel.isDisabled && expansionPanel.hasToggle"
 ></ly-expansion-icon>

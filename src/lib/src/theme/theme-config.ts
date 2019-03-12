@@ -29,6 +29,7 @@ export interface ThemeConfig {
     tertiary: string,
     base: string
   };
+  hover: string;
   text: {
     default: string,
     primary: string,

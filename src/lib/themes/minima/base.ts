@@ -66,15 +66,30 @@ export class MinimaBase extends LyStyleUtils {
     }
   };
   expansion = {
+    root: {
+      '& {panelHeader}': {
+        height: '48px'
+      },
+      '& {expanded} {panelHeader}': {
+        height: '64px'
+      },
+    },
     appearance: {
       default: {
-        '& {panelHeader}': {
-          height: '48px'
+        '& {panel}': {
+          transition: `margin ${this.animations.durations.entering}ms ${this.animations.curves.standard}`
         },
-        '& {expanded} {panelHeader}': {
-          height: '64px'
+        '& {expanded}{panel}': {
+          margin: '16px 0',
+          '&:first-child': {
+            marginTop: 0
+          },
+          '&:last-child': {
+            marginBottom: 0
+          }
         }
-      }
+      },
+      flat: { }
     }
   };
   constructor() {

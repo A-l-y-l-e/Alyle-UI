@@ -1,14 +1,14 @@
-import { Directive, Input, ElementRef, OnInit } from '@angular/core';
+import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError } from '@alyle/ui';
+import { Subject } from 'rxjs';
 
 export type LyAccordionAppearance = 'default' | 'flat';
-const STYLE_PRIORITY = -2;
+const STYLE_PRIORITY = -0.9;
 
 const STYLES = (theme: ThemeVariables) => ({
   panel: {
     display: 'block',
     overflow: 'hidden',
-    background: theme.paper.default,
     '&:not({disabled}) {panelHeader}': {
       cursor: 'pointer'
     }
@@ -18,7 +18,13 @@ const STYLES = (theme: ThemeVariables) => ({
     flexDirection: 'row',
     alignItems: 'center',
     padding: '0 24px',
-    transition: `height ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`
+    transition: `height ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
+    '{panel}:not({expanded}):not({disabled}) &:hover': {
+      background: theme.hover,
+      '@media (hover: none)': {
+        background: 'none'
+      }
+    },
   },
   panelContent: {
     display: 'flex',
@@ -36,8 +42,7 @@ const STYLES = (theme: ThemeVariables) => ({
     }
   },
   disabled: {
-    background: theme.disabled.default,
-    color: theme.disabled.contrast
+    color: theme.disabled.default
   }
 });
 
@@ -51,8 +56,17 @@ export class LyAccordion implements OnInit {
 
   private _appearance: LyAccordionAppearance;
   private _multiple: boolean;
-  private _hasToggle: boolean;
+  private _hasToggle = true;
   private _appearanceClass: string;
+
+  /** Stream that emits true/false when openAll/closeAll is triggered. */
+  readonly _openCloseAllActions: Subject<boolean> = new Subject<boolean>();
+
+  /** Background color of the expansion panel */
+  @Input() panelBg = 'paper';
+
+  /** Color of the expansion panel */
+  @Input() panelColor = 'text';
 
   @Input()
   set appearance(val: LyAccordionAppearance) {
@@ -96,11 +110,32 @@ export class LyAccordion implements OnInit {
 
   constructor(
     private _theme: LyTheme2,
+    private _renderer: Renderer2,
     private _el: ElementRef) { }
 
   ngOnInit() {
+    const { expansion } = this._theme.variables;
+    if (expansion && expansion.root) {
+      this._renderer.addClass(
+        this._el.nativeElement,
+        this._theme.style(expansion.root, STYLE_PRIORITY, STYLES));
+    }
     if (this.appearance == null) {
       this.appearance = 'default';
+    }
+  }
+
+  closeAll() {
+    this._openCloseAll(true);
+  }
+
+  openAll() {
+    this._openCloseAll(false);
+  }
+
+  private _openCloseAll(expanded: boolean): void {
+    if (this.multiple) {
+      this._openCloseAllActions.next(expanded);
     }
   }
 

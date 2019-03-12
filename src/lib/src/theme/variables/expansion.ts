@@ -1,12 +1,11 @@
 import { StyleContainer } from '../theme2.service';
 
 export interface ExpansionVariables {
-  root?: StyleContainer;
+  root: StyleContainer;
   defaultConfig?: {
-    appearance: Exclude<keyof ExpansionVariables['appearance'], 'init'>
+    appearance: keyof ExpansionVariables['appearance']
   };
   appearance: {
-    init?: StyleContainer,
     default: StyleContainer
     flat?: StyleContainer
   };
