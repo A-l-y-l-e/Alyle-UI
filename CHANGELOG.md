@@ -1,3 +1,12 @@
+## [2.5.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.5.1...2.5.2) (2019-03-11)
+
+
+### Bug Fixes
+
+* **core:** fix overflow of overlay ([e54062c](https://github.com/A-l-y-l-e/Alyle-UI/commit/e54062c))
+
+
+
 ## [2.5.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.5.0...2.5.1) (2019-03-07)
 
 
