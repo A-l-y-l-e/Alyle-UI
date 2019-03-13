@@ -9,7 +9,8 @@ import {
   Renderer2,
   OnChanges,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  TemplateRef
   } from '@angular/core';
 import {
   LyTheme2,
@@ -78,6 +79,8 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   private _disabled: boolean;
   private _expanded: boolean;
   private _hasToggle = !!this._accordion.hasToggle;
+
+  _lazyContentRef: TemplateRef<any>;
 
   /** Content that will be rendered lazily. */
   @ContentChild(LyExpansionPanelContent) readonly _lazyContent: LyExpansionPanelContent;

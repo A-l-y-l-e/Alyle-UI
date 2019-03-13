@@ -10,7 +10,14 @@ const STYLES = (theme: ThemeVariables) => ({
     '{panelTitle},{panelDescription}': {
       display: 'flex',
       marginAfter: '16px',
-      color: theme.text.default
+    },
+    '{panel}:not({disabled})': {
+      '{panelTitle}': {
+        color: theme.text.default
+      },
+      '{panelDescription}': {
+        color: theme.text.secondary
+      }
     }
   },
   panel: {
