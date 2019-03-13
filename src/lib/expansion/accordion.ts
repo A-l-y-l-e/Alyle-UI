@@ -42,7 +42,7 @@ const STYLES = (theme: ThemeVariables) => ({
     }
   },
   disabled: {
-    color: theme.disabled.default
+    color: theme.disabled.contrast
   }
 });
 

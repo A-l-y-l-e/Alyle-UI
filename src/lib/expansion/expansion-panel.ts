@@ -85,7 +85,7 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   set disabled(val: boolean | '') {
     const newVal = toBoolean(val);
 
-    if (newVal !== this.isDisabled) {
+    if (newVal !== this.disabled) {
       this._disabled = newVal;
       if (newVal) {
         this._renderer.addClass(this._el.nativeElement, this._accordion.classes.disabled);
@@ -94,7 +94,7 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
       }
     }
   }
-  get isDisabled() {
+  get disabled() {
     return this._disabled;
   }
 
@@ -102,7 +102,7 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   set expanded(val: boolean | '') {
     const newVal = toBoolean(val);
 
-    if (newVal !== this.expanded && !this.isDisabled) {
+    if (newVal !== this.expanded && !this.disabled) {
 
       // unselect other panels
       if (newVal && !this._accordion.multiple) {
