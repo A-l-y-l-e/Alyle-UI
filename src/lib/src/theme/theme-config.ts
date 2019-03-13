@@ -18,7 +18,10 @@ export interface ThemeConfig {
   primary: DefaultVal & PaletteColor;
   accent: DefaultVal & PaletteColor;
   warn: DefaultVal & PaletteColor;
-  disabled: DefaultVal & PaletteColor;
+  disabled: {
+    default: string
+    contrast: string
+  };
   paper: DefaultVal & PaletteColor;
   background: {
     /** secondary */

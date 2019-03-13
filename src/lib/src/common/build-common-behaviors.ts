@@ -69,7 +69,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
           style.border = '1px solid currentColor';
         }
         if (__disabled) {
-          style.color = theme.text.disabled;
+          style.color = theme.disabled.contrast;
           style.pointerEvents = 'none';
           if (__bg) {
             style.background = theme.disabled.default;
