@@ -1,5 +1,16 @@
 <ng-content></ng-content>
 <ng-template [ngIf]="isPkg">
+  <div *ngIf="opts.length">
+    <h2 lyTyp="headline" gutter>Options for Inputs</h2>
+    <ng-container *ngFor="let opt of opts">
+      <h2 lyTyp="title" gutter>{{ opt.name }}</h2>
+      <ul>
+        <li *ngFor="let item of opt.items">
+          <span lyTyp="subheading" gutter>{{ item }}</span>
+        </li>
+      </ul>
+    </ng-container>
+  </div>
   <h2 lyTyp="headline" gutter>API</h2>
   <ul>
     <li>
