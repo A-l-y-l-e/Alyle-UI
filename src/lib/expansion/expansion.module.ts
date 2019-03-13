@@ -6,6 +6,8 @@ import { LyAccordion } from './accordion';
 import { LyExpansionPanel } from './expansion-panel';
 import { LyExpansionPanelHeader } from './expansion-panel-header';
 import { LyExpansionPanelContent } from './expansion-panel-content';
+import { LyExpansionPanelTitle } from './expansion-panel-title';
+import { LyExpansionPanelDescription } from './expansion-panel-description';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,8 @@ import { LyExpansionPanelContent } from './expansion-panel-content';
     LyExpansionPanel,
     LyExpansionPanelHeader,
     LyExpansionPanelContent,
+    LyExpansionPanelTitle,
+    LyExpansionPanelDescription
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,9 @@ import { LyExpansionPanelContent } from './expansion-panel-content';
     LyAccordion,
     LyExpansionPanel,
     LyExpansionPanelHeader,
-    LyExpansionPanelContent
+    LyExpansionPanelContent,
+    LyExpansionPanelTitle,
+    LyExpansionPanelDescription
   ]
 })
 export class LyExpansionModule { }

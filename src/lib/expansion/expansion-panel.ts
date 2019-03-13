@@ -63,6 +63,7 @@ export const LyButtonMixinBase = mixinStyleUpdater(
 })
 export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, OnInit, OnDestroy {
 
+  /** @docs-private */
   readonly classes = this._accordion.classes;
 
   readonly _panelAnimationTiming = `${

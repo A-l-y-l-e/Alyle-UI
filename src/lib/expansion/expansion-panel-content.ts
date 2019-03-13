@@ -4,5 +4,5 @@ import { Directive, TemplateRef } from '@angular/core';
   selector: 'ng-template[lyExpansionPanelContent]'
 })
 export class LyExpansionPanelContent {
-  constructor(public _template: TemplateRef<any>) { }
+  constructor(readonly _template: TemplateRef<any>) { }
 }

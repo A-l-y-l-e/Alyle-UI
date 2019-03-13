@@ -6,6 +6,13 @@ export type LyAccordionAppearance = 'default' | 'flat';
 const STYLE_PRIORITY = -0.9;
 
 const STYLES = (theme: ThemeVariables) => ({
+  '@global': {
+    '{panelTitle},{panelDescription}': {
+      display: 'flex',
+      marginAfter: '16px',
+      color: theme.text.default
+    }
+  },
   panel: {
     display: 'block',
     overflow: 'hidden',
@@ -19,12 +26,21 @@ const STYLES = (theme: ThemeVariables) => ({
     alignItems: 'center',
     padding: '0 24px',
     transition: `height ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.pxToRem(15),
+    fontWeight: 400,
     '{panel}:not({expanded}):not({disabled}) &:hover': {
       background: theme.hover,
       '@media (hover: none)': {
         background: 'none'
       }
     },
+  },
+  panelHeaderContent: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'row',
+    overflow: 'hidden'
   },
   panelContent: {
     display: 'flex',
@@ -35,6 +51,12 @@ const STYLES = (theme: ThemeVariables) => ({
     visibility: 'hidden',
     padding: '0 24px 16px',
     transition: `visibility ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`
+  },
+  panelTitle: {
+    flexGrow: 1
+  },
+  panelDescription: {
+    flexGrow: 2
   },
   expanded: {
     '{panelBody}': {
@@ -52,6 +74,7 @@ const STYLES = (theme: ThemeVariables) => ({
 })
 export class LyAccordion implements OnInit {
 
+  /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
 
   private _appearance: LyAccordionAppearance;
