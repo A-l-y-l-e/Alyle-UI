@@ -6,7 +6,6 @@ export interface ExpansionVariables {
     appearance: keyof ExpansionVariables['appearance']
   };
   appearance: {
-    default: StyleContainer
-    flat?: StyleContainer
+    popOut: StyleContainer
   };
 }

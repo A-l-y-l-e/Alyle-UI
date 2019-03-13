@@ -75,7 +75,7 @@ export class MinimaBase extends LyStyleUtils {
       },
     },
     appearance: {
-      default: {
+      popOut: {
         '& {panel}': {
           transition: `margin ${this.animations.durations.entering}ms ${this.animations.curves.standard}`
         },
@@ -88,8 +88,7 @@ export class MinimaBase extends LyStyleUtils {
             marginBottom: 0
           }
         }
-      },
-      flat: { }
+      }
     }
   };
   constructor() {

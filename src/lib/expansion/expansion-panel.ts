@@ -10,7 +10,10 @@ import {
   OnChanges,
   OnInit,
   OnDestroy,
-  TemplateRef
+  TemplateRef,
+  Output,
+  EventEmitter,
+  AfterContentInit
   } from '@angular/core';
 import {
   LyTheme2,
@@ -27,6 +30,7 @@ import { LyAccordion } from './accordion';
 import { lyExpansionAnimations } from './expansion-animations';
 import { LyExpansionPanelContent } from './expansion-panel-content';
 import { Subscription } from 'rxjs';
+import { startWith, filter, first } from 'rxjs/operators';
 
 /** LyExpansionPanel's states. */
 export type LyExpansionPanelState = 'expanded' | 'collapsed';
@@ -62,7 +66,7 @@ export const LyButtonMixinBase = mixinStyleUpdater(
     'shadowColor'
   ]
 })
-export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, OnInit, OnDestroy {
+export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, OnInit, AfterContentInit, OnDestroy {
 
   /** @docs-private */
   readonly classes = this._accordion.classes;
@@ -84,6 +88,21 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
 
   /** Content that will be rendered lazily. */
   @ContentChild(LyExpansionPanelContent) readonly _lazyContent: LyExpansionPanelContent;
+
+  /** Event emitted every time the LyExpansionPanel is closed. */
+  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
+
+  /** Event emitted every time the LyExpansionPanel is opened. */
+  @Output() opened: EventEmitter<void> = new EventEmitter<void>();
+
+  /** An event emitted after the body's collapse animation happens. */
+  @Output() afterCollapse: EventEmitter<void> = new EventEmitter<void>();
+
+  /** An event emitted after the body's expansion animation happens. */
+  @Output() afterExpand: EventEmitter<void> = new EventEmitter<void>();
+
+  /** Event emitted when the LyExpansionPanel is destroyed. */
+  @Output() destroyed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input()
   set disabled(val: boolean | '') {
@@ -115,8 +134,10 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
       this._expanded = newVal;
       if (newVal) {
         this._renderer.addClass(this._el.nativeElement, this._accordion.classes.expanded);
+        this.opened.next();
       } else {
         this._renderer.removeClass(this._el.nativeElement, this._accordion.classes.expanded);
+        this.closed.next();
       }
       this._cd.markForCheck();
     }
@@ -168,6 +189,16 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
 
     if (requireUpdate) {
       this.ngOnChanges();
+    }
+  }
+
+  ngAfterContentInit() {
+    if (this._lazyContent) {
+      this.opened.pipe(
+        startWith<void>(null!),
+        filter(() => !!this.expanded && !this._lazyContentRef),
+        first()
+      ).subscribe(() => this._lazyContentRef = this._lazyContent._template);
     }
   }
 

@@ -2,7 +2,6 @@ import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
-export type LyAccordionAppearance = 'default' | 'flat';
 const STYLE_PRIORITY = -0.9;
 
 const STYLES = (theme: ThemeVariables) => ({
@@ -84,7 +83,7 @@ export class LyAccordion implements OnInit {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
 
-  private _appearance: LyAccordionAppearance;
+  private _appearance: string;
   private _multiple: boolean;
   private _hasToggle = true;
   private _appearanceClass: string;
@@ -99,7 +98,7 @@ export class LyAccordion implements OnInit {
   @Input() panelColor = 'text';
 
   @Input()
-  set appearance(val: LyAccordionAppearance) {
+  set appearance(val: string) {
     this._appearance = val;
     this._appearanceClass = this._theme.addStyle(
       `lyAccordion.appearance:${val}`,
@@ -149,9 +148,6 @@ export class LyAccordion implements OnInit {
       this._renderer.addClass(
         this._el.nativeElement,
         this._theme.style(expansion.root, STYLE_PRIORITY, STYLES));
-    }
-    if (this.appearance == null) {
-      this.appearance = 'default';
     }
   }
 

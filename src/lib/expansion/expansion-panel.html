@@ -9,6 +9,6 @@
 >
   <div [className]="classes.panelBody">
     <ng-content></ng-content>
-    <ng-template [ngTransclude]="_lazyContent?._template"></ng-template>
+    <ng-template [ngTransclude]="_lazyContentRef"></ng-template>
   </div>
 </div>
