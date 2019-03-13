@@ -34,13 +34,13 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
       this._autoContrast = true;
     }
     updateStyle(element: ElementRef<any> | HTMLElement) {
-      const __bg = this.bg;
-      const __color = this.color;
-      const __raised = this.raised;
-      const __elevation = this.elevation;
-      const __disabled = this.disabled;
-      const __outlined = this.outlined;
-      const __shadowColor = this.shadowColor;
+      const __bg = this._superHyperInternalPropertyBg;
+      const __color = this._superHyperInternalPropertyColor;
+      const __raised = this._superHyperInternalPropertyRaised;
+      const __elevation = this._superHyperInternalPropertyElevation;
+      const __disabled = this._superHyperInternalPropertyDisabled;
+      const __outlined = this._superHyperInternalPropertyOutlined;
+      const __shadowColor = this._superHyperInternalPropertyShadowColor;
       const __isContrast = this._autoContrast && !__color || __color === 'auto';
       const newKey = `common----:${
         __bg || DEFAULT_VALUE}·${
@@ -69,7 +69,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
           style.border = '1px solid currentColor';
         }
         if (__disabled) {
-          style.color = theme.text.disabled;
+          style.color = theme.disabled.contrast;
           style.pointerEvents = 'none';
           if (__bg) {
             style.background = theme.disabled.default;

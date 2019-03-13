@@ -12,7 +12,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   };
   accent = {
     default: '#FF2997',
-    contrast
+    contrast,
   };
   warn = {
     default: '#f5414e',
@@ -39,13 +39,13 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   };
   disabled = {
     default: 'rgba(0, 0, 0, 0.12)',
-    contrast: 'rgba(0, 0, 0, 0.38)'
+    contrast: 'rgba(0, 0, 0, 0.26)'
   };
   text = {
     default: 'rgba(0, 0, 0, 0.87)',
     primary: 'rgba(0, 0, 0, 0.87)',
     secondary: 'rgba(0, 0, 0, 0.54)',
-    disabled: 'rgba(0, 0, 0, 0.38)',
+    disabled: 'rgba(0, 0, 0, 0.26)',
     hint: 'rgba(0, 0, 0, 0.38)'
   };
   divider = 'rgba(0, 0, 0, 0.12)';

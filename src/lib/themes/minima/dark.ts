@@ -19,8 +19,8 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     contrast
   };
   disabled = {
-    default: 'rgba(255, 255, 255, 0.30)',
-    contrast: 'rgba(255, 255, 255, 0.50)'
+    default: 'rgba(255, 255, 255, 0.3)',
+    contrast: 'rgba(255, 255, 255, 0.5)'
   };
   action = {
     default: 'rgba(255, 255, 255, 0.70)',
