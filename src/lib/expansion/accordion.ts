@@ -122,7 +122,7 @@ export class LyAccordion implements OnInit {
   }
 
   @Input()
-  set multiple(val: boolean | '') {
+  set multiple(val: boolean) {
     this._multiple = toBoolean(val);
   }
   get multiple() {
@@ -130,7 +130,7 @@ export class LyAccordion implements OnInit {
   }
 
   @Input()
-  set hasToggle(val: boolean | '') {
+  set hasToggle(val: boolean) {
     this._hasToggle = toBoolean(val);
   }
   get hasToggle() {

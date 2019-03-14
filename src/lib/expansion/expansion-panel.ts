@@ -105,7 +105,7 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   @Output() destroyed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input()
-  set disabled(val: boolean | '') {
+  set disabled(val: boolean) {
     const newVal = toBoolean(val);
 
     if (newVal !== this.disabled) {
@@ -122,7 +122,7 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   }
 
   @Input()
-  set expanded(val: boolean | '') {
+  set expanded(val: boolean) {
     const newVal = toBoolean(val);
 
     if (newVal !== this.expanded && !this.disabled) {
@@ -147,7 +147,7 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   }
 
   @Input()
-  set hasToggle(val: boolean | '') {
+  set hasToggle(val: boolean) {
     this._hasToggle = toBoolean(val);
   }
   get hasToggle() {
