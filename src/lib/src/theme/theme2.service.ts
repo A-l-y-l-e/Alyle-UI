@@ -459,6 +459,8 @@ function styleToString(key: string | null, $name: string | null | undefined, ob:
       newKey = currentKey.replace(/&/g, parentKey);
     } else if (currentKey.indexOf('@media') === 0) {
       newKey = `${currentKey}`;
+    } else if (currentKey === '@global') {
+      newKey = currentKey;
     } else {
       newKey = `${parentKey} ${currentKey}`;
     }
