@@ -1,0 +1,22 @@
+<ly-accordion
+  appearance="popOut"
+>
+  <ly-expansion-panel
+    *ngFor="let panel of panelStates; index as i"
+    [expanded]="panel.state"
+    (opened)="panel.state = true"
+    (closed)="panel.state = false"
+    [elevation]="panel.state ? 8 : 2"
+    [withClass]="classes.anim"
+  >
+    <ly-expansion-panel-header>
+      <ly-panel-title
+        ly-text
+        [color]="panel.state ? 'primary' : 'text'"
+      >Lorem ipsum dolor sit amet elit {{ i + 1 }}</ly-panel-title>
+    </ly-expansion-panel-header>
+    <p>
+      Natus vitae, iusto corrupti ex sint perferendis, suscipit temporibus tenetur, laboriosam fugit vel! Veritatis alias fugit vero iste a voluptas minima recusandae!
+    </p>
+  </ly-expansion-panel>
+</ly-accordion>

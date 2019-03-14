@@ -102,12 +102,6 @@ export class LyAccordion implements OnInit {
   /** Stream that emits true/false when openAll/closeAll is triggered. */
   readonly _openCloseAllActions: Subject<boolean> = new Subject<boolean>();
 
-  /** Background color of the expansion panel */
-  @Input() panelBg = 'paper';
-
-  /** Color of the expansion panel */
-  @Input() panelColor = 'text';
-
   @Input()
   set appearance(val: string) {
     this._appearance = val;

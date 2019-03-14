@@ -20,7 +20,6 @@ import {
   mixinBg,
   mixinColor,
   mixinElevation,
-  mixinRaised,
   mixinShadowColor,
   mixinStyleUpdater,
   toBoolean
@@ -47,9 +46,8 @@ export class LyExpansionPanelBase {
 export const LyButtonMixinBase = mixinStyleUpdater(
   mixinBg(
     mixinColor(
-      mixinRaised(
-        mixinElevation(
-          mixinShadowColor(LyExpansionPanelBase))))));
+      mixinElevation(
+        mixinShadowColor(LyExpansionPanelBase)))));
 
 @Component({
   selector: 'ly-expansion-panel',
@@ -62,7 +60,6 @@ export const LyButtonMixinBase = mixinStyleUpdater(
   inputs: [
     'bg',
     'color',
-    'raised',
     'elevation',
     'shadowColor'
   ]
@@ -191,11 +188,11 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
     let requireUpdate: boolean = false;
 
     if (this.bg == null) {
-      this.bg = this._accordion.panelBg;
+      this.bg = 'paper';
       requireUpdate = true;
     }
     if (this.color == null) {
-      this.color = this._accordion.panelColor;
+      this.color = 'text';
       requireUpdate = true;
     }
     if (this.elevation == null) {

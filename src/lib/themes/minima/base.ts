@@ -76,6 +76,11 @@ export class MinimaBase extends LyStyleUtils {
     },
     appearance: {
       popOut: {
+        '@global': {
+          body: {
+            color: 'red'
+          }
+        },
         '& {panel}': {
           transition: `margin ${this.animations.durations.entering}ms ${this.animations.curves.standard}`
         },
