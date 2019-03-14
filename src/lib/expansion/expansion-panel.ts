@@ -138,10 +138,10 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
       this._expanded = newVal;
       if (newVal) {
         this._renderer.addClass(this._el.nativeElement, this._accordion.classes.expanded);
-        this.opened.next();
+        this.opened.emit();
       } else {
         this._renderer.removeClass(this._el.nativeElement, this._accordion.classes.expanded);
-        this.closed.next();
+        this.closed.emit();
       }
       this._cd.markForCheck();
     }

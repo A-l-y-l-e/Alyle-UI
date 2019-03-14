@@ -40,7 +40,7 @@ const STYLES = (theme: ThemeVariables) => ({
       '@media (hover: none)': {
         background: 'none'
       }
-    },
+    }
   },
   panelHeaderContent: {
     display: 'flex',
@@ -56,13 +56,24 @@ const STYLES = (theme: ThemeVariables) => ({
   panelBody: {
     visibility: 'hidden',
     padding: '0 24px 16px',
-    transition: `visibility ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`
+    transition: `visibility ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.pxToRem(14),
+    fontWeight: 400,
+    lineHeight: theme.pxToRem(20)
   },
   panelTitle: {
     flexGrow: 1
   },
   panelDescription: {
     flexGrow: 2
+  },
+  panelActionRow: {
+    borderTop: `1px solid ${theme.divider}`,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: '16px 8px 16px 24px'
   },
   expanded: {
     '{panelBody}': {

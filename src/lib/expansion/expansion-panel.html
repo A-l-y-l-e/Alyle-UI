@@ -6,6 +6,7 @@
       panelAnimationTiming: _panelAnimationTiming
     }
   }"
+  (@contentExpansion.done)="_bodyAnimationDone.next($event)"
 >
   <div [className]="classes.panelBody">
     <ng-content></ng-content>
