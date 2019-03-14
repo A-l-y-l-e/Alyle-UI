@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "dist/alyle-ui",
+    "trailingSlash": false,
     "rewrites": [
       {
         "source": "**",
@@ -22,7 +23,7 @@
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=2668000"
+            "value": "max-age=5184000"
           }
         ]
       },
@@ -31,7 +32,7 @@
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "public, max-age=2668000"
+            "value": "public, max-age=5184000"
           }
         ]
       },
@@ -40,7 +41,7 @@
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=10800"
+            "value": "max-age=5184000"
           }
         ]
       }
