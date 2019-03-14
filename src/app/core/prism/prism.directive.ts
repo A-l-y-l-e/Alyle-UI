@@ -31,7 +31,7 @@ Prism.hooks.add('wrap', function(env) {
   }
 });
 
-const $host = 'https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/1.7.0-beta.461kq/src/assets/firacode/';
+const $host = 'assets/fonts/firacode/';
 
 const GLOBAL_STYLES = {
   '@global': {
