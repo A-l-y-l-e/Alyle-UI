@@ -29,8 +29,9 @@ import {
 import { LyAccordion } from './accordion';
 import { lyExpansionAnimations } from './expansion-animations';
 import { LyExpansionPanelContent } from './expansion-panel-content';
-import { Subscription } from 'rxjs';
-import { startWith, filter, first } from 'rxjs/operators';
+import { Subscription, Subject } from 'rxjs';
+import { startWith, filter, first, distinctUntilChanged } from 'rxjs/operators';
+import { AnimationEvent } from '@angular/animations';
 
 /** LyExpansionPanel's states. */
 export type LyExpansionPanelState = 'expanded' | 'collapsed';
@@ -104,6 +105,9 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   /** Event emitted when the LyExpansionPanel is destroyed. */
   @Output() destroyed: EventEmitter<void> = new EventEmitter<void>();
 
+  /** Stream of body animation done events. */
+  _bodyAnimationDone = new Subject<AnimationEvent>();
+
   @Input()
   set disabled(val: boolean) {
     const newVal = toBoolean(val);
@@ -164,6 +168,18 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
     super(_theme);
     _renderer.addClass(_el.nativeElement, this._accordion.classes.panel);
     this._openCloseAllSubscription = this._subscribeToOpenCloseAllActions();
+
+    this._bodyAnimationDone.pipe(distinctUntilChanged((x, y) => {
+      return x.fromState === y.fromState && x.toState === y.toState;
+    })).subscribe(event => {
+      if (event.fromState !== 'void') {
+        if (event.toState === 'expanded') {
+          this.afterExpand.emit();
+        } else if (event.toState === 'collapsed') {
+          this.afterCollapse.emit();
+        }
+      }
+    });
   }
 
   ngOnChanges() {
