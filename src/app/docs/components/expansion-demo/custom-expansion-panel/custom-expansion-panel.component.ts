@@ -6,19 +6,20 @@ import { STYLES as STYLES_EXPANSION } from '@alyle/ui/expansion';
 const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
   // The classes for `expansion` are not yet created, therefore,
   // we will create them to use them.
-  const expansion = themeRef.addStyleSheet(STYLES_EXPANSION);
+  const expansion = themeRef.toClassSelector(themeRef.addStyleSheet(STYLES_EXPANSION));
+
   return ({
     expansion: {
-      [`.${expansion.panel}`]: {
+      [`${expansion.panel}`]: {
         // this add animations to the `box-shadow`,
         // since by default it is only added to 'margin'
         transitionProperty: 'margin, box-shadow'
       },
-      [`.${expansion.expanded}`]: {
-        [`&.${expansion.panel}`]: {
+      [`${expansion.expanded}`]: {
+        [`&${expansion.panel}`]: {
           boxShadow: shadowBuilder(8)
         },
-        [`.${expansion.panelHeader} .${expansion.panelTitle}`]: {
+        [`${expansion.panelHeader} ${expansion.panelTitle}`]: {
           color: theme.primary.default
         }
       }

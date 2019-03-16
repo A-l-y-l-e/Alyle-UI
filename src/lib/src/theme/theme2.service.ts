@@ -323,6 +323,20 @@ export class LyTheme2 {
     }
   }
 
+  toClassSelector(classes: {
+    [className: string]: string
+  }) {
+    const newClasses: {
+      [className: string]: string
+    } = { };
+    for (const key in classes) {
+      if (classes.hasOwnProperty(key)) {
+        newClasses[key] = `.${classes[key]}`;
+      }
+    }
+    return newClasses;
+  }
+
 }
 
 function groupStyleToString(
@@ -584,6 +598,6 @@ function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;
 }
 
-export interface ThemeRef {
+export interface ThemeRef extends Pick<LyTheme2, 'toClassSelector'> {
   addStyleSheet<T>(styles: T & Styles): LyClasses<T>;
 }
