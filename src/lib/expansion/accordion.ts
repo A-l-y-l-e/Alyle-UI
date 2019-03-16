@@ -4,7 +4,8 @@ import { Subject } from 'rxjs';
 
 const STYLE_PRIORITY = -0.9;
 
-const STYLES = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
   '@global': {
     '{panelTitle},{panelDescription}': {
       display: 'flex',
@@ -19,6 +20,7 @@ const STYLES = (theme: ThemeVariables) => ({
       }
     }
   },
+  root: null,
   panel: {
     display: 'block',
     overflow: 'hidden',
@@ -92,7 +94,7 @@ const STYLES = (theme: ThemeVariables) => ({
 export class LyAccordion implements OnInit {
 
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES);
 
   private _appearance: string;
   private _multiple: boolean;

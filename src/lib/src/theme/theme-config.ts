@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { LyStyleUtils, Dir } from '../style-utils';
-import { StyleContainer } from './theme2.service';
+import { StyleContainer } from './style';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { CheckboxVariables } from './variables/checkbox';

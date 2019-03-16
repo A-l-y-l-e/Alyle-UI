@@ -6,6 +6,7 @@ import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
+import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses } from './style';
 
 const defaultStyles = {
   '@global': {
@@ -18,36 +19,6 @@ const defaultStyles = {
 };
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
-
-enum TypeStyle {
-  Multiple,
-  OnlyOne
-}
-
-const STYLE_MAP5: Map<any, StyleMap5> = new Map();
-
-export interface StyleMap5 {
-  styles: Styles;
-  type: TypeStyle;
-  priority?: number | null;
-  css: {
-    [themeName: string]: string
-  } | string;
-  /** global theme */
-  classes?: {
-    [key: string]: string
-  } | string;
-  /** requireUpdate */
-  classesWithTheme?: {
-    [themeName: string]: {
-      [key: string]: string
-    } | string
-  };
-  /** Only for styles of TypeStyle.one */
-  parentStyle?: Styles;
-  requireUpdate?: boolean;
-  id: string | null;
-}
 
 let nextClassId = 0;
 let nextKeyFrameId = 0;
@@ -198,7 +169,7 @@ export class LyTheme2 {
 
   private _updateAllStyles() {
     this.elements.forEach((_, key) => {
-      const styleData = STYLE_MAP5.get(key)!;
+      const styleData = _STYLE_MAP.get(key)!;
       if (styleData.requireUpdate) {
         this._createStyleContent2(styleData.styles, styleData.id, styleData.priority, styleData.type, true, styleData.parentStyle);
       }
@@ -225,7 +196,7 @@ export class LyTheme2 {
    * @param styles styles
    * @param priority priority for style
    */
-  addStyleSheet<T>(styles: T & Styles, priority?: number): OnlyClasses<T> {
+  addStyleSheet<T>(styles: T & Styles, priority?: number): LyClasses<T> {
     return this._createStyleContent2(styles, null, priority, TypeStyle.Multiple);
   }
 
@@ -239,9 +210,9 @@ export class LyTheme2 {
   ) {
     const newId = id || styles as Styles;
     let isNewStyle: boolean | null = null;
-    if (!STYLE_MAP5.has(newId)) {
+    if (!_STYLE_MAP.has(newId)) {
       isNewStyle = true;
-      STYLE_MAP5.set(newId, {
+      _STYLE_MAP.set(newId, {
         priority,
         styles: styles as Styles,
         type,
@@ -250,7 +221,7 @@ export class LyTheme2 {
         parentStyle
       });
     }
-    const styleMap = STYLE_MAP5.get(newId)!;
+    const styleMap = _STYLE_MAP.get(newId)!;
     const themeName = this.initialTheme;
     const isCreated = isNewStyle || !(styleMap.classes || styleMap[themeName]);
     if (isCreated || forChangeTheme) {
@@ -260,7 +231,7 @@ export class LyTheme2 {
       const config = this.core.get(themeMap.change || themeName) as ThemeVariables;
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
-        css = groupStyleToString(styleMap, styles(config) as StyleGroup, themeName, id, type, config);
+        css = groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }
@@ -353,32 +324,6 @@ export class LyTheme2 {
   }
 
 }
-/**
- * Style Object
- */
-export interface StyleContainer {
-  [key: string]: StyleContainer | string | number | string[] | null | undefined;
-}
-
-export interface StyleGroup {
-  /** Prefix name */
-  $name?: string;
-  $keyframes?: Keyframes;
-  [key: string]: StyleContainer | string | undefined | null;
-}
-
-/**
- * CSS declarations block
- */
-export type StyleDeclarationsBlock = ((T: any) => StyleContainer | string) | StyleContainer | string | null | undefined;
-
-export type Styles = ((T: any) => StyleGroup) | StyleGroup | undefined | null;
-
-export interface Keyframes {
-  [name: string]: {
-    [percent: number]: StyleContainer
-  };
-}
 
 function groupStyleToString(
   styleMap: StyleMap5,
@@ -403,7 +348,7 @@ function groupStyleToString(
       rules = styleToString(id, null, styles as StyleContainer, themeVariables, className as any);
     }
     if (styleMap.parentStyle) {
-      const styleMapOfParentStyle = STYLE_MAP5.get(styleMap.parentStyle);
+      const styleMapOfParentStyle = _STYLE_MAP.get(styleMap.parentStyle);
       if (!styleMapOfParentStyle) {
         throw new Error(`The parentStyle not exist or is called before being created.`);
       }
@@ -415,6 +360,11 @@ function groupStyleToString(
   const classesMap = styleMap[themeName] || (styleMap[themeName] = {});
   let content = '';
   const name = styles.$name ? `${styles.$name}-` : '';
+
+  // set priority
+  if (styles.$priority != null) {
+    styleMap.priority = styles.$priority;
+  }
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
       const value = styles[key];
@@ -626,9 +576,6 @@ function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;
 }
 
-// Convert all properties to `string` type, and exclude properties that not is class name
-type OnlyClasses<T> = Record<(
-  Exclude<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T),
-  '$name' | '$keyframes' | '@global'>
-), string>;
-
+export interface ThemeRef {
+  addStyleSheet<T>(styles: T & Styles): LyClasses<T>;
+}

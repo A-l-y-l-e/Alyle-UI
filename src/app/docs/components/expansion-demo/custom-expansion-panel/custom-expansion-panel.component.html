@@ -1,5 +1,6 @@
 <ly-accordion
   appearance="popOut"
+  [withClass]="classes.expansion"
 >
   <ly-expansion-panel
     *ngFor="let panel of panelStates; index as i"
@@ -7,12 +8,9 @@
     (opened)="panel.state = true"
     (closed)="panel.state = false"
     [elevation]="panel.state ? 8 : 2"
-    [withClass]="classes.anim"
   >
     <ly-expansion-panel-header>
       <ly-panel-title
-        ly-text
-        [color]="panel.state ? 'primary' : 'text'"
       >Lorem ipsum dolor sit amet elit {{ i + 1 }}</ly-panel-title>
     </ly-expansion-panel-header>
     <p>

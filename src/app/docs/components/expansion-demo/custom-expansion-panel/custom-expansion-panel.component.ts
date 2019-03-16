@@ -1,11 +1,23 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { STYLES as STYLES_EXPANSION } from '@alyle/ui/expansion';
 
-const STYLES = (theme: ThemeVariables) => ({
-  anim: {
-    transition: `margin ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`
-  }
-});
+
+const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
+  // The classes for 'expansion' are not yet created, therefore,
+  // we will create them to use them.
+  const expansion = themeRef.addStyleSheet(STYLES_EXPANSION);
+  return ({
+    expansion: {
+      [`.${expansion.panel}`]: {
+        transition: `all ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`
+      },
+      [`.${expansion.expanded} .${expansion.panelHeader}`]: {
+        color: theme.primary.default
+      }
+    }
+  });
+};
 
 @Component({
   selector: 'aui-custom-expansion-panel',

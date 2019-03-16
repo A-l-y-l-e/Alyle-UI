@@ -1,4 +1,7 @@
+import { _STYLE_MAP, Styles, LyClasses } from './theme/style';
+
 export class LyStyleUtils {
+  name: string;
   typography: {
     fontFamily?: string;
     htmlFontSize: number,
@@ -34,6 +37,15 @@ export class LyStyleUtils {
   }
   getBreakpoint(key: string) {
     return `@media ${this.breakpoints[key] || key}`;
+  }
+
+  getClasses<T>(styles: T & Styles): LyClasses<T> {
+    const styleMap = _STYLE_MAP.get(styles);
+    if (styleMap) {
+      return styleMap.classes || styleMap[this.name];
+    } else {
+      throw Error('Classes not found');
+    }
   }
 
   getDirection(val: DirAlias) {
