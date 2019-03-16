@@ -399,17 +399,25 @@ function replaceRefs(str: string, data: Object) {
 /**
  * {color:'red'} to .className{color: red}
  */
-function styleToString(key: string | null, $name: string | null | undefined, ob: StyleContainer, themeVariables: ThemeVariables, currentKey: string, parentKey?: string) {
+function styleToString(
+  key: string | null,
+  $name: string | null | undefined,
+  ob: StyleContainer,
+  themeVariables: ThemeVariables,
+  currentKey: string,
+  parentKey?: string
+) {
+
   let content = '';
   let subContent = '';
   let keyAndValue = '';
-  let newKey;
+  let newKey: string;
   if (parentKey) {
     if (currentKey.indexOf('&') !== -1) {
       newKey = currentKey.replace(/&/g, parentKey);
     } else if (currentKey.indexOf('@media') === 0) {
       newKey = `${currentKey}`;
-    } else if (currentKey === '@global') {
+    } else if (currentKey === '@global' || parentKey === '@global') {
       newKey = currentKey;
     } else {
       newKey = `${parentKey} ${currentKey}`;

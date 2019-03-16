@@ -6,6 +6,7 @@ const STYLE_PRIORITY = -0.9;
 
 export const STYLES = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
+  $name: 'xcbzhgxdvsghdfznhxf',
   '@global': {
     '{panelTitle},{panelDescription}': {
       display: 'flex',

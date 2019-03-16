@@ -18,7 +18,7 @@ const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
         [`&.${expansion.panel}`]: {
           boxShadow: shadowBuilder(8)
         },
-        [`.${expansion.panelHeader}`]: {
+        [`.${expansion.panelHeader} .${expansion.panelTitle}`]: {
           color: theme.primary.default
         }
       }
