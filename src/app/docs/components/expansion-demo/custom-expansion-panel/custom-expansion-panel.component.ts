@@ -4,13 +4,15 @@ import { STYLES as STYLES_EXPANSION } from '@alyle/ui/expansion';
 
 
 const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
-  // The classes for 'expansion' are not yet created, therefore,
+  // The classes for `expansion` are not yet created, therefore,
   // we will create them to use them.
   const expansion = themeRef.addStyleSheet(STYLES_EXPANSION);
   return ({
     expansion: {
       [`.${expansion.panel}`]: {
-        transition: `margin box-shadow ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`
+        // this add animations to the `box-shadow`,
+        // since by default it is only added to 'margin'
+        transitionProperty: 'margin, box-shadow'
       },
       [`.${expansion.expanded}`]: {
         [`&.${expansion.panel}`]: {

@@ -156,6 +156,7 @@ export class LyAccordion implements OnInit {
         this._el.nativeElement,
         this._theme.style(expansion.root, STYLE_PRIORITY, STYLES));
     }
+    this._renderer.addClass(this._el.nativeElement, this.classes.root);
   }
 
   closeAll() {
