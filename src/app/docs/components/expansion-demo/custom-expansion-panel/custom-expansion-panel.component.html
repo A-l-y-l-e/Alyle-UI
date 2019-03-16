@@ -5,9 +5,6 @@
   <ly-expansion-panel
     *ngFor="let panel of panelStates; index as i"
     [expanded]="panel.state"
-    (opened)="panel.state = true"
-    (closed)="panel.state = false"
-    [elevation]="panel.state ? 8 : 2"
   >
     <ly-expansion-panel-header>
       <ly-panel-title

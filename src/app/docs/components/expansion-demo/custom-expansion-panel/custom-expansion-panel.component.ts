@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, ThemeRef, shadowBuilder } from '@alyle/ui';
 import { STYLES as STYLES_EXPANSION } from '@alyle/ui/expansion';
 
 
@@ -10,10 +10,15 @@ const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
   return ({
     expansion: {
       [`.${expansion.panel}`]: {
-        transition: `all ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`
+        transition: `margin box-shadow ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`
       },
-      [`.${expansion.expanded} .${expansion.panelHeader}`]: {
-        color: theme.primary.default
+      [`.${expansion.expanded}`]: {
+        [`&.${expansion.panel}`]: {
+          boxShadow: shadowBuilder(8)
+        },
+        [`.${expansion.panelHeader}`]: {
+          color: theme.primary.default
+        }
       }
     }
   });
