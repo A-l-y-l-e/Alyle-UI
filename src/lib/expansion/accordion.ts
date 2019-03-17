@@ -6,7 +6,7 @@ const STYLE_PRIORITY = -0.9;
 
 export const STYLES = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
-  $name: 'xcbzhgxdvsghdfznhxf',
+  $name: 'expansion',
   '@global': {
     '{panelTitle},{panelDescription}': {
       display: 'flex',
@@ -25,12 +25,14 @@ export const STYLES = (theme: ThemeVariables) => ({
   panel: {
     display: 'block',
     overflow: 'hidden',
+    position: 'relative',
     '&:not({disabled}) {panelHeader}': {
       cursor: 'pointer'
     }
   },
   panelHeader: {
     display: 'flex',
+    position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
     padding: '0 24px',
@@ -49,6 +51,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
     overflow: 'hidden'
   },
   panelContent: {

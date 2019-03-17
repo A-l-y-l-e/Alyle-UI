@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyExpansionModule } from '@alyle/ui/expansion';
+import { LyButtonModule } from '@alyle/ui/button';
 
 import { BasicExpansionComponent } from './basic-expansion.component';
 
@@ -8,7 +9,8 @@ import { BasicExpansionComponent } from './basic-expansion.component';
   declarations: [BasicExpansionComponent],
   imports: [
     CommonModule,
-    LyExpansionModule
+    LyExpansionModule,
+    LyButtonModule
   ],
   exports: [BasicExpansionComponent]
 })

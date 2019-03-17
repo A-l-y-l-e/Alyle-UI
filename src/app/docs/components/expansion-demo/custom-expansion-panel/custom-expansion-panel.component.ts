@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables, ThemeRef, shadowBuilder } from '@alyle/ui';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { LyTheme2, ThemeVariables, ThemeRef } from '@alyle/ui';
 import { STYLES as STYLES_EXPANSION } from '@alyle/ui/expansion';
 
 
@@ -11,13 +11,33 @@ const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
   return ({
     expansion: {
       [`${expansion.panel}`]: {
-        // this add animations to the `box-shadow`,
-        // since by default it is only added to 'margin'
-        transitionProperty: 'margin, box-shadow'
+        '&::after': {
+          transition: `border ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
+          content: `''`,
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          before: 0,
+          borderBefore: '2px solid transparent'
+        }
       },
+      [`${expansion.panelHeader}`]: {
+        height: '54px'
+      },
+      [`${expansion.panelTitle}`]: {
+        fontWeight: 500
+      },
+
+      // When it is expanded
       [`${expansion.expanded}`]: {
+        [`${expansion.panelHeader}`]: {
+          height: '64px'
+        },
         [`&${expansion.panel}`]: {
-          boxShadow: shadowBuilder(8)
+          background: theme.background.secondary,
+          '&::after': {
+            borderBefore: `2px solid ${theme.primary.default}`
+          }
         },
         [`${expansion.panelHeader} ${expansion.panelTitle}`]: {
           color: theme.primary.default
@@ -32,7 +52,7 @@ const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
   templateUrl: './custom-expansion-panel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomExpansionPanelComponent implements OnInit {
+export class CustomExpansionPanelComponent {
   readonly classes = this._theme.addStyleSheet(STYLES);
 
   panelStates = [
@@ -42,8 +62,5 @@ export class CustomExpansionPanelComponent implements OnInit {
   ];
 
   constructor(private _theme: LyTheme2) { }
-
-  ngOnInit() {
-  }
 
 }

@@ -323,18 +323,14 @@ export class LyTheme2 {
     }
   }
 
-  toClassSelector(classes: {
-    [className: string]: string
-  }) {
-    const newClasses: {
-      [className: string]: string
-    } = { };
-    for (const key in classes) {
+  toClassSelector<T>(classes: T): T {
+    const newClasses: object = { };
+    for (const key in classes as unknown as object) {
       if (classes.hasOwnProperty(key)) {
         newClasses[key] = `.${classes[key]}`;
       }
     }
-    return newClasses;
+    return newClasses as unknown as T;
   }
 
 }
