@@ -4,7 +4,7 @@
 ### Bug Fixes
 
 * **core:** avoid conflicts with common behaviors. ([62845ad](https://github.com/A-l-y-l-e/Alyle-UI/commit/62845ad))
-* **core:** remove default value for  and ([322807a](https://github.com/A-l-y-l-e/Alyle-UI/commit/322807a))
+* **core:** remove default value for `bg` and `color` ([322807a](https://github.com/A-l-y-l-e/Alyle-UI/commit/322807a))
 * **style:** allow `[@global](https://github.com/global)` in any nested style ([b6db615](https://github.com/A-l-y-l-e/Alyle-UI/commit/b6db615))
 * **theme:** fix variable `disabled` ([cb39f67](https://github.com/A-l-y-l-e/Alyle-UI/commit/cb39f67))
 
