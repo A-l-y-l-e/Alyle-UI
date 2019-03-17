@@ -1,4 +1,4 @@
-import { StyleContainer } from '../theme2.service';
+import { StyleContainer } from '../style';
 
 export interface CheckboxVariables {
   root?: StyleContainer;

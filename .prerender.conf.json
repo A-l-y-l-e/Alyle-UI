@@ -30,6 +30,7 @@
     "components/list",
     "components/divider",
     "components/select",
-    "components/dialog"
+    "components/dialog",
+    "components/expansion"
   ]
 }

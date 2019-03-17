@@ -147,6 +147,11 @@ import { CarouselExample01Module } from './components/carousel-demo/carousel-exa
 import { CarouselWithGesturesModule } from './components/carousel-demo/carousel-with-gestures/carousel-with-gestures.module';
 import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-bar/carousel-with-bar.module';
 
+/** Expansion */
+import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
+import { BasicExpansionModule } from './components/expansion-demo/basic-expansion/basic-expansion.module';
+import { CustomExpansionPanelModule } from './components/expansion-demo/custom-expansion-panel/custom-expansion-panel.module';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -238,7 +243,10 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
     /** Carousel */
     CarouselExample01Module,
     CarouselWithGesturesModule,
-    CarouselWithBarModule
+    CarouselWithBarModule,
+    /** Expansion */
+    BasicExpansionModule,
+    CustomExpansionPanelModule
   ],
   declarations: [
     ThemingComponent,
@@ -291,7 +299,9 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
     /** Dialog */
     DialogDemoComponent,
     /** Carousel */
-    CarouselDemoComponent
+    CarouselDemoComponent,
+    /** Expansion */
+    ExpansionDemoComponent
   ]
 })
 export class DocsModule { }

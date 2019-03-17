@@ -24,6 +24,7 @@ import { RadioDemoComponent } from './components/radio-demo/radio-demo.component
 import { SelectDemoComponent } from './components/select-demo/select-demo.component';
 import { DialogDemoComponent } from './components/dialog-demo/dialog-demo.component';
 import { CarouselDemoComponent } from './components/carousel-demo/carousel-demo.component';
+import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -68,7 +69,8 @@ const routes: Routes = [
       { path: 'radio', component: RadioDemoComponent },
       { path: 'select', component: SelectDemoComponent },
       { path: 'dialog', component: DialogDemoComponent },
-      { path: 'carousel', component: CarouselDemoComponent }
+      { path: 'carousel', component: CarouselDemoComponent },
+      { path: 'expansion', component: ExpansionDemoComponent }
     ]
   }
 ];

@@ -32,6 +32,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     tertiary: '#efefef',
     base: '#E0E0E0'
   };
+  hover = 'rgba(0, 0, 0, 0.04)';
   paper = {
     default: '#fff',
     shadow

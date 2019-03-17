@@ -1,0 +1,9 @@
+<span [className]="classes.panelHeaderContent">
+  <ng-content select="ly-panel-title"></ng-content>
+  <ng-content select="ly-panel-description"></ng-content>
+  <ng-content></ng-content>
+</span>
+<ly-expansion-icon
+  *ngIf="!_expansionPanel.disabled && _expansionPanel.hasToggle"
+  [up]="_expansionPanel.expanded"
+></ly-expansion-icon>
