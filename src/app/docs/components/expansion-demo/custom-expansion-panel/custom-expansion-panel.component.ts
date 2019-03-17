@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { LyTheme2, ThemeVariables, ThemeRef } from '@alyle/ui';
-import { STYLES as STYLES_EXPANSION } from '@alyle/ui/expansion';
+import { STYLES as EXPANSION_STYLES } from '@alyle/ui/expansion';
 
 
 const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
   // The classes for `expansion` are not yet created, therefore,
   // we will create them to use them.
-  const expansion = themeRef.toClassSelector(themeRef.addStyleSheet(STYLES_EXPANSION));
+  const expansion = themeRef.toClassSelector(themeRef.addStyleSheet(EXPANSION_STYLES));
 
   return ({
     expansion: {
