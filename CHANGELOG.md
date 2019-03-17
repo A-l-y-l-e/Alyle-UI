@@ -1,3 +1,20 @@
+# [2.6.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.5.2...2.6.0) (2019-03-17)
+
+
+### Bug Fixes
+
+* **core:** avoid conflicts with common behaviors. ([62845ad](https://github.com/A-l-y-l-e/Alyle-UI/commit/62845ad))
+* **core:** remove default value for  and ([322807a](https://github.com/A-l-y-l-e/Alyle-UI/commit/322807a))
+* **style:** allow `[@global](https://github.com/global)` in any nested style ([b6db615](https://github.com/A-l-y-l-e/Alyle-UI/commit/b6db615))
+* **theme:** fix variable `disabled` ([cb39f67](https://github.com/A-l-y-l-e/Alyle-UI/commit/cb39f67))
+
+
+### Features
+
+* **expansion:** initial commit for Expansion panel ([#76](https://github.com/A-l-y-l-e/Alyle-UI/issues/76)) ([a6645db](https://github.com/A-l-y-l-e/Alyle-UI/commit/a6645db))
+
+
+
 ## [2.5.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.5.1...2.5.2) (2019-03-11)
 
 

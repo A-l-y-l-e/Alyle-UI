@@ -1,5 +1,5 @@
-version: 2.5.2
-lastUpdate: '2019-03-11T23:57:04.645Z'
+version: 2.6.0
+lastUpdate: '2019-03-17T01:59:10.805Z'
 components:
   '@alyle/ui': /
   '@alyle/ui/grid': grid

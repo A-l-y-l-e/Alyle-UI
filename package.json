@@ -1,6 +1,6 @@
 {
   "name": "alyle-ui-srcs",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "license": "MIT",
   "scripts": {
     "start": "ng serve --port 1111 --source-map=false",
