@@ -1,7 +1,5 @@
 import { Constructor } from './constructor';
 
-const DEFAULT_BG = 'primary';
-
 export interface CanBg {
   bg: string;
   /**
@@ -16,7 +14,7 @@ export function mixinBg<T extends Constructor>(base: T): Constructor<CanBg> & T 
 
     get bg(): string { return this._superHyperInternalPropertyBg; }
     set bg(val: string) {
-      const defaultColor = val || DEFAULT_BG;
+      const defaultColor = val;
       if (defaultColor !== this.bg) {
         this._superHyperInternalPropertyBg = defaultColor;
       }

@@ -1,7 +1,5 @@
 import { Constructor } from './constructor';
 
-const DEFAULT_COLOR = 'primary';
-
 export interface CanColor {
   color: string;
   /**
@@ -16,7 +14,7 @@ export function mixinColor<T extends Constructor>(base: T): Constructor<CanColor
 
     get color(): string { return this._superHyperInternalPropertyColor; }
     set color(val: string) {
-      const defaultColor = val || DEFAULT_COLOR;
+      const defaultColor = val;
       if (defaultColor !== this.color) {
         this._superHyperInternalPropertyColor = defaultColor;
       }
