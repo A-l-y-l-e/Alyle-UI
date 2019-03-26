@@ -85,8 +85,7 @@ export class GlobalVariables implements PartialThemeVariables {
 export class AppModule { }
 `;
 
-  codeTypography = `
-export class GlobalVariables implements PartialThemeVariables {
+  codeTypography = `export class GlobalVariables implements PartialThemeVariables {
   ...
   typography = {
     fontFamily: \`'Open Sans', sans-serif\`
@@ -94,6 +93,23 @@ export class GlobalVariables implements PartialThemeVariables {
   ...
 }
 `;
+
+  exampleThemeVariables = `// app.module.ts
+export type AppTheme = MinimaLight
+  & MinimaDark
+  & CustomMinimaLight
+  & CustomMinimaDark
+  & GlobalVariables;
+
+// app.component.ts
+const styles = (theme: AppTheme) => ({
+  '@global': {
+    body: {
+      ...
+      color: theme.text.default
+    }
+  }
+});`;
 
 }
 
