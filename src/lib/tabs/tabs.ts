@@ -83,7 +83,7 @@ export const STYLES = (theme: ThemeVariables) => ({
   },
   tabsLabelsContainer: {
     overflow: 'hidden',
-    '&{scrollable}': {
+    '{scrollable} &': {
       '@media (hover: none)': {
         overflow: 'auto'
       }
