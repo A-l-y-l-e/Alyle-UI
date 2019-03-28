@@ -5,7 +5,7 @@ import { LyTheme2 } from '@alyle/ui';
 const STYLE_PRIORITY = -2;
 
 /** @docs-private */
-export const STYLES_DIALOG_CONTENT = ({
+const STYLES_DIALOG_CONTENT = ({
   display: 'block',
   overflowY: 'auto',
   flex: '1 1 auto',

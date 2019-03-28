@@ -28,6 +28,7 @@ const DEFAULT_POSITION_VALUE = {
   above: '-11px'
 };
 const styles = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
   root: {
     position: 'absolute',
     display: 'flex',
@@ -84,7 +85,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
    * Styles
    * @docs-private
    */
-  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(styles);
   private _content: string | number;
   private _position: string;
   private _positionClass: string;

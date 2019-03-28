@@ -43,7 +43,8 @@ export class UndefinedValue {
 }
 
 export const STYLES = (theme: ThemeVariables) => ({
-  radioGroup: {
+  $priority: STYLE_PRIORITY,
+  root: {
     display: 'inline-block'
   },
   radio: {
@@ -106,7 +107,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     'div:nth-child(1)': {
       transform: 'scale(1)',
       border: 'solid .08em currentColor',
-      color: theme.radio.outerCircle
+      color: theme.text.disabled
     }
   },
   checked: null,
@@ -135,7 +136,7 @@ export const STYLES = (theme: ThemeVariables) => ({
 })
 export class LyRadioGroup implements ControlValueAccessor {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES);
   private _value: any;
   /** @docs-private */
   name = `ly-radio-name-${idx++}`;
@@ -220,7 +221,15 @@ export class LyRadioGroup implements ControlValueAccessor {
     private _theme: LyTheme2,
     private _cd: ChangeDetectorRef
   ) {
-    renderer.addClass(elementRef.nativeElement, this.classes.radioGroup);
+    renderer.addClass(elementRef.nativeElement, this.classes.root);
+    const { radio } = this._theme.variables;
+    if (radio) {
+      if (radio.root) {
+        renderer.addClass(
+          elementRef.nativeElement,
+          this._theme.style(radio.root, STYLE_PRIORITY, STYLES));
+      }
+    }
   }
 
   _updateCheckFromValue(val: any) {

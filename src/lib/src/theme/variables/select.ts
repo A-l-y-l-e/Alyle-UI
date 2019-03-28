@@ -1,5 +1,5 @@
 import { StyleContainer } from '../style';
 
-export interface CheckboxVariables {
+export interface SelectVariables {
   root?: StyleContainer;
 }

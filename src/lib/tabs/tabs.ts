@@ -59,7 +59,8 @@ const DEFAULT_HEADER_PLACEMENT = 'above';
 export type AlignTabs = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 export type LyTabsHeaderPlacement = 'before' | 'after' | 'above' | 'below';
 
-const STYLES = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
   root: {
     display: 'block'
   },
@@ -188,7 +189,7 @@ mixinBg(
 })
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this.theme.addStyleSheet(STYLES);
   _selectedIndex = 0;
   _selectedBeforeIndex: number;
   _selectedTab: LyTab;
@@ -394,6 +395,14 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   }
 
   ngOnInit() {
+    const { tabs } = this._theme.variables;
+    if (tabs) {
+      if (tabs.root) {
+        this.renderer.addClass(
+          this.el.nativeElement,
+          this.theme.style(tabs.root, STYLE_PRIORITY, STYLES));
+      }
+    }
     this.renderer.addClass(this.el.nativeElement, this.classes.root);
     const tabsIndicatorEl = this.tabsIndicator.nativeElement;
     this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);

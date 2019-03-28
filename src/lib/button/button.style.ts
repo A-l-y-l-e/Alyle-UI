@@ -1,6 +1,6 @@
 import { ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
 
-export const styles = (theme: ThemeVariables) => {
+export const STYLES = (theme: ThemeVariables) => {
   const typography = theme.typography;
   const _styles = ({
     root: {
@@ -32,7 +32,6 @@ export const styles = (theme: ThemeVariables) => {
       '&::-moz-focus-inner': {
         border: 0
       },
-      ...theme.button.root,
       '&::after': {
         content: `''`,
         ...LY_COMMON_STYLES.fill,

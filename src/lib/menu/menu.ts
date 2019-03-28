@@ -37,6 +37,8 @@ const DEFAULT_PLACEMENT = YPosition.below;
 const DEFAULT_XPOSITION = XPosition.after;
 
 const STYLES = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
+  root: null,
   container: {
     background: theme.background.primary.default,
     borderRadius: '2px',
@@ -49,7 +51,13 @@ const STYLES = (theme: ThemeVariables) => ({
     overflow: 'auto',
     maxHeight: 'inherit',
     maxWidth: 'inherit',
-    ...theme.menu.root
+  },
+  item: {
+    display: 'flex',
+    minHeight: '48px',
+    borderRadius: 0,
+    width: '100%',
+    justifyContent: 'flex-start'
   }
 });
 
@@ -85,7 +93,7 @@ export class LyMenu implements OnInit, AfterViewInit {
    * styles
    * @docs-private
    */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES);
   /**
    * Destroy menu
    * @docs-private
@@ -113,7 +121,17 @@ export class LyMenu implements OnInit, AfterViewInit {
     private _theme: LyTheme2,
     private _el: ElementRef,
     private _renderer: Renderer2
-  ) { }
+  ) {
+    const { menu } = this._theme.variables;
+    if (menu) {
+      if (menu.root) {
+        this._renderer.addClass(
+          this._el.nativeElement,
+          this._theme.style(menu.root, STYLE_PRIORITY, STYLES));
+      }
+      this._renderer.addClass(this._el.nativeElement, this.classes.root);
+    }
+  }
 
   ngOnInit() {
     if (!this.ref) {
@@ -152,15 +170,6 @@ export class LyMenu implements OnInit, AfterViewInit {
   }
 }
 
-/** @docs-private */
-const menuItemStyles = ({
-  display: 'flex',
-  minHeight: '48px',
-  borderRadius: 0,
-  width: '100%',
-  justifyContent: 'flex-start'
-});
-
 @Directive({
   selector: '[ly-menu-item]'
 })
@@ -173,9 +182,9 @@ export class LyMenuItem {
   constructor(
     @Optional() private _menu: LyMenu,
     el: ElementRef,
-    theme: LyTheme2
+    renderer: Renderer2
   ) {
-    theme.addStyle('lyMenuItem', menuItemStyles, el.nativeElement, undefined, STYLE_PRIORITY);
+    renderer.addClass(el.nativeElement, _menu.classes.item);
   }
 }
 

@@ -24,6 +24,7 @@ import {
   } from '@alyle/ui';
 
 export const STYLES = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
   root: {
     display: 'block',
     overflow: 'hidden',
@@ -88,7 +89,7 @@ export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDest
    * styles
    * @docs-private
    */
-  classes = this.theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  classes = this.theme.addStyleSheet(STYLES);
   constructor(
     private theme: LyTheme2,
     private _el: ElementRef,
@@ -104,6 +105,12 @@ export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDest
   }
 
   ngOnInit() {
+    const { card } = this.theme.variables;
+    if (card) {
+      this.renderer.addClass(
+        this._el.nativeElement,
+        this.theme.style(card.root, STYLE_PRIORITY, STYLES));
+    }
     let requireOnChanges: boolean | undefined;
     if (!this.bg) {
       this.bg = 'background:primary';

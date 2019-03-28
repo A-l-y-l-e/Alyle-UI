@@ -67,6 +67,7 @@ import { take, takeUntil } from 'rxjs/operators';
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
 export const STYLES = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
   root: {
     display: 'block',
     paddingAfter: '1em',
@@ -173,7 +174,7 @@ export class LySelect
     extends LySelectMixinBase
     implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterContentInit, AfterViewInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES);
   /** @internal */
   _selectionModel: LySelectionModel<LyOption>;
   /** @internal */
@@ -406,6 +407,7 @@ export class LySelect
         cursor: 'pointer'
       }
     }, this._field._getHostElement(), null, STYLE_PRIORITY, FIELD_STYLES);
+
   }
 
   ngOnInit() {
@@ -414,6 +416,7 @@ export class LySelect
       getKey: this._valueKeyFn
     });
     const ngControl = this.ngControl;
+    const { select } = this._theme.variables;
     // update styles on disabled
     if (ngControl && ngControl.statusChanges) {
       ngControl.statusChanges.pipe(takeUntil(this._destroy)).subscribe(() => {
@@ -427,6 +430,14 @@ export class LySelect
     // apply default styles
     this._renderer.addClass(this._el.nativeElement, this._field.classes.inputNative);
     this._renderer.addClass(this._el.nativeElement, this.classes.root);
+
+    if (select) {
+      if (select.root) {
+        this._renderer.addClass(
+          this._el.nativeElement,
+          this._theme.style(select.root, STYLE_PRIORITY, STYLES));
+      }
+    }
   }
 
   ngDoCheck() {

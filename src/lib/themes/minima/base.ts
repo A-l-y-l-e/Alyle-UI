@@ -22,6 +22,9 @@ export class MinimaBase extends LyStyleUtils {
   animations = animations;
   direction = Dir.ltr;
   button = {
+    defaultConfig: {
+      size: 'medium' as 'medium'
+    },
     size: {
       small: ({
         padding: '0 8px',

@@ -26,10 +26,11 @@ import {
   mixinDisableRipple,
   mixinStyleUpdater,
   LyRippleService,
-  LyFocusState
+  LyFocusState,
+  getLyThemeVariableUndefinedError
 } from '@alyle/ui';
-import { styles } from './button.style';
-const DEFAULT_SIZE = 'medium';
+import { STYLES } from './button.style';
+
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
 
@@ -74,7 +75,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
    * Style
    * @docs-private
    */
-  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _rippleSensitive = false;
   private _size: LyButtonSize;
   private _sizeClass: string;
@@ -105,10 +106,10 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
       this._sizeClass = this._theme.addStyle(
         `lyButton.size:${val}`,
         (theme: ThemeVariables) => {
-          if (!(theme.button.size && theme.button.size[val])) {
-            throw new Error(`Value button.size['${val}'] not found in ThemeVariables`);
+          if (theme.button && theme.button.size && theme.button.size[val]) {
+            return theme.button.size[val]!;
           }
-          return theme.button.size[val]!;
+          throw new Error(`Value button.size['${val}'] not found in ThemeVariables`);
         },
         this._el.nativeElement,
         this._sizeClass,
@@ -129,10 +130,10 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
       this._appearanceClass = this._theme.addStyle(
         `lyButton.appearance:${val}`,
         (theme: ThemeVariables) => {
-          if (!(theme.button.appearance && theme.button.appearance[val])) {
+          if (!(theme.button!.appearance && theme.button!.appearance![val])) {
             throw new Error(`Value button.appearance['${val}'] not found in ThemeVariables`);
           }
-          return theme.button.appearance[val]!;
+          return theme.button!.appearance![val]!;
         },
         this._el.nativeElement,
         this._appearanceClass,
@@ -158,6 +159,10 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
         }
       }, this._el.nativeElement, undefined, STYLE_PRIORITY);
     }
+    this._renderer.addClass(this._el.nativeElement, this.classes.animations);
+    if (!_theme.variables.button) {
+      throw getLyThemeVariableUndefinedError('button');
+    }
   }
   ngOnChanges() {
     this.updateStyle(this._el);
@@ -166,9 +171,26 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngOnInit() {
-    this._renderer.addClass(this._el.nativeElement, this.classes.root);
-    if (!this.size && !this.appearance) {
-      this.size = DEFAULT_SIZE;
+    const { button } = this._theme.variables;
+    if (button) {
+      if (button.root) {
+        this._renderer.addClass(
+          this._el.nativeElement,
+          this._theme.style(button.root, STYLE_PRIORITY, STYLES));
+      }
+      this._renderer.addClass(this._el.nativeElement, this.classes.root);
+
+      // Apply default config
+      if (this.size == null && this.appearance == null) {
+        this.size = button.defaultConfig.size;
+      } else {
+        if (button.defaultConfig && button.defaultConfig.appearance) {
+          if (this.appearance == null) {
+            this.appearance = button.defaultConfig.appearance;
+          }
+        }
+
+      }
     }
     // set default disable ripple
     if (this.disableRipple == null) {
@@ -177,7 +199,8 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngAfterViewInit() {
-    this._renderer.addClass(this._el.nativeElement, this.classes.animations);
+
+    // this._renderer.addClass(this._el.nativeElement, this.classes.animations);
 
     const focusState = this._focusState.listen(this._el);
     if (focusState) {

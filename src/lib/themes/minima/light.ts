@@ -51,9 +51,6 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   divider = 'rgba(0, 0, 0, 0.12)';
   colorShadow = '#33base3';
   shadow = '#333';
-  radio = {
-    outerCircle: 'rgba(0, 0, 0, 0.43)'
-  };
   menu = {};
   drawer = {
     backdrop: 'rgba(0,0,0,.6)'
@@ -71,11 +68,6 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     }
   });
   badge = {};
-  checkbox = {
-    unchecked: {
-      color: 'rgba(0, 0, 0, .54)'
-    }
-  };
   snackBar = {
     root: {
       background: '#323232',

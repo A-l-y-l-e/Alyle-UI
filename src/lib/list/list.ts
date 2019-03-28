@@ -38,7 +38,8 @@ import { LyAvatar } from '@alyle/ui/avatar';
 
 const STYLE_PRIORITY = 2;
 const DISABLE_PADDING = false;
-const styles = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
   list: {
     display: 'block',
     position: 'relative',
@@ -135,7 +136,7 @@ const styles = (theme: ThemeVariables) => ({
 })
 export class LyList {
   /** @docs-private */
-  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this.theme.addStyleSheet(STYLES);
   constructor(
     private theme: LyTheme2
   ) { }

@@ -9,6 +9,13 @@ import { ButtonVariables } from './variables/button';
 import { TooltipVariables } from './variables/tooltip';
 import { AvatarVariables } from './variables/avatar';
 import { ExpansionVariables } from './variables/expansion';
+import { CardVariables } from './variables/card';
+import { CarouselVariables } from './variables/carousel';
+import { MenuVariables } from './variables/menu';
+import { RadioVariables } from './variables/radio';
+import { ImgCropperVariables } from './variables/img-cropper';
+import { SelectVariables } from './variables/select';
+import { TabsVariables } from './variables/tabs';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -46,13 +53,8 @@ export interface ThemeConfig {
   shadow: string;
   /** @deprecated use shadow instead */
   colorShadow?: string;
-  radio: {
-    /** color for radio:outerCircle */
-    outerCircle?: string;
-  };
-  menu: {
-    root?: StyleContainer
-  };
+  radio?: RadioVariables;
+  menu?: MenuVariables;
   drawer: {
     /** color for drawer:backdrop */
     backdrop: string
@@ -124,12 +126,17 @@ export interface ThemeConfig {
       [positionName: string]: StyleContainer
     }
   };
-  checkbox: CheckboxVariables;
+  checkbox?: CheckboxVariables;
   snackBar: SnackBarVariables;
-  button: ButtonVariables;
+  button?: ButtonVariables;
   tooltip: TooltipVariables;
   avatar: AvatarVariables;
   expansion?: ExpansionVariables;
+  card?: CardVariables;
+  carousel?: CarouselVariables;
+  imgCropper?: ImgCropperVariables;
+  select?: SelectVariables;
+  tabs?: TabsVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

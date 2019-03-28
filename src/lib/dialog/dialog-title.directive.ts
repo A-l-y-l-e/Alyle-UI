@@ -5,7 +5,7 @@ import { LyTheme2, ThemeVariables } from '@alyle/ui';
 const STYLE_PRIORITY = -2;
 
 /** @docs-private */
-export const STYLES_DIALOG_TITLE = (theme: ThemeVariables) => ({
+const STYLES_DIALOG_TITLE = (theme: ThemeVariables) => ({
   display: 'block',
   flex: '0 0 auto',
   margin: '20px 0 16px',

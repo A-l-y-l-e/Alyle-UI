@@ -2,12 +2,16 @@ import { StyleContainer } from '../style';
 
 export interface ButtonVariables {
   root?: StyleContainer;
-  size?: {
+  defaultConfig: {
+    size: keyof ButtonVariables['size']
+    appearance?: keyof ButtonVariables['appearance']
+  };
+  size: {
     small?: StyleContainer
     medium?: StyleContainer
     large?: StyleContainer
   };
-  appearance?: {
+  appearance: {
     icon?: StyleContainer
     fab?: StyleContainer
     miniFab?: StyleContainer

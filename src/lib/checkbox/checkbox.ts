@@ -31,7 +31,8 @@ const STYLE_PRIORITY = -2;
 const DEFAULT_WITH_COLOR = 'accent';
 const DEFAULT_DISABLE_RIPPLE = false;
 
-const STYLES = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
   root: {
     marginAfter: '16px',
     marginBefore: '-16px',
@@ -55,7 +56,7 @@ const STYLES = (theme: ThemeVariables) => ({
       borderRadius: '50%'
     },
     '&:not({checked}) {icon}': {
-      ...theme.checkbox.unchecked
+      color: theme.text.secondary
     }
   },
   layout: {
@@ -74,7 +75,6 @@ const STYLES = (theme: ThemeVariables) => ({
     width: '16px',
     height: '16px',
     userSelect: 'none',
-    ...theme.checkbox.root,
     '&::before, &::after': {
       content: `''`,
       ...LY_COMMON_STYLES.fill,
@@ -172,7 +172,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
    * styles
    * @ignore
    */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES);
   protected _color: string;
   protected _colorClass: string;
   protected _required: boolean;
@@ -270,6 +270,16 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
       radius: 'containerSize',
       percentageToIncrease: 150
     };
+
+    const { checkbox } = _theme.variables;
+    if (checkbox) {
+      if (checkbox.root) {
+        this._renderer.addClass(
+          this._el.nativeElement,
+          this._theme.style(checkbox.root, STYLE_PRIORITY, STYLES));
+      }
+    }
+
   }
 
   ngOnInit() {

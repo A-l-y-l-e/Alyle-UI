@@ -18,7 +18,8 @@ import { fromEvent, Subscription } from 'rxjs';
 
 const STYLE_PRIORITY = -2;
 
-const styles = ({
+const STYLES = ({
+  $priority: STYLE_PRIORITY,
   root: {
     '-webkit-user-select': 'none',
     '-moz-user-select': 'none',
@@ -41,7 +42,7 @@ const styles = ({
       pointerEvents: 'none',
     }
   },
-  croppingContainer: {
+  area: {
     pointerEvents: 'none',
     boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.4)',
     ...LY_COMMON_STYLES.fill,
@@ -62,7 +63,7 @@ const styles = ({
       border: 'solid 2px rgb(255, 255, 255)'
     }
   },
-  croppContent: {
+  defaultContent: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -174,7 +175,7 @@ export class LyResizingCroppingImages implements OnDestroy {
    * styles
    * @docs-private
    */
-  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this.theme.addStyleSheet(STYLES);
   _originalImgBase64?: string;
   private _fileName: string | null;
 
@@ -256,6 +257,14 @@ export class LyResizingCroppingImages implements OnDestroy {
     private _ngZone: NgZone
   ) {
     this._renderer.addClass(elementRef.nativeElement, this.classes.root);
+    const { imgCropper } = this.theme.variables;
+    if (imgCropper) {
+      if (imgCropper.root) {
+        this._renderer.addClass(
+          this.elementRef.nativeElement,
+          this.theme.style(imgCropper.root, STYLE_PRIORITY, STYLES));
+      }
+    }
   }
 
   ngOnDestroy() {

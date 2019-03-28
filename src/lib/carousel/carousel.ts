@@ -34,6 +34,7 @@ export const STYLES = (theme: ThemeVariables) => {
   const right = dir === 'right' ? 0 : 180;
   const left = dir === 'left' ? 0 : 180;
   return {
+    $priority: STYLE_PRIORITY,
     root: {
       display: 'block',
       '-webkit-user-select': 'none',
@@ -181,7 +182,7 @@ export enum CarouselMode {
 })
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(STYLES);
   private _intervalFn: number | null = null;
   @ViewChild('slideContainer') slideContainer: ElementRef;
   @ViewChild('_slide') _slide: ElementRef;
@@ -258,6 +259,13 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     private _renderer: Renderer2
   ) {
     this._renderer.addClass(_el.nativeElement, this.classes.root);
+
+    const { carousel } = this._theme.variables;
+    if (carousel) {
+      this._renderer.addClass(
+        this._el.nativeElement,
+        this._theme.style(carousel.root, STYLE_PRIORITY, STYLES));
+    }
   }
 
   ngOnInit() {

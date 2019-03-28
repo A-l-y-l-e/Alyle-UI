@@ -114,13 +114,10 @@ export class LyAccordion implements OnInit {
     this._appearanceClass = this._theme.addStyle(
       `lyAccordion.appearance:${val}`,
       (theme: ThemeVariables) => {
-        if (!theme.expansion) {
-          throw getLyThemeVariableUndefinedError('expansion');
-        }
-        if (!(theme.expansion.appearance && theme.expansion.appearance[val])) {
+        if (!(theme.expansion!.appearance && theme.expansion!.appearance[val])) {
           throw new Error(`Value expansion.appearance['${val}'] not found in ThemeVariables`);
         }
-        return theme.expansion.appearance[val]!;
+        return theme.expansion!.appearance[val]!;
       },
       this._el.nativeElement,
       this._appearanceClass,
@@ -155,12 +152,23 @@ export class LyAccordion implements OnInit {
 
   ngOnInit() {
     const { expansion } = this._theme.variables;
-    if (expansion && expansion.root) {
-      this._renderer.addClass(
-        this._el.nativeElement,
-        this._theme.style(expansion.root, STYLE_PRIORITY, STYLES));
+    if (expansion) {
+      if (expansion.root) {
+        this._renderer.addClass(
+          this._el.nativeElement,
+          this._theme.style(expansion.root, STYLE_PRIORITY, STYLES));
+      }
+      this._renderer.addClass(this._el.nativeElement, this.classes.root);
+
+      // Apply default config
+      if (expansion.defaultConfig && expansion.defaultConfig.appearance) {
+        if (this.appearance == null) {
+          this.appearance = expansion.defaultConfig.appearance;
+        }
+      }
+    } else {
+      throw getLyThemeVariableUndefinedError('expansion');
     }
-    this._renderer.addClass(this._el.nativeElement, this.classes.root);
   }
 
   closeAll() {
