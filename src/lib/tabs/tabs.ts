@@ -192,7 +192,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   readonly classes = this.theme.addStyleSheet(STYLES);
   _selectedIndex = 0;
   _selectedBeforeIndex: number;
-  _selectedTab: LyTab;
+  _selectedTab: LyTab | null;
   _selectedBeforeTab: LyTab;
   _isViewInitLoaded: boolean;
   private _tabsSubscription = Subscription.EMPTY;
@@ -362,7 +362,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     if (val !== this.selectedIndex) {
       this._selectedBeforeIndex = this._selectedIndex as number;
       this._selectedIndex = this._findIndex(val, 'auto');
-      this._selectedBeforeTab = this._selectedTab;
+      this._selectedBeforeTab = this._selectedTab!;
       this.selectedIndexChange.emit(this._selectedIndex);
       this._markForCheck();
       Promise.resolve(null).then(() => {
@@ -431,8 +431,10 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this._isViewInitLoaded = true;
     if (Platform.isBrowser) {
       this._tabResizeSub = this._resizeService.resize$.subscribe(() => {
-        this._updateIndicator(this._selectedTab);
-        this._selectedTab._tabLabel._updateTabScroll();
+        if (this._selectedTab) {
+          this._updateIndicator(this._selectedTab);
+          this._selectedTab._tabLabel._updateTabScroll();
+        }
       });
     }
   }
@@ -505,8 +507,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           this._updateIndicator(tab);
         } else {
           /** for server */
-          this.renderer.addClass(this._selectedTab._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
-          this.renderer.addClass(this._selectedTab._tabIndicator.nativeElement, this._colorClass);
+          this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
+          this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this._colorClass);
         }
       });
     }
