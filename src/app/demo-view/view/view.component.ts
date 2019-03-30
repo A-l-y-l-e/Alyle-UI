@@ -271,10 +271,10 @@ export class GlobalVariables {
         '@angular/platform-browser-dynamic': VERSION.full,
         'chroma-js': 'latest',
         'web-animations-js': 'latest',
-        'core-js': 'latest',
-        'zone.js': 'latest',
+        'core-js': '2.6.5',
+        'zone.js': '0.8.29',
         'rxjs': 'latest',
-        'hammerjs': (window as any).Hammer.VERSION
+        'hammerjs': '2.0.8'
       },
       settings: {
         compile: {
