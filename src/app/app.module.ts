@@ -166,8 +166,8 @@ export function themeNameProviderFactory() {
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
-    { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory, },
-    { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables }
+    { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
+    { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory }
   ],
   bootstrap: [AppComponent]
 })
