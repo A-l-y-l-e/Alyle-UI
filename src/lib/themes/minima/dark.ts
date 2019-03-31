@@ -1,4 +1,3 @@
-import { field } from './variables';
 import { ThemeConfig, mergeDeep } from '@alyle/ui';
 import { MinimaBase } from './base';
 
@@ -56,12 +55,12 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   divider = 'rgba(255, 255, 255, 0.12)';
   colorShadow = shadow;
   shadow = shadow;
-  field = mergeDeep({}, field, {
+  field = mergeDeep({}, this.field, {
     borderColor: 'rgba(255, 255, 255, 0.12)',
     labelColor: 'rgba(255, 255, 255, 0.4)',
     appearance: {
       filled: {
-        container: {
+        '& {container}': {
           backgroundColor: 'rgba(255, 255, 255, 0.04)',
         }
       }

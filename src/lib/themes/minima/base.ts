@@ -94,6 +94,94 @@ export class MinimaBase extends LyStyleUtils {
       }
     }
   };
+
+  field = {
+    appearance: {
+      outlined: {
+        '&:not({focused}):not({disabled}):hover {fieldset}': {
+          borderColor: 'currentColor'
+        },
+        '&{focused} {fieldset}': {
+          borderWidth: '2px',
+          borderColor: 'inherit'
+        },
+        '& textarea{inputNative}': {
+          margin: '1em 0'
+        },
+        '& {inputNative}:not(textarea)': {
+          padding: '1em 0'
+        },
+        '& {container}': {
+          padding: '0 0.75em'
+        },
+        '& {fieldset}': {
+          borderWidth: '1px',
+          borderRadius: '5px',
+          padding: '0 .5em'
+        },
+        '& {prefix}': {
+          '&:after': {
+            padding: '0.25em'
+          }
+        },
+        '& suffix': {
+          '&:after': {
+            padding: '0.25em'
+          }
+        },
+        '& {label}': {
+          margin: '1em 0'
+        },
+        '& {placeholder}': {
+          margin: '1em 0'
+        },
+        '& {floatingLabel}{label}': {
+          transform: 'translateY(-1.75em)'
+        },
+        '& {hintContainer}': {
+          padding: '0 0.75em'
+        }
+      },
+      filled: {
+        '&:not({focused}):not({disabled}) {container}:hover:after': {
+          borderBottomWidth: '1px'
+        },
+        'textarea{inputNative}': {
+          margin: '1.59375em 0 0.40625em'
+        },
+        '{inputNative}:not(textarea)': {
+          padding: '1.59375em 0 0.40625em'
+        },
+        '& {container}': {
+          borderRadius: '5px 5px 0 0',
+          padding: '0 0.75em',
+          '&:after': {
+            borderBottomStyle: 'solid',
+            borderBottomColor: 'currentColor',
+            borderBottomWidth: '0'
+          }
+        },
+        '&{focused} {container}': {
+          '&:after': {
+            borderBottomWidth: '2px'
+          }
+        },
+        '& {placeholder}': {
+          margin: '1.59375em 0 0.40625em'
+        },
+        '& {label}': {
+          margin: '1em 0'
+        },
+        '& {floatingLabel}{label}': {
+          transform: 'translateY(-.75em)'
+        },
+        '& {hintContainer}': {
+          padding: '0 0.75em'
+        }
+      }
+    }
+  };
+
   constructor() {
     super();
     this.typography.lyTyp = {

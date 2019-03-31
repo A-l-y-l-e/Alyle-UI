@@ -23,7 +23,7 @@ import {
   forwardRef,
   DoCheck
   } from '@angular/core';
-import { LyTheme2, ThemeVariables, mergeDeep, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
@@ -40,44 +40,39 @@ const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
 const DEFAULT_APPEARANCE_THEME = {
   standard: {
-    root: {
-      '&:not({disabled}) {container}:hover:after': {
-        borderBottomColor: 'currentColor'
-      },
-      '&{disabled} {container}:after': {
-        borderBottomStyle: 'dotted',
-        borderColor: 'inherit'
-      },
-      'textarea{inputNative}': {
-        margin: '0.25em 0'
-      },
-      '{inputNative}:not(textarea)': {
-        padding: '0.25em 0'
-      }
+    '&:not({disabled}) {container}:hover:after': {
+      borderBottomColor: 'currentColor'
     },
-    container: {
+    '&{disabled} {container}:after': {
+      borderBottomStyle: 'dotted',
+      borderColor: 'inherit'
+    },
+    'textarea{inputNative}': {
+      margin: '0.25em 0'
+    },
+    '{inputNative}:not(textarea)': {
+      padding: '0.25em 0'
+    },
+    '& {container}': {
       padding: '1em 0 0',
       '&:after': {
         borderBottomStyle: 'solid',
         borderBottomWidth: '1px'
       }
     },
-    containerFocused: {
+    '&{focused} {container}': {
       '&:after': {
         borderWidth: '2px',
         borderColor: 'currentColor'
       }
     },
-    containerLabelHover: {
-      color: 'currentColor'
-    },
-    label: {
+    '& {label}': {
       margin: '0.25em 0'
     },
-    placeholder: {
+    '& {placeholder}': {
       margin: '0.25em 0'
     },
-    floatingLabel: {
+    '& {floatingLabel}': {
       transform: 'translateY(-1.25em)'
     }
   }
@@ -214,31 +209,8 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
         throw new Error(`${val} not found in theme.field.appearance`);
       }
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
-        const appearance = mergeDeep({}, theme.field.appearance.base, theme.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]);
-        const classes = this.classes;
-        return {
-          '&': {...appearance.root},
-          [`& .${classes.container}`]: {...appearance.container},
-          [`& .${classes.prefix}`]: {...appearance.prefix},
-          [`& .${classes.infix}`]: {...appearance.infix},
-          [`& .${classes.suffix}`]: {...appearance.suffix},
-          [`& .${classes.inputNative}`]: {...appearance.input},
-          [`& .${classes.fieldset}`]: {...appearance.fieldset},
-          [`& .${classes.placeholder}`]: {
-            ...appearance.placeholder
-          },
-          [`& .${classes.label}`]: {
-            ...appearance.label
-          },
-          [`& .${classes.hintContainer}`]: {
-            ...appearance.hint
-          },
-          [`& .${classes.floatingLabel}.${classes.label}`]: {...appearance.floatingLabel},
-
-          [`&.${classes.focused} .${classes.container}`]: {
-            ...appearance.containerFocused
-          },
-        };
+        const appearance = theme.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val];
+        return appearance;
       }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, STYLES);
     }
   }
