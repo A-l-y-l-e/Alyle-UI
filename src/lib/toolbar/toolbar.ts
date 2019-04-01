@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   OnChanges,
+  isDevMode,
 } from '@angular/core';
 import {
   LyTheme2,
@@ -17,7 +18,8 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   ThemeVariables,
-  toBoolean
+  toBoolean,
+  getLyThemeVariableUndefinedError
 } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
@@ -37,7 +39,8 @@ const styles = (theme: ThemeVariables) => ({
     zIndex: theme.zIndex.toolbar,
     [theme.getBreakpoint('XSmall')]: {
       height: '56px'
-    }
+    },
+    '&': theme.toolbar ? theme.toolbar.root : null
   },
   dense: {
     height: '56px'
@@ -83,6 +86,8 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   private _position: position;
   private _positionClass: string;
   private _dense: boolean;
+  private _appearance: string;
+  private _appearanceClass: string;
   @Input()
   set position(val: position) {
     this._position = val;
@@ -95,7 +100,8 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   @Input()
   set dense(val: boolean) {
     const newVal = toBoolean(val);
-    if (newVal !== this.dense) {
+    if (isDevMode() && newVal !== this.dense) {
+      console.warn(this._el.nativeElement, `LyToolbar.appearance: \`dense\` is deprecated, instead use \`appearance="dense"\``);
       if (newVal) {
         this._renderer.addClass(this._el.nativeElement, this.classes.dense);
       } else {
@@ -105,6 +111,30 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   }
   get dense(): boolean {
     return this._dense;
+  }
+
+  @Input()
+  set appearance(val: string) {
+    if (val !== this.appearance) {
+      this._appearance = val;
+      this._appearanceClass = this._theme.addStyle(
+        `LyToolbar.appearance:${val}`,
+        (theme: ThemeVariables) => {
+          if (!theme.toolbar) {
+            throw getLyThemeVariableUndefinedError('toolbar');
+          }
+          if (!(theme.toolbar.appearance && theme.toolbar.appearance![val])) {
+            throw new Error(`Value toolbar.appearance['${val}'] not found in ThemeVariables`);
+          }
+          return theme.toolbar.appearance ![val]!;
+        },
+        this._el.nativeElement,
+        this._appearanceClass,
+        STYLE_PRIORITY);
+    }
+  }
+  get appearance(): string {
+    return this._appearance;
   }
   constructor(
     private _renderer: Renderer2,
