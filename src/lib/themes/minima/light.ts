@@ -1,4 +1,4 @@
-import { ThemeConfig, mergeDeep } from '@alyle/ui';
+import { ThemeConfig, mergeDeep, shadowBuilder } from '@alyle/ui';
 import { MinimaBase } from './base';
 
 const contrast = '#fff';
@@ -70,7 +70,8 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   snackBar = {
     root: {
       background: '#323232',
-      color: '#fff'
+      color: '#fff',
+      boxShadow: shadowBuilder(4, '#323232')
     }
   };
   tooltip = {

@@ -45,7 +45,8 @@ export class UndefinedValue {
 export const STYLES = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
   root: {
-    display: 'inline-block'
+    display: 'inline-block',
+    '&': theme.radio ? theme.radio.root : null
   },
   radio: {
     display: 'inline-block',
@@ -222,14 +223,6 @@ export class LyRadioGroup implements ControlValueAccessor {
     private _cd: ChangeDetectorRef
   ) {
     renderer.addClass(elementRef.nativeElement, this.classes.root);
-    const { radio } = this._theme.variables;
-    if (radio) {
-      if (radio.root) {
-        renderer.addClass(
-          elementRef.nativeElement,
-          this._theme.style(radio.root, STYLE_PRIORITY, STYLES));
-      }
-    }
   }
 
   _updateCheckFromValue(val: any) {

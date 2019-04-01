@@ -17,6 +17,7 @@ export const STYLE_SELECT_ARROW = ({
 });
 
 export const STYLES = (theme: ThemeVariables) => {
+  const field = theme.field!;
   const selectionStyle = {
     backgroundColor: `${theme.warn.default} !important`,
     color: `${theme.warn.contrast} !important`
@@ -32,6 +33,7 @@ export const STYLES = (theme: ThemeVariables) => {
         fontSize: '.75em',
         marginTop: '.25em'
       },
+      '&': theme.field ? theme.field.root : null
     },
     animations: {
       '& {labelSpan}': {
@@ -51,14 +53,14 @@ export const STYLES = (theme: ThemeVariables) => {
         ...LY_COMMON_STYLES.fill,
         content: `\'\'`,
         pointerEvents: 'none',
-        borderColor: theme.field.borderColor
+        borderColor: field.borderColor
       }
     },
     fieldset: {
       ...LY_COMMON_STYLES.fill,
       margin: 0,
       borderStyle: 'solid',
-      borderColor: theme.field.borderColor,
+      borderColor: field.borderColor,
       borderWidth: 0
     },
     fieldsetSpan: {
@@ -92,7 +94,7 @@ export const STYLES = (theme: ThemeVariables) => {
       pointerEvents: 'none',
       display: 'flex',
       width: '100%',
-      borderColor: theme.field.borderColor
+      borderColor: field.borderColor
     },
     labelSpacingStart: {},
     labelCenter: {
@@ -110,7 +112,7 @@ export const STYLES = (theme: ThemeVariables) => {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-      color: theme.field.labelColor,
+      color: field.labelColor,
       width: '100%'
     },
     isFloatingLabel: {},
@@ -122,7 +124,7 @@ export const STYLES = (theme: ThemeVariables) => {
     placeholder: {
       ...LY_COMMON_STYLES.fill,
       pointerEvents: 'none',
-      color: theme.field.labelColor
+      color: field.labelColor
     },
     focused: {},
     inputNative: {

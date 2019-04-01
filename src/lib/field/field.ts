@@ -23,7 +23,7 @@ import {
   forwardRef,
   DoCheck
   } from '@angular/core';
-import { LyTheme2, ThemeVariables, ElementObserver, Platform, toBoolean, DirAlias } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, ElementObserver, Platform, toBoolean, DirAlias, getLyThemeVariableUndefinedError } from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
@@ -205,11 +205,11 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      if (!(this._theme.variables.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val]))  {
+      if (!(this._theme.variables.field!.appearance[val] || DEFAULT_APPEARANCE_THEME[val]))  {
         throw new Error(`${val} not found in theme.field.appearance`);
       }
       this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
-        const appearance = theme.field.appearance[val] || DEFAULT_APPEARANCE_THEME[val];
+        const appearance = theme.field!.appearance[val] || DEFAULT_APPEARANCE_THEME[val];
         return appearance;
       }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, STYLES);
     }
@@ -231,6 +231,9 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
     private _ngZone: NgZone
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
+    if (!_theme.variables.field) {
+      throw getLyThemeVariableUndefinedError('field');
+    }
   }
 
   ngOnInit() {

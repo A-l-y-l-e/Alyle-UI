@@ -27,9 +27,11 @@ import { Subscription } from 'rxjs';
 
 const DEFAULT_PLACEMENT = YPosition.below;
 const STYLE_PRIORITY = -2;
-const styles = ({
+const styles = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
   root: {
-    ...LY_COMMON_STYLES.fill
+    ...LY_COMMON_STYLES.fill,
+    '&': theme.tooltip ? theme.tooltip.root : null
   }
 });
 
@@ -39,7 +41,7 @@ const styles = ({
 })
 export class LyTooltip implements OnInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.addStyleSheet(styles);
   private _tooltip: string | TemplateRef<any> | null;
   private _tooltipOverlay: OverlayFactory | null;
   private _listeners = new Map<string, EventListenerOrEventListenerObject>();

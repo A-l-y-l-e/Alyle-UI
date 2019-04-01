@@ -395,14 +395,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   }
 
   ngOnInit() {
-    const { tabs } = this._theme.variables;
-    if (tabs) {
-      if (tabs.root) {
-        this.renderer.addClass(
-          this.el.nativeElement,
-          this.theme.style(tabs.root, STYLE_PRIORITY, STYLES));
-      }
-    }
     this.renderer.addClass(this.el.nativeElement, this.classes.root);
     const tabsIndicatorEl = this.tabsIndicator.nativeElement;
     this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);
@@ -638,27 +630,3 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   ngAfterViewInit() { }
 }
 
-/**
- * demo basic
- * <ly-tabs withColor="accent">
- *   <ly-tab>
- *     <button ly-tab-label>HOME</button>
- *     Content
- *   </ly-tab>
- *   <ly-tab>
- *     <button ly-tab-label>HOME</button>
- *     Content
- *   </ly-tab>
- *   ...
- * </ly-tabs>
- *
- * demo lazy loading
- * <ly-tabs withBg="primary">
- *   <ly-tab>
- *     <button ly-tab-label>HOME</button>
- *     <ng-template ly-tab-content></ng-template>
- *   </ly-tab>
- *   ...
- * </ly-tabs>
- * => selectedIndexOnChange, default: auto, opts: number, with auto, the selectedIndex = current o current-1 or latest
- */

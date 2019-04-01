@@ -1,4 +1,4 @@
-import { ThemeConfig, mergeDeep } from '@alyle/ui';
+import { ThemeConfig, mergeDeep, shadowBuilder } from '@alyle/ui';
 import { MinimaBase } from './base';
 
 const contrast = '#fff';
@@ -55,7 +55,7 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   divider = 'rgba(255, 255, 255, 0.12)';
   colorShadow = shadow;
   shadow = shadow;
-  field = mergeDeep({}, this.field, {
+  field = mergeDeep({} , this.field, {
     borderColor: 'rgba(255, 255, 255, 0.12)',
     labelColor: 'rgba(255, 255, 255, 0.4)',
     appearance: {
@@ -70,7 +70,8 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   snackBar = {
     root: {
       background: '#fafafa',
-      color: 'rgba(0,0,0,.87)'
+      color: 'rgba(0,0,0,.87)',
+      boxShadow: shadowBuilder(4, '#fafafa')
     }
   };
   tooltip = {

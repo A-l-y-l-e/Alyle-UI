@@ -182,6 +182,14 @@ export class MinimaBase extends LyStyleUtils {
     }
   };
 
+  toolbar = {
+    appearance: {
+      dense: {
+        height: '56px'
+      }
+    }
+  };
+
   constructor() {
     super();
     this.typography.lyTyp = {

@@ -73,7 +73,8 @@ export const STYLES = (theme: ThemeVariables) => ({
     paddingAfter: '1em',
     minWidth: '3em',
     minHeight: '1.5em',
-    '-webkit-tap-highlight-color': 'transparent'
+    '-webkit-tap-highlight-color': 'transparent',
+    '&': theme.select ? theme.select.root : null
   },
   container: {
     background: theme.background.primary.default,
@@ -416,7 +417,7 @@ export class LySelect
       getKey: this._valueKeyFn
     });
     const ngControl = this.ngControl;
-    const { select } = this._theme.variables;
+
     // update styles on disabled
     if (ngControl && ngControl.statusChanges) {
       ngControl.statusChanges.pipe(takeUntil(this._destroy)).subscribe(() => {
@@ -430,14 +431,6 @@ export class LySelect
     // apply default styles
     this._renderer.addClass(this._el.nativeElement, this._field.classes.inputNative);
     this._renderer.addClass(this._el.nativeElement, this.classes.root);
-
-    if (select) {
-      if (select.root) {
-        this._renderer.addClass(
-          this._el.nativeElement,
-          this._theme.style(select.root, STYLE_PRIORITY, STYLES));
-      }
-    }
   }
 
   ngDoCheck() {

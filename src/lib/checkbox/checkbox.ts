@@ -57,7 +57,8 @@ export const STYLES = (theme: ThemeVariables) => ({
     },
     '&:not({checked}) {icon}': {
       color: theme.text.secondary
-    }
+    },
+    '&': theme.checkbox ? theme.checkbox.root : null
   },
   layout: {
     display: 'inline-flex',
@@ -270,16 +271,6 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
       radius: 'containerSize',
       percentageToIncrease: 150
     };
-
-    const { checkbox } = _theme.variables;
-    if (checkbox) {
-      if (checkbox.root) {
-        this._renderer.addClass(
-          this._el.nativeElement,
-          this._theme.style(checkbox.root, STYLE_PRIORITY, STYLES));
-      }
-    }
-
   }
 
   ngOnInit() {

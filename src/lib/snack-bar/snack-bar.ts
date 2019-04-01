@@ -1,11 +1,33 @@
 import { Directive, Input, TemplateRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { LyTheme2, LyOverlay, ThemeVariables, shadowBuilder, XPosition, YPosition } from '@alyle/ui';
+import { LyTheme2, LyOverlay, ThemeVariables, XPosition, YPosition } from '@alyle/ui';
 import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarRef } from './snack-bar-ref';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_HORIZONTAL_POSITION = XPosition.after;
 const DEFAULT_VERTICAL_POSITION = YPosition.below;
+export const STYLES = (theme: ThemeVariables) => ({
+  $priority: STYLE_PRIORITY,
+  root: {
+    borderRadius: '4px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: '8px',
+    padding: '0 16px',
+    minHeight: '48px',
+    minWidth: '320px',
+    maxWidth: '320px',
+    opacity: 0,
+    transition: `opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms`,
+    fontSize: theme.pxToRem(theme.typography.fontSize),
+    [theme.getBreakpoint('XSmall')]: {
+      width: 'calc(100% - 16px)',
+      minWidth: 'calc(100% - 16px)'
+    },
+    '&': theme.snackBar ? theme.snackBar!.root : null
+  }
+});
 
 /** Event that is emitted when a snack bar is dismissed. */
 export interface LySnackBarDismiss {
@@ -18,6 +40,8 @@ export interface LySnackBarDismiss {
   exportAs: 'lySnackBar'
 })
 export class LySnackBar implements OnDestroy {
+
+  readonly classes = this._theme.addStyleSheet(STYLES);
   @Input() duration: number | 'Infinity';
   @Input() horizontalPosition: 'center' | XPosition;
   @Input() verticalPosition: YPosition;
@@ -51,26 +75,7 @@ export class LySnackBar implements OnDestroy {
       },
       hasBackdrop: false,
       classes: [
-        this._theme.addStyle('SnackBar', (theme: ThemeVariables) => ({
-          borderRadius: '4px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          margin: '8px',
-          padding: '0 16px',
-          minHeight: '48px',
-          minWidth: '320px',
-          maxWidth: '320px',
-          opacity: 0,
-          transition: `opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms`,
-          fontSize: theme.pxToRem(theme.typography.fontSize),
-          boxShadow: shadowBuilder(4, theme.snackBar.root.background as string),
-          [theme.getBreakpoint('XSmall')]: {
-            width: 'calc(100% - 16px)',
-            minWidth: 'calc(100% - 16px)'
-          },
-          ...theme.snackBar.root,
-        }), undefined, undefined, STYLE_PRIORITY),
+        this.classes.root,
         this._theme.addStyle(`SnackBar.hp:${horizontalPosition}.vp:${verticalPosition}`, (theme: ThemeVariables) => {
           const __styles: {
             marginLeft?: 'auto'

@@ -16,6 +16,10 @@ import { RadioVariables } from './variables/radio';
 import { ImgCropperVariables } from './variables/img-cropper';
 import { SelectVariables } from './variables/select';
 import { TabsVariables } from './variables/tabs';
+import { FieldVariables } from './variables/field';
+import { DialogVariables } from './variables/dialog';
+import { ListVariables } from './variables/list';
+import { ToolbarVariables } from './variables/toolbar';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -47,52 +51,17 @@ export interface ThemeConfig {
     disabled: string,
     hint: string
   };
-  typography: TypographyVariables;
+  typography?: TypographyVariables;
   /** color for divider */
   divider: string;
   shadow: string;
-  /** @deprecated use shadow instead */
-  colorShadow?: string;
   radio?: RadioVariables;
   menu?: MenuVariables;
   drawer: {
     /** color for drawer:backdrop */
     backdrop: string
   };
-  field: {
-    borderColor: string
-    labelColor: string
-    appearance: {
-      base?: {
-        root?: StyleContainer
-        container?: StyleContainer
-        fieldset?: StyleContainer
-        containerFocused?: StyleContainer
-        label?: StyleContainer
-        placeholder?: StyleContainer
-        input?: StyleContainer
-        floatingLabel?: StyleContainer
-        prefix?: StyleContainer
-        infix?: StyleContainer
-        suffix?: StyleContainer
-        hint?: StyleContainer
-      };
-      [appearanceName: string]: {
-        root?: StyleContainer
-        container?: StyleContainer
-        fieldset?: StyleContainer
-        containerFocused?: StyleContainer
-        label?: StyleContainer
-        placeholder?: StyleContainer
-        input?: StyleContainer
-        floatingLabel?: StyleContainer
-        prefix?: StyleContainer
-        infix?: StyleContainer
-        suffix?: StyleContainer
-        hint?: StyleContainer
-      } | undefined
-    }
-  };
+  field?: FieldVariables;
   iconButton: {
     size: string
   };
@@ -120,23 +89,26 @@ export interface ThemeConfig {
     }
   };
   ripple: RippleVariables;
-  badge: {
+  badge?: {
     root?: StyleContainer,
     position?: {
       [positionName: string]: StyleContainer
     }
   };
   checkbox?: CheckboxVariables;
-  snackBar: SnackBarVariables;
+  snackBar?: SnackBarVariables;
   button?: ButtonVariables;
   tooltip: TooltipVariables;
-  avatar: AvatarVariables;
+  avatar?: AvatarVariables;
   expansion?: ExpansionVariables;
   card?: CardVariables;
   carousel?: CarouselVariables;
   imgCropper?: ImgCropperVariables;
   select?: SelectVariables;
   tabs?: TabsVariables;
+  dialog?: DialogVariables;
+  list?: ListVariables;
+  toolbar?: ToolbarVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

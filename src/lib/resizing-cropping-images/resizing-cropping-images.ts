@@ -12,13 +12,13 @@ import {
   HostListener,
   OnDestroy
 } from '@angular/core';
-import { LyTheme2, mergeDeep, LY_COMMON_STYLES } from '@alyle/ui';
+import { LyTheme2, mergeDeep, LY_COMMON_STYLES, ThemeVariables } from '@alyle/ui';
 import { take } from 'rxjs/operators';
 import { fromEvent, Subscription } from 'rxjs';
 
 const STYLE_PRIORITY = -2;
 
-const STYLES = ({
+const STYLES = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
   root: {
     '-webkit-user-select': 'none',
@@ -29,7 +29,8 @@ const STYLES = ({
     overflow: 'hidden',
     position: 'relative',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    '&': theme.imgCropper ? theme.imgCropper.root : null
   },
   imgContainer: {
     cursor: 'move',
@@ -257,14 +258,6 @@ export class LyResizingCroppingImages implements OnDestroy {
     private _ngZone: NgZone
   ) {
     this._renderer.addClass(elementRef.nativeElement, this.classes.root);
-    const { imgCropper } = this.theme.variables;
-    if (imgCropper) {
-      if (imgCropper.root) {
-        this._renderer.addClass(
-          this.elementRef.nativeElement,
-          this.theme.style(imgCropper.root, STYLE_PRIORITY, STYLES));
-      }
-    }
   }
 
   ngOnDestroy() {

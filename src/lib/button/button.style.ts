@@ -45,7 +45,8 @@ export const STYLES = (theme: ThemeVariables) => {
         background: 'currentColor',
         opacity: .13,
         borderRadius: 'inherit'
-      }
+      },
+      '&': theme.button ? theme.button.root : null
     },
     content: {
       padding: 0,

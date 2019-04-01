@@ -7,13 +7,14 @@ import {
   mixinOutlined,
   mixinRaised,
   mixinShadowColor,
-  mixinStyleUpdater
+  mixinStyleUpdater,
+  ThemeVariables
   } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_SIZE = 40;
 const DEFAULT_BG = 'action';
-const STYLES = ({
+const STYLES = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
   root: {
     display: 'inline-flex',
@@ -32,7 +33,8 @@ const STYLES = ({
       display: 'block',
       objectFit: 'cover',
       '-webkit-background-clip': 'padding-box'
-    }
+    },
+    '&': theme.avatar ? theme.avatar.root : null
   }
 });
 
@@ -87,16 +89,8 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
     private _elementRef: ElementRef
   ) {
     super(theme);
-    const { avatar } = this._theme.variables;
     this.setAutoContrast();
     renderer.addClass(_elementRef.nativeElement, this.classes.root);
-    if (avatar) {
-      if (avatar.root) {
-        renderer.addClass(
-          this._elementRef.nativeElement,
-          this._theme.style(avatar.root, STYLE_PRIORITY, STYLES));
-      }
-    }
   }
 
   ngOnChanges() {

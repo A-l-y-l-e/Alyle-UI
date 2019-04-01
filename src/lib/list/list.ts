@@ -40,11 +40,12 @@ const STYLE_PRIORITY = 2;
 const DISABLE_PADDING = false;
 export const STYLES = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
-  list: {
+  root: {
     display: 'block',
     position: 'relative',
     paddingTop: '8px',
-    paddingBottom: '8px'
+    paddingBottom: '8px',
+    '&': theme.list ? theme.list.root : null
   },
   listItem: {
     ...LY_COMMON_STYLES.button,
@@ -131,7 +132,7 @@ export const STYLES = (theme: ThemeVariables) => ({
   selector: 'ly-list',
   exportAs: 'lyList',
   host: {
-    '[className]': 'classes.list'
+    '[className]': 'classes.root'
   }
 })
 export class LyList {

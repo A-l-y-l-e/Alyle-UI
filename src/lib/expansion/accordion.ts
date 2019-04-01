@@ -19,9 +19,11 @@ export const STYLES = (theme: ThemeVariables) => ({
       '{panelDescription}': {
         color: theme.text.secondary
       }
-    }
+    },
   },
-  root: null,
+  root: {
+    '&': theme.expansion ? theme.expansion.root : null
+  },
   panel: {
     display: 'block',
     overflow: 'hidden',
@@ -153,11 +155,6 @@ export class LyAccordion implements OnInit {
   ngOnInit() {
     const { expansion } = this._theme.variables;
     if (expansion) {
-      if (expansion.root) {
-        this._renderer.addClass(
-          this._el.nativeElement,
-          this._theme.style(expansion.root, STYLE_PRIORITY, STYLES));
-      }
       this._renderer.addClass(this._el.nativeElement, this.classes.root);
 
       // Apply default config

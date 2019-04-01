@@ -38,7 +38,9 @@ const DEFAULT_XPOSITION = XPosition.after;
 
 const STYLES = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
-  root: null,
+  root: {
+    '&': theme.menu ? theme.menu.root : null
+  },
   container: {
     background: theme.background.primary.default,
     borderRadius: '2px',
@@ -122,15 +124,7 @@ export class LyMenu implements OnInit, AfterViewInit {
     private _el: ElementRef,
     private _renderer: Renderer2
   ) {
-    const { menu } = this._theme.variables;
-    if (menu) {
-      if (menu.root) {
-        this._renderer.addClass(
-          this._el.nativeElement,
-          this._theme.style(menu.root, STYLE_PRIORITY, STYLES));
-      }
-      this._renderer.addClass(this._el.nativeElement, this.classes.root);
-    }
+    this._renderer.addClass(this._el.nativeElement, this.classes.root);
   }
 
   ngOnInit() {

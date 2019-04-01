@@ -27,7 +27,7 @@ const DEFAULT_POSITION_VALUE = {
   after: '-11px',
   above: '-11px'
 };
-const styles = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
   root: {
     position: 'absolute',
@@ -44,7 +44,7 @@ const styles = (theme: ThemeVariables) => ({
     fontFamily: theme.typography.fontFamily,
     justifyContent: 'center',
     alignItems: 'center',
-    ...theme.badge.root
+    '&': theme.badge ? theme.badge.root : null
   },
   relative: {
     position: 'relative'
@@ -85,7 +85,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
    * Styles
    * @docs-private
    */
-  readonly classes = this._theme.addStyleSheet(styles);
+  readonly classes = this._theme.addStyleSheet(STYLES);
   private _content: string | number;
   private _position: string;
   private _positionClass: string;
@@ -111,7 +111,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
     if (val !== this.position) {
       this._position = val;
       this._positionClass = this._theme.addStyle(`ly-badge.position:${val}`, (theme: ThemeVariables) => {
-        const sty = theme.badge.position && theme.badge.position[val] || val === DEFAULT_POSITION ? DEFAULT_POSITION_VALUE : null;
+        const sty = theme.badge!.position && theme.badge!.position![val] || val === DEFAULT_POSITION ? DEFAULT_POSITION_VALUE : null;
         if (sty) {
           return sty;
         } else {

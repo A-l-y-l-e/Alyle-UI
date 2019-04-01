@@ -6,7 +6,7 @@ const styles = (theme: ThemeVariables) => ({
   root: {
     margin: 0,
     display: 'block',
-    ...theme.typography.root
+    '&': theme.typography ? theme.typography.root : null
   }
 });
 

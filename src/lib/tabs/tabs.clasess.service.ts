@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { LyTheme2, ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
 
-const tabsStyles = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables) => ({
   root: {
-    display: 'block'
+    display: 'block',
+    '&': theme.tabs ? theme.tabs.root : null
   },
   container: {
     display: 'flex'
@@ -84,7 +85,8 @@ const tabsStyles = (theme: ThemeVariables) => ({
   providedIn: 'root'
 })
 export class LyTabsClassesService {
-  classes = this.theme.addStyleSheet(tabsStyles);
+  /** @docs-private */
+  readonly classes = this.theme.addStyleSheet(STYLES);
   constructor(
     private theme: LyTheme2
   ) { }

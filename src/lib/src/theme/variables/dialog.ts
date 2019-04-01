@@ -1,5 +1,5 @@
 import { StyleContainer } from '../style';
 
-export interface SnackBarVariables {
+export interface DialogVariables {
   root?: StyleContainer;
 }
