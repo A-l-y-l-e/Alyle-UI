@@ -34,6 +34,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) =>
       flex: 1,
       padding: '96px 2rem',
       width: '100%',
+      boxSizing: 'border-box'
     }
   },
   demo: null,
