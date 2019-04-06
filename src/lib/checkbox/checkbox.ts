@@ -81,7 +81,8 @@ export const STYLES = (theme: ThemeVariables) => ({
       ...LY_COMMON_STYLES.fill,
       width: '16px',
       height: '16px',
-      margin: 'auto'
+      margin: 'auto',
+      boxSizing: 'border-box'
     },
     // border icon
     '&::before': {

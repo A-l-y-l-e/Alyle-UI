@@ -8,16 +8,6 @@ import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
 import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses } from './style';
 
-const defaultStyles = {
-  '@global': {
-    '*, *:after, *:before': {
-      '-webkit-box-sizing': 'border-box',
-      '-moz-box-sizing': 'border-box',
-      'box-sizing': 'border-box'
-    }
-  }
-};
-
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
 let nextClassId = 0;
@@ -89,7 +79,6 @@ export class LyTheme2 {
           change: null
         });
       }
-      this._addDefaultStyles();
     }
   }
 
@@ -185,9 +174,6 @@ export class LyTheme2 {
    */
   addSimpleStyle(id: string, css: StyleContainer | ((theme) => StyleContainer), priority?: number, parentStyle?: Styles): string {
     return this._createStyleContent2(css as any, id, priority, TypeStyle.OnlyOne, false, parentStyle) as string;
-  }
-  private _addDefaultStyles() {
-    this.addStyleSheet(defaultStyles);
   }
 
 

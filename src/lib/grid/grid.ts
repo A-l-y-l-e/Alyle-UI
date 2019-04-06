@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { LyTheme2, eachMedia, ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
@@ -25,6 +25,11 @@ const styles = ({
     display: 'flex',
     flexWrap: 'wrap',
     boxSizing: 'border-box'
+  },
+  item: {
+    '&, & :first-child': {
+      boxSizing: 'border-box'
+    }
   }
 });
 
@@ -379,11 +384,13 @@ export class LyGridItem implements OnInit {
   constructor(
     private gridContainer: LyGrid,
     private el: ElementRef,
+    renderer: Renderer2,
     private theme: LyTheme2
   ) {
     if (!gridContainer) {
       throw new Error(`Require parent <ly-grid container>`);
     }
+    renderer.addClass(el.nativeElement, this.gridContainer.classes.item);
   }
 
   ngOnInit() {

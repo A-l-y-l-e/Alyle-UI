@@ -92,7 +92,8 @@ export const STYLES = (theme: ThemeVariables) => ({
       margin: 'auto',
       borderRadius: '50%',
       width: '1em',
-      height: '1em'
+      height: '1em',
+      boxSizing: 'border-box'
     },
     '&::after': {
       content: `''`,
