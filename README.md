@@ -31,6 +31,7 @@
 |dialog|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/dialog)|
 |divider|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/divider)|
 |drawer|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/drawer)|
+|expansion|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/expansion)|
 |field|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/field)|
 |grid|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/layout/grid)|
 |icon|✔️|✔️|[Docs](https://alyle-ui.firebaseapp.com/components/icon)|
