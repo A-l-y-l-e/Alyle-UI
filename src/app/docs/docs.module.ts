@@ -151,6 +151,7 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
 import { BasicExpansionModule } from './components/expansion-demo/basic-expansion/basic-expansion.module';
 import { CustomExpansionPanelModule } from './components/expansion-demo/custom-expansion-panel/custom-expansion-panel.module';
+import { ThemingComponentsModule } from './customization/theming-components/theming-components.module';
 
 @NgModule({
   imports: [
@@ -246,7 +247,8 @@ import { CustomExpansionPanelModule } from './components/expansion-demo/custom-e
     CarouselWithBarModule,
     /** Expansion */
     BasicExpansionModule,
-    CustomExpansionPanelModule
+    CustomExpansionPanelModule,
+    ThemingComponentsModule
   ],
   declarations: [
     ThemingComponent,

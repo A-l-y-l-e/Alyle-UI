@@ -25,6 +25,7 @@ import { SelectDemoComponent } from './components/select-demo/select-demo.compon
 import { DialogDemoComponent } from './components/dialog-demo/dialog-demo.component';
 import { CarouselDemoComponent } from './components/carousel-demo/carousel-demo.component';
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
+import { ThemingComponentsComponent } from './customization/theming-components/theming-components.component';
 
 const routes: Routes = [
   /** layout */
@@ -40,7 +41,8 @@ const routes: Routes = [
     path: 'customization',
     children: [
       { path: 'dynamic-styles', component: DynamicStylesComponent },
-      { path: 'paper', component: PaperDemoComponent }
+      { path: 'paper', component: PaperDemoComponent },
+      { path: 'theming-components', component: ThemingComponentsComponent }
     ]
   },
   {

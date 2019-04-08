@@ -28,6 +28,7 @@ export const AUIRoutes: {
     routes: [
       { route: 'dynamic-styles', name: 'Dynamic styles' },
       { route: 'theming', name: 'Theming' },
+      { route: 'theming-components', name: 'Theming Components' },
       { route: 'paper', name: 'Paper' },
       { route: 'multiple-themes', name: 'Multiple themes' }
     ]
