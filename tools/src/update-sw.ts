@@ -8,11 +8,6 @@ const DIST = join(process.cwd(), 'dist/alyle-ui');
 /** Read ngsw.json */
 const ngswConfig = JSON.parse(readFileSync(join(DIST, 'ngsw.json')).toString());
 
-function sha1( data: string ) {
-  const generator = createHash('sha1');
-  generator.update( data );
-  return generator.digest('hex');
-}
 function fileHash(filename: string, algorithm = 'sha1') {
   return new Promise((resolve, reject) => {
     const shasum = createHash(algorithm);
@@ -34,7 +29,7 @@ function fileHash(filename: string, algorithm = 'sha1') {
 async function hashAll() {
   const hashTable = ngswConfig.hashTable;
   const files = getAllHtml();
-  const assets = ngswConfig.assetGroups.find(_ => _.name === 'assets');
+  const app = ngswConfig.assetGroups.find(_ => _.name === 'app');
 
   for (const key in hashTable) {
     if (hashTable.hasOwnProperty(key)) {
@@ -46,7 +41,7 @@ async function hashAll() {
     }
   }
   for (let index = 0; index < files.length; index++) {
-    assets.urls.push(join(files[index].path));
+    app.urls.push(join(files[index].path));
     hashTable[files[index].path] = await fileHash(files[index].file);
     console.log(`${chalk.green('hash updated for:')} ${chalk.greenBright(files[index].path)}`);
   }

@@ -16,13 +16,14 @@
   }, {
     "name": "assets",
     "installMode": "lazy",
-    "updateMode": "prefetch",
+    "updateMode": "lazy",
     "resources": {
       "files": [
         "/assets/**"
       ],
       "urls": [
-        "https://fonts.googleapis.com/**"
+        "https://fonts.googleapis.com/**",
+        "https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/**"
       ]
     }
   }]
