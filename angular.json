@@ -32,6 +32,11 @@
                 "input": "src/assets",
                 "output": "/assets"
               },
+              {
+                "glob": "**/*",
+                "input": "src/fonts",
+                "output": "/fonts"
+              },
               "src/manifest.json"
             ],
             "styles": [],
@@ -104,6 +109,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/fonts",
+                "output": "/fonts"
               },
               "src/manifest.json"
             ]

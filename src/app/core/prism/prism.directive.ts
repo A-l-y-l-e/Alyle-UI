@@ -31,7 +31,7 @@ Prism.hooks.add('wrap', function(env) {
   }
 });
 
-const $host = 'assets/fonts/firacode/';
+const $host = 'fonts/firacode/';
 
 const GLOBAL_STYLES = {
   '@global': {

@@ -9,8 +9,7 @@
         "/index.html",
         "/api/**",
         "/*.css",
-        "/*.js",
-        "/*.woff2"
+        "/*.js"
       ]
     }
   }, {
@@ -26,5 +25,16 @@
         "https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/**"
       ]
     }
-  }]
+  }],
+  "dataGroups": [
+    {
+      "name": "firacode",
+      "urls": ["/fonts/**"],
+      "cacheConfig": {
+        "maxSize": 1,
+        "maxAge": "30d",
+        "strategy": "performance"
+      }
+    }
+]
 }
