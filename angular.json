@@ -37,7 +37,7 @@
                 "input": "src/fonts",
                 "output": "/fonts"
               },
-              "src/manifest.json"
+              "src/manifest.webmanifest"
             ],
             "styles": [],
             "scripts": []
@@ -115,7 +115,7 @@
                 "input": "src/fonts",
                 "output": "/fonts"
               },
-              "src/manifest.json"
+              "src/manifest.webmanifest"
             ]
           }
         },

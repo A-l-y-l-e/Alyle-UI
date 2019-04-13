@@ -9,6 +9,7 @@ import { PrismModule } from '../core/prism/prism.module';
 
 /** Customization */
 import { ThemingComponent } from '@docs/customization/theming/theming.component';
+import { ThemingComponentsComponent } from './customization/theming-components/theming-components.component';
 
 /** Layout */
 /** Grid */
@@ -151,7 +152,6 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
 import { BasicExpansionModule } from './components/expansion-demo/basic-expansion/basic-expansion.module';
 import { CustomExpansionPanelModule } from './components/expansion-demo/custom-expansion-panel/custom-expansion-panel.module';
-import { ThemingComponentsModule } from './customization/theming-components/theming-components.module';
 
 @NgModule({
   imports: [
@@ -247,11 +247,11 @@ import { ThemingComponentsModule } from './customization/theming-components/them
     CarouselWithBarModule,
     /** Expansion */
     BasicExpansionModule,
-    CustomExpansionPanelModule,
-    ThemingComponentsModule
+    CustomExpansionPanelModule
   ],
   declarations: [
     ThemingComponent,
+    ThemingComponentsComponent,
     /** Grid */
     GridDemoComponent,
     /** Responsive */

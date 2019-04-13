@@ -11,6 +11,14 @@ const STYLES = (_theme: ThemeVariables) => ({ });
 export class ThemingComponentsComponent implements OnInit {
   readonly classes = this.theme.addStyleSheet(STYLES);
 
+  codeRoundedButton = `export class GlobalVariables implements PartialThemeVariables {
+  ...
+  button = {
+    root: {
+      borderRadius: '2em'
+    }
+  };
+}`;
 
   constructor(private theme: LyTheme2) { }
 
