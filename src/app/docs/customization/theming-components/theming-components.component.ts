@@ -5,7 +5,7 @@ const STYLES = (_theme: ThemeVariables) => ({ });
 
 @Component({
   selector: 'aui-theming-components',
-  templateUrl: './theming-components.component.html',
+  templateUrl: './theming-components.component.md',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemingComponentsComponent implements OnInit {
