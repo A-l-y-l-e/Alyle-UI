@@ -8,6 +8,7 @@ It allows you to change the entire look of your app with just modifying variable
   In addition to changing some variables of a theme (you can see that in <a
   [routerLink]="['/', 'customization', 'theming']">theming</a>), it is also possible to change and add styles to a theme, styles that affect the components.
 </p>
+
 This applies a rounded style to all the buttons.
 
 ```ts
@@ -21,6 +22,4 @@ export class GlobalVariables implements PartialThemeVariables {
 }
 ```
 
-<p>
-  This is possible for most components.
-</p>
+This is possible for most components.

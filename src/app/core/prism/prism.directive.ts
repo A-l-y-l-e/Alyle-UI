@@ -28,6 +28,7 @@ Prism.hooks.add('wrap', function(env) {
         env.attributes.style = `background:${VALUE};color:${luminance < 0.5 ? 'white' : '#202020'};opacity:${chromaColor.alpha()}`;
       } catch (error) { }
     }
+    env.content = `<span>${env.content}</span>`;
   }
 });
 

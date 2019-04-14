@@ -52,7 +52,6 @@ export const prismCustomClass = () => {
     classList.forEach((className, index) => {
       customClass![className] = `tt${(index * 11 + 11).toString(36)}`;
     });
-    customClass.token = '';
   }
   return customClass;
 };

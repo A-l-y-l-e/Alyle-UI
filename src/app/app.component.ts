@@ -119,32 +119,32 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
     '@global': {
       '@font-face': {
         fontFamily: 'Fira Code',
-        src: `url('${$host}eot/FiraCode-Light.eot')`,
-        'src ': `url('${$host}eot/FiraCode-Light.eot') format('embedded-opentype'),
+        src: [`url('${$host}eot/FiraCode-Light.eot')`,
+        `url('${$host}eot/FiraCode-Light.eot') format('embedded-opentype'),
             url('${$host}woff2/FiraCode-Light.woff2') format('woff2'),
             url('${$host}woff/FiraCode-Light.woff') format('woff'),
-            url('${$host}ttf/FiraCode-Light.ttf') format('truetype')`,
+            url('${$host}ttf/FiraCode-Light.ttf') format('truetype')`],
         fontWeight: 300,
         fontStyle: 'normal',
       },
       '@font-face ': {
           fontFamily: 'Fira Code',
-          src: `url('${$host}eot/FiraCode-Regular.eot')`,
-          'src ': `url('${$host}eot/FiraCode-Regular.eot') format('embedded-opentype'),` +
+          src: [`url('${$host}eot/FiraCode-Regular.eot')`,
+          `url('${$host}eot/FiraCode-Regular.eot') format('embedded-opentype'),` +
               `url('${$host}woff2/FiraCode-Regular.woff2') format('woff2'),` +
               `url('${$host}woff/FiraCode-Regular.woff') format('woff'),` +
-              `url('${$host}ttf/FiraCode-Regular.ttf') format('truetype')`,
+              `url('${$host}ttf/FiraCode-Regular.ttf') format('truetype')`],
           fontWeight: 400,
           fontStyle: 'normal'
       },
 
       '@font-face  ': {
           fontFamily: 'Fira Code',
-          src: `url('${$host}eot/FiraCode-Medium.eot')`,
-          'src ': `url('${$host}eot/FiraCode-Medium.eot') format('embedded-opentype'),` +
+          src: [`url('${$host}eot/FiraCode-Medium.eot')`,
+          `url('${$host}eot/FiraCode-Medium.eot') format('embedded-opentype'),` +
               `url('${$host}woff2/FiraCode-Medium.woff2') format('woff2'),` +
               `url('${$host}woff/FiraCode-Medium.woff') format('woff'),` +
-              `url('${$host}ttf/FiraCode-Medium.ttf') format('truetype')`,
+              `url('${$host}ttf/FiraCode-Medium.ttf') format('truetype')`],
           fontWeight: 500,
           fontStyle: 'normal'
       },
@@ -159,33 +159,43 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
           fontWeight: 700,
           fontStyle: 'normal'
       },
+
+      [classes.pre]: {
+        padding: '16px'
+      },
+      [classes.code]: {
+        padding: '4px 2px'
+      },
+      [
+        [
+          classes.pre,
+          classes.code
+        ].join()
+      ]: {
+        color: theme.codeColor,
+        backgroundColor: theme.codeBg,
+        fontFamily: `'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace`,
+        textAlign: 'left',
+        fontSize: '0.8125em',
+        fontWeight: 500,
+        whiteSpace: 'pre',
+        wordSpacing: 'normal',
+        wordBreak: 'break-word',
+        wordWrap: 'normal',
+        lineHeight: 1.5,
+        '-moz-tab-size': 4,
+        '-o-tab-size': 4,
+        tabSize: 4,
+        '-webkit-hyphens': 'none',
+        '-moz-hyphens': 'none',
+        '-ms-hyphens': 'none',
+        hyphens: 'none',
+        borderRadius: '3px',
+        overflow: 'auto',
+      },
       [classes.root]: {
         marginBottom: '16px',
-        color: theme.prism.colorText,
         direction: 'ltr',
-        [classes.pre]: {
-          color: theme.codeColor,
-          backgroundColor: theme.codeBg,
-          fontFamily: `'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace`,
-          textAlign: 'left',
-          fontSize: '0.8125em',
-          fontWeight: 500,
-          whiteSpace: 'pre',
-          wordSpacing: 'normal',
-          wordBreak: 'break-word',
-          wordWrap: 'normal',
-          lineHeight: 1.5,
-          '-moz-tab-size': 4,
-          '-o-tab-size': 4,
-          tabSize: 4,
-          '-webkit-hyphens': 'none',
-          '-moz-hyphens': 'none',
-          '-ms-hyphens': 'none',
-          hyphens: 'none',
-          borderRadius: '3px',
-          overflow: 'auto',
-          padding: '16px'
-        },
         [
           [
             classes.keyword,
@@ -255,7 +265,7 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
         [`${classes.number}`]: {
           color: 'rgb(36, 212, 158)'
         },
-        [`&${classes.punctuation}, &${classes.operator}`]: {
+        [`& ${classes.punctuation}, & ${classes.operator}`]: {
           color: '#9786c5'
         },
         [`${classes['class-name']}`]: {

@@ -14,8 +14,8 @@ export default function (markdown: string) {
 
   const renderer = new marked.Renderer();
 
+  const classes = prismCustomClass();
   renderer.code = function (code, infostring, escaped) {
-    const classes = prismCustomClass();
     const lang = (infostring || '').match(/\S*/)![0];
     if (!lang) {
       return `<div class="${classes.root}">`
@@ -27,12 +27,12 @@ export default function (markdown: string) {
       + [this.options.langPrefix + lang, classes.root].join(' ')
       + '">'
       + `<pre class="${classes.pre}">`
-      + escape(prism.highlight(escaped ? code : (code), prism.languages[lang]))
+      + escape(prism.highlight(escaped ? code : (code), prism.languages[lang], lang))
       + '</pre></div>\n';
   };
 
   renderer.codespan = function(text) {
-    return '<code>' + text + '</code>';
+    return `<code class="${classes.code}">${text}</code>`;
   };
 
   const html = marked(markdown, { renderer });

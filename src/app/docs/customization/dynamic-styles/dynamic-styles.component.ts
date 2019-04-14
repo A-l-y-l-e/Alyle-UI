@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'aui-dynamic-styles',
-  templateUrl: './dynamic-styles.component.html'
+  templateUrl: './dynamic-styles.component.md'
 })
 export class DynamicStylesComponent {
   codeBasicStyleSheet = `
