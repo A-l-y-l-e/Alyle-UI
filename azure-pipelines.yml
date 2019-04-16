@@ -12,4 +12,5 @@ steps:
 
 - script: |
     yarn ng lint
+    echo Done.
   displayName: 'lint'
