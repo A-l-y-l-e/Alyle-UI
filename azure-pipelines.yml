@@ -3,9 +3,6 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-pool:
-  vmImage: 'Ubuntu 16.04'
-
 trigger:
   paths:
     exclude:
@@ -13,33 +10,40 @@ trigger:
 
 pr: none
 
-stages:
-- stage: Build
-  jobs:
-  - job: BuildJob
-    steps:
-    - script: echo Building!
-- stage: Test
-  jobs:
-  - job: TestOnWindows
-    steps:
-    - script: echo Testing on Windows!
-  - job: TestOnLinux
-    steps:
-    - script: echo Testing on Linux!
-- stage: Deploy
-  jobs:
-  - job: Deploy
-    steps:
-    - script: echo Deploying the code!
-
-steps:
-- script: printenv
-  displayName: 'printenv'
-- script: yarn
-  displayName: 'Yarn'
-
-- script: |
-    yarn ng lint
-    echo Done.
-  displayName: 'lint'
+jobs:
+- job: BuildJob
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - script: |
+      echo "This is some text" > randomtext.txt
+      ls
+      echo Building!
+      printenv
+- job: TestOnWindows
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - script: |
+      echo "This is some text" > randomtext.txt
+      ls
+      echo Testing on Windows!
+      printenv
+- job: TestOnLinux
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - script: |
+      echo "This is some text" > randomtext.txt
+      ls
+      echo Testing on Linux!
+      printenv
+- job: Deploy
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - script: |
+      echo "This is some text" > randomtext.txt
+      ls
+      echo Deploying the code!
+      printenv
