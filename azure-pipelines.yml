@@ -6,7 +6,16 @@
 pool:
   vmImage: 'Ubuntu 16.04'
 
+trigger:
+  paths:
+    exclude:
+    - README.md
+
+pr: none
+
 steps:
+- script: printenv
+  displayName: 'printenv'
 - script: yarn
   displayName: 'Yarn'
 
