@@ -6,9 +6,9 @@ import chalk from 'chalk';
 const DIST = join(process.cwd(), 'dist/alyle-ui');
 
 /** Read ngsw.json */
-const ngswConfig = JSON.parse(readFileSync(join(DIST, 'ngsw.json')).toString());
+const ngswConfig: Manifest = JSON.parse(readFileSync(join(DIST, 'ngsw.json')).toString());
 
-function fileHash(filename: string, algorithm = 'sha1') {
+function fileHash(filename: string, algorithm = 'sha1'): Promise<string> {
   return new Promise((resolve, reject) => {
     const shasum = createHash(algorithm);
     try {
@@ -29,7 +29,7 @@ function fileHash(filename: string, algorithm = 'sha1') {
 async function hashAll() {
   const hashTable = ngswConfig.hashTable;
   const files = getAllHtml();
-  const app = ngswConfig.assetGroups.find(_ => _.name === 'app');
+  const app = ngswConfig.assetGroups!.find(_ => _.name === 'app');
 
   for (const key in hashTable) {
     if (hashTable.hasOwnProperty(key)) {
@@ -41,7 +41,7 @@ async function hashAll() {
     }
   }
   for (let index = 0; index < files.length; index++) {
-    app.urls.push(join(files[index].path));
+    app!.urls.push(join(files[index].path));
     hashTable[files[index].path] = await fileHash(files[index].file);
     console.log(`${chalk.green('hash updated for:')} ${chalk.greenBright(files[index].path)}`);
   }
@@ -73,4 +73,34 @@ function getAllHtml() {
   };
   getIndexs(DIST);
   return files;
+}
+
+export interface Manifest {
+  configVersion: number;
+  timestamp: number;
+  appData?: {[key: string]: string};
+  index: string;
+  assetGroups?: AssetGroupConfig[];
+  dataGroups?: DataGroupConfig[];
+  navigationUrls: {positive: boolean, regex: string}[];
+  hashTable: {[url: string]: string};
+}
+
+export interface AssetGroupConfig {
+  name: string;
+  installMode: 'prefetch'|'lazy';
+  updateMode: 'prefetch'|'lazy';
+  urls: string[];
+  patterns: string[];
+}
+
+export interface DataGroupConfig {
+  name: string;
+  version: number;
+  strategy: 'freshness'|'performance';
+  patterns: string[];
+  maxSize: number;
+  timeoutMs?: number;
+  refreshAheadMs?: number;
+  maxAge: number;
 }

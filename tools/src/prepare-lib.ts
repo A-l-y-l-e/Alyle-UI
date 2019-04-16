@@ -1,24 +1,25 @@
 import { readFileSync } from 'fs';
 import { writeFileSync, removeSync, copySync, pathExistsSync } from 'fs-extra';
 import { join } from 'path';
-import * as camelCase from 'camelcase';
 import { tslintConfig } from './config/tslint-config';
 import { tsConfigSpec } from './config/tsconfig-spec';
 import { testConfig } from './config/test-config';
 import { karmaConf } from './config/karma.conf';
 import { PackageConf } from './config/package.conf';
 
+const camelCase = (str: string) => str.replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/\s+/g, '');
+
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
 const angularCliConfig = JSON.parse(readFileSync(`${process.cwd()}/angular.json`, 'utf8').toString());
-let components: { path: string, pkgName: string }[] = PackageConf.components;
+const componentsOb: { [path: string]: string } = PackageConf.components;
 if (pathExistsSync(dist)) {
   console.log('cleaning...');
   removeSync(dist);
   removeSync(`${process.cwd()}/dist/node_modules`);
   removeSync(`${process.cwd()}/dist/@alyle`);
 }
-components = Object.keys(components).map((pkgName) => ({ path: components[pkgName], pkgName }));
+const components = Object.keys(componentsOb).map((pkgName) => ({ path: componentsOb[pkgName], pkgName }));
 
 /** copy sources */
 copySync(dirLib, dist);

@@ -302,7 +302,7 @@ function methodTemplate(de: DeclarationReflection) {
   return `${de.name}(${args}): ${getType(de.type)}`;
 }
 
-function getType(ty: ParameterReflection['type'], defaultType = 'void') {
+function getType(ty: ParameterReflection['type'], defaultType = 'void'): string {
   if (ty) {
     if (ty.type === 'stringLiteral') {
       return `'${ty['value']}'`;
