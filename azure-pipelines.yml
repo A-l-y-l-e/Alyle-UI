@@ -25,7 +25,7 @@ jobs:
     vmImage: 'Ubuntu 16.04'
   steps:
   - script: |
-      echo "This is some text" > randomtext.txt
+      echo "This is some text" > randomtext1.txt
       ls
       echo Testing on Windows!
       printenv
@@ -34,7 +34,7 @@ jobs:
     vmImage: 'Ubuntu 16.04'
   steps:
   - script: |
-      echo "This is some text" > randomtext.txt
+      echo "This is some text" > randomtext2.txt
       ls
       echo Testing on Linux!
       printenv
@@ -43,7 +43,7 @@ jobs:
     vmImage: 'Ubuntu 16.04'
   steps:
   - script: |
-      echo "This is some text" > randomtext.txt
+      echo "This is some text" > randomtext3.txt
       ls
       echo Deploying the code!
       printenv
