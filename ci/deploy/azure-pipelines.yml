@@ -14,7 +14,7 @@ jobs:
 - job: Nightly
   pool:
     vmImage: 'Ubuntu 16.04'
-  condition: and(eq(variables['build.reason'], 'Schedule'))
+  condition: eq(variables['build.reason'], 'Schedule')
   steps:
   - task: NodeTool@0
     inputs:
