@@ -1,0 +1,38 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  paths:
+    exclude:
+    - README.md
+
+pr: none
+
+jobs:
+- job: Nightly
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  condition: and(eq(variables['build.reason'], 'Schedule'), )
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.12.x'
+  - script: yarn
+    displayName: 'Install dependencies'
+
+  - script: |
+      sh ./ci/scripts/prepare.sh
+    displayName: 'Prepare'
+
+  - script: |
+      yarn build
+      yarn build:@alyle/ui
+      yarn tools:typedoc && node dist/tools/docs
+      node dist/tools/generate-demos
+    displayName: 'Build'
+
+  - script: |
+      echo Hi
+    displayName: 'Deploy'
