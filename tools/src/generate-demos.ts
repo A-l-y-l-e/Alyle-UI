@@ -1,10 +1,9 @@
-import { exists, promises } from 'fs';
-
-
+import { promises } from 'fs';
 import { resolve, join, basename } from 'path';
+import chalk from 'chalk';
 import { highlight } from './html-loader/loader';
 import { resolveSpawn } from './utils/resolve-spawn';
-const { readdir, stat, readFile, writeFile, mkdir, rmdir } = promises;
+const { readdir, stat, readFile, writeFile, mkdir } = promises;
 
 async function* getFiles(dir: string): AsyncIterableIterator<string> {
   const subdirs = await readdir(dir);
@@ -38,8 +37,8 @@ async function* getFiles(dir: string): AsyncIterableIterator<string> {
       });
       if (buffer) {
         const highlightHtml = highlight(buffer.toString(), lang);
-        console.log(join(distDocsContent, `${basename(file)}.html`));
-        // await writeFile(join(distDocsContent, basename(file)), highlightHtml);
+        console.log(`${chalk.greenBright(`Added: `)}${join('dist', 'docs-content', basename(file))}.html`);
+        await writeFile(join(distDocsContent, `${basename(file)}.html`), highlightHtml);
       }
     }
   }
