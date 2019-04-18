@@ -13,6 +13,15 @@ const HAMMER_GESTURES_EVENTS = [
   'slidecancel'
 ];
 
+/**
+ * Fake HammerInstance that is used when a Hammer instance is requested when HammerJS has not
+ * been loaded on the page.
+ */
+const noopHammerInstance: HammerInstance = {
+  on: () => {},
+  off: () => {},
+};
+
 @Injectable()
 export class LyHammerGestureConfig extends HammerGestureConfig {
   events: string[] = HAMMER_GESTURES_EVENTS;
@@ -23,6 +32,11 @@ export class LyHammerGestureConfig extends HammerGestureConfig {
   }
   buildHammer(element: HTMLElement): HammerInstance {
     const hammer = typeof window !== 'undefined' ? (window as any).Hammer : null;
+
+    if (!hammer) {
+      return noopHammerInstance;
+    }
+
     const mc = new hammer(element, this._hammerOptions || {});
 
     const pan = new hammer.Pan();
