@@ -3,6 +3,10 @@ For a component of Alyle UI to work properly with Lazy loading, it is important 
 ```ts
 /** Import themes */
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
+import {
+  LyThemeModule,
+  LY_THEME
+} from '@alyle/ui';
 
 @NgModule({
   imports: [
