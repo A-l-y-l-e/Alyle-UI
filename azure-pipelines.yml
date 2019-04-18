@@ -20,6 +20,7 @@ jobs:
     inputs:
       versionSpec: '10.12.x'
   - script: |
+      printenv
       yarn
       yarn build:tools
       yarn tools:prepare-lib
