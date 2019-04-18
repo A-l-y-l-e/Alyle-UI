@@ -152,6 +152,7 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
 import { BasicExpansionModule } from './components/expansion-demo/basic-expansion/basic-expansion.module';
 import { CustomExpansionPanelModule } from './components/expansion-demo/custom-expansion-panel/custom-expansion-panel.module';
+import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
 
 @NgModule({
   imports: [
@@ -303,7 +304,9 @@ import { CustomExpansionPanelModule } from './components/expansion-demo/custom-e
     /** Carousel */
     CarouselDemoComponent,
     /** Expansion */
-    ExpansionDemoComponent
+    ExpansionDemoComponent,
+    /** Lazy Loading */
+    LazyLoadingComponent
   ]
 })
 export class DocsModule { }

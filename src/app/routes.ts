@@ -43,6 +43,13 @@ export const AUIRoutes: {
     ].sort(sort)
   },
   {
+    name: 'Guides',
+    route: 'guides',
+    routes: [
+      { route: 'lazy-loading' , name: 'Lazy Loading'}
+    ].sort(sort)
+  },
+  {
     name: 'Components',
     route: 'components',
     routes: [
