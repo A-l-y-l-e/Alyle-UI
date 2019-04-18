@@ -27,12 +27,40 @@ jobs:
     displayName: 'Prepare'
 
   - script: |
-      yarn build
+      yarn tools:bump-nightly
+      yarn tools:prepare-lib
       yarn build:@alyle/ui
       yarn tools:typedoc && node dist/tools/docs
       node dist/tools/generate-demos
+      echo $(node -p -e "require('./package.json').version")
     displayName: 'Build'
 
   - script: |
-      echo Hi
+      echo $(node -p -e "require('./package.json').version")
+      npm publish dist/@alyle/ui --tag nightly
+    displayName: 'Deploy'
+
+- job: Bump
+  displayName: Bump Version
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  condition: eq(variables['BumpVersion'], 'true')
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.12.x'
+  - script: |
+      yarn tools:bump
+      PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+      echo $PACKAGE_VERSION
+      yarn tools:prepare-lib
+      yarn build
+    displayName: 'Build'
+  - script: |
+      yarn tools:deploy
+      npm publish dist/@alyle/ui
+      git add -A
+      git commit --allow-empty -m "release @alyle/ui ${PACKAGE_VERSION} :tada::tada::tada:" -m "[ci skip]"
+      git tag $PACKAGE_VERSION
+      git push origin master --tags
     displayName: 'Deploy'
