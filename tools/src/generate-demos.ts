@@ -1,21 +1,11 @@
 import { promises } from 'fs';
-import { resolve, join, basename } from 'path';
+import { join, basename } from 'path';
 import chalk from 'chalk';
+const { readFile, writeFile, mkdir } = promises;
 import { highlight } from './html-loader/loader';
 import { resolveSpawn } from './utils/resolve-spawn';
-const { readdir, stat, readFile, writeFile, mkdir } = promises;
+import { getFiles } from './utils/get-files';
 
-async function* getFiles(dir: string): AsyncIterableIterator<string> {
-  const subdirs = await readdir(dir);
-  for (const subdir of subdirs) {
-    const res = resolve(dir, subdir);
-    if ((await stat(res)).isDirectory()) {
-      yield* getFiles(res);
-    } else {
-      yield res;
-    }
-  }
-}
 
 (async () => {
   const distDocsContent = join(process.cwd(), 'dist', 'docs-content');

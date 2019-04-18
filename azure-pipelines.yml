@@ -11,39 +11,31 @@ trigger:
 pr: none
 
 jobs:
-- job: BuildJob
+- job: Build
+  displayName: Build App
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.12.x'
   - script: |
-      echo "This is some text" > randomtext.txt
-      ls
-      echo Building!
-      printenv
+      yarn
+      yarn build:tools
+      yarn tools:prepare-lib
+      yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
+      yarn build
 - job: TestOnWindows
+  displayName: Build @alyle/ui
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.12.x'
   - script: |
-      echo "This is some text" > randomtext1.txt
-      ls
-      echo Testing on Windows!
-      printenv
-- job: TestOnLinux
-  pool:
-    vmImage: 'Ubuntu 16.04'
-  steps:
-  - script: |
-      echo "This is some text" > randomtext2.txt
-      ls
-      echo Testing on Linux!
-      printenv
-- job: Deploy
-  pool:
-    vmImage: 'Ubuntu 16.04'
-  steps:
-  - script: |
-      echo "This is some text" > randomtext3.txt
-      ls
-      echo Deploying the code!
-      printenv
+      yarn
+      yarn build:tools
+      yarn tools:prepare-lib
+      yarn build:@alyle/ui
+      yarn bundlesizelimit
