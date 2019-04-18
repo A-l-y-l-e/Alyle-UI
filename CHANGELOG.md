@@ -1,3 +1,75 @@
+# [2.7.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.6.0...2.7.0) (2019-04-18)
+
+
+### Bug Fixes
+
+* **field:** fix theme variables ([ff58123](https://github.com/A-l-y-l-e/Alyle-UI/commit/ff58123))
+* **tabs:** `_tabLabel` of undefined ([1515f60](https://github.com/A-l-y-l-e/Alyle-UI/commit/1515f60))
+* **tabs:** fix scrollable tab ([ef0dbd3](https://github.com/A-l-y-l-e/Alyle-UI/commit/ef0dbd3))
+* **toolbar:** change `dense` to `appearance="dense"` ([3a34659](https://github.com/A-l-y-l-e/Alyle-UI/commit/3a34659))
+* fix some bugs ([7aae2bb](https://github.com/A-l-y-l-e/Alyle-UI/commit/7aae2bb))
+* fix StackBlitz demos ([cbdbc9d](https://github.com/A-l-y-l-e/Alyle-UI/commit/cbdbc9d))
+
+
+### Features
+
+* ability to customize a component through themes ([78c16df](https://github.com/A-l-y-l-e/Alyle-UI/commit/78c16df))
+* delete default global styles ([94128f9](https://github.com/A-l-y-l-e/Alyle-UI/commit/94128f9))
+
+
+### BREAKING CHANGES
+
+* By default, it was applied:
+
+```ts
+const defaultStyles = {
+  '@global': {
+    '*, *:after, *:before': {
+      '-webkit-box-sizing': 'border-box',
+      '-moz-box-sizing': 'border-box',
+      'box-sizing': 'border-box'
+    }
+  }
+};
+```
+
+But from this version it was deleted and `boxSizing: 'border-box'` was added to all the components that required it.
+
+This may have changes in your app, if your app required the default global styles, there are two ways to fix it:
+
+Manually apply `boxSizing: 'border-box'` to all its components that require it.
+
+or
+
+Manually set default global styles.
+
+```ts
+...
+import { LyTheme2, ThemeVariables } from '@alyle/ui';
+
+const styles = (theme: ThemeVariables) => ({
+  ...
+  '@global': {
+    ...
+    '*, *:after, *:before': {
+      '-webkit-box-sizing': 'border-box',
+      '-moz-box-sizing': 'border-box',
+      'box-sizing': 'border-box'
+    }
+  }
+});
+
+@Component({...})
+export class AppComponent {
+  readonly classes = this.theme.addStyleSheet(styles);
+  constructor(
+    private theme: LyTheme2
+  ) { }
+}
+```
+
+
+
 # [2.6.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.5.2...2.6.0) (2019-03-17)
 
 
