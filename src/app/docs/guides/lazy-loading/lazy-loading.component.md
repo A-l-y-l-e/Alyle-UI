@@ -23,7 +23,7 @@ import {
 export class AppModule { }
 ```
 
-So that the `ly-carousel` and `ly-img-cropper` the gestures work, add the following in `app.module.ts`.
+And so that the `ly-carousel` and `ly-img-cropper` the gestures, add the following in `app.module.ts`.
 
 ```ts
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
