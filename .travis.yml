@@ -16,7 +16,6 @@ cache:
 branches:
   only:
     - master
-    - /^greenkeeper/.*$/
 
 install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version "${YARN_VERSION}"
@@ -27,6 +26,7 @@ jobs:
   include:
     - stage: prepare
       script:
+        - printenv
         - yarn build:tools
         - yarn tools:prepare-lib
     - stage: build
