@@ -39,6 +39,8 @@ jobs:
       yarn build:tools
       yarn tools:prepare-lib
       yarn build:@alyle/ui
+      export THEVAR=$(git show -s --format=%s)
+      export THEVAR=$(git rev-parse HEAD)
       yarn bundlesizelimit
     displayName: build:@alyle/ui
   - script: |
