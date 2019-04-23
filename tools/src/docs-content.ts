@@ -40,7 +40,7 @@ interface DocsPackageLarge {
 
 const docsJSON: ProjectReflection = JSON.parse(readFileSync(join(process.cwd(), 'dist/docs.json')).toString());
 
-const OUT_DIR = join(process.cwd(), `docs-content/api/@alyle/ui`);
+const OUT_DIR = join(process.cwd(), `dist/docs-content/api/@alyle/ui`);
 
 const APIList: {[name: string]: DocsPackage} = {};
 const APIListLarge: {[name: string]: DocsPackageLarge} = {};
