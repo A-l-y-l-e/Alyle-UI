@@ -9,6 +9,7 @@ import { join } from 'path';
 import { ProjectReflection, DeclarationReflection, ParameterReflection, Reflection } from 'typedoc';
 import { ensureDirSync } from 'fs-extra';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
+import { highlight } from './html-loader/loader';
 
 interface DocsPackage {
   children: {
@@ -39,7 +40,7 @@ interface DocsPackageLarge {
 
 const docsJSON: ProjectReflection = JSON.parse(readFileSync(join(process.cwd(), 'dist/docs.json')).toString());
 
-const OUT_DIR = join(process.cwd(), `docs/@alyle/ui`);
+const OUT_DIR = join(process.cwd(), `docs-content/api/@alyle/ui`);
 
 const APIList: {[name: string]: DocsPackage} = {};
 const APIListLarge: {[name: string]: DocsPackageLarge} = {};
@@ -98,9 +99,10 @@ docsJSON.children!.forEach(child => {
         .forEach((cbNode: ts.PropertyAssignment) => {
           const value = cbNode.getChildAt(2).getText();
           if (cbNode.name.getText() === 'inputs') {
-            __data[cbNode.name.getText()] = JSON.stringify(new Function(`return ${value}`)(), undefined, 2);
+            __data[cbNode.name.getText()] = highlight(
+              JSON.stringify(new Function(`return ${value}`)(), undefined, 2), 'ts');
           } else {
-            __data[cbNode.name.getText()] = value;
+            __data[cbNode.name.getText()] = highlight(value, 'ts');
           }
         });
 
@@ -111,7 +113,7 @@ docsJSON.children!.forEach(child => {
         ).push(__data);
 
         if (children) {
-          __data.children = createClassContent(children);
+          __data.children = highlight(createClassContent(children), 'ts');
         }
 
       } else if ((_child.flags.isExported || (kindString === 'Variable' && _child.flags.isConst)) && !checkIfContainTagPrivate(_child)) {
@@ -132,12 +134,13 @@ docsJSON.children!.forEach(child => {
           }
           APIListLarge[pkgName][Type].push({
             name,
-            children: items
+            children: highlight(items, 'ts')
           });
         } else if (type === 'NgModule') {
           APIListLarge[pkgName][Type].push({
             name,
-            children: `import { ${name} } from '${join('@alyle/ui', pkgName === 'root' ? '' : pkgName)}'`
+            children: highlight(
+              `import { ${name} } from '${join('@alyle/ui', pkgName === 'root' ? '' : pkgName)}'`, 'ts')
           });
         } else if (type === 'Enumeration') {
           let line = `enum ${name} `;
@@ -195,7 +198,7 @@ docsJSON.children!.forEach(child => {
           }
           APIListLarge[pkgName][Type].push({
             name,
-            children: line
+            children: highlight(line, 'ts')
           });
         } else if (type === 'Injectable') {
           let line = '';
@@ -222,7 +225,7 @@ docsJSON.children!.forEach(child => {
           line += `\n}`;
           APIListLarge[pkgName][Type].push({
             name,
-            children: line
+            children: highlight(line, 'ts')
           });
         }
       }

@@ -8,7 +8,7 @@
 /dist-server
 /build
 /out-tsc
-/docs
+/docs-content
 /src/api
 
 # dependencies

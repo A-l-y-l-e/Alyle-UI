@@ -8,17 +8,16 @@ import { getFiles } from './utils/get-files';
 
 
 (async () => {
-  const distDocsContent = join(process.cwd(), 'dist', 'docs-content');
-  await resolveSpawn('rm -rf dist/docs-content');
+  const DOCS_CONTENT_DEMOS = 'docs-content/demos';
+  const distDocsContent = join(process.cwd(), 'dist', DOCS_CONTENT_DEMOS);
+  await resolveSpawn(DOCS_CONTENT_DEMOS);
   await mkdir(distDocsContent);
 
   for await (const file of getFiles(join(process.cwd(), 'src/app'))) {
     if (
       (
         (file.endsWith('.ts') && !file.endsWith('.spec.ts'))
-        || file.endsWith('.html')
-      )
-      && file.includes('demo')
+        || file.endsWith('.html'))
     ) {
       const lang = file.endsWith('ts') ? 'ts' : 'html';
       const buffer = await readFile(file, 'utf8').catch((err) => {
@@ -27,8 +26,9 @@ import { getFiles } from './utils/get-files';
       });
       if (buffer) {
         const highlightHtml = highlight(buffer.toString(), lang);
-        console.log(`${chalk.greenBright(`Added: `)}${join('dist', 'docs-content', basename(file))}.html`);
-        await writeFile(join(distDocsContent, `${basename(file)}.html`), highlightHtml);
+        const filePath = join(distDocsContent, `${basename(file)}.html`);
+        await writeFile(filePath, highlightHtml);
+        console.log(`${chalk.greenBright(`Added: `)}${join('dist', DOCS_CONTENT_DEMOS, basename(file))}.html`);
       }
     }
   }
