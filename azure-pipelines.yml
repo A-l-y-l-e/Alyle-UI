@@ -27,7 +27,7 @@ jobs:
       yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
 - job: TestOnWindows
-  displayName: Build App
+  displayName: Build docs
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
@@ -42,6 +42,7 @@ jobs:
       yarn bundlesizelimit
     displayName: build:@alyle/ui
   - script: |
+      yarn tools:typedoc
       node dist/tools/docs-content
       node dist/tools/generate-demos
     displayName: Build docs-content
