@@ -25,6 +25,11 @@ jobs:
       yarn tools:prepare-lib
       yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: 'dist/@alyle'
+      artifactName: Alyle UI App
+
 - job: BuildDocs
   displayName: Build docs
   pool:
@@ -48,3 +53,11 @@ jobs:
       node dist/tools/docs-content
       node dist/tools/generate-demos
     displayName: Build docs-content
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: 'dist/docs-content'
+      artifactName: Docs
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: 'dist/@alyle'
+      artifactName: '@alyle/ui'
