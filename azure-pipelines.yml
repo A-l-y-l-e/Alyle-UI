@@ -27,7 +27,7 @@ jobs:
       yarn build
   - task: PublishBuildArtifacts@1
     inputs:
-      pathtoPublish: 'dist/@alyle'
+      pathtoPublish: 'dist/alyle-ui'
       artifactName: Alyle UI App
 
 - job: BuildDocs
