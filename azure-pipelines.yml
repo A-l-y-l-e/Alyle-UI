@@ -11,7 +11,7 @@ trigger:
 pr: none
 
 jobs:
-- job: Build
+- job: BuildApp
   displayName: Build App
   pool:
     vmImage: 'Ubuntu 16.04'
@@ -20,13 +20,12 @@ jobs:
     inputs:
       versionSpec: '10.12.x'
   - script: |
-      printenv
       yarn
       yarn build:tools
       yarn tools:prepare-lib
       yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
-- job: TestOnWindows
+- job: BuildDocs
   displayName: Build docs
   pool:
     vmImage: 'Ubuntu 16.04'
