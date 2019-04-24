@@ -25,8 +25,8 @@ jobs:
 
   - script: |
       yarn build:tools
-      yarn tools:prepare-lib
       yarn tools:bump-nightly
+      yarn tools:prepare-lib
       yarn build:@alyle/ui
       echo $(node -p -e "require('./package.json').version")
     displayName: 'Build @alyle/ui'
