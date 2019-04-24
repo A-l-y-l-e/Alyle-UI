@@ -9,6 +9,8 @@ cd Alyle-UI
 
 PACKAGE_VERSION=$(node -p -e "require('./alyle-ui-pkg/package.json').version")
 
+echo $PACKAGE_VERSION
+
 # github
 COMMIT_MESSAGE=$(git show -s --format=%s)
 COMMIT_SHA=$(git rev-parse HEAD)
