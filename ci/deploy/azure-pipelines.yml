@@ -33,7 +33,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'dist/@alyle/ui'
-      artifactName: '@alyle/ui'
+      artifactName: 'alyle-ui-pkg'
 
 - job: Bump
   displayName: Bump Version
