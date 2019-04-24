@@ -29,6 +29,10 @@ jobs:
     inputs:
       pathtoPublish: 'dist/alyle-ui'
       artifactName: Alyle UI App
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: 'ci/scripts'
+      artifactName: 'Scripts'
 
 - job: BuildDocs
   displayName: Build docs

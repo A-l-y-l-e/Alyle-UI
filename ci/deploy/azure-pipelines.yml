@@ -35,10 +35,6 @@ jobs:
     inputs:
       pathtoPublish: 'dist/@alyle/ui'
       artifactName: 'alyle-ui-pkg'
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: 'ci/scripts'
-      artifactName: 'Scripts'
 
 - job: Bump
   displayName: Bump Version
