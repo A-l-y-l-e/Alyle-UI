@@ -11,7 +11,8 @@ trigger:
 pr: none
 
 jobs:
-- job: Nightly
+- job: NightlyArtifacts
+  displayName: Nightly Artifacts
   pool:
     vmImage: 'Ubuntu 16.04'
   condition: eq(variables['build.reason'], 'Schedule')
