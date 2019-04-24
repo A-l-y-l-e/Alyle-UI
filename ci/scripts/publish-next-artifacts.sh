@@ -5,9 +5,9 @@ set -e
 git clone https://github.com/A-l-y-l-e/alyle-ui-builds.git
 git clone https://github.com/A-l-y-l-e/Alyle-UI.git
 
-cd Alyle-UI
-
 PACKAGE_VERSION=$(node -p -e "require('./alyle-ui-pkg/package.json').version")
+
+cd Alyle-UI
 
 echo $PACKAGE_VERSION
 
