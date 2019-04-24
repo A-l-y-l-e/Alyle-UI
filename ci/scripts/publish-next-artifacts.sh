@@ -7,7 +7,7 @@ git clone https://github.com/A-l-y-l-e/Alyle-UI.git
 
 cd Alyle-UI
 
-PACKAGE_VERSION=$(node -p -e "require('./alyle-ui-builds/package.json').version")
+PACKAGE_VERSION=$(node -p -e "require('./alyle-ui-pkg/package.json').version")
 
 # github
 COMMIT_MESSAGE=$(git show -s --format=%s)
