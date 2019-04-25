@@ -23,6 +23,7 @@ cd ..
 
 echo "https://$GITHUB_USER_TOKEN:@github.com" > git-credentials
 
+rm -rf ./alyle-ui-builds/*
 cp -r alyle-ui-pkg/* alyle-ui-builds
 
 cd alyle-ui-builds
