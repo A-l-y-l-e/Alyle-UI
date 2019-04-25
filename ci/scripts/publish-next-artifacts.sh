@@ -9,7 +9,7 @@ PACKAGE_VERSION=$(node -p -e "require('./alyle-ui-pkg/package.json').version")
 
 cd Alyle-UI
 
-echo $PACKAGE_VERSION
+echo "Package version: ${PACKAGE_VERSION}"
 
 # github
 COMMIT_MESSAGE=$(git show -s --format=%s)
@@ -34,12 +34,16 @@ git config user.name "${COMMIT_AUTHOR_NAME}"
 git config user.email "${COMMIT_AUTHOR_EMAIL}"
 git config credential.helper "store --file=../git-credentials"
 
+echo "Commit"
 git add -A
 git commit -m "${COMMIT_MESSAGE}" -m "${COMMIT_SHA}"
 
+echo "Tag"
 if [ $CURRENT_VERSION != $PACKAGE_VERSION ]
 then
   git tag $PACKAGE_VERSION
 fi
+
+echo "Push"
 
 git push origin master --tags
