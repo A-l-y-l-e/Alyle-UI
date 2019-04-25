@@ -21,7 +21,7 @@ COMMIT_AUTHOR_EMAIL=$(git --no-pager show -s --format='%ae' HEAD)
 
 cd ..
 
-
+mkdir .git
 echo "https://${GITHUB_USER_TOKEN}:@github.com" > .git/credentials
 git config --global user.name "${COMMIT_AUTHOR_NAME}"
 git config --global user.email "${COMMIT_AUTHOR_EMAIL}"
