@@ -45,8 +45,8 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
       const newKey = `common----:${
         __bg || DEFAULT_VALUE}·${
           __color || DEFAULT_VALUE}·${
-            __raised || DEFAULT_VALUE}·${
-              __elevation || DEFAULT_VALUE}·${
+            __raised}·${
+              __elevation}·${
                 __disabled || DEFAULT_VALUE}·${
                   __outlined || DEFAULT_VALUE}·${
                     __shadowColor || DEFAULT_VALUE}·${
@@ -84,14 +84,16 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
           if (!style.color && __color) {
             style.color = theme.colorOf(__color);
           }
-          if (__raised || __elevation) {
+          if (__raised || (__elevation != null)) {
             if (!__bg) {
               style.background = theme.background.primary.default;
             }
             const backgroundColorCss = style.background !== __bg && theme.colorOf(__bg || 'background:primary', 'shadow');
             const shadowColor = (__shadowColor && theme.colorOf(__shadowColor)) || backgroundColorCss || style.background || style.color || theme.shadow;
-            style.boxShadow = shadowBuilder(__elevation || 3, shadowColor);
-            if (!__elevation) {
+            if (__elevation != null) {
+              style.boxShadow = shadowBuilder(__elevation, shadowColor);
+            } else {
+              style.boxShadow = shadowBuilder(3, shadowColor);
               style['&:active'] = {
                 boxShadow: shadowBuilder(8, shadowColor)
               };
