@@ -192,6 +192,7 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
         hyphens: 'none',
         borderRadius: '3px',
         overflow: 'auto',
+        margin: '0'
       },
       [classes.root]: {
         marginBottom: '16px',

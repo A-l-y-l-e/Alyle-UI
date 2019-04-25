@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AUI_VERSION, LyTheme2, LY_THEME } from '@alyle/ui';
 import { AUIRoutesMap } from '../routes';
 
-const host = `https://raw.githubusercontent.com/A-l-y-l-e/alyle-ui-api/${AUI_VERSION}`;
+const host = `https://raw.githubusercontent.com/A-l-y-l-e/alyle-ui-docs-content/${AUI_VERSION}`;
 
 @Component({
   selector: 'aui-api',
@@ -33,8 +33,11 @@ export class ApiComponent implements OnInit, OnDestroy {
         this.themeJson = null;
         this.themePkg = [];
         this.pkgName = params.package;
+        const hostServer = isDevMode()
+            ? `http://localhost:1212/api/@alyle/ui/${this.pkgName}.json`
+            : `${host}/${this.pkgName}.min.json`;
         this.doc = this.http
-        .get(isDevMode() ? `${location.origin}/api/${this.pkgName}.json` : `${host}/${this.pkgName}.min.json`, {responseType: 'json'});
+        .get(hostServer, {responseType: 'json'});
         themeConfig.forEach(themeInfo => {
           if (this.pkgName in themeInfo && Object.keys(themeInfo[this.pkgName]).length) {
             this.themePkg.push({

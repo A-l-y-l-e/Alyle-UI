@@ -4,10 +4,26 @@
   bg="background:tertiary"
 >
   <div [className]="classes.code">
-    <button ly-button appearance="icon" (click)="toggleCode()" [lyTooltip]="'View source'"><ly-icon icon="code"></ly-icon></button>
-    <button ly-button appearance="icon" (click)="openPostStackblitz()" [lyTooltip]="'Edit in Stackblitz'"><ly-icon>launch</ly-icon></button>
+    <button
+      ly-button
+      appearance="icon"
+      [raised]="hasCode"
+      [elevation]="hasCode ? 1 : null"
+      (click)="toggleCode()"
+      [lyTooltip]="'View source'"><ly-icon icon="code"></ly-icon></button>
+    <button
+      [style.margin]="'0 8px'"
+      ly-button
+      appearance="icon"
+      [raised]="hasCode"
+      [elevation]="hasCode ? 1 : null"
+      (click)="openPostStackblitz()"
+      [lyTooltip]="'Edit in Stackblitz'"><ly-icon>launch</ly-icon></button>
   </div>
-  <ly-paper *ngIf="hasCode" bg="codeBg">
+  <div
+    ly-paper
+    bg="codeBg"
+    *ngIf="hasCode">
     <ly-tabs
       [indicatorColor]="'primary'"
       [textColor]="'primary'"
@@ -17,10 +33,10 @@
     >
       <ly-tab *ngFor="let file of files; let i = index">
         <button ly-tab-label>{{ file.label }}</button>
-        <prism [withClass]="classes.codeContainer" [code]="file.text | async" [language]="file.ext">Loading...</prism>
+        <div [withClass]="classes.codeContainer" [innerHTML]="file.text | async">Loading...</div>
       </ly-tab>
     </ly-tabs>
-  </ly-paper>
+  </div>
   <div [className]="classes.tabContainer">
     <ng-content></ng-content>
   </div>

@@ -89,6 +89,7 @@ export class GlobalVariables implements PartialThemeVariables {
     default: '#ffc107',
     contrast: 'rgba(0, 0, 0, 0.87)'
   };
+  transparent = 'rgba(0, 0, 0, 0)';
   typography = {
     lyTyp: {
       subTitle: {

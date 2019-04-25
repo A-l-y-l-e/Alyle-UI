@@ -21,8 +21,8 @@ const DECLARATIONS_REGEXP = /declarations: \[\:?(?:[\s]+)?([\w]+)(?:[\s]+)?\]/;
 const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
 const SELECTOR_APP = 'root-app';
 
-const HOST_DEV = 'http://localhost:1212/';
-const HOST_PROD = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/${AUI_VERSION}/src/app/`;
+const HOST_DEV = 'http://localhost:1212/demos';
+const HOST_PROD = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/${AUI_VERSION}/src/app`;
 const styles = () => ({
   root: {
     position: 'relative',
@@ -33,9 +33,12 @@ const styles = () => ({
   },
   codeContainer: {
     overflowY: 'auto',
-    padding: '24px',
     height: '100%',
-    background: 'transparent'
+    background: 'transparent',
+    marginTop: '1px',
+    '> *': {
+      margin: 0
+    }
   },
   tabContainer: {
     padding: '48px 24px 24px 24px'
@@ -117,12 +120,12 @@ export class ViewComponent implements OnInit {
 
   url(index: number) {
     const file = this.files[index];
-    const host = `${isDevMode() ? HOST_DEV : HOST_PROD}${this.path}`;
+    const host = `${isDevMode() ? HOST_DEV : HOST_PROD}`;
     if (file.path) {
-      return `${host}/${file.path}`;
+      return `${host}/${file.path}.html`;
     }
     const fileName = this.path.split('/').reverse()[0];
-    return `${host}/${fileName}.${file.type}.${file.ext}`;
+    return `${host}/${fileName}.${file.type}.${file.ext}.html`;
   }
 
   openPostStackblitz() {
