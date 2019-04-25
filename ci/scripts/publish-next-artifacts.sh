@@ -22,13 +22,14 @@ COMMIT_AUTHOR_EMAIL=$(git --no-pager show -s --format='%ae' HEAD)
 cd ..
 
 echo "https://${GITHUB_USER_TOKEN}:@github.com" > git-credentials
-git config --global user.name "${COMMIT_AUTHOR_NAME}"
-git config --global user.email "${COMMIT_AUTHOR_EMAIL}"
-git config --global credential.helper "store --file=git-credentials"
 
 cp -r alyle-ui-pkg/ alyle-ui-builds/
 
 cd alyle-ui-builds
+
+git config user.name "${COMMIT_AUTHOR_NAME}"
+git config user.email "${COMMIT_AUTHOR_EMAIL}"
+git config credential.helper "store --file=../git-credentials"
 
 git add -A
 git commit -m "${COMMIT_MESSAGE}" -m "${COMMIT_SHA}"
