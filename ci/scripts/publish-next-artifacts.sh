@@ -21,7 +21,7 @@ COMMIT_AUTHOR_EMAIL=$(git --no-pager show -s --format='%ae' HEAD)
 
 cd ..
 
-echo "https://${GITHUB_USER_TOKEN}:@github.com" > git-credentials
+echo "https://$(GITHUB_USER_TOKEN):@github.com" > git-credentials
 
 cp -r alyle-ui-pkg/ alyle-ui-builds/
 
