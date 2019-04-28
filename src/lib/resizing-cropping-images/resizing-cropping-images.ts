@@ -95,6 +95,11 @@ export interface ImgCropperConfig {
   autoCrop?: boolean;
   output?: ImgOutput | ImgResolution;
   /**
+   * Zoom out until the entire image fits into the cropping area.
+   * default: false
+   */
+  extraZoomOut?: boolean;
+  /**
    * Emit event `error` if the file size for the limit.
    * Note: It only works when the image is received from the `<input>` event.
    */
@@ -274,8 +279,9 @@ export class LyResizingCroppingImages implements OnDestroy {
       const ctx = canvas.getContext('2d')!;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(imgElement, 0, 0);
+
       /** set min scale */
-      this._minScale = getMinScale(this.config.width, this.config.height, canvas.width, canvas.height);
+      this._updateMinScale(canvas);
     }
   }
 
@@ -451,23 +457,32 @@ export class LyResizingCroppingImages implements OnDestroy {
     if (!scaleFix || !startP) {
       return;
     }
+
+    const isMinScaleY = canvas.height * scaleFix < config.height && config.extraZoomOut;
+    const isMinScaleX = canvas.width * scaleFix < config.width && config.extraZoomOut;
+
+    const limitLeft = (config.width / 2 / scaleFix) >= startP.left - (event.deltaX / scaleFix);
+    const limitRight = (config.width / 2 / scaleFix) + (canvas.width) - (startP.left - (event.deltaX / scaleFix)) <= config.width / scaleFix;
+    const limitTop = ((config.height / 2 / scaleFix) >= (startP.top - (event.deltaY / scaleFix)));
+    const limitBottom = (((config.height / 2 / scaleFix) + (canvas.height) - (startP.top - (event.deltaY / scaleFix))) <= (config.height / scaleFix));
+
     // Limit for left
-    if ((config.width / 2 / scaleFix) >= startP.left - (event.deltaX / scaleFix)) {
+    if ((limitLeft && !isMinScaleX) || (!limitLeft && isMinScaleX)) {
       x = startP.x + (startP.left) - (config.width / 2 / scaleFix);
     }
 
-    // // Limit for top
-    if ((config.height / 2 / scaleFix) >= (startP.top - (event.deltaY / scaleFix))) {
-      y = startP.y + (startP.top) - (config.height / 2 / scaleFix);
-    }
-
-    // // Limit for right
-    if ((config.width / 2 / scaleFix) + (canvas.width) - (startP.left - (event.deltaX / scaleFix)) <= config.width / scaleFix) {
+    // Limit for right
+    if ((limitRight && !isMinScaleX) || (!limitRight && isMinScaleX)) {
       x = startP.x + (startP.left) + (config.width / 2 / scaleFix) - canvas.width;
     }
 
-    // // Limit for bottom
-    if (((config.height / 2 / scaleFix) + (canvas.height) - (startP.top - (event.deltaY / scaleFix))) <= (config.height / scaleFix)) {
+    // Limit for top
+    if ((limitTop && !isMinScaleY) || (!limitTop && isMinScaleY)) {
+      y = startP.y + (startP.top) - (config.height / 2 / scaleFix);
+    }
+
+    // Limit for bottom
+    if ((limitBottom && !isMinScaleY) || (!limitBottom && isMinScaleY)) {
       y = startP.y + (startP.top) + (config.height / 2 / scaleFix) - canvas.height;
     }
 
@@ -671,7 +686,7 @@ export class LyResizingCroppingImages implements OnDestroy {
     ctx.drawImage(canvasClon, -canvasClon.width / 2, -canvasClon.height / 2);
 
     // Update min scale
-    this._minScale = getMinScale(this.config.width, this.config.height, canvas.width, canvas.height);
+    this._updateMinScale(canvas);
 
     // set the minimum scale, only if necessary
     if (this.scale! < this.minScale!) {
@@ -700,6 +715,13 @@ export class LyResizingCroppingImages implements OnDestroy {
     });
 
     this._cropIfAutoCrop();
+  }
+
+  private _updateMinScale(canvas: HTMLCanvasElement) {
+    const config = this.config;
+    this._minScale = (config.extraZoomOut ? Math.min : Math.max)(
+      config.width / canvas.width,
+      config.height / canvas.height);
   }
 
   private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
@@ -886,11 +908,4 @@ function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
 
   // return the new canvas
   return newCanvas;
-}
-
-/**
- * @docs-private
- */
-function getMinScale(mw: number, mh: number, w: number, h: number) {
-  return Math.max(mw / w, mh / h);
 }
