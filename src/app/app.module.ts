@@ -63,6 +63,7 @@ export class CustomMinimaLight {
     string: '#27b98f',
     keyword: '#7c4dff'
   };
+  stackblitz = '#1389FD';
 }
 
 export class CustomMinimaDark {
@@ -79,6 +80,7 @@ export class CustomMinimaDark {
     string: '#89b72c',
     keyword: '#3cd2ad'
   };
+  stackblitz = 'rgba(0, 0, 0, 0)';
 }
 
 export class GlobalVariables implements PartialThemeVariables {

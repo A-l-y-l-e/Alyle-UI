@@ -14,6 +14,7 @@ import { TitleComponent } from './document/title/title.component';
 import { PageContentComponent } from './page-content/page-content.component';
 import { prismCustomClass } from './core/prism-custom-class';
 import * as _chroma from 'chroma-js';
+import { SVG_ICONS } from './core/svg-icons';
 const chroma = _chroma;
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
@@ -328,6 +329,8 @@ export class AppComponent implements OnInit {
     iconService.setSvg('Water', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Water'));
     iconService.setSvg('Snow', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Snow'));
     iconService.setSvg('Discord', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/social/discord'));
+
+    SVG_ICONS.forEach(svg => iconService.addSvgIconLiteral(svg[0], sanitizer.bypassSecurityTrustHtml(svg[1])));
 
     this.router.events
     .pipe(

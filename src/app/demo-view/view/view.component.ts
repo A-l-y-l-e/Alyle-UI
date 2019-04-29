@@ -11,19 +11,20 @@ import {
 import { Observable, of, merge, forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 import { Platform, AUI_VERSION, LyTheme2 } from '@alyle/ui';
+import { AUIThemeVariables } from '@app/app.module';
 
 const MODULE_REGEXP = /export\sclass\s([\w]+)Module/;
 const EXPORTS_REGEXP = /exports\:\s?\[[\w]+\]\,?([\s]+)?/;
 const IMPORTS_POINT_REGEXP = /imports\:?(?:[\s]+)?\[(?:[\s]+)?/;
-const DECLARATIONS_REGEXP = /declarations: \[\:?(?:[\s]+)?([\w]+)(?:[\s]+)?\]/;
+const DECLARATIONS_REGEXP = /declarations: \[\:?(?:[\s]+)?([\w]+)(?:[\,\s\w]+)?\]/;
 const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
 const SELECTOR_APP = 'root-app';
 
 const HOST_DEV = 'http://localhost:1212/demos';
 const HOST_PROD = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/${AUI_VERSION}/src/app`;
-const styles = () => ({
+const styles = (theme: AUIThemeVariables) => ({
   root: {
     position: 'relative',
     display: 'block',
@@ -51,6 +52,11 @@ const styles = () => ({
     after: 0,
     top: '4px',
     zIndex: 1
+  },
+  stackblitzButton: {
+    '&:hover': {
+      color: theme.stackblitz
+    }
   }
 });
 
@@ -133,7 +139,13 @@ export class ViewComponent implements OnInit {
     win.document.write('Loading...');
     const urls = this.files
     .map((_item, index) => this.url(index))
-    .map(_ => this.http.get(_, { responseType: 'text' }));
+    .map(_ => this.http.get(_, { responseType: 'text' })
+      // Convert html to string, since from the server it comes in html.
+      .pipe(map(html => {
+        const span = window.document.createElement('span');
+        span.innerHTML = html;
+        return span.innerText;
+      })));
     const data = forkJoin(
       ...urls
     );
@@ -195,7 +207,7 @@ export class GlobalVariables {
       provide: LY_THEME_GLOBAL_VARIABLES,
       useClass: GlobalVariables
     } // global variables
-  ],` + str;
+  ],\n  ` + str;
       });
 
       const appComponentTs = res2.replace(SELECTOR_REGEXP, (str, token) => str.replace(token, SELECTOR_APP));

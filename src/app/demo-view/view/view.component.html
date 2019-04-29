@@ -16,9 +16,10 @@
       ly-button
       appearance="icon"
       [raised]="hasCode"
+      [withClass]="classes.stackblitzButton"
       [elevation]="hasCode ? 1 : null"
       (click)="openPostStackblitz()"
-      [lyTooltip]="'Edit in Stackblitz'"><ly-icon>launch</ly-icon></button>
+      [lyTooltip]="'Edit in Stackblitz'"><ly-icon icon="Stackblitz"></ly-icon></button>
   </div>
   <div
     ly-paper
