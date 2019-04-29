@@ -113,7 +113,7 @@ docsJSON.children!.forEach(child => {
         ).push(__data);
 
         if (children) {
-          __data.children = highlight(createClassContent(children), 'ts');
+          __data.children = createClassContent(children);
         }
 
       } else if ((_child.flags.isExported || (kindString === 'Variable' && _child.flags.isConst)) && !checkIfContainTagPrivate(_child)) {

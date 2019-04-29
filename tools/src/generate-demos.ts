@@ -10,7 +10,7 @@ import { getFiles } from './utils/get-files';
 (async () => {
   const DOCS_CONTENT_DEMOS = 'docs-content/demos';
   const distDocsContent = join(process.cwd(), 'dist', DOCS_CONTENT_DEMOS);
-  await resolveSpawn(`rm -rf ${DOCS_CONTENT_DEMOS}`);
+  await resolveSpawn(`rm -rf docs-content`);
   await mkdir(distDocsContent);
 
   for await (const file of getFiles(join(process.cwd(), 'src/app'))) {
