@@ -73,7 +73,8 @@ export const AUIRoutes: {
       { route: 'typography', api: true , name: 'Typography' },
       { route: 'select', api: true , name: 'Select' },
       { route: 'dialog', api: true , name: 'Dialog' },
-      { route: 'expansion', api: true , name: 'Expansion Panel' }
+      { route: 'expansion', api: true , name: 'Expansion Panel' },
+      { route: 'slider', api: true , name: 'Slider' }
     ].sort(sort)
   }
 ];
