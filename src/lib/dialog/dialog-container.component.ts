@@ -13,6 +13,7 @@ import {
   Renderer2,
   ElementRef,
   ChangeDetectorRef,
+  DoCheck,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
 import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder } from '@alyle/ui';
@@ -63,7 +64,7 @@ const STYLES = (theme: ThemeVariables) => ({
     '(@dialogContainer.done)': '_onAnimationDone($event)'
   }
 })
-export class LyDialogContainer implements OnInit {
+export class LyDialogContainer implements OnInit, DoCheck {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _embeddedViewRef: EmbeddedViewRef<any>;
@@ -118,6 +119,10 @@ export class LyDialogContainer implements OnInit {
     if (containerClass) {
       this._renderer.addClass(this._el.nativeElement, containerClass);
     }
+  }
+
+  ngDoCheck() {
+    this._overlayRef.onResizeScroll!();
   }
 
   /** @internal */
