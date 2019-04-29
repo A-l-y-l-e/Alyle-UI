@@ -50,6 +50,7 @@
       "@alyle/ui/select": ["lib/select"],
       "@alyle/ui/dialog": ["lib/dialog"],
       "@alyle/ui/expansion": ["lib/expansion"],
+      "@alyle/ui/slider": ["lib/slider"],
       "@env/*": ["environments/*"],
       "@docs/*": ["app/docs/*"],
       "@app/*": ["app/*"],

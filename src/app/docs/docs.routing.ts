@@ -27,6 +27,7 @@ import { CarouselDemoComponent } from './components/carousel-demo/carousel-demo.
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
 import { ThemingComponentsComponent } from './customization/theming-components/theming-components.component';
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
+import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
 
 const routes: Routes = [
   /** layout */
@@ -73,7 +74,8 @@ const routes: Routes = [
       { path: 'select', component: SelectDemoComponent },
       { path: 'dialog', component: DialogDemoComponent },
       { path: 'carousel', component: CarouselDemoComponent },
-      { path: 'expansion', component: ExpansionDemoComponent }
+      { path: 'expansion', component: ExpansionDemoComponent },
+      { path: 'slider', component: SliderDemoComponent }
     ]
   },
   {

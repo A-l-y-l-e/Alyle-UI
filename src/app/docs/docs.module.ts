@@ -153,6 +153,7 @@ import { ExpansionDemoComponent } from './components/expansion-demo/expansion-de
 import { BasicExpansionModule } from './components/expansion-demo/basic-expansion/basic-expansion.module';
 import { CustomExpansionPanelModule } from './components/expansion-demo/custom-expansion-panel/custom-expansion-panel.module';
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
+import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
 
 @NgModule({
   imports: [
@@ -306,7 +307,9 @@ import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.compone
     /** Expansion */
     ExpansionDemoComponent,
     /** Lazy Loading */
-    LazyLoadingComponent
+    LazyLoadingComponent,
+    /** Slider */
+    SliderDemoComponent
   ]
 })
 export class DocsModule { }
