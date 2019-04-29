@@ -149,6 +149,7 @@ export class LyTooltip implements OnInit, OnDestroy {
               padding: '6px 8px',
               opacity: 0,
               transition: `opacity ${theme.animations.curves.standard} 300ms`,
+              left: 0,
               [theme.getBreakpoint('XSmall')]: {
                 padding: '8px 16px',
                 fontSize: '14px',
@@ -174,6 +175,7 @@ export class LyTooltip implements OnInit, OnDestroy {
   }
 
   hide(delay?: number) {
+    // return;
     const tooltipOverlay = this._tooltipOverlay;
     delay = typeof delay === 'number' ? delay : this.lyTooltipHideDelay;
     if (this._showTimeoutId) {
