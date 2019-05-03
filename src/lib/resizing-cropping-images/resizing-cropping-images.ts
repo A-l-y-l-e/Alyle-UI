@@ -100,7 +100,7 @@ export interface ImgCropperConfig {
    */
   extraZoomOut?: boolean;
   /**
-   * Emit event `error` if the file size for the limit.
+   * Emit event `error` if the file size in bytes for the limit.
    * Note: It only works when the image is received from the `<input>` event.
    */
   maxFileSize?: number | null;
