@@ -9,7 +9,7 @@ const env: NodeJS.ProcessEnv = {
  * Create a Promise of a spawned child process.
  * @param {string} script
  */
-export function resolveSpawn(script: string): Promise<void> {
+export function resolveSpawn(script: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const { command, args } = toScript(script);
     let data = '';
@@ -29,7 +29,7 @@ export function resolveSpawn(script: string): Promise<void> {
       if (code === 1) {
         reject(err);
       }
-      resolve();
+      resolve(data);
     });
   });
 }
