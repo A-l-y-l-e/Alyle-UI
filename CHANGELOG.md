@@ -1,3 +1,19 @@
+## [2.7.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.0...2.7.1) (2019-05-08)
+
+
+### Bug Fixes
+
+* fix raised & elevation with `null` value ([8208505](https://github.com/A-l-y-l-e/Alyle-UI/commit/8208505))
+* **dialog:** update position of dialog when there are changes ([e191600](https://github.com/A-l-y-l-e/Alyle-UI/commit/e191600))
+* **tooltip:** fix RTL ([4ca1b38](https://github.com/A-l-y-l-e/Alyle-UI/commit/4ca1b38))
+
+
+### Features
+
+* **img-cropper:** add `extraZoomOut` ([2f936f5](https://github.com/A-l-y-l-e/Alyle-UI/commit/2f936f5))
+
+
+
 # [2.7.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.6.0...2.7.0) (2019-04-18)
 
 
