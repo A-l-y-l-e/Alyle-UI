@@ -35,7 +35,7 @@ export class ApiComponent implements OnInit, OnDestroy {
         this.pkgName = params.package;
         const hostServer = isDevMode()
             ? `http://localhost:1212/api/@alyle/ui/${this.pkgName}.json`
-            : `${host}/${this.pkgName}.min.json`;
+            : `${host}/api/@alyle/ui/${this.pkgName}.min.json`;
         this.doc = this.http
         .get(hostServer, {responseType: 'json'});
         themeConfig.forEach(themeInfo => {
