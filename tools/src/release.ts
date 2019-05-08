@@ -9,6 +9,7 @@ const releaseRegExp = /(create\s?release:?\s?)v?([0-9]+\.[0-9]+\.[0-9]+)/i;
   const VERSION = await getVersionFromCommit(COMMIT_MESSAGE);
 
   if (VERSION) {
+    console.log(`New version ${VERSION}`);
     const scripts = [
       'yarn tools:bump',
       'yarn tools:prepare-lib',
@@ -34,6 +35,8 @@ const releaseRegExp = /(create\s?release:?\s?)v?([0-9]+\.[0-9]+\.[0-9]+)/i;
         script();
       }
     }
+  } else {
+    console.log(`No version found.`);
   }
 
 })();
