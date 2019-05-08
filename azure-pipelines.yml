@@ -60,7 +60,9 @@ jobs:
       artifactName: alyle-ui-pkg
 
 - job: Release
-  dependsOn: BuildDocs
+  dependsOn:
+    - BuildApp
+    - BuildDocs
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
@@ -68,5 +70,5 @@ jobs:
     inputs:
       versionSpec: '10.12.x'
   - script: |
-      sh ci/scripts/realease.sh
+      sh ci/scripts/release.sh
     displayName: Release
