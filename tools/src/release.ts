@@ -11,7 +11,8 @@ const releaseRegExp = /create\s?release\:?\s?v?([0-9]+\.[0-9]+\.[0-9]+)/i;
   if (VERSION) {
     console.log(`New version ${VERSION}`);
     const scripts = [
-      `yarn tools:bump --newVersion ${VERSION}`,
+      `node dist/tools/bump-version --newVersion ${VERSION}`,
+      'yarn changelog',
       'yarn tools:prepare-lib',
       'yarn build',
       'yarn build:@alyle/ui',
