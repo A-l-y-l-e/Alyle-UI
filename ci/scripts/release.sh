@@ -16,5 +16,5 @@ echo "https://${GITHUB_USER_TOKEN}:@github.com" > ~/git-credentials
 git config --global credential.helper "store --file=$HOME/git-credentials"
 echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
 npm config set @alyle:registry https://registry.npmjs.org
-
-node dist/tools/release
+git show-ref
+# node dist/tools/release
