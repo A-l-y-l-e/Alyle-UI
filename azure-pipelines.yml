@@ -58,3 +58,15 @@ jobs:
     inputs:
       pathtoPublish: 'dist/@alyle/ui'
       artifactName: alyle-ui-pkg
+
+- job: Release
+  dependsOn: BuildDocs
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.12.x'
+  - script: |
+      sh ci/scripts/realease.sh
+    displayName: Release

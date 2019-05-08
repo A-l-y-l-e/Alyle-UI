@@ -11,6 +11,7 @@ const env: NodeJS.ProcessEnv = {
  */
 export function resolveSpawn(script: string): Promise<string> {
   return new Promise((resolve, reject) => {
+    console.log(`\n> ${script}\n`);
     const { command, args } = toScript(script);
     let data = '';
     let err = '';

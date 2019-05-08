@@ -1,6 +1,4 @@
-import { promises } from 'fs';
 import { resolveSpawn } from './utils/resolve-spawn';
-const { readFile, writeFile, mkdir } = promises;
 const firebaseTools = require('firebase-tools');
 
 const releaseRegExp = /(create\s?release:?\s?)v?([0-9]+\.[0-9]+\.[0-9]+)/i;
@@ -17,6 +15,11 @@ const releaseRegExp = /(create\s?release:?\s?)v?([0-9]+\.[0-9]+\.[0-9]+)/i;
       'yarn build',
       'yarn build:@alyle/ui',
       'yarn tools:docs',
+      'cp -r dist/docs-content/* repos/alyle-ui-docs-content',
+      'cd repos/alyle-ui-docs-content && git add -A',
+      `cd repos/alyle-ui-docs-content && git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:"`,
+      `cd repos/alyle-ui-docs-content && git tag ${VERSION}`,
+      `cd repos/alyle-ui-docs-content && git push origin master --tags`,
       'git add -A',
       `git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:" -m "[ci skip]"`,
       `git tag ${VERSION}`,
@@ -24,7 +27,7 @@ const releaseRegExp = /(create\s?release:?\s?)v?([0-9]+\.[0-9]+\.[0-9]+)/i;
       deployApp
     ];
 
-    for (const [index, script] of Array.from(scripts.entries())) {
+    for (const script of scripts) {
       if (typeof script === 'string') {
         await resolveSpawn(script);
       } else {
