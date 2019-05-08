@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { exec } from 'child_process';
 
 const env: NodeJS.ProcessEnv = {
   ...process.env,
@@ -6,21 +6,21 @@ const env: NodeJS.ProcessEnv = {
 };
 
 /**
- * Create a Promise of a spawned child process.
+ * Create a Promise of a execed child process.
  * @param {string} script
  */
 export function resolveSpawn(script: string): Promise<string> {
   return new Promise((resolve, reject) => {
     console.log(`\n> ${script}\n`);
-    const { command, args } = toScript(script);
     let data = '';
     let err = '';
-    const cmd = spawn(command, args, {
-      env
+    const cmd = exec(script, {
+      env,
+      encoding: 'utf8'
     });
     cmd.stdout.on('data', (buffer: Buffer) => {
       data = (buffer.toString('utf8'));
-      console.log(data);
+      console.log(data.trim());
     });
     cmd.stderr.on('data', (buffer: Buffer) => {
       err += (buffer.toString('utf8'));
@@ -33,12 +33,4 @@ export function resolveSpawn(script: string): Promise<string> {
       resolve(data);
     });
   });
-}
-
-function toScript(str: string) {
-  const splited = str.split(' ');
-  return {
-    command: splited[0],
-    args: splited.slice(1)
-  };
 }
