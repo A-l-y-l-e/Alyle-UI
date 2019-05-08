@@ -8,25 +8,24 @@ const releaseRegExp = /create\s?release\:?\s?v?([0-9]+\.[0-9]+\.[0-9]+)/i;
   const COMMIT_MESSAGE = await resolveSpawn('git show -s --format=%s');
   const VERSION = await getVersionFromCommit(COMMIT_MESSAGE);
 
-  if (VERSION || 1) {
+  if (VERSION) {
     console.log(`New version ${VERSION}`);
     const scripts = [
-      // `yarn tools:bump --newVersion ${VERSION}`,
-      // 'yarn tools:prepare-lib',
-      // 'yarn build',
-      // 'yarn build:@alyle/ui',
+      `yarn tools:bump --newVersion ${VERSION}`,
+      'yarn tools:prepare-lib',
+      'yarn build',
+      'yarn build:@alyle/ui',
       'yarn tools:docs',
       'cp -r dist/docs-content/* repos/alyle-ui-docs-content',
-      // 'cd repos/alyle-ui-docs-content && git add -A',
-      // `cd repos/alyle-ui-docs-content && git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:"`,
-      // `cd repos/alyle-ui-docs-content && git tag ${VERSION}`,
-      // `cd repos/alyle-ui-docs-content && git push origin master --tags`,
-      // 'git add -A',
-      // `git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:" -m "[ci skip]"`,
-      // `git tag ${VERSION}`,
-      // 'git push origin master --tags',
-      // deployApp
-      () => []
+      'cd repos/alyle-ui-docs-content && git add -A',
+      `cd repos/alyle-ui-docs-content && git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:"`,
+      `cd repos/alyle-ui-docs-content && git tag ${VERSION}`,
+      `cd repos/alyle-ui-docs-content && git push origin master --tags`,
+      'git add -A',
+      `git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:" -m "[ci skip]"`,
+      `git tag ${VERSION}`,
+      'git push origin master --tags',
+      deployApp
     ];
 
     for (const script of scripts) {
