@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  paths:
+    exclude:
+    - README.md
+
+pr: none
+
+jobs:
+
+- job: Release
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.12.x'
+  - script: |
+      sh ci/scripts/release.sh
+    displayName: Release

@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import * as jsyaml from 'js-yaml';
 import * as moment from 'moment';
+import { argv } from 'yargs';
 
 const packageConf = `${process.cwd()}/.package.conf.yml`;
 const config = jsyaml.load(readFileSync(packageConf, 'utf8').toString());
@@ -25,6 +26,8 @@ function updateVersion() {
   writeFileSync(`${process.cwd()}/src/lib/package.json`, JSON.stringify(pkgLib, undefined, 2), 'utf8');
 }
 
+const NEW_VERSION = process.env.NEW_VERSION || (argv.newVersion as string) || null;
+
 function createVersion(currentVersion: string) {
   const newDate = new Date();
   const now = newDate.getTime();
@@ -33,12 +36,12 @@ function createVersion(currentVersion: string) {
   const nightlyVersion = `-nightly.${date}`;
   let version;
 
-  if (process.env.NEW_VERSION) {
+  if (NEW_VERSION) {
 
     // Bump custom new version
 
     // Clean
-    versionArray = [...process.env.NEW_VERSION.split('.')];
+    versionArray = [...NEW_VERSION.split('.')];
   } else if (isNightly) {
     if (versionArray.length > 3) {
       versionArray[versionArray.length - 1] = date;

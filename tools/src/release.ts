@@ -8,10 +8,10 @@ const releaseRegExp = /(create\s?release:?\s?)v?([0-9]+\.[0-9]+\.[0-9]+)/i;
   const COMMIT_MESSAGE = await resolveSpawn('git show -s --format=%s');
   const VERSION = await getVersionFromCommit(COMMIT_MESSAGE);
 
-  if (VERSION) {
+  if (VERSION && VERSION) {
     console.log(`New version ${VERSION}`);
     const scripts = [
-      `NEW_VERSION='${VERSION}' yarn tools:bump`,
+      `yarn tools:bump --newVersion ${VERSION}`,
       'yarn tools:prepare-lib',
       'yarn build',
       'yarn build:@alyle/ui',
