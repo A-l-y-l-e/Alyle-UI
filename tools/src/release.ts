@@ -24,7 +24,8 @@ const releaseRegExp = /create\s?release\:?\s?v?([0-9]+\.[0-9]+\.[0-9]+)/i;
       'git add -A',
       `git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:" -m "[ci skip]"`,
       `git tag ${VERSION}`,
-      'git push origin master --tags',
+      `git status`,
+      'git push azure master --tags',
       deployApp
     ];
 
