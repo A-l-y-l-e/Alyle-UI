@@ -21,13 +21,14 @@ const releaseRegExp = /create\s?release\:?\s?v?([0-9]+\.[0-9]+\.[0-9]+)/i;
       `cd repos/alyle-ui-docs-content && git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:"`,
       `cd repos/alyle-ui-docs-content && git tag ${VERSION}`,
       `cd repos/alyle-ui-docs-content && git push origin master --tags`,
+      `git checkout master`,
       'git add -A',
       `git commit --allow-empty -m "release @alyle/ui ${VERSION} :tada:" -m "[ci skip]"`,
       `git tag ${VERSION}`,
-      `git checkout -b master`,
       `git status`,
-      'git push azure master --tags',
-      deployApp
+      'git push origin master --tags',
+      deployApp,
+      'npm publish dist/@alyle/ui'
     ];
 
     for (const script of scripts) {
