@@ -23,7 +23,7 @@ const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
 const SELECTOR_APP = 'root-app';
 
 const HOST_DEV = 'http://localhost:1212/demos';
-const HOST_PROD = `https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/${AUI_VERSION}/src/app`;
+const HOST_PROD = `https://raw.githubusercontent.com/A-l-y-l-e/alyle-ui-docs-content/${AUI_VERSION}/demos`;
 const styles = (theme: AUIThemeVariables) => ({
   root: {
     position: 'relative',
