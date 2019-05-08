@@ -48,9 +48,7 @@ jobs:
       yarn bundlesizelimit
     displayName: build:@alyle/ui
   - script: |
-      yarn tools:typedoc
-      node dist/tools/docs-content
-      node dist/tools/generate-demos
+      yarn tools:docs
     displayName: Build docs-content
   - task: PublishBuildArtifacts@1
     inputs:
