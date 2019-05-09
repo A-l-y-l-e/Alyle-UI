@@ -1,8 +1,4 @@
-## [2.7.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.5...2.7.6) (2019-05-08)
-
-
-
-## [2.7.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.0...2.7.1) (2019-05-08)
+## [2.7.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.0...2.7.6) (2019-05-08)
 
 
 ### Bug Fixes
@@ -14,9 +10,9 @@
 
 ### Features
 
-* **img-cropper:** add `extraZoomOut` ([2f936f5](https://github.com/A-l-y-l-e/Alyle-UI/commit/2f936f5))
+* **img-cropper:** add option `extraZoomOut` ([2f936f5](https://github.com/A-l-y-l-e/Alyle-UI/commit/2f936f5))
 
-
+And some improvements to the docs.
 
 # [2.7.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.6.0...2.7.0) (2019-04-18)
 

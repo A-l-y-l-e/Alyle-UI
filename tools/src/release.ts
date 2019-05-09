@@ -1,5 +1,5 @@
 import { resolveSpawn } from './utils/resolve-spawn';
-import firebaseTools from 'firebase-tools';
+import * as firebaseTools from 'firebase-tools';
 
 const releaseRegExp = /create\s?release\:?\s?v?([0-9]+\.[0-9]+\.[0-9]+)/i;
 
