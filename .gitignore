@@ -54,6 +54,7 @@ yarn-error.log
 
 # firebase files
 firebase-debug.log
+/.firebase
 
 #others
 publish.sh

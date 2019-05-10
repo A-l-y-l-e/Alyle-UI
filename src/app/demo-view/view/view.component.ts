@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { catchError, retry, map } from 'rxjs/operators';
 import { Platform, AUI_VERSION, LyTheme2 } from '@alyle/ui';
 import { AUIThemeVariables } from '@app/app.module';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const MODULE_REGEXP = /export\sclass\s([\w]+)Module/;
 const EXPORTS_REGEXP = /exports\:\s?\[[\w]+\]\,?([\s]+)?/;
@@ -102,6 +103,7 @@ export class ViewComponent implements OnInit {
     private http: HttpClient,
     private el: ElementRef,
     private router: Router,
+    private sanitizer: DomSanitizer,
     private theme: LyTheme2
   ) {
     renderer.addClass(el.nativeElement, this.classes.root);
@@ -351,7 +353,7 @@ export class GlobalVariables {
       console.warn('required path for', this.router.url, this.folderName);
     }
     this.files.forEach((_item, i) => {
-      this.files[i]['text'] = this.getFile(i);
+      this.files[i]['text'] = this.getFile(i).pipe(map(html => this.sanitizer.bypassSecurityTrustHtml(html)));
     });
   }
 
