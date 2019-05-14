@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { LySlider } from './slider';
+import { LyCommonModule } from '@alyle/ui';
 
 @NgModule({
-  imports: [],
+  imports: [
+    LyCommonModule
+  ],
   declarations: [LySlider],
   exports: [LySlider]
 })

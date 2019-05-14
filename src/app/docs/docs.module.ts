@@ -152,8 +152,11 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
 import { BasicExpansionModule } from './components/expansion-demo/basic-expansion/basic-expansion.module';
 import { CustomExpansionPanelModule } from './components/expansion-demo/custom-expansion-panel/custom-expansion-panel.module';
+
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
+/** Slider */
 import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
+import { BasicSliderModule } from './components/slider-demo/basic-slider/basic-slider.module';
 
 @NgModule({
   imports: [
@@ -249,7 +252,9 @@ import { SliderDemoComponent } from './components/slider-demo/slider-demo.compon
     CarouselWithBarModule,
     /** Expansion */
     BasicExpansionModule,
-    CustomExpansionPanelModule
+    CustomExpansionPanelModule,
+    /** Slider */
+    BasicSliderModule
   ],
   declarations: [
     ThemingComponent,
