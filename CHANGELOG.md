@@ -1,3 +1,12 @@
+## [2.7.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.6...2.7.7) (2019-05-24)
+
+
+### Bug Fixes
+
+* **button:** remove animation when a button is rendered ([f81cec2](https://github.com/A-l-y-l-e/Alyle-UI/commit/f81cec2))
+
+
+
 ## [2.7.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.0...2.7.6) (2019-05-08)
 
 
