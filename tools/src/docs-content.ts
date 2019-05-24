@@ -113,7 +113,7 @@ docsJSON.children!.forEach(child => {
         ).push(__data);
 
         if (children) {
-          __data.children = createClassContent(children);
+          __data.children = highlight(createClassContent(children), 'ts');
         }
 
       } else if ((_child.flags.isExported || (kindString === 'Variable' && _child.flags.isConst)) && !checkIfContainTagPrivate(_child)) {
@@ -160,7 +160,7 @@ docsJSON.children!.forEach(child => {
           line += `\n}`;
           APIListLarge[pkgName][Type].push({
             name,
-            children: line
+            children: highlight(line, 'ts')
           });
         } else if (type === 'Interface' && _child.children) {
           let line = `interface ${name} `;
@@ -181,7 +181,7 @@ docsJSON.children!.forEach(child => {
           line += `\n}`;
           APIListLarge[pkgName][Type].push({
             name,
-            children: line
+            children: highlight(line, 'ts')
           });
         } else if (kindString === 'Type alias') {
           let line = '';
