@@ -550,7 +550,7 @@ export class LyTab implements OnInit {
 }
 
 @Component({
-  selector: 'button[ly-tab-label]',
+  selector: 'button[ly-tab-label], a[ly-tab-label]',
   templateUrl: 'tab-label.html',
   inputs: [
     'bg',
@@ -561,20 +561,31 @@ export class LyTab implements OnInit {
     'elevation',
     'shadowColor',
     'disableRipple'
-  ],
-  host: {
-    '[disabled]': 'disabled'
-  }
+  ]
 })
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
+  private _activeTabStyle: boolean;
   private _active: boolean;
   _isBrowser = Platform.isBrowser;
+  @Input()
+  get active() {
+    return this._active;
+  }
+  set active(val: boolean) {
+    const newVal = toBoolean(val);
+    if (newVal && val !== this.active) {
+      Promise.resolve(null).then(() => this._tabs.selectedIndex = this._tab.index);
+    }
+  }
+
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   @HostListener('click') _onClickTab() {
     if (!this.disabled) {
       this._tabs.selectedIndex = this._tab.index;
     }
   }
+
+
   constructor(
     _el: ElementRef,
     _renderer: Renderer2,
@@ -599,13 +610,13 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   _updateTabState() {
     // update styles for active tab
     if (this._tabs._selectedIndex === this._tab.index) {
-      if (!this._active) {
-        this._active = true;
+      if (!this._activeTabStyle) {
+        this._activeTabStyle = true;
         this._renderer.addClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
         this._updateTabScroll();
       }
-    } else if (this._active) {
-      this._active = false;
+    } else if (this._activeTabStyle) {
+      this._activeTabStyle = false;
       this._renderer.removeClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
     }
   }
