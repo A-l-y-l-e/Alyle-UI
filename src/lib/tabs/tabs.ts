@@ -190,7 +190,7 @@ mixinBg(
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   /** @docs-private */
   readonly classes = this.theme.addStyleSheet(STYLES);
-  _selectedIndex = 0;
+  _selectedIndex: number;
   _selectedBeforeIndex: number;
   _selectedTab: LyTab | null;
   _selectedBeforeTab: LyTab;
@@ -395,6 +395,9 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   }
 
   ngOnInit() {
+    if (this.selectedIndex == null) {
+      this.selectedIndex = 0;
+    }
     this.renderer.addClass(this.el.nativeElement, this.classes.root);
     const tabsIndicatorEl = this.tabsIndicator.nativeElement;
     this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);

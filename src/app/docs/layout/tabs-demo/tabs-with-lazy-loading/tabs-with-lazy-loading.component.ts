@@ -16,6 +16,10 @@ export class TabsWithLazyLoadingComponent {
   readonly classes = this.theme.addStyleSheet(styles);
   tabLoadTimes: Date[] = [];
 
+  constructor(
+    private theme: LyTheme2
+  ) { }
+
   getTime(index: number) {
     if (!this.tabLoadTimes[index]) {
       this.tabLoadTimes[index] = new Date();
@@ -23,9 +27,5 @@ export class TabsWithLazyLoadingComponent {
 
     return this.tabLoadTimes[index];
   }
-
-  constructor(
-    private theme: LyTheme2
-  ) { }
 
 }
