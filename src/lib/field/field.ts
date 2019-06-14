@@ -138,7 +138,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
     if (newVal) {
       this._fullWidthClass = this._theme.addStyle(
         `fullWidth`,
-        { width: '100%' },
+        {
+          display: 'block',
+          width: '100%'
+        },
         this._getHostElement(),
         this._fullWidthClass,
         STYLE_PRIORITY
