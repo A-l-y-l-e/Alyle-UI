@@ -15,7 +15,8 @@ import {
   AfterViewInit,
   OnDestroy,
   ChangeDetectorRef,
-  NgZone
+  NgZone,
+  Inject
   } from '@angular/core';
 import {
   eachMedia,
@@ -73,13 +74,29 @@ export const STYLES = (theme: ThemeVariables) => ({
 });
 
 @Directive({
+  selector: 'ly-drawer-content'
+})
+export class LyDrawerContent {
+  constructor(
+    private _renderer: Renderer2,
+    private _el: ElementRef,
+    @Inject(forwardRef(() => LyDrawerContainer)) drawerContainer: ReturnType<() => LyDrawerContainer>
+  ) {
+    this._renderer.addClass(this._el.nativeElement, drawerContainer.classes.drawerContent);
+  }
+  _getHostElement() {
+    return this._el.nativeElement;
+  }
+}
+
+@Directive({
   selector: 'ly-drawer-container'
 })
 export class LyDrawerContainer {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY + 1.9);
   _openDrawers = 0;
-  @ContentChild(forwardRef(() => LyDrawerContent)) _drawerContent: LyDrawerContent;
+  @ContentChild(forwardRef(() => LyDrawerContent), { static: false }) _drawerContent: LyDrawerContent;
   constructor(
     private _theme: LyTheme2,
     private _renderer: Renderer2,
@@ -93,21 +110,6 @@ export class LyDrawerContainer {
   }
 }
 
-@Directive({
-  selector: 'ly-drawer-content'
-})
-export class LyDrawerContent {
-  constructor(
-    private _renderer: Renderer2,
-    private _el: ElementRef,
-    drawerContainer: LyDrawerContainer
-  ) {
-    this._renderer.addClass(this._el.nativeElement, drawerContainer.classes.drawerContent);
-  }
-  _getHostElement() {
-    return this._el.nativeElement;
-  }
-}
 
 @Component({
   selector: 'ly-drawer',
@@ -137,7 +139,7 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   private _tabResizeSub: Subscription;
   private _isOpen: boolean;
 
-  @ViewChild(TemplateRef) _backdrop: TemplateRef<any>;
+  @ViewChild(TemplateRef, { static: false }) _backdrop: TemplateRef<any>;
 
   @Input()
   set opened(val: boolean) {

@@ -212,9 +212,9 @@ export class LyResizingCroppingImages implements OnDestroy {
   isLoaded: boolean;
   isCropped: boolean;
 
-  @ViewChild('_imgContainer') _imgContainer: ElementRef;
-  @ViewChild('_croppingContainer') _croppingContainer: ElementRef;
-  @ViewChild('_imgCanvas') _imgCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('_imgContainer', { static: false }) _imgContainer: ElementRef;
+  @ViewChild('_croppingContainer', { static: false }) _croppingContainer: ElementRef;
+  @ViewChild('_imgCanvas', { static: false }) _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Input()
   get config(): ImgCropperConfig {
     return this._config;

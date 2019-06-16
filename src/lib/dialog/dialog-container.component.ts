@@ -84,7 +84,7 @@ export class LyDialogContainer implements OnInit, DoCheck {
   _state: 'void' | 'enter' | 'exit' = 'enter';
 
   /** @internal */
-  @ViewChild(TemplateRef, { read: ViewContainerRef }) private readonly viewContainerRef: ViewContainerRef;
+  @ViewChild(TemplateRef, { read: ViewContainerRef, static: false }) private readonly viewContainerRef: ViewContainerRef;
 
   /** @internal */
   private _componentFactoryOrTemplate: ComponentFactory<any> | TemplateRef<any>;
