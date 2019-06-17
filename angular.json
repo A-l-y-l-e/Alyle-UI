@@ -12,13 +12,14 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
-              "path": "./dist/tools/html-loader/extra-webpack.config.js"
+              "path": "./dist/tools/html-loader/extra-webpack.config.js",
+              "replaceDuplicatePlugins": true
             },
             "outputPath": "dist/alyle-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "favicon.ico",

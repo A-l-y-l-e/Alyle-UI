@@ -21,13 +21,11 @@ import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
-import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
-import { CardDemoComponent } from '@docs/components/card-demo/card-demo.component';
-import { CardDemoBasicModule } from '@docs/components/card-demo/card-demo-basic/card-demo-basic.module';
+import { InstallationComponent } from './docs/getting-started/installation/installation.component';
+import { CardDemoComponent } from './docs/components/card-demo/card-demo.component';
+import { CardDemoBasicModule } from './docs/components/card-demo/card-demo-basic/card-demo-basic.module';
 import { LyTypographyModule } from '@alyle/ui/typography';
-import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
-import { MultipleThemesDemo01Module } from './components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
-import { DocsModule } from '@docs/docs.module';
+import { DocsModule } from './docs/docs.module';
 import { LyTabsModule } from '@alyle/ui/tabs';
 import { ApiComponent } from './api/api.component';
 import { LyCardModule } from '@alyle/ui/card';
@@ -37,6 +35,8 @@ import { PageContentComponent } from './page-content/page-content.component';
 import { LySnackBarModule } from '@alyle/ui/snack-bar';
 import { LyTooltipModule } from '@alyle/ui/tooltip';
 import { LyGridModule } from '@alyle/ui/grid';
+import { RouterModule } from '@angular/router';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -125,24 +125,23 @@ export function themeNameProviderFactory() {
     AppBarComponent,
     ApiComponent,
     TitleComponent,
-    /** Customization */
-    MultipleThemesComponent,
     /** Getting started */
     InstallationComponent,
     /** Components */
     CardDemoComponent,
     /** Pages */
-    HomeComponent
+    HomeComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
     /** Customization */
-    /** MultipleThemes >*/MultipleThemesDemo01Module,
     /** CardDemo > */CardDemoBasicModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    RouterModule,
     // LyThemeModule.setTheme('minima-light'),
     ResponsiveModule,
     LyCommonModule,

@@ -2,10 +2,10 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, ChangeDe
 import { Title } from '@angular/platform-browser';
 import { Platform, LyTheme2 } from '@alyle/ui';
 import { environment } from '@env/environment';
-import { AUIRoutesMap } from 'app/routes';
 import { PageContentComponent } from '../../page-content/page-content.component';
 import { Location } from '@angular/common';
 import { Ads } from '@shared/ads';
+import { AUIRoutesMap } from '@app/routes';
 
 @Component({
   selector: 'app-title',

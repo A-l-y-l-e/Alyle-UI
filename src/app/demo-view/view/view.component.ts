@@ -13,7 +13,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, retry, map } from 'rxjs/operators';
 import { Platform, AUI_VERSION, LyTheme2 } from '@alyle/ui';
-import { AUIThemeVariables } from '@app/app.module';
+import { AUIThemeVariables } from '../../app.module';
 import { DomSanitizer } from '@angular/platform-browser';
 
 const MODULE_REGEXP = /export\sclass\s([\w]+)Module/;

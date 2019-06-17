@@ -96,7 +96,7 @@ export class LyDrawerContainer {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY + 1.9);
   _openDrawers = 0;
-  @ContentChild(forwardRef(() => LyDrawerContent), { static: false }) _drawerContent: LyDrawerContent;
+  @ContentChild(forwardRef(() => LyDrawerContent), { static: true }) _drawerContent: LyDrawerContent;
   constructor(
     private _theme: LyTheme2,
     private _renderer: Renderer2,

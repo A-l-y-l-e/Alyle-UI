@@ -38,7 +38,7 @@ showdown.extension('prism', () => {
   ];
 });
 
-export default function (markdown: string) {
+export default function (markdown) {
 
   this.cacheable();
 

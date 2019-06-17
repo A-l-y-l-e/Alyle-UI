@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'aui-dynamic-styles',
-  templateUrl: './dynamic-styles.component.md'
+  templateUrl: 'dynamic-styles.component.md',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicStylesComponent {
   codeBasicStyleSheet = `
@@ -44,5 +45,7 @@ const styles = (theme: ThemeVariables) => ({
   borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%'
 });
 `;
+
+  constructor() {}
 
 }

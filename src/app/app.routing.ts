@@ -1,24 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { CardDemoComponent } from '@docs/components/card-demo/card-demo.component';
-import { TypographyDemoComponent } from '@docs/components/typography-demo/typography-demo.component';
-import { MultipleThemesComponent } from './components/multiple-themes/multiple-themes.component';
-import { ThemingComponent } from '@docs/customization/theming/theming.component';
+import { CardDemoComponent } from './docs/components/card-demo/card-demo.component';
+import { TypographyDemoComponent } from './docs/components/typography-demo/typography-demo.component';
 import { ApiComponent } from './api/api.component';
-import { PageNotFoundComponent } from '@docs/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   /** Pages */
   { path: '', component: HomeComponent },
-  /** Customization */
-  { path: 'customization/multiple-themes', component: MultipleThemesComponent },
-  {
-    path: 'customization',
-    children: [
-      { path: 'theming', component: ThemingComponent }
-    ]
-  },
   {
     path: 'api',
     children: [
@@ -33,10 +23,10 @@ const routes: Routes = [
       { path: 'typography', component: TypographyDemoComponent },
     ]
   },
-  { path: 'component', redirectTo: 'components' },
-  { path: 'get-started/install', redirectTo: 'getting-started/installation' },
-  { path: 'getting-started', redirectTo: 'getting-started/installation' },
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'component', redirectTo: 'components', pathMatch: 'full' },
+  { path: 'get-started/install', redirectTo: 'getting-started/installation', pathMatch: 'full' },
+  { path: 'getting-started', redirectTo: 'getting-started/installation', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
@@ -45,9 +35,6 @@ const routes: Routes = [
       initialNavigation: 'enabled',
       scrollPositionRestoration: 'enabled'
     })
-  ],
-  exports: [
-    RouterModule
   ]
 })
 export class AppRoutingModule { }

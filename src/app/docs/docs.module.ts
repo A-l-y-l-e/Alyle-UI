@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 import { LyCardModule } from '@alyle/ui/card';
 
 import { DemoViewModule } from '../demo-view';
@@ -8,57 +8,57 @@ import { PrismModule } from '../core/prism/prism.module';
 /** Getting Started */
 
 /** Customization */
-import { ThemingComponent } from '@docs/customization/theming/theming.component';
+import { ThemingComponent } from './customization/theming/theming.component';
 import { ThemingComponentsComponent } from './customization/theming-components/theming-components.component';
 
 /** Layout */
 /** Grid */
-import { GridDemoComponent } from '@docs/layout/grid-demo/grid-demo.component';
-import { GridDemoBasicModule } from '@docs/layout/grid-demo/grid-demo-basic/grid-demo-basic.module';
-import { GridDemoAutoLayoutModule } from '@docs/layout/grid-demo/grid-demo-auto-layout/grid-demo-auto-layout.module';
-import { GridDemoResponsiveModule } from '@docs/layout/grid-demo/grid-demo-responsive/grid-demo-responsive.module';
+import { GridDemoComponent } from './layout/grid-demo/grid-demo.component';
+import { GridDemoBasicModule } from './layout/grid-demo/grid-demo-basic/grid-demo-basic.module';
+import { GridDemoAutoLayoutModule } from './layout/grid-demo/grid-demo-auto-layout/grid-demo-auto-layout.module';
+import { GridDemoResponsiveModule } from './layout/grid-demo/grid-demo-responsive/grid-demo-responsive.module';
 
 /** Tabs */
-import { TabsDemoComponent } from '@docs/layout/tabs-demo/tabs-demo.component';
-import { BasicTabsModule } from '@docs/layout/tabs-demo/basic-tabs/basic-tabs.module';
-import { TabsWithAsynchronouslyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-asynchronously-loading/tabs-with-asynchronously-loading.module';
-import { TabsWithLazyLoadingModule } from '@docs/layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
+import { TabsDemoComponent } from './layout/tabs-demo/tabs-demo.component';
+import { BasicTabsModule } from './layout/tabs-demo/basic-tabs/basic-tabs.module';
+import { TabsWithAsynchronouslyLoadingModule } from './layout/tabs-demo/tabs-with-asynchronously-loading/tabs-with-asynchronously-loading.module';
+import { TabsWithLazyLoadingModule } from './layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
 import { TabsAlignModule } from './layout/tabs-demo/tabs-align/tabs-align.module';
 import { TabsWithIconModule } from './layout/tabs-demo/tabs-with-icon/tabs-with-icon.module';
 import { TabsPlacementModule } from './layout/tabs-demo/tabs-placement/tabs-placement.module';
 
 /** Components */
 /** Button */
-import { ButtonDemoComponent } from '@docs/components/button-demo/button-demo.component';
-import { ButtonTypesDemoModule } from '@docs/components/button-demo/button-types-demo/button-types-demo.module';
+import { ButtonDemoComponent } from './components/button-demo/button-demo.component';
+import { ButtonTypesDemoModule } from './components/button-demo/button-types-demo/button-types-demo.module';
 import { IconLabelButtonsModule } from './components/button-demo/icon-label-buttons/icon-label-buttons.module';
 
 import { LyTypographyModule } from '@alyle/ui/typography';
-import { DocsRoutingModule } from '@docs/docs.routing';
+import { DocsRoutingModule } from './docs.routing';
 import { SharedModule } from '../shared/shared.module';
-import { DynamicStylesComponent } from '@docs/customization/dynamic-styles/dynamic-styles.component';
-import { DsBasicModule } from '@docs/customization/dynamic-styles/ds-basic/ds-basic.module';
+import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
+import { DsBasicModule } from './customization/dynamic-styles/ds-basic/ds-basic.module';
 import { DsCssDeclarationsBlockModule } from './customization/dynamic-styles/ds-css-declarations-block/ds-css-declarations-block.module';
 
-import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo.component';
-import { ToolbarBasicDemoModule } from '@docs/components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
+import { ToolbarDemoComponent } from './components/toolbar-demo/toolbar-demo.component';
+import { ToolbarBasicDemoModule } from './components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
 import { ToolbarWithIconsModule } from './components/toolbar-demo/toolbar-with-icons/toolbar-with-icons.module';
 import { ToolbarDenseModule } from './components/toolbar-demo/toolbar-dense/toolbar-dense.module';
 
 // tslint:disable-next-line:max-line-length
-import { ResizingCroppingImagesExample01Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-01/resizing-cropping-images-example-01.module';
+import { ResizingCroppingImagesExample01Module } from './components/resizing-cropping-images-demo/resizing-cropping-images-example-01/resizing-cropping-images-example-01.module';
 // tslint:disable-next-line:max-line-length
-import { ResizingCroppingImagesExample02Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-02/resizing-cropping-images-example-02.module';
+import { ResizingCroppingImagesExample02Module } from './components/resizing-cropping-images-demo/resizing-cropping-images-example-02/resizing-cropping-images-example-02.module';
 // tslint:disable-next-line:max-line-length
-import { ResizingCroppingImagesExample03Module } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-example-03/resizing-cropping-images-example-03.module';
-import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
+import { ResizingCroppingImagesExample03Module } from './components/resizing-cropping-images-demo/resizing-cropping-images-example-03/resizing-cropping-images-example-03.module';
+import { ResizingCroppingImagesDemoComponent } from './components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
 
 import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
-import { BasicBadgeModule } from '@docs/components/badge-demo/basic-badge/basic-badge.module';
+import { BasicBadgeModule } from './components/badge-demo/basic-badge/basic-badge.module';
 
 /** Field */
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
-import { BasicFieldModule } from '@docs/components/field-demo/basic-field/basic-field.module';
+import { BasicFieldModule } from './components/field-demo/basic-field/basic-field.module';
 import { FieldPlaygroundModule } from './components/field-demo/field-playground/field-playground.module';
 import { SimpleFormModule } from './components/field-demo/simple-form/simple-form.module';
 
@@ -122,9 +122,6 @@ import { RadioDemoComponent } from './components/radio-demo/radio-demo.component
 import { RadioExample01Module } from './components/radio-demo/radio-example-01/radio-example-01.module';
 import { BasicRadioModule } from './components/radio-demo/basic-radio/basic-radio.module';
 
-/** 404 */
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
 /** Select */
 import { SelectDemoComponent } from './components/select-demo/select-demo.component';
 import { BasicSelectModule } from './components/select-demo/basic-select/basic-select.module';
@@ -153,10 +150,13 @@ import { ExpansionDemoComponent } from './components/expansion-demo/expansion-de
 import { BasicExpansionModule } from './components/expansion-demo/basic-expansion/basic-expansion.module';
 import { CustomExpansionPanelModule } from './components/expansion-demo/custom-expansion-panel/custom-expansion-panel.module';
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
+import { MultipleThemesDemo01Module } from '../components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
+import { MultipleThemesComponent } from '../components/multiple-themes/multiple-themes.component';
 
 @NgModule({
   imports: [
     SharedModule,
+    RouterModule,
     PrismModule,
     DemoViewModule,
     DocsRoutingModule,
@@ -248,11 +248,13 @@ import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.compone
     CarouselWithBarModule,
     /** Expansion */
     BasicExpansionModule,
-    CustomExpansionPanelModule
+    CustomExpansionPanelModule,
+    MultipleThemesDemo01Module
   ],
   declarations: [
     ThemingComponent,
     ThemingComponentsComponent,
+    MultipleThemesComponent,
     /** Grid */
     GridDemoComponent,
     /** Responsive */
@@ -295,8 +297,6 @@ import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.compone
     DrawerDemoComponent,
     /** Radio */
     RadioDemoComponent,
-    /** 404 */
-    PageNotFoundComponent,
     /** Select */
     SelectDemoComponent,
     /** Dialog */
