@@ -1,5 +1,5 @@
-import {WorkspaceProject} from '@angular-devkit/core/src/workspace';
-import {SchematicsException} from '@angular-devkit/schematics';
+import { SchematicsException } from '@angular-devkit/schematics';
+import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 
 /** Resolves the architect options for the build target of the given project. */
 export function getProjectTargetOptions(project: WorkspaceProject, buildTarget: string) {

@@ -7,6 +7,7 @@ import { setUpAppModule } from './set-up';
 import { addFontsToIndex } from './fonts';
 import { getAppComponentPath } from '../utils/get-app-component-path';
 import { setUpStyles } from '../utils/styles';
+import { getDefaultProjectName } from '../utils/get-project-name';
 
 let AUI_VERSION: string;
 try {
@@ -22,7 +23,7 @@ try {
   ANGULAR_CORE_VERSION = '*';
 }
 const HAMMERJS_VERSION = '^2.0.8';
-const CHROMA_JS_VERSION = '^1.3.6';
+const CHROMA_JS_VERSION = '^2.0.2';
 
 /**
  * Sorts the keys of the given object.
@@ -68,11 +69,14 @@ export default function (options: Schema): Rule {
     }
   }
 });`;
-  return (host: Tree) => chain([
-    addHammerJsToMain(options),
-    setUpAppModule(options),
-    addFontsToIndex(options),
-    setUpStyles(options, getAppComponentPath(host, options), STYLES),
-    installPkgs(options)
-  ]);
+  return (host: Tree) => {
+    options.project = options.project || getDefaultProjectName(host);
+    return chain([
+      addHammerJsToMain(options),
+      setUpAppModule(options),
+      addFontsToIndex(options),
+      setUpStyles(options, getAppComponentPath(host, options), STYLES),
+      installPkgs(options)
+    ]);
+  };
 }

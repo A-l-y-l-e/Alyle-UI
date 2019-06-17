@@ -118,7 +118,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   @ViewChild('_prefixContainer', { static: false }) _prefixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_suffixContainer', { static: false }) _suffixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_fieldsetLegend', { static: false }) _fieldsetLegend: ElementRef<HTMLDivElement>;
-  @ContentChild(forwardRef(() => LyFieldControlBase), { static: false }) _control: LyFieldControlBase;
+  @ContentChild(forwardRef(() => LyFieldControlBase), { static: true }) _control: LyFieldControlBase;
   @ContentChild(LyPlaceholder, { static: false }) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel, { static: false }) _labelChild: LyLabel;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;

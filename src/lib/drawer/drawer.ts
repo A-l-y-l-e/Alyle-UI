@@ -80,9 +80,9 @@ export class LyDrawerContent {
   constructor(
     private _renderer: Renderer2,
     private _el: ElementRef,
-    @Inject(forwardRef(() => LyDrawerContainer)) drawerContainer: ReturnType<() => LyDrawerContainer>
+    @Inject(forwardRef(() => LyDrawerContainer)) drawerContainer
   ) {
-    this._renderer.addClass(this._el.nativeElement, drawerContainer.classes.drawerContent);
+    this._renderer.addClass(this._el.nativeElement, (drawerContainer as LyDrawerContainer).classes.drawerContent);
   }
   _getHostElement() {
     return this._el.nativeElement;
