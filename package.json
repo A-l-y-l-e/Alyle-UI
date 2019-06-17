@@ -3,8 +3,8 @@
   "version": "2.7.7",
   "license": "MIT",
   "scripts": {
-    "start": "ng serve --port 1111 --source-map=false",
-    "hmr": "ng serve --port 1111 --hmr --source-map=false",
+    "start": "ng serve --port 1111",
+    "hmr": "ng serve --port 1111 --hmr",
     "build": "yarn build:browser && yarn build:server && prerender && yarn sw:update",
     "build:browser": "ng build alyle-ui --prod",
     "build:server": "ng run alyle-ui:server",

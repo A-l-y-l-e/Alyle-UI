@@ -39,7 +39,6 @@ showdown.extension('prism', () => {
 });
 
 export default function (markdown) {
-
   this.cacheable();
 
   const converter = new showdown.Converter({
