@@ -12,8 +12,7 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
-              "path": "./dist/tools/html-loader/extra-webpack.config.js",
-              "replaceDuplicatePlugins": true
+              "path": "./dist/tools/html-loader/extra-webpack.config.js"
             },
             "outputPath": "dist/alyle-ui",
             "index": "src/index.html",
@@ -143,7 +142,7 @@
             },
             "outputPath": "dist/alyle-ui-server",
             "main": "src/main.server.ts",
-            "tsConfig": "src/tsconfig.server.json"
+            "tsConfig": "tsconfig.server.json"
           }
         }
       }
