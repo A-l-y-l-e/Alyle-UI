@@ -5,7 +5,7 @@
 </p>
 
 [![Build Status](https://travis-ci.org/A-l-y-l-e/Alyle-UI.svg?branch=master)](https://travis-ci.org/A-l-y-l-e/Alyle-UI)
-[![Build Status](https://dev.azure.com/Alyle/Alyle%20UI/_apis/build/status/Alyle%20UI)](https://dev.azure.com/Alyle/Alyle%20UI/_build/latest?definitionId=1)
+[![Build Status](https://dev.azure.com/Alyle/Alyle%20UI/_apis/build/status/Build?branchName=master)](https://dev.azure.com/Alyle/Alyle%20UI/_build/latest?definitionId=5&branchName=master)
 [![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 [![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 [![Join the chat at https://discord.gg/65hMpAJ](https://img.shields.io/badge/chat-on%20discord-738BD7.svg?style=flat-square)](https://discord.gg/65hMpAJ)
