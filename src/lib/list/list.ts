@@ -186,10 +186,10 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
   private _isActionListItem: boolean;
   private _onFocusByKeyboardState: boolean;
 
-  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
+  @ViewChild('rippleContainer', { static: false }) _rippleContainer: ElementRef;
   @ContentChildren(forwardRef(() => LyLine)) _lines: QueryList<LyLine>;
-  @ContentChild(forwardRef(() => LyListIcon)) _icon: LyListIcon;
-  @ContentChild(LyAvatar) _avatar: LyAvatar;
+  @ContentChild(forwardRef(() => LyListIcon), { static: false }) _icon: LyListIcon & { };
+  @ContentChild(LyAvatar, { static: false }) _avatar: LyAvatar;
   get _listItemClasses() {
     const { listItemContent, twoLine, oneLine, listItemWithIcon, twoLineWithIcon } = this.classes;
     const classes = [listItemContent];

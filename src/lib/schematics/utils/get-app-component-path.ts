@@ -6,8 +6,9 @@ import * as ts from 'typescript';
 import { dirname } from 'path';
 import { normalize } from '@angular-devkit/core';
 import { getTsSourceFile } from './ast';
+import { Schema } from '../ng-add/schema';
 
-export function getAppComponentPath(host: Tree, options: any) {
+export function getAppComponentPath(host: Tree, options: Schema) {
   const projectTargets = getProjectTargets(host, options.project);
   if (!projectTargets.build) {
     throw targetBuildNotFoundError();

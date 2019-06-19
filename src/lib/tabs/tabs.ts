@@ -208,9 +208,9 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _tabResizeSub: Subscription;
   private _scrollable: boolean;
 
-  @ViewChild('tabs') tabsRef: ElementRef;
-  @ViewChild('tabContents') tabContents: ElementRef;
-  @ViewChild('tabsIndicator') tabsIndicator: ElementRef;
+  @ViewChild('tabs', { static: true }) tabsRef: ElementRef;
+  @ViewChild('tabContents', { static: true }) tabContents: ElementRef;
+  @ViewChild('tabsIndicator', { static: true }) tabsIndicator: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
   @Input()
   set scrollable(val: any) {
@@ -536,10 +536,10 @@ export class LyTab implements OnInit {
   /** Current tab index */
   index: number;
   _isBrowser = Platform.isBrowser;
-  @ContentChild(LyTabContent, { read: TemplateRef }) _templateRefLazy: TemplateRef<LyTabContent>;
-  @ViewChild('_templateNgContent') _templateRef: TemplateRef<any>;
-  @ViewChild('tabIndicator') _tabIndicator: ElementRef;
-  @ContentChild(forwardRef(() => LyTabLabel)) _tabLabel: LyTabLabel;
+  @ContentChild(LyTabContent, { read: TemplateRef, static: true }) _templateRefLazy: TemplateRef<LyTabContent>;
+  @ViewChild('_templateNgContent', { static: true }) _templateRef: TemplateRef<any>;
+  @ViewChild('tabIndicator', { static: false }) _tabIndicator: ElementRef;
+  @ContentChild(forwardRef(() => LyTabLabel), { static: true }) _tabLabel: LyTabLabel & { };
 
   constructor(
     private _tabs: LyTabs,
@@ -581,7 +581,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     }
   }
 
-  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
+  @ViewChild('rippleContainer', { static: false }) _rippleContainer: ElementRef;
   @HostListener('click') _onClickTab() {
     if (!this.disabled) {
       this._tabs.selectedIndex = this._tab.index;

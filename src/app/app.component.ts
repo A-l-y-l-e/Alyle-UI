@@ -297,10 +297,10 @@ export class AppComponent implements OnInit {
   routes = AUIRoutes.slice(1);
   currentRoutePath: string;
 
-  @ViewChild(LyDrawer) drawer: LyDrawer;
-  @ViewChild(LySnackBar) sb: LySnackBar;
-  @ViewChild(TitleComponent) titleComponent: TitleComponent;
-  @ViewChild(PageContentComponent) page: PageContentComponent;
+  @ViewChild(LyDrawer, { static: true }) drawer: LyDrawer;
+  @ViewChild(LySnackBar, { static: false }) sb: LySnackBar;
+  @ViewChild(TitleComponent, { static: true }) titleComponent: TitleComponent;
+  @ViewChild(PageContentComponent, { static: true }) page: PageContentComponent;
 
   constructor(
     private _el: ElementRef,

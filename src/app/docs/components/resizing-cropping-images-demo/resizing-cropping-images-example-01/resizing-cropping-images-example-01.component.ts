@@ -123,7 +123,7 @@ export class ResizingCroppingImagesExample01Component implements AfterViewInit {
   croppedImage?: string;
   result: string;
   scale: number;
-  @ViewChild(LyResizingCroppingImages) cropper: LyResizingCroppingImages;
+  @ViewChild(LyResizingCroppingImages, { static: false }) cropper: LyResizingCroppingImages;
   myConfig: ImgCropperConfig = {
     autoCrop: true,
     width: 150, // Default `250`

@@ -23,7 +23,7 @@ const styles = {
 export class ResizingCroppingImagesExample03Component {
   classes = this.theme.addStyleSheet(styles);
   croppedImage?: string;
-  @ViewChild(LyResizingCroppingImages) img: LyResizingCroppingImages;
+  @ViewChild(LyResizingCroppingImages, { static: false }) img: LyResizingCroppingImages;
   result: string;
   myConfig: ImgCropperConfig = {
     width: 150, // Default `250`

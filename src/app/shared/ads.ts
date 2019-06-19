@@ -1,6 +1,6 @@
 import { Injectable, Renderer2, RendererFactory2, isDevMode, NgZone } from '@angular/core';
 import { Platform, LyTheme2 } from '@alyle/ui';
-import { PageContentComponent } from '@app/page-content/page-content.component';
+import { PageContentComponent } from '../page-content/page-content.component';
 import { take } from 'rxjs/operators';
 
 let count = -1;
