@@ -193,7 +193,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   _selectedIndex: number;
   _selectedBeforeIndex: number;
   _selectedTab: LyTab | null;
-  _selectedBeforeTab: LyTab;
+  _selectedBeforeTab: LyTab | null;
   _isViewInitLoaded: boolean;
   private _tabsSubscription = Subscription.EMPTY;
   private _color: string;
@@ -501,7 +501,12 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
         if (Platform.isBrowser) {
           this._updateIndicator(tab);
         } else {
-          /** for server */
+          // for server
+          const selectedBeforeTab = this._selectedBeforeTab;
+          if (selectedBeforeTab) {
+            this.renderer.removeClass(selectedBeforeTab._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
+            this.renderer.removeClass(selectedBeforeTab._tabIndicator.nativeElement, this._colorClass);
+          }
           this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
           this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this._colorClass);
         }
