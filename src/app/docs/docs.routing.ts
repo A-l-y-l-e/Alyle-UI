@@ -31,15 +31,6 @@ import { ThemingComponent } from './customization/theming/theming.component';
 import { MultipleThemesComponent } from '@app/components/multiple-themes/multiple-themes.component';
 
 const routes: Routes = [
-  /** layout */
-  {
-    path: 'layout',
-    children: [
-      { path: 'grid', component: GridDemoComponent },
-      { path: 'responsive', component: ResponsiveDemoComponent },
-      { path: 'tabs', component: TabsDemoComponent },
-    ]
-  },
   {
     path: 'customization',
     children: [
@@ -59,6 +50,9 @@ const routes: Routes = [
   {
     path: 'components',
     children: [
+      { path: 'grid', component: GridDemoComponent },
+      { path: 'responsive', component: ResponsiveDemoComponent },
+      { path: 'tabs', component: TabsDemoComponent },
       { path: 'button', component: ButtonDemoComponent },
       { path: 'toolbar', component: ToolbarDemoComponent },
       { path: 'resizing-cropping-images', component: ResizingCroppingImagesDemoComponent },
