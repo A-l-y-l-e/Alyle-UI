@@ -29,16 +29,16 @@
 |drawer|✔️|✔️|[Docs](https://alyle.io/components/drawer)|
 |expansion|✔️|✔️|[Docs](https://alyle.io/components/expansion)|
 |field|✔️|✔️|[Docs](https://alyle.io/components/field)|
-|grid|✔️|✔️|[Docs](https://alyle.io/layout/grid)|
+|grid|✔️|✔️|[Docs](https://alyle.io/components/grid)|
 |icon|✔️|✔️|[Docs](https://alyle.io/components/icon)|
 |img cropper|✔️|✔️|[Docs](https://alyle.io/components/resizing-cropping-images)|
 |list|✔️|✔️|[Docs](https://alyle.io/components/list)|
-|media|✔️|✔️|[Docs](https://alyle.io/layout/responsive)|
+|media|✔️|✔️|[Docs](https://alyle.io/components/responsive)|
 |menu|✔️|✔️|[Docs](https://alyle.io/components/menu)|
 |radio|✔️|✔️|[Docs](https://alyle.io/components/radio)|
 |snack bar|✔️|✔️|[Docs](https://alyle.io/components/snack-bar)|
 |select|✔️|✔️|[Docs](https://alyle.io/components/select)|
-|tabs|✔️|✔️|[Docs](https://alyle.io/layout/tabs)|
+|tabs|✔️|✔️|[Docs](https://alyle.io/components/tabs)|
 |toolbar|✔️|✔️|[Docs](https://alyle.io/components/toolbar)|
 |tooltip|✔️|✔️|[Docs](https://alyle.io/components/tooltip)|
 |typography|✔️|✔️|[Docs](https://alyle.io/components/typography)|
