@@ -1,3 +1,27 @@
+## [2.7.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.7...2.7.8) (2019-06-19)
+
+
+### Bug Fixes
+
+* **field:** add `display: block` to fullWidth ([139265c](https://github.com/A-l-y-l-e/Alyle-UI/commit/139265c))
+* **tabs:** `selectedIndexChange` do not emit first value ([1ce4fe7](https://github.com/A-l-y-l-e/Alyle-UI/commit/1ce4fe7))
+
+
+### Features
+
+* **tabs:** add `@Input() active` for `LyTabLabel` ([f8dfd9f](https://github.com/A-l-y-l-e/Alyle-UI/commit/f8dfd9f))
+
+
+
+## [2.7.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.6...2.7.7) (2019-05-24)
+
+
+### Bug Fixes
+
+* **button:** remove animation when a button is rendered ([f81cec2](https://github.com/A-l-y-l-e/Alyle-UI/commit/f81cec2))
+
+
+
 ## [2.7.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.0...2.7.6) (2019-05-08)
 
 

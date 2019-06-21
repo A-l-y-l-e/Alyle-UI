@@ -83,7 +83,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   private _appearanceClass: string;
   private _onFocusByKeyboardState: boolean;
 
-  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
+  @ViewChild('rippleContainer', { static: false }) _rippleContainer: ElementRef;
 
   /** @docs-private */
   @Input('sensitive')

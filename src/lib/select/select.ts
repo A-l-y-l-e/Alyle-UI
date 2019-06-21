@@ -199,10 +199,10 @@ export class LySelect
   /** Emits whenever the component is destroyed. */
   private readonly _destroy = new Subject<void>();
 
-  @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
-  @ViewChild('valueText') valueTextDivRef: ElementRef<HTMLDivElement>;
+  @ViewChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
+  @ViewChild('valueText', { static: false }) valueTextDivRef: ElementRef<HTMLDivElement>;
   /** @internal */
-  @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
+  @ViewChild(forwardRef(() => LyOption), { static: false }) _options: QueryList<LyOption>;
   @ContentChildren(forwardRef(() => LyOption), { descendants: true }) options: QueryList<LyOption>;
 
   /**
@@ -683,7 +683,7 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _value: any;
 
-  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
+  @ViewChild('rippleContainer', { static: false }) _rippleContainer: ElementRef;
 
   @HostListener('click') _onClick() {
     if (!this._select.multiple) {

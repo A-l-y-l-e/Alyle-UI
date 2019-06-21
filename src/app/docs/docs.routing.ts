@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TabsDemoComponent } from '@docs/layout/tabs-demo/tabs-demo.component';
-import { DynamicStylesComponent } from '@docs/customization/dynamic-styles/dynamic-styles.component';
-import { InstallationComponent } from '@docs/getting-started/installation/installation.component';
-import { GridDemoComponent } from '@docs/layout/grid-demo/grid-demo.component';
-import { ButtonDemoComponent } from '@docs/components/button-demo/button-demo.component';
-import { ToolbarDemoComponent } from '@docs/components/toolbar-demo/toolbar-demo.component';
-import { ResizingCroppingImagesDemoComponent } from '@docs/components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
-import { BadgeDemoComponent } from '@docs/components/badge-demo/badge-demo.component';
-import { FieldDemoComponent } from '@docs/components/field-demo/field-demo.component';
+import { TabsDemoComponent } from './layout/tabs-demo/tabs-demo.component';
+import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
+import { InstallationComponent } from './getting-started/installation/installation.component';
+import { GridDemoComponent } from './layout/grid-demo/grid-demo.component';
+import { ButtonDemoComponent } from './components/button-demo/button-demo.component';
+import { ToolbarDemoComponent } from './components/toolbar-demo/toolbar-demo.component';
+import { ResizingCroppingImagesDemoComponent } from './components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
+import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
+import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
 import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
@@ -27,24 +27,19 @@ import { CarouselDemoComponent } from './components/carousel-demo/carousel-demo.
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
 import { ThemingComponentsComponent } from './customization/theming-components/theming-components.component';
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
+import { ThemingComponent } from './customization/theming/theming.component';
+import { MultipleThemesComponent } from '@app/components/multiple-themes/multiple-themes.component';
 import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
 
 const routes: Routes = [
-  /** layout */
-  {
-    path: 'layout',
-    children: [
-      { path: 'grid', component: GridDemoComponent },
-      { path: 'responsive', component: ResponsiveDemoComponent },
-      { path: 'tabs', component: TabsDemoComponent },
-    ]
-  },
   {
     path: 'customization',
     children: [
       { path: 'dynamic-styles', component: DynamicStylesComponent },
       { path: 'paper', component: PaperDemoComponent },
-      { path: 'theming-components', component: ThemingComponentsComponent }
+      { path: 'theming-components', component: ThemingComponentsComponent },
+      { path: 'theming', component: ThemingComponent },
+      { path: 'multiple-themes', component: MultipleThemesComponent }
     ]
   },
   {
@@ -56,6 +51,9 @@ const routes: Routes = [
   {
     path: 'components',
     children: [
+      { path: 'grid', component: GridDemoComponent },
+      { path: 'responsive', component: ResponsiveDemoComponent },
+      { path: 'tabs', component: TabsDemoComponent },
       { path: 'button', component: ButtonDemoComponent },
       { path: 'toolbar', component: ToolbarDemoComponent },
       { path: 'resizing-cropping-images', component: ResizingCroppingImagesDemoComponent },
@@ -89,9 +87,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
-  ],
-  exports: [
-    RouterModule
   ]
 })
 export class DocsRoutingModule { }

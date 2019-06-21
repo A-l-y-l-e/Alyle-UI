@@ -35,7 +35,7 @@ export const AUIRoutes: {
   },
   {
     name: 'Layout',
-    route: 'layout',
+    route: 'components',
     routes: [
       { route: 'grid', api: true , name: 'Grid' },
       { route: 'responsive', api: true , name: 'Responsive' },

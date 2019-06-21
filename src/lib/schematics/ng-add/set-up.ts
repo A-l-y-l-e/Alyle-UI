@@ -126,7 +126,7 @@ function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
-export function setUpAppModule(_options: Schema): Rule {
+export function setUpAppModule(_options: Schema): Rule | any {
   return (host: Tree, _context: SchematicContext) => {
     const themeList = [ 'minima-light', 'minima-dark' ];
     return new Observable((_) => {

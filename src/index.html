@@ -13,6 +13,11 @@
 <body>
   <aui-root></aui-root>
   <script>
+    if (location.host.startsWith('alyle-ui')) {
+      window.location = 'https://alyle.io' + location.pathname;
+    }
+  </script>
+  <script>
     (function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=r;A[l]=A[l]||function(){
     (A[l].q=A[l].q||[]).push(arguments)},A[l].l=1*new Date();a=n.createElement(g),
     r=n.getElementsByTagName(g)[0];a.async=1;a.src=u;r.parentNode.insertBefore(a,r)
