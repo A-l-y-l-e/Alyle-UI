@@ -3,13 +3,11 @@ import { StyleContainer } from '../style';
 export interface SliderVariables {
   root?: StyleContainer;
   defaultConfig?: {
-    appearance?: keyof SliderVariablesAppearance
+    appearance?: keyof SliderAppearance
   };
-  appearance?: SliderVariablesAppearance;
+  appearance?: SliderAppearance;
 }
 
-export interface SliderVariablesAppearance {
-  icon?: StyleContainer;
-  fab?: StyleContainer;
-  miniFab?: StyleContainer;
+export interface SliderAppearance {
+  standard?: StyleContainer;
 }

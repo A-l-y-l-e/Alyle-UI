@@ -20,6 +20,7 @@ import { FieldVariables } from './variables/field';
 import { DialogVariables } from './variables/dialog';
 import { ListVariables } from './variables/list';
 import { ToolbarVariables } from './variables/toolbar';
+import { SliderVariables } from './variables/slider';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -109,6 +110,7 @@ export interface ThemeConfig {
   dialog?: DialogVariables;
   list?: ListVariables;
   toolbar?: ToolbarVariables;
+  slider?: SliderVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

@@ -190,6 +190,8 @@ export class MinimaBase extends LyStyleUtils {
     }
   };
 
+  slider = {};
+
   constructor() {
     super();
     this.typography.lyTyp = {
