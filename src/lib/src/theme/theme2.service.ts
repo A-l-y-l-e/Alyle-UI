@@ -186,6 +186,18 @@ export class LyTheme2 {
     return this._createStyleContent2(styles, null, priority, TypeStyle.Multiple);
   }
 
+  /**
+   * Check if a style exist
+   * @param stylesOrId Style or Id of a style
+   */
+  existStyle(stylesOrId: string | Styles | StyleDeclarationsBlock): boolean {
+    if (_STYLE_MAP.has(stylesOrId)) {
+      const styleMap = _STYLE_MAP.get(stylesOrId)!;
+      return !!(styleMap.classes || styleMap[this.initialTheme]);
+    }
+    return false;
+  }
+
   private _createStyleContent2(
     styles: Styles | StyleDeclarationsBlock,
     id: string | null,
