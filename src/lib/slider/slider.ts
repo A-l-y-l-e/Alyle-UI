@@ -1,8 +1,20 @@
-import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef } from '@angular/core';
 import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError } from '@alyle/ui';
+import { SliderVariables } from './slider.config';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+
+interface ThemeVariablesWithSlider extends ThemeVariables {
+  slider: SliderVariables;
+}
+
+export const LY_SLIDER_CONTROL_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => LySlider),
+  multi: true
+};
 
 const STYLE_PRIORITY = 2;
-const STYLES = (theme: ThemeVariables) => ({
+const STYLES = (theme: ThemeVariablesWithSlider) => ({
   $priority: STYLE_PRIORITY,
   root: {
     display: 'inline-block',
@@ -32,10 +44,6 @@ const STYLES = (theme: ThemeVariables) => ({
     '&::before': {
       content: `''`,
       position: 'absolute',
-      width: '2px',
-      height: '24px',
-      left: '-1px',
-      top: '-24px',
       opacity: .6
     }
   },
@@ -45,17 +53,13 @@ const STYLES = (theme: ThemeVariables) => ({
     height: '12px',
     left: '-6px',
     top: '-6px',
-    borderRadius: '50% 50% 0%',
-    transform: 'rotateZ(-135deg)'
+    borderRadius: '50% 50% 0%'
   },
   thumbLabel: {
     position: 'absolute',
     width: '28px',
     height: '28px',
-    left: '-14px',
-    top: '-50px',
-    borderRadius: '50% 50% 0%',
-    transform: 'rotateZ(45deg)'
+    borderRadius: '50% 50% 0%'
   },
   thumbLabelValue: {
     transform: 'rotateZ(-45deg)',
@@ -69,21 +73,49 @@ const STYLES = (theme: ThemeVariables) => ({
   },
 
   horizontal: {
-    width: '48px',
+    width: '96px',
     height: '2px',
     padding: '10px 0',
     '& {track}, & {bg}': {
       height: '2px',
       width: '100%'
+    },
+    '& {thumb}': {
+      transform: 'rotateZ(-135deg)'
+    },
+    '& {thumbLabel}': {
+      left: '-14px',
+      top: '-50px',
+      transform: 'rotateZ(45deg)'
+    },
+    '{thumbContainer}::before': {
+      width: '2px',
+      height: '24px',
+      left: '-1px',
+      top: '-24px',
     }
   },
   vertical: {
     width: '2px',
-    height: '48px',
+    height: '96px',
     padding: '0 10px',
     '& {track}, & {bg}': {
       height: '100%',
       width: '2px'
+    },
+    '& {thumb}': {
+      transform: 'rotateZ(135deg)'
+    },
+    '& {thumbLabel}': {
+      left: '-50px',
+      top: '-14px',
+      transform: 'rotateZ(-45deg)'
+    },
+    '{thumbContainer}::before': {
+      width: '24px',
+      height: '2px',
+      left: '-24px',
+      top: '-1px'
     }
   }
 });
@@ -92,9 +124,10 @@ const STYLES = (theme: ThemeVariables) => ({
   selector: 'ly-slider',
   templateUrl: 'slider.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  exportAs: 'lySlider'
+  exportAs: 'lySlider',
+  providers: [LY_SLIDER_CONTROL_VALUE_ACCESSOR]
 })
-export class LySlider implements OnInit {
+export class LySlider implements OnInit, ControlValueAccessor {
   static и = 'LySlider';
   readonly classes = this._theme.addStyleSheet(STYLES);
   private _color: string;
@@ -106,23 +139,46 @@ export class LySlider implements OnInit {
   private _appearance: string;
   private _appearanceClass: string;
 
+  /** The field appearance style. */
+  @Input()
+  set appearance(val: string) {
+    if (val !== this.appearance) {
+      this._appearance = val;
+      this._appearanceClass = this._theme.addStyle(`${LySlider.и}.appearance:${val}`, (theme: ThemeVariablesWithSlider) => {
+        const styleFn = theme.slider.appearance![val].appearance;
+        if (!styleFn) {
+          throw getLyThemeStyleUndefinedError(LySlider.и, 'appearance', val);
+        }
+        return styleFn(theme, val);
+      }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, STYLES);
+    }
+  }
+  get appearance() {
+    return this._appearance;
+  }
+
+  /** Color of component */
   @Input()
   get color() {
     return this._color;
   }
   set color(val: string) {
     this._color = val;
-    this._colorClass = this._theme.addStyle(`${LySlider.и}.color:${val}`, (theme: ThemeVariables) => {
+    const appearance = this.appearance;
+    const styleKey = `${LySlider.и}.color:${val}`;
+    if (!this._theme.existStyle(styleKey)) {
+
+    }
+    const newStyle = (theme: ThemeVariablesWithSlider) => {
       const color = theme.colorOf(val);
-      return {
-        '& {bg}, & {thumb}, & {thumbLabel}': {
-          backgroundColor: color
-        },
-        '& {thumbContainer}::before': {
-          background: `linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
-        }
-      };
-    }, this._el.nativeElement, this._colorClass, STYLE_PRIORITY + 1, STYLES);
+      return theme.slider.appearance![appearance].color(theme, color);
+    };
+    this._colorClass = this._theme.addStyle(
+      styleKey,
+      newStyle,
+      this._el.nativeElement,
+      this._colorClass,
+      STYLE_PRIORITY + 1, STYLES);
   }
 
   /** Whether the slider is vertical. */
@@ -146,24 +202,6 @@ export class LySlider implements OnInit {
 
   }
 
-  /** The field appearance style. */
-  @Input()
-  set appearance(val: string) {
-    if (val !== this.appearance) {
-      this._appearance = val;
-      if (!(this._theme.variables.slider!.appearance![val])) {
-        throw getLyThemeStyleUndefinedError(LySlider.и, 'appearance', val);
-      }
-      this._appearanceClass = this._theme.addStyle(`${LySlider.и}.appearance:${val}`, (theme: ThemeVariables) => {
-        const appearance = theme.slider!.appearance![val];
-        return appearance;
-      }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, STYLES);
-    }
-  }
-  get appearance() {
-    return this._appearance;
-  }
-
   constructor(
     private _theme: LyTheme2,
     private _el: ElementRef,
@@ -173,6 +211,13 @@ export class LySlider implements OnInit {
   }
 
   ngOnInit() {
+
+    /** Set default appearance */
+    if (this.appearance == null) {
+      this.appearance = (
+        this._theme.variables as ThemeVariablesWithSlider).slider.defaultConfig!.appearance!;
+    }
+
     /** Set horizontal slider */
     if (this.vertical == null) {
       this.vertical = false;
@@ -183,4 +228,15 @@ export class LySlider implements OnInit {
       this.color = 'accent';
     }
   }
+
+  writeValue(obj: any): void {
+    throw new Error("Method not implemented.");
+  }
+  registerOnChange(fn: any): void {
+    throw new Error("Method not implemented.");
+  }
+  registerOnTouched(fn: any): void {
+    throw new Error("Method not implemented.");
+  }
 }
+

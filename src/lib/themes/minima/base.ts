@@ -4,6 +4,7 @@ import {
 } from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
+import { SliderVariables } from '@alyle/ui/slider';
 
 export class MinimaBase extends LyStyleUtils {
   typography = {
@@ -190,7 +191,29 @@ export class MinimaBase extends LyStyleUtils {
     }
   };
 
-  slider = {};
+  slider: SliderVariables = {
+    defaultConfig: {
+      appearance: 'standard'
+    },
+    appearance: {
+      standard: {
+        appearance: _theme => ({
+
+        }),
+        color: (_theme, color) => ({
+          '& {bg}, & {thumb}, & {thumbLabel}': {
+            backgroundColor: color
+          },
+          '&{horizontal} {thumbContainer}::before': {
+            background: `linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
+          },
+          '&{vertical} {thumbContainer}::before': {
+            background: `linear-gradient(90deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
+          }
+        })
+      }
+    }
+  };
 
   constructor() {
     super();
