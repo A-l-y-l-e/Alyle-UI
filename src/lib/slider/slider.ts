@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError } from '@alyle/ui';
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -120,6 +120,14 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
   }
 });
 
+/** A change event emitted by the LySlider component. */
+export class LySliderChange {
+  /** The LySlider that changed. */
+  source: LySlider;
+  /** The new value of the source slider. */
+  value: number | number[] | null;
+}
+
 @Component({
   selector: 'ly-slider',
   templateUrl: 'slider.html',
@@ -130,6 +138,8 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
 export class LySlider implements OnInit, ControlValueAccessor {
   static и = 'LySlider';
   readonly classes = this._theme.addStyleSheet(STYLES);
+
+  private _disabled: boolean;
   private _color: string;
   private _colorClass: string;
 
@@ -138,6 +148,80 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
   private _appearance: string;
   private _appearanceClass: string;
+
+  private _value: number | number[] | null = null;
+
+  private _hasThumbLabel: boolean;
+
+  private _max: number;
+  private _min: number;
+
+  private _step: number = 1;
+  private _stepPrecision?: number | null;
+
+  /** @docs-private */
+  _thumbs: {
+    value: number
+    left: number
+  }[] = [];
+
+  /** Event emitted when the slider value has changed. */
+  @Output() readonly change: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
+
+  /** Event emitted when the slider thumb moves. */
+  @Output() readonly input: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
+
+  /**
+   * The registered callback function called when a blur event occurs on the input element.
+   */
+  onTouched = () => {};
+
+  private _controlValueAccessorChangeFn: (value: any) => void = () => {};
+
+  @Input()
+  get disabled() {
+    return this._disabled;
+  }
+  set disabled(val: boolean) {
+    this._disabled = toBoolean(val);
+  }
+
+  @Input()
+  get hasThumbLabel() {
+    return this._hasThumbLabel;
+  }
+  set hasThumbLabel(val: boolean) {
+    this._hasThumbLabel = toBoolean(val);
+  }
+
+  /** The maximum value that the slider can have. */
+  @Input()
+  get max(): number {
+    return this._max;
+  }
+  set max(v: number) {
+    this._max = Number(v) || this._max;
+    this._updateThumbs();
+
+    this._cd.markForCheck();
+  }
+
+  /** The minimum value that the slider can have. */
+  @Input()
+  get min(): number {
+    return this._min;
+  }
+  set min(v: number) {
+    this._min = Number(v) || this._min;
+
+    // If the value wasn't explicitly set by the user, set it to the min.
+    if (this._value === null) {
+      this.value = this._min;
+    }
+    this._updateThumbs();
+
+    this._cd.markForCheck();
+  }
 
   /** The field appearance style. */
   @Input()
@@ -202,10 +286,59 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
   }
 
+  /** The values at which the thumb will snap. */
+  @Input()
+  get step(): number { return this._step; }
+  set step(v: number) {
+    this._step = Number(v) || this._step;
+
+    this._stepPrecision = this._step % 1 !== 0
+      ? this._step.toString().split('.')[1].length
+      : null;
+
+    this._cd.markForCheck();
+  }
+
+  @Input()
+  get value() {
+    return this._value;
+  }
+  set value(val: number | (number | null)[] | null) {
+    if (val !== this._value) {
+      const valueIsArray = Array.isArray(val);
+      if (typeof val === 'number') {
+        let newValue = Number(val);
+        if (this._stepPrecision) {
+          newValue = parseFloat(newValue.toFixed(this._stepPrecision));
+        }
+        this._value = newValue;
+      } else if (valueIsArray && !arrayEquals(this._value, val)) {
+        let newValue = val as number[];
+        if (this._stepPrecision) {
+          newValue = newValue.map(
+            _val => _val === null
+            ? _val
+            : parseFloat(_val.toFixed(this._stepPrecision as number)));
+        }
+        this._value = newValue;
+      }
+      this._thumbs = (valueIsArray ?
+        this._value as (number | null)[]
+        : [this._value as number | null]).map(v => ({
+          value: v || 0,
+          left: 0
+        }));
+
+
+      this._cd.markForCheck();
+    }
+  }
+
   constructor(
     private _theme: LyTheme2,
     private _el: ElementRef,
-    private _renderer: Renderer2
+    private _renderer: Renderer2,
+    private _cd: ChangeDetectorRef
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
@@ -229,14 +362,66 @@ export class LySlider implements OnInit, ControlValueAccessor {
     }
   }
 
-  writeValue(obj: any): void {
-    throw new Error("Method not implemented.");
+  writeValue(value: any): void {
+    this.value = value;
   }
-  registerOnChange(fn: any): void {
-    throw new Error("Method not implemented.");
+
+  /**
+   * Registers a function called when the control value changes.
+   *
+   * @param fn The callback function
+   */
+  registerOnChange(fn: (value: any) => any): void {
+    this._controlValueAccessorChangeFn = fn;
   }
-  registerOnTouched(fn: any): void {
-    throw new Error("Method not implemented.");
+
+  /**
+   * Registers a function called when the control is touched.
+   *
+   * @param fn The callback function
+   */
+  registerOnTouched(fn: () => any): void {
+    this.onTouched = fn;
+  }
+
+  /**
+   * Disables the select. Part of the ControlValueAccessor interface required
+   * to integrate with Angular's core forms API.
+   *
+   * @param isDisabled Sets whether the component is disabled.
+   */
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
+
+  private _updateThumbs() {
+    this._thumbs.forEach(thumb => {
+      const val = clamp(thumb.value, this.min, this.max);
+      thumb.value = val;
+      thumb.left = valueToPercent(val, this.min, this.max);
+    });
   }
 }
 
+function valueToPercent(value: number, min: number, max: number) {
+  return ((value - min) * 100) / (max - min);
+}
+
+// function percentToValue(percent, min, max) {
+//   return (max - min) * percent + min;
+// }
+
+function arrayEquals(array1: any, array2: any) {
+  return Array.isArray(array1) && Array.isArray(array2) && array1.length === array2.length
+    && array1.every((value, index) => value === array2[index]);
+}
+
+function clamp(value: number, min: number, max: number) {
+  if (value < min) {
+    return min;
+  }
+  if (value > max) {
+    return max;
+  }
+  return value;
+}

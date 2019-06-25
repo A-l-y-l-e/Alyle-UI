@@ -1,8 +1,12 @@
 <div [className]="classes.bg"></div>
 <div [className]="classes.track"></div>
-<div [className]="classes.thumbContainer" [attr.tabindex]="0">
+<div
+  *ngFor="let thumb of _thumbs"
+  [className]="classes.thumbContainer"
+  [attr.tabindex]="0"
+>
   <div [className]="classes.thumb"></div>
   <div [className]="classes.thumbLabel">
-    <span [className]="classes.thumbLabelValue"></span>
+    <span [className]="classes.thumbLabelValue">{{ thumb.value }}</span>
   </div>
 </div>
