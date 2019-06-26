@@ -510,7 +510,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
       0,
       100);
 
-    const value = percentToValue(percent, this.min, this.max);
+    const value = this._roundValueToStep(percentToValue(percent, this.min, this.max));
 
     if (!this._isSlidingThisThumb) {
       this._isSlidingThisThumb = this._thumbsOnSlideStart![findClosest(this._thumbs.map(thumb => thumb.value), value)];
@@ -553,6 +553,10 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _createChangeEvent(value = this.value) {
 
     return new LySliderChange(this, value);
+  }
+
+  private _roundValueToStep(value: number) {
+    return Number((Math.round(value / this.step) * this.step).toFixed(this._stepPrecision!));
   }
 }
 
