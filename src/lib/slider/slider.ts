@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
-import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError } from '@alyle/ui';
+import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef, ChangeDetectorRef, Output, EventEmitter, ViewChild } from '@angular/core';
+import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError, HammerInput } from '@alyle/ui';
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -76,6 +76,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     width: '96px',
     height: '2px',
     padding: '10px 0',
+    touchAction: 'pan-y !important',
     '& {track}, & {bg}': {
       height: '2px',
       width: '100%'
@@ -106,6 +107,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     width: '2px',
     height: '96px',
     padding: '0 10px',
+    touchAction: 'pan-x !important',
     '& {track}, & {bg}': {
       height: '100%',
       width: '2px'
@@ -147,12 +149,23 @@ export class LySliderChange {
   }
 }
 
+interface Thumb {
+  value: number;
+  styles: { [key: string]: string } | null;
+}
+
+
 @Component({
   selector: 'ly-slider',
   templateUrl: 'slider.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lySlider',
-  providers: [LY_SLIDER_CONTROL_VALUE_ACCESSOR]
+  providers: [LY_SLIDER_CONTROL_VALUE_ACCESSOR],
+  host: {
+    '(slide)': '_onSlide($event)',
+    '(slideend)': '_onSlideEnd()',
+    '(tap)': '_onTap($event)'
+  }
 })
 export class LySlider implements OnInit, ControlValueAccessor {
   static и = 'LySlider';
@@ -169,20 +182,28 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _appearanceClass: string;
 
   private _value: number | (number | null)[] | null = null;
+  private _valueOnSlideStart: number | (number | null)[] | null;
 
   private _hasThumbLabel: boolean;
 
   private _min: number = 0;
   private _max: number = 100;
 
-  private _step: number = 1;
+  private _step: number;
   private _stepPrecision?: number | null;
 
-  /** @docs-private */
-  _thumbs: {
-    value: number
-    styles: { [key: string]: string } | null
-  }[] = [];
+  private _isSlidingThisThumb: Thumb | null;
+  private _currentRect: DOMRect | null;
+
+  /**
+   * Whether or not the thumb is sliding.
+   */
+  _isSliding: boolean;
+
+
+  _thumbs: Thumb[] = [];
+
+  @ViewChild('bg', { static: false }) _trackBg?: ElementRef<HTMLDivElement>;
 
   /** Event emitted when the slider value has changed. */
   @Output() readonly change: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
@@ -330,18 +351,15 @@ export class LySlider implements OnInit, ControlValueAccessor {
       const valueIsArray = Array.isArray(val);
       if (typeof val === 'number') {
         let newValue = Number(val);
-        if (this._stepPrecision) {
-          newValue = parseFloat(newValue.toFixed(this._stepPrecision));
-        }
+        newValue = parseFloat(newValue.toFixed(this._stepPrecision as number));
         this._value = newValue;
       } else if (valueIsArray && !arrayEquals(this._value, val)) {
         let newValue = val as number[];
-        if (this._stepPrecision) {
-          newValue = newValue.map(
-            _val => _val === null
-            ? _val
-            : parseFloat(_val.toFixed(this._stepPrecision as number)));
-        }
+        newValue = newValue.map(
+          _val => _val === null
+          ? _val
+          : parseFloat(_val.toFixed(this._stepPrecision as number)));
+
         this._value = newValue;
       }
       this._thumbs = (valueIsArray ?
@@ -387,6 +405,11 @@ export class LySlider implements OnInit, ControlValueAccessor {
     if (this.color == null) {
       this.color = 'accent';
     }
+
+    /** Set default step */
+    if (this.step == null) {
+      this.step = 1;
+    }
   }
 
   writeValue(value: any): void {
@@ -421,6 +444,79 @@ export class LySlider implements OnInit, ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
+  _onTap(event: HammerInput) {
+    if (this.disabled) {
+      return;
+    }
+    this._startSlide();
+    this._updateValueFromPosition(event.deltaX, event.deltaY, event.center.x, event.center.y);
+    this._onSlideEnd();
+  }
+
+  _onSlide(event: HammerInput) {
+
+    if (this.disabled) {
+      return;
+    }
+
+    this._startSlide();
+
+    this._updateValueFromPosition(event.deltaX, event.deltaY, event.center.x, event.center.y);
+
+    event.preventDefault();
+  }
+
+  private _startSlide() {
+    if (!this._isSliding) {
+      this._isSliding = true;
+      this._valueOnSlideStart = this.value;
+      this._currentRect = this._trackBg!.nativeElement.getBoundingClientRect() as DOMRect;
+      // this._isSlidingThisThumb = ;
+    }
+  }
+
+  _onSlideEnd() {
+    if (this._isSliding) {
+      this._isSliding = false;
+
+      if (this._valueOnSlideStart != this.value && !this.disabled) {
+        this._emitChangeEvent();
+      }
+      this._valueOnSlideStart = null;
+      this._isSlidingThisThumb = null;
+      this._currentRect = null;
+    }
+  }
+
+  private _updateValueFromPosition(deltaX: number, deltaY: number, x: number, y: number) {
+    if (!this._trackBg) {
+      return;
+    }
+
+    const w = this._currentRect!.width;
+    const h = this._currentRect!.height;
+    x -= this._currentRect!.x;
+    y -= this._currentRect!.y;
+
+    const percent = clamp(
+      this.vertical
+        ? valueToPercent(y, 0, h)
+        : valueToPercent(x, 0, w),
+      0,
+      100);
+
+    const value = percentToValue(percent, this.min, this.max);
+
+    this._isSlidingThisThumb = this._thumbs[findClosest(this._thumbs.map(thumb => thumb.value), value)];
+    this._isSlidingThisThumb.value = value;
+    if (Array.isArray(this.value)) {
+      this.value = this._thumbs.map(thumb => thumb.value);
+    } else {
+      this.value = value;
+    }
+
+  }
+
   private _updateThumbs() {
     this._thumbs.forEach(thumb => {
       const val = clamp(thumb.value, this.min, this.max);
@@ -453,13 +549,32 @@ export class LySlider implements OnInit, ControlValueAccessor {
   }
 }
 
+function findClosest(values: number[], currentValue: number) {
+  const { index: closestIndex } = values.reduce<{
+    distance: number
+    index: number
+  } | null>((acc, value, index) => {
+    const distance = Math.abs(currentValue - value);
+
+    if (acc === null || distance < acc.distance || distance === acc.distance) {
+      return {
+        distance,
+        index,
+      };
+    }
+
+    return acc;
+  }, null)!;
+  return closestIndex;
+}
+
 function valueToPercent(value: number, min: number, max: number) {
   return ((value - min) * 100) / (max - min);
 }
 
-// function percentToValue(percent, min, max) {
-//   return (max - min) * percent + min;
-// }
+function percentToValue(percent, min, max) {
+  return (max - min) * (percent / 100) + min;
+}
 
 function arrayEquals(array1: any, array2: any) {
   return Array.isArray(array1) && Array.isArray(array2) && array1.length === array2.length

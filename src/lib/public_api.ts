@@ -8,6 +8,7 @@ export * from './src/minimal/index';
 export * from './src/focus-state/focus-state';
 export * from './src/version';
 export * from './src/gesture/gesture-config';
+export * from './src/gesture/gesture-annotations';
 export * from './src/theme/paper';
 export * from './src/theme/core-theme.service';
 export * from './src/theme/theme-config';
