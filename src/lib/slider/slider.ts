@@ -151,6 +151,7 @@ export class LySliderChange {
 
 interface Thumb {
   value: number;
+  displayValue: string | number | null;
   styles: { [key: string]: string } | null;
 }
 
@@ -205,6 +206,8 @@ export class LySlider implements OnInit, ControlValueAccessor {
   _thumbs: Thumb[] = [];
 
   @ViewChild('bg', { static: false }) _trackBg?: ElementRef<HTMLDivElement>;
+
+  @Input() displayWith: (value: number | null) => string | number;
 
   /** Event emitted when the slider value has changed. */
   @Output() readonly change: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
@@ -366,7 +369,8 @@ export class LySlider implements OnInit, ControlValueAccessor {
       this._thumbs = (valueIsArray ?
         this._value as (number | null)[]
         : [this._value as number | null]).map(v => ({
-          value: v || 0,
+          value: v || this.min,
+          displayValue: null,
           styles: null
         }));
 
@@ -517,7 +521,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
     }
     this._isSlidingThisThumb.value = value;
     if (Array.isArray(this.value)) {
-      this.value = this._thumbsOnSlideStart!.map(thumb => thumb.value);
+      this.value = this._thumbsOnSlideStart!.map(thumb => thumb.value).sort();
     } else {
       this.value = value;
     }
@@ -539,6 +543,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
         styles[direction] = pos;
       }
       thumb.value = val;
+      thumb.displayValue = this._transformValue(val);
       thumb.styles = styles;
     });
   }
@@ -558,23 +563,30 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _roundValueToStep(value: number) {
     return Number((Math.round(value / this.step) * this.step).toFixed(this._stepPrecision!));
   }
+
+  private _transformValue(value: number) {
+    if (this.displayWith) {
+      return this.displayWith(value);
+    }
+    return value;
+  }
 }
 
 function findClosest(values: number[], currentValue: number) {
   const { index: closestIndex } = values.reduce<{
     distance: number
     index: number
-  } | null>((acc, value, index) => {
+  } | null>((previousValue, value, index) => {
     const distance = Math.abs(currentValue - value);
 
-    if (acc === null || distance < acc.distance || distance === acc.distance) {
+    if (previousValue === null || distance < previousValue.distance || distance === previousValue.distance) {
       return {
         distance,
         index,
       };
     }
 
-    return acc;
+    return previousValue;
   }, null)!;
   return closestIndex;
 }

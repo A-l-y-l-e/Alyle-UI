@@ -17,4 +17,8 @@ export class BasicSliderComponent implements OnInit {
   ngOnInit() {
   }
 
+  displayWithFn(value: number) {
+    return `${value}%`;
+  }
+
 }
