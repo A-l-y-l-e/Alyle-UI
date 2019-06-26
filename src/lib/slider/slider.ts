@@ -182,6 +182,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _appearanceClass: string;
 
   private _value: number | (number | null)[] | null = null;
+  private _thumbsOnSlideStart: Thumb[] | null;
   private _valueOnSlideStart: number | (number | null)[] | null;
 
   private _hasThumbLabel: boolean;
@@ -449,7 +450,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
       return;
     }
     this._startSlide();
-    this._updateValueFromPosition(event.deltaX, event.deltaY, event.center.x, event.center.y);
+    this._updateValueFromPosition(event.center.x, event.center.y);
     this._onSlideEnd();
   }
 
@@ -461,7 +462,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
     this._startSlide();
 
-    this._updateValueFromPosition(event.deltaX, event.deltaY, event.center.x, event.center.y);
+    this._updateValueFromPosition(event.center.x, event.center.y);
 
     event.preventDefault();
   }
@@ -469,9 +470,12 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _startSlide() {
     if (!this._isSliding) {
       this._isSliding = true;
-      this._valueOnSlideStart = this.value;
+
+      // clone
+      this._valueOnSlideStart = Array.isArray(this.value) ? this.value.slice(0) : this.value;
+
+      this._thumbsOnSlideStart = this._thumbs;
       this._currentRect = this._trackBg!.nativeElement.getBoundingClientRect() as DOMRect;
-      // this._isSlidingThisThumb = ;
     }
   }
 
@@ -482,13 +486,14 @@ export class LySlider implements OnInit, ControlValueAccessor {
       if (this._valueOnSlideStart != this.value && !this.disabled) {
         this._emitChangeEvent();
       }
+      this._thumbsOnSlideStart = null;
       this._valueOnSlideStart = null;
       this._isSlidingThisThumb = null;
       this._currentRect = null;
     }
   }
 
-  private _updateValueFromPosition(deltaX: number, deltaY: number, x: number, y: number) {
+  private _updateValueFromPosition(x: number, y: number) {
     if (!this._trackBg) {
       return;
     }
@@ -507,10 +512,12 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
     const value = percentToValue(percent, this.min, this.max);
 
-    this._isSlidingThisThumb = this._thumbs[findClosest(this._thumbs.map(thumb => thumb.value), value)];
+    if (!this._isSlidingThisThumb) {
+      this._isSlidingThisThumb = this._thumbsOnSlideStart![findClosest(this._thumbs.map(thumb => thumb.value), value)];
+    }
     this._isSlidingThisThumb.value = value;
     if (Array.isArray(this.value)) {
-      this.value = this._thumbs.map(thumb => thumb.value);
+      this.value = this._thumbsOnSlideStart!.map(thumb => thumb.value);
     } else {
       this.value = value;
     }
