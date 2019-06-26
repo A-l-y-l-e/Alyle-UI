@@ -22,7 +22,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     boxSizing: 'border-box',
     outline: 0,
     cursor: 'pointer',
-    '& {track}, & {bg}, & {thumbContainer}': {
+    '& {track}, & {bg}': {
       ...LY_COMMON_STYLES.fill,
       margin: 'auto'
     },
@@ -38,9 +38,10 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
   track: { },
   bg: { },
   thumbContainer: {
-    position: 'relative',
     width: 0,
     height: 0,
+    position: 'absolute',
+    margin: 'auto',
     '&::before': {
       content: `''`,
       position: 'absolute',
@@ -62,7 +63,6 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     borderRadius: '50% 50% 0%'
   },
   thumbLabelValue: {
-    transform: 'rotateZ(-45deg)',
     display: 'flex',
     height: '100%',
     width: '100%',
@@ -88,11 +88,18 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       top: '-50px',
       transform: 'rotateZ(45deg)'
     },
+    '& {thumbLabelValue}': {
+      transform: 'rotateZ(-45deg)'
+    },
+    '{thumbContainer}': {
+      top: 0,
+      bottom: 0,
+    },
     '{thumbContainer}::before': {
       width: '2px',
       height: '24px',
       left: '-1px',
-      top: '-24px',
+      top: '-24px'
     }
   },
   vertical: {
@@ -111,6 +118,13 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       top: '-14px',
       transform: 'rotateZ(-45deg)'
     },
+    '& {thumbLabelValue}': {
+      transform: 'rotateZ(45deg)'
+    },
+    '{thumbContainer}': {
+      left: 0,
+      right: 0
+    },
     '{thumbContainer}::before': {
       width: '24px',
       height: '2px',
@@ -122,10 +136,15 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
 
 /** A change event emitted by the LySlider component. */
 export class LySliderChange {
-  /** The LySlider that changed. */
-  source: LySlider;
-  /** The new value of the source slider. */
-  value: number | number[] | null;
+
+  constructor(
+      /** The LySlider that changed. */
+    public source: LySlider,
+    /** The new value of the source slider. */
+    public value: number | (number | null)[] | null,
+  ) {
+
+  }
 }
 
 @Component({
@@ -149,12 +168,12 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _appearance: string;
   private _appearanceClass: string;
 
-  private _value: number | number[] | null = null;
+  private _value: number | (number | null)[] | null = null;
 
   private _hasThumbLabel: boolean;
 
-  private _max: number;
-  private _min: number;
+  private _min: number = 0;
+  private _max: number = 100;
 
   private _step: number = 1;
   private _stepPrecision?: number | null;
@@ -162,7 +181,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
   /** @docs-private */
   _thumbs: {
     value: number
-    left: number
+    styles: { [key: string]: string } | null
   }[] = [];
 
   /** Event emitted when the slider value has changed. */
@@ -170,6 +189,9 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
   /** Event emitted when the slider thumb moves. */
   @Output() readonly input: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
+
+  /** @docs-private */
+  @Output() readonly valueChange: EventEmitter<number | (number | null)[] | null> = new EventEmitter<number | (number | null)[] | null>();
 
   /**
    * The registered callback function called when a blur event occurs on the input element.
@@ -326,9 +348,10 @@ export class LySlider implements OnInit, ControlValueAccessor {
         this._value as (number | null)[]
         : [this._value as number | null]).map(v => ({
           value: v || 0,
-          left: 0
+          styles: null
         }));
 
+      this._updateThumbs();
 
       this._cd.markForCheck();
     }
@@ -344,6 +367,10 @@ export class LySlider implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
+
+    /**
+     * TODO: update thumbs & trail on change direction (RTL/LTR)
+     */
 
     /** Set default appearance */
     if (this.appearance == null) {
@@ -397,9 +424,32 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _updateThumbs() {
     this._thumbs.forEach(thumb => {
       const val = clamp(thumb.value, this.min, this.max);
+      const percent = valueToPercent(val, this.min, this.max);
+      const styles: {
+        [key: string]: string;
+    } = {};
+      const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
+      const pos = `${percent}%`;
+      if (this.vertical) {
+        styles.top = pos;
+      } else {
+        styles[direction] = pos;
+      }
       thumb.value = val;
-      thumb.left = valueToPercent(val, this.min, this.max);
+      thumb.styles = styles;
     });
+  }
+
+  /** Emits a change event. */
+  private _emitChangeEvent() {
+    this._controlValueAccessorChangeFn(this.value);
+    this.valueChange.emit(this.value);
+    this.change.emit(this._createChangeEvent());
+  }
+
+  private _createChangeEvent(value = this.value) {
+
+    return new LySliderChange(this, value);
   }
 }
 

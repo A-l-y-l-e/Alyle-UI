@@ -4,6 +4,7 @@
   *ngFor="let thumb of _thumbs"
   [className]="classes.thumbContainer"
   [attr.tabindex]="0"
+  [ngStyle]="thumb.styles"
 >
   <div [className]="classes.thumb"></div>
   <div [className]="classes.thumbLabel">
