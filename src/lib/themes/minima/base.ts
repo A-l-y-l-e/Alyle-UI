@@ -201,8 +201,11 @@ export class MinimaBase extends LyStyleUtils {
 
         }),
         color: (_theme, color) => ({
-          '& {track}, & {thumb}, & {thumbLabel}': {
+          '& {track}, & {thumb}, & {thumbLabel}, & {bg}': {
             backgroundColor: color
+          },
+          '{bg}': {
+            opacity: .3
           },
           '&{horizontal} {thumbContainer}::before': {
             background: `linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`

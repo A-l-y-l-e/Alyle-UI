@@ -85,7 +85,9 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       width: '100%'
     },
     '{track}': {
-      before: 0
+      before: 0,
+      top: 0,
+      bottom: 0
     },
     '& {thumb}': {
       transform: 'rotateZ(-135deg)'
@@ -119,7 +121,9 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       width: '2px'
     },
     '{track}': {
-      bottom: 0
+      bottom: 0,
+      left: 0,
+      right: 0
     },
     '& {thumb}': {
       transform: 'rotateZ(135deg)'
