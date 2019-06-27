@@ -22,7 +22,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     boxSizing: 'border-box',
     outline: 0,
     cursor: 'pointer',
-    '& {track}, & {bg}': {
+    '{bg}': {
       ...LY_COMMON_STYLES.fill,
       margin: 'auto'
     },
@@ -35,7 +35,10 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     padding: '16px 0'
   },
 
-  track: { },
+  track: {
+    position: 'absolute',
+    margin: 'auto'
+  },
   bg: { },
   thumbContainer: {
     width: 0,
@@ -81,6 +84,9 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       height: '2px',
       width: '100%'
     },
+    '{track}': {
+      before: 0
+    },
     '& {thumb}': {
       transform: 'rotateZ(-135deg)'
     },
@@ -111,6 +117,9 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     '& {track}, & {bg}': {
       height: '100%',
       width: '2px'
+    },
+    '{track}': {
+      bottom: 0
     },
     '& {thumb}': {
       transform: 'rotateZ(135deg)'
@@ -152,6 +161,7 @@ export class LySliderChange {
 interface Thumb {
   value: number;
   displayValue: string | number | null;
+  percent: number | null;
   styles: { [key: string]: string } | null;
 }
 
@@ -205,7 +215,8 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
   _thumbs: Thumb[] = [];
 
-  @ViewChild('bg', { static: false }) _trackBg?: ElementRef<HTMLDivElement>;
+  @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
+  @ViewChild('track', { static: true }) _track?: ElementRef<HTMLDivElement>;
 
   @Input() displayWith: (value: number | null) => string | number;
 
@@ -371,6 +382,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
         : [this._value as number | null]).map(v => ({
           value: v || this.min,
           displayValue: null,
+          percent: null,
           styles: null
         }));
 
@@ -459,14 +471,23 @@ export class LySlider implements OnInit, ControlValueAccessor {
   }
 
   _onSlide(event: HammerInput) {
-
     if (this.disabled) {
       return;
     }
 
     this._startSlide();
 
-    this._updateValueFromPosition(event.center.x, event.center.y);
+    if (event['isFinal']) {
+      if (event['pointerType'] === 'touch' && event.center.x === 0 && event.center.y === 0) {
+        // restore to initial position
+        this.value = this._valueOnSlideStart;
+      } else {
+        this._updateValueFromPosition(event.center.x, event.center.y);
+      }
+      this._onSlideEnd();
+    } else {
+      this._updateValueFromPosition(event.center.x, event.center.y);
+    }
 
     event.preventDefault();
   }
@@ -479,7 +500,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
       this._valueOnSlideStart = Array.isArray(this.value) ? this.value.slice(0) : this.value;
 
       this._thumbsOnSlideStart = this._thumbs;
-      this._currentRect = this._trackBg!.nativeElement.getBoundingClientRect() as DOMRect;
+      this._currentRect = this._bg!.nativeElement.getBoundingClientRect() as DOMRect;
     }
   }
 
@@ -497,8 +518,12 @@ export class LySlider implements OnInit, ControlValueAccessor {
     }
   }
 
+  _trackByFn(_index: number, item: Thumb) {
+    return item.value;
+  }
+
   private _updateValueFromPosition(x: number, y: number) {
-    if (!this._trackBg) {
+    if (!this._bg) {
       return;
     }
 
@@ -507,12 +532,16 @@ export class LySlider implements OnInit, ControlValueAccessor {
     x -= this._currentRect!.x;
     y -= this._currentRect!.y;
 
-    const percent = clamp(
+    let percent = clamp(
       this.vertical
         ? valueToPercent(y, 0, h)
         : valueToPercent(x, 0, w),
       0,
       100);
+
+    if (this.vertical) {
+      percent = 100 - percent;
+    }
 
     const value = this._roundValueToStep(percentToValue(percent, this.min, this.max));
 
@@ -533,19 +562,52 @@ export class LySlider implements OnInit, ControlValueAccessor {
       const val = clamp(thumb.value, this.min, this.max);
       const percent = valueToPercent(val, this.min, this.max);
       const styles: {
-        [key: string]: string;
-    } = {};
+          [key: string]: string;
+      } = {};
       const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
       const pos = `${percent}%`;
       if (this.vertical) {
-        styles.top = pos;
+        styles.bottom = pos;
+        // val = this.max - val;
       } else {
         styles[direction] = pos;
       }
       thumb.value = val;
       thumb.displayValue = this._transformValue(val);
+      thumb.percent = percent;
       thumb.styles = styles;
     });
+
+    this._updateTrack();
+  }
+
+  private _updateTrack() {
+    const track = this._track;
+    const thumbs = this._thumbs;
+    const thumbsPercents = thumbs.map(thumb => thumb.percent!);
+    const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
+
+    if (thumbs.length === 1) {
+      thumbsPercents.unshift(0);
+    }
+    const minPercent = Math.min(...thumbsPercents);
+    const maxPercent = Math.max(...thumbsPercents);
+
+    if (track) {
+
+      track.nativeElement.style.width = null;
+      track.nativeElement.style.height = null;
+      track.nativeElement.style.left = null;
+      track.nativeElement.style.right = null;
+
+      if (this.vertical) {
+        track.nativeElement.style.height = `${(maxPercent - minPercent)}%`;
+        track.nativeElement.style.bottom = `${minPercent}%`;
+      } else {
+        track.nativeElement.style.width = `${maxPercent - minPercent}%`;
+        track.nativeElement.style[direction] = `${minPercent}%`;
+      }
+    }
   }
 
   /** Emits a change event. */

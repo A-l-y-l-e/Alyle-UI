@@ -1,7 +1,7 @@
 <div #bg [className]="classes.bg"></div>
-<div [className]="classes.track"></div>
+<div #track [className]="classes.track"></div>
 <div
-  *ngFor="let thumb of _thumbs"
+  *ngFor="let thumb of _thumbs; trackBy: _trackByFn"
   [className]="classes.thumbContainer"
   [attr.tabindex]="0"
   [ngStyle]="thumb.styles"

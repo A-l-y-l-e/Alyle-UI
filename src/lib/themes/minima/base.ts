@@ -201,7 +201,7 @@ export class MinimaBase extends LyStyleUtils {
 
         }),
         color: (_theme, color) => ({
-          '& {bg}, & {thumb}, & {thumbLabel}': {
+          '& {track}, & {thumb}, & {thumbLabel}': {
             backgroundColor: color
           },
           '&{horizontal} {thumbContainer}::before': {
