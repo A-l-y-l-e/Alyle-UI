@@ -1,0 +1,30 @@
+<div [className]="classes.sliderContainer">
+  <ly-slider
+    [(ngModel)]="value"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    [marks]="marks"
+  >
+    <ly-mark [value]="11">$11</ly-mark>
+    <ly-mark [value]="40">$40</ly-mark>
+  </ly-slider>
+</div>
+
+<div>
+  <ly-field>
+    <input type="number" lyNativeControl [(ngModel)]="value" placeholder="Value">
+  </ly-field>
+  <ly-field>
+    <input type="number" lyNativeControl [(ngModel)]="min" placeholder="Min">
+  </ly-field>
+  <ly-field>
+    <input type="number" lyNativeControl [(ngModel)]="max" placeholder="Max">
+  </ly-field>
+  <ly-field>
+    <input type="number" lyNativeControl [(ngModel)]="step" placeholder="Step">
+  </ly-field>
+</div>
+<div>
+  <ly-checkbox [(ngModel)]="marks">Show marks</ly-checkbox>
+</div>

@@ -76,7 +76,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
   },
 
   horizontal: {
-    width: '96px',
+    width: '120px',
     height: '2px',
     padding: '10px 0',
     touchAction: 'pan-y !important',
@@ -113,7 +113,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
   },
   vertical: {
     width: '2px',
-    height: '96px',
+    height: '120px',
     padding: '0 10px',
     touchAction: 'pan-x !important',
     '& {track}, & {bg}': {
@@ -146,7 +146,19 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       left: '-24px',
       top: '-1px'
     }
-  }
+  },
+
+  marked: {
+    marginBottom: '24px'
+  },
+  mark: {
+    position: 'absolute',
+    top: '22px',
+    whiteSpace: 'nowrap',
+    fontSize: '14px',
+    transform: 'translateX(-50%)'
+  },
+  markActive: { }
 });
 
 /** A change event emitted by the LySlider component. */
@@ -157,9 +169,7 @@ export class LySliderChange {
     public source: LySlider,
     /** The new value of the source slider. */
     public value: number | (number | null)[] | null,
-  ) {
-
-  }
+  ) { }
 }
 
 interface Thumb {
@@ -169,6 +179,10 @@ interface Thumb {
   styles: { [key: string]: string } | null;
 }
 
+export interface LySliderMark {
+  value: number;
+  label: number | string;
+}
 
 @Component({
   selector: 'ly-slider',
@@ -205,7 +219,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _min: number = 0;
   private _max: number = 100;
 
-  private _step: number;
+  private _step: number = 1;
   private _stepPrecision?: number | null;
 
   private _isSlidingThisThumb: Thumb | null;
@@ -216,11 +230,10 @@ export class LySlider implements OnInit, ControlValueAccessor {
    */
   _isSliding: boolean;
 
-
   _thumbs: Thumb[] = [];
 
   @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
-  @ViewChild('track', { static: true }) _track?: ElementRef<HTMLDivElement>;
+  @ViewChild('track', { static: false }) _track?: ElementRef<HTMLDivElement>;
 
   @Input() displayWith: (value: number | null) => string | number;
 
@@ -255,6 +268,32 @@ export class LySlider implements OnInit, ControlValueAccessor {
   set hasThumbLabel(val: boolean) {
     this._hasThumbLabel = toBoolean(val);
   }
+
+  @Input()
+  get marks() {
+    return this._marks;
+  }
+  set marks(val: boolean | LySliderMark[]) {
+    const newVal = toBoolean(val);
+
+    const newClass = this.classes.marked;
+
+    if (newVal !== this.marks) {
+      if (newVal) {
+        this._renderer.addClass(this._el.nativeElement, newClass);
+        this._marksClass = newClass;
+        this._marks = Array.isArray(val) ? val : newVal;
+      } else if (this._marksClass) {
+        this._marks = false;
+        this._renderer.removeClass(this._el.nativeElement, newClass);
+        this._marksClass = null;
+      }
+    }
+
+  }
+
+  private _marks: boolean | LySliderMark[];
+  private _marksClass: string | null;
 
   /** The maximum value that the slider can have. */
   @Input()
@@ -408,7 +447,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
   ngOnInit() {
 
     /**
-     * TODO: update thumbs & trail on change direction (RTL/LTR)
+     * TODO: update thumbs & rail on change direction (RTL/LTR)
      */
 
     /** Set default appearance */
@@ -494,6 +533,10 @@ export class LySlider implements OnInit, ControlValueAccessor {
     }
 
     event.preventDefault();
+
+    if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
+      this._emitInputEvent();
+    }
   }
 
   private _startSlide() {
@@ -512,7 +555,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
     if (this._isSliding) {
       this._isSliding = false;
 
-      if (this._valueOnSlideStart != this.value && !this.disabled) {
+      if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
         this._emitChangeEvent();
       }
       this._thumbsOnSlideStart = null;
@@ -538,8 +581,8 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
     let percent = clamp(
       this.vertical
-        ? valueToPercent(y, 0, h)
-        : valueToPercent(x, 0, w),
+        ? гvalueToPercent(y, 0, h)
+        : гvalueToPercent(x, 0, w),
       0,
       100);
 
@@ -547,8 +590,15 @@ export class LySlider implements OnInit, ControlValueAccessor {
       percent = 100 - percent;
     }
 
-    const value = this._roundValueToStep(percentToValue(percent, this.min, this.max));
+    let value: number;
 
+    if (percent === 0) {
+      value = this.min;
+    } else if (percent === 100) {
+      value = this.max;
+    } else {
+      value = this._roundValueToStep(percentToValue(percent, this.min, this.max));
+    }
     if (!this._isSlidingThisThumb) {
       this._isSlidingThisThumb = this._thumbsOnSlideStart![findClosest(this._thumbs.map(thumb => thumb.value), value)];
     }
@@ -564,7 +614,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _updateThumbs() {
     this._thumbs.forEach(thumb => {
       const val = clamp(thumb.value, this.min, this.max);
-      const percent = valueToPercent(val, this.min, this.max);
+      const percent = гvalueToPercent(val, this.min, this.max);
       const styles: {
           [key: string]: string;
       } = {};
@@ -621,6 +671,11 @@ export class LySlider implements OnInit, ControlValueAccessor {
     this.change.emit(this._createChangeEvent());
   }
 
+  /** Emits an input event. */
+  private _emitInputEvent() {
+    this.input.emit(this._createChangeEvent());
+  }
+
   private _createChangeEvent(value = this.value) {
 
     return new LySliderChange(this, value);
@@ -657,7 +712,7 @@ function findClosest(values: number[], currentValue: number) {
   return closestIndex;
 }
 
-function valueToPercent(value: number, min: number, max: number) {
+export function гvalueToPercent(value: number, min: number, max: number) {
   return ((value - min) * 100) / (max - min);
 }
 
@@ -668,6 +723,13 @@ function percentToValue(percent, min, max) {
 function arrayEquals(array1: any, array2: any) {
   return Array.isArray(array1) && Array.isArray(array2) && array1.length === array2.length
     && array1.every((value, index) => value === array2[index]);
+}
+
+function valueEquals(value: number | (number | null)[] | null, value2: number | (number | null)[] | null) {
+  if (value === value2) {
+    return true;
+  }
+  return arrayEquals(value, value2);
 }
 
 function clamp(value: number, min: number, max: number) {

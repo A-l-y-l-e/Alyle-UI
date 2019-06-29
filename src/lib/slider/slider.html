@@ -11,3 +11,6 @@
     <span [className]="classes.thumbLabelValue">{{ thumb.displayValue }}</span>
   </div>
 </div>
+<ng-template [ngIf]="marks">
+  <ng-content select="ly-mark"></ng-content>
+</ng-template>

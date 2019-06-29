@@ -158,6 +158,7 @@ import { MultipleThemesComponent } from '../components/multiple-themes/multiple-
 /** Slider */
 import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
 import { BasicSliderModule } from './components/slider-demo/basic-slider/basic-slider.module';
+import { SliderPlaygroundModule } from './components/slider-demo/slider-playground/slider-playground.module';
 
 @NgModule({
   imports: [
@@ -257,7 +258,8 @@ import { BasicSliderModule } from './components/slider-demo/basic-slider/basic-s
     CustomExpansionPanelModule,
     MultipleThemesDemo01Module,
     /** Slider */
-    BasicSliderModule
+    BasicSliderModule,
+    SliderPlaygroundModule
   ],
   declarations: [
     ThemingComponent,
