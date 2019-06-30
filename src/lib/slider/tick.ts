@@ -27,7 +27,6 @@ export class LyTick implements DoCheck {
     const min = this._slider._minPercent;
     const max = this._slider._maxPercent;
 
-    console.log('updating tick...', this._getHostElement());
     if (max !== this._maxPercent || min !== this._minPercent) {
       const className = this._slider.classes.tickActive;
       const value = this.value;
