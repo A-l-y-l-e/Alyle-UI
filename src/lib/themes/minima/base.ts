@@ -208,7 +208,7 @@ export class MinimaBase extends LyStyleUtils {
             backgroundColor: color
           },
           '{tickActive}': {
-            backgroundColor: chroma(color).luminance(0.7).css()
+            backgroundColor: chroma(color).luminance(0.6).css()
           },
           '{bg}': {
             opacity: .3

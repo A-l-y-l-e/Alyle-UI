@@ -1,10 +1,11 @@
-import { Directive, DoCheck, Renderer2, ElementRef, Input } from '@angular/core';
+import { Directive, Renderer2, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { LySlider, гbetween } from './slider';
+import { untilComponentDestroyed } from '@alyle/ui';
 
 @Directive({
   selector: 'ly-tick'
 })
-export class LyTick implements DoCheck {
+export class LyTick implements OnInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._slider.classes;
 
@@ -23,7 +24,15 @@ export class LyTick implements DoCheck {
     private _el: ElementRef
   ) { }
 
-  ngDoCheck() {
+  ngOnInit() {
+    this._slider._changes.pipe(untilComponentDestroyed(this)).subscribe(() => {
+      this._updateTick();
+    });
+  }
+
+  ngOnDestroy() { }
+
+  private _updateTick() {
     const min = this._slider._minPercent;
     const max = this._slider._maxPercent;
 

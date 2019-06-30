@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef, ChangeDetectorRef, Output, EventEmitter, ViewChild } from '@angular/core';
-import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError, HammerInput } from '@alyle/ui';
+import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef, ChangeDetectorRef, Output, EventEmitter, ViewChild, OnChanges, OnDestroy } from '@angular/core';
+import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError, HammerInput, toNumber } from '@alyle/ui';
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 interface ThemeVariablesWithSlider extends ThemeVariables {
   slider: SliderVariables;
@@ -205,7 +206,7 @@ export interface LySliderMark {
     '(tap)': '_onTap($event)'
   }
 })
-export class LySlider implements OnInit, ControlValueAccessor {
+export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
   static и = 'LySlider';
   readonly classes = this._theme.addStyleSheet(STYLES);
 
@@ -234,6 +235,8 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _isSlidingThisThumb: Thumb | null;
   private _currentRect: DOMRect | null;
 
+  _changes = new Subject<void>();
+
   /** Min percentage, this is for mark. */
   _minPercent: number;
   /** Max percentage, this is for mark. */
@@ -248,6 +251,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
   @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
   @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
+  @ViewChild('ticksRef', { static: true }) _ticksRef: ElementRef<HTMLDivElement>;
 
   @Input() displayWith: (value: number | null) => string | number;
 
@@ -315,7 +319,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
     return this._max;
   }
   set max(v: number) {
-    this._max = Number(v) || this._max;
+    this._max = toNumber(v, this._max);
     this._updateThumbs();
 
     this._cd.markForCheck();
@@ -327,7 +331,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
     return this._min;
   }
   set min(v: number) {
-    this._min = Number(v) || this._min;
+    this._min = toNumber(v, this._min);
 
     // If the value wasn't explicitly set by the user, set it to the min.
     if (this._value === null) {
@@ -405,7 +409,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
   @Input()
   get step(): number { return this._step; }
   set step(v: number) {
-    this._step = Number(v) || this._step;
+    this._step = toNumber(v, this._step);
 
     this._stepPrecision = this._step % 1 !== 0
       ? this._step.toString().split('.')[1].length
@@ -486,8 +490,17 @@ export class LySlider implements OnInit, ControlValueAccessor {
     }
   }
 
+  ngOnChanges() {
+    this._changes.next();
+  }
+
+  ngOnDestroy() {
+    this._changes.complete();
+  }
+
   writeValue(value: any): void {
     this.value = value;
+    this._changes.next();
   }
 
   /**
@@ -550,6 +563,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
     if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
       this._emitInputEvent();
+      this._changes.next();
     }
   }
 
@@ -571,6 +585,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
 
       if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
         this._emitChangeEvent();
+        this._changes.next();
       }
       this._thumbsOnSlideStart = null;
       this._valueOnSlideStart = null;

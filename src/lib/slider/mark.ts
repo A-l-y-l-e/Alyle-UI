@@ -38,7 +38,7 @@ export class LyMark implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this._renderer.appendChild(this._slider._getHostElement(), this._tick._getHostElement());
+    this._renderer.insertBefore(this._slider._getHostElement(), this._tick._getHostElement(), this._slider._ticksRef.nativeElement);
   }
 
   ngDoCheck() {
@@ -53,7 +53,6 @@ export class LyMark implements OnInit, DoCheck {
       const left = sign * percent;
       this._renderer.setStyle(this._el.nativeElement, 'left', `${left}%`);
       this._renderer.setStyle(this._tick._getHostElement(), 'left', `${left}%`);
-      this._tick.ngDoCheck();
     }
 
     if (max !== this._maxPercent || min !== this._minPercent) {
