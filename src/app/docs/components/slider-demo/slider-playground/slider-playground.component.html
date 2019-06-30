@@ -5,6 +5,7 @@
     [max]="max"
     [step]="step"
     [marks]="marks"
+    [vertical]="vertical"
   >
     <ly-mark [value]="11">$11</ly-mark>
     <ly-mark [value]="40">$40</ly-mark>
@@ -27,4 +28,7 @@
 </div>
 <div>
   <ly-checkbox [(ngModel)]="marks">Show marks</ly-checkbox>
+</div>
+<div>
+  <ly-checkbox [(ngModel)]="vertical">Vertical</ly-checkbox>
 </div>

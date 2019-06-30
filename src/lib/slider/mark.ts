@@ -1,5 +1,5 @@
-import { LyTheme2 } from '@alyle/ui';
-import { Component, Input, Renderer2, ElementRef, ChangeDetectionStrategy, DoCheck, ViewChild, OnInit } from '@angular/core';
+import { untilComponentDestroyed } from '@alyle/ui';
+import { Component, Input, Renderer2, ElementRef, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { LySlider, гvalueToPercent, гbetween } from './slider';
 import { LyTick } from './tick';
 
@@ -8,17 +8,9 @@ import { LyTick } from './tick';
   templateUrl: 'mark.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LyMark implements OnInit, DoCheck {
+export class LyMark implements OnInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._slider.classes;
-
-  /** Min percentage of a track. */
-  private _minPercent: number;
-  /** Max percentage of a track. */
-  private _maxPercent: number;
-
-  private _min: number;
-  private _max: number;
 
   private _markActiveClass?: string | null;
 
@@ -30,7 +22,6 @@ export class LyMark implements OnInit, DoCheck {
 
   constructor(
     private _slider: LySlider,
-    private _theme: LyTheme2,
     private _renderer: Renderer2,
     private _el: ElementRef
   ) {
@@ -39,37 +30,38 @@ export class LyMark implements OnInit, DoCheck {
 
   ngOnInit() {
     this._renderer.insertBefore(this._slider._getHostElement(), this._tick._getHostElement(), this._slider._ticksRef.nativeElement);
+    this._slider._changes.pipe(untilComponentDestroyed(this)).subscribe(() => {
+      this._updateMark();
+    });
   }
 
-  ngDoCheck() {
+  private _updateMark() {
     const min = this._slider._minPercent;
     const max = this._slider._maxPercent;
 
-    if (this._slider.max !== this._max || this._slider.min !== this._min) {
-      this._min = this._slider.min;
-      this._max = this._slider.max;
-      const percent = гvalueToPercent(this.value, this._slider.min, this._slider.max);
-      const sign = this._theme.variables.direction === 'rtl' ? -1 : 1;
-      const left = sign * percent;
-      this._renderer.setStyle(this._el.nativeElement, 'left', `${left}%`);
-      this._renderer.setStyle(this._tick._getHostElement(), 'left', `${left}%`);
+    const className = this._slider.classes.markActive;
+    const percent = гvalueToPercent(this.value, this._slider.min, this._slider.max);
+    const pos = this._slider._calculatePosition(percent);
+
+    if (гbetween(percent, min, max)) {
+      this._markActiveClass = className;
+      this._renderer.addClass(this._el.nativeElement, className);
+    } else if (this._markActiveClass) {
+      this._markActiveClass = null;
+      this._renderer.removeClass(this._el.nativeElement, className);
     }
 
-    if (max !== this._maxPercent || min !== this._minPercent) {
-      const className = this._slider.classes.markActive;
-      const value = this.value;
-      this._minPercent = min;
-      this._maxPercent = max;
+    this._renderer.setStyle(this._getHostElement(), 'bottom', null);
+    this._renderer.setStyle(this._getHostElement(), 'left', null);
+    this._renderer.setStyle(this._getHostElement(), 'right', null);
+    this._renderer.setStyle(this._getHostElement(), pos.style, pos.value);
 
-      if (гbetween(value, min, max)) {
-        this._markActiveClass = className;
-        this._renderer.addClass(this._el.nativeElement, className);
-      } else if (this._markActiveClass) {
-        this._markActiveClass = null;
-        this._renderer.removeClass(this._el.nativeElement, className);
-      }
-    }
+  }
 
+  ngOnDestroy() { }
+
+  private _getHostElement() {
+    return this._el.nativeElement;
   }
 }
 

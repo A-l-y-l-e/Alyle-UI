@@ -29,12 +29,6 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     },
     '&': theme.slider ? theme.slider.root : null
   },
-  wrapper: {
-    display: 'flex',
-    alignItems: 'baseline',
-    cursor: 'pointer',
-    padding: '16px 0'
-  },
 
   track: {
     position: 'absolute',
@@ -110,6 +104,19 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       height: '24px',
       left: '-1px',
       top: '-24px'
+    },
+    '{tick}': {
+      width: '2px',
+      height: 'inherit',
+      top: 0,
+      bottom: 0,
+    },
+    '{mark}': {
+      top: '22px',
+      transform: 'translateX(-50%)',
+    },
+    '&{marked}': {
+      marginBottom: '24px'
     }
   },
   vertical: {
@@ -146,18 +153,27 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       height: '2px',
       left: '-24px',
       top: '-1px'
+    },
+    '{tick}': {
+      width: 'inherit',
+      height: '2px',
+      left: 0,
+      right: 0
+    },
+    '{mark}': {
+      left: '22px',
+      transform: 'translateY(-50%)',
+    },
+    '&{marked}': {
+      marginRight: '24px'
     }
   },
 
-  marked: {
-    marginBottom: '24px'
-  },
+  marked: { },
   mark: {
     position: 'absolute',
-    top: '22px',
     whiteSpace: 'nowrap',
     fontSize: '14px',
-    transform: 'translateX(-50%)',
     color: theme.text.secondary
   },
   markActive: {
@@ -165,10 +181,6 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
   },
   tick: {
     position: 'absolute',
-    width: '2px',
-    height: 'inherit',
-    top: 0,
-    bottom: 0,
     margin: 'auto'
   },
   tickActive: {}
@@ -189,7 +201,7 @@ interface Thumb {
   value: number;
   displayValue: string | number | null;
   percent: number | null;
-  styles: { [key: string]: string } | null;
+  styles: { [key: string]: string };
 }
 
 export interface LySliderMark {
@@ -405,7 +417,9 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
       this._renderer,
       newClass,
       this._verticalClass as any);
+    this._updateThumbs();
 
+    this._cd.markForCheck();
   }
 
   /** The values at which the thumb will snap. */
@@ -444,10 +458,10 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
       this._thumbs = (valueIsArray ?
         this._value as (number | null)[]
         : [this._value as number | null]).map(v => ({
-          value: v || this.min,
+          value: toNumber(v, this.min),
           displayValue: null,
           percent: null,
-          styles: null
+          styles: {}
         }));
 
       this._updateThumbs();
@@ -647,23 +661,41 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
     this._thumbs.forEach(thumb => {
       const val = clamp(thumb.value, this.min, this.max);
       const percent = гvalueToPercent(val, this.min, this.max);
-      const styles: {
-          [key: string]: string;
-      } = {};
-      const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
-      const pos = `${percent}%`;
-      if (this.vertical) {
-        styles.bottom = pos;
-      } else {
-        styles[direction] = pos;
-      }
+      // const styles: {
+      //     [key: string]: string;
+      // } = {};
+      // const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
+      // const pos = `${percent}%`;
+      // if (this.vertical) {
+      //   styles.bottom = pos;
+      // } else {
+      //   styles[direction] = pos;
+      // }
+      const pos = this._calculatePosition(percent);
       thumb.value = val;
       thumb.displayValue = this._transformValue(val);
       thumb.percent = percent;
-      thumb.styles = styles;
+      thumb.styles = {
+        [pos.style]: pos.value
+      };
     });
 
     this._updateTrack();
+  }
+
+  _calculatePosition(percent: number) {
+    let style: string;
+    const value = `${percent}%`;
+
+    if (this.vertical) {
+      style = 'bottom';
+    } else {
+      style = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
+    }
+    return {
+      style,
+      value
+    };
   }
 
   private _updateTrack() {

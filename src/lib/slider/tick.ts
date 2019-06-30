@@ -9,11 +9,6 @@ export class LyTick implements OnInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._slider.classes;
 
-  /** Min percentage */
-  private _minPercent: number;
-  /** Max percentage */
-  private _maxPercent: number;
-
   private _tickActiveClass?: string | null;
 
   @Input() value: number;
@@ -30,29 +25,33 @@ export class LyTick implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() { }
 
   private _updateTick() {
     const min = this._slider._minPercent;
     const max = this._slider._maxPercent;
 
-    if (max !== this._maxPercent || min !== this._minPercent) {
-      const className = this._slider.classes.tickActive;
-      const value = гvalueToPercent(this.value, this._slider.min, this._slider.max);
-      this._minPercent = min;
-      this._maxPercent = max;
+    const className = this._slider.classes.tickActive;
+    const percent = гvalueToPercent(this.value, this._slider.min, this._slider.max);
+    const pos = this._slider._calculatePosition(percent);
 
-      if (гbetween(value, min, max)) {
-        this._tickActiveClass = className;
-        this._renderer.addClass(this._el.nativeElement, className);
-      } else if (this._tickActiveClass) {
-        this._tickActiveClass = null;
-        this._renderer.removeClass(this._el.nativeElement, className);
-      }
+    if (гbetween(percent, min, max)) {
+      this._tickActiveClass = className;
+      this._renderer.addClass(this._el.nativeElement, className);
+    } else if (this._tickActiveClass) {
+      this._tickActiveClass = null;
+      this._renderer.removeClass(this._el.nativeElement, className);
     }
+
+    this._renderer.setStyle(this._getHostElement(), 'bottom', null);
+    this._renderer.setStyle(this._getHostElement(), 'left', null);
+    this._renderer.setStyle(this._getHostElement(), 'right', null);
+    this._renderer.setStyle(this._getHostElement(), pos.style, pos.value);
   }
+
+  ngOnDestroy() { }
 
   _getHostElement() {
     return this._el.nativeElement;
   }
+
 }
