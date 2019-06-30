@@ -5,6 +5,9 @@ import {
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
 import { SliderVariables } from '@alyle/ui/slider';
+import * as _chroma from 'chroma-js';
+
+const chroma = _chroma;
 
 export class MinimaBase extends LyStyleUtils {
   typography = {
@@ -201,8 +204,11 @@ export class MinimaBase extends LyStyleUtils {
 
         }),
         color: (_theme, color) => ({
-          '& {track}, & {thumb}, & {thumbLabel}, & {bg}': {
+          '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
             backgroundColor: color
+          },
+          '{tickActive}': {
+            backgroundColor: chroma(color).luminance(0.7).css()
           },
           '{bg}': {
             opacity: .3

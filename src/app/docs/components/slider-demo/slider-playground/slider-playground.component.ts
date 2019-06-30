@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
 
-const STYLES = (_theme: ThemeVariables) => ({
+const STYLES = ({
   sliderContainer: {
     minHeight: '48px'
   }

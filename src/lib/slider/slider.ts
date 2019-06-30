@@ -158,7 +158,16 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     fontSize: '14px',
     transform: 'translateX(-50%)'
   },
-  markActive: { }
+  markActive: { },
+  tick: {
+    position: 'absolute',
+    width: '2px',
+    height: 'inherit',
+    top: 0,
+    bottom: 0,
+    margin: 'auto'
+  },
+  tickActive: {}
 });
 
 /** A change event emitted by the LySlider component. */
@@ -225,6 +234,11 @@ export class LySlider implements OnInit, ControlValueAccessor {
   private _isSlidingThisThumb: Thumb | null;
   private _currentRect: DOMRect | null;
 
+  /** Min percentage, this is for mark. */
+  _minPercent: number;
+  /** Max percentage, this is for mark. */
+  _maxPercent: number;
+
   /**
    * Whether or not the thumb is sliding.
    */
@@ -233,7 +247,7 @@ export class LySlider implements OnInit, ControlValueAccessor {
   _thumbs: Thumb[] = [];
 
   @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
-  @ViewChild('track', { static: false }) _track?: ElementRef<HTMLDivElement>;
+  @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
 
   @Input() displayWith: (value: number | null) => string | number;
 
@@ -622,7 +636,6 @@ export class LySlider implements OnInit, ControlValueAccessor {
       const pos = `${percent}%`;
       if (this.vertical) {
         styles.bottom = pos;
-        // val = this.max - val;
       } else {
         styles[direction] = pos;
       }
@@ -644,8 +657,9 @@ export class LySlider implements OnInit, ControlValueAccessor {
     if (thumbs.length === 1) {
       thumbsPercents.unshift(0);
     }
-    const minPercent = Math.min(...thumbsPercents);
-    const maxPercent = Math.max(...thumbsPercents);
+
+    const minPercent = this._minPercent = Math.min(...thumbsPercents);
+    const maxPercent = this._maxPercent = Math.max(...thumbsPercents);
 
     if (track) {
 
@@ -690,6 +704,10 @@ export class LySlider implements OnInit, ControlValueAccessor {
       return this.displayWith(value);
     }
     return value;
+  }
+
+  _getHostElement() {
+    return this._el.nativeElement;
   }
 }
 
@@ -740,4 +758,8 @@ function clamp(value: number, min: number, max: number) {
     return max;
   }
   return value;
+}
+
+export function гbetween(x: number, min: number, max: number) {
+  return x >= min && x <= max;
 }
