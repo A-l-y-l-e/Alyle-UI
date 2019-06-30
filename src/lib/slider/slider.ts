@@ -157,9 +157,12 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     top: '22px',
     whiteSpace: 'nowrap',
     fontSize: '14px',
-    transform: 'translateX(-50%)'
+    transform: 'translateX(-50%)',
+    color: theme.text.secondary
   },
-  markActive: { },
+  markActive: {
+    color: 'currentColor'
+  },
   tick: {
     position: 'absolute',
     width: '2px',

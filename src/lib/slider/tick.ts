@@ -1,5 +1,5 @@
 import { Directive, Renderer2, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
-import { LySlider, гbetween } from './slider';
+import { LySlider, гbetween, гvalueToPercent } from './slider';
 import { untilComponentDestroyed } from '@alyle/ui';
 
 @Directive({
@@ -38,7 +38,7 @@ export class LyTick implements OnInit, OnDestroy {
 
     if (max !== this._maxPercent || min !== this._minPercent) {
       const className = this._slider.classes.tickActive;
-      const value = this.value;
+      const value = гvalueToPercent(this.value, this._slider.min, this._slider.max);
       this._minPercent = min;
       this._maxPercent = max;
 
