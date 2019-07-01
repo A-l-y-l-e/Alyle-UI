@@ -219,6 +219,25 @@ export class MinimaBase extends LyStyleUtils {
           '&{vertical} {thumbContainer}::before': {
             background: `linear-gradient(90deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
           }
+        }),
+        disabled: (theme, color) => ({
+          '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
+            backgroundColor: chroma(color).darken(2)
+            .desaturate(2.5).luminance(.4).css()
+          },
+          '{tickActive}': {
+            backgroundColor: chroma(color).darken(2)
+            .desaturate(2.5).luminance(.6).css()
+          },
+          '{bg}': {
+            opacity: .3
+          },
+          '&{horizontal} {thumbContainer}::before': {
+            background: theme.disabled.default
+          },
+          '&{vertical} {thumbContainer}::before': {
+            background: theme.disabled.default
+          }
         })
       }
     }

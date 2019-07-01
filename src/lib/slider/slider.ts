@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef, ChangeDetectorRef, Output, EventEmitter, ViewChild, OnChanges, OnDestroy } from '@angular/core';
-import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError, HammerInput, toNumber } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError, HammerInput, toNumber, StyleDeclarationsBlock } from '@alyle/ui';
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -14,7 +14,7 @@ export const LY_SLIDER_CONTROL_VALUE_ACCESSOR = {
   multi: true
 };
 
-const STYLE_PRIORITY = 2;
+const STYLE_PRIORITY = -2;
 const STYLES = (theme: ThemeVariablesWithSlider) => ({
   $priority: STYLE_PRIORITY,
   root: {
@@ -40,6 +40,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     height: 0,
     position: 'absolute',
     margin: 'auto',
+    outline: 0,
     '&::before': {
       content: `''`,
       position: 'absolute',
@@ -226,6 +227,7 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
   readonly classes = this._theme.addStyleSheet(STYLES);
 
   private _disabled: boolean;
+  private _disabledClass?: string | null;
   private _color: string;
   private _colorClass: string;
 
@@ -287,14 +289,6 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
   @Input()
-  get disabled() {
-    return this._disabled;
-  }
-  set disabled(val: boolean) {
-    this._disabled = toBoolean(val);
-  }
-
-  @Input()
   get hasThumbLabel() {
     return this._hasThumbLabel;
   }
@@ -309,9 +303,10 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
   set marks(val: boolean | LySliderMark[]) {
     const newVal = toBoolean(val);
 
-    const newClass = this.classes.marked;
-
     if (newVal !== this.marks) {
+
+      const newClass = this.classes.marked;
+
       if (newVal) {
         this._renderer.addClass(this._el.nativeElement, newClass);
         this._marksClass = newClass;
@@ -384,9 +379,7 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
     this._color = val;
     const appearance = this.appearance;
     const styleKey = `${LySlider.и}.color:${val}`;
-    if (!this._theme.existStyle(styleKey)) {
 
-    }
     const newStyle = (theme: ThemeVariablesWithSlider) => {
       const color = theme.colorOf(val);
       return theme.slider.appearance![appearance].color(theme, color);
@@ -469,6 +462,41 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
       this._cd.markForCheck();
     }
   }
+
+  @Input()
+  get disabled() {
+    return this._disabled;
+  }
+  set disabled(val: boolean) {
+    const newVal = toBoolean(val);
+
+    if (newVal !== this.disabled) {
+      this._disabled = newVal;
+      if (newVal) {
+        const appearance = this.appearance;
+        const styleKey = `${LySlider.и}.disabled:${val}`;
+        let newStyle: StyleDeclarationsBlock | null;
+        if (!this._theme.existStyle(styleKey)) {
+          const color = this.color;
+          newStyle = (theme: ThemeVariablesWithSlider) => {
+            const colorCss = theme.colorOf(color);
+            return theme.slider.appearance![appearance].disabled(theme, colorCss);
+          };
+        }
+        const newClass = this._theme.addStyle(
+          styleKey,
+          newStyle,
+          this._el.nativeElement,
+          this._disabledClass,
+          STYLE_PRIORITY + 2, STYLES);
+        this._disabledClass = newClass;
+      } else if (this._disabledClass) {
+        this._renderer.removeClass(this._el.nativeElement, this._disabledClass);
+        this._disabledClass = null;
+      }
+    }
+  }
+
 
   constructor(
     private _theme: LyTheme2,

@@ -6,6 +6,7 @@
     [step]="step"
     [marks]="marks"
     [vertical]="vertical"
+    [disabled]="disabled"
   >
     <ly-mark [value]="11">$11</ly-mark>
     <ly-mark [value]="40">$40</ly-mark>
@@ -31,4 +32,7 @@
 </div>
 <div>
   <ly-checkbox [(ngModel)]="vertical">Vertical</ly-checkbox>
+</div>
+<div>
+  <ly-checkbox [(ngModel)]="disabled">Disabled</ly-checkbox>
 </div>

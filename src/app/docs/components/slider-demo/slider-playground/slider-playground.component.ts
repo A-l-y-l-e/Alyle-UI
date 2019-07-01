@@ -20,6 +20,7 @@ export class SliderPlaygroundComponent implements OnInit {
   step = 1;
   vertical = false;
   marks = true;
+  disabled = false;
 
   constructor(private theme: LyTheme2) { }
 

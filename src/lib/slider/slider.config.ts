@@ -6,5 +6,14 @@ export interface SliderVariables {
   defaultConfig?: {
     appearance?: LySlider['appearance'];
   };
-  appearance?: LyComponentStyle<LySlider, 'appearance' | 'color'>;
+  appearance?: LyComponentStyle<LySliderStyleConfig, 'appearance' | 'color' | 'disabled'>;
 }
+
+interface LySliderStyleConfig extends Omit<LySlider, 'disabled'> {
+  /**
+   * @param value Color
+   */
+  disabled: string;
+}
+
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
