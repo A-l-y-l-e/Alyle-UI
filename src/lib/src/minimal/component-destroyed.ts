@@ -2,22 +2,21 @@ import { OnDestroy } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-function componentDestroyed(component: OnDestroy): Observable<true> {
+function componentDestroyed(component: OnDestroy): Observable<void> {
     const modifiedComponent = component as {
-      __componentDestroyed$?: Observable<true>
+      __componentDestroyed$?: Observable<void>
       ngOnDestroy?(): void
     };
     if (modifiedComponent.__componentDestroyed$) {
         return modifiedComponent.__componentDestroyed$;
     }
     const oldNgOnDestroy = component.ngOnDestroy;
-    const stop$ = new ReplaySubject<true>();
+    const stop$ = new ReplaySubject<void>();
     modifiedComponent.ngOnDestroy = function () {
-      console.log('destroying component...', component);
         if (oldNgOnDestroy) {
           oldNgOnDestroy.apply(component);
         }
-        stop$.next(true);
+        stop$.next();
         stop$.complete();
     };
     return modifiedComponent.__componentDestroyed$ = stop$.asObservable();
