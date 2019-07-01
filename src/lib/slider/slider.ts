@@ -689,16 +689,6 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
     this._thumbs.forEach(thumb => {
       const val = clamp(thumb.value, this.min, this.max);
       const percent = гvalueToPercent(val, this.min, this.max);
-      // const styles: {
-      //     [key: string]: string;
-      // } = {};
-      // const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
-      // const pos = `${percent}%`;
-      // if (this.vertical) {
-      //   styles.bottom = pos;
-      // } else {
-      //   styles[direction] = pos;
-      // }
       const pos = this._calculatePosition(percent);
       thumb.value = val;
       thumb.displayValue = this._transformValue(val);
