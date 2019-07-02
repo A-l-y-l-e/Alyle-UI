@@ -1,5 +1,27 @@
-import { Component, ChangeDetectionStrategy, ElementRef, Renderer2, Input, OnInit, forwardRef, ChangeDetectorRef, Output, EventEmitter, ViewChild, OnChanges, OnDestroy } from '@angular/core';
-import { LyTheme2, ThemeVariables, toBoolean, LY_COMMON_STYLES, getLyThemeStyleUndefinedError, HammerInput, toNumber, StyleDeclarationsBlock } from '@alyle/ui';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ElementRef,
+  Renderer2,
+  Input,
+  OnInit,
+  forwardRef,
+  ChangeDetectorRef,
+  Output,
+  EventEmitter,
+  ViewChild,
+  OnChanges,
+  OnDestroy,
+  QueryList,
+  ViewChildren} from '@angular/core';
+import { LyTheme2,
+  ThemeVariables,
+  toBoolean,
+  LY_COMMON_STYLES,
+  getLyThemeStyleUndefinedError,
+  HammerInput,
+  toNumber,
+  StyleDeclarationsBlock } from '@alyle/ui';
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -21,7 +43,6 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     display: 'inline-block',
     position: 'relative',
     boxSizing: 'border-box',
-    outline: 0,
     cursor: 'pointer',
     '{bg}': {
       ...LY_COMMON_STYLES.fill,
@@ -40,7 +61,6 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     height: 0,
     position: 'absolute',
     margin: 'auto',
-    outline: 0,
     '&::before': {
       content: `''`,
       position: 'absolute',
@@ -53,7 +73,13 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     height: '12px',
     left: '-6px',
     top: '-6px',
-    borderRadius: '50% 50% 0%'
+    borderRadius: '50% 50% 0%',
+    outline: 0,
+    '&::before': {
+      content: `''`,
+      ...LY_COMMON_STYLES.fill,
+      borderRadius: '50%'
+    }
   },
   thumbLabel: {
     position: 'absolute',
@@ -88,7 +114,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     '& {thumb}': {
       transform: 'rotateZ(-135deg)'
     },
-    '& {thumbLabel}': {
+    '&{thumbVisible} {thumbLabel}, & {thumb}:hover ~ {thumbLabel}': {
       left: '-14px',
       top: '-50px',
       transform: 'rotateZ(45deg)'
@@ -184,7 +210,12 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     position: 'absolute',
     margin: 'auto'
   },
-  tickActive: {}
+  tickActive: {},
+
+  thumbVisible: null,
+  thumbFocused: null,
+  sliding: null,
+  disabled: null
 });
 
 /** A change event emitted by the LySlider component. */
@@ -203,6 +234,9 @@ interface Thumb {
   displayValue: string | number | null;
   percent: number | null;
   styles: { [key: string]: string };
+  focused?: boolean;
+  sliding?: boolean;
+  index: number;
 }
 
 export interface LySliderMark {
@@ -241,15 +275,13 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
   private _thumbsOnSlideStart: Thumb[] | null;
   private _valueOnSlideStart: number | (number | null)[] | null;
 
-  private _hasThumbLabel: boolean;
-
   private _min: number = 0;
   private _max: number = 100;
 
   private _step: number = 1;
   private _stepPrecision?: number | null;
 
-  private _isSlidingThisThumb: Thumb | null;
+  private _closestIndex: number | null;
   private _currentRect: DOMRect | null;
 
   _changes = new Subject<void>();
@@ -263,12 +295,14 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
    * Whether or not the thumb is sliding.
    */
   _isSliding: boolean;
+  _slidingThumbValue?: number | null;
 
   _thumbs: Thumb[] = [];
 
   @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
   @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
   @ViewChild('ticksRef', { static: true }) _ticksRef: ElementRef<HTMLDivElement>;
+  @ViewChildren('thumbsRef') _thumbsRef?: QueryList<ElementRef<HTMLDivElement>>;
 
   @Input() displayWith: (value: number | null) => string | number;
 
@@ -289,12 +323,29 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
   @Input()
-  get hasThumbLabel() {
-    return this._hasThumbLabel;
+  get thumbVisible() {
+    return this._thumbVisible;
   }
-  set hasThumbLabel(val: boolean) {
-    this._hasThumbLabel = toBoolean(val);
+  set thumbVisible(val: boolean | null) {
+    const newVal = val != null ? toBoolean(val) : null;
+
+    if (newVal !== this.thumbVisible) {
+
+      const newClass = this.classes.thumbVisible;
+      this._thumbVisible = newVal;
+
+      if (newVal) {
+        this._renderer.addClass(this._el.nativeElement, newClass);
+        this._thumbVisibleClass = newClass;
+      } else if (this._thumbVisibleClass) {
+        this._renderer.removeClass(this._el.nativeElement, newClass);
+        this._thumbVisibleClass = null;
+      }
+    }
   }
+
+  private _thumbVisible: boolean | null;
+  private _thumbVisibleClass?: string | null;
 
   @Input()
   get marks() {
@@ -450,7 +501,8 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
       }
       this._thumbs = (valueIsArray ?
         this._value as (number | null)[]
-        : [this._value as number | null]).map(v => ({
+        : [this._value as number | null]).map((v, index) => ({
+          index,
           value: toNumber(v, this.min),
           displayValue: null,
           percent: null,
@@ -489,9 +541,11 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
           this._el.nativeElement,
           this._disabledClass,
           STYLE_PRIORITY + 2, STYLES);
+        this._renderer.addClass(this._getHostElement(), this.classes.disabled);
         this._disabledClass = newClass;
       } else if (this._disabledClass) {
-        this._renderer.removeClass(this._el.nativeElement, this._disabledClass);
+        this._renderer.removeClass(this._getHostElement(), this._disabledClass);
+        this._renderer.removeClass(this._getHostElement(), this.classes.disabled);
         this._disabledClass = null;
       }
     }
@@ -576,6 +630,14 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
     this.disabled = isDisabled;
   }
 
+  _onFocus(thumb: Thumb) {
+    thumb.focused = true;
+  }
+
+  _onBlur(thumb: Thumb) {
+    thumb.focused = false;
+  }
+
   _onTap(event: HammerInput) {
     if (this.disabled) {
       return;
@@ -604,6 +666,7 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
       this._updateValueFromPosition(event.center.x, event.center.y);
     }
 
+
     event.preventDefault();
 
     if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
@@ -615,11 +678,12 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
   private _startSlide() {
     if (!this._isSliding) {
       this._isSliding = true;
+      this._renderer.addClass(this._el.nativeElement, this.classes.sliding);
 
       // clone
       this._valueOnSlideStart = Array.isArray(this.value) ? this.value.slice(0) : this.value;
 
-      this._thumbsOnSlideStart = this._thumbs;
+      this._thumbsOnSlideStart = this._thumbs.slice(0).map(t => ({...t}));
       this._currentRect = this._bg!.nativeElement.getBoundingClientRect() as DOMRect;
     }
   }
@@ -627,6 +691,7 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
   _onSlideEnd() {
     if (this._isSliding) {
       this._isSliding = false;
+      this._renderer.removeClass(this._el.nativeElement, this.classes.sliding);
 
       if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
         this._emitChangeEvent();
@@ -634,13 +699,13 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
       }
       this._thumbsOnSlideStart = null;
       this._valueOnSlideStart = null;
-      this._isSlidingThisThumb = null;
+      this._closestIndex = null;
       this._currentRect = null;
     }
   }
 
   _trackByFn(_index: number, item: Thumb) {
-    return item.value;
+    return item.index;
   }
 
   private _updateValueFromPosition(x: number, y: number) {
@@ -673,16 +738,21 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
     } else {
       value = this._roundValueToStep(percentToValue(percent, this.min, this.max));
     }
-    if (!this._isSlidingThisThumb) {
-      this._isSlidingThisThumb = this._thumbsOnSlideStart![findClosest(this._thumbs.map(thumb => thumb.value), value)];
+    if (this._closestIndex == null) {
+      this._closestIndex = findClosest(this._thumbs.map(thumb => thumb.value), value);
     }
-    this._isSlidingThisThumb.value = value;
+    const currentThumb = this._thumbsOnSlideStart![this._closestIndex];
+    this._slidingThumbValue = currentThumb.value = value;
     if (Array.isArray(this.value)) {
-      this.value = this._thumbsOnSlideStart!.map(thumb => thumb.value).sort();
+      this.value = this._thumbsOnSlideStart!.map(thumb => thumb.value).sort(ASC);
     } else {
       this.value = value;
     }
 
+    // focus slidingThumb
+    const currentSlidingThumb = this._thumbs.find(thumb => thumb.value === value)!;
+    currentSlidingThumb.focused = true;
+    this._thumbsRef!.toArray()[currentSlidingThumb.index].nativeElement.focus();
   }
 
   private _updateThumbs() {
@@ -693,6 +763,7 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
       thumb.value = val;
       thumb.displayValue = this._transformValue(val);
       thumb.percent = percent;
+      thumb.focused = false;
       thumb.styles = {
         [pos.style]: pos.value
       };
@@ -759,7 +830,6 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
   }
 
   private _createChangeEvent(value = this.value) {
-
     return new LySliderChange(this, value);
   }
 
@@ -830,4 +900,8 @@ function clamp(value: number, min: number, max: number) {
 
 export function гbetween(x: number, min: number, max: number) {
   return x >= min && x <= max;
+}
+
+function ASC(a: number, b: number) {
+  return a - b;
 }

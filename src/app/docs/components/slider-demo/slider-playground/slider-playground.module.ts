@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { LySliderModule } from '@alyle/ui/slider';
 import { LyCheckboxModule } from '@alyle/ui/checkbox';
 import { LyFieldModule } from '@alyle/ui/field';
-import { FormsModule } from '@angular/forms';
+import { LyRadioModule } from '@alyle/ui/radio';
 
 import { SliderPlaygroundComponent } from './slider-playground.component';
 
@@ -14,7 +15,8 @@ import { SliderPlaygroundComponent } from './slider-playground.component';
     FormsModule,
     LySliderModule,
     LyCheckboxModule,
-    LyFieldModule
+    LyFieldModule,
+    LyRadioModule
   ],
   exports: [SliderPlaygroundComponent]
 })

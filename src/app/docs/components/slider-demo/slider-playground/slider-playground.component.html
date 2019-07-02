@@ -6,6 +6,7 @@
     [step]="step"
     [marks]="marks"
     [vertical]="vertical"
+    [thumbVisible]="thumbVisible"
     [disabled]="disabled"
   >
     <ly-mark [value]="11">$11</ly-mark>
@@ -32,6 +33,14 @@
 </div>
 <div>
   <ly-checkbox [(ngModel)]="vertical">Vertical</ly-checkbox>
+</div>
+<div>
+  <label>Thumb Visible: </label>
+  <ly-radio-group [(ngModel)]="thumbVisible">
+    <ly-radio [value]="null">Null</ly-radio>
+    <ly-radio [value]="true">True</ly-radio>
+    <ly-radio [value]="false">False</ly-radio>
+  </ly-radio-group>
 </div>
 <div>
   <ly-checkbox [(ngModel)]="disabled">Disabled</ly-checkbox>

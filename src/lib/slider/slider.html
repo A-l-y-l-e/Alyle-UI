@@ -8,11 +8,17 @@
 <div
   *ngFor="let thumb of _thumbs; trackBy: _trackByFn"
   [className]="classes.thumbContainer"
-  [attr.tabindex]="disabled ? -1 : 0"
   [ngStyle]="thumb.styles"
 >
-  <div [className]="classes.thumb"></div>
-  <div [className]="classes.thumbLabel">
+  <div
+    #thumbsRef
+    (focus)="_onFocus(thumb)"
+    (blur)="_onBlur(thumb)"
+    [attr.tabindex]="disabled ? -1 : 0"
+    [className]="classes.thumb"
+    [ngClass]="thumb.focused ? classes.thumbFocused : null"
+  ></div>
+  <div [className]="classes.thumbLabel" *ngIf="thumbVisible !== false">
     <span [className]="classes.thumbLabelValue">{{ thumb.displayValue }}</span>
   </div>
 </div>

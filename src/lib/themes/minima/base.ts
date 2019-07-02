@@ -207,6 +207,12 @@ export class MinimaBase extends LyStyleUtils {
           '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
             backgroundColor: color
           },
+          '& {thumb}{thumbFocused}::before, &:not({disabled}) {thumb}:hover::before': {
+            boxShadow: `0 0 0 8px ${chroma(color).alpha(.13).css()}`
+          },
+          '&{sliding} {thumb}{thumbFocused}::before': {
+            boxShadow: `0 0 0 16px ${chroma(color).alpha(.13).css()}`
+          },
           '{tickActive}': {
             backgroundColor: chroma(color).luminance(0.6).css()
           },
