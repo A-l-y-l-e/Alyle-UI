@@ -1,7 +1,7 @@
-import { StyleContainer } from './../../src/theme/style';
 import {
   LyStyleUtils,
-  Dir
+  Dir,
+  StyleContainer
 } from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
