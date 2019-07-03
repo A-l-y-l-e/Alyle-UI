@@ -13,7 +13,10 @@ import {
   OnChanges,
   OnDestroy,
   QueryList,
-  ViewChildren} from '@angular/core';
+  ViewChildren,
+  Self,
+  Optional,
+  DoCheck} from '@angular/core';
 import { LyTheme2,
   ThemeVariables,
   toBoolean,
@@ -25,6 +28,7 @@ import { LyTheme2,
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { NgClass, ɵNgClassImpl, ɵNgClassR2Impl } from '@angular/common';
 
 interface ThemeVariablesWithSlider extends ThemeVariables {
   slider: SliderVariables;
@@ -60,11 +64,19 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     width: 0,
     height: 0,
     position: 'absolute',
-    margin: 'auto',
+    margin: 'auto'
+  },
+  thumbContent: {
     '&::before': {
       content: `''`,
       position: 'absolute',
-      opacity: .6
+      opacity: .6,
+      transform: 'scale(0)',
+      transition: `transform ${
+        theme.animations.durations.entering
+      }ms ${theme.animations.curves.sharp} 0ms, background ${
+        theme.animations.durations.complex
+      }ms ${theme.animations.curves.sharp} 0ms`
     }
   },
   thumb: {
@@ -73,19 +85,28 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     height: '12px',
     left: '-6px',
     top: '-6px',
-    borderRadius: '50% 50% 0%',
+    borderRadius: '50%',
     outline: 0,
+    transition: ['border-radius'].map(prop => `${prop} ${
+      theme.animations.durations.exiting
+    }ms ${theme.animations.curves.standard} 0ms`).join(),
     '&::before': {
       content: `''`,
       ...LY_COMMON_STYLES.fill,
-      borderRadius: '50%'
+      borderRadius: '50%',
+      transition: ['box-shadow'].map(prop => `${prop} ${
+        theme.animations.durations.entering
+      }ms ${theme.animations.curves.sharp} 0ms`).join()
     }
   },
   thumbLabel: {
     position: 'absolute',
     width: '28px',
     height: '28px',
-    borderRadius: '50% 50% 0%'
+    borderRadius: '50%',
+    transition: ['transform', 'top', 'border-radius'].map(prop => `${prop} ${
+      theme.animations.durations.entering
+    }ms ${theme.animations.curves.sharp} 0ms`).join()
   },
   thumbLabelValue: {
     display: 'flex',
@@ -114,23 +135,60 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     '& {thumb}': {
       transform: 'rotateZ(-135deg)'
     },
-    '&{thumbVisible} {thumbLabel}, & {thumb}:hover ~ {thumbLabel}': {
+
+    '{thumbLabel}': {
+      top: '-14px',
       left: '-14px',
+      transform: 'rotateZ(45deg) scale(0)',
+    },
+    [
+      [
+        // always show visible thumb, when {thumbVisible} is available
+        '&{thumbVisible} {thumbLabel}',
+        // on hover
+        '& {thumbContent}:hover {thumbLabel}',
+        // on focused
+        '& {thumbContent}{thumbContentFocused} {thumbLabel}'
+      ].join()
+    ]: {
+      borderRadius: '50% 50% 0%',
       top: '-50px',
-      transform: 'rotateZ(45deg)'
+      transform: 'rotateZ(45deg) scale(1)'
+    },
+
+    [
+      [
+        // always show visible thumb, when {thumbVisible} is available
+        '&{thumbVisible} {thumb}',
+        // on hover
+        '&:not({thumbNotVisible}) {thumbContent}:hover {thumb}',
+        // on focused
+        '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused} {thumb}'
+      ].join()
+    ]: {
+      borderRadius: '50% 50% 0%'
     },
     '& {thumbLabelValue}': {
       transform: 'rotateZ(-45deg)'
     },
     '{thumbContainer}': {
       top: 0,
-      bottom: 0,
+      bottom: 0
     },
-    '{thumbContainer}::before': {
+    '& {thumbContent}::before': {
       width: '2px',
       height: '24px',
       left: '-1px',
       top: '-24px'
+    },
+    [
+      [
+        '&{thumbVisible} {thumbContent}::before',
+        '&:not({thumbNotVisible}) {thumbContent}:hover::before',
+        '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused}::before'
+      ].join()
+    ]: {
+      transform: 'scale(1)'
     },
     '{tick}': {
       width: '2px',
@@ -175,7 +233,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       left: 0,
       right: 0
     },
-    '{thumbContainer}::before': {
+    '{thumbContent}::before': {
       width: '24px',
       height: '2px',
       left: '-24px',
@@ -213,7 +271,8 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
   tickActive: {},
 
   thumbVisible: null,
-  thumbFocused: null,
+  thumbNotVisible: null,
+  thumbContentFocused: null,
   sliding: null,
   disabled: null
 });
@@ -244,19 +303,27 @@ export interface LySliderMark {
   label: number | string;
 }
 
+export const NgClassImplProvider = {
+  provide: ɵNgClassImpl,
+  useClass: ɵNgClassR2Impl
+};
+
 @Component({
   selector: 'ly-slider',
   templateUrl: 'slider.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lySlider',
-  providers: [LY_SLIDER_CONTROL_VALUE_ACCESSOR],
+  providers: [
+    LY_SLIDER_CONTROL_VALUE_ACCESSOR,
+    NgClassImplProvider
+  ],
   host: {
     '(slide)': '_onSlide($event)',
     '(slideend)': '_onSlideEnd()',
     '(tap)': '_onTap($event)'
   }
 })
-export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlValueAccessor {
   static и = 'LySlider';
   readonly classes = this._theme.addStyleSheet(STYLES);
 
@@ -299,6 +366,8 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
 
   _thumbs: Thumb[] = [];
 
+  _rootClasses = new Set<string>();
+
   @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
   @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
   @ViewChild('ticksRef', { static: true }) _ticksRef: ElementRef<HTMLDivElement>;
@@ -322,6 +391,11 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
 
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
+  @Input('class')
+  set klass(val: string) {
+    this._ngClass.klass = val;
+  }
+
   @Input()
   get thumbVisible() {
     return this._thumbVisible;
@@ -332,20 +406,21 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
     if (newVal !== this.thumbVisible) {
 
       const newClass = this.classes.thumbVisible;
+      const thumbNotVisibleClass = this.classes.thumbNotVisible;
       this._thumbVisible = newVal;
-
-      if (newVal) {
-        this._renderer.addClass(this._el.nativeElement, newClass);
-        this._thumbVisibleClass = newClass;
-      } else if (this._thumbVisibleClass) {
-        this._renderer.removeClass(this._el.nativeElement, newClass);
-        this._thumbVisibleClass = null;
+      this._rootClasses.delete(newClass);
+      this._rootClasses.delete(thumbNotVisibleClass);
+      if (newVal === true) {
+        this._rootClasses.add(newClass);
+      } else if (newVal === false) {
+        this._rootClasses.add(thumbNotVisibleClass);
       }
+      this._ngClass.ngDoCheck();
+
     }
   }
 
   private _thumbVisible: boolean | null;
-  private _thumbVisibleClass?: string | null;
 
   @Input()
   get marks() {
@@ -556,9 +631,15 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
     private _theme: LyTheme2,
     private _el: ElementRef,
     private _renderer: Renderer2,
-    private _cd: ChangeDetectorRef
+    private _cd: ChangeDetectorRef,
+    private _delegate: ɵNgClassImpl,
+    @Optional() @Self() private _ngClass: NgClass
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
+    if (!this._ngClass) {
+      this._ngClass = new NgClass(this._delegate);
+    }
+    this._ngClass.ngClass = this._rootClasses;
   }
 
   ngOnInit() {
@@ -591,6 +672,10 @@ export class LySlider implements OnInit, OnChanges, OnDestroy, ControlValueAcces
 
   ngOnChanges() {
     this._changes.next();
+  }
+
+  ngDoCheck() {
+    this._ngClass.ngDoCheck();
   }
 
   ngOnDestroy() {

@@ -1,3 +1,4 @@
+import { StyleContainer } from './../../src/theme/style';
 import {
   LyStyleUtils,
   Dir
@@ -207,10 +208,10 @@ export class MinimaBase extends LyStyleUtils {
           '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
             backgroundColor: color
           },
-          '& {thumb}{thumbFocused}::before, &:not({disabled}) {thumb}:hover::before': {
+          '& {thumbContentFocused} {thumb}::before, &:not({disabled}) {thumb}:hover::before': {
             boxShadow: `0 0 0 8px ${chroma(color).alpha(.13).css()}`
           },
-          '&{sliding} {thumb}{thumbFocused}::before': {
+          '&{sliding} {thumbContentFocused} {thumb}::before': {
             boxShadow: `0 0 0 16px ${chroma(color).alpha(.13).css()}`
           },
           '{tickActive}': {
@@ -219,12 +220,45 @@ export class MinimaBase extends LyStyleUtils {
           '{bg}': {
             opacity: .3
           },
-          '&{horizontal} {thumbContainer}::before': {
-            background: `linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
+
+          '& {thumbContent}::before': {
+            background: color
           },
-          '&{vertical} {thumbContainer}::before': {
-            background: `linear-gradient(90deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
-          }
+          // [
+          //   [
+          //     // always show visible thumb, when {thumbVisible} is available
+          //     '&{thumbVisible} {thumbContent}',
+          //     // on hover
+          //     '& {thumbContent}:hover {thumbContent}',
+          //     // on focused
+          //     '& {thumbContent}{thumbContentFocused} {thumbContent}'
+          //   ].join()
+          // ]: {
+          //   background: `linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
+          // },
+          '&': [['horizontal', 0], ['vertical', 90]].reduce((prev, orientation) => {
+            prev[`&{${orientation[0]}}`] = {
+              [
+                [
+                  // always show visible thumb, when {thumbVisible} is available
+                  '&{thumbVisible} {thumbContent}::before',
+                  // on hover
+                  '&:not({thumbNotVisible}) {thumbContent}:hover::before',
+                  // on focused
+                  '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused}::before'
+                ].join()
+              ]: {
+                background: `linear-gradient(${orientation[1]}deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
+              },
+            };
+            return prev;
+          }, { } as StyleContainer),
+          // '&{horizontal} {thumbContent}::before': {
+          //   background: `linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
+          // },
+          // '&{vertical} {thumbContent}::before': {
+          //   background: `linear-gradient(90deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
+          // }
         }),
         disabled: (theme, color) => ({
           '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
