@@ -52,6 +52,27 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       ...LY_COMMON_STYLES.fill,
       margin: 'auto'
     },
+    [
+      [
+        // always show visible thumb, when {thumbVisible} is available
+        '&{thumbVisible} {thumb}',
+        // on hover
+        '&:not({thumbNotVisible}) {thumbContent}:hover {thumb}',
+        // on focused
+        '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused} {thumb}'
+      ].join()
+    ]: {
+      borderRadius: '50% 50% 0%'
+    },
+    [
+      [
+        '&{thumbVisible} {thumbContent}::before',
+        '&:not({thumbNotVisible}) {thumbContent}:hover::before',
+        '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused}::before'
+      ].join()
+    ]: {
+      transform: 'scale(1)'
+    },
     '&': theme.slider ? theme.slider.root : null
   },
 
@@ -104,7 +125,9 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     width: '28px',
     height: '28px',
     borderRadius: '50%',
-    transition: ['transform', 'top', 'border-radius'].map(prop => `${prop} ${
+    top: '-14px',
+    left: '-14px',
+    transition: ['transform', 'top', 'left', 'border-radius'].map(prop => `${prop} ${
       theme.animations.durations.entering
     }ms ${theme.animations.curves.sharp} 0ms`).join()
   },
@@ -137,8 +160,6 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     },
 
     '{thumbLabel}': {
-      top: '-14px',
-      left: '-14px',
       transform: 'rotateZ(45deg) scale(0)',
     },
     [
@@ -156,18 +177,6 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       transform: 'rotateZ(45deg) scale(1)'
     },
 
-    [
-      [
-        // always show visible thumb, when {thumbVisible} is available
-        '&{thumbVisible} {thumb}',
-        // on hover
-        '&:not({thumbNotVisible}) {thumbContent}:hover {thumb}',
-        // on focused
-        '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused} {thumb}'
-      ].join()
-    ]: {
-      borderRadius: '50% 50% 0%'
-    },
     '& {thumbLabelValue}': {
       transform: 'rotateZ(-45deg)'
     },
@@ -181,15 +190,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       left: '-1px',
       top: '-24px'
     },
-    [
-      [
-        '&{thumbVisible} {thumbContent}::before',
-        '&:not({thumbNotVisible}) {thumbContent}:hover::before',
-        '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused}::before'
-      ].join()
-    ]: {
-      transform: 'scale(1)'
-    },
+
     '{tick}': {
       width: '2px',
       height: 'inherit',
@@ -222,10 +223,23 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       transform: 'rotateZ(135deg)'
     },
     '& {thumbLabel}': {
-      left: '-50px',
-      top: '-14px',
-      transform: 'rotateZ(-45deg)'
+      transform: 'rotateZ(-45deg) scale(0)'
     },
+    [
+      [
+        // always show visible thumb, when {thumbVisible} is available
+        '&{thumbVisible} {thumbLabel}',
+        // on hover
+        '& {thumbContent}:hover {thumbLabel}',
+        // on focused
+        '& {thumbContent}{thumbContentFocused} {thumbLabel}'
+      ].join()
+    ]: {
+      borderRadius: '50% 50% 0%',
+      left: '-50px',
+      transform: 'rotateZ(-45deg) scale(1)'
+    },
+
     '& {thumbLabelValue}': {
       transform: 'rotateZ(45deg)'
     },
