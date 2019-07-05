@@ -57,7 +57,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
         // always show visible thumb, when {thumbVisible} is available
         '&{thumbVisible} {thumb}',
         // on hover
-        '&:not({thumbNotVisible}) {thumbContent}:hover {thumb}',
+        '&:not({thumbNotVisible}):not({disabled}) {thumbContent}:hover {thumb}',
         // on focused
         '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused} {thumb}'
       ].join()
@@ -67,7 +67,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     [
       [
         '&{thumbVisible} {thumbContent}::before',
-        '&:not({thumbNotVisible}) {thumbContent}:hover::before',
+        '&:not({thumbNotVisible}):not({disabled}) {thumbContent}:hover::before',
         '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused}::before'
       ].join()
     ]: {
@@ -167,7 +167,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
         // always show visible thumb, when {thumbVisible} is available
         '&{thumbVisible} {thumbLabel}',
         // on hover
-        '& {thumbContent}:hover {thumbLabel}',
+        '&:not({disabled}) {thumbContent}:hover {thumbLabel}',
         // on focused
         '& {thumbContent}{thumbContentFocused} {thumbLabel}'
       ].join()
@@ -230,7 +230,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
         // always show visible thumb, when {thumbVisible} is available
         '&{thumbVisible} {thumbLabel}',
         // on hover
-        '& {thumbContent}:hover {thumbLabel}',
+        '&:not({disabled}) {thumbContent}:hover {thumbLabel}',
         // on focused
         '& {thumbContent}{thumbContentFocused} {thumbLabel}'
       ].join()
@@ -640,6 +640,20 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
     }
   }
 
+  @Input()
+  get ticks() {
+    return this._ticks;
+  }
+  set ticks(val: number | boolean) {
+    const newValue = toNumber(val, toBoolean(val));
+    this._ticks = newValue;
+  }
+  private _ticks: number | boolean;
+  _tickInterval: number;
+  get _tickList() {
+    return this.__tickList;
+  }
+  private __tickList: number[];
 
   constructor(
     private _theme: LyTheme2,
@@ -685,6 +699,7 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
   }
 
   ngOnChanges() {
+    this._updateTickValues();
     this._changes.next();
   }
 
@@ -730,11 +745,15 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
   }
 
   _onFocus(thumb: Thumb) {
-    thumb.focused = true;
+    if (!this.disabled) {
+      thumb.focused = true;
+    }
   }
 
   _onBlur(thumb: Thumb) {
-    thumb.focused = false;
+    if (!this.disabled) {
+      thumb.focused = false;
+    }
   }
 
   _onTap(event: HammerInput) {
@@ -945,6 +964,27 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
 
   _getHostElement() {
     return this._el.nativeElement;
+  }
+
+  private _updateTickValues() {
+    this.__tickList = [];
+    if (!this.ticks) {
+      return false;
+    } else {
+      const ticks = this.ticks;
+      this._tickInterval = this.max / (typeof ticks === 'number'
+        ? Math.max(ticks, this.step) / Math.min(ticks, this.step)
+        : this.step);
+
+      this.__tickList = [];
+      const tickIntervals = this._tickInterval + 1;
+      const stepWith = this.max / this._tickInterval;
+      for (let index = 0; index < tickIntervals; index++) {
+        this.__tickList.push(index * stepWith);
+      }
+    }
+
+    this._cd.markForCheck();
   }
 }
 

@@ -208,7 +208,7 @@ export class MinimaBase extends LyStyleUtils {
           '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
             backgroundColor: color
           },
-          '& {thumbContentFocused} {thumb}::before, &:not({disabled}) {thumb}:hover::before': {
+          '&:not({disabled}) {thumbContentFocused} {thumb}::before, &:not({disabled}) {thumb}:hover::before': {
             boxShadow: `0 0 0 8px ${chroma(color).alpha(.13).css()}`
           },
           '&{sliding} {thumbContentFocused} {thumb}::before': {
@@ -224,19 +224,7 @@ export class MinimaBase extends LyStyleUtils {
           '& {thumbContent}::before': {
             background: color
           },
-          // [
-          //   [
-          //     // always show visible thumb, when {thumbVisible} is available
-          //     '&{thumbVisible} {thumbContent}',
-          //     // on hover
-          //     '& {thumbContent}:hover {thumbContent}',
-          //     // on focused
-          //     '& {thumbContent}{thumbContentFocused} {thumbContent}'
-          //   ].join()
-          // ]: {
-          //   background: `linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
-          // },
-          '&': [['horizontal', 0], ['vertical', 90]].reduce((prev, orientation) => {
+          '&:not({disabled})': [['horizontal', 0], ['vertical', 90]].reduce((prev, orientation) => {
             prev[`&{${orientation[0]}}`] = {
               [
                 [
@@ -252,33 +240,43 @@ export class MinimaBase extends LyStyleUtils {
               },
             };
             return prev;
-          }, { } as StyleContainer),
-          // '&{horizontal} {thumbContent}::before': {
-          //   background: `linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
-          // },
-          // '&{vertical} {thumbContent}::before': {
-          //   background: `linear-gradient(90deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
-          // }
+          }, { } as StyleContainer)
         }),
-        disabled: (theme, color) => ({
-          '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
-            backgroundColor: chroma(color).darken(2)
-            .desaturate(2.5).luminance(.4).css()
-          },
-          '{tickActive}': {
-            backgroundColor: chroma(color).darken(2)
-            .desaturate(2.5).luminance(.6).css()
-          },
-          '{bg}': {
-            opacity: .3
-          },
-          '&{horizontal} {thumbContainer}::before': {
-            background: theme.disabled.default
-          },
-          '&{vertical} {thumbContainer}::before': {
-            background: theme.disabled.default
-          }
-        })
+        disabled: (theme, color) => {
+          const colorDisabled = chroma(color).darken(2)
+          .desaturate(2.5);
+          return ({
+            '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
+              backgroundColor: colorDisabled.luminance(.4).css()
+            },
+            '{tickActive}': {
+              backgroundColor: colorDisabled.luminance(.6).css()
+            },
+            '&': [['horizontal', 0], ['vertical', 90]].reduce((prev, orientation) => {
+              prev[`&{${orientation[0]}}`] = {
+                '& {thumbContent}::before': {
+                  background: `linear-gradient(${
+                    orientation[1]
+                  }deg, ${
+                    colorDisabled.luminance(.4).css()
+                  } 0%, rgba(0, 0, 0, 0) 50%, ${
+                    colorDisabled.luminance(.4).css()
+                  } 100%);`
+                },
+              };
+              return prev;
+            }, { } as StyleContainer),
+            '{bg}': {
+              opacity: .3
+            },
+            '&{horizontal} {thumbContainer}::before': {
+              background: theme.disabled.default
+            },
+            '&{vertical} {thumbContainer}::before': {
+              background: theme.disabled.default
+            }
+          });
+        }
       }
     }
   };

@@ -1,11 +1,11 @@
-import { Directive, Renderer2, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
+import { Directive, Renderer2, ElementRef, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { LySlider, гbetween, гvalueToPercent } from './slider';
 import { untilComponentDestroyed } from '@alyle/ui';
 
 @Directive({
   selector: 'ly-tick'
 })
-export class LyTick implements OnInit, OnDestroy {
+export class LyTick implements OnChanges, OnInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._slider.classes;
 
@@ -19,12 +19,18 @@ export class LyTick implements OnInit, OnDestroy {
     private _el: ElementRef
   ) { }
 
+  ngOnChanges() {
+    this._updateTick();
+  }
+
   ngOnInit() {
-    this._slider._changes.pipe(untilComponentDestroyed(this)).subscribe(() => {
+    this._renderer.addClass(this._getHostElement(), this.classes.tick);
+    this._slider._changes.pipe(
+      untilComponentDestroyed(this)
+    ).subscribe(() => {
       this._updateTick();
     });
   }
-
 
   private _updateTick() {
     const min = this._slider._minPercent;

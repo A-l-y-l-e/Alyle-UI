@@ -5,6 +5,7 @@
     [max]="max"
     [step]="step"
     [marks]="marks"
+    [ticks]="ticks"
     [vertical]="vertical"
     [thumbVisible]="thumbVisible"
     [disabled]="disabled"
@@ -35,12 +36,20 @@
   <ly-checkbox [(ngModel)]="vertical">Vertical</ly-checkbox>
 </div>
 <div>
-  <label>Thumb Visible: </label>
+  <label>Thumb visible: </label>
   <ly-radio-group [(ngModel)]="thumbVisible">
     <ly-radio [value]="null">Null</ly-radio>
     <ly-radio [value]="true">True</ly-radio>
     <ly-radio [value]="false">False</ly-radio>
   </ly-radio-group>
+</div>
+<div>
+  <ly-checkbox [(ngModel)]="showTicks">Show ticks</ly-checkbox>
+  <ly-checkbox [(ngModel)]="ticksPerStep" *ngIf="showTicks">It shows ticks per step</ly-checkbox>
+  <ly-field *ngIf="!ticksPerStep && showTicks">
+    <input type="number" lyNativeControl [(ngModel)]="tickInterval" placeholder="Tick interval">
+  </ly-field>
+  ticks: {{ticks}}
 </div>
 <div>
   <ly-checkbox [(ngModel)]="disabled">Disabled</ly-checkbox>

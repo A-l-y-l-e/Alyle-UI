@@ -21,7 +21,18 @@ export class SliderPlaygroundComponent implements OnInit {
   vertical = false;
   marks = true;
   thumbVisible: boolean | null = null;
+  showTicks: boolean | number = false;
+  ticksPerStep = true;
+  tickInterval = 1;
   disabled = false;
+
+  get ticks(): number | boolean {
+    return this.showTicks
+      ? (this.ticksPerStep
+        ? this.ticksPerStep
+        : this.tickInterval)
+      : false;
+  }
 
   constructor(private theme: LyTheme2) { }
 

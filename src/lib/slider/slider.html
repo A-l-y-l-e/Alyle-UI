@@ -1,6 +1,8 @@
 <div #bg [className]="classes.bg"></div>
 <div #track [className]="classes.track"></div>
-<ng-content select="ly-tick"></ng-content>
+<ng-template [ngIf]="ticks">
+  <ly-tick *ngFor="let tick of _tickList" [value]="tick"></ly-tick>
+</ng-template>
 <span #ticksRef></span>
 <ng-template [ngIf]="marks">
   <ng-content select="ly-mark"></ng-content>
