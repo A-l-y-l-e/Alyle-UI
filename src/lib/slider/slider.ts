@@ -980,7 +980,7 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
       const tickIntervals = this._tickInterval + 1;
       const stepWith = this.max / this._tickInterval;
       for (let index = 0; index < tickIntervals; index++) {
-        this.__tickList.push(index * stepWith);
+        this.__tickList.push(clamp(index * stepWith, this.min, this.max));
       }
     }
 
