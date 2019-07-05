@@ -258,7 +258,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     },
     '{mark}': {
       left: '22px',
-      transform: 'translateY(-50%)',
+      transform: 'translateY(50%)',
     },
     '&{marked}': {
       marginRight: '24px'
