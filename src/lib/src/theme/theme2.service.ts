@@ -7,6 +7,7 @@ import { DOCUMENT } from '@angular/common';
 import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
 import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses } from './style';
+import { Subject } from 'rxjs';
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
@@ -40,6 +41,12 @@ export class LyTheme2 {
   elements: Map<string | Styles, HTMLStyleElement>;
   _elementsMap = new Map<any, HTMLStyleElement>();
 
+  /** Event emitted when the direction has changed. */
+  private _directionChanged = new Subject<void>();
+  get directionChanged() {
+    return this._directionChanged.asObservable();
+  }
+
   /** Get Theme Variables */
   get variables(): ThemeVariables {
     return this.config;
@@ -47,6 +54,7 @@ export class LyTheme2 {
   private themeMap = THEME_MAP;
   /** ssr or hmr */
   private isDevOrServer = isDevMode() || !Platform.isBrowser;
+
 
   constructor(
     private stylesInDocument: StylesInDocument,
@@ -154,6 +162,7 @@ export class LyTheme2 {
     const current = this.config.direction;
     this.config.direction = current === Dir.ltr ? Dir.rtl : Dir.ltr;
     this._updateAllStyles();
+    this._directionChanged.next();
   }
 
   private _updateAllStyles() {
