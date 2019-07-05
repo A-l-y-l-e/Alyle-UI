@@ -13,8 +13,7 @@ import {
   OnChanges,
   OnDestroy,
   QueryList,
-  ViewChildren, 
-  Injectable} from '@angular/core';
+  ViewChildren } from '@angular/core';
 import { LyTheme2,
   ThemeVariables,
   toBoolean,
@@ -22,7 +21,8 @@ import { LyTheme2,
   getLyThemeStyleUndefinedError,
   HammerInput,
   toNumber,
-  StyleDeclarationsBlock } from '@alyle/ui';
+  StyleDeclarationsBlock, 
+  LyHostClass} from '@alyle/ui';
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -316,37 +316,6 @@ export interface LySliderMark {
   label: number | string;
 }
 
-@Injectable()
-export class LyHostClass {
-  private readonly _set = new Set<string>();
-  constructor(
-    private _el: ElementRef,
-    private _renderer: Renderer2
-  ) { }
-
-  add(className: string) {
-    if (!this._set.has(className)) {
-      this._set.add(className);
-      this._renderer.addClass(this._el.nativeElement, className);
-    }
-  }
-
-  remove(className: string) {
-    if (this._set.has(className)) {
-      this._set.delete(className);
-      this._renderer.removeClass(this._el.nativeElement, className);
-    }
-  }
-
-  toggle(className: string, enabled: boolean) {
-    if (enabled) {
-      this.add(className);
-    } else {
-      this.remove(className);
-    }
-  }
-}
-
 @Component({
   selector: 'ly-slider',
   templateUrl: 'slider.html',
@@ -441,8 +410,8 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     if (newVal !== this.thumbVisible) {
 
-      const thumbVisibleClass = this.classes.thumbVisible;
-      const thumbNotVisibleClass = this.classes.thumbNotVisible;
+      const { thumbVisible: thumbVisibleClass } = this.classes;
+      const { thumbNotVisible: thumbNotVisibleClass } = this.classes;
       this._thumbVisible = newVal;
 
       this._hostClass.toggle(thumbVisibleClass, newVal === true);
