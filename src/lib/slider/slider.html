@@ -7,6 +7,9 @@
 <ng-template [ngIf]="marks">
   <ng-content select="ly-mark"></ng-content>
 </ng-template>
+<ng-template [ngIf]="_marksList">
+  <ly-mark *ngFor="let mark of _marksList" [value]="mark.value">{{ mark.label }}</ly-mark>
+</ng-template>
 <div
   *ngFor="let thumb of _thumbs; trackBy: _trackByFn"
   [className]="classes.thumbContainer"

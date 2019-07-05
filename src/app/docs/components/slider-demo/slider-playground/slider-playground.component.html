@@ -1,5 +1,6 @@
 <div [className]="classes.sliderContainer">
   <ly-slider
+   [ngClass]="['a-class-example']"
     [(ngModel)]="value"
     [min]="min"
     [max]="max"
@@ -33,6 +34,13 @@
   <ly-checkbox [(ngModel)]="marks">Show marks</ly-checkbox>
 </div>
 <div>
+  <ly-checkbox [(ngModel)]="showTicks">Show ticks</ly-checkbox>
+  <ly-checkbox [(ngModel)]="ticksPerStep" *ngIf="showTicks">It shows ticks per step</ly-checkbox>
+  <ly-field *ngIf="!ticksPerStep && showTicks">
+    <input type="number" lyNativeControl [(ngModel)]="tickInterval" placeholder="Tick interval">
+  </ly-field>
+</div>
+<div>
   <ly-checkbox [(ngModel)]="vertical">Vertical</ly-checkbox>
 </div>
 <div>
@@ -42,14 +50,6 @@
     <ly-radio [value]="true">True</ly-radio>
     <ly-radio [value]="false">False</ly-radio>
   </ly-radio-group>
-</div>
-<div>
-  <ly-checkbox [(ngModel)]="showTicks">Show ticks</ly-checkbox>
-  <ly-checkbox [(ngModel)]="ticksPerStep" *ngIf="showTicks">It shows ticks per step</ly-checkbox>
-  <ly-field *ngIf="!ticksPerStep && showTicks">
-    <input type="number" lyNativeControl [(ngModel)]="tickInterval" placeholder="Tick interval">
-  </ly-field>
-  ticks: {{ticks}}
 </div>
 <div>
   <ly-checkbox [(ngModel)]="disabled">Disabled</ly-checkbox>

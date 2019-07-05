@@ -13,10 +13,8 @@ import {
   OnChanges,
   OnDestroy,
   QueryList,
-  ViewChildren,
-  Self,
-  Optional,
-  DoCheck} from '@angular/core';
+  ViewChildren, 
+  Injectable} from '@angular/core';
 import { LyTheme2,
   ThemeVariables,
   toBoolean,
@@ -28,7 +26,6 @@ import { LyTheme2,
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { NgClass, ɵNgClassImpl, ɵNgClassR2Impl } from '@angular/common';
 
 interface ThemeVariablesWithSlider extends ThemeVariables {
   slider: SliderVariables;
@@ -288,7 +285,9 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
   thumbNotVisible: null,
   thumbContentFocused: null,
   sliding: null,
-  disabled: null
+  disabled: {
+    cursor: 'default'
+  }
 });
 
 /** A change event emitted by the LySlider component. */
@@ -317,10 +316,36 @@ export interface LySliderMark {
   label: number | string;
 }
 
-export const NgClassImplProvider = {
-  provide: ɵNgClassImpl,
-  useClass: ɵNgClassR2Impl
-};
+@Injectable()
+export class LyHostClass {
+  private readonly _set = new Set<string>();
+  constructor(
+    private _el: ElementRef,
+    private _renderer: Renderer2
+  ) { }
+
+  add(className: string) {
+    if (!this._set.has(className)) {
+      this._set.add(className);
+      this._renderer.addClass(this._el.nativeElement, className);
+    }
+  }
+
+  remove(className: string) {
+    if (this._set.has(className)) {
+      this._set.delete(className);
+      this._renderer.removeClass(this._el.nativeElement, className);
+    }
+  }
+
+  toggle(className: string, enabled: boolean) {
+    if (enabled) {
+      this.add(className);
+    } else {
+      this.remove(className);
+    }
+  }
+}
 
 @Component({
   selector: 'ly-slider',
@@ -329,7 +354,7 @@ export const NgClassImplProvider = {
   exportAs: 'lySlider',
   providers: [
     LY_SLIDER_CONTROL_VALUE_ACCESSOR,
-    NgClassImplProvider
+    LyHostClass
   ],
   host: {
     '(slide)': '_onSlide($event)',
@@ -337,7 +362,7 @@ export const NgClassImplProvider = {
     '(tap)': '_onTap($event)'
   }
 })
-export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlValueAccessor {
+export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
   static и = 'LySlider';
   readonly classes = this._theme.addStyleSheet(STYLES);
 
@@ -400,16 +425,13 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
 
   /**
    * The registered callback function called when a blur event occurs on the input element.
+   * @docs-private
    */
   onTouched = () => {};
 
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
-  @Input('class')
-  set klass(val: string) {
-    this._ngClass.klass = val;
-  }
-
+  /** Whether or not to show the thumb. */
   @Input()
   get thumbVisible() {
     return this._thumbVisible;
@@ -419,23 +441,19 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
 
     if (newVal !== this.thumbVisible) {
 
-      const newClass = this.classes.thumbVisible;
+      const thumbVisibleClass = this.classes.thumbVisible;
       const thumbNotVisibleClass = this.classes.thumbNotVisible;
       this._thumbVisible = newVal;
-      this._rootClasses.delete(newClass);
-      this._rootClasses.delete(thumbNotVisibleClass);
-      if (newVal === true) {
-        this._rootClasses.add(newClass);
-      } else if (newVal === false) {
-        this._rootClasses.add(thumbNotVisibleClass);
-      }
-      this._ngClass.ngDoCheck();
+
+      this._hostClass.toggle(thumbVisibleClass, newVal === true);
+      this._hostClass.toggle(thumbNotVisibleClass, newVal === false);
 
     }
   }
 
   private _thumbVisible: boolean | null;
 
+  /** Whether or not to show the marks, also accepts an array of marks. */
   @Input()
   get marks() {
     return this._marks;
@@ -456,12 +474,18 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
         this._renderer.removeClass(this._el.nativeElement, newClass);
         this._marksClass = null;
       }
+      if (Array.isArray(newVal)) {
+        this._marksList = val as LySliderMark[];
+      } else {
+        this._marksList = null;
+      }
     }
 
   }
 
   private _marks: boolean | LySliderMark[];
   private _marksClass: string | null;
+  _marksList?: LySliderMark[] | null;
 
   /** The maximum value that the slider can have. */
   @Input()
@@ -492,7 +516,7 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
     this._cd.markForCheck();
   }
 
-  /** The field appearance style. */
+  /** The slider appearance style. */
   @Input()
   set appearance(val: string) {
     if (val !== this.appearance) {
@@ -510,7 +534,7 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
     return this._appearance;
   }
 
-  /** Color of component */
+  /** Color of Slider */
   @Input()
   get color() {
     return this._color;
@@ -568,6 +592,11 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
     this._cd.markForCheck();
   }
 
+  /**
+   * Value of a slider, this can be a number or an array of numbers.
+   * If the array of numbers has more than one value,
+   * then this will create more thumbs
+   */
   @Input()
   get value() {
     return this._value;
@@ -604,6 +633,7 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
     }
   }
 
+  /** Whether the slider is disabled. */
   @Input()
   get disabled() {
     return this._disabled;
@@ -640,6 +670,11 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
     }
   }
 
+  /**
+   * Whether or not to show the thumb label, but if the value is a number,
+   * it will show ticks according to the steps. For example: if you set
+   * 3 ticks with a step of 10, you will draw a tick every 30 values
+   */
   @Input()
   get ticks() {
     return this._ticks;
@@ -654,20 +689,20 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
     return this.__tickList;
   }
   private __tickList: number[];
-
+  // private _ngClass: NgClass;
   constructor(
     private _theme: LyTheme2,
     private _el: ElementRef,
     private _renderer: Renderer2,
     private _cd: ChangeDetectorRef,
-    private _delegate: ɵNgClassImpl,
-    @Optional() @Self() private _ngClass: NgClass
+    private _hostClass: LyHostClass
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
-    if (!this._ngClass) {
-      this._ngClass = new NgClass(this._delegate);
-    }
-    this._ngClass.ngClass = this._rootClasses;
+  }
+
+  ngOnChanges() {
+    this._updateTickValues();
+    this._changes.next();
   }
 
   ngOnInit() {
@@ -696,15 +731,6 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
     if (this.step == null) {
       this.step = 1;
     }
-  }
-
-  ngOnChanges() {
-    this._updateTickValues();
-    this._changes.next();
-  }
-
-  ngDoCheck() {
-    this._ngClass.ngDoCheck();
   }
 
   ngOnDestroy() {
@@ -972,13 +998,13 @@ export class LySlider implements OnInit, OnChanges, DoCheck, OnDestroy, ControlV
       return false;
     } else {
       const ticks = this.ticks;
-      this._tickInterval = this.max / (typeof ticks === 'number'
-        ? Math.max(ticks, this.step) / Math.min(ticks, this.step)
-        : this.step);
+      this._tickInterval = typeof ticks === 'number'
+        ? this.step * ticks
+        : this.step;
 
       this.__tickList = [];
       const tickIntervals = this._tickInterval + 1;
-      const stepWith = this.max / this._tickInterval;
+      const stepWith = this._tickInterval;
       for (let index = 0; index < tickIntervals; index++) {
         this.__tickList.push(clamp(index * stepWith, this.min, this.max));
       }

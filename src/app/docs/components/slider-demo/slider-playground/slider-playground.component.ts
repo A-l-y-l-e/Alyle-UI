@@ -17,7 +17,7 @@ export class SliderPlaygroundComponent implements OnInit {
   value = 0;
   min = 0;
   max = 100;
-  step = 1;
+  step = 10;
   vertical = false;
   marks = true;
   thumbVisible: boolean | null = null;
