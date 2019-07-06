@@ -30,7 +30,12 @@
 </ly-img-cropper>
 
 <div *ngIf="cropping.isLoaded" [className]="classes.range">
-  <input type="range" [className]="classes.rangeInput" [attr.min]="cropping.minScale" max="1" [(ngModel)]="scale" step="any">
+  <ly-slider
+    [min]="cropping.minScale"
+    [max]="1"
+    [(ngModel)]="scale"
+    (input)="scale = $event.value"
+    step="0.01"></ly-slider>
 </div>
 
 <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>

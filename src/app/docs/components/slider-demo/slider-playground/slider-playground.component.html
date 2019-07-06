@@ -1,0 +1,56 @@
+<div [className]="classes.sliderContainer">
+  <ly-slider
+   [ngClass]="['a-class-example']"
+    [(ngModel)]="value"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    [marks]="marks"
+    [ticks]="ticks"
+    [vertical]="vertical"
+    [thumbVisible]="thumbVisible"
+    [disabled]="disabled"
+  >
+    <ly-mark [value]="11">$11</ly-mark>
+    <ly-mark [value]="40">$40</ly-mark>
+  </ly-slider>
+</div>
+
+<div>
+  <ly-field>
+    <input type="number" lyNativeControl [(ngModel)]="value" placeholder="Value">
+  </ly-field>
+  <ly-field>
+    <input type="number" lyNativeControl [(ngModel)]="min" placeholder="Min">
+  </ly-field>
+  <ly-field>
+    <input type="number" lyNativeControl [(ngModel)]="max" placeholder="Max">
+  </ly-field>
+  <ly-field>
+    <input type="number" lyNativeControl [(ngModel)]="step" placeholder="Step">
+  </ly-field>
+</div>
+<div>
+  <ly-checkbox [(ngModel)]="marks">Show marks</ly-checkbox>
+</div>
+<div>
+  <ly-checkbox [(ngModel)]="showTicks">Show ticks</ly-checkbox>
+  <ly-checkbox [(ngModel)]="ticksPerStep" *ngIf="showTicks">It shows ticks per step</ly-checkbox>
+  <ly-field *ngIf="!ticksPerStep && showTicks">
+    <input type="number" lyNativeControl [(ngModel)]="tickInterval" placeholder="Tick interval">
+  </ly-field>
+</div>
+<div>
+  <ly-checkbox [(ngModel)]="vertical">Vertical</ly-checkbox>
+</div>
+<div>
+  <label>Thumb visible: </label>
+  <ly-radio-group [(ngModel)]="thumbVisible">
+    <ly-radio [value]="null">Null</ly-radio>
+    <ly-radio [value]="true">True</ly-radio>
+    <ly-radio [value]="false">False</ly-radio>
+  </ly-radio-group>
+</div>
+<div>
+  <ly-checkbox [(ngModel)]="disabled">Disabled</ly-checkbox>
+</div>

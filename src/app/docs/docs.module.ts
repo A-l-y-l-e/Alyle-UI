@@ -149,9 +149,16 @@ import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
 import { BasicExpansionModule } from './components/expansion-demo/basic-expansion/basic-expansion.module';
 import { CustomExpansionPanelModule } from './components/expansion-demo/custom-expansion-panel/custom-expansion-panel.module';
+
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
+
 import { MultipleThemesDemo01Module } from '../components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
 import { MultipleThemesComponent } from '../components/multiple-themes/multiple-themes.component';
+
+/** Slider */
+import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
+import { BasicSliderModule } from './components/slider-demo/basic-slider/basic-slider.module';
+import { SliderPlaygroundModule } from './components/slider-demo/slider-playground/slider-playground.module';
 
 @NgModule({
   imports: [
@@ -249,7 +256,10 @@ import { MultipleThemesComponent } from '../components/multiple-themes/multiple-
     /** Expansion */
     BasicExpansionModule,
     CustomExpansionPanelModule,
-    MultipleThemesDemo01Module
+    MultipleThemesDemo01Module,
+    /** Slider */
+    BasicSliderModule,
+    SliderPlaygroundModule
   ],
   declarations: [
     ThemingComponent,
@@ -306,7 +316,9 @@ import { MultipleThemesComponent } from '../components/multiple-themes/multiple-
     /** Expansion */
     ExpansionDemoComponent,
     /** Lazy Loading */
-    LazyLoadingComponent
+    LazyLoadingComponent,
+    /** Slider */
+    SliderDemoComponent
   ]
 })
 export class DocsModule { }

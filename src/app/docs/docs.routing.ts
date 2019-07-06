@@ -29,6 +29,7 @@ import { ThemingComponentsComponent } from './customization/theming-components/t
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
 import { ThemingComponent } from './customization/theming/theming.component';
 import { MultipleThemesComponent } from '@app/components/multiple-themes/multiple-themes.component';
+import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
 
 const routes: Routes = [
   {
@@ -71,7 +72,8 @@ const routes: Routes = [
       { path: 'select', component: SelectDemoComponent },
       { path: 'dialog', component: DialogDemoComponent },
       { path: 'carousel', component: CarouselDemoComponent },
-      { path: 'expansion', component: ExpansionDemoComponent }
+      { path: 'expansion', component: ExpansionDemoComponent },
+      { path: 'slider', component: SliderDemoComponent }
     ]
   },
   {
