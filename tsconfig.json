@@ -51,9 +51,10 @@
       "@alyle/ui/select": ["./src/lib/select"],
       "@alyle/ui/dialog": ["./src/lib/dialog"],
       "@alyle/ui/expansion": ["./src/lib/expansion"],
+      "@alyle/ui/slider": ["./src/lib/slider"],
       "@env/*": ["./src/environments/*"],
       "@shared/*": ["./src/app/shared/*"],
-      "@app/*": ["./src/app/*"],
+      "@app/*": ["./src/app/*"]
     }
   }
 }

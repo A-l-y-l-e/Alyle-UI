@@ -1,0 +1,33 @@
+<div #bg [className]="classes.bg"></div>
+<div #track [className]="classes.track"></div>
+<ng-template [ngIf]="ticks">
+  <ly-tick *ngFor="let tick of _tickList" [value]="tick"></ly-tick>
+</ng-template>
+<span #ticksRef></span>
+<ng-template [ngIf]="marks">
+  <ng-content select="ly-mark"></ng-content>
+</ng-template>
+<ng-template [ngIf]="_marksList">
+  <ly-mark *ngFor="let mark of _marksList" [value]="mark.value">{{ mark.label }}</ly-mark>
+</ng-template>
+<div
+  *ngFor="let thumb of _thumbs; trackBy: _trackByFn"
+  [className]="classes.thumbContainer"
+  [ngStyle]="thumb.styles"
+>
+  <div
+    [className]="classes.thumbContent"
+    [ngClass]="thumb.focused ? classes.thumbContentFocused : null"
+  >
+    <div
+      #thumbsRef
+      (focus)="_onFocus(thumb)"
+      (blur)="_onBlur(thumb)"
+      [attr.tabindex]="disabled ? -1 : 0"
+      [className]="classes.thumb"
+    ></div>
+    <div [className]="classes.thumbLabel" *ngIf="thumbVisible !== false">
+      <span [className]="classes.thumbLabelValue">{{ thumb.displayValue }}</span>
+    </div>
+  </div>
+</div>

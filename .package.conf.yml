@@ -27,3 +27,4 @@ components:
   '@alyle/ui/select': select
   '@alyle/ui/dialog': dialog
   '@alyle/ui/expansion': expansion
+  '@alyle/ui/slider': slider
