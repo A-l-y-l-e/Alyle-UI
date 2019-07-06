@@ -1,3 +1,21 @@
+# [2.9.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.8...2.9.0) (2019-07-06)
+
+
+### Bug Fixes
+
+* **tabs:** tab indicator is not updated when another tab is selected in SSR ([6374e41](https://github.com/A-l-y-l-e/Alyle-UI/commit/6374e41))
+
+
+### Features
+
+* add `existStyle` method ([5567baf](https://github.com/A-l-y-l-e/Alyle-UI/commit/5567baf))
+* add Injectable `LyHostClass` ([4c86db7](https://github.com/A-l-y-l-e/Alyle-UI/commit/4c86db7))
+* emit an event when the direction has changed ([b2ee2f4](https://github.com/A-l-y-l-e/Alyle-UI/commit/b2ee2f4))
+* support for Angular 8 ([#84](https://github.com/A-l-y-l-e/Alyle-UI/issues/84)) ([40aab6d](https://github.com/A-l-y-l-e/Alyle-UI/commit/40aab6d))
+* **slider:** initial commit for slider ([#79](https://github.com/A-l-y-l-e/Alyle-UI/issues/79)) ([b02c1b1](https://github.com/A-l-y-l-e/Alyle-UI/commit/b02c1b1))
+
+
+
 ## [2.7.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.7...2.7.8) (2019-06-19)
 
 
