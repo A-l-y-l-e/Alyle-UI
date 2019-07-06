@@ -22,7 +22,9 @@ import { LyTheme2,
   HammerInput,
   toNumber,
   StyleDeclarationsBlock, 
-  LyHostClass} from '@alyle/ui';
+  LyHostClass,
+  untilComponentDestroyed,
+  Dir} from '@alyle/ui';
 import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -123,8 +125,8 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     height: '28px',
     borderRadius: '50%',
     top: '-14px',
-    left: '-14px',
-    transition: ['transform', 'top', 'left', 'border-radius'].map(prop => `${prop} ${
+    before: '-14px',
+    transition: ['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
       theme.animations.durations.entering
     }ms ${theme.animations.curves.sharp} 0ms`).join()
   },
@@ -196,7 +198,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     },
     '{mark}': {
       top: '22px',
-      transform: 'translateX(-50%)',
+      transform: `translateX(${theme.direction === Dir.ltr ? '-' : ''}50%)`,
     },
     '&{marked}': {
       marginBottom: '24px'
@@ -217,7 +219,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       right: 0
     },
     '& {thumb}': {
-      transform: 'rotateZ(135deg)'
+      transform: theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'
     },
     '& {thumbLabel}': {
       transform: 'rotateZ(-45deg) scale(0)'
@@ -232,8 +234,8 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
         '& {thumbContent}{thumbContentFocused} {thumbLabel}'
       ].join()
     ]: {
-      borderRadius: '50% 50% 0%',
-      left: '-50px',
+      borderRadius: theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%',
+      before: '-50px',
       transform: 'rotateZ(-45deg) scale(1)'
     },
 
@@ -247,7 +249,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     '{thumbContent}::before': {
       width: '24px',
       height: '2px',
-      left: '-24px',
+      before: '-24px',
       top: '-1px'
     },
     '{tick}': {
@@ -257,11 +259,11 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
       right: 0
     },
     '{mark}': {
-      left: '22px',
+      before: '22px',
       transform: 'translateY(50%)',
     },
     '&{marked}': {
-      marginRight: '24px'
+      [theme.direction === Dir.ltr ? 'marginRight' : 'marginLeft']: '24px'
     }
   },
 
@@ -676,9 +678,11 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
   ngOnInit() {
 
-    /**
-     * TODO: update thumbs & rail on change direction (RTL/LTR)
-     */
+    this._theme.directionChanged.pipe(untilComponentDestroyed(this)).subscribe(() => {
+      this.ngOnChanges();
+      this._updateThumbs();
+      this._cd.markForCheck();
+    });
 
     /** Set default appearance */
     if (this.appearance == null) {
@@ -838,7 +842,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
       0,
       100);
 
-    if (this.vertical) {
+    if (this.vertical || (!this.vertical && this._theme.variables.direction === Dir.rtl)) {
       percent = 100 - percent;
     }
 
