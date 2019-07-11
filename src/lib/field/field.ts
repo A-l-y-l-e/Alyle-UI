@@ -118,7 +118,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   @ViewChild('_prefixContainer', { static: false }) _prefixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_suffixContainer', { static: false }) _suffixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_fieldsetLegend', { static: false }) _fieldsetLegend: ElementRef<HTMLDivElement>;
-  @ContentChild(forwardRef(() => LyFieldControlBase), { static: true }) _control: LyFieldControlBase;
+  @ContentChild(forwardRef(() => LyFieldControlBase), { static: false }) _control?: LyFieldControlBase;
   @ContentChild(LyPlaceholder, { static: false }) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel, { static: false }) _labelChild: LyLabel;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
@@ -127,7 +127,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   @ContentChildren(LyError) _errorChildren: QueryList<LyError>;
 
   get errorState() {
-    return this._control.errorState;
+    return this._control!.errorState;
   }
 
   @Input() persistentHint: boolean;
@@ -249,12 +249,12 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   }
 
   ngAfterContentInit() {
-    this._control.stateChanges.subscribe(() => {
+    this._control!.stateChanges.subscribe(() => {
       this._updateFloatingLabel();
       this._markForCheck();
     });
 
-    const ngControl = this._control.ngControl;
+    const ngControl = this._control!.ngControl;
 
     // Run change detection if the value changes.
     if (ngControl && ngControl.valueChanges) {
@@ -338,7 +338,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   }
   /** @ignore */
   _isLabel() {
-    if (this._control.placeholder && !this._labelChild) {
+    if (this._control && this._control.placeholder && !this._labelChild) {
       return true;
     } else if (this._labelChild || this._placeholderChild) {
       return true;
@@ -348,7 +348,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
 
   /** @ignore */
   _isPlaceholder() {
-    if ((this._labelChild && this._control.placeholder) || (this._labelChild && this._placeholderChild)) {
+    if ((this._labelChild && this._control && this._control.placeholder) || (this._labelChild && this._placeholderChild)) {
       return true;
     }
     return false;
@@ -356,13 +356,13 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
 
   /** @ignore */
   _isEmpty() {
-    const val = this._control.value;
+    const val = this._control ? this._control.value : null;
     return val === '' || val === null || val === undefined;
   }
 
   private _updateFloatingLabel() {
     if (this._labelContainer2) {
-      const isFloating = this._control.floatingLabel || this.floatingLabel;
+      const isFloating = this._control!.floatingLabel || this.floatingLabel;
       if (this._isFloating !== isFloating) {
         this._isFloating = isFloating;
         if (isFloating) {
@@ -374,7 +374,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
         }
       }
     }
-    if (this._control.focused) {
+    if (this._control!.focused) {
       this._renderer.addClass(this._el.nativeElement, this.classes.focused);
     } else {
       this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
