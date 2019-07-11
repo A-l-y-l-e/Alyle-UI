@@ -1,4 +1,4 @@
-<div [className]="classes.container" (click)="_control && _control.onContainerClick && _control?.onContainerClick($event)">
+<div [className]="classes.container" (click)="_control && _control.onContainerClick && _control.onContainerClick($event)">
   <fieldset [className]="classes.fieldset"><legend #_fieldsetLegend [className]="classes.fieldsetSpan"></legend></fieldset>
   <div [className]="classes.prefix" *ngIf="_prefixChildren.length" #_prefixContainer>
     <ng-content select="[lyPrefix]"></ng-content>
