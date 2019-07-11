@@ -10,7 +10,7 @@
         <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
       </span>
     </div>
-    <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _control.empty && (_control.floatingLabel || floatingLabel)">
+    <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _control?.empty && (_control?.floatingLabel || floatingLabel)">
       <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
     </div>
   </div>
