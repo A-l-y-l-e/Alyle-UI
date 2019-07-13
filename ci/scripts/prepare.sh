@@ -16,5 +16,4 @@ npm config set @alyle:registry https://registry.npmjs.org
 git clone https://github.com/A-l-y-l-e/alyle-ui-builds.git --depth 3
 git clone https://github.com/A-l-y-l-e/alyle-ui-api.git --depth 3
 git clone https://github.com/A-l-y-l-e/alyle-ui-docs-content.git --depth 3
-yarn build:tools
 yarn tools:prepare-lib

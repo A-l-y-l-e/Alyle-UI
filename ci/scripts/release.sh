@@ -3,7 +3,6 @@
 set -e
 
 yarn
-yarn build:tools
 
 git clone https://github.com/A-l-y-l-e/alyle-ui-docs-content.git --depth 3 repos/alyle-ui-docs-content
 COMMIT_AUTHOR_NAME=$(git --no-pager show -s --format='%an' HEAD)

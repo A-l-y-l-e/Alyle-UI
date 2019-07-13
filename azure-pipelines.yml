@@ -16,7 +16,6 @@ jobs:
       versionSpec: '10.12.x'
   - script: |
       yarn
-      yarn build:tools
       yarn tools:prepare-lib
       yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
@@ -39,7 +38,6 @@ jobs:
       versionSpec: '10.12.x'
   - script: |
       yarn
-      yarn build:tools
       yarn tools:prepare-lib
       yarn build:@alyle/ui
       export CI_COMMIT_MESSAGE=$(git show -s --format=%s)

@@ -24,7 +24,6 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      yarn build:tools
       yarn tools:bump-nightly
       yarn tools:prepare-lib
       yarn build:@alyle/ui

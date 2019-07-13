@@ -13,7 +13,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "mv:index.html": "mkdir functions/dist && mv dist/index.html functions/dist/",
-    "build:tools": "rm -rf dist && tsc -p tools",
+    "build:tools": "rm -rf dist/tools && tsc -p tools",
     "w:tools": "rm -rf dist/tools && tsc -p tools -w",
     "build:@alyle/ui": "yarn ng-packagr -p dist/lib/ng-package.json && yarn build:schematics && node dist/tools/build-lib && node dist/tools/copy-readme",
     "build:universal": "rm -rf dist/server && tsc -p server && yarn build:browser && yarn build:server",
@@ -29,7 +29,8 @@
     "bundlesizelimit": "rm -rf dist/bundle.js && cat dist/@alyle/ui/**/*.umd.min.js >> dist/bundle.js && yarn bundlesize -f dist/bundle.js -c false -s '300 KB'",
     "serve:lib": "hs dist/docs-content -p 1212 -g --cors 'Access-Control-Allow-Origin' -c0",
     "build:schematics": "tsc -p src/lib/schematics/tsconfig.json && cp -r src/lib/schematics/ dist/@alyle/ui/ && rm -rf dist/@alyle/ui/schematics/**/*.ts",
-    "test:sc": "jasmine dist/@alyle/ui/schematics/**/*.spec.js"
+    "test:sc": "jasmine dist/@alyle/ui/schematics/**/*.spec.js",
+    "postinstall": "rm -rf dist/tools && tsc -p tools"
   },
   "private": true,
   "dependencies": {
