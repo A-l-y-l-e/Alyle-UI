@@ -1,9 +1,12 @@
+
 <p>
   For getting started a new project use <a
   target="_blank"
   rel="noopener nofollow"
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
+
+> Please note that as of version 2.9.0 you have support for Angular 8. If your project uses Angular 7, then use version 2.7.8
 
 <h2 [lyTyp]="'display1'" gutter>Angular CLI</h2>
 <p>

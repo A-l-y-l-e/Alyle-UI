@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'aui-installation',
-  templateUrl: './installation.component.html'
+  templateUrl: './installation.component.md'
 })
 export class InstallationComponent {
   code: string;
