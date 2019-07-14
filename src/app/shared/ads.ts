@@ -60,7 +60,7 @@ export class Ads {
                 nextSibling
               );
               if (isDevMode()) {
-                CodeFund.innerHTML = `<div styles="padding: 1em">ads</div>`;
+                CodeFund.innerHTML = `<div style="padding: 1em">ads</div>`;
               } else {
                 this._renderer.appendChild(
                   Div,
