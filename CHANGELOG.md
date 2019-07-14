@@ -1,3 +1,12 @@
+## [2.9.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.0...2.9.1) (2019-07-14)
+
+
+### Bug Fixes
+
+* **field:** fix input when is loaded dinamically ([108463e](https://github.com/A-l-y-l-e/Alyle-UI/commit/108463e))
+
+
+
 # [2.9.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.7.8...2.9.0) (2019-07-06)
 
 
