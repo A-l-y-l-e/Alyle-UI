@@ -289,7 +289,8 @@ export class GlobalVariables {
         'core-js': '^2.6.1',
         'zone.js': '^0.9.1',
         'rxjs': '^6.4.0',
-        'hammerjs': '2.0.8'
+        'hammerjs': '2.0.8',
+        'web-animations-js': 'latest'
       },
       settings: {
         compile: {
