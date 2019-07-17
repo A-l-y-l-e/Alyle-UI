@@ -127,7 +127,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   @ContentChildren(LyError) _errorChildren: QueryList<LyError>;
 
   get errorState() {
-    return this._control!.errorState;
+    return this._control ? this._control.errorState : false;
   }
 
   @Input() persistentHint: boolean;
@@ -374,10 +374,12 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
         }
       }
     }
-    if (this._control!.focused) {
-      this._renderer.addClass(this._el.nativeElement, this.classes.focused);
-    } else {
-      this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
+    if (this._control) {
+      if (this._control.focused) {
+        this._renderer.addClass(this._el.nativeElement, this.classes.focused);
+      } else {
+        this._renderer.removeClass(this._el.nativeElement, this.classes.focused);
+      }
     }
   }
 
@@ -557,20 +559,22 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   }
 
   ngDoCheck() {
-    const oldVal = this.errorState;
-    const newVal = !!(this.ngControl && this.ngControl.invalid && (this.ngControl.touched || (this._form && this._form.submitted)));
-    if (newVal !== oldVal) {
-      this.errorState = newVal;
-      if (this._field) {
-        const errorClass = this._field.classes.errorState;
-        if (newVal) {
-          this._renderer.addClass(this._field._getHostElement(), errorClass);
-          this._errorClass = errorClass;
-        } else if (this._errorClass) {
-          this._renderer.removeClass(this._field._getHostElement(), errorClass);
-          this._errorClass = undefined;
+    if (this._field._control) {
+      const oldVal = this.errorState;
+      const newVal = !!(this.ngControl && this.ngControl.invalid && (this.ngControl.touched || (this._form && this._form.submitted)));
+      if (newVal !== oldVal) {
+        this.errorState = newVal;
+        if (this._field) {
+          const errorClass = this._field.classes.errorState;
+          if (newVal) {
+            this._renderer.addClass(this._field._getHostElement(), errorClass);
+            this._errorClass = errorClass;
+          } else if (this._errorClass) {
+            this._renderer.removeClass(this._field._getHostElement(), errorClass);
+            this._errorClass = undefined;
+          }
+          this.stateChanges.next();
         }
-        this.stateChanges.next();
       }
     }
   }
