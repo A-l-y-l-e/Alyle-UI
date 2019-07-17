@@ -53,6 +53,7 @@ const STYLES = (theme: ThemeVariables) => ({
     overflow: 'auto',
     maxHeight: 'inherit',
     maxWidth: 'inherit',
+    boxSizing: 'border-box'
   },
   item: {
     display: 'flex',
@@ -159,8 +160,8 @@ export class LyMenu implements OnInit, AfterViewInit {
     this._renderer.setStyle(this._el.nativeElement, 'transform-origin', `${position.ox} ${position.oy} 0`);
 
     // set height & width
-    this._renderer.setStyle(container, 'height', position.height);
-    this._renderer.setStyle(container, 'width', position.width);
+    this._renderer.setStyle(container, 'height', position.height === 'initial' ? '100%' : position.height);
+    this._renderer.setStyle(container, 'width', position.width === 'initial' ? '100%' : position.width);
   }
 }
 

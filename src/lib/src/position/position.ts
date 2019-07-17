@@ -15,7 +15,7 @@ export enum XPosition {
 
 export type Placement = XPosition | YPosition;
 
-const INITIAL_WH = 'initial';
+const INITIAL_V = 'initial';
 
 export class Positioning {
   private _offsetCheck = 16;
@@ -27,8 +27,8 @@ export class Positioning {
   ay: number;
   ox: string;
   oy: string;
-  width: string = INITIAL_WH;
-  height: string = INITIAL_WH;
+  width: string = INITIAL_V;
+  height: string = INITIAL_V;
   private _origin: boolean;
   get offsetX(): number {
     return typeof this._offset === 'number'
@@ -59,36 +59,32 @@ export class Positioning {
 
     if (_flip) {
       for (let index = 0; index < 2; index++) {
-        if (this.checkAll()) {
+        if (this.checkAll(false, true)) {
           this.createPosition();
         }
       }
     }
 
     // when there is not enough space
-    if (this.checkAll()) {
+    if (this.checkAll(true, false)) {
       const _max_width = this._overlayElementRect.width + offsetCheckx2 > window.innerWidth;
       const _max_height = this._overlayElementRect.height + offsetCheckx2 > window.innerHeight;
-      if (_max_width || _max_height) {
-        if (_max_height) {
-          this.y = this._offsetCheck;
-          this.height = `${window.innerHeight - offsetCheckx2}px`;
-        }
-        if (_max_width) {
-          this.x = this._offsetCheck;
-          this.width = `${window.innerWidth - offsetCheckx2}px`;
-        }
-      } else {
-        if (this.checkBottom()) {
-          this.y += this.checkBottom(true) as number;
-        } else if (this.checkTop()) {
-          this.y -= this.checkTop(true) as number;
-        }
-        if (this.checkRight()) {
-          this.x += this.checkRight(true) as number;
-        } else if (this.checkLeft()) {
-          this.x -= this.checkLeft(true) as number;
-        }
+      if (_max_height) {
+        this.y = this._offsetCheck;
+        this.height = `${window.innerHeight - offsetCheckx2}px`;
+      } else if (this.checkBottom(false, false)) {
+        this.y += this.checkBottom(true, false) as number;
+      } else if (this.checkTop(false, false)) {
+        this.y -= this.checkTop(true, false) as number;
+      }
+
+      if (_max_width) {
+        this.x = this._offsetCheck;
+        this.width = `${window.innerWidth - offsetCheckx2}px`;
+      } else if (this.checkRight(false, false)) {
+        this.x += this.checkRight(true, false) as number;
+      } else if (this.checkLeft(false, false)) {
+        this.x -= this.checkLeft(true, false) as number;
       }
 
       this.updateOrigin();
@@ -197,76 +193,84 @@ export class Positioning {
     };
   }
 
-  private checkLeft(returnVal?: boolean): boolean | number {
+  private checkLeft(returnVal: boolean, invertIfNeed: boolean): boolean | number {
     const rest = this.ax - this._offsetCheck;
     if (returnVal) {
       return rest;
     }
     if (rest < 0) {
-      if (this.placement !== YPosition.above && this.placement !== YPosition.below) {
-        this.placement = invertPlacement(this.placement);
-      }
-      if (this.xPosition) {
-        this.xPosition = invertPlacement(this.xPosition) as XPosition;
+      if (invertIfNeed) {
+        if (this.placement !== YPosition.above && this.placement !== YPosition.below) {
+          this.placement = invertPlacement(this.placement);
+        }
+        if (this.xPosition) {
+          this.xPosition = invertPlacement(this.xPosition) as XPosition;
+        }
       }
       return true;
     }
     return false;
   }
-  private checkRight(returnVal?: boolean): boolean | number {
+  private checkRight(returnVal: boolean, invertIfNeed: boolean): boolean | number {
     const rest = window.innerWidth - (this.ax + this._overlayElementRect.width + this._offsetCheck);
     if (returnVal) {
       return rest;
     }
     if (rest < 0) {
-      if (this.placement !== YPosition.above && this.placement !== YPosition.below) {
-        this.placement = invertPlacement(this.placement);
-      }
-      if (this.xPosition) {
-        this.xPosition = invertPlacement(this.xPosition) as XPosition;
+      if (invertIfNeed) {
+        if (this.placement !== YPosition.above && this.placement !== YPosition.below) {
+          this.placement = invertPlacement(this.placement);
+        }
+        if (this.xPosition) {
+          this.xPosition = invertPlacement(this.xPosition) as XPosition;
+        }
       }
       return true;
     }
     return false;
   }
-  private checkTop(returnVal?: boolean): boolean | number {
+  private checkTop(returnVal: boolean, invertIfNeed: boolean): boolean | number {
     const rest = this.ay - this._offsetCheck;
     if (returnVal) {
       return rest;
     }
     if (rest < 0) {
-      if (this.placement === YPosition.above || this.placement === YPosition.below) {
-        this.placement = invertPlacement(this.placement);
-      }
-      if (this.yPosition) {
-        this.yPosition = invertPlacement(this.yPosition) as YPosition;
+      if (invertIfNeed) {
+        if (this.placement === YPosition.above || this.placement === YPosition.below) {
+          this.placement = invertPlacement(this.placement);
+        }
+        if (this.yPosition) {
+          this.yPosition = invertPlacement(this.yPosition) as YPosition;
+        }
       }
       return true;
     }
     return false;
   }
-  private checkBottom(returnVal?: boolean): boolean | number {
+  private checkBottom(returnVal: boolean, invertIfNeed: boolean): boolean | number {
     const rest = window.innerHeight - (this.ay + this._overlayElementRect.height + this._offsetCheck);
     if (returnVal) {
       return rest;
     }
     if (rest < 0) {
-      if (this.placement === YPosition.above || this.placement === YPosition.below) {
-        this.placement = invertPlacement(this.placement);
-      }
-      if (this.yPosition) {
-        this.yPosition = invertPlacement(this.yPosition) as YPosition;
+      if (invertIfNeed) {
+        if (this.placement === YPosition.above || this.placement === YPosition.below) {
+          this.placement = invertPlacement(this.placement);
+        }
+        if (this.yPosition) {
+          this.yPosition = invertPlacement(this.yPosition) as YPosition;
+        }
       }
       return true;
     }
     return false;
   }
 
-  private checkAll() {
-    return this.checkLeft() ||
-    this.checkRight() ||
-    this.checkTop() ||
-    this.checkBottom();
+  private checkAll(returnVal: boolean, invertIfNeed: boolean) {
+    return this.checkLeft(returnVal, invertIfNeed) ||
+    this.checkRight(returnVal, invertIfNeed) ||
+    this.checkTop(returnVal, invertIfNeed) ||
+    this.checkBottom(returnVal, invertIfNeed);
   }
 
   private updateOrigin() {
