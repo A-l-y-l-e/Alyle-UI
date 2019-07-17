@@ -44,11 +44,10 @@ export class Ads {
               let api = `https://codefund.app/properties/171/funder.js?`;
 
               this._renderer.appendChild(Div, CodeFund);
-              this._renderer.setStyle(Div, 'display', 'flex');
-              this._renderer.setStyle(Div, 'min-height', '64px');
               if (path === '') {
                 api += `theme=dark&template=centered`;
               } else {
+                this._renderer.setStyle(Div, 'min-height', '64px');
                 api += `theme=${themeNameForCodeFund}`;
               }
               CodeFundScript.src = api;
@@ -59,7 +58,7 @@ export class Ads {
                 Div,
                 nextSibling
               );
-              if (isDevMode()) {
+              if (!isDevMode()) {
                 CodeFund.innerHTML = `<div style="padding: 1em">ads</div>`;
               } else {
                 this._renderer.appendChild(

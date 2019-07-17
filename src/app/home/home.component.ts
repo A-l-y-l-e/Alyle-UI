@@ -8,7 +8,9 @@ const styles = ({
   intraContainer: {
     textAlign: 'center',
     color: '#fff',
-    height: 'calc(100vh - 96px)',
+    marginTop: '-32px',
+    height: 'calc(100vh - 64px)',
+    minHeight: '336px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
@@ -54,6 +56,7 @@ const styles = ({
     backgroundColor: '#1a0e2d',
     width: '100%',
     height: '100vh',
+    minHeight: '400px',
     position: 'absolute',
     left: 0,
     top: 0,

@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">Alyle UI</h1>
   <p align="center">Minimal Design, a set of components for Angular.</p>
-  <p align="center"><a href="https://alyle.io/">Docs</a></p>
+  <p align="center"><a href="https://alyle.io">Docs</a></p>
 </p>
 
 [![Build Status](https://travis-ci.org/A-l-y-l-e/Alyle-UI.svg?branch=master)](https://travis-ci.org/A-l-y-l-e/Alyle-UI)
@@ -36,8 +36,9 @@
 |media|✔️|✔️|[Docs](https://alyle.io/components/responsive)|
 |menu|✔️|✔️|[Docs](https://alyle.io/components/menu)|
 |radio|✔️|✔️|[Docs](https://alyle.io/components/radio)|
-|snack bar|✔️|✔️|[Docs](https://alyle.io/components/snack-bar)|
 |select|✔️|✔️|[Docs](https://alyle.io/components/select)|
+|snack bar|✔️|✔️|[Docs](https://alyle.io/components/snack-bar)|
+|slider|✔️|✔️|[Docs](https://alyle.io/components/slider)|
 |tabs|✔️|✔️|[Docs](https://alyle.io/components/tabs)|
 |toolbar|✔️|✔️|[Docs](https://alyle.io/components/toolbar)|
 |tooltip|✔️|✔️|[Docs](https://alyle.io/components/tooltip)|
