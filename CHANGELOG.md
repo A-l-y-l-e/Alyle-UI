@@ -1,3 +1,13 @@
+## [2.9.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.1...2.9.2) (2019-07-18)
+
+
+### Bug Fixes
+
+* fix `Positioning` when it exceeds the limits of the screen ([286f547](https://github.com/A-l-y-l-e/Alyle-UI/commit/286f547))
+* **field:** fix reactive field ([1175298](https://github.com/A-l-y-l-e/Alyle-UI/commit/1175298))
+
+
+
 ## [2.9.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.0...2.9.1) (2019-07-14)
 
 
