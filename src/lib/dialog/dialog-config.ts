@@ -42,4 +42,9 @@ export class LyDialogConfig<DATA = unknown> {
    * Custom class for the `<ly-dialog-container>`. Overwrite the current style.
    */
   containerClass?: string;
+
+  /**
+   * Whether the user can click on the backdrop to close the dialog.
+   */
+  disableClose?: boolean;
 }

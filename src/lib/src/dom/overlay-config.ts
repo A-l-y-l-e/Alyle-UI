@@ -7,4 +7,8 @@ export class LyOverlayConfig {
   fnDestroy?: (...arg: any) => void;
   /** Function that will be called on scroll or resize event */
   onResizeScroll?: (() => void);
+  /**
+   * Whether the user can click on the backdrop to close the overlay.
+   */
+  disableClose?: boolean = false;
 }

@@ -18,7 +18,9 @@ export const STYLES_BACKDROP_ROOT = ({
 })
 export class LyOverlayBackdrop {
   @HostListener('click') onclick() {
-    this._config.fnDestroy!();
+    if (!this._config.disableClose) {
+      this._config.fnDestroy!();
+    }
   }
   constructor(
     private _el: ElementRef<HTMLElement>,

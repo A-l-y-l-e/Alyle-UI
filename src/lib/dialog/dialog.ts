@@ -46,6 +46,7 @@ export class LyDialog {
       },
       hasBackdrop: config.hasBackdrop,
       onResizeScroll: onReziseScroll,
+      disableClose: config.disableClose,
       backdropClass: config.backdropClass || this._theme.style(STYLES_BACKDROP_DARK),
       fnDestroy: () => {
         dialogRef.close();
