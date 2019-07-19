@@ -11,7 +11,9 @@ import {
   Optional,
   Renderer2,
   TemplateRef,
-  ViewChild
+  ViewChild,
+  Output,
+  EventEmitter
   } from '@angular/core';
 import {
   LyOverlay,
@@ -143,6 +145,10 @@ export class LyMenu implements OnInit, AfterViewInit {
       this.ref._menuRef.onResizeScroll = this._updatePlacement.bind(this);
     }
     this._updatePlacement();
+    this.ref.menuOpened.emit();
+    Promise.resolve(null).then(() => {
+      this.ref._setMenuOpenToTrue();
+    });
   }
 
   private _updatePlacement () {
@@ -171,7 +177,7 @@ export class LyMenu implements OnInit, AfterViewInit {
 export class LyMenuItem {
   @HostListener('click') _click() {
     if (this._menu.ref && this._menu.ref._menuRef) {
-      this._menu.ref._menuRef.detach();
+      this._menu.ref.closeMenu();
     }
   }
   constructor(
@@ -186,29 +192,41 @@ export class LyMenuItem {
 @Directive({
   selector: '[lyMenuTriggerFor]',
   host: {
-    '(click)': '_handleClick($event)'
-  }
+    '(click)': '_handleClick()'
+  },
+  exportAs: 'lyMenuTriggerFor'
 })
 export class LyMenuTriggerFor implements OnDestroy {
   /** Current menuRef */
-  _menuRef?: OverlayFactory;
+  _menuRef?: OverlayFactory | null;
+  private _menuOpen = false;
+
+  /** Whether the menu is open. */
+  get menuOpen() {
+    return this._menuOpen;
+  }
+
   @Input() lyMenuTriggerFor: TemplateRef<any>;
+
+  @Output() readonly menuOpened = new EventEmitter<void>();
+  @Output() readonly menuClosed = new EventEmitter<void>();
+
   constructor(
     private elementRef: ElementRef,
     private overlay: LyOverlay
   ) { }
 
-  /** @docs-private */
-  _targetPosition() {
-    const element: HTMLElement = this.elementRef.nativeElement;
-    const rect: ClientRect = element.getBoundingClientRect();
-    return rect;
+  ngOnDestroy() {
+    this.closeMenu();
   }
 
   _handleClick() {
-    if (this._menuRef) {
-      this._menuRef.detach();
-    } else {
+    this.toggleMenu();
+  }
+
+  /** Opens the menu */
+  openMenu() {
+    if (!this._menuRef) {
       this._menuRef = this.overlay.create(this.lyMenuTriggerFor, {
         $implicit: this
       }, {
@@ -222,27 +240,43 @@ export class LyMenuTriggerFor implements OnDestroy {
     }
   }
 
+  /** Closes the menu */
+  closeMenu() {
+    this.detach();
+  }
+
+  /** Toggle menu */
+  toggleMenu() {
+    if (this._menuRef) {
+      this.closeMenu();
+    } else {
+      this.openMenu();
+    }
+  }
+
+  /** @docs-private */
   detach() {
     if (this._menuRef) {
       this._menuRef.detach();
     }
   }
 
+  /** @docs-private */
   destroy() {
     if (this._menuRef) {
+      this.menuClosed.emit(null!);
       this._menuRef.remove();
-      this._menuRef = undefined;
-    }
-  }
-
-  ngOnDestroy() {
-    if (this._menuRef) {
-      this._menuRef.detach();
+      this._menuRef = null;
+      Promise.resolve(null).then(() => this._menuOpen = false);
     }
   }
 
   _getHostElement() {
     return this.elementRef.nativeElement;
+  }
+
+  _setMenuOpenToTrue() {
+    this._menuOpen = true;
   }
 
 }
