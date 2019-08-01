@@ -1,3 +1,18 @@
+## [2.9.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.2...2.9.3) (2019-08-01)
+
+
+### Bug Fixes
+
+* completely destroy menu in lazy-loading when menu is open and the method of a button is to go to another route ([81935d9](https://github.com/A-l-y-l-e/Alyle-UI/commit/81935d9))
+
+
+### Features
+
+* add option `disableClose` to `LyDialogConfig` and `LyOverlayConfig` ([ccfe2ee](https://github.com/A-l-y-l-e/Alyle-UI/commit/ccfe2ee))
+* **menu:** add open and closed state events ([a61e7e1](https://github.com/A-l-y-l-e/Alyle-UI/commit/a61e7e1))
+
+
+
 ## [2.9.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.1...2.9.2) (2019-07-18)
 
 
