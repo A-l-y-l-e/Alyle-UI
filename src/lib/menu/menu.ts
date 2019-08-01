@@ -200,6 +200,7 @@ export class LyMenuTriggerFor implements OnDestroy {
   /** Current menuRef */
   _menuRef?: OverlayFactory | null;
   private _menuOpen = false;
+  private _destroying: boolean;
 
   /** Whether the menu is open. */
   get menuOpen() {
@@ -217,7 +218,10 @@ export class LyMenuTriggerFor implements OnDestroy {
   ) { }
 
   ngOnDestroy() {
-    this.closeMenu();
+    // Not force destruction if it is already being destroyed
+    if (!this._destroying) {
+      this.closeMenu();
+    }
   }
 
   _handleClick() {
@@ -257,6 +261,7 @@ export class LyMenuTriggerFor implements OnDestroy {
   /** @docs-private */
   detach() {
     if (this._menuRef) {
+      this._destroying = true;
       this._menuRef.detach();
     }
   }
@@ -267,6 +272,7 @@ export class LyMenuTriggerFor implements OnDestroy {
       this.menuClosed.emit(null!);
       this._menuRef.remove();
       this._menuRef = null;
+      this._destroying = false;
       Promise.resolve(null).then(() => this._menuOpen = false);
     }
   }
