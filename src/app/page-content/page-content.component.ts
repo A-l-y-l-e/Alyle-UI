@@ -5,6 +5,40 @@ import { LyTheme2, LyHostClass } from '@alyle/ui';
 import { AUIThemeVariables } from '@app/app.module';
 import { AUIRoutesMap } from '../routes';
 
+function lyl(_literals: TemplateStringsArray, ..._placeholders: any[]) {
+  return '';
+}
+
+const item = lyl`{
+  color: red
+}`;
+
+const item2 = lyl`{
+  ul {
+    margin: 0
+    padding: 0
+    list-style: none
+  }
+
+  li {
+    display: inline-block
+    .test {
+      color: red
+    }
+  }
+
+  a {
+    display: block
+    padding: 6px 12px
+    text-decoration: none,
+    span, div {
+      color: red
+    }
+  }
+}`;
+
+console.log(item, item2);
+
 const STYLES = (theme: AUIThemeVariables) => {{{
   return {
     root: {
