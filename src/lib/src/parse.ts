@@ -4,8 +4,7 @@ const AMPERSAND_REGEX = /&/g;
 export class LylParse {
 
   constructor(
-    private _template: string,
-    private _className: string = '${className}'
+    private _template: string
   ) { }
 
   toCss() {
@@ -16,7 +15,7 @@ export class LylParse {
       fullLine = fullLine.trim();
       if (fullLine.endsWith('{')) {
         if (selectors.length === 0) {
-          selectors.push([this._className]);
+          selectors.push(['${className}']);
           selector = selectors[0][0];
         } else {
           selectors.push(fullLine.slice(0, fullLine.length - 1).split(',').map(_ => _.trim()));
@@ -34,16 +33,12 @@ export class LylParse {
           }
         }
       } else {
-        if (!fullLine.endsWith(';')) {
-          fullLine += ';';
-        }
         rules.set(selector!, rules.get(selector!)! + fullLine);
       }
       return '';
     });
 
-    return Array.from(rules.entries()).filter(rule => rule[1]).map(rule => `${rule[0]}{${rule[1]}}`).join('');
-
+    return `(className: string) => \`${Array.from(rules.entries()).filter(rule => rule[1]).map(rule => `${rule[0]}{${rule[1]}}`).join('')}\``;
   }
 
   private _resolveSelectors(selectors: (string[])[]) {

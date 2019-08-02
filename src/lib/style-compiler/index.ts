@@ -31,7 +31,10 @@ const item2 = lyl\`{
   }
 
   li {
-    display: inline-block;
+    a {
+      display: inline-block;
+
+    }
   }
 
   a {
@@ -60,7 +63,7 @@ const STYLES = (theme: AUIThemeVariables) => {{{
     button: lyl \`{
       color: blue
     }\`,
-    button: () => lyl \`{
+    button: (someValue: string) => lyl \`{
       color: blue
     }\`
   };
@@ -92,13 +95,10 @@ function styleNotIsObjectLiteralExpression() {
 }
 
 export default function StyleCompiler(content: string) {
-  // const getInsideDoubleCurly = (str: string) => str.split('{{{')
-  //   .filter(val => val.includes('}}}'))
-  //   .map(val => val.substring(0, val.indexOf('}}}')));
 
   let result = content.replace(REGEX_LY, (_ex, styleBlock) => {
-    console.log('lyl', {styleBlock});
-    console.log('lyl', {styleBlock: new LylParse(styleBlock).toCss()});
+    const css = new LylParse(styleBlock).toCss();
+    console.log('lyl', {styleBlock: `(className: string) => \`${css}\``});
     return styleBlock;
   });
 
