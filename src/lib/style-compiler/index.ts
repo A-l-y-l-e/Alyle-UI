@@ -2,8 +2,9 @@ import * as ts from 'typescript';
 import { getNodes } from './util/util';
 import { LylParse } from './parse';
 
-const REGEX_LY = /(?:\(\)\s=>\s)?lyl\s?`({*[^]*?})`/g;
+const REGEX_LY = /(?:\(\)\s=>\s)?lyl\s?`({{*[^]*?})`/g;
 const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
+const LYL_BAD_REGEX = /^{\n\s\*\s/;
 
 console.log('starting..');
 
@@ -124,8 +125,12 @@ function styleNotIsObjectLiteralExpression() {
 export default function StyleCompiler(content: string) {
 
   let result = content.replace(REGEX_LY, (_ex, styleBlock) => {
+    if (LYL_BAD_REGEX.test(styleBlock)) {
+      return styleBlock;
+    }
     const css = new LylParse(styleBlock).toCss();
-    console.log('lyl', {styleBlock: `(className: string) => \`${css}\``});
+    styleBlock = `(className: string) => \`${css}\``;
+    console.log('lyl', { styleBlock });
     return styleBlock;
   });
 
@@ -150,8 +155,6 @@ export default function StyleCompiler(content: string) {
         }
       }
     }));
-    return `${styleBlock}`;
-  }).replace(REGEX_LY, (_ex, styleBlock, _offset) => {
     return `${styleBlock}`;
   });
 

@@ -85,6 +85,7 @@ export class LylParse {
         const sel = rule[0];
         // For non LylModule<
         // others type of style
+
         if (sel.startsWith('/* >>')) {
           return `${sel}${rule[1]}`;
         }

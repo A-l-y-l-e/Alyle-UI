@@ -1,13 +1,13 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LyTheme2, LyHostClass } from '@alyle/ui';
+import { lyl, LyTheme2, LyHostClass } from '@alyle/ui';
 
 import { AUIThemeVariables } from '@app/app.module';
 import { AUIRoutesMap } from '../routes';
 
-function lyl(_literals: TemplateStringsArray, ..._placeholders: any[]) {
-  return '';
-}
+// function lyl(_literals: TemplateStringsArray, ..._placeholders: any[]) {
+//   return '';
+// }
 
 const item = lyl`{
   color: red
@@ -30,7 +30,7 @@ const item2 = lyl`{
   a {
     display: block
     padding: 6px 12px
-    text-decoration: none,
+    text-decoration: none
     span, div {
       color: red
     }
@@ -46,14 +46,22 @@ console.log(item, item2);
 
 const STYLES = (theme: AUIThemeVariables) => {{{
   return {
-    root: {
+    root: lyl `{
       blockquote: {
-        color: theme.text.secondary,
-        borderLeft: `3px solid ${theme.primary.default}`,
-        padding: '0 1em',
+        color: ${theme.text.secondary}
+        borderLeft: 3px solid ${theme.primary.default}
+        padding: 0 1em
         margin: 0
       }
-    }
+    }`
+    // root: {
+    //   blockquote: {
+    //     color: theme.text.secondary,
+    //     borderLeft: `3px solid ${theme.primary.default}`,
+    //     padding: '0 1em',
+    //     margin: 0
+    //   }
+    // }
   };
 }}};
 

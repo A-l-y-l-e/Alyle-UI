@@ -30,3 +30,4 @@ export * from './src/selection/selection';
 export * from './src/error/theme-variable-undefined';
 export * from './src/expansion-icon/index';
 export * from './src/theme/variables/index';
+export * from './src/parse';

@@ -50,12 +50,14 @@ export interface StyleGroup {
   [key: string]: StyleContainer | string | number | undefined | null;
 }
 
+export type StyleTemplate = (className: string) => string;
+
 /**
  * CSS declarations block
  */
 export type StyleDeclarationsBlock = ((T: any) => StyleContainer | string) | StyleContainer | string | null | undefined;
 
-export type Styles = ((T: any, theme: any) => StyleGroup) | StyleGroup | undefined | null;
+export type Styles = ((T: any, theme: any) => StyleGroup) | StyleGroup | StyleTemplate | undefined | null;
 
 export interface Keyframes {
   [name: string]: {
