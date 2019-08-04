@@ -24,11 +24,18 @@ const item = lyl\`{
 }\`;
 
 const item2 = lyl\`{
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  {
+    ...\${item}
   }
+  ul {
+    margin: 0
+    padding: 0
+    list-style: none
+    {
+      ...\${item}
+    }
+  }
+
 
   li {
     a {
@@ -41,6 +48,26 @@ const item2 = lyl\`{
     display: block;
     padding: 6px 12px;
     text-decoration: none;
+  }
+
+  ul > {
+    li {
+      list-style-type: none
+    }
+  }
+
+  h2 {
+    + p {
+      border-top: 1px solid gray
+    }
+  }
+
+  p {
+    ~ {
+      span {
+        opacity: 0.8
+      }
+    }
   }
 }\`;
 
@@ -105,10 +132,6 @@ export default function StyleCompiler(content: string) {
   result = result.replace(REGEX_LY_STYLE_SHEET, (_ex, styleBlock: string, _offset) => {
     styleBlock = styleBlock.slice(3, styleBlock.length - 3);
     const source = ts.createSourceFile('', styleBlock, ts.ScriptTarget.Latest, true);
-
-    // console.log('test: ', {
-    //   styleBlock
-    // });
 
     let returnStatement: ts.ReturnStatement | null;
 

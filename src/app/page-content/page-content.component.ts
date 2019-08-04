@@ -35,6 +35,11 @@ const item2 = lyl`{
       color: red
     }
   }
+
+  {
+    ...${item}
+  }
+
 }`;
 
 console.log(item, item2);
