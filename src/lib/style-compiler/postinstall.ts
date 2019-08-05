@@ -3,8 +3,8 @@ import { join } from 'path';
 import { argv } from 'yargs';
 
 const { readFile, writeFile } = promises;
-const WEBPACK_CONFIG_COMMON = 'node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/common.js';
-const REGEX_POS = /rules\:\s?\[/;
+const PROGRAM_FILE = 'node_modules/@angular/compiler-cli/src/transformers/program.js';
+const REGEX_POS = /_emitRender2([^]+)var\ssourceFile\s=\ssourceFiles/;
 
 
 const errorOnIncompatible = () => {
@@ -12,9 +12,9 @@ const errorOnIncompatible = () => {
 };
 
 (async () => {
-  const buffer = await readFile(join(process.cwd(), WEBPACK_CONFIG_COMMON)).catch(errorOnIncompatible);
+  const buffer = await readFile(join(process.cwd(), PROGRAM_FILE)).catch(errorOnIncompatible);
   let data = buffer.toString('utf8');
-  const fileNameBak = join(process.cwd(), WEBPACK_CONFIG_COMMON + '.bak');
+  const fileNameBak = join(process.cwd(), PROGRAM_FILE + '.bak');
 
   if (existsSync(fileNameBak)) {
     data = (await readFile(fileNameBak)).toString('utf8');
@@ -29,19 +29,22 @@ const errorOnIncompatible = () => {
       ? join(process.cwd(), 'dist/@alyle/ui/style-compiler/index')
       : '@alyle/ui/style-compiler';
 
-    const result = data.replace(REGEX_POS, str => {
-      return `${str}
+    const result = data.replace(REGEX_POS, (_ex, block) => {
+      return _ex.replace(block, `${block}
+
+
       /**
-       * @ly
-       * Rules for improve styles of Alyle UI
+       * @lyl
+       * Improve styles of Alyle UI
        */
-      {
-        test: /\\.ts$/,
-        loader: '${loaderPath}',
-        enforce: 'pre'
-      },`;
+      if (outFileName.endsWith('.js')) {
+        outData = require('${loaderPath}').StyleCompiler(outData);
+      }
+
+
+      `);
     });
-    await writeFile(join(process.cwd(), WEBPACK_CONFIG_COMMON), result);
+    await writeFile(join(process.cwd(), PROGRAM_FILE), result);
   } else {
     errorOnIncompatible();
   }

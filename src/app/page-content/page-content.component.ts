@@ -5,12 +5,13 @@ import { lyl, LyTheme2, LyHostClass } from '@alyle/ui';
 import { AUIThemeVariables } from '@app/app.module';
 import { AUIRoutesMap } from '../routes';
 
-// function lyl(_literals: TemplateStringsArray, ..._placeholders: any[]) {
-//   return '';
-// }
+const absolute = lyl`{
+  position: absolute
+}`;
 
 const item = lyl`{
   color: red
+  ...${absolute}
 }`;
 
 const item2 = lyl`{

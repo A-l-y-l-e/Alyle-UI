@@ -122,14 +122,14 @@ function styleNotIsObjectLiteralExpression() {
   return Error(`The style must return an object literal expression.`);
 }
 
-export default function StyleCompiler(content: string) {
+export function StyleCompiler(content: string) {
 
   let result = content.replace(REGEX_LY, (_ex, styleBlock) => {
     if (LYL_BAD_REGEX.test(styleBlock)) {
       return styleBlock;
     }
     const css = new LylParse(styleBlock).toCss();
-    styleBlock = `(className: string) => \`${css}\``;
+    styleBlock = `(className) => \`${css}\``;
     console.log('lyl', { styleBlock });
     return styleBlock;
   });

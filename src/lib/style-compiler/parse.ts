@@ -1,5 +1,7 @@
 const LINE_FEED_REGEX = /(\n?[^\n]+\n?)/g;
 const AMPERSAND_REGEX = /&/g;
+const STYLE_TEMPLATE_REGEX = /StyleTemplate\[[\w]+\]/;
+let id: number = 0;
 
 /**
  * Transform a lyl style block to CSS
@@ -68,8 +70,15 @@ export class LylParse {
       /** For non LylModule< */
       if (fullLine.startsWith('...')) { // delete this in LylModule to skip this check, remove '...' in lyl `` Fn
         const lin = fullLine.slice(3);
-        fullLine = `\${(${lin.slice(2, lin.length - 1)})(\`${selector}\`)}`;
-        rules.set(`/* >>ds id: ${Math.floor(new Date().valueOf() * Math.random()).toString(36)} */`, fullLine);
+        console.log({lin});
+        if (lin.startsWith('/* >>')) {
+          // Ignore compiled css
+          rules.set(createUniqueCommentSelector(), lin);
+          fullLine = lin;
+        } else {
+          fullLine = `\${(${lin.slice(2, lin.length - 1)})(\`${selector}\`)}`;
+          rules.set(createUniqueCommentSelector(), fullLine);
+        }
       } else /** for non LylModule>  */ {
         if (fullLine.includes(':') && !fullLine.endsWith(';')) {
           fullLine += ';';
@@ -110,6 +119,47 @@ export class LylParse {
 
 }
 
-export function lyl(_literals: TemplateStringsArray, ..._placeholders: any[]) {
-  return '';
+export type StyleTemplate = (className: string) => string;
+
+export function lyl(literals: TemplateStringsArray, ...placeholders: (string | number | StyleTemplate)[]) {
+  let result = '';
+  console.log(literals, placeholders);
+  const dsMap = new Map<string, StyleTemplate>();
+  for (let i = 0; i < placeholders.length; i++) {
+    const placeholder = placeholders[i];
+    result += literals[i];
+    if (typeof placeholder === 'function' && result.endsWith('...')) {
+      // remove '...'
+      // result = result.slice(0, result.length - 3);
+
+      const newID = createUniqueId();
+      dsMap.set(newID, placeholder);
+      result += newID;
+    } else {
+      result += placeholder;
+    }
+  }
+
+  // add the last literal
+  result += literals[literals.length - 1];
+
+  console.log({result});
+
+  return (className: string) => {
+    const css = result.replace(STYLE_TEMPLATE_REGEX, (str) => {
+      if (dsMap.has(str)) {
+        return `${createUniqueCommentSelector()}${dsMap.get(str)!(className)}`;
+      }
+      return str;
+    });
+    return new LylParse(css, className).toCss();
+  };
+}
+
+function createUniqueId() {
+  return `StyleTemplate[__${(id++).toString(36)}]`;
+}
+
+function createUniqueCommentSelector() {
+  return `/* >>ds id: ${Math.floor(new Date().valueOf() * Math.random()).toString(36)} */`;
 }

@@ -1,4 +1,6 @@
 import { ThemeVariables } from './theme-config';
+import { StyleTemplate } from '../parse';
+
 /** Only for internal use */
 export const _STYLE_MAP: Map<any, StyleMap5> = new Map();
 
@@ -39,7 +41,7 @@ export enum TypeStyle {
  * Style Object
  */
 export interface StyleContainer {
-  [key: string]: StyleContainer | string | number | string[] | null | undefined;
+  [key: string]: StyleContainer | string | number | string[] | null | undefined | StyleTemplate;
 }
 
 export interface StyleGroup {
@@ -47,17 +49,15 @@ export interface StyleGroup {
   $name?: string;
   $keyframes?: Keyframes;
   $priority?: number;
-  [key: string]: StyleContainer | string | number | undefined | null;
+  [key: string]: StyleContainer | StyleTemplate | string | number | undefined | null;
 }
-
-export type StyleTemplate = (className: string) => string;
 
 /**
  * CSS declarations block
  */
 export type StyleDeclarationsBlock = ((T: any) => StyleContainer | string) | StyleContainer | string | null | undefined;
 
-export type Styles = ((T: any, theme: any) => StyleGroup) | StyleGroup | StyleTemplate | undefined | null;
+export type Styles = ((T: any, theme: any) => StyleGroup) | StyleGroup | undefined | null;
 
 export interface Keyframes {
   [name: string]: {
