@@ -52,7 +52,12 @@ export class LylParse {
           selectors.push([this._className]);
           selector = selectors[0][0];
         } else {
-          selectors.push(fullLine.slice(0, fullLine.length - 1).trim().split(',').map(_ => _.trim()));
+          selectors.push(
+            fullLine.slice(0, fullLine.length - 1)
+            .trim()
+            .split(',')
+            .map(_ => _.trim())
+          );
           selector = this._resolveSelectors(selectors);
         }
         if (!rules.has(selector)) {
@@ -66,20 +71,17 @@ export class LylParse {
             rules.set(selector, '');
           }
         }
-      } else
-      /** For non LylModule< */
-      if (fullLine.startsWith('...')) { // delete this in LylModule to skip this check, remove '...' in lyl `` Fn
+      } else if (fullLine.startsWith('...')) {
         const lin = fullLine.slice(3);
-        console.log({lin});
-        if (lin.startsWith('/* >>')) {
+        if (lin.startsWith('/* >> ds')) {
           // Ignore compiled css
-          rules.set(createUniqueCommentSelector(), lin);
+          rules.set(createUniqueCommentSelector('ds'), lin);
           fullLine = lin;
-        } else {
+        } /** For non LylModule< */else {
           fullLine = `\${(${lin.slice(2, lin.length - 1)})(\`${selector}\`)}`;
-          rules.set(createUniqueCommentSelector(), fullLine);
-        }
-      } else /** for non LylModule>  */ {
+          rules.set(createUniqueCommentSelector('ds'), fullLine);
+        } /** for non LylModule>  */
+      } else {
         if (fullLine.includes(':') && !fullLine.endsWith(';')) {
           fullLine += ';';
         }
@@ -95,7 +97,7 @@ export class LylParse {
         // For non LylModule<
         // others type of style
 
-        if (sel.startsWith('/* >>')) {
+        if (sel.startsWith('/* >> ds')) {
           return `${sel}${rule[1]}`;
         }
         // for non LylModule>
@@ -105,7 +107,6 @@ export class LylParse {
   }
 
   private _resolveSelectors(selectors: (string[])[]) {
-    console.log(selectors.map(_ => _.filter(__ => __)).filter(_ => _.length));
     return selectors.map(_ => _.filter(__ => __)).filter(_ => _.length).reduce((prev, current) => {
       const result = prev.map(item => current.map(cu => {
         if (cu.includes('&')) {
@@ -122,33 +123,28 @@ export class LylParse {
 export type StyleTemplate = (className: string) => string;
 
 export function lyl(literals: TemplateStringsArray, ...placeholders: (string | number | StyleTemplate)[]) {
-  let result = '';
-  console.log(literals, placeholders);
-  const dsMap = new Map<string, StyleTemplate>();
-  for (let i = 0; i < placeholders.length; i++) {
-    const placeholder = placeholders[i];
-    result += literals[i];
-    if (typeof placeholder === 'function' && result.endsWith('...')) {
-      // remove '...'
-      // result = result.slice(0, result.length - 3);
-
-      const newID = createUniqueId();
-      dsMap.set(newID, placeholder);
-      result += newID;
-    } else {
-      result += placeholder;
-    }
-  }
-
-  // add the last literal
-  result += literals[literals.length - 1];
-
-  console.log({result});
 
   return (className: string) => {
+    let result = '';
+    const dsMap = new Map<string, StyleTemplate>();
+    for (let i = 0; i < placeholders.length; i++) {
+      const placeholder = placeholders[i];
+      result += literals[i];
+      if (typeof placeholder === 'function' && result.endsWith('...')) {
+
+        const newID = createUniqueId();
+        dsMap.set(newID, placeholder);
+        result += newID;
+      } else {
+        result += placeholder;
+      }
+    }
+
+    // add the last literal
+    result += literals[literals.length - 1];
     const css = result.replace(STYLE_TEMPLATE_REGEX, (str) => {
       if (dsMap.has(str)) {
-        return `${createUniqueCommentSelector()}${dsMap.get(str)!(className)}`;
+        return `${createUniqueCommentSelector('ds')}${dsMap.get(str)!(className)}`;
       }
       return str;
     });
@@ -160,6 +156,6 @@ function createUniqueId() {
   return `StyleTemplate[__${(id++).toString(36)}]`;
 }
 
-function createUniqueCommentSelector() {
-  return `/* >>ds id: ${Math.floor(new Date().valueOf() * Math.random()).toString(36)} */`;
+function createUniqueCommentSelector(text = 'id') {
+  return `/* >> ${text} -- ${Math.floor(new Date().valueOf() * Math.random()).toString(36)} */`;
 }

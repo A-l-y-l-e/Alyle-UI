@@ -47,22 +47,19 @@ console.log(item, item2);
 
 const STYLES = (theme: AUIThemeVariables) => {{{
   return {
+    $global: lyl `{
+      blockquote {
+        color: red
+      }
+    }`,
     root: lyl `{
-      blockquote: {
+      blockquote {
         color: ${theme.text.secondary}
-        borderLeft: 3px solid ${theme.primary.default}
+        border-${theme.before}: 3px solid ${theme.primary.default}
         padding: 0 1em
         margin: 0
       }
     }`
-    // root: {
-    //   blockquote: {
-    //     color: theme.text.secondary,
-    //     borderLeft: `3px solid ${theme.primary.default}`,
-    //     padding: '0 1em',
-    //     margin: 0
-    //   }
-    // }
   };
 }}};
 

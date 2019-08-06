@@ -28,6 +28,17 @@ export class LyStyleUtils {
     [key: string]: string
   };
   direction: Dir;
+
+  /** Returns left or right according to the direction */
+  get before() {
+    return this.getDirection(DirAlias.before);
+  }
+
+  /** Returns left or right according to the direction */
+  get after() {
+    return this.getDirection(DirAlias.after);
+  }
+
   pxToRem(value: number) {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;

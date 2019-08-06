@@ -13,6 +13,7 @@ const REF_REG_EXP = /\{([\w-]+)\}/g;
 
 let nextClassId = 0;
 let nextKeyFrameId = 0;
+let yClassID = 0;
 
 @Injectable({
   providedIn: 'root'
@@ -350,6 +351,7 @@ function groupStyleToString(
   typeStyle: TypeStyle,
   themeVariables: ThemeVariables
 ) {
+
   // for styles type string
   if (typeStyle === TypeStyle.OnlyOne) {
     // use current class or set new
@@ -385,7 +387,17 @@ function groupStyleToString(
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
       const value = styles[key];
-      if (key === '$keyframes') {
+      if (typeof value === 'function') {
+        if (key === '$global') {
+          content += content += value(isDevMode() ? `/* Global Style */` : ``);
+        } else {
+          // set new id if not exist
+          const currentUniqueClassName = key in classesMap
+          ? classesMap[key]
+          : classesMap[key] = isDevMode() ? `${toClassNameValid(name + key)}-${createUniqueClassID()}` : createUniqueClassID();
+          content += value(`.${currentUniqueClassName}`);
+        }
+      } else if (key === '$keyframes') {
         content += keyframesToString(name, classesMap, value as Keyframes, themeVariables);
       } else if (typeof value === 'object' || value === null) {
         // set new id if not exist
@@ -596,6 +608,9 @@ export function capitalizeFirstLetter(str: string) {
 
 function createNextClassId() {
   return `i${(nextClassId++).toString(36)}`;
+}
+function createUniqueClassID() {
+  return `y${(yClassID++).toString(36)}`;
 }
 function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;

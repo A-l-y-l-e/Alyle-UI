@@ -68,7 +68,7 @@ export interface Keyframes {
 // Convert all properties to `string` type, and exclude properties that not is class name
 export type LyClasses<T> = Record<(
   Exclude<(T extends ((...args: any[]) => any) ? (keyof ReturnType<T>) : keyof T),
-  '$name' | '$keyframes' | '@global' | '$priority'>
+  '$name' | '$keyframes' | '@global' | '$priority' | '$global'>
 ), string>;
 
 type LyComponentStyleItem<COMPONENT, INPUTS extends keyof COMPONENT> = {
