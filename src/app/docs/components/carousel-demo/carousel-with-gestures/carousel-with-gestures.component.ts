@@ -3,12 +3,26 @@ import { LyTheme2 } from '@alyle/ui';
 
 const STYLES = ({
   carousel: {
-    maxWidth: '360px',
-    height: '220px',
-    margin: 'auto'
+    margin: 'auto',
+    // responsive
+    maxWidth: '540px',
+    height: '50vh',
+    minHeight: '220px',
+    maxHeight: '320px'
   },
   carouselItem: {
-    textAlign: 'center'
+    display: 'flex',
+    textAlign: 'center',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: '100%',
+    flexDirection: 'column',
+    padding: '1em 1em 48px',
+    boxSizing: 'border-box',
+    color: '#fff',
+    '&:nth-child(3)': {
+      color: '#2b2b2b'
+    }
   }
 });
 
