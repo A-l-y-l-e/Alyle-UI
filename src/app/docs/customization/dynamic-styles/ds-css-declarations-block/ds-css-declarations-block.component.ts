@@ -1,19 +1,35 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { LyTheme2, lyl } from '@alyle/ui';
 
-const STYLE_BORDER = ({
-  height: '120px',
-  width: '120px',
-  background: '#ffe259',
-  backgroundImage: `linear-gradient(${
+const STYLE_BORDER = lyl `{
+  height: 120px
+  width: 120px
+  background: #ffe259
+  background-image: linear-gradient(${
     [
       '45deg',
-      `${'#ffe259'} 0%`,
-      `${'#ffa751'} 100%`
+      '#ffe259 0%',
+      '#ffa751 100%'
     ].join()
-  })`,
-  borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%'
-});
+  })
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%
+}`;
+
+console.log({STYLE_BORDER});
+
+// const STYLE_BORDER = ({
+//   height: '120px',
+//   width: '120px',
+//   background: '#ffe259',
+//   backgroundImage: `linear-gradient(${
+//     [
+//       '45deg',
+//       `${'#ffe259'} 0%`,
+//       `${'#ffa751'} 100%`
+//     ].join()
+//   })`,
+//   borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%'
+// });
 
 @Component({
   selector: 'aui-ds-css-declarations-block',
@@ -21,7 +37,7 @@ const STYLE_BORDER = ({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsCssDeclarationsBlockComponent implements OnInit {
-  styleBorder = this._theme.style(STYLE_BORDER);
+  styleBorder = this._theme.setUpStyle(STYLE_BORDER);
   constructor(
     private _theme: LyTheme2) { }
 

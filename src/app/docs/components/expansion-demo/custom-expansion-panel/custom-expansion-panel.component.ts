@@ -1,15 +1,51 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, ThemeRef, lyl } from '@alyle/ui';
 import { STYLES as EXPANSION_STYLES } from '@alyle/ui/expansion';
 
 
-const STYLES = (theme: ThemeVariables, themeRef: ThemeRef) => {
+const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   // The classes for `expansion` are not yet created, therefore,
   // we will create them to use them.
-  const expansion = themeRef.toClassSelector(themeRef.addStyleSheet(EXPANSION_STYLES));
+  const classes = ref.addStyleSheet(EXPANSION_STYLES);
+  const expansion = ref.getClasses(EXPANSION_STYLES);
+  console.log({expansion, classes});
 
   return ({
-    expansion: {
+    expansion: () => lyl `{
+      ${expansion.panel} {
+        &::after {
+          transition: border ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}
+          content: ''
+          position: absolute
+          top: 0
+          bottom: 0
+          ${theme.before}: 0
+          border-${theme.before}: 2px solid transparent
+        }
+      }
+      ${expansion.panelHeader} {
+        height: 54px
+      }
+      ${expansion.panelTitle} {
+        fontWeight: 500
+      }
+
+      ${expansion.expanded} {
+        ${expansion.panelHeader} {
+          height: 64px
+        }
+        &${expansion.panel} {
+          background: ${theme.background.secondary}
+          &::after {
+            borderBefore: 2px solid .${theme.primary.default}
+          }
+        }
+        ${expansion.panelHeader} .${expansion.panelTitle} {
+          color: ${theme.primary.default}
+        }
+      }
+    }`,
+    expansion2: {
       [`${expansion.panel}`]: {
         '&::after': {
           transition: `border ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,

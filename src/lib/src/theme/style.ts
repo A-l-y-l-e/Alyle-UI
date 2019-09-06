@@ -29,11 +29,16 @@ export interface StyleMap5 {
   parentStyle?: Styles;
   requireUpdate?: boolean;
   id: string | null;
+  isNewStyle?: boolean;
 }
 
 export enum TypeStyle {
   Multiple,
-  OnlyOne
+  OnlyOne,
+  /**
+   * A lyl Style
+   */
+  LylStyle
 }
 
 
@@ -49,7 +54,7 @@ export interface StyleGroup {
   $name?: string;
   $keyframes?: Keyframes;
   $priority?: number;
-  [key: string]: StyleContainer | StyleTemplate | string | number | undefined | null;
+  [key: string]: StyleContainer | (() => StyleTemplate) | StyleTemplate | string | number | undefined | null;
 }
 
 /**
@@ -77,4 +82,8 @@ type LyComponentStyleItem<COMPONENT, INPUTS extends keyof COMPONENT> = {
 
 export interface LyComponentStyle<COMPONENT, INPUTS extends keyof COMPONENT> {
   [key: string]: LyComponentStyleItem<COMPONENT, INPUTS>;
+}
+
+export function getThemeNameForSelectors(themeId: string) {
+  return `${themeId}<~(selectors)`;
 }

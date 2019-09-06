@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { getNodes } from './util/util';
 import { LylParse } from './parse';
 
-const REGEX_LY = /(?:\(\)\s=>\s)?lyl\s?`({{*[^]*?})`/g;
+const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?`({{*[^]*?})`/g;
 const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
 

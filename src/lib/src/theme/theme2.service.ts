@@ -6,8 +6,9 @@ import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
-import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses } from './style';
+import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses, getThemeNameForSelectors } from './style';
 import { Subject } from 'rxjs';
+import { StyleTemplate } from '../parse';
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
@@ -121,7 +122,7 @@ export class LyTheme2 {
   /**
    * Create basic style
    * @param style Styles.
-   * Note: Use only with inmutable variable.
+   * Note: Use only with immutable variable.
    * @param priority Priority of style
    * @param parentStyle
    */
@@ -131,6 +132,19 @@ export class LyTheme2 {
       priority,
       TypeStyle.OnlyOne,
       false, parentStyle) as string;
+  }
+
+  /**
+   * Create basic style
+   * @param style Styles.
+   * Note: Use only with immutable variable.
+   */
+  setUpStyle(style: StyleTemplate, priority?: number | null): string {
+    return this._createStyleContent2(style,
+      null,
+      priority,
+      TypeStyle.LylStyle,
+      false) as string;
   }
 
   private updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
@@ -208,8 +222,26 @@ export class LyTheme2 {
     return false;
   }
 
+  getClasses<T>(styles: T): LyClasses<T> {
+    const themeName = this.initialTheme;
+    if (!_STYLE_MAP.has(styles)) {
+      _STYLE_MAP.set(styles, {
+        isNewStyle: true,
+        styles: <Styles><unknown>styles,
+        type: TypeStyle.Multiple,
+        css: {},
+        id: null
+      });
+    }
+    const styleMap = _STYLE_MAP.get(styles)!;
+    console.log({styleMap});
+    const themeNameForSelectors = getThemeNameForSelectors(themeName);
+    const classesMap = styleMap[themeNameForSelectors] || (styleMap[themeNameForSelectors] = {});
+    return classesMap;
+  }
+
   private _createStyleContent2(
-    styles: Styles | StyleDeclarationsBlock,
+    styles: Styles | StyleDeclarationsBlock | StyleTemplate,
     id: string | null,
     priority: number | undefined | null,
     type: TypeStyle,
@@ -217,10 +249,9 @@ export class LyTheme2 {
     parentStyle?: Styles
   ) {
     const newId = id || styles as Styles;
-    let isNewStyle: boolean | null = null;
     if (!_STYLE_MAP.has(newId)) {
-      isNewStyle = true;
       _STYLE_MAP.set(newId, {
+        isNewStyle: true,
         priority,
         styles: styles as Styles,
         type,
@@ -231,15 +262,18 @@ export class LyTheme2 {
     }
     const styleMap = _STYLE_MAP.get(newId)!;
     const themeName = this.initialTheme;
-    const isCreated = isNewStyle || !(styleMap.classes || styleMap[themeName]);
+    const isCreated = styleMap.isNewStyle || !(styleMap.classes || styleMap[themeName]);
     if (isCreated || forChangeTheme) {
+      styleMap.isNewStyle = false;
       /** create new style for new theme */
       let css: string | { [themeName: string]: string; };
       const themeMap = this.themeMap.get(this.initialTheme)!;
       const config = this.core.get(themeMap.change || themeName) as ThemeVariables;
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
-        css = groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config);
+        css = type === TypeStyle.LylStyle
+          ? createLylStyle(styleMap, styles as StyleTemplate, themeName)
+          : groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }
@@ -343,6 +377,21 @@ export class LyTheme2 {
 
 }
 
+function createLylStyle(
+  styleMap: StyleMap5,
+  styles: StyleTemplate,
+  themeName: string
+) {
+  // use current class or set new
+  const className = styleMap.requireUpdate
+  ? styleMap[themeName] || (styleMap[themeName] = createUniqueClassID())
+  : styleMap.classes
+    ? styleMap.classes
+    : styleMap.classes = createUniqueClassID();
+
+  return (styles)(`.${className}`);
+}
+
 function groupStyleToString(
   styleMap: StyleMap5,
   styles: StyleGroup,
@@ -375,28 +424,42 @@ function groupStyleToString(
     }
     return rules;
   }
+
   // for multiples styles
+  const themeNameForSelectors = getThemeNameForSelectors(themeName);
   const classesMap = styleMap[themeName] || (styleMap[themeName] = {});
+  const selectorsMap = styleMap[themeNameForSelectors] || (styleMap[themeNameForSelectors] = {});
+  const styleGroup = <StyleGroup>styles;
   let content = '';
-  const name = styles.$name ? `${styles.$name}-` : '';
+  const name = styleGroup.$name ? `${styleGroup.$name}-` : '';
 
   // set priority
-  if (styles.$priority != null) {
-    styleMap.priority = styles.$priority;
+  if (styleGroup.$priority != null) {
+    styleMap.priority = styleGroup.$priority;
   }
   for (const key in styles) {
     if (styles.hasOwnProperty(key)) {
       const value = styles[key];
       if (typeof value === 'function') {
+
+        // lyl
         if (key === '$global') {
           content += content += value(isDevMode() ? `/* Global Style */` : ``);
         } else {
           // set new id if not exist
           const currentUniqueClassName = key in classesMap
-          ? classesMap[key]
-          : classesMap[key] = isDevMode() ? `${toClassNameValid(name + key)}-${createUniqueClassID()}` : createUniqueClassID();
-          content += value(`.${currentUniqueClassName}`);
+            ? classesMap[key]
+            : classesMap[key] = isDevMode() ? `${toClassNameValid(name + key)}-${createUniqueClassID()}` : createUniqueClassID();
+          const selector = key in selectorsMap
+            ? selectorsMap[key]
+            : selectorsMap[key] = `.${currentUniqueClassName}`;
+          if (value.length) {
+            content += value(selector);
+          } else {
+            content += (value as (() => StyleTemplate))()(selector);
+          }
         }
+
       } else if (key === '$keyframes') {
         content += keyframesToString(name, classesMap, value as Keyframes, themeVariables);
       } else if (typeof value === 'object' || value === null) {
@@ -405,7 +468,7 @@ function groupStyleToString(
         ? classesMap[key]
         : classesMap[key] = isDevMode() ? toClassNameValid(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
 
-        const style = styleToString(key, styles.$name, value as StyleGroup, themeVariables, currentClassName);
+        const style = styleToString(key, styleGroup.$name, value as StyleContainer, themeVariables, currentClassName);
         content += style;
       }
     }
@@ -463,7 +526,7 @@ function styleToString(
       if (element != null) {
         // Check if is Object literal
         if (element.constructor === Object) {
-          subContent += styleToString(key, $name, element as StyleGroup, themeVariables, styleKey, newKey);
+          subContent += styleToString(key, $name, element as StyleContainer, themeVariables, styleKey, newKey);
         } else {
           keyAndValue += convertToStyleValue(styleKey, element as string | string[], themeVariables);
         }
@@ -616,6 +679,6 @@ function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;
 }
 
-export interface ThemeRef extends Pick<LyTheme2, 'toClassSelector'> {
+export interface ThemeRef extends Pick<LyTheme2, 'toClassSelector' | 'getClasses'> {
   addStyleSheet<T>(styles: T & Styles): LyClasses<T>;
 }
