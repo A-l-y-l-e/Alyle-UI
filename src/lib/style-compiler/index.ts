@@ -1,10 +1,11 @@
 import * as ts from 'typescript';
-import { getNodes } from './util/util';
+import { findNode } from './util/util';
 import { LylParse } from './parse';
 
-const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?`({{*[^]*?})`/g;
-const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
+const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
+// const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
+const REPLACE_ID_REGEX = /\[ei([\w]+)\]/g;
 
 console.log('starting..');
 
@@ -118,46 +119,69 @@ const STYLES = (theme: AUIThemeVariables) => {{{
 const commonConfigVariables = ['appearance', 'size', 'lyTyp'];
 `;
 
-function styleNotIsObjectLiteralExpression() {
-  return Error(`The style must return an object literal expression.`);
-}
+// function styleNotIsObjectLiteralExpression() {
+//   return Error(`The style must return an object literal expression.`);
+// }
 
 export function StyleCompiler(content: string) {
 
-  let result = content.replace(REGEX_LY, (_ex, styleBlock) => {
+  const result = content.replace(REGEX_LY, (_ex, styleBlock: string) => {
     if (LYL_BAD_REGEX.test(styleBlock)) {
+      return _ex;
+    }
+
+    const source = ts.createSourceFile('', styleBlock, ts.ScriptTarget.Latest, true);
+    const templateExpression = findNode(source, ts.SyntaxKind.TemplateExpression) as ts.TemplateExpression | null;
+    if (!templateExpression) {
+      const cssContent = new LylParse(styleBlock.slice(1, styleBlock.length - 1)).toCss();
+      styleBlock = `(className) => \`${cssContent}\``;
       return styleBlock;
     }
-    const css = new LylParse(styleBlock).toCss();
+
+    let nextID = 0;
+    const data: {[key: string]: string} = {};
+    const templates = [
+      templateExpression.head.getFullText(),
+      ...templateExpression.templateSpans
+        .map(prop => {
+          const id = createUniqueID(nextID++);
+          data[id] = prop.expression.getFullText();
+          return `${id}${prop.literal.getFullText()}`;
+        })
+    ];
+
+    const templateString = templates.join('');
+
+    const css = new LylParse(
+      templateString.slice(1, templateString.length - 1)
+    ).toCss().replace(REPLACE_ID_REGEX, (id: string) => data[id] || id);
     styleBlock = `(className) => \`${css}\``;
-    console.log('lyl', { styleBlock });
     return styleBlock;
   });
 
-  result = result.replace(REGEX_LY_STYLE_SHEET, (_ex, styleBlock: string, _offset) => {
-    styleBlock = styleBlock.slice(3, styleBlock.length - 3);
-    const source = ts.createSourceFile('', styleBlock, ts.ScriptTarget.Latest, true);
+  // result = result.replace(REGEX_LY_STYLE_SHEET, (_ex, styleBlock: string, _offset) => {
+  //   styleBlock = styleBlock.slice(3, styleBlock.length - 3);
+  //   const source = ts.createSourceFile('', styleBlock, ts.ScriptTarget.Latest, true);
 
-    let returnStatement: ts.ReturnStatement | null;
+  //   let returnStatement: ts.ReturnStatement | null;
 
-    source.forEachChild((node => {
-      if (!returnStatement && ts.isReturnStatement(node)) {
-        returnStatement = node;
-        const childrenNode = getNodes(node).filter(ts.isObjectLiteralExpression);
-        if (childrenNode.length) {
-          // console.log('isReturnStatement', childrenNode[0].getFullText());
-          // const objectLiteralExpression = childrenNode[0];
-          // objectLiteralExpression.forEachChild(n => {
+  //   source.forEachChild((node => {
+  //     if (!returnStatement && ts.isReturnStatement(node)) {
+  //       returnStatement = node;
+  //       const childrenNode = getNodes(node).filter(ts.isObjectLiteralExpression);
+  //       if (childrenNode.length) {
+  //         // console.log('isReturnStatement', childrenNode[0].getFullText());
+  //         // const objectLiteralExpression = childrenNode[0];
+  //         // objectLiteralExpression.forEachChild(n => {
 
-          // });
-        } else {
-          throw styleNotIsObjectLiteralExpression();
-        }
-      }
-    }));
-    return `${styleBlock}`;
-  });
-
+  //         // });
+  //       } else {
+  //         throw styleNotIsObjectLiteralExpression();
+  //       }
+  //     }
+  //   }));
+  //   return `${styleBlock}`;
+  // });
   return result;
 }
 
@@ -171,3 +195,8 @@ StyleCompiler(fileContent);
 //   const template = (node.body as ts.TaggedTemplateExpression).template.getText();
 //   return new LylParse(template);
 // }
+
+function createUniqueID(count: number) {
+  const ID = `${count}${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`;
+  return `[ei${ID}]`;
+}

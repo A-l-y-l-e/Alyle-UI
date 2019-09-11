@@ -444,7 +444,7 @@ function groupStyleToString(
 
         // lyl
         if (key === '$global') {
-          content += content += value(isDevMode() ? `/* Global Style */` : ``);
+          content += content += value(`/* Global Style */`);
         } else {
           // set new id if not exist
           const currentUniqueClassName = key in classesMap

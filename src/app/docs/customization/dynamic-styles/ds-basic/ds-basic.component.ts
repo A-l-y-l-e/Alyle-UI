@@ -1,21 +1,21 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables, lyl, ThemeRef } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, lyl } from '@alyle/ui';
 
 /**
  * Basic style
  */
-const styles = (theme: ThemeVariables, ref: ThemeRef) => {
-  const classes = ref.getClasses(styles);
+const STYLES = (theme: ThemeVariables) => {
+  const { before } = theme;
   return {
     // Style name, is optional, this is used to add a prefix to all classes,
     // it will only be seen in dev mode
     $name: 'example',
     // This would be like the name of the class
-    demo: () => lyl `{
+    demo: lyl `{
       color: ${theme.primary.default}
-      border-${theme.before}: 2px solid
-      padding-${theme.before}: .5em
-      .${classes.demo}:hover {
+      border-${before}: 2px solid
+      padding-${before}: .5em
+      &:hover {
         color: ${theme.accent.default}
       }
     }`,
@@ -35,7 +35,7 @@ const styles = (theme: ThemeVariables, ref: ThemeRef) => {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsBasicComponent {
-  readonly classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.theme.addStyleSheet(STYLES);
 
   constructor(
     private theme: LyTheme2

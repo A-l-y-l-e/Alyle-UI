@@ -25,27 +25,30 @@ Some features:
 To create style sheet where some need the configuration of the theme, you can create it in the following way.
 
 ```ts
-const styles = (theme: ThemeVariables) => ({
-  // Style name, is optional, this is used to add a prefix to all classes,
-  // it will only be seen in dev mode.
-  $name: 'example',
-  // This would be like the name of the class.
-  demo: lyl `{
-    color: ${theme.primary.default}
-    border-${theme.before}: 2px solid
-    padding-${theme.before}: .5em
-    &:hover {
-      color: ${theme.accent.default}
-    }
-  }`,
-  buttonLink: lyl `{
-    color: ${theme.primary.default}
-    text-decoration: inherit
-    &:hover {
-      text-decoration: underline
-    }
-  }`
-});
+const STYLES = (theme: ThemeVariables) => {
+  const { before } = theme;
+  return {
+    // Style name, is optional, this is used to add a prefix to all classes,
+    // it will only be seen in dev mode
+    $name: 'example',
+    // This would be like the name of the class
+    demo: lyl `{
+      color: ${theme.primary.default}
+      border-${before}: 2px solid
+      padding-${before}: .5em
+      &:hover {
+        color: ${theme.accent.default}
+      }
+    }`,
+    buttonLink: lyl `{
+      color: ${theme.primary.default}
+      text-decoration: inherit
+      &:hover {
+        text-decoration: underline
+      }
+    }`
+  };
+};
 ```
 
 <p>

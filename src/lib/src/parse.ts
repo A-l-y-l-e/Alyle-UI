@@ -96,7 +96,7 @@ export class LylParse {
         const sel = rule[0];
         // For non LylModule<
         // others type of style
-        console.log(rule, sel);
+        // console.log(rule, sel);
 
         if (sel.startsWith('/* >> ds')) {
           return `${sel}${rule[1]}`;
@@ -108,6 +108,7 @@ export class LylParse {
   }
 
   private _resolveSelectors(selectors: (string[])[]) {
+    console.log(selectors.slice(0));
     return selectors.map(_ => _.filter(__ => __)).filter(_ => _.length).reduce((prev, current) => {
       const result = prev.map(item => current.map(cu => {
         if (cu.includes('&')) {
