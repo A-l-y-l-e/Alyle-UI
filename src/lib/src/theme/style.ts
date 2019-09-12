@@ -1,11 +1,11 @@
 import { ThemeVariables } from './theme-config';
 import { StyleTemplate } from '../parse';
 
-/** Only for internal use */
+/** For internal use only */
 export const _STYLE_MAP: Map<any, StyleMap5> = new Map();
 
 /**
- * Only for internal use
+ * For internal use only
  * @docs-private
  */
 export interface StyleMap5 {
@@ -30,6 +30,8 @@ export interface StyleMap5 {
   requireUpdate?: boolean;
   id: string | null;
   isNewStyle?: boolean;
+  /** This is used when a instance contains multiple styles */
+  keys?: string[];
 }
 
 export enum TypeStyle {

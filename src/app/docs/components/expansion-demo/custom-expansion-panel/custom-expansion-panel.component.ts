@@ -6,28 +6,32 @@ import { STYLES as EXPANSION_STYLES } from '@alyle/ui/expansion';
 const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   // The classes for `expansion` are not yet created, therefore,
   // we will create them to use them.
-  const classes = ref.addStyleSheet(EXPANSION_STYLES);
+  ref.addStyleSheet(EXPANSION_STYLES);
   const expansion = ref.getClasses(EXPANSION_STYLES);
-  console.log({expansion, classes});
+
+  const { before } = theme;
 
   return ({
     expansion: () => lyl `{
       ${expansion.panel} {
         &::after {
-          transition: border ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}
+          transition: border ${
+            theme.animations.durations.entering}ms ${
+            theme.animations.curves.standard
+          }
           content: ''
           position: absolute
           top: 0
           bottom: 0
-          ${theme.before}: 0
-          border-${theme.before}: 2px solid transparent
+          ${before}: 0
+          border-${before}: 2px solid transparent
         }
       }
       ${expansion.panelHeader} {
         height: 54px
       }
       ${expansion.panelTitle} {
-        fontWeight: 500
+        font-weight: 500
       }
 
       ${expansion.expanded} {
@@ -37,49 +41,14 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
         &${expansion.panel} {
           background: ${theme.background.secondary}
           &::after {
-            borderBefore: 2px solid .${theme.primary.default}
+            border-${before}: 2px solid ${theme.primary.default}
           }
         }
-        ${expansion.panelHeader} .${expansion.panelTitle} {
+        ${expansion.panelHeader} ${expansion.panelTitle} {
           color: ${theme.primary.default}
         }
       }
-    }`,
-    expansion2: {
-      [`${expansion.panel}`]: {
-        '&::after': {
-          transition: `border ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
-          content: `''`,
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          before: 0,
-          borderBefore: '2px solid transparent'
-        }
-      },
-      [`${expansion.panelHeader}`]: {
-        height: '54px'
-      },
-      [`${expansion.panelTitle}`]: {
-        fontWeight: 500
-      },
-
-      // When it is expanded
-      [`${expansion.expanded}`]: {
-        [`${expansion.panelHeader}`]: {
-          height: '64px'
-        },
-        [`&${expansion.panel}`]: {
-          background: theme.background.secondary,
-          '&::after': {
-            borderBefore: `2px solid ${theme.primary.default}`
-          }
-        },
-        [`${expansion.panelHeader} ${expansion.panelTitle}`]: {
-          color: theme.primary.default
-        }
-      }
-    }
+    }`
   });
 };
 

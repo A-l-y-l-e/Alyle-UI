@@ -108,7 +108,6 @@ export class LylParse {
   }
 
   private _resolveSelectors(selectors: (string[])[]) {
-    console.log(selectors.slice(0));
     return selectors.map(_ => _.filter(__ => __)).filter(_ => _.length).reduce((prev, current) => {
       const result = prev.map(item => current.map(cu => {
         if (cu.includes('&')) {

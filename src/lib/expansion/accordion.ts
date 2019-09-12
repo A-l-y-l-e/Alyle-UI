@@ -1,103 +1,113 @@
 import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError } from '@alyle/ui';
+import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError, lyl, ThemeRef } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 const STYLE_PRIORITY = -0.9;
 
-export const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  $name: 'expansion',
-  '@global': {
-    '{panelTitle},{panelDescription}': {
+export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+
+  const classes = ref.getClasses(STYLES);
+
+  const { after } = theme;
+
+  return {
+    $priority: STYLE_PRIORITY,
+    $name: LyAccordion.и,
+    $global: () => lyl `{
+      ${classes.panelTitle},${classes.panelDescription} {
+        display: flex
+        margin-${after}: 16px
+      }
+      ${classes.panel}:not(${classes.disabled}) {
+        ${classes.panelTitle} {
+          color: ${theme.text.default}
+        }
+        ${classes.panelDescription} {
+          color: ${theme.text.secondary}
+        }
+      }
+    }`,
+    root: {
+      '&': theme.expansion ? theme.expansion.root : null
+    },
+    panel: () => lyl `{
+      display: block
+      overflow: hidden
+      position: relative
+      &:not(${classes.disabled}) ${classes.panelHeader} {
+        cursor: pointer
+      }
+    }`,
+    panelHeader: () => lyl `{
+      display: flex
+      position: relative
+      flex-direction: row
+      align-items: center
+      padding: 0 24px
+      transition: height ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}
+      font-family: ${theme.typography.fontFamily}
+      font-size: ${theme.pxToRem(15)}
+      font-weight: 400
+      ${classes.panel}:not(${classes.expanded}):not(${classes.disabled}) &:hover {
+        background: ${theme.hover}
+        @media (hover: none) {
+          background: none
+        }
+      }
+    }`,
+    panelHeaderContent: {
       display: 'flex',
-      marginAfter: '16px',
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      overflow: 'hidden'
     },
-    '{panel}:not({disabled})': {
-      '{panelTitle}': {
-        color: theme.text.default
-      },
-      '{panelDescription}': {
-        color: theme.text.secondary
+    panelContent: {
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'visible'
+    },
+    panelBody: {
+      visibility: 'hidden',
+      padding: '0 24px 16px',
+      transition: `visibility ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
+      fontFamily: theme.typography.fontFamily,
+      fontSize: theme.pxToRem(14),
+      fontWeight: 400,
+      lineHeight: theme.pxToRem(20)
+    },
+    panelTitle: {
+      flexGrow: 1
+    },
+    panelDescription: lyl `{
+      flex-grow: 2
+    }`,
+    panelActionRow: {
+      borderTop: `1px solid ${theme.divider}`,
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      padding: '16px 8px 16px 24px'
+    },
+    expanded: {
+      '{panelBody}': {
+        visibility: 'visible'
       }
     },
-  },
-  root: {
-    '&': theme.expansion ? theme.expansion.root : null
-  },
-  panel: {
-    display: 'block',
-    overflow: 'hidden',
-    position: 'relative',
-    '&:not({disabled}) {panelHeader}': {
-      cursor: 'pointer'
+    disabled: {
+      color: theme.disabled.contrast
     }
-  },
-  panelHeader: {
-    display: 'flex',
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: '0 24px',
-    transition: `height ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
-    fontFamily: theme.typography.fontFamily,
-    fontSize: theme.pxToRem(15),
-    fontWeight: 400,
-    '{panel}:not({expanded}):not({disabled}) &:hover': {
-      background: theme.hover,
-      '@media (hover: none)': {
-        background: 'none'
-      }
-    }
-  },
-  panelHeaderContent: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    overflow: 'hidden'
-  },
-  panelContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'visible'
-  },
-  panelBody: {
-    visibility: 'hidden',
-    padding: '0 24px 16px',
-    transition: `visibility ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
-    fontFamily: theme.typography.fontFamily,
-    fontSize: theme.pxToRem(14),
-    fontWeight: 400,
-    lineHeight: theme.pxToRem(20)
-  },
-  panelTitle: {
-    flexGrow: 1
-  },
-  panelDescription: {
-    flexGrow: 2
-  },
-  panelActionRow: {
-    borderTop: `1px solid ${theme.divider}`,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    padding: '16px 8px 16px 24px'
-  },
-  expanded: {
-    '{panelBody}': {
-      visibility: 'visible'
-    }
-  },
-  disabled: {
-    color: theme.disabled.contrast
-  }
-});
+  };
+};
 
 @Directive({
   selector: 'ly-accordion',
   exportAs: 'lyAccordion'
 })
 export class LyAccordion implements OnInit {
+
+  /** @docs-private */
+  static readonly и = 'LyAccordion';
 
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES);

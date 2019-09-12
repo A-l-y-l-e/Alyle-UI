@@ -234,7 +234,6 @@ export class LyTheme2 {
       });
     }
     const styleMap = _STYLE_MAP.get(styles)!;
-    console.log({styleMap});
     const themeNameForSelectors = getThemeNameForSelectors(themeName);
     const classesMap = styleMap[themeNameForSelectors] || (styleMap[themeNameForSelectors] = {});
     return classesMap;
@@ -437,42 +436,75 @@ function groupStyleToString(
   if (styleGroup.$priority != null) {
     styleMap.priority = styleGroup.$priority;
   }
-  for (const key in styles) {
-    if (styles.hasOwnProperty(key)) {
-      const value = styles[key];
-      if (typeof value === 'function') {
 
-        // lyl
-        if (key === '$global') {
-          content += content += value(`/* Global Style */`);
-        } else {
-          // set new id if not exist
-          const currentUniqueClassName = key in classesMap
-            ? classesMap[key]
-            : classesMap[key] = isDevMode() ? `${toClassNameValid(name + key)}-${createUniqueClassID()}` : createUniqueClassID();
-          const selector = key in selectorsMap
-            ? selectorsMap[key]
-            : selectorsMap[key] = `.${currentUniqueClassName}`;
-          if (value.length) {
-            content += value(selector);
-          } else {
-            content += (value as (() => StyleTemplate))()(selector);
-          }
-        }
+  if (!styleMap.keys) {
+    styleMap.keys = Object.keys(styles);
+  }
 
-      } else if (key === '$keyframes') {
-        content += keyframesToString(name, classesMap, value as Keyframes, themeVariables);
-      } else if (typeof value === 'object' || value === null) {
-        // set new id if not exist
-        const currentClassName = key in classesMap
-        ? classesMap[key]
-        : classesMap[key] = isDevMode() ? toClassNameValid(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
+  const keys = styleMap.keys;
 
-        const style = styleToString(key, styleGroup.$name, value as StyleContainer, themeVariables, currentClassName);
-        content += style;
+  /** This loop creates the classes if necessary */
+  for (let index = 0; index < keys.length; index++) {
+    const key = keys[index];
+    const value = styles[key];
+    if (key === '$global' || key === '$keyframes') {
+      continue;
+    }
+
+    if (typeof value === 'function') {
+      // lyl
+      // set new id if not exist
+      if (!(key in classesMap)) {
+        classesMap[key] = isDevMode()
+          ? `${toClassNameValid(name + key)}-${createUniqueClassID()}`
+          : createUniqueClassID();
       }
+
+    } else if (typeof value === 'object' || value === null) {
+      // set new id if not exist
+      if (!(key in classesMap)) {
+        classesMap[key] = isDevMode() ? toClassNameValid(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
+      }
+
+    } else {
+      continue;
+    }
+
+    if (!(key in selectorsMap)) {
+      selectorsMap[key] = `.${classesMap[key]}`;
+    }
+
+  }
+
+  for (let index = 0; index < keys.length; index++) {
+    const key = keys[index];
+    const value = styles[key];
+    if (typeof value === 'function') {
+      // lyl
+      if (key === '$global') {
+        if (value.length) {
+          content += value(`/* Global Style */`);
+        } else {
+          content += (value as (() => StyleTemplate))()(`/* Global Style */`);
+        }
+      } else {
+        const selector = selectorsMap[key];
+        if (value.length) {
+          content += value(selector);
+        } else {
+          content += (value as (() => StyleTemplate))()(selector);
+        }
+      }
+
+    } else if (key === '$keyframes') {
+      content += keyframesToString(name, classesMap, value as Keyframes, themeVariables);
+    } else if (typeof value === 'object' || value === null) {
+      const currentClassName = classesMap[key];
+      const style = styleToString(key, styleGroup.$name, value as StyleContainer, themeVariables, currentClassName);
+      content += style;
     }
   }
+
   return replaceRefs(content, classesMap);
 }
 
@@ -619,7 +651,7 @@ function toClassNameValid(str: string) {
   const s = str.replace(/^[0-9]|[^\w\-]/g, _ => {
     return `_${_.charCodeAt(0)}`;
   });
-  return toHyphenCase(s);
+  return s.split(/(?=[A-Z])/).join('-').toLowerCase();
 }
 
 
