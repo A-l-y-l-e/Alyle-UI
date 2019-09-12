@@ -102,21 +102,42 @@ export class LylParse {
           return `${sel}${rule[1]}`;
         }
         // for non LylModule>
+
+        if (sel.startsWith('@')) {
+          return `${sel}{${rule[1]}}}`;
+        }
         return `${sel}{${rule[1]}}`;
       }).join('');
 
   }
 
   private _resolveSelectors(selectors: (string[])[]) {
-    return selectors.map(_ => _.filter(__ => __)).filter(_ => _.length).reduce((prev, current) => {
-      const result = prev.map(item => current.map(cu => {
-        if (cu.includes('&')) {
-          return cu.replace(AMPERSAND_REGEX, item);
+    let media: string | null = null;
+    const sel = selectors
+      .map(_ => _.filter(__ => {
+        if (__.startsWith('@')) {
+          // save media
+          media = __;
+          return false;
         }
-        return `${item} ${cu}`;
-      }));
-      return Array.prototype.concat.apply([], result);
-    }).join(',');
+        return __;
+      }))
+      .filter(_ => _.length)
+      .reduce((prev, current) => {
+        const result = prev.map(item => current.map(cu => {
+          if (cu.includes('&')) {
+            return cu.replace(AMPERSAND_REGEX, item);
+          }
+          return `${item} ${cu}`;
+        }));
+        return Array.prototype.concat.apply([], result);
+      })
+      .join(',');
+
+    if (media) {
+      return `${media}{${sel}`;
+    }
+    return sel;
   }
 
 }
