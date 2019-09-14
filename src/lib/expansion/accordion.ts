@@ -1,10 +1,23 @@
 import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError, lyl, ThemeRef } from '@alyle/ui';
+import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError, lyl, ThemeRef, LyClasses, StyleTemplate, StyleContainer } from '@alyle/ui';
 import { Subject } from 'rxjs';
+
+export interface ExpansionConfig {
+  root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
+  defaultConfig?: {
+    appearance?: keyof ExpansionConfig['appearance']
+  };
+  appearance: {
+    popOut: StyleContainer
+  };
+}
+export interface ExpansionVariables {
+  expansion?: ExpansionConfig;
+}
 
 const STYLE_PRIORITY = -0.9;
 
-export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef) => {
 
   const classes = ref.getClasses(STYLES);
 
@@ -14,7 +27,7 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
     $priority: STYLE_PRIORITY,
     $name: LyAccordion.и,
     $global: () => lyl `{
-      ${classes.panelTitle},${classes.panelDescription} {
+      ${classes.panelTitle}, ${classes.panelDescription} {
         display: flex
         margin-${after}: 16px
       }
@@ -27,9 +40,7 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
         }
       }
     }`,
-    root: {
-      '&': theme.expansion ? theme.expansion.root : null
-    },
+    root: (theme.expansion && theme.expansion.root) ? theme.expansion.root(classes) : null,
     panel: () => lyl `{
       display: block
       overflow: hidden
@@ -55,48 +66,52 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
         }
       }
     }`,
-    panelHeaderContent: {
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      overflow: 'hidden'
-    },
-    panelContent: {
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'visible'
-    },
-    panelBody: {
-      visibility: 'hidden',
-      padding: '0 24px 16px',
-      transition: `visibility ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}`,
-      fontFamily: theme.typography.fontFamily,
-      fontSize: theme.pxToRem(14),
-      fontWeight: 400,
-      lineHeight: theme.pxToRem(20)
-    },
-    panelTitle: {
-      flexGrow: 1
-    },
+    panelHeaderContent: lyl `{
+      display: flex
+      flex: 1
+      flex-direction: row
+      align-items: center
+      overflow: hidden
+    }`,
+    panelContent: lyl `{
+      display: flex
+      flex-direction: column
+      overflow: visible
+    }`,
+    panelBody: lyl `{
+      visibility: hidden
+      padding: 0 24px 16px
+      transition: visibility ${
+        theme.animations.durations.entering
+      }ms ${
+        theme.animations.curves.standard
+      }
+      font-family: ${theme.typography.fontFamily}
+      font-size: ${theme.pxToRem(14)}
+      font-weight: 400
+      line-height: ${theme.pxToRem(20)}
+    }`,
+    panelTitle: lyl `{
+      flex-grow: 1
+    }`,
     panelDescription: lyl `{
       flex-grow: 2
     }`,
-    panelActionRow: {
-      borderTop: `1px solid ${theme.divider}`,
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'flex-end',
-      padding: '16px 8px 16px 24px'
-    },
-    expanded: {
-      '{panelBody}': {
-        visibility: 'visible'
+    panelActionRow: lyl `{
+      border-top: 1px solid ${theme.divider}
+      display: flex
+      flex-direction: row
+      justify-content: flex-end
+      padding: 16px 8px 16px 24px
+    }`,
+    expanded: () => lyl `{
+      ${classes.panelBody} {
+        visibility: visible
       }
-    },
-    disabled: {
-      color: theme.disabled.contrast
-    }
+    }`,
+    disabled: lyl `{
+      color: ${theme.disabled.contrast}
+    }`
   };
 };
 
@@ -125,7 +140,7 @@ export class LyAccordion implements OnInit {
     this._appearance = val;
     this._appearanceClass = this._theme.addStyle(
       `lyAccordion.appearance:${val}`,
-      (theme: ThemeVariables) => {
+      (theme: ThemeVariables & ExpansionVariables) => {
         if (!(theme.expansion!.appearance && theme.expansion!.appearance[val])) {
           throw new Error(`Value expansion.appearance['${val}'] not found in ThemeVariables`);
         }
@@ -133,8 +148,7 @@ export class LyAccordion implements OnInit {
       },
       this._el.nativeElement,
       this._appearanceClass,
-      STYLE_PRIORITY,
-      STYLES
+      STYLE_PRIORITY
     );
   }
   get appearance() {
@@ -163,7 +177,7 @@ export class LyAccordion implements OnInit {
     private _el: ElementRef) { }
 
   ngOnInit() {
-    const { expansion } = this._theme.variables;
+    const { expansion } = <ExpansionVariables>this._theme.variables;
     if (expansion) {
       this._renderer.addClass(this._el.nativeElement, this.classes.root);
 

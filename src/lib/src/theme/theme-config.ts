@@ -8,7 +8,6 @@ import { SnackBarVariables } from './variables/snack-bar';
 import { ButtonVariables } from './variables/button';
 import { TooltipVariables } from './variables/tooltip';
 import { AvatarVariables } from './variables/avatar';
-import { ExpansionVariables } from './variables/expansion';
 import { CardVariables } from './variables/card';
 import { CarouselVariables } from './variables/carousel';
 import { MenuVariables } from './variables/menu';
@@ -100,7 +99,6 @@ export interface ThemeConfig {
   button?: ButtonVariables;
   tooltip: TooltipVariables;
   avatar?: AvatarVariables;
-  expansion?: ExpansionVariables;
   card?: CardVariables;
   carousel?: CarouselVariables;
   imgCropper?: ImgCropperVariables;

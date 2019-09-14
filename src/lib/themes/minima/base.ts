@@ -1,16 +1,18 @@
 import {
   LyStyleUtils,
   Dir,
-  StyleContainer
+  StyleContainer,
+  lyl
 } from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
 import { SliderVariables } from '@alyle/ui/slider';
+import { ExpansionVariables, ExpansionConfig } from '@alyle/ui/expansion';
 import * as _chroma from 'chroma-js';
 
 const chroma = _chroma;
 
-export class MinimaBase extends LyStyleUtils {
+export class MinimaBase extends LyStyleUtils implements ExpansionVariables {
   typography = {
     fontFamily: `'Roboto', sans-serif`,
     htmlFontSize: 16,
@@ -73,15 +75,15 @@ export class MinimaBase extends LyStyleUtils {
       }
     }
   };
-  expansion = {
-    root: {
-      '& {panelHeader}': {
+  expansion: ExpansionConfig = {
+    root: classes => lyl `{
+      '& ${classes.panelHeader}': {
         height: '48px'
       },
-      '& {expanded} {panelHeader}': {
+      '& ${classes.expanded} ${classes.panelHeader}': {
         height: '64px'
-      },
-    },
+      }
+    }`,
     appearance: {
       popOut: {
         '& {panel}': {
