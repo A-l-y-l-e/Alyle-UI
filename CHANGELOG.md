@@ -1,3 +1,12 @@
+## [2.9.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.3...2.9.4) (2019-09-15)
+
+
+### Features
+
+* **carousel:** add input `pauseOnHover` ([cfc02de](https://github.com/A-l-y-l-e/Alyle-UI/commit/cfc02de))
+
+
+
 ## [2.9.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.2...2.9.3) (2019-08-01)
 
 
