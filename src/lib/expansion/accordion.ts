@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError, lyl, ThemeRef, LyClasses, StyleTemplate, StyleContainer } from '@alyle/ui';
+import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError, lyl, ThemeRef, LyClasses, StyleTemplate } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 export interface ExpansionConfig {
@@ -8,7 +8,7 @@ export interface ExpansionConfig {
     appearance?: keyof ExpansionConfig['appearance']
   };
   appearance: {
-    popOut: StyleContainer
+    popOut: (classes: LyClasses<typeof STYLES>) => StyleTemplate
   };
 }
 export interface ExpansionVariables {
@@ -20,7 +20,6 @@ const STYLE_PRIORITY = -0.9;
 export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef) => {
 
   const classes = ref.getClasses(STYLES);
-
   const { after } = theme;
 
   return {
@@ -40,7 +39,7 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
         }
       }
     }`,
-    root: (theme.expansion && theme.expansion.root) ? theme.expansion.root(classes) : null,
+    root: (theme.expansion && theme.expansion.root) ? () => theme.expansion!.root!(classes) : null,
     panel: () => lyl `{
       display: block
       overflow: hidden
@@ -140,11 +139,12 @@ export class LyAccordion implements OnInit {
     this._appearance = val;
     this._appearanceClass = this._theme.addStyle(
       `lyAccordion.appearance:${val}`,
-      (theme: ThemeVariables & ExpansionVariables) => {
+      (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef) => {
         if (!(theme.expansion!.appearance && theme.expansion!.appearance[val])) {
           throw new Error(`Value expansion.appearance['${val}'] not found in ThemeVariables`);
         }
-        return theme.expansion!.appearance[val]!;
+        const classes = ref.getClasses(STYLES);
+        return theme.expansion!.appearance[val]!(classes);
       },
       this._el.nativeElement,
       this._appearanceClass,

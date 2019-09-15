@@ -77,28 +77,28 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables {
   };
   expansion: ExpansionConfig = {
     root: classes => lyl `{
-      '& ${classes.panelHeader}': {
-        height: '48px'
-      },
-      '& ${classes.expanded} ${classes.panelHeader}': {
-        height: '64px'
+      ${classes.panelHeader} {
+        height: 48px
+      }
+      ${classes.expanded} ${classes.panelHeader} {
+        height: 64px
       }
     }`,
     appearance: {
-      popOut: {
-        '& {panel}': {
-          transition: `margin ${this.animations.durations.entering}ms ${this.animations.curves.standard}`
-        },
-        '& {expanded}{panel}': {
-          margin: '16px 0',
-          '&:first-child': {
-            marginTop: 0
-          },
-          '&:last-child': {
-            marginBottom: 0
+      popOut: classes => lyl `{
+        ${classes.panel} {
+          transition: margin ${this.animations.durations.entering}ms ${this.animations.curves.standard}
+        }
+        ${classes.expanded}${classes.panel} {
+          margin: 16px 0
+          &:first-child {
+            margin-top: 0
+          }
+          &:last-child {
+            margin-bottom: 0jj
           }
         }
-      }
+      }`
     }
   };
 
