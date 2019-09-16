@@ -144,6 +144,7 @@ import { CarouselDemoComponent } from './components/carousel-demo/carousel-demo.
 import { CarouselExample01Module } from './components/carousel-demo/carousel-example-01/carousel-example-01.module';
 import { CarouselWithGesturesModule } from './components/carousel-demo/carousel-with-gestures/carousel-with-gestures.module';
 import { CarouselWithBarModule } from './components/carousel-demo/carousel-with-bar/carousel-with-bar.module';
+import { CarouselPauseOnHoverModule } from './components/carousel-demo/carousel-pause-on-hover/carousel-pause-on-hover.module';
 
 /** Expansion */
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
@@ -253,6 +254,7 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     CarouselExample01Module,
     CarouselWithGesturesModule,
     CarouselWithBarModule,
+    CarouselPauseOnHoverModule,
     /** Expansion */
     BasicExpansionModule,
     CustomExpansionPanelModule,

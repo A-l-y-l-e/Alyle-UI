@@ -12,8 +12,7 @@ import {
   forwardRef,
   OnInit,
   Renderer2,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias } from '@alyle/ui';
 import * as _chroma from 'chroma-js';
@@ -180,7 +179,10 @@ export enum CarouselMode {
   templateUrl: './carousel.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
-  encapsulation: ViewEncapsulation.None
+  host: {
+    '(mouseenter)': '_onMouseEnter()',
+    '(mouseleave)': '_onMouseLeave()'
+  }
 })
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */
@@ -207,6 +209,20 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   get _isIntervalFn() {
     return !!this._intervalFn;
   }
+
+  /**
+   * It will pause the slide change when the mouse cursor passes
+   * through the carousel.
+   */
+  @Input()
+  get pauseOnHover() {
+    return this._pauseOnHover;
+  }
+  set pauseOnHover(val: boolean) {
+    const newVal = toBoolean(val);
+    this._pauseOnHover = newVal;
+  }
+  private _pauseOnHover: boolean;
 
   @Input()
   set touch(val: boolean) {
@@ -292,6 +308,18 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  _onMouseEnter() {
+    if (this.pauseOnHover) {
+      this.stop();
+    }
+  }
+
+  _onMouseLeave() {
+    if (this.pauseOnHover) {
+      this._resetInterval();
+    }
+  }
+
   /** @docs-private */
   _onDragStart() {
     this.stop();
@@ -339,7 +367,6 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     this._renderer.removeStyle(this._slide.nativeElement, 'transform');
-    this._resetInterval();
   }
 
   _onDragCancel() {
@@ -365,7 +392,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
       );
     }
     if (!notResetInterval) {
-      if (this.autoplay) {
+      if (this.autoplay && !this.pauseOnHover) {
         this._resetInterval();
       }
     }

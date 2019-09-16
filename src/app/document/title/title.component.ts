@@ -18,6 +18,7 @@ export class TitleComponent implements OnInit {
   title: string;
   urls: string[];
   defaultTitle = 'Alyle UI';
+  longTitle = 'Alyle UI: Minimal Design, a set of components for Angular';
 
   set route(val: string) {
     if (val !== this.route) {
@@ -37,11 +38,11 @@ export class TitleComponent implements OnInit {
             this.titleService.setTitle(`${this.title} | ${this.defaultTitle}`);
           }
         } else {
-          this.titleService.setTitle(this.defaultTitle);
+          this.titleService.setTitle(this.longTitle);
         }
       } else {
         this.title = '';
-        this.titleService.setTitle(this.defaultTitle);
+        this.titleService.setTitle(this.longTitle);
       }
 
       this._ads.update(val, this._pageContent, this._theme);
