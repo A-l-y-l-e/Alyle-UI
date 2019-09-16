@@ -18,7 +18,7 @@ export class TitleComponent implements OnInit {
   title: string;
   urls: string[];
   defaultTitle = 'Alyle UI';
-  longTitle = 'Alyle UI | Minimal Design, a set of components for Angular.';
+  longTitle = 'Alyle UI: Minimal Design, a set of components for Angular';
 
   set route(val: string) {
     if (val !== this.route) {
