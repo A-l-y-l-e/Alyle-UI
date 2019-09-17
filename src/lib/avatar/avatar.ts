@@ -8,35 +8,53 @@ import {
   mixinRaised,
   mixinShadowColor,
   mixinStyleUpdater,
-  ThemeVariables
+  ThemeVariables,
+  lyl,
+  LyClasses,
+  StyleTemplate,
+  ThemeRef
   } from '@alyle/ui';
+
+
+export interface AvatarConfig {
+  root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
+}
+export interface AvatarVariables {
+  avatar?: AvatarConfig;
+}
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_SIZE = 40;
 const DEFAULT_BG = 'action';
-const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    display: 'inline-flex',
-    position: 'relative',
-    fontSize: '1.25em',
-    flexShrink: 0,
-    alignItems: 'center',
-    userSelect: 'none',
-    borderRadius: '50%',
-    textAlign: 'center',
-    justifyContent: 'center',
-    '&>img': {
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      display: 'block',
-      objectFit: 'cover',
-      '-webkit-background-clip': 'padding-box'
-    },
-    '&': theme.avatar ? theme.avatar.root : null
-  }
-});
+
+const STYLES = (theme: ThemeVariables & AvatarVariables, ref: ThemeRef) => {
+  const classes = ref.getClasses(STYLES);
+  return {
+    $priority: STYLE_PRIORITY,
+    root: lyl `{
+      display: inline-flex
+      position: relative
+      font-size: 1.25em
+      flex-shrink: 0
+      align-items: center
+      user-select: none
+      border-radius: 50%
+      text-align: center
+      justify-content: center
+      &>img {
+        width: 100%
+        height: 100%
+        border-radius: 50%
+        display: block
+        object-fit: cover
+        -webkit-background-clip: padding-box
+      }
+      & {
+        ...${(theme.avatar && theme.avatar.root) ? () => theme.avatar!.root!(classes) : null}
+      }
+    }`
+  };
+};
 
 /** @docs-private */
 export class LyAvatarBase {

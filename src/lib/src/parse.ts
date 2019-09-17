@@ -144,19 +144,21 @@ export class LylParse {
 
 export type StyleTemplate = (className: string) => string;
 
-export function lyl(literals: TemplateStringsArray, ...placeholders: (string | number | StyleTemplate)[]) {
+export function lyl(literals: TemplateStringsArray, ...placeholders: (string | number | StyleTemplate | (() => StyleTemplate) | null | undefined)[]) {
 
   return (className: string) => {
     let result = '';
-    const dsMap = new Map<string, StyleTemplate>();
+    const dsMap = new Map<string, (StyleTemplate | (() => StyleTemplate))>();
     for (let i = 0; i < placeholders.length; i++) {
       const placeholder = placeholders[i];
       result += literals[i];
-      if (typeof placeholder === 'function' && result.endsWith('...')) {
-
-        const newID = createUniqueId();
-        dsMap.set(newID, placeholder);
-        result += newID;
+      if (result.endsWith('...')) {
+        result = result.slice(0, result.length - 3);
+        if (typeof placeholder === 'function') {
+          const newID = createUniqueId();
+          dsMap.set(newID, placeholder as () => StyleTemplate);
+          result += newID;
+        }
       } else {
         result += placeholder;
       }
@@ -166,10 +168,16 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | n
     result += literals[literals.length - 1];
     const css = result.replace(STYLE_TEMPLATE_REGEX, (str) => {
       if (dsMap.has(str)) {
-        return `${createUniqueCommentSelector('ds')}${dsMap.get(str)!(className)}`;
+        const fn = dsMap.get(str)!;
+        if (fn.length) {
+          return `${createUniqueCommentSelector('ds')}${fn(className)}`;
+        } else {
+          return `${createUniqueCommentSelector('ds')}${(fn as (() => StyleTemplate))()(className)}`;
+        }
       }
-      return str;
+      return '';
     });
+    console.log({css});
     return new LylParse(css, className).toCss();
   };
 }
