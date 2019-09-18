@@ -96,7 +96,7 @@
     "showdown": "^1.9.0",
     "ts-node": "~5.0.1",
     "tslint": "^5.13.1",
-    "typedoc": "^0.14.2",
+    "typedoc": "^0.15.0",
     "typescript": "~3.4",
     "yargs": "^13.2.2"
   },
