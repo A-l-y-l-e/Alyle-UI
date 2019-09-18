@@ -367,7 +367,7 @@ export class LyTheme2 {
   toClassSelector<T>(classes: T): T {
     const newClasses: object = { };
     for (const key in classes as unknown as object) {
-      if (classes.hasOwnProperty(key)) {
+      if ((classes as {}).hasOwnProperty(key)) {
         newClasses[key] = `.${classes[key]}`;
       }
     }
