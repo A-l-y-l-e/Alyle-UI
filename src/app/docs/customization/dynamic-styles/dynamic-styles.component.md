@@ -1,18 +1,8 @@
 <p>
-  Alyle UI uses dynamic styles, for a better control of the styles.
+  All components of Alyle UI are made with dynamic styles. With this feature it is possible to create more custom styles for Angular components.
 </p>
 
-<p>
-  Dynamic styles is inspired by many other CSS-in-JS libraries, like <a
-  href="https://cssinjs.org"
-  target="_blank"
-  rel="noopener nofollow">JSS</a> and <a
-  href="https://emotion.sh/"
-  target="_blank"
-  rel="noopener nofollow">emotion</a>
-</p>
-
-Some features:
+Features:
 
 * Collision-free selectors.
 * Reusable styles.
@@ -64,7 +54,7 @@ const STYLES = (theme: ThemeVariables) => {
 </p>
 
 ```ts
-const STYLE_BORDER = lyl `{
+const STYLE_BORDER = () => lyl `{
   height: 120px
   width: 120px
   background: #ffe259

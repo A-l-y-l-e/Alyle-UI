@@ -71,16 +71,15 @@ export class LylParse {
             rules.set(selector, '');
           }
         }
-      } else if (fullLine.startsWith('...')) {
-        const lin = fullLine.slice(3);
-        if (lin.startsWith('/* >> ds')) {
-          // Ignore compiled css
-          rules.set(createUniqueCommentSelector('ds'), lin);
-          fullLine = lin;
-        } /** For non LylModule< */else {
-          fullLine = `\${(${lin.slice(2, lin.length - 1)})(\`${selector}\`)}`;
-          rules.set(createUniqueCommentSelector('ds'), fullLine);
-        } /** for non LylModule>  */
+      } else if (fullLine.startsWith('/* >> ds')) {
+        const lin = fullLine;
+        // Ignore compiled css
+        rules.set(createUniqueCommentSelector('ds'), lin);
+        fullLine = lin;
+        // /** For non LylModule< */else {
+        //   fullLine = `\${(${lin.slice(2, lin.length - 1)})(\`${selector}\`)}`;
+        //   rules.set(createUniqueCommentSelector('ds'), fullLine);
+        // } /** for non LylModule>  */
       } else {
         if (fullLine.includes(':') && !fullLine.endsWith(';')) {
           fullLine += ';';
@@ -96,10 +95,10 @@ export class LylParse {
         const sel = rule[0];
         // For non LylModule<
         // others type of style
-        // console.log(rule, sel);
+        console.log(rule, sel);
 
         if (sel.startsWith('/* >> ds')) {
-          return `${sel}${rule[1]}`;
+          return rule[1];
         }
         // for non LylModule>
 

@@ -16,11 +16,11 @@ import {
   } from '@alyle/ui';
 
 
-export interface AvatarConfig {
+export interface AvatarThemeConfig {
   root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
 }
 export interface AvatarVariables {
-  avatar?: AvatarConfig;
+  avatar?: AvatarThemeConfig;
 }
 
 const STYLE_PRIORITY = -2;
@@ -31,7 +31,8 @@ const STYLES = (theme: ThemeVariables & AvatarVariables, ref: ThemeRef) => {
   const classes = ref.getClasses(STYLES);
   return {
     $priority: STYLE_PRIORITY,
-    root: lyl `{
+    nothing: null,
+    root: () => lyl `{
       display: inline-flex
       position: relative
       font-size: 1.25em
@@ -49,8 +50,12 @@ const STYLES = (theme: ThemeVariables & AvatarVariables, ref: ThemeRef) => {
         object-fit: cover
         -webkit-background-clip: padding-box
       }
-      & {
-        ...${(theme.avatar && theme.avatar.root) ? () => theme.avatar!.root!(classes) : null}
+      {
+        ...${
+          (theme.avatar && theme.avatar.root)
+            ? theme.avatar.root(classes)
+            : null
+        }
       }
     }`
   };

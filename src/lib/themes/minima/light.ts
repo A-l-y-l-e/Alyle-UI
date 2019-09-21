@@ -80,5 +80,4 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       color: '#fff'
     }
   };
-  avatar = {};
 }

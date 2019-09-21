@@ -1,13 +1,11 @@
 import { InjectionToken } from '@angular/core';
 import { LyStyleUtils, Dir } from '../style-utils';
-import { StyleContainer } from './style';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { CheckboxVariables } from './variables/checkbox';
 import { SnackBarVariables } from './variables/snack-bar';
 import { ButtonVariables } from './variables/button';
 import { TooltipVariables } from './variables/tooltip';
-import { AvatarVariables } from './variables/avatar';
 import { CardVariables } from './variables/card';
 import { CarouselVariables } from './variables/carousel';
 import { MenuVariables } from './variables/menu';
@@ -88,17 +86,10 @@ export interface ThemeConfig {
     }
   };
   ripple: RippleVariables;
-  badge?: {
-    root?: StyleContainer,
-    position?: {
-      [positionName: string]: StyleContainer
-    }
-  };
   checkbox?: CheckboxVariables;
   snackBar?: SnackBarVariables;
   button?: ButtonVariables;
   tooltip: TooltipVariables;
-  avatar?: AvatarVariables;
   card?: CardVariables;
   carousel?: CarouselVariables;
   imgCropper?: ImgCropperVariables;
@@ -121,6 +112,9 @@ export interface PaletteColor {
   shadow?: string;
 }
 
-type RecursivePartial<T> = {
+type primitive = string | number | boolean | undefined | null;
+type RecursivePartialObject<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
 };
+export type RecursivePartial<T> = T extends primitive ? T : RecursivePartialObject<T>;
+

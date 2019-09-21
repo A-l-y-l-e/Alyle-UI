@@ -39,6 +39,12 @@ export class LyStyleUtils {
     return this.getDirection(DirAlias.after);
   }
 
+  /** Returns top */
+  readonly above = 'top';
+
+  /** Returns bottom */
+  readonly below = 'bottom';
+
   pxToRem(value: number) {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
@@ -147,7 +153,7 @@ export function mergeDeep(target: object, ...sources: any[]): any;
  * @param target
  * @param ...sources
  */
-export function mergeDeep(target, ...sources) {
+export function mergeDeep(target: any, ...sources: any[]) {
   if (!sources.length) { return target; }
   const source = sources.shift();
 

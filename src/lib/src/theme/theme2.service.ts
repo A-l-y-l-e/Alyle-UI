@@ -93,6 +93,19 @@ export class LyTheme2 {
   }
 
   /**
+   * Build the styles and render them in the DOM
+   */
+  renderStyle<THEME_VARIABLES>(
+    style: (theme?: THEME_VARIABLES, ref?: ThemeRef) => StyleTemplate,
+    priority?: number
+  ) {
+    return this._createStyleContent2(style,
+      null,
+      priority,
+      TypeStyle.LylStyle) as string;
+  }
+
+  /**
    * Add a new dynamic style, use only within @Input()
    * @param id Unique id
    * @param style Styles
@@ -132,19 +145,6 @@ export class LyTheme2 {
       priority,
       TypeStyle.OnlyOne,
       false, parentStyle) as string;
-  }
-
-  /**
-   * Create basic style
-   * @param style Styles.
-   * Note: Use only with immutable variable.
-   */
-  setUpStyle(style: StyleTemplate, priority?: number | null): string {
-    return this._createStyleContent2(style,
-      null,
-      priority,
-      TypeStyle.LylStyle,
-      false) as string;
   }
 
   private updateClassName(element: any, renderer: Renderer2, newClassname: string, oldClassname?: string) {
@@ -240,7 +240,7 @@ export class LyTheme2 {
   }
 
   private _createStyleContent2(
-    styles: Styles | StyleDeclarationsBlock | StyleTemplate,
+    styles: Styles | StyleDeclarationsBlock | ((theme: any, ref: ThemeRef) => StyleTemplate),
     id: string | null,
     priority: number | undefined | null,
     type: TypeStyle,
@@ -271,7 +271,10 @@ export class LyTheme2 {
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
         css = type === TypeStyle.LylStyle
-          ? createLylStyle(styleMap, styles as StyleTemplate, themeName)
+          ? createLylStyle(
+              styleMap,
+              (styles as ((theme: any, ref: ThemeRef) => StyleTemplate))(config, this),
+              themeName)
           : groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
@@ -381,14 +384,18 @@ function createLylStyle(
   styles: StyleTemplate,
   themeName: string
 ) {
+  // Only update when necessary
+  if (styles.length) {
+    styleMap.requireUpdate = false;
+  }
   // use current class or set new
   const className = styleMap.requireUpdate
-  ? styleMap[themeName] || (styleMap[themeName] = createUniqueClassID())
+  ? styleMap[themeName] || (styleMap[themeName] = createNextClassId())
   : styleMap.classes
     ? styleMap.classes
-    : styleMap.classes = createUniqueClassID();
+    : styleMap.classes = createNextClassId();
 
-  return (styles)(`.${className}`);
+  return styles(`.${className}`);
 }
 
 function groupStyleToString(

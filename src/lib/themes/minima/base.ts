@@ -6,13 +6,15 @@ import {
 } from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
-import { SliderVariables } from '@alyle/ui/slider';
-import { ExpansionVariables, ExpansionConfig } from '@alyle/ui/expansion';
 import * as _chroma from 'chroma-js';
+
+import { AvatarVariables, AvatarThemeConfig } from '@alyle/ui/avatar';
+import { ExpansionVariables, ExpansionConfig } from '@alyle/ui/expansion';
+import { SliderVariables } from '@alyle/ui/slider';
 
 const chroma = _chroma;
 
-export class MinimaBase extends LyStyleUtils implements ExpansionVariables {
+export class MinimaBase extends LyStyleUtils implements ExpansionVariables, AvatarVariables {
   typography = {
     fontFamily: `'Roboto', sans-serif`,
     htmlFontSize: 16,
@@ -21,6 +23,7 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables {
     gutterBottom: .35,
     lyTyp: {}
   };
+  avatar?: AvatarThemeConfig;
   iconButton = iconButton;
   icon = icon;
   breakpoints = Breakpoints;

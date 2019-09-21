@@ -9,7 +9,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, PartialThemeVariables, LY_THEME_NAME, LyTheme2 } from '@alyle/ui';
+import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2 } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -83,7 +83,7 @@ export class CustomMinimaDark {
   stackblitz = '#fff';
 }
 
-export class GlobalVariables implements PartialThemeVariables {
+export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDark> {
   testVal = '#00bcd4';
   Quepal = Quepal;
   SublimeLight = SublimeLight;

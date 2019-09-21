@@ -5,8 +5,10 @@ import {
   OnChanges,
   OnInit,
   Renderer2,
-  OnDestroy
-  } from '@angular/core';
+  OnDestroy,
+  SimpleChanges,
+  InjectionToken
+} from '@angular/core';
 import {
   LyTheme2,
   mixinBg,
@@ -17,40 +19,66 @@ import {
   mixinRaised,
   mixinShadowColor,
   mixinStyleUpdater,
-  ThemeVariables
-  } from '@alyle/ui';
+  ThemeVariables,
+  lyl,
+  LyClasses,
+  StyleTemplate,
+  ThemeRef
+} from '@alyle/ui';
+
+import { BadgeVariables } from './badge';
+
+export interface BadgeVariables {
+  badge?: BadgeThemeConfig;
+}
+
+export interface BadgeThemeConfig {
+  root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
+}
+
+export const BADGE_THEME_CONFIG = new InjectionToken<BadgeThemeConfig>('badge-theme-config');
 
 const STYLE_PRIORITY = -2;
-const DEFAULT_POSITION = 'startTop';
-const DEFAULT_BG = 'primary';
-const DEFAULT_POSITION_VALUE = {
-  after: '-11px',
-  above: '-11px'
+// const DEFAULT_POSITION = 'startTop';
+// const DEFAULT_BG = 'primary';
+// const DEFAULT_POSITION_VALUE = {
+//   after: '-11px',
+//   above: '-11px'
+// };
+
+export const STYLES = (theme: ThemeVariables & BadgeVariables, ref: ThemeRef) => {
+  const classes = ref.getClasses(STYLES);
+  return {
+    $priority: STYLE_PRIORITY,
+    root: () => lyl `{
+      position: absolute
+      display: flex
+      width: 22px
+      height: 22px
+      border-radius: 100%
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      pointer-events: none
+      z-index: 1
+      font-size: ${theme.pxToRem(12)}
+      font-family: ${theme.typography.fontFamily}
+      justify-content: center
+      align-items: center
+      box-sizing: border-box
+      {
+        ...${
+          (theme.badge && theme.badge.root)
+            ? theme.badge.root(classes)
+            : null
+        }
+      }
+    }`,
+    relative: lyl `{
+      position: relative
+    }`
+  };
 };
-export const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    position: 'absolute',
-    display: 'flex',
-    width: '22px',
-    height: '22px',
-    borderRadius: '100%',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    pointerEvents: 'none',
-    zIndex: 1,
-    fontSize: theme.pxToRem(12),
-    fontFamily: theme.typography.fontFamily,
-    justifyContent: 'center',
-    alignItems: 'center',
-    boxSizing: 'border-box',
-    '&': theme.badge ? theme.badge.root : null
-  },
-  relative: {
-    position: 'relative'
-  }
-});
 
 /** @docs-private */
 export class LyBadgeBase {
@@ -88,8 +116,8 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
    */
   readonly classes = this._theme.addStyleSheet(STYLES);
   private _content: string | number;
-  private _position: string;
-  private _positionClass: string;
+  // private _position: string;
+  // private _positionClass: string;
   private _elContainer: any;
   private _badgeElementRef: any;
   private _lyBadgeBgClass: string;
@@ -106,26 +134,40 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
     return this._content;
   }
 
-  /** The position for the badge */
-  @Input('lyBadgePosition')
-  set position(val: string) {
-    if (val !== this.position) {
-      this._position = val;
-      this._positionClass = this._theme.addStyle(`ly-badge.position:${val}`, (theme: ThemeVariables) => {
-        const sty = theme.badge!.position && theme.badge!.position![val] || val === DEFAULT_POSITION ? DEFAULT_POSITION_VALUE : null;
-        if (sty) {
-          return sty;
-        } else {
-          throw new Error(`LyBadge.position \`${val}\` not found in \`ThemeVariables\``);
-        }
-      },
-      this._badgeElementRef, this._positionClass, STYLE_PRIORITY);
-    }
+  // /** The position for the badge */
+  // @Input('lyBadgePosition')
+  // set position(val: string) {
+  //   if (val !== this.position) {
+  //     this._position = val;
+  //     this._positionClass = this._theme.addStyle(`ly-badge.position:${val}`, (theme: ThemeVariables & BadgeVariables) => {
+  //       const sty = theme.badge!.position && theme.badge!.position![val] || val === DEFAULT_POSITION ? DEFAULT_POSITION_VALUE : null;
+  //       if (sty) {
+  //         return sty;
+  //       } else {
+  //         throw new Error(`LyBadge.position \`${val}\` not found in \`ThemeVariables\``);
+  //       }
+  //     },
+  //     this._badgeElementRef, this._positionClass, STYLE_PRIORITY);
+  //   }
 
+  // }
+  // get position() {
+  //   return this._position;
+  // }
+
+  @Input() hPosition: 'before' | 'after' = 'after';
+  @Input() vPosition: 'above' | 'below' = 'above';
+
+  @Input()
+  get overlap() {
+    return this._overlap;
   }
-  get position() {
-    return this._position;
+  set overlap(val: 'circle' | 'rectangle') {
+    if (val !== this.overlap) {
+      this._overlap = val;
+    }
   }
+  private _overlap: 'circle' | 'rectangle' = 'rectangle';
 
   /** The color of the badge */
   @Input()
@@ -154,9 +196,12 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
     this._badgeElementRef = this._el.nativeElement;
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     if (!this.content) {
       this.updateStyle(this._el);
+    }
+    if (changes.hPosition || changes.vPosition) {
+      // code
     }
   }
 
@@ -165,15 +210,15 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
     /** Add root styles */
     this._renderer.addClass(this._badgeElementRef, this.classes.root);
 
-    /** Set default position */
-    if (!this.position) {
-      this.position = DEFAULT_POSITION;
-    }
+    // /** Set default position */
+    // if (!this.position) {
+    //   this.position = DEFAULT_POSITION;
+    // }
 
-    /** Set default bg */
-    if (this.content && !this.lyBadgeBg) {
-      this.lyBadgeBg = DEFAULT_BG;
-    }
+    // /** Set default bg */
+    // if (this.content && !this.lyBadgeBg) {
+    //   this.lyBadgeBg = DEFAULT_BG;
+    // }
   }
 
   ngOnDestroy() {
