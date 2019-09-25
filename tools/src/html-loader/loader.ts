@@ -51,7 +51,7 @@ export function highlight(code: string, lang: string | null, inline?: boolean): 
     ? prism.highlight(code, prism.languages[lang], lang)
     : htmlEncode(code));
   if (inline) {
-    return `<code prsm class="${classes.code} ${classes.inlineCode}">${code}</code>`;
+    return `<code prsm class="${classes.code} ${classes.inlineCode}"><span>${code}</span></code>`;
   }
   return `<pre class="${classes.pre}"><code prsm class="${classes.code}">`
     + code

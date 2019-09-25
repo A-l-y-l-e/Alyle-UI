@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Router, NavigationEnd } from '@angular/router';
-import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef, lyl } from '@alyle/ui';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark, AUIThemeVariables } from './app.module';
@@ -17,100 +17,90 @@ import * as _chroma from 'chroma-js';
 import { SVG_ICONS } from './core/svg-icons';
 const chroma = _chroma;
 
-const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
-  $name: 'app',
-  '@global': {
-    'body': {
-      backgroundColor: theme.background.default,
-      color: theme.text.default,
-      fontFamily: theme.typography.fontFamily,
-      margin: 0,
-      direction: theme.direction
+const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, ref: ThemeRef) => {
+  const classes = ref.getClasses(styles);
+  return {
+    $name: 'app',
+    $global: () => lyl `{
+      body {
+        background-color: ${theme.background.default}
+        color: ${theme.text.default}
+        font-family: ${theme.typography.fontFamily}
+        margin: 0
+        direction: ${theme.direction}
+      }
+    }`,
+    appContainer: () => lyl `{
+      display: flex
+      align-items: center
+      justify-content: center
+      min-height: calc(100vh)
+      ${classes.demo} {
+        max-width: 960px
+        flex: 1
+        padding: 96px 2rem
+        width: 100%
+        box-sizing: border-box
+      }
+    }`,
+    demo: null,
+    docsViewer: lyl `{
+      p {
+        line-height: 1.5
+      }
+    }`,
+    root: {
+      display: 'block',
+      '& .docs-viewer > * > a:not([ly-button]), & ul a:not([ly-button]), & p > a': {
+        color: theme.accent.default,
+        textDecoration: 'inherit',
+        '&:hover': {
+          textDecoration: 'underline'
+        }
+      },
     },
-  },
-  appContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 'calc(100vh)',
-    '{demo}': {
-      maxWidth: '960px',
-      flex: 1,
-      padding: '96px 2rem',
-      width: '100%',
-      boxSizing: 'border-box'
-    }
-  },
-  demo: null,
-  docsViewer: {
-    p: {
-      lineHeight: 1.5
-    }
-  },
-  root: {
-    display: 'block',
-    '& .docs-viewer > * > a:not([ly-button]), & ul a:not([ly-button]), & p > a': {
-      color: theme.accent.default,
-      textDecoration: 'inherit',
-      '&:hover': {
-        textDecoration: 'underline'
+    drawer: {
+      '&::-webkit-scrollbar-thumb': {
+        background: 'rgba(0,0,0,.26)'
+      },
+      '&::-webkit-scrollbar': {
+        height: '3px',
+        width: '3px'
       }
     },
-  },
-  // header: {
-  //   position: 'fixed',
-  //   zIndex: 11,
-  //   width: '100%',
-  //   // '@media print': {
-  //   //   color: 'blue'
-  //   // },
-  //   // '&:hover': {
-  //   //   '@media screen': {
-  //   //     color: 'red'
-  //   //   },
-  //   // },
-  // },
-  drawer: {
-    '&::-webkit-scrollbar-thumb': {
-      background: 'rgba(0,0,0,.26)'
+    drawerUl: {
+      overflow: 'hidden',
+      position: 'relative',
+      listStyle: 'none',
+      padding: '2rem 1.8rem',
+      margin: 0,
+      borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
     },
-    '&::-webkit-scrollbar': {
-      height: '3px',
-      width: '3px'
+    drawerButton: {
+      color: theme.drawerButton,
+      fontWeight: 400,
+      borderBefore: '3px solid transparent',
+      display: 'flex',
+      justifyContent: 'space-between',
+      borderRadius: 0,
+      '&:hover, &{onLinkActive}': {
+        color: theme.primary.default,
+        borderBefore: '3px solid'
+      }
+    },
+    onLinkActive: null,
+    footer: {
+      position: 'relative',
+      padding: '1em',
+      textAlign: 'center'
+    },
+    discordHover: {
+      '&:hover': {
+        color: theme.discord
+      }
     }
-  },
-  drawerUl: {
-    overflow: 'hidden',
-    position: 'relative',
-    listStyle: 'none',
-    padding: '2rem 1.8rem',
-    margin: 0,
-    borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
-  },
-  drawerButton: {
-    color: theme.drawerButton,
-    fontWeight: 400,
-    borderBefore: '3px solid transparent',
-    display: 'flex',
-    justifyContent: 'space-between',
-    borderRadius: 0,
-    '&:hover, &{onLinkActive}': {
-      color: theme.primary.default,
-      borderBefore: '3px solid'
-    }
-  },
-  onLinkActive: null,
-  footer: {
-    position: 'relative',
-    padding: '1em',
-    textAlign: 'center'
-  },
-  discordHover: {
-    '&:hover': {
-      color: theme.discord
-    }
-  }
-});
+  };
+};
 
 const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
   const $host = 'fonts/firacode/';

@@ -12,7 +12,7 @@ Features:
 
 <h2 lyTyp="headline" gutter>Basic style sheet</h2>
 
-To create style sheet where some need the configuration of the theme, you can create it in the following way.
+To create style sheet where some need the `ThemeVariables`, you can create it in the following way.
 
 ```ts
 const STYLES = (theme: ThemeVariables) => {
