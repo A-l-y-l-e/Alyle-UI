@@ -24,10 +24,9 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      set -e
       yarn tools:bump-nightly
       yarn tools:prepare-lib
-      yarn build:@alyle/ui
+      set -e && yarn build:@alyle/ui
       echo $(node -p -e "require('./package.json').version")
     displayName: 'Build @alyle/ui'
 
@@ -46,7 +45,6 @@ jobs:
     inputs:
       versionSpec: '10.12.x'
   - script: |
-      set -e
       yarn tools:bump
       PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
       echo $PACKAGE_VERSION
@@ -54,7 +52,6 @@ jobs:
       yarn build
     displayName: 'Build'
   - script: |
-      set -e
       yarn tools:deploy
       npm publish dist/@alyle/ui
       git add -A
