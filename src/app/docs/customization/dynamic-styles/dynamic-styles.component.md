@@ -41,6 +41,8 @@ const STYLES = (theme: ThemeVariables) => {
 };
 ```
 
+> Note that the semicolon after a CSS declaration is optional.
+
 <p>
   Example:
 </p>
@@ -71,4 +73,12 @@ const STYLE_BORDER = () => lyl `{
 
 <demo-view path="docs/customization/dynamic-styles/ds-css-declarations-block">
   <aui-ds-css-declarations-block></aui-ds-css-declarations-block>
+</demo-view>
+
+<h2 lyTyp="headline" gutter>Nesting</h2>
+
+With Alyle UI it is possible to nest your selectors and you can use it with `&` to get the parent selector.
+
+<demo-view path="docs/customization/dynamic-styles/ds-nesting">
+  <aui-ds-nesting></aui-ds-nesting>
 </demo-view>

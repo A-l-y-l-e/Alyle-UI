@@ -6,7 +6,7 @@ import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
-import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses, getThemeNameForSelectors } from './style';
+import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses, getThemeNameForSelectors, LyStyles } from './style';
 import { Subject } from 'rxjs';
 import { StyleTemplate } from '../parse';
 
@@ -90,6 +90,13 @@ export class LyTheme2 {
         });
       }
     }
+  }
+
+  /**
+   * Build multiple styles and render them in the DOM
+   */
+  renderStyleSheet<T>(styles: T & LyStyles): LyClasses<T> {
+    return this._createStyleContent2(styles, null, null, TypeStyle.Multiple);
   }
 
   /**

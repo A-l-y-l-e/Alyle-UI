@@ -59,7 +59,6 @@ export const STYLES = (theme: ThemeVariables & BadgeVariables, ref: ThemeRef) =>
       overflow: hidden
       white-space: nowrap
       text-overflow: ellipsis
-      pointer-events: none
       z-index: 1
       font-size: ${theme.pxToRem(12)}
       font-family: ${theme.typography.fontFamily}

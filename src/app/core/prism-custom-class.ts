@@ -1,11 +1,12 @@
+
 let customClass: null | {
   [key: string]: string
 } = null;
 
 const classList = [
-  'root',
   'pre',
   'code',
+  'inlineCode',
   'token',
   'keyword',
   'selector-tag',

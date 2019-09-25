@@ -39,6 +39,7 @@ import { SharedModule } from '../shared/shared.module';
 import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
 import { DsBasicModule } from './customization/dynamic-styles/ds-basic/ds-basic.module';
 import { DsCssDeclarationsBlockModule } from './customization/dynamic-styles/ds-css-declarations-block/ds-css-declarations-block.module';
+import { DsNestingModule } from './customization/dynamic-styles/ds-nesting/ds-nesting.module';
 
 import { ToolbarDemoComponent } from './components/toolbar-demo/toolbar-demo.component';
 import { ToolbarBasicDemoModule } from './components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
@@ -191,6 +192,7 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     /** Dynamic style */
     DsBasicModule,
     DsCssDeclarationsBlockModule,
+    DsNestingModule,
     /** Button */
     ButtonTypesDemoModule,
     IconLabelButtonsModule,

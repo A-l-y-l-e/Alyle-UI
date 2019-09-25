@@ -162,19 +162,21 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
       },
 
       [classes.pre]: {
-        padding: '16px'
+        padding: '16px',
+        [classes.code]: {
+          display: 'block'
+        }
+      },
+      [classes.inlineCode]: {
+        display: 'inline',
+        borderRadius: '3px'
+      },
+      [[classes.pre, classes.inlineCode].join()]: {
+        backgroundColor: theme.codeBg,
       },
       [classes.code]: {
-        padding: '4px 2px'
-      },
-      [
-        [
-          classes.pre,
-          classes.code
-        ].join()
-      ]: {
+        padding: '4px 2px',
         color: theme.codeColor,
-        backgroundColor: theme.codeBg,
         fontFamily: `'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace`,
         textAlign: 'left',
         fontSize: '0.8125em',
@@ -191,12 +193,8 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
         '-moz-hyphens': 'none',
         '-ms-hyphens': 'none',
         hyphens: 'none',
-        borderRadius: '3px',
         overflow: 'auto',
-        margin: '0'
-      },
-      [classes.root]: {
-        marginBottom: '16px',
+        margin: '0',
         direction: 'ltr',
         [
           [
@@ -279,8 +277,8 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
         [`${classes.builtin}`]: {
           color: '#8796b0'
         }
-      },
-    },
+      }
+    }
   };
 };
 
