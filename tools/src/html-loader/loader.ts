@@ -53,7 +53,7 @@ export function highlight(code: string, lang: string | null, inline?: boolean): 
   if (inline) {
     // Preserve white spaces
     code = code.replace(/<\/span> <span/g, '</span>&nbsp;<span');
-    return `<code prsm class="${[classes.code, classes.inline].join(' ')}">${code}</code>`;
+    return `<code class="${[classes.code, classes.inline].join(' ')}">${code}</code>`;
   }
   return `<pre class="${classes.pre}"><code prsm class="${classes.code}">`
     + code
