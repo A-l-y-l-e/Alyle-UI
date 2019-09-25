@@ -51,7 +51,9 @@ export function highlight(code: string, lang: string | null, inline?: boolean): 
     ? prism.highlight(code, prism.languages[lang], lang)
     : htmlEncode(code));
   if (inline) {
-    return `<code prsm class="${classes.code} ${classes.inlineCode}"><span>${code}</span></code>`;
+    // Preserve white spaces
+    code = code.replace(/<\/span> <span/g, '</span>&nbsp;<span');
+    return `<code prsm class="${[classes.code, classes.inline].join(' ')}">${code}</code>`;
   }
   return `<pre class="${classes.pre}"><code prsm class="${classes.code}">`
     + code

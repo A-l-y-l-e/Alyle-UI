@@ -157,11 +157,11 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
           display: 'block'
         }
       },
-      [classes.inlineCode]: {
+      [classes.inline]: {
         display: 'inline',
         borderRadius: '3px'
       },
-      [[classes.pre, classes.inlineCode].join()]: {
+      [[classes.pre, classes.inline].join()]: {
         backgroundColor: theme.codeBg,
       },
       [classes.code]: {

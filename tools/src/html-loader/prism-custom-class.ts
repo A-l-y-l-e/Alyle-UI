@@ -6,7 +6,7 @@ let customClass: null | {
 const classList = [
   'pre',
   'code',
-  'inlineCode',
+  'inline',
   'token',
   'keyword',
   'selector-tag',
