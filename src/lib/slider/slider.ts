@@ -21,7 +21,7 @@ import { LyTheme2,
   getLyThemeStyleUndefinedError,
   HammerInput,
   toNumber,
-  StyleDeclarationsBlock, 
+  StyleDeclarationsBlock,
   LyHostClass,
   untilComponentDestroyed,
   Dir} from '@alyle/ui';
