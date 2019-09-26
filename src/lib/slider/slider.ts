@@ -29,7 +29,7 @@ import { SliderVariables } from './slider.config';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
 
-interface ThemeVariablesWithSlider extends ThemeVariables {
+export interface ThemeVariablesWithSlider extends ThemeVariables {
   slider: SliderVariables;
 }
 
