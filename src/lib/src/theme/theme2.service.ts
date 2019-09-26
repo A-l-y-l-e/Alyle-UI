@@ -99,17 +99,34 @@ export class LyTheme2 {
     return this._createStyleContent2(styles, null, null, TypeStyle.Multiple);
   }
 
+  renderStyle<THEME_VARIABLES>(
+    id: string,
+    style: (theme: THEME_VARIABLES, ref: ThemeRef) => StyleTemplate,
+    priority?: number
+  ): string;
+
+  renderStyle<THEME_VARIABLES>(
+    style: (theme: THEME_VARIABLES, ref: ThemeRef) => StyleTemplate,
+    priority?: number
+  ): string;
   /**
    * Build the styles and render them in the DOM
    */
   renderStyle<THEME_VARIABLES>(
-    style: (theme?: THEME_VARIABLES, ref?: ThemeRef) => StyleTemplate,
+    styleOrId: ((theme: THEME_VARIABLES, ref: ThemeRef) => StyleTemplate) | string,
+    priorityOrStyle?: number | ((theme: THEME_VARIABLES, ref: ThemeRef) => StyleTemplate),
     priority?: number
-  ) {
-    return this._createStyleContent2(style,
+  ): string {
+    if (typeof styleOrId === 'string') {
+      return this._createStyleContent2(priorityOrStyle as (theme: THEME_VARIABLES, ref: ThemeRef) => StyleTemplate,
+        styleOrId,
+        priority,
+        TypeStyle.LylStyle);
+    }
+    return this._createStyleContent2(styleOrId,
       null,
       priority,
-      TypeStyle.LylStyle) as string;
+      TypeStyle.LylStyle);
   }
 
   /**

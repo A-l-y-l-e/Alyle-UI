@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, OnInit, OnChanges, Renderer2 } from '@angular/core';
+import { Directive, Input, ElementRef, OnInit, OnChanges, Renderer2, InjectionToken, Inject, Optional } from '@angular/core';
 import {
   LyTheme2,
   mixinBg,
@@ -10,28 +10,35 @@ import {
   mixinStyleUpdater,
   ThemeVariables,
   lyl,
-  LyClasses,
   StyleTemplate,
-  ThemeRef
+  LyHostClass
   } from '@alyle/ui';
 
 
 export interface AvatarThemeConfig {
-  root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
+  root?: () => StyleTemplate;
 }
+
 export interface AvatarVariables {
   avatar?: AvatarThemeConfig;
+}
+
+export interface LyAvatarDefaultOptions extends AvatarThemeConfig {
+  size?: number;
+  bg?: string;
 }
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_SIZE = 40;
 const DEFAULT_BG = 'action';
 
-const STYLES = (theme: ThemeVariables & AvatarVariables, ref: ThemeRef) => {
-  const classes = ref.getClasses(STYLES);
+export const LY_AVATAR_DEFAULT_OPTIONS =
+    new InjectionToken<LyAvatarDefaultOptions>('LY_AVATAR_DEFAULT_OPTIONS');
+
+const STYLES = (theme: ThemeVariables & AvatarVariables) => {
   return {
+    $name: LyAvatar.и,
     $priority: STYLE_PRIORITY,
-    nothing: null,
     root: () => lyl `{
       display: inline-flex
       position: relative
@@ -52,9 +59,9 @@ const STYLES = (theme: ThemeVariables & AvatarVariables, ref: ThemeRef) => {
       }
       {
         ...${
-          (theme.avatar && theme.avatar.root)
-            ? theme.avatar.root(classes)
-            : null
+          (theme.avatar
+            && theme.avatar.root
+            && theme.avatar.root()) || null
         }
       }
     }`
@@ -86,34 +93,49 @@ export const LyAvatarMixinBase = mixinStyleUpdater(
     'outlined',
     'elevation',
     'shadowColor',
+  ],
+  providers: [
+    LyHostClass
   ]
 })
 export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  static readonly и = 'LyAvatar';
+
+  /** @docs-private */
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   private _size: number;
   private _sizeClass: string;
+
+  /** Avatar size */
   @Input()
   set size(val: number) {
     if (val !== this.size) {
       this._size = val;
-      this._sizeClass = this._theme.addStyle(`lyAvatar.size:${val}`, {
-        width: `${val}px`,
-        height: `${val}px`,
-      }, this._elementRef.nativeElement, this._sizeClass, STYLE_PRIORITY);
+      const newClass = this._theme.renderStyle(`${LyAvatar.и}.size:${val}`, () => lyl `{
+        width: ${val}px
+        height: ${val}px
+      }`, STYLE_PRIORITY);
+      this._sizeClass = this._hostClass.update(newClass, this._sizeClass);
     }
   }
   get size() {
     return this._size;
   }
+
   constructor(
     theme: LyTheme2,
     renderer: Renderer2,
-    private _elementRef: ElementRef
+    private _elementRef: ElementRef,
+    private _hostClass: LyHostClass,
+    @Optional() @Inject(LY_AVATAR_DEFAULT_OPTIONS) private _defaults: LyAvatarDefaultOptions
   ) {
     super(theme);
     this.setAutoContrast();
     renderer.addClass(_elementRef.nativeElement, this.classes.root);
+    if (_defaults && _defaults.root) {
+      _hostClass.add(theme.renderStyle(_defaults.root));
+    }
   }
 
   ngOnChanges() {
@@ -122,11 +144,11 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
 
   ngOnInit() {
     if (!this.bg) {
-      this.bg = DEFAULT_BG;
+      this.bg = (this._defaults && this._defaults.bg) || DEFAULT_BG;
       this.ngOnChanges();
     }
     if (!this.size) {
-      this.size = DEFAULT_SIZE;
+      this.size = (this._defaults && this._defaults.size) || DEFAULT_SIZE;
     }
   }
 }

@@ -16,8 +16,8 @@ export class LyHostClass {
     }
   }
 
-  remove(className: string) {
-    if (this._set.has(className)) {
+  remove(className?: string | null) {
+    if (className && this._set.has(className)) {
       this._set.delete(className);
       this._renderer.removeClass(this._el.nativeElement, className);
     }
@@ -29,5 +29,11 @@ export class LyHostClass {
     } else {
       this.remove(className);
     }
+  }
+
+  update(newClassName: string, oldClassName?: string | null) {
+    this.remove(oldClassName);
+    this.add(newClassName);
+    return newClassName;
   }
 }
