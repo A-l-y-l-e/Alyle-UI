@@ -36,10 +36,13 @@ import { IconLabelButtonsModule } from './components/button-demo/icon-label-butt
 import { LyTypographyModule } from '@alyle/ui/typography';
 import { DocsRoutingModule } from './docs.routing';
 import { SharedModule } from '../shared/shared.module';
+
+/** Dynamic Styles */
 import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
 import { DsBasicModule } from './customization/dynamic-styles/ds-basic/ds-basic.module';
 import { DsCssDeclarationsBlockModule } from './customization/dynamic-styles/ds-css-declarations-block/ds-css-declarations-block.module';
 import { DsNestingModule } from './customization/dynamic-styles/ds-nesting/ds-nesting.module';
+import { DsReusableStylesModule } from './customization/dynamic-styles/ds-reusable-styles/ds-reusable-styles.module';
 
 import { ToolbarDemoComponent } from './components/toolbar-demo/toolbar-demo.component';
 import { ToolbarBasicDemoModule } from './components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
@@ -189,10 +192,11 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     TabsAlignModule,
     TabsWithIconModule,
     TabsPlacementModule,
-    /** Dynamic style */
+    /** Dynamic styles */
     DsBasicModule,
     DsCssDeclarationsBlockModule,
     DsNestingModule,
+    DsReusableStylesModule,
     /** Button */
     ButtonTypesDemoModule,
     IconLabelButtonsModule,

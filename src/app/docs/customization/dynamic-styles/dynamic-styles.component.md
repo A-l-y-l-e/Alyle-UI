@@ -1,6 +1,6 @@
-<p>
-  All components of Alyle UI are made with dynamic styles. With this feature it is possible to create more custom styles for Angular components.
-</p>
+All components of Alyle UI are made with dynamic styles. With this feature it is possible to create more custom styles for Angular components.
+
+Practically the css is in typescript, it's like ~~css in js~~ css in ts.
 
 Features:
 
@@ -81,4 +81,12 @@ With Alyle UI it is possible to nest your selectors and you can use it with `&` 
 
 <demo-view path="docs/customization/dynamic-styles/ds-nesting">
   <aui-ds-nesting></aui-ds-nesting>
+</demo-view>
+
+<h2 lyTyp="headline" gutter>Reusable Styles</h2>
+
+With Alyle UI it is possible to nest your selectors and you can use it with `&` to get the parent selector.
+
+<demo-view path="docs/customization/dynamic-styles/ds-reusable-styles">
+  <aui-ds-reusable-styles></aui-ds-reusable-styles>
 </demo-view>

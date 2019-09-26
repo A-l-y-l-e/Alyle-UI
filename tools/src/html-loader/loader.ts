@@ -34,7 +34,8 @@ export default function (markdown: string) {
   this.cacheable();
 
   const converter = new showdown.Converter({
-    extensions: ['prism']
+    extensions: ['prism'],
+    strikethrough: true
   });
 
   const html = converter.makeHtml(markdown);
