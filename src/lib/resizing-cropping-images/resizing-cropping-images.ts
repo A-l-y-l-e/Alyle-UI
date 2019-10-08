@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { LyTheme2, mergeDeep, LY_COMMON_STYLES, ThemeVariables } from '@alyle/ui';
 import { take } from 'rxjs/operators';
-import { fromEvent, Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 const STYLE_PRIORITY = -2;
 
@@ -124,7 +124,9 @@ export enum ImgCropperError {
   /** The loaded image exceeds the size limit set. */
   Size,
   /** The file loaded is not image. */
-  Type
+  Type,
+  /** When the image has not been loaded. */
+  Other
 }
 
 export interface ImgCropperEvent {
@@ -151,6 +153,7 @@ export interface ImgCropperEvent {
 export interface ImgCropperErrorEvent extends ImgCropperEvent {
   /** Type of error */
   error: ImgCropperError;
+  errorMsg?: string;
 }
 
 const CONFIG_DEFAULT = <ImgCropperConfig>{
@@ -336,30 +339,52 @@ export class LyResizingCroppingImages implements OnDestroy {
       return;
     }
 
-    const fileReader: FileReader = new FileReader();
+    const readFile = new Observable<ProgressEvent>(obs => {
 
-    const listener = fromEvent(fileReader, 'load')
-    .pipe(take(1))
-    .subscribe(loadEvent => {
-      const originalImageUrl = (loadEvent.target as FileReader).result as string;
-      // Set type
-      if (!this.config.type) {
-        this._defaultType = _img.files![0].type;
+      const reader = new FileReader();
+
+      reader.onerror = err => obs.error(err);
+      reader.onabort = err => obs.error(err);
+      reader.onload = (ev) => setTimeout(() => {
+        obs.next(ev);
+        obs.complete();
+      }, 1);
+
+      return reader.readAsDataURL(_img.files![0]);
+    })
+    .subscribe({
+      next: (loadEvent) => {
+        const originalImageUrl = (loadEvent.target as FileReader).result as string;
+        // Set type
+        if (!this.config.type) {
+          this._defaultType = _img.files![0].type;
+        }
+        // set name
+        this._fileName = fileName;
+        // set file size
+        this._sizeInBytes = _img.files![0].size;
+
+        this.setImageUrl(originalImageUrl);
+
+        this.cd.markForCheck();
+        this._listeners.delete(readFile);
+      },
+      error: () => {
+        const cropEvent: ImgCropperErrorEvent = {
+          name: fileName,
+          size: fileSize,
+          error: ImgCropperError.Other,
+          errorMsg: 'The File could not be loaded.'
+        };
+        this.clean();
+        this.error.emit(cropEvent as ImgCropperErrorEvent);
+        this._listeners.delete(readFile);
+        this.ngOnDestroy();
       }
-      // set name
-      this._fileName = fileName;
-      // set file size
-      this._sizeInBytes = _img.files![0].size;
-
-      this.setImageUrl(originalImageUrl);
-
-      this.cd.markForCheck();
-      this._listeners.delete(listener);
     });
 
-    this._listeners.add(listener);
+    this._listeners.add(readFile);
 
-    fileReader.readAsDataURL(_img.files![0]);
   }
 
   /** Set the size of the image, the values can be 0 between 1, where 1 is the original size */
@@ -599,49 +624,51 @@ export class LyResizingCroppingImages implements OnDestroy {
     if (fileSize) {
       cropEvent.size = fileSize;
     }
+    const loadListen = new Observable<void>(obs => {
 
-    const loadListen = fromEvent(img, 'load')
-    .pipe(
-      take(1)
-    ).subscribe(() => {
-      this._imgLoaded(img);
-      cropEvent.width = img.width;
-      cropEvent.height = img.height;
-      this._isLoadedImg = true;
-      this.cd.markForCheck();
-      this._ngZone
-          .onStable
-          .pipe(take(1))
-          .subscribe(() => this._ngZone.run(() => {
-            this.isLoaded = false;
+      img.onerror = err => obs.error(err);
+      img.onabort = err => obs.error(err);
+      img.onload = () => setTimeout(() => {
+        obs.next(null!);
+        obs.complete();
+      }, 1);
+    })
+    .subscribe({
+      next: () => {
+        this._imgLoaded(img);
+        cropEvent.width = img.width;
+        cropEvent.height = img.height;
+        this._isLoadedImg = true;
+        this.cd.markForCheck();
+        this._ngZone
+            .onStable
+            .pipe(take(1))
+            .subscribe(() => this._ngZone.run(() => {
+              this.isLoaded = false;
 
-            if (fn) {
-              fn();
-            } else {
-              this.setScale(this.minScale, true);
-            }
+              if (fn) {
+                fn();
+              } else {
+                this.setScale(this.minScale, true);
+              }
 
-            this.loaded.emit(cropEvent);
-            this.isLoaded = true;
-            this._cropIfAutoCrop();
-            this.cd.markForCheck();
-          }));
-      this._listeners.delete(loadListen);
-      this.ngOnDestroy();
+              this.loaded.emit(cropEvent);
+              this.isLoaded = true;
+              this._cropIfAutoCrop();
+              this.cd.markForCheck();
+            }));
+        this._listeners.delete(loadListen);
+        this.ngOnDestroy();
+      },
+      error: () => {
+        (cropEvent as ImgCropperErrorEvent).error = ImgCropperError.Type;
+        this.error.emit(cropEvent as ImgCropperErrorEvent);
+        this._listeners.delete(loadListen);
+        this.ngOnDestroy();
+      }
     });
 
     this._listeners.add(loadListen);
-
-    const errorListen = fromEvent(img, 'error').pipe(
-      take(1)
-    ).subscribe(() => {
-      (cropEvent as ImgCropperErrorEvent).error = ImgCropperError.Type;
-      this.error.emit(cropEvent as ImgCropperErrorEvent);
-      this._listeners.delete(errorListen);
-      this.ngOnDestroy();
-    });
-
-    this._listeners.add(errorListen);
 
     // clear
     this._sizeInBytes = null;
