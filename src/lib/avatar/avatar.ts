@@ -16,6 +16,7 @@ import {
 
 
 export interface AvatarThemeConfig {
+  /** Styles for Avatar Component */
   root?: () => StyleTemplate;
 }
 
