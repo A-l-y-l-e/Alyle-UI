@@ -31,11 +31,12 @@
 
 <div *ngIf="cropping.isLoaded" [className]="classes.range">
   <ly-slider
+    [thumbVisible]="false"
     [min]="cropping.minScale"
     [max]="1"
     [(ngModel)]="scale"
     (input)="scale = $event.value"
-    step="0.01"></ly-slider>
+    step="0.000001"></ly-slider>
 </div>
 
 <button *ngIf="cropping.isLoaded" color="accent" (click)="cropping.crop()" ly-button>

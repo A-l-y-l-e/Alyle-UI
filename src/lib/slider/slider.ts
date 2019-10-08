@@ -21,7 +21,7 @@ import { LyTheme2,
   getLyThemeStyleUndefinedError,
   HammerInput,
   toNumber,
-  StyleDeclarationsBlock, 
+  StyleDeclarationsBlock,
   LyHostClass,
   untilComponentDestroyed,
   Dir} from '@alyle/ui';
@@ -786,10 +786,8 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     event.preventDefault();
 
-    if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
-      this._emitInputEvent();
-      this._changes.next();
-    }
+    this._emitInputEvent();
+    this._changes.next();
   }
 
   private _startSlide() {
@@ -867,9 +865,11 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     }
 
     // focus slidingThumb
-    const currentSlidingThumb = this._thumbs.find(thumb => thumb.value === value)!;
-    currentSlidingThumb.focused = true;
-    this._thumbsRef!.toArray()[currentSlidingThumb.index].nativeElement.focus();
+    const currentSlidingThumb: Thumb | undefined = this._thumbs.find(thumb => thumb.value === value)!;
+    if (currentSlidingThumb) {
+      currentSlidingThumb.focused = true;
+      this._thumbsRef!.toArray()[currentSlidingThumb.index].nativeElement.focus();
+    }
   }
 
   private _updateThumbs() {
