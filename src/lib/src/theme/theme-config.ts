@@ -17,6 +17,7 @@ import { FieldVariables } from './variables/field';
 import { DialogVariables } from './variables/dialog';
 import { ListVariables } from './variables/list';
 import { ToolbarVariables } from './variables/toolbar';
+import { Color } from '@alyle/ui/color';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
@@ -28,35 +29,35 @@ export interface ThemeConfig {
   accent: DefaultVal & PaletteColor;
   warn: DefaultVal & PaletteColor;
   disabled: {
-    default: string
-    contrast: string
+    default: Color
+    contrast: Color
   };
   paper: DefaultVal & PaletteColor;
   background: {
     /** secondary */
-    default: string,
+    default: Color,
     primary: DefaultVal & PaletteColor,
-    secondary: string,
-    tertiary: string,
-    base: string
+    secondary: Color,
+    tertiary: Color,
+    base: Color
   };
-  hover: string;
+  hover: Color;
   text: {
-    default: string,
-    primary: string,
-    secondary: string,
-    disabled: string,
-    hint: string
+    default: Color,
+    primary: Color,
+    secondary: Color,
+    disabled: Color,
+    hint: Color
   };
   typography?: TypographyVariables;
   /** color for divider */
-  divider: string;
-  shadow: string;
+  divider: Color;
+  shadow: Color;
   radio?: RadioVariables;
   menu?: MenuVariables;
   drawer: {
     /** color for drawer:backdrop */
-    backdrop: string
+    backdrop: Color
   };
   field?: FieldVariables;
   iconButton: {
@@ -104,12 +105,12 @@ export type ThemeVariables = LyStyleUtils & ThemeConfig;
 export type PartialThemeVariables = RecursivePartial<ThemeVariables>;
 
 export interface DefaultVal {
-  default: string;
+  default: Color;
 }
 export interface PaletteColor {
-  contrast?: string;
+  contrast?: Color;
   /** shadow color */
-  shadow?: string;
+  shadow?: Color;
 }
 
 type primitive = string | number | boolean | undefined | null;

@@ -14,20 +14,25 @@ import {
   LyHostClass
   } from '@alyle/ui';
 
-
+// These three interfaces are to customize the component.
+// The first is used to add more styles.
+// The second is used by decorators, for example when they
+// do not have an established option this will be used.
+// and the third one is used by the themes.
 export interface AvatarThemeConfig {
   /** Styles for Avatar Component */
   root?: () => StyleTemplate;
-}
-
-export interface AvatarVariables {
-  avatar?: AvatarThemeConfig;
 }
 
 export interface LyAvatarDefaultOptions extends AvatarThemeConfig {
   size?: number;
   bg?: string;
 }
+
+export interface AvatarVariables {
+  avatar?: AvatarThemeConfig;
+}
+
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_SIZE = 40;

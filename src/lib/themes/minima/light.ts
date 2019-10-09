@@ -1,67 +1,68 @@
 import { ThemeConfig, mergeDeep, shadowBuilder } from '@alyle/ui';
+import { Color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
 
-const contrast = '#fff';
-const shadow = '#333';
+const contrast = new Color(0xfff);
+const shadow = new Color(0x333);
 export class MinimaLight extends MinimaBase implements ThemeConfig {
   name = 'minima-light';
   primary = {
-    default: '#6200EE',
+    default: new Color(0x6200EE),
     contrast
   };
   accent = {
-    default: '#FF2997',
+    default: new Color(0xFF2997),
     contrast,
   };
   warn = {
-    default: '#f5414e',
+    default: new Color(0xf5414e),
     contrast
   };
   action = {
-    default: 'rgba(0,0,0,.6)',
-    contrast: '#fff'
+    default: new Color(0, 0, 0, .6),
+    contrast: new Color(0xfff)
   };
   background = {
-    default: '#fafafa', // secondary
+    default: new Color(0xfafafa), // secondary
     primary: {
-      default: '#fff',
+      default: new Color(0xfff),
       shadow
     },
-    secondary: '#fafafa',
-    tertiary: '#efefef',
-    base: '#E0E0E0'
+    secondary: new Color(0xfafafa),
+    tertiary: new Color(0xefefef),
+    base: new Color(0xE0E0E0)
   };
-  hover = 'rgba(0, 0, 0, 0.04)';
+  hover = new Color(0, 0, 0, 0.04);
   paper = {
-    default: '#fff',
+    default: new Color(0xfff),
     shadow
   };
   disabled = {
-    default: 'rgba(0, 0, 0, 0.12)',
-    contrast: 'rgba(0, 0, 0, 0.26)'
+    default: new Color(0, 0, 0, 0.12),
+    contrast: new Color(0, 0, 0, 0.26)
   };
   text = {
-    default: 'rgba(0, 0, 0, 0.87)',
-    primary: 'rgba(0, 0, 0, 0.87)',
-    secondary: 'rgba(0, 0, 0, 0.54)',
-    disabled: 'rgba(0, 0, 0, 0.26)',
-    hint: 'rgba(0, 0, 0, 0.38)'
+    default: new Color(0, 0, 0, 0.87),
+    primary: new Color(0, 0, 0, 0.87),
+    secondary: new Color(0, 0, 0, 0.54),
+    disabled: new Color(0, 0, 0, 0.26),
+    hint: new Color(0, 0, 0, 0.38)
   };
-  divider = 'rgba(0, 0, 0, 0.12)';
-  colorShadow = '#33base3';
-  shadow = '#333';
+  divider = new Color(0, 0, 0, 0.12);
+  colorShadow = new Color(0x333);
+  shadow = new Color(0x333);
   menu = {};
   drawer = {
-    backdrop: 'rgba(0,0,0,.6)'
+    backdrop: new Color(0, 0, 0, .6)
   };
-  bar = '#f5f5f5';
+  bar = new Color(0xf5f5f5);
   field = mergeDeep({}, this.field, {
-    borderColor: 'rgba(0, 0, 0, 0.23)',
-    labelColor: 'rgba(0, 0, 0, 0.6)',
+    borderColor: new Color(0, 0, 0, 0.23),
+    labelColor: new Color(0, 0, 0, 0.6),
     appearance: {
       filled: {
         '{container}': {
-          backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          backgroundColor: new Color(0, 0, 0, 0.04),
         }
       }
     }
@@ -69,15 +70,15 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   badge = {};
   snackBar = {
     root: {
-      background: '#323232',
-      color: '#fff',
-      boxShadow: shadowBuilder(4, '#323232')
+      background: new Color(0x323232),
+      color: new Color(0xfff),
+      boxShadow: shadowBuilder(4, new Color(0x323232).css())
     }
   };
   tooltip = {
     root: {
-      background: 'rgba(50, 50, 50, 0.85)',
-      color: '#fff'
+      background: new Color(50, 50, 50, 0.85),
+      color: new Color(0xfff)
     }
   };
 }
