@@ -8,12 +8,10 @@ import {
   ViewChild,
   EventEmitter,
   Renderer2,
-  NgZone,
   HostListener,
   OnDestroy
 } from '@angular/core';
 import { LyTheme2, mergeDeep, LY_COMMON_STYLES, ThemeVariables } from '@alyle/ui';
-import { take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
 const STYLE_PRIORITY = -2;
@@ -215,9 +213,9 @@ export class LyResizingCroppingImages implements OnDestroy {
   isLoaded: boolean;
   isCropped: boolean;
 
-  @ViewChild('_imgContainer', { static: false }) _imgContainer: ElementRef;
+  @ViewChild('_imgContainer', { static: true }) _imgContainer: ElementRef;
   @ViewChild('_croppingContainer', { static: false }) _croppingContainer: ElementRef;
-  @ViewChild('_imgCanvas', { static: false }) _imgCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('_imgCanvas', { static: true }) _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Input()
   get config(): ImgCropperConfig {
     return this._config;
@@ -262,8 +260,7 @@ export class LyResizingCroppingImages implements OnDestroy {
     private _renderer: Renderer2,
     private theme: LyTheme2,
     private elementRef: ElementRef<HTMLElement>,
-    private cd: ChangeDetectorRef,
-    private _ngZone: NgZone
+    private cd: ChangeDetectorRef
   ) {
     this._renderer.addClass(elementRef.nativeElement, this.classes.root);
   }
@@ -631,7 +628,7 @@ export class LyResizingCroppingImages implements OnDestroy {
       img.onload = () => setTimeout(() => {
         obs.next(null!);
         obs.complete();
-      }, 1);
+      }, 0);
     })
     .subscribe({
       next: () => {
@@ -640,23 +637,23 @@ export class LyResizingCroppingImages implements OnDestroy {
         cropEvent.height = img.height;
         this._isLoadedImg = true;
         this.cd.markForCheck();
-        this._ngZone
-            .onStable
-            .pipe(take(1))
-            .subscribe(() => this._ngZone.run(() => {
-              this.isLoaded = false;
+        this.cd.detectChanges();
+        Promise.resolve(null!).then(() => {
+          // ...
+          this._updateMinScale(this._imgCanvas.nativeElement);
+          this.isLoaded = false;
 
-              if (fn) {
-                fn();
-              } else {
-                this.setScale(this.minScale, true);
-              }
+          if (fn) {
+            fn();
+          } else {
+            this.setScale(this.minScale, true);
+          }
 
-              this.loaded.emit(cropEvent);
-              this.isLoaded = true;
-              this._cropIfAutoCrop();
-              this.cd.markForCheck();
-            }));
+          this.loaded.emit(cropEvent);
+          this.isLoaded = true;
+          this._cropIfAutoCrop();
+          this.cd.markForCheck();
+        });
         this._listeners.delete(loadListen);
         this.ngOnDestroy();
       },
@@ -831,7 +828,7 @@ export class LyResizingCroppingImages implements OnDestroy {
       ctx.fillStyle = myConfig.fill;
       ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
     }
-    ctx.drawImage(this._imgCanvas.nativeElement as any,
+    ctx.drawImage(this._imgCanvas.nativeElement,
       -(left), -(top),
     );
     let result = canvasElement;
