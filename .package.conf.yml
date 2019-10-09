@@ -2,6 +2,7 @@ version: 2.9.4
 lastUpdate: '2019-09-15T23:01:58.912Z'
 components:
   '@alyle/ui': /
+  '@alyle/ui/color': color
   '@alyle/ui/grid': grid
   '@alyle/ui/themes/minima': themes/minima
   '@alyle/ui/card': card
