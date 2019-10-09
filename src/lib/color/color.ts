@@ -1,3 +1,7 @@
+const EPS = 1e-7;
+const MAX_ITER = 20;
+const { pow, min, max } = Math;
+
 export class Color {
 
   private readonly _color: number[];
@@ -19,6 +23,10 @@ export class Color {
     }
   }
 
+  rgb() {
+    return this._color.slice(0);
+  }
+
   alpha(value?: number) {
     if (value === void 0) {
       return this._color[3];
@@ -32,10 +40,43 @@ export class Color {
     return new Color(...color);
   }
 
-  luminance(value?: number) {
-    return this;
+  luminance(lum?: number): number | Color {
+    if (lum === void 0) {
+      return rgbToLuminance(...(this._color as [number, number, number]));
+    }
+
+    if (lum === 0) {
+      // return pure black
+      return new Color(0, 0, 0, this._color[3]);
+    }
+    if (lum === 1) {
+      // return pure white
+      return new Color(255, 255, 255, this._color[3]);
+    }
+
+    const relativeLuminance = this.luminance();
+    let max_iter = MAX_ITER;
+
+    const test = (low: Color, high: Color): Color => {
+      const mid = new Color(...interpolateRgb(low.rgb(), high.rgb(), 0.5));
+      const lm = mid.luminance() as number;
+
+      if (Math.abs(lum - lm) < EPS || !max_iter--) {
+        return mid;
+      }
+
+      return lm > lum ? test(low, mid) : test(mid, high);
+    };
+
+    const rgb = (relativeLuminance > lum
+        ? test(new Color(0, 0, 0), this)
+        : test(this, new Color(255, 255, 255))).rgb();
+
+    rgb.push(this._color[ 3 ]);
+
+    return new Color(...rgb);
+
   }
-  private _luminance: number;
 
   saturate(amount = 1) {
     const lab = rgbToLab(this._color);
@@ -80,18 +121,19 @@ export class Color {
   css() {
     return rgbToCss(this._color as [number, number, number, number]);
   }
+
 }
 
 
-/**
- * Convert number to CSS
- * 0x00bcd4 > #00bcd4
- * @param int Int
- */
-function bigIntToCss(int: number) {
-  const hex = int.toString(16);
-  return '#000000'.substring(0, 7 - hex.length) + hex;
-}
+// /**
+//  * Convert number to CSS
+//  * 0x00bcd4 > #00bcd4
+//  * @param int Int
+//  */
+// function bigIntToCss(int: number) {
+//   const hex = int.toString(16);
+//   return '#000000'.substring(0, 7 - hex.length) + hex;
+// }
 
 function rgbToCss(rgb: [number, number, number, number]) {
   return `rgba(${rgb.join()})`;
@@ -108,10 +150,10 @@ function bigIntToRgb(bigInt: number, alpha = 1) {
   return [red, green, blue, alpha];
 }
 
-function rgbToBigInt(r: number, g: number, b: number) {
-  // tslint:disable-next-line: no-bitwise
-  return (r << 16) + (g << 8) + b;
-}
+// function rgbToBigInt(r: number, g: number, b: number) {
+//   // tslint:disable-next-line: no-bitwise
+//   return (r << 16) + (g << 8) + b;
+// }
 
 function rgbToXyz(rgb: number[]) {
   let r = rgb[0] / 255;
@@ -232,11 +274,34 @@ function xyzToRgb(xyz: number[]) {
     ? ((1.055 * (b ** (1.0 / 2.4))) - 0.055)
     : b * 12.92;
 
-  r = Math.min(Math.max(0, r), 1);
-  g = Math.min(Math.max(0, g), 1);
-  b = Math.min(Math.max(0, b), 1);
+  r = min(max(0, r), 1);
+  g = min(max(0, g), 1);
+  b = min(max(0, b), 1);
 
   return [ r * 255, g * 255, b * 255 ];
+}
+
+function rgbToLuminance(r: number, g: number, b: number) {
+  // Relative luminance
+  // See http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+  r = luminance_channel(r);
+  g = luminance_channel(g);
+  b = luminance_channel(b);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function luminance_channel(x: number) {
+  x /= 255;
+  return x <= 0.03928 ? x / 12.92 : pow((x + 0.055) / 1.055, 2.4);
+}
+
+function interpolateRgb(rgb1: number[], rgb2: number[], f = 0.5) {
+
+  return [
+    rgb1[ 0 ] + f * (rgb2[ 0 ] - rgb1[ 0 ]),
+    rgb1[ 1 ] + f * (rgb2[ 1 ] - rgb1[ 1 ]),
+    rgb1[ 2 ] + f * (rgb2[ 2 ] - rgb1[ 2 ]),
+  ];
 }
 
 export const color1 = new Color(0x00bcd4);
