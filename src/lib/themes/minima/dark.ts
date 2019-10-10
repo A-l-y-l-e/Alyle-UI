@@ -70,15 +70,15 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   badge = {};
   snackBar = {
     root: {
-      background: new Color(0xfafafa),
-      color: new Color(0, 0, 0, .87),
+      background: new Color(0xfafafa).css(),
+      color: new Color(0, 0, 0, .87).css(),
       boxShadow: shadowBuilder(4, new Color(0xfafafa).css())
     }
   };
   tooltip = {
     root: {
-      background: new Color(250, 250, 250, 0.85),
-      color: new Color(0, 0, 0, .87)
+      background: new Color(250, 250, 250, 0.85).css(),
+      color: new Color(0, 0, 0, .87).css()
     }
   };
 }

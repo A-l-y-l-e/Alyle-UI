@@ -15,12 +15,9 @@ import {
   ViewChild
 } from '@angular/core';
 import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias } from '@alyle/ui';
-import * as _chroma from 'chroma-js';
+import { Color } from '@alyle/ui/color';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-/** @docs-private */
-const chroma = _chroma;
 
 /** Default interval in ms */
 const DEFAULT_INTERVAL = 7000;
@@ -63,8 +60,8 @@ export const STYLES = (theme: ThemeVariables) => {
       width: '1em',
       fontSize: '36px',
       cursor: 'pointer',
-      background: chroma(theme.background.primary.default).alpha(.25).css(),
-      color: theme.text.primary,
+      background: (theme.background.primary.default.alpha(.25) as Color).css(),
+      color: theme.text.primary.css(),
       willChange: 'transform'
     },
     slideContainer: {
@@ -138,7 +135,7 @@ export const STYLES = (theme: ThemeVariables) => {
       }
     },
     barContainer: {
-      background: chroma(theme.background.primary.default).alpha(.25).css(),
+      background: (theme.background.primary.default.alpha(.25) as Color).css(),
       height: '4px',
       position: 'absolute',
       bottom: 0,
@@ -152,7 +149,7 @@ export const STYLES = (theme: ThemeVariables) => {
       animationName: '{interval}',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
-      background: theme.text.primary
+      background: theme.text.primary.css()
     },
     $keyframes: {
       interval: {

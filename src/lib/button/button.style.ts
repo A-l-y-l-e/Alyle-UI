@@ -5,7 +5,7 @@ export const STYLES = (theme: ThemeVariables) => {
   const _styles = ({
     root: {
       fontFamily: typography.fontFamily,
-      color: theme.text.default,
+      color: theme.text.default.css(),
       '-webkit-tap-highlight-color': 'transparent',
       backgroundColor: `rgba(0, 0, 0, 0)`,
       border: 0,

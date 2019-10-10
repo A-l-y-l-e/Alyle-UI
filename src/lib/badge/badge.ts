@@ -26,17 +26,16 @@ import {
   ThemeRef
 } from '@alyle/ui';
 
-import { BadgeVariables } from './badge';
 
-export interface BadgeVariables {
-  badge?: BadgeThemeConfig;
+export interface LyBadgeVariables {
+  badge?: LyBadgeTheme;
 }
 
-export interface BadgeThemeConfig {
+export interface LyBadgeTheme {
   root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
 }
 
-export const BADGE_THEME_CONFIG = new InjectionToken<BadgeThemeConfig>('badge-theme-config');
+export const LY_BADGE_DEFAULT_OPTIONS = new InjectionToken<LyBadgeTheme>('BADGE_DEFAULT_OPTIONS');
 
 const STYLE_PRIORITY = -2;
 // const DEFAULT_POSITION = 'startTop';
@@ -46,7 +45,7 @@ const STYLE_PRIORITY = -2;
 //   above: '-11px'
 // };
 
-export const STYLES = (theme: ThemeVariables & BadgeVariables, ref: ThemeRef) => {
+export const STYLES = (theme: ThemeVariables & LyBadgeVariables, ref: ThemeRef) => {
   const classes = ref.getClasses(STYLES);
   return {
     $priority: STYLE_PRIORITY,
@@ -138,7 +137,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
   // set position(val: string) {
   //   if (val !== this.position) {
   //     this._position = val;
-  //     this._positionClass = this._theme.addStyle(`ly-badge.position:${val}`, (theme: ThemeVariables & BadgeVariables) => {
+  //     this._positionClass = this._theme.addStyle(`ly-badge.position:${val}`, (theme: ThemeVariables & LyBadgeVariables) => {
   //       const sty = theme.badge!.position && theme.badge!.position![val] || val === DEFAULT_POSITION ? DEFAULT_POSITION_VALUE : null;
   //       if (sty) {
   //         return sty;

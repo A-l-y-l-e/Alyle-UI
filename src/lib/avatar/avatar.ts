@@ -12,25 +12,25 @@ import {
   lyl,
   StyleTemplate,
   LyHostClass
-  } from '@alyle/ui';
+} from '@alyle/ui';
 
 // These three interfaces are to customize the component.
 // The first is used to add more styles.
 // The second is used by decorators, for example when they
 // do not have an established option this will be used.
 // and the third one is used by the themes.
-export interface AvatarThemeConfig {
+export interface LyAvatarTheme {
   /** Styles for Avatar Component */
   root?: () => StyleTemplate;
 }
 
-export interface LyAvatarDefaultOptions extends AvatarThemeConfig {
+export interface LyAvatarDefaultOptions extends LyAvatarTheme {
   size?: number;
   bg?: string;
 }
 
-export interface AvatarVariables {
-  avatar?: AvatarThemeConfig;
+export interface LyAvatarVariables {
+  avatar?: LyAvatarTheme;
 }
 
 
@@ -41,7 +41,7 @@ const DEFAULT_BG = 'action';
 export const LY_AVATAR_DEFAULT_OPTIONS =
     new InjectionToken<LyAvatarDefaultOptions>('LY_AVATAR_DEFAULT_OPTIONS');
 
-const STYLES = (theme: ThemeVariables & AvatarVariables) => {
+const STYLES = (theme: ThemeVariables & LyAvatarVariables) => {
   return {
     $name: LyAvatar.и,
     $priority: STYLE_PRIORITY,

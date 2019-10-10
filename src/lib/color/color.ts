@@ -27,6 +27,8 @@ export class Color {
     return this._color.slice(0);
   }
 
+  alpha(): Color;
+  alpha(value: number): number;
   alpha(value?: number) {
     if (value === void 0) {
       return this._color[3];
@@ -304,7 +306,8 @@ function interpolateRgb(rgb1: number[], rgb2: number[], f = 0.5) {
   ];
 }
 
-export const color1 = new Color(0x00bcd4);
+export const color1 = new Color(0x00bcd4).alpha();
+export const colorr = new Color(0x00bcd4).alpha(1);
 export const color2 = new Color(0x00bcd4);
 export const color3 = new Color(0x00bcd4, .5);
 export const color4 = new Color(250, 250, 250);
