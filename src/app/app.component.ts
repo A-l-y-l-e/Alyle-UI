@@ -13,9 +13,7 @@ import { filter } from 'rxjs/operators';
 import { TitleComponent } from './document/title/title.component';
 import { PageContentComponent } from './page-content/page-content.component';
 import { prismCustomClass } from './core/prism-custom-class';
-import * as _chroma from 'chroma-js';
 import { SVG_ICONS } from './core/svg-icons';
-const chroma = _chroma;
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, ref: ThemeRef) => {
   const classes = ref.getClasses(styles);
@@ -259,7 +257,7 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
           color: '#9786c5'
         },
         [`${classes['class-name']}`]: {
-          color: chroma(theme.accent.default).alpha(.88).css()
+          color: theme.accent.default.alpha(.88)
         },
         [`${classes.constant}`]: {
           color: '#EF5350'

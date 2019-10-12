@@ -198,7 +198,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
           color: theme.colorOf(val)
         },
         [`&{checked}:not({disabled}) {icon}`]: {
-          boxShadow: shadowBuilder(1, theme.colorOf(val))
+          boxShadow: shadowBuilder(1, theme.colorOf(val).css())
         }
       }), this._el.nativeElement, this._colorClass, STYLE_PRIORITY, STYLES);
     }

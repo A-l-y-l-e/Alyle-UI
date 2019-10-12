@@ -1,5 +1,6 @@
 import { ThemeVariables } from './theme-config';
 import { StyleTemplate } from '../parse';
+import { Color } from '@alyle/ui/color';
 
 /** For internal use only */
 export const _STYLE_MAP: Map<any, StyleMap5> = new Map();
@@ -48,7 +49,7 @@ export enum TypeStyle {
  * Style Object
  */
 export interface StyleContainer {
-  [key: string]: StyleContainer | string | number | string[] | null | undefined | StyleTemplate;
+  [key: string]: StyleContainer | string | number | string[] | null | undefined | StyleTemplate | Color;
 }
 
 export interface StyleGroup {

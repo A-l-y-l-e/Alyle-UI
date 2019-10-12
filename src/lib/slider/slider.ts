@@ -517,7 +517,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     const newStyle = (theme: ThemeVariablesWithSlider) => {
       const color = theme.colorOf(val);
-      return theme.slider.appearance![appearance].color(theme, color);
+      return theme.slider.appearance![appearance].color(theme, color.css());
     };
     this._colorClass = this._theme.addStyle(
       styleKey,
@@ -621,7 +621,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
         if (!this._theme.existStyle(styleKey)) {
           const color = this.color;
           newStyle = (theme: ThemeVariablesWithSlider) => {
-            const colorCss = theme.colorOf(color);
+            const colorCss = theme.colorOf(color).css();
             return theme.slider.appearance![appearance].disabled(theme, colorCss);
           };
         }

@@ -1,3 +1,4 @@
+import { Color } from '@alyle/ui/color';
 import { _STYLE_MAP, Styles, LyClasses } from './theme/style';
 
 export class LyStyleUtils {
@@ -49,7 +50,10 @@ export class LyStyleUtils {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
   }
-  colorOf(value: string, optional?: string): string {
+  colorOf(value: string | number, optional?: string): Color {
+    if (typeof value === 'number') {
+      return new Color(value);
+    }
     return get(this, value, optional);
   }
   getBreakpoint(key: string) {
@@ -95,7 +99,10 @@ export enum DirPosition {
  * @param path path
  * @param optional get optional value, if not exist return default if not is string
  */
-function get(obj: Object, path: string[] | string, optional?: string): string {
+function get(obj: Object, path: string[] | string, optional?: string): Color {
+  if (path === 'transparent') {
+    return new Color(0, 0, 0, 0);
+  }
   const _path: string[] = path instanceof Array ? path : path.split(':');
   for (let i = 0; i < _path.length; i++) {
     const posibleOb = obj[_path[i]];
@@ -103,11 +110,11 @@ function get(obj: Object, path: string[] | string, optional?: string): string {
       obj = posibleOb;
     } else {
       /** if not exist */
-      return path as string;
+      return new Color();
     }
   }
-  if (typeof obj === 'string') {
-    return obj as string;
+  if (obj instanceof Color) {
+    return obj;
   } else if (optional) {
     return obj[optional] || obj['default'];
   } else {

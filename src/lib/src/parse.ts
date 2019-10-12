@@ -1,3 +1,4 @@
+import { Color } from '@alyle/ui/color';
 const LINE_FEED_REGEX = /(\n?[^\n]+\n?)/g;
 const AMPERSAND_REGEX = /&/g;
 const STYLE_TEMPLATE_REGEX = /StyleTemplate\[[\w]+\]/;
@@ -81,10 +82,15 @@ export class LylParse {
         //   rules.set(createUniqueCommentSelector('ds'), fullLine);
         // } /** for non LylModule>  */
       } else {
-        if (fullLine.includes(':') && !fullLine.endsWith(';')) {
-          fullLine += ';';
+        if (fullLine) {
+          if (fullLine.includes('undefined')) {
+            return '';
+          }
+          if (fullLine.includes(':') && !fullLine.endsWith(';')) {
+            fullLine += ';';
+          }
+          rules.set(selector!, rules.get(selector!)! + fullLine);
         }
-        rules.set(selector!, rules.get(selector!)! + fullLine);
       }
       return '';
     });
@@ -95,7 +101,6 @@ export class LylParse {
         const sel = rule[0];
         // For non LylModule<
         // others type of style
-        console.log(rule, sel);
 
         if (sel.startsWith('/* >> ds')) {
           return rule[1];
@@ -143,7 +148,7 @@ export class LylParse {
 
 export type StyleTemplate = (className: string) => string;
 
-export function lyl(literals: TemplateStringsArray, ...placeholders: (string | number | StyleTemplate | (() => StyleTemplate) | null | undefined)[]) {
+export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | number | StyleTemplate | (() => StyleTemplate) | null | undefined)[]) {
 
   return (className: string) => {
     let result = '';
@@ -176,7 +181,6 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | n
       }
       return '';
     });
-    console.log({css});
     return new LylParse(css, className).toCss();
   };
 }

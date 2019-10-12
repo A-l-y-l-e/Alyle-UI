@@ -11,12 +11,12 @@ export class Color {
   constructor(r: number, g: number, b: number, alpha?: number)
   constructor(...args: number[])
   constructor(...args: number[]) {
-    if (args.length < 3) {
+    if (args.length < 3 && args.length > 0) {
       this._color = bigIntToRgb(args[0], args[1]);
-    } else {
+    } else if (args.length > 2) {
       this._color = args;
 
-      // Set alpha
+      // Set default alpha
       if (args.length === 3) {
         this._color[3] = 1;
       }
@@ -27,8 +27,8 @@ export class Color {
     return this._color.slice(0);
   }
 
-  alpha(): Color;
-  alpha(value: number): number;
+  alpha(): number;
+  alpha(value: number): Color;
   alpha(value?: number) {
     if (value === void 0) {
       return this._color[3];
@@ -121,7 +121,14 @@ export class Color {
   }
 
   css() {
+    if (this._color == null) {
+      return 'undefined - invalid color';
+    }
     return rgbToCss(this._color as [number, number, number, number]);
+  }
+
+  toString() {
+    return this.css();
   }
 
 }
@@ -142,12 +149,17 @@ function rgbToCss(rgb: [number, number, number, number]) {
 }
 
 function bigIntToRgb(bigInt: number, alpha = 1) {
+  // if (bigInt < 0x1000) {
+  //   bigInt = parseInt(bigInt.toString(16).split('').map(char => {
+  //     return char + char;
+  //   }).join(''), 16);
+  // }
   // tslint:disable-next-line: no-bitwise
-  const red = (bigInt >> 16) & 255;
+  const red = (bigInt >> 16) & 0xff;
   // tslint:disable-next-line: no-bitwise
-  const green = (bigInt >> 8) & 255;
+  const green = (bigInt >> 8) & 0xff;
   // tslint:disable-next-line: no-bitwise
-  const blue = bigInt & 255;
+  const blue = bigInt & 0xff;
 
   return [red, green, blue, alpha];
 }

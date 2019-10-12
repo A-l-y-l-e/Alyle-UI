@@ -2,8 +2,8 @@ import { ThemeConfig, mergeDeep, shadowBuilder } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
 
-const contrast = new Color(0xfff);
-const shadow = new Color(0x333);
+const contrast = new Color(0xffffff);
+const shadow = new Color(0x333333);
 export class MinimaLight extends MinimaBase implements ThemeConfig {
   name = 'minima-light';
   primary = {
@@ -20,12 +20,12 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   };
   action = {
     default: new Color(0, 0, 0, .6),
-    contrast: new Color(0xfff)
+    contrast: new Color(0xffffff)
   };
   background = {
     default: new Color(0xfafafa), // secondary
     primary: {
-      default: new Color(0xfff),
+      default: new Color(0xffffff),
       shadow
     },
     secondary: new Color(0xfafafa),
@@ -34,7 +34,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   };
   hover = new Color(0, 0, 0, 0.04);
   paper = {
-    default: new Color(0xfff),
+    default: new Color(0xffffff),
     shadow
   };
   disabled = {
@@ -49,8 +49,8 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     hint: new Color(0, 0, 0, 0.38)
   };
   divider = new Color(0, 0, 0, 0.12);
-  colorShadow = new Color(0x333);
-  shadow = new Color(0x333);
+  colorShadow = new Color(0x333333);
+  shadow = new Color(0x333333);
   menu = {};
   drawer = {
     backdrop: new Color(0, 0, 0, .6)
@@ -71,14 +71,14 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   snackBar = {
     root: {
       background: new Color(0x323232).css(),
-      color: new Color(0xfff).css(),
+      color: new Color(0xffffff).css(),
       boxShadow: shadowBuilder(4, new Color(0x323232).css())
     }
   };
   tooltip = {
     root: {
       background: new Color(50, 50, 50, 0.85).css(),
-      color: new Color(0xfff).css()
+      color: new Color(0xffffff).css()
     }
   };
 }

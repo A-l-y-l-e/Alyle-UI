@@ -30,7 +30,7 @@
     "serve:lib": "hs dist/docs-content -p 1212 -g --cors 'Access-Control-Allow-Origin' -c0",
     "build:schematics": "tsc -p src/lib/schematics/tsconfig.json && cp -r src/lib/schematics/ dist/@alyle/ui/ && rm -rf dist/@alyle/ui/schematics/**/*.ts",
     "test:sc": "jasmine dist/@alyle/ui/schematics/**/*.spec.js",
-    "postinstall": "yarn build:tools && rm -rf dist/@alyle/ui/style-compiler && cp src/lib/style-compiler/parse.ts src/lib/src/ && tsc -p src/lib/style-compiler"
+    "postinstall": "yarn build:tools"
   },
   "private": true,
   "dependencies": {

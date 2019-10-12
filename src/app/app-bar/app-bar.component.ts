@@ -51,7 +51,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
   drawer: LyDrawer;
   bg = 'transparent';
   elevation = 0;
-  color = '#fff';
+  color: string | number = 0xffffff;
 
   supportList = [
     {
@@ -117,7 +117,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
   private setForHomeStyles() {
     this.bg = 'transparent';
     this.elevation = 0;
-    this.color = '#fff';
+    this.color = 0xffffff;
     this.cd.markForCheck();
   }
 

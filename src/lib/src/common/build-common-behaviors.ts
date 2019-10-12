@@ -1,3 +1,4 @@
+import { Color } from '@alyle/ui/color';
 import { Constructor } from './constructor';
 import { shadowBuilder } from '../shadow';
 import { CanColor } from './color';
@@ -11,6 +12,7 @@ import { LyTheme2 } from '../theme/theme2.service';
 import { ElementRef } from '@angular/core';
 import { getNativeElement } from '../minimal/common';
 import { ThemeVariables } from '../theme/theme-config';
+import { lyl } from '../parse';
 
 const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -1;
@@ -42,6 +44,8 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
       const __outlined = this._superHyperInternalPropertyOutlined;
       const __shadowColor = this._superHyperInternalPropertyShadowColor;
       const __isContrast = this._autoContrast && !__color || __color === 'auto';
+      const el = getNativeElement(element);
+
       const newKey = `common----:${
         __bg || DEFAULT_VALUE}·${
           __color || DEFAULT_VALUE}·${
@@ -51,57 +55,62 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
                   __outlined || DEFAULT_VALUE}·${
                     __shadowColor || DEFAULT_VALUE}·${
                       __isContrast || DEFAULT_VALUE}`;
-      this._classNameAnonymous = this._theme.addStyle(newKey, (theme: ThemeVariables) => {
-        const style: {
-          border?: string,
-          background?: string,
-          color?: string,
-          boxShadow?: string,
-          pointerEvents?: 'none';
-          '&:hover'?: {
-            boxShadow?: string
-          },
-          '&:active'?: {
-            boxShadow?: string
-          }
-        } = {};
+      const newClass = this._theme.renderStyle(newKey, (theme: ThemeVariables) => {
+        let sColor: Color | undefined;
+        let sBackground: Color | undefined;
+        let sBorder: string | undefined;
+        let sPointerEvents: string | undefined;
+        let sBoxShadow: string | undefined;
+        let sBoxShadowActive: string | undefined;
+
         if (__outlined) {
-          style.border = '1px solid currentColor';
+          sBorder = '1px solid currentColor';
         }
         if (__disabled) {
-          style.color = theme.disabled.contrast;
-          style.pointerEvents = 'none';
+          sColor = theme.disabled.contrast;
+          sPointerEvents = 'none';
           if (__bg) {
-            style.background = theme.disabled.default;
+            sBackground = theme.disabled.default;
           }
         } else {
           if (__bg) {
-            style.background = theme.colorOf(__bg);
+            sBackground = theme.colorOf(__bg);
             if (__isContrast) {
-              style.color = theme.colorOf(`${__bg}:contrast`);
+              sColor = theme.colorOf(`${__bg}:contrast`);
             }
           }
-          if (!style.color && __color) {
-            style.color = theme.colorOf(__color);
+          if (!sColor && __color) {
+            sColor = theme.colorOf(__color);
           }
           if (__raised || (__elevation != null)) {
             if (!__bg) {
-              style.background = theme.background.primary.default;
+              sBackground = theme.background.primary.default;
             }
-            const backgroundColorCss = style.background !== __bg && theme.colorOf(__bg || 'background:primary', 'shadow');
-            const shadowColor = (__shadowColor && theme.colorOf(__shadowColor)) || backgroundColorCss || style.background || style.color || theme.shadow;
+            const backgroundColorCss = sBackground !== __bg && theme.colorOf(__bg || 'background:primary', 'shadow');
+            const shadowColor = (__shadowColor && theme.colorOf(__shadowColor)) || backgroundColorCss || sBackground || sColor || theme.shadow;
             if (__elevation != null) {
-              style.boxShadow = shadowBuilder(__elevation, shadowColor);
+              sBoxShadow = shadowBuilder(__elevation, shadowColor.css());
             } else {
-              style.boxShadow = shadowBuilder(3, shadowColor);
-              style['&:active'] = {
-                boxShadow: shadowBuilder(8, shadowColor)
-              };
+              sBoxShadow = shadowBuilder(3, shadowColor.css());
+              sBoxShadowActive = shadowBuilder(8, shadowColor.css());
             }
           }
         }
-        return style as any;
-      }, getNativeElement(element), this._classNameAnonymous, STYLE_PRIORITY);
+        return lyl `{
+          ${`color: ${sColor}`}
+          ${`background: ${sBackground}`}
+          ${`border: ${sBorder}`}
+          ${`pointer-events: ${sPointerEvents}`}
+          ${`box-shadow: ${sBoxShadow}`}
+          &:active {
+            ${sBoxShadowActive && `box-shadow: ${sBoxShadowActive}`}
+          }
+        }`;
+      }, STYLE_PRIORITY);
+
+      el.classList.remove(this._classNameAnonymous);
+      el.classList.add(newClass);
+      this._classNameAnonymous = newClass;
     }
 
     constructor(...args: any[]) { super(...args); }

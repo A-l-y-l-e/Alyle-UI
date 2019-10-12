@@ -114,7 +114,7 @@ const PRISM_STYLES = (theme: AUIThemeVariables) => {
         color: '#9786c5'
       },
       '&{class-name}': {
-        color: chroma(theme.accent.default).alpha(.88).css()
+        color: theme.accent.default.alpha(.88)
       },
       '&{constant}': {
         color: '#EF5350'
