@@ -1,4 +1,4 @@
-import { Color } from '@alyle/ui/color';
+import { Color, hexColorToInt } from '@alyle/ui/color';
 import { _STYLE_MAP, Styles, LyClasses } from './theme/style';
 
 export class LyStyleUtils {
@@ -53,6 +53,9 @@ export class LyStyleUtils {
   colorOf(value: string | number, optional?: string): Color {
     if (typeof value === 'number') {
       return new Color(value);
+    }
+    if (value.includes('#')) {
+      return new Color(hexColorToInt(value));
     }
     return get(this, value, optional);
   }

@@ -318,6 +318,13 @@ function interpolateRgb(rgb1: number[], rgb2: number[], f = 0.5) {
   ];
 }
 
+export function hexColorToInt(color: string) {
+  if (color.startsWith('#')) {
+    return parseInt(color.slice(1), 16);
+  }
+  throw new Error(`Expected to start with '#' the given value is: ${color}`);
+}
+
 export const color1 = new Color(0x00bcd4).alpha();
 export const colorr = new Color(0x00bcd4).alpha(1);
 export const color2 = new Color(0x00bcd4);
