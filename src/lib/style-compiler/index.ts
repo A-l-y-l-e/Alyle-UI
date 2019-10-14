@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import { findNode } from './util/util';
-import { LylParse } from './parse';
+import { LylParse } from '@alyle/ui';
 
 const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
 // const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
