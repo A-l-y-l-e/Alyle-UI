@@ -332,3 +332,4 @@ export const color3 = new Color(0x00bcd4, .5);
 export const color4 = new Color(250, 250, 250);
 export const color5 = new Color(250, 250, 250, .5);
 export const color6 = new Color(...[250, 250, 250, .5]);
+console.log(new Color(0x00bcd4).luminance());

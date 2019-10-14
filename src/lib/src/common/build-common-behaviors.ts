@@ -74,20 +74,26 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
           }
         } else {
           if (__bg) {
-            sBackground = theme.colorOf(__bg);
+            sBackground = colorOf(theme, __bg);
             if (__isContrast) {
               sColor = theme.colorOf(`${__bg}:contrast`);
+              console.log('from __iscontrast', sColor.css(), __bg);
+              // Generate auto contrast if is necessary
+              if (sColor.css().includes('invalid')) {
+                const lum = (__bg instanceof Color ? __bg : theme.colorOf(__bg)).luminance();
+                sColor = lum < 0.5 ? new Color(0xffffff) : new Color(0x000000);
+              }
             }
           }
           if (!sColor && __color) {
-            sColor = theme.colorOf(__color);
+            sColor = colorOf(theme, __color);
           }
           if (__raised || (__elevation != null)) {
             if (!__bg) {
               sBackground = theme.background.primary.default;
             }
-            const backgroundColorCss = sBackground !== __bg && theme.colorOf(__bg || 'background:primary', 'shadow');
-            const shadowColor = (__shadowColor && theme.colorOf(__shadowColor)) || backgroundColorCss || sBackground || sColor || theme.shadow;
+            const backgroundColorCss = sBackground !== __bg && colorOf(theme, __bg || 'background:primary', 'shadow');
+            const shadowColor = (__shadowColor && colorOf(theme, __shadowColor)) || backgroundColorCss || sBackground || sColor || theme.shadow;
             if (__elevation != null) {
               sBoxShadow = shadowBuilder(__elevation, shadowColor.css());
             } else {
@@ -115,4 +121,8 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
 
     constructor(...args: any[]) { super(...args); }
   };
+}
+
+function colorOf(theme: ThemeVariables, color: string | number | Color, optional?: string) {
+  return color instanceof Color ? color : theme.colorOf(color, optional);
 }
