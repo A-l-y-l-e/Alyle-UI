@@ -24,7 +24,7 @@ export interface LyAvatarTheme {
   root?: () => StyleTemplate;
 }
 
-export interface LyAvatarDefaultOptions extends LyAvatarTheme {
+export interface LyAvatarDefaultOptions {
   size?: number;
   bg?: string;
 }
@@ -139,9 +139,6 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
     super(theme);
     this.setAutoContrast();
     renderer.addClass(_elementRef.nativeElement, this.classes.root);
-    if (_defaults && _defaults.root) {
-      _hostClass.add(theme.renderStyle(_defaults.root));
-    }
   }
 
   ngOnChanges() {
