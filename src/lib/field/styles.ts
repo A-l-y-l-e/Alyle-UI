@@ -178,7 +178,7 @@ export const STYLES = (theme: ThemeVariables) => {
     },
     disabled: {
       '&, & {label}, & {container}:after': {
-        color: theme.disabled.contrast,
+        color: theme.disabled.default,
         cursor: 'default'
       }
     },

@@ -43,7 +43,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
       const __disabled = this._superHyperInternalPropertyDisabled;
       const __outlined = this._superHyperInternalPropertyOutlined;
       const __shadowColor = this._superHyperInternalPropertyShadowColor;
-      const __isContrast = this._autoContrast && !__color || __color === 'auto';
+      const __isContrast = this._autoContrast || __color === 'auto';
       const el = getNativeElement(element);
 
       const newKey = `common----:${
@@ -77,11 +77,11 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
             sBackground = colorOf(theme, __bg);
             if (__isContrast) {
               sColor = theme.colorOf(`${__bg}:contrast`);
-              console.log('from __iscontrast', sColor.css(), __bg);
+
               // Generate auto contrast if is necessary
               if (sColor.css().includes('invalid')) {
                 const lum = (__bg instanceof Color ? __bg : theme.colorOf(__bg)).luminance();
-                sColor = lum < 0.5 ? new Color(0xffffff) : new Color(0x000000);
+                sColor = lum < 0.5 ? theme.paper.default : theme.text.default;
               }
             }
           }

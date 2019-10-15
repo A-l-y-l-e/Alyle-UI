@@ -38,8 +38,8 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     shadow
   };
   disabled = {
-    default: new Color(0, 0, 0, 0.12),
-    contrast: new Color(0, 0, 0, 0.26)
+    default: new Color(0, 0, 0, 0.27),
+    contrast: new Color(0, 0, 0, 0.41)
   };
   text = {
     default: new Color(0, 0, 0, 0.87),
