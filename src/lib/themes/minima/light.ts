@@ -37,8 +37,8 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     shadow
   };
   disabled = {
-    default: 'rgba(0, 0, 0, 0.12)',
-    contrast: 'rgba(0, 0, 0, 0.26)'
+    default: 'rgba(0, 0, 0, 0.27)',
+    contrast: 'rgba(0, 0, 0, 0.41)'
   };
   text = {
     default: 'rgba(0, 0, 0, 0.87)',
