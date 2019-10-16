@@ -2,7 +2,7 @@ import { ThemeConfig, mergeDeep, shadowBuilder } from '@alyle/ui';
 import { MinimaBase } from './base';
 import { Color } from '@alyle/ui/color';
 
-const contrast = new Color(0xfff);
+const contrast = new Color(0xffffff);
 const shadow = new Color(0, 0, 0, 1);
 export class MinimaDark extends MinimaBase implements ThemeConfig {
   name = 'minima-dark';
@@ -42,8 +42,8 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     shadow
   };
   text = {
-    default: new Color(0xfff),
-    primary: new Color(0xfff),
+    default: new Color(0xffffff),
+    primary: new Color(0xffffff),
     secondary: new Color(255, 255, 255, 0.70),
     disabled: new Color(255, 255, 255, 0.50),
     hint: new Color(255, 255, 255, 0.50)
