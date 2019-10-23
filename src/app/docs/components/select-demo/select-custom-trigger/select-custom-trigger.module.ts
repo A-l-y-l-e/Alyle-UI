@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LySelectModule } from '@alyle/ui/select';
-import { LyIconModule } from '@alyle/ui/icon';
 import { LyFieldModule } from '@alyle/ui/field';
 
 import { SelectCustomTriggerComponent } from './select-custom-trigger.component';
@@ -13,8 +12,7 @@ import { SelectCustomTriggerComponent } from './select-custom-trigger.component'
     CommonModule,
     ReactiveFormsModule,
     LyFieldModule,
-    LySelectModule,
-    LyIconModule
+    LySelectModule
   ],
   exports: [SelectCustomTriggerComponent]
 })
