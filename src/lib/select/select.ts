@@ -27,7 +27,9 @@ import {
   QueryList,
   ContentChildren,
   AfterViewInit,
-  AfterContentInit
+  AfterContentInit,
+  Directive,
+  ContentChild
   } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -157,6 +159,15 @@ export class LySelectBase { }
 /** @docs-private */
 export const LySelectMixinBase = mixinTabIndex(LySelectBase as CanDisableCtor);
 
+/**
+ * Allows the user to customize the trigger that is displayed when the select has a value.
+ */
+@Directive({
+  selector: 'ly-select-trigger'
+})
+export class LySelectTrigger { }
+
+
 @Component({
   selector: 'ly-select',
   templateUrl: 'select.html',
@@ -199,11 +210,12 @@ export class LySelect
   /** Emits whenever the component is destroyed. */
   private readonly _destroy = new Subject<void>();
 
-  @ViewChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
+  @ViewChild('templateRef', { static: false }) templateRef: TemplateRef<any>;
   @ViewChild('valueText', { static: false }) valueTextDivRef: ElementRef<HTMLDivElement>;
   /** @internal */
   @ViewChild(forwardRef(() => LyOption), { static: false }) _options: QueryList<LyOption>;
   @ContentChildren(forwardRef(() => LyOption), { descendants: true }) options: QueryList<LyOption>;
+  @ContentChild(LySelectTrigger, { static: false }) customTrigger: LySelectTrigger;
 
   /**
    * The registered callback function called when a change event occurs on the input element.
