@@ -23,7 +23,7 @@ import {
   LyTheme2,
   ThemeVariables,
   toBoolean,
-  LY_COMMON_STYLES,
+  LY_COMMON_STYLES_DEPRECATED,
   Placement,
   XPosition,
   DirPosition,
@@ -64,7 +64,7 @@ export const STYLES = (theme: ThemeVariables) => ({
   },
   drawerClosed: null,
   backdrop: {
-    ...LY_COMMON_STYLES.fill,
+    ...LY_COMMON_STYLES_DEPRECATED.fill,
     backgroundColor: theme.drawer.backdrop
   },
   transition: {

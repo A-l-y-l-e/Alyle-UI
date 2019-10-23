@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LyTheme2, ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, LY_COMMON_STYLES_DEPRECATED } from '@alyle/ui';
 
 export const STYLES = (theme: ThemeVariables) => ({
   root: {
@@ -76,7 +76,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     background: 'currentColor'
   },
   rippleContainer: {
-    ...LY_COMMON_STYLES.fill,
+    ...LY_COMMON_STYLES_DEPRECATED.fill,
     overflow: 'hidden'
   }
 });

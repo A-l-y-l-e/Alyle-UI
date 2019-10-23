@@ -17,7 +17,7 @@ import {
   OnDestroy
   } from '@angular/core';
 import {
-  LY_COMMON_STYLES,
+  LY_COMMON_STYLES_DEPRECATED,
   LyFocusState,
   LyRippleService,
   LyTheme2,
@@ -48,7 +48,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     '&': theme.list ? theme.list.root : null
   },
   listItem: {
-    ...LY_COMMON_STYLES.button,
+    ...LY_COMMON_STYLES_DEPRECATED.button,
     fontFamily: theme.typography.fontFamily,
     fontSize: theme.pxToRem(16),
     color: theme.text.default,
@@ -64,7 +64,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     borderRadius: 0,
     '&::after': {
       content: `''`,
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       width: '100%',
       height: '100%',
       background: 'transparent',

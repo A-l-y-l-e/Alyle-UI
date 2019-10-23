@@ -17,7 +17,7 @@ import {
 import { LyTheme2,
   ThemeVariables,
   toBoolean,
-  LY_COMMON_STYLES,
+  LY_COMMON_STYLES_DEPRECATED,
   getLyThemeStyleUndefinedError,
   HammerInput,
   toNumber,
@@ -48,7 +48,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     boxSizing: 'border-box',
     cursor: 'pointer',
     '{bg}': {
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       margin: 'auto'
     },
     [
@@ -112,7 +112,7 @@ const STYLES = (theme: ThemeVariablesWithSlider) => ({
     }ms ${theme.animations.curves.standard} 0ms`).join(),
     '&::before': {
       content: `''`,
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       borderRadius: '50%',
       transition: ['box-shadow'].map(prop => `${prop} ${
         theme.animations.durations.entering

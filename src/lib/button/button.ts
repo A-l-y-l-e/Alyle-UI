@@ -27,14 +27,114 @@ import {
   mixinStyleUpdater,
   LyRippleService,
   LyFocusState,
-  getLyThemeVariableUndefinedError
+  getLyThemeVariableUndefinedError,
+  StyleTemplate,
+  LyClasses,
+  lyl,
+  LY_COMMON_STYLES,
+  ThemeRef
 } from '@alyle/ui';
-import { STYLES } from './button.style';
+
+import { Color } from '@alyle/ui/color';
+
+export interface LyButtonTheme {
+  /** Styles for Button Component */
+  root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
+  appearance?: {
+    icon?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    fab?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    miniFab?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+  };
+}
+
+export interface LyButtonDefaultOptions {
+  size?: number;
+  appearance?: string;
+}
+
+export interface LyButtonVariables {
+  button?: LyButtonTheme;
+}
 
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
 
 export type LyButtonSize = 'small' | 'medium' | 'large';
+
+export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef) => {
+  const typography = theme.typography;
+  const button = ref.getClasses(STYLES);
+  return {
+    root: () => lyl `{
+      font-family: ${typography.fontFamily}
+      color: ${theme.text.default}
+      -webkit-tap-highlight-color: transparent
+      background-color: ${new Color(0, 0, 0, 0)}
+      border: 0
+      padding: 0 1em
+      -moz-appearance: none
+      margin: 0
+      border-radius: 3px
+      outline: none
+      font-weight: 500
+      box-sizing: border-box
+      position: relative
+      justify-content: center
+      align-items: center
+      align-content: center
+      display: inline-flex
+      cursor: pointer
+      -webkit-user-select: none
+      -moz-user-select: none
+      -ms-user-select: none
+      user-select: none
+      text-decoration-line: none
+      -webkit-text-decoration-line: none
+      font-size: ${theme.pxToRem(14)}
+      &::-moz-focus-inner: {
+        border: 0
+      },
+      &::after': {
+        content: ''
+        ...${LY_COMMON_STYLES.fill},
+        width: 100%
+        height: 100%
+        background: transparent
+        opacity: 0
+        pointer-events: none
+      },
+      &${button.onFocusByKeyboard}::after, &:hover::after: {
+        background: currentColor
+        opacity: .13
+        border-radius: inherit
+      },
+      {
+        ...${
+          (theme.button
+            && theme.button.root
+            && theme.button.root(button)) || null
+        }
+      }
+    }`,
+    content: lyl `{
+      padding: 0
+      display: flex
+      justify-content: inherit
+      align-items: inherit
+      align-content: inherit
+      width: 100%
+      height: 100%
+      box-sizing: border-box
+    }`,
+    /** test */
+    onFocusByKeyboard: null,
+    animations: `{
+      &:hover, &:hover::after, &:focus, &:focus::after {
+        transition: background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms
+      }
+    }`
+  };
+};
 
 /** @docs-private */
 export class LyButtonBase {

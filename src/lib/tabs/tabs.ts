@@ -42,7 +42,7 @@ import {
   Dir,
   LyRippleService,
   LyFocusState,
-  LY_COMMON_STYLES,
+  LY_COMMON_STYLES_DEPRECATED,
   WinResize,
   scrollWithAnimation,
   toBoolean
@@ -142,7 +142,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     background: 'currentColor'
   },
   rippleContainer: {
-    ...LY_COMMON_STYLES.fill,
+    ...LY_COMMON_STYLES_DEPRECATED.fill,
     overflow: 'hidden'
   },
   scrollable: null

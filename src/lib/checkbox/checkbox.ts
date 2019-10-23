@@ -17,7 +17,7 @@ import {
   } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
-  LY_COMMON_STYLES,
+  LY_COMMON_STYLES_DEPRECATED,
   LyCoreStyles as LyCommonStyles,
   LyFocusState,
   LyTheme2,
@@ -78,7 +78,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     userSelect: 'none',
     '&::before, &::after': {
       content: `''`,
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       width: '16px',
       height: '16px',
       margin: 'auto',
@@ -111,7 +111,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     }
   },
   input: {
-    ...LY_COMMON_STYLES.visuallyHidden
+    ...LY_COMMON_STYLES_DEPRECATED.visuallyHidden
   },
   onFocusByKeyboard: { },
   disabled: {

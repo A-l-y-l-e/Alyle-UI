@@ -1,4 +1,4 @@
-import { ThemeVariables, LY_COMMON_STYLES } from '@alyle/ui';
+import { ThemeVariables, LY_COMMON_STYLES_DEPRECATED } from '@alyle/ui';
 
 export const STYLE_SELECT_ARROW = ({
   '&:after': {
@@ -50,14 +50,14 @@ export const STYLES = (theme: ThemeVariables) => {
       position: 'relative',
       '-webkit-tap-highlight-color': 'transparent',
       '&:after': {
-        ...LY_COMMON_STYLES.fill,
+        ...LY_COMMON_STYLES_DEPRECATED.fill,
         content: `\'\'`,
         pointerEvents: 'none',
         borderColor: field.borderColor
       }
     },
     fieldset: {
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       margin: 0,
       borderStyle: 'solid',
       borderColor: field.borderColor,
@@ -90,7 +90,7 @@ export const STYLES = (theme: ThemeVariables) => {
       alignItems: 'center'
     },
     labelContainer: {
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       pointerEvents: 'none',
       display: 'flex',
       width: '100%',
@@ -105,7 +105,7 @@ export const STYLES = (theme: ThemeVariables) => {
       flex: 1
     },
     label: {
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       margin: 0,
       border: 'none',
       pointerEvents: 'none',
@@ -122,7 +122,7 @@ export const STYLES = (theme: ThemeVariables) => {
       }
     },
     placeholder: {
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       pointerEvents: 'none',
       color: field.labelColor
     },

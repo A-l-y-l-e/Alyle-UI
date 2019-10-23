@@ -24,7 +24,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinDisableRipple, ThemeVariables, LyFocusState, LY_COMMON_STYLES } from '@alyle/ui';
+import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinDisableRipple, ThemeVariables, LyFocusState, LY_COMMON_STYLES_DEPRECATED } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_DISABLE_RIPPLE = false;
@@ -97,7 +97,7 @@ export const STYLES = (theme: ThemeVariables) => ({
     },
     '&::after': {
       content: `''`,
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       width: '16px',
       height: '16px',
       margin: 'auto'

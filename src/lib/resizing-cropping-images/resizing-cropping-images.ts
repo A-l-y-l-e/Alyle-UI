@@ -11,7 +11,7 @@ import {
   HostListener,
   OnDestroy
 } from '@angular/core';
-import { LyTheme2, mergeDeep, LY_COMMON_STYLES, ThemeVariables } from '@alyle/ui';
+import { LyTheme2, mergeDeep, LY_COMMON_STYLES_DEPRECATED, ThemeVariables } from '@alyle/ui';
 import { Subscription, Observable } from 'rxjs';
 
 const STYLE_PRIORITY = -2;
@@ -44,10 +44,10 @@ const STYLES = (theme: ThemeVariables) => ({
   area: {
     pointerEvents: 'none',
     boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.4)',
-    ...LY_COMMON_STYLES.fill,
+    ...LY_COMMON_STYLES_DEPRECATED.fill,
     margin: 'auto',
     '&:before, &:after': {
-      ...LY_COMMON_STYLES.fill,
+      ...LY_COMMON_STYLES_DEPRECATED.fill,
       content: `''`,
     },
     '&:before': {
@@ -66,7 +66,7 @@ const STYLES = (theme: ThemeVariables) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    '&, & > input': LY_COMMON_STYLES.fill,
+    '&, & > input': LY_COMMON_STYLES_DEPRECATED.fill,
     '& *:not(input)': {
       pointerEvents: 'none'
     },

@@ -10,7 +10,7 @@ import {
   Renderer2
   } from '@angular/core';
 import {
-  LY_COMMON_STYLES,
+  LY_COMMON_STYLES_DEPRECATED,
   LyFocusState,
   LyOverlay,
   LyTheme2,
@@ -30,7 +30,7 @@ const STYLE_PRIORITY = -2;
 const styles = (theme: ThemeVariables) => ({
   $priority: STYLE_PRIORITY,
   root: {
-    ...LY_COMMON_STYLES.fill,
+    ...LY_COMMON_STYLES_DEPRECATED.fill,
     '&': theme.tooltip ? theme.tooltip.root : null
   }
 });
