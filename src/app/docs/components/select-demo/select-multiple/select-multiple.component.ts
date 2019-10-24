@@ -6,6 +6,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectMultipleComponent {
-  items = Array.from(Array(25).keys());
+  items = Array.from(Array(9).keys());
   selecteds = [2, 4];
 }

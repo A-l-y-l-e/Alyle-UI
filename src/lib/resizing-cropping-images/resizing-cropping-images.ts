@@ -9,10 +9,12 @@ import {
   EventEmitter,
   Renderer2,
   HostListener,
-  OnDestroy
+  OnDestroy,
+  NgZone
 } from '@angular/core';
 import { LyTheme2, mergeDeep, LY_COMMON_STYLES_DEPRECATED, ThemeVariables } from '@alyle/ui';
 import { Subscription, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 const STYLE_PRIORITY = -2;
 
@@ -260,7 +262,8 @@ export class LyResizingCroppingImages implements OnDestroy {
     private _renderer: Renderer2,
     private theme: LyTheme2,
     private elementRef: ElementRef<HTMLElement>,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _ngZone: NgZone
   ) {
     this._renderer.addClass(elementRef.nativeElement, this.classes.root);
   }
@@ -290,8 +293,8 @@ export class LyResizingCroppingImages implements OnDestroy {
     y?: number
   }) {
     const newStyles = { } as any;
-    const rootRect = this._rootRect();
     if (values.x !== void 0 && values.y !== void 0) {
+      const rootRect = this._rootRect();
       const x = rootRect.width / 2 - (values.x);
       const y = rootRect.height / 2 - (values.y);
 
@@ -299,10 +302,13 @@ export class LyResizingCroppingImages implements OnDestroy {
       this._imgRect.y = (values.y);
       this._imgRect.xc = (x);
       this._imgRect.yc = (y);
+
     }
     newStyles.transform = `translate3d(${(this._imgRect.x)}px,${(this._imgRect.y)}px, 0)`;
     newStyles.transform += `scale(${this._scal3Fix})`;
     newStyles.transformOrigin = `${this._imgRect.xc}px ${this._imgRect.yc}px 0`;
+    newStyles['-webkit-transform'] = newStyles.transform;
+    newStyles['-webkit-transform-origin'] = newStyles.transformOrigin;
     for (const key in newStyles) {
       if (newStyles.hasOwnProperty(key)) {
         this._renderer.setStyle(this._imgContainer.nativeElement, key, newStyles[key]);
@@ -531,8 +537,8 @@ export class LyResizingCroppingImages implements OnDestroy {
       x = this._imgRect.xc;
       y = this._imgRect.yc;
     }
-    x = (croppingContainerRect.x - hostRect.x) - (x! - (this.config.width / 2));
-    y = (croppingContainerRect.y - hostRect.y) - (y! - (this.config.height / 2));
+    x = (croppingContainerRect.left - hostRect.left) - (x! - (this.config.width / 2));
+    y = (croppingContainerRect.top - hostRect.top) - (y! - (this.config.height / 2));
     this._setStylesForContImg({
       x, y
     });
@@ -603,7 +609,7 @@ export class LyResizingCroppingImages implements OnDestroy {
   setImageUrl(src: string, fn?: () => void) {
     this.clean();
     this._originalImgBase64 = src;
-    const img = new Image;
+    const img = new Image();
 
     const fileSize = this._sizeInBytes;
     const fileName = this._fileName;
@@ -625,10 +631,10 @@ export class LyResizingCroppingImages implements OnDestroy {
 
       img.onerror = err => obs.error(err);
       img.onabort = err => obs.error(err);
-      img.onload = () => setTimeout(() => {
+      img.onload = () => {
         obs.next(null!);
         obs.complete();
-      }, 0);
+      };
     })
     .subscribe({
       next: () => {
@@ -637,23 +643,29 @@ export class LyResizingCroppingImages implements OnDestroy {
         cropEvent.height = img.height;
         this._isLoadedImg = true;
         this.cd.markForCheck();
-        this.cd.detectChanges();
-        Promise.resolve(null!).then(() => {
-          // ...
-          this._updateMinScale(this._imgCanvas.nativeElement);
-          this.isLoaded = false;
 
-          if (fn) {
-            fn();
-          } else {
-            this.setScale(this.minScale, true);
-          }
+        this._ngZone
+          .onStable
+          .pipe(take(1))
+          .subscribe(
+            () => setTimeout(() => this._ngZone.run(() => {
 
-          this.loaded.emit(cropEvent);
-          this.isLoaded = true;
-          this._cropIfAutoCrop();
-          this.cd.markForCheck();
-        });
+              this._updateMinScale(this._imgCanvas.nativeElement);
+              this.isLoaded = false;
+
+              if (fn) {
+                fn();
+              } else {
+                this.setScale(this.minScale, true);
+              }
+
+              this.loaded.emit(cropEvent);
+              this.isLoaded = true;
+              this._cropIfAutoCrop();
+              this.cd.markForCheck();
+            }), 0)
+          );
+
         this._listeners.delete(loadListen);
         this.ngOnDestroy();
       },
@@ -684,16 +696,20 @@ export class LyResizingCroppingImages implements OnDestroy {
     ctx.clearRect(0, 0, canvasClon.width, canvasClon.height);
 
     // rotate canvas image
-    this._renderer.setStyle(canvas, 'transform', `rotate(${validDegrees}deg) scale(${1 / this._scal3Fix!})`);
-    this._renderer.setStyle(canvas, 'transformOrigin', `${this._imgRect.xc}px ${this._imgRect.yc}px 0`);
-    const { x, y } = canvas.getBoundingClientRect() as DOMRect;
+    const transform = `rotate(${validDegrees}deg) scale(${1 / this._scal3Fix!})`;
+    const transformOrigin = `${this._imgRect.xc}px ${this._imgRect.yc}px 0`;
+    canvas.style.transform = transform;
+    canvas.style.webkitTransform = transform;
+    canvas.style.transformOrigin = transformOrigin;
+    canvas.style.webkitTransformOrigin = transformOrigin;
+
+    const { left, top } = canvas.getBoundingClientRect() as DOMRect;
 
     // save rect
     const canvasRect = canvas.getBoundingClientRect();
 
     // remove rotate styles
-    this._renderer.removeStyle(canvas, 'transform');
-    this._renderer.removeStyle(canvas, 'transformOrigin');
+    canvas.removeAttribute('style');
 
     // set w & h
     const w = canvasRect.width;
@@ -718,9 +734,10 @@ export class LyResizingCroppingImages implements OnDestroy {
     } //                ↑ no AutoCrop
 
     const rootRect = this._rootRect();
+
     this._setStylesForContImg({
-      x: (x - rootRect.x),
-      y: (y - rootRect.y)
+      x: (left - rootRect.left),
+      y: (top - rootRect.top)
     });
 
     // keep image inside the frame

@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { LyCommonModule, LyOverlayModule } from '@alyle/ui';
 import { LyCheckboxModule } from '@alyle/ui/checkbox';
 
-import { LySelect, LyOption } from './select';
+import { LySelect, LyOption, LySelectTrigger } from './select';
 
 @NgModule({
-  declarations: [LySelect, LyOption],
+  declarations: [LySelect, LyOption, LySelectTrigger],
   imports: [
     CommonModule,
     LyCommonModule,
     LyCheckboxModule,
     LyOverlayModule
   ],
-  exports: [LySelect, LyOption, LyCommonModule]
+  exports: [LySelect, LyOption, LySelectTrigger, LyCommonModule]
 })
 export class LySelectModule { }
