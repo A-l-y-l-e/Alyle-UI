@@ -118,7 +118,10 @@ export const STYLES = (theme: ThemeVariables) => ({
   },
   optionText: {
     'ly-checkbox ~ &': {
-      marginBefore: '-16px'
+      marginBefore: '-16px',
+      display: 'flex',
+      alignItems: 'inherit',
+      alignContent: 'inherit'
     }
   },
   content: {
