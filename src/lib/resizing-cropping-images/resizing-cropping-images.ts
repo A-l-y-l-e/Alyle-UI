@@ -293,8 +293,8 @@ export class LyResizingCroppingImages implements OnDestroy {
     y?: number
   }) {
     const newStyles = { } as any;
-    const rootRect = this._rootRect();
     if (values.x !== void 0 && values.y !== void 0) {
+      const rootRect = this._rootRect();
       const x = rootRect.width / 2 - (values.x);
       const y = rootRect.height / 2 - (values.y);
 
@@ -302,6 +302,7 @@ export class LyResizingCroppingImages implements OnDestroy {
       this._imgRect.y = (values.y);
       this._imgRect.xc = (x);
       this._imgRect.yc = (y);
+
     }
     newStyles.transform = `translate3d(${(this._imgRect.x)}px,${(this._imgRect.y)}px, 0)`;
     newStyles.transform += `scale(${this._scal3Fix})`;
@@ -536,8 +537,8 @@ export class LyResizingCroppingImages implements OnDestroy {
       x = this._imgRect.xc;
       y = this._imgRect.yc;
     }
-    x = (croppingContainerRect.x - hostRect.x) - (x! - (this.config.width / 2));
-    y = (croppingContainerRect.y - hostRect.y) - (y! - (this.config.height / 2));
+    x = (croppingContainerRect.left - hostRect.left) - (x! - (this.config.width / 2));
+    y = (croppingContainerRect.top - hostRect.top) - (y! - (this.config.height / 2));
     this._setStylesForContImg({
       x, y
     });
@@ -630,10 +631,10 @@ export class LyResizingCroppingImages implements OnDestroy {
 
       img.onerror = err => obs.error(err);
       img.onabort = err => obs.error(err);
-      img.onload = () => setTimeout(() => {
+      img.onload = () => {
         obs.next(null!);
         obs.complete();
-      }, 0);
+      };
     })
     .subscribe({
       next: () => {
@@ -647,7 +648,7 @@ export class LyResizingCroppingImages implements OnDestroy {
           .onStable
           .pipe(take(1))
           .subscribe(
-            () => this._ngZone.run(() => {
+            () => setTimeout(() => this._ngZone.run(() => {
 
               this._updateMinScale(this._imgCanvas.nativeElement);
               this.isLoaded = false;
@@ -662,7 +663,7 @@ export class LyResizingCroppingImages implements OnDestroy {
               this.isLoaded = true;
               this._cropIfAutoCrop();
               this.cd.markForCheck();
-            })
+            }), 0)
           );
 
         this._listeners.delete(loadListen);
@@ -702,9 +703,7 @@ export class LyResizingCroppingImages implements OnDestroy {
     canvas.style.transformOrigin = transformOrigin;
     canvas.style.webkitTransformOrigin = transformOrigin;
 
-    const { x, y } = canvas.getBoundingClientRect() as DOMRect;
-
-    console.log(transform, transformOrigin, { ...this._imgRect });
+    const { left, top } = canvas.getBoundingClientRect() as DOMRect;
 
     // save rect
     const canvasRect = canvas.getBoundingClientRect();
@@ -735,9 +734,10 @@ export class LyResizingCroppingImages implements OnDestroy {
     } //                ↑ no AutoCrop
 
     const rootRect = this._rootRect();
+
     this._setStylesForContImg({
-      x: (x - rootRect.x),
-      y: (y - rootRect.y)
+      x: (left - rootRect.left),
+      y: (top - rootRect.top)
     });
 
     // keep image inside the frame
