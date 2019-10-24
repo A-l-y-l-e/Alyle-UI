@@ -1,3 +1,7 @@
+## [2.9.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.5...2.9.6) (2019-10-24)
+
+
+
 ## [2.9.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.4...2.9.5) (2019-10-24)
 
 
