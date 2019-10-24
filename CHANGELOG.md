@@ -1,3 +1,23 @@
+## [2.9.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.4...2.9.5) (2019-10-24)
+
+
+### Bug Fixes
+
+* **cropper:** fix some bugs ([eb64361](https://github.com/A-l-y-l-e/Alyle-UI/commit/eb64361))
+* **cropper:** support for Ionic ([f539e34](https://github.com/A-l-y-l-e/Alyle-UI/commit/f539e34))
+* **slider:** always emit the input event ([ee866a0](https://github.com/A-l-y-l-e/Alyle-UI/commit/ee866a0))
+* increase 15% alpha for disabled state ([0dd2cce](https://github.com/A-l-y-l-e/Alyle-UI/commit/0dd2cce))
+* partial support for ionic ([b7ec72f](https://github.com/A-l-y-l-e/Alyle-UI/commit/b7ec72f))
+
+
+### Features
+
+* **cropper:** support for Ionic ([0acf7d9](https://github.com/A-l-y-l-e/Alyle-UI/commit/0acf7d9))
+* **select:** add custom trigger ([d7741ce](https://github.com/A-l-y-l-e/Alyle-UI/commit/d7741ce))
+* **select:** correctly align the elements inside `ly-option` ([f4d445d](https://github.com/A-l-y-l-e/Alyle-UI/commit/f4d445d))
+
+
+
 ## [2.9.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.3...2.9.4) (2019-09-15)
 
 
