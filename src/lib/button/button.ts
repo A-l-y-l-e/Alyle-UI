@@ -126,7 +126,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
       height: 100%
       box-sizing: border-box
     }`,
-    /** test */
+    /** When focus by keyboard */
     onFocusByKeyboard: null,
     animations: `{
       &:hover, &:hover::after, &:focus, &:focus::after {

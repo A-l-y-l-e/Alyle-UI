@@ -81,15 +81,18 @@ export interface Keyframes {
   };
 }
 
-// Convert all properties to `string` type, and exclude properties that not is class name
-export type LyClasses<T> = {
+type LyClassesProperties<T> = {
   [
-    P in Exclude<keyof (
-      T extends (...args: any[]) => infer R ? R: T
-    ), '$name' | '$keyframes' | '@global' | '$priority' | '$global'>
+    P in keyof (
+      T extends ((theme: any, ref?: any) => infer R) ? R : T
+    )
   ]: string;
 };
 
+// Convert all properties to `string` type, and exclude properties that not is class name
+export type LyClasses<T> = Omit<LyClassesProperties<T>, '$name' | '$keyframes' | '@global' | '$priority' | '$global'>;
+
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
 type LyComponentStyleItem<COMPONENT, INPUTS extends keyof COMPONENT> = {
   [P in INPUTS]: (theme: ThemeVariables, value: COMPONENT[P]) => StyleContainer
