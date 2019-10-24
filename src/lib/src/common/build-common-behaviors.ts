@@ -95,10 +95,10 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
             const backgroundColorCss = sBackground !== __bg && colorOf(theme, __bg || 'background:primary', 'shadow');
             const shadowColor = (__shadowColor && colorOf(theme, __shadowColor)) || backgroundColorCss || sBackground || sColor || theme.shadow;
             if (__elevation != null) {
-              sBoxShadow = shadowBuilder(__elevation, shadowColor.css());
+              sBoxShadow = shadowBuilder(__elevation, shadowColor);
             } else {
-              sBoxShadow = shadowBuilder(3, shadowColor.css());
-              sBoxShadowActive = shadowBuilder(8, shadowColor.css());
+              sBoxShadow = shadowBuilder(3, shadowColor);
+              sBoxShadowActive = shadowBuilder(8, shadowColor);
             }
           }
         }

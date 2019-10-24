@@ -72,7 +72,7 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     root: {
       background: new Color(0xfafafa).css(),
       color: new Color(0, 0, 0, .87).css(),
-      boxShadow: shadowBuilder(4, new Color(0xfafafa).css())
+      boxShadow: shadowBuilder(4, new Color(0xfafafa))
     }
   };
   tooltip = {

@@ -507,7 +507,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
   /** Color of Slider */
   @Input()
-  get color() {
+  get color(): string {
     return this._color;
   }
   set color(val: string) {
@@ -517,7 +517,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     const newStyle = (theme: ThemeVariablesWithSlider) => {
       const color = theme.colorOf(val);
-      return theme.slider.appearance![appearance].color(theme, color.css());
+      return theme.slider.appearance![appearance].color(theme, color);
     };
     this._colorClass = this._theme.addStyle(
       styleKey,
