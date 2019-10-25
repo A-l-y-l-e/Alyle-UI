@@ -37,13 +37,15 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
     }
     updateStyle(element: ElementRef<any> | HTMLElement) {
       const __bg = this._superHyperInternalPropertyBg;
-      const __color = this._superHyperInternalPropertyColor;
+      const __color = this._superHyperInternalPropertyColor === 'auto'
+        ? ''
+        : this._superHyperInternalPropertyColor;
       const __raised = this._superHyperInternalPropertyRaised;
       const __elevation = this._superHyperInternalPropertyElevation;
       const __disabled = this._superHyperInternalPropertyDisabled;
       const __outlined = this._superHyperInternalPropertyOutlined;
       const __shadowColor = this._superHyperInternalPropertyShadowColor;
-      const __isContrast = this._autoContrast || __color === 'auto';
+      const __isContrast = this._autoContrast || this._superHyperInternalPropertyColor === 'auto';
       const el = getNativeElement(element);
 
       const newKey = `common----:${
@@ -75,7 +77,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
         } else {
           if (__bg) {
             sBackground = colorOf(theme, __bg);
-            if (__isContrast) {
+            if (__isContrast && !__color) {
               sColor = theme.colorOf(`${__bg}:contrast`);
 
               // Generate auto contrast if is necessary
