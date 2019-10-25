@@ -107,22 +107,7 @@ Import in `src/main.ts`
 import 'hammerjs';
 ```
 
-<h2 lyTyp="headline" gutter>Step 4: Install Chroma.js</h2>
-
-<a
-  href="https://github.com/gka/chroma.js">Chroma.js</a> is necessary to create the shadows for the <code class="html"><button ly-button>, <ly-paper>, <ly-card></code> and others.
-
-```bash
-yarn add chroma-js
-```
-
-<p>or</p>
-
-```bash
-npm install --save chroma-js
-```
-
-<h2 lyTyp="headline" gutter>Step 5: Applies styles to AppComponent</h2>
+<h2 lyTyp="headline" gutter>Step 4: Applies styles to AppComponent</h2>
 
 This applies styles using the theme variables to the `<body>` element.
 
@@ -150,7 +135,7 @@ export class AppComponent {
 }
 ```
 
-<h2 lyTyp="headline" gutter>Step 6: Use the components</h2>
+<h2 lyTyp="headline" gutter>Step 5: Use the components</h2>
 
 ```html
 <button ly-button raised>Hello World</button>
