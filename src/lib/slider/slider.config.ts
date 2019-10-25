@@ -14,7 +14,7 @@ interface LySliderStyleConfig extends Omit<LySlider, 'disabled' | 'color'> {
   /**
    * @param value Color
    */
-  disabled: string;
+  disabled: Color;
   color: Color;
 }
 

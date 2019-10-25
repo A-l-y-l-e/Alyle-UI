@@ -621,8 +621,8 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
         if (!this._theme.existStyle(styleKey)) {
           const color = this.color;
           newStyle = (theme: ThemeVariablesWithSlider) => {
-            const colorCss = theme.colorOf(color).css();
-            return theme.slider.appearance![appearance].disabled(theme, colorCss);
+            const clr = theme.colorOf(color);
+            return theme.slider.appearance![appearance].disabled(theme, clr);
           };
         }
         const newClass = this._theme.addStyle(

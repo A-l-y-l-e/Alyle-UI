@@ -42,7 +42,9 @@ export class Color {
     return new Color(...color);
   }
 
-  luminance(lum?: number): number | Color {
+  luminance(): number;
+  luminance(lum: number): Color;
+  luminance(lum?: number) {
     if (lum === void 0) {
       return rgbToLuminance(...(this._color as [number, number, number]));
     }

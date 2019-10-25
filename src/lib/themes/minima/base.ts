@@ -6,13 +6,10 @@ import {
 } from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
-import * as _chroma from 'chroma-js';
 
 import { LyAvatarVariables, LyAvatarTheme } from '@alyle/ui/avatar';
 import { ExpansionVariables, ExpansionConfig } from '@alyle/ui/expansion';
 import { SliderVariables } from '@alyle/ui/slider';
-
-const chroma = _chroma;
 
 export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAvatarVariables {
   typography = {
@@ -214,13 +211,13 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAv
             backgroundColor: color
           },
           '&:not({disabled}) {thumbContentFocused} {thumb}::before, &:not({disabled}) {thumb}:hover::before': {
-            boxShadow: `0 0 0 8px ${chroma(color).alpha(.13).css()}`
+            boxShadow: `0 0 0 8px ${color.alpha(.13)}`
           },
           '&{sliding} {thumbContentFocused} {thumb}::before': {
-            boxShadow: `0 0 0 16px ${chroma(color).alpha(.13).css()}`
+            boxShadow: `0 0 0 16px ${color.alpha(.13)}`
           },
           '{tickActive}': {
-            backgroundColor: chroma(color).luminance(0.6).css()
+            backgroundColor: color.luminance(0.6)
           },
           '{bg}': {
             opacity: .3
@@ -248,7 +245,7 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAv
           }, { } as StyleContainer)
         }),
         disabled: (theme, color) => {
-          const colorDisabled = chroma(color).darken(2)
+          const colorDisabled = color.darken(2)
           .desaturate(2.5);
           return ({
             '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {

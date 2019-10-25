@@ -23,7 +23,6 @@ try {
   ANGULAR_CORE_VERSION = '*';
 }
 const HAMMERJS_VERSION = '^2.0.8';
-const CHROMA_JS_VERSION = '^2.0.2';
 
 /**
  * Sorts the keys of the given object.
@@ -49,7 +48,6 @@ function installPkgs(options: Schema): Rule {
     _context.logger.debug('installPkgs');
     addPkg(host, '@angular/animations', ANGULAR_CORE_VERSION);
     addPkg(host, '@alyle/ui', `^${AUI_VERSION}`);
-    addPkg(host, 'chroma-js', CHROMA_JS_VERSION);
     if (options.gestures) {
       addPkg(host, 'hammerjs', HAMMERJS_VERSION);
     }
