@@ -1,18 +1,19 @@
 import * as ts from 'typescript';
 import { findNode } from './util/util';
-import { LylParse } from '@alyle/ui';
+import { LylParse } from '../src/parse';
 
 const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
 // const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
 const REPLACE_ID_REGEX = /\[ei([\w]+)\]/g;
+const REPLACE_IMPORT_LYL = /import {[^}]*(lyl)[^}]*} from '@alyle\/ui';/;
 
 console.log('starting..');
 
 const fileContent = `
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LyTheme2, LyHostClass } from '@alyle/ui';
+import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
 
 import { AUIThemeVariables } from '@app/app.module';
 import { AUIRoutesMap } from '../routes';
@@ -182,11 +183,12 @@ export function StyleCompiler(content: string) {
   //   }));
   //   return `${styleBlock}`;
   // });
-  return result;
+  return result.replace(REPLACE_IMPORT_LYL, (full: string, item: string) => full.replace(item, 'styleTemplateToString'));
 }
 
 // tslint:disable-next-line: no-unused-expression
-StyleCompiler(fileContent);
+const compiled = StyleCompiler(fileContent);
+console.log(compiled);
 
 // function taggedTemplateToString(node: ts.TaggedTemplateExpression | ts.ArrowFunction) {
 //   if (ts.isTaggedTemplateExpression(node)) {

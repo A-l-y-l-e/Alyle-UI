@@ -73,14 +73,21 @@ export class LylParse {
           }
         }
       } else if (fullLine.startsWith('/* >> ds')) {
+        selector = this._resolveSelectors(selectors);
         const lin = fullLine;
         // Ignore compiled css
-        rules.set(createUniqueCommentSelector('ds'), lin);
-        fullLine = lin;
+        rules.set(`${createUniqueCommentSelector('compiled')}${selector}`, lin);
+        // fullLine = lin;
         // /** For non LylModule< */else {
         //   fullLine = `\${(${lin.slice(2, lin.length - 1)})(\`${selector}\`)}`;
         //   rules.set(createUniqueCommentSelector('ds'), fullLine);
         // } /** for non LylModule>  */
+      } else if (fullLine.startsWith('...')) {
+        // for non LylModule>
+        const content = fullLine.slice(3);
+        selector = this._resolveSelectors(selectors);
+        // Ignore compiled css
+        rules.set(`${createUniqueCommentSelector('cc')}${selector}`, content);
       } else {
         if (fullLine) {
           if (fullLine.includes('undefined')) {
@@ -99,11 +106,15 @@ export class LylParse {
       .filter(rule => rule[1])
       .map(rule => {
         const sel = rule[0];
-        // For non LylModule<
-        // others type of style
+        const content = rule[1];
 
-        if (sel.startsWith('/* >> ds')) {
-          return rule[1];
+        if (content.startsWith('/* >> ds')) {
+          return content.replace('||&||', sel);
+        }
+        if (sel.startsWith('/* >> cc')) {
+          let variable = content.slice(2, content.length - 1);
+          variable = `styleTemplateToString((${variable}), \`${sel}\`)`;
+          return `\${${variable}}`;
         }
         // for non LylModule>
 
@@ -148,7 +159,7 @@ export class LylParse {
 
 export type StyleTemplate = (className: string) => string;
 
-export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | number | StyleTemplate | (() => StyleTemplate) | null | undefined)[]) {
+export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | (() => StyleTemplate) | null | undefined)[]) {
 
   return (className: string) => {
     let result = '';
@@ -173,11 +184,7 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
     const css = result.replace(STYLE_TEMPLATE_REGEX, (str) => {
       if (dsMap.has(str)) {
         const fn = dsMap.get(str)!;
-        if (fn.length) {
-          return `${createUniqueCommentSelector('ds')}${fn(className)}`;
-        } else {
-          return `${createUniqueCommentSelector('ds')}${(fn as (() => StyleTemplate))()(className)}`;
-        }
+        return createCompiledStyleTemplate(fn);
       }
       return '';
     });
@@ -191,4 +198,33 @@ function createUniqueId() {
 
 function createUniqueCommentSelector(text = 'id') {
   return `/* >> ${text} -- ${Math.floor(new Date().valueOf() * Math.random()).toString(36)} */`;
+}
+
+export class StyleCollection {
+  private _templates: StyleTemplate[];
+  constructor(...templates: StyleTemplate[]) {
+    this._templates = templates;
+  }
+
+  toString() {
+    let lin = '';
+    const templates = this._templates;
+    for (let index = 0; index < templates.length; index++) {
+      lin += createCompiledStyleTemplate(templates[index]);
+    }
+    return lin;
+  }
+
+  add(...templates: StyleTemplate[]) {
+    return [...this._templates, ...templates];
+  }
+
+}
+
+function createCompiledStyleTemplate(fn: StyleTemplate | (() => StyleTemplate)) {
+  if (fn.length) {
+    return `${createUniqueCommentSelector('ds')}${fn('||&||')}`;
+  } else {
+    return `${createUniqueCommentSelector('ds')}${(fn as (() => StyleTemplate))()('||&||')}`;
+  }
 }

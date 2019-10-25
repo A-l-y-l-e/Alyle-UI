@@ -91,23 +91,25 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
       text-decoration-line: none
       -webkit-text-decoration-line: none
       font-size: ${theme.pxToRem(14)}
-      &::-moz-focus-inner: {
+      &::-moz-focus-inner {
         border: 0
-      },
-      &::after': {
+      }
+      &::after {
         content: ''
-        ...${LY_COMMON_STYLES.fill},
+        {
+          ...${LY_COMMON_STYLES.fill}
+        }
         width: 100%
         height: 100%
         background: transparent
         opacity: 0
         pointer-events: none
-      },
-      &${button.onFocusByKeyboard}::after, &:hover::after: {
+      }
+      &${button.onFocusByKeyboard}::after, &:hover::after {
         background: currentColor
         opacity: .13
         border-radius: inherit
-      },
+      }
       {
         ...${
           (theme.button
