@@ -149,7 +149,7 @@ export function eachMedia(str: string | number | undefined, fn: ((val: string, m
  * Simple object check.
  * @param item
  */
-export function isObject(item) {
+function isObject(item) {
   return (item && typeof item === 'object' && !Array.isArray(item));
 }
 
