@@ -3,7 +3,7 @@ import { ThemeConfig, LY_THEME, ThemeVariables, LY_THEME_GLOBAL_VARIABLES } from
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
-import { mergeDeep } from '../style-utils';
+import { mergeThemes } from '../parse';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +60,7 @@ export class CoreTheme {
           items.push(globalVariables);
         }
         if (items.length > 1) {
-          mergeDeep(items[0], ...items.slice(1));
+          mergeThemes(items[0], ...items.slice(1));
         }
         this.add(items[0] as any);
         this.themes.add(items[0].name);
@@ -68,7 +68,7 @@ export class CoreTheme {
 
     } else {
       if (globalVariables) {
-        mergeDeep(themeConfig, globalVariables);
+        mergeThemes(themeConfig, globalVariables);
       }
       this.add(themeConfig as any);
       this.themes.add(themeConfig.name);

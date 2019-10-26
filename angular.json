@@ -1062,6 +1062,72 @@
           }
         }
       }
+    },
+    "@alyle/ui/color": {
+      "root": "dist/lib/color",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/color/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/color/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/color/test.ts",
+            "tsConfig": "dist/lib/color/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/color/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        }
+      }
+    },
+    "@alyle/ui/style-compiler": {
+      "root": "dist/lib/style-compiler",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/style-compiler/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/style-compiler/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/style-compiler/test.ts",
+            "tsConfig": "dist/lib/style-compiler/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/style-compiler/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        }
+      }
     }
   }
 }
