@@ -6,7 +6,7 @@ const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
 // const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
 const REPLACE_ID_REGEX = /\[ei([\w]+)\]/g;
-const REPLACE_IMPORT_LYL = /import {[^}]*(lyl)[^}]*} from '@alyle\/ui';/;
+const REPLACE_IMPORT_LYL = /import {[^}]*(lyl)[^}]*} from '@alyle\/ui';?/g;
 
 console.log('starting..');
 
@@ -22,8 +22,17 @@ function lyl(_literals: TemplateStringsArray, ..._placeholders: any[]) {
   return '';
 }
 
+const zero = 0;
+
+const item0 = lyl\`{
+  prop: \${zero}px
+}\`;
+
 const item = lyl\`{
   color: red
+  {
+    ...\${item0}
+  }
 }\`;
 
 const item2 = lyl\`{
@@ -32,7 +41,7 @@ const item2 = lyl\`{
   }
   ul {
     margin: 0
-    padding: 0
+    padding: \${zero}
     list-style: none
     {
       ...\${item}
@@ -49,7 +58,7 @@ const item2 = lyl\`{
 
   a {
     display: block;
-    padding: 6px 12px;
+    padding: 6px \${12}px;
     text-decoration: none;
   }
 
@@ -125,7 +134,7 @@ const commonConfigVariables = ['appearance', 'size', 'lyTyp'];
 // }
 
 export function StyleCompiler(content: string) {
-
+  let requiresRemovingLyl: boolean = false;
   const result = content.replace(REGEX_LY, (_ex, styleBlock: string) => {
     if (LYL_BAD_REGEX.test(styleBlock)) {
       return _ex;
@@ -138,6 +147,8 @@ export function StyleCompiler(content: string) {
       styleBlock = `(className) => \`${cssContent}\``;
       return styleBlock;
     }
+
+    requiresRemovingLyl = true;
 
     let nextID = 0;
     const data: {[key: string]: string} = {};
@@ -160,43 +171,26 @@ export function StyleCompiler(content: string) {
     return styleBlock;
   });
 
-  // result = result.replace(REGEX_LY_STYLE_SHEET, (_ex, styleBlock: string, _offset) => {
-  //   styleBlock = styleBlock.slice(3, styleBlock.length - 3);
-  //   const source = ts.createSourceFile('', styleBlock, ts.ScriptTarget.Latest, true);
-
-  //   let returnStatement: ts.ReturnStatement | null;
-
-  //   source.forEachChild((node => {
-  //     if (!returnStatement && ts.isReturnStatement(node)) {
-  //       returnStatement = node;
-  //       const childrenNode = getNodes(node).filter(ts.isObjectLiteralExpression);
-  //       if (childrenNode.length) {
-  //         // console.log('isReturnStatement', childrenNode[0].getFullText());
-  //         // const objectLiteralExpression = childrenNode[0];
-  //         // objectLiteralExpression.forEachChild(n => {
-
-  //         // });
-  //       } else {
-  //         throw styleNotIsObjectLiteralExpression();
-  //       }
-  //     }
-  //   }));
-  //   return `${styleBlock}`;
-  // });
-  return result.replace(REPLACE_IMPORT_LYL, (full: string, item: string) => full.replace(item, 'styleTemplateToString'));
+  if (requiresRemovingLyl) {
+    return result
+      .replace(REPLACE_IMPORT_LYL, (full: string, item: string) => {
+        /**
+         * e.g. this is ignored
+         * import { lyl as lylCompiler } from '@alyle/ui';
+         */
+        if (full.includes('lyl as ')) {
+          return full;
+        }
+        return full.replace(item, 'styleTemplateToString');
+      });
+  }
+  return result;
 }
 
 // tslint:disable-next-line: no-unused-expression
 const compiled = StyleCompiler(fileContent);
 console.log(compiled);
 
-// function taggedTemplateToString(node: ts.TaggedTemplateExpression | ts.ArrowFunction) {
-//   if (ts.isTaggedTemplateExpression(node)) {
-//     return new LylParse(node.template.getText());
-//   }
-//   const template = (node.body as ts.TaggedTemplateExpression).template.getText();
-//   return new LylParse(template);
-// }
 
 function createUniqueID(count: number) {
   const ID = `${count}${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`;

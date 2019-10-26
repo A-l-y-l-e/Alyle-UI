@@ -184,7 +184,8 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
     const css = result.replace(STYLE_TEMPLATE_REGEX, (str) => {
       if (dsMap.has(str)) {
         const fn = dsMap.get(str)!;
-        return createCompiledStyleTemplate(fn);
+        const template = normalizeStyleTemplate(fn);
+        return `${createUniqueCommentSelector('ds')}${template('||&||')}`;
       }
       return '';
     });
@@ -201,30 +202,74 @@ function createUniqueCommentSelector(text = 'id') {
 }
 
 export class StyleCollection {
-  private _templates: StyleTemplate[];
+  private _templates: (StyleTemplate | (() => StyleTemplate))[];
   constructor(...templates: StyleTemplate[]) {
     this._templates = templates;
-  }
-
-  toString() {
-    let lin = '';
-    const templates = this._templates;
-    for (let index = 0; index < templates.length; index++) {
-      lin += createCompiledStyleTemplate(templates[index]);
-    }
-    return lin;
   }
 
   add(...templates: StyleTemplate[]) {
     return [...this._templates, ...templates];
   }
 
+  call(className: string) {
+    let lin = '';
+    const templates = this._templates;
+    for (let index = 0; index < templates.length; index++) {
+      const template = normalizeStyleTemplate(templates[index]);
+      lin += template(className);
+    }
+    return lin;
+  }
+
 }
 
-function createCompiledStyleTemplate(fn: StyleTemplate | (() => StyleTemplate)) {
+
+/**
+ * Simple object check.
+ * @param item
+ */
+export function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+export function mergeThemes(target: any, ...sources: any[]) {
+  if (!sources.length) { return target; }
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) { Object.assign(target, { [key]: {} }); }
+        mergeThemes(target[key], source[key]);
+      } else {
+        const targetKey = target[key];
+        const sourceKey = source[key];
+        // Merge styles
+        if (targetKey instanceof StyleCollection && typeof sourceKey === 'function') {
+          (target[key] as StyleCollection).add(sourceKey);
+        } else {
+          Object.assign(target, { [key]: source[key] });
+        }
+      }
+    }
+  }
+
+  return mergeThemes(target, ...sources);
+}
+
+export function styleTemplateToString(fn: StyleTemplate | (() => StyleTemplate) | StyleCollection | null | undefined, className: string) {
+  if (fn instanceof StyleCollection) {
+    return fn.call(className);
+  }
+  return fn ? normalizeStyleTemplate(fn)(className) : '';
+}
+
+function normalizeStyleTemplate(
+  fn: StyleTemplate | (() => StyleTemplate)
+  ) {
   if (fn.length) {
-    return `${createUniqueCommentSelector('ds')}${fn('||&||')}`;
+    return fn as StyleTemplate;
   } else {
-    return `${createUniqueCommentSelector('ds')}${(fn as (() => StyleTemplate))()('||&||')}`;
+    return (fn as (() => StyleTemplate))();
   }
 }
