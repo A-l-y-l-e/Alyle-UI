@@ -113,7 +113,8 @@ export class LylParse {
         }
         if (sel.startsWith('/* >> cc')) {
           let variable = content.slice(2, content.length - 1);
-          variable = `styleTemplateToString((${variable}), \`${sel}\`)`;
+          variable = `styleTemplateToString((${variable}), \`${sel}\`)`
+            .replace(/\/\* >> cc[^\/\*]+\*\//g, '') ;
           return `\${${variable}}`;
         }
         // for non LylModule>
@@ -264,7 +265,7 @@ export function styleTemplateToString(fn: StyleTemplate | (() => StyleTemplate) 
   return fn ? normalizeStyleTemplate(fn)(className) : '';
 }
 
-function normalizeStyleTemplate(
+export function normalizeStyleTemplate(
   fn: StyleTemplate | (() => StyleTemplate)
   ) {
   if (fn.length) {

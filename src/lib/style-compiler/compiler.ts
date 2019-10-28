@@ -147,7 +147,7 @@ export function styleCompiler(content: string) {
     const templateExpression = findNode(source, ts.SyntaxKind.TemplateExpression) as ts.TemplateExpression | null;
     if (!templateExpression) {
       const cssContent = new LylParse(styleBlock.slice(1, styleBlock.length - 1)).toCss();
-      styleBlock = `(className) => \`${cssContent}\``;
+      styleBlock = `(className: string) => \`${cssContent}\``;
       return styleBlock;
     }
 
@@ -170,7 +170,7 @@ export function styleCompiler(content: string) {
     const css = new LylParse(
       templateString.slice(1, templateString.length - 1)
     ).toCss().replace(REPLACE_ID_REGEX, (id: string) => data[id] || id);
-    styleBlock = `(className) => \`${css}\``;
+    styleBlock = `(className: string) => \`${css}\``;
     return styleBlock;
   });
 
