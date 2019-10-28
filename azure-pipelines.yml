@@ -28,6 +28,18 @@ jobs:
       pathtoPublish: 'ci/scripts'
       artifactName: Scripts
 
+- job: Test
+  displayName: Test
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.12.x'
+  - bash: |
+      yarn
+      ./ci/scripts/test.sh
+
 - job: BuildDocs
   displayName: Build docs
   pool:

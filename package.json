@@ -74,6 +74,7 @@
     "@types/prismjs": "^1.16.0",
     "@types/showdown": "^1.9.2",
     "@types/yargs": "^13.0.0",
+    "ava": "^2.4.0",
     "bundlesize": "^0.17.0",
     "camelcase": "^5.0.0",
     "chalk": "^2.4.1",
@@ -95,10 +96,29 @@
     "replace-in-file": "^3.4.2",
     "showdown": "^1.9.0",
     "ts-node": "~5.0.1",
+    "tsconfig-paths": "^3.9.0",
     "tslint": "^5.13.1",
     "typedoc": "^0.15.0",
     "typescript": "~3.4",
     "yargs": "^13.2.2"
   },
-  "schematics": "./dist/@alyle/ui/schematics/collection.json"
+  "schematics": "./dist/@alyle/ui/schematics/collection.json",
+  "ava": {
+    "compileEnhancements": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register",
+      "tsconfig-paths/register"
+    ],
+    "files": [
+      "src/**/*.test.ts"
+    ],
+    "sources": [
+      "src/**/*"
+    ],
+    "failFast": true,
+    "failWithoutAssertions": false
+  }
 }

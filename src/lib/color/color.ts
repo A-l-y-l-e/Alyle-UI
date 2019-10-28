@@ -20,6 +20,8 @@ export class Color {
       if (args.length === 3) {
         this._color[3] = 1;
       }
+    } else {
+      this._color = [];
     }
   }
 
@@ -123,7 +125,7 @@ export class Color {
   }
 
   css() {
-    if (this._color == null) {
+    if (!this._color.length) {
       return 'undefined - invalid color';
     }
     return rgbToCss(this._color as [number, number, number, number]);

@@ -228,11 +228,11 @@ export class StyleCollection {
  * Simple object check.
  * @param item
  */
-function isObject(item) {
+function isObject(item: any) {
   return (item && typeof item === 'object' && !Array.isArray(item));
 }
 
-export function mergeThemes(target: any, ...sources: any[]) {
+export function mergeThemes(target: any, ...sources: any[]): any {
   if (!sources.length) { return target; }
   const source = sources.shift();
 

@@ -1,0 +1,35 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "..",
+    "outDir": "../../../dist/@alyle/style-compiler/",
+    "lib": [
+      "es2015"
+    ],
+    "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "sourceMap": true,
+    "target": "es2015",
+    "importHelpers": true,
+    "inlineSources": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictPropertyInitialization": true,
+    "noFallthroughCasesInSwitch": true,
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@alyle/ui/color": ["../../../dist/lib/color"],
+      "@alyle/ui": ["../../../dist/lib/src/parse.ts"]
+    }
+  },
+  "files": [
+    "index.ts",
+    "main.ts"
+  ]
+}
