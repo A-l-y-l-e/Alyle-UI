@@ -105,13 +105,13 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
           }
         }
         return lyl `{
-          ${`color: ${sColor}`}
-          ${`background: ${sBackground}`}
-          ${`border: ${sBorder}`}
-          ${`pointer-events: ${sPointerEvents}`}
-          ${`box-shadow: ${sBoxShadow}`}
+          color: ${sColor}
+          background: ${sBackground}
+          border: ${sBorder}
+          pointer-events: ${sPointerEvents}
+          box-shadow: ${sBoxShadow}
           &:active {
-            ${sBoxShadowActive && `box-shadow: ${sBoxShadowActive}`}
+            box-shadow: ${sBoxShadowActive}
           }
         }`;
       }, STYLE_PRIORITY);

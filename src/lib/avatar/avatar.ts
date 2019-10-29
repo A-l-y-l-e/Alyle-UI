@@ -113,10 +113,12 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
   set size(val: number) {
     if (val !== this.size) {
       this._size = val;
-      const newClass = this._theme.renderStyle(`${LyAvatar.и}.size:${val}`, () => lyl `{
-        width: ${val}px
-        height: ${val}px
-      }`, STYLE_PRIORITY);
+      const newClass = this._theme.renderStyle(`${LyAvatar.и}.size:${val}`, () => (
+        lyl `{
+          width: ${val}px
+          height: ${val}px
+        }`
+      ), STYLE_PRIORITY);
       this._sizeClass = this._hostClass.update(newClass, this._sizeClass);
     }
   }

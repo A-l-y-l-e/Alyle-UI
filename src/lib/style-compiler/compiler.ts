@@ -2,18 +2,16 @@ import * as ts from 'typescript';
 import { findNode } from './util/util';
 import { LylParse } from '../src/parse';
 
-const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
+const REGEX_LY = () => /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
-const REPLACE_ID_REGEX = /\[ei([\w]+)\]/g;
-const REPLACE_IMPORT_LYL = /import {[^}]*(lyl)[^}]*} from '@alyle\/ui';/g;
-
+const REPLACE_ID_REGEX = () => /\[ei([\w]+)\]/g;
+const REPLACE_IMPORT_LYL = () => /import {[^}]*(lyl)[^}]*} from '@alyle\/ui';/g;
 
 export function styleCompiler(content: string) {
   let simpleStyles = 0;
   let complexStyles = 0;
-  REGEX_LY.lastIndex = 0;
 
-  const result = content.replace(REGEX_LY, (_ex, styleBlock: string) => {
+  const result = content.replace(REGEX_LY(), (_ex, styleBlock: string) => {
     if (LYL_BAD_REGEX.test(styleBlock)) {
       return _ex;
     }
@@ -44,7 +42,7 @@ export function styleCompiler(content: string) {
 
     const css = new LylParse(
       templateString.slice(1, templateString.length - 1)
-    ).toCss().replace(REPLACE_ID_REGEX, (id: string) => data[id] || id);
+    ).toCss().replace(REPLACE_ID_REGEX(), (id: string) => data[id] || id);
     styleBlock = `(className: string) => \`${css}\``;
     return styleBlock;
   });
@@ -64,16 +62,14 @@ function createUniqueID(count: number) {
  * @param str content
  */
 export function hasLylStyle(str: string) {
-  REGEX_LY.lastIndex = 0;
-  return REGEX_LY.test(str);
+  return REGEX_LY().test(str);
 }
 
 function updateImport(content: string, numSimpleStyles: number, numComplexStyles: number) {
   if (!(numSimpleStyles || numComplexStyles)) {
     return content;
   }
-  REPLACE_IMPORT_LYL.lastIndex = 0;
-  return content.replace(REPLACE_IMPORT_LYL, (full: string) => {
+  return content.replace(REPLACE_IMPORT_LYL(), (full: string) => {
 
     const source = ts.createSourceFile('', full, ts.ScriptTarget.Latest, true);
     const importDeclaration = findNode(source, ts.SyntaxKind.ImportDeclaration) as ts.ImportDeclaration;

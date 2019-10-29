@@ -17,7 +17,7 @@ class Context {
   style('.y')`;
 
   styleWithExpressions = `const zero = 0;
-  const item = lyl\`{
+  const item = lyl \`{
     top: \${zero}
     left: \${
       (5 * 8 + 1 + zero)
@@ -114,6 +114,17 @@ class Context {
     }
   }\`;
   `;
+
+  stylesTest = `lyl \`{
+    \${\`color: \${sColor}\`}
+    \${\`background: \${sBackground}\`}
+    \${\`border: \${sBorder}\`}
+    \${\`pointer-events: \${sPointerEvents}\`}
+    \${\`box-shadow: \${sBoxShadow}\`}
+    &:active {
+      \${sBoxShadowActive && \`box-shadow: \${sBoxShadowActive}\`}
+    }
+  }\`;`;
 
   styles = `
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';

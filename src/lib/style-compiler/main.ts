@@ -18,10 +18,10 @@ const argv = yargs
 if (argv.help) {
   console.log(`Version ${pkg.version}\n`);
   console.log(chalk.bold.yellowBright(note));
-  console.log(`Examples: lyl directory`);
+  console.log(`Examples: lyl dist/lib`);
   process.exit(0);
 }
-console.log({argv});
+
 
 async function walk(dir: string, fileList: string[] = []) {
   const files = await fs.readdir(dir);
@@ -36,7 +36,17 @@ async function walk(dir: string, fileList: string[] = []) {
   return fileList;
 }
 
-walk('src/lib').then(async (res) => {
+const directory = argv._[0];
+
+if (directory) {
+  console.log(chalk.bold.blueBright(`Directory: ${directory}`));
+} else {
+  console.log(chalk.bold.redBright(`Require directory`));
+  console.log(`Examples: lyl dist/lib`);
+  process.exit(0);
+}
+
+walk(directory).then(async (res) => {
   res = res
     .filter(file => file.endsWith('.ts'));
 
@@ -44,7 +54,9 @@ walk('src/lib').then(async (res) => {
     const content = (await fs.readFile(file)).toString('utf8');
     const hasLyl = hasLylStyle(content);
     if (hasLyl) {
-      console.log(file);
+      const compiled = styleCompiler(content);
+      await fs.writeFile(file, compiled, 'utf8');
+      console.log(`${chalk.bold.greenBright('Updated: ')}${file}`);
     }
   });
 

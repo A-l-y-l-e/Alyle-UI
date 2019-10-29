@@ -3,7 +3,6 @@ lastUpdate: '2019-10-24T21:35:04.329Z'
 components:
   '@alyle/ui': /
   '@alyle/ui/color': color
-  '@alyle/ui/style-compiler': style-compiler
   '@alyle/ui/grid': grid
   '@alyle/ui/themes/minima': themes/minima
   '@alyle/ui/card': card

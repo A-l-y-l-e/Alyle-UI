@@ -1,7 +1,8 @@
 import { Color } from '@alyle/ui/color';
-const LINE_FEED_REGEX = /(\n?[^\n]+\n?)/g;
-const AMPERSAND_REGEX = /&/g;
-const STYLE_TEMPLATE_REGEX = /StyleTemplate\[[\w]+\]/;
+
+const LINE_FEED_REGEX = () => /(\n?[^\n]+\n?)/g;
+const AMPERSAND_REGEX = () => /&/g;
+const STYLE_TEMPLATE_REGEX = () => /StyleTemplate\[[\w]+\]/;
 let id: number = 0;
 
 /**
@@ -45,7 +46,7 @@ export class LylParse {
     const selectors: (string[])[] = [];
     let selector: null | string = null;
     const rules = new Map<string, string>();
-    this._template.replace(LINE_FEED_REGEX, (_ex, fullLine: string) => {
+    this._template.replace(LINE_FEED_REGEX(), (_ex, fullLine: string) => {
       fullLine = fullLine.trim();
 
       if (fullLine.endsWith('{')) {
@@ -142,7 +143,7 @@ export class LylParse {
       .reduce((prev, current) => {
         const result = prev.map(item => current.map(cu => {
           if (cu.includes('&')) {
-            return cu.replace(AMPERSAND_REGEX, item);
+            return cu.replace(AMPERSAND_REGEX(), item);
           }
           return `${item} ${cu}`;
         }));
@@ -159,6 +160,7 @@ export class LylParse {
 }
 
 export type StyleTemplate = (className: string) => string;
+export type Lyl = ((className: string) => string) | (() => (className: string) => string);
 
 export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | (() => StyleTemplate) | null | undefined)[]) {
 
@@ -182,7 +184,7 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
 
     // add the last literal
     result += literals[literals.length - 1];
-    const css = result.replace(STYLE_TEMPLATE_REGEX, (str) => {
+    const css = result.replace(STYLE_TEMPLATE_REGEX(), (str) => {
       if (dsMap.has(str)) {
         const fn = dsMap.get(str)!;
         const template = normalizeStyleTemplate(fn);
