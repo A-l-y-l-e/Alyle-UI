@@ -3,17 +3,10 @@ import { findNode } from './util/util';
 import { LylParse } from '../src/parse';
 
 const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
-// const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
 const REPLACE_ID_REGEX = /\[ei([\w]+)\]/g;
 const REPLACE_IMPORT_LYL = /import {[^}]*(lyl)[^}]*} from '@alyle\/ui';/g;
 
-
-console.log('starting..');
-
-// function styleNotIsObjectLiteralExpression() {
-//   return Error(`The style must return an object literal expression.`);
-// }
 
 export function styleCompiler(content: string) {
   let simpleStyles = 0;
