@@ -6,136 +6,18 @@ const REGEX_LY = /(?:\(\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
 // const REGEX_LY_STYLE_SHEET = /const[^{]+({{{[^{{]*(?:{(?!{{)[^{}]*|}(?!}})[^{}]*)*}}})/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
 const REPLACE_ID_REGEX = /\[ei([\w]+)\]/g;
-const REPLACE_IMPORT_LYL = /import {[^}]*(lyl)[^}]*} from '@alyle\/ui';?/g;
+const REPLACE_IMPORT_LYL = /import {[^}]*(lyl)[^}]*} from '@alyle\/ui';/g;
 
 
 console.log('starting..');
-
-const fileContent = `
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
-
-import { AUIThemeVariables } from '@app/app.module';
-import { AUIRoutesMap } from '../routes';
-
-function lyl(_literals: TemplateStringsArray, ..._placeholders: any[]) {
-  return '';
-}
-
-const zero = 0;
-
-const item0 = lyl\`{
-  prop: \${zero}px
-}\`;
-
-const item = lyl\`{
-  color: red
-  {
-    ...\${item0}
-  }
-}\`;
-
-const item2 = lyl\`{
-  {
-    ...\${item}
-  }
-  ul {
-    margin: 0
-    padding: \${zero}
-    list-style: none
-    {
-      ...\${item}
-    }
-  }
-
-
-  li {
-    a {
-      display: inline-block;
-
-    }
-  }
-
-  a {
-    display: block;
-    padding: 6px \${12}px;
-    text-decoration: none;
-  }
-
-  ul > {
-    li {
-      list-style-type: none
-    }
-  }
-
-  h2 {
-    + p {
-      border-top: 1px solid gray
-    }
-  }
-
-  p {
-    ~ {
-      span {
-        opacity: 0.8
-      }
-    }
-  }
-}\`;
-
-console.log(item, item2);
-
-const STYLES = (theme: AUIThemeVariables) => {{{
-  const key = () => 5;
-  const aFn = function () {
-    return 4;
-  }
-  return {
-    root: {
-      blockquote: {
-        color: theme.text.secondary,
-        borderLeft: \`3px solid \${theme.primary.default}\`,
-        padding: '0 1em',
-        margin: 0
-      }
-    },
-    button: lyl \`{
-      color: blue
-    }\`,
-    button: (someValue: string) => lyl \`{
-      color: blue
-    }\`
-  };
-}}};
-
-// not
-const STYLES = (theme: AUIThemeVariables) => {{{
-  const key = () => 5;
-  const aFn = function () {
-    return 4;
-  }
-  return {
-    root: {
-      blockquote: {
-        color: theme.text.secondary,
-        borderLeft: \`3px solid \${theme.primary.default}\`,
-        padding: '0 1em',
-        margin: 0
-      }
-    }
-  };
-}}};
-
-const commonConfigVariables = ['appearance', 'size', 'lyTyp'];
-`;
 
 // function styleNotIsObjectLiteralExpression() {
 //   return Error(`The style must return an object literal expression.`);
 // }
 
 export function styleCompiler(content: string) {
-  let requiresRemovingLyl: boolean = false;
+  let simpleStyles = 0;
+  let complexStyles = 0;
   REGEX_LY.lastIndex = 0;
 
   const result = content.replace(REGEX_LY, (_ex, styleBlock: string) => {
@@ -148,10 +30,10 @@ export function styleCompiler(content: string) {
     if (!templateExpression) {
       const cssContent = new LylParse(styleBlock.slice(1, styleBlock.length - 1)).toCss();
       styleBlock = `(className: string) => \`${cssContent}\``;
+      simpleStyles++;
       return styleBlock;
     }
-
-    requiresRemovingLyl = true;
+    complexStyles++;
 
     let nextID = 0;
     const data: {[key: string]: string} = {};
@@ -174,24 +56,8 @@ export function styleCompiler(content: string) {
     return styleBlock;
   });
 
-  if (requiresRemovingLyl) {
-    return result
-      .replace(REPLACE_IMPORT_LYL, (full: string, item: string) => {
-        /**
-         * e.g. this is ignored
-         * import { lyl as lylCompiler } from '@alyle/ui';
-         */
-        if (full.includes('lyl as ')) {
-          return full;
-        }
-        return full.replace(item, 'styleTemplateToString');
-      });
-  }
-  return result;
+  return updateImport(result, simpleStyles, complexStyles);
 }
-
-// const compiled = styleCompiler(fileContent);
-// console.log(compiled);
 
 
 function createUniqueID(count: number) {
@@ -207,4 +73,27 @@ function createUniqueID(count: number) {
 export function hasLylStyle(str: string) {
   REGEX_LY.lastIndex = 0;
   return REGEX_LY.test(str);
+}
+
+function updateImport(content: string, numSimpleStyles: number, numComplexStyles: number) {
+  if (!(numSimpleStyles || numComplexStyles)) {
+    return content;
+  }
+  REPLACE_IMPORT_LYL.lastIndex = 0;
+  return content.replace(REPLACE_IMPORT_LYL, (full: string) => {
+
+    const source = ts.createSourceFile('', full, ts.ScriptTarget.Latest, true);
+    const importDeclaration = findNode(source, ts.SyntaxKind.ImportDeclaration) as ts.ImportDeclaration;
+    let imports = (importDeclaration.importClause!.namedBindings as ts.NamedImports)!
+      .elements.map((imp) => {
+        return imp.getText();
+      });
+    if ((numSimpleStyles && numComplexStyles) || numComplexStyles) {
+      imports = imports.map(
+        imp => imp === 'lyl' ? 'styleTemplateToString' : imp);
+    } else if (numSimpleStyles) {
+      imports = imports.filter(imp => imp !== 'lyl');
+    }
+    return `import {\n  ${imports.join(`,\n  `)} } from '@alyle/ui';`;
+  });
 }
