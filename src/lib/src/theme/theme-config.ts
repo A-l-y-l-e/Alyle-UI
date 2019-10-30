@@ -3,7 +3,6 @@ import { LyStyleUtils, Dir } from '../style-utils';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { CheckboxVariables } from './variables/checkbox';
-import { SnackBarVariables } from './variables/snack-bar';
 import { ButtonVariables } from './variables/button';
 import { TooltipVariables } from './variables/tooltip';
 import { CardVariables } from './variables/card';
@@ -88,7 +87,6 @@ export interface ThemeConfig {
   };
   ripple: RippleVariables;
   checkbox?: CheckboxVariables;
-  snackBar?: SnackBarVariables;
   button?: ButtonVariables;
   tooltip: TooltipVariables;
   card?: CardVariables;

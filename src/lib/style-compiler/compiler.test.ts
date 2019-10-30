@@ -195,6 +195,25 @@ const item2 = lyl \`{
 }\`;
 `;
 
+  simpleMediaQuery = `const style = lyl \`{
+    color: red
+    @media (max-width: 599px) {
+      color: blue
+    }
+  }\`
+  style('.y')`;
+
+  complexMediaQuery = `const style = lyl \`{
+    color: red
+    @media (max-width: 599px) {
+      color: blue
+      .item {
+        color: purple
+      }
+    }
+  }\`
+  style('.y')`;
+
 }
 
 
@@ -317,6 +336,16 @@ const colorRedAndTopZero = (className: string) => \`\${className}{color: red;}\$
 const item2 = (className: string) => \`\${styleTemplateToString((item), \`\${className}\`)}\${className} ul{margin: 0;padding: \${zero};list-style: none;}\${styleTemplateToString((item), \`\${className} ul\`)}\${className} li a{display: inline-block;}\${className} a{display: block;padding: 6px \${12}px;text-decoration: none;}\${className} ul > li{list-style-type: none;}\${className} h2 + p{border-top: 1px solid gray;}\${className} p ~ span{opacity: 0.8;}\`;
 `);
 // tslint:enable
+});
+
+test(`compile simple media query`, async t => {
+  const css = evalScript(t.context.simpleMediaQuery);
+  t.is(css, `.y{color: red;}@media (max-width: 599px){.y{color: blue;}}`);
+});
+
+test(`compile complex media query`, async t => {
+  const css = evalScript(t.context.complexMediaQuery);
+  t.is(css, `.y{color: red;}@media (max-width: 599px){.y{color: blue;}}@media (max-width: 599px){.y .item{color: purple;}}`);
 });
 
 function evalScript(script: string) {

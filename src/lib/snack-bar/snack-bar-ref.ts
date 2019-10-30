@@ -43,7 +43,7 @@ export class LySnackBarRef {
         clearTimeout(timer);
       }
 
-      snackBar.containerElement.classList.remove(this._theme.addStyle('SnackBar:open', null, null, null, null));
+      snackBar.containerElement.classList.remove(this._theme.getClass('SnackBar:open'));
       setTimeout(() => {
         snackBar.destroy();
       }, 350);

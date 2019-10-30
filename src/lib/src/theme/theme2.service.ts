@@ -263,6 +263,12 @@ export class LyTheme2 {
     return classesMap;
   }
 
+  getClass(styles: string | (StyleTemplate | (() => StyleTemplate))): string {
+    const themeName = this.initialTheme;
+    const styleMap = _STYLE_MAP.get(styles)!;
+    return styleMap.classes || styleMap[themeName];
+  }
+
   private _createStyleContent2(
     styles: Styles | StyleDeclarationsBlock | ((theme: any, ref: ThemeRef) => StyleTemplate),
     id: string | null,

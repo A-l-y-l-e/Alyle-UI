@@ -1,4 +1,4 @@
-import { ThemeConfig, mergeDeep, shadowBuilder } from '@alyle/ui';
+import { ThemeConfig, mergeDeep, shadowBuilder, lyl } from '@alyle/ui';
 import { MinimaBase } from './base';
 import { Color } from '@alyle/ui/color';
 
@@ -69,11 +69,11 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   });
   badge = {};
   snackBar = {
-    root: {
-      background: new Color(0xfafafa).css(),
-      color: new Color(0, 0, 0, .87).css(),
-      boxShadow: shadowBuilder(4, new Color(0xfafafa))
-    }
+    root: lyl `{
+      background: ${new Color(0xfafafa)}
+      color: ${new Color(0, 0, 0, .87)}
+      boxShadow: ${shadowBuilder(4, new Color(0xfafafa))}
+    }`
   };
   tooltip = {
     root: {
