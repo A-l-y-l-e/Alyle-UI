@@ -1,11 +1,11 @@
 import { Directive, Input, TemplateRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { LyTheme2, LyOverlay, ThemeVariables, XPosition, YPosition, lyl, StyleTemplate } from '@alyle/ui';
+import { LyTheme2, LyOverlay, ThemeVariables, XPosition, YPosition, lyl, StyleTemplate, StyleCollection } from '@alyle/ui';
 import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarRef } from './snack-bar-ref';
 
 export interface LySnackBarTheme {
   /** Styles for SnackBar Component */
-  root?: StyleTemplate;
+  root?: StyleTemplate | StyleCollection;
 }
 
 

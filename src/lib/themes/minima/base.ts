@@ -10,6 +10,7 @@ import { Breakpoints } from '@alyle/ui/responsive';
 import { LyAvatarVariables, LyAvatarTheme } from '@alyle/ui/avatar';
 import { ExpansionVariables, ExpansionConfig } from '@alyle/ui/expansion';
 import { SliderVariables } from '@alyle/ui/slider';
+import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 
 export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAvatarVariables {
   typography = {
@@ -21,6 +22,7 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAv
     lyTyp: {}
   };
   avatar?: LyAvatarTheme;
+  snackBar?: LySnackBarTheme;
   iconButton = iconButton;
   icon = icon;
   breakpoints = Breakpoints;

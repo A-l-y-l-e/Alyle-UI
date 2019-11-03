@@ -9,7 +9,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2 } from '@alyle/ui';
+import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2, lyl } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -37,6 +37,7 @@ import { LyTooltipModule } from '@alyle/ui/tooltip';
 import { LyGridModule } from '@alyle/ui/grid';
 import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { Color } from '@alyle/ui/color';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -64,6 +65,12 @@ export class CustomMinimaLight {
     keyword: '#7c4dff'
   };
   stackblitz = '#1389FD';
+  snackBar = {
+    root: lyl `{
+      background: ${new Color(0x000000)}
+      border-radius: 0
+    }`
+  };
 }
 
 export class CustomMinimaDark {

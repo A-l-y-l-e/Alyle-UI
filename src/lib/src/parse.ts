@@ -110,7 +110,7 @@ export class LylParse {
         const content = rule[1];
 
         if (content.startsWith('/* >> ds')) {
-          return content.replace('||&||', sel);
+          return content.replace(/\|\|\&\|\|/g, sel);
         }
         if (sel.startsWith('/* >> cc')) {
           let variable = content.slice(2, content.length - 1);
@@ -166,13 +166,13 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
 
   return (className: string) => {
     let result = '';
-    const dsMap = new Map<string, (StyleTemplate | (() => StyleTemplate))>();
+    const dsMap = new Map<string, (StyleTemplate | (() => StyleTemplate)) | StyleCollection>();
     for (let i = 0; i < placeholders.length; i++) {
       const placeholder = placeholders[i];
       result += literals[i];
       if (result.endsWith('...')) {
         result = result.slice(0, result.length - 3);
-        if (typeof placeholder === 'function') {
+        if (typeof placeholder === 'function' || placeholder instanceof StyleCollection) {
           const newID = createUniqueId();
           dsMap.set(newID, placeholder as () => StyleTemplate);
           result += newID;
@@ -187,7 +187,12 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
     const css = result.replace(STYLE_TEMPLATE_REGEX(), (str) => {
       if (dsMap.has(str)) {
         const fn = dsMap.get(str)!;
-        const template = normalizeStyleTemplate(fn);
+        let template: StyleTemplate;
+        if (fn instanceof StyleCollection) {
+          template = fn.call.bind(fn);
+        } else {
+          template = normalizeStyleTemplate(fn);
+        }
         return `${createUniqueCommentSelector('ds')}${template('||&||')}`;
       }
       return '';
@@ -206,12 +211,12 @@ function createUniqueCommentSelector(text = 'id') {
 
 export class StyleCollection {
   private _templates: (StyleTemplate | (() => StyleTemplate))[];
-  constructor(...templates: StyleTemplate[]) {
+  constructor(...templates: (StyleTemplate | (() => StyleTemplate))[]) {
     this._templates = templates;
   }
 
   add(...templates: StyleTemplate[]) {
-    return [...this._templates, ...templates];
+    return new StyleCollection(...[...this._templates, ...templates]);
   }
 
   call(className: string) {
@@ -232,7 +237,7 @@ export class StyleCollection {
  * @param item
  */
 function isObject(item: any) {
-  return (item && typeof item === 'object' && !Array.isArray(item));
+  return (item && typeof item === 'object' && !Array.isArray(item)) && !(item instanceof StyleCollection);
 }
 
 export function mergeThemes(target: any, ...sources: any[]): any {
@@ -249,7 +254,7 @@ export function mergeThemes(target: any, ...sources: any[]): any {
         const sourceKey = source[key];
         // Merge styles
         if (targetKey instanceof StyleCollection && typeof sourceKey === 'function') {
-          (target[key] as StyleCollection).add(sourceKey);
+          target[key] = (target[key] as StyleCollection).add(sourceKey);
         } else {
           Object.assign(target, { [key]: source[key] });
         }

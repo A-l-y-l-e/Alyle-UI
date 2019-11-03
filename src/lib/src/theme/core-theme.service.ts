@@ -76,6 +76,7 @@ export class CoreTheme {
       if (items.length > 1) {
         mergeThemes(items[0], ...items.slice(1));
       }
+      console.log(items[0]);
       this._add(items[0] as any);
       this.themes.add(items[0].name);
     });
