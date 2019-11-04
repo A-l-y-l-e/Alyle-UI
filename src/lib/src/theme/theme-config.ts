@@ -3,7 +3,6 @@ import { LyStyleUtils, Dir } from '../style-utils';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { CheckboxVariables } from './variables/checkbox';
-import { ButtonVariables } from './variables/button';
 import { TooltipVariables } from './variables/tooltip';
 import { CardVariables } from './variables/card';
 import { CarouselVariables } from './variables/carousel';
@@ -34,19 +33,22 @@ export interface ThemeConfig {
   paper: DefaultVal & PaletteColor;
   background: {
     /** secondary */
-    default: Color,
-    primary: DefaultVal & PaletteColor,
-    secondary: Color,
-    tertiary: Color,
-    base: Color
+    default: Color
+    primary: DefaultVal & PaletteColor
+    secondary: Color
+    tertiary: Color
   };
   hover: Color;
   text: {
-    default: Color,
-    primary: Color,
-    secondary: Color,
-    disabled: Color,
+    default: Color
+    primary: Color
+    secondary: Color
+    disabled: Color
     hint: Color
+    /** When a contrast is needed for a dark background */
+    light: Color
+    /** When a contrast is needed for a light background */
+    dark: Color
   };
   typography?: TypographyVariables;
   /** color for divider */
@@ -87,7 +89,6 @@ export interface ThemeConfig {
   };
   ripple: RippleVariables;
   checkbox?: CheckboxVariables;
-  button?: ButtonVariables;
   tooltip: TooltipVariables;
   card?: CardVariables;
   carousel?: CarouselVariables;

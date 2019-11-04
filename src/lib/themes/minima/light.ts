@@ -30,7 +30,6 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     },
     secondary: new Color(0xfafafa),
     tertiary: new Color(0xefefef),
-    base: new Color(0xE0E0E0)
   };
   hover = new Color(0, 0, 0, 0.04);
   paper = {
@@ -46,7 +45,9 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     primary: new Color(0, 0, 0, 0.87),
     secondary: new Color(0, 0, 0, 0.54),
     disabled: new Color(0, 0, 0, 0.26),
-    hint: new Color(0, 0, 0, 0.38)
+    hint: new Color(0, 0, 0, 0.38),
+    dark: new Color(0, 0, 0, 0.87),
+    light: new Color(0xffffff)
   };
   divider = new Color(0, 0, 0, 0.12);
   colorShadow = new Color(0x333333);

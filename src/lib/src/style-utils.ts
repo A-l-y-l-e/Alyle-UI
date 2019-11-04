@@ -57,7 +57,12 @@ export class LyStyleUtils {
     if (value.includes('#') && value.length === 7) {
       return new Color(hexColorToInt(value));
     }
-    return get(this, value, optional);
+    const color = get(this, value, optional);
+    if (color) {
+      return color;
+    }
+    /** Create invalid color */
+    return new Color();
   }
   getBreakpoint(key: string) {
     return `@media ${this.breakpoints[key] || key}`;
@@ -116,6 +121,7 @@ function get(obj: Object, path: string[] | string, optional?: string): Color {
       return new Color();
     }
   }
+  console.log({path, obj});
   if (obj instanceof Color) {
     return obj;
   } else if (optional) {

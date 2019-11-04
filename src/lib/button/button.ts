@@ -9,7 +9,10 @@ import {
   OnInit,
   ViewChild,
   AfterViewInit,
-  OnChanges
+  OnChanges,
+  InjectionToken,
+  Inject,
+  Optional
 } from '@angular/core';
 import {
   Platform,
@@ -32,23 +35,32 @@ import {
   LyClasses,
   lyl,
   LY_COMMON_STYLES,
-  ThemeRef
+  ThemeRef,
+  StyleCollection,
+  LyHostClass
 } from '@alyle/ui';
-
 import { Color } from '@alyle/ui/color';
 
 export interface LyButtonTheme {
   /** Styles for Button Component */
-  root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
   appearance?: {
     icon?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
     fab?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
     miniFab?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    [name: string]: ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined
+  };
+  size?: {
+    small?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    medium?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    large?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    [name: string]: ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined
   };
 }
 
 export interface LyButtonDefaultOptions {
-  size?: number;
+  size?: string;
   appearance?: string;
 }
 
@@ -57,9 +69,10 @@ export interface LyButtonVariables {
 }
 
 const DEFAULT_DISABLE_RIPPLE = false;
+const DEFAULT_SIZE = 'medium';
 const STYLE_PRIORITY = -2;
-
-export type LyButtonSize = 'small' | 'medium' | 'large';
+export const LY_BUTTON_DEFAULT_OPTIONS =
+    new InjectionToken<LyButtonDefaultOptions>('LY_BUTTON_DEFAULT_OPTIONS');
 
 export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef) => {
   const typography = theme.typography;
@@ -114,7 +127,10 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
         ...${
           (theme.button
             && theme.button.root
-            && theme.button.root(button)) || null
+            && (theme.button.root instanceof StyleCollection
+              ? theme.button.root.setTransformer(fn => fn(button))
+              : theme.button.root(button))
+          )
         }
       }
     }`,
@@ -170,7 +186,8 @@ mixinBg(
     'elevation',
     'shadowColor',
     'disableRipple'
-  ]
+  ],
+  providers: [LyHostClass]
 })
 export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   /**
@@ -179,8 +196,8 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
    */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _rippleSensitive = false;
-  private _size: LyButtonSize;
-  private _sizeClass: string;
+  private _size: string;
+  private _sizeClass: string | null;
   private _appearance: string;
   private _appearanceClass: string;
   private _onFocusByKeyboardState: boolean;
@@ -199,24 +216,23 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
 
   /** Button size */
   @Input()
-  get size(): LyButtonSize {
+  get size(): string {
     return this._size;
   }
-  set size(val: LyButtonSize) {
+  set size(val: string) {
     if (val !== this.size) {
       this._size = val;
-      this._sizeClass = this._theme.addStyle(
+      const newClass = this._theme.renderStyle(
         `lyButton.size:${val}`,
-        (theme: ThemeVariables) => {
+        (theme: LyButtonVariables) => {
           if (theme.button && theme.button.size && theme.button.size[val]) {
-            return theme.button.size[val]!;
+            return theme.button.size[val]!(this.classes);
           }
           throw new Error(`Value button.size['${val}'] not found in ThemeVariables`);
         },
-        this._el.nativeElement,
-        this._sizeClass,
         STYLE_PRIORITY
       );
+      this._sizeClass = this._hostClass.update(newClass, this._sizeClass);
     }
   }
 
@@ -229,17 +245,16 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
         this._rippleConfig.centered = true;
       }
       this._appearance = val;
-      this._appearanceClass = this._theme.addStyle(
+      const newClass = this._theme.renderStyle(
         `lyButton.appearance:${val}`,
-        (theme: ThemeVariables) => {
+        (theme: LyButtonVariables) => {
           if (!(theme.button!.appearance && theme.button!.appearance![val])) {
             throw new Error(`Value button.appearance['${val}'] not found in ThemeVariables`);
           }
-          return theme.button!.appearance![val]!;
+          return theme.button!.appearance![val]!(this.classes);
         },
-        this._el.nativeElement,
-        this._appearanceClass,
-        STYLE_PRIORITY + 1);
+      STYLE_PRIORITY + 1);
+      this._appearanceClass = this._hostClass.update(newClass, this._appearanceClass);
     }
   }
 
@@ -250,19 +265,21 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     _ngZone: NgZone,
     public _rippleService: LyRippleService,
     private _focusState: LyFocusState,
+    private _hostClass: LyHostClass,
+    @Optional() @Inject(LY_BUTTON_DEFAULT_OPTIONS) private _defaultConfig: LyButtonDefaultOptions
   ) {
     super(_theme, _ngZone);
     this.setAutoContrast();
     this._triggerElement = _el;
     if (Platform.FIREFOX) {
-      this._theme.addStyle('button-ff', {
-        '&::-moz-focus-inner,&::-moz-focus-inner,&::-moz-focus-inner,&::-moz-focus-inner': {
+      const newClass = this._theme.renderStyle('button-ff', () => lyl `{
+        &::-moz-focus-inner,&::-moz-focus-inner {
           border: 0
-        }
-      }, this._el.nativeElement, undefined, STYLE_PRIORITY);
+        }`, STYLE_PRIORITY);
+      _renderer.addClass(_el.nativeElement, newClass);
     }
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
-    if (!_theme.variables.button) {
+    if (!(_theme.variables as LyButtonVariables).button) {
       throw getLyThemeVariableUndefinedError('button');
     }
   }
@@ -273,17 +290,18 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngOnInit() {
-    const { button } = this._theme.variables;
+    const { button } = (this._theme.variables as LyButtonVariables);
     if (button) {
       this._renderer.addClass(this._el.nativeElement, this.classes.root);
 
-      // Apply default config
       if (this.size == null && this.appearance == null) {
-        this.size = button.defaultConfig.size;
+        // Apply default config
+        this.size = (this._defaultConfig && this._defaultConfig.size!)
+          || DEFAULT_SIZE;
       } else {
-        if (button.defaultConfig && button.defaultConfig.appearance) {
+        if (this._defaultConfig && this._defaultConfig.appearance) {
           if (this.appearance == null) {
-            this.appearance = button.defaultConfig.appearance;
+            this.appearance = this._defaultConfig.appearance;
           }
         }
 
@@ -296,8 +314,6 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngAfterViewInit() {
-
-    // this._renderer.addClass(this._el.nativeElement, this.classes.animations);
 
     const focusState = this._focusState.listen(this._el);
     if (focusState) {

@@ -57,15 +57,28 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
         }
       },
     },
-    drawer: {
-      '&::-webkit-scrollbar-thumb': {
-        background: 'rgba(0,0,0,.26)'
-      },
-      '&::-webkit-scrollbar': {
-        height: '3px',
-        width: '3px'
+    drawer: lyl `{
+      &::-webkit-scrollbar {
+        width: 16px
       }
-    },
+      &::-webkit-scrollbar-thumb {
+        background: ${
+          (theme.background.primary.default.luminance() < 0.5
+          ? theme.text.light
+          : theme.text.dark).luminance(.5)
+        }
+        background-clip: padding-box
+        border: 6px solid transparent
+        -webkit-border-radius: 12px
+        border-radius: 12px
+        -webkit-box-shadow: none
+        box-shadow: none
+      }
+      &::-webkit-scrollbar-track {
+        background: none;
+        border: none;
+      }
+    }`,
     drawerUl: {
       overflow: 'hidden',
       position: 'relative',

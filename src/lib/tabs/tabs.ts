@@ -45,7 +45,8 @@ import {
   LY_COMMON_STYLES_DEPRECATED,
   WinResize,
   scrollWithAnimation,
-  toBoolean
+  toBoolean,
+  LyHostClass
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
@@ -569,7 +570,8 @@ export class LyTab implements OnInit {
     'elevation',
     'shadowColor',
     'disableRipple'
-  ]
+  ],
+  providers: [LyHostClass]
 })
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _activeTabStyle: boolean;
@@ -601,10 +603,11 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     _ngZone: NgZone,
     _rippleService: LyRippleService,
     _focusState: LyFocusState,
+    _hostClass: LyHostClass,
     @Optional() private _tab: LyTab,
     @Optional() private _tabs: LyTabs
   ) {
-    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState);
+    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, _hostClass, null as any);
   }
 
   ngOnInit() {

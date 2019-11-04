@@ -18,7 +18,7 @@ import { AppRoutingModule } from './app.routing';
 import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
-import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
+import { MinimaLight, MinimaDark, MinimaDeepDark } from '@alyle/ui/themes/minima';
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
 import { InstallationComponent } from './docs/getting-started/installation/installation.component';
@@ -41,13 +41,13 @@ import { Color } from '@alyle/ui/color';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
-  contrast: '#fff',
-  shadow: '#11998e'
+  contrast: new Color(0xffffff),
+  shadow: new Color(0x11998e)
 };
 const SublimeLight = {
   default: `linear-gradient(135deg,#FC5C7D 0%,#6A82FB 100%)`,
-  contrast: '#fff',
-  shadow: '#B36FBC'
+  contrast: new Color(0xffffff),
+  shadow: new Color(0xB36FBC)
 };
 
 export class CustomMinimaLight {
@@ -58,7 +58,7 @@ export class CustomMinimaLight {
   myColor = 'pink';
   discord = '#7289DA';
   drawerButton = '#5f6368';
-  demoBg = '#c7c7c7';
+  demoBg = new Color(0xc7c7c7);
   prism = {
     colorText: '#626682',
     string: '#27b98f',
@@ -77,17 +77,21 @@ export class CustomMinimaDark {
   name = 'minima-dark';
   shadow = 'rgba(0, 0, 0, 1)';
   codeColor = '#efefef';
-  codeBg = '#1b1b1b';
+  codeBg = new Color(0x1b1b1b);
   myColor = 'teal';
   discord = '#fff';
   drawerButton = '#abafb5';
-  demoBg = '#070707';
+  demoBg = new Color();
   prism = {
     colorText: '#ebebef',
     string: '#89b72c',
     keyword: '#3cd2ad'
   };
   stackblitz = '#fff';
+}
+export class CustomMinimaDeepDark extends CustomMinimaDark {
+  name = 'minima-deep-dark';
+  demoBg = new Color();
 }
 
 export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDark> {
@@ -110,6 +114,11 @@ export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDar
         fontWeight: 400
       }
     }
+  };
+  button = {
+    root: () => lyl `{
+      
+    }`
   };
 }
 
@@ -173,8 +182,10 @@ export function themeNameProviderFactory() {
     [ LyTheme2 ],
     { provide: LY_THEME, useClass: MinimaLight, multi: true },
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
+    { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
+    { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
     { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory }
   ],

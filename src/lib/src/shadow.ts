@@ -43,6 +43,7 @@ export function shadowBuilder(elevation: number | string, color?: Color) {
     _color.alpha(shadowKeyPenumbraOpacity).css(),
     _color.alpha(shadowAmbientShadowOpacity).css()
   ];
+  console.log({colors, color, _color});
   const e = Shadows[elevation];
   // tslint:disable-next-line:max-line-length
   return `${e[0]}px ${e[1]}px ${e[2]}px ${e[3]}px ${colors[0]},${e[4]}px ${e[5]}px ${e[6]}px ${e[7]}px ${colors[1]},${e[8]}px ${e[9]}px ${e[10]}px ${e[11]}px ${colors[2]};`;

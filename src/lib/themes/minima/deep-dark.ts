@@ -4,11 +4,8 @@ import { Color } from '@alyle/ui/color';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0, 0, 0, 1);
-/**
- * @param
- */
-export class MinimaDark extends MinimaBase implements ThemeConfig {
-  name = 'minima-dark';
+export class MinimaDeepDark extends MinimaBase implements ThemeConfig {
+  name = 'minima-deep-dark';
   primary = {
     default: new Color(0x1DE9B6),
     contrast: new Color(0, 0, 0, 0.87)
@@ -30,17 +27,17 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
     contrast: new Color(0, 0, 0, 0.87)
   };
   background = {
-    default: new Color(0x303030), // secondary
+    default: new Color(0x161616), // secondary
     primary: {
-      default: new Color(0x242424),
+      default: new Color(0x101010),
       shadow
     },
-    secondary: new Color(47, 47, 47),
-    tertiary: new Color(65, 65, 65),
+    secondary: new Color(0x161616),
+    tertiary: new Color(0x1b1b1b),
   };
   hover = new Color(255, 255, 255, 0.04);
   paper = {
-    default: new Color(0x242424),
+    default: new Color(0x101010),
     shadow
   };
   text = {

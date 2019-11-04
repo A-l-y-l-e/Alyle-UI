@@ -83,7 +83,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
               // Generate auto contrast if is necessary
               if (sColor.css().includes('invalid')) {
                 const lum = (__bg instanceof Color ? __bg : theme.colorOf(__bg)).luminance();
-                sColor = lum < 0.5 ? theme.paper.default : theme.text.default;
+                sColor = lum < 0.5 ? theme.text.light : theme.text.dark;
               }
             }
           }
@@ -96,6 +96,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
             }
             const backgroundColorCss = sBackground !== __bg && colorOf(theme, __bg || 'background:primary', 'shadow');
             const shadowColor = (__shadowColor && colorOf(theme, __shadowColor)) || backgroundColorCss || sBackground || sColor || theme.shadow;
+            console.log('from Color', {shadowColor, __shadowColor, __bg});
             if (__elevation != null) {
               sBoxShadow = shadowBuilder(__elevation, shadowColor);
             } else {

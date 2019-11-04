@@ -11,6 +11,7 @@ import { LyAvatarVariables, LyAvatarTheme } from '@alyle/ui/avatar';
 import { ExpansionVariables, ExpansionConfig } from '@alyle/ui/expansion';
 import { SliderVariables } from '@alyle/ui/slider';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
+import { LyButtonTheme } from '@alyle/ui/button';
 
 export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAvatarVariables {
   typography = {
@@ -30,51 +31,48 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAv
   ripple = RippleVariables;
   animations = animations;
   direction = Dir.ltr;
-  button = {
-    defaultConfig: {
-      size: 'medium' as 'medium'
-    },
+  button: LyButtonTheme = {
     size: {
-      small: ({
-        padding: '0 8px',
-        fontSize: this.pxToRem(13),
-        minHeight: '32px',
-        minWidth: '48px'
-      }),
-      medium: ({
-        padding: '0 14px',
-        minHeight: '36px',
-        minWidth: '64px'
-      }),
-      large: ({
-        padding: '0 21px',
-        fontSize: this.pxToRem(15),
-        minHeight: '40px',
-        minWidth: '96px'
-      })
+      small: () => lyl `{
+        padding: 0 8px
+        font-size: ${this.pxToRem(13)}
+        min-height: 32px
+        min-width: 48p
+      }`,
+      medium: () => lyl `{
+        padding: 0 14px
+        min-height: 36px
+        min-width: 64px
+      }`,
+      large: () => lyl `{
+        padding: 0 21px
+        font-size: ${this.pxToRem(15)}
+        min-height: 40px
+        min-width: 96px
+      }`
     },
     appearance: {
-      icon: {
-        minWidth: '40px',
-        width: '40px',
-        height: '40px',
-        padding: 0,
-        borderRadius: '50%'
-      },
-      fab: {
-        minWidth: '56px',
-        width: '56px',
-        height: '56px',
-        padding: 0,
-        borderRadius: '50%'
-      },
-      miniFab: {
-        minWidth: '40px',
-        width: '40px',
-        height: '40px',
-        padding: 0,
-        borderRadius: '50%'
-      }
+      icon: () => lyl `{
+        min-width: 40px
+        width: 40px
+        height: 40px
+        padding: 0
+        border-radius: 50%
+      }`,
+      fab: () => lyl `{
+        min-width: 56px
+        width: 56px
+        height: 56px
+        padding: 0
+        border-radius: 50%
+      }`,
+      miniFab: () => lyl `{
+        min-width: 40px
+        width: 40px
+        height: 40px
+        padding: 0
+        border-radius: 50%
+      }`
     }
   };
   expansion: ExpansionConfig = {

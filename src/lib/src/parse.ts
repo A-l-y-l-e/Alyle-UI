@@ -209,21 +209,40 @@ function createUniqueCommentSelector(text = 'id') {
   return `/* >> ${text} -- ${Math.floor(new Date().valueOf() * Math.random()).toString(36)} */`;
 }
 
-export class StyleCollection {
-  private _templates: (StyleTemplate | (() => StyleTemplate))[];
-  constructor(...templates: (StyleTemplate | (() => StyleTemplate))[]) {
+type Transformer<T> = (st: T) => (StyleTemplate | (() => StyleTemplate));
+
+export class StyleCollection<T = any> {
+  private _templates: (StyleTemplate | (() => StyleTemplate) | T)[];
+  private _transformer?: Transformer<T>;
+
+  constructor(...templates: (T)[])
+  constructor(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]) {
     this._templates = templates;
   }
 
-  add(...templates: StyleTemplate[]) {
+  add(...templates: (T)[]): StyleCollection<T>
+  add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]): StyleCollection
+  add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]) {
     return new StyleCollection(...[...this._templates, ...templates]);
   }
 
+  /** Transform style */
+  setTransformer(transformer: Transformer<T>) {
+    this._transformer = transformer;
+    return this;
+  }
+
+  /** @docs-private */
   call(className: string) {
     let lin = '';
     const templates = this._templates;
     for (let index = 0; index < templates.length; index++) {
-      const template = normalizeStyleTemplate(templates[index]);
+      let template: StyleTemplate;
+      if (this._transformer) {
+        template = (normalizeStyleTemplate(this._transformer(templates[index] as T)));
+      } else {
+        template = normalizeStyleTemplate(templates[index] as StyleTemplate | (() => StyleTemplate));
+      }
       lin += template(className);
     }
     return lin;
@@ -247,7 +266,14 @@ export function mergeThemes(target: any, ...sources: any[]): any {
   if (isObject(target) && isObject(source)) {
     for (const key in source) {
       if (isObject(source[key])) {
-        if (!target[key]) { Object.assign(target, { [key]: {} }); }
+        if (!target[key]) {
+          if (source[key].constructor.name === 'Object') {
+            target[key] = {};
+          } else {
+            // if is a class
+            target[key] = source[key];
+          }
+        }
         mergeThemes(target[key], source[key]);
       } else {
         const targetKey = target[key];
@@ -256,7 +282,7 @@ export function mergeThemes(target: any, ...sources: any[]): any {
         if (targetKey instanceof StyleCollection && typeof sourceKey === 'function') {
           target[key] = (target[key] as StyleCollection).add(sourceKey);
         } else {
-          Object.assign(target, { [key]: source[key] });
+          target[key] = source[key];
         }
       }
     }

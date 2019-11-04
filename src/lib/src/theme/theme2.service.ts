@@ -414,10 +414,6 @@ function createLylStyle(
   styles: StyleTemplate,
   themeName: string
 ) {
-  // Only update when necessary
-  if (styles.length) {
-    styleMap.requireUpdate = false;
-  }
   // use current class or set new
   const className = styleMap.requireUpdate
   ? styleMap[themeName] || (styleMap[themeName] = createNextClassId())

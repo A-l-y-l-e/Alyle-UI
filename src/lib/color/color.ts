@@ -77,7 +77,7 @@ export class Color {
     const rgb = (relativeLuminance > lum
         ? test(new Color(0, 0, 0), this)
         : test(this, new Color(255, 255, 255))).rgb();
-
+    rgb.pop();
     rgb.push(this._color[ 3 ]);
 
     return new Color(...rgb);
@@ -336,4 +336,6 @@ export const color3 = new Color(0x00bcd4, .5);
 export const color4 = new Color(250, 250, 250);
 export const color5 = new Color(250, 250, 250, .5);
 export const color6 = new Color(...[250, 250, 250, .5]);
-console.log(new Color(0x00bcd4).luminance());
+console.log(new Color(0x2b2b2b).luminance());
+
+console.log(Color);
