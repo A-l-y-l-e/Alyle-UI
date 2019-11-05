@@ -4,7 +4,6 @@ import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { CheckboxVariables } from './variables/checkbox';
 import { TooltipVariables } from './variables/tooltip';
-import { CardVariables } from './variables/card';
 import { CarouselVariables } from './variables/carousel';
 import { MenuVariables } from './variables/menu';
 import { RadioVariables } from './variables/radio';
@@ -90,7 +89,6 @@ export interface ThemeConfig {
   ripple: RippleVariables;
   checkbox?: CheckboxVariables;
   tooltip: TooltipVariables;
-  card?: CardVariables;
   carousel?: CarouselVariables;
   imgCropper?: ImgCropperVariables;
   select?: SelectVariables;

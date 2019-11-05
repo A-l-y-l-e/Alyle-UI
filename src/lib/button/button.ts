@@ -78,6 +78,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
   const typography = theme.typography;
   const button = ref.getClasses(STYLES);
   return {
+    $priority: STYLE_PRIORITY,
     root: () => lyl `{
       font-family: ${typography.fontFamily}
       color: ${theme.text.default}
@@ -194,7 +195,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
    * Style
    * @docs-private
    */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   private _rippleSensitive = false;
   private _size: string;
   private _sizeClass: string | null;

@@ -11,7 +11,7 @@ class Context {
   }\`
   style('.y')`;
 
-  fnThatReturnsStyleAStyle = `const style = () => lyl \`{
+  fnThatReturnsStyleAStyle = `const style = ( ) => lyl \`{
     color: blue
   }\`
   style('.y')`;
