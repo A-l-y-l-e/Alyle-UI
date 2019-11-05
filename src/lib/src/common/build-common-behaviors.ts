@@ -96,7 +96,6 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
             }
             const backgroundColorCss = sBackground !== __bg && colorOf(theme, __bg || 'background:primary', 'shadow');
             const shadowColor = (__shadowColor && colorOf(theme, __shadowColor)) || backgroundColorCss || sBackground || sColor || theme.shadow;
-            console.log('from Color', {shadowColor, __shadowColor, __bg});
             if (__elevation != null) {
               sBoxShadow = shadowBuilder(__elevation, shadowColor);
             } else {

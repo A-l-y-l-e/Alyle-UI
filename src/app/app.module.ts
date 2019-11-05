@@ -91,7 +91,6 @@ export class CustomMinimaDark {
 }
 export class CustomMinimaDeepDark extends CustomMinimaDark {
   name = 'minima-deep-dark';
-  demoBg = new Color();
 }
 
 export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDark> {

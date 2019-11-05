@@ -34,16 +34,18 @@ export const Shadows = [
 export function shadowBuilder(elevation: number | string, color?: Color) {
   let _color = color || new Color(0, 0, 0);
   const rgb = _color.rgb;
+
   if (!(rgb[0] === rgb[1] && rgb[0] === rgb[2])) {
     // Darken and saturate if the color is not in the grayscale
     _color = _color.darken().saturate(2);
   }
+
   const colors = [
     _color.alpha(shadowKeyUmbraOpacity).css(),
     _color.alpha(shadowKeyPenumbraOpacity).css(),
     _color.alpha(shadowAmbientShadowOpacity).css()
   ];
-  console.log({colors, color, _color});
+
   const e = Shadows[elevation];
   // tslint:disable-next-line:max-line-length
   return `${e[0]}px ${e[1]}px ${e[2]}px ${e[3]}px ${colors[0]},${e[4]}px ${e[5]}px ${e[6]}px ${e[7]}px ${colors[1]},${e[8]}px ${e[9]}px ${e[10]}px ${e[11]}px ${colors[2]};`;

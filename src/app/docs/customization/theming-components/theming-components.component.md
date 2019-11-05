@@ -28,7 +28,34 @@ export class GlobalVariables implements PartialThemeVariables {
 
 We must keep in mind that when we extend a theme, styles can be replaced or added one over another.
 
-For example si declaro los estilos en el tema minima-dark, y despues tambien declaro en GlobalVariables, el estilo que se renderizar será el que esta en Global variables. Esto es un comportamiento predeterminado, para renderizen ambos estilos puede usar `StyleCollection`.
+For example if I declare the styles in the `minimal-dark` theme, and also declare in `GlobalVariables`, the style that will be rendered will be the one in Global variables. This is a default behavior, to render both styles you can use `StyleCollection`.
+
+```ts
+import {
+  ...
+  PartialThemeVariables,
+  lyl } from '@alyle/ui';
+
+export class CustomMinimaLight {
+  name = 'minima-light';
+  button = {
+    root: () => lyl `{
+      border-radius: 8px
+    }`
+  };
+}
+
+export class GlobalVariables {
+  button = {
+    // This override the previous style
+    root: () => lyl `{
+      border-radius: 2em
+    }`
+  };
+}
+```
+
+With `StyleCollection`:
 
 ```ts
 import {
@@ -40,17 +67,20 @@ import {
 export class CustomMinimaLight {
   name = 'minima-light';
   button = {
-    root: () => lyl `{
-      ...
-    }`
+    // This will be rendered
+    root: new StyleCollection(() => lyl `{
+      border-radius: 8px
+    }`);
   };
 }
 
 export class GlobalVariables {
   button = {
+    // and this too
     root: () => lyl `{
-      ...
+      text-transform: uppercase;
     }`
   };
 }
 ```
+

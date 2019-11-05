@@ -2,7 +2,7 @@ import { Color } from '@alyle/ui/color';
 
 const LINE_FEED_REGEX = () => /(\n?[^\n]+\n?)/g;
 const AMPERSAND_REGEX = () => /&/g;
-const STYLE_TEMPLATE_REGEX = () => /StyleTemplate\[[\w]+\]/;
+const STYLE_TEMPLATE_REGEX = () => /StyleTemplate\[[\w]+\]/g;
 let id: number = 0;
 
 /**
@@ -174,7 +174,7 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
         result = result.slice(0, result.length - 3);
         if (typeof placeholder === 'function' || placeholder instanceof StyleCollection) {
           const newID = createUniqueId();
-          dsMap.set(newID, placeholder as () => StyleTemplate);
+          dsMap.set(newID, placeholder);
           result += newID;
         }
       } else {
