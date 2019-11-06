@@ -68,7 +68,6 @@ export class MinimaDeepDark extends MinimaBase implements ThemeConfig {
       }
     }
   });
-  badge = {};
   snackBar = {
     root: new StyleCollection(lyl `{
       background: ${new Color(0xfafafa)}

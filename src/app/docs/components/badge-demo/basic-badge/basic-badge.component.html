@@ -17,11 +17,27 @@
 
   <button
     ly-button
-    raised
+    appearance="icon"
+  >
+    <ly-icon #iconA>notifications</ly-icon>
+  </button>
+  <ly-badge
     bg="primary"
-    lyBadge
-    lyBadgeAppearance="dot"
-  >button</button>
+    [container]="iconA"
+  >9</ly-badge>
+
+  <button
+    ly-button
+    appearance="icon"
+  >
+    <ly-icon #iconB>notifications</ly-icon>
+  </button>
+  <ly-badge
+    bg="primary"
+    appearance="dot"
+    overlap="circle"
+    [container]="iconB"
+  ></ly-badge>
 
   <p>
     Customized Badge

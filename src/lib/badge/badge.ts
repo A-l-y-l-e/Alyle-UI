@@ -67,6 +67,7 @@ export const STYLES = (theme: ThemeVariables & LyBadgeVariables, ref: ThemeRef) 
       justify-content: center
       align-items: center
       box-sizing: border-box
+      z-index: 1
       {
         ...${
           (theme.badge
@@ -142,15 +143,18 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
 
   @Input()
   set container(container: HTMLElement) {
-    if (container && this.content == null) {
-      if (!container.tagName) {
-        throw new Error(`${LyBadge.и}: the value given to container is not an HTMLElement`);
-      }
-      this._container = container;
-      this._renderer.appendChild(container, this._el.nativeElement);
-    } else {
+    if (container == null) {
+      throw new Error(`${LyBadge.и}: [container] is undefined.`);
+    }
+    if (this.content != null) {
       throw new Error(`${LyBadge.и}: [container] with [content] don't work together.`);
     }
+    if (!container.tagName) {
+      throw new Error(`${LyBadge.и}: the value given to container is not an HTMLElement`);
+    }
+    this._container = container;
+    this._renderer.appendChild(container, this._el.nativeElement);
+
   }
   get container() {
     return this._container;
@@ -238,7 +242,9 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
         },
         STYLE_PRIORITY
       );
-      this._appearanceClass = this._hostClass.update(newClass, this._appearanceClass);
+      Promise.resolve(null!).then(() => {
+        this._appearanceClass = this._hostClass.update(newClass, this._appearanceClass);
+      });
     }
   }
 

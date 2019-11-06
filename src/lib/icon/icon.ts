@@ -51,6 +51,7 @@ mixinBg(
     'elevation',
     'shadowColor',
   ],
+  exportAs: 'lyIcon'
 })
 export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDestroy {
   private _icon: string;
@@ -87,6 +88,11 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
   }
   set fontIcon(key: string) {
     this._fontIcon = key;
+  }
+
+  /** @docs-private */
+  get hostElement() {
+    return this._el.nativeElement;
   }
 
   constructor(
