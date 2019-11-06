@@ -14,11 +14,13 @@ const styles = (theme: ThemeVariables) => {
       padding: 0 1em
     }`,
     customBadge: lyl `{
-      ${after}: 0
-      top: 0
-      bottom: 0
+      top: 25%
+      ${after}: 25%
       margin: auto 0
       border: 2px solid ${theme.background.tertiary}
+      min-width: 20px
+      height: 20px
+      padding: 0 4px
     }`
   };
 };

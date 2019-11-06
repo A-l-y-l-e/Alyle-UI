@@ -7,19 +7,42 @@
 
   <p><span lyBadge="9" [withClass]="classes.padding">Text with a badge</span></p>
 
-  <button ly-button raised bg="primary" lyBadge="9" lyBadgeBg="accent">
-    button
-  </button>
+  <button
+    ly-button
+    raised
+    bg="primary"
+    lyBadge="9"
+    lyBadgeBg="accent"
+  >button</button>
+
+  <button
+    ly-button
+    raised
+    bg="primary"
+    lyBadge
+    lyBadgeAppearance="dot"
+  >button</button>
 
   <p>
     Customized Badge
-    <button ly-button bg="background:tertiary" color="primary" outlined>
-      button
-      <ly-badge bg="background:tertiary" color="primary" outlined>9</ly-badge>
-    </button>
-    <button ly-button appearance="icon">
+    <button #buttonA
+      ly-button
+      bg="background:tertiary"
+      color="primary"
+      outlined
+    >button</button>
+    <ly-badge bg="background:tertiary" color="primary" outlined [container]="buttonA.hostElement">9</ly-badge>
+
+    <button #buttonB
+      ly-button
+      appearance="icon"
+    >
       <ly-icon>notifications</ly-icon>
-      <ly-badge [withClass]="classes.customBadge" bg="primary">9</ly-badge>
     </button>
+    <ly-badge
+      [withClass]="classes.customBadge"
+      bg="primary"
+      [container]="buttonB.hostElement"
+    >9+</ly-badge>
   </p>
 </div>

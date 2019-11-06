@@ -12,6 +12,7 @@ import { ExpansionVariables, ExpansionConfig } from '@alyle/ui/expansion';
 import { SliderVariables } from '@alyle/ui/slider';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 import { LyButtonTheme } from '@alyle/ui/button';
+import { LyBadgeTheme } from '@alyle/ui/badge';
 
 export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAvatarVariables {
   typography = {
@@ -71,6 +72,21 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAv
         width: 40px
         height: 40px
         padding: 0
+        border-radius: 50%
+      }`
+    }
+  };
+  badge: LyBadgeTheme = {
+    appearance: {
+      default: () => lyl `{
+        padding: 0 6px
+        min-width: 22px
+        height: 22px
+        border-radius: 2em
+      }`,
+      dot: () => lyl `{
+        width: 6px
+        height: 6px
         border-radius: 50%
       }`
     }

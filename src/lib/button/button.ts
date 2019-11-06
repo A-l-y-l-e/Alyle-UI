@@ -79,7 +79,8 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
   const button = ref.getClasses(STYLES);
   return {
     $priority: STYLE_PRIORITY,
-    root: () => lyl `{
+    $name: LyButton.и,
+    root: ( ) => lyl `{
       font-family: ${typography.fontFamily}
       color: ${theme.text.default}
       -webkit-tap-highlight-color: transparent
@@ -108,7 +109,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
       &::-moz-focus-inner {
         border: 0
       }
-      &::after {
+      &::before {
         content: ''
         {
           ...${LY_COMMON_STYLES.fill}
@@ -119,7 +120,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
         opacity: 0
         pointer-events: none
       }
-      &${button.onFocusByKeyboard}::after, &:hover::after {
+      &${button.onFocusByKeyboard}::before, &:hover::before {
         background: currentColor
         opacity: .13
         border-radius: inherit
@@ -188,9 +189,11 @@ mixinBg(
     'shadowColor',
     'disableRipple'
   ],
-  providers: [LyHostClass]
+  providers: [LyHostClass],
+  exportAs: 'lyButton'
 })
 export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
+  static readonly и = 'LyButton';
   /**
    * Style
    * @docs-private
@@ -259,8 +262,13 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     }
   }
 
+  /** @docs-private */
+  get hostElement() {
+    return this._el.nativeElement;
+  }
+
   constructor(
-    protected _el: ElementRef,
+    protected _el: ElementRef<HTMLButtonElement | HTMLAnchorElement>,
     protected _renderer: Renderer2,
     _theme: LyTheme2,
     _ngZone: NgZone,
