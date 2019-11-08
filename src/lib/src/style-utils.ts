@@ -77,14 +77,17 @@ export class LyStyleUtils {
     }
   }
 
-  getDirection(val: DirAlias) {
+  getDirection(val: DirAlias | 'before' | 'after' | 'above' | 'below') {
     if (val === DirAlias.before) {
       return this.direction === 'rtl' ? 'right' : 'left';
     } else if (val === DirAlias.after) {
       return this.direction === 'rtl' ? 'left' : 'right';
-    } else {
-      return val;
+    } else if (val === 'above') {
+      return 'top';
+    } else if (val === 'below') {
+      return 'bottom';
     }
+    return val;
   }
 }
 

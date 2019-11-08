@@ -269,7 +269,11 @@ export class LyTheme2 {
     return styleMap.classes || styleMap[themeName];
   }
 
-  private _createStyleContent2(
+  /**
+   * For internal use only
+   * @docs-private
+   */
+  _createStyleContent2(
     styles: Styles | StyleDeclarationsBlock | ((theme: any, ref: ThemeRef) => StyleTemplate),
     id: string | null,
     priority: number | undefined | null,

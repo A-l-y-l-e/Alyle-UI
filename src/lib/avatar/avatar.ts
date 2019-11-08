@@ -11,7 +11,8 @@ import {
   ThemeVariables,
   lyl,
   StyleTemplate,
-  LyHostClass
+  LyHostClass,
+  StyleRenderer
 } from '@alyle/ui';
 
 export interface LyAvatarTheme {
@@ -96,7 +97,8 @@ export const LyAvatarMixinBase = mixinStyleUpdater(
     'shadowColor',
   ],
   providers: [
-    LyHostClass
+    LyHostClass,
+    StyleRenderer
   ]
 })
 export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
@@ -106,31 +108,38 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
   /** @docs-private */
   readonly classes = this._theme.renderStyleSheet(STYLES);
   private _size: number;
-  private _sizeClass: string;
 
   /** Avatar size */
   @Input()
   set size(val: number) {
     if (val !== this.size) {
       this._size = val;
-      const newClass = this._theme.renderStyle(`${LyAvatar.и}.size:${val}`, () => (
+      this[0x1] = this._styleRenderer.add(`${LyAvatar.и}.size:${val}`, () => (
         lyl `{
           width: ${val}px
           height: ${val}px
         }`
-      ), STYLE_PRIORITY);
-      this._sizeClass = this._hostClass.update(newClass, this._sizeClass);
+      ), STYLE_PRIORITY, this[0x1]);
+
+      // const newClass = this._theme.renderStyle(`${LyAvatar.и}.size:${val}`, () => (
+      //   lyl `{
+      //     width: ${val}px
+      //     height: ${val}px
+      //   }`
+      // ), STYLE_PRIORITY);
+      // this._sizeClass = this._hostClass.update(newClass, this._sizeClass);
     }
   }
   get size() {
     return this._size;
   }
+  [0x1]: string;
 
   constructor(
     theme: LyTheme2,
     renderer: Renderer2,
     private _elementRef: ElementRef,
-    private _hostClass: LyHostClass,
+    private _styleRenderer: StyleRenderer,
     @Optional() @Inject(LY_AVATAR_DEFAULT_OPTIONS) private _defaults: LyAvatarDefaultOptions
   ) {
     super(theme);

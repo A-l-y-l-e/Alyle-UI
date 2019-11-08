@@ -220,8 +220,8 @@ export class StyleCollection<T = any> {
     this._templates = templates;
   }
 
-  add(...templates: (T)[]): StyleCollection<T>
-  add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]): StyleCollection
+  add(...templates: (T)[]): StyleCollection<T>;
+  add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]): StyleCollection;
   add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]) {
     return new StyleCollection(...[...this._templates, ...templates]);
   }

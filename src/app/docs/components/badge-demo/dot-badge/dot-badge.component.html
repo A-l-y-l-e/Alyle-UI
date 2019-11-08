@@ -1,0 +1,32 @@
+<button
+  ly-button
+  appearance="icon"
+>
+  <ly-icon #icon>notifications</ly-icon>
+</button>
+<ly-badge
+  bg="primary"
+  appearance="dot"
+  overlap="circle"
+  [container]="icon"
+></ly-badge>
+
+<button
+  ly-button
+  appearance="icon"
+>
+  <ly-icon #icon2>mail</ly-icon>
+</button>
+<ly-badge
+  appearance="dot"
+  overlap="circle"
+  [container]="icon2"
+></ly-badge>
+
+<p lyTyp="body1">
+  <span
+    lyBadge
+    lyBadgeAppearance="dot"
+    lyBadgeBg="primary"
+  >Typography</span>
+</p>

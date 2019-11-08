@@ -1,14 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'aui-badge-demo',
-  templateUrl: './badge-demo.component.html'
+  templateUrl: './badge-demo.component.md'
 })
-export class BadgeDemoComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class BadgeDemoComponent { }

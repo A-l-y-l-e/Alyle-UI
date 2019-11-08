@@ -126,7 +126,6 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
   private _positionClass: string;
   private _badgeEl: any;
   private _badgeElementRef: any;
-  private _lyBadgeBgClass: string;
   private _hostClass: LyHostClass;
 
   /** The content for the badge */
@@ -172,17 +171,19 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
     if (val !== this.overlap) {
       this._overlap = val;
 
-      const newClass = this._theme.renderStyle(`${LyBadge.и}.overlap:${val}`, ({after}: ThemeVariables) => {
-        const overlap = val;
-        const p = overlap === 'circle'
-          ? 14 : 0;
-        return lyl `{
-          top: ${p}%
-          ${after}: ${p}%
-        }`;
-      }, STYLE_PRIORITY);
-
       Promise.resolve(null!).then(() => {
+        const overlap = val;
+        const hp = this.hPosition;
+        const vp = this.vPosition;
+
+        const newClass = this._theme.renderStyle(`${LyBadge.и}.overlap:${val}&${hp}&${vp}`, (theme: ThemeVariables) => {
+          const p = overlap === 'circle'
+            ? 14 : 0;
+          return lyl `{
+            ${theme.getDirection(vp)}: ${p}%
+            ${theme.getDirection(hp)}: ${p}%
+          }`;
+        }, STYLE_PRIORITY);
         this._overlapClass = this._hostClass.update(newClass, this._overlapClass);
       });
     }
@@ -192,19 +193,34 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
 
   /** The color of the badge */
   @Input()
+  get bg() {
+    return this._lyBadgeBg;
+  }
+  set bg(val: string) {
+    if (this.content == null) {
+      this.lyBadgeBg = val;
+    }
+  }
+
+  /** The color of the badge */
+  @Input()
   get lyBadgeBg() {
     return this._lyBadgeBg;
   }
   set lyBadgeBg(val: string) {
     if (val !== this.lyBadgeBg) {
       this._lyBadgeBg = val;
+
       const newClass = this._theme.renderStyle(`${LyBadge.и}.bg:${val}`,
-      (theme: ThemeVariables) => lyl`{
+      (theme: ThemeVariables) => lyl `{
         background-color: ${theme.colorOf(val)}
         color: ${theme.colorOf(`${val}:contrast`)
       }`, STYLE_PRIORITY);
 
-      this._lyBadgeBgClass = this._hostClass.update(newClass, this._lyBadgeBgClass);
+      Promise.resolve(null!).then(() => {
+        this[0x1] = this._hostClass.update(newClass, this[0x1]);
+      });
+
 
     }
   }
@@ -277,14 +293,21 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
     this._renderer.addClass(this._badgeElementRef, this.classes.root);
 
     /** Set default bg */
-    if (this.content != null && !this.lyBadgeBg) {
+    if (!this.bg) {
       this.lyBadgeBg = DEFAULT_BG;
     }
 
     /** Set default position */
-    if (!(this.hPosition && this.vPosition)) {
+    let requireUpdate = false;
+    if (!this.hPosition) {
+      requireUpdate = true;
       this.hPosition = DEFAULT_H_POSITION;
+    }
+    if (!this.vPosition) {
+      requireUpdate = true;
       this.vPosition = DEFAULT_V_POSITION;
+    }
+    if (requireUpdate) {
       this._updatePosition();
     }
 
@@ -309,18 +332,18 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
     const hp = this.hPosition;
     const vp = this.vPosition;
 
-    if (this.hPosition || this.vPosition) {
+    if (hp && vp) {
       let y: number;
       let x: number;
       if (hp && vp) {
-        if (hp === 'after' && vp === 'above') {
-          y = -50;
+        if (hp === 'after') {
           x = 50;
-        } else if (hp === 'after' && vp === 'below') {
-          y = 50;
-        } else if (hp === 'before' && vp === 'above') {
-          y = 50;
-        } else if (hp === 'before' && vp === 'below') {
+        } else {
+          x = -50;
+        }
+        if (vp === 'above') {
+          y = -50;
+        } else {
           y = 50;
         }
       }
@@ -331,7 +354,10 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
           ? x : -x}%, ${y}%);
       }`, STYLE_PRIORITY);
 
-      this._positionClass = this._hostClass.update(newClass, this._positionClass);
+      Promise.resolve(null!).then(() => {
+        this._positionClass = this._hostClass.update(newClass, this._positionClass);
+      });
+
     }
   }
 

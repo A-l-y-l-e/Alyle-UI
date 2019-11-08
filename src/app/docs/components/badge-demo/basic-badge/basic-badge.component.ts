@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { LyTheme2, ThemeVariables, lyl } from '@alyle/ui';
+import { LyTheme2, lyl } from '@alyle/ui';
 
-const styles = (theme: ThemeVariables) => {
-  const { after } = theme;
+const styles = () => {
 
   return {
     root: lyl `{
@@ -12,15 +11,6 @@ const styles = (theme: ThemeVariables) => {
     }`,
     padding: lyl `{
       padding: 0 1em
-    }`,
-    customBadge: lyl `{
-      top: 25%
-      ${after}: 25%
-      margin: auto 0
-      border: 2px solid ${theme.background.tertiary}
-      min-width: 20px
-      height: 20px
-      padding: 0 4px
     }`
   };
 };

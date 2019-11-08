@@ -59,6 +59,8 @@ import { ResizingCroppingImagesDemoComponent } from './components/resizing-cropp
 
 import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
 import { BasicBadgeModule } from './components/badge-demo/basic-badge/basic-badge.module';
+import { CustomBadgeModule } from './components/badge-demo/custom-badge/custom-badge.module';
+import { DotBadgeModule } from './components/badge-demo/dot-badge/dot-badge.module';
 
 /** Field */
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
@@ -211,6 +213,8 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     ResizingCroppingImagesExample03Module,
     /** Badge */
     BasicBadgeModule,
+    CustomBadgeModule,
+    DotBadgeModule,
     /** Field */
     BasicFieldModule,
     FieldPlaygroundModule,

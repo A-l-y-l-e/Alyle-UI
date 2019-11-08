@@ -34,7 +34,7 @@ export class LyHostClass {
     }
   }
 
-  update(newClassName: string, oldClassName?: string | null) {
+  update(newClassName: string, oldClassName: string | null | undefined) {
     this.remove(oldClassName);
     this.add(newClassName);
     return newClassName;
