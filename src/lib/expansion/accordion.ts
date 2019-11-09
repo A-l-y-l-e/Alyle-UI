@@ -19,7 +19,7 @@ const STYLE_PRIORITY = -0.9;
 
 export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef) => {
 
-  const classes = ref.getClasses(STYLES);
+  const classes = ref.selectorsOf(STYLES);
   const { after } = theme;
 
   return {
@@ -143,7 +143,7 @@ export class LyAccordion implements OnInit {
         if (!(theme.expansion!.appearance && theme.expansion!.appearance[val])) {
           throw new Error(`Value expansion.appearance['${val}'] not found in ThemeVariables`);
         }
-        const classes = ref.getClasses(STYLES);
+        const classes = ref.selectorsOf(STYLES);
         return theme.expansion!.appearance[val]!(classes);
       },
       this._el.nativeElement,

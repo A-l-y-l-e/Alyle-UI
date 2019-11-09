@@ -68,7 +68,7 @@ export class LyStyleUtils {
     return `@media ${this.breakpoints[key] || key}`;
   }
 
-  getClasses<T>(styles: T & Styles): LyClasses<T> {
+  selectorsOf<T>(styles: T & Styles): LyClasses<T> {
     const styleMap = _STYLE_MAP.get(styles);
     if (styleMap) {
       return styleMap.classes || styleMap[this.name];

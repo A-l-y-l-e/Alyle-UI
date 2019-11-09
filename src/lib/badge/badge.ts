@@ -52,7 +52,7 @@ const DEFAULT_APPEARANCE = 'default';
 const DEFAULT_OVERLAP = 'rectangle';
 
 export const STYLES = (theme: ThemeVariables & LyBadgeVariables, ref: ThemeRef) => {
-  const badge = ref.getClasses(STYLES);
+  const badge = ref.selectorsOf(STYLES);
   return {
     $name: LyBadge.и,
     $priority: STYLE_PRIORITY,
@@ -176,7 +176,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
         const hp = this.hPosition;
         const vp = this.vPosition;
 
-        const newClass = this._theme.renderStyle(`${LyBadge.и}.overlap:${val}&${hp}&${vp}`, (theme: ThemeVariables) => {
+        const newClass = this._theme.renderStyle(`${LyBadge.и}-overlap-${val}&${hp}&${vp}`, (theme: ThemeVariables) => {
           const p = overlap === 'circle'
             ? 14 : 0;
           return lyl `{
@@ -211,7 +211,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
     if (val !== this.lyBadgeBg) {
       this._lyBadgeBg = val;
 
-      const newClass = this._theme.renderStyle(`${LyBadge.и}.bg:${val}`,
+      const newClass = this._theme.renderStyle(`${LyBadge.и}--bg-${val}`,
       (theme: ThemeVariables) => lyl `{
         background-color: ${theme.colorOf(val)}
         color: ${theme.colorOf(`${val}:contrast`)
@@ -243,7 +243,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
   set lyBadgeAppearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      const styleID = `${LyBadge.и}.appearance:${val}`;
+      const styleID = `${LyBadge.и}--appearance-${val}`;
       const newClass = this._theme.renderStyle(
         styleID,
         (theme: LyBadgeVariables) => {
@@ -348,7 +348,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
         }
       }
 
-      const newClass = this._theme.renderStyle(`${LyBadge.и}.position:${hp}&${vp}`,
+      const newClass = this._theme.renderStyle(`${LyBadge.и}--position-${hp}-${vp}`,
       (theme: ThemeVariables) => lyl `{
         transform: translate(${theme.after === 'right'
           ? x : -x}%, ${y}%);

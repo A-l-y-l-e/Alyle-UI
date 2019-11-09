@@ -160,10 +160,8 @@ export class LylParse {
 }
 
 export type StyleTemplate = (className: string) => string;
-export type Lyl = ((className: string) => string) | (() => (className: string) => string);
 
 export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | (() => StyleTemplate) | null | undefined)[]) {
-
   return (className: string) => {
     let result = '';
     const dsMap = new Map<string, (StyleTemplate | (() => StyleTemplate)) | StyleCollection>();
@@ -307,3 +305,76 @@ export function normalizeStyleTemplate(
     return (fn as (() => StyleTemplate))();
   }
 }
+
+export class StringIdGenerator {
+  private _chars: string;
+  private _nextId: number[];
+  constructor(chars = 'abcdefghijklmnopqrstuvwxyz') {
+    this._chars = chars;
+    this._nextId = [0];
+  }
+
+  next() {
+    const r: string[] = [];
+    for (const char of this._nextId) {
+      r.unshift(this._chars[char]);
+    }
+    this._increment();
+    return r.join('');
+  }
+
+  _increment() {
+    for (let i = 0; i < this._nextId.length; i++) {
+      const val = ++this._nextId[i];
+      if (val >= this._chars.length) {
+        this._nextId[i] = 0;
+      } else {
+        return;
+      }
+    }
+    this._nextId.push(0);
+  }
+}
+
+
+class Keyframe {
+  private expressions: (string | Color | number)[];
+  private _template: string;
+  private id: string;
+  constructor(
+    private literals: TemplateStringsArray,
+    expressions: (string | Color | number)[]
+  ) {
+    this.expressions = expressions;
+  }
+  get template() {
+    this.toString();
+    return this._template;
+  }
+
+  toString() {
+    if (this.id) {
+      return this.id;
+    }
+    const ID = this.id = keyframeId.next();
+    const { literals, expressions } = this;
+    let result = expressions[0];
+    for (let i = 0; i < expressions.length; ++i) {
+      result += expressions[i] + literals[i + 1];
+    }
+
+    this._template = `@keyframes ${ID} ${result}`;
+    return ID;
+  }
+}
+
+const keyframeId = new StringIdGenerator();
+
+export function keyframe(
+  literals: TemplateStringsArray,
+  ...expressions: (string | Color | number)[]
+): Keyframe {
+  return new Keyframe(literals, expressions);
+}
+
+

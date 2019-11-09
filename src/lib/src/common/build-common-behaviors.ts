@@ -48,14 +48,14 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
       const __isContrast = this._autoContrast || this._superHyperInternalPropertyColor === 'auto';
       const el = getNativeElement(element);
 
-      const newKey = `common----:${
-        __bg || DEFAULT_VALUE}·${
-          __color || DEFAULT_VALUE}·${
-            __raised}·${
-              __elevation}·${
-                __disabled || DEFAULT_VALUE}·${
-                  __outlined || DEFAULT_VALUE}·${
-                    __shadowColor || DEFAULT_VALUE}·${
+      const newKey = `c--${
+        __bg || DEFAULT_VALUE}_${
+          __color || DEFAULT_VALUE}_${
+            __raised || DEFAULT_VALUE}_${
+              __elevation || DEFAULT_VALUE}_${
+                __disabled || DEFAULT_VALUE}_${
+                  __outlined || DEFAULT_VALUE}_${
+                    __shadowColor || DEFAULT_VALUE}_${
                       __isContrast || DEFAULT_VALUE}`;
       const newClass = this._theme.renderStyle(newKey, (theme: ThemeVariables) => {
         let sColor: Color | undefined;

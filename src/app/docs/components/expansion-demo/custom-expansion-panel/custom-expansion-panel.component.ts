@@ -6,8 +6,8 @@ import { STYLES as EXPANSION_STYLES } from '@alyle/ui/expansion';
 const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   // The classes for `expansion` are not yet created, therefore,
   // we will create them to use them.
-  ref.addStyleSheet(EXPANSION_STYLES);
-  const expansion = ref.getClasses(EXPANSION_STYLES);
+  ref.selectorsOf(EXPANSION_STYLES);
+  const expansion = ref.selectorsOf(EXPANSION_STYLES);
 
   const { before } = theme;
 

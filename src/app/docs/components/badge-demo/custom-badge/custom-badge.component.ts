@@ -3,7 +3,7 @@ import { lyl, LyTheme2, ThemeVariables, ThemeRef } from '@alyle/ui';
 import { STYLES as BUTTON_STYLES } from '@alyle/ui/button';
 
 const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
-  const button = ref.getClasses(BUTTON_STYLES);
+  const button = ref.selectorsOf(BUTTON_STYLES);
   const { after } = theme;
   return {
     container: lyl `{

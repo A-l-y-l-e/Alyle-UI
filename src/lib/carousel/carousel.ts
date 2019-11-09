@@ -14,7 +14,7 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias } from '@alyle/ui';
+import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -25,32 +25,36 @@ const DEFAULT_AUTOPLAY = true;
 const DEFAULT_HAS_PROGRESS_BAR = false;
 const STYLE_PRIORITY = -2;
 
-export const STYLES = (theme: ThemeVariables) => {
+export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   const dir = theme.getDirection(DirAlias.before);
   const right = dir === 'right' ? 0 : 180;
   const left = dir === 'left' ? 0 : 180;
+  const carousel = ref.selectorsOf(STYLES);
+  const { after, before } = theme;
   return {
     $priority: STYLE_PRIORITY,
-    root: {
-      display: 'block',
-      '-webkit-user-select': 'none',
-      '-moz-user-select': 'none',
-      '-ms-user-select': 'none',
-      position: 'relative',
-      '& {actions}.right': {
-        after: 0,
-        transform: `rotate(${right}deg)`
-      },
-      '& {actions}.left': {
-        before: 0,
-        transform: `rotate(${left}deg)`
-      },
-      '& svg': {
-        display: 'block',
-        fill: 'currentColor'
-      },
-      '&': theme.carousel ? theme.carousel.root : null
-    },
+    root: ( ) => lyl `{
+      display: block
+      -webkit-user-select: none
+      -moz-user-select: none
+      -ms-user-select: none
+      position: relative
+      & ${carousel.actions}.right {
+        ${after}: 0
+        transform: rotate(${right}deg)
+      }
+      & ${carousel.actions}.left {
+        ${before}: 0
+        transform: rotate(${left}deg)
+      }
+      & svg {
+        display: block
+        fill: currentColor
+      }
+      {
+        ...${null}
+      }
+    }`,
     actions: {
       position: 'absolute',
       top: 0,

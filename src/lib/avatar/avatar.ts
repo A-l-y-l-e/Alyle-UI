@@ -63,7 +63,7 @@ const STYLES = (theme: ThemeVariables & LyAvatarVariables) => {
         ...${
           (theme.avatar
             && theme.avatar.root
-            && theme.avatar.root()) || null
+            && theme.avatar.root())
         }
       }
     }`
@@ -114,7 +114,7 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
   set size(val: number) {
     if (val !== this.size) {
       this._size = val;
-      this[0x1] = this._styleRenderer.add(`${LyAvatar.и}.size:${val}`, () => (
+      this[0x1] = this._styleRenderer.add(`${LyAvatar.и}-size-${val}`, () => (
         lyl `{
           width: ${val}px
           height: ${val}px

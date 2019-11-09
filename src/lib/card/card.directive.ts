@@ -26,7 +26,8 @@ import {
   LyClasses,
   StyleTemplate,
   ThemeRef,
-  LyHostClass
+  LyHostClass,
+  StyleRenderer
   } from '@alyle/ui';
 
 export interface LyCardTheme {
@@ -41,9 +42,10 @@ export interface LyCardVariables {
 
 
 export const STYLES = (theme: ThemeVariables & LyCardVariables, ref: ThemeRef) => {
-  const card = ref.getClasses(STYLES);
+  const card = ref.selectorsOf(STYLES);
   return {
     $priority: STYLE_PRIORITY,
+    $name: LyCard.и,
     root: ( ) => lyl `{
       display: block
       overflow: hidden
@@ -74,7 +76,7 @@ export const STYLES = (theme: ThemeVariables & LyCardVariables, ref: ThemeRef) =
     actionsItem: lyl `{
       margin: 0 4px
     }`
-  }
+  };
 };
 
 const DEFAULT_ASPECT_RATIO = '16:9';
@@ -110,9 +112,11 @@ mixinBg(
     'elevation',
     'shadowColor',
     'disableRipple',
-  ]
+  ],
+  providers: [StyleRenderer]
 })
 export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDestroy {
+  static readonly и = 'LyCard';
   /**
    * styles
    * @docs-private
@@ -191,40 +195,44 @@ export class LyCardActions implements OnInit {
 
 @Directive({
   selector: 'ly-card-media',
-  providers: [LyHostClass]
+  providers: [
+    StyleRenderer,
+    LyHostClass
+  ]
 })
 export class LyCardMedia implements OnInit {
+  static readonly и = 'LyCardMedia';
   private _bgImg: string;
-  private _bgImgClass: string;
 
   private _ratio: string;
-  private _ratioClass: string;
 
   @Input()
   set bgImg(val: string) {
     if (val !== this.bgImg) {
       this._bgImg = val;
-      const newClass = this.theme.renderStyle(
-        `lyCardMedia:${val}`,
+      this[0x1] = this.styleRenderer.add(
+        `${LyCardMedia.и}--bgImg-${val}`,
         () => lyl `{
           display: block
           background-size: cover
           background-repeat: no-repeat
           background-position: center
         }`,
-        STYLE_PRIORITY
+        STYLE_PRIORITY,
+        this[0x1]
       );
       this.renderer.setStyle(this.el.nativeElement, `background-image`, `url("${val}")`);
-      this._bgImgClass = this.hostClass.update(newClass, this._bgImgClass);
     }
   }
   get bgImg() {
     return this._bgImg;
   }
+  /** bgImg class name */
+  [0x1]: string;
 
   /**
    * Aspect ratio
-   * 
+   *
    * e.g:
    * 4:3
    * 1:1
@@ -233,8 +241,8 @@ export class LyCardMedia implements OnInit {
   set ratio(val: string) {
     if (val !== this.ratio) {
       this._ratio = val;
-      const newClass = this.theme.renderStyle(
-        `lyCard-media-ar:${val}`,
+      this[0x2] = this.styleRenderer.add(
+        `${LyCardMedia.и}--ratio-${val}`,
         () => lyl `{
           &::before {
             content: ''
@@ -244,20 +252,20 @@ export class LyCardMedia implements OnInit {
               .reduce((prev, current) => (+current / +prev * 100).toString())}%
           }
         }`,
-        STYLE_PRIORITY
+        STYLE_PRIORITY,
+        this[0x2]
       );
-      this._ratioClass = this.hostClass.update(newClass, this._ratioClass);
     }
   }
   get ratio() {
     return this._ratio;
   }
+  [0x2]: string;
 
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private theme: LyTheme2,
-    private hostClass: LyHostClass
+    private styleRenderer: StyleRenderer
   ) { }
 
   ngOnInit() {

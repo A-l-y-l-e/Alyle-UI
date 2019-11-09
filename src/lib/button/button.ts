@@ -76,7 +76,7 @@ export const LY_BUTTON_DEFAULT_OPTIONS =
 
 export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef) => {
   const typography = theme.typography;
-  const button = ref.getClasses(STYLES);
+  const button = ref.selectorsOf(STYLES);
   return {
     $priority: STYLE_PRIORITY,
     $name: LyButton.и,
@@ -148,8 +148,8 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
     }`,
     /** When focus by keyboard */
     onFocusByKeyboard: null,
-    animations: `{
-      &:hover, &:hover::after, &:focus, &:focus::after {
+    animations: lyl `{
+      &:hover, &:hover::before, &:focus, &:focus::before {
         transition: background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms
       }
     }`
@@ -227,10 +227,10 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     if (val !== this.size) {
       this._size = val;
       const newClass = this._theme.renderStyle(
-        `lyButton.size:${val}`,
-        (theme: LyButtonVariables) => {
+        `${LyButton.и}--${val}-size`,
+        (theme: LyButtonVariables, ref: ThemeRef) => {
           if (theme.button && theme.button.size && theme.button.size[val]) {
-            return theme.button.size[val]!(this.classes);
+            return theme.button.size[val]!(ref.selectorsOf(STYLES));
           }
           throw new Error(`Value button.size['${val}'] not found in ThemeVariables`);
         },
@@ -250,12 +250,12 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
       }
       this._appearance = val;
       const newClass = this._theme.renderStyle(
-        `lyButton.appearance:${val}`,
-        (theme: LyButtonVariables) => {
+        `${LyButton.и}--${val}-appearance`,
+        (theme: LyButtonVariables, ref: ThemeRef) => {
           if (!(theme.button!.appearance && theme.button!.appearance![val])) {
             throw new Error(`Value button.appearance['${val}'] not found in ThemeVariables`);
           }
-          return theme.button!.appearance![val]!(this.classes);
+          return theme.button!.appearance![val]!(ref.selectorsOf(STYLES));
         },
       STYLE_PRIORITY + 1);
       this._appearanceClass = this._hostClass.update(newClass, this._appearanceClass);

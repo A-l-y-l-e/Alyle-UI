@@ -16,7 +16,7 @@ import { prismCustomClass } from './core/prism-custom-class';
 import { SVG_ICONS } from './core/svg-icons';
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, ref: ThemeRef) => {
-  const classes = ref.getClasses(styles);
+  const classes = ref.selectorsOf(styles);
   return {
     $name: 'app',
     $global: () => lyl `{
@@ -113,9 +113,19 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
   };
 };
 
-const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
+function toClassSelector<T>(classes: T): T {
+  const newClasses: object = { };
+  for (const key in classes as unknown as object) {
+    if ((classes as {}).hasOwnProperty(key)) {
+      newClasses[key] = `.${classes[key]}`;
+    }
+  }
+  return newClasses as unknown as T;
+}
+
+const PRISM_STYLES = (theme: AUIThemeVariables) => {
   const $host = 'fonts/firacode/';
-  const classes = tref.toClassSelector(prismCustomClass());
+  const classes = toClassSelector(prismCustomClass());
 
   return {
     '@global': {

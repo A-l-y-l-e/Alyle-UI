@@ -8,13 +8,12 @@ import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
 import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses, getThemeNameForSelectors, LyStyles } from './style';
 import { Subject } from 'rxjs';
-import { StyleTemplate } from '../parse';
+import { StyleTemplate, StringIdGenerator } from '../parse';
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
-let nextClassId = 0;
 let nextKeyFrameId = 0;
-let yClassID = 0;
+const yClassID = new StringIdGenerator();
 
 @Injectable({
   providedIn: 'root'
@@ -246,7 +245,7 @@ export class LyTheme2 {
     return false;
   }
 
-  getClasses<T>(styles: T): LyClasses<T> {
+  selectorsOf<T>(styles: T): LyClasses<T> {
     const themeName = this.initialTheme;
     if (!_STYLE_MAP.has(styles)) {
       _STYLE_MAP.set(styles, {
@@ -401,16 +400,6 @@ export class LyTheme2 {
     }
   }
 
-  toClassSelector<T>(classes: T): T {
-    const newClasses: object = { };
-    for (const key in classes as unknown as object) {
-      if ((classes as {}).hasOwnProperty(key)) {
-        newClasses[key] = `.${classes[key]}`;
-      }
-    }
-    return newClasses as unknown as T;
-  }
-
 }
 
 function createLylStyle(
@@ -418,12 +407,22 @@ function createLylStyle(
   styles: StyleTemplate,
   themeName: string
 ) {
+  // const className = styleMap.requireUpdate
+  // ? styleMap[themeName] || (styleMap[themeName] = createNextClassId())
+  // : styleMap.classes
+  //   ? styleMap.classes
+  //   : styleMap.classes = createNextClassId();
+
   // use current class or set new
-  const className = styleMap.requireUpdate
-  ? styleMap[themeName] || (styleMap[themeName] = createNextClassId())
-  : styleMap.classes
-    ? styleMap.classes
-    : styleMap.classes = createNextClassId();
+  let className: string;
+  className = styleMap[themeName]
+    || (
+      styleMap[themeName] = isDevMode()
+        ? styleMap.id
+          ? `${toValidClassName(styleMap.id!)}-${createNextClassId()}`
+          : `${(styleMap.styles as Function).name || 'ii'}-${createNextClassId()}`
+        : createNextClassId()
+    );
 
   return styles(`.${className}`);
 }
@@ -493,14 +492,14 @@ function groupStyleToString(
       // set new id if not exist
       if (!(key in classesMap)) {
         classesMap[key] = isDevMode()
-          ? `${toClassNameValid(name + key)}-${createUniqueClassID()}`
+          ? `${toValidClassName(name + key)}-${createUniqueClassID()}`
           : createUniqueClassID();
       }
 
     } else if (typeof value === 'object' || value === null) {
       // set new id if not exist
       if (!(key in classesMap)) {
-        classesMap[key] = isDevMode() ? toClassNameValid(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
+        classesMap[key] = isDevMode() ? toValidClassName(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
       }
 
     } else {
@@ -649,7 +648,7 @@ function keyframesToString(styleName: string, keysMap: object, keyframes: Keyfra
       // set new id if not exist
       const newName = newUniqueName in keysMap
       ? keysMap[newUniqueName]
-      : keysMap[newUniqueName] = isDevMode() ? toClassNameValid(`${styleName}${name}-${createNextKeyframeId()}-v`) : createNextKeyframeId();
+      : keysMap[newUniqueName] = isDevMode() ? toValidClassName(`${styleName}${name}-${createNextKeyframeId()}-v`) : createNextKeyframeId();
       content += `@keyframes ${newName}{`;
       for (const percent in keyframe) {
         if (keyframe.hasOwnProperty(percent)) {
@@ -684,11 +683,11 @@ export function converterToCssKeyAndStyle(str: string, themeVariables: ThemeVari
   return hyphenCase;
 }
 
-function toClassNameValid(str: string) {
+function toValidClassName(str: string) {
   const s = str.replace(/^[0-9]|[^\w\-]/g, _ => {
     return `_${_.charCodeAt(0)}`;
   });
-  return s.split(/(?=[A-Z])/).join('-').toLowerCase();
+  return s;
 }
 
 
@@ -739,15 +738,13 @@ export function capitalizeFirstLetter(str: string) {
 }
 
 function createNextClassId() {
-  return `i${(nextClassId++).toString(36)}`;
+  return yClassID.next();
 }
 function createUniqueClassID() {
-  return `y${(yClassID++).toString(36)}`;
+  return yClassID.next();
 }
 function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;
 }
 
-export interface ThemeRef extends Pick<LyTheme2, 'toClassSelector' | 'getClasses'> {
-  addStyleSheet<T>(styles: T & Styles): LyClasses<T>;
-}
+export interface ThemeRef extends Pick<LyTheme2, 'selectorsOf'> { }
