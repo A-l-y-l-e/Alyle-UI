@@ -6,9 +6,19 @@ import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
-import { StyleMap5, StyleGroup, TypeStyle, StyleContainer, _STYLE_MAP, Styles, StyleDeclarationsBlock, Keyframes, LyClasses, getThemeNameForSelectors, LyStyles } from './style';
+import { StyleMap5,
+  StyleGroup,
+  TypeStyle,
+  StyleContainer,
+  _STYLE_MAP,
+  Styles,
+  StyleDeclarationsBlock,
+  Keyframes as KeyframesDeprecated,
+  LyClasses,
+  getThemeNameForSelectors,
+  LyStyles } from './style';
 import { Subject } from 'rxjs';
-import { StyleTemplate, StringIdGenerator } from '../parse';
+import { StyleTemplate, StringIdGenerator, Keyframes } from '../parse';
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
@@ -273,7 +283,10 @@ export class LyTheme2 {
    * @docs-private
    */
   _createStyleContent2(
-    styles: Styles | StyleDeclarationsBlock | ((theme: any, ref: ThemeRef) => StyleTemplate),
+    styles: Styles
+      | StyleDeclarationsBlock
+      | ((theme: any, ref: ThemeRef) => StyleTemplate)
+      | Keyframes,
     id: string | null,
     priority: number | undefined | null,
     type: TypeStyle,
@@ -297,7 +310,7 @@ export class LyTheme2 {
     const isCreated = styleMap.isNewStyle || !(styleMap.classes || styleMap[themeName]);
     if (isCreated || forChangeTheme) {
       styleMap.isNewStyle = false;
-      /** create new style for new theme */
+      // create new style for new theme
       let css: string | { [themeName: string]: string; };
       const themeMap = this.themeMap.get(this.initialTheme)!;
       const config = this.core.get(themeMap.change || themeName) as ThemeVariables;
@@ -311,6 +324,16 @@ export class LyTheme2 {
           : groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
+        }
+      } if (type === TypeStyle.Keyframes) {
+        styleMap.requireUpdate = (styles as Keyframes).requireUpdate;
+        css = (styles as Keyframes)._create();
+        if (styleMap.requireUpdate) {
+          if (!forChangeTheme) {
+            styleMap.css[themeName] = css;
+          }
+        } else {
+          styleMap.css = css;
         }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
@@ -533,7 +556,7 @@ function groupStyleToString(
       }
 
     } else if (key === '$keyframes') {
-      content += keyframesToString(name, classesMap, value as Keyframes, themeVariables);
+      content += keyframesToString(name, classesMap, value as KeyframesDeprecated, themeVariables);
     } else if (typeof value === 'object' || value === null) {
       const currentClassName = classesMap[key];
       const style = styleToString(key, styleGroup.$name, value as StyleContainer, themeVariables, currentClassName);
@@ -636,7 +659,7 @@ function convertToStyleValue(key: string, value: string | string[], themeVariabl
   }
 }
 
-function keyframesToString(styleName: string, keysMap: object, keyframes: Keyframes, themeVariables: ThemeVariables) {
+function keyframesToString(styleName: string, keysMap: object, keyframes: KeyframesDeprecated, themeVariables: ThemeVariables) {
   let content = '';
 
   for (const name in keyframes) {

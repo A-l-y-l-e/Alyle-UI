@@ -41,7 +41,9 @@ export enum TypeStyle {
   /**
    * A lyl Style
    */
-  LylStyle
+  LylStyle,
+  /** Keyframe */
+  Keyframes
 }
 
 

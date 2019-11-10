@@ -337,7 +337,7 @@ export class StringIdGenerator {
 }
 
 
-class Keyframe {
+export class Keyframes {
   private expressions: (string | Color | number)[];
   private _template: string;
   private id: string;
@@ -347,24 +347,42 @@ class Keyframe {
   ) {
     this.expressions = expressions;
   }
+
+  get requireUpdate() {
+    return !!this.expressions.length;
+  }
+
   get template() {
     this.toString();
     return this._template;
   }
 
-  toString() {
-    if (this.id) {
-      return this.id;
-    }
-    const ID = this.id = keyframeId.next();
+  /**
+   * For internal use only
+   * @docs-private
+   */
+  _create() {
+    const ID = this.id;
     const { literals, expressions } = this;
     let result = expressions[0];
     for (let i = 0; i < expressions.length; ++i) {
       result += expressions[i] + literals[i + 1];
     }
 
-    this._template = `@keyframes ${ID} ${result}`;
-    return ID;
+    return `@keyframes ${ID} ${result}`;
+  }
+
+  getId() {
+    if (this.id) {
+      return this.id;
+    }
+    this.id = keyframeId.next();
+    return this.id;
+  }
+
+  /** Return the name of Keyframe */
+  toString() {
+    return this.getId;
   }
 }
 
@@ -373,8 +391,6 @@ const keyframeId = new StringIdGenerator();
 export function keyframe(
   literals: TemplateStringsArray,
   ...expressions: (string | Color | number)[]
-): Keyframe {
-  return new Keyframe(literals, expressions);
+): Keyframes {
+  return new Keyframes(literals, expressions);
 }
-
-

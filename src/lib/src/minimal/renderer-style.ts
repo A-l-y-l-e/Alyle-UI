@@ -1,6 +1,6 @@
 import { Injectable, ElementRef, Optional } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
-import { StyleTemplate } from '../parse';
+import { StyleTemplate, Keyframes } from '../parse';
 import { LyHostClass } from './host-class';
 import { TypeStyle } from '../theme/style';
 
@@ -16,6 +16,9 @@ export class StyleRenderer {
     style: (theme: any, ref: ThemeRef) => StyleTemplate
   ): string;
   add(
+    style: Keyframes
+  ): string;
+  add(
     style: (theme: any, ref: ThemeRef) => StyleTemplate,
     priority: number
   ): string;
@@ -52,19 +55,23 @@ export class StyleRenderer {
   ): string;
 
   add(
-    id: string | ((theme: any, ref: ThemeRef) => StyleTemplate),
+    id: string | ((theme: any, ref: ThemeRef) => StyleTemplate) | Keyframes,
     style?: ((theme: any, ref: ThemeRef) => StyleTemplate) | number | string,
     priority?: number | string | undefined,
     oldClass?: string | undefined
   ): string {
     const args = arguments;
+    /** Class name or keyframe name */
     let className: string | undefined;
     let len = args.length;
     if (args[len - 1] == null) {
       len -= 1;
     }
     if (len === 1) {
-      className = this._theme.renderStyle(style as ((theme: any, ref: ThemeRef) => StyleTemplate));
+      className = this._theme._createStyleContent2(id,
+        null,
+        null,
+        TypeStyle.LylStyle);
     } else if (len === 2) {
       if (typeof id === 'string') {
         className = this._theme._createStyleContent2(style as (theme: any, ref: ThemeRef) => StyleTemplate,
