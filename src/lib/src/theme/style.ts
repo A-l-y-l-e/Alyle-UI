@@ -57,7 +57,7 @@ export interface StyleContainer {
 export interface StyleGroup {
   /** Prefix name */
   $name?: string;
-  $keyframes?: Keyframes;
+  $keyframes?: KeyframesDeprecated;
   $priority?: number;
   [key: string]: StyleContainer | (() => StyleTemplate) | StyleTemplate | string | number | undefined | null;
 }
