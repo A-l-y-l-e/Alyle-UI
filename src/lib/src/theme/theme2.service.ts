@@ -13,7 +13,7 @@ import { StyleMap5,
   _STYLE_MAP,
   Styles,
   StyleDeclarationsBlock,
-  Keyframes as KeyframesDeprecated,
+  KeyframesDeprecated,
   LyClasses,
   getThemeNameForSelectors,
   LyStyles } from './style';

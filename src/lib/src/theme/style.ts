@@ -77,7 +77,7 @@ export type StyleDeclarationsBlock = ((T: any, theme: any) => StyleContainer | s
 export type Styles = ((T: any, theme: any) => StyleGroup) | StyleGroup | undefined | null;
 export type LyStyles = ((T: any, theme: any) => StyleGroup) | StyleGroup | undefined | null;
 
-export interface Keyframes {
+export interface KeyframesDeprecated {
   [name: string]: {
     [percent: number]: StyleContainer
   };
