@@ -325,7 +325,7 @@ export class LyTheme2 {
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }
-      } if (type === TypeStyle.Keyframes) {
+      } else if (type === TypeStyle.Keyframes) {
         styleMap.requireUpdate = (styles as Keyframes).requireUpdate;
         css = (styles as Keyframes)._create();
         if (styleMap.requireUpdate) {

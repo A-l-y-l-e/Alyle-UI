@@ -68,10 +68,17 @@ export class StyleRenderer {
       len -= 1;
     }
     if (len === 1) {
-      className = this._theme._createStyleContent2(id,
-        null,
-        null,
-        TypeStyle.LylStyle);
+      if (id instanceof Keyframes) {
+        className = this._theme._createStyleContent2(id,
+          null,
+          null,
+          TypeStyle.Keyframes);
+      } else {
+        className = this._theme._createStyleContent2(id,
+          null,
+          null,
+          TypeStyle.LylStyle);
+      }
     } else if (len === 2) {
       if (typeof id === 'string') {
         className = this._theme._createStyleContent2(style as (theme: any, ref: ThemeRef) => StyleTemplate,
