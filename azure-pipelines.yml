@@ -48,9 +48,11 @@ jobs:
   - task: NodeTool@0
     inputs:
       versionSpec: '10.12.x'
-  - script: |
+  - bash: |
       yarn
       yarn tools:prepare-lib
+      ./ci/scripts/build-style-compiler.sh
+      node dist/@alyle/style-compiler/main dist/lib
       yarn build:@alyle/ui
       export CI_COMMIT_MESSAGE=$(git show -s --format=%s)
       export CI_COMMIT_SHA=$(git rev-parse HEAD)
