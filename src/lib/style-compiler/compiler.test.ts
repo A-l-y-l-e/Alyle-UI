@@ -345,7 +345,7 @@ test(`compile simple media query`, async t => {
 
 test(`compile complex media query`, async t => {
   const css = evalScript(t.context.complexMediaQuery);
-  t.is(css, `.y{color: red;}@media (max-width: 599px){.y{color: blue;}}@media (max-width: 599px){.y .item{color: purple;}}`);
+  t.is(css, `.y{color: red;}@media (max-width: 599px){.y{color: blue;}.y .item{color: purple;}}`);
 });
 
 function evalScript(script: string) {

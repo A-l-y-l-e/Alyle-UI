@@ -63,7 +63,6 @@ export class LylParse {
           selector = this._resolveSelectors(selectors);
 
           if (line_1.includes('@')) {
-            console.log({selectors: selectors.slice(0)});
             if (!rules.has(line_1)) {
               rules.set(line_1, '');
             }
@@ -116,7 +115,6 @@ export class LylParse {
     rules.forEach((val, key) => {
       const matchArray = key.match(/(@[^{]+){/);
       if (matchArray) {
-        console.warn('matchArray', matchArray);
         const media = matchArray[1];
         if (media !== key && val) {
           const after = rules.get(media)!;
@@ -126,8 +124,6 @@ export class LylParse {
         }
       }
     });
-
-    console.log('rules', rules);
 
     return Array.from(rules.entries())
       .filter(rule => rule[1])

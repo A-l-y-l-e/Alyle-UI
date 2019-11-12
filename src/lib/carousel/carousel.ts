@@ -15,7 +15,6 @@ import {
   ViewChild
 } from '@angular/core';
 import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl, keyframesUniqueId } from '@alyle/ui';
-import { Color } from '@alyle/ui/color';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -45,15 +44,6 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
       }
     }`,
     root: ( ) => lyl `{
-      @media hover {
-        .item {
-          color: red
-          position: relative
-        }
-        .item-2 {
-          color: blue
-        }
-      }
       display: block
       -webkit-user-select: none
       -moz-user-select: none
@@ -96,85 +86,85 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
       position: relative
       touch-action: pan-y !important
     }`,
-    slide: {
-      display: 'flex',
-      width: '100%',
-      height: '100%',
-      willChange: 'transform',
-      '& > ly-carousel-item': {
-        width: '100%',
-        flexShrink: 0,
-        position: 'relative',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+    slide: lyl `{
+      display: flex
+      width: 100%
+      height: 100%
+      will-change: transform
+      & > ly-carousel-item {
+        width: 100%
+        flex-shrink: 0
+        position: relative
+        background-size: cover
+        background-position: center
+        background-repeat: no-repeat
       }
-    },
-    slideContent: {
-      display: 'flex'
-    },
-    slideAnim: {
-      '& > div': {
-        transition: 'transform 750ms cubic-bezier(.1, 1, 0.5, 1)'
-    }
-    },
-    slideNoEvent: {
-      '&>div': {
-        touchAction: 'initial !important',
-        '-webkit-user-drag': 'initial !important'
+    }`,
+    slideContent: lyl `{
+      display: flex
+    }`,
+    slideAnim: lyl `{
+      & > div {
+        transition: transform 750ms cubic-bezier(.1, 1, 0.5, 1)
       }
-    },
-    carouselIndicators: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      margin: 0,
-      boxSizing: 'border-box',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '48px',
-      '&>div': {
-        display: 'inline-block',
-        borderRadius: '50%',
-        cursor: 'pointer',
-        position: 'relative',
-        padding: '.5em',
-        outline: 'none'
+    }`,
+    slideNoEvent: lyl `{
+      &>div {
+        touch-action: initial !important
+        -webkit-user-drag: initial !important
+      }
+    }`,
+    carouselIndicators: lyl `{
+      position: absolute
+      bottom: 0
+      left: 0
+      right: 0
+      margin: 0
+      box-sizing: border-box
+      display: flex
+      align-items: center
+      justify-content: center
+      height: 48px
+      &>div {
+        display: inline-block
+        border-radius: 50%
+        cursor: pointer
+        position: relative
+        padding: .5em
+        outline: none
       },
-      '&>div > span': {
-        transition: '300ms cubic-bezier(0.65, 0.05, 0.36, 1)',
-        width: '1em',
-        height: '1em',
-        transform: 'scale(.5)',
-        borderRadius: '50%',
-        willChange: 'transform',
-        display: 'block',
+      &>div > span {
+        transition: 300ms cubic-bezier(0.65, 0.05, 0.36, 1)
+        width: 1em
+        height: 1em
+        transform: scale(.5)
+        border-radius: 50%
+        will-change: transform
+        display: block
         opacity: .65
       },
-      '&>div>span.active': {
-        transform: 'scale(1)',
+      '&>div>span.active {
+        transform: scale(1)
         opacity: 1
       }
-    },
-    barContainer: {
-      background: (theme.background.primary.default.alpha(.25) as Color).css(),
-      height: '4px',
-      position: 'absolute',
-      bottom: 0,
-      width: '100%',
-    },
-    bar: {
-      height: '4px',
-      position: 'absolute',
-      bottom: 0,
-      width: '100%',
-      animationName: barAnimation,
-      animationTimingFunction: 'linear',
-      animationIterationCount: 'infinite',
-      background: theme.text.primary.css()
-    }
+    }`,
+    barContainer: lyl `{
+      background: ${theme.background.primary.default.alpha(.25)}
+      height: 4px
+      position: absolute
+      bottom: 0
+      width: 100%
+    }`,
+    bar: lyl `{
+      height: 4px
+      position: absolute
+      bottom: 0
+      width: 100%
+      animation-name: ${barAnimation}
+      animation-timing-function: linear
+      animation-iteration-count: infinite
+      background: ${theme.text.primary}
+    }`
   };
 };
 
