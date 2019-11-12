@@ -40,8 +40,8 @@ jobs:
       yarn
       ./ci/scripts/test.sh
 
-- job: BuildDocs
-  displayName: Build docs
+- job: BuildDocsAndArtifacts
+  displayName: Build docs & artifacts
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
@@ -49,15 +49,7 @@ jobs:
     inputs:
       versionSpec: '10.12.x'
   - bash: |
-      yarn
-      yarn tools:prepare-lib
-      ./ci/scripts/build-style-compiler.sh
-      node dist/@alyle/style-compiler/main dist/lib
-      yarn build:@alyle/ui
-      export CI_COMMIT_MESSAGE=$(git show -s --format=%s)
-      export CI_COMMIT_SHA=$(git rev-parse HEAD)
-      export CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-      yarn bundlesizelimit
+      ./ci/scripts/build-docs-artifacts.sh
     displayName: build:@alyle/ui
   - script: |
       yarn tools:docs
