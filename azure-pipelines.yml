@@ -49,6 +49,7 @@ jobs:
     inputs:
       versionSpec: '10.12.x'
   - bash: |
+      chmod +x ./ci/scripts/build-docs-artifacts.sh
       ./ci/scripts/build-docs-artifacts.sh
     displayName: build:@alyle/ui
   - script: |
