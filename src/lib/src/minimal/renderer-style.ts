@@ -1,6 +1,6 @@
 import { Injectable, ElementRef, Optional } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
-import { StyleTemplate, Keyframes } from '../parse';
+import { StyleTemplate } from '../parse';
 import { LyHostClass } from './host-class';
 import { TypeStyle } from '../theme/style';
 
@@ -128,14 +128,6 @@ export class StyleRenderer {
       );
     }
     return className!;
-  }
-
-  addKeyframes(keyframes: ((theme: any) => Keyframes)): Keyframes {
-    const id = this._theme._createStyleContent2(keyframes,
-      null,
-      null,
-      TypeStyle.Keyframes);
-    return id;
   }
 }
 

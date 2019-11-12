@@ -18,7 +18,7 @@ import { StyleMap5,
   getThemeNameForSelectors,
   LyStyles } from './style';
 import { Subject } from 'rxjs';
-import { StyleTemplate, StringIdGenerator, Keyframes } from '../parse';
+import { StyleTemplate, StringIdGenerator } from '../parse';
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
@@ -286,8 +286,7 @@ export class LyTheme2 {
   _createStyleContent2(
     styles: Styles
       | StyleDeclarationsBlock
-      | ((theme: any, ref: ThemeRef) => StyleTemplate)
-      | ((theme: any) => Keyframes),
+      | ((theme: any, ref: ThemeRef) => StyleTemplate),
     id: string | null,
     priority: number | undefined | null,
     type: TypeStyle,
@@ -325,16 +324,6 @@ export class LyTheme2 {
           : groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
-        }
-      } else if (type === TypeStyle.Keyframes) {
-        styleMap.requireUpdate = (styles as unknown as Keyframes).requireUpdate;
-        css = (styles as unknown as Keyframes)._create();
-        if (styleMap.requireUpdate) {
-          if (!forChangeTheme) {
-            styleMap.css[themeName] = css;
-          }
-        } else {
-          styleMap.css = css;
         }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
