@@ -19,7 +19,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
   const classes = ref.selectorsOf(styles);
   return {
     $name: 'app',
-    $global: () => lyl `{
+    $global: lyl `{
       body {
         background-color: ${theme.background.default}
         color: ${theme.text.default}
@@ -28,7 +28,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
         direction: ${theme.direction}
       }
     }`,
-    appContainer: () => lyl `{
+    appContainer: ( ) => lyl `{
       display: flex
       align-items: center
       justify-content: center

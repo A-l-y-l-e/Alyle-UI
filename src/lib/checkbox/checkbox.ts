@@ -40,7 +40,7 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   return {
     $name: LyCheckbox.и,
     $priority: STYLE_PRIORITY,
-    root: () => lyl `{
+    root: ( ) => lyl `{
       margin-after: 16px
       margin-before: -16px
       display: inline-flex

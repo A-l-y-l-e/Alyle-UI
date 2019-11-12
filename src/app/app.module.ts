@@ -114,11 +114,6 @@ export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDar
       }
     }
   };
-  button = {
-    root: () => lyl `{
-      
-    }`
-  };
 }
 
 export type AUIThemeVariables = MinimaLight & MinimaDark & CustomMinimaLight & CustomMinimaDark & GlobalVariables;

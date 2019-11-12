@@ -12,7 +12,7 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   const { before } = theme;
 
   return ({
-    expansion: () => lyl `{
+    expansion: ( ) => lyl `{
       ${expansion.panel} {
         &::after {
           transition: border ${

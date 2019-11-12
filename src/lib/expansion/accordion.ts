@@ -25,7 +25,7 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
   return {
     $priority: STYLE_PRIORITY,
     $name: LyAccordion.и,
-    $global: () => lyl `{
+    $global: ( ) => lyl `{
       ${classes.panelTitle}, ${classes.panelDescription} {
         display: flex
         margin-${after}: 16px
@@ -40,7 +40,7 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
       }
     }`,
     root: (theme.expansion && theme.expansion.root) ? () => theme.expansion!.root!(classes) : null,
-    panel: () => lyl `{
+    panel: ( ) => lyl `{
       display: block
       overflow: hidden
       position: relative
@@ -48,7 +48,7 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
         cursor: pointer
       }
     }`,
-    panelHeader: () => lyl `{
+    panelHeader: ( ) => lyl `{
       display: flex
       position: relative
       flex-direction: row
@@ -103,7 +103,7 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
       justify-content: flex-end
       padding: 16px 8px 16px 24px
     }`,
-    expanded: () => lyl `{
+    expanded: ( ) => lyl `{
       ${classes.panelBody} {
         visibility: visible
       }

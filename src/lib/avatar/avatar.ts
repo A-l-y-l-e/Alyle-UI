@@ -41,7 +41,7 @@ const STYLES = (theme: ThemeVariables & LyAvatarVariables) => {
   return {
     $name: LyAvatar.и,
     $priority: STYLE_PRIORITY,
-    root: () => lyl `{
+    root: lyl `{
       display: inline-flex
       position: relative
       font-size: 1.25em
