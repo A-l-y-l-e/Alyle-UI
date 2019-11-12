@@ -14,7 +14,7 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl } from '@alyle/ui';
+import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl, keyframesUniqueId } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,10 +30,30 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   const right = dir === 'right' ? 0 : 180;
   const left = dir === 'left' ? 0 : 180;
   const carousel = ref.selectorsOf(STYLES);
+  const barAnimation = keyframesUniqueId.next();
   const { after, before } = theme;
   return {
     $priority: STYLE_PRIORITY,
+    $global: lyl `{
+      @keyframes ${barAnimation} {
+        0% {
+          transform: translateX(0%)
+        }
+        100% {
+          transform: translateX(${dir === 'left' ? '-' : ''}100%)
+        }
+      }
+    }`,
     root: ( ) => lyl `{
+      @media hover {
+        .item {
+          color: red
+          position: relative
+        }
+        .item-2 {
+          color: blue
+        }
+      }
       display: block
       -webkit-user-select: none
       -moz-user-select: none
@@ -55,27 +75,27 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
         ...${null}
       }
     }`,
-    actions: {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      margin: 'auto .25em',
-      height: '1em',
-      width: '1em',
-      fontSize: '36px',
-      cursor: 'pointer',
-      background: (theme.background.primary.default.alpha(.25) as Color).css(),
-      color: theme.text.primary.css(),
-      willChange: 'transform'
-    },
-    slideContainer: {
-      overflow: 'hidden',
-      display: 'block',
-      width: '100%',
-      height: '100%',
-      position: 'relative',
-      touchAction: 'pan-y !important'
-    },
+    actions: lyl `{
+      position: absolute
+      top: 0
+      bottom: 0
+      margin: auto .25em
+      height: 1em
+      width: 1em
+      font-size: 36px
+      cursor: pointer
+      background: ${theme.background.primary.default.alpha(.25)}
+      color: ${theme.text.primary}
+      will-change: transform
+    }`,
+    slideContainer: lyl `{
+      overflow: hidden
+      display: block
+      width: 100%
+      height: 100%
+      position: relative
+      touch-action: pan-y !important
+    }`,
     slide: {
       display: 'flex',
       width: '100%',
@@ -150,20 +170,10 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
       position: 'absolute',
       bottom: 0,
       width: '100%',
-      animationName: '{interval}',
+      animationName: barAnimation,
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
       background: theme.text.primary.css()
-    },
-    $keyframes: {
-      interval: {
-        0: {
-          transform: 'translateX(0%)'
-        },
-        100: {
-          transform: `translateX(${dir === 'left' ? '-' : ''}100%)`
-        }
-      }
     }
   };
 };

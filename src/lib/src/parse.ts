@@ -54,14 +54,23 @@ export class LylParse {
           selectors.push([this._className]);
           selector = selectors[0][0];
         } else {
+          const line_1 = fullLine.slice(0, fullLine.length - 1).trim();
           selectors.push(
-            fullLine.slice(0, fullLine.length - 1)
-            .trim()
+            line_1
             .split(',')
             .map(_ => _.trim())
           );
           selector = this._resolveSelectors(selectors);
+
+          if (line_1.includes('@')) {
+            console.log({selectors: selectors.slice(0)});
+            if (!rules.has(line_1)) {
+              rules.set(line_1, '');
+            }
+          }
         }
+
+
         if (!rules.has(selector)) {
           rules.set(selector, '');
         }
@@ -103,6 +112,23 @@ export class LylParse {
       return '';
     });
 
+    // Join media queries & keyframes
+    rules.forEach((val, key) => {
+      const matchArray = key.match(/(@[^{]+){/);
+      if (matchArray) {
+        console.warn('matchArray', matchArray);
+        const media = matchArray[1];
+        if (media !== key && val) {
+          const after = rules.get(media)!;
+          const newValue = after + key.replace(media + '{', '') + `{${val}}`;
+          rules.set(media, newValue);
+          rules.delete(key);
+        }
+      }
+    });
+
+    console.log('rules', rules);
+
     return Array.from(rules.entries())
       .filter(rule => rule[1])
       .map(rule => {
@@ -121,9 +147,9 @@ export class LylParse {
         // for non LylModule>
 
         if (sel.startsWith('@')) {
-          return `${sel}{${rule[1]}}}`;
+          return `${sel}{${rule[1]}}`;
         }
-        return `${sel}{${rule[1]}}`;
+        return `${sel}{${content}}`;
       }).join('');
 
   }

@@ -16,9 +16,6 @@ export class StyleRenderer {
     style: (theme: any, ref: ThemeRef) => StyleTemplate
   ): string;
   add(
-    style: Keyframes
-  ): string;
-  add(
     style: (theme: any, ref: ThemeRef) => StyleTemplate,
     priority: number
   ): string;
@@ -55,7 +52,7 @@ export class StyleRenderer {
   ): string;
 
   add(
-    id: string | ((theme: any, ref: ThemeRef) => StyleTemplate) | Keyframes,
+    id: string | ((theme: any, ref: ThemeRef) => StyleTemplate),
     style?: ((theme: any, ref: ThemeRef) => StyleTemplate) | number | string,
     priority?: number | string | undefined,
     oldClass?: string | undefined
@@ -68,17 +65,10 @@ export class StyleRenderer {
       len -= 1;
     }
     if (len === 1) {
-      if (id instanceof Keyframes) {
-        className = this._theme._createStyleContent2(id,
-          null,
-          null,
-          TypeStyle.Keyframes);
-      } else {
-        className = this._theme._createStyleContent2(id,
-          null,
-          null,
-          TypeStyle.LylStyle);
-      }
+      className = this._theme._createStyleContent2(id,
+        null,
+        null,
+        TypeStyle.LylStyle);
     } else if (len === 2) {
       if (typeof id === 'string') {
         className = this._theme._createStyleContent2(style as (theme: any, ref: ThemeRef) => StyleTemplate,
@@ -138,6 +128,14 @@ export class StyleRenderer {
       );
     }
     return className!;
+  }
+
+  addKeyframes(keyframes: ((theme: any) => Keyframes)): Keyframes {
+    const id = this._theme._createStyleContent2(keyframes,
+      null,
+      null,
+      TypeStyle.Keyframes);
+    return id;
   }
 }
 

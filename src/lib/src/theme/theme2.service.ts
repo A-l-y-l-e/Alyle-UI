@@ -24,6 +24,7 @@ const REF_REG_EXP = /\{([\w-]+)\}/g;
 
 let nextKeyFrameId = 0;
 const yClassID = new StringIdGenerator();
+export const keyframesUniqueId = new StringIdGenerator();
 
 @Injectable({
   providedIn: 'root'
@@ -286,7 +287,7 @@ export class LyTheme2 {
     styles: Styles
       | StyleDeclarationsBlock
       | ((theme: any, ref: ThemeRef) => StyleTemplate)
-      | Keyframes,
+      | ((theme: any) => Keyframes),
     id: string | null,
     priority: number | undefined | null,
     type: TypeStyle,
@@ -326,8 +327,8 @@ export class LyTheme2 {
           styleMap.css[themeName] = css;
         }
       } else if (type === TypeStyle.Keyframes) {
-        styleMap.requireUpdate = (styles as Keyframes).requireUpdate;
-        css = (styles as Keyframes)._create();
+        styleMap.requireUpdate = (styles as unknown as Keyframes).requireUpdate;
+        css = (styles as unknown as Keyframes)._create();
         if (styleMap.requireUpdate) {
           if (!forChangeTheme) {
             styleMap.css[themeName] = css;
