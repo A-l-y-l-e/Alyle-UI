@@ -23,13 +23,16 @@ import {
   LyTheme2,
   ThemeVariables,
   toBoolean,
-  LY_COMMON_STYLES_DEPRECATED,
+  LY_COMMON_STYLES,
   Placement,
   XPosition,
   DirPosition,
   YPosition,
   WinResize,
-  Platform
+  Platform,
+  lyl,
+  StyleRenderer,
+  LyHostClass
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 
@@ -41,42 +44,47 @@ const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = XPosition.before;
 
-export const STYLES = (theme: ThemeVariables) => ({
-  drawerContainer: {
-    display: 'block',
-    position: 'relative',
-    overflow: 'hidden',
-    '-webkit-overflow-scrolling': 'touch'
-  },
-  drawer: {
-    display: 'block',
-    position: 'fixed',
-    zIndex: theme.zIndex.drawer,
-    overflow: 'auto',
-    visibility: 'hidden'
-  },
-  drawerContent: {
-    display: 'block'
-  },
-  drawerOpened: {
-    transform: 'translate(0px, 0px)',
-    visibility: 'visible'
-  },
-  drawerClosed: null,
-  backdrop: {
-    ...LY_COMMON_STYLES_DEPRECATED.fill,
-    backgroundColor: theme.drawer.backdrop
-  },
-  transition: {
-    transition: `${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}`,
-    transitionProperty: 'transform, margin, visibility'
-  }
-});
+export const STYLES = (theme: ThemeVariables) => {
+  return {
+    $name: LyDrawerContent.и,
+    $priority: STYLE_PRIORITY + 1.9,
+    drawerContainer: lyl `{
+      display: block
+      position: relative
+      overflow: hidden
+      -webkit-overflow-scrolling: touch
+    }`,
+    drawer: lyl `{
+      display: block
+      position: fixed
+      z-index: ${theme.zIndex.drawer}
+      overflow: auto
+      visibility: hidden
+    }`,
+    drawerContent: lyl `{
+      display: block
+    }`,
+    drawerOpened: lyl `{
+      transform: translate(0px, 0px)
+      visibility: visible
+    }`,
+    drawerClosed: null,
+    backdrop: lyl `{
+      ...${LY_COMMON_STYLES.fill}
+      background-color: ${theme.drawer.backdrop}
+    }`,
+    transition: lyl `{
+      transition: ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}
+      transition-property: transform, margin, visibility
+    }`
+  };
+};
 
 @Directive({
   selector: 'ly-drawer-content'
 })
 export class LyDrawerContent {
+  static readonly и = 'LyDrawerContent';
   constructor(
     private _renderer: Renderer2,
     private _el: ElementRef,
@@ -94,7 +102,7 @@ export class LyDrawerContent {
 })
 export class LyDrawerContainer {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY + 1.9);
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   _openDrawers = 0;
   @ContentChild(forwardRef(() => LyDrawerContent), { static: true }) _drawerContent: LyDrawerContent;
   constructor(
@@ -115,9 +123,14 @@ export class LyDrawerContainer {
   selector: 'ly-drawer',
   templateUrl: './drawer.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  exportAs: 'lyDrawer'
+  exportAs: 'lyDrawer',
+  providers: [
+    LyHostClass,
+    StyleRenderer
+  ]
 })
 export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
+  static readonly и = 'LyDrawer';
   /**
    * Styles
    * @docs-private
@@ -131,7 +144,6 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   private _hasBackdrop: boolean | null;
 
   private _position: LyDrawerPosition = DEFAULT_POSITION;
-  private _positionClass: string;
 
   private _drawerRootClass: string;
   private _drawerClass?: string;
@@ -177,19 +189,20 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   set position(val: LyDrawerPosition) {
     if (val !== this.position) {
       this._position = val;
-      this._theme.addStyle(`drawer.position:${val}`,
-      // the style needs to be a function so that it can be changed dynamically
-      () => ({
-        [val]: 0
-      }), this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
+      this[0x1] = this._styleRenderer.add(`${LyDrawer.и}--position-${val}`,
+      (theme: ThemeVariables) => lyl `{
+        ${theme.getDirection(val as any)}: 0
+      }`, STYLE_PRIORITY, this[0x1]);
     }
   }
   get position(): LyDrawerPosition {
     return this._position;
   }
+  [0x1]: string;
 
   constructor(
     private _theme: LyTheme2,
+    private _styleRenderer: StyleRenderer,
     private _renderer: Renderer2,
     private _el: ElementRef,
     private _drawerContainer: LyDrawerContainer,

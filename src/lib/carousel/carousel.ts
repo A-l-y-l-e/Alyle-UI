@@ -14,7 +14,7 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl, keyframesUniqueId } from '@alyle/ui';
+import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl, keyframesUniqueId, StyleCollection, LyClasses, StyleTemplate } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -24,7 +24,17 @@ const DEFAULT_AUTOPLAY = true;
 const DEFAULT_HAS_PROGRESS_BAR = false;
 const STYLE_PRIORITY = -2;
 
-export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+export interface LyCarouselTheme {
+  /** Styles for Carousel Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+  | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyCarouselVariables {
+  carousel?: LyCarouselTheme;
+}
+
+export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRef) => {
   const dir = theme.getDirection(DirAlias.before);
   const right = dir === 'right' ? 0 : 180;
   const left = dir === 'left' ? 0 : 180;
@@ -62,7 +72,14 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
         fill: currentColor
       }
       {
-        ...${null}
+        ...${
+          (theme.carousel
+            && theme.carousel.root
+            && (theme.carousel.root instanceof StyleCollection
+              ? theme.carousel.root.setTransformer(fn => fn(carousel))
+              : theme.carousel.root(carousel))
+          )
+        }
       }
     }`,
     actions: lyl `{

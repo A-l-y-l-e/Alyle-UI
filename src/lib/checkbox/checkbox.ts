@@ -23,19 +23,34 @@ import {
   mixinDisableRipple,
   ThemeVariables,
   toBoolean,
-  shadowBuilder,
   ThemeRef,
   lyl,
   LyHostClass,
   StyleRenderer,
-  LY_COMMON_STYLES
+  LY_COMMON_STYLES,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate
   } from '@alyle/ui';
+import { Color } from '@alyle/ui/color';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_WITH_COLOR = 'accent';
 const DEFAULT_DISABLE_RIPPLE = false;
 
-export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+export interface LyCheckboxTheme {
+  /** Styles for Checkbox Component. */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+  | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+  /** Styles that apply when a color is set. */
+  color?: (classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate;
+}
+
+export interface LyCheckboxVariables {
+  checkbox?: LyCheckboxTheme;
+}
+
+export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRef) => {
   const checkbox = ref.selectorsOf(STYLES);
   const { before, after } = theme;
   return {
@@ -67,7 +82,14 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
         color: ${theme.text.secondary}
       }
       {
-        ...${null}
+        ...${
+          (theme.checkbox
+            && theme.checkbox.root
+            && (theme.checkbox.root instanceof StyleCollection
+              ? theme.checkbox.root.setTransformer(fn => fn(checkbox))
+              : theme.checkbox.root(checkbox))
+          )
+        }
       }
     }`,
     layout: lyl `{
@@ -182,6 +204,7 @@ export const LyCheckboxMixinBase = mixinDisableRipple(LyCheckboxBase);
   ]
 })
 export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
+  /** @ignore */
   static readonly и = 'LyCheckbox';
   /**
    * styles
@@ -195,7 +218,9 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
   protected _checked: boolean;
   protected _disabled;
   private _onFocusByKeyboardState: boolean;
+
   @ViewChild('innerContainer', { static: false }) _innerContainer: ElementRef<HTMLDivElement>;
+
   /** The value attribute of the native input element */
   @Input() value: string;
 
@@ -208,16 +233,13 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
       this._color = val;
       this._colorClass = this._styleRenderer.add(
         `${LyCheckbox.и}--color-${val}`,
-        (theme: ThemeVariables, ref: ThemeRef) => {
+        (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRef) => {
           const checkbox = ref.selectorsOf(STYLES);
-          return lyl `{
-            &${checkbox.checked} ${checkbox.icon} {
-              color: ${theme.colorOf(val)}
-            }
-            &${checkbox.checked}:not({disabled}) ${checkbox.icon} {
-              box-shadow: ${shadowBuilder(1, theme.colorOf(val))}
-            }
-          }`;
+          const color = theme.colorOf(val);
+          if (theme.checkbox && theme.checkbox.color) {
+            return theme.checkbox.color(checkbox, color);
+          }
+          throw new Error(`${LyCheckbox.и}: styles theme.checkbox.color is undefined`);
       }, STYLE_PRIORITY, this._colorClass);
     }
   }

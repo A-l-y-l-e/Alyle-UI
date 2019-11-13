@@ -2,7 +2,8 @@ import {
   LyStyleUtils,
   Dir,
   StyleContainer,
-  lyl
+  lyl,
+  shadowBuilder
 } from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
@@ -13,6 +14,7 @@ import { SliderVariables } from '@alyle/ui/slider';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 import { LyButtonTheme } from '@alyle/ui/button';
 import { LyBadgeTheme } from '@alyle/ui/badge';
+import { LyCheckboxTheme } from '@alyle/ui/checkbox';
 
 export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAvatarVariables {
   typography = {
@@ -90,6 +92,16 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAv
         border-radius: 50%
       }`
     }
+  };
+  checkbox: LyCheckboxTheme = {
+    color: (checkbox, color) => lyl `{
+      &${checkbox.checked} ${checkbox.icon} {
+        color: ${color}
+      }
+      &${checkbox.checked}:not({disabled}) ${checkbox.icon} {
+        box-shadow: ${shadowBuilder(1, color)}
+      }
+    }`
   };
   expansion: ExpansionConfig = {
     root: classes => lyl `{

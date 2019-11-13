@@ -2,9 +2,7 @@ import { InjectionToken } from '@angular/core';
 import { LyStyleUtils, Dir } from '../style-utils';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
-import { CheckboxVariables } from './variables/checkbox';
 import { TooltipVariables } from './variables/tooltip';
-import { CarouselVariables } from './variables/carousel';
 import { MenuVariables } from './variables/menu';
 import { RadioVariables } from './variables/radio';
 import { ImgCropperVariables } from './variables/img-cropper';
@@ -87,9 +85,7 @@ export interface ThemeConfig {
     }
   };
   ripple: RippleVariables;
-  checkbox?: CheckboxVariables;
   tooltip: TooltipVariables;
-  carousel?: CarouselVariables;
   imgCropper?: ImgCropperVariables;
   select?: SelectVariables;
   tabs?: TabsVariables;
