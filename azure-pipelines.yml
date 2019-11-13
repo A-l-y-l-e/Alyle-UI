@@ -36,6 +36,15 @@ jobs:
   - task: NodeTool@0
     inputs:
       versionSpec: '10.12.x'
+  - script: |
+    curl -o- -L https://yarnpkg.com/install.sh | bash
+    displayName: "Install Yarn"
+- script: |
+    set -e
+    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+    node -v
+    yarn -v
+  displayName: "Print versions"
   - bash: |
       yarn
       yarn global add tap-xunit
