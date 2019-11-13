@@ -49,7 +49,6 @@ jobs:
         yarn
         yarn global add tap-xunit
     - script: |
-        set -e
         echo set PATH
         export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
         echo adding permissions
