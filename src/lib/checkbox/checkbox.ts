@@ -100,7 +100,7 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
       }
       svg {
         position: absolute
-        polyline: {
+        polyline {
           fill: none
           stroke: ${theme.background.primary.default}
           stroke-width: 2
@@ -121,7 +121,7 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
     }`,
     input: LY_COMMON_STYLES.visuallyHidden,
     onFocusByKeyboard: null,
-    disabled: lyl `{
+    disabled: ( ) => lyl `{
     & ${checkbox.input} {
         visibility: hidden
       }
@@ -129,8 +129,8 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
         color: inherit !important
       }
     }`,
-    animations: `{
-      & ${checkbox.icon} svg polyline {
+    animations: ( ) => lyl `{
+      ${checkbox.icon} svg polyline {
         transition: all ${theme.animations.durations.entering}ms ${theme.animations.curves.sharp}
       }
     }`
