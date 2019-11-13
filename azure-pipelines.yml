@@ -39,8 +39,10 @@ jobs:
   - bash: |
       yarn
   - script: |
+      chmod +x ./ci/scripts/publish-tests.sh
       ./ci/scripts/publish-tests.sh
   - bash: |
+      chmod +x ./ci/scripts/test.sh
       ./ci/scripts/test.sh
   - task: PublishTestResults@2
     condition: succeededOrFailed()
