@@ -65,7 +65,6 @@ jobs:
     - task: PublishTestResults@2
       condition: succeededOrFailed()
       inputs:
-        testRunner: xUnit
         testResultsFiles: 'dist/*.xml'
 
 - job: BuildDocsAndArtifacts
