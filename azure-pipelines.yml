@@ -58,6 +58,7 @@ jobs:
     - bash: |
         chmod +x ./ci/scripts/test.sh
         ./ci/scripts/test.sh
+      condition: succeededOrFailed()
     - task: PublishTestResults@2
       condition: succeededOrFailed()
       inputs:
