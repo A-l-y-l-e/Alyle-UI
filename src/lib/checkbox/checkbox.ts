@@ -17,7 +17,6 @@ import {
   } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
-  LY_COMMON_STYLES_DEPRECATED,
   LyCoreStyles as LyCommonStyles,
   LyFocusState,
   LyTheme2,
@@ -28,7 +27,8 @@ import {
   ThemeRef,
   lyl,
   LyHostClass,
-  StyleRenderer
+  StyleRenderer,
+  LY_COMMON_STYLES
   } from '@alyle/ui';
 
 const STYLE_PRIORITY = -2;
@@ -37,12 +37,13 @@ const DEFAULT_DISABLE_RIPPLE = false;
 
 export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   const checkbox = ref.selectorsOf(STYLES);
+  const { before, after } = theme;
   return {
     $name: LyCheckbox.и,
     $priority: STYLE_PRIORITY,
     root: ( ) => lyl `{
-      margin-after: 16px
-      margin-before: -16px
+      margin-${after}: 16px
+      margin-${before}: -16px
       display: inline-flex
       &${checkbox.disabled}:not(${checkbox.checked}) ${checkbox.icon}:before {
         color: ${theme.disabled.default}
@@ -73,69 +74,66 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
       display: inline-flex
       align-items: baseline
       cursor: pointer
-      margin-before: 16px
+      margin-${before}: 16px
       padding-top: 12px
       padding-bottom: 12px
     }`,
-    icon: {
-      position: 'relative',
-      marginAfter: '8px',
-      marginTop: 'auto',
-      marginBottom: 'auto',
-      width: '16px',
-      height: '16px',
-      userSelect: 'none',
-      '&::before, &::after': {
-        content: `''`,
-        ...LY_COMMON_STYLES_DEPRECATED.fill,
-        width: '16px',
-        height: '16px',
-        margin: 'auto',
-        boxSizing: 'border-box'
-      },
-      // border icon
-      '&::before': {
-        border: 'solid 2px',
-        borderRadius: '2px'
-      },
-      svg: {
-        position: 'absolute',
+    icon: lyl `{
+      position: relative
+      margin-${after}: 8px
+      margin-top: auto
+      margin-bottom: auto
+      width: 16px
+      height: 16px
+      user-select: none
+      &::before, &::after {
+        content: ''
+        ...${LY_COMMON_STYLES.fill}
+        width: 16px
+        height: 16px
+        margin: auto
+        box-sizing: border-box
+      }
+      &::before {
+        border: solid 2px
+        border-radius: 2px
+      }
+      svg {
+        position: absolute
         polyline: {
-          fill: 'none',
-          stroke: theme.background.primary.default,
-          strokeWidth: 2,
-          strokeLinecap: 'round',
-          strokeLinejoin: 'round',
-          strokeDasharray: '18px',
-          strokeDashoffset: '18px'
+          fill: none
+          stroke: ${theme.background.primary.default}
+          stroke-width: 2
+          stroke-linecap: round
+          stroke-linejoin: round
+          stroke-dasharray: 18px
+          stroke-dashoffset: 18px
         }
-      },
-    },
-    checked: {
-      '& {icon}::before': {
-        background: 'currentColor'
-      },
-      '& {icon} polyline': {
-        strokeDashoffset: 0
       }
-    },
-    input: {
-      ...LY_COMMON_STYLES_DEPRECATED.visuallyHidden
-    },
-    onFocusByKeyboard: { },
-    disabled: {
-      '& {input}': {
-        visibility: 'hidden'
-      },
-      '& {icon}': {
-        color: 'inherit !important'
+    }`,
+    checked: ( ) => lyl `{
+      & ${checkbox.icon}::before {
+        background: currentColor
       }
-    },
-    animations: {
-      '& {icon} svg polyline': {
-        transition: `all ${theme.animations.durations.entering}ms ${theme.animations.curves.sharp}`
+      & ${checkbox.icon} polyline {
+        stroke-dashoffset: 0
       }
-    }
+    }`,
+    input: LY_COMMON_STYLES.visuallyHidden,
+    onFocusByKeyboard: null,
+    disabled: lyl `{
+    & ${checkbox.input} {
+        visibility: hidden
+      }
+      & ${checkbox.icon} {
+        color: inherit !important
+      }
+    }`,
+    animations: `{
+      & ${checkbox.icon} svg polyline {
+        transition: all ${theme.animations.durations.entering}ms ${theme.animations.curves.sharp}
+      }
+    }`
   };
 };
 
