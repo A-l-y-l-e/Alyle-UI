@@ -113,7 +113,7 @@ export class LylParse {
 
     // Join media queries & keyframes
     rules.forEach((val, key) => {
-      const matchArray = key.match(/(@[^{]+){/);
+      const matchArray = key.match(/(@[^\${]*(?:\${[^{]*)*){/);
       if (matchArray) {
         const media = matchArray[1];
         if (media !== key && val) {

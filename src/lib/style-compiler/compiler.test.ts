@@ -1,8 +1,9 @@
 import anyTest, { TestInterface } from 'ava';
 import { hasLylStyle, styleCompiler } from './compiler';
 import { styleTemplateToString, StyleCollection, normalizeStyleTemplate } from '../src/parse';
-const test = anyTest as TestInterface<Context>;
 import * as tsNode from 'ts-node';
+
+const test = anyTest as TestInterface<Context>;
 
 class Context {
   style = `
@@ -214,6 +215,20 @@ const item2 = lyl \`{
   }\`
   style('.y')`;
 
+  keyframe = `
+  const id = 'a';
+  const keyframe = lyl \`{
+    @keyframe \${id} {
+      0% {
+        color: red
+      }
+      100% {
+        color: blue
+      }
+    }
+  }\`
+  keyframe('')`;
+
 }
 
 
@@ -346,6 +361,11 @@ test(`compile simple media query`, async t => {
 test(`compile complex media query`, async t => {
   const css = evalScript(t.context.complexMediaQuery);
   t.is(css, `.y{color: red;}@media (max-width: 599px){.y{color: blue;}.y .item{color: purple;}}`);
+});
+
+test(`compile keyframe`, async t => {
+  const css = evalScript(t.context.keyframe);
+  t.is(css, `@keyframe a{ 0%{color: red;} 100%{color: blue;}}`);
 });
 
 function evalScript(script: string) {
