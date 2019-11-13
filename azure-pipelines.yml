@@ -33,37 +33,37 @@ jobs:
   pool:
     vmImage: ubuntu-latest
   steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '10.12.x'
-  - script: |
-    curl -o- -L https://yarnpkg.com/install.sh | bash
-  displayName: "Install Yarn"
-  - script: |
-    set -e
-    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-    node -v
-    yarn -v
-  displayName: "Print versions"
-  - bash: |
-      yarn
-      yarn global add tap-xunit
-  - script: |
-      set -e
-      echo set PATH
-      export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-      echo adding permissions
-      chmod +x ./ci/scripts/publish-tests.sh
-      echo run script
-      ./ci/scripts/publish-tests.sh
-  - bash: |
-      chmod +x ./ci/scripts/test.sh
-      ./ci/scripts/test.sh
-  - task: PublishTestResults@2
-    condition: succeededOrFailed()
-    inputs:
-      testRunner: xUnit
-      testResultsFiles: 'dist/test-results.xml'
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.12.x'
+    - script: |
+        curl -o- -L https://yarnpkg.com/install.sh | bash
+    displayName: "Install Yarn"
+    - script: |
+        set -e
+        export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+        node -v
+        yarn -v
+    displayName: "Print versions"
+    - bash: |
+        yarn
+        yarn global add tap-xunit
+    - script: |
+        set -e
+        echo set PATH
+        export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+        echo adding permissions
+        chmod +x ./ci/scripts/publish-tests.sh
+        echo run script
+        ./ci/scripts/publish-tests.sh
+    - bash: |
+        chmod +x ./ci/scripts/test.sh
+        ./ci/scripts/test.sh
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testRunner: xUnit
+        testResultsFiles: 'dist/test-results.xml'
 
 - job: BuildDocsAndArtifacts
   displayName: Build docs & artifacts
