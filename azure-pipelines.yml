@@ -40,6 +40,8 @@ jobs:
       yarn
       yarn global add tap-xunit
   - script: |
+      set -e
+      export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
       chmod +x ./ci/scripts/publish-tests.sh
       ./ci/scripts/publish-tests.sh
   - bash: |
