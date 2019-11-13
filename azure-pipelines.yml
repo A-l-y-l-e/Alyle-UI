@@ -38,6 +38,7 @@ jobs:
       versionSpec: '10.12.x'
   - bash: |
       yarn
+      yarn global add tap-xunit
   - script: |
       chmod +x ./ci/scripts/publish-tests.sh
       ./ci/scripts/publish-tests.sh
