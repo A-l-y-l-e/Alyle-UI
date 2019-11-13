@@ -36,9 +36,16 @@ jobs:
   - task: NodeTool@0
     inputs:
       versionSpec: '10.12.x'
+  - script: |
+      ./ci/scripts/publish-tests.sh
   - bash: |
       yarn
       ./ci/scripts/test.sh
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: xUnit
+      testResultsFiles: 'dist/test-results.xml'
 
 - job: BuildDocsAndArtifacts
   displayName: Build docs & artifacts

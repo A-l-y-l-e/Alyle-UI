@@ -365,7 +365,7 @@ test(`compile complex media query`, async t => {
 
 test(`compile keyframe`, async t => {
   const css = evalScript(t.context.keyframe);
-  t.is(css, `@keyframe a{ 0%{color: red;} 100%{color: blue;}}`);
+  t.is(css, `@keyframeo a{ 0%{color: red;} 100%{color: blue;}}`);
 });
 
 function evalScript(script: string) {
