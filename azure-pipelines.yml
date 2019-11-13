@@ -56,6 +56,9 @@ jobs:
         echo run script
         ./ci/scripts/publish-tests.sh
     - bash: |
+        cat dist/test-results.xml
+      condition: succeededOrFailed()
+    - bash: |
         chmod +x ./ci/scripts/test.sh
         ./ci/scripts/test.sh
       condition: succeededOrFailed()
