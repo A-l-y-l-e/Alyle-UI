@@ -1,43 +1,50 @@
-import { Directive, Input, ElementRef, OnInit } from '@angular/core';
-import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { Directive, Input, OnInit } from '@angular/core';
+import { ThemeVariables, lyl, StyleRenderer, LyHostClass, toBoolean } from '@alyle/ui';
 
-const style = (theme: ThemeVariables) => ({
-  display: 'block',
-  backgroundColor: theme.divider,
-  height: '1px'
-});
+const STYLES = (theme: ThemeVariables) => lyl `{
+  display: block
+  background-color: ${theme.divider}
+  height: 1px
+}`;
 
 @Directive({
-  selector: 'ly-divider'
+  selector: 'ly-divider',
+  providers: [
+    LyHostClass,
+    StyleRenderer
+  ]
 })
 export class LyDivider implements OnInit {
+  static readonly и = 'LyDivider';
   private _inset: boolean;
-  private _insetClass: string;
 
   /** Add indentation (72px) */
   @Input()
   set inset(val: boolean) {
-    this._inset = val;
-    this._theme.addStyle(
-      `lyDivider.inset`,
-      () => ({
-        marginBefore: '74px'
-      }),
-      this._el.nativeElement,
-      this._insetClass
-    );
+    const newVal = this._inset = toBoolean(val);
+    if (newVal) {
+      this[0x1] = this._styleRenderer.add(
+        `${LyDivider.и}--inset`,
+        () => lyl `{
+          margin-before: 74px
+        }`,
+        this[0x1]
+      );
+    } else {
+      this._hostClass.remove(this[0x1]);
+    }
   }
   get inset() {
     return this._inset;
   }
+  [0x1]: string;
 
   constructor(
-    private _el: ElementRef,
-    private _theme: LyTheme2
+    private _styleRenderer: StyleRenderer,
+    private _hostClass: LyHostClass
   ) { }
 
   ngOnInit() {
-    const className = this._theme.addSimpleStyle('lyDivider', style);
-    this._el.nativeElement.classList.add(className);
+    this._styleRenderer.add(STYLES);
   }
 }

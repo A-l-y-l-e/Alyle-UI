@@ -16,7 +16,7 @@ import {
   DoCheck,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
-import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder } from '@alyle/ui';
+import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder, lyl } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
@@ -27,20 +27,22 @@ const STYLE_PRIORITY = -2;
 
 /** @docs-private */
 const STYLES = (theme: ThemeVariables) => ({
-  root: {
-    display: 'flex',
-    position: 'relative',
-    backgroundColor: theme.background.primary.default,
-    borderRadius: '4px',
-    boxShadow: shadowBuilder(12),
-    overflow: 'auto',
-    '> :first-child': {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%'
-    },
-    '&': theme.dialog ? theme.dialog.root : null
-  }
+  root: lyl `{
+    display: flex
+    position: relative
+    background-color: ${theme.background.primary.default}
+    border-radius: 4px
+    box-shadow: ${shadowBuilder(12)}
+    overflow: auto
+    > :first-child {
+      display: flex
+      flex-direction: column
+      width: 100%
+    }
+    ... {
+      ${null}
+    }
+  }`
 });
 
 /** @docs-private */

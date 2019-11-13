@@ -1,20 +1,20 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { LyTheme2, ThemeVariables, lyl } from '@alyle/ui';
 
 /** @docs-private */
 const STYLE_PRIORITY = -2;
 
 /** @docs-private */
-const STYLES_DIALOG_TITLE = (theme: ThemeVariables) => ({
-  display: 'block',
-  flex: '0 0 auto',
-  margin: '20px 0 16px',
-  padding: '0 24px',
-  fontSize: `20px`,
-  lineHeight: '24px',
-  fontWeight: 500,
-  fontFamily: theme.typography.fontFamily
-});
+const STYLES_DIALOG_TITLE = (theme: ThemeVariables) => lyl `{
+  display: block
+  flex: 0 0 auto
+  margin: 20px 0 16px
+  padding: 0 24px
+  font-size: 20px
+  line-height: 24px
+  font-weight: 500
+  font-family: ${theme.typography.fontFamily}
+}`;
 
 @Directive({
   selector: '[ly-dialog-title], [lyDialogTitle]',
@@ -28,6 +28,6 @@ export class LyDialogTitle implements OnInit {
 
   ngOnInit() {
     this._renderer.addClass(
-      this._el.nativeElement, this._theme.style(STYLES_DIALOG_TITLE, STYLE_PRIORITY));
+      this._el.nativeElement, this._theme.renderStyle(STYLES_DIALOG_TITLE, STYLE_PRIORITY));
   }
 }
