@@ -9,7 +9,6 @@ import { ImgCropperVariables } from './variables/img-cropper';
 import { SelectVariables } from './variables/select';
 import { TabsVariables } from './variables/tabs';
 import { FieldVariables } from './variables/field';
-import { DialogVariables } from './variables/dialog';
 import { ListVariables } from './variables/list';
 import { ToolbarVariables } from './variables/toolbar';
 import { Color } from '@alyle/ui/color';
@@ -89,7 +88,6 @@ export interface ThemeConfig {
   imgCropper?: ImgCropperVariables;
   select?: SelectVariables;
   tabs?: TabsVariables;
-  dialog?: DialogVariables;
   list?: ListVariables;
   toolbar?: ToolbarVariables;
 }
