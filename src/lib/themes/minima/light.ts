@@ -59,20 +59,20 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   };
   bar = new Color(0xf5f5f5);
   field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
+    root: ({
+      container,
+      fieldset,
+      labelContainer,
+      placeholder,
+      label}) => lyl `{
+      ${container}:after, ${fieldset}, ${labelContainer} {
+        border-color: ${new Color(0, 0, 0, 0.23)}
+      }
+      ${label}, ${placeholder} {
+        color: ${new Color(0, 0, 0, 0.6)}
+      }
+    }`,
     appearance: {
-      root: ({
-        container,
-        fieldset,
-        labelContainer,
-        placeholder,
-        label}) => lyl `{
-        ${container}:after, ${fieldset}, ${labelContainer} {
-          border-color: ${new Color(0, 0, 0, 0.23)}
-        }
-        ${label}, ${placeholder} {
-          color: ${new Color(0, 0, 0, 0.6)}
-        }
-      }`,
       filled: ({ container }) => lyl `{
         ${container} {
           background-color: ${new Color(0, 0, 0, 0.04)}

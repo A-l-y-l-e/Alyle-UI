@@ -60,15 +60,15 @@ export class MinimaDark extends MinimaBase {
   colorShadow = shadow;
   shadow = shadow;
   field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
+    root: _ => lyl `{
+      ${_.container}:after, ${_.fieldset}, ${_.labelContainer} {
+        border-color: ${new Color(255, 255, 255, 0.12)}
+      }
+      ${_.label}, ${_.placeholder} {
+        color: ${new Color(255, 255, 255, 0.4)}
+      }
+    }`,
     appearance: {
-      root: _ => lyl `{
-        ${_.container}:after, ${_.fieldset}, ${_.labelContainer} {
-          border-color: ${new Color(255, 255, 255, 0.12)}
-        }
-        ${_.label}, ${_.placeholder} {
-          color: ${new Color(255, 255, 255, 0.4)}
-        }
-      }`,
       filled: _ => lyl `{
         ${_.container} {
           background-color: ${new Color(255, 255, 255, 0.04)}
