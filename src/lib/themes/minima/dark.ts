@@ -1,13 +1,12 @@
-import { ThemeConfig, mergeDeep, shadowBuilder, lyl, StyleCollection } from '@alyle/ui';
+import { shadowBuilder, lyl, StyleCollection, mergeThemes } from '@alyle/ui';
 import { MinimaBase } from './base';
 import { Color } from '@alyle/ui/color';
+import { LyFieldTheme } from '@alyle/ui/field';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0, 0, 0, 1);
-/**
- * @param
- */
-export class MinimaDark extends MinimaBase implements ThemeConfig {
+
+export class MinimaDark extends MinimaBase {
   name = 'minima-dark';
   primary = {
     default: new Color(0x1DE9B6),
@@ -60,22 +59,28 @@ export class MinimaDark extends MinimaBase implements ThemeConfig {
   divider = new Color(255, 255, 255, 0.12);
   colorShadow = shadow;
   shadow = shadow;
-  field = mergeDeep({} , this.field, {
-    borderColor: new Color(255, 255, 255, 0.12),
-    labelColor: new Color(255, 255, 255, 0.4),
+  field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
     appearance: {
-      filled: {
-        '& {container}': {
-          backgroundColor: new Color(255, 255, 255, 0.04),
+      root: _ => lyl `{
+        ${_.container}:after, ${_.fieldset}, ${_.labelContainer} {
+          border-color: ${new Color(255, 255, 255, 0.12)}
         }
-      }
+        ${_.label}, ${_.placeholder} {
+          color: ${new Color(255, 255, 255, 0.4)}
+        }
+      }`,
+      filled: _ => lyl `{
+        ${_.container} {
+          background-color: ${new Color(255, 255, 255, 0.04)}
+        }
+      }`
     }
   });
   snackBar = {
     root: new StyleCollection(lyl `{
       background: ${new Color(0xfafafa)}
       color: ${new Color(0, 0, 0, .87)}
-      boxShadow: ${shadowBuilder(4, new Color(0xfafafa))}
+      box-shadow: ${shadowBuilder(4, new Color(0xfafafa))}
     }`)
   };
   tooltip = {

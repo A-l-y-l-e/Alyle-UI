@@ -23,7 +23,21 @@ import {
   forwardRef,
   DoCheck
   } from '@angular/core';
-import { LyTheme2, ThemeVariables, ElementObserver, Platform, toBoolean, DirAlias, getLyThemeVariableUndefinedError } from '@alyle/ui';
+import {
+  LyTheme2,
+  ThemeVariables,
+  ElementObserver,
+  Platform,
+  toBoolean,
+  DirAlias,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  LyHostClass,
+  StyleRenderer,
+  lyl,
+  ThemeRef,
+  LY_COMMON_STYLES } from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
@@ -32,51 +46,31 @@ import { LySuffix } from './suffix';
 import { Subject } from 'rxjs';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
 import { LyError } from './error';
-import { STYLES } from './styles';
 import { LyFieldControlBase } from './field-control-base';
+
+export interface LyFieldTheme {
+  /** Styles for Field Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+  appearance?: {
+    standard?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+      | ((classes: LyClasses<typeof STYLES>) => StyleTemplate)
+    filled?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+      | ((classes: LyClasses<typeof STYLES>) => StyleTemplate)
+    outlined?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+      | ((classes: LyClasses<typeof STYLES>) => StyleTemplate)
+    [name: string]: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+      | ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined
+  };
+}
+
+export interface LyFieldVariables {
+  field?: LyFieldTheme;
+}
 
 /** LyField */
 const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
-const DEFAULT_APPEARANCE_THEME = {
-  standard: {
-    '&:not({disabled}) {container}:hover:after': {
-      borderBottomColor: 'currentColor'
-    },
-    '&{disabled} {container}:after': {
-      borderBottomStyle: 'dotted',
-      borderColor: 'inherit'
-    },
-    'textarea{inputNative}': {
-      margin: '0.25em 0'
-    },
-    '{inputNative}:not(textarea)': {
-      padding: '0.25em 0'
-    },
-    '& {container}': {
-      padding: '1em 0 0',
-      '&:after': {
-        borderBottomStyle: 'solid',
-        borderBottomWidth: '1px'
-      }
-    },
-    '&{focused} {container}': {
-      '&:after': {
-        borderWidth: '2px',
-        borderColor: 'currentColor'
-      }
-    },
-    '& {label}': {
-      margin: '0.25em 0'
-    },
-    '& {placeholder}': {
-      margin: '0.25em 0'
-    },
-    '& {floatingLabel}': {
-      transform: 'translateY(-1.25em)'
-    }
-  }
-};
 const DEFAULT_WITH_COLOR = 'primary';
 
 const inputText = [
@@ -88,19 +82,277 @@ const inputText = [
   'url'
 ];
 
+
+export const STYLE_SELECT_ARROW = lyl `{
+  &::after {
+    position: absolute
+    content: ''
+    width: 0
+    height: 0
+    border-left: 0.3125em solid transparent
+    border-right: 0.3125em solid transparent
+    border-top: 0.3125em solid
+    top: 50%
+    {after}: 0
+    margin-top: -0.15625em
+    pointer-events: none
+  }
+}`;
+
+export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) => {
+  const classes = ref.selectorsOf(STYLES);
+  const {before, after } = theme;
+  return {
+    $priority: STYLE_PRIORITY,
+    root: ( ) => lyl `{
+      display: inline-block
+      position: relative
+      margin-top: 1em
+      line-height: 1.5
+      & ${classes.hint}, & ${classes.error} {
+        display: block
+        font-size: .75em
+        margin-top: .25em
+      }
+      {
+        ...${
+          (theme.field
+            && theme.field.root
+            && (theme.field.root instanceof StyleCollection
+              ? theme.field.root.setTransformer(fn => fn(classes))
+              : theme.field.root(classes))
+          )
+        }
+      }
+    }`,
+    animations: ( ) => lyl `{
+      & ${classes.labelSpan} {
+        transition: font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
+      }
+      & ${classes.label} {
+        transition: ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
+      }
+    }`,
+    container: lyl `{
+      height: 100%
+      display: flex
+      align-items: center
+      position: relative
+      -webkit-tap-highlight-color: transparent
+      &:after {
+        ...${LY_COMMON_STYLES.fill}
+        content: ''
+        pointer-events: none
+      }
+    }`,
+    fieldset: lyl `{
+      ...${LY_COMMON_STYLES.fill}
+      margin: 0
+      border-style: solid
+      border-width: 0
+    }`,
+    fieldsetSpan: lyl `{
+      padding: 0
+      height: 2px
+    }`,
+    labelSpan: lyl `{
+      max-width: 100%
+      display: inline-block
+    }`,
+    prefix: lyl `{
+      max-height: 2em
+      display: flex
+      align-items: center
+    }`,
+    infix: lyl `{
+      display: inline-flex
+      position: relative
+      align-items: baseline
+      min-width: 0
+      width: 180px
+      flex: 1 0
+    }`,
+    suffix: lyl `{
+      max-height: 2em
+      display: flex
+      align-items: center
+    }`,
+    labelContainer: lyl `{
+      ...${LY_COMMON_STYLES.fill}
+      pointer-events: none
+      display: flex
+      width: 100%
+    }`,
+    labelSpacingStart: null,
+    labelCenter: lyl `{
+      display: flex
+      max-width: 100%
+    }`,
+    labelSpacingEnd: lyl `{
+      flex: 1
+    }`,
+    label: lyl `{
+      ...${LY_COMMON_STYLES.fill}
+      margin: 0
+      border: none
+      pointer-events: none
+      white-space: nowrap
+      text-overflow: ellipsis
+      overflow: hidden
+      width: 100%
+    }`,
+    isFloatingLabel: null,
+    floatingLabel: ( ) => lyl `{
+      ${classes.labelSpan} {
+        font-size: 75%
+      }
+    }`,
+    placeholder: lyl `{
+      ...${LY_COMMON_STYLES.fill}
+      pointer-events: none
+    }`,
+    focused: null,
+    inputNative: lyl `{
+      resize: vertical
+      padding: 0
+      outline: none
+      border: none
+      background-color: transparent
+      color: inherit
+      font: inherit
+      width: 100%
+      select& {
+        -moz-appearance: none
+        -webkit-appearance: none
+        position: relative
+        background-color: transparent
+        display: inline-flex
+        box-sizing: border-box
+        padding-after: 1em
+        option:not([disabled]) {
+          color: initial
+        }
+        optgroup:not([disabled]) {
+          color: initial
+        }
+      }
+      select&::-ms-expand {
+        display: none
+      }
+      select&::-moz-focus-inner {
+        border: 0
+      }
+      select&:not(:disabled) {
+        cursor: pointer
+      }
+      select&::-ms-value {
+        color: inherit
+        background: 0 0
+      }
+    }`,
+    hintContainer: lyl `{
+      min-height: 1.25em
+      line-height: 1.25
+      > div {
+        display: flex
+        flex: 1 0 auto
+        max-width: 100%
+        overflow: hidden
+        justify-content: space-between
+      }
+    }`,
+    disabled: ( ) => lyl `{
+      &, & ${classes.label}, & ${classes.container}:after {
+        color: ${theme.disabled.default}
+        cursor: default
+      }
+    }`,
+    hint: null,
+    error: null,
+    errorState: ( ) => lyl `{
+      & ${classes.label}, & ${classes.hintContainer}, &${classes.selectArrow} ${classes.infix}:after {
+        color: ${theme.warn.default}!important
+      }
+      & ${classes.fieldset}, & ${classes.container}:after {
+        border-color: ${theme.warn.default}!important
+      },
+      & ${classes.inputNative} {
+        caret-color: ${theme.warn.default}!important
+      },
+      & ${classes.hintContainer} ly-hint:not(${classes.hintAfter}) {
+        display: none
+      },
+      & ${classes.labelSpan} {
+        animation: {shake} ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}
+      },
+      & ${classes.inputNative}::selection, & ${classes.inputNative}::-moz-selection {
+          background-color: ${theme.warn.default} !important
+          color: ${theme.warn.contrast} !important
+      }
+    }`,
+    hintAfter: lyl `{
+      margin-${before}: auto
+    }`,
+    hintBefore: lyl `{
+      margin-${after}: auto
+    }`,
+    selectArrow: ( ) => lyl `{
+      ${classes.infix} {
+        &::after {
+          position: absolute
+          content: ''
+          width: 0
+          height: 0
+          border-left: 0.3125em solid transparent
+          border-right: 0.3125em solid transparent
+          border-top: 0.3125em solid
+          top: 50%
+          ${after}: 0
+          margin-top: -0.15625em
+          pointer-events: none
+        }
+      }
+    }`,
+    $keyframes: {
+      shake: {
+        0: {
+          marginBefore: 0
+        },
+        40: {
+          marginBefore: '2px'
+        },
+        50: {
+          marginBefore: '-2px'
+        },
+        70: {
+          marginBefore: '2px'
+        },
+        100: {
+          marginBefore: 0
+        },
+      }
+    }
+  };
+};
+
+
 @Component({
   selector: 'ly-field',
   exportAs: 'lyFormField',
   templateUrl: 'field.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    LyHostClass,
+    StyleRenderer,
+  ]
 })
 export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
   /**
    * styles
    * @docs-private
    */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   protected _appearance: string;
   protected _appearanceClass: string;
   protected _color: string;
@@ -208,18 +460,27 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      if (!(this._theme.variables.field!.appearance[val] || DEFAULT_APPEARANCE_THEME[val]))  {
-        throw new Error(`${val} not found in theme.field.appearance`);
-      }
-      this._appearanceClass = this._theme.addStyle(`ly-field.appearance:${val}`, (theme: ThemeVariables) => {
-        const appearance = theme.field!.appearance[val] || DEFAULT_APPEARANCE_THEME[val];
-        return appearance;
-      }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, STYLES);
+      this[0x1] = this._styleRenderer.add(
+        `ly-field.appearance:${val}`,
+        (theme: ThemeVariables & LyFieldVariables, ref) => {
+          const classes = ref.selectorsOf(STYLES);
+          if (theme.field && theme.field.appearance) {
+            const appearance = theme.field.appearance[val];
+            if (appearance) {
+              return appearance instanceof StyleCollection
+                ? appearance.call.bind(appearance.setTransformer((_) => _(classes)))
+                : appearance(classes);
+            }
+          }
+          throw new Error(`${val} not found in theme.field.appearance`);
+      }, STYLE_PRIORITY, this[0x1]);
     }
   }
   get appearance() {
     return this._appearance;
   }
+
+  [0x1]: string;
 
   @HostListener('focus') onFocus() {
     this._el.nativeElement.focus();
@@ -231,12 +492,10 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
     private _elementObserver: ElementObserver,
     private _theme: LyTheme2,
     private _cd: ChangeDetectorRef,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _styleRenderer: StyleRenderer
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
-    if (!_theme.variables.field) {
-      throw getLyThemeVariableUndefinedError('field');
-    }
   }
 
   ngOnInit() {

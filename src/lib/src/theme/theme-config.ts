@@ -8,7 +8,6 @@ import { RadioVariables } from './variables/radio';
 import { ImgCropperVariables } from './variables/img-cropper';
 import { SelectVariables } from './variables/select';
 import { TabsVariables } from './variables/tabs';
-import { FieldVariables } from './variables/field';
 import { ListVariables } from './variables/list';
 import { ToolbarVariables } from './variables/toolbar';
 import { Color } from '@alyle/ui/color';
@@ -56,7 +55,6 @@ export interface ThemeConfig {
     /** color for drawer:backdrop */
     backdrop: Color
   };
-  field?: FieldVariables;
   iconButton: {
     size: string
   };

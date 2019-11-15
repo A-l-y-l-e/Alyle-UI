@@ -1,21 +1,20 @@
-import { Directive, Renderer2, ElementRef } from '@angular/core';
+import { Directive, Renderer2, ElementRef, Inject } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
-import { STYLES } from './styles';
+import { LY_FIELD_STYLES_TOKEN } from './field-styles-token';
 
-/** LyError */
 const STYLE_PRIORITY = -2;
 
 @Directive({
   selector: 'ly-error'
 })
 export class LyError {
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   constructor(
     renderer: Renderer2,
     el: ElementRef,
-    private _theme: LyTheme2
+    theme: LyTheme2,
+    @Inject(LY_FIELD_STYLES_TOKEN) styles: any
     ) {
-    const className = _theme.addStyleSheet(STYLES, STYLE_PRIORITY).error;
+    const className = theme.addStyleSheet(styles, STYLE_PRIORITY).error;
     renderer.addClass(el.nativeElement, className);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { lyl, LyTheme2 } from '@alyle/ui';
 
-const STYLES = ({
+const STYLES = () => ({
   menu: lyl `{
     color: red
   }`

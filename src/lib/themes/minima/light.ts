@@ -1,6 +1,7 @@
-import { ThemeConfig, mergeDeep, shadowBuilder, lyl, StyleCollection } from '@alyle/ui';
+import { ThemeConfig, shadowBuilder, lyl, StyleCollection } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
+import { LyFieldTheme } from '@alyle/ui/field';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0x333333);
@@ -57,17 +58,28 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     backdrop: new Color(0, 0, 0, .6)
   };
   bar = new Color(0xf5f5f5);
-  field = mergeDeep({}, this.field, {
-    borderColor: new Color(0, 0, 0, 0.23),
-    labelColor: new Color(0, 0, 0, 0.6),
+  field: LyFieldTheme = {
     appearance: {
-      filled: {
-        '{container}': {
-          backgroundColor: new Color(0, 0, 0, 0.04),
+      root: ({
+        container,
+        fieldset,
+        labelContainer,
+        placeholder,
+        label}) => lyl `{
+        ${container}:after, ${fieldset}, ${labelContainer} {
+          border-color: ${new Color(0, 0, 0, 0.23)}
         }
-      }
+        ${label}, ${placeholder} {
+          color: ${new Color(0, 0, 0, 0.6)}
+        }
+      }`,
+      filled: ({ container }) => lyl `{
+        ${container} {
+          background-color: ${new Color(0, 0, 0, 0.04)}
+        }
+      }`
     }
-  });
+  };
   snackBar = {
     root: new StyleCollection(lyl `{
       background: ${new Color(0x323232)}

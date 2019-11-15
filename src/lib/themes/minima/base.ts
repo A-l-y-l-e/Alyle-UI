@@ -3,7 +3,8 @@ import {
   Dir,
   StyleContainer,
   lyl,
-  shadowBuilder
+  shadowBuilder,
+  StyleCollection
 } from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
@@ -15,6 +16,7 @@ import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 import { LyButtonTheme } from '@alyle/ui/button';
 import { LyBadgeTheme } from '@alyle/ui/badge';
 import { LyCheckboxTheme } from '@alyle/ui/checkbox';
+import { LyFieldTheme } from '@alyle/ui/field';
 
 export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAvatarVariables {
   typography = {
@@ -130,90 +132,133 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAv
     }
   };
 
-  field = {
+  field: LyFieldTheme = {
     appearance: {
-      outlined: {
-        '&:not({focused}):not({disabled}):hover {fieldset}': {
-          borderColor: 'currentColor'
-        },
-        '&{focused} {fieldset}': {
-          borderWidth: '2px',
-          borderColor: 'inherit'
-        },
-        '& textarea{inputNative}': {
-          margin: '1em 0'
-        },
-        '& {inputNative}:not(textarea)': {
-          padding: '1em 0'
-        },
-        '& {container}': {
-          padding: '0 0.75em'
-        },
-        '& {fieldset}': {
-          borderWidth: '1px',
-          borderRadius: '5px',
-          padding: '0 .5em'
-        },
-        '& {prefix}': {
-          '&:after': {
-            padding: '0.25em'
+      standard: new StyleCollection(
+        (classes) => lyl `{
+          &:not(${classes.disabled}) ${classes.container}:hover:after {
+            border-bottom-color: currentColor
           }
-        },
-        '& suffix': {
-          '&:after': {
-            padding: '0.25em'
+          &${classes.disabled} ${classes.container}:after {
+            border-bottom-style: dotted
+            border-color: inherit
           }
-        },
-        '& {label}': {
-          margin: '1em 0'
-        },
-        '& {placeholder}': {
-          margin: '1em 0'
-        },
-        '& {floatingLabel}{label}': {
-          transform: 'translateY(-1.75em)'
-        },
-        '& {hintContainer}': {
-          padding: '0 0.75em'
-        }
-      },
-      filled: {
-        '&:not({focused}):not({disabled}) {container}:hover:after': {
-          borderBottomWidth: '1px'
-        },
-        'textarea{inputNative}': {
-          margin: '1.59375em 0 0.40625em'
-        },
-        '{inputNative}:not(textarea)': {
-          padding: '1.59375em 0 0.40625em'
-        },
-        '& {container}': {
-          borderRadius: '5px 5px 0 0',
-          padding: '0 0.75em',
-          '&:after': {
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'currentColor',
-            borderBottomWidth: '0'
+          textarea{inputNative} {
+            margin: 0.25em 0
           }
-        },
-        '&{focused} {container}': {
-          '&:after': {
-            borderBottomWidth: '2px'
+          ${classes.inputNative}:not(textarea) {
+            padding: 0.25em 0
           }
-        },
-        '& {placeholder}': {
-          margin: '1.59375em 0 0.40625em'
-        },
-        '& {label}': {
-          margin: '1em 0'
-        },
-        '& {floatingLabel}{label}': {
-          transform: 'translateY(-.75em)'
-        },
-        '& {hintContainer}': {
-          padding: '0 0.75em'
-        }
-      }
+          & ${classes.container} {
+            padding: 1em 0 0
+            &:after {
+              border-bottom-style: solid
+              border-bottom-width: 1px
+            }
+          }
+          &${classes.focused} ${classes.container} {
+            &:after {
+              border-width: 2px
+              border-color: currentColor
+            }
+          }
+          & ${classes.label} {
+            margin: 0.25em 0
+          }
+          & ${classes.placeholder} {
+            margin: 0.25em 0
+          }
+          & ${classes.floatingLabel} {
+            transform: translateY(-1.25em)
+          }
+        }`
+      ),
+      outlined: new StyleCollection(
+        classes => lyl `{
+          &:not(${classes.focused}):not({disabled}):hover ${classes.fieldset} {
+            border-color: currentColor
+          }
+          &${classes.focused} ${classes.fieldset} {
+            border-width: 2px
+            border-color: inherit
+          }
+          & textarea${classes.inputNative} {
+            margin: 1em 0
+          }
+          & ${classes.inputNative}:not(textarea) {
+            padding: 1em 0
+          }
+          & ${classes.container} {
+            padding: 0 0.75em
+          }
+          & ${classes.fieldset} {
+            border-width: 1px
+            border-radius: 5px
+            padding: 0 .5em
+          }
+          & ${classes.prefix} {
+            &:after {
+              padding: 0.25em
+            }
+          }
+          & ${classes.suffix} {
+            &:after {
+              padding: 0.25em
+            }
+          }
+          & ${classes.label} {
+            margin: 1em 0
+          }
+          & ${classes.placeholder} {
+            margin: 1em 0
+          }
+          & ${classes.floatingLabel}${classes.label} {
+            transform: translateY(-1.75em)
+          }
+          & ${classes.hintContainer} {
+            padding: 0 0.75em
+          }
+        }`
+      ),
+      filled: new StyleCollection(
+        classes => lyl `{
+          &:not(${classes.focused}):not(${classes.disabled}) ${classes.container}:hover:after {
+            border-bottom-width: 1px
+          }
+          textarea${classes.inputNative} {
+            margin: 1.59375em 0 0.40625em
+          }
+          ${classes.inputNative}:not(textarea) {
+            padding: 1.59375em 0 0.40625em
+          }
+          & ${classes.container} {
+            border-radius: 5px 5px 0 0
+            padding: 0 0.75em
+            &:after {
+              border-bottom-style: solid
+              border-bottom-color: currentColor
+              border-bottom-width: 0
+            }
+          }
+          &${classes.focused} ${classes.container} {
+            &:after {
+              border-bottom-width: 2px
+            }
+          }
+          & ${classes.placeholder} {
+            margin: 1.59375em 0 0.40625em
+          }
+          & ${classes.label} {
+            margin: 1em 0
+          }
+          & ${classes.floatingLabel}${classes.label} {
+            transform: translateY(-.75em)
+          }
+          & ${classes.hintContainer} {
+            padding: 0 0.75em
+          }
+        }`
+      )
     }
   };
 
