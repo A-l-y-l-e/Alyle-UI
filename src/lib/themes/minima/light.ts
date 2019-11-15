@@ -1,4 +1,4 @@
-import { ThemeConfig, shadowBuilder, lyl, StyleCollection } from '@alyle/ui';
+import { ThemeConfig, shadowBuilder, lyl, StyleCollection, mergeThemes } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
 import { LyFieldTheme } from '@alyle/ui/field';
@@ -58,7 +58,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
     backdrop: new Color(0, 0, 0, .6)
   };
   bar = new Color(0xf5f5f5);
-  field: LyFieldTheme = {
+  field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
     appearance: {
       root: ({
         container,
@@ -79,7 +79,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
         }
       }`
     }
-  };
+  });
   snackBar = {
     root: new StyleCollection(lyl `{
       background: ${new Color(0x323232)}

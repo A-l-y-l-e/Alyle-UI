@@ -275,16 +275,16 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       }
       & ${classes.fieldset}, & ${classes.container}:after {
         border-color: ${theme.warn.default}!important
-      },
+      }
       & ${classes.inputNative} {
         caret-color: ${theme.warn.default}!important
-      },
+      }
       & ${classes.hintContainer} ly-hint:not(${classes.hintAfter}) {
         display: none
-      },
+      }
       & ${classes.labelSpan} {
         animation: {shake} ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}
-      },
+      }
       & ${classes.inputNative}::selection, & ${classes.inputNative}::-moz-selection {
           background-color: ${theme.warn.default} !important
           color: ${theme.warn.contrast} !important
