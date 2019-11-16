@@ -3,7 +3,6 @@ import { LyStyleUtils, Dir } from '../style-utils';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { TooltipVariables } from './variables/tooltip';
-import { RadioVariables } from './variables/radio';
 import { ImgCropperVariables } from './variables/img-cropper';
 import { SelectVariables } from './variables/select';
 import { TabsVariables } from './variables/tabs';
@@ -47,7 +46,6 @@ export interface ThemeConfig {
   /** color for divider */
   divider: Color;
   shadow: Color;
-  radio?: RadioVariables;
   drawer: {
     /** color for drawer:backdrop */
     backdrop: Color
