@@ -3,12 +3,10 @@ import { LyStyleUtils, Dir } from '../style-utils';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { TooltipVariables } from './variables/tooltip';
-import { MenuVariables } from './variables/menu';
 import { RadioVariables } from './variables/radio';
 import { ImgCropperVariables } from './variables/img-cropper';
 import { SelectVariables } from './variables/select';
 import { TabsVariables } from './variables/tabs';
-import { ListVariables } from './variables/list';
 import { ToolbarVariables } from './variables/toolbar';
 import { Color } from '@alyle/ui/color';
 
@@ -50,7 +48,6 @@ export interface ThemeConfig {
   divider: Color;
   shadow: Color;
   radio?: RadioVariables;
-  menu?: MenuVariables;
   drawer: {
     /** color for drawer:backdrop */
     backdrop: Color
@@ -86,7 +83,6 @@ export interface ThemeConfig {
   imgCropper?: ImgCropperVariables;
   select?: SelectVariables;
   tabs?: TabsVariables;
-  list?: ListVariables;
   toolbar?: ToolbarVariables;
 }
 

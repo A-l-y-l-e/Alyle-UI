@@ -24,7 +24,12 @@ import {
   shadowBuilder,
   ThemeVariables,
   XPosition,
-  YPosition
+  YPosition,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  lyl,
+  ThemeRef
   } from '@alyle/ui';
 import {
   trigger,
@@ -34,37 +39,57 @@ import {
   keyframes,
 } from '@angular/animations';
 
+export interface LyMenuTheme {
+  /** Styles for Menu Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyMenuVariables {
+  menu?: LyMenuTheme;
+}
+
 const STYLE_PRIORITY = -1;
 const DEFAULT_PLACEMENT = YPosition.below;
 const DEFAULT_XPOSITION = XPosition.after;
 
-const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    '&': theme.menu ? theme.menu.root : null
-  },
-  container: {
-    background: theme.background.primary.default,
-    borderRadius: '2px',
-    boxShadow: shadowBuilder(4),
-    display: 'block',
-    paddingTop: '8px',
-    paddingBottom: '8px',
-    transformOrigin: 'inherit',
-    pointerEvents: 'all',
-    overflow: 'auto',
-    maxHeight: 'inherit',
-    maxWidth: 'inherit',
-    boxSizing: 'border-box'
-  },
-  item: {
-    display: 'flex',
-    minHeight: '48px',
-    borderRadius: 0,
-    width: '100%',
-    justifyContent: 'flex-start'
-  }
-});
+const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) => {
+  const menu = ref.selectorsOf(STYLES);
+  return {
+    $priority: STYLE_PRIORITY,
+    root: () => lyl `{
+      ...${
+        (theme.menu
+          && theme.menu.root
+          && (theme.menu.root instanceof StyleCollection
+            ? theme.menu.root.setTransformer(fn => fn(menu))
+            : theme.menu.root(menu))
+        )
+      }
+    }`,
+    container: lyl `{
+      background: ${theme.background.primary.default}
+      border-radius: 2px
+      box-shadow: ${shadowBuilder(4)}
+      display: block
+      padding-top: 8px
+      padding-bottom: 8px
+      transform-origin: inherit
+      pointer-events: all
+      overflow: auto
+      max-height: inherit
+      max-width: inherit
+      box-sizing: border-box
+    }`,
+    item: lyl `{
+      display: flex
+      min-height: 48px
+      border-radius: 0
+      width: 100%
+      justify-content: flex-start
+    }`
+  };
+};
 
 const ANIMATIONS = [
   trigger('menuEnter', [
