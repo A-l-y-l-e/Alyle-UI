@@ -50,12 +50,12 @@ import { ToolbarWithIconsModule } from './components/toolbar-demo/toolbar-with-i
 import { ToolbarDenseModule } from './components/toolbar-demo/toolbar-dense/toolbar-dense.module';
 
 // tslint:disable-next-line:max-line-length
-import { ResizingCroppingImagesExample01Module } from './components/resizing-cropping-images-demo/resizing-cropping-images-example-01/resizing-cropping-images-example-01.module';
+import { ImageCropperExample01Module } from './components/image-cropper-demo/image-cropper-example-01/image-cropper-example-01.module';
 // tslint:disable-next-line:max-line-length
-import { ResizingCroppingImagesExample02Module } from './components/resizing-cropping-images-demo/resizing-cropping-images-example-02/resizing-cropping-images-example-02.module';
+import { ImageCropperExample02Module } from './components/image-cropper-demo/image-cropper-example-02/image-cropper-example-02.module';
 // tslint:disable-next-line:max-line-length
-import { ResizingCroppingImagesExample03Module } from './components/resizing-cropping-images-demo/resizing-cropping-images-example-03/resizing-cropping-images-example-03.module';
-import { ResizingCroppingImagesDemoComponent } from './components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
+import { ImageCropperExample03Module } from './components/image-cropper-demo/image-cropper-example-03/image-cropper-example-03.module';
+import { ImageCropperDemoComponent } from './components/image-cropper-demo/image-cropper-demo.component';
 
 import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
 import { BasicBadgeModule } from './components/badge-demo/basic-badge/basic-badge.module';
@@ -208,9 +208,9 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     ToolbarWithIconsModule,
     ToolbarDenseModule,
     /** Image cropper */
-    ResizingCroppingImagesExample01Module,
-    ResizingCroppingImagesExample02Module,
-    ResizingCroppingImagesExample03Module,
+    ImageCropperExample01Module,
+    ImageCropperExample02Module,
+    ImageCropperExample03Module,
     /** Badge */
     BasicBadgeModule,
     CustomBadgeModule,
@@ -292,7 +292,7 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     /** Toolbar */
     ToolbarDemoComponent,
     /** Image cropper */
-    ResizingCroppingImagesDemoComponent,
+    ImageCropperDemoComponent,
     /** Badge */
     BadgeDemoComponent,
     /** Field */

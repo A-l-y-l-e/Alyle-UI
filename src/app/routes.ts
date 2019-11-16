@@ -66,7 +66,7 @@ export const AUIRoutes: {
       { route: 'list', api: true , name: 'List' },
       { route: 'menu', api: true , name: 'Menu' },
       { route: 'radio', api: true , name: 'Radio' },
-      { route: 'resizing-cropping-images', api: true , name: 'Resizing & cropping' },
+      { route: 'image-cropper', api: true , name: 'Image Cropper' },
       { route: 'snack-bar', api: true , name: 'SnackBar' },
       { route: 'toolbar', api: true , name: 'Toolbar' },
       { route: 'tooltip', api: true , name: 'Tooltip' },

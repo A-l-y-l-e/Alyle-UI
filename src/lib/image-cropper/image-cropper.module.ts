@@ -4,14 +4,14 @@ import { CommonModule } from '@angular/common';
 
 import { LyHammerGestureConfig } from '@alyle/ui';
 
-import { LyResizingCroppingImages } from './resizing-cropping-images';
+import { LyImageCropper } from './image-cropper';
 
 @NgModule({
   imports: [CommonModule],
-  exports: [LyResizingCroppingImages],
+  exports: [LyImageCropper],
   providers: [
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ],
-  declarations: [LyResizingCroppingImages]
+  declarations: [LyImageCropper]
 })
-export class LyResizingCroppingImageModule {}
+export class LyImageCropperModule {}

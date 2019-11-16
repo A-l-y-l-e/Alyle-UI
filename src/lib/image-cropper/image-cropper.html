@@ -5,7 +5,7 @@
 (slideend)="_slideEnd()">
   <canvas #_imgCanvas></canvas>
 </div>
-<div #_croppingContainer *ngIf="_isLoadedImg; else content" [className]="classes.area" [ngStyle]="{
+<div #_area *ngIf="_isLoadedImg; else content" [className]="classes.area" [ngStyle]="{
   width: config.width + 'px',
   height: config.height + 'px'
 }"></div>

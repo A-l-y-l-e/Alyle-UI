@@ -17,7 +17,7 @@
     "components/drawer",
     "components/radio",
     "components/menu",
-    "components/resizing-cropping-images",
+    "components/image-cropper",
     "components/carousel",
     "components/card",
     "components/typography",

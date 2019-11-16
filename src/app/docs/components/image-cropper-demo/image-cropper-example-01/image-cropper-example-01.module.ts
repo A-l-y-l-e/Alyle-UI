@@ -2,23 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
+import { LyImageCropperModule } from '@alyle/ui/image-cropper';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LySliderModule } from '@alyle/ui/slider';
 
-import { ResizingCroppingImagesExample01Component } from './resizing-cropping-images-example-01.component';
+import { ImageCropperExample01Component } from './image-cropper-example-01.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    LyResizingCroppingImageModule,
+    LyImageCropperModule,
     LySliderModule,
     LyButtonModule,
     LyIconModule
   ],
-  exports: [ResizingCroppingImagesExample01Component],
-  declarations: [ResizingCroppingImagesExample01Component]
+  exports: [ImageCropperExample01Component],
+  declarations: [ImageCropperExample01Component]
 })
-export class ResizingCroppingImagesExample01Module { }
+export class ImageCropperExample01Module { }

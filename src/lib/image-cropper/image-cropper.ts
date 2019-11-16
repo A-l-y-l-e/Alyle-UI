@@ -12,74 +12,95 @@ import {
   OnDestroy,
   NgZone
 } from '@angular/core';
-import { LyTheme2, mergeDeep, LY_COMMON_STYLES_DEPRECATED, ThemeVariables } from '@alyle/ui';
+import { LyTheme2, mergeDeep, LY_COMMON_STYLES_DEPRECATED, ThemeVariables, lyl, ThemeRef, StyleCollection, LyClasses, StyleTemplate } from '@alyle/ui';
 import { Subscription, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+export interface LyImageCropperTheme {
+  /** Styles for Image Cropper Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyImageCropperVariables {
+  cropper?: LyImageCropperTheme;
+}
+
 const STYLE_PRIORITY = -2;
 
-const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    '-webkit-user-select': 'none',
-    '-moz-user-select': 'none',
-    '-ms-user-select': 'none',
-    userSelect: 'none',
-    display: 'flex',
-    overflow: 'hidden',
-    position: 'relative',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '&': theme.imgCropper ? theme.imgCropper.root : null
-  },
-  imgContainer: {
-    cursor: 'move',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    '& > canvas': {
-      // width: '100%',
-      // height: '100%',
+const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) => {
+  const cropper = ref.selectorsOf(STYLES);
+  return {
+    $name: LyImageCropper.и,
+    $priority: STYLE_PRIORITY,
+    root: ( ) => lyl `{
+      -webkit-user-select: none
+      -moz-user-select: none
+      -ms-user-select: none
+      user-select: none
+      display: flex
+      overflow: hidden
+      position: relative
+      justify-content: center
+      align-items: center
+      {
+        ...${
+          (theme.cropper
+            && theme.cropper.root
+            && (theme.cropper.root instanceof StyleCollection
+              ? theme.cropper.root.setTransformer(fn => fn(cropper))
+              : theme.cropper.root(cropper))
+          )
+        }
+      }
+    }`,
+    imgContainer: lyl `{
+      cursor: move
+      position: absolute
+      top: 0
+      left: 0
+      & > canvas {
+        pointer-events: none
+      }
+    }`,
+    area: {
       pointerEvents: 'none',
-    }
-  },
-  area: {
-    pointerEvents: 'none',
-    boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.4)',
-    ...LY_COMMON_STYLES_DEPRECATED.fill,
-    margin: 'auto',
-    '&:before, &:after': {
+      boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.4)',
       ...LY_COMMON_STYLES_DEPRECATED.fill,
-      content: `''`,
-    },
-    '&:before': {
-      width: 0,
-      height: 0,
       margin: 'auto',
-      borderRadius: '50%',
-      background: '#fff',
-      border: 'solid 2px rgb(255, 255, 255)'
+      '&:before, &:after': {
+        ...LY_COMMON_STYLES_DEPRECATED.fill,
+        content: `''`,
+      },
+      '&:before': {
+        width: 0,
+        height: 0,
+        margin: 'auto',
+        borderRadius: '50%',
+        background: '#fff',
+        border: 'solid 2px rgb(255, 255, 255)'
+      },
+      '&:after': {
+        border: 'solid 2px rgb(255, 255, 255)'
+      }
     },
-    '&:after': {
-      border: 'solid 2px rgb(255, 255, 255)'
+    defaultContent: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      '&, & > input': LY_COMMON_STYLES_DEPRECATED.fill,
+      '& *:not(input)': {
+        pointerEvents: 'none'
+      },
+      '& > input': {
+        background: 'transparent',
+        opacity: 0,
+        width: '100%',
+        height: '100%'
+      }
     }
-  },
-  defaultContent: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    '&, & > input': LY_COMMON_STYLES_DEPRECATED.fill,
-    '& *:not(input)': {
-      pointerEvents: 'none'
-    },
-    '& > input': {
-      background: 'transparent',
-      opacity: 0,
-      width: '100%',
-      height: '100%'
-    }
-  }
-});
+  };
+};
 /** Image Cropper Config */
 export interface ImgCropperConfig {
   /** Cropper area width */
@@ -176,10 +197,11 @@ interface ImgRect {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
-  selector: 'ly-img-cropper, ly-cropping',
-  templateUrl: 'resizing-cropping-images.html'
+  selector: 'ly-img-cropper, ly-cropping, ly-cropper',
+  templateUrl: 'image-cropper.html'
  })
-export class LyResizingCroppingImages implements OnDestroy {
+export class LyImageCropper implements OnDestroy {
+  static readonly и = 'LyImageCropper';
   /**
    * styles
    * @docs-private
@@ -216,7 +238,7 @@ export class LyResizingCroppingImages implements OnDestroy {
   isCropped: boolean;
 
   @ViewChild('_imgContainer', { static: true }) _imgContainer: ElementRef;
-  @ViewChild('_croppingContainer', { static: false }) _croppingContainer: ElementRef;
+  @ViewChild('_area', { static: false }) _croppingContainer: ElementRef;
   @ViewChild('_imgCanvas', { static: true }) _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Input()
   get config(): ImgCropperConfig {

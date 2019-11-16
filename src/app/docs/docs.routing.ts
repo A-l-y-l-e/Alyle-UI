@@ -6,7 +6,7 @@ import { InstallationComponent } from './getting-started/installation/installati
 import { GridDemoComponent } from './layout/grid-demo/grid-demo.component';
 import { ButtonDemoComponent } from './components/button-demo/button-demo.component';
 import { ToolbarDemoComponent } from './components/toolbar-demo/toolbar-demo.component';
-import { ResizingCroppingImagesDemoComponent } from './components/resizing-cropping-images-demo/resizing-cropping-images-demo.component';
+import { ImageCropperDemoComponent } from './components/image-cropper-demo/image-cropper-demo.component';
 import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
@@ -56,7 +56,7 @@ const routes: Routes = [
       { path: 'tabs', component: TabsDemoComponent },
       { path: 'button', component: ButtonDemoComponent },
       { path: 'toolbar', component: ToolbarDemoComponent },
-      { path: 'resizing-cropping-images', component: ResizingCroppingImagesDemoComponent },
+      { path: 'image-cropper', component: ImageCropperDemoComponent },
       { path: 'badge', component: BadgeDemoComponent },
       { path: 'field', component: FieldDemoComponent },
       { path: 'checkbox', component: CheckboxDemoComponent },
