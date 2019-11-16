@@ -12,7 +12,7 @@ import {
   OnDestroy,
   NgZone
 } from '@angular/core';
-import { LyTheme2, mergeDeep, LY_COMMON_STYLES_DEPRECATED, ThemeVariables, lyl, ThemeRef, StyleCollection, LyClasses, StyleTemplate } from '@alyle/ui';
+import { LyTheme2, mergeDeep, LY_COMMON_STYLES, ThemeVariables, lyl, ThemeRef, StyleCollection, LyClasses, StyleTemplate } from '@alyle/ui';
 import { Subscription, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -63,42 +63,44 @@ const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) 
         pointer-events: none
       }
     }`,
-    area: {
-      pointerEvents: 'none',
-      boxShadow: '0 0 0 20000px rgba(0, 0, 0, 0.4)',
-      ...LY_COMMON_STYLES_DEPRECATED.fill,
-      margin: 'auto',
-      '&:before, &:after': {
-        ...LY_COMMON_STYLES_DEPRECATED.fill,
-        content: `''`,
-      },
-      '&:before': {
-        width: 0,
-        height: 0,
-        margin: 'auto',
-        borderRadius: '50%',
-        background: '#fff',
-        border: 'solid 2px rgb(255, 255, 255)'
-      },
-      '&:after': {
-        border: 'solid 2px rgb(255, 255, 255)'
+    area: lyl `{
+      pointer-events: none
+      box-shadow: 0 0 0 20000px rgba(0, 0, 0, 0.4)
+      ...${LY_COMMON_STYLES.fill}
+      margin: auto
+      &:before, &:after {
+        ...${LY_COMMON_STYLES.fill},
+        content: ''
       }
-    },
-    defaultContent: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      '&, & > input': LY_COMMON_STYLES_DEPRECATED.fill,
-      '& *:not(input)': {
-        pointerEvents: 'none'
-      },
-      '& > input': {
-        background: 'transparent',
-        opacity: 0,
-        width: '100%',
-        height: '100%'
+      &:before {
+        width: 0
+        height: 0
+        margin: auto
+        border-radius: 50%
+        background: #fff
+        border: solid 2px rgb(255, 255, 255)
       }
-    }
+      &:after {
+        border: solid 2px rgb(255, 255, 255)
+      }
+    }`,
+    defaultContent: lyl `{
+      display: flex
+      align-items: center
+      justify-content: center
+      &, & > input {
+        ...${LY_COMMON_STYLES.fill}
+      }
+      & *:not(input) {
+        pointer-events: none
+      }
+      & > input {
+        background: transparent
+        opacity: 0
+        width: 100%
+        height: 100%
+      }
+    }`
   };
 };
 /** Image Cropper Config */
