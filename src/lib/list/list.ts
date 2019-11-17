@@ -58,7 +58,7 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
   return {
     $name: LyList.и,
     $priority: STYLE_PRIORITY,
-    root: () => lyl `{
+    root: ( ) => lyl `{
       display: block
       position: relative
       padding-top: 8px
@@ -74,7 +74,7 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
         }
       }
     }`,
-    listItem: () => lyl `{
+    listItem: ( ) => lyl `{
       ...${LY_COMMON_STYLES.button}
       font-family: ${theme.typography.fontFamily}
       font-size: ${theme.pxToRem(16)}
@@ -120,7 +120,7 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
       padding-bottom: 8px
       min-height: 48px
     }`,
-    twoLine: () => lyl `{
+    twoLine: ( ) => lyl `{
       padding-top: 16px
       padding-bottom: 16px
       min-height: 64px
@@ -140,12 +140,12 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
       flex-direction: column
       display: flex
     }`,
-    listItemWithIcon: () => lyl `{
+    listItemWithIcon: ( ) => lyl `{
       ${list.lines} {
         padding-before: 16px
       }
     }`,
-    twoLineWithIcon: () => lyl `{
+    twoLineWithIcon: ( ) => lyl `{
       padding-top: 16px
       padding-bottom: 16px
       ${list.lines} {

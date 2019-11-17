@@ -115,19 +115,17 @@ export class StyleRenderer {
         TypeStyle.LylStyle);
     }
     if (this._hostClass) {
-      this._hostClass.update(className!, oldClass);
-    } else {
-      throw new Error(
-        `An old class exists, therefore LyHostClass is required `
-        + `to replace this class with a new one.\n\n`
-        + `Add LyHostClass to the Component or Directive:\n\n`
-        + `e.g:\n\n`
-        + `@Component({\n`
-        + `  providers: [ LyHostClass ]\n`
-        + `})\n`
-      );
+      return this._hostClass.update(className!, oldClass);
     }
-    return className!;
+    throw new Error(
+      `LyHostClass is required `
+      + `to update classes.\n\n`
+      + `Add LyHostClass to Component or Directive:\n\n`
+      + `e.g:\n\n`
+      + `@Component({\n`
+      + `  providers: [ LyHostClass ]\n`
+      + `})\n`
+    );
   }
 }
 
