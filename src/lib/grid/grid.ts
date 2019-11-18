@@ -1,10 +1,7 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
-import { LyTheme2, eachMedia, ThemeVariables } from '@alyle/ui';
+import { LyTheme2, eachMedia, ThemeVariables, StyleCollection, StyleTemplate, LyHostClass, StyleRenderer, lyl } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
-
-/** @docs-private */
-const COL_VALUES = { };
 
 const ALIGN_ALIAS = {
   rowReverse: 'row-reverse',
@@ -294,11 +291,16 @@ export class LyGrid {
 }
 
 @Directive({
-  selector: 'ly-grid[item], [ly-grid-item], [lyGridItem]'
+  selector: 'ly-grid[item], [ly-grid-item], [lyGridItem]',
+  providers: [
+    LyHostClass,
+    StyleRenderer
+  ]
 })
 export class LyGridItem implements OnInit {
+  static readonly и = 'LyGridItem';
   private _col: string | number;
-  private _colClass: string;
+  private _colClass: string | null;
 
   private _order: string | number;
   private _orderClass: string;
@@ -312,32 +314,41 @@ export class LyGridItem implements OnInit {
     return this._col;
   }
   set col(val: string | number) {
-    if (val !== this.col) {
-      this._col = val;
-      this._colClass = this.theme.addStyle(`lyGrid-col:${val}`, (theme: ThemeVariables) => {
-        if (typeof val === 'number') {
-          return getColStyle(val);
-        } else {
-          let colStyles: {
-            maxWidth?: string | number
-            flexBasis?: string | number
-            flexGrow?: number
-          };
-          eachMedia(val, (value, media) => {
-            const newColStyles = getColStyle(+value);
-            if (media) {
-              if (!colStyles) {
-                colStyles = {};
-              }
-              colStyles[theme.getBreakpoint(media)] = newColStyles;
-            } else {
-              colStyles = newColStyles;
-            }
-          });
-          return colStyles!;
+    const newVal = this._col = val || 0;
+    this._colClass = this._sr.add(`${LyGridItem.и}--col-${newVal}`, (theme: ThemeVariables) => {
+      const medias = new StyleCollection<StyleTemplate>();
+      eachMedia(newVal, (value, media) => {
+        if (typeof value === 'string') {
+          throw new Error(`${LyGridItem.и}: '${val}' is not valid.`);
         }
-      }, this.el.nativeElement, this._colClass, STYLE_PRIORITY);
-    }
+        const maxWidth = value ? value * 100 / 12 : 100;
+        const flexBasis = value ? value * 100 / 12 : 0;
+        const flexGrow = value ? 0 : 1;
+
+        if (media) {
+          medias.add(
+            lyl `{
+              @media ${theme.breakpoints[media]} {
+                max-width: ${maxWidth}%
+                flex-basis: ${flexBasis}%
+                flex-grow: ${flexGrow}
+              }
+            }`
+          );
+        } else {
+          medias.add(
+            lyl `{
+              max-width: ${maxWidth}%
+              flex-basis: ${flexBasis}%
+              flex-grow: ${flexGrow}
+            }`
+          );
+        }
+      });
+      return lyl `{
+        ...${medias}
+      }`;
+    }, STYLE_PRIORITY, this._colClass);
   }
 
   @Input('lyGridItem')
@@ -361,7 +372,7 @@ export class LyGridItem implements OnInit {
       this._order = val;
       this._orderClass = this.theme.addStyle(`lyGrid-order:${val}`, (theme: ThemeVariables) => {
         let orderStyles: {
-          order?: string
+          order?: string | number
         };
         eachMedia(`${val}`, (value, media) => {
           const newOrderStyles = {
@@ -385,7 +396,8 @@ export class LyGridItem implements OnInit {
     private gridContainer: LyGrid,
     private el: ElementRef,
     renderer: Renderer2,
-    private theme: LyTheme2
+    private theme: LyTheme2,
+    private _sr: StyleRenderer
   ) {
     if (!gridContainer) {
       throw new Error(`Require parent <ly-grid container>`);
@@ -410,18 +422,4 @@ export class LyGridItem implements OnInit {
     }
   }
 
-}
-
-function getColStyle(val: number) {
-  return {
-    maxWidth: val ? getColVal(val) : '100%',
-    flexBasis: val ? getColVal(val) : 0,
-    flexGrow: val ? 0 : 1
-  };
-}
-
-function getColVal(val: string | number): string {
-  return val in COL_VALUES
-              ? COL_VALUES[val]
-              : COL_VALUES[val] = `${+val * 100 / 12}%`;
 }

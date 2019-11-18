@@ -243,7 +243,9 @@ export class StyleCollection<T = any> {
   add(...templates: (T)[]): StyleCollection<T>;
   add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]): StyleCollection;
   add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]): StyleCollection | StyleCollection<T> {
-    return new StyleCollection(...[...this._templates, ...templates]);
+    // return new StyleCollection(...[...this._templates, ...templates]);
+    this._templates.push(...templates);
+    return this;
   }
 
   /** Transform style */

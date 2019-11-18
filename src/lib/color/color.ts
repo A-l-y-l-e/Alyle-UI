@@ -329,13 +329,13 @@ export function hexColorToInt(color: string) {
   throw new Error(`Expected to start with '#' the given value is: ${color}`);
 }
 
-export const color1 = new Color(0x00bcd4).alpha();
-export const colorr = new Color(0x00bcd4).alpha(1);
-export const color2 = new Color(0x00bcd4);
-export const color3 = new Color(0x00bcd4, .5);
-export const color4 = new Color(250, 250, 250);
-export const color5 = new Color(250, 250, 250, .5);
-export const color6 = new Color(...[250, 250, 250, .5]);
-console.log(new Color(0x2b2b2b).luminance());
+// export const color1 = new Color(0x00bcd4).alpha();
+// export const colorr = new Color(0x00bcd4).alpha(1);
+// export const color2 = new Color(0x00bcd4);
+// export const color3 = new Color(0x00bcd4, .5);
+// export const color4 = new Color(250, 250, 250);
+// export const color5 = new Color(250, 250, 250, .5);
+// export const color6 = new Color(...[250, 250, 250, .5]);
+// console.log(new Color(0x2b2b2b).luminance());
 
-console.log(Color);
+// console.log(Color);

@@ -134,13 +134,20 @@ function get(obj: Object, path: string[] | string, optional?: string): Color {
   // return typeof obj === 'string' ? obj as string : obj['default'] as string;
 }
 
-export function eachMedia(str: string | number | undefined, fn: ((val: string, media: string | null, index: number) => void)) {
+// export type MediaQueryArray = (
+//   string | number | (number | string| (string | number)[])[]
+// )[];
+
+export function eachMedia(
+  str: string | number | undefined,
+  fn: ((val: string | number, media: string | null, index: number) => void)) {
   if (typeof str === 'string') {
     const values = str.split(/\s/g);
     for (let index = 0; index < values.length; index++) {
       const valItem = values[index].split(/\@/g);
-      const value = valItem.shift();
+      const strValue = valItem.shift()!;
       const len = valItem.length;
+      const value = isNaN(+strValue) ? strValue : +strValue;
       if (len) {
         for (let j = 0; j < len; j++) {
           fn.call(undefined, value, valItem[j], index);

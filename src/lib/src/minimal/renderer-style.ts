@@ -31,7 +31,7 @@ export class StyleRenderer {
   add(
     style: (theme: any, ref: ThemeRef) => StyleTemplate,
     priority: number,
-    oldClass: string
+    oldClass: string | null
   ): string;
   add(
     id: string,
@@ -41,29 +41,35 @@ export class StyleRenderer {
   add(
     id: string,
     style: (theme: any, ref: ThemeRef) => StyleTemplate,
-    oldClass: string
+    oldClass: string | null
   ): string;
 
   add(
     id: string,
     style: (theme: any, ref: ThemeRef) => StyleTemplate,
     priority: number,
-    oldClass: string
+    oldClass: string | null
   ): string;
 
   add(
     id: string | ((theme: any, ref: ThemeRef) => StyleTemplate),
     style?: ((theme: any, ref: ThemeRef) => StyleTemplate) | number | string,
-    priority?: number | string | undefined,
-    oldClass?: string | undefined
+    priority?: number | string | undefined | null,
+    oldClass?: string | undefined | null
   ): string {
     const args = arguments;
     /** Class name or keyframe name */
     let className: string | undefined;
     let len = args.length;
-    if (args[len - 1] == null) {
+
+    // clean
+    if (len === 4 && args[3] == null) {
       len -= 1;
     }
+    if (len === 3 && args[2] == null) {
+      len -= 1;
+    }
+
     if (len === 1) {
       className = this._theme._createStyleContent2(id,
         null,
@@ -90,11 +96,13 @@ export class StyleRenderer {
     } else if (len === 3) {
       if (typeof id === 'string') {
         if (typeof priority === 'number') {
+          // (id, style, priority)
           className = this._theme._createStyleContent2(style as (theme: any, ref: ThemeRef) => StyleTemplate,
           id,
           priority,
           TypeStyle.LylStyle);
         } else {
+          // (id, style, oldClass)
           className = this._theme._createStyleContent2(style as (theme: any, ref: ThemeRef) => StyleTemplate,
           id,
           null,
@@ -102,6 +110,7 @@ export class StyleRenderer {
           oldClass = priority;
         }
       } else {
+        // (style, priority, oldClass)
         className = this._theme._createStyleContent2(id as (theme: any, ref: ThemeRef) => StyleTemplate,
           null,
           style as number,

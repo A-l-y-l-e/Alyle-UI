@@ -356,6 +356,7 @@ export class AppComponent implements OnInit {
       this.page.updateRoute(pathname);
     });
   }
+
   ngOnInit() {
     this.renderer.addClass(this._el.nativeElement, this.classes.root);
   }
