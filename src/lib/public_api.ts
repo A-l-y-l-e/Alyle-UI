@@ -4,6 +4,7 @@ export * from './src/shadow';
 export * from './src/alyle-config-service';
 export * from './src/platform/index';
 export * from './src/theme/common.module';
+export * from './src/theme/style.directive';
 export * from './src/minimal/index';
 export * from './src/focus-state/focus-state';
 export * from './src/version';

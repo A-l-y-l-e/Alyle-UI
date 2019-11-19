@@ -1,23 +1,33 @@
 import { Directive, Input, SimpleChanges } from '@angular/core';
-import { StyleRenderer, lyl, LyHostClass, eachMedia, StyleCollection } from '@alyle/ui';
+import { LyHostClass, StyleRenderer } from '../minimal';
+import { StyleCollection, lyl } from '../parse';
+import { eachMedia } from '../style-utils';
+
+const STYLE_PRIORITY = -0.5;
 
 @Directive({
-  selector: 'lyl, [p], [pf], [pe], [pt], [pb]',
+  selector: `lyStyle,
+              [p], [pf], [pe], [pt], [pb]
+              [m], [mf], [me], [mt], [mb]`,
   providers: [
     LyHostClass,
-    StyleRenderer,
+    StyleRenderer
   ]
 })
-export class Lyl {
+export class LyStyle {
   /** @docs-private */
-  static readonly и = 'lyl';
+  static readonly и = 'LyStyle';
 
   @Input() p: number;
   @Input() pf: number;
   @Input() pe: number;
   @Input() pt: number;
   @Input() pb: number;
-
+  @Input() m: number;
+  @Input() mf: number;
+  @Input() me: number;
+  @Input() mt: number;
+  @Input() mb: number;
   constructor(
     private _sr: StyleRenderer,
     private _hClass: LyHostClass
@@ -28,7 +38,7 @@ export class Lyl {
       const { currentValue } = p;
       if (currentValue != null) {
         this[0x1] = this._sr.add(
-          `${Lyl.и}--p-${currentValue}`,
+          `${LyStyle.и}--p-${currentValue}`,
           () => {
             const mediaQueries = new StyleCollection();
             eachMedia(currentValue, (val, media) => mediaQueries.add(
@@ -44,7 +54,7 @@ export class Lyl {
               ...${mediaQueries}
             }`;
           },
-          this[0x1]
+          STYLE_PRIORITY, this[0x1]
         );
       } else {
         this._hClass.remove(this[0x1]);
@@ -55,7 +65,7 @@ export class Lyl {
       const val = pf.currentValue;
       if (val != null) {
         this[0x2] = this._sr.add(
-          `${Lyl.и}--pf-${val}`,
+          `${LyStyle.и}--pf-${val}`,
           ({after}) => lyl `{
             padding-${after}: ${val * 8}
           }`,
@@ -71,7 +81,7 @@ export class Lyl {
       const val = pe.currentValue;
       if (val != null) {
         this[0x3] = this._sr.add(
-          `${Lyl.и}--pe-${val}`,
+          `${LyStyle.и}--pe-${val}`,
           ({before}) => lyl `{
             padding-${before}: ${val * 8}
           }`,
@@ -87,7 +97,7 @@ export class Lyl {
       const val = pf.currentValue;
       if (val != null) {
         this[0x4] = this._sr.add(
-          `${Lyl.и}--pt-${val}`,
+          `${LyStyle.и}--pt-${val}`,
           () => lyl `{
             padding-top: ${val * 8}
           }`,
@@ -103,7 +113,7 @@ export class Lyl {
       const val = pb.currentValue;
       if (val != null) {
         this[0x5] = this._sr.add(
-          `${Lyl.и}--pb-${val}`,
+          `${LyStyle.и}--pb-${val}`,
           () => lyl `{
             padding-bottom: ${val * 8}
           }`,
