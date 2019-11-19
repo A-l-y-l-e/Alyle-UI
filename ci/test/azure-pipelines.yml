@@ -1,0 +1,40 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '12.x'
+  displayName: 'Install Node.js'
+- script: |
+    set -e
+    curl -o- -L https://yarnpkg.com/install.sh | bash
+  displayName: "Install Yarn"
+
+- task: CacheBeta@1
+  inputs:
+    key: yarn | $(Agent.OS) | yarn.lock
+    path: $(YARN_CACHE_FOLDER)
+  displayName: "Cache Yarn packages"
+- script: |
+    set -e
+    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+    node -v
+    yarn -v
+  displayName: "Print versions"
+- bash: |
+    yarn
+    yarn global add tap-xunit
+  displayName: 'Install Dependencies'
+- script: |
+    set -e
+    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+    ./ci/scripts/publish-tests.sh
+  displayName: 'Test'
