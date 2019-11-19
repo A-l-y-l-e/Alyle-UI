@@ -345,9 +345,7 @@ export class LyGridItem implements OnInit {
           );
         }
       });
-      return lyl `{
-        ...${medias}
-      }`;
+      return medias.css;
     }, STYLE_PRIORITY, this._colClass);
   }
 

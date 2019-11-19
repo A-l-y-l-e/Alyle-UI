@@ -51,9 +51,7 @@ export class LyStyle {
                 }
               }`
             ));
-            return lyl `{
-              ...${mediaQueries}
-            }`;
+            return mediaQueries.css;
           },
           STYLE_PRIORITY, this[0x1]
         );
