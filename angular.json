@@ -1128,6 +1128,39 @@
           }
         }
       }
+    },
+    "@alyle/ui/image-cropper": {
+      "root": "dist/lib/image-cropper",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/image-cropper/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/image-cropper/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/image-cropper/test.ts",
+            "tsConfig": "dist/lib/image-cropper/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/image-cropper/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        }
+      }
     }
   }
 }

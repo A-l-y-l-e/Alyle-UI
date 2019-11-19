@@ -1,7 +1,8 @@
 import { Directive, Input, SimpleChanges } from '@angular/core';
-import { LyHostClass, StyleRenderer } from '../minimal';
 import { StyleCollection, lyl } from '../parse';
 import { eachMedia } from '../style-utils';
+import { LyHostClass } from '../minimal/host-class';
+import { StyleRenderer } from '../minimal/renderer-style';
 
 const STYLE_PRIORITY = -0.5;
 
