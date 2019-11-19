@@ -1,7 +1,5 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 pr: none
 
@@ -14,6 +12,15 @@ jobs:
   - task: NodeTool@0
     inputs:
       versionSpec: '10.12.x'
+  - task: CacheBeta@1
+  - script: |
+      curl -o- -L https://yarnpkg.com/install.sh | bash
+    displayName: "Install Yarn"
+  - task: CacheBeta@1
+    inputs:
+      key: yarn | $(Agent.OS) | yarn.lock
+      path: $(YARN_CACHE_FOLDER)
+    displayName: "Cache Yarn packages"
   - script: |
       yarn
       yarn tools:prepare-lib
