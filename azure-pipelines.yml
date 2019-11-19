@@ -12,7 +12,6 @@ jobs:
   - task: NodeTool@0
     inputs:
       versionSpec: '10.12.x'
-  - task: CacheBeta@1
   - script: |
       curl -o- -L https://yarnpkg.com/install.sh | bash
     displayName: "Install Yarn"
