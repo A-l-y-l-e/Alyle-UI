@@ -38,3 +38,8 @@ steps:
     export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
     ./ci/scripts/publish-tests.sh
   displayName: 'Test'
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: 'dist/*.xml'
+  displayName: 'Publish Tests'
