@@ -69,7 +69,7 @@ const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) 
       ...${LY_COMMON_STYLES.fill}
       margin: auto
       &:before, &:after {
-        ...${LY_COMMON_STYLES.fill},
+        ...${LY_COMMON_STYLES.fill}
         content: ''
       }
       &:before {
