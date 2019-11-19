@@ -130,7 +130,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
           (theme.button
             && theme.button.root
             && (theme.button.root instanceof StyleCollection
-              ? theme.button.root.setTransformer(fn => fn(button))
+              ? theme.button.root.setTransformer(fn => fn(button)).css
               : theme.button.root(button))
           )
         }

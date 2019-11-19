@@ -468,7 +468,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
             const appearance = theme.field.appearance[val];
             if (appearance) {
               return appearance instanceof StyleCollection
-                ? appearance.call.bind(appearance.setTransformer((_) => _(classes)))
+                ? appearance.setTransformer((_) => _(classes)).css
                 : appearance(classes);
             }
           }

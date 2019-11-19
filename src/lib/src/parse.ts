@@ -209,7 +209,7 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
         const fn = dsMap.get(str)!;
         let template: StyleTemplate;
         if (fn instanceof StyleCollection) {
-          template = fn.call.bind(fn);
+          template = fn.css.bind(fn);
         } else {
           template = normalizeStyleTemplate(fn);
         }
@@ -238,6 +238,7 @@ export class StyleCollection<T = any> {
   constructor(...templates: (T)[])
   constructor(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]) {
     this._templates = templates;
+    this.css = this.css.bind(this);
   }
 
   add(...templates: (T)[]): StyleCollection<T>;
@@ -254,8 +255,11 @@ export class StyleCollection<T = any> {
     return this;
   }
 
-  /** @docs-private */
-  call(className: string) {
+  /**
+   * @return StyleTemplate
+   * @docs-private
+   */
+  css(className: string) {
     let lin = '';
     const templates = this._templates;
     for (let index = 0; index < templates.length; index++) {
@@ -319,7 +323,7 @@ export function mergeThemes(target: any, ...sources: any[]): any {
 
 export function styleTemplateToString(fn: StyleTemplate | (() => StyleTemplate) | StyleCollection | null | undefined, className: string) {
   if (fn instanceof StyleCollection) {
-    return fn.call(className);
+    return fn.css(className);
   }
   return fn ? normalizeStyleTemplate(fn)(className) : '';
 }
