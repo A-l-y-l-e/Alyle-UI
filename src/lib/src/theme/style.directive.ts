@@ -7,8 +7,8 @@ const STYLE_PRIORITY = -0.5;
 
 @Directive({
   selector: `lyStyle,
-              [p], [pf], [pe], [pt], [pb]
-              [m], [mf], [me], [mt], [mb]`,
+              [p], [px], [py], [pf], [pe], [pt], [pb],
+              [m], [mx], [my], [mf], [me], [mt], [mb]`,
   providers: [
     LyHostClass,
     StyleRenderer
