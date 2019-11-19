@@ -84,6 +84,6 @@ function updateImport(content: string, numSimpleStyles: number, numComplexStyles
     } else if (numSimpleStyles) {
       imports = imports.filter(imp => imp !== 'lyl');
     }
-    return `import {\n  ${imports.join(`,\n  `)} } from ${modulePath};`;
+    return `import {\n  ${imports.join(`,\n  `)} } from ${modulePath.trim()};`;
   });
 }
