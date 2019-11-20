@@ -17,8 +17,9 @@ jobs:
     displayName: "Install Yarn"
   - script: |
       printenv
-      echo $(git log -1 --pretty=%B) | tr '[:upper:]' '[:lower:]' > ./ci/scripts/msg
-    displayName: "Create msg"
+      commit=$(curl https://api.github.com/repos/${BUILD_REPOSITORY_NAME}/commits/${SYSTEM_PULLREQUEST_SOURCECOMMITID})
+      echo $(${commit} | node -pe 'JSON.parse(fs.readFileSync(0)).commit.message') > ./ci/scripts/msg
+    displayName: "Write msg"
   - task: CacheBeta@1
     inputs:
       key: yarn | $(Agent.OS) | yarn.lock
