@@ -16,10 +16,9 @@ jobs:
       curl -o- -L https://yarnpkg.com/install.sh | bash
     displayName: "Install Yarn"
   - bash: |
+      set -e
       printenv
-      commit=$(curl https://api.github.com/repos/${BUILD_REPOSITORY_NAME}/commits/${SYSTEM_PULLREQUEST_SOURCECOMMITID})
-      echo $commit
-      echo $(${commit} | node -pe 'JSON.parse(fs.readFileSync(0)).commit.message') > ./ci/scripts/msg
+      echo $(curl https://api.github.com/repos/${BUILD_REPOSITORY_NAME}/commits/${SYSTEM_PULLREQUEST_SOURCECOMMITID} | node -pe 'JSON.parse(fs.readFileSync(0)).commit.message') > ./ci/scripts/msg
     displayName: "Write msg"
   - task: CacheBeta@1
     inputs:
