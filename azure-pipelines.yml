@@ -15,6 +15,9 @@ jobs:
   - script: |
       curl -o- -L https://yarnpkg.com/install.sh | bash
     displayName: "Install Yarn"
+  - script: |
+      echo $(git log -1 --pretty=%B) | tr '[:upper:]' '[:lower:]' > ./ci/scripts/msg
+    displayName: "Create msg"
   - task: CacheBeta@1
     inputs:
       key: yarn | $(Agent.OS) | yarn.lock
