@@ -1,7 +1,8 @@
 variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
-pr: none
+trigger:
+- master
 
 jobs:
 - job: BuildApp
