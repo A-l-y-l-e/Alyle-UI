@@ -19,13 +19,15 @@ jobs:
       set -e
       printenv
       echo $(curl https://api.github.com/repos/${BUILD_REPOSITORY_NAME}/commits/${SYSTEM_PULLREQUEST_SOURCECOMMITID} | node -pe 'JSON.parse(fs.readFileSync(0)).commit.message') > ./ci/scripts/msg
-    displayName: "Write msg"
+      echo ${SYSTEM_PULLREQUEST_SOURCECOMMITID} > ./ci/scripts/sha
+    displayName: "Write data"
   - task: CacheBeta@1
     inputs:
       key: yarn | $(Agent.OS) | yarn.lock
       path: $(YARN_CACHE_FOLDER)
     displayName: "Cache Yarn packages"
-  - script: |
+  - bash: |
+      set -e
       yarn --frozen-lockfile
       yarn tools:prepare-lib
       yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
