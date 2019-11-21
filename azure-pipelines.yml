@@ -31,7 +31,8 @@ jobs:
       set -e
       yarn --frozen-lockfile
       yarn tools:prepare-lib
-      yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
+      node dist/@alyle/style-compiler/main src
+      # yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
   - task: PublishBuildArtifacts@1
     inputs:

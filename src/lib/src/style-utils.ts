@@ -1,5 +1,6 @@
 import { Color, hexColorToInt } from '@alyle/ui/color';
 import { _STYLE_MAP, Styles, LyClasses } from './theme/style';
+import { StyleCollection, StyleTemplate } from './parse';
 
 export class LyStyleUtils {
   name: string;
@@ -140,7 +141,18 @@ function get(obj: Object, path: string[] | string, optional?: string): Color {
 
 export function eachMedia(
   str: string | number | undefined,
-  fn: ((val: string | number, media: string | null, index: number) => void)) {
+  fn: ((val: string | number, media: string | null, index: number) => void)
+): void;
+export function eachMedia(
+  str: string | number | undefined,
+  fn: ((val: string | number, media: string | null, index: number) => void),
+  styleCollection: StyleCollection
+): StyleTemplate;
+export function eachMedia(
+  str: string | number | undefined,
+  fn: ((val: string | number, media: string | null, index: number) => void),
+  styleCollection?: StyleCollection
+): StyleTemplate | void {
   if (typeof str === 'string') {
     const values = str.split(/\s/g);
     for (let index = 0; index < values.length; index++) {
@@ -150,14 +162,26 @@ export function eachMedia(
       const value = isNaN(+strValue) ? strValue : +strValue;
       if (len) {
         for (let j = 0; j < len; j++) {
-          fn.call(undefined, value, valItem[j], index);
+          const st = fn.call(undefined, value, valItem[j], index);
+          if (styleCollection) {
+            styleCollection.add(st);
+          }
         }
       } else {
-        fn.call(undefined, value, null, index);
+        const st = fn.call(undefined, value, null, index);
+        if (styleCollection) {
+          styleCollection.add(st);
+        }
       }
     }
   } else {
-    fn.call(undefined, str, null, 0);
+    const st = fn.call(undefined, str, null, 0);
+    if (styleCollection) {
+      styleCollection.add(st);
+    }
+  }
+  if (styleCollection) {
+    return styleCollection.css;
   }
 }
 /**
