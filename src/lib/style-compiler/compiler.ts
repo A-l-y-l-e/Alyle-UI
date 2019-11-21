@@ -16,15 +16,14 @@ export function styleCompiler(content: string) {
       return _ex;
     }
 
+    simpleStyles++;
     const source = ts.createSourceFile('', styleBlock, ts.ScriptTarget.Latest, true);
     const templateExpression = findNode(source, ts.SyntaxKind.TemplateExpression) as ts.TemplateExpression | null;
     if (!templateExpression) {
       const cssContent = new LylParse(styleBlock.slice(1, styleBlock.length - 1)).toCss();
       styleBlock = `(className: string) => \`${cssContent}\``;
-      simpleStyles++;
       return styleBlock;
     }
-    complexStyles++;
 
     let nextID = 0;
     const data: {[key: string]: string} = {};
@@ -39,6 +38,10 @@ export function styleCompiler(content: string) {
     ];
 
     const templateString = templates.join('');
+
+    if (templateString.includes('...${')) {
+      complexStyles++;
+    }
 
     const css = new LylParse(
       templateString.slice(1, templateString.length - 1)

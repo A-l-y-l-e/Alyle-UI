@@ -55,6 +55,18 @@ class Context {
   }\`;
   `;
 
+  simpleStyle2 = `
+  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+
+  const style = lyl \`{
+    color: red
+  }\`;
+
+  const style2 = lyl \`{
+    color: blue
+  }\`;
+  `;
+
   complexStyle = `
   import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
 
@@ -264,13 +276,26 @@ test(`compile style with inheritance`, async t => {
 
 test(`compile simple style`, async t => {
   const css = styleCompiler(t.context.simpleStyle);
-  t.is(css, `
+  t.is(`
   import {
   LyTheme2,
   LyHostClass } from '@alyle/ui';
 
   const style = (className: string) => \`\${className}{color: red;}\`;
-  `);
+  `, css);
+});
+
+test(`compile simple styles in a file`, async t => {
+  const css = styleCompiler(t.context.simpleStyle2);
+  t.is(`
+  import {
+  LyTheme2,
+  LyHostClass } from '@alyle/ui';
+
+  const style = (className: string) => \`\${className}{color: red;}\`;
+
+  const style2 = (className: string) => \`\${className}{color: blue;}\`;
+  `, css);
 });
 
 test(`compile complex style`, async t => {
