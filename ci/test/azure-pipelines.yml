@@ -5,6 +5,9 @@
 variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
+trigger:
+- master
+
 pool:
   vmImage: 'ubuntu-latest'
 

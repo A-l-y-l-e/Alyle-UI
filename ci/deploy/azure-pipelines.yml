@@ -3,10 +3,9 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+
 trigger:
-  paths:
-    exclude:
-    - README.md
+  - master
 
 pr: none
 
