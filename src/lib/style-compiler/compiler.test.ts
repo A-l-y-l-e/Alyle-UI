@@ -12,12 +12,13 @@ class Context {
   }\`
   style('.y')`;
 
-  styleIntoObjectAsFunction = `const styles = {
+  styleIntoObjectAsFunction = `${styleTemplateToString}\n${StyleCollection}\nconst styles = {
     item: () => lyl \`{
       color: \${'blue'}
+      ...\${null}
     }\`
   }
-  styles.item('.y')`;
+  styles.item()('.y')`;
 
   styleWithExpressions = `const zero = 0;
   const item = lyl \`{

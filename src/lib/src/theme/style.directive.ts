@@ -11,7 +11,8 @@ const STYLE_PRIORITY = -0.5;
   selector: `lyStyle,
               [p], [pf], [pe], [pt], [pb], [px], [py],
               [m], [mf], [me], [mt], [mb], [mx], [my],
-              [display]`,
+              [display],
+              [lyStyle]`,
   providers: [
     LyHostClass,
     StyleRenderer
@@ -21,21 +22,45 @@ export class LyStyle {
   /** @docs-private */
   static readonly и = 'LyStyle';
 
-  @Input() p:  string | number;
-  @Input() pf: string | number;
-  @Input() pe: string | number;
-  @Input() pt: string | number;
-  @Input() pb: string | number;
-  @Input() px: string | number;
-  @Input() py: string | number;
-  @Input() m:  string | number;
-  @Input() mf: string | number;
-  @Input() me: string | number;
-  @Input() mt: string | number;
-  @Input() mb: string | number;
-  @Input() mx: string | number;
-  @Input() my: string | number;
-  @Input() display: string;
+  @Input() p:  string | number | null;
+  @Input() pf: string | number | null;
+  @Input() pe: string | number | null;
+  @Input() pt: string | number | null;
+  @Input() pb: string | number | null;
+  @Input() px: string | number | null;
+  @Input() py: string | number | null;
+  @Input() m:  string | number | null;
+  @Input() mf: string | number | null;
+  @Input() me: string | number | null;
+  @Input() mt: string | number | null;
+  @Input() mb: string | number | null;
+  @Input() mx: string | number | null;
+  @Input() my: string | number | null;
+  @Input() display: string | null;
+
+  @Input()
+  get lyStyle() {
+    return this._lyStyle;
+  }
+  set lyStyle(val: string | ((theme: any, ref: ThemeRef) => StyleTemplate) | null) {
+    if (typeof val === 'function') {
+      this._sr.add(val);
+    } else {
+      this._updateStyle(
+        0xa,
+        'style',
+        val,
+        () => eachMedia(val!, (v, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              ${v}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+  }
+  private _lyStyle: string | null;
 
   constructor(
     private _sr: StyleRenderer,
@@ -45,11 +70,13 @@ export class LyStyle {
   private _updateStyle(
     index: number,
     styleId: string,
-    simpleChange: SimpleChange,
+    simpleChange: SimpleChange | string | number | null,
     style: (theme: any, ref: ThemeRef) => StyleTemplate
   ) {
     if (simpleChange) {
-      const { currentValue } = simpleChange;
+      const currentValue = simpleChange instanceof SimpleChange
+        ? simpleChange.currentValue
+        : simpleChange;
       if (currentValue != null) {
         this[index] = this._sr.add(
           `${LyStyle.и}--${styleId}-${currentValue}`,

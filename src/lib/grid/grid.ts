@@ -17,6 +17,8 @@ const ALIGN_ALIAS = {
 export type AlignItems = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 
 const styles = () => ({
+  $priority: STYLE_PRIORITY,
+  $name: LyGrid.и,
   root: lyl `{
     width: 100%
     display: flex
@@ -25,7 +27,7 @@ const styles = () => ({
   }`,
   item: lyl `{
     &, & :first-child {
-      boxSizing: border-box
+      box-sizing: border-box
     }
   }`
 });
@@ -40,11 +42,12 @@ export type Direction = 'row' | 'rowReverse' | 'column' | 'columnReverse';
   selector: 'ly-grid[container]'
 })
 export class LyGrid {
+  static readonly и = 'LyGrid';
   /**
    * Styles
    * @docs-private
    */
-  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this.theme.renderStyleSheet(styles);
 
   private _spacing: string | number;
   _spacingClass?: string;

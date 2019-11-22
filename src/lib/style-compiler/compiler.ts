@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { findNode } from './util/util';
 import { LylParse } from '../src/parse';
 
-const REGEX_LY = () => /(?:\:\s\(\s?\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
+const REGEX_LY = () => /lyl\s?(`{{*[^]*?}`)/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
 const REPLACE_ID_REGEX = () => /\[ei([\w]+)\]/g;
 const REPLACE_IMPORT_LYL = () => /import {[^}]*(lyl)[^}]*} from '[^']+';/g;
@@ -22,9 +22,6 @@ export function styleCompiler(content: string) {
     if (!templateExpression) {
       const cssContent = new LylParse(styleBlock.slice(1, styleBlock.length - 1)).toCss();
       styleBlock = `(className: string) => \`${cssContent}\``;
-      if (_ex.startsWith(':')) {
-        styleBlock = `: ${styleBlock}`;
-      }
       return styleBlock;
     }
 
@@ -50,9 +47,6 @@ export function styleCompiler(content: string) {
       templateString.slice(1, templateString.length - 1)
     ).toCss().replace(REPLACE_ID_REGEX(), (id: string) => data[id] || id);
     styleBlock = `(className: string) => \`${css}\``;
-    if (_ex.startsWith(':')) {
-      styleBlock = `: ${styleBlock}`;
-    }
     return styleBlock;
   });
 

@@ -80,7 +80,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
   return {
     $priority: STYLE_PRIORITY,
     $name: LyButton.и,
-    root: ( ) => lyl `{
+    root: () => lyl `{
       font-family: ${typography.fontFamily}
       color: ${theme.text.default}
       -webkit-tap-highlight-color: transparent

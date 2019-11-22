@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { LyTheme2, lyl } from '@alyle/ui';
 
 const STYLES = {
   paper: {
@@ -14,7 +14,7 @@ const STYLES = {
 })
 export class BasicPaperComponent {
   readonly classes = this._theme.addStyleSheet(STYLES);
-
+  readonly lyl = lyl;
   constructor(
     private _theme: LyTheme2
   ) { }
