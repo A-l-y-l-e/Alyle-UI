@@ -21,18 +21,20 @@ export class LyStyle {
   /** @docs-private */
   static readonly и = 'LyStyle';
 
-  @Input() p: number | string;
-  @Input() pf: number;
-  @Input() pe: number;
-  @Input() pt: number;
-  @Input() pb: number;
-  @Input() px: number;
-  @Input() py: number;
-  @Input() m: number;
-  @Input() mf: number;
-  @Input() me: number;
-  @Input() mt: number;
-  @Input() mb: number;
+  @Input() p:  number | string;
+  @Input() pf: number | number;
+  @Input() pe: number | number;
+  @Input() pt: number | number;
+  @Input() pb: number | number;
+  @Input() px: number | number;
+  @Input() py: number | number;
+  @Input() m:  number | number;
+  @Input() mf: number | number;
+  @Input() me: number | number;
+  @Input() mt: number | number;
+  @Input() mb: number | number;
+  @Input() mx: number | number;
+  @Input() my: number | number;
 
   constructor(
     private _sr: StyleRenderer,
