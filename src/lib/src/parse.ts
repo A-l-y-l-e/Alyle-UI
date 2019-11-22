@@ -102,6 +102,9 @@ export class LylParse {
           if (fullLine.includes('undefined')) {
             return '';
           }
+          if (fullLine.endsWith(';')) {
+            throw new Error(`Do not require semicolon in [${fullLine}]`);
+          }
           if (fullLine.includes(': ')) {
             fullLine = fullLine.replace(': ', ':');
           }

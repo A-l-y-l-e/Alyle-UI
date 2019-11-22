@@ -351,7 +351,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
       const newClass = this._theme.renderStyle(`${LyBadge.и}--position-${hp}-${vp}`,
       (theme: ThemeVariables) => lyl `{
         transform: translate(${theme.after === 'right'
-          ? x : -x}%, ${y}%);
+          ? x : -x}%, ${y}%)
       }`, STYLE_PRIORITY);
 
       Promise.resolve(null!).then(() => {

@@ -75,8 +75,8 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
         box-shadow: none
       }
       &::-webkit-scrollbar-track {
-        background: none;
-        border: none;
+        background: none
+        border: none
       }
     }`,
     drawerUl: {
