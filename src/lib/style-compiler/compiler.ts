@@ -22,6 +22,9 @@ export function styleCompiler(content: string) {
     if (!templateExpression) {
       const cssContent = new LylParse(styleBlock.slice(1, styleBlock.length - 1)).toCss();
       styleBlock = `(className: string) => \`${cssContent}\``;
+      if (_ex.startsWith(':')) {
+        styleBlock = `: ${styleBlock}`;
+      }
       return styleBlock;
     }
 
@@ -47,6 +50,9 @@ export function styleCompiler(content: string) {
       templateString.slice(1, templateString.length - 1)
     ).toCss().replace(REPLACE_ID_REGEX(), (id: string) => data[id] || id);
     styleBlock = `(className: string) => \`${css}\``;
+    if (_ex.startsWith(':')) {
+      styleBlock = `: ${styleBlock}`;
+    }
     return styleBlock;
   });
 

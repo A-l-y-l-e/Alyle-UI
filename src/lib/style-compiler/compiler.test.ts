@@ -12,10 +12,12 @@ class Context {
   }\`
   style('.y')`;
 
-  fnThatReturnsStyleAStyle = `const style = ( ) => lyl \`{
-    color: blue
-  }\`
-  style('.y')`;
+  styleIntoObjectAsFunction = `const styles = {
+    item: () => lyl \`{
+      color: \${'blue'}
+    }\`
+  }
+  styles.item('.y')`;
 
   styleWithExpressions = `const zero = 0;
   const item = lyl \`{
@@ -250,7 +252,7 @@ test.before(t => {
 
 test('should contain a lyl style', t => {
   t.true(hasLylStyle(t.context.style));
-  t.true(hasLylStyle(t.context.fnThatReturnsStyleAStyle));
+  t.true(hasLylStyle(t.context.styleIntoObjectAsFunction));
 });
 
 test(`should be equal to .y{color: red;}`, async t => {
@@ -259,7 +261,7 @@ test(`should be equal to .y{color: red;}`, async t => {
 });
 
 test(`a StyleFn should be equal to .y {color: blue;}`, async t => {
-  const css = await evalScript(t.context.fnThatReturnsStyleAStyle);
+  const css = await evalScript(t.context.styleIntoObjectAsFunction);
   t.is(`.y{color: blue;}`, css);
 });
 

@@ -16,18 +16,18 @@ const ALIGN_ALIAS = {
 
 export type AlignItems = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 
-const styles = ({
-  root: {
-    width: '100%',
-    display: 'flex',
-    flexWrap: 'wrap',
-    boxSizing: 'border-box'
-  },
-  item: {
-    '&, & :first-child': {
-      boxSizing: 'border-box'
+const styles = () => ({
+  root: lyl `{
+    width: 100%
+    display: flex
+    flex-wrap: wrap
+    box-sizing: border-box
+  }`,
+  item: lyl `{
+    &, & :first-child {
+      boxSizing: border-box
     }
-  }
+  }`
 });
 
 export type Justify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
