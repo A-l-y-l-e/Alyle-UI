@@ -177,15 +177,15 @@ const item2 = lyl \`{
 
   li {
     a {
-      display: inline-block;
+      display: inline-block
 
     }
   }
 
   a {
-    display: block;
-    padding: 6px \${12}px;
-    text-decoration: none;
+    display: block
+    padding: 6px \${12}px
+    text-decoration: none
   }
 
   ul > {
@@ -257,23 +257,23 @@ test('should contain a lyl style', t => {
 
 test(`should be equal to .y{color: red;}`, async t => {
   const css = await evalScript(t.context.style);
-  t.is(`.y{color: red;}`, css);
+  t.is(`.y{color:red;}`, css);
 });
 
 test(`a StyleFn should be equal to .y {color: blue;}`, async t => {
   const css = await evalScript(t.context.styleIntoObjectAsFunction);
-  t.is(`.y{color: blue;}`, css);
+  t.is(`.y{color:blue;}`, css);
 });
 
 test(`compile style that contains an expression`, async t => {
   const css = await evalScript(t.context.styleWithExpressions);
-  t.is(`.y{top: 0;left: 41px;right: 2px;}`, css);
+  t.is(`.y{top:0;left:41px;right:2px;}`, css);
 });
 
 test(`compile style with inheritance`, async t => {
   const css = await evalScript(t.context.inheritanceStyle);
   t.log(css);
-  t.is(css, `.y{top: 0;}.y{color: blue;}`);
+  t.is(css, `.y{top:0;}.y{color:blue;}`);
 });
 
 test(`compile simple style`, async t => {
@@ -283,7 +283,7 @@ test(`compile simple style`, async t => {
   LyTheme2,
   LyHostClass } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color: red;}\`;
+  const style = (className: string) => \`\${className}{color:red;}\`;
   `, css);
 });
 
@@ -294,9 +294,9 @@ test(`compile simple styles in a file`, async t => {
   LyTheme2,
   LyHostClass } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color: red;}\`;
+  const style = (className: string) => \`\${className}{color:red;}\`;
 
-  const style2 = (className: string) => \`\${className}{color: blue;}\`;
+  const style2 = (className: string) => \`\${className}{color:blue;}\`;
   `, css);
 });
 
@@ -308,7 +308,7 @@ test(`compile complex style`, async t => {
   LyHostClass,
   styleTemplateToString } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color: red;}\${styleTemplateToString((
+  const style = (className: string) => \`\${className}{color:red;}\${styleTemplateToString((
       topZero), \`\${className}\`)}\`;
   `);
 });
@@ -321,8 +321,8 @@ test(`compile simple and complex style`, async t => {
   LyHostClass,
   styleTemplateToString } from '@alyle/ui';
 
-  const topZero = (className: string) => \`\${className}{top: 0;}\`
-  const style = (className: string) => \`\${className}{color: red;}\${styleTemplateToString((
+  const topZero = (className: string) => \`\${className}{top:0;}\`
+  const style = (className: string) => \`\${className}{color:red;}\${styleTemplateToString((
       topZero), \`\${className}\`)}\`;
   `);
 });
@@ -345,7 +345,7 @@ test(`do not compile a complex style with simple style`, t => {
   LyHostClass,
   lyl as styleBlock } from '@alyle/ui';
 
-  const topZero = (className: string) => \`\${className}{top: 0;}\`
+  const topZero = (className: string) => \`\${className}{top:0;}\`
   const style = styleBlock \`{
     color: red
     ...\${
@@ -371,28 +371,39 @@ import { AUIThemeVariables } from '@app/app.module';
 
 const zero = 0;
 
-const topZero = (className: string) => \`\${className}{top: \${zero}px;}\`;
+const topZero = (className: string) => \`\${className}{top:\${zero}px;}\`;
 
-const colorRedAndTopZero = (className: string) => \`\${className}{color: red;}\${styleTemplateToString((item0), \`\${className}\`)}\`;
+const colorRedAndTopZero = (className: string) => \`\${className}{color:red;}\${styleTemplateToString((item0), \`\${className}\`)}\`;
 
-const item2 = (className: string) => \`\${styleTemplateToString((item), \`\${className}\`)}\${className} ul{margin: 0;padding: \${zero};list-style: none;}\${styleTemplateToString((item), \`\${className} ul\`)}\${className} li a{display: inline-block;}\${className} a{display: block;padding: 6px \${12}px;text-decoration: none;}\${className} ul > li{list-style-type: none;}\${className} h2 + p{border-top: 1px solid gray;}\${className} p ~ span{opacity: 0.8;}\`;
+const item2 = (className: string) => \`\${styleTemplateToString((item), \`\${className}\`)}\${className} ul{margin:0;padding:\${zero};list-style:none;}\${styleTemplateToString((item), \`\${className} ul\`)}\${className} li a{display:inline-block;}\${className} a{display:block;padding:6px \${12}px;text-decoration:none;}\${className} ul > li{list-style-type:none;}\${className} h2 + p{border-top:1px solid gray;}\${className} p ~ span{opacity:0.8;}\`;
 `);
 // tslint:enable
 });
 
 test(`compile simple media query`, async t => {
   const css = evalScript(t.context.simpleMediaQuery);
-  t.is(css, `.y{color: red;}@media (max-width: 599px){.y{color: blue;}}`);
+  t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;}}`);
 });
 
 test(`compile complex media query`, async t => {
   const css = evalScript(t.context.complexMediaQuery);
-  t.is(css, `.y{color: red;}@media (max-width: 599px){.y{color: blue;}.y .item{color: purple;}}`);
+  t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;}.y .item{color:purple;}}`);
 });
 
 test(`compile keyframe`, async t => {
   const css = evalScript(t.context.keyframe);
-  t.is(css, `@keyframe a{ 0%{color: red;} 100%{color: blue;}}`);
+  t.is(css, `@keyframe a{ 0%{color:red;} 100%{color:blue;}}`);
+});
+test(`compile style with dynamic properties and values`, async t => {
+  const css = evalScript(`
+  const proAndValue = 'color:red';
+  const style = lyl \`{
+    \${proAndValue}
+    cursor: default
+  }\`;
+  style('.y');
+  `);
+  t.is(css, `.y{color:red;cursor:default;}`);
 });
 
 function evalScript(script: string) {

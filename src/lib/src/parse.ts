@@ -102,9 +102,10 @@ export class LylParse {
           if (fullLine.includes('undefined')) {
             return '';
           }
-          if (fullLine.includes(':') && !fullLine.endsWith(';')) {
-            fullLine += ';';
+          if (fullLine.includes(': ')) {
+            fullLine = fullLine.replace(': ', ':');
           }
+          fullLine += ';';
           rules.set(selector!, rules.get(selector!)! + fullLine);
         }
       }
