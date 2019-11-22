@@ -183,10 +183,10 @@ export class LylParse {
 
 export type StyleTemplate = (className: string) => string;
 
-export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | (() => StyleTemplate) | null | undefined)[]) {
+export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | null | undefined)[]) {
   return (className: string) => {
     let result = '';
-    const dsMap = new Map<string, (StyleTemplate | (() => StyleTemplate)) | StyleCollection>();
+    const dsMap = new Map<string, (StyleTemplate) | StyleCollection>();
     for (let i = 0; i < placeholders.length; i++) {
       const placeholder = placeholders[i];
       result += literals[i];
@@ -209,9 +209,9 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
         const fn = dsMap.get(str)!;
         let template: StyleTemplate;
         if (fn instanceof StyleCollection) {
-          template = fn.css.bind(fn);
+          template = fn.css;
         } else {
-          template = normalizeStyleTemplate(fn);
+          template = fn;
         }
         return `${createUniqueCommentSelector('ds')}${template('||&||')}`;
       }
@@ -229,21 +229,21 @@ function createUniqueCommentSelector(text = 'id') {
   return `/* >> ${text} -- ${Math.floor(new Date().valueOf() * Math.random()).toString(36)} */`;
 }
 
-type Transformer<T> = (st: T) => (StyleTemplate | (() => StyleTemplate));
+type Transformer<T> = (st: T) => (StyleTemplate);
 
 export class StyleCollection<T = any> {
-  private _templates: (StyleTemplate | (() => StyleTemplate) | T)[];
+  private _templates: (StyleTemplate | T)[];
   private _transformer?: Transformer<T>;
 
   constructor(...templates: (T)[])
-  constructor(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]) {
+  constructor(...templates: (StyleTemplate | T)[]) {
     this._templates = templates;
     this.css = this.css.bind(this);
   }
 
   add(...templates: (T)[]): StyleCollection<T>;
-  add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]): StyleCollection;
-  add(...templates: (StyleTemplate | (() => StyleTemplate) | T)[]): StyleCollection | StyleCollection<T> {
+  add(...templates: (StyleTemplate | T)[]): StyleCollection;
+  add(...templates: (StyleTemplate | T)[]): StyleCollection | StyleCollection<T> {
     // return new StyleCollection(...[...this._templates, ...templates]);
     this._templates.push(...templates);
     return this;
@@ -265,9 +265,9 @@ export class StyleCollection<T = any> {
     for (let index = 0; index < templates.length; index++) {
       let template: StyleTemplate;
       if (this._transformer) {
-        template = (normalizeStyleTemplate(this._transformer(templates[index] as T)));
+        template = ((this._transformer(templates[index] as T)));
       } else {
-        template = normalizeStyleTemplate(templates[index] as StyleTemplate | (() => StyleTemplate));
+        template = (templates[index] as StyleTemplate);
       }
       lin += template(className);
     }
@@ -321,22 +321,22 @@ export function mergeThemes(target: any, ...sources: any[]): any {
   return mergeThemes(target, ...sources);
 }
 
-export function styleTemplateToString(fn: StyleTemplate | (() => StyleTemplate) | StyleCollection | null | undefined, className: string) {
+export function styleTemplateToString(fn: StyleTemplate | StyleCollection | null | undefined, className: string) {
   if (fn instanceof StyleCollection) {
     return fn.css(className);
   }
-  return fn ? normalizeStyleTemplate(fn)(className) : '';
+  return fn ? (fn)(className) : '';
 }
 
-export function normalizeStyleTemplate(
-  fn: StyleTemplate | (() => StyleTemplate)
-  ) {
-  if (fn.length) {
-    return fn as StyleTemplate;
-  } else {
-    return (fn as (() => StyleTemplate))();
-  }
-}
+// export function normalizeStyleTemplate(
+//   fn: StyleTemplate
+//   ) {
+//   if (fn.length) {
+//     return fn as StyleTemplate;
+//   } else {
+//     return (fn as (() => StyleTemplate))();
+//   }
+// }
 
 export class StringIdGenerator {
   private _chars: string;

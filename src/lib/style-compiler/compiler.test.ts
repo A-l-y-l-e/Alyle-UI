@@ -1,6 +1,6 @@
 import anyTest, { TestInterface } from 'ava';
 import { hasLylStyle, styleCompiler } from './compiler';
-import { styleTemplateToString, StyleCollection, normalizeStyleTemplate } from '../src/parse';
+import { styleTemplateToString, StyleCollection } from '../src/parse';
 import * as tsNode from 'ts-node';
 
 const test = anyTest as TestInterface<Context>;
@@ -38,8 +38,7 @@ class Context {
   inheritanceStyle = `
   ${styleTemplateToString}\n
   ${StyleCollection}
-  ${normalizeStyleTemplate}
-  const colorBlue = () => lyl \`{
+  const colorBlue = lyl \`{
     color: blue
   }\`
   const zero = 0;
