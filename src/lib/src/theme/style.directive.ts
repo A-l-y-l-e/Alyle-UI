@@ -9,8 +9,8 @@ const STYLE_PRIORITY = -0.5;
 
 @Directive({
   selector: `lyStyle,
-              [p], [px], [py], [pf], [pe], [pt], [pb],
-              [m], [mx], [my], [mf], [me], [mt], [mb],
+              [p], [pf], [pe], [pt], [pb], [px], [py],
+              [m], [mf], [me], [mt], [mb], [mx], [my],
               [display]`,
   providers: [
     LyHostClass,
@@ -26,6 +26,8 @@ export class LyStyle {
   @Input() pe: number;
   @Input() pt: number;
   @Input() pb: number;
+  @Input() px: number;
+  @Input() py: number;
   @Input() m: number;
   @Input() mf: number;
   @Input() me: number;
@@ -38,7 +40,7 @@ export class LyStyle {
   ) { }
 
   private _updateStyle(
-    classId: number,
+    index: number,
     styleId: string,
     simpleChange: SimpleChange,
     style: (theme: any, ref: ThemeRef) => StyleTemplate
@@ -46,18 +48,18 @@ export class LyStyle {
     if (simpleChange) {
       const { currentValue } = simpleChange;
       if (currentValue != null) {
-        this[classId] = this._sr.add(
+        this[index] = this._sr.add(
           `${LyStyle.и}--${styleId}-${currentValue}`,
           style,
-          STYLE_PRIORITY, this[classId]
+          STYLE_PRIORITY, this[index]
         );
       } else {
-        this._hClass.remove(this[classId]);
+        this._hClass.remove(this[index]);
       }
     }
   }
 
-  ngOnChanges({p, pf, pe, pt, pb}: SimpleChanges) {
+  ngOnChanges({p, pf, pe, pt, pb, px, py, m, mf, me, mt, mb, mx, my}: SimpleChanges) {
     if (p) {
       const { currentValue } = p;
       this._updateStyle(
@@ -67,9 +69,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding: ${typeof val === 'number'
-                ? val * 8 + 'px'
-                : val}
+              padding: ${toPaddingVal(val)}
             }
           }`
         ), new StyleCollection())
@@ -85,9 +85,7 @@ export class LyStyle {
         ({after}) => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding-${after}: ${typeof val === 'number'
-                ? val * 8 + 'px'
-                : val}
+              padding-${after}: ${toPaddingVal(val)}
             }
           }`
         ), new StyleCollection())
@@ -97,15 +95,13 @@ export class LyStyle {
     if (pe) {
       const { currentValue } = pe;
       this._updateStyle(
-        0x2,
+        0x3,
         'pe',
         pe,
         ({before}) => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding-${before}: ${typeof val === 'number'
-                ? val * 8 + 'px'
-                : val}
+              padding-${before}: ${toPaddingVal(val)}
             }
           }`
         ), new StyleCollection())
@@ -115,15 +111,13 @@ export class LyStyle {
     if (pt) {
       const { currentValue } = pt;
       this._updateStyle(
-        0x2,
+        0x4,
         'pt',
         pt,
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding-top: ${typeof val === 'number'
-                ? val * 8 + 'px'
-                : val}
+              padding-top: ${toPaddingVal(val)}
             }
           }`
         ), new StyleCollection())
@@ -133,15 +127,161 @@ export class LyStyle {
     if (pb) {
       const { currentValue } = pb;
       this._updateStyle(
-        0x2,
+        0x5,
         'pb',
         pb,
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding-bottom: ${typeof val === 'number'
-                ? val * 8 + 'px'
-                : val}
+              padding-bottom: ${toPaddingVal(val)}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (px) {
+      const { currentValue } = px;
+      this._updateStyle(
+        0x6,
+        'px',
+        px,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              padding: 0 ${typeof val === 'number'
+              ? val * 8 + 'px'
+              : val}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (py) {
+      const { currentValue } = py;
+      this._updateStyle(
+        0x7,
+        'py',
+        py,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              padding: ${typeof val === 'number'
+              ? val * 8 + 'px'
+              : val} 0
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (m) {
+      const { currentValue } = m;
+      this._updateStyle(
+        0x8,
+        'm',
+        m,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              margin: ${toPaddingVal(val)}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (mf) {
+      const { currentValue } = mf;
+      this._updateStyle(
+        0x9,
+        'mf',
+        mf,
+        ({after}) => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              margin-${after}: ${toPaddingVal(val)}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (me) {
+      const { currentValue } = me;
+      this._updateStyle(
+        0x10,
+        'me',
+        me,
+        ({before}) => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              margin-${before}: ${toPaddingVal(val)}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (mt) {
+      const { currentValue } = mt;
+      this._updateStyle(
+        0x11,
+        'mt',
+        mt,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              margin-top: ${toPaddingVal(val)}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (mb) {
+      const { currentValue } = mb;
+      this._updateStyle(
+        0x12,
+        'mb',
+        mb,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              margin-bottom: ${toPaddingVal(val)}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (mx) {
+      const { currentValue } = mx;
+      this._updateStyle(
+        0x13,
+        'mx',
+        mx,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              margin: 0 ${toPaddingVal(val)}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (my) {
+      const { currentValue } = my;
+      this._updateStyle(
+        0x14,
+        'my',
+        my,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              margin: ${toPaddingVal(val)} 0
             }
           }`
         ), new StyleCollection())
@@ -149,4 +289,14 @@ export class LyStyle {
     }
 
   }
+}
+
+/**
+ * Convert to px if the value is a number, otherwise leave it as is
+ * @docs-private
+ */
+function toPaddingVal(val: number | string) {
+  return typeof val === 'number'
+    ? `${val * 8}px`
+    : val;
 }
