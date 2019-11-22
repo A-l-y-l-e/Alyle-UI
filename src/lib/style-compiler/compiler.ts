@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { findNode } from './util/util';
 import { LylParse } from '../src/parse';
 
-const REGEX_LY = () => /(?:\( \)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
+const REGEX_LY = () => /(?:\:\s\(\s?\)\s=>\s)?(?:[\w]+\.)?lyl\s?(`{{*[^]*?}`)/g;
 const LYL_BAD_REGEX = /^{\n\s\*\s/;
 const REPLACE_ID_REGEX = () => /\[ei([\w]+)\]/g;
 const REPLACE_IMPORT_LYL = () => /import {[^}]*(lyl)[^}]*} from '[^']+';/g;

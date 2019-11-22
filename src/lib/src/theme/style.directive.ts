@@ -21,20 +21,21 @@ export class LyStyle {
   /** @docs-private */
   static readonly и = 'LyStyle';
 
-  @Input() p:  number | string;
-  @Input() pf: number | number;
-  @Input() pe: number | number;
-  @Input() pt: number | number;
-  @Input() pb: number | number;
-  @Input() px: number | number;
-  @Input() py: number | number;
-  @Input() m:  number | number;
-  @Input() mf: number | number;
-  @Input() me: number | number;
-  @Input() mt: number | number;
-  @Input() mb: number | number;
-  @Input() mx: number | number;
-  @Input() my: number | number;
+  @Input() p:  string | number;
+  @Input() pf: string | number;
+  @Input() pe: string | number;
+  @Input() pt: string | number;
+  @Input() pb: string | number;
+  @Input() px: string | number;
+  @Input() py: string | number;
+  @Input() m:  string | number;
+  @Input() mf: string | number;
+  @Input() me: string | number;
+  @Input() mt: string | number;
+  @Input() mb: string | number;
+  @Input() mx: string | number;
+  @Input() my: string | number;
+  @Input() display: string;
 
   constructor(
     private _sr: StyleRenderer,
@@ -61,7 +62,7 @@ export class LyStyle {
     }
   }
 
-  ngOnChanges({p, pf, pe, pt, pb, px, py, m, mf, me, mt, mb, mx, my}: SimpleChanges) {
+  ngOnChanges({p, pf, pe, pt, pb, px, py, m, mf, me, mt, mb, mx, my, display}: SimpleChanges) {
     if (p) {
       const { currentValue } = p;
       this._updateStyle(
@@ -284,6 +285,22 @@ export class LyStyle {
           lyl `{
             @media ${media || 'all'} {
               margin: ${toPaddingVal(val)} 0
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
+    if (display) {
+      const { currentValue } = display;
+      this._updateStyle(
+        0x15,
+        'display',
+        display,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              display: ${val}
             }
           }`
         ), new StyleCollection())
