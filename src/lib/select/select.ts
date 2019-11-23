@@ -61,80 +61,107 @@ import {
   LyRippleService,
   XPosition,
   YPosition,
-  Dir
+  Dir,
+  lyl,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  ThemeRef
   } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+export interface LySelectTheme {
+  /** Styles for Select Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LySelectVariables {
+  select?: LySelectTheme;
+}
+
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
-export const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    display: 'block',
-    paddingAfter: '1em',
-    minWidth: '3em',
-    minHeight: '1.5em',
-    '-webkit-tap-highlight-color': 'transparent',
-    '&': theme.select ? theme.select.root : null
-  },
-  container: {
-    background: theme.background.primary.default,
-    borderRadius: '2px',
-    boxShadow: shadowBuilder(4),
-    display: 'block',
-    transformOrigin: 'inherit',
-    pointerEvents: 'all',
-    overflow: 'auto',
-    maxHeight: '256px'
-  },
-  valueText: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
-  },
-  option: {
-    display: 'flex',
-    fontFamily: theme.typography.fontFamily,
-    color: theme.text.default,
-    '-webkit-tap-highlight-color': 'transparent',
-    backgroundColor: `rgba(0, 0, 0, 0)`,
-    border: 0,
-    padding: '0 1em',
-    margin: 0,
-    outline: 'none',
-    boxSizing: 'border-box',
-    position: 'relative',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    alignContent: 'center',
-    '-webkit-user-select': 'none',
-    '-moz-user-select': 'none',
-    '-ms-user-select': 'none',
-    userSelect: 'none',
-    lineHeight: '3em',
-    height: '3em',
-    cursor: 'pointer'
-  },
-  optionText: {
-    'ly-checkbox ~ &': {
-      marginBefore: '-16px',
+export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef) => {
+  const select = ref.selectorsOf(STYLES);
+  return {
+    $priority: STYLE_PRIORITY,
+    root: () => lyl `{
+      display: block
+      padding-after: 1em
+      min-width: em
+      min-height: 1.5em
+      -webkit-tap-highlight-color: transparent
+      {
+        ...${
+          (theme.select
+            && theme.select.root
+            && (theme.select.root instanceof StyleCollection
+              ? theme.select.root.setTransformer(fn => fn(select))
+              : theme.select.root(select))
+          )
+        }
+      }
+    }`,
+    container: {
+      background: theme.background.primary.default,
+      borderRadius: '2px',
+      boxShadow: shadowBuilder(4),
+      display: 'block',
+      transformOrigin: 'inherit',
+      pointerEvents: 'all',
+      overflow: 'auto',
+      maxHeight: '256px'
+    },
+    valueText: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    },
+    option: {
       display: 'flex',
+      fontFamily: theme.typography.fontFamily,
+      color: theme.text.default,
+      '-webkit-tap-highlight-color': 'transparent',
+      backgroundColor: `rgba(0, 0, 0, 0)`,
+      border: 0,
+      padding: '0 1em',
+      margin: 0,
+      outline: 'none',
+      boxSizing: 'border-box',
+      position: 'relative',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      alignContent: 'center',
+      '-webkit-user-select': 'none',
+      '-moz-user-select': 'none',
+      '-ms-user-select': 'none',
+      userSelect: 'none',
+      lineHeight: '3em',
+      height: '3em',
+      cursor: 'pointer'
+    },
+    optionText: {
+      'ly-checkbox ~ &': {
+        marginBefore: '-16px',
+        display: 'flex',
+        alignItems: 'inherit',
+        alignContent: 'inherit'
+      }
+    },
+    content: {
+      padding: 0,
+      display: 'flex',
+      justifyContent: 'inherit',
       alignItems: 'inherit',
-      alignContent: 'inherit'
+      alignContent: 'inherit',
+      width: '100%',
+      height: '100%',
+      boxSizing: 'border-box'
     }
-  },
-  content: {
-    padding: 0,
-    display: 'flex',
-    justifyContent: 'inherit',
-    alignItems: 'inherit',
-    alignContent: 'inherit',
-    width: '100%',
-    height: '100%',
-    boxSizing: 'border-box'
-  }
-});
+  };
+};
 
 /** @docs-private */
 const ANIMATIONS = [

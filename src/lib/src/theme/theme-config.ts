@@ -4,7 +4,6 @@ import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
 import { TooltipVariables } from './variables/tooltip';
 import { ImgCropperVariables } from './variables/img-cropper';
-import { SelectVariables } from './variables/select';
 import { TabsVariables } from './variables/tabs';
 import { ToolbarVariables } from './variables/toolbar';
 import { Color } from '@alyle/ui/color';
@@ -79,7 +78,6 @@ export interface ThemeConfig {
   ripple: RippleVariables;
   tooltip: TooltipVariables;
   imgCropper?: ImgCropperVariables;
-  select?: SelectVariables;
   tabs?: TabsVariables;
   toolbar?: ToolbarVariables;
 }
