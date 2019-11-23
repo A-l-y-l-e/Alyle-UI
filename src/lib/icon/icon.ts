@@ -30,14 +30,14 @@ const STYLES = (theme: ThemeVariables) => {
   const loading = keyframesUniqueId.next();
   const { primary, secondary, tertiary } = theme.background;
   const lum = primary.default.luminance();
-  let one = (lum > .5
-    ? secondary
-    : tertiary);
-  let two = (lum > .5
+  let one = (lum < .5
     ? tertiary
     : secondary);
-  one = one.darken(.25 * (lum > .5 ? 1 : -1));
-  two = two.darken(.25 * (lum > .5 ? 1 : -1));
+  let two = (lum < .5
+    ? secondary
+    : tertiary);
+  one = one.darken(.25 * (lum < .5 ? -1 : 1.1));
+  two = two.darken(.25 * (lum < .5 ? -1 : 1.1));
   return {
     $priority: STYLE_PRIORITY,
     $global: lyl `{
