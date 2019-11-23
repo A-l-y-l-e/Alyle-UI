@@ -108,6 +108,9 @@ export class Color {
     return this.saturate(-amount);
   }
 
+  /**
+   * @param amount default 1
+   */
   darken(amount = 1) {
     const lab = rgbToLab(this._color);
     lab[0] -= 18 * amount;
@@ -120,6 +123,10 @@ export class Color {
     return new Color(...rgb);
   }
 
+  /**
+   * The opposite of darken
+   * @param amount default 1
+   */
   brighten(amount = 1) {
     return this.darken(-amount);
   }
