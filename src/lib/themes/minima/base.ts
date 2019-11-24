@@ -1,7 +1,6 @@
 import {
   LyStyleUtils,
   Dir,
-  StyleContainer,
   lyl,
   shadowBuilder,
   StyleCollection
@@ -9,16 +8,16 @@ import {
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
 
-import { LyAvatarVariables, LyAvatarTheme } from '@alyle/ui/avatar';
-import { ExpansionVariables, ExpansionConfig } from '@alyle/ui/expansion';
-import { SliderVariables } from '@alyle/ui/slider';
+import { LyAvatarTheme } from '@alyle/ui/avatar';
+import { ExpansionConfig } from '@alyle/ui/expansion';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 import { LyButtonTheme } from '@alyle/ui/button';
 import { LyBadgeTheme } from '@alyle/ui/badge';
 import { LyCheckboxTheme } from '@alyle/ui/checkbox';
 import { LyFieldTheme } from '@alyle/ui/field';
+import { LySliderTheme } from '@alyle/ui/slider';
 
-export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAvatarVariables {
+export class MinimaBase extends LyStyleUtils {
   typography = {
     fontFamily: `'Roboto', sans-serif`,
     htmlFontSize: 16,
@@ -270,89 +269,116 @@ export class MinimaBase extends LyStyleUtils implements ExpansionVariables, LyAv
     }
   };
 
-  slider: SliderVariables = {
-    defaultConfig: {
-      appearance: 'standard'
-    },
+  slider: LySliderTheme = {
     appearance: {
-      standard: {
-        appearance: _theme => ({
+      standard: () => lyl `{
 
-        }),
-        color: (_theme, color) => ({
-          '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
-            backgroundColor: color
-          },
-          '&:not({disabled}) {thumbContentFocused} {thumb}::before, &:not({disabled}) {thumb}:hover::before': {
-            boxShadow: `0 0 0 8px ${color.alpha(.13)}`
-          },
-          '&{sliding} {thumbContentFocused} {thumb}::before': {
-            boxShadow: `0 0 0 16px ${color.alpha(.13)}`
-          },
-          '{tickActive}': {
-            backgroundColor: color.luminance(0.6)
-          },
-          '{bg}': {
-            opacity: .3
-          },
+      }`
+    },
+    color: ({
+      track,
+      thumb,
+      thumbLabel,
+      tick,
+      disabled,
+      thumbContentFocused,
+      tickActive,
+      bg,
+      thumbContent,
+      horizontal,
+      vertical,
+      thumbVisible,
+      thumbNotVisible,
+      sliding
+    }, color) => lyl `{
+      & ${track}, & ${thumb}, & ${thumbLabel}, & ${bg}, & ${tick} {
+        background-color: ${color}
+      }
+      &:not(${disabled}) ${thumbContentFocused} ${thumb}::before, &:not(${disabled}) ${thumb}:hover::before {
+        box-shadow: 0 0 0 8px ${color.alpha(.13)}
+      }
+      &${sliding} ${thumbContentFocused} ${thumb}::before {
+        box-shadow: 0 0 0 16px ${color.alpha(.13)}
+      }
+      ${tickActive} {
+        background-color: ${color.luminance(0.6)}
+      }
+      ${bg} {
+        opacity: .3
+      }
 
-          '& {thumbContent}::before': {
-            background: color
-          },
-          '&:not({disabled})': [['horizontal', 0], ['vertical', 90]].reduce((prev, orientation) => {
-            prev[`&{${orientation[0]}}`] = {
-              [
-                [
-                  // always show visible thumb, when {thumbVisible} is available
-                  '&{thumbVisible} {thumbContent}::before',
-                  // on hover
-                  '&:not({thumbNotVisible}) {thumbContent}:hover::before',
-                  // on focused
-                  '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused}::before'
-                ].join()
-              ]: {
-                background: `linear-gradient(${orientation[1]}deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);`
-              },
-            };
-            return prev;
-          }, { } as StyleContainer)
-        }),
-        disabled: (theme, color) => {
-          const colorDisabled = color.darken(2)
-          .desaturate(2.5);
-          return ({
-            '& {track}, & {thumb}, & {thumbLabel}, & {bg}, & {tick}': {
-              backgroundColor: colorDisabled.luminance(.4).css()
-            },
-            '{tickActive}': {
-              backgroundColor: colorDisabled.luminance(.6).css()
-            },
-            '&': [['horizontal', 0], ['vertical', 90]].reduce((prev, orientation) => {
-              prev[`&{${orientation[0]}}`] = {
-                '& {thumbContent}::before': {
-                  background: `linear-gradient(${
-                    orientation[1]
-                  }deg, ${
-                    colorDisabled.luminance(.4).css()
-                  } 0%, rgba(0, 0, 0, 0) 50%, ${
-                    colorDisabled.luminance(.4).css()
-                  } 100%);`
-                },
-              };
-              return prev;
-            }, { } as StyleContainer),
-            '{bg}': {
-              opacity: .3
-            },
-            '&{horizontal} {thumbContainer}::before': {
-              background: theme.disabled.default
-            },
-            '&{vertical} {thumbContainer}::before': {
-              background: theme.disabled.default
-            }
-          });
+      &:not(${disabled}) {
+        & ${thumbContent}::before {
+          background: ${color}
+        }
+        &${horizontal} {
+          // always show visible thumb, when {thumbVisible} is available
+          &${thumbVisible} ${thumbContent}::before,
+          // on hover
+          &:not(${thumbNotVisible}) ${thumbContent}:hover::before,
+          // on focused
+          &:not(${thumbNotVisible}) ${thumbContent}${thumbContentFocused}::before {
+            background: linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%)
+          }
+        }
+        &${vertical} {
+          // always show visible thumb, when {thumbVisible} is available
+          &${thumbVisible} ${thumbContent}::before,
+          // on hover
+          &:not(${thumbNotVisible}) ${thumbContent}:hover::before,
+          // on focused
+          &:not(${thumbNotVisible}) ${thumbContent}${thumbContentFocused}::before {
+            background: linear-gradient(90deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%)
+          }
         }
       }
+    }`,
+    disabled: ({
+      track,
+      thumb,
+      thumbContainer,
+      thumbContent,
+      thumbLabel,
+      bg,
+      tick,
+      tickActive,
+      horizontal,
+      vertical
+    }, color) => {
+      const colorDisabled = color.darken(2)
+      .desaturate(2.5);
+      const colorDisabledLum0_4 = colorDisabled.luminance(.4);
+      return lyl `{
+        & ${track},
+        & ${thumb},
+        & ${thumbLabel},
+        & ${bg},
+        & ${tick} {
+          background-color: ${colorDisabled.luminance(.4).css()}
+        }
+        ${tickActive} {
+          background-color: ${colorDisabled.luminance(.6).css()}
+        }
+        &${horizontal} {
+          & ${thumbContent}::before {
+            background: linear-gradient(0deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%)
+          }
+        }
+        &${vertical} {
+          & ${thumbContent}::before {
+            background: linear-gradient(90deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%)
+          }
+        }
+        ${bg} {
+          opacity: .3
+        }
+        &${horizontal} ${thumbContainer}::before {
+          background: ${(this as any).disabled.default}
+        }
+        &${vertical} ${thumbContainer}::before {
+          background: ${(this as any).disabled.default}
+        }
+      }`;
     }
   };
 

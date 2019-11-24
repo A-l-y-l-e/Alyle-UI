@@ -394,6 +394,7 @@ test(`compile keyframe`, async t => {
   const css = evalScript(t.context.keyframe);
   t.is(css, `@keyframe a{ 0%{color:red;} 100%{color:blue;}}`);
 });
+
 test(`compile style with dynamic properties and values`, async t => {
   const css = evalScript(`
   const proAndValue = 'color:red';
@@ -404,6 +405,35 @@ test(`compile style with dynamic properties and values`, async t => {
   style('.y');
   `);
   t.is(css, `.y{color:red;cursor:default;}`);
+});
+
+test(`commas and linefeed to separate selectors`, async t => {
+  const css = evalScript(`
+  const proAndValue = 'color:red';
+  const style = lyl \`{
+    .a,
+    // test
+    .b {
+      color: blue
+    }
+  }\`;
+  style('.y');
+  `);
+  t.is(css, `.y .a,.y .b{color:blue;}`);
+});
+
+test(`with comments`, async t => {
+  const css = evalScript(`
+  const proAndValue = 'color:red';
+  const style = lyl \`{
+    // Color blue
+    .a {
+      color: blue
+    }
+  }\`;
+  style('.y');
+  `);
+  t.is(css, `.y .a{color:blue;}`);
 });
 
 function evalScript(script: string) {
