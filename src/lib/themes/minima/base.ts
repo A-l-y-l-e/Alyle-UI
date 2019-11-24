@@ -271,9 +271,7 @@ export class MinimaBase extends LyStyleUtils {
 
   slider: LySliderTheme = {
     appearance: {
-      standard: () => lyl `{
-
-      }`
+      standard: new StyleCollection()
     },
     color: ({
       track,
