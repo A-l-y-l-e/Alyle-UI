@@ -2,6 +2,8 @@ import { shadowBuilder, lyl, StyleCollection, mergeThemes } from '@alyle/ui';
 import { MinimaBase } from './base';
 import { Color } from '@alyle/ui/color';
 import { LyFieldTheme } from '@alyle/ui/field';
+import { LyTooltipTheme } from '@alyle/ui/tooltip';
+import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0, 0, 0, 1);
@@ -76,17 +78,17 @@ export class MinimaDark extends MinimaBase {
       }`
     }
   });
-  snackBar = {
+  snackBar: LySnackBarTheme = {
     root: new StyleCollection(lyl `{
       background: ${new Color(0xfafafa)}
       color: ${new Color(0, 0, 0, .87)}
       box-shadow: ${shadowBuilder(4, new Color(0xfafafa))}
     }`)
   };
-  tooltip = {
-    root: {
-      background: new Color(250, 250, 250, 0.85).css(),
-      color: new Color(0, 0, 0, .87).css()
-    }
+  tooltip: LyTooltipTheme = {
+    root: new StyleCollection(() => lyl `{
+      background: ${new Color(250, 250, 250, 0.85)}
+      color: ${new Color(0, 0, 0, .87)}
+    }`)
   };
 }

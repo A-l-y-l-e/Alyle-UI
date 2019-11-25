@@ -2,10 +2,6 @@ import { InjectionToken } from '@angular/core';
 import { LyStyleUtils, Dir } from '../style-utils';
 import { RippleVariables } from './variables/ripple';
 import { TypographyVariables } from './variables/typography';
-import { TooltipVariables } from './variables/tooltip';
-import { ImgCropperVariables } from './variables/img-cropper';
-import { TabsVariables } from './variables/tabs';
-import { ToolbarVariables } from './variables/toolbar';
 import { Color } from '@alyle/ui/color';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
@@ -76,10 +72,6 @@ export interface ThemeConfig {
     }
   };
   ripple: RippleVariables;
-  tooltip: TooltipVariables;
-  imgCropper?: ImgCropperVariables;
-  tabs?: TabsVariables;
-  toolbar?: ToolbarVariables;
 }
 
 export type ThemeVariables = LyStyleUtils & ThemeConfig;

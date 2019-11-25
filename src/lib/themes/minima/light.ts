@@ -2,6 +2,7 @@ import { ThemeConfig, shadowBuilder, lyl, StyleCollection, mergeThemes } from '@
 import { Color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
 import { LyFieldTheme } from '@alyle/ui/field';
+import { LyTooltipTheme } from '@alyle/ui/tooltip';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0x333333);
@@ -87,10 +88,10 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       box-shadow: ${shadowBuilder(4, new Color(0x323232))}
     }`)
   };
-  tooltip = {
-    root: {
-      background: new Color(50, 50, 50, 0.85).css(),
-      color: new Color(0xffffff).css()
-    }
+  tooltip: LyTooltipTheme = {
+    root: new StyleCollection(() => lyl `{
+      background: ${new Color(50, 50, 50, 0.85)}
+      color: ${new Color(0xffffff)}
+    }`)
   };
 }

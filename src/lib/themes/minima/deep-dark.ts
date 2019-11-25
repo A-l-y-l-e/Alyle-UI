@@ -1,6 +1,5 @@
-import { ThemeConfig, lyl, mergeThemes } from '@alyle/ui';
+import { ThemeConfig } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
-import { LyFieldTheme } from '@alyle/ui/field';
 import { MinimaDark } from './dark';
 
 const shadow = new Color(0, 0, 0, 1);
@@ -19,21 +18,21 @@ export class MinimaDeepDark extends MinimaDark implements ThemeConfig {
     default: new Color(0x101010),
     shadow
   };
-  field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
-    root: _ => lyl `{
-      ${_.container}:after, ${_.fieldset}, ${_.labelContainer} {
-        border-color: ${new Color(255, 255, 255, 0.12)}
-      }
-      ${_.label}, ${_.placeholder} {
-        color: ${new Color(255, 255, 255, 0.4)}
-      }
-    }`,
-    appearance: {
-      filled: _ => lyl `{
-        ${_.container} {
-          background-color: ${new Color(255, 255, 255, 0.04)}
-        }
-      }`
-    }
-  });
+  // field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
+  //   root: _ => lyl `{
+  //     ${_.container}:after, ${_.fieldset}, ${_.labelContainer} {
+  //       border-color: ${new Color(255, 255, 255, 0.12)}
+  //     }
+  //     ${_.label}, ${_.placeholder} {
+  //       color: ${new Color(255, 255, 255, 0.4)}
+  //     }
+  //   }`,
+  //   appearance: {
+  //     filled: _ => lyl `{
+  //       ${_.container} {
+  //         background-color: ${new Color(255, 255, 255, 0.04)}
+  //       }
+  //     }`
+  //   }
+  // });
 }

@@ -263,9 +263,11 @@ export class MinimaBase extends LyStyleUtils {
 
   toolbar = {
     appearance: {
-      dense: {
-        height: '56px'
-      }
+      dense: new StyleCollection(
+        lyl `{
+          height: 56px
+        }`
+      )
     }
   };
 

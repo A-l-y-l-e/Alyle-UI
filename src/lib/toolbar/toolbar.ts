@@ -19,18 +19,23 @@ import {
   mixinStyleUpdater,
   ThemeVariables,
   toBoolean,
-  getLyThemeVariableUndefinedError,
   lyl,
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  ThemeRef
+  ThemeRef,
+  StyleRenderer,
+  LyHostClass
 } from '@alyle/ui';
 
 export interface LyToolbarTheme {
   /** Styles for Toolbar Component */
   root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+  appearance?: {
+    [key: string]: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate)
+  };
 }
 
 export interface LyToolbarVariables {
@@ -103,6 +108,10 @@ export const LyToolbarMixinBase = mixinStyleUpdater(
     'outlined',
     'elevation',
     'shadowColor'
+  ],
+  providers: [
+    LyHostClass,
+    StyleRenderer
   ]
 })
 export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
@@ -115,7 +124,7 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   private _positionClass: string;
   private _dense: boolean;
   private _appearance: string;
-  private _appearanceClass: string;
+  private _appearanceClass: string | null;
   @Input()
   set position(val: position) {
     this._position = val;
@@ -145,20 +154,23 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      this._appearanceClass = this._theme.addStyle(
+      this._appearanceClass = this._sr.add(
         `LyToolbar.appearance:${val}`,
-        (theme: ThemeVariables) => {
-          if (!theme.toolbar) {
-            throw getLyThemeVariableUndefinedError('toolbar');
+        (theme: LyToolbarVariables, ref) => {
+          const classes = ref.selectorsOf(STYLES);
+          if (theme.toolbar && theme.toolbar.appearance) {
+            const appearance = theme.toolbar.appearance[val];
+            if (appearance) {
+              return appearance instanceof StyleCollection
+                ? appearance.setTransformer((_) => _(classes)).css
+                : appearance(classes);
+            }
           }
-          if (!(theme.toolbar.appearance && theme.toolbar.appearance![val])) {
-            throw new Error(`Value toolbar.appearance['${val}'] not found in ThemeVariables`);
-          }
-          return theme.toolbar.appearance ![val]!;
+          throw new Error(`${val} not found in theme.field.appearance`);
         },
-        this._el.nativeElement,
-        this._appearanceClass,
-        STYLE_PRIORITY);
+        STYLE_PRIORITY,
+        this._appearanceClass
+      );
     }
   }
   get appearance(): string {
@@ -168,6 +180,7 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
     private _renderer: Renderer2,
     private _el: ElementRef,
     private theme: LyTheme2,
+    private _sr: StyleRenderer
   ) {
     super(theme);
     this.setAutoContrast();
