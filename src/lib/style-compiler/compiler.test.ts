@@ -1,6 +1,6 @@
 import anyTest, { TestInterface } from 'ava';
 import { hasLylStyle, styleCompiler } from './compiler';
-import { styleTemplateToString, StyleCollection } from '../src/parse';
+import { styleTemplateToString, StyleCollection, lyl } from '../src/parse';
 import * as tsNode from 'ts-node';
 
 const test = anyTest as TestInterface<Context>;
@@ -423,17 +423,18 @@ test(`commas and linefeed to separate selectors`, async t => {
 });
 
 test(`with comments`, async t => {
-  const css = evalScript(`
-  const proAndValue = 'color:red';
-  const style = lyl \`{
+  const styleContent = `{
     // Color blue
     .a {
       color: blue
     }
-  }\`;
+  }`;
+  const css = evalScript(`
+  const style = lyl \`${styleContent}\`;
   style('.y');
   `);
   t.is(css, `.y .a{color:blue;}`);
+  t.is(lyl `${styleContent}`('.y'), `.y .a{color:blue;}`);
 });
 
 function evalScript(script: string) {
