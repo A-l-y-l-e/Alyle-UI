@@ -57,16 +57,13 @@ const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) => {
   const menu = ref.selectorsOf(STYLES);
   return {
     $priority: STYLE_PRIORITY,
-    root: () => lyl `{
-      ...${
-        (theme.menu
-          && theme.menu.root
-          && (theme.menu.root instanceof StyleCollection
-            ? theme.menu.root.setTransformer(fn => fn(menu))
-            : theme.menu.root(menu))
-        )
-      }
-    }`,
+    root: () => (
+      theme.menu
+        && theme.menu.root
+        && (theme.menu.root instanceof StyleCollection
+          ? theme.menu.root.setTransformer(fn => fn(menu)).css
+          : theme.menu.root(menu))
+    ),
     container: lyl `{
       background: ${theme.background.primary.default}
       border-radius: 2px
@@ -123,7 +120,7 @@ export class LyMenu implements OnInit, AfterViewInit {
    * styles
    * @docs-private
    */
-  readonly classes = this._theme.addStyleSheet(STYLES);
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   /**
    * Destroy menu
    * @docs-private

@@ -64,7 +64,7 @@ export interface LyStyleGroup {
   /** Prefix name */
   $name?: string;
   $priority?: number;
-  [key: string]: (() => StyleTemplate) | StyleTemplate | string | number | undefined | null;
+  [key: string]: (() => (StyleTemplate | null | undefined)) | StyleTemplate | string | number | undefined | null;
 }
 
 /**
@@ -72,8 +72,8 @@ export interface LyStyleGroup {
  */
 export type StyleDeclarationsBlock = ((T: any, theme: any) => StyleContainer | string) | StyleContainer | string | null | undefined;
 
-export type Styles = ((T: any, theme: any) => StyleGroup) | StyleGroup | undefined | null;
-export type LyStyles = ((T: any, theme: any) => StyleGroup) | undefined | null;
+export type LyStyles = ((T: any, theme: any) => LyStyleGroup) | undefined | null;
+export type Styles = (((T: any, theme: any) => StyleGroup) | StyleGroup | undefined | null) | LyStyles;
 
 export interface KeyframesDeprecated {
   [name: string]: {

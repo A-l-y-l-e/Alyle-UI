@@ -37,7 +37,8 @@ import {
   StyleRenderer,
   lyl,
   ThemeRef,
-  LY_COMMON_STYLES } from '@alyle/ui';
+  LY_COMMON_STYLES,
+  keyframesUniqueId} from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
@@ -102,8 +103,28 @@ export const STYLE_SELECT_ARROW = lyl `{
 export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) => {
   const classes = ref.selectorsOf(STYLES);
   const {before, after } = theme;
+  const shake = keyframesUniqueId.next();
   return {
     $priority: STYLE_PRIORITY,
+    $global: lyl `{
+      @keyframes ${shake} {
+        0% {
+          margin-${before}: 0
+        }
+        40% {
+          margin-${before}: 2px
+        }
+        50% {
+          margin-${before}: -2px
+        }
+        70% {
+          margin-${before}: 2px
+        }
+        100% {
+          margin-${before}: 0
+        }
+      }
+    }`,
     root: ( ) => lyl `{
       display: inline-block
       position: relative
@@ -283,7 +304,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
         display: none
       }
       & ${classes.labelSpan} {
-        animation: {shake} ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}
+        animation: ${shake} ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}
       }
       & ${classes.inputNative}::selection, & ${classes.inputNative}::-moz-selection {
           background-color: ${theme.warn.default} !important
@@ -312,26 +333,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
           pointer-events: none
         }
       }
-    }`,
-    $keyframes: {
-      shake: {
-        0: {
-          marginBefore: 0
-        },
-        40: {
-          marginBefore: '2px'
-        },
-        50: {
-          marginBefore: '-2px'
-        },
-        70: {
-          marginBefore: '2px'
-        },
-        100: {
-          marginBefore: 0
-        },
-      }
-    }
+    }`
   };
 };
 
