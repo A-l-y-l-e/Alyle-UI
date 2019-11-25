@@ -55,7 +55,6 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   divider = new Color(0, 0, 0, 0.12);
   colorShadow = new Color(0x333333);
   shadow = new Color(0x333333);
-  menu = {};
   drawer = {
     backdrop: new Color(0, 0, 0, .6)
   };

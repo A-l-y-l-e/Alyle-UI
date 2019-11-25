@@ -32,9 +32,23 @@ import {
   Platform,
   lyl,
   StyleRenderer,
-  LyHostClass
+  LyHostClass,
+  ThemeRef,
+  StyleCollection,
+  StyleTemplate,
+  LyClasses
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
+
+export interface LyDrawerTheme {
+  /** Styles for Button Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyDrawerVariables {
+  drawer?: LyDrawerTheme;
+}
 
 export type LyDrawerPosition = Placement;
 export type LyDrawerMode = 'side' | 'over';
@@ -44,10 +58,17 @@ const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = XPosition.before;
 
-export const STYLES = (theme: ThemeVariables) => {
+export const STYLES = (theme: ThemeVariables & LyDrawerVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
   return {
     $name: LyDrawerContent.и,
     $priority: STYLE_PRIORITY + 1.9,
+    root: () => (theme.drawer
+      && theme.drawer.root
+      && (theme.drawer.root instanceof StyleCollection
+        ? theme.drawer.root.setTransformer(fn => fn(__)).css
+        : theme.drawer.root(__))
+    ),
     drawerContainer: lyl `{
       display: block
       position: relative

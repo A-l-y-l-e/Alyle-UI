@@ -53,7 +53,6 @@ export class MinimaDark extends MinimaBase {
     dark: new Color(0x2b2b2b),
     light: new Color(0xffffff)
   };
-  menu = {};
   drawer = {
     backdrop: new Color(49, 49, 49, .6)
   };
