@@ -3,6 +3,7 @@ import { Color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
 import { LyFieldTheme } from '@alyle/ui/field';
 import { LyTooltipTheme } from '@alyle/ui/tooltip';
+import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0x333333);
@@ -81,7 +82,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       }`
     }
   });
-  snackBar = {
+  snackBar: LySnackBarTheme = {
     root: new StyleCollection(lyl `{
       background: ${new Color(0x323232)}
       color: ${new Color(0xffffff)}
