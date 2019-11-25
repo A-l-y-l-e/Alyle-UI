@@ -19,33 +19,61 @@ import {
   mixinStyleUpdater,
   ThemeVariables,
   toBoolean,
-  getLyThemeVariableUndefinedError
+  getLyThemeVariableUndefinedError,
+  lyl,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  ThemeRef
 } from '@alyle/ui';
+
+export interface LyToolbarTheme {
+  /** Styles for Toolbar Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyToolbarVariables {
+  toolbar?: LyToolbarTheme;
+}
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'fixed';
 const DEFAULT_BG = 'background:tertiary';
 
-const styles = (theme: ThemeVariables) => ({
-  root: {
-    padding: '0 16px',
-    display: 'flex',
-    boxSizing: 'border-box',
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    whiteSpace: 'nowrap',
-    height: '64px',
-    zIndex: theme.zIndex.toolbar,
-    [theme.getBreakpoint('XSmall')]: {
-      height: '56px'
-    },
-    '&': theme.toolbar ? theme.toolbar.root : null
-  },
-  dense: {
-    height: '56px'
-  }
-});
+const STYLES = (theme: ThemeVariables & LyToolbarVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
+  return {
+    $priority: STYLE_PRIORITY,
+    root: () => lyl `{
+      padding: 0 16px
+      display: flex
+      box-sizing: border-box
+      width: 100%
+      flex-direction: row
+      align-items: center
+      white-space: nowrap
+      height: 64px
+      z-index: ${theme.zIndex.toolbar}
+      ${theme.getBreakpoint('XSmall')} {
+        height: 56px
+      }
+      {
+        ...${
+          (theme.toolbar
+            && theme.toolbar.root
+            && (theme.toolbar.root instanceof StyleCollection
+              ? theme.toolbar.root.setTransformer(fn => fn(__)).css
+              : theme.toolbar.root(__))
+          )
+        }
+      }
+    }`,
+    dense: lyl `{
+      height: 56px
+    }`
+  };
+};
 
 type position = 'static' | 'absolute' | 'fixed' | 'sticky' | 'relative';
 
@@ -82,7 +110,7 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
    * Styles
    * @docs-private
    */
-  readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this.theme.renderStyleSheet(STYLES);
   private _position: position;
   private _positionClass: string;
   private _dense: boolean;
