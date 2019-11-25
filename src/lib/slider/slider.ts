@@ -72,6 +72,7 @@ export const LY_SLIDER_CONTROL_VALUE_ACCESSOR = {
 const STYLE_PRIORITY = -2;
 const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);
+  const { before } = theme;
   return {
     $priority: STYLE_PRIORITY,
     root: () => lyl `{
@@ -109,30 +110,30 @@ const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
       }
     }`,
 
-    track: {
-      position: 'absolute',
-      margin: 'auto'
-    },
+    track: lyl `{
+      position: absolute
+      margin: auto
+    }`,
     bg: null,
-    thumbContainer: {
-      width: 0,
-      height: 0,
-      position: 'absolute',
-      margin: 'auto'
-    },
-    thumbContent: {
-      '&::before': {
-        content: `''`,
-        position: 'absolute',
-        opacity: .6,
-        transform: 'scale(0)',
-        transition: `transform ${
+    thumbContainer: lyl `{
+      width: 0
+      height: 0
+      position: absolute
+      margin: auto
+    }`,
+    thumbContent: lyl `{
+      &::before {
+        content: ''
+        position: absolute
+        opacity: .6
+        transform: scale(0)
+        transition: transform ${
           theme.animations.durations.entering
         }ms ${theme.animations.curves.sharp} 0ms, background ${
           theme.animations.durations.complex
-        }ms ${theme.animations.curves.sharp} 0ms`
+        }ms ${theme.animations.curves.sharp} 0ms
       }
-    },
+    }`,
     thumb: lyl `{
       position: absolute
       width: 12px
@@ -153,177 +154,169 @@ const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
         }ms ${theme.animations.curves.sharp} 0ms`).join()}
       }
     }`,
-    thumbLabel: {
-      position: 'absolute',
-      width: '28px',
-      height: '28px',
-      borderRadius: '50%',
-      top: '-14px',
-      before: '-14px',
-      transition: ['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
+    thumbLabel: lyl `{
+      position: absolute
+      width: 28px
+      height: 28px
+      border-radius: 50%
+      top: -14px
+      ${before}: -14px
+      transition: ${['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
         theme.animations.durations.entering
-      }ms ${theme.animations.curves.sharp} 0ms`).join()
-    },
-    thumbLabelValue: {
-      display: 'flex',
-      height: '100%',
-      width: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '12px',
-      color: '#fff'
-    },
+      }ms ${theme.animations.curves.sharp} 0ms`).join()}
+    }`,
+    thumbLabelValue: lyl `{
+      display: flex
+      height: 100%
+      width: 100%
+      align-items: center
+      justify-content: center
+      font-size: 12px
+      color: #fff
+    }`,
 
-    horizontal: {
-      width: '120px',
-      height: '2px',
-      padding: '10px 0',
-      touchAction: 'pan-y !important',
-      '& {track}, & {bg}': {
-        height: '2px',
-        width: '100%'
-      },
-      '{track}': {
-        before: 0,
-        top: 0,
-        bottom: 0
-      },
-      '& {thumb}': {
-        transform: 'rotateZ(-135deg)'
-      },
-
-      '{thumbLabel}': {
-        transform: 'rotateZ(45deg) scale(0)',
-      },
-      [
-        [
-          // always show visible thumb, when {thumbVisible} is available
-          '&{thumbVisible} {thumbLabel}',
-          // on hover
-          '&:not({disabled}) {thumbContent}:hover {thumbLabel}',
-          // on focused
-          '& {thumbContent}{thumbContentFocused} {thumbLabel}'
-        ].join()
-      ]: {
-        borderRadius: '50% 50% 0%',
-        top: '-50px',
-        transform: 'rotateZ(45deg) scale(1)'
-      },
-
-      '& {thumbLabelValue}': {
-        transform: 'rotateZ(-45deg)'
-      },
-      '{thumbContainer}': {
-        top: 0,
-        bottom: 0
-      },
-      '& {thumbContent}::before': {
-        width: '2px',
-        height: '24px',
-        left: '-1px',
-        top: '-24px'
-      },
-
-      '{tick}': {
-        width: '2px',
-        height: 'inherit',
-        top: 0,
-        bottom: 0,
-      },
-      '{mark}': {
-        top: '22px',
-        transform: `translateX(${theme.direction === Dir.ltr ? '-' : ''}50%)`,
-      },
-      '&{marked}': {
-        marginBottom: '24px'
+    horizontal: () => lyl `{
+      width: 120px
+      height: 2px
+      padding: 10px 0
+      touch-action: pan-y !important
+      ${__.track}, ${__.bg} {
+        height: 2px
+        width: 100%
       }
-    },
-    vertical: {
-      width: '2px',
-      height: '120px',
-      padding: '0 10px',
-      touchAction: 'pan-x !important',
-      '& {track}, & {bg}': {
-        height: '100%',
-        width: '2px'
-      },
-      '{track}': {
-        bottom: 0,
-        left: 0,
-        right: 0
-      },
-      '& {thumb}': {
-        transform: theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'
-      },
-      '& {thumbLabel}': {
-        transform: 'rotateZ(-45deg) scale(0)'
-      },
-      [
-        [
-          // always show visible thumb, when {thumbVisible} is available
-          '&{thumbVisible} {thumbLabel}',
-          // on hover
-          '&:not({disabled}) {thumbContent}:hover {thumbLabel}',
-          // on focused
-          '& {thumbContent}{thumbContentFocused} {thumbLabel}'
-        ].join()
-      ]: {
-        borderRadius: theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%',
-        before: '-50px',
-        transform: 'rotateZ(-45deg) scale(1)'
-      },
-
-      '& {thumbLabelValue}': {
-        transform: 'rotateZ(45deg)'
-      },
-      '{thumbContainer}': {
-        left: 0,
-        right: 0
-      },
-      '{thumbContent}::before': {
-        width: '24px',
-        height: '2px',
-        before: '-24px',
-        top: '-1px'
-      },
-      '{tick}': {
-        width: 'inherit',
-        height: '2px',
-        left: 0,
-        right: 0
-      },
-      '{mark}': {
-        before: '22px',
-        transform: 'translateY(50%)',
-      },
-      '&{marked}': {
-        [theme.direction === Dir.ltr ? 'marginRight' : 'marginLeft']: '24px'
+      ${__.track} {
+        ${before}: 0
+        top: 0
+        bottom: 0
       }
-    },
+      & ${__.thumb} {
+        transform: rotateZ(-135deg)
+      }
 
-    marked: { },
-    mark: {
-      position: 'absolute',
-      whiteSpace: 'nowrap',
-      fontSize: '14px',
-      color: theme.text.secondary
-    },
-    markActive: {
-      color: 'currentColor'
-    },
-    tick: {
-      position: 'absolute',
-      margin: 'auto'
-    },
-    tickActive: {},
+      ${__.thumbLabel} {
+        transform: rotateZ(45deg) scale(0)
+      }
+      // always show visible thumb, when {thumbVisible} is available
+      &${__.thumbVisible} ${__.thumbLabel},
+      // on hover
+      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+      // on focused
+      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+        border-radius: 50% 50% 0%
+        top: -50px
+        transform: rotateZ(45deg) scale(1)
+      }
+
+      & ${__.thumbLabelValue} {
+        transform: rotateZ(-45deg)
+      }
+      ${__.thumbContainer} {
+        top: 0
+        bottom: 0
+      }
+      & ${__.thumbContent}::before {
+        width: 2px
+        height: 24px
+        left: -1px
+        top: -24px
+      }
+
+      ${__.tick} {
+        width: 2px
+        height: inherit
+        top: 0
+        bottom: 0
+      }
+      ${__.mark} {
+        top: 22px
+        transform: translateX(${theme.direction === Dir.ltr ? '-' : ''}50%)
+      }
+      &${__.marked} {
+        margin-bottom: 24px
+      }
+    }`,
+    vertical: () => lyl `{
+      width: 2px
+      height: 120px
+      padding: 0 10px
+      touch-action: pan-x !important
+      & ${__.track}, & ${__.bg} {
+        height: 100%
+        width: 2px
+      }
+      ${__.track} {
+        bottom: 0
+        left: 0
+        right: 0
+      }
+      & ${__.thumb} {
+        transform: ${theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'}
+      }
+      & ${__.thumbLabel} {
+        transform: rotateZ(-45deg) scale(0)
+      }
+      // always show visible thumb, when {thumbVisible} is available
+      &${__.thumbVisible} ${__.thumbLabel},
+      // on hover
+      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+      // on focused
+      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+        border-radius: ${theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'}
+        before: -50px
+        transform: rotateZ(-45deg) scale(1)
+      }
+
+      & ${__.thumbLabelValue} {
+        transform: rotateZ(45deg)
+      }
+      ${__.thumbContainer} {
+        left: 0
+        right: 0
+      }
+      ${__.thumbContent}::before {
+        width: 24px
+        height: 2px
+        before: -24px
+        top: -1px
+      }
+      ${__.tick} {
+        width: inherit
+        height: 2px
+        left: 0
+        right: 0
+      }
+      ${__.mark} {
+        ${before}: 22px
+        transform: translateY(50%)
+      }
+      &${__.marked} {
+        ${theme.direction === Dir.ltr ? 'margin-right' : 'margin-left'}: 24px
+      }
+    }`,
+
+    marked: null,
+    mark: lyl `{
+      position: absolute
+      white-space: nowrap
+      font-size: 14px
+      color: ${theme.text.secondary}
+    }`,
+    markActive: lyl `{
+      color: currentColor
+    }`,
+    tick: lyl `{
+      position: absolute
+      margin: auto
+    }`,
+    tickActive: null,
 
     thumbVisible: null,
     thumbNotVisible: null,
     thumbContentFocused: null,
     sliding: null,
-    disabled: {
-      cursor: 'default'
-    }
+    disabled: lyl `{
+      cursor: default
+    }`
   };
 };
 

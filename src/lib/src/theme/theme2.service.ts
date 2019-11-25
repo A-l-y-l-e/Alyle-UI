@@ -541,7 +541,10 @@ function groupStyleToString(
         if (value.length) {
           content += value(selector);
         } else {
-          content += (value as (() => StyleTemplate))()(selector);
+          const st = (value as (() => StyleTemplate | null))();
+          if (st) {
+            content += st(selector);
+          }
         }
       }
 
