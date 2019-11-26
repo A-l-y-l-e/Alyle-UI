@@ -9,7 +9,7 @@
 
 <h2 lyTyp="display1" gutter>Carousel with gestures</h2>
 <p>
-  Use <span prism code="touch" language="html"></span> attribute for gestures support.
+  Use <code class="html">[touch]</code> attribute for gestures support.
 </p>
 <demo-view path="docs/components/carousel-demo/carousel-with-gestures">
   <aui-carousel-with-gestures></aui-carousel-with-gestures>
@@ -17,7 +17,7 @@
 
 <h2 lyTyp="display1" gutter>Carousel with progress bar</h2>
 <p>
-  The <span prism code="hasProgressBar" language="html"></span> attribute can be added to a carousel to get a progress bar.
+  The <code class="html">[hasProgressBar]</code> attribute can be added to a carousel to get a progress bar.
 </p>
 <demo-view path="docs/components/carousel-demo/carousel-with-bar">
   <aui-carousel-with-bar></aui-carousel-with-bar>
@@ -25,7 +25,7 @@
 
 <h2 lyTyp="display1" gutter>Carousel with pause on hover</h2>
 <p>
-  The <span prism code="pauseOnHover" language="html"></span> attribute can be added.
+  The <code class="html">[pauseOnHover]</code> attribute can be added.
 </p>
 <demo-view path="docs/components/carousel-demo/carousel-pause-on-hover">
   <aui-carousel-pause-on-hover></aui-carousel-pause-on-hover>

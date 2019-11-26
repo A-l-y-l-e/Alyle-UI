@@ -5,20 +5,14 @@
 <h2 lyTyp="display1" gutter>Basic paper</h2>
 
 <p>
-  If you do not set a value for the <span
-    prism
-    code="bg"
-    language="typescript"
-  ></span> attribute, the <span
-    prism
-    code="paper"
-    language="typescript"
-  ></span> (is a variable of the theme and is equal to <span
-    prism
-    code="#fff"
-    language="typescript"
-  ></span>) value is set by default. This only applies to <span
-    prism code="ly-bg" language="typescript"></span>.
+  If you do not set a value for the <code
+    class="typescript"
+  >bg</code> attribute, the <code
+    class="typescript"
+  >paper</code> (is a variable of the theme and is equal to <code
+    class="typescript"
+  >#fff</code>) value is set by default. This only applies to <code
+    class="typescript">ly-bg</code>.
 </p>
 
 <demo-view path="docs/customization/paper-demo/basic-paper">

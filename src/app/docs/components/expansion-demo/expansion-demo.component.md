@@ -4,7 +4,7 @@
 
 <h2 lyTyp="headline" gutter>Basic Expansion Panel</h2>
 <p>
-  Simple example with <span prism code="popOut" language="ts"></span> appearance.
+  Simple example with <code class="ts">popOut</code> appearance.
 </p>
 <demo-view path="docs/components/expansion-demo/basic-expansion">
   <aui-basic-expansion></aui-basic-expansion>

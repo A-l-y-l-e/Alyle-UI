@@ -11,14 +11,31 @@
   You can also add new configurations
 </p>
 
-<prism language="typescript" [code]="codeCustomTyp"></prism>
+```ts
+export class GlobalVariables implements PartialThemeVariables {
+  ...
+  typography = {
+    lyTyp: {
+      subTitle: {
+        fontFamily: \`'Nunito', sans-serif\`,
+        textAlign: 'center',
+        paddingAbove: '1em',
+        opacity: .6,
+        fontSize: '32px',
+        fontWeight: 400
+      }
+    }
+  };
+}
+```
 
 <p>
   You can use it like this
 </p>
 
-<prism language="html" [code]="codeCustomTypTemplate"></prism>
-
+```html
+<h2 lyTyp="subTitle">Hello</h2>
+```
 <h2 lyTyp="headline" gutter>Truncate text</h2>
 
 <demo-view path="docs/components/typography-demo/truncate-text">

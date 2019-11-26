@@ -1,5 +1,5 @@
 <p>
-  The <span prism code="LyDialog" language="ts"></span> service can be used to open modal dialogs.
+  The <code class="ts">LyDialog</code> service can be used to open modal dialogs.
 </p>
 
 <h2 [lyTyp]="'display1'" gutter>Basic Dialog</h2>
@@ -37,7 +37,7 @@
   <aui-dialog-prompt></aui-dialog-prompt>
 </demo-view>
 
-<h2 [lyTyp]="'display1'" gutter>With <span prism code="<ng-template>" language="html"></span></h2>
+<h2 [lyTyp]="'display1'" gutter>With <code class="html"><ng-template></code></h2>
 <demo-view
   path="docs/components/dialog-demo/dialog-ng-template"
 >

@@ -1,5 +1,5 @@
 <p>
-  <span prism code="<ly-select>" language="html"></span> allows user input through specified options.
+  <code class="html"><ly-select></code> allows user input through specified options.
 </p>
 
 <h2 [lyTyp]="'display1'" gutter>Basic Select</h2>
@@ -29,7 +29,7 @@
 
 <h2 [lyTyp]="'display1'" gutter>Select with option object value</h2>
 <p>
-  If the value is an object and also has an immutable state, you can use the <span prism code="valueKey" language="html"></span> property of <span prism code="<ly-select>" language="html"></span>, the property accepts only a function that returns the unique id of the object.
+  If the value is an object and also has an immutable state, you can use the <code class="html">valueKey</code> property of <code class="html"><ly-select></code>, the property accepts only a function that returns the unique id of the object.
 </p>
 <demo-view path="docs/components/select-demo/select-option-object-value">
   <aui-select-option-object-value></aui-select-option-object-value>

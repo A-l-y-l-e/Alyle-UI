@@ -16,6 +16,7 @@ import { LyBadgeTheme } from '@alyle/ui/badge';
 import { LyCheckboxTheme } from '@alyle/ui/checkbox';
 import { LyFieldTheme } from '@alyle/ui/field';
 import { LySliderTheme } from '@alyle/ui/slider';
+import { LyToolbarTheme } from '@alyle/ui/toolbar';
 
 export class MinimaBase extends LyStyleUtils {
   typography = {
@@ -261,10 +262,10 @@ export class MinimaBase extends LyStyleUtils {
     }
   };
 
-  toolbar = {
+  toolbar: LyToolbarTheme = {
     appearance: {
       dense: new StyleCollection(
-        lyl `{
+        () => lyl `{
           height: 56px
         }`
       )

@@ -2,6 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-carousel-demo',
-  templateUrl: './carousel-demo.component.html'
+  templateUrl: './carousel-demo.component.md'
 })
 export class CarouselDemoComponent { }

@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { LyCardModule } from '@alyle/ui/card';
 
 import { DemoViewModule } from '../demo-view';
-import { PrismModule } from '../core/prism/prism.module';
 
 /** Getting Started */
 
@@ -172,7 +171,6 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
   imports: [
     SharedModule,
     RouterModule,
-    PrismModule,
     DemoViewModule,
     DocsRoutingModule,
     PackageStatusModule,

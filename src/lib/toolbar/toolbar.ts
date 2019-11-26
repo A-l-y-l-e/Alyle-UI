@@ -5,7 +5,6 @@ import {
   Input,
   OnInit,
   OnChanges,
-  isDevMode,
 } from '@angular/core';
 import {
   LyTheme2,
@@ -18,7 +17,6 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   ThemeVariables,
-  toBoolean,
   lyl,
   StyleCollection,
   LyClasses,
@@ -73,9 +71,6 @@ const STYLES = (theme: ThemeVariables & LyToolbarVariables, ref: ThemeRef) => {
           )
         }
       }
-    }`,
-    dense: lyl `{
-      height: 56px
     }`
   };
 };
@@ -122,7 +117,6 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   readonly classes = this.theme.renderStyleSheet(STYLES);
   private _position: position;
   private _positionClass: string;
-  private _dense: boolean;
   private _appearance: string;
   private _appearanceClass: string | null;
   @Input()
@@ -132,22 +126,6 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   }
   get position(): position {
     return this._position;
-  }
-
-  @Input()
-  set dense(val: boolean) {
-    const newVal = toBoolean(val);
-    if (isDevMode() && newVal !== this.dense) {
-      console.warn(this._el.nativeElement, `LyToolbar.appearance: \`dense\` is deprecated, instead use \`appearance="dense"\``);
-      if (newVal) {
-        this._renderer.addClass(this._el.nativeElement, this.classes.dense);
-      } else {
-        this._renderer.removeClass(this._el.nativeElement, this.classes.dense);
-      }
-    }
-  }
-  get dense(): boolean {
-    return this._dense;
   }
 
   @Input()
@@ -177,7 +155,7 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
     return this._appearance;
   }
   constructor(
-    private _renderer: Renderer2,
+    _renderer: Renderer2,
     private _el: ElementRef,
     private theme: LyTheme2,
     private _sr: StyleRenderer
