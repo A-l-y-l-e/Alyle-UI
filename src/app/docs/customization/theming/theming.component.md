@@ -52,7 +52,7 @@ export class CustomMinimaDark implements PartialThemeVariables {
 /**
  * Global variables
  * This replaces the variables to all the themes,
- * you can also add new variables
+ * you can also add new variables.
  */
 export class GlobalVariables implements PartialThemeVariables {
   SublimeLight = {

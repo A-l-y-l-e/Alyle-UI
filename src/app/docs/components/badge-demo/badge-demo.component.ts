@@ -2,6 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'aui-badge-demo',
-  templateUrl: './badge-demo.component.md'
+  templateUrl: './badge-demo.component.html'
 })
 export class BadgeDemoComponent { }

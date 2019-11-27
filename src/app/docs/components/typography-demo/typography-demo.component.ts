@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'aui-typography-demo',
-  templateUrl: './typography-demo.component.md',
+  templateUrl: './typography-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TypographyDemoComponent implements OnInit {

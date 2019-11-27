@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'aui-installation',
-  templateUrl: './installation.component.md',
+  templateUrl: './installation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InstallationComponent { }
