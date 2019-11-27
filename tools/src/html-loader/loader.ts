@@ -43,6 +43,17 @@ export default function (markdown: string) {
   return html;
 }
 
+export function mdToHtml(markdown: string) {
+  const converter = new showdown.Converter({
+    extensions: ['prism'],
+    strikethrough: true
+  });
+
+  const html = converter.makeHtml(markdown);
+
+  return html;
+}
+
 /**
  * Convert code to highlighted HTML
  */
