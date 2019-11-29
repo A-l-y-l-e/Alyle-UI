@@ -1,6 +1,6 @@
 # Responsive
 
-{@path components}
+{@path /components}
 
 <p>
   Shows or hides elements.

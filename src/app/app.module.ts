@@ -20,10 +20,7 @@ import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark, MinimaDeepDark } from '@alyle/ui/themes/minima';
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
-import { CardDemoComponent } from './docs/components/card-demo/card-demo.component';
-import { CardDemoBasicModule } from './docs/components/card-demo/card-demo-basic/card-demo-basic.module';
 import { LyTypographyModule, LyTypographyTheme } from '@alyle/ui/typography';
-import { DocsModule } from './docs/docs.module';
 import { LyTabsModule } from '@alyle/ui/tabs';
 import { ApiComponent } from './api/api.component';
 import { LyCardModule } from '@alyle/ui/card';
@@ -134,17 +131,12 @@ export function themeNameProviderFactory() {
     AppBarComponent,
     ApiComponent,
     TitleComponent,
-    /** Getting started */
-    /** Components */
-    CardDemoComponent,
     /** Pages */
     HomeComponent,
     PageNotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
-    /** Customization */
-    /** CardDemo > */CardDemoBasicModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
@@ -161,7 +153,6 @@ export function themeNameProviderFactory() {
     LyTypographyModule,
     LyCardModule,
     DemoViewModule,
-    DocsModule,
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     LyTabsModule,

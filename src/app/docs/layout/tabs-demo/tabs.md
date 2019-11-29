@@ -1,7 +1,7 @@
 
 # Tabs
 
-{@path components}
+{@path /components}
 
 Tabs organize content across different screens.
 
