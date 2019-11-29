@@ -16,7 +16,7 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
+      versionSpec: '12.13.x'
   - script: |
       sh ci/scripts/release.sh
     displayName: Release

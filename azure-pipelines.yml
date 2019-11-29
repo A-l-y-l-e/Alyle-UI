@@ -12,7 +12,7 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
+      versionSpec: '12.13.x'
   - script: |
       curl -o- -L https://yarnpkg.com/install.sh | bash
     displayName: "Install Yarn"
@@ -51,7 +51,7 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
+      versionSpec: '12.13.x'
   - bash: |
       chmod +x ./ci/scripts/build-docs-artifacts.sh
       ./ci/scripts/build-docs-artifacts.sh

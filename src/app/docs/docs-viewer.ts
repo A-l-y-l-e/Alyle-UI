@@ -116,7 +116,6 @@ export class DocViewer {
   }
 
   render(path: string) {
-    console.log({path});
     return this.http.get(`docs${path}.html`, {
       responseType: 'text'
     })

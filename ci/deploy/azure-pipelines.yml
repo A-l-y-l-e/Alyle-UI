@@ -18,7 +18,7 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
+      versionSpec: '12.13.x'
   - script: yarn
     displayName: 'Install dependencies'
 
@@ -42,7 +42,7 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
+      versionSpec: '12.13.x'
   - script: |
       yarn tools:bump
       PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
