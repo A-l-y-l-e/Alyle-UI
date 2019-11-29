@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TabsDemoComponent } from './layout/tabs-demo/tabs-demo.component';
 import { ButtonDemoComponent } from './components/button-demo/button-demo.component';
 import { ToolbarDemoComponent } from './components/toolbar-demo/toolbar-demo.component';
 import { ImageCropperDemoComponent } from './components/image-cropper-demo/image-cropper-demo.component';
 import { BadgeDemoComponent } from './components/badge-demo/badge-demo.component';
 import { FieldDemoComponent } from './components/field-demo/field-demo.component';
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
-import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
@@ -28,8 +26,6 @@ const routes: Routes = [
   {
     path: 'components',
     children: [
-      { path: 'responsive', component: ResponsiveDemoComponent },
-      { path: 'tabs', component: TabsDemoComponent },
       { path: 'button', component: ButtonDemoComponent },
       { path: 'toolbar', component: ToolbarDemoComponent },
       { path: 'image-cropper', component: ImageCropperDemoComponent },

@@ -53,7 +53,6 @@ jobs:
     inputs:
       versionSpec: '12.13.x'
   - bash: |
-      chmod +x ./ci/scripts/build-docs-artifacts.sh
       ./ci/scripts/build-docs-artifacts.sh
     displayName: build:@alyle/ui
   - script: |

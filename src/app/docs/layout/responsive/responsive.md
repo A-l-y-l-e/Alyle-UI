@@ -1,3 +1,7 @@
+# Responsive
+
+{@path components}
+
 <p>
   Shows or hides elements.
 </p>

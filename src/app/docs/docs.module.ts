@@ -4,16 +4,6 @@ import { LyCardModule } from '@alyle/ui/card';
 
 import { DemoViewModule } from '../demo-view';
 
-/** Layout */
-/** Tabs */
-import { TabsDemoComponent } from './layout/tabs-demo/tabs-demo.component';
-import { BasicTabsModule } from './layout/tabs-demo/basic-tabs/basic-tabs.module';
-import { TabsWithAsynchronouslyLoadingModule } from './layout/tabs-demo/tabs-with-asynchronously-loading/tabs-with-asynchronously-loading.module';
-import { TabsWithLazyLoadingModule } from './layout/tabs-demo/tabs-with-lazy-loading/tabs-with-lazy-loading.module';
-import { TabsAlignModule } from './layout/tabs-demo/tabs-align/tabs-align.module';
-import { TabsWithIconModule } from './layout/tabs-demo/tabs-with-icon/tabs-with-icon.module';
-import { TabsPlacementModule } from './layout/tabs-demo/tabs-placement/tabs-placement.module';
-
 /** Components */
 /** Button */
 import { ButtonDemoComponent } from './components/button-demo/button-demo.component';
@@ -54,9 +44,6 @@ import { BasicCheckboxModule } from './components/checkbox-demo/basic-checkbox/b
 import { ComplexCheckboxModule } from './components/checkbox-demo/complex-checkbox/complex-checkbox.module';
 
 import { PackageStatusModule } from '../package-status/package-status.module';
-import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
-import { ResponsiveDemo01Module } from './layout/responsive/responsive-demo-01/responsive-demo-01.module';
-import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/responsive-with-ds.module';
 
 import { BasicSnackBarModule } from './components/snack-bar-demo/basic-snack-bar/basic-snack-bar.module';
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
@@ -152,16 +139,6 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     /** Typography */
     TypographyDemoBasicModule,
     TruncateTextModule,
-    /** Responsive */
-    ResponsiveDemo01Module,
-    ResponsiveWithDsModule,
-    /** Tabs demos */
-    BasicTabsModule,
-    TabsWithLazyLoadingModule,
-    TabsWithAsynchronouslyLoadingModule,
-    TabsAlignModule,
-    TabsWithIconModule,
-    TabsPlacementModule,
     /** Button */
     ButtonTypesDemoModule,
     IconLabelButtonsModule,
@@ -234,10 +211,6 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     SliderPlaygroundModule
   ],
   declarations: [
-    /** Responsive */
-    ResponsiveDemoComponent,
-    /** Tabs */
-    TabsDemoComponent,
     /** Button */
     ButtonDemoComponent,
     /** Toolbar */

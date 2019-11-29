@@ -1,6 +1,9 @@
-<p>
-  Tabs organize content across different screens.
-</p>
+
+# Tabs
+
+{@path components}
+
+Tabs organize content across different screens.
 
 <h2 lyTyp="headline" gutter>Basic tabs</h2>
 

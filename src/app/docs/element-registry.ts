@@ -17,6 +17,14 @@ export const ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES = [
   {
     path: '/components/grid',
     loadChildren: () => import('./layout/grid-demo/grid.lazy.module').then(mod => mod.LazyModule)
+  },
+  {
+    path: '/components/responsive',
+    loadChildren: () => import('./layout/responsive/responsive.lazy.module').then(mod => mod.LazyModule)
+  },
+  {
+    path: '/components/tabs',
+    loadChildren: () => import('./layout/tabs-demo/tabs.lazy.module').then(mod => mod.LazyModule)
   }
 ];
 
