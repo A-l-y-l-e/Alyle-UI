@@ -30,8 +30,8 @@
               },
               {
                 "glob": "**/*",
-                "input": "docs/@alyle/ui",
-                "output": "/api"
+                "input": "src/docs",
+                "output": "/docs"
               },
               {
                 "glob": "**/*",
@@ -46,7 +46,11 @@
               "src/manifest.webmanifest"
             ],
             "styles": [],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              }
+            ]
           },
           "configurations": {
             "production": {

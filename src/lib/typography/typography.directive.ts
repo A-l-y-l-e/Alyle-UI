@@ -1,21 +1,59 @@
 import { Directive, ElementRef, Renderer2, Input, OnInit, OnChanges } from '@angular/core';
-import { LyTheme2, toBoolean, ThemeVariables, StyleContainer, mixinStyleUpdater, mixinColor } from '@alyle/ui';
+import { LyTheme2,
+  toBoolean,
+  ThemeVariables,
+  mixinStyleUpdater,
+  mixinColor,
+  StyleCollection,
+  StyleTemplate,
+  lyl,
+  LyHostClass,
+  StyleRenderer} from '@alyle/ui';
+
+export interface LyTypographyTheme {
+  /** Styles for Typography Component */
+  root?: StyleCollection<(() => StyleTemplate)>
+    | (() => StyleTemplate);
+  lyTyp?: {
+    [name: string]: StyleCollection<(() => StyleTemplate)>
+      | (() => StyleTemplate) | undefined
+  };
+}
+
+export interface LyTypographyVariables {
+  typography?: LyTypographyTheme;
+}
 
 const STYLE_PRIORITY = -1;
-const styles = (theme: ThemeVariables) => ({
-  root: {
-    margin: 0,
-    display: 'block',
-    '&': theme.typography ? theme.typography.root : null
-  }
-});
+const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
+  return {
+    $name: LyTypography.и,
+    $priority: STYLE_PRIORITY,
+    root: lyl `{
+      margin: 0
+      display: block
+      font-family: ${theme.typography.fontFamily}
+      ...${
+        (theme.typography
+          && theme.typography.root
+          && (theme.typography.root instanceof StyleCollection
+            ? theme.typography.root.setTransformer(fn => fn()).css
+            : theme.typography.root())
+        )
+      }
+    }`,
+    gutterTop: lyl `{
+      margin-top: 0.35em
+    }`,
+    gutterBottom: lyl `{
+      margin-bottom: 0.35em
+    }`,
+    gutter: lyl `{
+      margin: 0.35em
+    }`
+  };
+};
 
-/** @docs-private */
-enum Gutter {
-  default,
-  top,
-  bottom
-}
 
 /** @docs-private */
 export class LyTypographyBase {
@@ -32,22 +70,25 @@ export const LyTypographyMixinBase = mixinStyleUpdater(
   selector: `[lyTyp]`,
   inputs: [
     'color'
+  ],
+  providers: [
+    LyHostClass,
+    StyleRenderer
   ]
 })
 export class LyTypography extends LyTypographyMixinBase implements OnInit, OnChanges {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+  readonly classes = this._theme.renderStyleSheet(STYLES);
+  /** @docs-private */
+  static readonly и = 'LyTypography';
   private _lyTyp: string;
-  private _lyTypClass?: string;
+  private _lyTypClass: string | null;
 
   private _gutter: boolean;
-  private _gutterClass: string;
 
   private _gutterTop: boolean;
-  private _gutterTopClass: string;
 
   private _gutterBottom: boolean;
-  private _gutterBottomClass: string;
   private _noWrap: boolean;
   private _noWrapClass?: string;
 
@@ -58,7 +99,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
         this._lyTypClass = this._createTypClass(val, this._lyTypClass);
       } else if (this._lyTypClass) {
         this.renderer.removeClass(this._el.nativeElement, this._lyTypClass);
-        this._lyTypClass = undefined;
+        this._lyTypClass = null;
       }
     }
   }
@@ -91,7 +132,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
     const newVal = toBoolean(val);
     if (newVal !== this.gutter) {
       this._gutter = newVal;
-      this._gutterClass = this._createGutterClass(Gutter.default, newVal, this._gutterClass);
+      this.hostClass.toggle(this.classes.gutter, newVal);
     }
   }
   get gutter() {
@@ -103,8 +144,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
     const newVal = toBoolean(val);
     if (newVal !== this.gutterTop) {
       this._gutterTop = newVal;
-      // const newClass = this._createGutterClass(Gutter.top, newVal);
-      this._gutterTopClass = this._createGutterClass(Gutter.top, newVal, this._gutterTopClass);
+      this.hostClass.toggle(this.classes.gutterTop, newVal);
     }
   }
   get gutterTop() {
@@ -116,7 +156,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
     const newVal = toBoolean(val);
     if (newVal !== this.gutterBottom) {
       this._gutterBottom = newVal;
-      this._gutterBottomClass = this._createGutterClass(Gutter.bottom, newVal, this._gutterBottomClass);
+      this.hostClass.toggle(this.classes.gutterBottom, newVal);
     }
   }
   get gutterBottom() {
@@ -126,7 +166,9 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
   constructor(
     _theme: LyTheme2,
     private _el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private sr: StyleRenderer,
+    private hostClass: LyHostClass
   ) {
     super(_theme);
     this.renderer.addClass(this._el.nativeElement, this.classes.root);
@@ -142,42 +184,24 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
     this.updateStyle(this._el.nativeElement);
   }
 
-  private _createTypClass(key: string, instance?: string) {
-    const newKey = `k-typ:${key}`;
+  private _createTypClass(val: string, instance: string | null) {
+    const newKey = `k-typ:${val}`;
 
-    return this._theme.addStyle(newKey,
-      (theme: ThemeVariables) => {
-        const { typography } = theme;
-        const styl: StyleContainer = Object.assign({ }, typography.lyTyp[key || 'body1']);
-        if (styl.lineHeight) {
-          styl.lineHeight = theme.pxToRem(styl.lineHeight as number);
+    return this.sr.add(newKey,
+      (theme: LyTypographyVariables) => {
+        if (theme.typography && theme.typography.lyTyp) {
+          const lyTyp = theme.typography.lyTyp[val];
+            if (lyTyp) {
+              return lyTyp instanceof StyleCollection
+                ? lyTyp.setTransformer((_) => _()).css
+                : lyTyp();
+            }
         }
-        if (typeof styl.letterSpacing === 'number') {
-          styl.letterSpacing = `${styl.letterSpacing}px`;
-        }
-        // set default fontFamily
-        styl.fontFamily = styl.fontFamily || typography.fontFamily;
-        return styl;
+        throw new Error(`Value typography.lyTyp['${val}'] not found in ThemeVariables`);
       },
-      this._el.nativeElement,
+      STYLE_PRIORITY,
       instance,
-      STYLE_PRIORITY
     );
   }
 
-  private _createGutterClass(name: Gutter, val: boolean, instance: string) {
-    return this._theme.addStyle(
-      `k-typ-gutter:${name}:${val}`,
-      (theme: ThemeVariables) => {
-        const gutter = name === Gutter.default;
-        return (
-          `margin-top:${ val && (gutter || name === Gutter.top) ? theme.typography.gutterTop : 0 }em;` +
-          `margin-bottom:${ val && (gutter || name === Gutter.bottom) ? theme.typography.gutterBottom : 0 }em;`
-        );
-      },
-      this._el.nativeElement,
-      instance,
-      STYLE_PRIORITY
-    );
-  }
 }

@@ -20,10 +20,9 @@ import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark, MinimaDeepDark } from '@alyle/ui/themes/minima';
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
-import { InstallationComponent } from './docs/getting-started/installation/installation.component';
 import { CardDemoComponent } from './docs/components/card-demo/card-demo.component';
 import { CardDemoBasicModule } from './docs/components/card-demo/card-demo-basic/card-demo-basic.module';
-import { LyTypographyModule } from '@alyle/ui/typography';
+import { LyTypographyModule, LyTypographyTheme } from '@alyle/ui/typography';
 import { DocsModule } from './docs/docs.module';
 import { LyTabsModule } from '@alyle/ui/tabs';
 import { ApiComponent } from './api/api.component';
@@ -37,6 +36,7 @@ import { LyGridModule } from '@alyle/ui/grid';
 import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { Color } from '@alyle/ui/color';
+import { DocViewerModule } from './docs/docs-viewer.module';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -101,16 +101,16 @@ export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDar
     contrast: 'rgba(0, 0, 0, 0.87)'
   };
   transparent = 'rgba(0, 0, 0, 0)';
-  typography = {
+  typography: LyTypographyTheme = {
     lyTyp: {
-      subTitle: {
-        fontFamily: `'Nunito', sans-serif`,
-        textAlign: 'center',
-        paddingAbove: '1em',
-        opacity: .6,
-        fontSize: '32px',
-        fontWeight: 400
-      }
+      subTitle: () => lyl `{
+        font-family: 'Nunito', sans-serif
+        text-align: center
+        padding-above: 1em
+        opacity: .6
+        font-size: 32px
+        font-weight: 400
+      }`
     }
   };
 }
@@ -135,7 +135,6 @@ export function themeNameProviderFactory() {
     ApiComponent,
     TitleComponent,
     /** Getting started */
-    InstallationComponent,
     /** Components */
     CardDemoComponent,
     /** Pages */
@@ -168,7 +167,8 @@ export function themeNameProviderFactory() {
     LyTabsModule,
     LySnackBarModule,
     LyTooltipModule,
-    LyGridModule
+    LyGridModule,
+    DocViewerModule
   ],
   providers: [
     [ LyTheme2 ],

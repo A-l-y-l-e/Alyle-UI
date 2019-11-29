@@ -2,6 +2,9 @@
   "name": "alyle-ui-srcs",
   "version": "2.9.6",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.13.0 <13.0.0"
+  },
   "scripts": {
     "start": "ng serve --port 1111",
     "hmr": "ng serve --port 1111 --hmr",
@@ -38,6 +41,7 @@
     "@angular/common": "^8.0.1",
     "@angular/compiler": "^8.0.1",
     "@angular/core": "^8.0.1",
+    "@angular/elements": "8.1.1",
     "@angular/forms": "^8.0.1",
     "@angular/platform-browser": "^8.0.1",
     "@angular/platform-browser-dynamic": "^8.0.1",
@@ -55,7 +59,8 @@
     "rxjs": "^6.4.0",
     "tsickle": "^0.35.0",
     "tslib": "^1.10.0",
-    "zone.js": "^0.9.1"
+    "zone.js": "^0.9.1",
+    "document-register-element": "^1.7.2"
   },
   "devDependencies": {
     "@alyle/angular-prerender": "^0.4.1",
@@ -70,7 +75,7 @@
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
     "@types/js-yaml": "^3.12.1",
-    "@types/node": "^10.12.0",
+    "@types/node": "~12.12",
     "@types/prismjs": "^1.16.0",
     "@types/showdown": "^1.9.2",
     "@types/yargs": "^13.0.0",

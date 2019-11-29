@@ -88,8 +88,9 @@ export class AppBarComponent implements OnInit, OnDestroy {
         return event instanceof NavigationEnd;
       })
     )
-    .subscribe((event: NavigationEnd) => {
-      if (event.url === '/') {
+    .subscribe(() => {
+      const pathname = this._location.path();
+      if (pathname === '/' || pathname === '') {
         this.setForHomeStyles();
       } else {
         this.setDefaultStyles();
@@ -97,7 +98,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
     });
     if (Platform.isBrowser) {
       this.scrollSub = this.winScroll.scroll$.subscribe((val) => {
-        if (this.router.url === '/') {
+        if (this.router.url === '/' || this.router.url === '') {
           if (val > 90) {
             this.setDefaultStyles();
           } else {

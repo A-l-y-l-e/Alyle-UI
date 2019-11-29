@@ -14,6 +14,7 @@ import { TitleComponent } from './document/title/title.component';
 import { PageContentComponent } from './page-content/page-content.component';
 import { prismCustomClass } from './core/prism-custom-class';
 import { SVG_ICONS } from './core/svg-icons';
+import { DocViewer } from './docs/docs-viewer';
 
 const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, ref: ThemeRef) => {
   const classes = ref.selectorsOf(styles);
@@ -306,6 +307,7 @@ export class AppComponent implements OnInit {
   routes = AUIRoutes.slice(1);
   currentRoutePath: string;
 
+  @ViewChild(DocViewer, { static: true }) docViewer: DocViewer;
   @ViewChild(LyDrawer, { static: true }) drawer: LyDrawer;
   @ViewChild(LySnackBar, { static: false }) sb: LySnackBar;
   @ViewChild(TitleComponent, { static: true }) titleComponent: TitleComponent;
@@ -346,6 +348,7 @@ export class AppComponent implements OnInit {
       filter((event) => event instanceof NavigationEnd)
     )
     .subscribe(() => {
+      this.docViewer.path = this._location.path();
       const pathname = Platform.isBrowser
       ? location.pathname === '/'
         ? ''

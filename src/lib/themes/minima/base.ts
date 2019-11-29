@@ -3,7 +3,8 @@ import {
   Dir,
   lyl,
   shadowBuilder,
-  StyleCollection
+  StyleCollection,
+  StyleTemplate
 } from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
@@ -25,7 +26,9 @@ export class MinimaBase extends LyStyleUtils {
     fontSize: 14,
     gutterTop: 1,
     gutterBottom: .35,
-    lyTyp: {}
+    lyTyp: { } as {
+      [key: string]: (() => StyleTemplate) | StyleCollection
+    }
   };
   avatar?: LyAvatarTheme;
   snackBar?: LySnackBarTheme;
@@ -386,72 +389,83 @@ export class MinimaBase extends LyStyleUtils {
   constructor() {
     super();
     this.typography.lyTyp = {
-      display4: {
-        fontSize: this.pxToRem(96),
-        fontWeight: 300,
-        letterSpacing: this.pxToRem(-1.5)
-      },
-      display3: {
-        fontSize: this.pxToRem(60),
-        fontWeight: 300,
-        letterSpacing: this.pxToRem(-0.5)
-      },
-      display2: {
-        fontSize: this.pxToRem(48),
-        fontWeight: 400,
-        letterSpacing: 0
-      },
-      display1: {
-        fontSize: this.pxToRem(34),
-        fontWeight: 400,
-        letterSpacing: this.pxToRem(0.25)
-      },
-      headline: {
-        fontSize: this.pxToRem(24),
-        fontWeight: 400,
-        letterSpacing: 0
-      },
-      title: {
-        fontSize: this.pxToRem(20),
-        fontWeight: 500,
-        letterSpacing: this.pxToRem(0.15)
-      },
-      subheading: {
-        fontSize: this.pxToRem(16),
-        fontWeight: 400,
-        letterSpacing: this.pxToRem(0.15),
-        lineHeight: 24
-      },
-      subheading2: {
-        fontSize: this.pxToRem(14),
-        fontWeight: 500,
-        letterSpacing: this.pxToRem(0.1)
-      },
-      body2: {
-        fontSize: this.pxToRem(16),
-        fontWeight: 400,
-        letterSpacing: this.pxToRem(0.15)
-      },
-      body1: {
-        fontSize: this.pxToRem(14),
-        fontWeight: 400,
-        letterSpacing: this.pxToRem(0.25)
-      },
-      button: {
-        fontSize: this.pxToRem(14),
-        fontWeight: 500
-      },
-      caption: {
-        fontSize: this.pxToRem(12),
-        fontWeight: 400,
-        letterSpacing: 0.4
-      },
-      overline: {
-        fontSize: this.pxToRem(10),
-        fontWeight: 400,
-        letterSpacing: this.pxToRem(1.5),
-        textTransform: 'uppercase'
-      }
+      display4: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(96)}
+        font-weight: 300
+        letter-spacing: ${-1.5 / 96}em
+      }`),
+      display3: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(60)}
+        font-weight: 300
+        letter-spacing: ${-0.5 / 60}em
+      }`),
+      display2: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(48)}
+        font-weight: 400
+        letter-spacing: 0
+      }`),
+      display1: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(34)}
+        font-weight: 400
+        letter-spacing: ${0.25 / 34}em
+      }`),
+      headline: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(24)}
+        font-weight: 400
+        letter-spacing: 0
+      }`),
+      title: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(20)}
+        font-weight: 500
+        letter-spacing: ${0.15 / 20}
+      }`),
+      subheading: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(16)}
+        font-weight: 400
+        letter-spacing: ${0.15 / 16}
+        line-height: ${this.pxToRem(24)}
+      }`),
+      subheading2: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(14)}
+        font-weight: 500
+        letter-spacing: ${0.1 / 14}
+      }`),
+      body1: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(16)}
+        font-weight: 400,
+        letter-spacing: ${0.5 / 16}
+      }`),
+      body2: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(14)}
+        font-weight: 400
+        letter-spacing: ${0.25 / 14}
+      }`),
+      button: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(14)}
+        font-weight: 500
+        letter-spacing: ${1.25 / 14}
+      }`),
+      caption: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(12)}
+        font-weight: 400
+        letter-spacing: ${0.4 / 12}em
+      }`),
+      overline: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(10)}
+        font-weight: 400
+        letter-spacing: ${1.5 / 10}
+        text-transform: uppercase
+      }`)
     };
+
+    const { lyTyp } = this.typography;
+    lyTyp.h1 = lyTyp.display4;
+    lyTyp.h2 = lyTyp.display3;
+    lyTyp.h3 = lyTyp.display2;
+    lyTyp.h4 = lyTyp.display1;
+    lyTyp.h5 = lyTyp.headline;
+    lyTyp.h6 = lyTyp.title;
+    lyTyp.subtitle1 = lyTyp.subheading;
+    lyTyp.subtitle2 = lyTyp.subheading2;
   }
 }

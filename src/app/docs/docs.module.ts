@@ -4,19 +4,7 @@ import { LyCardModule } from '@alyle/ui/card';
 
 import { DemoViewModule } from '../demo-view';
 
-/** Getting Started */
-
-/** Customization */
-import { ThemingComponent } from './customization/theming/theming.component';
-import { ThemingComponentsComponent } from './customization/theming-components/theming-components.component';
-
 /** Layout */
-/** Grid */
-import { GridDemoComponent } from './layout/grid-demo/grid-demo.component';
-import { GridDemoBasicModule } from './layout/grid-demo/grid-demo-basic/grid-demo-basic.module';
-import { GridDemoAutoLayoutModule } from './layout/grid-demo/grid-demo-auto-layout/grid-demo-auto-layout.module';
-import { GridDemoResponsiveModule } from './layout/grid-demo/grid-demo-responsive/grid-demo-responsive.module';
-
 /** Tabs */
 import { TabsDemoComponent } from './layout/tabs-demo/tabs-demo.component';
 import { BasicTabsModule } from './layout/tabs-demo/basic-tabs/basic-tabs.module';
@@ -35,13 +23,6 @@ import { IconLabelButtonsModule } from './components/button-demo/icon-label-butt
 import { LyTypographyModule } from '@alyle/ui/typography';
 import { DocsRoutingModule } from './docs.routing';
 import { SharedModule } from '../shared/shared.module';
-
-/** Dynamic Styles */
-import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
-import { DsBasicModule } from './customization/dynamic-styles/ds-basic/ds-basic.module';
-import { DsCssDeclarationsBlockModule } from './customization/dynamic-styles/ds-css-declarations-block/ds-css-declarations-block.module';
-import { DsNestingModule } from './customization/dynamic-styles/ds-nesting/ds-nesting.module';
-import { DsReusableStylesModule } from './customization/dynamic-styles/ds-reusable-styles/ds-reusable-styles.module';
 
 import { ToolbarDemoComponent } from './components/toolbar-demo/toolbar-demo.component';
 import { ToolbarBasicDemoModule } from './components/toolbar-demo/toolbar-basic-demo/toolbar-basic-demo.module';
@@ -79,11 +60,6 @@ import { ResponsiveWithDsModule } from './layout/responsive/responsive-with-ds/r
 
 import { BasicSnackBarModule } from './components/snack-bar-demo/basic-snack-bar/basic-snack-bar.module';
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
-
-/** Paper demo */
-import { BasicPaperModule } from './customization/paper-demo/basic-paper/basic-paper.module';
-import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
-import { PaperWithColorModule } from './customization/paper-demo/paper-with-color/paper-with-color.module';
 
 /** Icon demo */
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
@@ -159,9 +135,6 @@ import { CustomExpansionPanelModule } from './components/expansion-demo/custom-e
 
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
 
-import { MultipleThemesDemo01Module } from '../components/multiple-themes/multiple-themes-demo-01/multiple-themes-demo-01.module';
-import { MultipleThemesComponent } from '../components/multiple-themes/multiple-themes.component';
-
 /** Slider */
 import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
 import { BasicSliderModule } from './components/slider-demo/basic-slider/basic-slider.module';
@@ -179,10 +152,6 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     /** Typography */
     TypographyDemoBasicModule,
     TruncateTextModule,
-    /** Grid */
-    GridDemoBasicModule,
-    GridDemoAutoLayoutModule,
-    GridDemoResponsiveModule,
     /** Responsive */
     ResponsiveDemo01Module,
     ResponsiveWithDsModule,
@@ -193,11 +162,6 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     TabsAlignModule,
     TabsWithIconModule,
     TabsPlacementModule,
-    /** Dynamic styles */
-    DsBasicModule,
-    DsCssDeclarationsBlockModule,
-    DsNestingModule,
-    DsReusableStylesModule,
     /** Button */
     ButtonTypesDemoModule,
     IconLabelButtonsModule,
@@ -222,9 +186,6 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     ComplexCheckboxModule,
     /** SnackBar */
     BasicSnackBarModule,
-    /** Paper */
-    BasicPaperModule,
-    PaperWithColorModule,
     /** Icon */
     IconsModule,
     /** Tooltip */
@@ -268,23 +229,15 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     /** Expansion */
     BasicExpansionModule,
     CustomExpansionPanelModule,
-    MultipleThemesDemo01Module,
     /** Slider */
     BasicSliderModule,
     SliderPlaygroundModule
   ],
   declarations: [
-    ThemingComponent,
-    ThemingComponentsComponent,
-    MultipleThemesComponent,
-    /** Grid */
-    GridDemoComponent,
     /** Responsive */
     ResponsiveDemoComponent,
     /** Tabs */
     TabsDemoComponent,
-    /** Ds */
-    DynamicStylesComponent,
     /** Button */
     ButtonDemoComponent,
     /** Toolbar */
@@ -299,8 +252,6 @@ import { SliderPlaygroundModule } from './components/slider-demo/slider-playgrou
     CheckboxDemoComponent,
     /** SnackBar */
     SnackBarDemoComponent,
-    /** Paper */
-    PaperDemoComponent,
     /** Icon */
     IconDemoComponent,
     /** Tooltip */

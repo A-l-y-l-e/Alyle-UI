@@ -1,7 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { LyStyleUtils, Dir } from '../style-utils';
 import { RippleVariables } from './variables/ripple';
-import { TypographyVariables } from './variables/typography';
 import { Color } from '@alyle/ui/color';
 
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
@@ -37,7 +36,6 @@ export interface ThemeConfig {
     /** When a contrast is needed for a light background */
     dark: Color
   };
-  typography?: TypographyVariables;
   /** color for divider */
   divider: Color;
   shadow: Color;

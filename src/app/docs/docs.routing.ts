@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TabsDemoComponent } from './layout/tabs-demo/tabs-demo.component';
-import { DynamicStylesComponent } from './customization/dynamic-styles/dynamic-styles.component';
-import { InstallationComponent } from './getting-started/installation/installation.component';
-import { GridDemoComponent } from './layout/grid-demo/grid-demo.component';
 import { ButtonDemoComponent } from './components/button-demo/button-demo.component';
 import { ToolbarDemoComponent } from './components/toolbar-demo/toolbar-demo.component';
 import { ImageCropperDemoComponent } from './components/image-cropper-demo/image-cropper-demo.component';
@@ -12,7 +9,6 @@ import { FieldDemoComponent } from './components/field-demo/field-demo.component
 import { CheckboxDemoComponent } from './components/checkbox-demo/checkbox-demo.component';
 import { ResponsiveDemoComponent } from './layout/responsive/responsive-demo.component';
 import { SnackBarDemoComponent } from './components/snack-bar-demo/snack-bar-demo.component';
-import { PaperDemoComponent } from './customization/paper-demo/paper-demo.component';
 import { IconDemoComponent } from './components/icon-demo/icon-demo.component';
 import { TooltipDemoComponent } from './components/tooltip-demo/tooltip-demo.component';
 import { MenuDemoComponent } from './components/menu-demo/menu-demo.component';
@@ -25,33 +21,13 @@ import { SelectDemoComponent } from './components/select-demo/select-demo.compon
 import { DialogDemoComponent } from './components/dialog-demo/dialog-demo.component';
 import { CarouselDemoComponent } from './components/carousel-demo/carousel-demo.component';
 import { ExpansionDemoComponent } from './components/expansion-demo/expansion-demo.component';
-import { ThemingComponentsComponent } from './customization/theming-components/theming-components.component';
 import { LazyLoadingComponent } from './guides/lazy-loading/lazy-loading.component';
-import { ThemingComponent } from './customization/theming/theming.component';
-import { MultipleThemesComponent } from '@app/components/multiple-themes/multiple-themes.component';
 import { SliderDemoComponent } from './components/slider-demo/slider-demo.component';
 
 const routes: Routes = [
   {
-    path: 'customization',
-    children: [
-      { path: 'dynamic-styles', component: DynamicStylesComponent },
-      { path: 'paper', component: PaperDemoComponent },
-      { path: 'theming-components', component: ThemingComponentsComponent },
-      { path: 'theming', component: ThemingComponent },
-      { path: 'multiple-themes', component: MultipleThemesComponent }
-    ]
-  },
-  {
-    path: 'getting-started',
-    children: [
-      { path: 'installation', component: InstallationComponent }
-    ]
-  },
-  {
     path: 'components',
     children: [
-      { path: 'grid', component: GridDemoComponent },
       { path: 'responsive', component: ResponsiveDemoComponent },
       { path: 'tabs', component: TabsDemoComponent },
       { path: 'button', component: ButtonDemoComponent },

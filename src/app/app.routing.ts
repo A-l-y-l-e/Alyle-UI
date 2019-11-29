@@ -24,8 +24,6 @@ const routes: Routes = [
     ]
   },
   { path: 'component', redirectTo: 'components', pathMatch: 'full' },
-  { path: 'get-started/install', redirectTo: 'getting-started/installation', pathMatch: 'full' },
-  { path: 'getting-started', redirectTo: 'getting-started/installation', pathMatch: 'full' },
   { path: 'components/resizing-cropping-images', redirectTo: 'components/image-cropper', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];

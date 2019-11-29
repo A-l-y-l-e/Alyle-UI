@@ -45,7 +45,7 @@ export class LylParse {
   toCss() {
     const selectors: (string[])[] = [];
     let selector: null | string = null;
-    const rules = new Map<string, string>();
+    const rules = new Map<string, string[]>();
     this._template
       .replace(/(\/\/[^\n\r]*(?:[\n\r]+|$))/g, '')
       .replace(/,\n/g, ',')
@@ -67,28 +67,29 @@ export class LylParse {
 
           if (line_1.includes('@')) {
             if (!rules.has(line_1)) {
-              rules.set(line_1, '');
+              rules.set(line_1, []);
             }
           }
         }
 
 
         if (!rules.has(selector)) {
-          rules.set(selector, '');
+          rules.set(selector, []);
         }
       } else if (fullLine.length === 1 && fullLine.endsWith('}')) {
         selectors.pop();
         if (selectors.length) {
           selector = this._resolveSelectors(selectors);
           if (!rules.has(selector)) {
-            rules.set(selector, '');
+            rules.set(selector, []);
           }
         }
       } else if (fullLine.startsWith('/* >> ds')) {
         selector = this._resolveSelectors(selectors);
         const lin = fullLine;
+
         // Ignore compiled css
-        rules.set(`${createUniqueCommentSelector('compiled')}${selector}`, lin);
+        rules.get(selector)!.push(lin);
         // fullLine = lin;
         // /** For non LylModule< */else {
         //   fullLine = `\${(${lin.slice(2, lin.length - 1)})(\`${selector}\`)}`;
@@ -99,7 +100,7 @@ export class LylParse {
         const content = fullLine.slice(3);
         selector = this._resolveSelectors(selectors);
         // Ignore compiled css
-        rules.set(`${createUniqueCommentSelector('cc')}${selector}`, content);
+        rules.get(selector)!.push(`${createUniqueCommentSelector('cc')}${content}`);
       } else {
         if (fullLine) {
           if (fullLine.includes('undefined') || fullLine.startsWith('// ')) {
@@ -112,7 +113,7 @@ export class LylParse {
             fullLine = fullLine.replace(': ', ':');
           }
           fullLine += ';';
-          rules.set(selector!, rules.get(selector!)! + fullLine);
+          rules.get(selector!)!.push(fullLine);
         }
       }
       return '';
@@ -123,10 +124,10 @@ export class LylParse {
       const matchArray = key.match(/(@[^\${]*(?:\${[^{]*)*){/);
       if (matchArray) {
         const media = matchArray[1];
-        if (media !== key && val) {
+        if (media !== key && val.length) {
           const after = rules.get(media)!;
           const newValue = after + key.replace(media + '{', '') + `{${val}}`;
-          rules.set(media, newValue);
+          rules.set(media, [newValue]);
           rules.delete(key);
         }
       }
@@ -136,23 +137,56 @@ export class LylParse {
       .filter(rule => rule[1])
       .map(rule => {
         const sel = rule[0];
-        const content = rule[1];
+        const contents = rule[1];
+        const css: string[] = [];
+        const contentRendered: string[] = [];
+        const set = new Set<string[]>();
+        for (let index = 0; index < contents.length; index++) {
+          let content = contents[index];
+          if (content) {
+            if (content.startsWith('/* >> ds')) {
+              contentRendered.push(content.replace(/\|\|\&\|\|/g, sel));
+              set.add(contentRendered);
+            } else if (content.startsWith('/* >> cc')) {
+              content = content.replace(/\/\* >> cc[^\/\*]+\*\//g, '');
+              let expression = content.slice(2, content.length - 1);
+              expression = `styleTemplateToString((${expression}), \`${sel}\`)`;
+              contentRendered.push(`\${${expression}}`);
+              set.add(contentRendered);
+            } else {
+              // css += `${sel}{${content}}`;
+              css.push(content);
+              set.add(css);
+            }
+          }
+        }
+        return Array.from(set).map((_) => {
+          if (_ === css) {
+            return css.length
+            ? `${sel}{${css.join('')}}`
+            : '';
+          } else {
+            return _.join('');
+          }
+        }).join('');
+        // return (css
+        //   ? `${sel}{${css}}`
+        //   :  '') + contentRendered;
+        // if (content.startsWith('/* >> ds')) {
+        //   return content.replace(/\|\|\&\|\|/g, sel);
+        // }
+        // if (content.startsWith('/* >> cc')) {
+        //   content = content.replace(/\/\* >> cc[^\/\*]+\*\//g, '');
+        //   let variable = content.slice(2, content.length - 1);
+        //   variable = `styleTemplateToString((${variable}), \`${sel}\`)`;
+        //   return `\${${variable}}`;
+        // }
+        // // for non LylModule>
 
-        if (content.startsWith('/* >> ds')) {
-          return content.replace(/\|\|\&\|\|/g, sel);
-        }
-        if (sel.startsWith('/* >> cc')) {
-          let variable = content.slice(2, content.length - 1);
-          variable = `styleTemplateToString((${variable}), \`${sel}\`)`
-            .replace(/\/\* >> cc[^\/\*]+\*\//g, '') ;
-          return `\${${variable}}`;
-        }
-        // for non LylModule>
-
-        if (sel.startsWith('@')) {
-          return `${sel}{${rule[1]}}`;
-        }
-        return `${sel}{${content}}`;
+        // if (sel.startsWith('@')) {
+        //   return `${sel}{${rule[1]}}`;
+        // }
+        // return `${sel}{${content}}`;
       }).join('');
 
   }

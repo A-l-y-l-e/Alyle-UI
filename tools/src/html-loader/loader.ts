@@ -2,6 +2,22 @@ import * as showdown from 'showdown';
 import { prism } from './prism';
 import { prismCustomClass } from './prism-custom-class';
 
+showdown.extension('custom', function() {
+  return [{
+    type: 'output',
+    filter: function(text) {
+      text = text.replace(
+        /<p><aui[^]*><\/p>/ig,
+        (str) => {
+          console.log(str);
+          return str.replace(/<\/?p[^>]*>/ig, '');
+        }
+      );
+      return text;
+    }
+  }];
+});
+
 showdown.extension('prism', () => {
   // use new shodown's regexp engine to conditionally parse codeblocks
   const replacement = (_wholeMatch: string, match: string, left: string, right: string) => {
@@ -45,8 +61,9 @@ export default function (markdown: string) {
 
 export function mdToHtml(markdown: string) {
   const converter = new showdown.Converter({
-    extensions: ['prism'],
-    strikethrough: true
+    extensions: ['prism', 'custom'],
+    strikethrough: true,
+    ghCompatibleHeaderId: true
   });
 
   const html = converter.makeHtml(markdown);

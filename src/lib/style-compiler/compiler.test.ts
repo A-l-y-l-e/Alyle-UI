@@ -315,6 +315,7 @@ test(`compile complex style`, async t => {
 
 test(`compile simple and complex style`, async t => {
   const css = styleCompiler(t.context.simpleAndComplexStyle);
+  t.log(css);
   t.is(css, `
   import {
   LyTheme2,
