@@ -24,6 +24,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [EmptyComponent],
+  exports: [EmptyComponent],
   imports: [
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabled',
