@@ -6,7 +6,7 @@ import { ApiComponent } from './api/api.component';
 @Component({
   template: ''
 })
-class EmptyComponent { }
+export class EmptyComponent { }
 
 const routes: Routes = [
   /** Pages */
@@ -24,7 +24,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [EmptyComponent],
-  exports: [EmptyComponent],
   imports: [
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabled',
