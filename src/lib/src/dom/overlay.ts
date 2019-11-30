@@ -5,9 +5,7 @@ import { LyOverlayContainer } from './overlay-container';
 import { OverlayFactory } from './overlay-factory';
 import { LyOverlayConfig } from './overlay-config';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LyOverlay {
 
   constructor(

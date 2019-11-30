@@ -12,7 +12,7 @@ enableProdMode();
 const { renderModuleFactory } = require('@angular/platform-server');
 
 // Import module map for lazy loading
-import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
+// import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 
 
 const rootDir = process.cwd();
@@ -23,7 +23,7 @@ const BROWSER_FOLDER = join(rootDir, `${PRE_RENDER_CONFIG['browserPath']}`);
 const SERVER_FOLDER = join(rootDir, `${PRE_RENDER_CONFIG['serverPath']}`);
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require(SERVER_FOLDER);
+const { AppServerModuleNgFactory, ngExpressEngine, provideModuleMap, LAZY_MODULE_MAP } = require(SERVER_FOLDER);
 
 // Load the index.html file containing referances to your application bundle.
 const INDEX = readFileSync(join(BROWSER_FOLDER, 'index.html'), 'utf8');
@@ -37,6 +37,8 @@ const PATHS = () => {
     }
   });
 };
+
+console.log('ite', provideModuleMap);
 
 /** Build */
 function build() {
@@ -63,6 +65,7 @@ function build() {
       }
       /** Writes rendered HTML to index.html, replacing the file if it already exists. */
       previousRender = previousRender.then(_ => {
+        console.log(LAZY_MODULE_MAP);
         console.time(`${route.file}`);
         return renderModuleFactory(AppServerModuleNgFactory, {
           document: INDEX,

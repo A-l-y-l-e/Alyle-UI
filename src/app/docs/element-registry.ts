@@ -31,7 +31,7 @@ export const ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES = [
     loadChildren: () => import('./components/avatar-demo/avatar.lazy.module').then(mod => mod.LazyModule)
   },
   {
-    path: '/components/dadge',
+    path: '/components/badge',
     loadChildren: () => import('./components/badge-demo/badge.lazy.module').then(mod => mod.LazyModule)
   },
   {

@@ -1,6 +1,6 @@
 import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, isDevMode } from '@angular/core';
 import { observeOn, switchMap, takeUntil, take, catchError, tap } from 'rxjs/operators';
-import { asapScheduler, EMPTY } from 'rxjs';
+import { asapScheduler, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { ElementsLoader } from './elements-loader.service';
@@ -60,6 +60,7 @@ export class DocViewer {
   private hostElement: HTMLElement;
   private onDestroy$ = new EventEmitter<void>();
   private docContents$ = new EventEmitter<string>();
+  private void$ = of<void>(undefined);
 
   @Input()
   get path() {
@@ -117,34 +118,39 @@ export class DocViewer {
   }
 
   render(path: string) {
-    return this.http.get(`docs${path}.html`, {
-      responseType: 'text'
-    })
+    return this.void$
     .pipe(
-      take(1),
-      catchError((err: HttpErrorResponse | Error) => {
-        this.hostElement.innerHTML = '';
-        const errorMessage = (err instanceof Error) ? err.stack : err;
-        const is404 = (err instanceof Error) ? false : err.status === 404;
-        console.error(errorMessage);
-        this.setNoIndex(true);
-        this.setTitle(`Alyle UI - ${is404 ? 'PAGE NOT FOUND' : 'REQUEST FOR DOCUMENT FAILED'}`);
-        return EMPTY;
-      }),
-      switchMap(async r => {
-        await this.elementsLoader.load(path);
-        return r;
+      switchMap(async () => {
+        return (await Promise.all([
+          this.http.get(`docs${path}.html`, {
+            responseType: 'text'
+          }).pipe(
+            take(1),
+            catchError((err: HttpErrorResponse | Error) => {
+              this.hostElement.innerHTML = '';
+              const errorMessage = (err instanceof Error) ? err.stack : err;
+              const is404 = (err instanceof Error) ? false : err.status === 404;
+              console.error('Err', errorMessage);
+              this.setNoIndex(true);
+              this.setTitle(`Alyle UI - ${is404 ? 'PAGE NOT FOUND' : 'REQUEST FOR DOCUMENT FAILED'}`);
+              return this.void$;
+            }),
+          ).toPromise(),
+          this.elementsLoader.load(path)
+        ]))[0];
       }),
       tap((html) => {
-        this.setNoIndex(false);
-        const { hostElement } = this;
-        hostElement.innerHTML = html;
-        const h1 = hostElement.querySelector('h1');
-        let title = (h1 && h1.innerText) || 'Untitled';
-        if (path.includes('/components/')) {
-          title = `${title} Angular Component`;
+        if (html) {
+          this.setNoIndex(false);
+          const { hostElement } = this;
+          hostElement.innerHTML = html;
+          const h1 = hostElement.querySelector('h1');
+          let title = (h1 && h1.innerText) || 'Untitled';
+          if (path.includes('/components/')) {
+            title = `${title} Angular Component`;
+          }
+          this.setTitle(`Alyle UI - ${title}`);
         }
-        this.setTitle(`Alyle UI - ${title}`);
       })
     );
   }

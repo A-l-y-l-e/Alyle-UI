@@ -417,33 +417,33 @@ export class MinimaBase extends LyStyleUtils {
       title: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(20)}
         font-weight: 500
-        letter-spacing: ${0.15 / 20}
+        letter-spacing: ${0.15 / 20}em
       }`),
       subheading: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(16)}
         font-weight: 400
-        letter-spacing: ${0.15 / 16}
+        letter-spacing: ${0.15 / 16}em
         line-height: ${this.pxToRem(24)}
       }`),
       subheading2: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(14)}
         font-weight: 500
-        letter-spacing: ${0.1 / 14}
+        letter-spacing: ${0.1 / 14}em
       }`),
       body1: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(16)}
         font-weight: 400,
-        letter-spacing: ${0.5 / 16}
+        letter-spacing: ${0.5 / 16}em
       }`),
       body2: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(14)}
         font-weight: 400
-        letter-spacing: ${0.25 / 14}
+        letter-spacing: ${0.25 / 14}em
       }`),
       button: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(14)}
         font-weight: 500
-        letter-spacing: ${1.25 / 14}
+        letter-spacing: ${1.25 / 14}em
       }`),
       caption: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(12)}
@@ -453,7 +453,7 @@ export class MinimaBase extends LyStyleUtils {
       overline: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(10)}
         font-weight: 400
-        letter-spacing: ${1.5 / 10}
+        letter-spacing: ${1.5 / 10}em
         text-transform: uppercase
       }`)
     };
