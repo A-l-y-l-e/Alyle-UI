@@ -1,11 +1,10 @@
-import { Directive, Input, ElementRef, EventEmitter, Renderer2, Injector, isDevMode } from '@angular/core';
+import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, isDevMode } from '@angular/core';
 import { observeOn, switchMap, takeUntil, take, catchError, tap } from 'rxjs/operators';
 import { asapScheduler, EMPTY } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { createCustomElement } from '@angular/elements';
 
 import { ElementsLoader } from './elements-loader.service';
-import { ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN, ELEMENT_MODULE_LOAD_CALLBACKS } from './element-registry';
 import { Title, Meta } from '@angular/platform-browser';
 import { LyTypographyVariables } from '@alyle/ui/typography';
 import { ThemeVariables, LyTheme2, lyl, StyleCollection, StyleTemplate, Platform } from '@alyle/ui';
@@ -51,15 +50,11 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   };
 };
 
-@Directive({
+let isDefinedViewComponent = false;
+
+@Component({
   selector: 'aui-doc-viewer',
-  providers: [
-    ElementsLoader,
-    {
-      provide: ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN,
-      useValue: ELEMENT_MODULE_LOAD_CALLBACKS
-    }
-  ]
+  template: ''
 })
 export class DocViewer {
   readonly classes = this.theme.renderStyleSheet(STYLES);
@@ -95,12 +90,16 @@ export class DocViewer {
     private renderer: Renderer2,
     private router: Router
   ) {
+    console.log('init DocViewer');
     this.hostElement = elementRef.nativeElement;
     this.renderer.addClass(this.hostElement, this.classes.root);
     this.hostElement.innerHTML = initialDocViewerContent;
 
-    const element = createCustomElement(ViewComponent, { injector });
-    customElements.define('demo-view', element);
+    if (!isDefinedViewComponent) {
+      isDefinedViewComponent = true;
+      const element = createCustomElement(ViewComponent, { injector });
+      customElements.define('demo-view', element);
+    }
 
     this.docContents$
       .pipe(

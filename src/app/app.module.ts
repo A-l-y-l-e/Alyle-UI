@@ -31,7 +31,6 @@ import { LySnackBarModule } from '@alyle/ui/snack-bar';
 import { LyTooltipModule } from '@alyle/ui/tooltip';
 import { LyGridModule } from '@alyle/ui/grid';
 import { RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { Color } from '@alyle/ui/color';
 import { DocViewerModule } from './docs/docs-viewer.module';
 
@@ -133,7 +132,6 @@ export function themeNameProviderFactory() {
     TitleComponent,
     /** Pages */
     HomeComponent,
-    PageNotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),

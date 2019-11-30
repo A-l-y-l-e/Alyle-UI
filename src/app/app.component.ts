@@ -1,4 +1,11 @@
-import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Renderer2,
+  OnInit,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Router, NavigationEnd } from '@angular/router';
 import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef, lyl } from '@alyle/ui';
@@ -307,7 +314,7 @@ export class AppComponent implements OnInit {
   routes = AUIRoutes.slice(1);
   currentRoutePath: string;
 
-  @ViewChild(DocViewer, { static: true }) docViewer: DocViewer;
+  @ViewChild(DocViewer, { static: false }) docViewer?: DocViewer;
   @ViewChild(LyDrawer, { static: true }) drawer: LyDrawer;
   @ViewChild(LySnackBar, { static: false }) sb: LySnackBar;
   @ViewChild(TitleComponent, { static: true }) titleComponent: TitleComponent;
@@ -348,7 +355,9 @@ export class AppComponent implements OnInit {
       filter((event) => event instanceof NavigationEnd)
     )
     .subscribe(() => {
-      this.docViewer.path = this._location.path();
+      if (this.docViewer) {
+        this.docViewer.path = this._location.path();
+      }
       const pathname = Platform.isBrowser
       ? location.pathname === '/'
         ? ''
