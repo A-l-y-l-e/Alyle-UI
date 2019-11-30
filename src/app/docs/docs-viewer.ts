@@ -2,7 +2,6 @@ import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, isDevM
 import { observeOn, switchMap, takeUntil, take, catchError, tap } from 'rxjs/operators';
 import { asapScheduler, EMPTY } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { createCustomElement } from '@angular/elements';
 
 import { ElementsLoader } from './elements-loader.service';
 import { Title, Meta } from '@angular/platform-browser';
@@ -12,7 +11,7 @@ import { ViewComponent } from '@app/demo-view/view/view.component';
 import { Router } from '@angular/router';
 
 // Initialization prevents flicker once pre-rendering is on
-const initialDocViewerElement = document.querySelector('aui-doc-viewer');
+const initialDocViewerElement = Platform.isBrowser ? document.querySelector('aui-doc-viewer') : null;
 const initialDocViewerContent = initialDocViewerElement ? initialDocViewerElement.innerHTML : '';
 
 const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
@@ -97,8 +96,11 @@ export class DocViewer {
 
     if (!isDefinedViewComponent) {
       isDefinedViewComponent = true;
-      const element = createCustomElement(ViewComponent, { injector });
-      customElements.define('demo-view', element);
+      if (Platform.isBrowser) {
+        const { createCustomElement } = require('@angular/elements');
+        const element = createCustomElement(ViewComponent, { injector });
+        customElements.define('demo-view', element);
+      }
     }
 
     this.docContents$

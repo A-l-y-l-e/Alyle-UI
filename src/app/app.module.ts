@@ -21,7 +21,6 @@ import { MinimaLight, MinimaDark, MinimaDeepDark } from '@alyle/ui/themes/minima
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
 import { LyTypographyModule, LyTypographyTheme } from '@alyle/ui/typography';
-import { LyTabsModule } from '@alyle/ui/tabs';
 import { ApiComponent } from './api/api.component';
 import { LyCardModule } from '@alyle/ui/card';
 import { AppBarComponent } from './app-bar/app-bar.component';
@@ -153,7 +152,6 @@ export function themeNameProviderFactory() {
     DemoViewModule,
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    LyTabsModule,
     LySnackBarModule,
     LyTooltipModule,
     LyGridModule,

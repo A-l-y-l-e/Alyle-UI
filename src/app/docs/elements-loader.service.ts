@@ -1,7 +1,7 @@
 import { Injectable, Injector, Compiler, Inject, NgModuleFactory, Type } from '@angular/core';
 import { ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN } from './element-registry';
 import { LoadChildrenCallback } from '@angular/router';
-import { createCustomElement } from '@angular/elements';
+import { Platform } from '@alyle/ui';
 
 @Injectable()
 export class ElementsLoader {
@@ -35,14 +35,17 @@ export class ElementsLoader {
       // const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(entryComponent);
 
       // container.createComponent(compFactory);
-      await Promise.all(components.map((comp) => {
-        const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(comp);
-        const element = createCustomElement(comp, { injector });
-        const selector = compFactory.selector;
-        // Register the custom element with the browser.
-        customElements.define(selector, element);
-        return customElements.whenDefined(selector);
-      }));
+      if (Platform.isBrowser) {
+        const { createCustomElement } = require('@angular/elements');
+        await Promise.all(components.map((comp) => {
+          const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(comp);
+          const element = createCustomElement(comp, { injector });
+          const selector = compFactory.selector;
+          // Register the custom element with the browser.
+          customElements.define(selector, element);
+          return customElements.whenDefined(selector);
+        }));
+      }
 
     }
   }
