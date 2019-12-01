@@ -23,27 +23,29 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   };
   return {
     root: lyl `{
-      h1 {
-        {
-          ...${getStyle(h3!)}
+      > {
+        h1 {
+          {
+            ...${getStyle(h3!)}
+          }
+          font-size: ${theme.pxToRem(40)} !important
+          margin: 1em 0
         }
-        font-size: ${theme.pxToRem(40)} !important
-        margin: 1em 0
-      }
-      h2 {
-        ...${getStyle(h4!)}
-      }
-      h3 {
-        ...${getStyle(h5!)}
-      }
-      h4 {
-        ...${getStyle(h6!)}
-      }
-      h5 {
-        ...${getStyle(subtitle1!)}
-      }
-      h6 {
-        ...${getStyle(subtitle2!)}
+        h2 {
+          ...${getStyle(h4!)}
+        }
+        h3 {
+          ...${getStyle(h5!)}
+        }
+        h4 {
+          ...${getStyle(h6!)}
+        }
+        h5 {
+          ...${getStyle(subtitle1!)}
+        }
+        h6 {
+          ...${getStyle(subtitle2!)}
+        }
       }
     }`
   };
@@ -128,7 +130,7 @@ export class DocViewer {
             take(1),
             catchError((err: HttpErrorResponse | Error) => {
               this.hostElement.innerHTML = '';
-              const errorMessage = (err instanceof Error) ? err.stack : err;
+              const errorMessage = (err instanceof Error) ? err.stack : err.message;
               const is404 = (err instanceof Error) ? false : err.status === 404;
               console.error('Err', errorMessage);
               this.setNoIndex(true);
@@ -145,7 +147,7 @@ export class DocViewer {
           const { hostElement } = this;
           hostElement.innerHTML = html;
           const h1 = hostElement.querySelector('h1');
-          let title = (h1 && h1.innerText) || 'Untitled';
+          let title = (h1 && h1.textContent) || 'Untitled';
           if (path.includes('/components/')) {
             title = `${title} Angular Component`;
           }

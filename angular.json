@@ -1165,6 +1165,39 @@
           }
         }
       }
+    },
+    "@alyle/ui/skeleton": {
+      "root": "dist/lib/skeleton",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/skeleton/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/skeleton/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/skeleton/test.ts",
+            "tsConfig": "dist/lib/skeleton/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/skeleton/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        }
+      }
     }
   }
 }

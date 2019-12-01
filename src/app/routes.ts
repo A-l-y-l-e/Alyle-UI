@@ -74,7 +74,8 @@ export const AUIRoutes: {
       { route: 'select', api: true , name: 'Select' },
       { route: 'dialog', api: true , name: 'Dialog' },
       { route: 'expansion', api: true , name: 'Expansion Panel' },
-      { route: 'slider', api: true , name: 'Slider' }
+      { route: 'slider', api: true , name: 'Slider' },
+      { route: 'skeleton', api: true , name: 'Skeleton' },
     ].sort(sort)
   }
 ];

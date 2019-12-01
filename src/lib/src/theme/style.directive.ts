@@ -8,11 +8,11 @@ import { ThemeRef } from './theme2.service';
 const STYLE_PRIORITY = -0.5;
 
 @Directive({
-  selector: `lyStyle,
+  selector: `[lyStyle]
               [p], [pf], [pe], [pt], [pb], [px], [py],
               [m], [mf], [me], [mt], [mb], [mx], [my],
               [display],
-              [lyStyle]`,
+              [width]`,
   providers: [
     LyHostClass,
     StyleRenderer
@@ -37,6 +37,7 @@ export class LyStyle {
   @Input() mx: string | number | null;
   @Input() my: string | number | null;
   @Input() display: string | null;
+  @Input() width: string | number | null;
 
   @Input()
   get lyStyle() {
@@ -89,7 +90,7 @@ export class LyStyle {
     }
   }
 
-  ngOnChanges({p, pf, pe, pt, pb, px, py, m, mf, me, mt, mb, mx, my, display}: SimpleChanges) {
+  ngOnChanges({p, pf, pe, pt, pb, px, py, m, mf, me, mt, mb, mx, my, display, width}: SimpleChanges) {
     if (p) {
       const { currentValue } = p;
       this._updateStyle(
@@ -99,7 +100,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding: ${toPaddingVal(val)}
+              padding: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -115,7 +116,7 @@ export class LyStyle {
         ({after}) => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding-${after}: ${toPaddingVal(val)}
+              padding-${after}: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -131,7 +132,7 @@ export class LyStyle {
         ({before}) => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding-${before}: ${toPaddingVal(val)}
+              padding-${before}: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -147,7 +148,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding-top: ${toPaddingVal(val)}
+              padding-top: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -163,7 +164,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              padding-bottom: ${toPaddingVal(val)}
+              padding-bottom: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -215,7 +216,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              margin: ${toPaddingVal(val)}
+              margin: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -231,7 +232,7 @@ export class LyStyle {
         ({after}) => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              margin-${after}: ${toPaddingVal(val)}
+              margin-${after}: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -247,7 +248,7 @@ export class LyStyle {
         ({before}) => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              margin-${before}: ${toPaddingVal(val)}
+              margin-${before}: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -263,7 +264,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              margin-top: ${toPaddingVal(val)}
+              margin-top: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -279,7 +280,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              margin-bottom: ${toPaddingVal(val)}
+              margin-bottom: ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -295,7 +296,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              margin: 0 ${toPaddingVal(val)}
+              margin: 0 ${to8Px(val)}
             }
           }`
         ), new StyleCollection())
@@ -311,7 +312,7 @@ export class LyStyle {
         () => eachMedia(currentValue, (val, media) => (
           lyl `{
             @media ${media || 'all'} {
-              margin: ${toPaddingVal(val)} 0
+              margin: ${to8Px(val)} 0
             }
           }`
         ), new StyleCollection())
@@ -334,6 +335,22 @@ export class LyStyle {
       );
     }
 
+    if (width) {
+      const { currentValue } = width;
+      this._updateStyle(
+        0x16,
+        'width',
+        width,
+        () => eachMedia(currentValue, (val, media) => (
+          lyl `{
+            @media ${media || 'all'} {
+              width: ${transform(val)}
+            }
+          }`
+        ), new StyleCollection())
+      );
+    }
+
   }
 }
 
@@ -341,8 +358,12 @@ export class LyStyle {
  * Convert to px if the value is a number, otherwise leave it as is
  * @docs-private
  */
-function toPaddingVal(val: number | string) {
+function to8Px(val: number | string) {
   return typeof val === 'number'
     ? `${val * 8}px`
     : val;
+}
+
+function transform(value) {
+  return value <= 1 ? `${value * 100}%` : value;
 }

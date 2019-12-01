@@ -2,7 +2,7 @@ import { Injectable, ElementRef, Optional } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
 import { LyHostClass } from './host-class';
-import { TypeStyle } from '../theme/style';
+import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
 
 @Injectable()
 export class StyleRenderer {
@@ -11,6 +11,13 @@ export class StyleRenderer {
     private _theme: LyTheme2,
     @Optional() private _hostClass: LyHostClass
   ) { }
+
+  /**
+   * Build multiple styles and render them in the DOM
+   */
+  addSheet<T>(styles: T & LyStyles): LyClasses<T> {
+    return this._theme._createStyleContent2(styles, null, null, TypeStyle.Multiple);
+  }
 
   add(
     style: (theme: any, ref: ThemeRef) => StyleTemplate

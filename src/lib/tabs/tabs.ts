@@ -608,6 +608,7 @@ export class LyTab implements OnInit {
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _activeTabStyle: boolean;
   private _active: boolean;
+  disableRipple: boolean;
   _isBrowser = Platform.isBrowser;
   @Input()
   get active() {

@@ -53,6 +53,7 @@
       "@alyle/ui/expansion": ["./src/lib/expansion"],
       "@alyle/ui/slider": ["./src/lib/slider"],
       "@alyle/ui/color": ["./src/lib/color"],
+      "@alyle/ui/skeleton": ["./src/lib/skeleton"],
       "@env/*": ["./src/environments/*"],
       "@shared/*": ["./src/app/shared/*"],
       "@app/*": ["./src/app/*"]
