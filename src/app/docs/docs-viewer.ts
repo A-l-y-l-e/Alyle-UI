@@ -157,6 +157,11 @@ export class DocViewer {
             title = `${title} Angular Component`;
           }
           this.setTitle(`Alyle UI - ${title}`);
+          // Show skeleton screen in Server
+          if (!Platform.isBrowser) {
+            hostElement.innerHTML = '';
+            this.isLoading.emit(true);
+          }
         }
       })
     );
