@@ -17,7 +17,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AUIRoutes } from './routes';
 import { Location } from '@angular/common';
 import { filter } from 'rxjs/operators';
-import { TitleComponent } from './document/title/title.component';
 import { PageContentComponent } from './page-content/page-content.component';
 import { prismCustomClass } from './core/prism-custom-class';
 import { SVG_ICONS } from './core/svg-icons';
@@ -317,7 +316,6 @@ export class AppComponent implements OnInit {
   @ViewChild(DocViewer, { static: false }) docViewer?: DocViewer;
   @ViewChild(LyDrawer, { static: true }) drawer: LyDrawer;
   @ViewChild(LySnackBar, { static: false }) sb: LySnackBar;
-  @ViewChild(TitleComponent, { static: true }) titleComponent: TitleComponent;
   @ViewChild(PageContentComponent, { static: true }) page: PageContentComponent;
 
   constructor(
@@ -364,7 +362,6 @@ export class AppComponent implements OnInit {
         : location.pathname
       : this._location.path();
       this.currentRoutePath = pathname;
-      this.titleComponent.route = pathname;
       this.page.updateRoute(pathname);
     });
   }

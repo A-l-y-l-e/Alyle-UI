@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
-import { PageContentComponent } from '../../page-content/page-content.component';
 import { Location } from '@angular/common';
 import { Ads } from '@shared/ads';
 
@@ -19,7 +18,7 @@ export class TitleComponent implements OnInit {
     if (val !== this.route) {
       val = this._route = this._location.path();
 
-      this._ads.update(val, this._pageContent, this._theme);
+      this._ads.update(val, this._theme);
       this._cd.markForCheck();
     }
   }
@@ -27,7 +26,6 @@ export class TitleComponent implements OnInit {
     return this._route;
   }
   constructor(
-    private _pageContent: PageContentComponent,
     private _location: Location,
     private _cd: ChangeDetectorRef,
     private _theme: LyTheme2,

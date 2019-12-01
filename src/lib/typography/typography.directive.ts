@@ -49,7 +49,7 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
       margin-bottom: 0.35em
     }`,
     gutter: lyl `{
-      margin: 0.35em
+      margin: 0.35em 0
     }`
   };
 };

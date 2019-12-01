@@ -8,10 +8,11 @@ import { ThemeRef } from './theme2.service';
 const STYLE_PRIORITY = -0.5;
 
 @Directive({
-  selector: `[lyStyle]
+  selector: `[lyStyle],
               [p], [pf], [pe], [pt], [pb], [px], [py],
               [m], [mf], [me], [mt], [mb], [mx], [my],
               [display],
+              [maxWidth],
               [width]`,
   providers: [
     LyHostClass,
@@ -38,6 +39,7 @@ export class LyStyle {
   @Input() my: string | number | null;
   @Input() display: string | null;
   @Input() width: string | number | null;
+  @Input() maxWidth: string | number | null;
 
   @Input()
   get lyStyle() {
@@ -90,7 +92,24 @@ export class LyStyle {
     }
   }
 
-  ngOnChanges({p, pf, pe, pt, pb, px, py, m, mf, me, mt, mb, mx, my, display, width}: SimpleChanges) {
+  ngOnChanges({p,
+    pf,
+    pe,
+    pt,
+    pb,
+    px,
+    py,
+    m,
+    mf,
+    me,
+    mt,
+    mb,
+    mx,
+    my,
+    display,
+    width,
+    maxWidth
+  }: SimpleChanges) {
     if (p) {
       const { currentValue } = p;
       this._updateStyle(
@@ -335,21 +354,31 @@ export class LyStyle {
       );
     }
 
-    if (width) {
-      const { currentValue } = width;
-      this._updateStyle(
-        0x16,
-        'width',
-        width,
-        () => eachMedia(currentValue, (val, media) => (
-          lyl `{
-            @media ${media || 'all'} {
-              width: ${transform(val)}
-            }
-          }`
-        ), new StyleCollection())
-      );
-    }
+    this._updateStyle(
+      0x16,
+      'width',
+      width,
+      () => eachMedia(width.currentValue, (val, media) => (
+        lyl `{
+          @media ${media || 'all'} {
+            width: ${transform(val)}
+          }
+        }`
+      ), new StyleCollection())
+    );
+
+    this._updateStyle(
+      0x17,
+      'maxWidth',
+      maxWidth,
+      () => eachMedia(maxWidth.currentValue, (val, media) => (
+        lyl `{
+          @media ${media || 'all'} {
+            max-width: ${transform(val)}
+          }
+        }`
+      ), new StyleCollection())
+    );
 
   }
 }
@@ -364,6 +393,8 @@ function to8Px(val: number | string) {
     : val;
 }
 
-function transform(value) {
-  return value <= 1 ? `${value * 100}%` : value;
+function transform(value: number | string) {
+  return value <= 1
+    ? `${value as number * 100}%`
+    : value;
 }

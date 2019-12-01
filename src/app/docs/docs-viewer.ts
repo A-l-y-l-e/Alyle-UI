@@ -9,6 +9,7 @@ import { LyTypographyVariables } from '@alyle/ui/typography';
 import { ThemeVariables, LyTheme2, lyl, StyleCollection, StyleTemplate, Platform } from '@alyle/ui';
 import { ViewComponent } from '@app/demo-view/view/view.component';
 import { Router } from '@angular/router';
+import { Ads, ADS_STYLES } from '@shared/ads';
 
 // Initialization prevents flicker once pre-rendering is on
 const initialDocViewerElement = Platform.isBrowser ? document.querySelector('aui-doc-viewer > div') : null;
@@ -63,6 +64,8 @@ export class DocViewer {
   private void$ = of<void>(undefined);
   isLoading = new EventEmitter<boolean>();
 
+  ADS_STYLES = ADS_STYLES;
+
   @Input()
   get path() {
     return this._path;
@@ -90,7 +93,8 @@ export class DocViewer {
     private metaService: Meta,
     private theme: LyTheme2,
     private renderer: Renderer2,
-    private router: Router
+    private router: Router,
+    private ads: Ads
   ) {
     this.isLoading.emit(!initialDocViewerContent);
     this.hostElement = renderer.createElement('div');
@@ -162,6 +166,7 @@ export class DocViewer {
             hostElement.innerHTML = '';
             this.isLoading.emit(true);
           }
+          this.ads.update(path, this.theme);
         }
       })
     );

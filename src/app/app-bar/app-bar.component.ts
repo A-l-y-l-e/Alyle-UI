@@ -127,7 +127,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
       localStorage.setItem('theme-name', themeName);
     }
     this.theme.setTheme(themeName);
-    this._ads.update(this._location.path(true), this.appComponent.page, this.theme);
+    this._ads.update(this._location.path(true), this.theme);
   }
 
   ngOnDestroy() {

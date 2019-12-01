@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { LyCommonModule } from '@alyle/ui';
 import { LySkeletonModule } from '@alyle/ui/skeleton';
 
 import { DocViewer } from './docs-viewer';
@@ -16,6 +17,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    LyCommonModule,
     CommonModule,
     HttpClientModule,
     DemoViewModule,
