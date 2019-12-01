@@ -29,7 +29,9 @@ jobs:
     displayName: "Cache Yarn packages"
   - bash: |
       set -e
+      export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
       yarn --frozen-lockfile
+      yarn global add serve
       yarn tools:prepare-lib
       ./ci/scripts/build-style-compiler.sh
       node dist/@alyle/style-compiler/main src

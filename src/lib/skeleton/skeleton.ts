@@ -1,10 +1,11 @@
 import { Directive, Input } from '@angular/core';
-import { ThemeVariables, keyframesUniqueId, lyl, LyHostClass, StyleRenderer, toBoolean } from '@alyle/ui';
+import { ThemeVariables, keyframesUniqueId, lyl, LyHostClass, StyleRenderer, toBoolean, Dir } from '@alyle/ui';
 
 const STYLE_PRIORITY = -0.5;
 export const STYLES = (theme: ThemeVariables) => {
   const id = keyframesUniqueId.next();
   const { primary, secondary, tertiary } = theme.background;
+  const dir = theme.direction === Dir.ltr ? -1 : 1;
   const lum = primary.default.luminance();
   let one = (lum < .5
     ? tertiary
@@ -12,19 +13,20 @@ export const STYLES = (theme: ThemeVariables) => {
   let two = (lum < .5
     ? secondary
     : tertiary);
-  one = one.darken(.25 * (lum < .5 ? -1 : 1));
+  one = one.darken(1 * (lum < .5 ? -.5 : 0));
   two = two.darken(.25 * (lum < .5 ? -1 : 1));
+
   return {
     $name: LySkeleton.и,
     $priority: STYLE_PRIORITY,
     $global: lyl `{
       @keyframes ${id} {
         0% {
-          background-position: 200% 50%
+          background-position: ${-dir * 200}% 50%
         }
 
         100% {
-          background-position: -200% 50%
+          background-position: ${dir * 200}% 50%
         }
       }
     }`,
