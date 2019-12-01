@@ -11,8 +11,8 @@ import { ViewComponent } from '@app/demo-view/view/view.component';
 import { Router } from '@angular/router';
 
 // Initialization prevents flicker once pre-rendering is on
-const initialDocViewerElement = Platform.isBrowser ? document.querySelector('aui-doc-viewer') : null;
-const initialDocViewerContent = initialDocViewerElement ? initialDocViewerElement.innerHTML : '';
+const initialDocViewerElement = Platform.isBrowser ? document.querySelector('aui-doc-viewer > div') : null;
+let initialDocViewerContent = initialDocViewerElement ? initialDocViewerElement.innerHTML : '';
 
 const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   const { h3, h4, h5, h6, subtitle1, subtitle2 } = theme.typography.lyTyp!;
@@ -23,7 +23,7 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   };
   return {
     root: lyl `{
-      > {
+      > div > {
         h1 {
           {
             ...${getStyle(h3!)}
@@ -51,11 +51,9 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   };
 };
 
-let isDefinedViewComponent = false;
-
 @Component({
   selector: 'aui-doc-viewer',
-  template: ''
+  templateUrl: './doc-viewer.html'
 })
 export class DocViewer {
   readonly classes = this.theme.renderStyleSheet(STYLES);
@@ -63,6 +61,7 @@ export class DocViewer {
   private onDestroy$ = new EventEmitter<void>();
   private docContents$ = new EventEmitter<string>();
   private void$ = of<void>(undefined);
+  isLoading = new EventEmitter<boolean>();
 
   @Input()
   get path() {
@@ -70,12 +69,13 @@ export class DocViewer {
   }
   set path(val: string) {
     if (val !== this.path) {
-      if (val && val !== '/') {
-        this._path = val;
+      this._path = val;
+      if (val !== '/' && val !== '') {
         this.docContents$.emit(val);
       } else {
         this.setTitle();
         this.setNoIndex(false);
+        this.hostElement.innerHTML = '';
       }
     }
   }
@@ -92,18 +92,16 @@ export class DocViewer {
     private renderer: Renderer2,
     private router: Router
   ) {
-    console.log('init DocViewer');
-    this.hostElement = elementRef.nativeElement;
-    this.renderer.addClass(this.hostElement, this.classes.root);
+    this.isLoading.emit(!initialDocViewerContent);
+    this.hostElement = renderer.createElement('div');
+    renderer.appendChild(elementRef.nativeElement, this.hostElement);
+    this.renderer.addClass(elementRef.nativeElement, this.classes.root);
     this.hostElement.innerHTML = initialDocViewerContent;
 
-    if (!isDefinedViewComponent) {
-      isDefinedViewComponent = true;
-      if (Platform.isBrowser) {
-        const { createCustomElement } = require('@angular/elements');
-        const element = createCustomElement(ViewComponent, { injector });
-        customElements.define('demo-view', element);
-      }
+    if (Platform.isBrowser) {
+      const { createCustomElement } = require('@angular/elements');
+      const element = createCustomElement(ViewComponent, { injector });
+      customElements.define('demo-view', element);
     }
 
     this.docContents$
@@ -120,6 +118,10 @@ export class DocViewer {
   }
 
   render(path: string) {
+    this.isLoading.emit(!initialDocViewerContent);
+    if (!initialDocViewerContent) {
+      this.hostElement.innerHTML = '';
+    }
     return this.void$
     .pipe(
       switchMap(async () => {
@@ -133,6 +135,7 @@ export class DocViewer {
               const errorMessage = (err instanceof Error) ? err.stack : err.message;
               const is404 = (err instanceof Error) ? false : err.status === 404;
               console.error('Err', errorMessage);
+              this.isLoading.emit(false);
               this.setNoIndex(true);
               this.setTitle(`Alyle UI - ${is404 ? 'PAGE NOT FOUND' : 'REQUEST FOR DOCUMENT FAILED'}`);
               return this.void$;
@@ -143,6 +146,8 @@ export class DocViewer {
       }),
       tap((html) => {
         if (html) {
+          initialDocViewerContent = '';
+          this.isLoading.emit(false);
           this.setNoIndex(false);
           const { hostElement } = this;
           hostElement.innerHTML = html;

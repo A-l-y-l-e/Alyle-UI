@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { LySkeletonModule } from '@alyle/ui/skeleton';
 
 import { DocViewer } from './docs-viewer';
 import { DemoViewModule } from '@app/demo-view';
@@ -14,8 +16,10 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    CommonModule,
     HttpClientModule,
     DemoViewModule,
+    LySkeletonModule,
     RouterModule.forChild(routes)
   ],
   declarations: [DocViewer],
