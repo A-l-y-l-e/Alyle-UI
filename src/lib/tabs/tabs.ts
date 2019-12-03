@@ -131,7 +131,7 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
       height: 48px
       display: inline-flex
       justify-content: center
-      alignItems: center
+      align-items: center
       position: relative
       overflow: hidden
       font-family: ${theme.typography.fontFamily}
