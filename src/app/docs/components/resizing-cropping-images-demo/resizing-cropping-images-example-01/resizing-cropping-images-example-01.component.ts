@@ -33,11 +33,11 @@ export class ResizingCroppingImagesExample01Component implements AfterViewInit {
   scale: number;
   @ViewChild(LyResizingCroppingImages, { static: false }) cropper: LyResizingCroppingImages;
   myConfig: ImgCropperConfig = {
-    autoCrop: true,
+    autoCrop: true, // Default `false`
     width: 150, // Default `250`
     height: 150, // Default `200`
-    fill: '#ff2997', // Default transparent if type = png else #000,
-    type: 'image/jpeg'
+    fill: '#ff2997', // Default transparent if type = png else #000
+    type: 'image/png' // Or you can also use `image/jpeg`
   };
 
   constructor(
