@@ -1,4 +1,4 @@
-import { Injectable, ElementRef, Optional } from '@angular/core';
+import { Injectable, Optional, Self } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
 import { LyHostClass } from './host-class';
@@ -7,9 +7,8 @@ import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
 @Injectable()
 export class StyleRenderer {
   constructor(
-    _el: ElementRef,
     private _theme: LyTheme2,
-    @Optional() private _hostClass: LyHostClass
+    @Optional() @Self() private _hostClass: LyHostClass
   ) { }
 
   /**

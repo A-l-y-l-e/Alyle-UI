@@ -7,7 +7,7 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 
-> Please note that as of version 2.9.0 you have support for Angular 8. If your project uses Angular 7, then use version 2.7.8
+> Please note that as of version 2.9.0 you have support for Angular 8. If your project uses Angular 7, then use version 2.7.8. There is no longer support for Angular 7.
 
 ## Angular CLI
 <p>
@@ -86,38 +86,16 @@ This library uses Roboto Font & Google's Material Icons, you can add this in `sr
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet">
 ```
 
-### Step 3: Install HammerJs
+### Step 3: Applies styles to AppComponent
 
-<p>
-  The <code class="html"><ly-carousel></code> and <code class="html"><ly-img-cropper></code> components require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
-</p>
-
-```bash
-yarn add hammerjs
-```
-
-or
-
-```bash
-npm install --save hammerjs
-```
-
-Import in `src/main.ts`
+This applies styles using the theme variables to the <code class="html"><body></code> element.
 
 ```ts
-import 'hammerjs';
-```
-
-### Step 4: Applies styles to AppComponent
-
-This applies styles using the theme variables to the `<body>` element.
-
-```ts
-import { LyTheme2, ThemeVariables, lyl } from '@alyle/ui';
+import { StyleRenderer, ThemeVariables, lyl } from '@alyle/ui';
 
 const STYLES = (theme: ThemeVariables) => ({
   $global: lyl `{
-    body: {
+    body {
       background-color: ${theme.background.default}
       color: ${theme.text.default}
       font-family: ${theme.typography.fontFamily}
@@ -129,14 +107,14 @@ const STYLES = (theme: ThemeVariables) => ({
 
 @Component({...})
 export class AppComponent {
-  readonly classes = this.theme.renderStyleSheet(STYLES);
+  readonly classes = this.styleRenderer.addSheet(STYLES);
   constructor(
-    private theme: LyTheme2
+    private styleRenderer: StyleRenderer
   ) { }
 }
 ```
 
-### Step 5: Use the components
+### Step 4: Use the components
 
 ```html
 <button ly-button raised>Hello World</button>
