@@ -1,6 +1,6 @@
-import { Directive, Renderer2, ElementRef, Input } from '@angular/core';
+import { Directive, Renderer2, ElementRef, Input, Inject } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
-import { STYLES } from './styles';
+import { LY_FIELD_STYLES_TOKEN } from './field-styles-token';
 
 export type LyHintAlign = 'before' | 'after';
 
@@ -12,7 +12,9 @@ const STYLE_PRIORITY = -2;
   selector: 'ly-field > ly-hint'
 })
 export class LyHint {
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  readonly classes: {
+    [key: string]: string
+  };
   private _align: LyHintAlign;
   private _alignClass?: string;
   @Input()
@@ -37,8 +39,10 @@ export class LyHint {
   constructor(
     private _renderer: Renderer2,
     private _el: ElementRef,
-    private _theme: LyTheme2
+    private _theme: LyTheme2,
+    @Inject(LY_FIELD_STYLES_TOKEN) styles: any
     ) {
-    _renderer.addClass(_el.nativeElement, this.classes.hint);
+      this.classes = this._theme.addStyleSheet(styles, STYLE_PRIORITY);
+      _renderer.addClass(_el.nativeElement, this.classes.hint);
   }
 }

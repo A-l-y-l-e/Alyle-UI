@@ -1,84 +1,97 @@
-import { ThemeConfig, mergeDeep, shadowBuilder } from '@alyle/ui';
+import { ThemeConfig, shadowBuilder, lyl, StyleCollection, mergeThemes } from '@alyle/ui';
+import { Color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
+import { LyFieldTheme } from '@alyle/ui/field';
+import { LyTooltipTheme } from '@alyle/ui/tooltip';
+import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 
-const contrast = '#fff';
-const shadow = '#333';
+const contrast = new Color(0xffffff);
+const shadow = new Color(0x333333);
 export class MinimaLight extends MinimaBase implements ThemeConfig {
   name = 'minima-light';
   primary = {
-    default: '#6200EE',
+    default: new Color(0x6200EE),
     contrast
   };
   accent = {
-    default: '#FF2997',
+    default: new Color(0xFF2997),
     contrast,
   };
   warn = {
-    default: '#f5414e',
+    default: new Color(0xf5414e),
     contrast
   };
   action = {
-    default: 'rgba(0,0,0,.6)',
-    contrast: '#fff'
+    default: new Color(0, 0, 0, .6),
+    contrast: new Color(0xffffff)
   };
   background = {
-    default: '#fafafa', // secondary
+    default: new Color(0xfafafa), // secondary
     primary: {
-      default: '#fff',
+      default: new Color(0xffffff),
       shadow
     },
-    secondary: '#fafafa',
-    tertiary: '#efefef',
-    base: '#E0E0E0'
+    secondary: new Color(0xfafafa),
+    tertiary: new Color(0xefefef),
   };
-  hover = 'rgba(0, 0, 0, 0.04)';
+  hover = new Color(0, 0, 0, 0.04);
   paper = {
-    default: '#fff',
+    default: new Color(0xffffff),
     shadow
   };
   disabled = {
-    default: 'rgba(0, 0, 0, 0.27)',
-    contrast: 'rgba(0, 0, 0, 0.41)'
+    default: new Color(0, 0, 0, 0.27),
+    contrast: new Color(0, 0, 0, 0.41)
   };
   text = {
-    default: 'rgba(0, 0, 0, 0.87)',
-    primary: 'rgba(0, 0, 0, 0.87)',
-    secondary: 'rgba(0, 0, 0, 0.54)',
-    disabled: 'rgba(0, 0, 0, 0.26)',
-    hint: 'rgba(0, 0, 0, 0.38)'
+    default: new Color(0, 0, 0, 0.87),
+    primary: new Color(0, 0, 0, 0.87),
+    secondary: new Color(0, 0, 0, 0.54),
+    disabled: new Color(0, 0, 0, 0.26),
+    hint: new Color(0, 0, 0, 0.38),
+    dark: new Color(0, 0, 0, 0.87),
+    light: new Color(0xffffff)
   };
-  divider = 'rgba(0, 0, 0, 0.12)';
-  colorShadow = '#33base3';
-  shadow = '#333';
-  menu = {};
+  divider = new Color(0, 0, 0, 0.12);
+  colorShadow = new Color(0x333333);
+  shadow = new Color(0x333333);
   drawer = {
-    backdrop: 'rgba(0,0,0,.6)'
+    backdrop: new Color(0, 0, 0, .6)
   };
-  bar = '#f5f5f5';
-  field = mergeDeep({}, this.field, {
-    borderColor: 'rgba(0, 0, 0, 0.23)',
-    labelColor: 'rgba(0, 0, 0, 0.6)',
-    appearance: {
-      filled: {
-        '{container}': {
-          backgroundColor: 'rgba(0, 0, 0, 0.04)',
-        }
+  bar = new Color(0xf5f5f5);
+  field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
+    root: ({
+      container,
+      fieldset,
+      labelContainer,
+      placeholder,
+      label}) => lyl `{
+      ${container}:after, ${fieldset}, ${labelContainer} {
+        border-color: ${new Color(0, 0, 0, 0.23)}
       }
+      ${label}, ${placeholder} {
+        color: ${new Color(0, 0, 0, 0.6)}
+      }
+    }`,
+    appearance: {
+      filled: ({ container }) => lyl `{
+        ${container} {
+          background-color: ${new Color(0, 0, 0, 0.04)}
+        }
+      }`
     }
   });
-  badge = {};
-  snackBar = {
-    root: {
-      background: '#323232',
-      color: '#fff',
-      boxShadow: shadowBuilder(4, '#323232')
-    }
+  snackBar: LySnackBarTheme = {
+    root: new StyleCollection(lyl `{
+      background: ${new Color(0x323232)}
+      color: ${new Color(0xffffff)}
+      box-shadow: ${shadowBuilder(4, new Color(0x323232))}
+    }`)
   };
-  tooltip = {
-    root: {
-      background: 'rgba(50, 50, 50, 0.85)',
-      color: '#fff'
-    }
+  tooltip: LyTooltipTheme = {
+    root: new StyleCollection(() => lyl `{
+      background: ${new Color(50, 50, 50, 0.85)}
+      color: ${new Color(0xffffff)}
+    }`)
   };
-  avatar = {};
 }

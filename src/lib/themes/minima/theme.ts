@@ -19,6 +19,10 @@ export class ThemeMinimaDark { }
   declarations: [ThemeMinimaDark, ThemeMinimaLight],
   exports: [ThemeMinimaDark, ThemeMinimaLight]
 })
-export class ThemeMinimaModule { }
+export class ThemeMinimaModule {
+  constructor() {
+    console.warn(`ThemeMinimaModule is deprecated.`);
+  }
+}
 
 export interface IMinimaTheme extends MinimaLight, MinimaDark { }

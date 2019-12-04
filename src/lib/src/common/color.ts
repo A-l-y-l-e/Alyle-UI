@@ -1,19 +1,20 @@
 import { Constructor } from './constructor';
+import { Color } from '@alyle/ui/color';
 
 export interface CanColor {
-  color: string;
+  color: string | number | Color;
   /**
    * It is only used for common behavior, therefore, it should not be used for other purposes.
    */
-  readonly _superHyperInternalPropertyColor: string;
+  readonly _superHyperInternalPropertyColor: string | number | Color;
 }
 
 export function mixinColor<T extends Constructor>(base: T): Constructor<CanColor> & T {
   return class extends base {
-    _superHyperInternalPropertyColor: string;
+    _superHyperInternalPropertyColor: string | number | Color;
 
-    get color(): string { return this._superHyperInternalPropertyColor; }
-    set color(val: string) {
+    get color(): string | number | Color { return this._superHyperInternalPropertyColor; }
+    set color(val: string | number | Color) {
       const defaultColor = val;
       if (defaultColor !== this.color) {
         this._superHyperInternalPropertyColor = defaultColor;

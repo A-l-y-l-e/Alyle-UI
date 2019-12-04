@@ -35,7 +35,7 @@
       "@alyle/ui/responsive": ["./src/lib/responsive"],
       "@alyle/ui/shadow": ["./src/lib/shadow"],
       "@alyle/ui/carousel": ["./src/lib/carousel"],
-      "@alyle/ui/resizing-cropping-images": ["./src/lib/resizing-cropping-images"],
+      "@alyle/ui/image-cropper": ["./src/lib/image-cropper"],
       "@alyle/ui/themes/minima": ["./src/lib/themes/minima"],
       "@alyle/ui/card": ["./src/lib/card"],
       "@alyle/ui/typography": ["./src/lib/typography"],
@@ -52,6 +52,8 @@
       "@alyle/ui/dialog": ["./src/lib/dialog"],
       "@alyle/ui/expansion": ["./src/lib/expansion"],
       "@alyle/ui/slider": ["./src/lib/slider"],
+      "@alyle/ui/color": ["./src/lib/color"],
+      "@alyle/ui/skeleton": ["./src/lib/skeleton"],
       "@env/*": ["./src/environments/*"],
       "@shared/*": ["./src/app/shared/*"],
       "@app/*": ["./src/app/*"]

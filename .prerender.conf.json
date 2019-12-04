@@ -9,15 +9,15 @@
     "customization/multiple-themes",
     "customization/dynamic-styles",
     "customization/paper",
-    "layout/grid",
-    "layout/responsive",
-    "layout/tabs",
+    "components/grid",
+    "components/responsive",
+    "components/tabs",
     "guides/lazy-loading",
     "components/button",
     "components/drawer",
     "components/radio",
     "components/menu",
-    "components/resizing-cropping-images",
+    "components/image-cropper",
     "components/carousel",
     "components/card",
     "components/typography",
@@ -34,6 +34,7 @@
     "components/select",
     "components/dialog",
     "components/expansion",
-    "components/slider"
+    "components/slider",
+    "components/skeleton"
   ]
 }

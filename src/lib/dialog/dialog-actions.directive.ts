@@ -1,18 +1,18 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { LyTheme2, lyl } from '@alyle/ui';
 
 /** @docs-private */
 const STYLE_PRIORITY = -2;
 
 /** @docs-private */
-const STYLES_DIALOG_ACTIONS = ({
-  display: 'flex',
-  flex: '0 0 auto',
-  padding: '8px',
-  flexWrap: 'wrap',
-  minHeight: '52px',
-  alignItems: 'center'
-});
+const STYLES_DIALOG_ACTIONS = () => lyl `{
+  display: flex
+  flex: 0 0 auto
+  padding: 8px
+  flex-wrap: wrap
+  min-height: 52px
+  align-items: center
+}`;
 
 @Directive({
   selector: 'ly-dialog-actions, [ly-dialog-actions], [lyDialogActions]',
@@ -26,6 +26,6 @@ export class LyDialogActions implements OnInit {
 
   ngOnInit() {
     this._renderer.addClass(
-      this._el.nativeElement, this._theme.style(STYLES_DIALOG_ACTIONS, STYLE_PRIORITY));
+      this._el.nativeElement, this._theme.renderStyle(STYLES_DIALOG_ACTIONS, STYLE_PRIORITY));
   }
 }

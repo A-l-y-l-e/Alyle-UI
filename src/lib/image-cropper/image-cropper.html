@@ -1,0 +1,17 @@
+<div #_imgContainer
+[className]="classes.imgContainer"
+(slidestart)="_moveStart()"
+(slide)="_move($event)"
+(slideend)="_slideEnd()">
+  <canvas #_imgCanvas></canvas>
+</div>
+<div #_area *ngIf="_isLoadedImg; else content" [className]="classes.area" [ngStyle]="{
+  width: config.width + 'px',
+  height: config.height + 'px'
+}"></div>
+<ng-template #content>
+  <div [className]="classes.defaultContent">
+    <input #_fileInput type="file" (change)="selectInputEvent($event)" accept="image/*">
+    <ng-content></ng-content>
+  </div>
+</ng-template>

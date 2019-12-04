@@ -1,4 +1,6 @@
+import { Color, hexColorToInt } from '@alyle/ui/color';
 import { _STYLE_MAP, Styles, LyClasses } from './theme/style';
+import { StyleCollection, StyleTemplate } from './parse';
 
 export class LyStyleUtils {
   name: string;
@@ -28,18 +30,46 @@ export class LyStyleUtils {
     [key: string]: string
   };
   direction: Dir;
+
+  /** Returns left or right according to the direction */
+  get before() {
+    return this.getDirection(DirAlias.before);
+  }
+
+  /** Returns left or right according to the direction */
+  get after() {
+    return this.getDirection(DirAlias.after);
+  }
+
+  /** Returns top */
+  readonly above = 'top';
+
+  /** Returns bottom */
+  readonly below = 'bottom';
+
   pxToRem(value: number) {
     const size = this.typography.fontSize / 14;
     return `${value / this.typography.htmlFontSize * size}rem`;
   }
-  colorOf(value: string, optional?: string): string {
-    return get(this, value, optional);
+  colorOf(value: string | number, optional?: string): Color {
+    if (typeof value === 'number') {
+      return new Color(value);
+    }
+    if (value.includes('#') && value.length === 7) {
+      return new Color(hexColorToInt(value));
+    }
+    const color = get(this, value, optional);
+    if (color) {
+      return color;
+    }
+    /** Create invalid color */
+    return new Color();
   }
   getBreakpoint(key: string) {
     return `@media ${this.breakpoints[key] || key}`;
   }
 
-  getClasses<T>(styles: T & Styles): LyClasses<T> {
+  selectorsOf<T>(styles: T & Styles): LyClasses<T> {
     const styleMap = _STYLE_MAP.get(styles);
     if (styleMap) {
       return styleMap.classes || styleMap[this.name];
@@ -48,14 +78,17 @@ export class LyStyleUtils {
     }
   }
 
-  getDirection(val: DirAlias) {
+  getDirection(val: DirAlias | 'before' | 'after' | 'above' | 'below') {
     if (val === DirAlias.before) {
       return this.direction === 'rtl' ? 'right' : 'left';
     } else if (val === DirAlias.after) {
       return this.direction === 'rtl' ? 'left' : 'right';
-    } else {
-      return val;
+    } else if (val === 'above') {
+      return 'top';
+    } else if (val === 'below') {
+      return 'bottom';
     }
+    return val;
   }
 }
 
@@ -78,7 +111,10 @@ export enum DirPosition {
  * @param path path
  * @param optional get optional value, if not exist return default if not is string
  */
-function get(obj: Object, path: string[] | string, optional?: string): string {
+function get(obj: Object, path: string[] | string, optional?: string): Color {
+  if (path === 'transparent') {
+    return new Color(0, 0, 0, 0);
+  }
   const _path: string[] = path instanceof Array ? path : path.split(':');
   for (let i = 0; i < _path.length; i++) {
     const posibleOb = obj[_path[i]];
@@ -86,11 +122,11 @@ function get(obj: Object, path: string[] | string, optional?: string): string {
       obj = posibleOb;
     } else {
       /** if not exist */
-      return path as string;
+      return new Color();
     }
   }
-  if (typeof obj === 'string') {
-    return obj as string;
+  if (obj instanceof Color) {
+    return obj;
   } else if (optional) {
     return obj[optional] || obj['default'];
   } else {
@@ -99,30 +135,60 @@ function get(obj: Object, path: string[] | string, optional?: string): string {
   // return typeof obj === 'string' ? obj as string : obj['default'] as string;
 }
 
-export function eachMedia(str: string | number | undefined, fn: ((val: string, media: string | null, index: number) => void)) {
+// export type MediaQueryArray = (
+//   string | number | (number | string| (string | number)[])[]
+// )[];
+
+export function eachMedia(
+  str: string | number | undefined,
+  fn: ((val: string | number, media: string | null, index: number) => void)
+): void;
+export function eachMedia(
+  str: string | number | undefined,
+  fn: ((val: string | number, media: string | null, index: number) => void),
+  styleCollection: StyleCollection
+): StyleTemplate;
+export function eachMedia(
+  str: string | number | undefined,
+  fn: ((val: string | number, media: string | null, index: number) => void),
+  styleCollection?: StyleCollection
+): StyleTemplate | void {
   if (typeof str === 'string') {
     const values = str.split(/\s/g);
     for (let index = 0; index < values.length; index++) {
       const valItem = values[index].split(/\@/g);
-      const value = valItem.shift();
+      const strValue = valItem.shift()!;
       const len = valItem.length;
+      const value = isNaN(+strValue) ? strValue : +strValue;
       if (len) {
         for (let j = 0; j < len; j++) {
-          fn.call(undefined, value, valItem[j], index);
+          const st = fn.call(undefined, value, valItem[j], index);
+          if (styleCollection) {
+            styleCollection.add(st);
+          }
         }
       } else {
-        fn.call(undefined, value, null, index);
+        const st = fn.call(undefined, value, null, index);
+        if (styleCollection) {
+          styleCollection.add(st);
+        }
       }
     }
   } else {
-    fn.call(undefined, str, null, 0);
+    const st = fn.call(undefined, str, null, 0);
+    if (styleCollection) {
+      styleCollection.add(st);
+    }
+  }
+  if (styleCollection) {
+    return styleCollection.css;
   }
 }
 /**
  * Simple object check.
  * @param item
  */
-export function isObject(item) {
+function isObject(item) {
   return (item && typeof item === 'object' && !Array.isArray(item));
 }
 
@@ -136,7 +202,7 @@ export function mergeDeep(target: object, ...sources: any[]): any;
  * @param target
  * @param ...sources
  */
-export function mergeDeep(target, ...sources) {
+export function mergeDeep(target: any, ...sources: any[]) {
   if (!sources.length) { return target; }
   const source = sources.shift();
 

@@ -18,11 +18,59 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   Platform,
-  ThemeVariables
+  ThemeVariables,
+  lyl,
+  keyframesUniqueId,
+  LyHostClass
   } from '@alyle/ui';
 import { take } from 'rxjs/operators';
 
 const STYLE_PRIORITY = -2;
+const STYLES = (theme: ThemeVariables) => {
+  const loading = keyframesUniqueId.next();
+  const { primary, secondary, tertiary } = theme.background;
+  const lum = primary.default.luminance();
+  let one = (lum < .5
+    ? tertiary
+    : secondary);
+  let two = (lum < .5
+    ? secondary
+    : tertiary);
+  one = one.darken(.25 * (lum < .5 ? -1 : 1.1));
+  two = two.darken(.25 * (lum < .5 ? -1 : 1.1));
+  return {
+    $priority: STYLE_PRIORITY,
+    $global: lyl `{
+      @keyframes ${loading} {
+        0% {
+          background-position: 200% 50%
+        }
+
+        100% {
+          background-position: -200% 50%
+        }
+      }
+    }`,
+    loading: lyl `{
+      background: ${
+        `linear-gradient(270deg, ${
+          one
+        }, ${
+          two
+        }, ${
+          two
+        }, ${
+          one
+        })`
+      }
+      background-size: 400% 400%
+      animation: ${loading} 8s ease-in-out infinite
+    }`,
+    defaultIcon: lyl `{
+      border-radius: 50px
+    }`
+  };
+};
 
 /** @docs-private */
 export class LyIconBase {
@@ -51,8 +99,13 @@ mixinBg(
     'elevation',
     'shadowColor',
   ],
+  exportAs: 'lyIcon',
+  providers: [
+    LyHostClass
+  ]
 })
 export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDestroy {
+  readonly classes = this._theme.addStyleSheet(STYLES);
   private _icon: string;
   private _fontSet: string;
   private _previousFontSet: FontClassOptions;
@@ -66,10 +119,9 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
   }
   set icon(val: string) {
     this._icon = val;
+    this._addDefaultIcon();
     if (Platform.isBrowser) {
       this._prepareSvgIcon(this.iconService.getSvg(val));
-    } else {
-      this._appendDefaultSvgIcon();
     }
   }
 
@@ -89,11 +141,17 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
     this._fontIcon = key;
   }
 
+  /** @docs-private */
+  get hostElement() {
+    return this._el.nativeElement;
+  }
+
   constructor(
     private iconService: LyIconService,
     private _el: ElementRef,
     private _renderer: Renderer2,
-    theme: LyTheme2
+    theme: LyTheme2,
+    private _hostClass: LyHostClass
   ) {
     super(theme);
     this.setAutoContrast();
@@ -131,9 +189,16 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
     this._renderer.appendChild(this._el.nativeElement, svg);
   }
 
-  private _appendDefaultSvgIcon() {
-    this._appendChild(this.iconService.defaultSvgIcon);
+  private _addDefaultIcon() {
+    this._hostClass.add(this.classes.defaultIcon);
+    this._hostClass.add(this.classes.loading);
   }
+
+  // private _appendDefaultSvgIcon() {
+  //   const svgIcon = this.iconService._textToSvg(this.iconService.defaultSvgIcon) as SVGAElement;
+  //   svgIcon.classList.add(this.classes.loading);
+  //   this._appendChild(svgIcon);
+  // }
 
   private _updateClass() {
     if (this._isDefault() && this.iconService.defaultClass) {
@@ -165,6 +230,8 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
    */
   private _cleanIcon() {
     const icon = this._iconElement;
+    this._hostClass.remove(this.classes.defaultIcon);
+    this._hostClass.remove(this.classes.loading);
     if (icon) {
       this._renderer.removeChild(this._el.nativeElement, icon);
       this._iconElement = undefined;

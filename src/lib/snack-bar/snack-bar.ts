@@ -1,32 +1,48 @@
 import { Directive, Input, TemplateRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { LyTheme2, LyOverlay, ThemeVariables, XPosition, YPosition } from '@alyle/ui';
+import { LyTheme2, LyOverlay, ThemeVariables, XPosition, YPosition, lyl, StyleTemplate, StyleCollection } from '@alyle/ui';
 import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarRef } from './snack-bar-ref';
+
+export interface LySnackBarTheme {
+  /** Styles for SnackBar Component */
+  root?: StyleTemplate | StyleCollection;
+}
+
+
+export interface LySnackBarVariables {
+  snackBar?: LySnackBarTheme;
+}
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_HORIZONTAL_POSITION = XPosition.after;
 const DEFAULT_VERTICAL_POSITION = YPosition.below;
-export const STYLES = (theme: ThemeVariables) => ({
+export const STYLES = (theme: ThemeVariables & LySnackBarVariables) => ({
   $priority: STYLE_PRIORITY,
-  root: {
-    borderRadius: '4px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: '8px',
-    padding: '0 16px',
-    minHeight: '48px',
-    minWidth: '320px',
-    maxWidth: '320px',
-    opacity: 0,
-    transition: `opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms`,
-    fontSize: theme.pxToRem(theme.typography.fontSize),
-    [theme.getBreakpoint('XSmall')]: {
-      width: 'calc(100% - 16px)',
-      minWidth: 'calc(100% - 16px)'
-    },
-    '&': theme.snackBar ? theme.snackBar!.root : null
-  }
+  root: lyl `{
+    border-radius: 4px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin: 8px
+    padding: 0 16px
+    min-height: 48px
+    min-width: 320px
+    max-width: 320px
+    opacity: 0
+    transition: opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms
+    font-size: ${theme.pxToRem(theme.typography.fontSize)}
+    box-sizing: border-box
+    ${theme.getBreakpoint('XSmall')} {
+      width: calc(100% - 16px)
+      min-width: calc(100% - 16px)
+    }
+    {
+      ...${
+        (theme.snackBar
+          && theme.snackBar.root) || null
+      }
+    }
+  }`
 });
 
 /** Event that is emitted when a snack bar is dismissed. */
@@ -41,7 +57,7 @@ export interface LySnackBarDismiss {
 })
 export class LySnackBar implements OnDestroy {
 
-  readonly classes = this._theme.addStyleSheet(STYLES);
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   @Input() duration: number | 'Infinity';
   @Input() horizontalPosition: 'center' | XPosition;
   @Input() verticalPosition: YPosition;
@@ -76,39 +92,52 @@ export class LySnackBar implements OnDestroy {
       hasBackdrop: false,
       classes: [
         this.classes.root,
-        this._theme.addStyle(`SnackBar.hp:${horizontalPosition}.vp:${verticalPosition}`, (theme: ThemeVariables) => {
-          const __styles: {
-            marginLeft?: 'auto'
-            left?: 0
-            marginRight?: 'auto'
-            right?: 0
-            transform?: string
-            top?: number
-            bottom?: number
-          } = { };
+        this._theme.renderStyle(`SnackBar.hp:${horizontalPosition}.vp:${verticalPosition}`, (theme: ThemeVariables) => {
+          let marginLeft: 'auto' | undefined;
+          let left: 0 | undefined;
+          let marginRight: 'auto' | undefined;
+          let right: 0 | undefined;
+          let transform: string | undefined;
+          let top: number | undefined;
+          let bottom: number | undefined;
+          let hp: string | undefined;
+
           if (verticalPosition === YPosition.above) {
-            __styles.transform = 'translateY(-180%)';
-            __styles.top = 0;
+            transform = 'translateY(-180%)';
+            top = 0;
           } if (verticalPosition === YPosition.below) {
-            __styles.transform = 'translateY(180%)';
-            __styles.bottom = 0;
+            transform = 'translateY(180%)';
+            bottom = 0;
           }
           if (horizontalPosition === 'center') {
-            __styles.marginRight = __styles.marginLeft = 'auto';
-            __styles.left = __styles.right = 0;
+            marginRight = marginLeft = 'auto';
+            left = right = 0;
           } else {
-            __styles[theme.getDirection(horizontalPosition as any)] = 0;
+            hp = theme.getDirection(horizontalPosition as any);
           }
-          return __styles;
-        }, undefined, undefined, STYLE_PRIORITY)
+
+          return lyl `{
+            margin-left: ${marginLeft}
+            left: ${left}
+            margin-right: ${marginRight}
+            right: ${right}
+            transform: ${transform}
+            top: ${top}
+            bottom: ${bottom}
+            ${hp}: 0
+          }`;
+        }, STYLE_PRIORITY)
       ]
     });
 
     this._theme.requestAnimationFrame(() => {
-      this._theme.addStyle('SnackBar:open', ({
-        opacity: 1,
-        transform: 'translateY(0)'
-      }), snackBar.containerElement, undefined, STYLE_PRIORITY);
+      const newClass = this._theme.renderStyle('SnackBar:open', () => (
+        lyl `{
+          opacity: 1
+          transform: translateY(0)
+        }`
+      ), STYLE_PRIORITY);
+      snackBar.containerElement.classList.add(newClass);
     });
 
     window.getComputedStyle(snackBar.containerElement).getPropertyValue('opacity');

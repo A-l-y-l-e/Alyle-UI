@@ -2,47 +2,68 @@ import * as showdown from 'showdown';
 import { prism } from './prism';
 import { prismCustomClass } from './prism-custom-class';
 
-const markedOptions = {
-  langPrefix: 'lang-',
-};
+showdown.extension('custom', function() {
+  return [{
+    type: 'output',
+    filter: function(text) {
+      text = text.replace(
+        /<p><aui[^]*><\/p>/ig,
+        (str) => {
+          console.log(str);
+          return str.replace(/<\/?p[^>]*>/ig, '');
+        }
+      );
+      return text;
+    }
+  }];
+});
 
 showdown.extension('prism', () => {
   // use new shodown's regexp engine to conditionally parse codeblocks
   const replacement = (_wholeMatch: string, match: string, left: string, right: string) => {
+
+    // Ignored already rendered
     if (left.includes('prsm')) {
-      return left + match + right;
+      return _wholeMatch;
     }
     const lang: string | null = (left.match(/class=\"([^ \"]+)/) || [])[1];
+
     // unescape match to prevent double escaping
     match = htmlunencode(match);
 
-    if (lang) {
-      match = highlight(match, lang);
-    }
+    return highlight(match, lang, right === '</code>');
 
-    return match ;
   };
   return [
     {
       type: 'output',
       filter: text => {
-        return showdown.helper.replaceRecursiveRegExp(text, replacement, '<pre><code\\b[^>]*>', '</code></pre>', 'g');
-      }
-    },
-    {
-      type: 'output',
-      filter: text => {
-        return showdown.helper.replaceRecursiveRegExp(text, replacement, '<code\\b[^>]*>', '</code>', 'g');
+        let result = showdown.helper.replaceRecursiveRegExp(text, replacement, '<pre><code\\b[^>]*>', '</code></pre>', 'g');
+        result = showdown.helper.replaceRecursiveRegExp(result, replacement, '<code\\b[^>]*>', '</code>', 'g');
+        return result;
       }
     }
   ];
 });
 
-export default function (markdown) {
+export default function (markdown: string) {
   this.cacheable();
 
   const converter = new showdown.Converter({
-    extensions: ['prism']
+    extensions: ['prism'],
+    strikethrough: true
+  });
+
+  const html = converter.makeHtml(markdown);
+
+  return html;
+}
+
+export function mdToHtml(markdown: string) {
+  const converter = new showdown.Converter({
+    extensions: ['prism', 'custom'],
+    strikethrough: true,
+    ghCompatibleHeaderId: true
   });
 
   const html = converter.makeHtml(markdown);
@@ -52,20 +73,20 @@ export default function (markdown) {
 
 /**
  * Convert code to highlighted HTML
- * @param code code for render
- * @param infostring language
- * @param escaped if is escaped
  */
-export function highlight(code: string, lang: string | null, inline = false): string {
+export function highlight(code: string, lang: string | null, inline?: boolean): string {
   const classes = prismCustomClass();
-  code = escape(lang ? prism.highlight(code, prism.languages[lang], lang) : code);
-  let result = `<div class="${classes.root}"><pre class="${classes.pre}">`
-    + code
-    + '</pre></div>';
+  code = escape((lang && prism.languages[lang])
+    ? prism.highlight(code, prism.languages[lang], lang)
+    : htmlEncode(code));
   if (inline) {
-    result = `<code class="${classes.code}">${result}</code>`;
+    // Preserve white spaces
+    code = code.replace(/<\/span> <span/g, '</span>&nbsp;<span');
+    return `<code class="${[classes.code, classes.inline].join(' ')}">${code}</code>`;
   }
-  return result;
+  return `<pre class="${classes.pre}"><code prsm class="${classes.code}">`
+    + code
+    + '</code></pre>';
 }
 
 /**
@@ -93,5 +114,13 @@ function htmlunencode(text: string) {
       .replace(/&amp;/g, '&')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
+  );
+}
+function htmlEncode(text: string) {
+  return (
+    text
+      .replace(/\&/g, '&amp;')
+      .replace(/\</g, '&lt;')
+      .replace(/\>/g, '&gt;')
   );
 }

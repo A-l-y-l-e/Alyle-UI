@@ -1,0 +1,43 @@
+<div [className]="classes.container">
+
+  <button
+    ly-button
+    appearance="icon"
+  >
+    <ly-icon #icon>notifications</ly-icon>
+  </button>
+  <ly-badge
+    [withClass]="classes.badge1"
+    bg="primary"
+    [container]="icon"
+  >9+</ly-badge>
+  
+  <button
+    ly-button
+    appearance="icon"
+  >
+    <ly-avatar #avatar
+      [size]="32">
+      <img
+        alt="Larm Rmah"
+        src="https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash.jpeg?alt=media&token=1db05ae5-9c03-437b-9e8c-764dfb257061">
+    </ly-avatar>
+  </button>
+  <ly-badge
+    [withClass]="classes.badge2"
+    bg="primary"
+    [container]="avatar"
+    overlap="circle"
+    vPosition="below"
+    bg="#64dd17"
+  ></ly-badge>
+  
+  <button #buttonA
+    ly-button
+    bg="background:tertiary"
+    color="primary"
+    outlined
+  >button</button>
+  <ly-badge bg="background:tertiary" color="primary" outlined [container]="buttonA.hostElement">9</ly-badge>
+
+</div>

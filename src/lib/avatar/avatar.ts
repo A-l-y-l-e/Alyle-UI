@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, OnInit, OnChanges, Renderer2 } from '@angular/core';
+import { Directive, Input, ElementRef, OnInit, OnChanges, Renderer2, InjectionToken, Inject, Optional } from '@angular/core';
 import {
   LyTheme2,
   mixinBg,
@@ -8,35 +8,67 @@ import {
   mixinRaised,
   mixinShadowColor,
   mixinStyleUpdater,
-  ThemeVariables
-  } from '@alyle/ui';
+  ThemeVariables,
+  lyl,
+  StyleTemplate,
+  LyHostClass,
+  StyleRenderer
+} from '@alyle/ui';
+
+export interface LyAvatarTheme {
+  /** Styles for Avatar Component */
+  root?: () => StyleTemplate;
+}
+
+export interface LyAvatarDefaultOptions {
+  size?: number;
+  bg?: string;
+}
+
+export interface LyAvatarVariables {
+  avatar?: LyAvatarTheme;
+}
+
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_SIZE = 40;
 const DEFAULT_BG = 'action';
-const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    display: 'inline-flex',
-    position: 'relative',
-    fontSize: '1.25em',
-    flexShrink: 0,
-    alignItems: 'center',
-    userSelect: 'none',
-    borderRadius: '50%',
-    textAlign: 'center',
-    justifyContent: 'center',
-    '&>img': {
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      display: 'block',
-      objectFit: 'cover',
-      '-webkit-background-clip': 'padding-box'
-    },
-    '&': theme.avatar ? theme.avatar.root : null
-  }
-});
+
+export const LY_AVATAR_DEFAULT_OPTIONS =
+    new InjectionToken<LyAvatarDefaultOptions>('LY_AVATAR_DEFAULT_OPTIONS');
+
+const STYLES = (theme: ThemeVariables & LyAvatarVariables) => {
+  return {
+    $name: LyAvatar.и,
+    $priority: STYLE_PRIORITY,
+    root: lyl `{
+      display: inline-flex
+      position: relative
+      font-size: 1.25em
+      flex-shrink: 0
+      align-items: center
+      user-select: none
+      border-radius: 50%
+      text-align: center
+      justify-content: center
+      &>img {
+        width: 100%
+        height: 100%
+        border-radius: 50%
+        display: block
+        object-fit: cover
+        -webkit-background-clip: padding-box
+      }
+      {
+        ...${
+          (theme.avatar
+            && theme.avatar.root
+            && theme.avatar.root())
+        }
+      }
+    }`
+  };
+};
 
 /** @docs-private */
 export class LyAvatarBase {
@@ -63,30 +95,52 @@ export const LyAvatarMixinBase = mixinStyleUpdater(
     'outlined',
     'elevation',
     'shadowColor',
+  ],
+  providers: [
+    LyHostClass,
+    StyleRenderer
   ]
 })
 export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
+  static readonly и = 'LyAvatar';
+
+  /** @docs-private */
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   private _size: number;
-  private _sizeClass: string;
+
+  /** Avatar size */
   @Input()
   set size(val: number) {
     if (val !== this.size) {
       this._size = val;
-      this._sizeClass = this._theme.addStyle(`lyAvatar.size:${val}`, {
-        width: `${val}px`,
-        height: `${val}px`,
-      }, this._elementRef.nativeElement, this._sizeClass, STYLE_PRIORITY);
+      this[0x1] = this._styleRenderer.add(`${LyAvatar.и}-size-${val}`, () => (
+        lyl `{
+          width: ${val}px
+          height: ${val}px
+        }`
+      ), STYLE_PRIORITY, this[0x1]);
+
+      // const newClass = this._theme.renderStyle(`${LyAvatar.и}.size:${val}`, () => (
+      //   lyl `{
+      //     width: ${val}px
+      //     height: ${val}px
+      //   }`
+      // ), STYLE_PRIORITY);
+      // this._sizeClass = this._hostClass.update(newClass, this._sizeClass);
     }
   }
   get size() {
     return this._size;
   }
+  [0x1]: string;
+
   constructor(
     theme: LyTheme2,
     renderer: Renderer2,
-    private _elementRef: ElementRef
+    private _elementRef: ElementRef,
+    private _styleRenderer: StyleRenderer,
+    @Optional() @Inject(LY_AVATAR_DEFAULT_OPTIONS) private _defaults: LyAvatarDefaultOptions
   ) {
     super(theme);
     this.setAutoContrast();
@@ -99,11 +153,11 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
 
   ngOnInit() {
     if (!this.bg) {
-      this.bg = DEFAULT_BG;
+      this.bg = (this._defaults && this._defaults.bg) || DEFAULT_BG;
       this.ngOnChanges();
     }
     if (!this.size) {
-      this.size = DEFAULT_SIZE;
+      this.size = (this._defaults && this._defaults.size) || DEFAULT_SIZE;
     }
   }
 }

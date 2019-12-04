@@ -3,9 +3,6 @@
   "dest": "../../dist/@alyle/ui",
   "lib": {
     "entryFile": "./index.ts",
-    "umdId": "ly.core",
-    "umdModuleIds": {
-      "chroma-js": "chroma"
-    }
+    "umdId": "ly.core"
   }
 }

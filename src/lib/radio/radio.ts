@@ -24,7 +24,31 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule, LyTheme2, LyCoreStyles, toBoolean, mixinDisableRipple, ThemeVariables, LyFocusState, LY_COMMON_STYLES } from '@alyle/ui';
+import {
+  LyCommonModule,
+  LyTheme2,
+  LyCoreStyles,
+  toBoolean,
+  mixinDisableRipple,
+  ThemeVariables,
+  LyFocusState,
+  LY_COMMON_STYLES,
+  lyl, StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  ThemeRef,
+  LyHostClass,
+  StyleRenderer} from '@alyle/ui';
+
+export interface LyRadioTheme {
+  /** Styles for Radio Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyRadioVariables {
+  radio?: LyRadioTheme;
+}
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_DISABLE_RIPPLE = false;
@@ -42,91 +66,104 @@ export class UndefinedValue {
   constructor() { }
 }
 
-export const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    display: 'inline-block',
-    '&': theme.radio ? theme.radio.root : null
-  },
-  radio: {
-    display: 'inline-block',
-    marginAfter: '16px',
-    marginBefore: '-16px',
-    '&{checked}': {
-      '{container}': {
-        'div:nth-child(1)': {
-          transform: 'scale(1.25)',
-        },
-        'div:nth-child(2)': {
-          transform: 'scale(0.8)'
+export const STYLES = (theme: ThemeVariables & LyRadioVariables, ref: ThemeRef) => {
+  const radio = ref.selectorsOf(STYLES);
+  const { after, before } = theme;
+  return {
+    $priority: STYLE_PRIORITY,
+    root: ( ) => lyl `{
+      display: inline-block
+      {
+        ...${
+          (theme.radio
+            && theme.radio.root
+            && (theme.radio.root instanceof StyleCollection
+              ? theme.radio.root.setTransformer(fn => fn(radio))
+              : theme.radio.root(radio))
+          )
         }
       }
-    },
-    '&{onFocusByKeyboard} {container}::after': {
-      boxShadow: '0 0 0 12px',
-      background: 'currentColor',
-      opacity: .13,
-      borderRadius: '50%',
-    }
-  },
-  label: {
-    marginBefore: '16px',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap',
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'baseline',
-    paddingTop: '12px',
-    paddingBottom: '12px'
-  },
-  labelContent: null,
-  container: {
-    position: 'relative',
-    marginBefore: '.125em',
-    marginAfter: '.5em',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    width: '16px',
-    height: '16px',
-    'div': {
-      margin: 'auto',
-      borderRadius: '50%',
-      width: '1em',
-      height: '1em',
-      boxSizing: 'border-box'
-    },
-    '&::after': {
-      content: `''`,
-      ...LY_COMMON_STYLES.fill,
-      width: '16px',
-      height: '16px',
-      margin: 'auto'
-    },
-    'div:nth-child(2)': {
-      background: 'currentColor',
-      transform: 'scale(0)'
-    },
-    'div:nth-child(1)': {
-      transform: 'scale(1)',
-      border: 'solid .08em currentColor',
-      color: theme.text.disabled
-    }
-  },
-  checked: null,
-  _animations: {
-    '{container} div': {
-      transition: 'transform cubic-bezier(.1, 1, 0.5, 1)',
-      transitionDuration: '250ms'
-    }
-  },
-  onFocusByKeyboard: null,
-  disabled: {
-    color: theme.disabled.contrast,
-    '{container} div': {
-      color: `${theme.disabled.contrast}!important`
-    }
-  }
-});
+    }`,
+    radio: ( ) => lyl `{
+      display: inline-block
+      margin-${after}: 16px
+      margin-${before}: -16px
+      &${radio.checked} {
+        ${radio.container} {
+          div:nth-child(1) {
+            transform: scale(1.25)
+          }
+          div:nth-child(2) {
+            transform: scale(0.8)
+          }
+        }
+      }
+      &${radio.onFocusByKeyboard} ${radio.container}::after {
+        box-shadow: 0 0 0 12px
+        background: currentColor
+        opacity: .13
+        border-radius: 50%
+      }
+    }`,
+    label: lyl `{
+      margin-${before}: 16px
+      cursor: pointer
+      white-space: nowrap
+      position: relative
+      display: flex
+      align-items: baseline
+      padding-top: 12px
+      padding-bottom: 12px
+    }`,
+    labelContent: null,
+    container: lyl `{
+      position: relative
+      margin-${before}: .125em
+      margin-${after}: .5em
+      margin-top: auto
+      margin-bottom: auto
+      width: 16px
+      height: 16px
+      div {
+        margin: auto
+        border-radius: 50%
+        width: 1em
+        height: 1em
+        box-sizing: border-box
+      }
+      &::after {
+        content: ''
+        ...${LY_COMMON_STYLES.fill}
+        width: 16px
+        height: 16px
+        margin: auto
+      }
+      div:nth-child(2) {
+        background: currentColor
+        transform: scale(0)
+      }
+      div:nth-child(1) {
+        transform: scale(1)
+        border: solid .08em currentColor
+        color: ${theme.text.disabled}
+      }
+    }`,
+    checked: null,
+    _animations: ( ) => lyl `{
+      ${radio.container} div {
+        transition: transform cubic-bezier(.1, 1, 0.5, 1)
+        transition-duration: 250ms
+      }
+    }`,
+    onFocusByKeyboard: null,
+    disabled: ( ) => lyl `{
+      color: ${theme.disabled.contrast}
+      ${radio.container} div {
+        color: ${theme.disabled.contrast}!important
+      }
+    }`
+  };
+};
 
 @Component({
   selector: 'ly-radio-group',
@@ -138,7 +175,9 @@ export const STYLES = (theme: ThemeVariables) => ({
 })
 export class LyRadioGroup implements ControlValueAccessor {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES);
+  static readonly и = 'LyRadioGroup';
+  /** @docs-private */
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   private _value: any;
   /** @docs-private */
   name = `ly-radio-name-${idx++}`;
@@ -281,9 +320,15 @@ export const LyRadioMixinBase = mixinDisableRipple(LyRadioBase);
   preserveWhitespaces: false,
   inputs: [
     'disableRipple'
+  ],
+  providers: [
+    LyHostClass,
+    StyleRenderer
   ]
 })
 export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, OnDestroy {
+  /** @docs-private */
+  static readonly и = 'LyRadio';
   /** @docs-private */
   readonly classes = this.radioGroup.classes;
   /** @docs-private */
@@ -293,7 +338,6 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   private _value = null;
   private _checked = false;
   private _color: string;
-  private _colorClass: string;
   private _animClass: string;
   private _disabled: boolean;
   private _disabledClass?: string;
@@ -314,21 +358,26 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   set color(val) {
     if (this._color !== val) {
       this._color = val;
-      this._colorClass = this._theme.addStyle(
-        `lyRadio.color:${val}`,
-        (theme: ThemeVariables) => ({
-          '&{checked} {container}, &{checked} {container} div:nth-child(1), & {container} div:nth-child(2)': {
-            color: theme.colorOf(val)
-          }
-        }),
-        this._elementRef.nativeElement,
-        this._colorClass,
+      this[0x1] = this._styleRenderer.add(
+        `${LyRadio.и}--color-${val}`,
+        (theme: ThemeVariables, ref) => {
+          const {
+            checked,
+            container
+          } = ref.selectorsOf(STYLES);
+          return lyl `{
+            &${checked} ${container}, &${checked} ${container} div:nth-child(1), & ${container} div:nth-child(2) {
+              color: ${theme.colorOf(val)}
+            }
+          }`;
+        },
         STYLE_PRIORITY,
-        STYLES
+        this[0x1]
       );
     }
   }
   get color() { return this._color; }
+  [0x1]: string;
 
   @Input()
   set checked(val: boolean) {
@@ -385,7 +434,8 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
     private changeDetectorRef: ChangeDetectorRef,
     ngZone: NgZone,
     public _coreStyles: LyCoreStyles,
-    private _focusState: LyFocusState
+    private _focusState: LyFocusState,
+    private _styleRenderer: StyleRenderer
   ) {
     super(theme, ngZone);
     this._triggerElement = this._elementRef;

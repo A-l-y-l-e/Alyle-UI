@@ -1,0 +1,27 @@
+{
+  "name": "@alyle/style-compiler",
+  "version": "2.9.6",
+  "description": "Alyle UI - the compiler CLI for styles",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "bin": {
+    "lyl": "./main.js"
+  },
+  "engines": {
+    "node": ">=8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A-l-y-l-e/Alyle-UI.git"
+  },
+  "keywords": [
+    "alyle",
+    "styles",
+    "compiler"
+  ],
+  "bugs": {
+    "url": "https://github.com/A-l-y-l-e/Alyle-UI/issues"
+  },
+  "homepage": "https://alyle.io/",
+  "license": "MIT"
+}

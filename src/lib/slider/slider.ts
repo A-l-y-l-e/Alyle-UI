@@ -13,24 +13,54 @@ import {
   OnChanges,
   OnDestroy,
   QueryList,
-  ViewChildren } from '@angular/core';
+  ViewChildren,
+  InjectionToken,
+  Inject,
+  Optional} from '@angular/core';
 import { LyTheme2,
   ThemeVariables,
   toBoolean,
   LY_COMMON_STYLES,
-  getLyThemeStyleUndefinedError,
   HammerInput,
   toNumber,
-  StyleDeclarationsBlock,
   LyHostClass,
   untilComponentDestroyed,
-  Dir} from '@alyle/ui';
-import { SliderVariables } from './slider.config';
+  Dir,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  lyl,
+  ThemeRef,
+  StyleRenderer} from '@alyle/ui';
+import { Color } from '@alyle/ui/color';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
 
-interface ThemeVariablesWithSlider extends ThemeVariables {
-  slider: SliderVariables;
+export interface LySliderTheme {
+  /** Styles for Slider Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+  disabled?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate)>
+  | ((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate);
+  color?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate)>
+  | ((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate);
+  appearance?: {
+    standard?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+    [key: string]: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined;
+  };
+}
+
+export interface LySliderDefaultOptions {
+  appearance?: string;
+}
+
+export const LY_SLIDER_DEFAULT_OPTIONS =
+    new InjectionToken<LySliderDefaultOptions>('LY_SLIDER_DEFAULT_OPTIONS');
+
+export interface LySliderVariables {
+  slider?: LySliderTheme;
 }
 
 export const LY_SLIDER_CONTROL_VALUE_ACCESSOR = {
@@ -40,257 +70,255 @@ export const LY_SLIDER_CONTROL_VALUE_ACCESSOR = {
 };
 
 const STYLE_PRIORITY = -2;
-const STYLES = (theme: ThemeVariablesWithSlider) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    display: 'inline-block',
-    position: 'relative',
-    boxSizing: 'border-box',
-    cursor: 'pointer',
-    '{bg}': {
-      ...LY_COMMON_STYLES.fill,
-      margin: 'auto'
-    },
-    [
-      [
-        // always show visible thumb, when {thumbVisible} is available
-        '&{thumbVisible} {thumb}',
-        // on hover
-        '&:not({thumbNotVisible}):not({disabled}) {thumbContent}:hover {thumb}',
-        // on focused
-        '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused} {thumb}'
-      ].join()
-    ]: {
-      borderRadius: '50% 50% 0%'
-    },
-    [
-      [
-        '&{thumbVisible} {thumbContent}::before',
-        '&:not({thumbNotVisible}):not({disabled}) {thumbContent}:hover::before',
-        '&:not({thumbNotVisible}) {thumbContent}{thumbContentFocused}::before'
-      ].join()
-    ]: {
-      transform: 'scale(1)'
-    },
-    '&': theme.slider ? theme.slider.root : null
-  },
+const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
+  const { before } = theme;
+  return {
+    $priority: STYLE_PRIORITY,
+    root: () => lyl `{
+      display: inline-block
+      position: relative
+      box-sizing: border-box
+      cursor: pointer
+      ${__.bg} {
+        ...${LY_COMMON_STYLES.fill}
+        margin: auto
+      }
+      // always show visible thumb, when {thumbVisible} is available
+      &${__.thumbVisible} ${__.thumb},
+      // on hover
+      &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover ${__.thumb},
+      // on focused
+      &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused} ${__.thumb} {
+        border-radius: 50% 50% 0%
+      }
 
-  track: {
-    position: 'absolute',
-    margin: 'auto'
-  },
-  bg: { },
-  thumbContainer: {
-    width: 0,
-    height: 0,
-    position: 'absolute',
-    margin: 'auto'
-  },
-  thumbContent: {
-    '&::before': {
-      content: `''`,
-      position: 'absolute',
-      opacity: .6,
-      transform: 'scale(0)',
-      transition: `transform ${
+      &${__.thumbVisible} ${__.thumbContent}::before,
+      &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover::before,
+      &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused}::before {
+        transform: scale(1)
+      }
+      {
+        ...${
+          (theme.slider
+            && theme.slider.root
+            && (theme.slider.root instanceof StyleCollection
+              ? theme.slider.root.setTransformer(fn => fn(__)).css
+              : theme.slider.root(__))
+          )
+        }
+      }
+    }`,
+
+    track: lyl `{
+      position: absolute
+      margin: auto
+    }`,
+    bg: null,
+    thumbContainer: lyl `{
+      width: 0
+      height: 0
+      position: absolute
+      margin: auto
+    }`,
+    thumbContent: lyl `{
+      &::before {
+        content: ''
+        position: absolute
+        opacity: .6
+        transform: scale(0)
+        transition: transform ${
+          theme.animations.durations.entering
+        }ms ${theme.animations.curves.sharp} 0ms, background ${
+          theme.animations.durations.complex
+        }ms ${theme.animations.curves.sharp} 0ms
+      }
+    }`,
+    thumb: lyl `{
+      position: absolute
+      width: 12px
+      height: 12px
+      left: -6px
+      top: -6px
+      border-radius: 50%
+      outline: 0
+      transition: ${['border-radius'].map(prop => `${prop} ${
+        theme.animations.durations.exiting
+      }ms ${theme.animations.curves.standard} 0ms`).join()}
+      &::before {
+        content: ''
+        ...${LY_COMMON_STYLES.fill}
+        border-radius: 50%
+        transition: ${['box-shadow'].map(prop => `${prop} ${
+          theme.animations.durations.entering
+        }ms ${theme.animations.curves.sharp} 0ms`).join()}
+      }
+    }`,
+    thumbLabel: lyl `{
+      position: absolute
+      width: 28px
+      height: 28px
+      border-radius: 50%
+      top: -14px
+      ${before}: -14px
+      transition: ${['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
         theme.animations.durations.entering
-      }ms ${theme.animations.curves.sharp} 0ms, background ${
-        theme.animations.durations.complex
-      }ms ${theme.animations.curves.sharp} 0ms`
-    }
-  },
-  thumb: {
-    position: 'absolute',
-    width: '12px',
-    height: '12px',
-    left: '-6px',
-    top: '-6px',
-    borderRadius: '50%',
-    outline: 0,
-    transition: ['border-radius'].map(prop => `${prop} ${
-      theme.animations.durations.exiting
-    }ms ${theme.animations.curves.standard} 0ms`).join(),
-    '&::before': {
-      content: `''`,
-      ...LY_COMMON_STYLES.fill,
-      borderRadius: '50%',
-      transition: ['box-shadow'].map(prop => `${prop} ${
-        theme.animations.durations.entering
-      }ms ${theme.animations.curves.sharp} 0ms`).join()
-    }
-  },
-  thumbLabel: {
-    position: 'absolute',
-    width: '28px',
-    height: '28px',
-    borderRadius: '50%',
-    top: '-14px',
-    before: '-14px',
-    transition: ['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
-      theme.animations.durations.entering
-    }ms ${theme.animations.curves.sharp} 0ms`).join()
-  },
-  thumbLabelValue: {
-    display: 'flex',
-    height: '100%',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '12px',
-    color: '#fff'
-  },
+      }ms ${theme.animations.curves.sharp} 0ms`).join()}
+    }`,
+    thumbLabelValue: lyl `{
+      display: flex
+      height: 100%
+      width: 100%
+      align-items: center
+      justify-content: center
+      font-size: 12px
+      color: #fff
+    }`,
 
-  horizontal: {
-    width: '120px',
-    height: '2px',
-    padding: '10px 0',
-    touchAction: 'pan-y !important',
-    '& {track}, & {bg}': {
-      height: '2px',
-      width: '100%'
-    },
-    '{track}': {
-      before: 0,
-      top: 0,
-      bottom: 0
-    },
-    '& {thumb}': {
-      transform: 'rotateZ(-135deg)'
-    },
+    horizontal: () => lyl `{
+      width: 120px
+      height: 2px
+      padding: 10px 0
+      touch-action: pan-y !important
+      ${__.track}, ${__.bg} {
+        height: 2px
+        width: 100%
+      }
+      ${__.track} {
+        ${before}: 0
+        top: 0
+        bottom: 0
+      }
+      & ${__.thumb} {
+        transform: rotateZ(-135deg)
+      }
 
-    '{thumbLabel}': {
-      transform: 'rotateZ(45deg) scale(0)',
-    },
-    [
-      [
-        // always show visible thumb, when {thumbVisible} is available
-        '&{thumbVisible} {thumbLabel}',
-        // on hover
-        '&:not({disabled}) {thumbContent}:hover {thumbLabel}',
-        // on focused
-        '& {thumbContent}{thumbContentFocused} {thumbLabel}'
-      ].join()
-    ]: {
-      borderRadius: '50% 50% 0%',
-      top: '-50px',
-      transform: 'rotateZ(45deg) scale(1)'
-    },
+      ${__.thumbLabel} {
+        transform: rotateZ(45deg) scale(0)
+      }
+      // always show visible thumb, when {thumbVisible} is available
+      &${__.thumbVisible} ${__.thumbLabel},
+      // on hover
+      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+      // on focused
+      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+        border-radius: 50% 50% 0%
+        top: -50px
+        transform: rotateZ(45deg) scale(1)
+      }
 
-    '& {thumbLabelValue}': {
-      transform: 'rotateZ(-45deg)'
-    },
-    '{thumbContainer}': {
-      top: 0,
-      bottom: 0
-    },
-    '& {thumbContent}::before': {
-      width: '2px',
-      height: '24px',
-      left: '-1px',
-      top: '-24px'
-    },
+      & ${__.thumbLabelValue} {
+        transform: rotateZ(-45deg)
+      }
+      ${__.thumbContainer} {
+        top: 0
+        bottom: 0
+      }
+      & ${__.thumbContent}::before {
+        width: 2px
+        height: 24px
+        left: -1px
+        top: -24px
+      }
 
-    '{tick}': {
-      width: '2px',
-      height: 'inherit',
-      top: 0,
-      bottom: 0,
-    },
-    '{mark}': {
-      top: '22px',
-      transform: `translateX(${theme.direction === Dir.ltr ? '-' : ''}50%)`,
-    },
-    '&{marked}': {
-      marginBottom: '24px'
-    }
-  },
-  vertical: {
-    width: '2px',
-    height: '120px',
-    padding: '0 10px',
-    touchAction: 'pan-x !important',
-    '& {track}, & {bg}': {
-      height: '100%',
-      width: '2px'
-    },
-    '{track}': {
-      bottom: 0,
-      left: 0,
-      right: 0
-    },
-    '& {thumb}': {
-      transform: theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'
-    },
-    '& {thumbLabel}': {
-      transform: 'rotateZ(-45deg) scale(0)'
-    },
-    [
-      [
-        // always show visible thumb, when {thumbVisible} is available
-        '&{thumbVisible} {thumbLabel}',
-        // on hover
-        '&:not({disabled}) {thumbContent}:hover {thumbLabel}',
-        // on focused
-        '& {thumbContent}{thumbContentFocused} {thumbLabel}'
-      ].join()
-    ]: {
-      borderRadius: theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%',
-      before: '-50px',
-      transform: 'rotateZ(-45deg) scale(1)'
-    },
+      ${__.tick} {
+        width: 2px
+        height: inherit
+        top: 0
+        bottom: 0
+      }
+      ${__.mark} {
+        top: 22px
+        transform: translateX(${theme.direction === Dir.ltr ? '-' : ''}50%)
+      }
+      &${__.marked} {
+        margin-bottom: 24px
+      }
+    }`,
+    vertical: () => lyl `{
+      width: 2px
+      height: 120px
+      padding: 0 10px
+      touch-action: pan-x !important
+      & ${__.track}, & ${__.bg} {
+        height: 100%
+        width: 2px
+      }
+      ${__.track} {
+        bottom: 0
+        left: 0
+        right: 0
+      }
+      & ${__.thumb} {
+        transform: ${theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'}
+      }
+      & ${__.thumbLabel} {
+        transform: rotateZ(-45deg) scale(0)
+      }
+      // always show visible thumb, when {thumbVisible} is available
+      &${__.thumbVisible} ${__.thumbLabel},
+      // on hover
+      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+      // on focused
+      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+        border-radius: ${theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'}
+        before: -50px
+        transform: rotateZ(-45deg) scale(1)
+      }
 
-    '& {thumbLabelValue}': {
-      transform: 'rotateZ(45deg)'
-    },
-    '{thumbContainer}': {
-      left: 0,
-      right: 0
-    },
-    '{thumbContent}::before': {
-      width: '24px',
-      height: '2px',
-      before: '-24px',
-      top: '-1px'
-    },
-    '{tick}': {
-      width: 'inherit',
-      height: '2px',
-      left: 0,
-      right: 0
-    },
-    '{mark}': {
-      before: '22px',
-      transform: 'translateY(50%)',
-    },
-    '&{marked}': {
-      [theme.direction === Dir.ltr ? 'marginRight' : 'marginLeft']: '24px'
-    }
-  },
+      & ${__.thumbLabelValue} {
+        transform: rotateZ(45deg)
+      }
+      ${__.thumbContainer} {
+        left: 0
+        right: 0
+      }
+      ${__.thumbContent}::before {
+        width: 24px
+        height: 2px
+        before: -24px
+        top: -1px
+      }
+      ${__.tick} {
+        width: inherit
+        height: 2px
+        left: 0
+        right: 0
+      }
+      ${__.mark} {
+        ${before}: 22px
+        transform: translateY(50%)
+      }
+      &${__.marked} {
+        ${theme.direction === Dir.ltr ? 'margin-right' : 'margin-left'}: 24px
+      }
+    }`,
 
-  marked: { },
-  mark: {
-    position: 'absolute',
-    whiteSpace: 'nowrap',
-    fontSize: '14px',
-    color: theme.text.secondary
-  },
-  markActive: {
-    color: 'currentColor'
-  },
-  tick: {
-    position: 'absolute',
-    margin: 'auto'
-  },
-  tickActive: {},
+    marked: null,
+    mark: lyl `{
+      position: absolute
+      white-space: nowrap
+      font-size: 14px
+      color: ${theme.text.secondary}
+    }`,
+    markActive: lyl `{
+      color: currentColor
+    }`,
+    tick: lyl `{
+      position: absolute
+      margin: auto
+    }`,
+    tickActive: null,
 
-  thumbVisible: null,
-  thumbNotVisible: null,
-  thumbContentFocused: null,
-  sliding: null,
-  disabled: {
-    cursor: 'default'
-  }
-});
+    thumbVisible: null,
+    thumbNotVisible: null,
+    thumbContentFocused: null,
+    sliding: null,
+    disabled: lyl `{
+      cursor: default
+    }`
+  };
+};
 
 /** A change event emitted by the LySlider component. */
 export class LySliderChange {
@@ -325,7 +353,8 @@ export interface LySliderMark {
   exportAs: 'lySlider',
   providers: [
     LY_SLIDER_CONTROL_VALUE_ACCESSOR,
-    LyHostClass
+    LyHostClass,
+    StyleRenderer
   ],
   host: {
     '(slide)': '_onSlide($event)',
@@ -335,10 +364,10 @@ export interface LySliderMark {
 })
 export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
   static и = 'LySlider';
-  readonly classes = this._theme.addStyleSheet(STYLES);
+  readonly classes = this._theme.renderStyleSheet(STYLES);
 
   private _disabled: boolean;
-  private _disabledClass?: string | null;
+  private _disabledClass: string | null;
   private _color: string;
   private _colorClass: string;
 
@@ -492,13 +521,20 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      this._appearanceClass = this._theme.addStyle(`${LySlider.и}.appearance:${val}`, (theme: ThemeVariablesWithSlider) => {
-        const styleFn = theme.slider.appearance![val].appearance;
-        if (!styleFn) {
-          throw getLyThemeStyleUndefinedError(LySlider.и, 'appearance', val);
-        }
-        return styleFn(theme, val);
-      }, this._el.nativeElement, this._appearanceClass, STYLE_PRIORITY, STYLES);
+      this._appearanceClass = this._sr.add(
+        `${LySlider.и}.appearance:${val}`,
+        (theme: ThemeVariables & LySliderVariables, ref) => {
+          const classes = ref.selectorsOf(STYLES);
+          if (theme.slider && theme.slider.appearance) {
+            const appearance = theme.slider.appearance[val];
+            if (appearance) {
+              return appearance instanceof StyleCollection
+                ? appearance.setTransformer((_) => _(classes)).css
+                : appearance(classes, );
+            }
+          }
+          throw new Error(`${val} not found in theme.slider.appearance`);
+      }, STYLE_PRIORITY, this._appearanceClass);
     }
   }
   get appearance() {
@@ -507,24 +543,33 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
   /** Color of Slider */
   @Input()
-  get color() {
+  get color(): string {
     return this._color;
   }
   set color(val: string) {
     this._color = val;
-    const appearance = this.appearance;
     const styleKey = `${LySlider.и}.color:${val}`;
 
-    const newStyle = (theme: ThemeVariablesWithSlider) => {
+    const newStyle = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
       const color = theme.colorOf(val);
-      return theme.slider.appearance![appearance].color(theme, color);
+      const __ = ref.selectorsOf(STYLES);
+
+      if (theme.slider && theme.slider.color) {
+        const sliderColor = theme.slider.color;
+        if (sliderColor) {
+          return sliderColor instanceof StyleCollection
+            ? (sliderColor).setTransformer((_) => _(__, color)).css
+            : sliderColor(__, color);
+        }
+      }
+      throw new Error(`${val} not found in theme.slider.color`);
     };
-    this._colorClass = this._theme.addStyle(
+    this._colorClass = this._sr.add(
       styleKey,
       newStyle,
-      this._el.nativeElement,
-      this._colorClass,
-      STYLE_PRIORITY + 1, STYLES);
+      STYLE_PRIORITY + 1,
+      this._colorClass
+    );
   }
 
   /** Whether the slider is vertical. */
@@ -615,27 +660,34 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     if (newVal !== this.disabled) {
       this._disabled = newVal;
       if (newVal) {
-        const appearance = this.appearance;
-        const styleKey = `${LySlider.и}.disabled:${val}`;
-        let newStyle: StyleDeclarationsBlock | null;
-        if (!this._theme.existStyle(styleKey)) {
-          const color = this.color;
-          newStyle = (theme: ThemeVariablesWithSlider) => {
-            const colorCss = theme.colorOf(color);
-            return theme.slider.appearance![appearance].disabled(theme, colorCss);
-          };
-        }
-        const newClass = this._theme.addStyle(
+        const color = this.color;
+        const styleKey = `${LySlider.и}.disabled:${val}-${color}`;
+        let newStyle: ((theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => StyleTemplate);
+        newStyle = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
+          const clr = theme.colorOf(color);
+          const __ = ref.selectorsOf(STYLES);
+
+          if (theme.slider && theme.slider.disabled) {
+            const sliderColor = theme.slider.disabled;
+            if (sliderColor) {
+              return sliderColor instanceof StyleCollection
+                ? (sliderColor).setTransformer((_) => _(__, clr)).css
+                : sliderColor(__, clr);
+            }
+          }
+          throw new Error(`${val} not found in theme.slider.color`);
+        };
+        const newClass = this._sr.add(
           styleKey,
           newStyle,
-          this._el.nativeElement,
-          this._disabledClass,
-          STYLE_PRIORITY + 2, STYLES);
-        this._renderer.addClass(this._getHostElement(), this.classes.disabled);
+          STYLE_PRIORITY + 1.5,
+          this._disabledClass
+        );
+        this._hostClass.add(this.classes.disabled);
         this._disabledClass = newClass;
       } else if (this._disabledClass) {
-        this._renderer.removeClass(this._getHostElement(), this._disabledClass);
-        this._renderer.removeClass(this._getHostElement(), this.classes.disabled);
+        this._hostClass.remove(this._disabledClass);
+        this._hostClass.remove(this.classes.disabled);
         this._disabledClass = null;
       }
     }
@@ -666,7 +718,9 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     private _el: ElementRef,
     private _renderer: Renderer2,
     private _cd: ChangeDetectorRef,
-    private _hostClass: LyHostClass
+    private _hostClass: LyHostClass,
+    private _sr: StyleRenderer,
+    @Optional() @Inject(LY_SLIDER_DEFAULT_OPTIONS) private _default: LySliderDefaultOptions
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
@@ -686,8 +740,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     /** Set default appearance */
     if (this.appearance == null) {
-      this.appearance = (
-        this._theme.variables as ThemeVariablesWithSlider).slider.defaultConfig!.appearance!;
+      this.appearance = (this._default && this._default.appearance) || 'standard';
     }
 
     /** Set horizontal slider */

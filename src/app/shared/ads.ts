@@ -1,9 +1,17 @@
 import { Injectable, Renderer2, RendererFactory2, isDevMode, NgZone } from '@angular/core';
-import { Platform, LyTheme2 } from '@alyle/ui';
-import { PageContentComponent } from '../page-content/page-content.component';
+import { Platform, LyTheme2, lyl } from '@alyle/ui';
 import { take } from 'rxjs/operators';
 
 let count = -1;
+
+export const ADS_STYLES = () => lyl `{
+  display: block
+  position: relative
+  max-width: 345px
+  min-height: 124px
+  margin-top: 32px
+  margin-bottom: 24px
+}`;
 
 @Injectable({
   providedIn: 'root'
@@ -17,21 +25,22 @@ export class Ads {
     this._renderer = rendererFactory.createRenderer(null, null);
   }
 
-  update(path: string, pageContent: PageContentComponent, theme: LyTheme2) {
+  update(path: string, theme: LyTheme2) {
     if (Platform.isBrowser) {
       count++;
-      if (count > 0 || path !== '') {
-        this._removeOld(pageContent);
+      if (count > 0 || ( path !== '' && path !== '/')) {
+        this._removeOld();
         this._ngZone.onStable
           .asObservable()
           .pipe(take(1))
           .subscribe(() => {
-            let ref = pageContent._getHostElement().querySelector('.ad');
+            const className = theme.renderStyle(ADS_STYLES);
+            let ref = document.querySelector('aui-doc-viewer .ad');
             if (!ref) {
-              ref = pageContent._getHostElement().querySelector('p');
+              ref = document.querySelector('aui-doc-viewer p');
             }
             if (!ref) {
-              ref = pageContent._getHostElement().querySelector('demo-view');
+              ref = document.querySelector('aui-doc-viewer demo-view');
             }
             if (ref) {
               const Div = this._renderer.createElement('div');
@@ -44,12 +53,12 @@ export class Ads {
               let api = `https://codefund.app/properties/171/funder.js?`;
 
               this._renderer.appendChild(Div, CodeFund);
-              if (path === '') {
+              if (path === '' || path === '/') {
                 api += `theme=dark&template=centered`;
               } else {
-                this._renderer.setStyle(Div, 'min-height', '64px');
                 api += `theme=${themeNameForCodeFund}`;
               }
+              this._renderer.addClass(Div, className);
               CodeFundScript.src = api;
               CodeFundScript.async = 1;
               this._renderer.setAttribute(CodeFund, 'id', 'codefund');
@@ -72,8 +81,8 @@ export class Ads {
     }
   }
 
-  private _removeOld(pageContent: PageContentComponent) {
-    const container = pageContent._getHostElement().querySelector('#codefund');
+  private _removeOld() {
+    const container = document.querySelector('#codefund');
     if (container) {
       this._renderer.removeChild(container.parentElement!.parentElement, container.parentElement);
     }

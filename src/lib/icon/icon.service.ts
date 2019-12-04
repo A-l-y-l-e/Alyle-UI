@@ -43,7 +43,7 @@ export class LyIconService {
    * @docs-private
    */
   readonly classes = this.theme.addStyleSheet(styles, STYLE_PRIORITY);
-  readonly defaultSvgIcon: SVGElement;
+  readonly defaultSvgIcon: string;
   get defaultClass() {
     return this._defaultClass;
   }
@@ -57,7 +57,7 @@ export class LyIconService {
     @Optional() @Inject(DOCUMENT) private _document: any,
     private theme: LyTheme2
   ) {
-    this.defaultSvgIcon = this._textToSvg('<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>');
+    this.defaultSvgIcon = '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>';
   }
 
   setSvg(key: string, url: SafeResourceUrl) {
@@ -94,7 +94,8 @@ export class LyIconService {
     }
   }
 
-  private _textToSvg(str: string): SVGElement {
+  /** String to SVG */
+  _textToSvg(str: string): SVGElement {
     const div = this._document.createElement('DIV');
     div.innerHTML = str;
     const svg = div.querySelector('svg') as SVGElement;

@@ -18,11 +18,11 @@ export function resolveSpawn(script: string): Promise<string> {
       env,
       encoding: 'utf8'
     });
-    cmd.stdout.on('data', (buffer: Buffer) => {
+    cmd.stdout!.on('data', (buffer: Buffer) => {
       data = (buffer.toString('utf8'));
       console.log(data.trim());
     });
-    cmd.stderr.on('data', (buffer: Buffer) => {
+    cmd.stderr!.on('data', (buffer: Buffer) => {
       err += (buffer.toString('utf8'));
       console.log(err);
     });

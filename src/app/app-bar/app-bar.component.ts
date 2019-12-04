@@ -51,7 +51,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
   drawer: LyDrawer;
   bg = 'transparent';
   elevation = 0;
-  color = '#fff';
+  color: string | number = 0xffffff;
 
   supportList = [
     {
@@ -88,8 +88,9 @@ export class AppBarComponent implements OnInit, OnDestroy {
         return event instanceof NavigationEnd;
       })
     )
-    .subscribe((event: NavigationEnd) => {
-      if (event.url === '/') {
+    .subscribe(() => {
+      const pathname = this._location.path();
+      if (pathname === '/' || pathname === '') {
         this.setForHomeStyles();
       } else {
         this.setDefaultStyles();
@@ -97,7 +98,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
     });
     if (Platform.isBrowser) {
       this.scrollSub = this.winScroll.scroll$.subscribe((val) => {
-        if (this.router.url === '/') {
+        if (this.router.url === '/' || this.router.url === '') {
           if (val > 90) {
             this.setDefaultStyles();
           } else {
@@ -117,7 +118,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
   private setForHomeStyles() {
     this.bg = 'transparent';
     this.elevation = 0;
-    this.color = '#fff';
+    this.color = 0xffffff;
     this.cd.markForCheck();
   }
 
@@ -126,7 +127,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
       localStorage.setItem('theme-name', themeName);
     }
     this.theme.setTheme(themeName);
-    this._ads.update(this._location.path(true), this.appComponent.page, this.theme);
+    this._ads.update(this._location.path(true), this.theme);
   }
 
   ngOnDestroy() {

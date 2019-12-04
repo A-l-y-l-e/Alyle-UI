@@ -16,32 +16,57 @@ import {
   DoCheck,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
-import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder } from '@alyle/ui';
+import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder, lyl, LyClasses, StyleCollection, StyleTemplate, ThemeRef } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
 import { LyDialogConfig } from './dialog-config';
 import { LY_DIALOG_DATA } from './dialog-data';
+import { Color } from '@alyle/ui/color';
 
 const STYLE_PRIORITY = -2;
 
+export interface LyDialogTheme {
+  /** Styles for Dialog Component. */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+  | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+  /** Styles that apply when a color is set. */
+  color?: (classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate;
+}
+
+export interface LyDialogVariables {
+  dialog?: LyDialogTheme;
+}
+
 /** @docs-private */
-const STYLES = (theme: ThemeVariables) => ({
-  root: {
-    display: 'flex',
-    position: 'relative',
-    backgroundColor: theme.background.primary.default,
-    borderRadius: '4px',
-    boxShadow: shadowBuilder(12),
-    overflow: 'auto',
-    '> :first-child': {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%'
-    },
-    '&': theme.dialog ? theme.dialog.root : null
-  }
-});
+const STYLES = (theme: ThemeVariables & LyDialogVariables, ref: ThemeRef) => {
+  const dialog = ref.selectorsOf(STYLES);
+  return {
+    root: ( ) => lyl `{
+      display: flex
+      position: relative
+      background-color: ${theme.background.primary.default}
+      border-radius: 4px
+      box-shadow: ${shadowBuilder(12)}
+      overflow: auto
+      > :first-child {
+        display: flex
+        flex-direction: column
+        width: 100%
+      }
+      {
+        ...${
+          (theme.dialog
+            && theme.dialog.root
+            && (theme.dialog.root instanceof StyleCollection
+              ? theme.dialog.root.setTransformer(fn => fn(dialog))
+              : theme.dialog.root(dialog))
+          )
+        }
+      }
+    }`
+  };
+};
 
 /** @docs-private */
 @Component({

@@ -31,7 +31,7 @@
 |field|✔️|✔️|[Docs](https://alyle.io/components/field)|
 |grid|✔️|✔️|[Docs](https://alyle.io/components/grid)|
 |icon|✔️|✔️|[Docs](https://alyle.io/components/icon)|
-|img cropper|✔️|✔️|[Docs](https://alyle.io/components/resizing-cropping-images)|
+|img cropper|✔️|✔️|[Docs](https://alyle.io/components/image-cropper)|
 |list|✔️|✔️|[Docs](https://alyle.io/components/list)|
 |media|✔️|✔️|[Docs](https://alyle.io/components/responsive)|
 |menu|✔️|✔️|[Docs](https://alyle.io/components/menu)|

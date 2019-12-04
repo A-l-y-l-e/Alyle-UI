@@ -32,100 +32,128 @@ import {
   mixinStyleUpdater,
   toBoolean,
   Platform,
-  ThemeVariables
+  ThemeVariables,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  lyl,
+  ThemeRef
   } from '@alyle/ui';
 import { LyAvatar } from '@alyle/ui/avatar';
 
+export interface LyListTheme {
+  /** Styles for List Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyListVariables {
+  list?: LyListTheme;
+}
+
 const STYLE_PRIORITY = 2;
 const DISABLE_PADDING = false;
-export const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    display: 'block',
-    position: 'relative',
-    paddingTop: '8px',
-    paddingBottom: '8px',
-    '&': theme.list ? theme.list.root : null
-  },
-  listItem: {
-    ...LY_COMMON_STYLES.button,
-    fontFamily: theme.typography.fontFamily,
-    fontSize: theme.pxToRem(16),
-    color: theme.text.default,
-    display: 'flex',
-    width: '100%',
-    position: 'relative',
-    padding: '0 16px',
-    minHeight: '48px',
-    overflow: 'hidden',
-    textAlign: 'left',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    borderRadius: 0,
-    '&::after': {
-      content: `''`,
-      ...LY_COMMON_STYLES.fill,
-      width: '100%',
-      height: '100%',
-      background: 'transparent',
-      opacity: 0,
-      pointerEvents: 'none'
-    },
-    '&{onFocusByKeyboard}::after, &{actionListItem}:hover::after': {
-      background: 'currentColor',
-      opacity: .13,
-      borderRadius: 'inherit'
-    }
-  },
-  onFocusByKeyboard: null,
-  listItemContent: {
-    display: 'flex',
-    justifyContent: 'inherit',
-    alignItems: 'inherit',
-    alignContent: 'inherit',
-    fontSize: 'inherit',
-    width: '100%',
-    height: '100%',
-    boxSizing: 'border-box',
-  },
-  oneLine: {
-    paddingTop: '8px',
-    paddingBottom: '8px',
-    minHeight: '48px'
-  },
-  twoLine: {
-    paddingTop: '16px',
-    paddingBottom: '16px',
-    minHeight: '64px',
-    '{lines}': {
-      marginBottom: '-4px'
-    }
-  },
-  actionListItem: {
-    cursor: 'pointer',
-    userSelect: 'none'
-  },
-  lines: {
-    alignSelf: 'stretch',
-    minWidth: 0,
-    width: '100%',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    display: 'flex'
-  },
-  listItemWithIcon: {
-    '{lines}': {
-      paddingBefore: '16px'
-    }
-  },
-  twoLineWithIcon: {
-    paddingTop: '16px',
-    paddingBottom: '16px',
-    '{lines}': {
-      marginBottom: '-4px'
-    }
-  }
-});
+export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) => {
+  const list = ref.selectorsOf(STYLES);
+  return {
+    $name: LyList.и,
+    $priority: STYLE_PRIORITY,
+    root: ( ) => lyl `{
+      display: block
+      position: relative
+      padding-top: 8px
+      padding-bottom: 8px
+      {
+        ...${
+          (theme.list
+            && theme.list.root
+            && (theme.list.root instanceof StyleCollection
+              ? theme.list.root.setTransformer(fn => fn(list))
+              : theme.list.root(list))
+          )
+        }
+      }
+    }`,
+    listItem: ( ) => lyl `{
+      ...${LY_COMMON_STYLES.button}
+      font-family: ${theme.typography.fontFamily}
+      font-size: ${theme.pxToRem(16)}
+      color: ${theme.text.default}
+      display: flex
+      width: 100%
+      position: relative
+      padding: 0 16px
+      min-height: 48px
+      overflow: hidden
+      text-align: left
+      align-items: flex-start
+      justify-content: flex-start
+      border-radius: 0
+      &::after {
+        content: ''
+        ...${LY_COMMON_STYLES.fill}
+        width: 100%
+        height: 100%
+        background: transparent
+        opacity: 0
+        pointer-events: none
+      },
+      &${list.onFocusByKeyboard}::after, &${list.actionListItem}:hover::after {
+        background: currentColor
+        opacity: .13
+        border-radius: inherit
+      }
+    }`,
+    onFocusByKeyboard: null,
+    listItemContent: lyl `{
+      display: flex
+      justify-content: inherit
+      align-items: inherit
+      align-content: inherit
+      font-size: inherit
+      width: 100%
+      height: 100%
+      box-sizing: border-box
+    }`,
+    oneLine: lyl `{
+      padding-top: 8px
+      padding-bottom: 8px
+      min-height: 48px
+    }`,
+    twoLine: ( ) => lyl `{
+      padding-top: 16px
+      padding-bottom: 16px
+      min-height: 64px
+      ${list.lines} {
+        margin-bottom: -4px
+      }
+    }`,
+    actionListItem: lyl `{
+      cursor: pointer
+      user-select: none
+    }`,
+    lines: lyl `{
+      align-self: stretch
+      minWidth: 0
+      width: 100%
+      justify-content: center
+      flex-direction: column
+      display: flex
+    }`,
+    listItemWithIcon: ( ) => lyl `{
+      ${list.lines} {
+        padding-before: 16px
+      }
+    }`,
+    twoLineWithIcon: ( ) => lyl `{
+      padding-top: 16px
+      padding-bottom: 16px
+      ${list.lines} {
+        margin-bottom: -4px
+      }
+    }`
+  };
+};
 
 /** List container */
 @Directive({
@@ -136,6 +164,7 @@ export const STYLES = (theme: ThemeVariables) => ({
   }
 })
 export class LyList {
+  static readonly и = 'LyList';
   /** @docs-private */
   readonly classes = this.theme.addStyleSheet(STYLES);
   constructor(

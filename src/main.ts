@@ -22,11 +22,5 @@ if (environment.hmr) {
     console.log('Are you using the --hmr flag for ng serve?');
   }
 } else {
-  if (!environment.production) {
-    const style = <HTMLLinkElement>window.document.createElement('link');
-    style.setAttribute('href', 'http://localhost:10009/fonts.css');
-    style.setAttribute('rel', 'stylesheet');
-    window.document.head.appendChild(style);
-  }
   bootstrap();
 }

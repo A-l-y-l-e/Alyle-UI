@@ -1,7 +1,14 @@
-import { Component, ChangeDetectionStrategy, Renderer2, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Renderer2,
+  OnInit,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Router, NavigationEnd } from '@angular/router';
-import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef, lyl } from '@alyle/ui';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark, AUIThemeVariables } from './app.module';
@@ -10,111 +17,122 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AUIRoutes } from './routes';
 import { Location } from '@angular/common';
 import { filter } from 'rxjs/operators';
-import { TitleComponent } from './document/title/title.component';
 import { PageContentComponent } from './page-content/page-content.component';
 import { prismCustomClass } from './core/prism-custom-class';
-import * as _chroma from 'chroma-js';
 import { SVG_ICONS } from './core/svg-icons';
-const chroma = _chroma;
+import { DocViewer } from './docs/docs-viewer';
 
-const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark) => ({
-  $name: 'app',
-  '@global': {
-    'body': {
-      backgroundColor: theme.background.default,
-      color: theme.text.default,
-      fontFamily: theme.typography.fontFamily,
-      margin: 0,
-      direction: theme.direction
+const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, ref: ThemeRef) => {
+  const classes = ref.selectorsOf(styles);
+  return {
+    $name: 'app',
+    $global: lyl `{
+      body {
+        background-color: ${theme.background.default}
+        color: ${theme.text.default}
+        font-family: ${theme.typography.fontFamily}
+        margin: 0
+        direction: ${theme.direction}
+      }
+    }`,
+    appContainer: ( ) => lyl `{
+      display: flex
+      align-items: center
+      justify-content: center
+      min-height: calc(100vh)
+      ${classes.demo} {
+        max-width: 960px
+        flex: 1
+        padding: 96px 2rem
+        width: 100%
+        box-sizing: border-box
+      }
+    }`,
+    demo: null,
+    docsViewer: lyl `{
+      p {
+        line-height: 1.5
+      }
+    }`,
+    root: {
+      display: 'block',
+      '& .docs-viewer > * > a:not([ly-button]), & ul a:not([ly-button]), & p > a': {
+        color: theme.accent.default,
+        textDecoration: 'inherit',
+        '&:hover': {
+          textDecoration: 'underline'
+        }
+      },
     },
-  },
-  appContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 'calc(100vh)',
-    '{demo}': {
-      maxWidth: '960px',
-      flex: 1,
-      padding: '96px 2rem',
-      width: '100%',
-      boxSizing: 'border-box'
-    }
-  },
-  demo: null,
-  docsViewer: {
-    p: {
-      lineHeight: 1.5
-    }
-  },
-  root: {
-    display: 'block',
-    '& .docs-viewer > * > a:not([ly-button]), & ul a:not([ly-button]), & p > a': {
-      color: theme.accent.default,
-      textDecoration: 'inherit',
-      '&:hover': {
-        textDecoration: 'underline'
+    drawer: lyl `{
+      &::-webkit-scrollbar {
+        width: 16px
+      }
+      &::-webkit-scrollbar-thumb {
+        background: ${
+          (theme.background.primary.default.luminance() < 0.5
+          ? theme.text.light
+          : theme.text.dark).luminance(.5)
+        }
+        background-clip: padding-box
+        border: 6px solid transparent
+        -webkit-border-radius: 12px
+        border-radius: 12px
+        -webkit-box-shadow: none
+        box-shadow: none
+      }
+      &::-webkit-scrollbar-track {
+        background: none
+        border: none
+      }
+    }`,
+    drawerUl: {
+      overflow: 'hidden',
+      position: 'relative',
+      listStyle: 'none',
+      padding: '2rem 1.8rem',
+      margin: 0,
+      borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
+    },
+    drawerButton: {
+      color: theme.drawerButton,
+      fontWeight: 400,
+      borderBefore: '3px solid transparent',
+      display: 'flex',
+      justifyContent: 'space-between',
+      borderRadius: 0,
+      '&:hover, &{onLinkActive}': {
+        color: theme.primary.default,
+        borderBefore: '3px solid'
       }
     },
-  },
-  // header: {
-  //   position: 'fixed',
-  //   zIndex: 11,
-  //   width: '100%',
-  //   // '@media print': {
-  //   //   color: 'blue'
-  //   // },
-  //   // '&:hover': {
-  //   //   '@media screen': {
-  //   //     color: 'red'
-  //   //   },
-  //   // },
-  // },
-  drawer: {
-    '&::-webkit-scrollbar-thumb': {
-      background: 'rgba(0,0,0,.26)'
+    onLinkActive: null,
+    footer: {
+      position: 'relative',
+      padding: '1em',
+      textAlign: 'center'
     },
-    '&::-webkit-scrollbar': {
-      height: '3px',
-      width: '3px'
+    discordHover: {
+      '&:hover': {
+        color: theme.discord
+      }
     }
-  },
-  drawerUl: {
-    overflow: 'hidden',
-    position: 'relative',
-    listStyle: 'none',
-    padding: '2rem 1.8rem',
-    margin: 0,
-    borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
-  },
-  drawerButton: {
-    color: theme.drawerButton,
-    fontWeight: 400,
-    borderBefore: '3px solid transparent',
-    display: 'flex',
-    justifyContent: 'space-between',
-    borderRadius: 0,
-    '&:hover, &{onLinkActive}': {
-      color: theme.primary.default,
-      borderBefore: '3px solid'
-    }
-  },
-  onLinkActive: null,
-  footer: {
-    position: 'relative',
-    padding: '1em',
-    textAlign: 'center'
-  },
-  discordHover: {
-    '&:hover': {
-      color: theme.discord
+  };
+};
+
+function toClassSelector<T>(classes: T): T {
+  const newClasses: object = { };
+  for (const key in classes as unknown as object) {
+    if ((classes as {}).hasOwnProperty(key)) {
+      newClasses[key] = `.${classes[key]}`;
     }
   }
-});
+  return newClasses as unknown as T;
+}
 
-const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
+const PRISM_STYLES = (theme: AUIThemeVariables) => {
   const $host = 'fonts/firacode/';
-  const classes = tref.toClassSelector(prismCustomClass());
+  const classes = toClassSelector(prismCustomClass());
 
   return {
     '@global': {
@@ -162,19 +180,21 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
       },
 
       [classes.pre]: {
-        padding: '16px'
+        padding: '16px',
+        [classes.code]: {
+          display: 'block'
+        }
+      },
+      [classes.inline]: {
+        display: 'inline',
+        borderRadius: '3px'
+      },
+      [[classes.pre, classes.inline].join()]: {
+        backgroundColor: theme.codeBg,
       },
       [classes.code]: {
-        padding: '4px 2px'
-      },
-      [
-        [
-          classes.pre,
-          classes.code
-        ].join()
-      ]: {
+        padding: '4px 2px',
         color: theme.codeColor,
-        backgroundColor: theme.codeBg,
         fontFamily: `'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace`,
         textAlign: 'left',
         fontSize: '0.8125em',
@@ -191,12 +211,8 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
         '-moz-hyphens': 'none',
         '-ms-hyphens': 'none',
         hyphens: 'none',
-        borderRadius: '3px',
         overflow: 'auto',
-        margin: '0'
-      },
-      [classes.root]: {
-        marginBottom: '16px',
+        margin: '0',
         direction: 'ltr',
         [
           [
@@ -271,7 +287,7 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
           color: '#9786c5'
         },
         [`${classes['class-name']}`]: {
-          color: chroma(theme.accent.default).alpha(.88).css()
+          color: theme.accent.default.alpha(.88)
         },
         [`${classes.constant}`]: {
           color: '#EF5350'
@@ -279,8 +295,8 @@ const PRISM_STYLES = (theme: AUIThemeVariables, tref: ThemeRef) => {
         [`${classes.builtin}`]: {
           color: '#8796b0'
         }
-      },
-    },
+      }
+    }
   };
 };
 
@@ -297,9 +313,9 @@ export class AppComponent implements OnInit {
   routes = AUIRoutes.slice(1);
   currentRoutePath: string;
 
+  @ViewChild(DocViewer, { static: false }) docViewer?: DocViewer;
   @ViewChild(LyDrawer, { static: true }) drawer: LyDrawer;
   @ViewChild(LySnackBar, { static: false }) sb: LySnackBar;
-  @ViewChild(TitleComponent, { static: true }) titleComponent: TitleComponent;
   @ViewChild(PageContentComponent, { static: true }) page: PageContentComponent;
 
   constructor(
@@ -337,16 +353,19 @@ export class AppComponent implements OnInit {
       filter((event) => event instanceof NavigationEnd)
     )
     .subscribe(() => {
+      if (this.docViewer) {
+        this.docViewer.path = this._location.path();
+      }
       const pathname = Platform.isBrowser
       ? location.pathname === '/'
         ? ''
         : location.pathname
       : this._location.path();
       this.currentRoutePath = pathname;
-      this.titleComponent.route = pathname;
       this.page.updateRoute(pathname);
     });
   }
+
   ngOnInit() {
     this.renderer.addClass(this._el.nativeElement, this.classes.root);
   }

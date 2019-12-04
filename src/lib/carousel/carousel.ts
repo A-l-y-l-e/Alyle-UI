@@ -14,13 +14,9 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias } from '@alyle/ui';
-import * as _chroma from 'chroma-js';
+import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl, keyframesUniqueId, StyleCollection, LyClasses, StyleTemplate } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-/** @docs-private */
-const chroma = _chroma;
 
 /** Default interval in ms */
 const DEFAULT_INTERVAL = 7000;
@@ -28,142 +24,164 @@ const DEFAULT_AUTOPLAY = true;
 const DEFAULT_HAS_PROGRESS_BAR = false;
 const STYLE_PRIORITY = -2;
 
-export const STYLES = (theme: ThemeVariables) => {
+export interface LyCarouselTheme {
+  /** Styles for Carousel Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+  | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyCarouselVariables {
+  carousel?: LyCarouselTheme;
+}
+
+export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRef) => {
   const dir = theme.getDirection(DirAlias.before);
   const right = dir === 'right' ? 0 : 180;
   const left = dir === 'left' ? 0 : 180;
+  const carousel = ref.selectorsOf(STYLES);
+  const barAnimation = keyframesUniqueId.next();
+  const { after, before } = theme;
   return {
     $priority: STYLE_PRIORITY,
-    root: {
-      display: 'block',
-      '-webkit-user-select': 'none',
-      '-moz-user-select': 'none',
-      '-ms-user-select': 'none',
-      position: 'relative',
-      '& {actions}.right': {
-        after: 0,
-        transform: `rotate(${right}deg)`
-      },
-      '& {actions}.left': {
-        before: 0,
-        transform: `rotate(${left}deg)`
-      },
-      '& svg': {
-        display: 'block',
-        fill: 'currentColor'
-      },
-      '&': theme.carousel ? theme.carousel.root : null
-    },
-    actions: {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      margin: 'auto .25em',
-      height: '1em',
-      width: '1em',
-      fontSize: '36px',
-      cursor: 'pointer',
-      background: chroma(theme.background.primary.default).alpha(.25).css(),
-      color: theme.text.primary,
-      willChange: 'transform'
-    },
-    slideContainer: {
-      overflow: 'hidden',
-      display: 'block',
-      width: '100%',
-      height: '100%',
-      position: 'relative',
-      touchAction: 'pan-y !important'
-    },
-    slide: {
-      display: 'flex',
-      width: '100%',
-      height: '100%',
-      willChange: 'transform',
-      '& > ly-carousel-item': {
-        width: '100%',
-        flexShrink: 0,
-        position: 'relative',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }
-    },
-    slideContent: {
-      display: 'flex'
-    },
-    slideAnim: {
-      '& > div': {
-        transition: 'transform 750ms cubic-bezier(.1, 1, 0.5, 1)'
-    }
-    },
-    slideNoEvent: {
-      '&>div': {
-        touchAction: 'initial !important',
-        '-webkit-user-drag': 'initial !important'
-      }
-    },
-    carouselIndicators: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      margin: 0,
-      boxSizing: 'border-box',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '48px',
-      '&>div': {
-        display: 'inline-block',
-        borderRadius: '50%',
-        cursor: 'pointer',
-        position: 'relative',
-        padding: '.5em',
-        outline: 'none'
-      },
-      '&>div > span': {
-        transition: '300ms cubic-bezier(0.65, 0.05, 0.36, 1)',
-        width: '1em',
-        height: '1em',
-        transform: 'scale(.5)',
-        borderRadius: '50%',
-        willChange: 'transform',
-        display: 'block',
-        opacity: .65
-      },
-      '&>div>span.active': {
-        transform: 'scale(1)',
-        opacity: 1
-      }
-    },
-    barContainer: {
-      background: chroma(theme.background.primary.default).alpha(.25).css(),
-      height: '4px',
-      position: 'absolute',
-      bottom: 0,
-      width: '100%',
-    },
-    bar: {
-      height: '4px',
-      position: 'absolute',
-      bottom: 0,
-      width: '100%',
-      animationName: '{interval}',
-      animationTimingFunction: 'linear',
-      animationIterationCount: 'infinite',
-      background: theme.text.primary
-    },
-    $keyframes: {
-      interval: {
-        0: {
-          transform: 'translateX(0%)'
-        },
-        100: {
-          transform: `translateX(${dir === 'left' ? '-' : ''}100%)`
+    $global: lyl `{
+      @keyframes ${barAnimation} {
+        0% {
+          transform: translateX(0%)
+        }
+        100% {
+          transform: translateX(${dir === 'left' ? '-' : ''}100%)
         }
       }
-    }
+    }`,
+    root: ( ) => lyl `{
+      display: block
+      -webkit-user-select: none
+      -moz-user-select: none
+      -ms-user-select: none
+      position: relative
+      & ${carousel.actions}.right {
+        ${after}: 0
+        transform: rotate(${right}deg)
+      }
+      & ${carousel.actions}.left {
+        ${before}: 0
+        transform: rotate(${left}deg)
+      }
+      & svg {
+        display: block
+        fill: currentColor
+      }
+      {
+        ...${
+          (theme.carousel
+            && theme.carousel.root
+            && (theme.carousel.root instanceof StyleCollection
+              ? theme.carousel.root.setTransformer(fn => fn(carousel))
+              : theme.carousel.root(carousel))
+          )
+        }
+      }
+    }`,
+    actions: lyl `{
+      position: absolute
+      top: 0
+      bottom: 0
+      margin: auto .25em
+      height: 1em
+      width: 1em
+      font-size: 36px
+      cursor: pointer
+      background: ${theme.background.primary.default.alpha(.25)}
+      color: ${theme.text.primary}
+      will-change: transform
+    }`,
+    slideContainer: lyl `{
+      overflow: hidden
+      display: block
+      width: 100%
+      height: 100%
+      position: relative
+      touch-action: pan-y !important
+    }`,
+    slide: lyl `{
+      display: flex
+      width: 100%
+      height: 100%
+      will-change: transform
+      & > ly-carousel-item {
+        width: 100%
+        flex-shrink: 0
+        position: relative
+        background-size: cover
+        background-position: center
+        background-repeat: no-repeat
+      }
+    }`,
+    slideContent: lyl `{
+      display: flex
+    }`,
+    slideAnim: lyl `{
+      & > div {
+        transition: transform 750ms cubic-bezier(.1, 1, 0.5, 1)
+      }
+    }`,
+    slideNoEvent: lyl `{
+      &>div {
+        touch-action: initial !important
+        -webkit-user-drag: initial !important
+      }
+    }`,
+    carouselIndicators: lyl `{
+      position: absolute
+      bottom: 0
+      left: 0
+      right: 0
+      margin: 0
+      box-sizing: border-box
+      display: flex
+      align-items: center
+      justify-content: center
+      height: 48px
+      &>div {
+        display: inline-block
+        border-radius: 50%
+        cursor: pointer
+        position: relative
+        padding: .5em
+        outline: none
+      },
+      &>div > span {
+        transition: 300ms cubic-bezier(0.65, 0.05, 0.36, 1)
+        width: 1em
+        height: 1em
+        transform: scale(.5)
+        border-radius: 50%
+        will-change: transform
+        display: block
+        opacity: .65
+      },
+      '&>div>span.active {
+        transform: scale(1)
+        opacity: 1
+      }
+    }`,
+    barContainer: lyl `{
+      background: ${theme.background.primary.default.alpha(.25)}
+      height: 4px
+      position: absolute
+      bottom: 0
+      width: 100%
+    }`,
+    bar: lyl `{
+      height: 4px
+      position: absolute
+      bottom: 0
+      width: 100%
+      animation-name: ${barAnimation}
+      animation-timing-function: linear
+      animation-iteration-count: infinite
+      background: ${theme.text.primary}
+    }`
   };
 };
 

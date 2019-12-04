@@ -1,9 +1,8 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
-pr: none
+trigger:
+- master
 
 jobs:
 - job: BuildApp
@@ -13,11 +12,30 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
+      versionSpec: '12.13.x'
   - script: |
-      yarn
+      curl -o- -L https://yarnpkg.com/install.sh | bash
+    displayName: "Install Yarn"
+  - bash: |
+      set -e
+      printenv
+      echo $(curl https://api.github.com/repos/${BUILD_REPOSITORY_NAME}/commits/${SYSTEM_PULLREQUEST_SOURCECOMMITID} | node -pe 'JSON.parse(fs.readFileSync(0)).commit.message') > ./ci/scripts/msg
+      echo ${SYSTEM_PULLREQUEST_SOURCECOMMITID} > ./ci/scripts/sha
+    displayName: "Write data"
+  - task: CacheBeta@1
+    inputs:
+      key: yarn | $(Agent.OS) | yarn.lock
+      path: $(YARN_CACHE_FOLDER)
+    displayName: "Cache Yarn packages"
+  - bash: |
+      set -e
+      export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+      yarn --frozen-lockfile
+      yarn global add serve
       yarn tools:prepare-lib
-      yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
+      ./ci/scripts/build-style-compiler.sh
+      node dist/@alyle/style-compiler/main src
+      # yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
   - task: PublishBuildArtifacts@1
     inputs:
@@ -28,22 +46,16 @@ jobs:
       pathtoPublish: 'ci/scripts'
       artifactName: Scripts
 
-- job: BuildDocs
-  displayName: Build docs
+- job: BuildDocsAndArtifacts
+  displayName: Build docs & artifacts
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
-  - script: |
-      yarn
-      yarn tools:prepare-lib
-      yarn build:@alyle/ui
-      export CI_COMMIT_MESSAGE=$(git show -s --format=%s)
-      export CI_COMMIT_SHA=$(git rev-parse HEAD)
-      export CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-      yarn bundlesizelimit
+      versionSpec: '12.13.x'
+  - bash: |
+      ./ci/scripts/build-docs-artifacts.sh
     displayName: build:@alyle/ui
   - script: |
       yarn tools:docs

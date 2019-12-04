@@ -1,5 +1,4 @@
-import * as _chroma from 'chroma-js';
-const chroma = _chroma;
+import { Color } from '@alyle/ui/color';
 
 const shadowKeyUmbraOpacity = 0.2;
 const shadowKeyPenumbraOpacity = 0.14;
@@ -31,33 +30,24 @@ export const Shadows = [
   [0, 11, 14, -7, 0, 23, 36, 3, 0, 9, 44, 8],
   [0, 11, 15, -7, 0, 24, 38, 3, 0, 9, 46, 8]
 ];
-export function shadowBuilderDeprecated(elevation: number | string = 2, color = '#000') {
-  const Color = chroma(color);
-  const colors = [
-    Color.alpha(shadowKeyUmbraOpacity).css(),
-    Color.alpha(shadowKeyPenumbraOpacity).css(),
-    Color.alpha(shadowAmbientShadowOpacity).css()
-  ];
-  const e = Shadows[elevation];
-  // tslint:disable-next-line:max-line-length
-  return `box-shadow:${e[0]}px ${e[1]}px ${e[2]}px ${e[3]}px ${colors[0]},${e[4]}px ${e[5]}px ${e[6]}px ${e[7]}px ${colors[1]},${e[8]}px ${e[9]}px ${e[10]}px ${e[11]}px ${colors[2]};`;
 
-}
+export function shadowBuilder(elevation: number | string, color?: Color) {
+  let _color = color || new Color(0, 0, 0);
+  const rgb = _color.rgb;
 
-export function shadowBuilder(elevation: number | string, color?: string) {
-  let Color = chroma(color || '#000');
-  const rgb = Color.get('rgb') as any as number[];
   if (!(rgb[0] === rgb[1] && rgb[0] === rgb[2])) {
     // Darken and saturate if the color is not in the grayscale
-    Color = Color.darken().saturate(2);
+    _color = _color.darken().saturate(2);
   }
+
   const colors = [
-    Color.alpha(shadowKeyUmbraOpacity).css(),
-    Color.alpha(shadowKeyPenumbraOpacity).css(),
-    Color.alpha(shadowAmbientShadowOpacity).css()
+    _color.alpha(shadowKeyUmbraOpacity).css(),
+    _color.alpha(shadowKeyPenumbraOpacity).css(),
+    _color.alpha(shadowAmbientShadowOpacity).css()
   ];
+
   const e = Shadows[elevation];
   // tslint:disable-next-line:max-line-length
-  return `${e[0]}px ${e[1]}px ${e[2]}px ${e[3]}px ${colors[0]},${e[4]}px ${e[5]}px ${e[6]}px ${e[7]}px ${colors[1]},${e[8]}px ${e[9]}px ${e[10]}px ${e[11]}px ${colors[2]};`;
+  return `${e[0]}px ${e[1]}px ${e[2]}px ${e[3]}px ${colors[0]},${e[4]}px ${e[5]}px ${e[6]}px ${e[7]}px ${colors[1]},${e[8]}px ${e[9]}px ${e[10]}px ${e[11]}px ${colors[2]}`;
 
 }

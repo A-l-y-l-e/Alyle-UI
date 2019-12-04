@@ -3,10 +3,9 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+
 trigger:
-  paths:
-    exclude:
-    - README.md
+  - master
 
 pr: none
 
@@ -19,14 +18,14 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
+      versionSpec: '12.13.x'
   - script: yarn
     displayName: 'Install dependencies'
 
   - script: |
       yarn tools:bump-nightly
       yarn tools:prepare-lib
-      yarn build:@alyle/ui
+      set -e && yarn build:@alyle/ui
       echo $(node -p -e "require('./package.json').version")
     displayName: 'Build @alyle/ui'
 
@@ -43,7 +42,7 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.12.x'
+      versionSpec: '12.13.x'
   - script: |
       yarn tools:bump
       PACKAGE_VERSION=$(node -p -e "require('./package.json').version")

@@ -42,14 +42,31 @@ import {
   Dir,
   LyRippleService,
   LyFocusState,
-  LY_COMMON_STYLES,
   WinResize,
   scrollWithAnimation,
-  toBoolean
+  toBoolean,
+  LyHostClass,
+  lyl,
+  LY_COMMON_STYLES,
+  ThemeRef,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
 import { Subscription } from 'rxjs';
+
+export interface LyTabTheme {
+  /** Styles for Tab Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyTabVariables {
+  tab?: LyTabTheme;
+}
+
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
 const DEFAULT_BG = 'primary';
@@ -59,94 +76,108 @@ const DEFAULT_HEADER_PLACEMENT = 'above';
 export type AlignTabs = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 export type LyTabsHeaderPlacement = 'before' | 'after' | 'above' | 'below';
 
-export const STYLES = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    display: 'block'
-  },
-  container: {
-    display: 'flex'
-  },
-  tab: {
-    position: 'relative',
-    display: 'inline-flex'
-  },
-  /** Tab content */
-  contentContainer: {
-    overflow: 'hidden',
-    flexGrow: 1
-  },
-  /** Tab header */
-  tabsLabels: {
-    display: 'flex',
-    position: 'relative'
-  },
-  tabsLabelsContainer: {
-    overflow: 'hidden',
-    '{scrollable} &': {
-      '@media (hover: none)': {
-        overflow: 'auto'
+export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
+  return {
+    $name: LyTabs.и,
+    $priority: STYLE_PRIORITY,
+    root: () => lyl `{
+      display: block
+      {
+        ...${
+          (theme.tab
+            && theme.tab.root
+            && (theme.tab.root instanceof StyleCollection
+              ? theme.tab.root.setTransformer(fn => fn(__)).css
+              : theme.tab.root(__))
+          )
+        }
       }
-    }
-  },
-  label: {
-    '-webkit-tap-highlight-color': 'transparent',
-    '-webkit-appearance': 'none',
-    backgroundColor: 'transparent',
-    userSelect: 'none',
-    border: 0,
-    minWidth: '72px',
-    padding: '0 24px',
-    cursor: 'pointer',
-    height: '48px',
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    overflow: 'hidden',
-    fontFamily: theme.typography.fontFamily,
-    fontSize: theme.pxToRem(theme.typography.fontSize),
-    letterSpacing: '0.02857em',
-    color: 'currentColor',
-    outline: 'none',
-    width: '100%',
-    fontWeight: 500,
-    opacity: .7,
-    [theme.getBreakpoint('XSmall')]: {
-      padding: '0 12px'
-    }
-  },
-  tabLabelActive: {
-    opacity: 1
-  },
-  tabContents: {
-    display: 'flex',
-    transition: '450ms cubic-bezier(.1, 1, 0.5, 1)',
-    willChange: 'transform',
-    height: '100%'
-  },
-  tabContent: {
-    width: '100%',
-    height: '100%',
-    flexShrink: 0,
-    position: 'relative'
-  },
-  tabsIndicator: {
-    position: 'absolute',
-    height: '2px',
-    transition: '450ms cubic-bezier(.1, 1, 0.5, 1)',
-    background: 'currentColor'
-  },
-  tabsIndicatorForServer: {
-    position: 'absolute',
-    background: 'currentColor'
-  },
-  rippleContainer: {
-    ...LY_COMMON_STYLES.fill,
-    overflow: 'hidden'
-  },
-  scrollable: null
-});
+    }`,
+    container: lyl `{
+      display: flex
+    }`,
+    tab: lyl `{
+      position: relative
+      display: inline-flex
+    }`,
+    /** Tab content */
+    contentContainer: lyl `{
+      overflow: hidden
+      flex-grow: 1
+    }`,
+    /** Tab header */
+    tabsLabels: lyl `{
+      display: flex
+      position: relative
+    }`,
+    tabsLabelsContainer: () => lyl `{
+      overflow: hidden
+      ${__.scrollable} & {
+        @media (hover: none) {
+          overflow: auto
+        }
+      }
+    }`,
+    label: lyl `{
+      -webkit-tap-highlight-color: transparent
+      -webkit-appearance: none
+      background-color: transparent
+      user-select: none
+      border: 0
+      min-width: 72px
+      padding: 0 24px
+      cursor: pointer
+      height: 48px
+      display: inline-flex
+      justify-content: center
+      align-items: center
+      position: relative
+      overflow: hidden
+      font-family: ${theme.typography.fontFamily}
+      font-size: ${theme.pxToRem(theme.typography.fontSize)}
+      letter-spacing: 0.02857em
+      color: currentColor
+      outline: none
+      width: 100%
+      font-weight: 500
+      opacity: .7
+      ${theme.getBreakpoint('XSmall')} {
+        padding: 0 12px
+      }
+    }`,
+    tabLabelActive: lyl `{
+      opacity: 1
+    }`,
+    tabContents: lyl `{
+      display: flex
+      transition: 450ms cubic-bezier(.1, 1, 0.5, 1)
+      will-change: transform
+      height: 100%
+    }`,
+    tabContent: lyl `{
+      width: 100%
+      height: 100%
+      flex-shrink: 0
+      position: relative
+    }`,
+    tabsIndicator: lyl `{
+      position: absolute
+      height: 2px
+      transition: 450ms cubic-bezier(.1, 1, 0.5, 1)
+      background: currentColor
+    }`,
+    tabsIndicatorForServer: lyl `{
+      position: absolute
+      background: currentColor
+    }`,
+    rippleContainer: lyl `{
+      ...${LY_COMMON_STYLES.fill}
+      overflow: hidden
+    }`,
+    scrollable: null
+  };
+};
 
 /** @docs-private */
 export class LyTabsBase {
@@ -189,7 +220,9 @@ mixinBg(
 })
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this.theme.addStyleSheet(STYLES);
+  static и = 'LyTabs';
+  /** @docs-private */
+  readonly classes = this.theme.renderStyleSheet(STYLES);
   _selectedIndex: number;
   _selectedBeforeIndex: number;
   _selectedTab: LyTab | null;
@@ -569,11 +602,13 @@ export class LyTab implements OnInit {
     'elevation',
     'shadowColor',
     'disableRipple'
-  ]
+  ],
+  providers: [LyHostClass]
 })
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _activeTabStyle: boolean;
   private _active: boolean;
+  disableRipple: boolean;
   _isBrowser = Platform.isBrowser;
   @Input()
   get active() {
@@ -601,10 +636,11 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     _ngZone: NgZone,
     _rippleService: LyRippleService,
     _focusState: LyFocusState,
+    _hostClass: LyHostClass,
     @Optional() private _tab: LyTab,
     @Optional() private _tabs: LyTabs
   ) {
-    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState);
+    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, _hostClass, null as any);
   }
 
   ngOnInit() {

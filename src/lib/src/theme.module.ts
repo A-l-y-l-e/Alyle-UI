@@ -8,7 +8,7 @@ export class LyThemeModule {
     return {
       ngModule: LyThemeModule,
       providers: [
-        [LyTheme2],
+        [ LyTheme2 ],
         { provide: LY_THEME_NAME, useValue: themeName }
       ]
     };

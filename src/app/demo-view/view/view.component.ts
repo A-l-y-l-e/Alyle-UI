@@ -285,7 +285,6 @@ export class GlobalVariables {
         '@angular/platform-browser': VERSION.full,
         '@angular/compiler': VERSION.full,
         '@angular/platform-browser-dynamic': VERSION.full,
-        'chroma-js': '^2.0.2',
         'core-js': '^2.6.1',
         'zone.js': '^0.9.1',
         'rxjs': '^6.4.0',

@@ -9,14 +9,11 @@ import { LyIconModule } from '@alyle/ui/icon';
 import { LyCardModule } from '@alyle/ui/card';
 import { LyTooltipModule } from '@alyle/ui/tooltip';
 
-import { PrismModule } from '../core/prism/prism.module';
-
 import { ViewComponent } from './view/view.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    PrismModule,
     LyTabsModule,
     LyToolbarModule,
     LyButtonModule,

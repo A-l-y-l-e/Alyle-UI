@@ -4,9 +4,9 @@ let customClass: null | {
 } = null;
 
 const classList = [
-  'root',
   'pre',
   'code',
+  'inline',
   'token',
   'keyword',
   'selector-tag',

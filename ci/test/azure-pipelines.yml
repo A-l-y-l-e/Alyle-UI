@@ -5,13 +5,16 @@
 variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
+trigger:
+- master
+
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '12.x'
+    versionSpec: '12.13.x'
   displayName: 'Install Node.js'
 - script: |
     set -e
@@ -38,3 +41,8 @@ steps:
     export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
     ./ci/scripts/publish-tests.sh
   displayName: 'Test'
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: 'dist/*.xml'
+  displayName: 'Publish Tests'

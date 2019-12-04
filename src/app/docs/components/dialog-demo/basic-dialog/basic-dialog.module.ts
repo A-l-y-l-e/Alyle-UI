@@ -6,12 +6,14 @@ import { LyButtonModule } from '@alyle/ui/button';
 import { LyTypographyModule } from '@alyle/ui/typography';
 
 import { BasicDialogComponent, DialogDemo } from './basic-dialog.component';
+import { LyOverlayModule } from '@alyle/ui';
 
 @NgModule({
   declarations: [BasicDialogComponent, DialogDemo],
   entryComponents: [DialogDemo],
   imports: [
     CommonModule,
+    LyOverlayModule,
     LyDialogModule,
     LyGridModule,
     LyButtonModule,

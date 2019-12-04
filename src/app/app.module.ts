@@ -9,24 +9,18 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, PartialThemeVariables, LY_THEME_NAME, LyTheme2 } from '@alyle/ui';
+import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2, lyl } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
-import { PrismModule } from './core/prism/prism.module';
 import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
-import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
+import { MinimaLight, MinimaDark, MinimaDeepDark } from '@alyle/ui/themes/minima';
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
-import { InstallationComponent } from './docs/getting-started/installation/installation.component';
-import { CardDemoComponent } from './docs/components/card-demo/card-demo.component';
-import { CardDemoBasicModule } from './docs/components/card-demo/card-demo-basic/card-demo-basic.module';
-import { LyTypographyModule } from '@alyle/ui/typography';
-import { DocsModule } from './docs/docs.module';
-import { LyTabsModule } from '@alyle/ui/tabs';
+import { LyTypographyModule, LyTypographyTheme } from '@alyle/ui/typography';
 import { ApiComponent } from './api/api.component';
 import { LyCardModule } from '@alyle/ui/card';
 import { AppBarComponent } from './app-bar/app-bar.component';
@@ -36,17 +30,18 @@ import { LySnackBarModule } from '@alyle/ui/snack-bar';
 import { LyTooltipModule } from '@alyle/ui/tooltip';
 import { LyGridModule } from '@alyle/ui/grid';
 import { RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { Color } from '@alyle/ui/color';
+import { DocViewerModule } from './docs/docs-viewer.module';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
-  contrast: '#fff',
-  shadow: '#11998e'
+  contrast: new Color(0xffffff),
+  shadow: new Color(0x11998e)
 };
 const SublimeLight = {
   default: `linear-gradient(135deg,#FC5C7D 0%,#6A82FB 100%)`,
-  contrast: '#fff',
-  shadow: '#B36FBC'
+  contrast: new Color(0xffffff),
+  shadow: new Color(0xB36FBC)
 };
 
 export class CustomMinimaLight {
@@ -57,24 +52,30 @@ export class CustomMinimaLight {
   myColor = 'pink';
   discord = '#7289DA';
   drawerButton = '#5f6368';
-  demoBg = '#c7c7c7';
+  demoBg = new Color(0xc7c7c7);
   prism = {
     colorText: '#626682',
     string: '#27b98f',
     keyword: '#7c4dff'
   };
   stackblitz = '#1389FD';
+  snackBar = {
+    root: lyl `{
+      background: ${new Color(0x000000)}
+      border-radius: 0
+    }`
+  };
 }
 
 export class CustomMinimaDark {
   name = 'minima-dark';
   shadow = 'rgba(0, 0, 0, 1)';
   codeColor = '#efefef';
-  codeBg = '#1b1b1b';
+  codeBg = new Color(0x1b1b1b);
   myColor = 'teal';
   discord = '#fff';
   drawerButton = '#abafb5';
-  demoBg = '#070707';
+  demoBg = new Color();
   prism = {
     colorText: '#ebebef',
     string: '#89b72c',
@@ -82,8 +83,11 @@ export class CustomMinimaDark {
   };
   stackblitz = '#fff';
 }
+export class CustomMinimaDeepDark extends CustomMinimaDark {
+  name = 'minima-deep-dark';
+}
 
-export class GlobalVariables implements PartialThemeVariables {
+export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDark> {
   testVal = '#00bcd4';
   Quepal = Quepal;
   SublimeLight = SublimeLight;
@@ -92,16 +96,16 @@ export class GlobalVariables implements PartialThemeVariables {
     contrast: 'rgba(0, 0, 0, 0.87)'
   };
   transparent = 'rgba(0, 0, 0, 0)';
-  typography = {
+  typography: LyTypographyTheme = {
     lyTyp: {
-      subTitle: {
-        fontFamily: `'Nunito', sans-serif`,
-        textAlign: 'center',
-        paddingAbove: '1em',
-        opacity: .6,
-        fontSize: '32px',
-        fontWeight: 400
-      }
+      subTitle: () => lyl `{
+        font-family: 'Nunito', sans-serif
+        text-align: center
+        padding-above: 1em
+        opacity: .6
+        font-size: 32px
+        font-weight: 400
+      }`
     }
   };
 }
@@ -125,18 +129,11 @@ export function themeNameProviderFactory() {
     AppBarComponent,
     ApiComponent,
     TitleComponent,
-    /** Getting started */
-    InstallationComponent,
-    /** Components */
-    CardDemoComponent,
     /** Pages */
     HomeComponent,
-    PageNotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: '@alyle/ui'}),
-    /** Customization */
-    /** CardDemo > */CardDemoBasicModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
@@ -152,22 +149,22 @@ export function themeNameProviderFactory() {
     LyMenuModule,
     LyTypographyModule,
     LyCardModule,
-    PrismModule,
     DemoViewModule,
-    DocsModule,
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    LyTabsModule,
     LySnackBarModule,
     LyTooltipModule,
-    LyGridModule
+    LyGridModule,
+    DocViewerModule
   ],
   providers: [
     [ LyTheme2 ],
     { provide: LY_THEME, useClass: MinimaLight, multi: true },
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
+    { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
+    { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
     { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory }
   ],

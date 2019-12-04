@@ -1,23 +1,19 @@
 import { Component } from '@angular/core';
-import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { LyTheme2, lyl } from '@alyle/ui';
 
-const styles = (theme: ThemeVariables) => ({
-  root: {
-    '& [ly-button]': {
-      margin: '1em'
-    }
-  },
-  padding: {
-    padding: '0 1em'
-  },
-  customBadge: {
-    after: 0,
-    above: 0,
-    bottom: 0,
-    margin: 'auto 0',
-    border: `2px solid ${theme.background.tertiary}`
-  }
-});
+const styles = () => {
+
+  return {
+    root: lyl `{
+      & [ly-button] {
+        margin: 1em
+      }
+    }`,
+    padding: lyl `{
+      padding: 0 1em
+    }`
+  };
+};
 
 @Component({
   selector: 'aui-basic-badge',

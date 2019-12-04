@@ -30,10 +30,7 @@ components.forEach((lib, index) => {
       ngPackage: {
         lib: {
           entryFile: 'index.ts',
-          umdId: `ly.${camelCase(lib.path)}`,
-          umdModuleIds: {
-            'chroma-js': 'chroma'
-          }
+          umdId: `ly.${camelCase(lib.path)}`
         },
       }
     }), 'utf8');

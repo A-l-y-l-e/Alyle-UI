@@ -10,7 +10,6 @@ import {
   Renderer2
   } from '@angular/core';
 import {
-  LY_COMMON_STYLES,
   LyFocusState,
   LyOverlay,
   LyTheme2,
@@ -21,19 +20,50 @@ import {
   WinScroll,
   XPosition,
   YPosition,
-  Positioning
+  Positioning,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  ThemeRef
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 
+export interface LyTooltipTheme {
+  /** Styles for Tooltip Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+  appearance?: {
+    icon?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    fab?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    miniFab?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    [name: string]: ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined
+  };
+  size?: {
+    small?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    medium?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    large?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
+    [name: string]: ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined
+  };
+}
+
+export interface LyTooltipVariables {
+  tooltip?: LyTooltipTheme;
+}
+
 const DEFAULT_PLACEMENT = YPosition.below;
 const STYLE_PRIORITY = -2;
-const styles = (theme: ThemeVariables) => ({
-  $priority: STYLE_PRIORITY,
-  root: {
-    ...LY_COMMON_STYLES.fill,
-    '&': theme.tooltip ? theme.tooltip.root : null
-  }
-});
+const STYLES = (theme: ThemeVariables & LyTooltipVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
+  return {
+    $priority: STYLE_PRIORITY,
+    root: () => (theme.tooltip
+      && theme.tooltip.root
+      && (theme.tooltip.root instanceof StyleCollection
+        ? theme.tooltip.root.setTransformer(fn => fn(__)).css
+        : theme.tooltip.root(__))
+    )
+  };
+};
 
 @Directive({
   selector: '[lyTooltip]',
@@ -41,7 +71,7 @@ const styles = (theme: ThemeVariables) => ({
 })
 export class LyTooltip implements OnInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(styles);
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   private _tooltip: string | TemplateRef<any> | null;
   private _tooltipOverlay: OverlayFactory | null;
   private _listeners = new Map<string, EventListenerOrEventListenerObject>();
@@ -142,9 +172,9 @@ export class LyTooltip implements OnInit, OnDestroy {
           },
           onResizeScroll: this._updatePosition.bind(this),
           classes: [
+            this.classes.root,
             this._theme.addStyle('LyTooltip', (theme: ThemeVariables) => ({
               borderRadius: '4px',
-              ...theme.tooltip.root,
               fontSize: '10px',
               padding: '6px 8px',
               opacity: 0,
