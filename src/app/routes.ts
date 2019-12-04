@@ -30,6 +30,7 @@ export const AUIRoutes: {
       { route: 'theming', name: 'Theming' },
       { route: 'theming-components', name: 'Theming Components' },
       { route: 'paper', name: 'Paper' },
+      { route: 'color', name: 'Color' },
       { route: 'multiple-themes', name: 'Multiple themes' }
     ]
   },
@@ -46,7 +47,8 @@ export const AUIRoutes: {
     name: 'Guides',
     route: 'guides',
     routes: [
-      { route: 'lazy-loading' , name: 'Lazy Loading'}
+      { route: 'lazy-loading' , name: 'Lazy Loading'},
+      { route: 'migrating-to-alyle-ui-3' , name: 'Migrating to Alyle UI 3'}
     ].sort(sort)
   },
   {

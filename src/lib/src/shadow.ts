@@ -33,7 +33,7 @@ export const Shadows = [
 
 export function shadowBuilder(elevation: number | string, color?: Color) {
   let _color = color || new Color(0, 0, 0);
-  const rgb = _color.rgb;
+  const rgb = _color.rgba();
 
   if (!(rgb[0] === rgb[1] && rgb[0] === rgb[2])) {
     // Darken and saturate if the color is not in the grayscale

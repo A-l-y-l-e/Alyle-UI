@@ -25,7 +25,7 @@ export class Color {
     }
   }
 
-  rgb() {
+  rgba() {
     return this._color.slice(0);
   }
 
@@ -37,7 +37,7 @@ export class Color {
     }
 
     // Clone
-    const color = this._color.slice(0);
+    const color = this.rgba();
 
     // Set alpha
     color[3] = value;
@@ -64,7 +64,7 @@ export class Color {
     let max_iter = MAX_ITER;
 
     const test = (low: Color, high: Color): Color => {
-      const mid = new Color(...interpolateRgb(low.rgb(), high.rgb(), 0.5));
+      const mid = new Color(...interpolateRgb(low.rgba(), high.rgba(), 0.5));
       const lm = mid.luminance() as number;
 
       if (Math.abs(lum - lm) < EPS || !max_iter--) {
@@ -76,7 +76,7 @@ export class Color {
 
     const rgb = (relativeLuminance > lum
         ? test(new Color(0, 0, 0), this)
-        : test(this, new Color(255, 255, 255))).rgb();
+        : test(this, new Color(255, 255, 255))).rgba();
     rgb.pop();
     rgb.push(this._color[ 3 ]);
 
@@ -135,7 +135,7 @@ export class Color {
     if (!this._color.length) {
       return 'undefined - invalid color';
     }
-    return rgbToCss(this._color as [number, number, number, number]);
+    return rgbToCss(this.rgba() as [number, number, number, number]);
   }
 
   toString() {
@@ -156,7 +156,11 @@ export class Color {
 // }
 
 function rgbToCss(rgb: [number, number, number, number]) {
-  return `rgba(${rgb.join()})`;
+  const alpha = rgb.pop();
+  if (alpha === 1) {
+    return `rgb(${rgb.map(Math.round).join()})`;
+  }
+  return `rgba(${rgb.map(Math.round).join()},${alpha})`;
 }
 
 function bigIntToRgb(bigInt: number, alpha = 1) {
@@ -345,4 +349,4 @@ export function hexColorToInt(color: string) {
 // export const color6 = new Color(...[250, 250, 250, .5]);
 // console.log(new Color(0x2b2b2b).luminance());
 
-// console.log(Color);
+console.log(Color);
