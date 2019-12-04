@@ -5,8 +5,18 @@
     <h1 [lyTyp]="'display2'" gutterBottom>Alyle UI</h1>
     <p [lyTyp]="'title'" gutter>Minimal Design, a set of components for Angular.</p>
     <div [className]="classes.buttons">
-      <a ly-button raised bg="primary:contrast" color="primary" [routerLink]="['getting-started', 'installation']">Get started</a>
-      <a ly-button raised bg="accent" [routerLink]="['components', 'button']" lyHide="XSmall">Components</a>
+      <a ly-button
+        raised
+        bg="primary:contrast"
+        color="primary"
+        [routerLink]="['getting-started', 'installation']"
+      >Get started</a>
+      <a ly-button
+        raised
+        bg="accent"
+        [routerLink]="['components', 'button']"
+        lyStyle="display:none@XSmall"
+      >Components</a>
     </div>
   </div>
 </div>

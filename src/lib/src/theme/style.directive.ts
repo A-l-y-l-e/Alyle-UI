@@ -4,6 +4,7 @@ import { eachMedia } from '../style-utils';
 import { LyHostClass } from '../minimal/host-class';
 import { StyleRenderer } from '../minimal/renderer-style';
 import { ThemeRef } from './theme2.service';
+import { ThemeVariables } from '@alyle/ui';
 
 const STYLE_PRIORITY = -0.5;
 
@@ -53,9 +54,9 @@ export class LyStyle {
         0xa,
         'style',
         val,
-        () => eachMedia(val!, (v, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(val!, (v, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               ${v}
             }
           }`
@@ -116,9 +117,9 @@ export class LyStyle {
         0x1,
         'p',
         p,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               padding: ${to8Px(val)}
             }
           }`
@@ -132,9 +133,9 @@ export class LyStyle {
         0x2,
         'pf',
         pf,
-        ({after}) => eachMedia(currentValue, (val, media) => (
+        ({breakpoints, after}) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               padding-${after}: ${to8Px(val)}
             }
           }`
@@ -148,9 +149,9 @@ export class LyStyle {
         0x3,
         'pe',
         pe,
-        ({before}) => eachMedia(currentValue, (val, media) => (
+        ({breakpoints, before}) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               padding-${before}: ${to8Px(val)}
             }
           }`
@@ -164,9 +165,9 @@ export class LyStyle {
         0x4,
         'pt',
         pt,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               padding-top: ${to8Px(val)}
             }
           }`
@@ -180,9 +181,9 @@ export class LyStyle {
         0x5,
         'pb',
         pb,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               padding-bottom: ${to8Px(val)}
             }
           }`
@@ -196,9 +197,9 @@ export class LyStyle {
         0x6,
         'px',
         px,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               padding: 0 ${typeof val === 'number'
               ? val * 8 + 'px'
               : val}
@@ -214,9 +215,9 @@ export class LyStyle {
         0x7,
         'py',
         py,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               padding: ${typeof val === 'number'
               ? val * 8 + 'px'
               : val} 0
@@ -232,9 +233,9 @@ export class LyStyle {
         0x8,
         'm',
         m,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               margin: ${to8Px(val)}
             }
           }`
@@ -248,9 +249,9 @@ export class LyStyle {
         0x9,
         'mf',
         mf,
-        ({after}) => eachMedia(currentValue, (val, media) => (
+        ({breakpoints, after}) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               margin-${after}: ${to8Px(val)}
             }
           }`
@@ -264,9 +265,9 @@ export class LyStyle {
         0x10,
         'me',
         me,
-        ({before}) => eachMedia(currentValue, (val, media) => (
+        ({breakpoints, before}) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               margin-${before}: ${to8Px(val)}
             }
           }`
@@ -280,9 +281,9 @@ export class LyStyle {
         0x11,
         'mt',
         mt,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               margin-top: ${to8Px(val)}
             }
           }`
@@ -296,9 +297,9 @@ export class LyStyle {
         0x12,
         'mb',
         mb,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               margin-bottom: ${to8Px(val)}
             }
           }`
@@ -312,9 +313,9 @@ export class LyStyle {
         0x13,
         'mx',
         mx,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               margin: 0 ${to8Px(val)}
             }
           }`
@@ -328,9 +329,9 @@ export class LyStyle {
         0x14,
         'my',
         my,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               margin: ${to8Px(val)} 0
             }
           }`
@@ -344,9 +345,9 @@ export class LyStyle {
         0x15,
         'display',
         display,
-        () => eachMedia(currentValue, (val, media) => (
+        ({breakpoints}: ThemeVariables) => eachMedia(currentValue, (val, media) => (
           lyl `{
-            @media ${media || 'all'} {
+            @media ${(media && breakpoints[media]) || 'all'} {
               display: ${val}
             }
           }`
@@ -358,9 +359,9 @@ export class LyStyle {
       0x16,
       'width',
       width,
-      () => eachMedia(width.currentValue, (val, media) => (
+      ({breakpoints}: ThemeVariables) => eachMedia(width.currentValue, (val, media) => (
         lyl `{
-          @media ${media || 'all'} {
+          @media ${(media && breakpoints[media]) || 'all'} {
             width: ${transform(val)}
           }
         }`
@@ -371,9 +372,9 @@ export class LyStyle {
       0x17,
       'maxWidth',
       maxWidth,
-      () => eachMedia(maxWidth.currentValue, (val, media) => (
+      ({breakpoints}: ThemeVariables) => eachMedia(maxWidth.currentValue, (val, media) => (
         lyl `{
-          @media ${media || 'all'} {
+          @media ${(media && breakpoints[media]) || 'all'} {
             max-width: ${transform(val)}
           }
         }`

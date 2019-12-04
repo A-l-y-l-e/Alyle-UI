@@ -21,7 +21,7 @@ Yellow.darken(2).alpha(.94).css(); // --> rgba(145,156,0,0.94)
 
 ```ts
 (new Color(0xffffff)).luminance(); // --> 1
-(new Color(0xffffff)).luminance(0.5); // --> rgba(194,194,0,1)
+(new Color(0xffffff)).luminance(0.5); // --> rgb(194,194,0)
 ```
 
 
