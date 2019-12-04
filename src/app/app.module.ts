@@ -9,7 +9,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2, lyl } from '@alyle/ui';
+import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2, lyl, StyleRenderer } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -158,7 +158,7 @@ export function themeNameProviderFactory() {
     DocViewerModule
   ],
   providers: [
-    [ LyTheme2 ],
+    [ LyTheme2, StyleRenderer ],
     { provide: LY_THEME, useClass: MinimaLight, multi: true },
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
     { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },

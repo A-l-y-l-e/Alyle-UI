@@ -1,8 +1,8 @@
 import { NgModule, Type } from '@angular/core';
 import { LyTypographyModule } from '@alyle/ui/typography';
 
-import { DsBasicModule } from './dynamic-styles/ds-basic/ds-basic.module';
-import { DsBasicComponent } from './dynamic-styles/ds-basic/ds-basic.component';
+import { WithThemeVariablesModule } from './dynamic-styles/with-theme-variables/with-theme-variables.module';
+import { WithThemeVariablesComponent } from './dynamic-styles/with-theme-variables/with-theme-variables.component';
 import { DsCssDeclarationsBlockComponent } from './dynamic-styles/ds-css-declarations-block/ds-css-declarations-block.component';
 import { DsCssDeclarationsBlockModule } from './dynamic-styles/ds-css-declarations-block/ds-css-declarations-block.module';
 import { DsNestingModule } from './dynamic-styles/ds-nesting/ds-nesting.module';
@@ -11,7 +11,7 @@ import { DsReusableStylesModule } from './dynamic-styles/ds-reusable-styles/ds-r
 import { DsReusableStylesComponent } from './dynamic-styles/ds-reusable-styles/ds-reusable-styles.component';
 
 const elements = [
-  DsBasicComponent,
+  WithThemeVariablesComponent,
   DsCssDeclarationsBlockComponent,
   DsNestingComponent,
   DsReusableStylesComponent
@@ -20,7 +20,7 @@ const elements = [
 @NgModule({
   imports: [
     LyTypographyModule,
-    DsBasicModule,
+    WithThemeVariablesModule,
     DsCssDeclarationsBlockModule,
     DsNestingModule,
     DsReusableStylesModule

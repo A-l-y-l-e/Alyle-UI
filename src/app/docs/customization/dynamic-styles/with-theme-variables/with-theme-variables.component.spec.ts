@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DsBasicComponent } from './ds-basic.component';
+import { WithThemeVariablesComponent } from './with-theme-variables.component';
 
-describe('DsBasicComponent', () => {
-  let component: DsBasicComponent;
-  let fixture: ComponentFixture<DsBasicComponent>;
+describe('WithThemeVariablesComponent', () => {
+  let component: WithThemeVariablesComponent;
+  let fixture: ComponentFixture<WithThemeVariablesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DsBasicComponent ]
+      declarations: [ WithThemeVariablesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DsBasicComponent);
+    fixture = TestBed.createComponent(WithThemeVariablesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

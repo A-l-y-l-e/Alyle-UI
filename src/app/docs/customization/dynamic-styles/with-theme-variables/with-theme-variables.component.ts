@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables, lyl } from '@alyle/ui';
+import { StyleRenderer, ThemeVariables, lyl } from '@alyle/ui';
 
 /**
  * Basic style
@@ -30,15 +30,15 @@ const STYLES = (theme: ThemeVariables) => {
 };
 
 @Component({
-  selector: 'aui-ds-basic',
-  templateUrl: './ds-basic.component.html',
+  selector: 'aui-with-theme-variables',
+  templateUrl: './with-theme-variables.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DsBasicComponent {
-  readonly classes = this.theme.addStyleSheet(STYLES);
+export class WithThemeVariablesComponent {
+  readonly classes = this.styleRenderer.addSheet(STYLES);
 
   constructor(
-    private theme: LyTheme2
+    private styleRenderer: StyleRenderer
   ) { }
 
 }

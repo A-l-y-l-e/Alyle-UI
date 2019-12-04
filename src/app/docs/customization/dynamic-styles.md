@@ -2,13 +2,14 @@
 
 All components of Alyle UI are made with dynamic styles. With this feature it is possible to create more custom styles for Angular components.
 
-Practically the css is in typescript, it's like ~~css in js~~ css in ts.
+Practically the css is in typescript, it's like css-in-js, well in this case it would be css-in-ts.
 
 Features:
 
 * Collision-free selectors.
-* Reusable styles.
 * Theming with custom properties.
+* Reusable styles.
+* Nesting selector.
 * Support for SSR (server-side rendering)
 * Support for RTL/LTR.
 
@@ -43,12 +44,41 @@ const STYLES = (theme: ThemeVariables) => {
 };
 ```
 
-> Note that the semicolon after a CSS declaration is optional.
-
-Example:
-<demo-view path="docs/customization/dynamic-styles/ds-basic">
-  <aui-ds-basic></aui-ds-basic>
+<demo-view path="docs/customization/dynamic-styles/with-theme-variables">
+  <aui-with-theme-variables></aui-with-theme-variables>
 </demo-view>
+
+A style statement must be in a single line, since the parser assumes that a single line contains a property and a value, and ignores those identified by the dollar sign, and wrapped in braces (`${expression}`).
+
+e.g
+
+This way is fine:
+
+```ts
+const STYLE = lyl `{
+  background-image: linear-gradient(${
+    [
+      '45deg',
+      '#ffe259 0%',
+      '#ffa751 100%'
+    ].join()
+  })
+}`
+```
+
+But this is not:
+
+```ts
+const STYLE = lyl `{
+  background-image: linear-gradient(
+      45deg,
+      #ffe259 0%,
+      #ffa751 100%
+  )
+}`
+```
+
+> Note that the semicolon after a CSS statement is not required.
 
 ## Basic style
 
@@ -74,9 +104,32 @@ const STYLE_BORDER = () => lyl `{
   <aui-ds-css-declarations-block></aui-ds-css-declarations-block>
 </demo-view>
 
-## Nesting
+## Nesting Selector
 
 With Alyle UI it is possible to nest your selectors and you can use it with `&` to get the parent selector.
+
+```ts
+lyl `{
+  parent {
+    child {
+      &::after {
+        ...
+      }
+    }
+  }
+}`
+```
+
+Compiled CSS:
+
+```css
+parent child::after {
+  ...
+}
+```
+
+This can actually be thought of as short-hand for nesting with the `&`:
+
 
 <demo-view path="docs/customization/dynamic-styles/ds-nesting">
   <aui-ds-nesting></aui-ds-nesting>
@@ -84,8 +137,22 @@ With Alyle UI it is possible to nest your selectors and you can use it with `&` 
 
 ## Reusable Styles
 
-With Alyle UI it is possible to nest your selectors and you can use it with `&` to get the parent selector.
+```ts
+const colorRed = lyl `{
+  color: red
+}`
 
-<demo-view path="docs/customization/dynamic-styles/ds-reusable-styles">
-  <aui-ds-reusable-styles></aui-ds-reusable-styles>
-</demo-view>
+const style = lyl `{
+  font-size: 14px
+  ...${colorRed}
+}`
+```
+
+Compiled CSS:
+
+```css
+.selector {
+  font-size: 14;
+  color: red;
+}
+```
