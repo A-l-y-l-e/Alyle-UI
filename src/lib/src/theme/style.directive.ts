@@ -4,7 +4,7 @@ import { eachMedia } from '../style-utils';
 import { LyHostClass } from '../minimal/host-class';
 import { StyleRenderer } from '../minimal/renderer-style';
 import { ThemeRef } from './theme2.service';
-import { ThemeVariables } from '@alyle/ui';
+import { ThemeVariables } from './theme-config';
 
 const STYLE_PRIORITY = -0.5;
 
