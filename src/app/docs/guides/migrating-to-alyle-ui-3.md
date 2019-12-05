@@ -2,6 +2,8 @@
 
 Alyle UI 3 has significant changes, so it requires some changes in its code.
 
+> If you are new using the Alyle user interface, ignore this.
+
 ## Using `@alyle/ui/color` instead `chroma.js`
 
 Alyle UI components no longer use Chroma js, instead use [`Color`](./customization/color). [`Color`](./customization/color) is an Alyle UI library, with basic functions to manipulate color.
@@ -118,7 +120,7 @@ const styles = (theme: ThemeVariables) => ({
 
 ## Renaming Image cropper
 
-The Image Cropper had a bad name and was very long. That's why we now rename `LyResizingCroppingImages` to `LyImageCropper`. And the selector can be used both <code class="html"><ly-img-cropper></code> and <code class="html"><ly-image-cropper></code>
+The Image Cropper had a bad name and was very long. That's why we now rename `LyResizingCroppingImages` to `LyImageCropper`, `@alyle/ui/resizing-cropping-images` to `@alyle/ui/image-cropper`. And the selector can be used both <code class="html"><ly-img-cropper></code> and <code class="html"><ly-image-cropper></code>
 
 
 
