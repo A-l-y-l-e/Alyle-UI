@@ -126,7 +126,7 @@ export class LylParse {
         const media = matchArray[1];
         if (media !== key && val.length) {
           const after = rules.get(media)!;
-          const newValue = after + key.replace(media + '{', '') + `{${val}}`;
+          const newValue = after + key.replace(media + '{', '') + `{${val.join(';')}}`;
           rules.set(media, [newValue]);
           rules.delete(key);
         }
