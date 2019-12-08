@@ -9,14 +9,22 @@ const STYLE_PRIORITY = -0.5;
 
 /**
  * @dynamic
+ * Spacing
+ * [p], [pf], [pe], [pt], [pb], [px], [py],
+ * [m], [mf], [me], [mt], [mb], [mx], [my],
+ * Sizing
+ * [size],
+ * [width], [maxWidth], [minWidth],
+ * [height], [maxHeight], [minHeight],
  */
 @Directive({
   selector: `[lyStyle],
               [p], [pf], [pe], [pt], [pb], [px], [py],
               [m], [mf], [me], [mt], [mb], [mx], [my],
-              [display],
-              [maxWidth],
-              [width]`,
+              [size],
+              [width], [maxWidth], [minWidth],
+              [height], [maxHeight], [minHeight],
+              [display]`,
   providers: [
     StyleRenderer
   ]
@@ -180,17 +188,6 @@ export class LyStyle implements WithStyles {
   ) my: string | number | null;
 
   @Input()
-  @Style<string | null>(
-    value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          display: ${val}
-        }
-      }`
-    ), true)
-  ) display: string | null;
-
-  @Input()
   @Style<string | number | null>(
     value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (
       lyl `{
@@ -211,6 +208,67 @@ export class LyStyle implements WithStyles {
       }`
     ), true)
   ) maxWidth: string | number | null;
+
+  @Input()
+  @Style<string | number | null>(
+    value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          min-width: ${transform(val)}
+        }
+      }`
+    ), true)
+  ) minWidth: string | number | null;
+
+  @Input()
+  @Style<string | number | null>(
+    value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          height: ${transform(val)}
+        }
+      }`
+    ), true)
+  ) height: string | number | null;
+
+  @Input()
+  @Style<string | number | null>(
+    value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          max-height: ${transform(val)}
+        }
+      }`
+    ), true)
+  ) maxHeight: string | number | null;
+
+  @Input()
+  @Style<string | number | null>(
+    value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          min-height: ${transform(val)}
+        }
+      }`
+    ), true)
+  ) minHeight: string | number | null;
+
+  @Input()
+  set size(value: string | number | null) {
+    this.width = value;
+    this.height = value;
+  }
+
+  @Input()
+  @Style<string | null>(
+    value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          display: ${val}
+        }
+      }`
+    ), true)
+  ) display: string | null;
 
   @Input()
   get lyStyle() {
