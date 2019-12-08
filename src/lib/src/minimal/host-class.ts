@@ -5,6 +5,7 @@ import { Injectable, ElementRef, Renderer2 } from '@angular/core';
 export class LyHostClass {
   private readonly _set = new Set<string>();
   private _nEl: HTMLElement;
+
   constructor(
     _el: ElementRef,
     private _renderer: Renderer2

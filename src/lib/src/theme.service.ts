@@ -11,11 +11,11 @@ export interface StyleData {
 export interface DataStyle {
   id: string;
   styleElement: HTMLStyleElement;
-  style: Style<any>;
+  style: StyleObject<any>;
 }
 
 export interface MultipleStyles<T> {
   [key: string]: StyleContent<T>;
 }
 
-export type Style<T> = string | StyleContent<T> | MultipleStyles<T>;
+export type StyleObject<T> = string | StyleContent<T> | MultipleStyles<T>;

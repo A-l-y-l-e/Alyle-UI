@@ -140,19 +140,23 @@ function get(obj: Object, path: string[] | string, optional?: string): Color {
 // )[];
 
 export function eachMedia(
-  str: string | number | undefined,
+  str: string | number,
   fn: ((val: string | number, media: string | null, index: number) => void)
 ): void;
 export function eachMedia(
-  str: string | number | undefined,
+  str: string | number,
   fn: ((val: string | number, media: string | null, index: number) => void),
-  styleCollection: StyleCollection
+  styleCollection: boolean
 ): StyleTemplate;
 export function eachMedia(
-  str: string | number | undefined,
+  str: string | number,
   fn: ((val: string | number, media: string | null, index: number) => void),
-  styleCollection?: StyleCollection
+  withStyleCollection?: boolean
 ): StyleTemplate | void {
+  let styleCollection: StyleCollection | undefined;
+  if (withStyleCollection) {
+    styleCollection = new StyleCollection();
+  }
   if (typeof str === 'string') {
     const values = str.split(/\s/g);
     for (let index = 0; index < values.length; index++) {
