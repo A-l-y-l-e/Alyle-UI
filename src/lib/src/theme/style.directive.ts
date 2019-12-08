@@ -7,6 +7,9 @@ import { ThemeVariables } from './theme-config';
 
 const STYLE_PRIORITY = -0.5;
 
+/**
+ * @dynamic
+ */
 @Directive({
   selector: `[lyStyle],
               [p], [pf], [pe], [pt], [pb], [px], [py],

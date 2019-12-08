@@ -187,11 +187,10 @@ export class StyleRenderer {
 
 export function Style<INPUT = any, C = any>(
   style: (val: NonNullable<INPUT>, comp: C) => ((theme: any, ref: ThemeRef) => StyleTemplate),
-  priority = 0
+  priority?: number
 ) {
 
   return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
-
     const index = `${__CLASS_NAME__}${propertyKey}`;
     if (descriptor) {
       const set = descriptor.set!;
@@ -203,7 +202,7 @@ export function Style<INPUT = any, C = any>(
           that[index] = that.sRenderer.add(
             `${getComponentName(that)}--${propertyKey}-${val}`,
             style(propertyKey as any, that as any),
-            priority,
+            priority || that.$priority || 0,
             that[index]
           );
         }
@@ -222,7 +221,7 @@ export function Style<INPUT = any, C = any>(
             that[index] = that.sRenderer.add(
               `${getComponentName(that)}--${propertyKey}-${val}`,
               style(val as NonNullable<INPUT>, that as any),
-              priority,
+              priority || that.$priority || 0,
               that[index]
             );
           }
@@ -236,6 +235,8 @@ export function Style<INPUT = any, C = any>(
 }
 
 export interface WithStyles {
+  /** Style Priority, default: 0 */
+  $priority?: number;
   readonly sRenderer: StyleRenderer;
 }
 
