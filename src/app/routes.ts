@@ -35,6 +35,15 @@ export const AUIRoutes: {
     ]
   },
   {
+    name: 'Styles',
+    route: 'styles',
+    routes: [
+      { route: 'dynamic-style-with-input-and-style', name: 'Dynamic style with @Input and @Style' },
+      { route: 'sizing', name: 'Sizing' },
+      { route: 'spacing', name: 'Spacing' }
+    ].sort(sort)
+  },
+  {
     name: 'Layout',
     route: 'components',
     routes: [

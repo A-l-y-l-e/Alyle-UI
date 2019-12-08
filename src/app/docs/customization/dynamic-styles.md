@@ -156,3 +156,17 @@ Compiled CSS:
   color: red;
 }
 ```
+
+## Media queries
+
+It's the same as CSS media queries, only now you can use the theme variables.
+
+For instance:
+
+```ts
+(theme: ThemeVariables) => lyl `{
+  @media ${theme.getBreakpoint('XSmall')} {
+    display: none;
+  }
+}`
+```

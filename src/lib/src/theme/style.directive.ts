@@ -16,6 +16,9 @@ const STYLE_PRIORITY = -0.5;
  * [size],
  * [width], [maxWidth], [minWidth],
  * [height], [maxHeight], [minHeight],
+ * Others
+ * [lyStyle]
+ * [width]
  */
 @Directive({
   selector: `[lyStyle],
@@ -314,5 +317,7 @@ function to8Px(val: number | string) {
 function transform(value: number | string) {
   return value <= 1
     ? `${value as number * 100}%`
-    : value;
+    : typeof value === 'string'
+      ? value
+      : `${value}px`;
 }

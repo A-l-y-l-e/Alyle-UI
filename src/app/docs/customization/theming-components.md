@@ -2,7 +2,7 @@
 
 You can customize the appearance of a component by replacing styles or adding new styles.
 
-<h2 lyTyp="headline" gutter>How to customize a component</h2>
+## How to customize a component
 
 For example the button component, I can add a rounded style in this way:
 
@@ -26,7 +26,9 @@ export class GlobalVariables implements PartialThemeVariables {
 
 We must keep in mind that when we extend a theme, styles can be replaced or added one over another.
 
-For example if I declare the styles in the `minimal-dark` theme, and also declare in `GlobalVariables`, the style that will be rendered will be the one in Global variables. This is a default behavior, to render both styles you can use `StyleCollection`.
+For example if I declare the styles in the `minimal-dark` theme, and also declare in `GlobalVariables`, the style that will be rendered will be the one in Global variables. This is a default behavior, to represent both styles you must declare `StyleCollection` first.
+
+The following example shows how both styles are rendered.
 
 ```ts
 import {
@@ -39,13 +41,14 @@ export class CustomMinimaLight {
   button = {
     root: () => lyl `{
       border-radius: 8px
+      property: value
     }`
   };
 }
 
 export class GlobalVariables {
   button = {
-    // This override the previous style
+    // This override the previous style (both styles are rendered).
     root: () => lyl `{
       border-radius: 2em
     }`
@@ -53,7 +56,11 @@ export class GlobalVariables {
 }
 ```
 
-With `StyleCollection`:
+> This happens because `StyleCollection` was initially declared.
+
+Instead if I add a style with `StyleCollection`, the previous styles will be omitted.
+
+For instance:
 
 ```ts
 import {
@@ -65,20 +72,22 @@ import {
 export class CustomMinimaLight {
   name = 'minima-light';
   button = {
-    // This will be rendered
-    root: new StyleCollection(() => lyl `{
+    // This style is not rendered.
+    root: () => lyl `{
       border-radius: 8px
-    }`);
+      prop: value
+    }`;
   };
 }
 
 export class GlobalVariables {
   button = {
-    // and this too
-    root: () => lyl `{
+    // This will be rendered.
+    root: new StyleCollection(() => lyl `{
       text-transform: uppercase;
-    }`
+    }`);
   };
 }
 ```
 
+> Note that all components have initially declared `StyleCollection`.
