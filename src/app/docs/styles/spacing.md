@@ -6,20 +6,6 @@ Spacing utilities are useful for adding responsive padding and the margin of an 
 <div [m]="2 1@XSmall">
 ```
 
-Compiled CSS:
-
-```css
-.c {
-  margin: 16px;
-}
-@media (max-width: 599px) {
-  .c {
-    margin: 8px;
-  }
-}
-```
-
-
 ## Inputs
 
 These are the shorthand attributes that can be used in an element. If the value is a number then it is multiplied by 8 and converted to pixel values ​​otherwise if it is a string the value will be used as raw CSS.

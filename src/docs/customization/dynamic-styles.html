@@ -118,16 +118,17 @@
 </code></pre>
 <p>Compiled CSS:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttd5">.selector</span> <span class="tt18 ttae">&#123;</span>
-  <span class="tt18 ttcu">font-size</span><span class="tt18 ttae">:</span> 14<span class="tt18 ttae">;</span>
+  <span class="tt18 ttcu">font-size</span><span class="tt18 ttae">:</span> 14px<span class="tt18 ttae">;</span>
   <span class="tt18 ttcu">color</span><span class="tt18 ttae">:</span> red<span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>
 <h2 id="media-queries">Media queries</h2>
-<p>It's the same as CSS media queries, only now you can use the theme variables.</p>
+<p>It's the same as CSS media queries.</p>
 <p>For instance:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttae">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 template-string"><span class="tt18 tt3z">`&#123;
   @media </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'XSmall'</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
-    display: none;
+    display: none
   &#125;
 &#125;`</span></span>
 </code></pre>
+<p>You can also use <a href="./styles/dynamic-style-with-input-and-style"><code class="ttm ttx">@Style</code></a> to create dynamic styles with <code class="ttm ttx">@Input</code>.</p>

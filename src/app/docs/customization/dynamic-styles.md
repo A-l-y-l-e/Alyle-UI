@@ -152,21 +152,23 @@ Compiled CSS:
 
 ```css
 .selector {
-  font-size: 14;
+  font-size: 14px;
   color: red;
 }
 ```
 
 ## Media queries
 
-It's the same as CSS media queries, only now you can use the theme variables.
+It's the same as CSS media queries.
 
 For instance:
 
 ```ts
 (theme: ThemeVariables) => lyl `{
   @media ${theme.getBreakpoint('XSmall')} {
-    display: none;
+    display: none
   }
 }`
 ```
+
+You can also use [`@Style`](./styles/dynamic-style-with-input-and-style) to create dynamic styles with `@Input`.

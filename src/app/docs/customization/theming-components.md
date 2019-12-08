@@ -2,7 +2,7 @@
 
 You can customize the appearance of a component by replacing styles or adding new styles.
 
-## How to customize a component
+## How to theming a component
 
 For example the button component, I can add a rounded style in this way:
 
