@@ -2,7 +2,7 @@
 
 Alyle UI 3 has significant changes, so it requires some changes in its code.
 
-> If you are new using the Alyle user interface, ignore this.
+> If you are new using the Alyle UI, ignore this.
 
 ## Using `@alyle/ui/color` instead `chroma.js`
 

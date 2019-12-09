@@ -11,7 +11,7 @@ const shadow = new Color(0, 0, 0, 1);
 export class MinimaDark extends MinimaBase {
   name = 'minima-dark';
   primary = {
-    default: new Color(0x1DE9B6),
+    default: Color(0x1DE9B6),
     contrast: new Color(0, 0, 0, 0.87)
   };
   accent = {

@@ -151,7 +151,7 @@ const style = lyl `{
 Compiled CSS:
 
 ```css
-.selector {
+.ck {
   font-size: 14px;
   color: red;
 }

@@ -2,12 +2,11 @@ const EPS = 1e-7;
 const MAX_ITER = 20;
 const { pow, min, max } = Math;
 
-export class Color {
+export class ColorClass {
 
   private readonly _color: number[];
 
   constructor(hex: number, alpha?: number)
-  // tslint:disable-next-line: unified-signatures
   constructor(r: number, g: number, b: number, alpha?: number)
   constructor(...args: number[])
   constructor(...args: number[]) {
@@ -37,11 +36,11 @@ export class Color {
     }
 
     // Clone
-    const color = this.rgba();
+    const _color = this.rgba();
 
     // Set alpha
-    color[3] = value;
-    return new Color(...color);
+    _color[3] = value;
+    return new Color(..._color);
   }
 
   luminance(): number;
@@ -333,20 +332,36 @@ function interpolateRgb(rgb1: number[], rgb2: number[], f = 0.5) {
   ];
 }
 
-export function hexColorToInt(color: string) {
-  if (color.startsWith('#')) {
-    return parseInt(color.slice(1), 16);
+export function hexColorToInt(_color: string) {
+  if (_color.startsWith('#')) {
+    return parseInt(_color.slice(1), 16);
   }
-  throw new Error(`Expected to start with '#' the given value is: ${color}`);
+  throw new Error(`Expected to start with '#' the given value is: ${_color}`);
 }
 
-// export const color1 = new Color(0x00bcd4).alpha();
-// export const colorr = new Color(0x00bcd4).alpha(1);
-// export const color2 = new Color(0x00bcd4);
-// export const color3 = new Color(0x00bcd4, .5);
-// export const color4 = new Color(250, 250, 250);
-// export const color5 = new Color(250, 250, 250, .5);
-// export const color6 = new Color(...[250, 250, 250, .5]);
-// console.log(new Color(0x2b2b2b).luminance());
+interface ColorConstructor {
+  (hex: number, alpha?: number): Color;
+  (r: number, g: number, b: number, alpha?: number): Color;
+  (...args: number[]): Color;
+  new (hex: number, alpha?: number): Color;
+  new (r: number, g: number, b: number, alpha?: number): Color;
+  new (...args: number[]): Color;
+}
 
-console.log(Color);
+// https://stackoverflow.com/a/59186182
+function CreateCallableConstructor(
+  type: any
+): any {
+  // tslint:disable-next-line: no-shadowed-variable
+  function Color(
+    ...args: any[]
+  ) {
+    return new type(...args);
+  }
+
+  Color.prototype = type.prototype;
+  return Color;
+}
+
+export type Color = ColorClass;
+export const Color = CreateCallableConstructor(ColorClass) as ColorConstructor;
