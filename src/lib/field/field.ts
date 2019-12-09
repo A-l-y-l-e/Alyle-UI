@@ -249,7 +249,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
         background-color: transparent
         display: inline-flex
         box-sizing: border-box
-        padding-after: 1em
+        padding-${after}: 1em
         option:not([disabled]) {
           color: initial
         }

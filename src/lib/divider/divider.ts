@@ -25,8 +25,8 @@ export class LyDivider implements OnInit {
     if (newVal) {
       this[0x1] = this._styleRenderer.add(
         `${LyDivider.и}--inset`,
-        () => lyl `{
-          margin-before: 74px
+        ({before}) => lyl `{
+          margin-${before}: 74px
         }`,
         this[0x1]
       );

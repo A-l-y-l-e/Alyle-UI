@@ -85,11 +85,12 @@ const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
 export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef) => {
   const select = ref.selectorsOf(STYLES);
+  const { after } = theme;
   return {
     $priority: STYLE_PRIORITY,
     root: () => lyl `{
       display: block
-      padding-after: 1em
+      padding-${after}: 1em
       min-width: em
       min-height: 1.5em
       -webkit-tap-highlight-color: transparent
