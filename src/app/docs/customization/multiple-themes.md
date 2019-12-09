@@ -7,7 +7,11 @@ In the following example we will use the minima-dark and minima-light themes.
 > Note that if we use the same theme that is currently being used when changing that theme, both will be changed, so that this does not happen we can clone the theme with a new name.
 
 ```ts
-import { LyTheme, StyleRenderer, LY_THEME, LY_THEME_NAME } from '@alyle/ui';
+import {
+  LyTheme2,
+  StyleRenderer,
+  LY_THEME,
+  LY_THEME_NAME } from '@alyle/ui';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
 export class NewMinimaLight extends MinimaLight {
@@ -19,17 +23,21 @@ export class NewMinimaDark extends MinimaDark {
 
 
 @Directive({
-  selector: '[app-minima-dark]',
+  selector: '[with-minima-dark]',
   providers: [
-    { provide: LY_THEME_NAME, useValue: 'new-minima-light' },
+    LyTheme2,
+    StyleRenderer,
+    { provide: LY_THEME_NAME, useValue: 'new-minima-light' }
   ]
 })
 export class WithLightTheme { }
 
 @Directive({
-  selector: '[app-minima-dark]',
+  selector: '[with-minima-dark]',
   providers: [
-    { provide: LY_THEME_NAME, useValue: 'new-minima-dark' },
+    LyTheme2,
+    StyleRenderer,
+    { provide: LY_THEME_NAME, useValue: 'new-minima-dark' }
   ]
 })
 export class WithDarkTheme { }

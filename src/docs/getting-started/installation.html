@@ -23,9 +23,6 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tta3">npm</span> <span class="tt18 tta3">install</span> --save @alyle/ui
 </code></pre>
 <h3 id="step-2-import-alyle-ui-in-appmodule">Step 2: Import Alyle UI in AppModule</h3>
-<blockquote>
-  <p>Note: the themes must be added in the root module of the application, not in sub modules.</p>
-</blockquote>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttb0">...</span>
 <span class="tt18 tt3o">/** Import animations */</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> BrowserAnimationsModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/platform-browser/animations'</span><span class="tt18 ttae">;</span>
@@ -49,10 +46,7 @@
   <span class="tt18 ttb0">...</span>
   imports<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
     <span class="tt18 ttb0">...</span>
-    <span class="tt18 tt3o">// Animations</span>
     BrowserAnimationsModule<span class="tt18 ttae">,</span>
-    <span class="tt18 tt3o">// Set main theme</span>
-    LyThemeModule<span class="tt18 ttae">.</span><span class="tt18 tta3">setTheme</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'minima-light'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
     <span class="tt18 tt3o">// Add components</span>
     LyButtonModule<span class="tt18 ttae">,</span>
     LyToolbarModule<span class="tt18 ttae">,</span>
@@ -61,6 +55,10 @@
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   <span class="tt18 tt3o">/** Add themes */</span>
   providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+    <span class="tt18 ttae">[</span> LyTheme2 <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">[</span> StyleRenderer <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3o">// Theme that will be applied to this module</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> MinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
     <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> MinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// name: `minima-light`</span>
     <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> MinimaDark<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt3o">// name: `minima-dark`</span>
   <span class="tt18 ttae">]</span>

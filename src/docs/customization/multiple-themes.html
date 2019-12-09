@@ -5,7 +5,11 @@
 <blockquote>
   <p>Note that if we use the same theme that is currently being used when changing that theme, both will be changed, so that this does not happen we can clone the theme with a new name.</p>
 </blockquote>
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyTheme<span class="tt18 ttae">,</span> StyleRenderer<span class="tt18 ttae">,</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> <span class="tt18 ttbb">LY_THEME_NAME</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span>
+  LyTheme2<span class="tt18 ttae">,</span>
+  StyleRenderer<span class="tt18 ttae">,</span>
+  <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttbb">LY_THEME_NAME</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> MinimaLight<span class="tt18 ttae">,</span> MinimaDark <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/themes/minima'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">NewMinimaLight</span> <span class="tt18 tt1j">extends</span> <span class="tt18 ttc8">MinimaLight</span> <span class="tt18 ttae">&#123;</span>
@@ -17,17 +21,21 @@
 
 
 @<span class="tt18 tta3">Directive</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'[app-minima-dark]'</span><span class="tt18 ttae">,</span>
+  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'[with-minima-dark]'</span><span class="tt18 ttae">,</span>
   providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'new-minima-light'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    LyTheme2<span class="tt18 ttae">,</span>
+    StyleRenderer<span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'new-minima-light'</span> <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">WithLightTheme</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
 @<span class="tt18 tta3">Directive</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'[app-minima-dark]'</span><span class="tt18 ttae">,</span>
+  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'[with-minima-dark]'</span><span class="tt18 ttae">,</span>
   providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'new-minima-dark'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    LyTheme2<span class="tt18 ttae">,</span>
+    StyleRenderer<span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'new-minima-dark'</span> <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">WithDarkTheme</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>

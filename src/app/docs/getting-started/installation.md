@@ -34,8 +34,6 @@ npm install --save @alyle/ui
 
 ### Step 2: Import Alyle UI in AppModule
 
-> Note: the themes must be added in the root module of the application, not in sub modules.
-
 ```ts
 ...
 /** Import animations */
@@ -60,10 +58,7 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
   ...
   imports: [
     ...
-    // Animations
     BrowserAnimationsModule,
-    // Set main theme
-    LyThemeModule.setTheme('minima-light'),
     // Add components
     LyButtonModule,
     LyToolbarModule,
@@ -72,6 +67,10 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
   ],
   /** Add themes */
   providers: [
+    [ LyTheme2 ],
+    [ StyleRenderer ],
+    // Theme that will be applied to this module
+    { provide: LY_THEME_NAME, useClass: MinimaLight, multi: true },
     { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: `minima-light`
     { provide: LY_THEME, useClass: MinimaDark, multi: true } // name: `minima-dark`
   ]
