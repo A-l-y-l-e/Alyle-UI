@@ -1,5 +1,5 @@
-import { Injectable, Optional, Inject, Renderer2, RendererFactory2, ViewEncapsulation } from '@angular/core';
-import { ThemeConfig, LY_THEME, ThemeVariables, LY_THEME_GLOBAL_VARIABLES } from './theme-config';
+import { Injectable, Inject, Renderer2, RendererFactory2, ViewEncapsulation } from '@angular/core';
+import { ThemeConfig, ThemeVariables } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
@@ -19,8 +19,6 @@ export class CoreTheme {
   private _styleMap = new Map<string, Map<string, DataStyle>>();
   private _document: Document;
   constructor(
-    @Optional() @Inject(LY_THEME) themeConfig: ThemeConfig[] | ThemeConfig,
-    @Optional() @Inject(LY_THEME_GLOBAL_VARIABLES) globalVariables: ThemeConfig,
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) _document: any
   ) {
@@ -45,10 +43,6 @@ export class CoreTheme {
       styles: [],
       data: {}
     });
-
-    if (themeConfig) {
-      this.initializeTheme(themeConfig, globalVariables);
-    }
   }
 
   initializeTheme(themeConfig: ThemeConfig[] | ThemeConfig, globalVariables: ThemeConfig) {
@@ -60,7 +54,8 @@ export class CoreTheme {
     allThemes.forEach(item => {
       // Do not install themes that are already initialized.
       if (this.hasTheme(item.name)) {
-        throw new Error(`Theme '${item.name}' is already initialized.`);
+        // throw new Error(`Theme '${item.name}' is already initialized.`);
+      // }
       }
       if (themes.has(item.name)) {
         themes.get(item.name)!.push(item);
