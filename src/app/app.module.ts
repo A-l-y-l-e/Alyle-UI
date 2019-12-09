@@ -99,7 +99,7 @@ export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDar
   typography: LyTypographyTheme = {
     lyTyp: {
       subTitle: () => lyl `{
-        font-family: 'Nunito', sans-serif
+        font-family: 'Roboto', sans-serif
         text-align: center
         padding-above: 1em
         opacity: .6
