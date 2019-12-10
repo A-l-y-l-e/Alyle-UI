@@ -261,6 +261,7 @@ test(`should be equal to .y{color: red;}`, async t => {
 });
 
 test(`a StyleFn should be equal to .y {color: blue;}`, async t => {
+  t.log(t.context.styleIntoObjectAsFunction);
   const css = await evalScript(t.context.styleIntoObjectAsFunction);
   t.is(`.y{color:blue;}`, css);
 });
@@ -444,6 +445,7 @@ function evalScript(script: string) {
     compilerOptions: {
       module: 'commonjs',
       sourceMap: false
-    }
+    },
+    transpileOnly: true
   }).compile(styleCompiler(script), 'file.ts'));
 }

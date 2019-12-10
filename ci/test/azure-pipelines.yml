@@ -38,7 +38,6 @@ steps:
   displayName: 'Install Dependencies'
 - script: |
     set -e
-    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
     ./ci/scripts/publish-tests.sh
   displayName: 'Test'
 - task: PublishTestResults@2
