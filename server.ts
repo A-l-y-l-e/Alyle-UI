@@ -74,7 +74,7 @@ const INDEX = readFileSync(join(BROWSER_FOLDER, 'index.html'), 'utf8');
       throw new Error(err);
     });
     const after = performance.now();
-    console.log(`${after - before}ms`);
+    console.log(`${(after - before).toFixed(2).padStart(6, ' ')}ms -- ${join('/', route)}`);
     await writeFile(join(BROWSER_FOLDER, file), html);
   }
   serve.kill();
