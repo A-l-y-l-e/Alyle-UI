@@ -1,0 +1,30 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyTheme2 <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">styles</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  root<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+    button<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      marginAfter<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'1em'</span><span class="tt18 ttae">,</span>
+      marginTop<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'.5em'</span><span class="tt18 ttae">,</span>
+      marginBottom<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'.5em'</span>
+    <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  row<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+    display<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'flex'</span><span class="tt18 ttae">,</span>
+    flexWrap<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'wrap'</span><span class="tt18 ttae">,</span>
+    marginBottom<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'.5em'</span><span class="tt18 ttae">,</span>
+    alignItems<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'center'</span>
+  <span class="tt18 ttae">&#125;</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'aui-button-types-demo'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./button-types-demo.component.html'</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ButtonTypesDemoComponent</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">addStyleSheet</span><span class="tt18 ttae">(</span>styles<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> theme<span class="tt18 ttae">:</span> LyTheme2</span>
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+ <span class="tt18 ttae">&#125;</span>
+</code></pre>

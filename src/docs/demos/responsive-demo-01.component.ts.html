@@ -1,0 +1,26 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ViewEncapsulation<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyTheme2<span class="tt18 ttae">,</span> ThemeVariables <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+
+@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'responsive-demo-01'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./responsive-demo-01.component.html'</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttae">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush<span class="tt18 ttae">,</span>
+  preserveWhitespaces<span class="tt18 ttae">:</span> <span class="tt18 boolean">false</span><span class="tt18 ttae">,</span>
+  encapsulation<span class="tt18 ttae">:</span> ViewEncapsulation<span class="tt18 ttae">.</span>None
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ResponsiveDemo01Component</span> <span class="tt18 ttae">&#123;</span>
+  queries<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>key<span class="tt18 ttae">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">,</span> mediaQuery<span class="tt18 ttae">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span><span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+
+  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 parameter">theme<span class="tt18 ttae">:</span> LyTheme2</span>
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">const</span> breakpoints <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>theme<span class="tt18 ttae">.</span>variables <span class="tt18 tt1j">as</span> ThemeVariables<span class="tt18 ttae">)</span><span class="tt18 ttae">.</span>breakpoints<span class="tt18 ttae">;</span>
+    Object<span class="tt18 ttae">.</span><span class="tt18 tta3">keys</span><span class="tt18 ttae">(</span>breakpoints<span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">forEach</span><span class="tt18 ttae">(</span><span class="tt18 parameter">key</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>queries<span class="tt18 ttae">.</span><span class="tt18 tta3">push</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+        key<span class="tt18 ttae">,</span>
+        mediaQuery<span class="tt18 ttae">:</span> breakpoints<span class="tt18 ttae">[</span>key<span class="tt18 ttae">]</span>
+      <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

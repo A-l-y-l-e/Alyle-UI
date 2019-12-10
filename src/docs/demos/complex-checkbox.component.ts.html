@@ -1,0 +1,70 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> FormGroup<span class="tt18 ttae">,</span> FormArray<span class="tt18 ttae">,</span> FormControl<span class="tt18 ttae">,</span> AbstractControl <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/forms'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyTheme2 <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">const</span> styles <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  form<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+    maxWidth<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'320px'</span><span class="tt18 ttae">,</span>
+    margin<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'0 auto'</span>
+  <span class="tt18 ttae">&#125;</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">interface</span> <span class="tt18 ttc8">Fruit</span> <span class="tt18 ttae">&#123;</span>
+  name<span class="tt18 ttae">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
+  disabled<span class="tt18 ttb0">?</span><span class="tt18 ttae">:</span> <span class="tt18 ttcj">boolean</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+
+
+@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'aui-complex-checkbox'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./complex-checkbox.component.html'</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttae">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ComplexCheckboxComponent</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">addStyleSheet</span><span class="tt18 ttae">(</span>styles<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  fruits<span class="tt18 ttae">:</span> Fruit<span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
+    <span class="tt18 ttae">&#123;</span> name<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'Apple'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> name<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'Banana'</span><span class="tt18 ttae">,</span> disabled<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> name<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'Cherry'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> name<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'Mango'</span><span class="tt18 ttae">,</span> disabled<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> name<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'Orange'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> name<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'Pineapple'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> name<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'Strawberry'</span> <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+  form<span class="tt18 ttae">:</span> FormGroup <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormGroup</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+    fruits<span class="tt18 ttae">:</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormArray</span><span class="tt18 ttae">(</span>
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>fruits
+      <span class="tt18 ttae">.</span><span class="tt18 tta3">map</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 parameter">val</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormControl</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+        value<span class="tt18 ttae">:</span> Math<span class="tt18 ttae">.</span><span class="tt18 tta3">floor</span><span class="tt18 ttae">(</span>Math<span class="tt18 ttae">.</span><span class="tt18 tta3">random</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">*</span> <span class="tt18 ttap">11</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">></span> <span class="tt18 ttap">5</span><span class="tt18 ttae">,</span>
+        disabled<span class="tt18 ttae">:</span> val<span class="tt18 ttae">.</span>disabled
+      <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span>
+    <span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  fruitsAbstractControlArray<span class="tt18 ttae">:</span> AbstractControl<span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttb0">&lt;</span>FormArray<span class="tt18 ttb0">></span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>form<span class="tt18 ttae">.</span><span class="tt18 tt1j">get</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'fruits'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span>controls<span class="tt18 ttae">;</span>
+
+  <span class="tt18 tt1j">get</span> <span class="tt18 tta3">selectedFruits</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">const</span> fruits <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>fruits<span class="tt18 ttae">.</span><span class="tt18 tta3">filter</span><span class="tt18 ttae">(</span><span class="tt18 parameter">_</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttb0">!</span>_<span class="tt18 ttae">.</span>disabled<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>fruits<span class="tt18 ttae">.</span>length <span class="tt18 ttb0">===</span> <span class="tt18 ttap">0</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">return</span> <span class="tt18 ttae">[</span><span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span>
+    <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>form<span class="tt18 ttae">.</span>value<span class="tt18 ttae">.</span>fruits
+        <span class="tt18 ttae">.</span><span class="tt18 tta3">map</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 parameter">bool<span class="tt18 ttae">,</span> index</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> bool <span class="tt18 ttb0">?</span> fruits<span class="tt18 ttae">[</span>index<span class="tt18 ttae">]</span><span class="tt18 ttae">.</span>name <span class="tt18 ttae">:</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">)</span>
+        <span class="tt18 ttae">.</span><span class="tt18 tta3">filter</span><span class="tt18 ttae">(</span><span class="tt18 parameter">bool</span> <span class="tt18 ttb0">=></span> bool <span class="tt18 ttb0">!==</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+
+  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> theme<span class="tt18 ttae">:</span> LyTheme2</span>
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+
+  <span class="tt18 tta3">onDisableChange</span><span class="tt18 ttae">(</span><span class="tt18 parameter">fruitControl<span class="tt18 ttae">:</span> FormControl<span class="tt18 ttae">,</span> checked<span class="tt18 ttae">:</span> <span class="tt18 ttcj">boolean</span><span class="tt18 ttae">,</span> index<span class="tt18 ttae">:</span> <span class="tt18 ttcj">number</span></span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">const</span> fruits <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>fruits<span class="tt18 ttae">;</span>
+    fruits<span class="tt18 ttae">[</span>index<span class="tt18 ttae">]</span><span class="tt18 ttae">.</span>disabled <span class="tt18 ttb0">=</span> checked<span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>checked<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      fruitControl<span class="tt18 ttae">.</span><span class="tt18 tta3">disable</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">else</span> <span class="tt18 ttae">&#123;</span>
+      fruitControl<span class="tt18 ttae">.</span><span class="tt18 tta3">enable</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 ttae">&#125;</span>
+
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

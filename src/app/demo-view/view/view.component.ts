@@ -23,8 +23,6 @@ const DECLARATIONS_REGEXP = /declarations: \[\:?(?:[\s]+)?([\w]+)(?:[\,\s\w]+)?\
 const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
 const SELECTOR_APP = 'root-app';
 
-const HOST_DEV = 'http://localhost:1212/demos';
-const HOST_PROD = `https://raw.githubusercontent.com/A-l-y-l-e/alyle-ui-docs-content/${AUI_VERSION}/demos`;
 const styles = (theme: AUIThemeVariables) => ({
   root: {
     position: 'relative',
@@ -88,7 +86,10 @@ export class ViewComponent implements OnInit {
   @Input() viewLabel: string;
   @Input() path: string;
   @Input()
-  set extraPaths(val: string[]) {
+  set extraPaths(val: string[] | string) {
+    if (typeof val === 'string') {
+      val = [val];
+    }
     val.forEach(item => {
       this.files.push({
         label: item,
@@ -128,12 +129,11 @@ export class ViewComponent implements OnInit {
 
   url(index: number) {
     const file = this.files[index];
-    const host = `${isDevMode() ? HOST_DEV : HOST_PROD}`;
     if (file.path) {
-      return `${host}/${file.path}.html`;
+      return `./docs/demos/${file.path}.html`;
     }
     const fileName = this.path.split('/').reverse()[0];
-    return `${host}/${fileName}.${file.type}.${file.ext}.html`;
+    return `./docs/demos/${fileName}.${file.type}.${file.ext}.html`;
   }
 
   openPostStackblitz() {

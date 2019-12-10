@@ -1,0 +1,59 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ThemeVariables<span class="tt18 ttae">,</span> LyTheme2 <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttae">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">const</span> mediaStyles <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
+    color<span class="tt18 ttae">:</span> theme<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span>contrast<span class="tt18 ttae">,</span>
+    backgroundColor<span class="tt18 ttae">:</span> theme<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
+    box<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      backgroundColor<span class="tt18 ttae">:</span> theme<span class="tt18 ttae">.</span>background<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 ttae">,</span>
+      minWidth<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'110px'</span><span class="tt18 ttae">,</span>
+      display<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'inline-flex'</span><span class="tt18 ttae">,</span>
+      minHeight<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'110px'</span><span class="tt18 ttae">,</span>
+      padding<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'1em'</span><span class="tt18 ttae">,</span>
+      fontSize<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'14px'</span><span class="tt18 ttae">,</span>
+      textAlign<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'center'</span><span class="tt18 ttae">,</span>
+      wordBreak<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'break-all'</span><span class="tt18 ttae">,</span>
+      alignItems<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'center'</span><span class="tt18 ttae">,</span>
+      justifyContent<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'center'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    demo1<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttae">[</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'XSmall'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">]</span><span class="tt18 ttae">:</span> mediaStyles
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    demo2<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttae">[</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Small'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">]</span><span class="tt18 ttae">:</span> mediaStyles
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    demo3<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttae">[</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Medium'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">]</span><span class="tt18 ttae">:</span> mediaStyles
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    demo4<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttae">[</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Large'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">]</span><span class="tt18 ttae">:</span> mediaStyles
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    demo5<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttae">[</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'XLarge'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">]</span><span class="tt18 ttae">:</span> mediaStyles
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    demo6<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttae">[</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Handset'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">]</span><span class="tt18 ttae">:</span> mediaStyles
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    demo7<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttae">[</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Tablet'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">]</span><span class="tt18 ttae">:</span> mediaStyles
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    demo8<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttae">[</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Web'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">]</span><span class="tt18 ttae">:</span> mediaStyles
+    <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+
+@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'aui-responsive-with-ds'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./responsive-with-ds.component.html'</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ResponsiveWithDsComponent</span> <span class="tt18 ttae">&#123;</span>
+  classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">addStyleSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> theme<span class="tt18 ttae">:</span> LyTheme2</span>
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+<span class="tt18 ttae">&#125;</span>
+</code></pre>
