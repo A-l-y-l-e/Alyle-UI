@@ -68,7 +68,7 @@ export class Ads {
                 Div,
                 nextSibling
               );
-              if (!isDevMode()) {
+              if (isDevMode()) {
                 CodeFund.innerHTML = `<div style="padding: 1em">ads</div>`;
               } else {
                 this._renderer.appendChild(
