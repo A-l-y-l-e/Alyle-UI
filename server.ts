@@ -61,7 +61,7 @@ const INDEX = readFileSync(join(BROWSER_FOLDER, 'index.html'), 'utf8');
   for await (const { route, file } of ROUTES) {
 
     // Make sure the directory structure is there
-    mkdir(join(BROWSER_FOLDER, route), { recursive: true });
+    await mkdir(join(BROWSER_FOLDER, route), { recursive: true });
 
     const before = performance.now();
     const html = await renderModuleFactory(AppServerModuleNgFactory, {
@@ -75,6 +75,7 @@ const INDEX = readFileSync(join(BROWSER_FOLDER, 'index.html'), 'utf8');
     });
     const after = performance.now();
     console.log(`${after - before}ms`);
+    console.log({file});
     await writeFile(join(BROWSER_FOLDER, file), html);
   }
   serve.kill();

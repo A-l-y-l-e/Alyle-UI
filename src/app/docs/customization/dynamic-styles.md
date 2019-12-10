@@ -123,7 +123,7 @@ lyl `{
 Compiled CSS:
 
 ```css
-parent child::after {
+.cx parent child::after {
   ...
 }
 ```

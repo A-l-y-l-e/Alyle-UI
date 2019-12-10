@@ -8,7 +8,7 @@
   "scripts": {
     "start": "ng serve --port 1111",
     "hmr": "ng serve --port 1111 --hmr",
-    "build": "yarn build:browser && yarn build:server && ts-node -O '{\"module\": \"commonjs\"}' server && yarn sw:update",
+    "build": "yarn build:browser && yarn build:server && ts-node -O '{\"module\": \"commonjs\"}' server && yarn ngsw-config dist/alyle-ui src/ngsw-config.json",
     "build:browser": "ng build alyle-ui --prod",
     "build:server": "ng run alyle-ui:server",
     "serve": "yarn build && firebase serve only hosting",

@@ -7,9 +7,7 @@
       "files": [
         "/favicon.ico",
         "/index.html",
-        "/api/**",
-        "/*.css",
-        "/*.js"
+        "/manifest.webmanifest"
       ]
     }
   }, {
@@ -19,12 +17,13 @@
     "resources": {
       "files": [
         "/assets/**",
-        "/fonts/**"
+        "/fonts/**",
+        "/docs/**",
+        "/*.js"
       ],
       "urls": [
         "https://fonts.googleapis.com/**",
-        "https://fonts.gstatic.com/**",
-        "https://raw.githubusercontent.com/A-l-y-l-e/Alyle-UI/**"
+        "https://fonts.gstatic.com/**"
       ]
     }
   }],
