@@ -62,7 +62,6 @@ const start = async () => {
     if (stats && stats.isFile && path.startsWith('src/app/docs')) {
       // md to html
       if (path.endsWith('.md')) {
-        console.log({path});
         const htmlPath = `${path.slice(0, path.length - 2)}html`;
         const file = (await readFile(path)
           .catch(() => { throw new Error(`File not found: ${path}`); }))

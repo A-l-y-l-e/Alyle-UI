@@ -100,7 +100,7 @@
     "protractor": "~5.4.0",
     "replace-in-file": "^3.4.2",
     "showdown": "^1.9.0",
-    "ts-node": "~5.0.1",
+    "ts-node": "~8.5.4",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.13.1",
     "typedoc": "^0.15.0",
