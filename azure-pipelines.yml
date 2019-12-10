@@ -29,7 +29,7 @@ jobs:
     displayName: "Cache Yarn packages"
   - bash: |
       set -e
-      source ./ci/scripts/setup.sh
+      source ./ci/setup.sh
       yarn --frozen-lockfile
       yarn global add serve
       yarn tools:prepare-lib
