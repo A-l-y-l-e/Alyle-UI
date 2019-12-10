@@ -8,7 +8,7 @@ export const ADS_STYLES = () => lyl `{
   display: block
   position: relative
   max-width: 345px
-  min-height: 124px
+  min-height: 130px
   margin-top: 32px
   margin-bottom: 24px
 }`;
@@ -56,18 +56,19 @@ export class Ads {
               if (path === '' || path === '/') {
                 api += `theme=dark&template=centered`;
               } else {
-                api += `theme=${themeNameForCodeFund}`;
+                api += `theme=${themeNameForCodeFund}&template=default`;
               }
               this._renderer.addClass(Div, className);
-              CodeFundScript.src = api;
-              CodeFundScript.async = 1;
+              CodeFundScript.setAttribute('type', 'text/javascript');
+              CodeFundScript.setAttribute('src', api);
+              CodeFundScript.setAttribute('async', 'async');
               this._renderer.setAttribute(CodeFund, 'id', 'codefund');
               this._renderer.insertBefore(
                 parentNode,
                 Div,
                 nextSibling
               );
-              if (isDevMode()) {
+              if (!isDevMode()) {
                 CodeFund.innerHTML = `<div style="padding: 1em">ads</div>`;
               } else {
                 this._renderer.appendChild(

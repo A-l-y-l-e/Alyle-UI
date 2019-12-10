@@ -84,7 +84,7 @@ export class GlobalVariables {
   button = {
     // This will be rendered.
     root: new StyleCollection(() => lyl `{
-      text-transform: uppercase;
+      text-transform: uppercase
     }`);
   };
 }
