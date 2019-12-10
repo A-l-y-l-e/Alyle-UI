@@ -35,13 +35,7 @@ export class Ads {
           .pipe(take(1))
           .subscribe(() => {
             const className = theme.renderStyle(ADS_STYLES);
-            let ref = document.querySelector('aui-doc-viewer .ad');
-            if (!ref) {
-              ref = document.querySelector('aui-doc-viewer p');
-            }
-            if (!ref) {
-              ref = document.querySelector('aui-doc-viewer demo-view');
-            }
+            const ref = document.querySelector('aui-doc-viewer p');
             if (ref) {
               const Div = this._renderer.createElement('div');
               const CodeFund = this._renderer.createElement('div');

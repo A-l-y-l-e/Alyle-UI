@@ -8,8 +8,8 @@ For instance:
 
 ```ts
 import { Input } from '@angular/core';
-import { Style, Lyl, WithStyles } from '@alyle/ui';
-
+import { Style, StyleRenderer, Lyl, WithStyles } from '@alyle/ui';
+ 
 ...
 export class MyComponent implements WithStyles {
   @Input()
@@ -18,6 +18,10 @@ export class MyComponent implements WithStyles {
       font-size: ${value || 14}px
     }`
   ) fontSize: number | null;
+
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
 }
 ```
 
