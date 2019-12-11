@@ -47,7 +47,7 @@ export class LylParse {
     let selector: null | string = null;
     const rules = new Map<string, string[]>();
     this._template
-      .replace(/(\/\/[^\n\r]*(?:[\n\r]+|$))/g, '')
+      .replace(/(\/\/\s[^\n\r]*(?:[\n\r]+|$))/g, '')
       .replace(/,\n/g, ',')
       .replace(LINE_FEED_REGEX(), (_ex, fullLine: string) => {
       fullLine = fullLine.trim();

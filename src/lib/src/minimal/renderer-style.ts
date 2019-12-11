@@ -244,12 +244,12 @@ export function Style<INPUT = any, C = any>(
         } else {
           that[index] = that.sRenderer.add(
             `${getComponentName(that)}--${propertyKey}-${val}`,
-            style(propertyKey as any, that as any),
-            priority || that.$priority || 0,
+            style(val as any, that as any),
+            priority || that.$priority || (that.constructor as any).$priority || 0,
             that[index]
           );
         }
-        set.call(target, val);
+        set.call(that, val);
       };
     } else {
       Object.defineProperty(target, propertyKey, {
@@ -264,7 +264,7 @@ export function Style<INPUT = any, C = any>(
             that[index] = that.sRenderer.add(
               `${getComponentName(that)}--${propertyKey}-${val}`,
               style(val as NonNullable<INPUT>, that as any),
-              priority || that.$priority || 0,
+              priority || that.$priority || (that.constructor as any).$priority || 0,
               that[index]
             );
           }
@@ -279,7 +279,7 @@ export function Style<INPUT = any, C = any>(
 
 export interface WithStyles {
   /** Style Priority, default: 0 */
-  $priority?: number;
+  readonly $priority?: number;
   readonly sRenderer: StyleRenderer;
 }
 
