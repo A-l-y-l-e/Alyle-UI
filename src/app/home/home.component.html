@@ -5,8 +5,18 @@
     <h1 [lyTyp]="'display2'" gutterBottom>Alyle UI</h1>
     <p [lyTyp]="'title'" gutter>Minimal Design, a set of components for Angular.</p>
     <div [className]="classes.buttons">
-      <a ly-button raised bg="primary:contrast" color="primary" [routerLink]="['getting-started', 'installation']">Get started</a>
-      <a ly-button raised bg="accent" [routerLink]="['components', 'button']" lyHide="XSmall">Components</a>
+      <a ly-button
+        raised
+        bg="primary:contrast"
+        color="primary"
+        [routerLink]="['getting-started', 'installation']"
+      >Get started</a>
+      <a ly-button
+        raised
+        bg="accent"
+        [routerLink]="['components', 'button']"
+        display="none@XSmall"
+      >Components</a>
     </div>
   </div>
 </div>
@@ -17,13 +27,13 @@
       <ly-grid item col="4 12@XSmall">
         <h2 [lyTyp]="'title'" ly-text color="primary">Lightweight</h2>
         <p [lyTyp]="'body1'">
-          Simple, lightweight, on demand components and with support to all modern Web Browsers
+          Simple, lightweight, on demand components and with support to all modern Web Browsers.
         </p>
       </ly-grid>
       <ly-grid item col="4 12@XSmall">
         <h2 [lyTyp]="'title'" ly-text color="primary">Customizable</h2>
         <p [lyTyp]="'body1'">
-          The UI is fully customizable, with dynamic themes, and with support for RTL.
+          The UI is ultra customizable, with dynamic styles, and with support for RTL.
         </p>
       </ly-grid>
       <ly-grid item col="4 12@XSmall">

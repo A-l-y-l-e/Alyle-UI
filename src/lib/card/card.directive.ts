@@ -27,7 +27,9 @@ import {
   StyleTemplate,
   ThemeRef,
   LyHostClass,
-  StyleRenderer
+  StyleRenderer,
+  WithStyles,
+  Style
   } from '@alyle/ui';
 
 export interface LyCardTheme {
@@ -58,6 +60,12 @@ export const STYLES = (theme: ThemeVariables & LyCardVariables, ref: ThemeRef) =
             : theme.card.root(card))
         )
       }
+    }`,
+    bgImg: lyl `{
+      display: block
+      background-size: cover
+      background-repeat: no-repeat
+      background-position: center
     }`,
     content: lyl `{
       display: block
@@ -193,6 +201,9 @@ export class LyCardActions implements OnInit {
   }
 }
 
+/**
+ * @dynamic
+ */
 @Directive({
   selector: 'ly-card-media',
   providers: [
@@ -200,35 +211,17 @@ export class LyCardActions implements OnInit {
     LyHostClass
   ]
 })
-export class LyCardMedia implements OnInit {
+export class LyCardMedia implements WithStyles, OnInit {
   static readonly и = 'LyCardMedia';
-  private _bgImg: string;
+  static readonly $priority = STYLE_PRIORITY;
 
   private _ratio: string;
 
   @Input()
-  set bgImg(val: string) {
-    if (val !== this.bgImg) {
-      this._bgImg = val;
-      this[0x1] = this.styleRenderer.add(
-        `${LyCardMedia.и}--bgImg-${val}`,
-        () => lyl `{
-          display: block
-          background-size: cover
-          background-repeat: no-repeat
-          background-position: center
-        }`,
-        STYLE_PRIORITY,
-        this[0x1]
-      );
-      this.renderer.setStyle(this.el.nativeElement, `background-image`, `url("${val}")`);
-    }
-  }
-  get bgImg() {
-    return this._bgImg;
-  }
-  /** bgImg class name */
-  [0x1]: string;
+  @Style<string>((val) => () => lyl `{
+    background-image: url('${val}')
+  }`)
+  bgImg: string;
 
   /**
    * Aspect ratio
@@ -241,7 +234,7 @@ export class LyCardMedia implements OnInit {
   set ratio(val: string) {
     if (val !== this.ratio) {
       this._ratio = val;
-      this[0x2] = this.styleRenderer.add(
+      this[0x2] = this.sRenderer.add(
         `${LyCardMedia.и}--ratio-${val}`,
         () => lyl `{
           &::before {
@@ -263,14 +256,17 @@ export class LyCardMedia implements OnInit {
   [0x2]: string;
 
   constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private styleRenderer: StyleRenderer
-  ) { }
+    readonly sRenderer: StyleRenderer,
+    card: LyCard
+  ) {
+    sRenderer.addClass(card.classes.bgImg);
+  }
 
   ngOnInit() {
     if (!this.ratio) {
       this.ratio = DEFAULT_ASPECT_RATIO;
     }
   }
+
+  static ngAcceptInputType_bgImg: string;
 }

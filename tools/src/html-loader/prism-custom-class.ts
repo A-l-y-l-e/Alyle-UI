@@ -45,7 +45,8 @@ const classList = [
   'attr-name',
   'class-name',
   'builtin',
-  'property'
+  'property',
+  'selector'
 ];
 export const prismCustomClass = () => {
   if (!customClass) {

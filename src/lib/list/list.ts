@@ -55,6 +55,7 @@ const STYLE_PRIORITY = 2;
 const DISABLE_PADDING = false;
 export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) => {
   const list = ref.selectorsOf(STYLES);
+  const { before} = theme;
   return {
     $name: LyList.и,
     $priority: STYLE_PRIORITY,
@@ -134,7 +135,7 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
     }`,
     lines: lyl `{
       align-self: stretch
-      minWidth: 0
+      min-width: 0
       width: 100%
       justify-content: center
       flex-direction: column
@@ -142,7 +143,7 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
     }`,
     listItemWithIcon: ( ) => lyl `{
       ${list.lines} {
-        padding-before: 16px
+        padding-${before}: 16px
       }
     }`,
     twoLineWithIcon: ( ) => lyl `{

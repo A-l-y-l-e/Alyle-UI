@@ -6,7 +6,7 @@ The <code class="ts">LyDialog</code> service can be used to open modal dialogs.
 <h2 [lyTyp]="'display1'" gutter>Basic Dialog</h2>
 <demo-view
   path="docs/components/dialog-demo/basic-dialog"
-  [extraPaths]="['dialog-demo.html']"
+  extra-paths="dialog-demo.html"
 >
   <aui-basic-dialog></aui-basic-dialog>
 </demo-view>
@@ -14,7 +14,7 @@ The <code class="ts">LyDialog</code> service can be used to open modal dialogs.
 <h2 [lyTyp]="'display1'" gutter>Full-screen dialog</h2>
 <demo-view
   path="docs/components/dialog-demo/full-screen-dialog"
-  [extraPaths]="['full-screen-dialog.html']"
+  extra-paths="full-screen-dialog.html"
 >
   <aui-full-screen-dialog></aui-full-screen-dialog>
 </demo-view>
@@ -25,7 +25,7 @@ The <code class="ts">LyDialog</code> service can be used to open modal dialogs.
 </p>
 <demo-view
   path="docs/components/dialog-demo/dialog-responsive"
-  [extraPaths]="['dialog-responsive-dialog.html']"
+  extra-paths="dialog-responsive-dialog.html"
 >
   <aui-dialog-responsive></aui-dialog-responsive>
 </demo-view>
@@ -33,7 +33,7 @@ The <code class="ts">LyDialog</code> service can be used to open modal dialogs.
 <h2 [lyTyp]="'display1'" gutter>Prompt</h2>
 <demo-view
   path="docs/components/dialog-demo/dialog-prompt"
-  [extraPaths]="['dialog-prompt-dialog.html']"
+  extra-paths="dialog-prompt-dialog.html"
 >
   <aui-dialog-prompt></aui-dialog-prompt>
 </demo-view>

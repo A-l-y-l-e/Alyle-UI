@@ -1,0 +1,15 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> FormControl<span class="tt18 ttae">,</span> Validators <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/forms'</span><span class="tt18 ttae">;</span>
+
+
+@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'aui-select-reactive-form'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./select-reactive-form.component.html'</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttae">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">SelectReactiveFormComponent</span> <span class="tt18 ttae">&#123;</span>
+  selectFormControl <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormControl</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span> Validators<span class="tt18 ttae">.</span>required<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  selectFormControlTwo <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormControl</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span> Validators<span class="tt18 ttae">.</span>required<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  selectFormControlThree <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormControl</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span> Validators<span class="tt18 ttae">.</span>required<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

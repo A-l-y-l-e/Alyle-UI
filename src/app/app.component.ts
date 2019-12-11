@@ -244,7 +244,8 @@ const PRISM_STYLES = (theme: AUIThemeVariables) => {
             classes.quote,
             classes.name,
             classes['selector-id'],
-            classes['selector-class']
+            classes['selector-class'],
+            classes.property
           ].map(c => `& ${c}`).join()
         ]: {
           color: theme.prism.keyword
@@ -271,7 +272,7 @@ const PRISM_STYLES = (theme: AUIThemeVariables) => {
         [`${classes.function}`]: {
           color: '#4584ff'
         },
-        [`${classes['attr-name']}`]: {
+        [`& ${classes['attr-name']}`]: {
           color: '#FFB62C'
         },
         [`${classes['attr-value']}`]: {
@@ -286,7 +287,7 @@ const PRISM_STYLES = (theme: AUIThemeVariables) => {
         [`& ${classes.punctuation}, & ${classes.operator}`]: {
           color: '#9786c5'
         },
-        [`${classes['class-name']}`]: {
+        [`& ${classes['class-name']}, & ${classes.selector}`]: {
           color: theme.accent.default.alpha(.88)
         },
         [`${classes.constant}`]: {

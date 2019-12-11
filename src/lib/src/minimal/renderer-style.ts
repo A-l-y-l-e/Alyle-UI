@@ -1,21 +1,30 @@
-import { Injectable, ElementRef, Optional } from '@angular/core';
+import { Injectable, ElementRef, Renderer2, Optional } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
-import { LyHostClass } from './host-class';
 import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
+
+const __CLASS_NAME__ = '__CLASS_NAME__';
 
 @Injectable()
 export class StyleRenderer {
+  private readonly _set: Set<string> = new Set<string>();
+  private _nEl: HTMLElement;
+
   constructor(
-    _el: ElementRef,
     private _theme: LyTheme2,
-    @Optional() private _hostClass: LyHostClass
-  ) { }
+    @Optional() _el: ElementRef,
+    @Optional() private _renderer: Renderer2
+  ) {
+    if (_el) {
+      this._nEl = _el.nativeElement;
+      this._set = new Set<string>();
+    }
+  }
 
   /**
-   * Build multiple styles and render them in the DOM
+   * Build multiple styles and render them in the DOM.
    */
-  addSheet<T>(styles: T & LyStyles): LyClasses<T> {
+  renderSheet<T>(styles: T & LyStyles): LyClasses<T> {
     return this._theme._createStyleContent2(styles, null, null, TypeStyle.Multiple);
   }
 
@@ -58,6 +67,15 @@ export class StyleRenderer {
     oldClass: string | null
   ): string;
 
+  /**
+   * Render style and apply class name to host Component or Directive,
+   * require provide `StyleRenderer` in your Component.
+   * e.g.
+   * @Component({
+   *   ...
+   *   providers: [ StyleRenderer ]
+   * })
+   */
   add(
     id: string | ((theme: any, ref: ThemeRef) => StyleTemplate),
     style?: ((theme: any, ref: ThemeRef) => StyleTemplate) | number | string,
@@ -130,18 +148,141 @@ export class StyleRenderer {
         priority as number,
         TypeStyle.LylStyle);
     }
-    if (this._hostClass) {
-      return this._hostClass.update(className!, oldClass);
+    if (this._nEl) {
+      return this.updateClass(className!, oldClass);
     }
     throw new Error(
-      `LyHostClass is required `
-      + `to update classes.\n\n`
-      + `Add LyHostClass to Component or Directive:\n\n`
+      `StyleRenderer is required on the Component!\n`
+      + `Add provider for StyleRenderer in Component or Directive:\n\n`
       + `e.g:\n\n`
       + `@Component({\n`
-      + `  providers: [ LyHostClass ]\n`
+      + `  providers: [ StyleRenderer ]\n`
       + `})\n`
     );
   }
+
+  render(
+    style: (theme: any, ref: ThemeRef) => StyleTemplate
+  ): string;
+  render(
+    style: (theme: any, ref: ThemeRef) => StyleTemplate,
+    priority: number
+  ): string;
+  render(
+    id: string,
+    style: (theme: any, ref: ThemeRef) => StyleTemplate
+  ): string;
+  render(
+    id: string,
+    style: (theme: any, ref: ThemeRef) => StyleTemplate,
+    priority: number
+  ): string;
+
+  /**
+   * Only render style and return class name.
+   */
+  render(
+    styleOrId: string | ((theme: any, ref: ThemeRef) => StyleTemplate),
+    priorityOrStyle?: ((theme: any, ref: ThemeRef) => StyleTemplate) | number | string,
+    priority?: number | undefined | null
+  ): string {
+    if (typeof styleOrId === 'string') {
+      return this._theme._createStyleContent2(priorityOrStyle as (theme: any, ref: ThemeRef) => StyleTemplate,
+        styleOrId,
+        priority,
+        TypeStyle.LylStyle);
+    }
+    return this._theme._createStyleContent2(styleOrId,
+      null,
+      priority,
+      TypeStyle.LylStyle);
+  }
+
+  addClass(className: string) {
+    if (!this._set.has(className)) {
+      this._set.add(className);
+      this._renderer.addClass(this._nEl, className);
+    }
+  }
+
+  removeClass(className?: string | null) {
+    if (className && this._set.has(className)) {
+      this._set.delete(className);
+      this._renderer.removeClass(this._nEl, className);
+    }
+  }
+
+  toggleClass(className: string, enabled: boolean) {
+    if (enabled) {
+      this.addClass(className);
+    } else {
+      this.removeClass(className);
+    }
+  }
+
+  updateClass(newClassName: string, oldClassName: string | null | undefined) {
+    this.removeClass(oldClassName);
+    this.addClass(newClassName);
+    return newClassName;
+  }
+
 }
 
+export function Style<INPUT = any, C = any>(
+  style: (val: NonNullable<INPUT>, comp: C) => ((theme: any, ref: ThemeRef) => StyleTemplate),
+  priority?: number
+) {
+
+  return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
+    const index = `${__CLASS_NAME__}${propertyKey}`;
+    if (descriptor) {
+      const set = descriptor.set!;
+      descriptor.set = function (val: INPUT) {
+        const that: WithStyles = this;
+        if (val == null) {
+          that.sRenderer.removeClass(that[index]);
+        } else {
+          that[index] = that.sRenderer.add(
+            `${getComponentName(that)}--${propertyKey}-${val}`,
+            style(val as any, that as any),
+            priority || that.$priority || (that.constructor as any).$priority || 0,
+            that[index]
+          );
+        }
+        set.call(that, val);
+      };
+    } else {
+      Object.defineProperty(target, propertyKey, {
+        configurable: true,
+        enumerable: true,
+        set(val: INPUT) {
+          const that: WithStyles = this;
+          if (val == null) {
+            that.sRenderer.removeClass(that[index]);
+          } else {
+            that[`_${propertyKey}`] = val;
+            that[index] = that.sRenderer.add(
+              `${getComponentName(that)}--${propertyKey}-${val}`,
+              style(val as NonNullable<INPUT>, that as any),
+              priority || that.$priority || (that.constructor as any).$priority || 0,
+              that[index]
+            );
+          }
+        },
+        get() {
+          return this[`_${propertyKey}`];
+        }
+      });
+    }
+  };
+}
+
+export interface WithStyles {
+  /** Style Priority, default: 0 */
+  readonly $priority?: number;
+  readonly sRenderer: StyleRenderer;
+}
+
+function getComponentName(comp: any) {
+  return comp.constructor.и || comp.constructor.name || 'unnamed';
+}

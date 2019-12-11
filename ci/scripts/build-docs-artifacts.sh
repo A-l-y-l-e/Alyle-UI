@@ -10,6 +10,4 @@ yarn build:@alyle/ui
 export CI_COMMIT_MESSAGE=$(git show -s --format=%s)
 export CI_COMMIT_SHA=$(git rev-parse HEAD)
 export CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-yarn bundlesizelimit
-gzip -v -k dist/bundle.js
 ls dist -lh

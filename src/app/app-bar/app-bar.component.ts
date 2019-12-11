@@ -47,7 +47,7 @@ const styles = (theme: AUIThemeVariables) => ({
 })
 export class AppBarComponent implements OnInit, OnDestroy {
   classes = this.theme.addStyleSheet(styles, 1);
-  themes: Set<string>;
+  themes: string[];
   drawer: LyDrawer;
   bg = 'transparent';
   elevation = 0;
@@ -77,7 +77,10 @@ export class AppBarComponent implements OnInit, OnDestroy {
     private _ads: Ads,
     private _location: Location
   ) {
-    this.themes = themeManager.themes;
+    this.themes = Array.from(themeManager.themes)
+      // Themes that are used in multiple themes demo
+      // that should not be displayed on the menu.
+      .filter(nam => !nam.startsWith('new-'));
   }
 
   ngOnInit() {

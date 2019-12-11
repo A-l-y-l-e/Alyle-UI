@@ -8,7 +8,7 @@ export const ADS_STYLES = () => lyl `{
   display: block
   position: relative
   max-width: 345px
-  min-height: 124px
+  min-height: 130px
   margin-top: 32px
   margin-bottom: 24px
 }`;
@@ -35,13 +35,7 @@ export class Ads {
           .pipe(take(1))
           .subscribe(() => {
             const className = theme.renderStyle(ADS_STYLES);
-            let ref = document.querySelector('aui-doc-viewer .ad');
-            if (!ref) {
-              ref = document.querySelector('aui-doc-viewer p');
-            }
-            if (!ref) {
-              ref = document.querySelector('aui-doc-viewer demo-view');
-            }
+            const ref = document.querySelector('aui-doc-viewer p');
             if (ref) {
               const Div = this._renderer.createElement('div');
               const CodeFund = this._renderer.createElement('div');
@@ -56,11 +50,12 @@ export class Ads {
               if (path === '' || path === '/') {
                 api += `theme=dark&template=centered`;
               } else {
-                api += `theme=${themeNameForCodeFund}`;
+                api += `theme=${themeNameForCodeFund}&template=default`;
               }
               this._renderer.addClass(Div, className);
-              CodeFundScript.src = api;
-              CodeFundScript.async = 1;
+              CodeFundScript.setAttribute('type', 'text/javascript');
+              CodeFundScript.setAttribute('src', api);
+              CodeFundScript.setAttribute('async', 'async');
               this._renderer.setAttribute(CodeFund, 'id', 'codefund');
               this._renderer.insertBefore(
                 parentNode,

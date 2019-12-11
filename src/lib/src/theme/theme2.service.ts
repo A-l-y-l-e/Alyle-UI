@@ -1,5 +1,5 @@
-import { Injectable, Renderer2, Inject, isDevMode, NgZone } from '@angular/core';
-import { LY_THEME_NAME, ThemeVariables } from './theme-config';
+import { Injectable, Renderer2, Inject, isDevMode, NgZone, Optional } from '@angular/core';
+import { LY_THEME_NAME, ThemeVariables, LY_THEME, LY_THEME_GLOBAL_VARIABLES, ThemeConfig } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
@@ -72,9 +72,14 @@ export class LyTheme2 {
     private stylesInDocument: StylesInDocument,
     public core: CoreTheme,
     @Inject(LY_THEME_NAME) themeName,
+    @Optional() @Inject(LY_THEME) themeConfig: ThemeConfig[] | ThemeConfig,
+    @Optional() @Inject(LY_THEME_GLOBAL_VARIABLES) globalVariables: ThemeConfig,
     @Inject(DOCUMENT) private _document: any,
     private _ngZone: NgZone
   ) {
+    if (themeConfig) {
+      core.initializeTheme(themeConfig, globalVariables);
+    }
     if (themeName) {
       this.setUpTheme(themeName);
     }

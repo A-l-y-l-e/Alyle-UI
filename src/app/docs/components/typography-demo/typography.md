@@ -18,13 +18,15 @@ export class GlobalVariables implements PartialThemeVariables {
   ...
   typography = {
     lyTyp: {
-      subTitle: {
-        fontFamily: \`'Nunito', sans-serif\`,
-        textAlign: 'center',
-        paddingAbove: '1em',
-        opacity: .6,
-        fontSize: '32px',
-        fontWeight: 400
+      lyTyp: {
+        myTitle: () => lyl `{
+          font-family: 'Roboto', sans-serif
+          text-align: center
+          padding-above: 1em
+          opacity: .6
+          font-size: 32px
+          font-weight: 400
+        }`
       }
     }
   };
@@ -36,7 +38,7 @@ export class GlobalVariables implements PartialThemeVariables {
 </p>
 
 ```html
-<h2 lyTyp="subTitle">Hello</h2>
+<h2 lyTyp="myTitle">Hello</h2>
 ```
 <h2 lyTyp="headline" gutter>Truncate text</h2>
 

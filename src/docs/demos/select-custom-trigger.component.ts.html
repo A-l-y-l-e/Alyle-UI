@@ -1,0 +1,21 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> FormControl <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/forms'</span><span class="tt18 ttae">;</span>
+
+@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'aui-select-custom-trigger'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./select-custom-trigger.component.html'</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttae">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">SelectCustomTriggerComponent</span> <span class="tt18 ttae">&#123;</span>
+  fruits <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormControl</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  fruitList <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
+    <span class="tt18 tt3z">'Apple'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3z">'Banana'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3z">'Cherry'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3z">'Mango'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3z">'Orange'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3z">'Pineapple'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3z">'Strawberry'</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

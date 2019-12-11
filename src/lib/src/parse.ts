@@ -47,7 +47,7 @@ export class LylParse {
     let selector: null | string = null;
     const rules = new Map<string, string[]>();
     this._template
-      .replace(/(\/\/[^\n\r]*(?:[\n\r]+|$))/g, '')
+      .replace(/(\/\/\s[^\n\r]*(?:[\n\r]+|$))/g, '')
       .replace(/,\n/g, ',')
       .replace(LINE_FEED_REGEX(), (_ex, fullLine: string) => {
       fullLine = fullLine.trim();
@@ -126,7 +126,7 @@ export class LylParse {
         const media = matchArray[1];
         if (media !== key && val.length) {
           const after = rules.get(media)!;
-          const newValue = after + key.replace(media + '{', '') + `{${val}}`;
+          const newValue = after + key.replace(media + '{', '') + `{${val.join(';')}}`;
           rules.set(media, [newValue]);
           rules.delete(key);
         }

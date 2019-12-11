@@ -112,7 +112,7 @@ export class LyGrid {
    */
   private _createSpacingClass(xy?: string | number, x?: string | number, y?: string | number) {
     const newSpacingClass = this.theme.addStyle(`lyGrid-spacing:${xy}·${x}·${y}`, (theme: ThemeVariables) => {
-      const val = xy || x || y;
+      const val = (xy || x || y) as string | number;
       const spacingStyles: {
         padding?: string
       } = {};
@@ -146,7 +146,7 @@ export class LyGrid {
     }
 
     this._negativeMarginClass = this.theme.addStyle(`lyGrid-negative-margin:${xy}·${x}·${y}`, (theme: ThemeVariables) => {
-      const val = xy || x || y;
+      const val = (xy || x || y) as string | number;
       let negativeMarginStyles: {
         margin?: string
         width?: string

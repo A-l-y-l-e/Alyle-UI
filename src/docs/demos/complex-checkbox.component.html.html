@@ -1,0 +1,23 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>h4</span> <span class="tt18 ttbx">lyTyp</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>title<span class="tt18 ttae">"</span></span> <span class="tt18 ttbx">gutterBottom</span><span class="tt18 ttae">></span></span>Fruits<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>h4</span><span class="tt18 ttae">></span></span>
+<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>form</span>
+  <span class="tt18 ttbx">[className]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>classes.form<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[formGroup]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>form<span class="tt18 ttae">"</span></span>
+<span class="tt18 ttae">></span></span>
+  <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-grid</span> <span class="tt18 ttbx">container</span>
+    <span class="tt18 ttbx">justify</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>between<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttbx">formArrayName</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>fruits<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttbx">*ngFor</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>let fruit of fruitsAbstractControlArray; index as i;<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttae">></span></span>
+    <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-checkbox</span>
+      <span class="tt18 ttbx">[color]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>i === 2 ? 'primary' : 'accent'<span class="tt18 ttae">"</span></span>
+      <span class="tt18 ttbx">[formControlName]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>i<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttae">></span></span>&#123;&#123; fruits[i].name &#125;&#125;<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-checkbox</span><span class="tt18 ttae">></span></span>
+    <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-checkbox</span>
+      <span class="tt18 ttbx">[color]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>i === 2 ? 'primary' : 'accent'<span class="tt18 ttae">"</span></span>
+      <span class="tt18 ttbx">[checked]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>fruit.disabled<span class="tt18 ttae">"</span></span>
+      <span class="tt18 ttbx">(change)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>onDisableChange(fruit, $event.checked, i)<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttae">></span></span>Disabled<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-checkbox</span><span class="tt18 ttae">></span></span>
+  <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-grid</span><span class="tt18 ttae">></span></span>
+<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>form</span><span class="tt18 ttae">></span></span>
+<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>pre</span><span class="tt18 ttae">></span></span>selectedFruits: &#123;&#123; selectedFruits | json &#125;&#125;<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>pre</span><span class="tt18 ttae">></span></span>
+</code></pre>

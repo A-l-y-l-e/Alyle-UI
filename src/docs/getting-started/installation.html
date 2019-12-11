@@ -7,7 +7,7 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 <blockquote>
-  <p>Please note that as of version 2.9.0 you have support for Angular 8. If your project uses Angular 7, then use version 2.7.8</p>
+  <p>Please note that as of version 2.9.0 you have support for Angular 8. If your project uses Angular 7, then use version 2.7.8. There is no longer support for Angular 7.</p>
 </blockquote>
 <h2 id="angular-cli">Angular CLI</h2>
 <p>
@@ -23,9 +23,6 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tta3">npm</span> <span class="tt18 tta3">install</span> --save @alyle/ui
 </code></pre>
 <h3 id="step-2-import-alyle-ui-in-appmodule">Step 2: Import Alyle UI in AppModule</h3>
-<blockquote>
-  <p>Note: the themes must be added in the root module of the application, not in sub modules.</p>
-</blockquote>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttb0">...</span>
 <span class="tt18 tt3o">/** Import animations */</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> BrowserAnimationsModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/platform-browser/animations'</span><span class="tt18 ttae">;</span>
@@ -49,10 +46,7 @@
   <span class="tt18 ttb0">...</span>
   imports<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
     <span class="tt18 ttb0">...</span>
-    <span class="tt18 tt3o">// Animations</span>
     BrowserAnimationsModule<span class="tt18 ttae">,</span>
-    <span class="tt18 tt3o">// Set main theme</span>
-    LyThemeModule<span class="tt18 ttae">.</span><span class="tt18 tta3">setTheme</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'minima-light'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
     <span class="tt18 tt3o">// Add components</span>
     LyButtonModule<span class="tt18 ttae">,</span>
     LyToolbarModule<span class="tt18 ttae">,</span>
@@ -61,6 +55,10 @@
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   <span class="tt18 tt3o">/** Add themes */</span>
   providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+    <span class="tt18 ttae">[</span> LyTheme2 <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">[</span> StyleRenderer <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3o">// Theme that will be applied to this module</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> MinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
     <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> MinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// name: `minima-light`</span>
     <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> MinimaDark<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt3o">// name: `minima-dark`</span>
   <span class="tt18 ttae">]</span>
@@ -71,25 +69,13 @@
 <p>This library uses Roboto Font &amp; Google's Material Icons, you can add this in <code class="ttm ttx">src/index.html</code></p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>link</span> <span class="tt18 ttbx">href</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons<span class="tt18 ttae">"</span></span> <span class="tt18 ttbx">rel</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>stylesheet<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
 </code></pre>
-<h3 id="step-3-install-hammerjs">Step 3: Install HammerJs</h3>
-<p>
-  The <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-carousel</span><span class="tt18 ttae">></span></span></code> and <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-img-cropper</span><span class="tt18 ttae">></span></span></code> components require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
-</p>
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tta3">yarn</span> <span class="tt18 tta3">add</span> hammerjs
-</code></pre>
-<p>or</p>
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tta3">npm</span> <span class="tt18 tta3">install</span> --save hammerjs
-</code></pre>
-<p>Import in <code class="ttm ttx">src/main.ts</code></p>
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 tt3z">'hammerjs'</span><span class="tt18 ttae">;</span>
-</code></pre>
-<h3 id="step-4-applies-styles-to-appcomponent">Step 4: Applies styles to AppComponent</h3>
-<p>This applies styles using the theme variables to the <code class="ttm ttx">&lt;body&gt;</code> element.</p>
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyTheme2<span class="tt18 ttae">,</span> ThemeVariables<span class="tt18 ttae">,</span> lyl <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+<h3 id="step-3-applies-styles-to-appcomponent">Step 3: Applies styles to AppComponent</h3>
+<p>This applies styles using the theme variables to the <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>body</span><span class="tt18 ttae">></span></span></code> element.</p>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> StyleRenderer<span class="tt18 ttae">,</span> ThemeVariables<span class="tt18 ttae">,</span> lyl <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttae">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   $global<span class="tt18 ttae">:</span> lyl <span class="tt18 template-string"><span class="tt18 tt3z">`&#123;
-    body: &#123;
+    body &#123;
       background-color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>background<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
       color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>text<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
       font-family: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>typography<span class="tt18 ttae">.</span>fontFamily<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
@@ -101,12 +87,12 @@
 
 @<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span><span class="tt18 ttb0">...</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">AppComponent</span> <span class="tt18 ttae">&#123;</span>
-  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">renderStyleSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>styleRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> theme<span class="tt18 ttae">:</span> LyTheme2</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> styleRenderer<span class="tt18 ttae">:</span> StyleRenderer</span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>
-<h3 id="step-5-use-the-components">Step 5: Use the components</h3>
+<h3 id="step-4-use-the-components">Step 4: Use the components</h3>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">ly-button</span> <span class="tt18 ttbx">raised</span><span class="tt18 ttae">></span></span>Hello World<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
 </code></pre>

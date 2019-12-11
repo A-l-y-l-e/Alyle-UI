@@ -1,0 +1,28 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> NgModule<span class="tt18 ttae">,</span> Type <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> BasicBadgeComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./basic-badge/basic-badge.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> CustomBadgeComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./custom-badge/custom-badge.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> DotBadgeComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./dot-badge/dot-badge.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> BasicBadgeModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./basic-badge/basic-badge.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> CustomBadgeModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./custom-badge/custom-badge.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> DotBadgeModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./dot-badge/dot-badge.module'</span><span class="tt18 ttae">;</span>
+
+
+<span class="tt18 tt1j">const</span> elements <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
+  BasicBadgeComponent<span class="tt18 ttae">,</span>
+  CustomBadgeComponent<span class="tt18 ttae">,</span>
+  DotBadgeComponent
+<span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+
+@<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  imports<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+    BasicBadgeModule<span class="tt18 ttae">,</span>
+    CustomBadgeModule<span class="tt18 ttae">,</span>
+    DotBadgeModule
+  <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+  entryComponents<span class="tt18 ttae">:</span> elements
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">LazyModule</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">static</span> entryComponents<span class="tt18 ttae">:</span> Type<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> elements<span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

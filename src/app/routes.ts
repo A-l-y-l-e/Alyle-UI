@@ -28,10 +28,20 @@ export const AUIRoutes: {
     routes: [
       { route: 'dynamic-styles', name: 'Dynamic styles' },
       { route: 'theming', name: 'Theming' },
-      { route: 'theming-components', name: 'Theming Components' },
+      { route: 'theming-components', name: 'Components' },
       { route: 'paper', name: 'Paper' },
+      { route: 'color', name: 'Color' },
       { route: 'multiple-themes', name: 'Multiple themes' }
     ]
+  },
+  {
+    name: 'Styles',
+    route: 'styles',
+    routes: [
+      { route: 'dynamic-style-with-input-and-style', name: '@Style' },
+      { route: 'sizing', name: 'Sizing' },
+      { route: 'spacing', name: 'Spacing' }
+    ].sort(sort)
   },
   {
     name: 'Layout',
@@ -46,7 +56,8 @@ export const AUIRoutes: {
     name: 'Guides',
     route: 'guides',
     routes: [
-      { route: 'lazy-loading' , name: 'Lazy Loading'}
+      { route: 'lazy-loading' , name: 'Lazy Loading'},
+      { route: 'migrating-to-alyle-ui-3' , name: 'Migrating to Alyle UI 3'}
     ].sort(sort)
   },
   {

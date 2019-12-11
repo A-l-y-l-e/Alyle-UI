@@ -199,7 +199,7 @@ interface ImgRect {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
-  selector: 'ly-img-cropper, ly-cropping, ly-cropper',
+  selector: 'ly-img-cropper, ly-image-cropper',
   templateUrl: 'image-cropper.html'
  })
 export class LyImageCropper implements OnDestroy {
