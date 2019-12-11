@@ -18,10 +18,8 @@ jobs:
     displayName: "Install Yarn"
   - bash: |
       set -e
-      printenv
       echo $(curl https://api.github.com/repos/${BUILD_REPOSITORY_NAME}/commits/${SYSTEM_PULLREQUEST_SOURCECOMMITID} | node -pe 'JSON.parse(fs.readFileSync(0)).commit.message') > ./ci/scripts/msg
       echo ${SYSTEM_PULLREQUEST_SOURCECOMMITID} > ./ci/scripts/sha
-      echo ${BUILD_SOURCEVERSIONMESSAGE} > ./ci/scripts/BUILD_SOURCEVERSIONMESSAGE
       echo ${BUILD_SOURCEBRANCHNAME} > ./ci/scripts/BUILD_SOURCEBRANCHNAME
       echo $(git show -s --format=%s)
     displayName: "Write data"
