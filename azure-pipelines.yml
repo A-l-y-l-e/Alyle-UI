@@ -21,6 +21,7 @@ jobs:
       printenv
       echo $(curl https://api.github.com/repos/${BUILD_REPOSITORY_NAME}/commits/${SYSTEM_PULLREQUEST_SOURCECOMMITID} | node -pe 'JSON.parse(fs.readFileSync(0)).commit.message') > ./ci/scripts/msg
       echo ${SYSTEM_PULLREQUEST_SOURCECOMMITID} > ./ci/scripts/sha
+      printenv
     displayName: "Write data"
   - task: CacheBeta@1
     inputs:
