@@ -7,10 +7,16 @@ If the value is null or undefined, it will remove if there is a previously defin
 For instance:
 
 ```ts
-import { Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Style, StyleRenderer, Lyl, WithStyles } from '@alyle/ui';
  
-...
+@Component({
+  selector: '',
+  template: '<ng-content></ng-content>',
+  providers: [
+    StyleRenderer
+  ]
+})
 export class MyComponent implements WithStyles {
   @Input()
   @Style<number | null>(

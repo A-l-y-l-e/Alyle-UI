@@ -15,11 +15,50 @@ Features:
 
 ## Basic style sheet
 
+This is like a CSS declarations block.
+
+```ts
+import { StyleRenderer, lyl } from '@alyle/ui';
+
+const STYLES = () => ({
+  styleBorder: lyl `{
+    height: 120px
+    width: 120px
+    background: #ffe259
+    background-image: linear-gradient(${
+      [
+        '45deg',
+        '#ffe259 0%',
+        '#ffa751 100%'
+      ].join()
+    })
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%
+  }`
+});
+
+...
+export class DsCssDeclarationsBlockComponent {
+  readonly classes = this.sRenderer.renderSheet(STYLES);
+
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
+
+}
+```
+
+<demo-view path="docs/customization/dynamic-styles/ds-css-declarations-block">
+  <aui-ds-css-declarations-block></aui-ds-css-declarations-block>
+</demo-view>
+
+
+## Style sheet with `ThemeVariables`
+
 To create style sheet where some need the `ThemeVariables`, you can create it in the following way.
 
 ```ts
 const STYLES = (theme: ThemeVariables) => {
-  const { before } = theme;
+  const { before } = theme; // Support of RTL
   return {
     // Style name, is optional, this is used to add a prefix to all classes,
     // it will only be seen in dev mode
@@ -44,6 +83,20 @@ const STYLES = (theme: ThemeVariables) => {
 };
 ```
 
+And to render we use `StyleRenderer`:
+
+```ts
+...
+export class MyComponent {
+  readonly classes = this.sRenderer.renderSheet(STYLES);
+
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
+
+}
+```
+
 <demo-view path="docs/customization/dynamic-styles/with-theme-variables">
   <aui-with-theme-variables></aui-with-theme-variables>
 </demo-view>
@@ -55,7 +108,7 @@ e.g
 This way is fine:
 
 ```ts
-const STYLE = lyl `{
+lyl `{
   background-image: linear-gradient(${
     [
       '45deg',
@@ -69,40 +122,16 @@ const STYLE = lyl `{
 But this is not:
 
 ```ts
-const STYLE = lyl `{
+lyl `{
   background-image: linear-gradient(
-      45deg,
-      #ffe259 0%,
-      #ffa751 100%
+    45deg,
+    #ffe259 0%,
+    #ffa751 100%
   )
 }`
 ```
 
 > Note that the semicolon after a CSS statement is not required.
-
-## Basic style
-
-This is like a CSS declarations block.
-
-```ts
-const STYLE_BORDER = () => lyl `{
-  height: 120px
-  width: 120px
-  background: #ffe259
-  background-image: linear-gradient(${
-    [
-      '45deg',
-      '#ffe259 0%',
-      '#ffa751 100%'
-    ].join()
-  })
-  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%
-}`;
-```
-
-<demo-view path="docs/customization/dynamic-styles/ds-css-declarations-block">
-  <aui-ds-css-declarations-block></aui-ds-css-declarations-block>
-</demo-view>
 
 ## Nesting Selector
 
@@ -131,7 +160,7 @@ Compiled CSS:
 This can actually be thought of as short-hand for nesting with the `&`:
 
 
-<demo-view path="docs/customization/dynamic-styles/ds-nesting">
+<demo-view path="ds-nesting">
   <aui-ds-nesting></aui-ds-nesting>
 </demo-view>
 

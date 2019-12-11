@@ -64,7 +64,7 @@ export class LySkeleton {
   /** @docs-private */
   static readonly и = 'LySkeleton';
   /** @docs-private */
-  readonly classes = this.styleRenderer.addSheet(STYLES);
+  readonly classes = this.styleRenderer.renderSheet(STYLES);
 
   @Input('lySkeleton')
   get skeleton() {

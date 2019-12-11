@@ -22,9 +22,9 @@ export class StyleRenderer {
   }
 
   /**
-   * Build multiple styles and render them in the DOM
+   * Build multiple styles and render them in the DOM.
    */
-  addSheet<T>(styles: T & LyStyles): LyClasses<T> {
+  renderSheet<T>(styles: T & LyStyles): LyClasses<T> {
     return this._theme._createStyleContent2(styles, null, null, TypeStyle.Multiple);
   }
 
@@ -68,7 +68,13 @@ export class StyleRenderer {
   ): string;
 
   /**
-   * Render Style
+   * Render style and apply class name to host Component or Directive,
+   * require provide `StyleRenderer` in your Component.
+   * e.g.
+   * @Component({
+   *   ...
+   *   providers: [ StyleRenderer ]
+   * })
    */
   add(
     id: string | ((theme: any, ref: ThemeRef) => StyleTemplate),
@@ -153,6 +159,43 @@ export class StyleRenderer {
       + `  providers: [ StyleRenderer ]\n`
       + `})\n`
     );
+  }
+
+  render(
+    style: (theme: any, ref: ThemeRef) => StyleTemplate
+  ): string;
+  render(
+    style: (theme: any, ref: ThemeRef) => StyleTemplate,
+    priority: number
+  ): string;
+  render(
+    id: string,
+    style: (theme: any, ref: ThemeRef) => StyleTemplate
+  ): string;
+  render(
+    id: string,
+    style: (theme: any, ref: ThemeRef) => StyleTemplate,
+    priority: number
+  ): string;
+
+  /**
+   * Only render style and return class name.
+   */
+  render(
+    styleOrId: string | ((theme: any, ref: ThemeRef) => StyleTemplate),
+    priorityOrStyle?: ((theme: any, ref: ThemeRef) => StyleTemplate) | number | string,
+    priority?: number | undefined | null
+  ): string {
+    if (typeof styleOrId === 'string') {
+      return this._theme._createStyleContent2(priorityOrStyle as (theme: any, ref: ThemeRef) => StyleTemplate,
+        styleOrId,
+        priority,
+        TypeStyle.LylStyle);
+    }
+    return this._theme._createStyleContent2(styleOrId,
+      null,
+      priority,
+      TypeStyle.LylStyle);
   }
 
   addClass(className: string) {

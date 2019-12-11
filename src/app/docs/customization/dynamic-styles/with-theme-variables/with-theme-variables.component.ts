@@ -35,10 +35,10 @@ const STYLES = (theme: ThemeVariables) => {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WithThemeVariablesComponent {
-  readonly classes = this.styleRenderer.addSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES);
 
   constructor(
-    private styleRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer
   ) { }
 
 }

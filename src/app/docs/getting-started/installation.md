@@ -106,7 +106,7 @@ const STYLES = (theme: ThemeVariables) => ({
 
 @Component({...})
 export class AppComponent {
-  readonly classes = this.styleRenderer.addSheet(STYLES);
+  readonly classes = this.styleRenderer.renderSheet(STYLES);
   constructor(
     private styleRenderer: StyleRenderer
   ) { }
