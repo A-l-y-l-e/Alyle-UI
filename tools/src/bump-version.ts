@@ -1,7 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
 import * as jsyaml from 'js-yaml';
 import * as moment from 'moment';
-import { argv } from 'yargs';
 import * as semver from 'semver';
 
 const packageConf = `${process.cwd()}/.package.conf.yml`;
@@ -11,7 +10,6 @@ const pkg = JSON.parse(readFileSync(`${process.cwd()}/package.json`, 'utf8').toS
 const pkgLib = JSON.parse(readFileSync(`${process.cwd()}/src/lib/package.json`, 'utf8').toString());
 const styleCompilerLib = JSON.parse(readFileSync(`${process.cwd()}/src/lib/style-compiler/package.json`, 'utf8').toString());
 
-const isNightly = process.argv.some(_ => _ === '--nightly');
 const {
   NEW_RELEASE
 } = process.env;
