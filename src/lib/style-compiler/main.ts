@@ -43,7 +43,7 @@ if (directory) {
 } else {
   console.log(chalk.bold.redBright(`Require directory`));
   console.log(`Examples: lyl dist/lib`);
-  process.exit(0);
+  process.exit(1);
 }
 
 walk(directory).then(async (res) => {

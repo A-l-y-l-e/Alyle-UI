@@ -18,10 +18,10 @@ jobs:
     displayName: "Install Yarn"
   - bash: |
       set -e
-      echo $(curl https://api.github.com/repos/${BUILD_REPOSITORY_NAME}/commits/${SYSTEM_PULLREQUEST_SOURCECOMMITID} | node -pe 'JSON.parse(fs.readFileSync(0)).commit.message') > ./ci/scripts/msg
-      echo ${SYSTEM_PULLREQUEST_SOURCECOMMITID} > ./ci/scripts/sha
+      source ./ci/setup.sh
+      echo $(ts-node tools/src/commit-msg) > ./ci/scripts/MSG
+      echo $(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION') > ./ci/scripts/SHA
       echo ${BUILD_SOURCEBRANCHNAME} > ./ci/scripts/BUILD_SOURCEBRANCHNAME
-      echo $(git show -s --format=%s)
     displayName: "Write data"
   - task: CacheBeta@1
     inputs:
@@ -35,9 +35,10 @@ jobs:
       yarn global add serve
       yarn tools:prepare-lib
       ./ci/scripts/build-style-compiler.sh
-      node dist/@alyle/style-compiler/main src
+      node dist/@alyle/ui/style-compiler/main src
       # yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
+    displayName: 'Build App'
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'dist/alyle-ui'

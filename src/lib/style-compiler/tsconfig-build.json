@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "..",
-    "outDir": "../../../dist/@alyle/style-compiler/",
+    "outDir": "../../../dist/@alyle/ui/style-compiler/",
     "lib": [
       "es2015"
     ],

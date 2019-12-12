@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import * as jsyaml from 'js-yaml';
 import * as moment from 'moment';
 import { argv } from 'yargs';
+import * as semver from 'semver';
 
 const packageConf = `${process.cwd()}/.package.conf.yml`;
 const config = jsyaml.load(readFileSync(packageConf, 'utf8').toString());
@@ -11,6 +12,14 @@ const pkgLib = JSON.parse(readFileSync(`${process.cwd()}/src/lib/package.json`, 
 const styleCompilerLib = JSON.parse(readFileSync(`${process.cwd()}/src/lib/style-compiler/package.json`, 'utf8').toString());
 
 const isNightly = process.argv.some(_ => _ === '--nightly');
+const {
+  NEW_RELEASE
+} = process.env;
+
+if (!NEW_RELEASE) {
+  console.log('Bump Version: skiped.');
+  process.exit(0);
+}
 
 function updateVersion() {
   const newVersion = createVersion(config.version);
@@ -29,38 +38,23 @@ function updateVersion() {
   writeFileSync(`${process.cwd()}/src/lib/style-compiler/package.json`, JSON.stringify(pkgLib, undefined, 2), 'utf8');
 }
 
-const NEW_VERSION = process.env.NEW_VERSION || (argv.newVersion as string) || null;
-
 function createVersion(currentVersion: string) {
   const newDate = new Date();
   const now = newDate.getTime();
-  const date = `${moment().format('YYYYMMDD')}-${Date.now().toString(36)}`;
-  let versionArray = currentVersion.split('.');
-  const nightlyVersion = `-nightly.${date}`;
-  let version;
-
-  if (NEW_VERSION) {
-
-    // Bump custom new version
-
-    // Clean
-    versionArray = [...NEW_VERSION.split('.')];
-  } else if (isNightly) {
-    if (versionArray.length > 3) {
-      versionArray[versionArray.length - 1] = date;
-    } else {
-      versionArray[2] = `${parseFloat(versionArray[2]) + 1}` + nightlyVersion;
-    }
-  } else {
-    if (versionArray.length > 3) {
-      versionArray.splice(3);
-      versionArray[2] = versionArray[2].replace('-nightly', '');
-    } else {
-      versionArray[2] = `${parseFloat(versionArray[2]) + 1}`;
-    }
-  }
-  version = versionArray.join('.');
   const lastUpdate = new Date(now).toJSON();
+  const date = `${moment(now).format('YYMMDD')}${moment().format('HHmm')}`;
+  let version = '';
+
+  if (/patch/i.test(NEW_RELEASE!)) {
+    version = semver.inc(currentVersion, 'patch')!;
+  } else if (/nightly/i.test(NEW_RELEASE!)) {
+    version = semver.inc(currentVersion, 'prerelease', 'nightly')!.replace('ly.0', `ly.${date}`);
+  } else if (/minor/i.test(NEW_RELEASE!)) {
+    version = semver.inc(currentVersion, 'minor')!;
+  } else if (/major/i.test(NEW_RELEASE!)) {
+    version = semver.inc(currentVersion, 'major')!;
+  }
+
   return {
     version,
     lastUpdate

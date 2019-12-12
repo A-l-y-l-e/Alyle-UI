@@ -2,10 +2,11 @@
 
 set -u -e -o pipefail
 
-readonly pkg_dir=dist/@alyle/style-compiler
+readonly pkg_dir=dist/@alyle/ui/style-compiler
 readonly lib_dir=dist/lib/style-compiler
 
 rm -rf ${pkg_dir}
+mkdir -p ${pkg_dir}
 yarn tsc -p ${lib_dir}/tsconfig-build.json
 
 mv ${pkg_dir}/src/* ${pkg_dir}

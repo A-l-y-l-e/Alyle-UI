@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/A-l-y-l-e/Alyle-UI.git"
   },
+  "bin": {
+    "lyl": "./style-compiler/main.js"
+  },
   "keywords": [
     "angular",
     "components",
