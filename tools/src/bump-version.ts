@@ -54,6 +54,7 @@ function createVersion(currentVersion: string) {
   }
 
   console.log(`New version: ${version}`);
+  writeFileSync('./ci/scripts/VERSION', version, 'utf8');
 
   return {
     version,
