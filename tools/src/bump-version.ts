@@ -53,6 +53,8 @@ function createVersion(currentVersion: string) {
     version = semver.inc(currentVersion, 'major')!;
   }
 
+  console.log(`New version: ${version}`);
+
   return {
     version,
     lastUpdate
