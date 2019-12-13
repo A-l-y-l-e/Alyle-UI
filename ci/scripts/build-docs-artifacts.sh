@@ -6,8 +6,8 @@ source ./ci/setup.sh
 export MSG=$(ts-node tools/src/commit-msg)
 
 yarn
-yarn tools:prepare-lib
 ts-node tools/*/bump-version.ts
+yarn tools:prepare-lib
 ./ci/scripts/build-style-compiler.sh
 node dist/@alyle/ui/style-compiler/main dist/lib
 yarn build:@alyle/ui

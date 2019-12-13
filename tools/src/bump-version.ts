@@ -54,8 +54,8 @@ function createVersion(currentVersion: string) {
   } else if (/major/i.test(MSG!)) {
     version = semver.inc(currentVersion, 'major')!;
   } else {
-    process.exit(0);
     console.log('Bump Version: skipped.');
+    process.exit(0);
   }
 
   if (/nightly/.test(MSG!)) {
