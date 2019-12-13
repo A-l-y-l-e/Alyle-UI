@@ -3,9 +3,9 @@
 set -u -e -o pipefail
 source ./ci/setup.sh
 
+yarn
 export MSG=$(ts-node tools/src/commit-msg)
 echo $MSG
-yarn
 ts-node tools/*/bump-version.ts
 yarn tools:prepare-lib
 ./ci/scripts/build-style-compiler.sh
