@@ -4,7 +4,7 @@ set -u -e -o pipefail
 source ./ci/setup.sh
 
 export MSG=$(ts-node tools/src/commit-msg)
-
+echo $MSG
 yarn
 ts-node tools/*/bump-version.ts
 yarn tools:prepare-lib
