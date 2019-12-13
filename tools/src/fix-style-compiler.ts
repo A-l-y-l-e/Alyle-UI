@@ -7,7 +7,8 @@ import { promises as fs } from 'fs';
   ];
   const files = [
     'main',
-    'compiler'
+    'compiler',
+    'util/util'
   ];
 
   files.map(nam => `dist/@alyle/ui/style-compiler/${nam}.js`).forEach(async (path) => {
