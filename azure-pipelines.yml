@@ -19,9 +19,10 @@ jobs:
   - bash: |
       set -e
       source ./ci/setup.sh
-      echo $(ts-node tools/src/commit-msg) > ./ci/scripts/MSG
-      echo $(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION') > ./ci/scripts/SHA
-      echo ${BUILD_SOURCEBRANCHNAME} > ./ci/scripts/BUILD_SOURCEBRANCHNAME
+      export MSG=$(ts-node tools/src/commit-msg)
+      export SHA=$(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION')
+      echo $MSG > ./ci/scripts/MSG
+      echo $SHA > ./ci/scripts/SHA
     displayName: "Write data"
   - task: CacheBeta@1
     inputs:
@@ -32,6 +33,7 @@ jobs:
       set -e
       source ./ci/setup.sh
       yarn --frozen-lockfile
+      ts-node tools/*/bump-version.ts
       yarn global add serve
       yarn tools:prepare-lib
       ./ci/scripts/build-style-compiler.sh
