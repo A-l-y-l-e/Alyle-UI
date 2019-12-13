@@ -1,7 +1,5 @@
 import { promises as fs } from 'fs';
 
-console.log(process.cwd());
-
 (() => {
   const modules = [
     'typescript',
@@ -18,9 +16,10 @@ console.log(process.cwd());
       const modl = modules[index];
       file = file.replace(
         new RegExp(`require\\("${modl}"\\)`),
-        `require("${process.cwd()}/node_modules/${modl}")`
+        `require(process.cwd() + "/node_modules/${modl}")`
       );
     }
+    fs.writeFile(path, file);
   });
 
 })();
