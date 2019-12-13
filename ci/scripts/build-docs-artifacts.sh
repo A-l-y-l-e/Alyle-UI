@@ -12,4 +12,5 @@ yarn tools:prepare-lib
 node dist/@alyle/ui/style-compiler/main dist/lib
 yarn build:@alyle/ui
 ./ci/scripts/build-style-compiler.sh
+ts-node tools/*/fix-style-compiler.ts
 ls dist -lh

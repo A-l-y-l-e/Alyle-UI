@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { promises as fs, readFileSync } from 'fs';
 import * as path from 'path';
+import './check';
 import * as yargs from 'yargs';
 import chalk from 'chalk';
 import { styleCompiler, hasLylStyle } from './compiler';
@@ -18,7 +19,7 @@ const argv = yargs
 if (argv.help) {
   console.log(`Version ${pkg.version}\n`);
   console.log(chalk.bold.yellowBright(note));
-  console.log(`Examples: lyl dist/lib`);
+  console.log(`Usage: lyl dist/my-app`);
   process.exit(0);
 }
 
