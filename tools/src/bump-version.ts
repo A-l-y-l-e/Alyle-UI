@@ -14,7 +14,7 @@ const {
   MSG
 } = process.env;
 
-if (/\[new\s?release\]/i.test(MSG!)) {
+if (/\>\snew\s?release/i.test(MSG!)) {
   console.log('Bump Version: skiped.');
   process.exit(0);
 } else {
