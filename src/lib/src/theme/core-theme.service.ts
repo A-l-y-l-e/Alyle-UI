@@ -3,7 +3,7 @@ import { ThemeConfig, ThemeVariables } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
 import { Platform } from '../platform';
-import { mergeThemes } from '../parse';
+import { mergeThemes } from '../style-utils';
 
 @Injectable({
   providedIn: 'root'

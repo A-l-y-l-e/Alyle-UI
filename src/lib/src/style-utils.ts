@@ -223,3 +223,44 @@ export function mergeDeep(target: any, ...sources: any[]) {
 
   return mergeDeep(target, ...sources);
 }
+
+/**
+ * Simple object check.
+ * @param item
+ */
+function isObjectForTheme(item: any) {
+  return (item && typeof item === 'object' && !Array.isArray(item))
+  && !(item instanceof StyleCollection)
+  && !(item instanceof Color);
+}
+
+export function mergeThemes<T, U>(target: T, source: U): T & U;
+export function mergeThemes<T, U, V>(target: T, source1: U, source2: V): T & U & V;
+export function mergeThemes<T, U, V, W>(target: T, source1: U, source2: V, source3: W): T & U & V & W;
+export function mergeThemes(target: object, ...sources: any[]): any;
+export function mergeThemes(target: any, ...sources: any[]): any {
+  if (!sources.length) { return target; }
+  const source = sources.shift();
+
+  if (isObjectForTheme(target) && isObjectForTheme(source)) {
+    for (const key in source) {
+      if (isObjectForTheme(source[key])) {
+        if (!target[key]) { Object.assign(target, { [key]: {} }); }
+        mergeThemes(target[key], source[key]);
+      } else {
+        const targetKey = target[key];
+        const sourceKey = source[key];
+        // Merge styles
+        if (targetKey instanceof StyleCollection && typeof sourceKey === 'function') {
+          target[key] = (target[key] as StyleCollection).add(sourceKey);
+        } else if (sourceKey instanceof Color) {
+          target[key] = sourceKey;
+        } else {
+          Object.assign(target, { [key]: source[key] });
+        }
+      }
+    }
+  }
+
+  return mergeThemes(target, ...sources);
+}

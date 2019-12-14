@@ -318,50 +318,6 @@ export class StyleCollection<T = any> {
 }
 
 
-/**
- * Simple object check.
- * @param item
- */
-function isObject(item: any) {
-  return (item && typeof item === 'object' && !Array.isArray(item)) && !(item instanceof StyleCollection);
-}
-
-export function mergeThemes<T, U>(target: T, source: U): T & U;
-export function mergeThemes<T, U, V>(target: T, source1: U, source2: V): T & U & V;
-export function mergeThemes<T, U, V, W>(target: T, source1: U, source2: V, source3: W): T & U & V & W;
-export function mergeThemes(target: object, ...sources: any[]): any;
-export function mergeThemes(target: any, ...sources: any[]): any {
-  if (!sources.length) { return target; }
-  const source = sources.shift();
-
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key]) {
-          if (source[key].constructor.name === 'Object') {
-            target[key] = {};
-          } else {
-            // if is a class
-            target[key] = source[key];
-          }
-        }
-        mergeThemes(target[key], source[key]);
-      } else {
-        const targetKey = target[key];
-        const sourceKey = source[key];
-        // Merge styles
-        if (targetKey instanceof StyleCollection && typeof sourceKey === 'function') {
-          target[key] = (target[key] as StyleCollection).add(sourceKey);
-        } else {
-          Object.assign(target, { [key]: source[key] });
-        }
-      }
-    }
-  }
-
-  return mergeThemes(target, ...sources);
-}
-
 export function styleTemplateToString(fn: StyleTemplate | StyleCollection | null | undefined, className: string) {
   if (fn instanceof StyleCollection) {
     return fn.css(className);

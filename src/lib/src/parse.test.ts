@@ -1,5 +1,6 @@
 import anyTest, { TestInterface } from 'ava';
-import { StyleCollection, lyl, mergeThemes } from './parse';
+import { StyleCollection, lyl } from './parse';
+import { mergeThemes } from './style-utils';
 
 const test = anyTest as TestInterface<Context>;
 
