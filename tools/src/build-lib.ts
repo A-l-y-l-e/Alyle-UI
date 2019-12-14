@@ -6,7 +6,7 @@ const replace = require('replace-in-file');
 // fix typings
 const changes = replace.sync({
   files: 'dist/@alyle/ui/**/*.d.ts',
-  from: /\.\.\/\.\.\/\@alyle\/ui/g,
+  from: /(:?\.\.\/)+@alyle\/ui/g,
   to: '@alyle/ui'
 });
 

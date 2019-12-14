@@ -29,9 +29,9 @@ components.forEach((lib, index) => {
     writeFileSync(`${dist}/${lib.path}/package.json`, JSON.stringify({
       ngPackage: {
         lib: {
-          entryFile: 'index.ts',
+          entryFile: 'public_api.ts',
           umdId: `ly.${camelCase(lib.path)}`
-        },
+        }
       }
     }), 'utf8');
   }
