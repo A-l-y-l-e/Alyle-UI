@@ -95,7 +95,7 @@ export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDar
     default: '#ffc107',
     contrast: 'rgba(0, 0, 0, 0.87)'
   };
-  transparent = 'rgba(0, 0, 0, 0)';
+  transparent = new Color(0, 0, 0, 0);
   typography: LyTypographyTheme = {
     lyTyp: {
       subTitle: () => lyl `{

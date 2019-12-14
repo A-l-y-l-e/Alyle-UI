@@ -353,7 +353,7 @@ export function mergeThemes(target: any, ...sources: any[]): any {
         if (targetKey instanceof StyleCollection && typeof sourceKey === 'function') {
           target[key] = (target[key] as StyleCollection).add(sourceKey);
         } else {
-          target[key] = source[key];
+          Object.assign(target, { [key]: source[key] });
         }
       }
     }
