@@ -29,7 +29,8 @@ import {
   LyClasses,
   StyleTemplate,
   lyl,
-  ThemeRef
+  ThemeRef,
+  toBoolean
   } from '@alyle/ui';
 import {
   trigger,
@@ -138,6 +139,16 @@ export class LyMenu implements OnInit, AfterViewInit {
   /** The y-axis position of the menu. */
   @Input() yPosition: YPosition;
 
+  /** Whether the menu has a backdrop. */
+  @Input()
+  get hasBackdrop(): boolean {
+    return this._hasBackdrop;
+  }
+  set hasBackdrop(value: boolean) {
+    this._hasBackdrop = toBoolean(value);
+  }
+  private _hasBackdrop: boolean = true;
+
   @HostBinding('@menuLeave') menuLeave2;
   @HostListener('@menuLeave.done', ['$event']) endAnimation(e) {
     if (e.toState === 'void') {
@@ -165,6 +176,7 @@ export class LyMenu implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (this.ref._menuRef) {
       this.ref._menuRef.onResizeScroll = this._updatePlacement.bind(this);
+      this.ref._menuRef.updateBackdrop(this.hasBackdrop);
     }
     this._updatePlacement();
     this.ref.menuOpened.emit();
@@ -261,7 +273,8 @@ export class LyMenuTriggerFor implements OnDestroy {
           left: 0,
           pointerEvents: null
         },
-        fnDestroy: this.detach.bind(this)
+        fnDestroy: this.detach.bind(this),
+        hasBackdrop: false
       });
     }
   }

@@ -12,12 +12,12 @@ export class OverlayFactory<T = any> {
   private _viewRef: EmbeddedViewRef<any>;
   private _el?: HTMLDivElement;
   private _compRef: ComponentRef<T> | null;
-  private _compRefOverlayBackdrop: ComponentRef<any>;
+  private _compRefOverlayBackdrop?: ComponentRef<any> | null;
   private _windowSRSub: Subscription = Subscription.EMPTY;
 
   private _paddingRight: string | null;
   private _config: LyOverlayConfig;
-
+  private _newInjector: Injector;
   /** Function that will be called on scroll or resize event */
   onResizeScroll: (() => void) | null;
 
@@ -51,7 +51,7 @@ export class OverlayFactory<T = any> {
       Object.assign(__styles, config.styles);
     }
 
-    const newInjector = createOverlayInjector(this._injector, {
+    const newInjector = this._newInjector = createOverlayInjector(this._injector, {
       fnDestroy: this.destroy.bind(this),
         ...config,
         styles: __styles,
@@ -75,16 +75,26 @@ export class OverlayFactory<T = any> {
       }
     }
 
-    if (config.hasBackdrop) {
-      this._compRefOverlayBackdrop = this._generateComponent(LyOverlayBackdrop, newInjector);
-      this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
-      const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
-      this._overlayContainer._add(backdropEl);
-    }
+    this.updateBackdrop(!!config.hasBackdrop);
 
     this._appendComponentToBody(_templateRefOrComponent, _context, newInjector);
     this._hiddeScroll();
 
+  }
+
+  updateBackdrop(hasBackdrop: boolean) {
+    if (hasBackdrop) {
+      this._compRefOverlayBackdrop = this._generateComponent(LyOverlayBackdrop, this._newInjector);
+      this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
+      const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
+      this._overlayContainer._add(backdropEl);
+    } else if (this._compRefOverlayBackdrop) {
+      this._resetScroll();
+      this._appRef.detachView(this._compRefOverlayBackdrop.hostView);
+      const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
+      this._overlayContainer._remove(backdropEl);
+      this._compRefOverlayBackdrop = null;
+    }
   }
 
   private _updateStyles(__styles: object) {
@@ -154,12 +164,7 @@ export class OverlayFactory<T = any> {
       this._overlayContainer._remove(this._el);
       this._el = undefined;
     }
-    if (this._compRefOverlayBackdrop) {
-      this._appRef.detachView(this._compRefOverlayBackdrop.hostView);
-      this._compRefOverlayBackdrop.destroy();
-      const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
-      this._overlayContainer._remove(backdropEl);
-    }
+    this.updateBackdrop(false);
     this._windowSRSub.unsubscribe();
   }
 
@@ -188,7 +193,7 @@ export class OverlayFactory<T = any> {
         window.document.body.style.paddingRight = this._paddingRight;
         this._paddingRight = null;
       }
-      window.document.body.style.overflow = null;
+      window.document.body.style.overflow = '';
     }
   }
 }
