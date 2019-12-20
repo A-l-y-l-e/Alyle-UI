@@ -45,7 +45,7 @@ export class LyOverlayContainer {
    */
   _add(item) {
     this._items.add(item);
-    this.containerElement.appendChild(item);
+    this.containerElement.insertBefore(item, this.containerElement.firstChild);
     this._update();
   }
 
