@@ -12,6 +12,13 @@
     node-fetch "^2.1.1"
     rxjs "^5.5.6"
 
+"@alyle/ui@^2.9.8-nightly.1912200123":
+  version "2.9.8-nightly.1912200123"
+  resolved "https://registry.yarnpkg.com/@alyle/ui/-/ui-2.9.8-nightly.1912200123.tgz#087f134b64c9036f65aecbc1e5654effd121ac91"
+  integrity sha512-oor6k36mqnve1gWV4uXVGEHt6yv9wo6sHrx1vj7s+sAaLJwhJ0eJi97axoFhhPoTpAeyzop8bXc1Iabx0SxXzg==
+  dependencies:
+    tslib "^1.9.0"
+
 "@angular-builders/custom-webpack@^8.0.2":
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/@angular-builders/custom-webpack/-/custom-webpack-8.1.0.tgz#63a3b7ada2cd01a0c02db4e7d18f52cfbaa62678"

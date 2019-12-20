@@ -36,6 +36,7 @@
   },
   "private": true,
   "dependencies": {
+    "@alyle/ui": "^2.9.8-nightly.1912200123",
     "@angular/animations": "^8.2.14",
     "@angular/common": "^8.2.14",
     "@angular/compiler": "^8.2.14",
