@@ -87,7 +87,7 @@ export class OverlayFactory<T = any> {
       this._compRefOverlayBackdrop = this._generateComponent(LyOverlayBackdrop, this._newInjector);
       this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
       const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
-      this._overlayContainer._add(backdropEl);
+      this._overlayContainer._add(backdropEl, true);
     } else if (this._compRefOverlayBackdrop) {
       this._resetScroll();
       this._appRef.detachView(this._compRefOverlayBackdrop.hostView);
