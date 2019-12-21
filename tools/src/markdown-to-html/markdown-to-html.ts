@@ -22,20 +22,6 @@ class MdVar {
 
 }
 
-const serveConf = {
-  cleanUrls: false,
-  'headers': [
-    {
-      'source': '**',
-      'headers': [
-        {
-          'key': 'Access-Control-Allow-Origin',
-          'value': '*'
-        }
-      ]
-    }
-  ]
-};
 
 const { writeFile, readFile, mkdir, rmdir } = promises;
 
@@ -57,7 +43,6 @@ const start = async () => {
   await rmdir('src/api/docs', { recursive: true });
   await mkdir('src/api/docs', { recursive: true });
   await mkdir('src/api/docs/demos', { recursive: true });
-  await writeFile('src/api/docs/serve.json', JSON.stringify(serveConf));
   watcher.on('all', async (_ev, path, stats) => {
     if (stats && stats.isFile && path.startsWith('src/app/docs')) {
       // md to html

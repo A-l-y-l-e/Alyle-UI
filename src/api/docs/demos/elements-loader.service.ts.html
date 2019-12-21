@@ -1,0 +1,55 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Injectable<span class="tt18 ttae">,</span> Injector<span class="tt18 ttae">,</span> Compiler<span class="tt18 ttae">,</span> Inject<span class="tt18 ttae">,</span> NgModuleFactory<span class="tt18 ttae">,</span> Type <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./element-registry'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LoadChildrenCallback <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/router'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Platform <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+
+@<span class="tt18 tta3">Injectable</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ElementsLoader</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">private</span> registeredElements <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">Set</span><span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span><span class="tt18 ttb0">></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> injector<span class="tt18 ttae">:</span> Injector<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> compiler<span class="tt18 ttae">:</span> Compiler<span class="tt18 ttae">,</span>
+    @<span class="tt18 tta3">Inject</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">private</span> elementModulePaths<span class="tt18 ttae">:</span> Map<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span><span class="tt18 ttae">,</span> LoadChildrenCallback<span class="tt18 ttb0">></span></span>
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+
+  <span class="tt18 tt1j">async</span> <span class="tt18 tta3">load</span><span class="tt18 ttae">(</span><span class="tt18 parameter">path<span class="tt18 ttae">:</span> <span class="tt18 ttcj">string</span></span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 ttb0">!</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>registeredElements<span class="tt18 ttae">.</span><span class="tt18 tta3">has</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span> <span class="tt18 ttb0">&amp;&amp;</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementModulePaths<span class="tt18 ttae">.</span><span class="tt18 tta3">has</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>registeredElements<span class="tt18 ttae">.</span><span class="tt18 tta3">add</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+      <span class="tt18 tt1j">const</span> tempModule <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">await</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementModulePaths<span class="tt18 ttae">.</span><span class="tt18 tt1j">get</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+      <span class="tt18 tt1j">let</span> moduleFactory<span class="tt18 ttae">:</span> NgModuleFactory<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">;</span>
+
+      <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>tempModule <span class="tt18 tt1j">instanceof</span> <span class="tt18 ttc8">NgModuleFactory</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 tt3o">// For AOT</span>
+        moduleFactory <span class="tt18 ttb0">=</span> tempModule<span class="tt18 ttae">;</span>
+      <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">else</span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 tt3o">// For JIT</span>
+        moduleFactory <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">await</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>compiler<span class="tt18 ttae">.</span><span class="tt18 tta3">compileModuleAsync</span><span class="tt18 ttae">(</span>tempModule<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      <span class="tt18 ttae">&#125;</span>
+
+      <span class="tt18 tt1j">const</span> components <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>moduleFactory<span class="tt18 ttae">.</span>moduleType <span class="tt18 tt1j">as</span> <span class="tt18 ttcj">any</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span>entryComponents <span class="tt18 tt1j">as</span> Type<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">const</span> moduleRef <span class="tt18 ttb0">=</span> moduleFactory<span class="tt18 ttae">.</span><span class="tt18 tta3">create</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>injector<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">const</span> injector <span class="tt18 ttb0">=</span> moduleRef<span class="tt18 ttae">.</span>injector<span class="tt18 ttae">;</span>
+
+      <span class="tt18 tt3o">// const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(entryComponent);</span>
+
+      <span class="tt18 tt3o">// container.createComponent(compFactory);</span>
+      <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>Platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 tt1j">const</span> <span class="tt18 ttae">&#123;</span> createCustomElement <span class="tt18 ttae">&#125;</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">require</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'@angular/elements'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+        <span class="tt18 tt1j">await</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttae">.</span><span class="tt18 tta3">all</span><span class="tt18 ttae">(</span>components<span class="tt18 ttae">.</span><span class="tt18 tta3">map</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 parameter">comp</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+          <span class="tt18 tt1j">const</span> compFactory <span class="tt18 ttb0">=</span> moduleRef<span class="tt18 ttae">.</span>componentFactoryResolver<span class="tt18 ttae">.</span><span class="tt18 tta3">resolveComponentFactory</span><span class="tt18 ttae">(</span>comp<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+          <span class="tt18 tt1j">const</span> element <span class="tt18 ttb0">=</span> <span class="tt18 tta3">createCustomElement</span><span class="tt18 ttae">(</span>comp<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> injector <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+          <span class="tt18 tt1j">const</span> selector <span class="tt18 ttb0">=</span> compFactory<span class="tt18 ttae">.</span>selector<span class="tt18 ttae">;</span>
+          <span class="tt18 tt3o">// Register the custom element with the browser.</span>
+          customElements<span class="tt18 ttae">.</span><span class="tt18 tta3">define</span><span class="tt18 ttae">(</span>selector<span class="tt18 ttae">,</span> element<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+          <span class="tt18 tt1j">return</span> customElements<span class="tt18 ttae">.</span><span class="tt18 tta3">whenDefined</span><span class="tt18 ttae">(</span>selector<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+        <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      <span class="tt18 ttae">&#125;</span>
+
+    <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 ttae">&#125;</span>
+
+
+<span class="tt18 ttae">&#125;</span>
+</code></pre>
