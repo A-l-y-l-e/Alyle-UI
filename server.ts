@@ -46,7 +46,7 @@ const INDEX = readFileSync(join(BROWSER_FOLDER, 'index.html'), 'utf8');
 
   // Start server
   const server = new Promise<ChildProcessWithoutNullStreams>((resolve) => {
-    const child = spawn('serve', ['src/docs', '-p', '3000']);
+    const child = spawn('serve', ['src/api', '-p', '3000']);
     child.stdout.on('data', (chunk: Buffer) => {
       console.log(chunk.toString('utf8'));
       resolve(child);

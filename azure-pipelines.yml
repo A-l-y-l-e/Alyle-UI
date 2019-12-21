@@ -23,6 +23,7 @@ jobs:
       export SHA=$(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION')
       echo $MSG > ./ci/scripts/MSG
       echo $SHA > ./ci/scripts/SHA
+      echo $MSG.$SHA
     displayName: "Write data"
   - task: CacheBeta@1
     inputs:
