@@ -4,7 +4,6 @@
   <p align="center"><a href="https://alyle.io">Docs</a></p>
 </p>
 
-[![Build Status](https://travis-ci.org/A-l-y-l-e/Alyle-UI.svg?branch=master)](https://travis-ci.org/A-l-y-l-e/Alyle-UI)
 [![Build Status](https://dev.azure.com/Alyle/Alyle%20UI/_apis/build/status/Build?branchName=master)](https://dev.azure.com/Alyle/Alyle%20UI/_build/latest?definitionId=5&branchName=master)
 [![npm](https://img.shields.io/npm/v/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
 [![npm](https://img.shields.io/npm/dt/@alyle/ui.svg?style=flat-square)](https://npmjs.com/package/@alyle/ui)
