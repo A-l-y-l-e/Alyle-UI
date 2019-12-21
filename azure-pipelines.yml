@@ -16,21 +16,38 @@ jobs:
   - script: |
       curl -o- -L https://yarnpkg.com/install.sh | bash
     displayName: "Install Yarn"
-  - task: Bash@3
-    inputs:
-      targetType: 'filePath'
-      filePath: ./ci/scripts/write-data.sh
-      noRc: false
-    displayName: "Write data"
   - task: CacheBeta@1
     inputs:
       key: yarn | $(Agent.OS) | yarn.lock
       path: $(YARN_CACHE_FOLDER)
     displayName: "Cache Yarn packages"
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        set -e
+        yarn --frozen-lockfile
+      noRc: false
+    displayName: "Install Dependencies"
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        set -e -o pipefail
+
+        . ci/setup.sh
+
+        which ts-node
+        export MSG=$(ts-node tools/src/commit-msg)
+        export SHA=$(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION')
+        echo $MSG > ./ci/scripts/MSG
+        echo $SHA > ./ci/scripts/SHA
+        echo $MSG.$SHA
+      noRc: false
+    displayName: "Write data"
   - bash: |
       set -e
       . ci/setup.sh
-      yarn --frozen-lockfile
       export MSG=$(ts-node tools/src/commit-msg)
       ts-node tools/*/bump-version.ts
       yarn global add serve
