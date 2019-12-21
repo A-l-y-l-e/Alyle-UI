@@ -54,10 +54,10 @@ const start = async () => {
   console.log(chalk.green('Markdown to Html'));
 
   // Clean
-  await rmdir('src/docs', { recursive: true });
-  await mkdir('src/docs', { recursive: true });
-  await mkdir('src/docs/demos', { recursive: true });
-  await writeFile('src/docs/serve.json', JSON.stringify(serveConf));
+  await rmdir('src/api/docs', { recursive: true });
+  await mkdir('src/api/docs', { recursive: true });
+  await mkdir('src/api/docs/demos', { recursive: true });
+  await writeFile('src/api/docs/serve.json', JSON.stringify(serveConf));
   watcher.on('all', async (_ev, path, stats) => {
     if (stats && stats.isFile && path.startsWith('src/app/docs')) {
       // md to html
@@ -68,7 +68,7 @@ const start = async () => {
           .toString('utf8');
 
         const v = new MdVar(file);
-        const folder = join('src/docs', v.get('path') || dirname(path).slice(13));
+        const folder = join('src/api/docs', v.get('path') || dirname(path).slice(13));
         const srcDocsFilePath = join(folder, basename(htmlPath));
         const htmlFile = await readFile(srcDocsFilePath).catch(() => '');
         let html = mdToHtml(v.result);
@@ -82,7 +82,7 @@ const start = async () => {
               recursive: true
             }
           );
-          // Move files to src/docs
+          // Move files to src/api/docs
           await writeFile(srcDocsFilePath, html);
           console.log(chalk.blueBright(`Update: `) + srcDocsFilePath);
         }
@@ -94,7 +94,7 @@ const start = async () => {
           .catch(() => { throw new Error(`File not found: ${path}`); }))
           .toString('utf8');
         const highlightHtml = highlight(file, lang);
-        const filePath = join('src/docs/demos', `${basename(path)}.html`);
+        const filePath = join('src/api/docs/demos', `${basename(path)}.html`);
         await writeFile(filePath, highlightHtml);
         console.log(`${chalk.greenBright(`Update: `)}${filePath}`);
       }

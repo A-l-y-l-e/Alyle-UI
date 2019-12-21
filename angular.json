@@ -30,8 +30,8 @@
               },
               {
                 "glob": "**/*",
-                "input": "src/docs",
-                "output": "/docs"
+                "input": "src/api",
+                "output": "/api"
               },
               {
                 "glob": "**/*",

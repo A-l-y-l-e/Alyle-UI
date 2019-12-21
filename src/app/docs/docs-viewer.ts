@@ -130,7 +130,7 @@ export class DocViewer {
     .pipe(
       switchMap(async () => {
         return (await Promise.all([
-          this.http.get(`docs${path}.html`, {
+          this.http.get(`api/docs${path}.html`, {
             responseType: 'text'
           }).pipe(
             take(1),

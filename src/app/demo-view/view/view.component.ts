@@ -130,10 +130,10 @@ export class ViewComponent implements OnInit {
   url(index: number) {
     const file = this.files[index];
     if (file.path) {
-      return `./docs/demos/${file.path}.html`;
+      return `./api/docs/demos/${file.path}.html`;
     }
     const fileName = this.path.split('/').reverse()[0];
-    return `./docs/demos/${fileName}.${file.type}.${file.ext}.html`;
+    return `./api/docs/demos/${fileName}.${file.type}.${file.ext}.html`;
   }
 
   openPostStackblitz() {
