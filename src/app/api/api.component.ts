@@ -1,11 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, isDevMode, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AUI_VERSION, LyTheme2, LY_THEME } from '@alyle/ui';
+import { LyTheme2, LY_THEME } from '@alyle/ui';
 import { AUIRoutesMap } from '../routes';
-
-const host = `https://raw.githubusercontent.com/A-l-y-l-e/alyle-ui-docs-content/${AUI_VERSION}`;
 
 @Component({
   selector: 'aui-api',
@@ -33,11 +31,8 @@ export class ApiComponent implements OnInit, OnDestroy {
         this.themeJson = null;
         this.themePkg = [];
         this.pkgName = params.package;
-        const hostServer = isDevMode()
-            ? `http://localhost:1212/api/@alyle/ui/${this.pkgName}.json`
-            : `${host}/api/@alyle/ui/${this.pkgName}.min.json`;
         this.doc = this.http
-        .get(hostServer, {responseType: 'json'});
+        .get(`api/@alyle/ui/${this.pkgName}.min.json`, {responseType: 'json'});
         themeConfig.forEach(themeInfo => {
           if (this.pkgName in themeInfo && Object.keys(themeInfo[this.pkgName]).length) {
             this.themePkg.push({

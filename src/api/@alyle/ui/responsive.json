@@ -1,0 +1,25 @@
+{
+  "componentList": [],
+  "directiveList": [
+    {
+      "name": "MediaDirective",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'[lyShow], [lyHide]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3o\">/** Hides the item when the value is resolved as true */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> lyHide<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\n<span class=\"tt18 tt3o\">/** Shows the item when the value is resolved as true */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> lyShow<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span></code></pre>"
+    }
+  ],
+  "objectLiteralList": [],
+  "variableList": [
+    {
+      "name": "MEDIA_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">MEDIA_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttap\">999</span></code></pre>"
+    }
+  ],
+  "ngModuleList": [
+    {
+      "name": "ResponsiveModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> ResponsiveModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/responsive'</span></code></pre>"
+    }
+  ]
+}

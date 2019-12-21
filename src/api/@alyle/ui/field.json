@@ -1,0 +1,115 @@
+{
+  "componentList": [
+    {
+      "name": "LyField",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-field'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'lyFormField'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 ttap\">1</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> persistentHint<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n<span class=\"tt18 tt3o\">/** The field appearance style. */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> appearance<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\n<span class=\"tt18 tt3o\">/** Theme color for the component. */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> color<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\nerrorState<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n<span class=\"tt18 tt3o\">/** Whether the label is floating. */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> floatingLabel<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> fullWidth<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n<span class=\"tt18 tta3\">onFocus</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span></code></pre>"
+    }
+  ],
+  "directiveList": [
+    {
+      "name": "LyError",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-error'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"></code></pre>"
+    },
+    {
+      "name": "LyNativeControl",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'input[lyInput], textarea[lyInput], input[lyNativeControl], textarea[lyNativeControl], select[lyNativeControl]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'LyNativeControl'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">errorState<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nstateChanges<span class=\"tt18 ttae\">:</span> Subject\n<span class=\"tt18 tt3o\">/** Whether the input is disabled. */</span>\n@<span class=\"tt18 tta3\">HostBinding</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> @<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> disabled<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nempty<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nfloatingLabel<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nfocused<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> placeholder<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\n@<span class=\"tt18 tta3\">HostBinding</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> @<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> required<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n<span class=\"tt18 tt3o\">/** Focuses the input. */</span>\n<span class=\"tt18 tta3\">focus</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span></code></pre>"
+    },
+    {
+      "name": "LyHint",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-field > ly-hint'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">classes<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> align<span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt3z\">'before'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'after'</span></code></pre>"
+    },
+    {
+      "name": "LyLabel",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-field > ly-label'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": ""
+    },
+    {
+      "name": "LyPlaceholder",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-field > ly-placeholder'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": ""
+    },
+    {
+      "name": "LyPrefix",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'[lyPrefix]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": ""
+    },
+    {
+      "name": "LySuffix",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'[lySuffix]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": ""
+    }
+  ],
+  "variableList": [
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">2</span></code></pre>"
+    },
+    {
+      "name": "DEFAULT_APPEARANCE",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_APPEARANCE</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">\"s<span style=\"background:tan;color:white;opacity:1\">tan</span>dard\"</span></code></pre>"
+    },
+    {
+      "name": "DEFAULT_WITH_COLOR",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_WITH_COLOR</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">\"primary\"</span></code></pre>"
+    },
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">2</span></code></pre>"
+    },
+    {
+      "name": "STYLE_SELECT_ARROW",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_SELECT_ARROW</span> <span class=\"tt18 ttb0\">=</span> lyl <span class=\"tt18 template-string\"><span class=\"tt18 tt3z\">`&#123;\n  &amp;::after &#123;\n    position: absolute\n    content: ''\n    width: 0\n    height: 0\n    border-left: 0.3125em solid transparent\n    border-right: 0.3125em solid transparent\n    border-top: 0.3125em solid\n    top: 50%\n    &#123;after&#125;: 0\n    margin-top: -0.15625em\n    pointer-events: none\n  &#125;\n&#125;`</span></span></code></pre>"
+    },
+    {
+      "name": "inputText",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> inputText <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttae\">[</span>\n  <span class=\"tt18 tt3z\">'text'</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">'number'</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">'password'</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">'search'</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">'tel'</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">'url'</span>\n<span class=\"tt18 ttae\">]</span></code></pre>"
+    },
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">2</span></code></pre>"
+    }
+  ],
+  "interfaceList": [
+    {
+      "name": "LyFieldTheme",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyFieldTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  appearance<span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3o\">/** Styles for Field Component */</span>\n  root<span class=\"tt18 ttae\">:</span> StyleCollection <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LyFieldVariables",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyFieldVariables</span> <span class=\"tt18 ttae\">&#123;</span>\n  field<span class=\"tt18 ttae\">:</span> LyFieldTheme\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ],
+  "classList": [],
+  "ngModuleList": [
+    {
+      "name": "LyFieldModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyFieldModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/field'</span></code></pre>"
+    }
+  ],
+  "typeAliasList": [
+    {
+      "name": "LyHintAlign",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">type</span> LyHintAlign <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">'before'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'after'</span></code></pre>"
+    }
+  ]
+}

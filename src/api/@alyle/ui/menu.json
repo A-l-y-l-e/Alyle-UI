@@ -1,0 +1,61 @@
+{
+  "componentList": [
+    {
+      "name": "LyMenu",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-menu'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'lyMenu'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">@<span class=\"tt18 tta3\">HostBinding</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> menuLeave2<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 tt3o\">/** Position where the menu will be placed. */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> placement<span class=\"tt18 ttae\">:</span> Placement\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> ref<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 tt3o\">/** The x-axis position of the menu. */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> xPosition<span class=\"tt18 ttae\">:</span> XPosition\n<span class=\"tt18 tt3o\">/** The y-axis position of the menu. */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> yPosition<span class=\"tt18 ttae\">:</span> YPosition\n<span class=\"tt18 tt3o\">/** Whether the menu has a backdrop. */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> hasBackdrop<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n<span class=\"tt18 tta3\">endAnimation</span><span class=\"tt18 ttae\">(</span>e<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span></code></pre>"
+    }
+  ],
+  "directiveList": [
+    {
+      "name": "LyMenuItem",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'[ly-menu-item]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"></code></pre>"
+    },
+    {
+      "name": "LyMenuTriggerFor",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'[lyMenuTriggerFor]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'lyMenuTriggerFor'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> lyMenuTriggerFor<span class=\"tt18 ttae\">:</span> TemplateRef\n@<span class=\"tt18 tta3\">Output</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> menuClosed<span class=\"tt18 ttae\">:</span> EventEmitter\n@<span class=\"tt18 tta3\">Output</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> menuOpened<span class=\"tt18 ttae\">:</span> EventEmitter\n<span class=\"tt18 tt3o\">/** Whether the menu is open. */</span>\nmenuOpen<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n<span class=\"tt18 tt3o\">/** Closes the menu */</span>\n<span class=\"tt18 tta3\">closeMenu</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span>\n<span class=\"tt18 tt3o\">/** Opens the menu */</span>\n<span class=\"tt18 tta3\">openMenu</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span>\n<span class=\"tt18 tt3o\">/** Toggle menu */</span>\n<span class=\"tt18 tta3\">toggleMenu</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span></code></pre>"
+    }
+  ],
+  "interfaceList": [
+    {
+      "name": "LyMenuTheme",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyMenuTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Styles for Menu Component */</span>\n  root<span class=\"tt18 ttae\">:</span> StyleCollection <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LyMenuVariables",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyMenuVariables</span> <span class=\"tt18 ttae\">&#123;</span>\n  menu<span class=\"tt18 ttae\">:</span> LyMenuTheme\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ],
+  "variableList": [
+    {
+      "name": "ANIMATIONS",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">ANIMATIONS</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttae\">[</span>\n  <span class=\"tt18 tta3\">trigger</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'menuEnter'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 ttae\">[</span>\n    <span class=\"tt18 tta3\">transition</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'void => in'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 ttae\">[</span>\n      <span class=\"tt18 tta3\">animate</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'125ms cubic-bezier(0, 0, 0.2, 1)'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 tta3\">keyframes</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">[</span>\n        <span class=\"tt18 tta3\">style</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">&#123;</span>\n          opacity<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">0</span><span class=\"tt18 ttae\">,</span>\n          transform<span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt3z\">'scale(0.8)'</span>\n        <span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">,</span>\n        <span class=\"tt18 tta3\">style</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">&#123;</span>\n          opacity<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">1</span><span class=\"tt18 ttae\">,</span>\n          transform<span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt3z\">'scale(1)'</span>\n        <span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">)</span>\n      <span class=\"tt18 ttae\">]</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span>\n    <span class=\"tt18 ttae\">]</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 ttae\">]</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tta3\">trigger</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'menuLeave'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 ttae\">[</span>\n    <span class=\"tt18 tta3\">transition</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'* => void'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 tta3\">animate</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'150ms linear'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 tta3\">style</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">&#123;</span> opacity<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">0</span> <span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span>\n  <span class=\"tt18 ttae\">]</span><span class=\"tt18 ttae\">)</span>\n<span class=\"tt18 ttae\">]</span></code></pre>"
+    },
+    {
+      "name": "DEFAULT_PLACEMENT",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_PLACEMENT</span> <span class=\"tt18 ttb0\">=</span> YPosition<span class=\"tt18 ttae\">.</span>below</code></pre>"
+    },
+    {
+      "name": "DEFAULT_XPOSITION",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_XPOSITION</span> <span class=\"tt18 ttb0\">=</span> XPosition<span class=\"tt18 ttae\">.</span>after</code></pre>"
+    },
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">1</span></code></pre>"
+    }
+  ],
+  "ngModuleList": [
+    {
+      "name": "LyMenuModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyMenuModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/menu'</span></code></pre>"
+    }
+  ]
+}

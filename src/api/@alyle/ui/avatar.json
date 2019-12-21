@@ -1,0 +1,50 @@
+{
+  "componentList": [],
+  "directiveList": [
+    {
+      "name": "LyAvatar",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-avatar'</span></code></pre>",
+      "inputs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 ttae\">[</span>\n  <span class=\"tt18 tt3z\">\"bg\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"color\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"raised\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"outlined\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"elevation\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"shadowColor\"</span>\n<span class=\"tt18 ttae\">]</span></code></pre>",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 ttap\">1</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\nbg<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\ncolor<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\nelevation<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">number</span>\noutlined<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nraised<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nsetAutoContrast<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\nshadowColor<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\nupdateStyle<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 tt3o\">/** Avatar size */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> size<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">number</span></code></pre>"
+    }
+  ],
+  "interfaceList": [
+    {
+      "name": "LyAvatarDefaultOptions",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyAvatarDefaultOptions</span> <span class=\"tt18 ttae\">&#123;</span>\n  bg<span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">string</span><span class=\"tt18 ttae\">,</span>\n  size<span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LyAvatarTheme",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyAvatarTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Styles for Avatar Component */</span>\n  root<span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LyAvatarVariables",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyAvatarVariables</span> <span class=\"tt18 ttae\">&#123;</span>\n  avatar<span class=\"tt18 ttae\">:</span> LyAvatarTheme\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ],
+  "variableList": [
+    {
+      "name": "DEFAULT_BG",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_BG</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">\"action\"</span></code></pre>"
+    },
+    {
+      "name": "DEFAULT_SIZE",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_SIZE</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttap\">40</span></code></pre>"
+    },
+    {
+      "name": "LY_AVATAR_DEFAULT_OPTIONS",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">LY_AVATAR_DEFAULT_OPTIONS</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt1j\">new</span> <span class=\"tt18 ttc8\">InjectionToken</span><span class=\"tt18 ttb0\">&lt;</span>LyAvatarDefaultOptions<span class=\"tt18 ttb0\">></span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'LY_AVATAR_DEFAULT_OPTIONS'</span><span class=\"tt18 ttae\">)</span></code></pre>"
+    },
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">2</span></code></pre>"
+    }
+  ],
+  "ngModuleList": [
+    {
+      "name": "LyAvatarModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyAvatarModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/avatar'</span></code></pre>"
+    }
+  ]
+}

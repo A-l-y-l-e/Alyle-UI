@@ -1,0 +1,39 @@
+{
+  "componentList": [],
+  "directiveList": [],
+  "variableList": [
+    {
+      "name": "pkg",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> pkg <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttbb\">JSON</span><span class=\"tt18 ttae\">.</span><span class=\"tt18 tta3\">parse</span><span class=\"tt18 ttae\">(</span>pkgFile<span class=\"tt18 ttae\">.</span><span class=\"tt18 tta3\">toString</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'utf8'</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span></code></pre>"
+    },
+    {
+      "name": "pkgFile",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> pkgFile <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tta3\">readFileSync</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'package.json'</span><span class=\"tt18 ttae\">)</span></code></pre>"
+    },
+    {
+      "name": "LYL_BAD_REGEX",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">LYL_BAD_REGEX</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 regex\">/^&#123;\\n\\s\\*\\s/</span></code></pre>"
+    },
+    {
+      "name": "test",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> test <span class=\"tt18 ttb0\">=</span> anyTest <span class=\"tt18 tt1j\">as</span> TestInterface<span class=\"tt18 ttb0\">&lt;</span>Context<span class=\"tt18 ttb0\">></span></code></pre>"
+    },
+    {
+      "name": "argv",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> argv <span class=\"tt18 ttb0\">=</span> yargs\n  <span class=\"tt18 ttae\">.</span><span class=\"tt18 tta3\">alias</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'h'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 tt3z\">'help'</span><span class=\"tt18 ttae\">)</span>\n  <span class=\"tt18 ttae\">.</span><span class=\"tt18 tta3\">alias</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'v'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 tt3z\">'version'</span><span class=\"tt18 ttae\">)</span>\n  <span class=\"tt18 ttae\">.</span><span class=\"tt18 tta3\">version</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span>\n  <span class=\"tt18 ttae\">.</span><span class=\"tt18 tta3\">help</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 boolean\">false</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">.</span>argv</code></pre>"
+    },
+    {
+      "name": "directory",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> directory <span class=\"tt18 ttb0\">=</span> argv<span class=\"tt18 ttae\">.</span>_<span class=\"tt18 ttae\">[</span><span class=\"tt18 ttap\">0</span><span class=\"tt18 ttae\">]</span></code></pre>"
+    },
+    {
+      "name": "note",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> note <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 template-string\"><span class=\"tt18 tt3z\">`Note: It is recommended to use git and have saved the changes.\\n`</span></span>\n  <span class=\"tt18 ttb0\">+</span> <span class=\"tt18 template-string\"><span class=\"tt18 tt3z\">`Compile the files for production only, this will modify your\\nlyl styles to another format.\\n`</span></span></code></pre>"
+    },
+    {
+      "name": "pkg",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> pkg <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttbb\">JSON</span><span class=\"tt18 ttae\">.</span><span class=\"tt18 tta3\">parse</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tta3\">readFileSync</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'package.json'</span><span class=\"tt18 ttae\">,</span> <span class=\"tt18 tt3z\">'utf8'</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span></code></pre>"
+    }
+  ],
+  "functionList": []
+}

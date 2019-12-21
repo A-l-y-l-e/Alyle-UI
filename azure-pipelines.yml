@@ -63,12 +63,9 @@ jobs:
       ./ci/scripts/build-docs-artifacts.sh
     displayName: build:@alyle/ui
   - script: |
-      yarn tools:docs
+      set -e
+      yarn tools:docs-api
     displayName: Build docs-content
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: 'dist/docs-content'
-      artifactName: Docs
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'dist/@alyle/ui'

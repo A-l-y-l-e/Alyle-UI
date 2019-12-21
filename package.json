@@ -27,7 +27,7 @@
     "tools:bump-nightly": "node dist/tools/bump-version --nightly",
     "tools:deploy": "node dist/tools/deploy",
     "tools:typedoc": "yarn typedoc --mode modules --json dist/docs.json --tsconfig tsconfig.td.json --excludePrivate --excludeProtected --excludeExternals",
-    "tools:docs": "yarn tools:typedoc && node dist/tools/docs-content && node dist/tools/generate-demos",
+    "tools:docs-api": "yarn tools:typedoc && node dist/tools/docs-content",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "serve:lib": "hs dist/docs-content -p 1212 -g --cors 'Access-Control-Allow-Origin' -c0",
     "build:schematics": "tsc -p src/lib/schematics/tsconfig.json && cp -r src/lib/schematics/ dist/@alyle/ui/ && rm -rf dist/@alyle/ui/schematics/**/*.ts",

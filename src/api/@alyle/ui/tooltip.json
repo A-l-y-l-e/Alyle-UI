@@ -1,0 +1,38 @@
+{
+  "componentList": [],
+  "directiveList": [
+    {
+      "name": "LyTooltip",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'[lyTooltip]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'lyTooltip'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> lyTooltipHideDelay<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">number</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> lyTooltipShowDelay<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">number</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> placement<span class=\"tt18 ttae\">:</span> Placement\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> xPosition<span class=\"tt18 ttae\">:</span> XPosition\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> yPosition<span class=\"tt18 ttae\">:</span> YPosition\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'lyTooltip'</span><span class=\"tt18 ttae\">)</span> tooltip<span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">null</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">string</span> <span class=\"tt18 ttb0\">|</span> TemplateRef\n<span class=\"tt18 tta3\">hide</span><span class=\"tt18 ttae\">(</span>delay<span class=\"tt18 ttb0\">?</span><span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span>\n<span class=\"tt18 tta3\">show</span><span class=\"tt18 ttae\">(</span>delay<span class=\"tt18 ttb0\">?</span><span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span>\n<span class=\"tt18 tta3\">toggle</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span></code></pre>"
+    }
+  ],
+  "interfaceList": [
+    {
+      "name": "LyTooltipTheme",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyTooltipTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  appearance<span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3o\">/** Styles for Tooltip Component */</span>\n  root<span class=\"tt18 ttae\">:</span> StyleCollection <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span><span class=\"tt18 ttae\">,</span>\n  size<span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LyTooltipVariables",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyTooltipVariables</span> <span class=\"tt18 ttae\">&#123;</span>\n  tooltip<span class=\"tt18 ttae\">:</span> LyTooltipTheme\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ],
+  "variableList": [
+    {
+      "name": "DEFAULT_PLACEMENT",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_PLACEMENT</span> <span class=\"tt18 ttb0\">=</span> YPosition<span class=\"tt18 ttae\">.</span>below</code></pre>"
+    },
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">2</span></code></pre>"
+    }
+  ],
+  "ngModuleList": [
+    {
+      "name": "LyTooltipModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyTooltipModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/tooltip'</span></code></pre>"
+    }
+  ]
+}

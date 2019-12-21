@@ -1,0 +1,51 @@
+{
+  "componentList": [
+    {
+      "name": "LyRadio",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-radio'</span></code></pre>",
+      "inputs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 ttae\">[</span>\n  <span class=\"tt18 tt3z\">\"disableRipple\"</span>\n<span class=\"tt18 ttae\">]</span></code></pre>",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 ttap\">1</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\n@<span class=\"tt18 tta3\">Output</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> change<span class=\"tt18 ttae\">:</span> EventEmitter\ndisableRipple<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> checked<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> color<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> disabled<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> value<span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">null</span></code></pre>"
+    },
+    {
+      "name": "LyRadioGroup",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-radio-group'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'lyRadioGroup'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">@<span class=\"tt18 tta3\">Output</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> change<span class=\"tt18 ttae\">:</span> EventEmitter\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> color<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> value<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span></code></pre>"
+    }
+  ],
+  "directiveList": [],
+  "ngModuleList": [
+    {
+      "name": "LyRadioModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyRadioModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/radio'</span></code></pre>"
+    }
+  ],
+  "classList": [],
+  "interfaceList": [
+    {
+      "name": "LyRadioTheme",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyRadioTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Styles for Radio Component */</span>\n  root<span class=\"tt18 ttae\">:</span> StyleCollection <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LyRadioVariables",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyRadioVariables</span> <span class=\"tt18 ttae\">&#123;</span>\n  radio<span class=\"tt18 ttae\">:</span> LyRadioTheme\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ],
+  "variableList": [
+    {
+      "name": "DEFAULT_COLOR",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_COLOR</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">\"accent\"</span></code></pre>"
+    },
+    {
+      "name": "DEFAULT_DISABLE_RIPPLE",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_DISABLE_RIPPLE</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 boolean\">false</span></code></pre>"
+    },
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">2</span></code></pre>"
+    }
+  ],
+  "objectLiteralList": []
+}

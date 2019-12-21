@@ -1,0 +1,45 @@
+{
+  "componentList": [],
+  "directiveList": [
+    {
+      "name": "LyGrid",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-grid[container]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">и<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 tt3o\">/**\n * Defines the `align-items` style property.\n * Support breakpoints\n */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> alignItems<span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt3z\">'start'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'center'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'end'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'stretch'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'baseline'</span>\n<span class=\"tt18 tt3o\">/**\n * Defines the justify-content style property.\n * Support breakpoints\n */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> direction<span class=\"tt18 ttae\">:</span> Direction\n<span class=\"tt18 tt3o\">/**\n * Defines the justify-content style property.\n * Support breakpoints\n */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> justify<span class=\"tt18 ttae\">:</span> Justify\n<span class=\"tt18 tt3o\">/**\n * Defines the space between the component with the `item` attribute.\n * Support breakpoints\n */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> spacing<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> spacingX<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> spacingY<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span></code></pre>"
+    },
+    {
+      "name": "LyGridItem",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-grid[item], [ly-grid-item], [lyGridItem]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">и<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 tt3o\">/**\n * Defines the number of grids\n * Support breakpoints\n */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> col<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'lyGridItem'</span><span class=\"tt18 ttae\">)</span> gridItemCol<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span>\n<span class=\"tt18 tt3o\">/**\n * Defines the order style property.\n * Support breakpoints\n */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> order<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">number</span></code></pre>"
+    }
+  ],
+  "typeAliasList": [
+    {
+      "name": "AlignItems",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">type</span> AlignItems <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">'start'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'center'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'end'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'stretch'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'baseline'</span></code></pre>"
+    },
+    {
+      "name": "Direction",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">type</span> Direction <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">'row'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'rowReverse'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'column'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'columnReverse'</span></code></pre>"
+    },
+    {
+      "name": "Justify",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">type</span> Justify <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">'start'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'center'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'end'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'between'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'around'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'evenly'</span></code></pre>"
+    }
+  ],
+  "variableList": [
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">1</span></code></pre>"
+    }
+  ],
+  "ngModuleList": [
+    {
+      "name": "LyGridModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyGridModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/grid'</span></code></pre>"
+    }
+  ]
+}

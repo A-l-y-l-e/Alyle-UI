@@ -16,7 +16,6 @@ const releaseRegExp = /create\s?release\:?\s?v?([0-9]+\.[0-9]+\.[0-9]+)/i;
       'yarn tools:prepare-lib',
       'yarn build',
       'yarn build:@alyle/ui',
-      'yarn tools:docs',
       'cp -r dist/docs-content/* repos/alyle-ui-docs-content',
       'cd repos/alyle-ui-docs-content && git add -A',
       `cd repos/alyle-ui-docs-content && git commit --allow-empty -m "release @alyle/ui ${VERSION} 🎉🎉🎉"`,

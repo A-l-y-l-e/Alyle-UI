@@ -1,0 +1,60 @@
+{
+  "componentList": [
+    {
+      "name": "LyListItem",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-list-item, a[ly-list-item], button[ly-list-item]'</span></code></pre>",
+      "inputs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 ttae\">[</span>\n  <span class=\"tt18 tt3z\">\"bg\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"color\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"raised\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"disabled\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"outlined\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"elevation\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"shadowColor\"</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3z\">\"disableRipple\"</span>\n<span class=\"tt18 ttae\">]</span></code></pre>",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'lyListItem'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">bg<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\ncolor<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\ndisableRipple<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\ndisabled<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nelevation<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">number</span>\noutlined<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nraised<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\nsetAutoContrast<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\nshadowColor<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\nupdateStyle<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span></code></pre>"
+    }
+  ],
+  "directiveList": [
+    {
+      "name": "LyLine",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'[ly-line]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"></code></pre>"
+    },
+    {
+      "name": "LyList",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-list'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'lyList'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">и<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span></code></pre>"
+    },
+    {
+      "name": "LyListIcon",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'[ly-list-icon]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3o\">/** Disable extra padding */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> disablePadding<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span></code></pre>"
+    }
+  ],
+  "interfaceList": [
+    {
+      "name": "LyListTheme",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyListTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Styles for List Component */</span>\n  root<span class=\"tt18 ttae\">:</span> StyleCollection <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LyListVariables",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyListVariables</span> <span class=\"tt18 ttae\">&#123;</span>\n  list<span class=\"tt18 ttae\">:</span> LyListTheme\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ],
+  "variableList": [
+    {
+      "name": "DISABLE_PADDING",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DISABLE_PADDING</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 boolean\">false</span></code></pre>"
+    },
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttap\">2</span></code></pre>"
+    }
+  ],
+  "ngModuleList": [
+    {
+      "name": "LyListModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyListModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/list'</span></code></pre>"
+    }
+  ]
+}

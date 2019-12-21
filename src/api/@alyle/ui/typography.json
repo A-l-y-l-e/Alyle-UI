@@ -1,0 +1,34 @@
+{
+  "componentList": [],
+  "directiveList": [
+    {
+      "name": "LyTypography",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 template-string\"><span class=\"tt18 tt3z\">`[lyTyp]`</span></span></code></pre>",
+      "inputs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 ttae\">[</span>\n  <span class=\"tt18 tt3z\">\"color\"</span>\n<span class=\"tt18 ttae\">]</span></code></pre>",
+      "exportAs": "",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">color<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\nsetAutoContrast<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\nupdateStyle<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> gutter<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> gutterBottom<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> gutterTop<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> lyTyp<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\n<span class=\"tt18 tt3o\">/** The text will truncate with an ellipsis. */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> noWrap<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span></code></pre>"
+    }
+  ],
+  "interfaceList": [
+    {
+      "name": "LyTypographyTheme",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyTypographyTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  lyTyp<span class=\"tt18 ttae\">:</span> undefined <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3o\">/** Styles for Typography Component */</span>\n  root<span class=\"tt18 ttae\">:</span> StyleCollection <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LyTypographyVariables",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyTypographyVariables</span> <span class=\"tt18 ttae\">&#123;</span>\n  typography<span class=\"tt18 ttae\">:</span> LyTypographyTheme\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ],
+  "variableList": [
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">1</span></code></pre>"
+    }
+  ],
+  "ngModuleList": [
+    {
+      "name": "LyTypographyModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyTypographyModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/typography'</span></code></pre>"
+    }
+  ]
+}

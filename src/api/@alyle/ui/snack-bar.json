@@ -1,0 +1,57 @@
+{
+  "componentList": [],
+  "directiveList": [
+    {
+      "name": "LySnackBar",
+      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ng-template[ly-snack-bar]'</span></code></pre>",
+      "inputs": "",
+      "exportAs": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'lySnackBar'</span></code></pre>",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">@<span class=\"tt18 tta3\">Output</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> afterDismissed<span class=\"tt18 ttae\">:</span> EventEmitter\nclasses<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> duration<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> horizontalPosition<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> verticalPosition<span class=\"tt18 ttae\">:</span> YPosition\n<span class=\"tt18 tt3o\">/** Dismiss snackBar */</span>\n<span class=\"tt18 tta3\">dismiss</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span>\n<span class=\"tt18 tta3\">open</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt1j\">void</span></code></pre>"
+    }
+  ],
+  "interfaceList": [
+    {
+      "name": "LySnackBarDismiss",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LySnackBarDismiss</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Whether the snack bar was dismissed using the action fn. */</span>\n  dismissedByAction<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LySnackBarTheme",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LySnackBarTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Styles for SnackBar Component */</span>\n  root<span class=\"tt18 ttae\">:</span> StyleTemplate <span class=\"tt18 ttb0\">|</span> StyleCollection\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    },
+    {
+      "name": "LySnackBarVariables",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LySnackBarVariables</span> <span class=\"tt18 ttae\">&#123;</span>\n  snackBar<span class=\"tt18 ttae\">:</span> LySnackBarTheme\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ],
+  "variableList": [
+    {
+      "name": "DEFAULT_HORIZONTAL_POSITION",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_HORIZONTAL_POSITION</span> <span class=\"tt18 ttb0\">=</span> XPosition<span class=\"tt18 ttae\">.</span>after</code></pre>"
+    },
+    {
+      "name": "DEFAULT_VERTICAL_POSITION",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_VERTICAL_POSITION</span> <span class=\"tt18 ttb0\">=</span> YPosition<span class=\"tt18 ttae\">.</span>below</code></pre>"
+    },
+    {
+      "name": "STYLE_PRIORITY",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_PRIORITY</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttb0\">-</span><span class=\"tt18 ttap\">2</span></code></pre>"
+    },
+    {
+      "name": "DEFAULT_DURATION",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">DEFAULT_DURATION</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttap\">6000</span></code></pre>"
+    }
+  ],
+  "classList": [],
+  "ngModuleList": [
+    {
+      "name": "LySnackBarModule",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LySnackBarModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/snack-bar'</span></code></pre>"
+    }
+  ],
+  "injectableList": [
+    {
+      "name": "LySnackBarService",
+      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\">@<span class=\"tt18 tta3\">Injectable</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">&#123;</span>\n  providedIn<span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt3z\">'root'</span>\n<span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">)</span>\n<span class=\"tt18 tt1j\">class</span> <span class=\"tt18 ttc8\">LySnackBarService</span> <span class=\"tt18 ttae\">&#123;</span>\n  \n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+    }
+  ]
+}
