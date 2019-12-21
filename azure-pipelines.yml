@@ -42,7 +42,8 @@ jobs:
         export SHA=$(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION')
         echo $MSG > ./ci/scripts/MSG
         echo $SHA > ./ci/scripts/SHA
-        echo $MSG.$SHA
+        echo MSG$MSG
+        echo SHA$SHA
       noRc: false
     displayName: "Write data"
   - bash: |
