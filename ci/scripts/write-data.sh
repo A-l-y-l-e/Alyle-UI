@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -e -o pipefail
 
 . ci/setup.sh
 
