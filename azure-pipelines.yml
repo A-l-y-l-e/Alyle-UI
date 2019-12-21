@@ -16,7 +16,7 @@ jobs:
   - script: |
       curl -o- -L https://yarnpkg.com/install.sh | bash
     displayName: "Install Yarn"
-  - bash: |
+  - script: |
       set -e
       source ci/setup.sh
       export MSG=$(ts-node tools/src/commit-msg)
