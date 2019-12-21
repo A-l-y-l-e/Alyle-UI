@@ -18,7 +18,8 @@ jobs:
     displayName: "Install Yarn"
   - script: |
       set -e
-      source ci/setup.sh
+      . ci/setup.sh
+      which ts-node
       export MSG=$(ts-node tools/src/commit-msg)
       export SHA=$(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION')
       echo $MSG > ./ci/scripts/MSG
@@ -32,7 +33,7 @@ jobs:
     displayName: "Cache Yarn packages"
   - bash: |
       set -e
-      source ./ci/setup.sh
+      . ci/setup.sh
       yarn --frozen-lockfile
       export MSG=$(ts-node tools/src/commit-msg)
       ts-node tools/*/bump-version.ts
