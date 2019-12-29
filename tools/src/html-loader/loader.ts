@@ -6,13 +6,21 @@ showdown.extension('custom', function() {
   return [{
     type: 'output',
     filter: function(text) {
-      text = text.replace(
-        /<p><aui[^]*><\/p>/ig,
-        (str) => {
-          console.log(str);
-          return str.replace(/<\/?p[^>]*>/ig, '');
-        }
-      );
+      text = text
+        .replace(
+          /<p><aui[^]+><\/p>/ig,
+          (str) => {
+            return str.replace(/<\/?p>/g, '');
+          }
+        )
+        .replace(
+          /(<p>)<demo-view/g,
+          (s, p) => s.replace(p, '')
+        )
+        .replace(
+          /<\/demo-view>(<\/p>)/g,
+          (s, p) => s.replace(p, '')
+        );
       return text;
     }
   }];
@@ -61,7 +69,7 @@ export default function (markdown: string) {
 
 export function mdToHtml(markdown: string) {
   const converter = new showdown.Converter({
-    extensions: ['prism', 'custom'],
+    extensions: ['custom', 'prism'],
     strikethrough: true,
     ghCompatibleHeaderId: true
   });

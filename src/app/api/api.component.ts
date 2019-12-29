@@ -1,60 +1,155 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LyTheme2, LY_THEME } from '@alyle/ui';
-import { AUIRoutesMap } from '../routes';
+import { Location } from '@angular/common';
+import { Subscription, of, asapScheduler } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { LyTheme2, Platform, lyl, StyleRenderer } from '@alyle/ui';
+
+import { AppComponent } from '@app/app.component';
+import { tap, map, catchError, observeOn, switchMap, takeUntil } from 'rxjs/operators';
+import { Ads } from '@shared/ads';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { STYLES as API_LIST_CLASSES } from './api-list.component';
+import { APIService, APIList } from './api.service';
+
+const STYLES = () => {
+  return {
+    $priority: 1,
+    header: lyl `{
+      display: flex
+      align-items: center
+    }`,
+    breadcrumbContainer: lyl `{
+      display: flex
+    }`,
+    label: lyl `{
+      width: initial
+      padding: 4px 6px
+      height: initial
+      line-height: initial
+      display: inline-flex
+      align-items: center
+      text-transform: uppercase
+      &::before {
+        content: ''
+      }
+    }`
+  };
+};
+
+interface APIPkgSymbol {
+  name: string;
+  symbol: string;
+  code: string;
+}
+interface APIPkgSymbolSanitized {
+  name: string;
+  symbol: string;
+  code: SafeHtml;
+}
+
+interface APIPkgSymbolList {
+  key: string;
+  items: APIList[];
+}
 
 @Component({
   selector: 'aui-api',
   templateUrl: './api.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class ApiComponent implements OnInit, OnDestroy {
-  pkgName: string;
-  doc: Observable<Object>;
+  readonly classes = this.sRenderer.renderSheet(STYLES);
+  readonly apiListClasses = this.sRenderer.renderSheet(API_LIST_CLASSES);
+
+  readonly doc$ = new EventEmitter<void>();
+  doc: APIPkgSymbolSanitized | APIPkgSymbolList[] | null;
+  private void$ = of<void>(undefined);
   routeParamsSubscription = Subscription.EMPTY;
-  themeJson: string | null;
-  themePkg: {
-    name: string
-    themeJSON: any
-  }[];
+  private onDestroy$ = new EventEmitter<void>();
+  @ViewChild('code', { static: false }) code: ElementRef<HTMLDivElement>;
   constructor(
+    readonly sRenderer: StyleRenderer,
     private http: HttpClient,
     public route: ActivatedRoute,
-    private router: Router,
     public theme: LyTheme2,
-    @Inject(LY_THEME) themeConfig
+    private apiService: APIService,
+    location: Location,
+    private sanitizer: DomSanitizer,
+    private app: AppComponent,
+    private ads: Ads,
+    cdr: ChangeDetectorRef
   ) {
-    this.routeParamsSubscription = this.route.params.subscribe(params => {
-      if (AUIRoutesMap.has(this.router.url)) {
-        this.themeJson = null;
-        this.themePkg = [];
-        this.pkgName = params.package;
-        this.doc = this.http
-        .get(`api/@alyle/ui/${this.pkgName}.min.json`, {responseType: 'json'});
-        themeConfig.forEach(themeInfo => {
-          if (this.pkgName in themeInfo && Object.keys(themeInfo[this.pkgName]).length) {
-            this.themePkg.push({
-              name: themeInfo.name,
-              themeJSON: JSON.stringify(themeInfo[this.pkgName], undefined, 2)
-            });
-          }
-        });
-        if (this.themePkg.length && this.themePkg[0].themeJSON === this.themePkg[1].themeJSON) {
-          this.themePkg.pop();
-        }
-      } else {
-        this.router.navigate(['/404']);
-      }
+    this.doc$
+      .pipe(
+        observeOn(asapScheduler),
+        switchMap(() => this.render(location.path())),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((data) => {
+        this.doc = data;
+        cdr.markForCheck();
+      });
+    this.routeParamsSubscription = this.route.url.pipe(takeUntil(this.onDestroy$)).subscribe(async () => {
+      this.doc$.emit(null!);
     });
+  }
+
+  render(path: string) {
+    return this.void$
+      .pipe(
+        switchMap(async () => await
+          this.http.get<APIPkgSymbol | APIPkgSymbolList[]>(`${path}.json`).pipe(catchError(this.apiService.handleError)).toPromise()
+        .catch((title: string) => {
+          this.app.docViewer!.isError.emit({
+            title
+          });
+          return null;
+        })),
+        map((data) => {
+          if ((data as APIPkgSymbol).code) {
+            return {
+              ...data,
+              code: this.sanitizer.bypassSecurityTrustHtml((data as APIPkgSymbol).code)
+            } as APIPkgSymbolSanitized;
+          }
+          return data;
+        }),
+        tap((data) => {
+          const { docViewer } = this.app;
+          if (docViewer) {
+            docViewer.isLoading.emit(false);
+            if (data) {
+              docViewer.setNoIndex(false);
+              const splited = path.split('/').filter(_ => _);
+              let title: string;
+              if (splited.length === 3 || splited.length === 4) {
+                title = path.replace('/api/', '');
+              } else {
+                title = splited.pop()!;
+              }
+              docViewer.setTitle(`Alyle UI - ${title}`);
+            }
+            // Show skeleton screen Platform is Server
+            if (!Platform.isBrowser) {
+              const { hostElement } = docViewer;
+              hostElement.innerHTML = '';
+              docViewer.isLoading.emit(true);
+            }
+            this.ads.update(path, this.theme);
+          }
+        })
+      );
   }
 
   ngOnInit() {
   }
 
-  ref(moduleName: string) {
-    return `import { ${moduleName} } from '@alyle/ui/${this.pkgName}';`;
+  ref(moduleName: string, path: string) {
+    return `import { ${moduleName} } from '@alyle/ui/${path}';`;
   }
 
   inputTemplate(input: {name: string, type: string}) {
@@ -62,6 +157,7 @@ export class ApiComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.onDestroy$.emit(null!);
     this.routeParamsSubscription.unsubscribe();
   }
 

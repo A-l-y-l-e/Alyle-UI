@@ -95,7 +95,9 @@ export const AUIRoutesMap = new Map<string, {
   route: string;
   name: string;
   api?: boolean;
-}>();
+} | null>();
+
+AUIRoutesMap.set('/api/core', null);
 
 AUIRoutes.forEach(item => {
   AUIRoutesMap.set(`/${item.route}`, item);

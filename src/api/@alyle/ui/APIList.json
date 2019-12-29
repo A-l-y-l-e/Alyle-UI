@@ -1,2570 +1,2062 @@
-{
-  "avatar": {
-    "children": [
-      {
-        "name": "LyAvatar",
-        "type": "Directive"
-      },
-      {
-        "name": "LyAvatarBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyAvatarDefaultOptions",
-        "type": "Interface"
-      },
-      {
-        "name": "LyAvatarTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyAvatarVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_BG",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_SIZE",
-        "type": "Variable"
-      },
-      {
-        "name": "LY_AVATAR_DEFAULT_OPTIONS",
-        "type": "Variable"
-      },
-      {
-        "name": "LyAvatarMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyAvatarModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "badge": {
-    "children": [
-      {
-        "name": "LyBadge",
-        "type": "Directive"
-      },
-      {
-        "name": "LyBadgeBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyBadgeTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyBadgeVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_APPEARANCE",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_BG",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_H_POSITION",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_OVERLAP",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_V_POSITION",
-        "type": "Variable"
-      },
-      {
-        "name": "LY_BADGE_DEFAULT_OPTIONS",
-        "type": "Variable"
-      },
-      {
-        "name": "LyBadgeMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyBadgeModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "button": {
-    "children": [
-      {
-        "name": "LyButton",
-        "type": "Component"
-      },
-      {
-        "name": "LyButtonBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyButtonDefaultOptions",
-        "type": "Interface"
-      },
-      {
-        "name": "LyButtonTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyButtonVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_DISABLE_RIPPLE",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_SIZE",
-        "type": "Variable"
-      },
-      {
-        "name": "LY_BUTTON_DEFAULT_OPTIONS",
-        "type": "Variable"
-      },
-      {
-        "name": "LyButtonMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyButtonModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "card": {
-    "children": [
-      {
-        "name": "LyCard",
-        "type": "Directive"
-      },
-      {
-        "name": "LyCardActions",
-        "type": "Directive"
-      },
-      {
-        "name": "LyCardBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyCardContent",
-        "type": "Directive"
-      },
-      {
-        "name": "LyCardMedia",
-        "type": "Directive"
-      },
-      {
-        "name": "LyCardTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyCardVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_ASPECT_RATIO",
-        "type": "Variable"
-      },
-      {
-        "name": "LyCardMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyCardModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "carousel": {
-    "children": [
-      {
-        "name": "CarouselMode",
-        "type": "Enumeration"
-      },
-      {
-        "name": "LyCarousel",
-        "type": "Component"
-      },
-      {
-        "name": "LyCarouselItem",
-        "type": "Directive"
-      },
-      {
-        "name": "LyCarouselTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyCarouselVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_AUTOPLAY",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_HAS_PROGRESS_BAR",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_INTERVAL",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyCarouselModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "checkbox": {
-    "children": [
-      {
-        "name": "LyCheckbox",
-        "type": "Component"
-      },
-      {
-        "name": "LyCheckboxBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyCheckboxChange",
-        "type": "Class"
-      },
-      {
-        "name": "LyCheckboxTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyCheckboxVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_DISABLE_RIPPLE",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_WITH_COLOR",
-        "type": "Variable"
-      },
-      {
-        "name": "LyCheckboxMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyCheckboxModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "color": {
-    "children": [
-      {
-        "name": "ColorClass",
-        "type": "Class"
-      },
-      {
-        "name": "ColorConstructor",
-        "type": "Interface"
-      },
-      {
-        "name": "Color",
-        "type": "Type alias"
-      },
-      {
-        "name": "Color",
-        "type": "Variable"
-      },
-      {
-        "name": "EPS",
-        "type": "Variable"
-      },
-      {
-        "name": "MAX_ITER",
-        "type": "Variable"
-      },
-      {
-        "name": "max",
-        "type": "Variable"
-      },
-      {
-        "name": "min",
-        "type": "Variable"
-      },
-      {
-        "name": "pow",
-        "type": "Variable"
-      },
-      {
-        "name": "CreateCallableConstructor",
-        "type": "Function"
-      },
-      {
-        "name": "bigIntToRgb",
-        "type": "Function"
-      },
-      {
-        "name": "hexColorToInt",
-        "type": "Function"
-      },
-      {
-        "name": "interpolateRgb",
-        "type": "Function"
-      },
-      {
-        "name": "labToLch",
-        "type": "Function"
-      },
-      {
-        "name": "labToXyz",
-        "type": "Function"
-      },
-      {
-        "name": "lchToLab",
-        "type": "Function"
-      },
-      {
-        "name": "luminance_channel",
-        "type": "Function"
-      },
-      {
-        "name": "rgbToCss",
-        "type": "Function"
-      },
-      {
-        "name": "rgbToLab",
-        "type": "Function"
-      },
-      {
-        "name": "rgbToLuminance",
-        "type": "Function"
-      },
-      {
-        "name": "rgbToXyz",
-        "type": "Function"
-      },
-      {
-        "name": "xyzToRgb",
-        "type": "Function"
-      }
-    ]
-  },
-  "dialog": {
-    "children": [
-      {
-        "name": "LyDialog",
-        "type": "Injectable"
-      },
-      {
-        "name": "toPx",
-        "type": "Function"
-      },
-      {
-        "name": "LyDialogActions",
-        "type": "Directive"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLES_DIALOG_ACTIONS",
-        "type": "Function"
-      },
-      {
-        "name": "LyDialogConfig",
-        "type": "Class"
-      },
-      {
-        "name": "LyDialogContainer",
-        "type": "Component"
-      },
-      {
-        "name": "LyDialogContext",
-        "type": "Class"
-      },
-      {
-        "name": "LyDialogTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyDialogVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyDialogContent",
-        "type": "Directive"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLES_DIALOG_CONTENT",
-        "type": "Function"
-      },
-      {
-        "name": "LY_DIALOG_DATA",
-        "type": "Variable"
-      },
-      {
-        "name": "LyDialogRef",
-        "type": "Injectable"
-      },
-      {
-        "name": "LyDialogTitle",
-        "type": "Directive"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLES_DIALOG_TITLE",
-        "type": "Function"
-      },
-      {
-        "name": "LyDialogModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "DynamicInjector",
-        "type": "Class"
-      }
-    ]
-  },
-  "divider": {
-    "children": [
-      {
-        "name": "LyDivider",
-        "type": "Directive"
-      },
-      {
-        "name": "LyDividerModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "drawer": {
-    "children": [
-      {
-        "name": "LyDrawer",
-        "type": "Component"
-      },
-      {
-        "name": "LyDrawerContainer",
-        "type": "Directive"
-      },
-      {
-        "name": "LyDrawerContent",
-        "type": "Directive"
-      },
-      {
-        "name": "LyDrawerTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyDrawerVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "LyDrawerMode",
-        "type": "Type alias"
-      },
-      {
-        "name": "LyDrawerPosition",
-        "type": "Type alias"
-      },
-      {
-        "name": "DEFAULT_MODE",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_POSITION",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_VALUE",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_WIDTH",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "createEmptyPropOrUseExisting",
-        "type": "Function"
-      },
-      {
-        "name": "toPx",
-        "type": "Function"
-      },
-      {
-        "name": "LyDrawerModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "expansion": {
-    "children": [
-      {
-        "name": "LyAccordion",
-        "type": "Directive"
-      },
-      {
-        "name": "ExpansionConfig",
-        "type": "Interface"
-      },
-      {
-        "name": "ExpansionVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "lyExpansionAnimations",
-        "type": "Object literal"
-      },
-      {
-        "name": "LyExpansionPanel",
-        "type": "Component"
-      },
-      {
-        "name": "LyExpansionPanelBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyExpansionPanelState",
-        "type": "Type alias"
-      },
-      {
-        "name": "LyButtonMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "LyExpansionPanelAction",
-        "type": "Directive"
-      },
-      {
-        "name": "LyExpansionPanelContent",
-        "type": "Directive"
-      },
-      {
-        "name": "LyExpansionPanelDescription",
-        "type": "Directive"
-      },
-      {
-        "name": "LyExpansionPanelHeader",
-        "type": "Component"
-      },
-      {
-        "name": "LyExpansionPanelTitle",
-        "type": "Directive"
-      },
-      {
-        "name": "LyExpansionModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "field": {
-    "children": [
-      {
-        "name": "LyError",
-        "type": "Directive"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyField",
-        "type": "Component"
-      },
-      {
-        "name": "LyNativeControl",
-        "type": "Directive"
-      },
-      {
-        "name": "LyFieldTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyFieldVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_APPEARANCE",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_WITH_COLOR",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_SELECT_ARROW",
-        "type": "Variable"
-      },
-      {
-        "name": "inputText",
-        "type": "Variable"
-      },
-      {
-        "name": "LyFieldControlBase",
-        "type": "Class"
-      },
-      {
-        "name": "LY_FIELD_STYLES_TOKEN",
-        "type": "Variable"
-      },
-      {
-        "name": "LyFieldModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "LyHint",
-        "type": "Directive"
-      },
-      {
-        "name": "LyHintAlign",
-        "type": "Type alias"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyLabel",
-        "type": "Directive"
-      },
-      {
-        "name": "LyPlaceholder",
-        "type": "Directive"
-      },
-      {
-        "name": "LyPrefix",
-        "type": "Directive"
-      },
-      {
-        "name": "LySuffix",
-        "type": "Directive"
-      }
-    ]
-  },
-  "grid": {
-    "children": [
-      {
-        "name": "LyGrid",
-        "type": "Directive"
-      },
-      {
-        "name": "LyGridItem",
-        "type": "Directive"
-      },
-      {
-        "name": "AlignItems",
-        "type": "Type alias"
-      },
-      {
-        "name": "Direction",
-        "type": "Type alias"
-      },
-      {
-        "name": "Justify",
-        "type": "Type alias"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "ALIGN_ALIAS",
-        "type": "Object literal"
-      },
-      {
-        "name": "LyGridModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "icon": {
-    "children": [
-      {
-        "name": "LyIcon",
-        "type": "Directive"
-      },
-      {
-        "name": "LyIconBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyIconMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyIconModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "LyIconService",
-        "type": "Injectable"
-      },
-      {
-        "name": "FontClassOptions",
-        "type": "Interface"
-      },
-      {
-        "name": "SvgIcon",
-        "type": "Interface"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      }
-    ]
-  },
-  "image-cropper": {
-    "children": [
-      {
-        "name": "ImgCropperError",
-        "type": "Enumeration"
-      },
-      {
-        "name": "ImgResolution",
-        "type": "Enumeration"
-      },
-      {
-        "name": "LyImageCropper",
-        "type": "Component"
-      },
-      {
-        "name": "ImgCropperConfig",
-        "type": "Interface"
-      },
-      {
-        "name": "ImgCropperErrorEvent",
-        "type": "Interface"
-      },
-      {
-        "name": "ImgCropperEvent",
-        "type": "Interface"
-      },
-      {
-        "name": "ImgOutput",
-        "type": "Interface"
-      },
-      {
-        "name": "ImgRect",
-        "type": "Interface"
-      },
-      {
-        "name": "LyImageCropperTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyImageCropperVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "CONFIG_DEFAULT",
-        "type": "Variable"
-      },
-      {
-        "name": "DATA_IMAGE_SVG_PREFIX",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "convertToValidDegrees",
-        "type": "Function"
-      },
-      {
-        "name": "createCanvasImg",
-        "type": "Function"
-      },
-      {
-        "name": "createHtmlImg",
-        "type": "Function"
-      },
-      {
-        "name": "isSvgImage",
-        "type": "Function"
-      },
-      {
-        "name": "limitNum",
-        "type": "Function"
-      },
-      {
-        "name": "normalizeSVG",
-        "type": "Function"
-      },
-      {
-        "name": "LyImageCropperModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "list": {
-    "children": [
-      {
-        "name": "LyLine",
-        "type": "Directive"
-      },
-      {
-        "name": "LyList",
-        "type": "Directive"
-      },
-      {
-        "name": "LyListIcon",
-        "type": "Directive"
-      },
-      {
-        "name": "LyListItem",
-        "type": "Component"
-      },
-      {
-        "name": "LyListItemBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyListTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyListVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DISABLE_PADDING",
-        "type": "Variable"
-      },
-      {
-        "name": "LyListItemMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyListModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "menu": {
-    "children": [
-      {
-        "name": "LyMenu",
-        "type": "Component"
-      },
-      {
-        "name": "LyMenuItem",
-        "type": "Directive"
-      },
-      {
-        "name": "LyMenuTriggerFor",
-        "type": "Directive"
-      },
-      {
-        "name": "LyMenuTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyMenuVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "ANIMATIONS",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_PLACEMENT",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_XPOSITION",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyMenuModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "radio": {
-    "children": [
-      {
-        "name": "LyRadio",
-        "type": "Component"
-      },
-      {
-        "name": "LyRadioBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyRadioGroup",
-        "type": "Component"
-      },
-      {
-        "name": "LyRadioModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "UndefinedValue",
-        "type": "Class"
-      },
-      {
-        "name": "LyRadioTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyRadioVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_COLOR",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_DISABLE_RIPPLE",
-        "type": "Variable"
-      },
-      {
-        "name": "LyRadioMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "idx",
-        "type": "Variable"
-      },
-      {
-        "name": "LY_RADIO_CONTROL_VALUE_ACCESSOR",
-        "type": "Object literal"
-      }
-    ]
-  },
-  "responsive": {
-    "children": [
-      {
-        "name": "Breakpoints",
-        "type": "Object literal"
-      },
-      {
-        "name": "MediaDirective",
-        "type": "Directive"
-      },
-      {
-        "name": "MEDIA_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "ResponsiveModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "select": {
-    "children": [
-      {
-        "name": "LyOption",
-        "type": "Component"
-      },
-      {
-        "name": "LyOptionBase",
-        "type": "Class"
-      },
-      {
-        "name": "LySelect",
-        "type": "Component"
-      },
-      {
-        "name": "LySelectBase",
-        "type": "Class"
-      },
-      {
-        "name": "LySelectTrigger",
-        "type": "Directive"
-      },
-      {
-        "name": "LySelectTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LySelectVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "ANIMATIONS",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_DISABLE_RIPPLE",
-        "type": "Variable"
-      },
-      {
-        "name": "LyOptionMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "LySelectMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "getValue",
-        "type": "Function"
-      },
-      {
-        "name": "same",
-        "type": "Function"
-      },
-      {
-        "name": "LySelectModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "skeleton": {
-    "children": [
-      {
-        "name": "LySkeleton",
-        "type": "Directive"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LySkeletonModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "slider": {
-    "children": [
-      {
-        "name": "LyMark",
-        "type": "Component"
-      },
-      {
-        "name": "LySlider",
-        "type": "Component"
-      },
-      {
-        "name": "LySliderChange",
-        "type": "Class"
-      },
-      {
-        "name": "LySliderDefaultOptions",
-        "type": "Interface"
-      },
-      {
-        "name": "LySliderMark",
-        "type": "Interface"
-      },
-      {
-        "name": "LySliderTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LySliderVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "Thumb",
-        "type": "Interface"
-      },
-      {
-        "name": "LY_SLIDER_DEFAULT_OPTIONS",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "ASC",
-        "type": "Function"
-      },
-      {
-        "name": "arrayEquals",
-        "type": "Function"
-      },
-      {
-        "name": "clamp",
-        "type": "Function"
-      },
-      {
-        "name": "findClosest",
-        "type": "Function"
-      },
-      {
-        "name": "percentToValue",
-        "type": "Function"
-      },
-      {
-        "name": "valueEquals",
-        "type": "Function"
-      },
-      {
-        "name": "гbetween",
-        "type": "Function"
-      },
-      {
-        "name": "гvalueToPercent",
-        "type": "Function"
-      },
-      {
-        "name": "LY_SLIDER_CONTROL_VALUE_ACCESSOR",
-        "type": "Object literal"
-      },
-      {
-        "name": "LySliderModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "LyTick",
-        "type": "Directive"
-      }
-    ]
-  },
-  "snack-bar": {
-    "children": [
-      {
-        "name": "LySnackBar",
-        "type": "Directive"
-      },
-      {
-        "name": "LySnackBarDismiss",
-        "type": "Interface"
-      },
-      {
-        "name": "LySnackBarTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LySnackBarVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_HORIZONTAL_POSITION",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_VERTICAL_POSITION",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LySnackBarRef",
-        "type": "Class"
-      },
-      {
-        "name": "DEFAULT_DURATION",
-        "type": "Variable"
-      },
-      {
-        "name": "LySnackBarModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "LySnackBarService",
-        "type": "Injectable"
-      }
-    ]
-  },
-  "root": {
-    "children": [
-      {
-        "name": "ColorScheme",
-        "type": "Interface"
-      },
-      {
-        "name": "Default",
-        "type": "Interface"
-      },
-      {
-        "name": "PaletteVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "IS_CORE_THEME",
-        "type": "Variable"
-      },
-      {
-        "name": "THEME_VARIABLES",
-        "type": "Variable"
-      },
-      {
-        "name": "CanBg",
-        "type": "Interface"
-      },
-      {
-        "name": "mixinBg",
-        "type": "Function"
-      },
-      {
-        "name": "CanStyleUpdater",
-        "type": "Interface"
-      },
-      {
-        "name": "RequireParamsStyleUpdater",
-        "type": "Interface"
-      },
-      {
-        "name": "CanStyleUpdaterCtor",
-        "type": "Type alias"
-      },
-      {
-        "name": "DEFAULT_VALUE",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "colorOf",
-        "type": "Function"
-      },
-      {
-        "name": "mixinStyleUpdater",
-        "type": "Function"
-      },
-      {
-        "name": "CanColor",
-        "type": "Interface"
-      },
-      {
-        "name": "mixinColor",
-        "type": "Function"
-      },
-      {
-        "name": "Constructor",
-        "type": "Type alias"
-      },
-      {
-        "name": "CanDisableRipple",
-        "type": "Interface"
-      },
-      {
-        "name": "RequireParams",
-        "type": "Interface"
-      },
-      {
-        "name": "mixinDisableRipple",
-        "type": "Function"
-      },
-      {
-        "name": "CanDisable",
-        "type": "Interface"
-      },
-      {
-        "name": "CanDisableCtor",
-        "type": "Type alias"
-      },
-      {
-        "name": "mixinDisabled",
-        "type": "Function"
-      },
-      {
-        "name": "CanElevation",
-        "type": "Interface"
-      },
-      {
-        "name": "mixinElevation",
-        "type": "Function"
-      },
-      {
-        "name": "CanOutlined",
-        "type": "Interface"
-      },
-      {
-        "name": "mixinOutlined",
-        "type": "Function"
-      },
-      {
-        "name": "CanRaised",
-        "type": "Interface"
-      },
-      {
-        "name": "mixinRaised",
-        "type": "Function"
-      },
-      {
-        "name": "CanShadowColor",
-        "type": "Interface"
-      },
-      {
-        "name": "mixinShadowColor",
-        "type": "Function"
-      },
-      {
-        "name": "HasTabIndex",
-        "type": "Interface"
-      },
-      {
-        "name": "HasTabIndexCtor",
-        "type": "Type alias"
-      },
-      {
-        "name": "DEFAULT_TAB_INDEX",
-        "type": "Variable"
-      },
-      {
-        "name": "mixinTabIndex",
-        "type": "Function"
-      },
-      {
-        "name": "ElementObserver",
-        "type": "Injectable"
-      },
-      {
-        "name": "MutationObserverFactory",
-        "type": "Injectable"
-      },
-      {
-        "name": "MUTATION_OBSERVER_INIT",
-        "type": "Object literal"
-      },
-      {
-        "name": "LyOverlay",
-        "type": "Injectable"
-      },
-      {
-        "name": "LyOverlayBackdrop",
-        "type": "Component"
-      },
-      {
-        "name": "STYLES_BACKDROP_ROOT",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "LyOverlayConfig",
-        "type": "Class"
-      },
-      {
-        "name": "LyOverlayContainer",
-        "type": "Injectable"
-      },
-      {
-        "name": "OverlayFactory",
-        "type": "Class"
-      },
-      {
-        "name": "createOverlayInjector",
-        "type": "Function"
-      },
-      {
-        "name": "LyOverlayRef",
-        "type": "Class"
-      },
-      {
-        "name": "STYLES_BACKDROP_DARK",
-        "type": "Variable"
-      },
-      {
-        "name": "LyOverlayModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "WinResize",
-        "type": "Injectable"
-      },
-      {
-        "name": "WinScroll",
-        "type": "Injectable"
-      },
-      {
-        "name": "getLyThemeStyleUndefinedError",
-        "type": "Function"
-      },
-      {
-        "name": "getLyThemeVariableOptionUndefinedError",
-        "type": "Function"
-      },
-      {
-        "name": "getLyThemeVariableUndefinedError",
-        "type": "Function"
-      },
-      {
-        "name": "LyExpansionIcon",
-        "type": "Component"
-      },
-      {
-        "name": "LyExpansionIconModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "FocusStatus",
-        "type": "Enumeration"
-      },
-      {
-        "name": "LyFocusState",
-        "type": "Injectable"
-      },
-      {
-        "name": "FocusStateInfo",
-        "type": "Interface"
-      },
-      {
-        "name": "FocusState",
-        "type": "Type alias"
-      },
-      {
-        "name": "HammerInput",
-        "type": "Interface"
-      },
-      {
-        "name": "HammerInstance",
-        "type": "Interface"
-      },
-      {
-        "name": "HammerManager",
-        "type": "Interface"
-      },
-      {
-        "name": "HammerOptions",
-        "type": "Interface"
-      },
-      {
-        "name": "HammerStatic",
-        "type": "Interface"
-      },
-      {
-        "name": "Recognizer",
-        "type": "Interface"
-      },
-      {
-        "name": "RecognizerStatic",
-        "type": "Type alias"
-      },
-      {
-        "name": "LyHammerGestureConfig",
-        "type": "Injectable"
-      },
-      {
-        "name": "HAMMER_GESTURES_EVENTS",
-        "type": "Variable"
-      },
-      {
-        "name": "LY_HAMMER_OPTIONS",
-        "type": "Variable"
-      },
-      {
-        "name": "noopHammerInstance",
-        "type": "Object literal"
-      },
-      {
-        "name": "NgTranscludeDirective",
-        "type": "Directive"
-      },
-      {
-        "name": "NgTranscludeModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "KeyAttribute",
-        "type": "Interface"
-      },
-      {
-        "name": "componentDestroyed",
-        "type": "Function"
-      },
-      {
-        "name": "untilComponentDestroyed",
-        "type": "Function"
-      },
-      {
-        "name": "defaultEntry",
-        "type": "Function"
-      },
-      {
-        "name": "LyHostClass",
-        "type": "Injectable"
-      },
-      {
-        "name": "toBoolean",
-        "type": "Function"
-      },
-      {
-        "name": "StyleRenderer",
-        "type": "Injectable"
-      },
-      {
-        "name": "WithStyles",
-        "type": "Interface"
-      },
-      {
-        "name": "__CLASS_NAME__",
-        "type": "Variable"
-      },
-      {
-        "name": "Style",
-        "type": "Function"
-      },
-      {
-        "name": "getComponentName",
-        "type": "Function"
-      },
-      {
-        "name": "createScrollWithAnimation",
-        "type": "Function"
-      },
-      {
-        "name": "easeOutCuaic",
-        "type": "Function"
-      },
-      {
-        "name": "scrollTo",
-        "type": "Function"
-      },
-      {
-        "name": "scrollToC",
-        "type": "Function"
-      },
-      {
-        "name": "scrollWithAnimation",
-        "type": "Function"
-      },
-      {
-        "name": "toNumber",
-        "type": "Function"
-      },
-      {
-        "name": "getContrastYIQ",
-        "type": "Function"
-      },
-      {
-        "name": "LylParse",
-        "type": "Class"
-      },
-      {
-        "name": "StringIdGenerator",
-        "type": "Class"
-      },
-      {
-        "name": "StyleCollection",
-        "type": "Class"
-      },
-      {
-        "name": "StyleTemplate",
-        "type": "Type alias"
-      },
-      {
-        "name": "Transformer",
-        "type": "Type alias"
-      },
-      {
-        "name": "id",
-        "type": "Variable"
-      },
-      {
-        "name": "AMPERSAND_REGEX",
-        "type": "Function"
-      },
-      {
-        "name": "LINE_FEED_REGEX",
-        "type": "Function"
-      },
-      {
-        "name": "STYLE_TEMPLATE_REGEX",
-        "type": "Function"
-      },
-      {
-        "name": "createUniqueCommentSelector",
-        "type": "Function"
-      },
-      {
-        "name": "createUniqueId",
-        "type": "Function"
-      },
-      {
-        "name": "lyl",
-        "type": "Function"
-      },
-      {
-        "name": "styleTemplateToString",
-        "type": "Function"
-      },
-      {
-        "name": "Context",
-        "type": "Class"
-      },
-      {
-        "name": "test",
-        "type": "Variable"
-      },
-      {
-        "name": "supportsPassive",
-        "type": "Variable"
-      },
-      {
-        "name": "supportsPassiveEventListeners",
-        "type": "Function"
-      },
-      {
-        "name": "Platform",
-        "type": "Class"
-      },
-      {
-        "name": "hasV8BreakIterator",
-        "type": "Variable"
-      },
-      {
+[
+  {
+    "pkg": "@alyle/ui",
+    "items": [
+      {
+        "pkg": "@alyle/ui",
         "name": "AlignAlias",
-        "type": "Enumeration"
+        "symbol": "Enumeration"
       },
       {
-        "name": "XPosition",
-        "type": "Enumeration"
-      },
-      {
-        "name": "YPosition",
-        "type": "Enumeration"
-      },
-      {
-        "name": "Positioning",
-        "type": "Class"
-      },
-      {
-        "name": "Placement",
-        "type": "Type alias"
-      },
-      {
-        "name": "INITIAL_V",
-        "type": "Variable"
-      },
-      {
-        "name": "invertPlacement",
-        "type": "Function"
-      },
-      {
-        "name": "Ripple",
-        "type": "Class"
-      },
-      {
-        "name": "RippleRef",
-        "type": "Class"
-      },
-      {
-        "name": "RippleConfig",
-        "type": "Interface"
-      },
-      {
-        "name": "maxSize",
-        "type": "Function"
-      },
-      {
-        "name": "rippleRadius",
-        "type": "Function"
-      },
-      {
-        "name": "LyRippleService",
-        "type": "Injectable"
-      },
-      {
-        "name": "LySelectionModel",
-        "type": "Class"
-      },
-      {
-        "name": "SelectionOpts",
-        "type": "Interface"
-      },
-      {
-        "name": "same",
-        "type": "Function"
-      },
-      {
-        "name": "Shadows",
-        "type": "Variable"
-      },
-      {
-        "name": "shadowAmbientShadowOpacity",
-        "type": "Variable"
-      },
-      {
-        "name": "shadowKeyPenumbraOpacity",
-        "type": "Variable"
-      },
-      {
-        "name": "shadowKeyUmbraOpacity",
-        "type": "Variable"
-      },
-      {
-        "name": "shadowBuilder",
-        "type": "Function"
-      },
-      {
-        "name": "Dir",
-        "type": "Enumeration"
-      },
-      {
-        "name": "DirAlias",
-        "type": "Enumeration"
-      },
-      {
-        "name": "DirPosition",
-        "type": "Enumeration"
-      },
-      {
-        "name": "LyStyleUtils",
-        "type": "Class"
-      },
-      {
-        "name": "eachMedia",
-        "type": "Function"
-      },
-      {
-        "name": "get",
-        "type": "Function"
-      },
-      {
-        "name": "isObject",
-        "type": "Function"
-      },
-      {
-        "name": "isObjectForTheme",
-        "type": "Function"
-      },
-      {
-        "name": "mergeDeep",
-        "type": "Function"
-      },
-      {
-        "name": "mergeThemes",
-        "type": "Function"
-      },
-      {
-        "name": "Context",
-        "type": "Class"
-      },
-      {
-        "name": "test",
-        "type": "Variable"
-      },
-      {
-        "name": "toMedia",
-        "type": "Function"
-      },
-      {
-        "name": "LyCoreStyles",
-        "type": "Injectable"
-      },
-      {
-        "name": "LY_COMMON_STYLES",
-        "type": "Object literal"
-      },
-      {
-        "name": "LY_COMMON_STYLES_DEPRECATED",
-        "type": "Object literal"
-      },
-      {
-        "name": "LyThemeModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "DataStyle",
-        "type": "Interface"
-      },
-      {
-        "name": "MultipleStyles",
-        "type": "Interface"
-      },
-      {
-        "name": "StyleData",
-        "type": "Interface"
-      },
-      {
-        "name": "StyleContent",
-        "type": "Type alias"
-      },
-      {
-        "name": "StyleObject",
-        "type": "Type alias"
-      },
-      {
-        "name": "LyCommonModule",
-        "type": "NgModule"
-      },
-      {
-        "name": "CoreTheme",
-        "type": "Injectable"
-      },
-      {
-        "name": "LyPaper",
-        "type": "Directive"
-      },
-      {
-        "name": "LyPaperBase",
-        "type": "Class"
-      },
-      {
-        "name": "DEFAULT_BG",
-        "type": "Variable"
-      },
-      {
-        "name": "LyPaperMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "TypeStyle",
-        "type": "Enumeration"
-      },
-      {
-        "name": "KeyframesDeprecated",
-        "type": "Interface"
-      },
-      {
-        "name": "LyComponentStyle",
-        "type": "Interface"
-      },
-      {
-        "name": "LyStyleGroup",
-        "type": "Interface"
-      },
-      {
-        "name": "StyleContainer",
-        "type": "Interface"
-      },
-      {
-        "name": "StyleGroup",
-        "type": "Interface"
-      },
-      {
-        "name": "StyleMap5",
-        "type": "Interface"
-      },
-      {
-        "name": "LyClasses",
-        "type": "Type alias"
-      },
-      {
-        "name": "LyClassesProperties",
-        "type": "Type alias"
-      },
-      {
-        "name": "LyComponentStyleItem",
-        "type": "Type alias"
-      },
-      {
-        "name": "LyStyles",
-        "type": "Type alias"
-      },
-      {
-        "name": "Omit",
-        "type": "Type alias"
-      },
-      {
-        "name": "StyleDeclarationsBlock",
-        "type": "Type alias"
-      },
-      {
-        "name": "_STYLE_MAP",
-        "type": "Variable"
-      },
-      {
-        "name": "getThemeNameForSelectors",
-        "type": "Function"
-      },
-      {
-        "name": "LyStyle",
-        "type": "Directive"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
-        "name": "to8Px",
-        "type": "Function"
-      },
-      {
-        "name": "transform",
-        "type": "Function"
-      },
-      {
-        "name": "DefaultVal",
-        "type": "Interface"
-      },
-      {
-        "name": "PaletteColor",
-        "type": "Interface"
-      },
-      {
-        "name": "ThemeConfig",
-        "type": "Interface"
-      },
-      {
-        "name": "PartialThemeVariables",
-        "type": "Type alias"
-      },
-      {
-        "name": "RecursivePartial",
-        "type": "Type alias"
-      },
-      {
-        "name": "RecursivePartialObject",
-        "type": "Type alias"
-      },
-      {
-        "name": "ThemeVariables",
-        "type": "Type alias"
-      },
-      {
-        "name": "primitive",
-        "type": "Type alias"
-      },
-      {
-        "name": "LY_THEME",
-        "type": "Variable"
-      },
-      {
-        "name": "LY_THEME_GLOBAL_VARIABLES",
-        "type": "Variable"
-      },
-      {
-        "name": "LY_THEME_NAME",
-        "type": "Variable"
-      },
-      {
-        "name": "LyTheme2",
-        "type": "Injectable"
-      },
-      {
-        "name": "StylesInDocument",
-        "type": "Injectable"
-      },
-      {
-        "name": "ThemeRef",
-        "type": "Interface"
-      },
-      {
-        "name": "BOTTOM",
-        "type": "Variable"
-      },
-      {
-        "name": "REF_REG_EXP",
-        "type": "Variable"
-      },
-      {
-        "name": "THEME_MAP",
-        "type": "Variable"
-      },
-      {
-        "name": "TOP",
-        "type": "Variable"
-      },
-      {
-        "name": "keyframesUniqueId",
-        "type": "Variable"
-      },
-      {
-        "name": "nextKeyFrameId",
-        "type": "Variable"
-      },
-      {
-        "name": "yClassID",
-        "type": "Variable"
-      },
-      {
-        "name": "YPositionCache",
-        "type": "Function"
-      },
-      {
-        "name": "capitalizeFirstLetter",
-        "type": "Function"
-      },
-      {
-        "name": "convertToStyleValue",
-        "type": "Function"
-      },
-      {
-        "name": "converterToCssKeyAndStyle",
-        "type": "Function"
-      },
-      {
-        "name": "converterToCssKeyAndStyleCache",
-        "type": "Function"
-      },
-      {
-        "name": "createLylStyle",
-        "type": "Function"
-      },
-      {
-        "name": "createNextClassId",
-        "type": "Function"
-      },
-      {
-        "name": "createNextKeyframeId",
-        "type": "Function"
-      },
-      {
-        "name": "createUniqueClassID",
-        "type": "Function"
-      },
-      {
-        "name": "dirCache",
-        "type": "Function"
-      },
-      {
-        "name": "groupStyleToString",
-        "type": "Function"
-      },
-      {
-        "name": "keyframesToString",
-        "type": "Function"
-      },
-      {
-        "name": "replaceRefs",
-        "type": "Function"
-      },
-      {
-        "name": "styleToString",
-        "type": "Function"
-      },
-      {
-        "name": "toHyphenCase",
-        "type": "Function"
-      },
-      {
-        "name": "toValidClassName",
-        "type": "Function"
-      },
-      {
-        "name": "STYLE_KEYS_MAP",
-        "type": "Object literal"
-      },
-      {
-        "name": "ignoreCSSKEY",
-        "type": "Object literal"
-      },
-      {
-        "name": "AvatarVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "CarouselVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "CheckboxVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DialogVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "FieldVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "ImgCropperVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "ListVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "MenuVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "RadioVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "RippleVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "SelectVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "SliderAppearance",
-        "type": "Interface"
-      },
-      {
-        "name": "SliderVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "SnackBarVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "TabsVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "ToolbarAppearance",
-        "type": "Interface"
-      },
-      {
-        "name": "ToolbarVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "TooltipVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "TypographyTypeVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "TypographyVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "LyWithClass",
-        "type": "Directive"
-      },
-      {
-        "name": "Undefined",
-        "type": "Class"
-      },
-      {
-        "name": "UndefinedValue",
-        "type": "Variable"
-      },
-      {
+        "pkg": "@alyle/ui",
         "name": "AUI_LAST_UPDATE",
-        "type": "Variable"
+        "symbol": "Const"
       },
       {
+        "pkg": "@alyle/ui",
         "name": "AUI_VERSION",
-        "type": "Variable"
-      }
-    ]
-  },
-  "style-compiler": {
-    "children": [
-      {
-        "name": "pkg",
-        "type": "Variable"
+        "symbol": "Const"
       },
       {
-        "name": "pkgFile",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "AvatarVariables",
+        "symbol": "Interface"
       },
       {
-        "name": "LYL_BAD_REGEX",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "CanBg",
+        "symbol": "Interface"
       },
       {
-        "name": "REGEX_LY",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "CanColor",
+        "symbol": "Interface"
       },
       {
-        "name": "REPLACE_ID_REGEX",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "CanDisable",
+        "symbol": "Interface"
       },
       {
-        "name": "REPLACE_IMPORT_LYL",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "CanDisableRipple",
+        "symbol": "Interface"
       },
       {
-        "name": "createUniqueID",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "CanElevation",
+        "symbol": "Interface"
       },
       {
-        "name": "hasLylStyle",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "CanOutlined",
+        "symbol": "Interface"
       },
       {
-        "name": "styleCompiler",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "CanRaised",
+        "symbol": "Interface"
       },
       {
-        "name": "updateImport",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "CanShadowColor",
+        "symbol": "Interface"
       },
       {
-        "name": "Context",
-        "type": "Class"
+        "pkg": "@alyle/ui",
+        "name": "CanStyleUpdater",
+        "symbol": "Interface"
       },
       {
-        "name": "test",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "CanStyleUpdaterCtor",
+        "symbol": "Type alias"
       },
       {
-        "name": "evalScript",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "capitalizeFirstLetter",
+        "symbol": "Function"
       },
       {
-        "name": "argv",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "CarouselVariables",
+        "symbol": "Interface"
       },
       {
-        "name": "directory",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "CheckboxVariables",
+        "symbol": "Interface"
       },
       {
-        "name": "note",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "ColorScheme",
+        "symbol": "Interface"
       },
       {
-        "name": "pkg",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "Constructor",
+        "symbol": "Type alias"
       },
       {
-        "name": "walk",
-        "type": "Function"
-      }
-    ]
-  },
-  "style-compiler/util": {
-    "children": [
-      {
-        "name": "findNode",
-        "type": "Function"
+        "pkg": "@alyle/ui",
+        "name": "converterToCssKeyAndStyle",
+        "symbol": "Function"
       },
       {
-        "name": "getNodes",
-        "type": "Function"
-      }
-    ]
-  },
-  "tabs": {
-    "children": [
-      {
-        "name": "LyTabContent",
-        "type": "Directive"
+        "pkg": "@alyle/ui",
+        "name": "CoreTheme",
+        "symbol": "Injectable"
       },
       {
-        "name": "LyTab",
-        "type": "Component"
+        "pkg": "@alyle/ui",
+        "name": "createOverlayInjector",
+        "symbol": "Function"
       },
       {
-        "name": "LyTabLabel",
-        "type": "Component"
+        "pkg": "@alyle/ui",
+        "name": "DataStyle",
+        "symbol": "Interface"
       },
       {
-        "name": "LyTabLabelBase",
-        "type": "Class"
+        "pkg": "@alyle/ui",
+        "name": "Default",
+        "symbol": "Interface"
       },
       {
-        "name": "LyTabs",
-        "type": "Component"
+        "pkg": "@alyle/ui",
+        "name": "defaultEntry",
+        "symbol": "Function"
       },
       {
-        "name": "LyTabsBase",
-        "type": "Class"
+        "pkg": "@alyle/ui",
+        "name": "DefaultVal",
+        "symbol": "Interface"
       },
       {
-        "name": "LyTabTheme",
-        "type": "Interface"
+        "pkg": "@alyle/ui",
+        "name": "DialogVariables",
+        "symbol": "Interface"
       },
       {
-        "name": "LyTabVariables",
-        "type": "Interface"
+        "pkg": "@alyle/ui",
+        "name": "Dir",
+        "symbol": "Enumeration"
       },
       {
-        "name": "AlignTabs",
-        "type": "Type alias"
+        "pkg": "@alyle/ui",
+        "name": "DirAlias",
+        "symbol": "Enumeration"
       },
       {
-        "name": "LyTabsHeaderPlacement",
-        "type": "Type alias"
+        "pkg": "@alyle/ui",
+        "name": "DirPosition",
+        "symbol": "Enumeration"
       },
       {
-        "name": "DEFAULT_BG",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "eachMedia",
+        "symbol": "Function"
       },
       {
-        "name": "DEFAULT_DISABLE_RIPPLE",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "ElementObserver",
+        "symbol": "Injectable"
       },
       {
-        "name": "DEFAULT_ELEVATION",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "FieldVariables",
+        "symbol": "Interface"
       },
       {
-        "name": "DEFAULT_HEADER_PLACEMENT",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "FocusState",
+        "symbol": "Type alias"
       },
       {
-        "name": "DEFAULT_INDICATOR_COLOR",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "FocusStateInfo",
+        "symbol": "Interface"
       },
       {
-        "name": "LyTabLabelMixinBase",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "FocusStatus",
+        "symbol": "Enumeration"
       },
       {
-        "name": "LyTabsMixinBase",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "getContrastYIQ",
+        "symbol": "Function"
       },
       {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "getLyThemeStyleUndefinedError",
+        "symbol": "Function"
       },
       {
-        "name": "LyTabsModule",
-        "type": "NgModule"
-      }
-    ]
-  },
-  "themes/minima": {
-    "children": [
-      {
-        "name": "MinimaBase",
-        "type": "Class"
+        "pkg": "@alyle/ui",
+        "name": "getLyThemeVariableOptionUndefinedError",
+        "symbol": "Function"
       },
       {
-        "name": "MinimaDark",
-        "type": "Class"
+        "pkg": "@alyle/ui",
+        "name": "getLyThemeVariableUndefinedError",
+        "symbol": "Function"
       },
       {
-        "name": "contrast",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "getThemeNameForSelectors",
+        "symbol": "Function"
       },
       {
-        "name": "shadow",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "HammerInput",
+        "symbol": "Interface"
       },
       {
-        "name": "MinimaDeepDark",
-        "type": "Class"
+        "pkg": "@alyle/ui",
+        "name": "HammerInstance",
+        "symbol": "Interface"
       },
       {
-        "name": "shadow",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "HammerManager",
+        "symbol": "Interface"
       },
       {
-        "name": "MinimaLight",
-        "type": "Class"
+        "pkg": "@alyle/ui",
+        "name": "HammerOptions",
+        "symbol": "Interface"
       },
       {
-        "name": "contrast",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "HammerStatic",
+        "symbol": "Interface"
       },
       {
-        "name": "shadow",
-        "type": "Variable"
+        "pkg": "@alyle/ui",
+        "name": "ImgCropperVariables",
+        "symbol": "Interface"
       },
       {
-        "name": "ThemeMinimaDark",
-        "type": "Directive"
+        "pkg": "@alyle/ui",
+        "name": "invertPlacement",
+        "symbol": "Function"
       },
       {
-        "name": "ThemeMinimaLight",
-        "type": "Directive"
+        "pkg": "@alyle/ui",
+        "name": "IS_CORE_THEME",
+        "symbol": "Const"
       },
       {
-        "name": "ThemeMinimaModule",
-        "type": "NgModule"
+        "pkg": "@alyle/ui",
+        "name": "KeyAttribute",
+        "symbol": "Interface"
       },
       {
-        "name": "IMinimaTheme",
-        "type": "Interface"
+        "pkg": "@alyle/ui",
+        "name": "KeyframesDeprecated",
+        "symbol": "Interface"
       },
       {
+        "pkg": "@alyle/ui",
+        "name": "keyframesUniqueId",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "ListVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LY_COMMON_STYLES",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LY_COMMON_STYLES_DEPRECATED",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LY_HAMMER_OPTIONS",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LY_THEME",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LY_THEME_GLOBAL_VARIABLES",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LY_THEME_NAME",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyClasses",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyCommonModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyComponentStyle",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyCoreStyles",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyExpansionIcon",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyExpansionIconModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyFocusState",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyHammerGestureConfig",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyHostClass",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "lyl",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LylParse",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyOverlay",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyOverlayBackdrop",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyOverlayConfig",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyOverlayContainer",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyOverlayModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyOverlayRef",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyPaper",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyPaperBase",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyPaperMixinBase",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyRippleService",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LySelectionModel",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyStyle",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyStyleGroup",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyStyles",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyStyleUtils",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyTheme2",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyThemeModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "LyWithClass",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "MenuVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mergeDeep",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mergeThemes",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinBg",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinColor",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinDisabled",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinDisableRipple",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinElevation",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinOutlined",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinRaised",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinShadowColor",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinStyleUpdater",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "mixinTabIndex",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "MultipleStyles",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "MutationObserverFactory",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "NgTranscludeDirective",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "NgTranscludeModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "OverlayFactory",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "PaletteColor",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "PaletteVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "PartialThemeVariables",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Placement",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Platform",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Positioning",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "RadioVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Recognizer",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "RecognizerStatic",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "RecursivePartial",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "RequireParams",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "RequireParamsStyleUpdater",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Ripple",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "RippleConfig",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "RippleRef",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
         "name": "RippleVariables",
-        "type": "Object literal"
+        "symbol": "Interface"
       },
       {
+        "pkg": "@alyle/ui",
+        "name": "scrollTo",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "scrollWithAnimation",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "SelectionOpts",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "SelectVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "shadowBuilder",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Shadows",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "SliderAppearance",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "SliderVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "SnackBarVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StringIdGenerator",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Style",
+        "symbol": "Decorator"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleCollection",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleContainer",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleContent",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleData",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleDeclarationsBlock",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleGroup",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleObject",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleRenderer",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "styles",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Styles",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "STYLES_BACKDROP_DARK",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "STYLES_BACKDROP_ROOT",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StylesInDocument",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "StyleTemplate",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "styleTemplateToString",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "supportsPassiveEventListeners",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "TabsVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "THEME_VARIABLES",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "ThemeConfig",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "ThemeRef",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "ThemeVariables",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "toBoolean",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "toNumber",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "ToolbarAppearance",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "ToolbarVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "TooltipVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "TypeStyle",
+        "symbol": "Enumeration"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "TypographyTypeVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "TypographyVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "Undefined",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "UndefinedValue",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "untilComponentDestroyed",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "WinResize",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "WinScroll",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "WithStyles",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "XPosition",
+        "symbol": "Enumeration"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "YPosition",
+        "symbol": "Enumeration"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/avatar",
+    "items": [
+      {
+        "pkg": "@alyle/ui/avatar",
+        "name": "LY_AVATAR_DEFAULT_OPTIONS",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/avatar",
+        "name": "LyAvatar",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/avatar",
+        "name": "LyAvatarDefaultOptions",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/avatar",
+        "name": "LyAvatarModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/avatar",
+        "name": "LyAvatarTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/avatar",
+        "name": "LyAvatarVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/avatar",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/badge",
+    "items": [
+      {
+        "pkg": "@alyle/ui/badge",
+        "name": "LY_BADGE_DEFAULT_OPTIONS",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/badge",
+        "name": "LyBadge",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/badge",
+        "name": "LyBadgeModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/badge",
+        "name": "LyBadgeTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/badge",
+        "name": "LyBadgeVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/badge",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/button",
+    "items": [
+      {
+        "pkg": "@alyle/ui/button",
+        "name": "LY_BUTTON_DEFAULT_OPTIONS",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/button",
+        "name": "LyButton",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/button",
+        "name": "LyButtonDefaultOptions",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/button",
+        "name": "LyButtonModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/button",
+        "name": "LyButtonTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/button",
+        "name": "LyButtonVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/button",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/card",
+    "items": [
+      {
+        "pkg": "@alyle/ui/card",
+        "name": "LyCard",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/card",
+        "name": "LyCardActions",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/card",
+        "name": "LyCardContent",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/card",
+        "name": "LyCardMedia",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/card",
+        "name": "LyCardModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/card",
+        "name": "LyCardTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/card",
+        "name": "LyCardVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/card",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/carousel",
+    "items": [
+      {
+        "pkg": "@alyle/ui/carousel",
+        "name": "LyCarousel",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/carousel",
+        "name": "LyCarouselItem",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/carousel",
+        "name": "LyCarouselModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/carousel",
+        "name": "LyCarouselTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/carousel",
+        "name": "LyCarouselVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/carousel",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/checkbox",
+    "items": [
+      {
+        "pkg": "@alyle/ui/checkbox",
+        "name": "LyCheckbox",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/checkbox",
+        "name": "LyCheckboxChange",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/checkbox",
+        "name": "LyCheckboxModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/checkbox",
+        "name": "LyCheckboxTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/checkbox",
+        "name": "LyCheckboxVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/checkbox",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/color",
+    "items": [
+      {
+        "pkg": "@alyle/ui/color",
+        "name": "Color",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/color",
+        "name": "Color",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/color",
+        "name": "ColorClass",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/color",
+        "name": "hexColorToInt",
+        "symbol": "Function"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/dialog",
+    "items": [
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "DynamicInjector",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LY_DIALOG_DATA",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialog",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogActions",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogConfig",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogContent",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogContext",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogRef",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogTitle",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/dialog",
+        "name": "LyDialogVariables",
+        "symbol": "Interface"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/divider",
+    "items": [
+      {
+        "pkg": "@alyle/ui/divider",
+        "name": "LyDivider",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/divider",
+        "name": "LyDividerModule",
+        "symbol": "NgModule"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/drawer",
+    "items": [
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "LyDrawer",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "LyDrawerContainer",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "LyDrawerContent",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "LyDrawerMode",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "LyDrawerModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "LyDrawerPosition",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "LyDrawerTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "LyDrawerVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/drawer",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/expansion",
+    "items": [
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "ExpansionConfig",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "ExpansionVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyAccordion",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "lyExpansionAnimations",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyExpansionModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyExpansionPanel",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyExpansionPanelAction",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyExpansionPanelContent",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyExpansionPanelDescription",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyExpansionPanelHeader",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyExpansionPanelState",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "LyExpansionPanelTitle",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/expansion",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/field",
+    "items": [
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyError",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyField",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyFieldControlBase",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyFieldModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyFieldTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyFieldVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyHint",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyHintAlign",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyLabel",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyNativeControl",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyPlaceholder",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LyPrefix",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "LySuffix",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "STYLE_SELECT_ARROW",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/field",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/grid",
+    "items": [
+      {
+        "pkg": "@alyle/ui/grid",
+        "name": "AlignItems",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/grid",
+        "name": "Direction",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/grid",
+        "name": "Justify",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/grid",
+        "name": "LyGrid",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/grid",
+        "name": "LyGridItem",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/grid",
+        "name": "LyGridModule",
+        "symbol": "NgModule"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/icon",
+    "items": [
+      {
+        "pkg": "@alyle/ui/icon",
+        "name": "FontClassOptions",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/icon",
+        "name": "LyIcon",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/icon",
+        "name": "LyIconModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/icon",
+        "name": "LyIconService",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui/icon",
+        "name": "SvgIcon",
+        "symbol": "Interface"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/image-cropper",
+    "items": [
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "ImgCropperConfig",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "ImgCropperError",
+        "symbol": "Enumeration"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "ImgCropperErrorEvent",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "ImgCropperEvent",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "ImgOutput",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "ImgResolution",
+        "symbol": "Enumeration"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "LyImageCropper",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "LyImageCropperModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "LyImageCropperTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "LyImageCropperVariables",
+        "symbol": "Interface"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/list",
+    "items": [
+      {
+        "pkg": "@alyle/ui/list",
+        "name": "LyLine",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/list",
+        "name": "LyList",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/list",
+        "name": "LyListIcon",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/list",
+        "name": "LyListItem",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/list",
+        "name": "LyListModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/list",
+        "name": "LyListTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/list",
+        "name": "LyListVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/list",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/menu",
+    "items": [
+      {
+        "pkg": "@alyle/ui/menu",
+        "name": "LyMenu",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/menu",
+        "name": "LyMenuItem",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/menu",
+        "name": "LyMenuModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/menu",
+        "name": "LyMenuTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/menu",
+        "name": "LyMenuTriggerFor",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/menu",
+        "name": "LyMenuVariables",
+        "symbol": "Interface"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/radio",
+    "items": [
+      {
+        "pkg": "@alyle/ui/radio",
+        "name": "LY_RADIO_CONTROL_VALUE_ACCESSOR",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/radio",
+        "name": "LyRadio",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/radio",
+        "name": "LyRadioGroup",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/radio",
+        "name": "LyRadioModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/radio",
+        "name": "LyRadioTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/radio",
+        "name": "LyRadioVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/radio",
+        "name": "STYLES",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/radio",
+        "name": "UndefinedValue",
+        "symbol": "Class"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/responsive",
+    "items": [
+      {
+        "pkg": "@alyle/ui/responsive",
+        "name": "Breakpoints",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/responsive",
+        "name": "MediaDirective",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/responsive",
+        "name": "ResponsiveModule",
+        "symbol": "NgModule"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/select",
+    "items": [
+      {
+        "pkg": "@alyle/ui/select",
+        "name": "LyOption",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/select",
+        "name": "LySelect",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/select",
+        "name": "LySelectModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/select",
+        "name": "LySelectTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/select",
+        "name": "LySelectTrigger",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/select",
+        "name": "LySelectVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/select",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/skeleton",
+    "items": [
+      {
+        "pkg": "@alyle/ui/skeleton",
+        "name": "LySkeleton",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/skeleton",
+        "name": "LySkeletonModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/skeleton",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/slider",
+    "items": [
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LY_SLIDER_CONTROL_VALUE_ACCESSOR",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LY_SLIDER_DEFAULT_OPTIONS",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LyMark",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LySlider",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LySliderChange",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LySliderDefaultOptions",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LySliderMark",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LySliderModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LySliderTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LySliderVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "LyTick",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "гbetween",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui/slider",
+        "name": "гvalueToPercent",
+        "symbol": "Function"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/snack-bar",
+    "items": [
+      {
+        "pkg": "@alyle/ui/snack-bar",
+        "name": "LySnackBar",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/snack-bar",
+        "name": "LySnackBarDismiss",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/snack-bar",
+        "name": "LySnackBarModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/snack-bar",
+        "name": "LySnackBarRef",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/snack-bar",
+        "name": "LySnackBarService",
+        "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui/snack-bar",
+        "name": "LySnackBarTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/snack-bar",
+        "name": "LySnackBarVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/snack-bar",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/style-compiler",
+    "items": [
+      {
+        "pkg": "@alyle/ui/style-compiler",
+        "name": "hasLylStyle",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui/style-compiler",
+        "name": "styleCompiler",
+        "symbol": "Function"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/style-compiler/util",
+    "items": [
+      {
+        "pkg": "@alyle/ui/style-compiler/util",
+        "name": "findNode",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui/style-compiler/util",
+        "name": "getNodes",
+        "symbol": "Function"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/tabs",
+    "items": [
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "AlignTabs",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "LyTab",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "LyTabContent",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "LyTabLabel",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "LyTabs",
+        "symbol": "Component"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "LyTabsHeaderPlacement",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "LyTabsModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "LyTabTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "LyTabVariables",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/tabs",
+        "name": "STYLES",
+        "symbol": "Const"
+      }
+    ]
+  },
+  {
+    "pkg": "@alyle/ui/themes/minima",
+    "items": [
+      {
+        "pkg": "@alyle/ui/themes/minima",
         "name": "animations",
-        "type": "Object literal"
+        "symbol": "Const"
       },
       {
+        "pkg": "@alyle/ui/themes/minima",
         "name": "icon",
-        "type": "Object literal"
+        "symbol": "Const"
       },
       {
+        "pkg": "@alyle/ui/themes/minima",
         "name": "iconButton",
-        "type": "Object literal"
+        "symbol": "Const"
       },
       {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "IMinimaTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "MinimaBase",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "MinimaDark",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "MinimaDeepDark",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "MinimaLight",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "RippleVariables",
+        "symbol": "Const"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "ThemeMinimaDark",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "ThemeMinimaLight",
+        "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
+        "name": "ThemeMinimaModule",
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/themes/minima",
         "name": "zIndex",
-        "type": "Object literal"
+        "symbol": "Const"
       }
     ]
   },
-  "themes/minima/styles": {
-    "children": [
+  {
+    "pkg": "@alyle/ui/toolbar",
+    "items": [
       {
-        "name": "LY_SLIDER_STANDARD_APPEARANCE",
-        "type": "Variable"
-      }
-    ]
-  },
-  "toolbar": {
-    "children": [
-      {
+        "pkg": "@alyle/ui/toolbar",
         "name": "LyToolbar",
-        "type": "Directive"
+        "symbol": "Directive"
       },
       {
-        "name": "LyToolbarBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyToolbarTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyToolbarVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "position",
-        "type": "Type alias"
-      },
-      {
-        "name": "DEFAULT_BG",
-        "type": "Variable"
-      },
-      {
-        "name": "DEFAULT_POSITION",
-        "type": "Variable"
-      },
-      {
-        "name": "LyToolbarMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
+        "pkg": "@alyle/ui/toolbar",
         "name": "LyToolbarModule",
-        "type": "NgModule"
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/toolbar",
+        "name": "LyToolbarTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/toolbar",
+        "name": "LyToolbarVariables",
+        "symbol": "Interface"
       }
     ]
   },
-  "tooltip": {
-    "children": [
+  {
+    "pkg": "@alyle/ui/tooltip",
+    "items": [
       {
+        "pkg": "@alyle/ui/tooltip",
         "name": "LyTooltip",
-        "type": "Directive"
+        "symbol": "Directive"
       },
       {
-        "name": "LyTooltipTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyTooltipVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "DEFAULT_PLACEMENT",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
+        "pkg": "@alyle/ui/tooltip",
         "name": "LyTooltipModule",
-        "type": "NgModule"
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/tooltip",
+        "name": "LyTooltipTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/tooltip",
+        "name": "LyTooltipVariables",
+        "symbol": "Interface"
       }
     ]
   },
-  "typography": {
-    "children": [
+  {
+    "pkg": "@alyle/ui/typography",
+    "items": [
       {
+        "pkg": "@alyle/ui/typography",
         "name": "LyTypography",
-        "type": "Directive"
+        "symbol": "Directive"
       },
       {
-        "name": "LyTypographyBase",
-        "type": "Class"
-      },
-      {
-        "name": "LyTypographyTheme",
-        "type": "Interface"
-      },
-      {
-        "name": "LyTypographyVariables",
-        "type": "Interface"
-      },
-      {
-        "name": "LyTypographyMixinBase",
-        "type": "Variable"
-      },
-      {
-        "name": "STYLE_PRIORITY",
-        "type": "Variable"
-      },
-      {
+        "pkg": "@alyle/ui/typography",
         "name": "LyTypographyModule",
-        "type": "NgModule"
+        "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/typography",
+        "name": "LyTypographyTheme",
+        "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/typography",
+        "name": "LyTypographyVariables",
+        "symbol": "Interface"
       }
     ]
   }
-}
+]

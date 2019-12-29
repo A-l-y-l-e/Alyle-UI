@@ -1,18 +1,1 @@
-{
-  "componentList": [],
-  "directiveList": [
-    {
-      "name": "LyDivider",
-      "selector": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3z\">'ly-divider'</span></code></pre>",
-      "inputs": "",
-      "exportAs": "",
-      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 ttap\">1</span><span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span>\nи<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">any</span>\n<span class=\"tt18 tt3o\">/** Add indentation (72px) */</span>\n@<span class=\"tt18 tta3\">Input</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> inset<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span></code></pre>"
-    }
-  ],
-  "ngModuleList": [
-    {
-      "name": "LyDividerModule",
-      "children": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">import</span> <span class=\"tt18 ttae\">&#123;</span> LyDividerModule <span class=\"tt18 ttae\">&#125;</span> <span class=\"tt18 tt1j\">from</span> <span class=\"tt18 tt3z\">'@alyle/ui/divider'</span></code></pre>"
-    }
-  ]
-}
+{"pkg":"@alyle/ui/divider","items":[{"key":"Directive","items":[{"pkg":"@alyle/ui/divider","name":"LyDivider","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/divider","name":"LyDividerModule","symbol":"NgModule"}]}]}

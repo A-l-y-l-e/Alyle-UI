@@ -1,4 +1,7 @@
-// Element to move, time in ms to animate
+/**
+ * @experimental
+ * Element to move, time in ms to animate
+ */
 export function scrollTo(element: HTMLElement, duration: number) {
   let e = document.documentElement;
   if (e.scrollTop === 0) {
@@ -6,18 +9,21 @@ export function scrollTo(element: HTMLElement, duration: number) {
     ++e.scrollTop;
     e = t + 1 === e.scrollTop-- ? e : document.body;
   }
-  scrollToC(e, e.scrollTop, element, duration);
+  scrollToFromTo(e, e.scrollTop, element, duration);
 }
 
 // Element to move, element or px from, element or px to, time in ms to animate
-export function scrollToC(element: HTMLElement, from: any, to: number | HTMLElement, duration: number) {
+function scrollToFromTo(element: HTMLElement, from: any, to: number | HTMLElement, duration: number) {
   if (duration <= 0) { return; }
-  if (typeof from === 'object') {from = from.offsetTop; }
-  if (typeof to === 'object') {to = to.offsetTop; }
+  if (typeof from === 'object') { from = from.offsetTop; }
+  if (typeof to === 'object') { to = to.offsetTop; }
 
   createScrollWithAnimation(element, from, to, 0, 1 / duration, 20, easeOutCuaic);
 }
 
+/**
+ * @experimental
+ */
 export function scrollWithAnimation(
   element: HTMLElement,
   to: number,
@@ -42,10 +48,10 @@ function createScrollWithAnimation(
 ) {
   const scrollT = p === 'y' ? 'scrollTop' : 'scrollLeft';
   if (t01 < 0 || t01 > 1 || speed <= 0) {
-    element[scrollT] = xTo;
+    element[ scrollT ] = xTo;
     return;
   }
-  element[scrollT] = xFrom - (xFrom - xTo) * motion(t01);
+  element[ scrollT ] = xFrom - (xFrom - xTo) * motion(t01);
   t01 += speed * step;
 
   setTimeout(() => {

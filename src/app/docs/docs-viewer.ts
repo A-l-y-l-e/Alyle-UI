@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, isDevMode } from '@angular/core';
+import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, isDevMode, ChangeDetectionStrategy } from '@angular/core';
 import { observeOn, switchMap, takeUntil, take, catchError, tap } from 'rxjs/operators';
 import { asapScheduler, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -14,6 +14,10 @@ import { Ads, ADS_STYLES } from '@shared/ads';
 // Initialization prevents flicker once pre-rendering is on
 const initialDocViewerElement = Platform.isBrowser ? document.querySelector('aui-doc-viewer > div') : null;
 let initialDocViewerContent = initialDocViewerElement ? initialDocViewerElement.innerHTML : '';
+
+interface Err {
+  title: string;
+}
 
 const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   const { h3, h4, h5, h6, subtitle1, subtitle2 } = theme.typography.lyTyp!;
@@ -54,15 +58,17 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
 
 @Component({
   selector: 'aui-doc-viewer',
-  templateUrl: './doc-viewer.html'
+  templateUrl: './doc-viewer.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DocViewer {
   readonly classes = this.theme.renderStyleSheet(STYLES);
-  private hostElement: HTMLElement;
+  readonly hostElement: HTMLElement;
   private onDestroy$ = new EventEmitter<void>();
   private docContents$ = new EventEmitter<string>();
   private void$ = of<void>(undefined);
-  isLoading = new EventEmitter<boolean>();
+  readonly isLoading = new EventEmitter<boolean>();
+  readonly isError = new EventEmitter<Err | void>();
 
   ADS_STYLES = ADS_STYLES;
 
@@ -126,10 +132,13 @@ export class DocViewer {
     if (!initialDocViewerContent) {
       this.hostElement.innerHTML = '';
     }
+    this.isError.emit(null!);
     return this.void$
     .pipe(
       switchMap(async () => {
-        return (await Promise.all([
+        return (path.startsWith('/api/@alyle/ui') || path === '/api')
+          ? 'API'
+          : (await Promise.all([
           this.http.get(`api/docs${path}.html`, {
             responseType: 'text'
           }).pipe(
@@ -141,7 +150,11 @@ export class DocViewer {
               console.error('Err', errorMessage);
               this.isLoading.emit(false);
               this.setNoIndex(true);
-              this.setTitle(`Alyle UI - ${is404 ? 'PAGE NOT FOUND' : 'REQUEST FOR DOCUMENT FAILED'}`);
+              const errMsg = is404 ? 'PAGE NOT FOUND' : 'REQUEST FOR DOCUMENT FAILED';
+              this.setTitle(`Alyle UI - ${errMsg}`);
+              this.isError.emit({
+                title: errMsg
+              });
               return this.void$;
             }),
           ).toPromise(),
@@ -151,22 +164,24 @@ export class DocViewer {
       tap((html) => {
         if (html) {
           initialDocViewerContent = '';
-          this.isLoading.emit(false);
-          this.setNoIndex(false);
-          const { hostElement } = this;
-          hostElement.innerHTML = html;
-          const h1 = hostElement.querySelector('h1');
-          let title = (h1 && h1.textContent) || 'Untitled';
-          if (path.includes('/components/')) {
-            title = `${title} Angular Component`;
+          if (html !== 'API') {
+            this.isLoading.emit(false);
+            this.setNoIndex(false);
+            const { hostElement } = this;
+            hostElement.innerHTML = html;
+            const h1 = hostElement.querySelector('h1');
+            let title = (h1 && h1.textContent) || 'Untitled';
+            if (path.includes('/components/')) {
+              title = `${title} Angular Component`;
+            }
+            this.setTitle(`Alyle UI - ${title}`);
+            // Show skeleton screen Platform is Server
+            if (!Platform.isBrowser) {
+              hostElement.innerHTML = '';
+              this.isLoading.emit(true);
+            }
+            this.ads.update(path, this.theme);
           }
-          this.setTitle(`Alyle UI - ${title}`);
-          // Show skeleton screen in Server
-          if (!Platform.isBrowser) {
-            hostElement.innerHTML = '';
-            this.isLoading.emit(true);
-          }
-          this.ads.update(path, this.theme);
         }
       })
     );
@@ -175,7 +190,7 @@ export class DocViewer {
   /**
    * Tell search engine crawlers whether to index this page
    */
-  private setNoIndex(val: boolean) {
+  setNoIndex(val: boolean) {
     if (val) {
       this.metaService.addTag({ name: 'robots', content: 'noindex' });
     } else {

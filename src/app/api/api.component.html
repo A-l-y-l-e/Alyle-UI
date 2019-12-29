@@ -1,5 +1,34 @@
-<span class="ad"></span>
-<ng-container *ngIf="doc | async as api; else loading">
+<ng-container *ngIf="doc">
+  <div [class]="classes.breadcrumbContainer">
+    <div>
+      <a [routerLink]="['/', 'api']">API</a>
+      > 
+      <a [routerLink]="'/api/' + doc.pkg">{{ doc.pkg }}</a>
+    </div>
+  </div>
+  <header [ngClass]="classes.header" [mt]="2" [mb]="1">
+    <h1 [lyTyp]="'h4'" [mf]="2">{{ doc.name }}</h1>
+    <label *ngIf="doc.code" [ngClass]="[classes.label, apiListClasses.Symbol, apiListClasses[doc.symbol]]">{{ doc.symbol }}</label>
+  </header>
+  <div *ngIf="doc.code; else elseBlock" [innerHTML]="doc.code"></div>
+
+  <ng-template #elseBlock>
+    <ng-container *ngFor="let pkgSymbolList of doc.items">
+      <h2 [lyTyp]="'h5'" [lyTyp]="'h5'" [mt]="3" [mb]="2">{{ pkgSymbolList.key }}</h2>
+      <ul [class]="apiListClasses.apiList">
+        <ng-container *ngFor="let item of pkgSymbolList.items">
+          <li *ngIf="filterTypeValue == null || filterTypeValue === item.symbol">
+            <a routerLink="./{{ item.name }}">
+              <span [ngClass]="[apiListClasses.Symbol, apiListClasses[item.symbol] || '']"></span>{{ item.name }}</a>
+          </li>
+        </ng-container>
+      </ul>
+    </ng-container>
+  </ng-template>
+</ng-container>
+
+
+<!-- <ng-container *ngIf="doc | async as api; else loading">
   <h2 [lyTyp]="'headline'" gutter>Modules</h2>
   <span [innerHTML]="joinList(api.ngModuleList)"></span>
   <ng-template [ngIf]="api.componentList.length">
@@ -42,6 +71,14 @@
     <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
     <span [innerHTML]="joinList(variableList)"></span>
   </ng-container>
+  <ng-container *ngIf="api.functionList as functionList">
+    <h2 [lyTyp]="'headline'" gutter>Functions</h2>
+    <span [innerHTML]="joinList(functionList)"></span>
+  </ng-container>
+  <ng-container *ngIf="api.classList as classList">
+    <h2 [lyTyp]="'headline'" gutter>Classes</h2>
+    <span [innerHTML]="joinList(classList)"></span>
+  </ng-container>
   <ng-container *ngIf="themePkg.length as len">
     <ng-template ngFor let-pkg [ngForOf]="themePkg">
       <h2 [lyTyp]="'headline'" gutter *ngIf="len === 1">Global theme</h2>
@@ -50,4 +87,5 @@
     </ng-template>
   </ng-container>
 </ng-container>
-<ng-template #loading>Loading...</ng-template>
+<ng-template #loading>Loading...</ng-template> -->
+

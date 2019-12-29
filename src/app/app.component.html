@@ -64,6 +64,13 @@
         </a>
       </li>
     </ul>
+    <ul [withClass]="classes.drawerUl">
+      <li>
+        <a [withClass]="classes.drawerButton" class="nav-button" ly-button [routerLinkActive]="classes.onLinkActive" [routerLink]="['/', 'api']">
+          <span>API</span>
+        </a>
+      </li>
+    </ul>
   </ly-drawer>
 </ly-drawer-container>
 <ng-template [duration]="3600000" ly-snack-bar #sb="lySnackBar">

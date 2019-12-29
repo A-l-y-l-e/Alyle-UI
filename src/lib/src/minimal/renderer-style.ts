@@ -228,6 +228,12 @@ export class StyleRenderer {
 
 }
 
+/**
+ * Parameter decorator to be used for create Dynamic style together with `@Input`
+ * @param style style
+ * @param priority priority of style
+ * @decorator
+ */
 export function Style<INPUT = any, C = any>(
   style: (val: NonNullable<INPUT>, comp: C) => ((theme: any, ref: ThemeRef) => StyleTemplate),
   priority?: number

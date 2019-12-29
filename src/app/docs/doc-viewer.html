@@ -4,3 +4,7 @@
   <div lySkeleton [lyStyle]="ADS_STYLES"></div>
   <h2 lySkeleton>...</h2>
 </div>
+
+<div *ngIf="isError | async as err">
+  <h1>{{ err.title }}</h1>
+</div>

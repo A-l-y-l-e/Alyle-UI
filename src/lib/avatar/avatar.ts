@@ -37,7 +37,7 @@ const DEFAULT_BG = 'action';
 export const LY_AVATAR_DEFAULT_OPTIONS =
     new InjectionToken<LyAvatarDefaultOptions>('LY_AVATAR_DEFAULT_OPTIONS');
 
-const STYLES = (theme: ThemeVariables & LyAvatarVariables) => {
+export const STYLES = (theme: ThemeVariables & LyAvatarVariables) => {
   return {
     $name: LyAvatar.и,
     $priority: STYLE_PRIORITY,

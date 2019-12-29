@@ -21,7 +21,6 @@ import { MinimaLight, MinimaDark, MinimaDeepDark } from '@alyle/ui/themes/minima
 import { TitleComponent } from './document/title/title.component';
 import { DemoViewModule } from './demo-view';
 import { LyTypographyModule, LyTypographyTheme } from '@alyle/ui/typography';
-import { ApiComponent } from './api/api.component';
 import { LyCardModule } from '@alyle/ui/card';
 import { AppBarComponent } from './app-bar/app-bar.component';
 import { HomeComponent } from './home/home.component';
@@ -127,7 +126,6 @@ export function themeNameProviderFactory() {
     AppComponent,
     PageContentComponent,
     AppBarComponent,
-    ApiComponent,
     TitleComponent,
     /** Pages */
     HomeComponent,
