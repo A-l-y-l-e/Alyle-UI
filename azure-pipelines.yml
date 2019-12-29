@@ -80,6 +80,7 @@ jobs:
     displayName: build:@alyle/ui
   - script: |
       set -e
+      . ci/setup.sh
       yarn tools:docs-api
     displayName: Build docs-content
   - task: PublishBuildArtifacts@1
