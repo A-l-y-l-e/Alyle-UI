@@ -1,1 +1,60 @@
-{"pkg":"@alyle/ui/avatar","items":[{"key":"Const","items":[{"pkg":"@alyle/ui/avatar","name":"LY_AVATAR_DEFAULT_OPTIONS","symbol":"Const"},{"pkg":"@alyle/ui/avatar","name":"STYLES","symbol":"Const"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/avatar","name":"LyAvatar","symbol":"Directive"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/avatar","name":"LyAvatarDefaultOptions","symbol":"Interface"},{"pkg":"@alyle/ui/avatar","name":"LyAvatarTheme","symbol":"Interface"},{"pkg":"@alyle/ui/avatar","name":"LyAvatarVariables","symbol":"Interface"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/avatar","name":"LyAvatarModule","symbol":"NgModule"}]}]}
+{
+  "pkg": "@alyle/ui/avatar",
+  "items": [
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/avatar",
+          "name": "LY_AVATAR_DEFAULT_OPTIONS",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/avatar",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/avatar",
+          "name": "LyAvatar",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/avatar",
+          "name": "LyAvatarDefaultOptions",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/avatar",
+          "name": "LyAvatarTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/avatar",
+          "name": "LyAvatarVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/avatar",
+          "name": "LyAvatarModule",
+          "symbol": "NgModule"
+        }
+      ]
+    }
+  ]
+}

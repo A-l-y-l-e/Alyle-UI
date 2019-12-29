@@ -1,1 +1,50 @@
-{"pkg":"@alyle/ui/toolbar","items":[{"key":"Directive","items":[{"pkg":"@alyle/ui/toolbar","name":"LyToolbar","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/toolbar","name":"LyToolbarModule","symbol":"NgModule"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/toolbar","name":"LyToolbarTheme","symbol":"Interface"},{"pkg":"@alyle/ui/toolbar","name":"LyToolbarVariables","symbol":"Interface"}]}]}
+{
+  "pkg": "@alyle/ui/toolbar",
+  "items": [
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/toolbar",
+          "name": "LyToolbar",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/toolbar",
+          "name": "LyToolbarModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/toolbar",
+          "name": "LyToolbarTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/toolbar",
+          "name": "LyToolbarVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/toolbar",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    }
+  ]
+}

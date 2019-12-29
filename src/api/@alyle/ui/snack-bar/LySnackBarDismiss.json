@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui/snack-bar","name":"LySnackBarDismiss","symbol":"Interface","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3o\">/** Event that is emitted when a snack bar is dismissed. */</span>\n<span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LySnackBarDismiss</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Whether the snack bar was dismissed using the action fn. */</span>\n  dismissedByAction<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span><span class=\"tt18 ttae\">;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"}
+{
+  "pkg": "@alyle/ui/snack-bar",
+  "name": "LySnackBarDismiss",
+  "symbol": "Interface",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3o\">/** Event that is emitted when a snack bar is dismissed. */</span>\n<span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LySnackBarDismiss</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Whether the snack bar was dismissed using the action fn. */</span>\n  dismissedByAction<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">boolean</span><span class=\"tt18 ttae\">;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+}

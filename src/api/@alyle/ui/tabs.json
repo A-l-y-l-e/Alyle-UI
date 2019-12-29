@@ -1,1 +1,85 @@
-{"pkg":"@alyle/ui/tabs","items":[{"key":"Type alias","items":[{"pkg":"@alyle/ui/tabs","name":"AlignTabs","symbol":"Type alias"},{"pkg":"@alyle/ui/tabs","name":"LyTabsHeaderPlacement","symbol":"Type alias"}]},{"key":"Component","items":[{"pkg":"@alyle/ui/tabs","name":"LyTab","symbol":"Component"},{"pkg":"@alyle/ui/tabs","name":"LyTabLabel","symbol":"Component"},{"pkg":"@alyle/ui/tabs","name":"LyTabs","symbol":"Component"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/tabs","name":"LyTabContent","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/tabs","name":"LyTabsModule","symbol":"NgModule"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/tabs","name":"LyTabTheme","symbol":"Interface"},{"pkg":"@alyle/ui/tabs","name":"LyTabVariables","symbol":"Interface"}]},{"key":"Const","items":[{"pkg":"@alyle/ui/tabs","name":"STYLES","symbol":"Const"}]}]}
+{
+  "pkg": "@alyle/ui/tabs",
+  "items": [
+    {
+      "key": "Type alias",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "AlignTabs",
+          "symbol": "Type alias"
+        },
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "LyTabsHeaderPlacement",
+          "symbol": "Type alias"
+        }
+      ]
+    },
+    {
+      "key": "Component",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "LyTab",
+          "symbol": "Component"
+        },
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "LyTabLabel",
+          "symbol": "Component"
+        },
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "LyTabs",
+          "symbol": "Component"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "LyTabContent",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "LyTabsModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "LyTabTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "LyTabVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tabs",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    }
+  ]
+}

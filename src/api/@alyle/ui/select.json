@@ -1,1 +1,65 @@
-{"pkg":"@alyle/ui/select","items":[{"key":"Component","items":[{"pkg":"@alyle/ui/select","name":"LyOption","symbol":"Component"},{"pkg":"@alyle/ui/select","name":"LySelect","symbol":"Component"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/select","name":"LySelectModule","symbol":"NgModule"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/select","name":"LySelectTheme","symbol":"Interface"},{"pkg":"@alyle/ui/select","name":"LySelectVariables","symbol":"Interface"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/select","name":"LySelectTrigger","symbol":"Directive"}]},{"key":"Const","items":[{"pkg":"@alyle/ui/select","name":"STYLES","symbol":"Const"}]}]}
+{
+  "pkg": "@alyle/ui/select",
+  "items": [
+    {
+      "key": "Component",
+      "items": [
+        {
+          "pkg": "@alyle/ui/select",
+          "name": "LyOption",
+          "symbol": "Component"
+        },
+        {
+          "pkg": "@alyle/ui/select",
+          "name": "LySelect",
+          "symbol": "Component"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/select",
+          "name": "LySelectModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/select",
+          "name": "LySelectTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/select",
+          "name": "LySelectVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/select",
+          "name": "LySelectTrigger",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/select",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    }
+  ]
+}

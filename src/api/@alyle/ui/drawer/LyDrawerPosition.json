@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui/drawer","name":"LyDrawerPosition","symbol":"Type alias","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">type</span> LyDrawerPosition <span class=\"tt18 ttb0\">=</span> Placement<span class=\"tt18 ttae\">;</span></code></pre>"}
+{
+  "pkg": "@alyle/ui/drawer",
+  "name": "LyDrawerPosition",
+  "symbol": "Type alias",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">type</span> LyDrawerPosition <span class=\"tt18 ttb0\">=</span> Placement<span class=\"tt18 ttae\">;</span></code></pre>"
+}

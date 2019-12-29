@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui","name":"LY_HAMMER_OPTIONS","symbol":"Const","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">LY_HAMMER_OPTIONS</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt1j\">new</span> <span class=\"tt18 ttc8\">InjectionToken</span><span class=\"tt18 ttb0\">&lt;</span>HammerOptions<span class=\"tt18 ttb0\">></span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'LY_HAMMER_OPTIONS'</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">;</span></code></pre>"}
+{
+  "pkg": "@alyle/ui",
+  "name": "LY_HAMMER_OPTIONS",
+  "symbol": "Const",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">LY_HAMMER_OPTIONS</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt1j\">new</span> <span class=\"tt18 ttc8\">InjectionToken</span><span class=\"tt18 ttb0\">&lt;</span>HammerOptions<span class=\"tt18 ttb0\">></span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'LY_HAMMER_OPTIONS'</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">;</span></code></pre>"
+}

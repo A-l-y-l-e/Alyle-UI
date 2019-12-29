@@ -1,1 +1,70 @@
-{"pkg":"@alyle/ui/radio","items":[{"key":"Const","items":[{"pkg":"@alyle/ui/radio","name":"LY_RADIO_CONTROL_VALUE_ACCESSOR","symbol":"Const"},{"pkg":"@alyle/ui/radio","name":"STYLES","symbol":"Const"}]},{"key":"Component","items":[{"pkg":"@alyle/ui/radio","name":"LyRadio","symbol":"Component"},{"pkg":"@alyle/ui/radio","name":"LyRadioGroup","symbol":"Component"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/radio","name":"LyRadioModule","symbol":"NgModule"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/radio","name":"LyRadioTheme","symbol":"Interface"},{"pkg":"@alyle/ui/radio","name":"LyRadioVariables","symbol":"Interface"}]},{"key":"Class","items":[{"pkg":"@alyle/ui/radio","name":"UndefinedValue","symbol":"Class"}]}]}
+{
+  "pkg": "@alyle/ui/radio",
+  "items": [
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/radio",
+          "name": "LY_RADIO_CONTROL_VALUE_ACCESSOR",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/radio",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    },
+    {
+      "key": "Component",
+      "items": [
+        {
+          "pkg": "@alyle/ui/radio",
+          "name": "LyRadio",
+          "symbol": "Component"
+        },
+        {
+          "pkg": "@alyle/ui/radio",
+          "name": "LyRadioGroup",
+          "symbol": "Component"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/radio",
+          "name": "LyRadioModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/radio",
+          "name": "LyRadioTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/radio",
+          "name": "LyRadioVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "Class",
+      "items": [
+        {
+          "pkg": "@alyle/ui/radio",
+          "name": "UndefinedValue",
+          "symbol": "Class"
+        }
+      ]
+    }
+  ]
+}

@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui/field","name":"STYLE_SELECT_ARROW","symbol":"Const","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_SELECT_ARROW</span> <span class=\"tt18 ttb0\">=</span> lyl <span class=\"tt18 template-string\"><span class=\"tt18 tt3z\">`&#123;\n  &amp;::after &#123;\n    position: absolute\n    content: ''\n    width: 0\n    height: 0\n    border-left: 0.3125em solid transparent\n    border-right: 0.3125em solid transparent\n    border-top: 0.3125em solid\n    top: 50%\n    &#123;after&#125;: 0\n    margin-top: -0.15625em\n    pointer-events: none\n  &#125;\n&#125;`</span></span><span class=\"tt18 ttae\">;</span></code></pre>"}
+{
+  "pkg": "@alyle/ui/field",
+  "name": "STYLE_SELECT_ARROW",
+  "symbol": "Const",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLE_SELECT_ARROW</span> <span class=\"tt18 ttb0\">=</span> lyl <span class=\"tt18 template-string\"><span class=\"tt18 tt3z\">`&#123;\n  &amp;::after &#123;\n    position: absolute\n    content: ''\n    width: 0\n    height: 0\n    border-left: 0.3125em solid transparent\n    border-right: 0.3125em solid transparent\n    border-top: 0.3125em solid\n    top: 50%\n    &#123;after&#125;: 0\n    margin-top: -0.15625em\n    pointer-events: none\n  &#125;\n&#125;`</span></span><span class=\"tt18 ttae\">;</span></code></pre>"
+}

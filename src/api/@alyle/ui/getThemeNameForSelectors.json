@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui","name":"getThemeNameForSelectors","symbol":"Function","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">function</span> <span class=\"tt18 tta3\">getThemeNameForSelectors</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 parameter\">themeId<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span></span><span class=\"tt18 ttae\">)</span></code></pre>"}
+{
+  "pkg": "@alyle/ui",
+  "name": "getThemeNameForSelectors",
+  "symbol": "Function",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">function</span> <span class=\"tt18 tta3\">getThemeNameForSelectors</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 parameter\">themeId<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttcj\">string</span></span><span class=\"tt18 ttae\">)</span></code></pre>"
+}

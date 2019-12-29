@@ -1,1 +1,75 @@
-{"pkg":"@alyle/ui/snack-bar","items":[{"key":"Directive","items":[{"pkg":"@alyle/ui/snack-bar","name":"LySnackBar","symbol":"Directive"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/snack-bar","name":"LySnackBarDismiss","symbol":"Interface"},{"pkg":"@alyle/ui/snack-bar","name":"LySnackBarTheme","symbol":"Interface"},{"pkg":"@alyle/ui/snack-bar","name":"LySnackBarVariables","symbol":"Interface"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/snack-bar","name":"LySnackBarModule","symbol":"NgModule"}]},{"key":"Class","items":[{"pkg":"@alyle/ui/snack-bar","name":"LySnackBarRef","symbol":"Class"}]},{"key":"Injectable","items":[{"pkg":"@alyle/ui/snack-bar","name":"LySnackBarService","symbol":"Injectable"}]},{"key":"Const","items":[{"pkg":"@alyle/ui/snack-bar","name":"STYLES","symbol":"Const"}]}]}
+{
+  "pkg": "@alyle/ui/snack-bar",
+  "items": [
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/snack-bar",
+          "name": "LySnackBar",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/snack-bar",
+          "name": "LySnackBarDismiss",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/snack-bar",
+          "name": "LySnackBarTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/snack-bar",
+          "name": "LySnackBarVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/snack-bar",
+          "name": "LySnackBarModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Class",
+      "items": [
+        {
+          "pkg": "@alyle/ui/snack-bar",
+          "name": "LySnackBarRef",
+          "symbol": "Class"
+        }
+      ]
+    },
+    {
+      "key": "Injectable",
+      "items": [
+        {
+          "pkg": "@alyle/ui/snack-bar",
+          "name": "LySnackBarService",
+          "symbol": "Injectable"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/snack-bar",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    }
+  ]
+}

@@ -1,1 +1,95 @@
-{"pkg":"@alyle/ui/slider","items":[{"key":"Const","items":[{"pkg":"@alyle/ui/slider","name":"LY_SLIDER_CONTROL_VALUE_ACCESSOR","symbol":"Const"},{"pkg":"@alyle/ui/slider","name":"LY_SLIDER_DEFAULT_OPTIONS","symbol":"Const"}]},{"key":"Component","items":[{"pkg":"@alyle/ui/slider","name":"LyMark","symbol":"Component"},{"pkg":"@alyle/ui/slider","name":"LySlider","symbol":"Component"}]},{"key":"Class","items":[{"pkg":"@alyle/ui/slider","name":"LySliderChange","symbol":"Class"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/slider","name":"LySliderDefaultOptions","symbol":"Interface"},{"pkg":"@alyle/ui/slider","name":"LySliderMark","symbol":"Interface"},{"pkg":"@alyle/ui/slider","name":"LySliderTheme","symbol":"Interface"},{"pkg":"@alyle/ui/slider","name":"LySliderVariables","symbol":"Interface"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/slider","name":"LySliderModule","symbol":"NgModule"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/slider","name":"LyTick","symbol":"Directive"}]},{"key":"Function","items":[{"pkg":"@alyle/ui/slider","name":"гbetween","symbol":"Function"},{"pkg":"@alyle/ui/slider","name":"гvalueToPercent","symbol":"Function"}]}]}
+{
+  "pkg": "@alyle/ui/slider",
+  "items": [
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LY_SLIDER_CONTROL_VALUE_ACCESSOR",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LY_SLIDER_DEFAULT_OPTIONS",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    },
+    {
+      "key": "Component",
+      "items": [
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LyMark",
+          "symbol": "Component"
+        },
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LySlider",
+          "symbol": "Component"
+        }
+      ]
+    },
+    {
+      "key": "Class",
+      "items": [
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LySliderChange",
+          "symbol": "Class"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LySliderDefaultOptions",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LySliderMark",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LySliderTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LySliderVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LySliderModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/slider",
+          "name": "LyTick",
+          "symbol": "Directive"
+        }
+      ]
+    }
+  ]
+}

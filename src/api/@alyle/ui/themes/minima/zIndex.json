@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui/themes/minima","name":"zIndex","symbol":"Const","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> zIndex <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttae\">&#123;</span>\n  toolbar<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">1000</span><span class=\"tt18 ttae\">,</span>\n  drawer<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">1100</span><span class=\"tt18 ttae\">,</span>\n  overlay<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">1200</span>\n<span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">;</span></code></pre>"}
+{
+  "pkg": "@alyle/ui/themes/minima",
+  "name": "zIndex",
+  "symbol": "Const",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> zIndex <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttae\">&#123;</span>\n  toolbar<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">1000</span><span class=\"tt18 ttae\">,</span>\n  drawer<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">1100</span><span class=\"tt18 ttae\">,</span>\n  overlay<span class=\"tt18 ttae\">:</span> <span class=\"tt18 ttap\">1200</span>\n<span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">;</span></code></pre>"
+}

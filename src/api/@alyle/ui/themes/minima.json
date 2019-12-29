@@ -1,1 +1,95 @@
-{"pkg":"@alyle/ui/themes/minima","items":[{"key":"Const","items":[{"pkg":"@alyle/ui/themes/minima","name":"animations","symbol":"Const"},{"pkg":"@alyle/ui/themes/minima","name":"icon","symbol":"Const"},{"pkg":"@alyle/ui/themes/minima","name":"iconButton","symbol":"Const"},{"pkg":"@alyle/ui/themes/minima","name":"RippleVariables","symbol":"Const"},{"pkg":"@alyle/ui/themes/minima","name":"zIndex","symbol":"Const"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/themes/minima","name":"IMinimaTheme","symbol":"Interface"}]},{"key":"Class","items":[{"pkg":"@alyle/ui/themes/minima","name":"MinimaBase","symbol":"Class"},{"pkg":"@alyle/ui/themes/minima","name":"MinimaDark","symbol":"Class"},{"pkg":"@alyle/ui/themes/minima","name":"MinimaDeepDark","symbol":"Class"},{"pkg":"@alyle/ui/themes/minima","name":"MinimaLight","symbol":"Class"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/themes/minima","name":"ThemeMinimaDark","symbol":"Directive"},{"pkg":"@alyle/ui/themes/minima","name":"ThemeMinimaLight","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/themes/minima","name":"ThemeMinimaModule","symbol":"NgModule"}]}]}
+{
+  "pkg": "@alyle/ui/themes/minima",
+  "items": [
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "animations",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "icon",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "iconButton",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "RippleVariables",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "zIndex",
+          "symbol": "Const"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "IMinimaTheme",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "Class",
+      "items": [
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "MinimaBase",
+          "symbol": "Class"
+        },
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "MinimaDark",
+          "symbol": "Class"
+        },
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "MinimaDeepDark",
+          "symbol": "Class"
+        },
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "MinimaLight",
+          "symbol": "Class"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "ThemeMinimaDark",
+          "symbol": "Directive"
+        },
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "ThemeMinimaLight",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/themes/minima",
+          "name": "ThemeMinimaModule",
+          "symbol": "NgModule"
+        }
+      ]
+    }
+  ]
+}

@@ -1,1 +1,65 @@
-{"pkg":"@alyle/ui/menu","items":[{"key":"Component","items":[{"pkg":"@alyle/ui/menu","name":"LyMenu","symbol":"Component"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/menu","name":"LyMenuItem","symbol":"Directive"},{"pkg":"@alyle/ui/menu","name":"LyMenuTriggerFor","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/menu","name":"LyMenuModule","symbol":"NgModule"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/menu","name":"LyMenuTheme","symbol":"Interface"},{"pkg":"@alyle/ui/menu","name":"LyMenuVariables","symbol":"Interface"}]}]}
+{
+  "pkg": "@alyle/ui/menu",
+  "items": [
+    {
+      "key": "Component",
+      "items": [
+        {
+          "pkg": "@alyle/ui/menu",
+          "name": "LyMenu",
+          "symbol": "Component"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/menu",
+          "name": "LyMenuItem",
+          "symbol": "Directive"
+        },
+        {
+          "pkg": "@alyle/ui/menu",
+          "name": "LyMenuTriggerFor",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/menu",
+          "name": "LyMenuModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/menu",
+          "name": "LyMenuTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/menu",
+          "name": "LyMenuVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/menu",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    }
+  ]
+}

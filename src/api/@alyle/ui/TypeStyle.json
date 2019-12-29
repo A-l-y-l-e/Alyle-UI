@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui","name":"TypeStyle","symbol":"Enumeration","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">enum</span> TypeStyle <span class=\"tt18 ttae\">&#123;</span>\n  Multiple<span class=\"tt18 ttae\">,</span>\n  OnlyOne<span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3o\">/**\n   * A lyl Style\n   */</span>\n  LylStyle\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"}
+{
+  "pkg": "@alyle/ui",
+  "name": "TypeStyle",
+  "symbol": "Enumeration",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">enum</span> TypeStyle <span class=\"tt18 ttae\">&#123;</span>\n  Multiple<span class=\"tt18 ttae\">,</span>\n  OnlyOne<span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3o\">/**\n   * A lyl Style\n   */</span>\n  LylStyle\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+}

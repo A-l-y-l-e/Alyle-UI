@@ -1,1 +1,70 @@
-{"pkg":"@alyle/ui/list","items":[{"key":"Directive","items":[{"pkg":"@alyle/ui/list","name":"LyLine","symbol":"Directive"},{"pkg":"@alyle/ui/list","name":"LyList","symbol":"Directive"},{"pkg":"@alyle/ui/list","name":"LyListIcon","symbol":"Directive"}]},{"key":"Component","items":[{"pkg":"@alyle/ui/list","name":"LyListItem","symbol":"Component"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/list","name":"LyListModule","symbol":"NgModule"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/list","name":"LyListTheme","symbol":"Interface"},{"pkg":"@alyle/ui/list","name":"LyListVariables","symbol":"Interface"}]},{"key":"Const","items":[{"pkg":"@alyle/ui/list","name":"STYLES","symbol":"Const"}]}]}
+{
+  "pkg": "@alyle/ui/list",
+  "items": [
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/list",
+          "name": "LyLine",
+          "symbol": "Directive"
+        },
+        {
+          "pkg": "@alyle/ui/list",
+          "name": "LyList",
+          "symbol": "Directive"
+        },
+        {
+          "pkg": "@alyle/ui/list",
+          "name": "LyListIcon",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "Component",
+      "items": [
+        {
+          "pkg": "@alyle/ui/list",
+          "name": "LyListItem",
+          "symbol": "Component"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/list",
+          "name": "LyListModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/list",
+          "name": "LyListTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/list",
+          "name": "LyListVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/list",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    }
+  ]
+}

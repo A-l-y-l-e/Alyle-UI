@@ -1,1 +1,55 @@
-{"pkg":"@alyle/ui/badge","items":[{"key":"Const","items":[{"pkg":"@alyle/ui/badge","name":"LY_BADGE_DEFAULT_OPTIONS","symbol":"Const"},{"pkg":"@alyle/ui/badge","name":"STYLES","symbol":"Const"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/badge","name":"LyBadge","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/badge","name":"LyBadgeModule","symbol":"NgModule"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/badge","name":"LyBadgeTheme","symbol":"Interface"},{"pkg":"@alyle/ui/badge","name":"LyBadgeVariables","symbol":"Interface"}]}]}
+{
+  "pkg": "@alyle/ui/badge",
+  "items": [
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/badge",
+          "name": "LY_BADGE_DEFAULT_OPTIONS",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/badge",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/badge",
+          "name": "LyBadge",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/badge",
+          "name": "LyBadgeModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/badge",
+          "name": "LyBadgeTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/badge",
+          "name": "LyBadgeVariables",
+          "symbol": "Interface"
+        }
+      ]
+    }
+  ]
+}

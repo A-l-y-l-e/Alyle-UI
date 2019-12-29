@@ -1421,6 +1421,11 @@
         "pkg": "@alyle/ui/grid",
         "name": "LyGridModule",
         "symbol": "NgModule"
+      },
+      {
+        "pkg": "@alyle/ui/grid",
+        "name": "STYLES",
+        "symbol": "Const"
       }
     ]
   },
@@ -1446,6 +1451,11 @@
         "pkg": "@alyle/ui/icon",
         "name": "LyIconService",
         "symbol": "Injectable"
+      },
+      {
+        "pkg": "@alyle/ui/icon",
+        "name": "STYLES",
+        "symbol": "Const"
       },
       {
         "pkg": "@alyle/ui/icon",
@@ -1506,6 +1516,11 @@
         "pkg": "@alyle/ui/image-cropper",
         "name": "LyImageCropperVariables",
         "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/image-cropper",
+        "name": "STYLES",
+        "symbol": "Const"
       }
     ]
   },
@@ -1586,6 +1601,11 @@
         "pkg": "@alyle/ui/menu",
         "name": "LyMenuVariables",
         "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/menu",
+        "name": "STYLES",
+        "symbol": "Const"
       }
     ]
   },
@@ -1774,13 +1794,8 @@
       },
       {
         "pkg": "@alyle/ui/slider",
-        "name": "гbetween",
-        "symbol": "Function"
-      },
-      {
-        "pkg": "@alyle/ui/slider",
-        "name": "гvalueToPercent",
-        "symbol": "Function"
+        "name": "STYLES",
+        "symbol": "Const"
       }
     ]
   },
@@ -2006,6 +2021,11 @@
         "pkg": "@alyle/ui/toolbar",
         "name": "LyToolbarVariables",
         "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/toolbar",
+        "name": "STYLES",
+        "symbol": "Const"
       }
     ]
   },
@@ -2031,6 +2051,11 @@
         "pkg": "@alyle/ui/tooltip",
         "name": "LyTooltipVariables",
         "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/tooltip",
+        "name": "STYLES",
+        "symbol": "Const"
       }
     ]
   },
@@ -2056,6 +2081,11 @@
         "pkg": "@alyle/ui/typography",
         "name": "LyTypographyVariables",
         "symbol": "Interface"
+      },
+      {
+        "pkg": "@alyle/ui/typography",
+        "name": "STYLES",
+        "symbol": "Const"
       }
     ]
   }

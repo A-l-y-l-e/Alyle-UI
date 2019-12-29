@@ -1,1 +1,60 @@
-{"pkg":"@alyle/ui/button","items":[{"key":"Const","items":[{"pkg":"@alyle/ui/button","name":"LY_BUTTON_DEFAULT_OPTIONS","symbol":"Const"},{"pkg":"@alyle/ui/button","name":"STYLES","symbol":"Const"}]},{"key":"Component","items":[{"pkg":"@alyle/ui/button","name":"LyButton","symbol":"Component"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/button","name":"LyButtonDefaultOptions","symbol":"Interface"},{"pkg":"@alyle/ui/button","name":"LyButtonTheme","symbol":"Interface"},{"pkg":"@alyle/ui/button","name":"LyButtonVariables","symbol":"Interface"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/button","name":"LyButtonModule","symbol":"NgModule"}]}]}
+{
+  "pkg": "@alyle/ui/button",
+  "items": [
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/button",
+          "name": "LY_BUTTON_DEFAULT_OPTIONS",
+          "symbol": "Const"
+        },
+        {
+          "pkg": "@alyle/ui/button",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    },
+    {
+      "key": "Component",
+      "items": [
+        {
+          "pkg": "@alyle/ui/button",
+          "name": "LyButton",
+          "symbol": "Component"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/button",
+          "name": "LyButtonDefaultOptions",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/button",
+          "name": "LyButtonTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/button",
+          "name": "LyButtonVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/button",
+          "name": "LyButtonModule",
+          "symbol": "NgModule"
+        }
+      ]
+    }
+  ]
+}

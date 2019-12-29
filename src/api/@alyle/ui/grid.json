@@ -1,1 +1,60 @@
-{"pkg":"@alyle/ui/grid","items":[{"key":"Type alias","items":[{"pkg":"@alyle/ui/grid","name":"AlignItems","symbol":"Type alias"},{"pkg":"@alyle/ui/grid","name":"Direction","symbol":"Type alias"},{"pkg":"@alyle/ui/grid","name":"Justify","symbol":"Type alias"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/grid","name":"LyGrid","symbol":"Directive"},{"pkg":"@alyle/ui/grid","name":"LyGridItem","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/grid","name":"LyGridModule","symbol":"NgModule"}]}]}
+{
+  "pkg": "@alyle/ui/grid",
+  "items": [
+    {
+      "key": "Type alias",
+      "items": [
+        {
+          "pkg": "@alyle/ui/grid",
+          "name": "AlignItems",
+          "symbol": "Type alias"
+        },
+        {
+          "pkg": "@alyle/ui/grid",
+          "name": "Direction",
+          "symbol": "Type alias"
+        },
+        {
+          "pkg": "@alyle/ui/grid",
+          "name": "Justify",
+          "symbol": "Type alias"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/grid",
+          "name": "LyGrid",
+          "symbol": "Directive"
+        },
+        {
+          "pkg": "@alyle/ui/grid",
+          "name": "LyGridItem",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/grid",
+          "name": "LyGridModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/grid",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    }
+  ]
+}

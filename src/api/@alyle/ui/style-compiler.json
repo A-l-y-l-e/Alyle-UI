@@ -1,1 +1,20 @@
-{"pkg":"@alyle/ui/style-compiler","items":[{"key":"Function","items":[{"pkg":"@alyle/ui/style-compiler","name":"hasLylStyle","symbol":"Function"},{"pkg":"@alyle/ui/style-compiler","name":"styleCompiler","symbol":"Function"}]}]}
+{
+  "pkg": "@alyle/ui/style-compiler",
+  "items": [
+    {
+      "key": "Function",
+      "items": [
+        {
+          "pkg": "@alyle/ui/style-compiler",
+          "name": "hasLylStyle",
+          "symbol": "Function"
+        },
+        {
+          "pkg": "@alyle/ui/style-compiler",
+          "name": "styleCompiler",
+          "symbol": "Function"
+        }
+      ]
+    }
+  ]
+}

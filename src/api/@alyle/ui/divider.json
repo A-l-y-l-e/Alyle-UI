@@ -1,1 +1,25 @@
-{"pkg":"@alyle/ui/divider","items":[{"key":"Directive","items":[{"pkg":"@alyle/ui/divider","name":"LyDivider","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/divider","name":"LyDividerModule","symbol":"NgModule"}]}]}
+{
+  "pkg": "@alyle/ui/divider",
+  "items": [
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/divider",
+          "name": "LyDivider",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/divider",
+          "name": "LyDividerModule",
+          "symbol": "NgModule"
+        }
+      ]
+    }
+  ]
+}

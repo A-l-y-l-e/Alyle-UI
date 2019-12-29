@@ -1,1 +1,35 @@
-{"pkg":"@alyle/ui/responsive","items":[{"key":"Const","items":[{"pkg":"@alyle/ui/responsive","name":"Breakpoints","symbol":"Const"}]},{"key":"Directive","items":[{"pkg":"@alyle/ui/responsive","name":"MediaDirective","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/responsive","name":"ResponsiveModule","symbol":"NgModule"}]}]}
+{
+  "pkg": "@alyle/ui/responsive",
+  "items": [
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/responsive",
+          "name": "Breakpoints",
+          "symbol": "Const"
+        }
+      ]
+    },
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/responsive",
+          "name": "MediaDirective",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/responsive",
+          "name": "ResponsiveModule",
+          "symbol": "NgModule"
+        }
+      ]
+    }
+  ]
+}

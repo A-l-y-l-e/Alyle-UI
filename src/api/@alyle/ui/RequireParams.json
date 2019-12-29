@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui","name":"RequireParams","symbol":"Interface","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">RequireParams</span> <span class=\"tt18 ttae\">&#123;</span>\n  _theme<span class=\"tt18 ttae\">:</span> LyTheme2<span class=\"tt18 ttae\">;</span>\n  _ngZone<span class=\"tt18 ttae\">:</span> NgZone<span class=\"tt18 ttae\">;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"}
+{
+  "pkg": "@alyle/ui",
+  "name": "RequireParams",
+  "symbol": "Interface",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">RequireParams</span> <span class=\"tt18 ttae\">&#123;</span>\n  _theme<span class=\"tt18 ttae\">:</span> LyTheme2<span class=\"tt18 ttae\">;</span>\n  _ngZone<span class=\"tt18 ttae\">:</span> NgZone<span class=\"tt18 ttae\">;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+}

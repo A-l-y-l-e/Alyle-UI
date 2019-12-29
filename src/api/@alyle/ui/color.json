@@ -1,1 +1,45 @@
-{"pkg":"@alyle/ui/color","items":[{"key":"Type alias","items":[{"pkg":"@alyle/ui/color","name":"Color","symbol":"Type alias"}]},{"key":"Const","items":[{"pkg":"@alyle/ui/color","name":"Color","symbol":"Const"}]},{"key":"Class","items":[{"pkg":"@alyle/ui/color","name":"ColorClass","symbol":"Class"}]},{"key":"Function","items":[{"pkg":"@alyle/ui/color","name":"hexColorToInt","symbol":"Function"}]}]}
+{
+  "pkg": "@alyle/ui/color",
+  "items": [
+    {
+      "key": "Type alias",
+      "items": [
+        {
+          "pkg": "@alyle/ui/color",
+          "name": "Color",
+          "symbol": "Type alias"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/color",
+          "name": "Color",
+          "symbol": "Const"
+        }
+      ]
+    },
+    {
+      "key": "Class",
+      "items": [
+        {
+          "pkg": "@alyle/ui/color",
+          "name": "ColorClass",
+          "symbol": "Class"
+        }
+      ]
+    },
+    {
+      "key": "Function",
+      "items": [
+        {
+          "pkg": "@alyle/ui/color",
+          "name": "hexColorToInt",
+          "symbol": "Function"
+        }
+      ]
+    }
+  ]
+}

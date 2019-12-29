@@ -1,1 +1,6 @@
-{"pkg":"@alyle/ui/avatar","name":"LY_AVATAR_DEFAULT_OPTIONS","symbol":"Const","code":"<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">LY_AVATAR_DEFAULT_OPTIONS</span> <span class=\"tt18 ttb0\">=</span>\n    <span class=\"tt18 tt1j\">new</span> <span class=\"tt18 ttc8\">InjectionToken</span><span class=\"tt18 ttb0\">&lt;</span>LyAvatarDefaultOptions<span class=\"tt18 ttb0\">></span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'LY_AVATAR_DEFAULT_OPTIONS'</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">;</span></code></pre>"}
+{
+  "pkg": "@alyle/ui/avatar",
+  "name": "LY_AVATAR_DEFAULT_OPTIONS",
+  "symbol": "Const",
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">LY_AVATAR_DEFAULT_OPTIONS</span> <span class=\"tt18 ttb0\">=</span>\n    <span class=\"tt18 tt1j\">new</span> <span class=\"tt18 ttc8\">InjectionToken</span><span class=\"tt18 ttb0\">&lt;</span>LyAvatarDefaultOptions<span class=\"tt18 ttb0\">></span><span class=\"tt18 ttae\">(</span><span class=\"tt18 tt3z\">'LY_AVATAR_DEFAULT_OPTIONS'</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">;</span></code></pre>"
+}

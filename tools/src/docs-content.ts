@@ -81,6 +81,13 @@ const APIList: DocsPackage[] = [];
               || type === 'Type alias'
               || type === 'Injectable'
             ) {
+              // Ignore weird names
+              if (!/^[\w]+$/.test(name)) {
+                console.log(`${name} is a name invalid, ignoring`);
+                continue;
+              }
+              const fileContent = readFileSync(file).toString('utf8');
+              const source = ts.createSourceFile(file, fileContent, ts.ScriptTarget.Latest, true);
               if (_child.flags.isExported) {
                 (API.items as PkgSymbol[]).push({
                   pkg: pkgName,
@@ -88,14 +95,7 @@ const APIList: DocsPackage[] = [];
                   symbol
                 });
               }
-              const fileContent = readFileSync(file).toString('utf8');
-              const source = ts.createSourceFile(file, fileContent, ts.ScriptTarget.Latest, true);
-              if (!/^[\w]+$/.test(name)) {
-                console.log(`${name} is a name invalid, ignoring`);
-                continue;
-              }
               const nods = getNode(source, [name]);
-              console.log(name, type, nods.length);
               let scriptBlock = '';
               nods.forEach((nod) => {
                 if (ts.isFunctionDeclaration(nod!)) {
@@ -145,13 +145,6 @@ const APIList: DocsPackage[] = [];
                   scriptBlock = nod.getFullText();
                 }
               });
-              // if (findNodes(nod!, ts.SyntaxKind.FunctionDeclaration, 1)[0]) {
-              //   findNodes(nod!, ts.SyntaxKind.FunctionDeclaration).forEach((n: ts.FunctionDeclaration) => {
-              //     n.body = undefined;
-              //     delete n.body;
-              //   });
-              //   console.log(nod!.getFullText());
-              // }
               const newContent = {
                 pkg: pkgName,
                 name,
@@ -160,10 +153,10 @@ const APIList: DocsPackage[] = [];
               };
               const outDir = join(OUT_DIR, pkgName.replace('@alyle/ui', ''));
               await mkdir(outDir, { recursive: true });
-              await writeFile(join(outDir, `${name}.json`), JSON.stringify(newContent));
+              await writeFile(join(outDir, `${name}.json`), JSON.stringify(newContent, null, 2));
 
             } else {
-              console.log(Type, name);
+              console.log(Type, name, 'ignoring');
             }
           }
         }
@@ -182,7 +175,7 @@ const APIList: DocsPackage[] = [];
     const newPath = join(OUT_DIR, pkg.pkg.replace('@alyle/ui', '') + '.json')
       .replace('/.json', '.json');
     pkg.items = groupBy(pkg.items as PkgSymbol[], 'symbol');
-    await writeFile(newPath, JSON.stringify(pkg));
+    await writeFile(newPath, JSON.stringify(pkg, null, 2));
   });
 
   console.log('Finish compile docs.');
@@ -208,10 +201,6 @@ function groupBy<T>(xs: T[], key: string): { key: string, items: T[]}[] {
     return rv;
   }, [] as { key: string, items: T[]}[]);
 }
-
-
-// console.log(JSON.stringify(APIList, undefined, 2));
-// console.log(JSON.stringify(APIListLarge, undefined, 2));
 
 function getNode(node: ts.Node, keys: string[], foundNodes: ts.Node[] = []): ts.Node[] {
   if (!keys.length) {
@@ -267,129 +256,3 @@ function hasTag(refl: DeclarationReflection, tag: string): boolean {
     return false;
   }
 }
-
-// function checkIfIsMethodLifecycle(de: DeclarationReflection) {
-//   const hook = [
-//     'ngOnChanges',
-//     'ngOnInit',
-//     'ngDoCheck',
-//     'ngAfterContentInit',
-//     'ngAfterContentChecked',
-//     'ngAfterViewInit',
-//     'ngAfterViewChecked',
-//     'ngOnDestroy'
-//   ];
-//   return de.kindString === 'Method' && hook.some(_ => _ === de.name);
-// }
-
-// function methodTemplate(de: DeclarationReflection) {
-//   let args = '';
-//   if (de.signatures && de.signatures[0].parameters) {
-//     args += de.signatures[0].parameters.map(_ => `${_.name}${_.flags.isOptional ? '?' : ''}: ${getType(_.type, 'any')}`).join(', ');
-//   }
-//   return `${de.name}(${args}): ${getType(de.type)}`;
-// }
-
-// function getType(ty: ParameterReflection['type'], defaultType = 'void'): string {
-//   if (ty) {
-//     if (ty.type === 'stringLiteral') {
-//       return `'${ty['value']}'`;
-//     } else if (ty.type === 'intrinsic' || ty.type === 'reference') {
-//       return ty['name'];
-//     } else if (ty.type === 'union') {
-//       return (ty['types'] as any[]).map(_ => getType(_, defaultType)).join(' | ');
-//     }
-//   }
-//   return defaultType;
-// }
-
-// function createDescription(refl: Reflection) {
-//   const comment: Reflection['comment'] = refl.comment || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : null);
-//   if (comment && comment.shortText) {
-//     const newText = (comment.shortText);
-//     const isMultiline = newText.split(/\n/g).length > 1;
-//     const lineStart = isMultiline ? `\n *` : '';
-//     const lineEnd = isMultiline ? `\n` : '';
-//     return newText ? `/**${lineStart} ${newText.replace(/\n/g, `\n * `)}${lineEnd} */` : '';
-//   }
-//   return '';
-// }
-
-// function createClassContent(children: DeclarationReflection[]): string {
-//   const items: string[] = [];
-//   children.forEach(de => {
-//     if (!(
-//       de.name.startsWith('_') || checkIfContainTagPrivate(de) ||
-//       checkIfIsMethodLifecycle(de)
-//     )) { // ignore names that start with '_'
-//       const comment = createDescription(de);
-//       if (comment) {
-//         items.push(comment);
-//       }
-//       if (de.kindString === 'Property') {
-//         let line = '';
-//         if (de.decorators) {
-//           de.decorators.forEach(_ => {
-//               line += `@${_.name}() `;
-//           });
-//         }
-//         line += `${de.name}: `;
-//         line += de.type && de.type['name'] ? de.type['name'] : 'any';
-//         items.push(line);
-//       } else if (de.kindString === 'Accessor') {
-
-//         let line = '';
-//         if (de.decorators) {
-//           de.decorators.forEach(_ => {
-//             line += `@${_.name}(`;
-//             if (_.arguments.bindingPropertyName) {
-//               line += _.arguments.bindingPropertyName;
-//             }
-//             line += `) `;
-//           });
-//         }
-//         line += `${de.name}: `;
-//         line += `${de.getSignature && de.getSignature[0]
-//         ? getType(de.getSignature[0].type, 'any')
-//         : 'any'}`;
-//         items.push(line);
-//       } else if (de.kindString === 'Method') {
-//         let line = '';
-//         line += methodTemplate(de);
-//         items.push(line);
-//       }
-//     }
-//   });
-//   return items.join(`\n`);
-// }
-
-// function getComponentOptions(decorators: Decorator[]) {
-//   const _source = ts.createSourceFile('file.ts', `const data = ${decorators![0].arguments.obj}`, ts.ScriptTarget.Latest, true);
-//   const props = findNodes(_source.getChildren()[0], ts.SyntaxKind.PropertyAssignment);
-//   const properties = [
-//     'selector',
-//     'exportAs',
-//     'inputs',
-//     'providers'
-//   ];
-//   const __data: {
-//     selector?: string
-//     inputs?: string
-//     exportAs?: string
-//     providers?: string
-//   } = {};
-//   props
-//   .filter(
-//     (_: ts.PropertyAssignment) => properties.some(p => p === _.name.getText())
-//   )
-//   .forEach((cbNode: ts.PropertyAssignment) => {
-//     const value = cbNode.getChildAt(2).getText();
-//     if (cbNode.name.getText() === 'inputs') {
-//       __data[cbNode.name.getText()] = highlight(
-//         JSON.stringify(new Function(`return ${value}`)(), undefined, 2), 'ts');
-//     } else {
-//       __data[cbNode.name.getText()] = highlight(value, 'ts');
-//     }
-//   });
-//   return __data;
-// }

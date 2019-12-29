@@ -1,1 +1,50 @@
-{"pkg":"@alyle/ui/tooltip","items":[{"key":"Directive","items":[{"pkg":"@alyle/ui/tooltip","name":"LyTooltip","symbol":"Directive"}]},{"key":"NgModule","items":[{"pkg":"@alyle/ui/tooltip","name":"LyTooltipModule","symbol":"NgModule"}]},{"key":"Interface","items":[{"pkg":"@alyle/ui/tooltip","name":"LyTooltipTheme","symbol":"Interface"},{"pkg":"@alyle/ui/tooltip","name":"LyTooltipVariables","symbol":"Interface"}]}]}
+{
+  "pkg": "@alyle/ui/tooltip",
+  "items": [
+    {
+      "key": "Directive",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tooltip",
+          "name": "LyTooltip",
+          "symbol": "Directive"
+        }
+      ]
+    },
+    {
+      "key": "NgModule",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tooltip",
+          "name": "LyTooltipModule",
+          "symbol": "NgModule"
+        }
+      ]
+    },
+    {
+      "key": "Interface",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tooltip",
+          "name": "LyTooltipTheme",
+          "symbol": "Interface"
+        },
+        {
+          "pkg": "@alyle/ui/tooltip",
+          "name": "LyTooltipVariables",
+          "symbol": "Interface"
+        }
+      ]
+    },
+    {
+      "key": "Const",
+      "items": [
+        {
+          "pkg": "@alyle/ui/tooltip",
+          "name": "STYLES",
+          "symbol": "Const"
+        }
+      ]
+    }
+  ]
+}
