@@ -52,7 +52,7 @@ export interface LyTooltipVariables {
 
 const DEFAULT_PLACEMENT = YPosition.below;
 const STYLE_PRIORITY = -2;
-const STYLES = (theme: ThemeVariables & LyTooltipVariables, ref: ThemeRef) => {
+export const STYLES = (theme: ThemeVariables & LyTooltipVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);
   return {
     $priority: STYLE_PRIORITY,

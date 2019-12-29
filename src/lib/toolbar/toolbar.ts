@@ -44,7 +44,7 @@ const STYLE_PRIORITY = -2;
 const DEFAULT_POSITION = 'fixed';
 const DEFAULT_BG = 'background:tertiary';
 
-const STYLES = (theme: ThemeVariables & LyToolbarVariables, ref: ThemeRef) => {
+export const STYLES = (theme: ThemeVariables & LyToolbarVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);
   return {
     $priority: STYLE_PRIORITY,

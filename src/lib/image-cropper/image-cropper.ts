@@ -28,7 +28,7 @@ export interface LyImageCropperVariables {
 
 const STYLE_PRIORITY = -2;
 
-const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) => {
+export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) => {
   const cropper = ref.selectorsOf(STYLES);
   return {
     $name: LyImageCropper.и,

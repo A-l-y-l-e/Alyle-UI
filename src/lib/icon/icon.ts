@@ -26,7 +26,7 @@ import {
 import { take } from 'rxjs/operators';
 
 const STYLE_PRIORITY = -2;
-const STYLES = (theme: ThemeVariables) => {
+export const STYLES = (theme: ThemeVariables) => {
   const loading = keyframesUniqueId.next();
   const { primary, secondary, tertiary } = theme.background;
   const lum = primary.default.luminance();

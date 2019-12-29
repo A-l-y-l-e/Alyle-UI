@@ -70,7 +70,7 @@ export const LY_SLIDER_CONTROL_VALUE_ACCESSOR = {
 };
 
 const STYLE_PRIORITY = -2;
-const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
+export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);
   const { before } = theme;
   return {

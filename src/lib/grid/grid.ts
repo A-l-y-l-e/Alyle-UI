@@ -16,7 +16,7 @@ const ALIGN_ALIAS = {
 
 export type AlignItems = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 
-const styles = () => ({
+export const STYLES = () => ({
   $priority: STYLE_PRIORITY,
   $name: LyGrid.и,
   root: lyl `{
@@ -47,7 +47,7 @@ export class LyGrid {
    * Styles
    * @docs-private
    */
-  readonly classes = this.theme.renderStyleSheet(styles);
+  readonly classes = this.theme.renderStyleSheet(STYLES);
 
   private _spacing: string | number;
   _spacingClass?: string;

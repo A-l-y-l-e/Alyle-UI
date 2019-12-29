@@ -54,7 +54,7 @@ const STYLE_PRIORITY = -1;
 const DEFAULT_PLACEMENT = YPosition.below;
 const DEFAULT_XPOSITION = XPosition.after;
 
-const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) => {
+export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) => {
   const menu = ref.selectorsOf(STYLES);
   return {
     $priority: STYLE_PRIORITY,

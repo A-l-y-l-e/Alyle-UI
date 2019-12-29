@@ -25,7 +25,7 @@ export interface LyTypographyVariables {
 }
 
 const STYLE_PRIORITY = -1;
-const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
+export const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   return {
     $name: LyTypography.и,
     $priority: STYLE_PRIORITY,
