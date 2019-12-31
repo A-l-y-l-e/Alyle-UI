@@ -42,7 +42,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /** Import Alyle UI */
 import {
   LyThemeModule,
-  LY_THEME
+  LyTheme2,
+  StyleRenderer,
+  LY_THEME,
+  LY_THEME_NAME
 } from '@alyle/ui';
 
 /** Import the component modules */
