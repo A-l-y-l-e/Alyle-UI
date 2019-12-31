@@ -173,6 +173,7 @@ const colorRed = lyl `{
 
 const style = lyl `{
   font-size: 14px
+  display: inline-block
   ...${colorRed}
 }`
 ```
@@ -180,9 +181,12 @@ const style = lyl `{
 Compiled CSS:
 
 ```css
-.ck {
+.ky {
   font-size: 14px;
-  color: red;
+  display:inline-block;
+}
+.ky {
+  color:red;
 }
 ```
 
