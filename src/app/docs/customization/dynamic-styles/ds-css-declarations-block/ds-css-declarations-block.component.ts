@@ -2,7 +2,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { StyleRenderer, lyl } from '@alyle/ui';
 
 const STYLES = () => ({
-  styleBorder: lyl `{
+  root: lyl `{
+    display: block
     height: 120px
     width: 120px
     background: #ffe259
@@ -20,10 +21,13 @@ const STYLES = () => ({
 @Component({
   selector: 'aui-ds-css-declarations-block',
   templateUrl: './ds-css-declarations-block.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class DsCssDeclarationsBlockComponent {
-  readonly classes = this.sRenderer.renderSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
 
   constructor(
     readonly sRenderer: StyleRenderer

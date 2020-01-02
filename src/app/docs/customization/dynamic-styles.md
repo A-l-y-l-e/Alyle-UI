@@ -15,13 +15,14 @@ Features:
 
 ## Basic style sheet
 
-This is like a CSS declarations block.
+This is like a CSS declarations block. 
 
 ```ts
 import { StyleRenderer, lyl } from '@alyle/ui';
 
 const STYLES = () => ({
-  styleBorder: lyl `{
+  root: lyl `{
+    display: block
     height: 120px
     width: 120px
     background: #ffe259
@@ -38,7 +39,11 @@ const STYLES = () => ({
 
 ...
 export class DsCssDeclarationsBlockComponent {
-  readonly classes = this.sRenderer.renderSheet(STYLES);
+  // Note that the second argument is true (default false), this will
+  // cause the `this.classes.root` class to be automatically added.
+  // This avoids using:
+  // `renderer.addClass(elementRef.nativeElement, this.classes.root)`
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
 
   constructor(
     readonly sRenderer: StyleRenderer
@@ -119,7 +124,7 @@ lyl `{
 }`
 ```
 
-But this is not:
+Bad:
 
 ```ts
 lyl `{
