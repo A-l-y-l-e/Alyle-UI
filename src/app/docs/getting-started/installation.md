@@ -88,7 +88,21 @@ This library uses Roboto Font & Google's Material Icons, you can add this in `sr
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet">
 ```
 
-### Step 3: Applies styles to AppComponent
+## Step 3: Install HammerJs</h2>
+
+The <code class="html"><ly-carousel></code>, <code class="html"><ly-slider></code> and <code class="html"><ly-img-cropper></code> components require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
+
+<prism language="bash" code="yarn add hammerjs"></prism>
+
+<p>or</p>
+
+<prism language="bash" code="npm install --save hammerjs"></prism>
+
+<p>Import in src/main.ts</p>
+
+<prism language="typescript" code="import 'hammerjs';"></prism>
+
+### Step 4: Applies styles to AppComponent
 
 This applies styles using the theme variables to the <code class="html"><body></code> element.
 
@@ -116,7 +130,7 @@ export class AppComponent {
 }
 ```
 
-### Step 4: Use the components
+### Step 5: Use the components
 
 ```html
 <button ly-button raised>Hello World</button>

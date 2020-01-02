@@ -72,7 +72,14 @@
 <p>This library uses Roboto Font &amp; Google's Material Icons, you can add this in <code class="ttm ttx">src/index.html</code></p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>link</span> <span class="tt18 ttbx">href</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons<span class="tt18 ttae">"</span></span> <span class="tt18 ttbx">rel</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>stylesheet<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
 </code></pre>
-<h3 id="step-3-applies-styles-to-appcomponent">Step 3: Applies styles to AppComponent</h3>
+<h2 id="step-3-install-hammerjsh2">Step 3: Install HammerJs</h2></h2>
+<p>The <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-carousel</span><span class="tt18 ttae">></span></span></code>, <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-slider</span><span class="tt18 ttae">></span></span></code> and <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-img-cropper</span><span class="tt18 ttae">></span></span></code> components require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.</p>
+<p><prism language="bash" code="yarn add hammerjs"></prism></p>
+<p>or</p>
+<p><prism language="bash" code="npm install --save hammerjs"></prism></p>
+<p>Import in src/main.ts</p>
+<p><prism language="typescript" code="import 'hammerjs';"></prism></p>
+<h3 id="step-4-applies-styles-to-appcomponent">Step 4: Applies styles to AppComponent</h3>
 <p>This applies styles using the theme variables to the <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>body</span><span class="tt18 ttae">></span></span></code> element.</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> StyleRenderer<span class="tt18 ttae">,</span> ThemeVariables<span class="tt18 ttae">,</span> lyl <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
@@ -96,6 +103,6 @@
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>
-<h3 id="step-4-use-the-components">Step 4: Use the components</h3>
+<h3 id="step-5-use-the-components">Step 5: Use the components</h3>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">ly-button</span> <span class="tt18 ttbx">raised</span><span class="tt18 ttae">></span></span>Hello World<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
 </code></pre>

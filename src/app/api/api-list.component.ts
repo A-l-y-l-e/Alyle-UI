@@ -9,13 +9,7 @@ export const STYLES = (theme: ThemeVariables) => {
   const { before, after } = theme;
   return {
     root: lyl `{
-      a {
-        color: ${theme.accent.default}
-        text-decoration: inherit
-        &:hover {
-          text-decoration: underline
-        }
-      }
+      display: block
     }`,
     apiList: lyl `{
       list-style: none
@@ -140,7 +134,7 @@ export const STYLES = (theme: ThemeVariables) => {
   ]
 })
 export class ApiListComponent {
-  readonly classes = this.sRenderer.renderSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   apiListObservable: Observable<APIList[]>;
   filterTypeValue: string | null = null;
   readonly filterType = [

@@ -34,6 +34,13 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
         margin: 0
         direction: ${theme.direction}
       }
+      a:not([ly-button]) {
+        color: ${theme.accent.default}
+        text-decoration: inherit
+        &:hover {
+          text-decoration: underline
+        }
+      }
     }`,
     appContainer: ( ) => lyl `{
       display: flex
@@ -56,13 +63,6 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
     }`,
     root: {
       display: 'block',
-      '& .docs-viewer > * > a:not([ly-button]), & .docs-viewer > ul a:not([ly-button]), & p > a': {
-        color: theme.accent.default,
-        textDecoration: 'inherit',
-        '&:hover': {
-          textDecoration: 'underline'
-        }
-      },
     },
     drawer: lyl `{
       &::-webkit-scrollbar {

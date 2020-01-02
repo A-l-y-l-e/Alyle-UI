@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2, lyl, StyleRenderer } from '@alyle/ui';
+import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2, lyl, StyleRenderer, LyHammerGestureConfig } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -164,7 +164,8 @@ export function themeNameProviderFactory() {
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
-    { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory }
+    { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ],
   bootstrap: [AppComponent]
 })
