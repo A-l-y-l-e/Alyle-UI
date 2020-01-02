@@ -23,9 +23,25 @@ export class StyleRenderer {
 
   /**
    * Build multiple styles and render them in the DOM.
+   * @param styles Styles
+   * @param applyRootClass If `applyToRoot` is `true` and the root property is defined,
+   * it will automatically be added to the component.
+   *
+   * e.g.
+   *
+   * ```ts
+   * const STYLES = () => ({
+   *   root: lyl `{...}` // this class will be added to the root component
+   * })
+   * ```
+   *
    */
-  renderSheet<T>(styles: T & LyStyles): LyClasses<T> {
-    return this._theme._createStyleContent2(styles, null, null, TypeStyle.Multiple);
+  renderSheet<T>(styles: T & LyStyles, applyRootClass?: boolean): LyClasses<T> {
+    const classes = this._theme._createStyleContent2(styles, null, null, TypeStyle.Multiple);
+    if (applyRootClass && classes.root) {
+      this.addClass(classes.root);
+    }
+    return classes;
   }
 
   add(
