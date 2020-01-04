@@ -5,4 +5,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './basic-skeleton.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicSkeletonComponent { }
+export class BasicSkeletonComponent {
+  isLoading = true;
+}

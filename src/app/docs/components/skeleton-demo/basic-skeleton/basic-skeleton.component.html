@@ -1,14 +1,36 @@
-<ly-paper
-  p="1em"
-  m=".5em"
-  [elevation]="2"
->
-  <h3 [lyTyp]="'title'"
-    gutterBottom
-    lySkeleton
-    [width]=".35"
-  >...</h3>
-  <p [lyTyp]="'body1'" lySkeleton>
-    ...
-  </p>
-</ly-paper>
+<ng-container *ngIf="isLoading; else elseBlock">
+  <ly-paper
+    p="1em"
+    m=".5em"
+    [elevation]="2"
+  >
+    <h3 [lyTyp]="'title'"
+      gutterBottom
+      lySkeleton
+      [width]=".35"
+    >{{ '\u00A0' }}</h3>
+    <p [lyTyp]="'body1'" lySkeleton>
+      {{ '\u00A0' }}
+    </p>
+  </ly-paper>
+</ng-container>
+
+<ng-template #elseBlock>
+  <ly-paper
+    p="1em"
+    m=".5em"
+    [elevation]="2"
+  >
+    <h3 [lyTyp]="'title'"
+      gutterBottom
+    >Title</h3>
+    <p [lyTyp]="'body1'">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+    </p>
+  </ly-paper>
+</ng-template>
+
+<button ly-button
+  (click)="isLoading = !isLoading"
+  raised
+>isLoading: {{ isLoading | json }}</button>

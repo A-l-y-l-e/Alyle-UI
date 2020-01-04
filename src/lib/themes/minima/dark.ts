@@ -1,6 +1,6 @@
 import { shadowBuilder, lyl, StyleCollection, mergeThemes } from '@alyle/ui';
 import { MinimaBase } from './base';
-import { Color } from '@alyle/ui/color';
+import { color, Color } from '@alyle/ui/color';
 import { LyFieldTheme } from '@alyle/ui/field';
 import { LyTooltipTheme } from '@alyle/ui/tooltip';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
@@ -11,7 +11,7 @@ const shadow = new Color(0, 0, 0, 1);
 export class MinimaDark extends MinimaBase {
   name = 'minima-dark';
   primary = {
-    default: Color(0x1DE9B6),
+    default: color(0x1DE9B6),
     contrast: new Color(0, 0, 0, 0.87)
   };
   accent = {

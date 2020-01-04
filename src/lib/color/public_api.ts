@@ -1,1 +1,1 @@
-export { Color, hexColorToInt, ColorClass } from './color';
+export { Color, hexColorToInt, color } from './color';

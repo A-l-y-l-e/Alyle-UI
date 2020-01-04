@@ -2,7 +2,7 @@ const EPS = 1e-7;
 const MAX_ITER = 20;
 const { pow, min, max } = Math;
 
-export class ColorClass {
+export class Color {
 
   private readonly _color: number[];
 
@@ -339,29 +339,8 @@ export function hexColorToInt(_color: string) {
   throw new Error(`Expected to start with '#' the given value is: ${_color}`);
 }
 
-interface ColorConstructor {
-  (hex: number, alpha?: number): Color;
-  (r: number, g: number, b: number, alpha?: number): Color;
-  (...args: number[]): Color;
-  new (hex: number, alpha?: number): Color;
-  new (r: number, g: number, b: number, alpha?: number): Color;
-  new (...args: number[]): Color;
+export function color(hex: number, alpha?: number): Color;
+export function color(r: number, g: number, b: number, alpha?: number): Color;
+export function color(...args: number[]): Color {
+  return new Color(...args);
 }
-
-// https://stackoverflow.com/a/59186182
-function CreateCallableConstructor(
-  type: any
-): any {
-  // tslint:disable-next-line: no-shadowed-variable
-  function Color(
-    ...args: any[]
-  ) {
-    return new type(...args);
-  }
-
-  Color.prototype = type.prototype;
-  return Color;
-}
-
-export type Color = ColorClass;
-export const Color = CreateCallableConstructor(ColorClass) as ColorConstructor;
