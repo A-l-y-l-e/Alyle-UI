@@ -4,6 +4,17 @@
 
 `alpha`, `luminance`, `saturate`, `desaturate`, `darken` and `brighten` are the methods that includes `Color`.
 
+## Supported values
+
+```ts
+import { color } from '@alyle/ui/color';
+
+const Yellow = color(255, 255, 0);
+const Black  = color(0);
+const White  = color(0xffffff);
+const Text   = color(0, 0, 0, .87);
+```
+
 ## How to use `color`
 
 `color` and the previously mentioned methods returns an immutable `Color`.
