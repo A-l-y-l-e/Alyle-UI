@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, of } from 'rxjs';
+import { Meta } from '@angular/platform-browser';
 
 export interface APIList {
   pkg: string;
@@ -15,7 +16,10 @@ export interface APIList {
 export class APIService {
   private _apiUrl = 'api/@alyle/ui/APIList.min.json';
   private _temp = new Map<string, any>();
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private metaService: Meta
+  ) { }
 
   getList() {
     if (this._temp.has(this._apiUrl)) {
@@ -40,6 +44,7 @@ export class APIService {
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
+    this.metaService.addTag({ name: 'robots', content: 'noindex' });
     const errMsg = is404 ? 'PAGE NOT FOUND' : 'REQUEST FOR DOCUMENT FAILED';
     // return an observable with a user-facing error message
     return throwError(

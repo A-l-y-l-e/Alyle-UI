@@ -101,8 +101,9 @@ export class ApiComponent implements OnInit, OnDestroy {
   render(path: string) {
     return this.void$
       .pipe(
+        tap(() => this.app.docViewer && this.app.docViewer.setNoIndex(true)),
         switchMap(async () => await
-          this.http.get<APIPkgSymbol | APIPkgSymbolList[]>(`${path}.json`).pipe(catchError(this.apiService.handleError)).toPromise()
+          this.http.get<APIPkgSymbol | APIPkgSymbolList[]>(`${path}.json`).pipe(catchError((error) => this.apiService.handleError(error))).toPromise()
         .catch((title: string) => {
           this.app.docViewer!.isError.emit({
             title
@@ -110,7 +111,7 @@ export class ApiComponent implements OnInit, OnDestroy {
           return null;
         })),
         map((data) => {
-          if ((data as APIPkgSymbol).code) {
+          if (data && (data as APIPkgSymbol).code) {
             return {
               ...data,
               code: this.sanitizer.bypassSecurityTrustHtml((data as APIPkgSymbol).code)

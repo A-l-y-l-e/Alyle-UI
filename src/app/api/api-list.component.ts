@@ -155,7 +155,11 @@ export class ApiListComponent {
     readonly sRenderer: StyleRenderer,
     app: AppComponent
   ) {
-    this.apiListObservable = apiService.getList().pipe(tap(() => app.docViewer!.isLoading.emit(false)));
+    this.apiListObservable = apiService.getList()
+      .pipe(
+        tap(() => app.docViewer && app.docViewer.setNoIndex(false)),
+        tap(() => app.docViewer!.isLoading.emit(false))
+      );
     sRenderer.addClass(this.classes.root);
   }
 
