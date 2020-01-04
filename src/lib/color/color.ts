@@ -28,7 +28,14 @@ export class Color {
     return this._color.slice(0);
   }
 
+  /**
+   * Get the color opacity
+   */
   alpha(): number;
+  /**
+   * Set the color opacity
+   * @param value opacity
+   */
   alpha(value: number): Color;
   alpha(value?: number) {
     if (value === void 0) {
@@ -43,7 +50,14 @@ export class Color {
     return new Color(..._color);
   }
 
+  /**
+   * Returns the relative brightness
+   */
   luminance(): number;
+  /**
+   * Normalized to 0 for darkest black and 1 for lightest white.
+   * @param lum 0 to 1
+   */
   luminance(lum: number): Color;
   luminance(lum?: number) {
     if (lum === void 0) {
@@ -82,7 +96,10 @@ export class Color {
     return new Color(...rgb);
 
   }
-
+  /**
+   * Changes the saturation of a color by manipulating the Lch chromaticity.
+   * @param amount default: 1
+   */
   saturate(amount = 1) {
     const lab = rgbToLab(this._color);
     const lch = labToLch(lab);
@@ -102,13 +119,16 @@ export class Color {
 
     return new Color(...rgb);
   }
-
+  /**
+   * Similar to saturate, but the opposite direction.
+   * @param amount default: 1
+   */
   desaturate(amount = 1) {
     return this.saturate(-amount);
   }
 
   /**
-   * @param amount default 1
+   * @param amount default: 1
    */
   darken(amount = 1) {
     const lab = rgbToLab(this._color);

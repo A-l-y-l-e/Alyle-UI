@@ -1,10 +1,12 @@
 # Color
 
-`Color` provides a basic API to manipulate color.
+`color` provides a basic API to manipulate color.
 
 `alpha`, `luminance`, `saturate`, `desaturate`, `darken` and `brighten` are the methods that includes `Color`.
 
 ## How to use `color`
+
+`color` and the previously mentioned methods returns an immutable `Color`.
 
 ```ts
 import { color } from '@alyle/ui/color';
