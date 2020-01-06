@@ -15,10 +15,7 @@
     "target": "es2015",
     "importHelpers": true,
     "inlineSources": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
     "strict": true,
-    "strictPropertyInitialization": true,
     "noFallthroughCasesInSwitch": true,
     "types": [
       "node"

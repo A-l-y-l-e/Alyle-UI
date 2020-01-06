@@ -361,6 +361,7 @@ export function hexColorToInt(_color: string) {
 
 export function color(hex: number, alpha?: number): Color;
 export function color(r: number, g: number, b: number, alpha?: number): Color;
-export function color(...args: number[]): Color {
-  return new Color(...args);
+export function color(...args: number[]): Color;
+export function color(...args: (number | undefined)[]): Color {
+  return new Color(...args as number[]);
 }
