@@ -58,18 +58,23 @@ export class LylParse {
           selector = selectors[0][0];
         } else {
           const line_1 = fullLine.slice(0, fullLine.length - 1).trim();
-          selectors.push(
-            line_1
-            .split(',')
-            .map(_ => _.trim())
-          );
-          selector = this._resolveSelectors(selectors);
-
-          if (line_1.includes('@')) {
+          const isMediaQuery = line_1.includes('@');
+          if (isMediaQuery) {
+            selectors.push(
+              [line_1.trim()]
+            );
             if (!rules.has(line_1)) {
               rules.set(line_1, []);
             }
+          } else {
+            selectors.push(
+              line_1
+              .split(',')
+              .map(_ => _.trim())
+            );
           }
+          selector = this._resolveSelectors(selectors);
+
         }
 
 
