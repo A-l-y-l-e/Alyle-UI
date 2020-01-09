@@ -131,7 +131,28 @@ export class LylParse {
         const media = matchArray[1];
         if (media !== key && val.length) {
           const after = rules.get(media)!;
-          const newValue = after + key.replace(media + '{', '') + `{${val.join(';')}}`;
+          const sel = key.replace(media + '{', '');
+          const newValue = after + val.reduce((previous, current) => {
+
+            const last = previous[previous.length - 1];
+
+            if (current.startsWith('/* >> ds')) {
+              previous.push(current.replace(/\|\|\&\|\|/g, sel));
+            } else if (current.startsWith('/* >> cc')) {
+              previous.push(transformCC(current, sel));
+            } else {
+              if (Array.isArray(last)) {
+                last.push(current);
+              } else {
+                previous.push([current]);
+              }
+            }
+            return previous;
+          }, [] as (string | string[])[])
+            .map(item => Array.isArray(item) ? `${sel}{${item.join('')}}` : item).join('');
+          // const newValue = after
+          // + sel
+          // + `{${val.join('')}}`;
           rules.set(media, [newValue]);
           rules.delete(key);
         }
@@ -146,17 +167,15 @@ export class LylParse {
         const css: string[] = [];
         const contentRendered: string[] = [];
         const set = new Set<string[]>();
+
         for (let index = 0; index < contents.length; index++) {
-          let content = contents[index];
+          const content = contents[index];
           if (content) {
             if (content.startsWith('/* >> ds')) {
               contentRendered.push(content.replace(/\|\|\&\|\|/g, sel));
               set.add(contentRendered);
             } else if (content.startsWith('/* >> cc')) {
-              content = content.replace(/\/\* >> cc[^\/\*]+\*\//g, '');
-              let expression = content.slice(2, content.length - 1);
-              expression = `styleTemplateToString((${expression}), \`${sel}\`)`;
-              contentRendered.push(`\${${expression}}`);
+              contentRendered.push(transformCC(content, sel));
               set.add(contentRendered);
             } else {
               // css += `${sel}{${content}}`;
@@ -183,7 +202,7 @@ export class LylParse {
         // if (content.startsWith('/* >> cc')) {
         //   content = content.replace(/\/\* >> cc[^\/\*]+\*\//g, '');
         //   let variable = content.slice(2, content.length - 1);
-        //   variable = `styleTemplateToString((${variable}), \`${sel}\`)`;
+        //   variable = `st2c((${variable}), \`${sel}\`)`;
         //   return `\${${variable}}`;
         // }
         // // for non LylModule>
@@ -227,18 +246,28 @@ export class LylParse {
 
 }
 
+function transformCC(content: string, sel: string) {
+  content = content.replace(/\/\* >> cc[^\/\*]+\*\//g, '');
+  let expression = content.slice(2, content.length - 1);
+  expression = `st2c((${expression}), \`${sel}\`)`;
+  return `\${${expression}}`;
+}
+
 export type StyleTemplate = (className: string) => string;
 
-export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | null | undefined)[]) {
+export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | LylDeclarationBlock | null | undefined)[]) {
   return (className: string) => {
     let result = '';
-    const dsMap = new Map<string, (StyleTemplate) | StyleCollection>();
+    const dsMap = new Map<string, (StyleTemplate) | StyleCollection | LylDeclarationBlock>();
     for (let i = 0; i < placeholders.length; i++) {
       const placeholder = placeholders[i];
       result += literals[i];
       if (result.endsWith('...')) {
         result = result.slice(0, result.length - 3);
-        if (typeof placeholder === 'function' || placeholder instanceof StyleCollection) {
+        if (typeof placeholder === 'function'
+          || placeholder instanceof StyleCollection
+          || Array.isArray(placeholder)
+        ) {
           const newID = createUniqueId();
           dsMap.set(newID, placeholder);
           result += newID;
@@ -253,13 +282,7 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
     const css = result.replace(STYLE_TEMPLATE_REGEX(), (str) => {
       if (dsMap.has(str)) {
         const fn = dsMap.get(str)!;
-        let template: StyleTemplate;
-        if (fn instanceof StyleCollection) {
-          template = fn.css;
-        } else {
-          template = fn;
-        }
-        return `${createUniqueCommentSelector('ds')}${template('||&||')}`;
+        return `${createUniqueCommentSelector('ds')}${st2c(fn, '||&||')}`;
       }
       return '';
     });
@@ -322,12 +345,35 @@ export class StyleCollection<T = any> {
 
 }
 
+/**
+ * The declaration block can an array of declarations,
+ * where each declaration contains a property name and value.
+ * If a declaration is `null` or `undefined` it will not be rendered.
+ * e.g.
+ *
+ * ['color:red']
+ */
+export type LylDeclarationBlock = (string | null | undefined)[];
 
-export function styleTemplateToString(fn: StyleTemplate | StyleCollection | null | undefined, className: string) {
+/**
+ * Transform a ...{style} to css
+ * For internal use purposes only
+ * @param fn StyleTemplate or StyleCollection
+ * @param className class name
+ */
+export function st2c(
+  fn: StyleTemplate | StyleCollection | LylDeclarationBlock | null | undefined,
+  className: string) {
+  if (fn == null) {
+    return '';
+  }
   if (fn instanceof StyleCollection) {
     return fn.css(className);
   }
-  return fn ? (fn)(className) : '';
+  if (typeof fn === 'function') {
+    return (fn)(className);
+  }
+  return fn.filter((item) => !!item).join(';');
 }
 
 // export function normalizeStyleTemplate(

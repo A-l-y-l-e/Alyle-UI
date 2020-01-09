@@ -1,6 +1,6 @@
 import anyTest, { TestInterface } from 'ava';
 import { hasLylStyle, styleCompiler } from './compiler';
-import { styleTemplateToString, StyleCollection, lyl } from '../src/parse';
+import { st2c, StyleCollection, lyl } from '../src/parse';
 import * as tsNode from 'ts-node';
 
 const test = anyTest as TestInterface<Context>;
@@ -12,7 +12,7 @@ class Context {
   }\`
   style('.y')`;
 
-  styleIntoObjectAsFunction = `${styleTemplateToString}\n${StyleCollection}\nconst styles = {
+  styleIntoObjectAsFunction = `${st2c}\n${StyleCollection}\nconst styles = {
     item: () => lyl \`{
       color: \${'blue'}
       ...\${null}
@@ -36,7 +36,7 @@ class Context {
   `;
 
   inheritanceStyle = `
-  ${styleTemplateToString}\n
+  ${st2c}\n
   ${StyleCollection}
   const colorBlue = lyl \`{
     color: blue
@@ -307,9 +307,9 @@ test(`compile complex style`, async t => {
   import {
   LyTheme2,
   LyHostClass,
-  styleTemplateToString } from '@alyle/ui';
+  st2c } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color:red;}\${styleTemplateToString((
+  const style = (className: string) => \`\${className}{color:red;}\${st2c((
       topZero), \`\${className}\`)}\`;
   `);
 });
@@ -321,10 +321,10 @@ test(`compile simple and complex style`, async t => {
   import {
   LyTheme2,
   LyHostClass,
-  styleTemplateToString } from '@alyle/ui';
+  st2c } from '@alyle/ui';
 
   const topZero = (className: string) => \`\${className}{top:0;}\`
-  const style = (className: string) => \`\${className}{color:red;}\${styleTemplateToString((
+  const style = (className: string) => \`\${className}{color:red;}\${st2c((
       topZero), \`\${className}\`)}\`;
   `);
 });
@@ -367,7 +367,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {
   LyTheme2,
   LyHostClass,
-  styleTemplateToString } from '@alyle/ui';
+  st2c } from '@alyle/ui';
 
 import { AUIThemeVariables } from '@app/app.module';
 
@@ -375,9 +375,9 @@ const zero = 0;
 
 const topZero = (className: string) => \`\${className}{top:\${zero}px;}\`;
 
-const colorRedAndTopZero = (className: string) => \`\${className}{color:red;}\${styleTemplateToString((item0), \`\${className}\`)}\`;
+const colorRedAndTopZero = (className: string) => \`\${className}{color:red;}\${st2c((item0), \`\${className}\`)}\`;
 
-const item2 = (className: string) => \`\${styleTemplateToString((item), \`\${className}\`)}\${className} ul{margin:0;padding:\${zero};list-style:none;}\${styleTemplateToString((item), \`\${className} ul\`)}\${className} li a{display:inline-block;}\${className} a{display:block;padding:6px \${12}px;text-decoration:none;}\${className} ul > li{list-style-type:none;}\${className} h2 + p{border-top:1px solid gray;}\${className} p ~ span{opacity:0.8;}\`;
+const item2 = (className: string) => \`\${st2c((item), \`\${className}\`)}\${className} ul{margin:0;padding:\${zero};list-style:none;}\${st2c((item), \`\${className} ul\`)}\${className} li a{display:inline-block;}\${className} a{display:block;padding:6px \${12}px;text-decoration:none;}\${className} ul > li{list-style-type:none;}\${className} h2 + p{border-top:1px solid gray;}\${className} p ~ span{opacity:0.8;}\`;
 `);
 // tslint:enable
 });
@@ -437,6 +437,44 @@ test(`with comments`, async t => {
   `);
   t.is(css, `.y .a{color:blue;}`);
   t.is(lyl `${styleContent}`('.y'), `.y .a{color:blue;}`);
+});
+test(`media queries with inheritance style`, async t => {
+  const inStyle = lyl `{
+    color: blue
+    sel {
+      prop: value
+    }
+  }`;
+  const styleContent = lyl `{
+    @media all {
+      prop: value
+      prop2: value2
+      ...${inStyle}
+      prop3: value3
+    }
+  }`;
+  const css = evalScript(`
+  ${st2c}
+  ${StyleCollection}
+  const inStyle = lyl \`{
+    color: blue
+    sel {
+      prop: value
+    }
+  }\`;
+  const style = lyl \`{
+    @media all {
+      prop: value
+      prop2: value2
+      ...\${inStyle}
+      prop3: value3
+    }
+  }\`;
+  style('.y');
+  `);
+  const expected = '@media all{.y{prop:value;prop2:value2;}.y{color:blue;}.y sel{prop:value;}.y{prop3:value3;}}';
+  t.is(css, expected);
+  t.is(styleContent('.y').replace(/\/\* >> ds[^\/\*]+\*\//g, ''), expected);
 });
 
 function evalScript(script: string) {

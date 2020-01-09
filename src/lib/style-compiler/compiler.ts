@@ -83,7 +83,7 @@ function updateImport(content: string, numSimpleStyles: number, numComplexStyles
     const modulePath = importDeclaration.moduleSpecifier.getFullText();
     if ((numSimpleStyles && numComplexStyles) || numComplexStyles) {
       imports = imports.map(
-        imp => imp === 'lyl' ? 'styleTemplateToString' : imp);
+        imp => imp === 'lyl' ? 'st2c' : imp);
     } else if (numSimpleStyles) {
       imports = imports.filter(imp => imp !== 'lyl');
     }
