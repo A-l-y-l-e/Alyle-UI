@@ -135,11 +135,11 @@ export class LylParse {
           const newValue = after + val.reduce((previous, current) => {
 
             const last = previous[previous.length - 1];
-
+            // __READY__ is added to be ignored by content.startsWith ('/ * >> xx')
             if (current.startsWith('/* >> ds')) {
-              previous.push(current.replace(/\|\|\&\|\|/g, sel));
+              previous.push('/* __READY__ */' + current.replace(/\|\|\&\|\|/g, sel));
             } else if (current.startsWith('/* >> cc')) {
-              previous.push(transformCC(current, sel));
+              previous.push('/* __READY__ */' + transformCC(current, sel));
             } else {
               if (Array.isArray(last)) {
                 last.push(current);
@@ -193,24 +193,6 @@ export class LylParse {
             return _.join('');
           }
         }).join('');
-        // return (css
-        //   ? `${sel}{${css}}`
-        //   :  '') + contentRendered;
-        // if (content.startsWith('/* >> ds')) {
-        //   return content.replace(/\|\|\&\|\|/g, sel);
-        // }
-        // if (content.startsWith('/* >> cc')) {
-        //   content = content.replace(/\/\* >> cc[^\/\*]+\*\//g, '');
-        //   let variable = content.slice(2, content.length - 1);
-        //   variable = `st2c((${variable}), \`${sel}\`)`;
-        //   return `\${${variable}}`;
-        // }
-        // // for non LylModule>
-
-        // if (sel.startsWith('@')) {
-        //   return `${sel}{${rule[1]}}`;
-        // }
-        // return `${sel}{${content}}`;
       }).join('');
 
   }

@@ -439,6 +439,30 @@ test(`with comments`, async t => {
   t.is(lyl `${styleContent}`('.y'), `.y .a{color:blue;}`);
 });
 test(`media queries with inheritance style`, async t => {
+
+  const colorBlue = lyl `{
+    color: blue
+  }`;
+  const colorBlueAll = lyl `{
+    @media all {
+      ...${colorBlue}
+    }
+  }`;
+
+  const css1 = evalScript(`
+  ${st2c}
+  ${StyleCollection}
+  const colorBlue = lyl \`{
+    color: blue
+  }\`;
+  const style = lyl \`{
+    @media all {
+      ...\${colorBlue}
+    }
+  }\`;
+  style('.y');
+  `);
+
   const inStyle = lyl `{
     color: blue
     sel {
@@ -453,7 +477,8 @@ test(`media queries with inheritance style`, async t => {
       prop3: value3
     }
   }`;
-  const css = evalScript(`
+
+  const css2 = evalScript(`
   ${st2c}
   ${StyleCollection}
   const inStyle = lyl \`{
@@ -472,9 +497,12 @@ test(`media queries with inheritance style`, async t => {
   }\`;
   style('.y');
   `);
-  const expected = '@media all{.y{prop:value;prop2:value2;}.y{color:blue;}.y sel{prop:value;}.y{prop3:value3;}}';
-  t.is(css, expected);
-  t.is(styleContent('.y').replace(/\/\* >> ds[^\/\*]+\*\//g, ''), expected);
+  const expected1 = '@media all{.y{color:blue;}}';
+  t.is(removeComments(colorBlueAll('.y')), expected1);
+  t.is(removeComments(css1), expected1);
+  const expected2 = '@media all{.y{prop:value;prop2:value2;}.y{color:blue;}.y sel{prop:value;}.y{prop3:value3;}}';
+  t.is(removeComments(styleContent('.y')), expected2);
+  t.is(removeComments(css2), expected2);
 });
 
 function evalScript(script: string) {
@@ -486,4 +514,8 @@ function evalScript(script: string) {
     },
     transpileOnly: true
   }).compile(styleCompiler(script), 'file.ts'));
+}
+
+function removeComments(css: string) {
+  return css.replace(/\/\*[^\/\*]+\*\//g, '');
 }
