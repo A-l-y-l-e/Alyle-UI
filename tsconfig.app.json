@@ -13,6 +13,7 @@
   "exclude": [
     "src/test.ts",
     "src/lib/schematics/**/*.ts",
+    "src/lib/style-compiler/*.ts",
     "src/lib/style-compiler/**/*.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts"
