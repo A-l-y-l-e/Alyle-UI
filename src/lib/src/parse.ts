@@ -255,10 +255,10 @@ function transformCC(content: string, sel: string) {
 
 export type StyleTemplate = (className: string) => string;
 
-export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | LylDeclarationBlock | null | undefined)[]) {
+export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | null | undefined)[]) {
   return (className: string) => {
     let result = '';
-    const dsMap = new Map<string, (StyleTemplate) | StyleCollection | LylDeclarationBlock>();
+    const dsMap = new Map<string, (StyleTemplate) | StyleCollection>();
     for (let i = 0; i < placeholders.length; i++) {
       const placeholder = placeholders[i];
       result += literals[i];
@@ -266,7 +266,6 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
         result = result.slice(0, result.length - 3);
         if (typeof placeholder === 'function'
           || placeholder instanceof StyleCollection
-          || Array.isArray(placeholder)
         ) {
           const newID = createUniqueId();
           dsMap.set(newID, placeholder);
@@ -346,23 +345,13 @@ export class StyleCollection<T = any> {
 }
 
 /**
- * The declaration block can an array of declarations,
- * where each declaration contains a property name and value.
- * If a declaration is `null` or `undefined` it will not be rendered.
- * e.g.
- *
- * ['color:red']
- */
-export type LylDeclarationBlock = (string | null | undefined)[];
-
-/**
  * Transform a ...{style} to css
  * For internal use purposes only
  * @param fn StyleTemplate or StyleCollection
  * @param className class name
  */
 export function st2c(
-  fn: StyleTemplate | StyleCollection | LylDeclarationBlock | null | undefined,
+  fn: StyleTemplate | StyleCollection | null | undefined,
   className: string) {
   if (fn == null) {
     return '';
@@ -370,10 +359,7 @@ export function st2c(
   if (fn instanceof StyleCollection) {
     return fn.css(className);
   }
-  if (typeof fn === 'function') {
-    return (fn)(className);
-  }
-  return fn.filter((item) => !!item).join(';');
+  return fn(className);
 }
 
 // export function normalizeStyleTemplate(
