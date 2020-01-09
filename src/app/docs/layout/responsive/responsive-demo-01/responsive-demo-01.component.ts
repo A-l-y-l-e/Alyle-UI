@@ -1,6 +1,12 @@
 import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { LyTheme2, ThemeVariables } from '@alyle/ui';
 
+interface MediaQuery {
+  key: string;
+  mediaQuery: string;
+  breakpoint: string;
+}
+
 @Component({
   selector: 'responsive-demo-01',
   templateUrl: './responsive-demo-01.component.html',
@@ -9,7 +15,7 @@ import { LyTheme2, ThemeVariables } from '@alyle/ui';
   encapsulation: ViewEncapsulation.None
 })
 export class ResponsiveDemo01Component {
-  queries: {key: string, mediaQuery: string}[] = [];
+  queries: MediaQuery[] = [];
 
   constructor(
     theme: LyTheme2
@@ -18,7 +24,8 @@ export class ResponsiveDemo01Component {
     Object.keys(breakpoints).forEach(key => {
       this.queries.push({
         key,
-        mediaQuery: breakpoints[key]
+        mediaQuery: `none block@${key}`,
+        breakpoint: breakpoints[key]
       });
     });
   }

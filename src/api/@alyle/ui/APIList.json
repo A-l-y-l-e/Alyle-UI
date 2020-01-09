@@ -659,6 +659,11 @@
       },
       {
         "pkg": "@alyle/ui",
+        "name": "st2c",
+        "symbol": "Function"
+      },
+      {
+        "pkg": "@alyle/ui",
         "name": "StringIdGenerator",
         "symbol": "Class"
       },
@@ -736,11 +741,6 @@
         "pkg": "@alyle/ui",
         "name": "StyleTemplate",
         "symbol": "Type alias"
-      },
-      {
-        "pkg": "@alyle/ui",
-        "name": "styleTemplateToString",
-        "symbol": "Function"
       },
       {
         "pkg": "@alyle/ui",
@@ -1090,17 +1090,12 @@
       {
         "pkg": "@alyle/ui/color",
         "name": "Color",
-        "symbol": "Type alias"
-      },
-      {
-        "pkg": "@alyle/ui/color",
-        "name": "Color",
-        "symbol": "Const"
-      },
-      {
-        "pkg": "@alyle/ui/color",
-        "name": "ColorClass",
         "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/color",
+        "name": "color",
+        "symbol": "Function"
       },
       {
         "pkg": "@alyle/ui/color",

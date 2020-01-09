@@ -1,58 +1,78 @@
 import { Component } from '@angular/core';
-import { ThemeVariables, LyTheme2 } from '@alyle/ui';
+import { ThemeVariables, lyl, StyleRenderer } from '@alyle/ui';
 
 const STYLES = (theme: ThemeVariables) => {
-  const mediaStyles = {
-    color: theme.primary.contrast,
-    backgroundColor: theme.primary.default
-  };
+  const { breakpoints } = theme;
+  const mediaStyles = lyl `{
+    color: ${theme.primary.contrast}
+    background-color: ${theme.primary.default}
+  }`;
   return {
-    box: {
-      backgroundColor: theme.background.primary.default,
-      minWidth: '110px',
-      display: 'inline-flex',
-      minHeight: '110px',
-      padding: '1em',
-      fontSize: '14px',
-      textAlign: 'center',
-      wordBreak: 'break-all',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    demo1: {
-      [theme.getBreakpoint('XSmall')]: mediaStyles
-    },
-    demo2: {
-      [theme.getBreakpoint('Small')]: mediaStyles
-    },
-    demo3: {
-      [theme.getBreakpoint('Medium')]: mediaStyles
-    },
-    demo4: {
-      [theme.getBreakpoint('Large')]: mediaStyles
-    },
-    demo5: {
-      [theme.getBreakpoint('XLarge')]: mediaStyles
-    },
-    demo6: {
-      [theme.getBreakpoint('Handset')]: mediaStyles
-    },
-    demo7: {
-      [theme.getBreakpoint('Tablet')]: mediaStyles
-    },
-    demo8: {
-      [theme.getBreakpoint('Web')]: mediaStyles
-    }
+    box: lyl `{
+      background-color: ${theme.background.primary.default}
+      min-width: 110px
+      display: inline-flex
+      min-height: 110px
+      padding: 1em
+      font-size: 14px
+      text-align: center
+      word-break: break-all
+      align-items: center
+      justify-content: center
+    }`,
+    demo1: lyl `{
+      @media ${breakpoints.XSmall} {
+        ...${mediaStyles}
+      }
+    }`,
+    demo2: lyl `{
+      @media ${breakpoints.Small} {
+        ...${mediaStyles}
+      }
+    }`,
+    demo3: lyl `{
+      @media ${breakpoints.Medium} {
+        ...${mediaStyles}
+      }
+    }`,
+    demo4: lyl `{
+      @media ${breakpoints.Large} {
+        ...${mediaStyles}
+      }
+    }`,
+    demo5: lyl `{
+      @media ${breakpoints.XLarge} {
+        ...${mediaStyles}
+      }
+    }`,
+    demo6: lyl `{
+      @media ${breakpoints.Handset} {
+        ...${mediaStyles}
+      }
+    }`,
+    demo7: lyl `{
+      @media ${breakpoints.Tablet} {
+        ...${mediaStyles}
+      }
+    }`,
+    demo8: lyl `{
+      @media ${breakpoints.Web} {
+        ...${mediaStyles}
+      }
+    }`
   };
 };
 
 @Component({
   selector: 'aui-responsive-with-ds',
-  templateUrl: './responsive-with-ds.component.html'
+  templateUrl: './responsive-with-ds.component.html',
+  providers: [
+    StyleRenderer
+  ]
 })
 export class ResponsiveWithDsComponent {
-  classes = this.theme.addStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES);
   constructor(
-    private theme: LyTheme2
+    readonly sRenderer: StyleRenderer
   ) { }
 }

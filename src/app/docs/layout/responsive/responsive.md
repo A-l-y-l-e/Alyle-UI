@@ -1,10 +1,18 @@
 # Responsive
-
 {@path /components}
 
-<p>
-  Shows or hides elements.
-</p>
+Shows or hides elements.
+
+You can use the `[display]` or `[lyStyle]` attribute to show and hide items.
+
+e.g.
+
+```html
+<!-- Only shown for tablet and web -->
+<button display="none block@Tablet@Web">Button</button>
+<button lyStyle="display:none display:block@Tablet@Web">Button</button>
+```
+
 <demo-view path="docs/layout/responsive/responsive-demo-01">
   <responsive-demo-01></responsive-demo-01>
 </demo-view>
