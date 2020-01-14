@@ -49,6 +49,7 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
       min-height: calc(100vh)
       ${classes.demo} {
         max-width: 960px
+        min-height: 100vh
         flex: 1
         padding: 96px 2rem
         width: 100%

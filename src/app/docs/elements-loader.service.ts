@@ -16,8 +16,15 @@ export class ElementsLoader {
     if (!this.registeredElements.has(path) && this.elementModulePaths.has(path)) {
       this.registeredElements.add(path);
 
-      const tempModule = await this.elementModulePaths.get(path)!();
+      const tempModule = await (
+        this.elementModulePaths.get(path)!() as Promise<NgModuleFactory<any> | Type<any> | null>
+      )
+      .catch(reason => console.error(reason));
 
+      if (!tempModule) {
+        // do nothing
+        return;
+      }
       let moduleFactory: NgModuleFactory<any>;
 
       if (tempModule instanceof NgModuleFactory) {
@@ -46,6 +53,7 @@ export class ElementsLoader {
           return customElements.whenDefined(selector);
         }));
       }
+
 
     }
   }

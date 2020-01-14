@@ -16,8 +16,15 @@
     <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 ttb0">!</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>registeredElements<span class="tt18 ttae">.</span><span class="tt18 tta3">has</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span> <span class="tt18 ttb0">&amp;&amp;</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementModulePaths<span class="tt18 ttae">.</span><span class="tt18 tta3">has</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
       <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>registeredElements<span class="tt18 ttae">.</span><span class="tt18 tta3">add</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
-      <span class="tt18 tt1j">const</span> tempModule <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">await</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementModulePaths<span class="tt18 ttae">.</span><span class="tt18 tt1j">get</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">const</span> tempModule <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">await</span> <span class="tt18 ttae">(</span>
+        <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementModulePaths<span class="tt18 ttae">.</span><span class="tt18 tt1j">get</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttb0">&lt;</span>NgModuleFactory<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span> <span class="tt18 ttb0">|</span> Type<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttb0">></span>
+      <span class="tt18 ttae">)</span>
+      <span class="tt18 ttae">.</span><span class="tt18 tt1j">catch</span><span class="tt18 ttae">(</span><span class="tt18 parameter">reason</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">error</span><span class="tt18 ttae">(</span>reason<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
+      <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 ttb0">!</span>tempModule<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 tt3o">// do nothing</span>
+        <span class="tt18 tt1j">return</span><span class="tt18 ttae">;</span>
+      <span class="tt18 ttae">&#125;</span>
       <span class="tt18 tt1j">let</span> moduleFactory<span class="tt18 ttb0">:</span> NgModuleFactory<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">;</span>
 
       <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>tempModule <span class="tt18 tt1j">instanceof</span> <span class="tt18 ttc8">NgModuleFactory</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
@@ -46,6 +53,7 @@
           <span class="tt18 tt1j">return</span> customElements<span class="tt18 ttae">.</span><span class="tt18 tta3">whenDefined</span><span class="tt18 ttae">(</span>selector<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
         <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
       <span class="tt18 ttae">&#125;</span>
+
 
     <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">&#125;</span>
