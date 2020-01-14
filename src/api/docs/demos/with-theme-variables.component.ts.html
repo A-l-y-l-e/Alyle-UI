@@ -4,41 +4,41 @@
 <span class="tt18 tt3o">/**
  * Basic style
  */</span>
-<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttae">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttb0">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 tt1j">const</span> <span class="tt18 ttae">&#123;</span> before <span class="tt18 ttae">&#125;</span> <span class="tt18 ttb0">=</span> theme<span class="tt18 ttae">;</span>
   <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 tt3o">// Style name, is optional, this is used to add a prefix to all classes,</span>
     <span class="tt18 tt3o">// it will only be seen in dev mode</span>
-    $name<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'example'</span><span class="tt18 ttae">,</span>
+    $name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'example'</span><span class="tt18 ttae">,</span>
     <span class="tt18 tt3o">// This would be like the name of the class</span>
-    demo<span class="tt18 ttae">:</span> lyl <span class="tt18 template-string"><span class="tt18 tt3z">`&#123;
+    demo<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
       border-</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>before<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">: 2px solid
       padding-</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>before<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">: .5em
       &amp;:hover &#123;
         color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>accent<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
       &#125;
-    &#125;`</span></span><span class="tt18 ttae">,</span>
-    buttonLink<span class="tt18 ttae">:</span> lyl <span class="tt18 template-string"><span class="tt18 tt3z">`&#123;
+    &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span>
+    buttonLink<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
       text-decoration: inherit
       &amp;:hover &#123;
         text-decoration: underline
       &#125;
-    &#125;`</span></span>
+    &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'aui-with-theme-variables'</span><span class="tt18 ttae">,</span>
-  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./with-theme-variables.component.html'</span><span class="tt18 ttae">,</span>
-  changeDetection<span class="tt18 ttae">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-with-theme-variables'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./with-theme-variables.component.html'</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">WithThemeVariablesComponent</span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>sRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttae">:</span> StyleRenderer</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer</span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
 <span class="tt18 ttae">&#125;</span>

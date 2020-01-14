@@ -7,22 +7,22 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Style<span class="tt18 ttae">,</span> StyleRenderer<span class="tt18 ttae">,</span> Lyl<span class="tt18 ttae">,</span> WithStyles <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span>
-  template<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'&lt;ng-content>&lt;/ng-content>'</span><span class="tt18 ttae">,</span>
-  providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span>
+  template<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'&lt;ng-content>&lt;/ng-content>'</span><span class="tt18 ttae">,</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     StyleRenderer
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">MyComponent</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">WithStyles</span> <span class="tt18 ttae">&#123;</span>
   @<span class="tt18 tta3">Input</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span>
   @Style<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">number</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttb0">></span><span class="tt18 ttae">(</span>
-    <span class="tt18 ttae">(</span><span class="tt18 parameter">value</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 template-string"><span class="tt18 tt3z">`&#123;
+    <span class="tt18 ttae">(</span><span class="tt18 parameter">value</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       font-size: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>value <span class="tt18 ttb0">||</span> <span class="tt18 ttap">14</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">px
-    &#125;`</span></span>
-  <span class="tt18 ttae">)</span> fontSize<span class="tt18 ttae">:</span> <span class="tt18 ttcj">number</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">;</span>
+    &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
+  <span class="tt18 ttae">)</span> fontSize<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttae">:</span> StyleRenderer</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer</span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>

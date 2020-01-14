@@ -15,41 +15,41 @@
 <span class="tt18 ttae">&#125;</span>
 
 @<span class="tt18 tta3">Directive</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'[with-minima-light]'</span><span class="tt18 ttae">,</span>
-  providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'[with-minima-light]'</span><span class="tt18 ttae">,</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     LyTheme2<span class="tt18 ttae">,</span>
     StyleRenderer<span class="tt18 ttae">,</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'new-minima-light'</span> <span class="tt18 ttae">&#125;</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'new-minima-light'</span> <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">WithLightTheme</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
 @<span class="tt18 tta3">Directive</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'[with-minima-dark]'</span><span class="tt18 ttae">,</span>
-  providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'[with-minima-dark]'</span><span class="tt18 ttae">,</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     LyTheme2<span class="tt18 ttae">,</span>
     StyleRenderer<span class="tt18 ttae">,</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'new-minima-dark'</span> <span class="tt18 ttae">&#125;</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'new-minima-dark'</span> <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">WithDarkTheme</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  imports<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+  imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     CommonModule<span class="tt18 ttae">,</span>
     LyCommonModule<span class="tt18 ttae">,</span>
     LyCardModule<span class="tt18 ttae">,</span>
     LyButtonModule
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
-  declarations<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+  declarations<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     MultipleThemesDemo01Component<span class="tt18 ttae">,</span>
     WithLightTheme<span class="tt18 ttae">,</span>
     WithDarkTheme
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
-  exports<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>MultipleThemesDemo01Component<span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
-  providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> NewMinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> NewMinimaDark<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span>
+  exports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>MultipleThemesDemo01Component<span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttb0">:</span> NewMinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttb0">:</span> NewMinimaDark<span class="tt18 ttae">,</span> multi<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">MultipleThemesDemo01Module</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>

@@ -47,7 +47,7 @@
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   <span class="tt18 ttb0">...</span>
-  imports<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+  imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     <span class="tt18 ttb0">...</span>
     BrowserAnimationsModule<span class="tt18 ttae">,</span>
     <span class="tt18 tt3o">// Add components</span>
@@ -57,13 +57,13 @@
     <span class="tt18 ttb0">...</span>
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   <span class="tt18 tt3o">/** Add themes */</span>
-  providers<span class="tt18 ttae">:</span> <span class="tt18 ttae">[</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     <span class="tt18 ttae">[</span> LyTheme2 <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
     <span class="tt18 ttae">[</span> StyleRenderer <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
     <span class="tt18 tt3o">// Theme that will be applied to this module</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'minima-light'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> MinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// name: `minima-light`</span>
-    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttae">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttae">:</span> MinimaDark<span class="tt18 ttae">,</span> multi<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt3o">// name: `minima-dark`</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'minima-light'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttb0">:</span> MinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// name: `minima-light`</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttb0">:</span> MinimaDark<span class="tt18 ttae">,</span> multi<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt3o">// name: `minima-dark`</span>
   <span class="tt18 ttae">]</span>
   <span class="tt18 ttb0">...</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
@@ -83,8 +83,8 @@
 <p>This applies styles using the theme variables to the <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>body</span><span class="tt18 ttae">></span></span></code> element.</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> StyleRenderer<span class="tt18 ttae">,</span> ThemeVariables<span class="tt18 ttae">,</span> lyl <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttae">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  $global<span class="tt18 ttae">:</span> lyl <span class="tt18 template-string"><span class="tt18 tt3z">`&#123;
+<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttb0">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  $global<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
     body &#123;
       background-color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>background<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
       color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>text<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
@@ -92,14 +92,14 @@
       margin: 0
       direction: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>direction<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
     &#125;
-  &#125;`</span></span>
+  &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span><span class="tt18 ttb0">...</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">AppComponent</span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>styleRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> styleRenderer<span class="tt18 ttae">:</span> StyleRenderer</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> styleRenderer<span class="tt18 ttb0">:</span> StyleRenderer</span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>

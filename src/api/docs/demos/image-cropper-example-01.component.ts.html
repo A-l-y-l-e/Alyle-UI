@@ -3,45 +3,45 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ImgCropperConfig<span class="tt18 ttae">,</span> ImgCropperEvent<span class="tt18 ttae">,</span> LyImageCropper<span class="tt18 ttae">,</span> ImgCropperErrorEvent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/image-cropper'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> styles <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  actions<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
-    display<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'flex'</span>
+  actions<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+    display<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'flex'</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-  cropping<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
-    maxWidth<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'400px'</span><span class="tt18 ttae">,</span>
-    height<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'300px'</span>
+  cropping<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+    maxWidth<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'400px'</span><span class="tt18 ttae">,</span>
+    height<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'300px'</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-  flex<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
-    flex<span class="tt18 ttae">:</span> <span class="tt18 ttap">1</span>
+  flex<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+    flex<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-  range<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
-    textAlign<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'center'</span><span class="tt18 ttae">,</span>
-    maxWidth<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'400px'</span><span class="tt18 ttae">,</span>
-    margin<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'14px'</span>
+  range<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+    textAlign<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'center'</span><span class="tt18 ttae">,</span>
+    maxWidth<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'400px'</span><span class="tt18 ttae">,</span>
+    margin<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'14px'</span>
   <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'image-cropper-example-01'</span><span class="tt18 ttae">,</span>
-  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./image-cropper-example-01.component.html'</span><span class="tt18 ttae">,</span>
-  changeDetection<span class="tt18 ttae">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush<span class="tt18 ttae">,</span>
-  preserveWhitespaces<span class="tt18 ttae">:</span> <span class="tt18 boolean">false</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'image-cropper-example-01'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./image-cropper-example-01.component.html'</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush<span class="tt18 ttae">,</span>
+  preserveWhitespaces<span class="tt18 ttb0">:</span> <span class="tt18 boolean">false</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ImageCropperExample01Component</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">AfterViewInit</span> <span class="tt18 ttae">&#123;</span>
   classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">addStyleSheet</span><span class="tt18 ttae">(</span>styles<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-  croppedImage<span class="tt18 ttb0">?</span><span class="tt18 ttae">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
-  result<span class="tt18 ttae">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
-  scale<span class="tt18 ttae">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
-  @<span class="tt18 tta3">ViewChild</span><span class="tt18 ttae">(</span>LyImageCropper<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 tt1j">static</span><span class="tt18 ttae">:</span> <span class="tt18 boolean">false</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span> cropper<span class="tt18 ttae">:</span> LyImageCropper<span class="tt18 ttae">;</span>
-  myConfig<span class="tt18 ttae">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-    autoCrop<span class="tt18 ttae">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `false`</span>
-    width<span class="tt18 ttae">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `250`</span>
-    height<span class="tt18 ttae">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `200`</span>
-    fill<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'<span style="background:#ff2997;color:white;opacity:1">#ff2997</span>'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default transparent if type = png else #000</span>
-    <span class="tt18 tt1j">type</span><span class="tt18 ttae">:</span> <span class="tt18 tt3z">'image/png'</span> <span class="tt18 tt3o">// Or you can also use `image/jpeg`</span>
+  croppedImage<span class="tt18 ttb0">?</span><span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
+  result<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
+  scale<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
+  @<span class="tt18 tta3">ViewChild</span><span class="tt18 ttae">(</span>LyImageCropper<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 tt1j">static</span><span class="tt18 ttb0">:</span> <span class="tt18 boolean">false</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span> cropper<span class="tt18 ttb0">:</span> LyImageCropper<span class="tt18 ttae">;</span>
+  myConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
+    autoCrop<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `false`</span>
+    width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `250`</span>
+    height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `200`</span>
+    fill<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'<span style="background:#ff2997;color:white;opacity:1">#ff2997</span>'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default transparent if type = png else #000</span>
+    <span class="tt18 tt1j">type</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'image/png'</span> <span class="tt18 tt3o">// Or you can also use `image/jpeg`</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> theme<span class="tt18 ttae">:</span> LyTheme2</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> theme<span class="tt18 ttb0">:</span> LyTheme2</span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">ngAfterViewInit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
@@ -50,10 +50,10 @@
     <span class="tt18 tt3o">// this is supported only for browsers</span>
     <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>Platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
       <span class="tt18 tt1j">const</span> config <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-        scale<span class="tt18 ttae">:</span> <span class="tt18 ttap">0.745864772531767</span><span class="tt18 ttae">,</span>
-        position<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
-          x<span class="tt18 ttae">:</span> <span class="tt18 ttap">642.380608078103</span><span class="tt18 ttae">,</span>
-          y<span class="tt18 ttae">:</span> <span class="tt18 ttap">236.26357452128866</span>
+        scale<span class="tt18 ttb0">:</span> <span class="tt18 ttap">0.745864772531767</span><span class="tt18 ttae">,</span>
+        position<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+          x<span class="tt18 ttb0">:</span> <span class="tt18 ttap">642.380608078103</span><span class="tt18 ttae">,</span>
+          y<span class="tt18 ttb0">:</span> <span class="tt18 ttap">236.26357452128866</span>
         <span class="tt18 ttae">&#125;</span>
       <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
       <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">setImageUrl</span><span class="tt18 ttae">(</span>
@@ -69,15 +69,15 @@
 
   <span class="tt18 ttae">&#125;</span>
 
-  <span class="tt18 tta3">onCropped</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttae">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tta3">onCropped</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>croppedImage <span class="tt18 ttb0">=</span> e<span class="tt18 ttae">.</span>dataURL<span class="tt18 ttae">;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'cropped img: '</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
-  <span class="tt18 tta3">onloaded</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttae">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tta3">onloaded</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'img loaded'</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
-  <span class="tt18 tta3">onerror</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttae">:</span> ImgCropperErrorEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">warn</span><span class="tt18 ttae">(</span><span class="tt18 template-string"><span class="tt18 tt3z">`'</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>e<span class="tt18 ttae">.</span>name<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">' is not a valid image`</span></span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tta3">onerror</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperErrorEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">warn</span><span class="tt18 ttae">(</span><span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">'</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>e<span class="tt18 ttae">.</span>name<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">' is not a valid image</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
 <span class="tt18 ttae">&#125;</span>

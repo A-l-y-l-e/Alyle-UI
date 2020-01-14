@@ -4,27 +4,27 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> DomSanitizer <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/platform-browser'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> styles <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  icon<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
-    marginAfter<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'.5em'</span>
+  icon<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+    marginAfter<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'.5em'</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-  iconLarge<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
-    fontSize<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'48px'</span>
+  iconLarge<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+    fontSize<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'48px'</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-  iconExtraLarge<span class="tt18 ttae">:</span> <span class="tt18 ttae">&#123;</span>
-    fontSize<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'72px'</span>
+  iconExtraLarge<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+    fontSize<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'72px'</span>
   <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  selector<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'aui-icons'</span><span class="tt18 ttae">,</span>
-  templateUrl<span class="tt18 ttae">:</span> <span class="tt18 tt3z">'./icons.component.html'</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-icons'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./icons.component.html'</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">IconsComponent</span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_theme<span class="tt18 ttae">.</span><span class="tt18 tta3">addStyleSheet</span><span class="tt18 ttae">(</span>styles<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> _theme<span class="tt18 ttae">:</span> LyTheme2<span class="tt18 ttae">,</span>
-    icon<span class="tt18 ttae">:</span> LyIconService<span class="tt18 ttae">,</span>
-    sanitizer<span class="tt18 ttae">:</span> DomSanitizer<span class="tt18 ttae">,</span></span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> _theme<span class="tt18 ttb0">:</span> LyTheme2<span class="tt18 ttae">,</span>
+    icon<span class="tt18 ttb0">:</span> LyIconService<span class="tt18 ttae">,</span>
+    sanitizer<span class="tt18 ttb0">:</span> DomSanitizer<span class="tt18 ttae">,</span></span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 tt3o">// Url SVG icon: ./assets/svg/rocket.svg</span>
     <span class="tt18 tt3o">// Do not require extension name</span>
@@ -36,7 +36,7 @@
 <span class="tt18 ttae">&#125;</span>
 
 <span class="tt18 tt3o">// tslint:disable</span>
-<span class="tt18 tt1j">const</span> labSvgIcon <span class="tt18 ttb0">=</span> <span class="tt18 template-string"><span class="tt18 tt3z">`&lt;?xml version="1.0" encoding="utf-8"?>
+<span class="tt18 tt1j">const</span> labSvgIcon <span class="tt18 ttb0">=</span> <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&lt;?xml version="1.0" encoding="utf-8"?>
 &lt;!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 &lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 &lt;svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -50,5 +50,5 @@
     &lt;circle cx="29" cy="8" r="1" />
   &lt;/g>
 &lt;/svg>
-`</span></span><span class="tt18 ttae">;</span>
+</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">;</span>
 </code></pre>
