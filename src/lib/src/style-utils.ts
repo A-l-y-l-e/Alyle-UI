@@ -135,22 +135,23 @@ function get(obj: Object, path: string[] | string, optional?: string): Color {
   // return typeof obj === 'string' ? obj as string : obj['default'] as string;
 }
 
-// export type MediaQueryArray = (
-//   string | number | (number | string| (string | number)[])[]
-// )[];
+export type MediaQueryArray = (
+  (number | string | [(string | number), string])
+)[];
+
 
 export function eachMedia(
-  str: string | number,
+  str: string | number | MediaQueryArray,
   fn: ((val: string | number, media: string | null, index: number) => void)
 ): void;
 export function eachMedia(
-  str: string | number,
-  fn: ((val: string | number, media: string | null, index: number) => void),
+  str: string | number | MediaQueryArray,
+  fn: ((val: string | number, media: string | null, index: number) => StyleTemplate),
   styleCollection: boolean
 ): StyleTemplate;
 export function eachMedia(
-  str: string | number,
-  fn: ((val: string | number, media: string | null, index: number) => void),
+  str: string | number | MediaQueryArray,
+  fn: ((val: string | number, media: string | null, index: number) => (void | StyleTemplate)),
   withStyleCollection?: boolean
 ): StyleTemplate | void {
   let styleCollection: StyleCollection | undefined;
@@ -158,7 +159,7 @@ export function eachMedia(
     styleCollection = new StyleCollection();
   }
   if (typeof str === 'string') {
-    const values = str.split(/\s/g);
+    const values = str.split(/\ /g);
     for (let index = 0; index < values.length; index++) {
       const valItem = values[index].split(/\@/g);
       const strValue = valItem.shift()!;
@@ -166,28 +167,51 @@ export function eachMedia(
       const value = isNaN(+strValue) ? strValue : +strValue;
       if (len) {
         for (let j = 0; j < len; j++) {
-          const st = fn.call(undefined, value, valItem[j], index);
-          if (styleCollection) {
-            styleCollection.add(st);
-          }
+          resolveMediaEachItemStyle(fn, value, valItem[j], index, styleCollection);
         }
       } else {
-        const st = fn.call(undefined, value, null, index);
-        if (styleCollection) {
-          styleCollection.add(st);
+        resolveMediaEachItemStyle(fn, value, null, index, styleCollection);
+      }
+    }
+  } else if (Array.isArray(str)) {
+    for (let index = 0; index < str.length; index++) {
+      const val = str[index];
+      if (typeof val === 'number' || typeof val === 'string') {
+        resolveMediaEachItemStyle(fn, val, null, index, styleCollection);
+      } else {
+        const medias = val[1].split(/\@/g).filter(media => media);
+        const strValue = val[0];
+        const len = medias.length;
+        if (len) {
+          for (let ii = 0; ii < len; ii++) {
+            resolveMediaEachItemStyle(fn, strValue, medias[ii], index, styleCollection);
+          }
+        } else {
+          resolveMediaEachItemStyle(fn, strValue, null, index, styleCollection);
         }
       }
     }
   } else {
-    const st = fn.call(undefined, str, null, 0);
-    if (styleCollection) {
-      styleCollection.add(st);
-    }
+    resolveMediaEachItemStyle(fn, str, null, 0, styleCollection);
   }
   if (styleCollection) {
     return styleCollection.css;
   }
 }
+
+function resolveMediaEachItemStyle(
+  fn: (val: string | number, media: string | null, index: number) => void | StyleTemplate,
+  val: string | number,
+  media: string | null,
+  index: number,
+  styleCollection?: StyleCollection
+) {
+  const styl = fn(val, media, index);
+  if (styleCollection && styl) {
+    styleCollection.add(styl);
+  }
+}
+
 /**
  * Simple object check.
  * @param item

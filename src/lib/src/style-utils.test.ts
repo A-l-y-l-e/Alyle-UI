@@ -1,5 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
-import { eachMedia } from './style-utils';
+import { eachMedia, MediaQueryArray } from './style-utils';
 
 const test = anyTest as TestInterface<Context>;
 
@@ -39,8 +39,22 @@ test('eachMedia: display:none display:block@Large@XLarge', t => {
   ]);
 });
 
+test(`eachMedia: []`, t => {
+  const media = toMedia([]);
+  t.deepEqual(media, []);
+});
 
-function toMedia(str: string) {
+test(`eachMedia: [8, [12, '@XSmall@Small']]`, t => {
+  const media = toMedia([8, [12, '@XSmall@Small']]);
+  t.deepEqual(media, [[8, null], [12, 'XSmall'], [12, 'Small']]);
+});
+
+test(`eachMedia: ['color:blue']`, t => {
+  const media = toMedia(['color:blue']);
+  t.deepEqual(media, [['color:blue', null]]);
+});
+
+function toMedia(str: string | MediaQueryArray) {
   const arr: [string | number | (string | number)[], string | null][] = [];
   eachMedia(str, (val, media) => arr.push([val, media]));
   return arr;

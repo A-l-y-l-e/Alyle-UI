@@ -1,6 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { lyl, StyleTemplate } from '../parse';
-import { eachMedia } from '../style-utils';
+import { eachMedia, MediaQueryArray } from '../style-utils';
 import { StyleRenderer, Style, WithStyles } from '../minimal/renderer-style';
 import { ThemeRef } from './theme2.service';
 import { ThemeVariables } from './theme-config';
@@ -277,20 +277,21 @@ export class LyStyle implements WithStyles {
   get lyStyle() {
     return this._lyStyle;
   }
-  set lyStyle(val: string | ((theme: any, ref: ThemeRef) => StyleTemplate) | null) {
+  set lyStyle(val: string | MediaQueryArray | ((theme: any, ref: ThemeRef) => StyleTemplate) | null) {
     if (typeof val === 'function') {
-      this.sRenderer.add(val);
+      this[0xa] = this.sRenderer.add(val, this[0xa]);
     } else if (val != null) {
       this[0xa] = this.sRenderer.add(
         `${LyStyle.и}--style-${val}`,
         ({breakpoints}: ThemeVariables) => eachMedia(val!, (v, media) => (
           lyl `{
-            @media ${(media && breakpoints[media]) || 'all'} {
+            @media ${(media && (breakpoints[media] || media)) || 'all'} {
               ${v}
             }
           }`
         ), true),
-        STYLE_PRIORITY
+        STYLE_PRIORITY,
+        this[0xa]
       );
     } else {
       this.sRenderer.removeClass(this[0xa]);

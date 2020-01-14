@@ -48,7 +48,7 @@ export const AUIRoutes: {
     route: 'components',
     routes: [
       { route: 'grid', api: true , name: 'Grid' },
-      { route: 'responsive', api: true , name: 'Responsive' },
+      { route: 'responsive' , name: 'Responsive' },
       { route: 'tabs', api: true , name: 'Tabs' }
     ].sort(sort)
   },
