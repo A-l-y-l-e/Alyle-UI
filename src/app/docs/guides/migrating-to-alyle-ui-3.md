@@ -122,7 +122,10 @@ const styles = (theme: ThemeVariables) => ({
 
 The Image Cropper had a bad name and was very long. That's why we now rename `LyResizingCroppingImages` to `LyImageCropper` & `@alyle/ui/resizing-cropping-images` to `@alyle/ui/image-cropper`. The selector can be used both <code class="html"><ly-img-cropper></code> and <code class="html"><ly-image-cropper></code>
 
+## `LyResponsibleModule` is deprecated
 
+`LyResponsibleModule` is deprecated, use `LyCommonModule` instead, more details [here](/components/responsive).
 
+## Questions?
 
-
+Do you have questions? join the chat at [Discord](https://discord.gg/65hMpAJ)
