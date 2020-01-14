@@ -16,7 +16,7 @@ e.g.
 <button display="none block@Tablet@Web">Button</button>
 <button lyStyle="display:none display:block@Tablet@Web">Button</button>
 
-<button lyStyle="[
+<button [lyStyle]="[
   'display:none',
   ['display:block', '(max-width: 599.99px)']
 ]">Button</button>
