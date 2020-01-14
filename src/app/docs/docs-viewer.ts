@@ -81,9 +81,7 @@ export class DocViewer {
       this._path = val;
       if (val !== '/' && val !== '') {
         this.docContents$.emit(val);
-        console.log({path: val});
       } else {
-        console.log('is home, therefore cleaning');
         this.setTitle();
         this.setNoIndex(false);
         this.hostElement.innerHTML = '';
@@ -131,7 +129,6 @@ export class DocViewer {
   }
 
   render(path: string) {
-    console.log('rendering doc');
     this.isLoading.emit(!initialDocViewerContent);
     if (!initialDocViewerContent) {
       this.hostElement.innerHTML = '';
