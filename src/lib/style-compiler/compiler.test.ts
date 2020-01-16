@@ -436,7 +436,13 @@ test(`with comments`, async t => {
   style('.y');
   `);
   t.is(css, `.y .a{color:blue;}`);
-  t.is(lyl `${styleContent}`('.y'), `.y .a{color:blue;}`);
+  t.log(styleContent);
+  t.is(lyl `{
+    // Color blue
+    .a {
+      color: blue
+    }
+  }`('.y'), `.y .a{color:blue;}`);
 });
 test(`media queries with inheritance style`, async t => {
 

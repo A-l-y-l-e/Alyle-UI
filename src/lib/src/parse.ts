@@ -2,7 +2,7 @@ import { Color } from '@alyle/ui/color';
 
 const LINE_FEED_REGEX = () => /(\n?[^\n]+\n?)/g;
 const AMPERSAND_REGEX = () => /&/g;
-const STYLE_TEMPLATE_REGEX = () => /StyleTemplate\[[\w]+\]/g;
+const STYLE_TEMPLATE_REGEX = () => /__LY_EXPRESSION__\[[\w]+\]/g;
 let id: number = 0;
 
 /**
@@ -240,7 +240,8 @@ export type StyleTemplate = (className: string) => string;
 export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | null | undefined)[]) {
   return (className: string) => {
     let result = '';
-    const dsMap = new Map<string, (StyleTemplate) | StyleCollection>();
+    // Save expressions
+    const exMap: {[key: string]: string} = {};
     for (let i = 0; i < placeholders.length; i++) {
       const placeholder = placeholders[i];
       result += literals[i];
@@ -249,30 +250,25 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
         if (typeof placeholder === 'function'
           || placeholder instanceof StyleCollection
         ) {
-          const newID = createUniqueId();
-          dsMap.set(newID, placeholder);
-          result += newID;
+          result += `${createUniqueCommentSelector('ds')}${st2c(placeholder, '||&||')}`;
         }
       } else {
-        result += placeholder;
+        const newID = `__LY_EXPRESSION__[__${(id++).toString(36)}]`;
+        result += newID;
+        exMap[newID] = `${placeholder}`;
       }
     }
 
     // add the last literal
     result += literals[literals.length - 1];
-    const css = result.replace(STYLE_TEMPLATE_REGEX(), (str) => {
-      if (dsMap.has(str)) {
-        const fn = dsMap.get(str)!;
-        return `${createUniqueCommentSelector('ds')}${st2c(fn, '||&||')}`;
+    const css = new LylParse(result, className).toCss();
+    return css.replace(STYLE_TEMPLATE_REGEX(), (str) => {
+      if (str in exMap) {
+        return exMap[str];
       }
       return '';
     });
-    return new LylParse(css, className).toCss();
   };
-}
-
-function createUniqueId() {
-  return `StyleTemplate[__${(id++).toString(36)}]`;
 }
 
 function createUniqueCommentSelector(text = 'id') {
