@@ -105,13 +105,13 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
           }
         }
         return lyl `{
-          color: ${sColor}
-          background: ${sBackground}
-          border: ${sBorder}
-          pointer-events: ${sPointerEvents}
-          box-shadow: ${sBoxShadow}
+          ${sColor ? 'color:' + sColor : ''}
+          ${sBackground ? 'background:' + sBackground : ''}
+          ${sBorder ? 'border:' + sBorder : ''}
+          ${sPointerEvents ? 'pointer-events:' + sPointerEvents : ''}
+          ${sBoxShadow ? 'box-shadow:' + sBoxShadow : ''}
           &:active {
-            box-shadow: ${sBoxShadowActive}
+            ${sBoxShadowActive ? 'box-shadow:' + sBoxShadowActive : ''}
           }
         }`;
       }, STYLE_PRIORITY);
