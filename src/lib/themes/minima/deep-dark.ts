@@ -6,16 +6,16 @@ const shadow = new Color(0, 0, 0, 1);
 export class MinimaDeepDark extends MinimaDark implements ThemeConfig {
   name = 'minima-deep-dark';
   background = {
-    default: new Color(0x161616), // secondary
+    default: new Color(24, 24, 24), // secondary
     primary: {
-      default: new Color(0x101010),
+      default: new Color(16, 16, 16),
       shadow
     },
-    secondary: new Color(0x161616),
-    tertiary: new Color(0x1b1b1b),
+    secondary: new Color(24, 24, 24),
+    tertiary: new Color(32, 32, 32),
   };
   paper = {
-    default: new Color(0x101010),
+    default: new Color(16, 16, 16),
     shadow
   };
   // field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
