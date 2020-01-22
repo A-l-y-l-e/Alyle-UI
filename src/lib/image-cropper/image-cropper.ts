@@ -282,6 +282,7 @@ export class LyImageCropper implements OnDestroy {
   @Output() readonly error = new EventEmitter<ImgCropperErrorEvent>();
 
   private _defaultType?: string;
+  private _currentInputElement?: HTMLInputElement;
   constructor(
     private _renderer: Renderer2,
     private theme: LyTheme2,
@@ -347,6 +348,7 @@ export class LyImageCropper implements OnDestroy {
   }
 
   selectInputEvent(img: Event) {
+    this._currentInputElement = img.target as HTMLInputElement;
     const _img = img.target as HTMLInputElement;
     if (_img.files && _img.files.length !== 1) {
       return;
@@ -590,6 +592,11 @@ export class LyImageCropper implements OnDestroy {
 
   /** Clean the img cropper */
   clean() {
+    // fix choosing the same image does not load
+    if (this._currentInputElement) {
+      this._currentInputElement.value = '';
+      this._currentInputElement = null!;
+    }
     if (this.isLoaded) {
       this._imgRect = { } as any;
       this.offset = undefined;
