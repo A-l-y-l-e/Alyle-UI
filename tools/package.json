@@ -1,0 +1,10 @@
+{
+  "name": "tools",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@alyle/ui": "^2.9.8-nightly.2001172359"
+  }
+}
