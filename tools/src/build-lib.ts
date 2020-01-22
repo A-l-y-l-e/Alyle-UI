@@ -1,5 +1,3 @@
-import { allComponents } from './prepare-lib';
-import { spawn } from 'child_process';
 const replace = require('replace-in-file');
 
 
