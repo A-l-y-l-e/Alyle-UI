@@ -5,8 +5,8 @@
   <p>If you are new using the Alyle UI, ignore this.</p>
 </blockquote>
 <h2 id="using-alyleuicolor-instead-chromajs">Using <code class="ttm ttx">@alyle/ui/color</code> instead <code class="ttm ttx">chroma.js</code></h2>
-<p>Alyle UI components no longer use Chroma js, instead use <a href="./customization/color"><code class="ttm ttx">Color</code></a>. <a href="./customization/color"><code class="ttm ttx">Color</code></a> is an Alyle UI library, with basic functions to manipulate color.</p>
-<p>Now the colors defined in the themes are no longer a strings, to define a color you can use <a href="./customization/color"><code class="ttm ttx">Color</code></a>.</p>
+<p>Alyle UI components no longer use Chroma js, instead use <a href="./customization/color"><code class="ttm ttx">color</code></a>. <a href="./customization/color"><code class="ttm ttx">color</code></a> is an Alyle UI library, with basic functions to manipulate color.</p>
+<p>Now the colors defined in the themes are no longer a strings, to define a color you can use <a href="./customization/color"><code class="ttm ttx">color</code></a>.</p>
 <p>Before:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">CustomMinimaLight</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">PartialThemeVariables</span> <span class="tt18 ttae">&#123;</span>
   name <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">'minima-light'</span><span class="tt18 ttae">;</span>
@@ -100,5 +100,28 @@
 <p>The Image Cropper had a bad name and was very long. That's why we now rename <code class="ttm ttx">LyResizingCroppingImages</code> to <code class="ttm ttx">LyImageCropper</code> &amp; <code class="ttm ttx">@alyle/ui/resizing-cropping-images</code> to <code class="ttm ttx">@alyle/ui/image-cropper</code>. The selector can be used both <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-img-cropper</span><span class="tt18 ttae">></span></span></code> and <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-image-cropper</span><span class="tt18 ttae">></span></span></code></p>
 <h2 id="lyresponsiblemodule-is-deprecated"><code class="ttm ttx">LyResponsibleModule</code> is deprecated</h2>
 <p><code class="ttm ttx">LyResponsibleModule</code> is deprecated, use <code class="ttm ttx">LyCommonModule</code> instead, more details <a href="/components/responsive">here</a>.</p>
+<h2 id="rename-width-and-height-of-drawer">Rename <code class="ttm ttx">[width]</code> and <code class="ttm ttx">[height]</code> of Drawer</h2>
+<p>Since there is a directive with the inputs <code class="ttm ttx">width</code> and <code class="ttm ttx">height</code> this brings a conflict with the drawer component, therefore, it is necessary to rename these entries as seen below.</p>
+<p>From <code class="ttm ttx">[width]</code> to <code class="ttm ttx">[drawerWidth]</code> and from <code class="ttm ttx">[height]</code> to <code class="ttm ttx">[drawerHeight]</code>.</p>
+<p>before:</p>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-drawer</span> <span class="tt18 ttbx">ly-paper</span>
+  <span class="tt18 ttbx">[width]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span><span class="tt18 ttae">'</span>230px 0@XSmall'<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">bg</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>background:primary<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[withClass]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>classes.drawer<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[opened]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>currentRoutePath !== ''<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[mode]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>currentRoutePath !== '' ? 'side' : 'over'<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[spacingAbove]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>currentRoutePath !== '' ? '64px 56px@XSmall' : 0<span class="tt18 ttae">"</span></span>
+<span class="tt18 ttae">></span></span>
+</code></pre>
+<p>after:</p>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-drawer</span> <span class="tt18 ttbx">ly-paper</span>
+  <span class="tt18 ttbx">[drawerWidth]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span><span class="tt18 ttae">'</span>230px 0@XSmall'<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">bg</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>background:primary<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[withClass]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>classes.drawer<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[opened]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>currentRoutePath !== ''<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[mode]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>currentRoutePath !== '' ? 'side' : 'over'<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[spacingAbove]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>currentRoutePath !== '' ? '64px 56px@XSmall' : 0<span class="tt18 ttae">"</span></span>
+<span class="tt18 ttae">></span></span>
+</code></pre>
 <h2 id="questions">Questions?</h2>
 <p>Do you have questions? join the chat at <a href="https://discord.gg/65hMpAJ">Discord</a></p>

@@ -6,9 +6,9 @@ Alyle UI 3 has significant changes, so it requires some changes in its code.
 
 ## Using `@alyle/ui/color` instead `chroma.js`
 
-Alyle UI components no longer use Chroma js, instead use [`Color`](./customization/color). [`Color`](./customization/color) is an Alyle UI library, with basic functions to manipulate color.
+Alyle UI components no longer use Chroma js, instead use [`color`](./customization/color). [`color`](./customization/color) is an Alyle UI library, with basic functions to manipulate color.
 
-Now the colors defined in the themes are no longer a strings, to define a color you can use [`Color`](./customization/color).
+Now the colors defined in the themes are no longer a strings, to define a color you can use [`color`](./customization/color).
 
 Before:
 
@@ -125,6 +125,38 @@ The Image Cropper had a bad name and was very long. That's why we now rename `Ly
 ## `LyResponsibleModule` is deprecated
 
 `LyResponsibleModule` is deprecated, use `LyCommonModule` instead, more details [here](/components/responsive).
+
+## Rename `[width]` and `[height]` of Drawer
+
+Since there is a directive with the inputs `width` and `height` this brings a conflict with the drawer component, therefore, it is necessary to rename these entries as seen below.
+
+From `[width]` to `[drawerWidth]` and from `[height]` to `[drawerHeight]`.
+
+before:
+
+```html
+<ly-drawer ly-paper
+  [width]="'230px 0@XSmall'"
+  bg="background:primary"
+  [withClass]="classes.drawer"
+  [opened]="currentRoutePath !== ''"
+  [mode]="currentRoutePath !== '' ? 'side' : 'over'"
+  [spacingAbove]="currentRoutePath !== '' ? '64px 56px@XSmall' : 0"
+>
+```
+
+after:
+
+```html
+<ly-drawer ly-paper
+  [drawerWidth]="'230px 0@XSmall'"
+  bg="background:primary"
+  [withClass]="classes.drawer"
+  [opened]="currentRoutePath !== ''"
+  [mode]="currentRoutePath !== '' ? 'side' : 'over'"
+  [spacingAbove]="currentRoutePath !== '' ? '64px 56px@XSmall' : 0"
+>
+```
 
 ## Questions?
 

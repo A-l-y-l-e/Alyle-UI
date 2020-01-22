@@ -194,9 +194,9 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
 
   @Input() spacingAfter: string | number;
 
-  @Input() width: number | string;
+  @Input() drawerWidth: number | string;
 
-  @Input() height: number | string;
+  @Input() drawerHeight: number | string;
 
   @Input()
   get hasBackdrop() {
@@ -242,8 +242,8 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
     const __mode = this.mode;
     const __forceModeOverOpened = this._forceModeOverOpened;
     const __opened = this.opened;
-    let __width = this.width;
-    const __height = this.height;
+    let __width = this.drawerWidth;
+    const __height = this.drawerHeight;
     const __position = this.position;
 
     const __spacingAbove = this.spacingAbove;
@@ -328,7 +328,7 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
       if (__width) {
         const dirXSign = pos === DirPosition.left ? '-' : '+';
         eachMedia(__width, (val, media) => {
-          if ((__mode === 'over' || __forceModeOverOpened) && (val === '0' || val === 'over')) {
+          if ((__mode === 'over' || __forceModeOverOpened) && (val === 0 || val === 'over')) {
             return;
           }
           const newVal = val === 'over' ? '0px' : toPx(val);

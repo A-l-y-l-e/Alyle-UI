@@ -8,7 +8,12 @@ import { LyCommonModule } from '@alyle/ui';
     CommonModule,
     LyCommonModule
   ],
-  exports: [LyDrawer, LyDrawerContainer, LyDrawerContent],
+  exports: [
+    LyDrawer,
+    LyDrawerContainer,
+    LyDrawerContent,
+    LyCommonModule
+  ],
   declarations: [LyDrawer, LyDrawerContainer, LyDrawerContent],
 })
 export class LyDrawerModule {}

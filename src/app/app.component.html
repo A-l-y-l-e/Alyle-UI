@@ -52,7 +52,7 @@
     #nav="lyDrawer"
     [opened]="currentRoutePath !== ''"
     [mode]="currentRoutePath !== '' ? 'side' : 'over'"
-    [spacingAbove]="currentRoutePath !== '' ? '64px 56px@XSmall' : '0'"
+    [spacingAbove]="currentRoutePath !== '' ? '64px 56px@XSmall' : 0"
   >
     <ul *ngFor="let category of routes" [withClass]="classes.drawerUl">
       <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
