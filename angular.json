@@ -12,11 +12,8 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "customWebpackConfig": {
-              "path": "./dist/tools/html-loader/extra-webpack.config.js"
-            },
             "outputPath": "dist/alyle-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -75,7 +72,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "alyle-ui:build",
             "hmrWarning": false
@@ -143,11 +140,8 @@
           }
         },
         "server": {
-          "builder": "@angular-builders/custom-webpack:server",
+          "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "customWebpackConfig": {
-              "path": "./dist/tools/html-loader/extra-webpack.config.js"
-            },
             "outputPath": "dist/alyle-ui-server",
             "main": "src/main.server.ts",
             "tsConfig": "tsconfig.server.json"

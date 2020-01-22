@@ -12,14 +12,6 @@
     node-fetch "^2.1.1"
     rxjs "^5.5.6"
 
-"@angular-builders/custom-webpack@^8.0.2":
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/@angular-builders/custom-webpack/-/custom-webpack-8.1.0.tgz#63a3b7ada2cd01a0c02db4e7d18f52cfbaa62678"
-  integrity sha512-5JOrq+J6BhCG8VK8R4vdWfEFXBeNfH32U/3CfAzb3YxnKpPJgNmyPMy+wnK0byLJKIp3IsF5rkpq43d/ZyPRaw==
-  dependencies:
-    lodash "^4.17.10"
-    webpack-merge "^4.2.1"
-
 "@angular-devkit/architect@0.803.20":
   version "0.803.20"
   resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.803.20.tgz#792093259d69012c0763aa9176181b255d8795c8"
@@ -11934,7 +11926,7 @@ webpack-log@^2.0.0:
     ansi-colors "^3.0.0"
     uuid "^3.3.2"
 
-webpack-merge@4.2.1, webpack-merge@^4.2.1:
+webpack-merge@4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.2.1.tgz#5e923cf802ea2ace4fd5af1d3247368a633489b4"
   integrity sha512-4p8WQyS98bUJcCvFMbdGZyZmsKuWjWVnVHnAS3FFg0HDaRVrPbkivx2RYCre8UiemD67RsiFFLfn4JhLAin8Vw==
