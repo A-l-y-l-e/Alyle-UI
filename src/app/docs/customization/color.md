@@ -9,10 +9,16 @@
 ```ts
 import { color } from '@alyle/ui/color';
 
-const Yellow = color(255, 255, 0);
-const Black  = color(0);
-const White  = color(0xffffff);
-const Text   = color(0, 0, 0, .87);
+const Yellow = color(255, 255, 0);  // rgb
+const Black  = color(0);            // number
+const White  = color(0xffffff);     // hex
+const Text   = color(0, 0, 0, .87); // rgba
+```
+
+Note that a 6-digit hexadecimal is different from a 3-digit hexadecimal.
+
+```ts
+color(0xffffff).css() !== color(0xfff).css(); // true
 ```
 
 ## How to use `color`

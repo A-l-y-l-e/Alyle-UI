@@ -1,7 +1,11 @@
 import * as showdown from 'showdown';
 import { prism } from './prism';
 import { prismCustomClass } from './prism-custom-class';
+import * as domino from 'domino';
+import { color } from '@alyle/ui/color';
+import { lyl } from '@alyle/ui';
 
+global['color'] = color;
 showdown.extension('custom', function() {
   return [{
     type: 'output',
@@ -22,6 +26,15 @@ showdown.extension('custom', function() {
           (s, p) => s.replace(p, '')
         );
       return text;
+    }
+  }];
+});
+
+showdown.extension('highlightColors', function() {
+  return [{
+    type: 'output',
+    filter: function(text) {
+      return highlightColors(text);
     }
   }];
 });
@@ -69,7 +82,7 @@ export default function (markdown: string) {
 
 export function mdToHtml(markdown: string) {
   const converter = new showdown.Converter({
-    extensions: ['custom', 'prism'],
+    extensions: ['custom', 'prism', 'highlightColors'],
     strikethrough: true,
     ghCompatibleHeaderId: true
   });
@@ -79,13 +92,47 @@ export function mdToHtml(markdown: string) {
   return html;
 }
 
+function highlightColors(content: string) {
+  if (content.includes('color')) {
+    if (/<span[^>]+.color[^\(]+\([^\)]+\)<\/span>/.test(content)) {
+      content = content.replace(/<span[^>]+.color[^\(]+\([^\)]+\)<\/span>/g, (item) => {
+        const html = domino.createWindow(item);
+        const el = html.document.body;
+        if (el && el.textContent) {
+          const text = el.textContent;
+          const colorRgx = /color\(((?:[0-9]+)|(?:0x[a-f]+)|(?:[0-9]+, [0-9]+, [0-9]+(?:, [.0-9]+)?))\)/g.exec(text);
+          if (colorRgx) {
+            // tslint:disable-next-line: no-eval
+            const rgba = color(...eval(`${colorRgx[0]}.rgba()`));
+            const lum = rgba.luminance();
+            const id = `_${Math.floor(Math.random() * Date.now()).toString(36)}`;
+            const styl = lyl `{
+              & {
+                background: ${rgba.css()}
+                opacity: ${rgba.alpha()}
+              }
+              * {
+                color: ${lum < 0.5 ? 'white' : '#202020'} !important
+              }
+            }`(`.${id}`);
+            return `<style>${styl}</style><span class="${id}">${item}</span>`;
+          }
+        }
+        return item;
+      });
+    }
+  }
+  return content;
+}
+
 /**
  * Convert code to highlighted HTML
  */
 export function highlight(code: string, lang: string | null, inline?: boolean): string {
   const classes = prismCustomClass();
-  code = escape((lang && prism.languages[lang])
-    ? prism.highlight(code, prism.languages[lang], lang)
+  const gramar = lang ? prism.languages[lang] : null;
+  code = escape((gramar)
+    ? prism.highlight(code, gramar, lang!)
     : htmlEncode(code));
   if (inline) {
     // Preserve white spaces
