@@ -3,4 +3,5 @@
 set -e -o pipefail
 
 source ./ci/setup.sh
-node_modules/.bin/ava --tap | txunit > dist/test-results.xml
+mkdir dist -p
+ava --tap | txunit > dist/test-results.xml
