@@ -756,7 +756,7 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
 
   /** The color of Select */
   get _color() {
-    return this._select._selectionModel.isSelected(this) ? this._select._field.color : '';
+    return this._select._selectionModel.isSelected(this) ? this._select._field.color : null;
   }
 
   get isSelected(): boolean {
