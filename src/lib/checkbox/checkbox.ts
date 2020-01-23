@@ -30,7 +30,9 @@ import {
   LY_COMMON_STYLES,
   StyleCollection,
   LyClasses,
-  StyleTemplate
+  StyleTemplate,
+  Style,
+  WithStyles
   } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 
@@ -203,7 +205,7 @@ export const LyCheckboxMixinBase = mixinDisableRipple(LyCheckboxBase);
     'disableRipple'
   ]
 })
-export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
+export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
   /** @ignore */
   static readonly и = 'LyCheckbox';
   /**
@@ -225,24 +227,20 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
   @Input() value: string;
 
   @Input()
-  get color(): string {
-    return this._color;
-  }
-  set color(val: string) {
-    if (val !== this.color) {
-      this._color = val;
-      this._colorClass = this._styleRenderer.add(
-        `${LyCheckbox.и}--color-${val}`,
-        (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRef) => {
-          const checkbox = ref.selectorsOf(STYLES);
-          const color = theme.colorOf(val);
-          if (theme.checkbox && theme.checkbox.color) {
-            return theme.checkbox.color(checkbox, color);
-          }
-          throw new Error(`${LyCheckbox.и}: styles theme.checkbox.color is undefined`);
-      }, STYLE_PRIORITY, this._colorClass);
+  @Style<string | null>(
+    val => (
+      theme: ThemeVariables & LyCheckboxVariables,
+      ref: ThemeRef
+    ) => {
+      const checkbox = ref.selectorsOf(STYLES);
+      const color = theme.colorOf(val);
+      if (theme.checkbox && theme.checkbox.color) {
+        return theme.checkbox.color(checkbox, color);
+      }
+      throw new Error(`${LyCheckbox.и}: styles theme.checkbox.color is undefined`);
     }
-  }
+  , STYLE_PRIORITY)
+  color: string | null;
 
   /**
    * Whether the checkbox is checked.
@@ -303,7 +301,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements ControlValueAcces
     private _renderer: Renderer2,
     private _changeDetectorRef: ChangeDetectorRef,
     private _focusState: LyFocusState,
-    private _styleRenderer: StyleRenderer,
+    readonly sRenderer: StyleRenderer,
     ngZone: NgZone
   ) {
     super(_theme, ngZone);
