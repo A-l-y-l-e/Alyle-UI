@@ -16,6 +16,7 @@ import {
   LY_THEME_GLOBAL_VARIABLES,
   PartialThemeVariables
 } from '@alyle/ui';
+import { color } from '@alyle/ui/color';
 
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
@@ -26,12 +27,12 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 export class CustomMinimaLight implements PartialThemeVariables {
   name = 'minima-light';
   primary = {
-    default: '#2196f3',
-    contrast: '#fff'
+    default: color(0x2196f3),
+    contrast: color(0xffffff)
   };
   accent = {
-    default: '#e91e63',
-    contrast: '#fff'
+    default: color(0xe91e63),
+    contrast: color(0xffffff)
   };
 }
 
@@ -42,12 +43,12 @@ export class CustomMinimaLight implements PartialThemeVariables {
 export class CustomMinimaDark implements PartialThemeVariables {
   name = 'minima-dark';
   primary = {
-    default: '#9C27B0',
-    contrast: '#fff'
+    default: color(0x9c27b0),
+    contrast: color(0xffffff)
   };
   accent = {
-    default: '#69F0AE',
-    contrast: '#202020'
+    default: color(0x69f0ae),
+    contrast: color(0x202020)
   };
 }
 
@@ -58,13 +59,13 @@ export class CustomMinimaDark implements PartialThemeVariables {
  */
 export class GlobalVariables implements PartialThemeVariables {
   SublimeLight = {
-    default: `linear-gradient(135deg, #FC5C7D 0%, #6A82FB 100%)`,
-    contrast: '#fff',
-    shadow: '#B36FBC'
+    default: `linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%)`,
+    contrast: color(0xffffff),
+    shadow: color(0xB36FBC)
   }; // demo: <button ly-button raised bg="SublimeLight">Button</button>
   button = {
     root: lyl `{
-      borderRadius: '2em'
+      border-radius: 2em
     }`
   };
 }
@@ -94,20 +95,20 @@ export class AppModule { }
 
 ```ts
 // app.module.ts
-export type AppTheme = MinimaLight
+export type AppThemeVariables = MinimaLight
   & MinimaDark
   & CustomMinimaLight
   & CustomMinimaDark
   & GlobalVariables;
 
 // app.component.ts
-const styles = (theme: AppTheme) => ({
-  '@global': {
-    body: {
+const styles = (theme: AppThemeVariables) => ({
+  $global: lyl `{
+    body {
       ...
-      color: theme.text.default
+      color: ${theme.text.default}
     }
-  }
+  }`
 });
 ```
 
