@@ -190,6 +190,9 @@ export class LyCheckboxBase {
 /** @docs-private */
 export const LyCheckboxMixinBase = mixinDisableRipple(LyCheckboxBase);
 
+/**
+ * @dynamic
+ */
 @Component({
   selector: 'ly-checkbox',
   templateUrl: 'checkbox.html',
@@ -226,6 +229,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
   /** The value attribute of the native input element */
   @Input() value: string;
 
+  /** Checkbox color when checked */
   @Input()
   @Style<string | null>(
     val => (
