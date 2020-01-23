@@ -175,6 +175,18 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   @ViewChild(TemplateRef, { static: false }) _backdrop: TemplateRef<any>;
 
   @Input()
+  set width(_val: string) {
+    console.log(LyDrawer.и, this._el.nativeElement);
+    throw new Error(`${LyDrawer.и}: [width] is deprecated instead use [drawerWidth].`);
+  }
+
+  @Input()
+  set height(_val: string) {
+    console.log(LyDrawer.и, this._el.nativeElement);
+    throw new Error(`${LyDrawer.и}: [height] is deprecated instead use [drawerHeight].`);
+  }
+
+  @Input()
   set opened(val: boolean) {
     if (val !== this.opened) {
       this._opened = toBoolean(val);
