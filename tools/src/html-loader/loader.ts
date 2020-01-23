@@ -100,8 +100,8 @@ function highlightColors(content: string) {
         const el = html.document.body;
         if (el && el.textContent) {
           const text = el.textContent;
-          const colorRgx = /color\(((?:[0-9]+)|(?:0x[a-f]+)|(?:[0-9]+, [0-9]+, [0-9]+(?:, [.0-9]+)?))\)/g.exec(text);
-          if (colorRgx) {
+          const colorRgx = /color\(((?:[0-9a-f]+)|(?:0x[0-9a-f]+)|(?:[0-9a-f]+, [0-9a-f]+, [0-9a-f]+(?:, [.0-9]+)?))\)/g.exec(text);
+          if (colorRgx && !text.includes('#')) {
             // tslint:disable-next-line: no-eval
             const rgba = color(...eval(`${colorRgx[0]}.rgba()`));
             const lum = rgba.luminance();
