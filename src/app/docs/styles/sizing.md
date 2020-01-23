@@ -12,7 +12,6 @@ Easily resize an element with responsive width and height utilities.
 <div [width]="1/4">   -> Numbers between 0 and 1 are multiplied by 100 and converted to % values.
 <div [width]="300">   -> Numbers are converted to pixel values.
 <div [width]="'75%'"> -> String values are used as raw CSS.
-<div [width]="'75%'"> -> String values are used as raw CSS.
 <div [width]="1">     -> 100%
 <div [width]="null">  -> remove the previously defined style.
 ```

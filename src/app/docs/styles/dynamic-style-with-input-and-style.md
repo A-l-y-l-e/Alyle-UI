@@ -9,7 +9,10 @@ For instance:
 ```ts
 import { Component, Input } from '@angular/core';
 import { Style, StyleRenderer, Lyl, WithStyles } from '@alyle/ui';
- 
+
+/**
+ * @dynamic
+ */
 @Component({
   selector: '',
   template: '<ng-content></ng-content>',
