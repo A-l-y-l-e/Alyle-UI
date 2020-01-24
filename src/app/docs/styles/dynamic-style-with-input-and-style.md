@@ -14,7 +14,7 @@ import { Style, StyleRenderer, Lyl, WithStyles } from '@alyle/ui';
  * @dynamic
  */
 @Component({
-  selector: '',
+  selector: 'my-component',
   template: '<ng-content></ng-content>',
   providers: [
     StyleRenderer
