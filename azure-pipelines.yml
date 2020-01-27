@@ -92,7 +92,3 @@ jobs:
     inputs:
       path: 'dist/@alyle/ui'
       artifact: alyle-ui-pkg
-  - task: PublishBuildArtifacts@1 # deprecated
-    inputs:
-      pathtoPublish: 'dist/@alyle/ui'
-      artifactName: alyle-ui-pkg
