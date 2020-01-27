@@ -2,14 +2,11 @@ variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 jobs:
-- job: DeployPr
-  displayName: Deploy Pull Request
+- job: DeployInfo
+  displayName: Create Deploy Info
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      artifact: WebApp
   - task: NodeTool@0
     inputs:
       versionSpec: '12.13.x'
@@ -38,5 +35,15 @@ jobs:
 
         . ci/setup.sh
 
-        echo hi
+        export MSG=$(ts-node tools/src/commit-msg)
+        export SHA=$(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION')
+        mkdir dist/info -p
+        echo $MSG > ./dist/info/MSG
+        echo $SHA > ./dist/info/SHA
+        echo MSG$MSG
+        echo SHA$SHA
       noRc: false
+    displayName: "Write data"
+  - task: PublishPipelineArtifact@1
+    inputs:
+      artifact: DeployInfo
