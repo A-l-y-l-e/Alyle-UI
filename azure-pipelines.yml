@@ -58,11 +58,15 @@ jobs:
       # yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
     displayName: 'Build App'
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
+    inputs:
+      path: 'dist/alyle-ui'
+      artifact: WebApp
+  - task: PublishBuildArtifacts@1 # deprecated
     inputs:
       pathtoPublish: 'dist/alyle-ui'
       artifactName: Alyle UI App
-  - task: PublishBuildArtifacts@1
+  - task: PublishBuildArtifacts@1 # deprecated
     inputs:
       pathtoPublish: 'ci/scripts'
       artifactName: Scripts
@@ -76,6 +80,7 @@ jobs:
     inputs:
       versionSpec: '12.13.x'
   - bash: |
+      set -e
       ./ci/scripts/build-docs-artifacts.sh
     displayName: build:@alyle/ui
   - script: |
@@ -83,7 +88,11 @@ jobs:
       . ci/setup.sh
       yarn tools:docs-api
     displayName: Build docs-content
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
+    inputs:
+      path: 'dist/@alyle/ui'
+      artifact: alyle-ui-pkg
+  - task: PublishBuildArtifacts@1 # deprecated
     inputs:
       pathtoPublish: 'dist/@alyle/ui'
       artifactName: alyle-ui-pkg
