@@ -3,7 +3,7 @@ variables:
 
 jobs:
 - job: DeployInfo
-  displayName: Create Deploy Info
+  displayName: Publish Deploy Info
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
