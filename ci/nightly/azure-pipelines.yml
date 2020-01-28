@@ -1,0 +1,20 @@
+jobs:
+- job: Nightly
+  displayName: Nightly trigger
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        set -e -o pipefail
+
+        mkdir dist/info -p
+        echo true > ./dist/info/NIGHTLY
+      noRc: false
+    displayName: "Write data"
+  - task: PublishPipelineArtifact@1
+    inputs:
+      artifact: nightly
+      path: 'dist/info'
