@@ -3,7 +3,7 @@ variables:
 
 jobs:
 - job: DeployInfo
-  displayName: Create Deploy Info
+  displayName: Publish Deploy Info
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
@@ -47,3 +47,4 @@ jobs:
   - task: PublishPipelineArtifact@1
     inputs:
       artifact: DeployInfo
+      path: 'dist/info'
