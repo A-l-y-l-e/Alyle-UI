@@ -47,3 +47,4 @@ jobs:
   - task: PublishPipelineArtifact@1
     inputs:
       artifact: DeployInfo
+      path: 'dist/info'
