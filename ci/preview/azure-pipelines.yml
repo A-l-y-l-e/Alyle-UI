@@ -11,7 +11,8 @@ jobs:
         set -e -o pipefail
 
         mkdir dist/info -p
-        echo true > ./dist/info/PREVIEW
+        export SHA=$(node -pe 'const {env}=process;env.SYSTEM_PULLREQUEST_SOURCECOMMITID || env.BUILD_SOURCEVERSION')
+        echo $SHA > ./dist/info/SHA
       noRc: false
     displayName: "Write data"
   - task: PublishPipelineArtifact@1
