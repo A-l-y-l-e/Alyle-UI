@@ -8,10 +8,11 @@ const config = jsyaml.load(readFileSync(packageConf, 'utf8').toString());
 const libDir = `${process.cwd()}/src/lib`;
 const pkg = JSON.parse(readFileSync(`${process.cwd()}/package.json`, 'utf8').toString());
 const pkgLib = JSON.parse(readFileSync(`${process.cwd()}/src/lib/package.json`, 'utf8').toString());
+const { env } = process;
 
 const {
   MSG
-} = process.env;
+} = env;
 
 if (!(MSG && /\> ?new ?release/i.test(MSG!))) {
   console.log('Bump Version: skiped.');
@@ -51,8 +52,8 @@ function createVersion(currentVersion: string) {
   } else if (/major/i.test(MSG!)) {
     version = semver.inc(currentVersion, 'major')!;
   } else {
-    console.log('Bump Version: skipped.');
-    process.exit(0);
+    version = semver.inc(currentVersion, 'prerelease', 'preview')!
+      .replace('w.0', `w.${(env.SYSTEM_PULLREQUEST_SOURCECOMMITID! || env.BUILD_SOURCEVERSION!).slice(0, 6)}`);
   }
 
   if (/nightly/.test(MSG!)) {
