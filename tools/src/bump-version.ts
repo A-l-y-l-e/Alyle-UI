@@ -14,12 +14,8 @@ const {
   MSG
 } = env;
 
-if (!(MSG && /\> ?new ?release/i.test(MSG!))) {
-  console.log('Bump Version: skiped.');
-  process.exit(0);
-} else {
-  updateVersion();
-}
+
+updateVersion();
 
 function updateVersion() {
   const newVersion = createVersion(config.version);
@@ -43,14 +39,16 @@ function createVersion(currentVersion: string) {
   const date = `${moment(now).format('YYMMDD')}${moment().format('HHmm')}`;
   let version = '';
 
-  if (/patch/i.test(MSG!)) {
-    version = semver.inc(currentVersion, 'patch')!;
-  } else if (/nightly/i.test(MSG!)) {
-    version = semver.inc(currentVersion, 'prerelease', 'nightly')!.replace('ly.0', `ly.${date}`);
-  } else if (/minor/i.test(MSG!)) {
-    version = semver.inc(currentVersion, 'minor')!;
-  } else if (/major/i.test(MSG!)) {
-    version = semver.inc(currentVersion, 'major')!;
+  if (/\> ?new ?release/i.test(MSG!)) {
+    if (/patch/i.test(MSG!)) {
+      version = semver.inc(currentVersion, 'patch')!;
+    } else if (/nightly/i.test(MSG!)) {
+      version = semver.inc(currentVersion, 'prerelease', 'nightly')!.replace('ly.0', `ly.${date}`);
+    } else if (/minor/i.test(MSG!)) {
+      version = semver.inc(currentVersion, 'minor')!;
+    } else if (/major/i.test(MSG!)) {
+      version = semver.inc(currentVersion, 'major')!;
+    }
   } else {
     version = semver.inc(currentVersion, 'prerelease', 'preview')!
       .replace('w.0', `w.${(env.SYSTEM_PULLREQUEST_SOURCECOMMITID! || env.BUILD_SOURCEVERSION!).slice(0, 6)}`);
