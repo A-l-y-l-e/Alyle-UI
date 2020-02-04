@@ -54,12 +54,6 @@ function createVersion(currentVersion: string) {
       .replace('w.0', `w.${(env.SYSTEM_PULLREQUEST_SOURCECOMMITID! || env.BUILD_SOURCEVERSION!).slice(0, 6)}`);
   }
 
-  if (/nightly/.test(MSG!)) {
-    writeFileSync('./ci/scripts/NIGHTLY', version, 'utf8');
-  } else {
-    writeFileSync('./ci/scripts/NEW_RELEASE', version, 'utf8');
-  }
-
   console.log(`New version: ${version}`);
 
   return {

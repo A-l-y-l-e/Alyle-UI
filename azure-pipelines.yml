@@ -45,14 +45,6 @@ jobs:
     inputs:
       path: 'dist/alyle-ui'
       artifact: WebApp
-  - task: PublishBuildArtifacts@1 # deprecated
-    inputs:
-      pathtoPublish: 'dist/alyle-ui'
-      artifactName: Alyle UI App
-  - task: PublishBuildArtifacts@1 # deprecated
-    inputs:
-      pathtoPublish: 'ci/scripts'
-      artifactName: Scripts
 
 - job: BuildDocsAndArtifacts
   displayName: Build docs & artifacts
