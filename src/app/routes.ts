@@ -23,6 +23,14 @@ export const AUIRoutes: {
     ]
   },
   {
+    name: 'Guides',
+    route: 'guides',
+    routes: [
+      { route: 'lazy-loading' , name: 'Lazy Loading'},
+      { route: 'migrating-to-alyle-ui-3' , name: 'Migrating to Alyle UI 3'}
+    ].sort(sort)
+  },
+  {
     name: 'Customization',
     route: 'customization',
     routes: [
@@ -50,14 +58,6 @@ export const AUIRoutes: {
       { route: 'grid', api: true , name: 'Grid' },
       { route: 'responsive' , name: 'Responsive' },
       { route: 'tabs', api: true , name: 'Tabs' }
-    ].sort(sort)
-  },
-  {
-    name: 'Guides',
-    route: 'guides',
-    routes: [
-      { route: 'lazy-loading' , name: 'Lazy Loading'},
-      { route: 'migrating-to-alyle-ui-3' , name: 'Migrating to Alyle UI 3'}
     ].sort(sort)
   },
   {
