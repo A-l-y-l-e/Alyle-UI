@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { StyleRenderer, ThemeVariables, lyl } from '@alyle/ui';
+import {
+  StyleRenderer,
+  ThemeVariables } from '@alyle/ui';
 
 /**
  * Basic style
@@ -11,21 +13,8 @@ const STYLES = (theme: ThemeVariables) => {
     // it will only be seen in dev mode
     $name: 'example',
     // This would be like the name of the class
-    demo: lyl `{
-      color: ${theme.primary.default}
-      border-${before}: 2px solid
-      padding-${before}: .5em
-      &:hover {
-        color: ${theme.accent.default}
-      }
-    }`,
-    buttonLink: lyl `{
-      color: ${theme.primary.default}
-      text-decoration: inherit
-      &:hover {
-        text-decoration: underline
-      }
-    }`
+    demo: (className: string) => `${className}{color:${theme.primary.default};border-${before}:2px solid;padding-${before}:.5em;}${className}:hover{color:${theme.accent.default};}`,
+    buttonLink: (className: string) => `${className}{color:${theme.primary.default};text-decoration:inherit;}${className}:hover{text-decoration:underline;}`
   };
 };
 

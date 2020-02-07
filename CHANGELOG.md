@@ -1,3 +1,37 @@
+# [3.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.7...3.0.0) (2020-02-07)
+
+
+### Bug Fixes
+
+* show error when using `height` in Drawer ([1f5a8fa](https://github.com/A-l-y-l-e/Alyle-UI/commit/1f5a8fa))
+* **checkbox:** use input color with `[@style](https://github.com/style)` decorator ([9e62585](https://github.com/A-l-y-l-e/Alyle-UI/commit/9e62585))
+* **drawer:** rename `[width]` and `[height]` ([81a299a](https://github.com/A-l-y-l-e/Alyle-UI/commit/81a299a))
+* **image-cropper:** choosing the same image does not load ([fc0047d](https://github.com/A-l-y-l-e/Alyle-UI/commit/fc0047d))
+* **img-cropper:** fix Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported. ([15affe7](https://github.com/A-l-y-l-e/Alyle-UI/commit/15affe7))
+* **lyl:** do not calculate expressions before parse ([4d86e16](https://github.com/A-l-y-l-e/Alyle-UI/commit/4d86e16))
+* **lyl:** fix media queries with commas ([97f6c57](https://github.com/A-l-y-l-e/Alyle-UI/commit/97f6c57))
+* **select:** do not create unnecessary styles when there is no value for color ([7fa41bc](https://github.com/A-l-y-l-e/Alyle-UI/commit/7fa41bc))
+* fix overlayBackdrop ([677a82a](https://github.com/A-l-y-l-e/Alyle-UI/commit/677a82a))
+* fix package types ([54dbc97](https://github.com/A-l-y-l-e/Alyle-UI/commit/54dbc97))
+* fix some bugs ([df621d7](https://github.com/A-l-y-l-e/Alyle-UI/commit/df621d7))
+* **menu:** update origin position only when necessary ([c1cbafb](https://github.com/A-l-y-l-e/Alyle-UI/commit/c1cbafb))
+* merge themes correctly ([e950c68](https://github.com/A-l-y-l-e/Alyle-UI/commit/e950c68))
+
+
+### Features
+
+* add flexbox ([2414765](https://github.com/A-l-y-l-e/Alyle-UI/commit/2414765))
+* support `MediaQueryArray` ([ddc5fed](https://github.com/A-l-y-l-e/Alyle-UI/commit/ddc5fed))
+* **lyl:** support for declarations within media queries ([8b87ffc](https://github.com/A-l-y-l-e/Alyle-UI/commit/8b87ffc))
+* add option to apply the `root` class to the component ([672211a](https://github.com/A-l-y-l-e/Alyle-UI/commit/672211a))
+* expose all missing component styles ([47e09fd](https://github.com/A-l-y-l-e/Alyle-UI/commit/47e09fd))
+* **lyl:** add style-compiler ([ca6b1ce](https://github.com/A-l-y-l-e/Alyle-UI/commit/ca6b1ce))
+* **menu:** add `@Input() hasBackdrop` ([0f62f58](https://github.com/A-l-y-l-e/Alyle-UI/commit/0f62f58))
+* improve docs ([#104](https://github.com/A-l-y-l-e/Alyle-UI/issues/104)) ([00e151e](https://github.com/A-l-y-l-e/Alyle-UI/commit/00e151e))
+* ultra customizable ([7a8fdaf](https://github.com/A-l-y-l-e/Alyle-UI/commit/7a8fdaf))
+
+
+
 ## [2.9.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.6...2.9.7) (2019-12-04)
 
 

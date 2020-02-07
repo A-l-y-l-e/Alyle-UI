@@ -35,10 +35,10 @@ import {
   StyleTemplate,
   LyHostClass,
   StyleRenderer,
-  lyl,
+  st2c,
   ThemeRef,
   LY_COMMON_STYLES,
-  keyframesUniqueId} from '@alyle/ui';
+  keyframesUniqueId } from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
@@ -84,21 +84,7 @@ const inputText = [
 ];
 
 
-export const STYLE_SELECT_ARROW = lyl `{
-  &::after {
-    position: absolute
-    content: ''
-    width: 0
-    height: 0
-    border-left: 0.3125em solid transparent
-    border-right: 0.3125em solid transparent
-    border-top: 0.3125em solid
-    top: 50%
-    {after}: 0
-    margin-top: -0.15625em
-    pointer-events: none
-  }
-}`;
+export const STYLE_SELECT_ARROW = (className: string) => `${className}::after{position:absolute;content:'';width:0;height:0;border-left:0.3125em solid transparent;border-right:0.3125em solid transparent;border-top:0.3125em solid;top:50%;{after}:0;margin-top:-0.15625em;pointer-events:none;}`;
 
 export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) => {
   const classes = ref.selectorsOf(STYLES);
@@ -106,234 +92,40 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
   const shake = keyframesUniqueId.next();
   return {
     $priority: STYLE_PRIORITY,
-    $global: lyl `{
-      @keyframes ${shake} {
-        0% {
-          margin-${before}: 0
-        }
-        40% {
-          margin-${before}: 2px
-        }
-        50% {
-          margin-${before}: -2px
-        }
-        70% {
-          margin-${before}: 2px
-        }
-        100% {
-          margin-${before}: 0
-        }
-      }
-    }`,
-    root: ( ) => lyl `{
-      display: inline-block
-      position: relative
-      margin-top: 1em
-      line-height: 1.5
-      & ${classes.hint}, & ${classes.error} {
-        display: block
-        font-size: .75em
-        margin-top: .25em
-      }
-      {
-        ...${
+    $global: (className: string) => `@keyframes ${shake}{${className} 0%{margin-${before}:0;}${className} 40%{margin-${before}:2px;}${className} 50%{margin-${before}:-2px;}${className} 70%{margin-${before}:2px;}${className} 100%{margin-${before}:0;}}`,
+    root: ( ) => (className: string) => `${className}{display:inline-block;position:relative;margin-top:1em;line-height:1.5;}${st2c((
           (theme.field
             && theme.field.root
             && (theme.field.root instanceof StyleCollection
               ? theme.field.root.setTransformer(fn => fn(classes))
               : theme.field.root(classes))
-          )
-        }
-      }
-    }`,
-    animations: ( ) => lyl `{
-      & ${classes.labelSpan} {
-        transition: font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
-      }
-      & ${classes.label} {
-        transition: ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
-      }
-    }`,
-    container: lyl `{
-      height: 100%
-      display: flex
-      align-items: center
-      position: relative
-      -webkit-tap-highlight-color: transparent
-      &:after {
-        ...${LY_COMMON_STYLES.fill}
-        content: ''
-        pointer-events: none
-      }
-    }`,
-    fieldset: lyl `{
-      ...${LY_COMMON_STYLES.fill}
-      margin: 0
-      border-style: solid
-      border-width: 0
-    }`,
-    fieldsetSpan: lyl `{
-      padding: 0
-      height: 2px
-    }`,
-    labelSpan: lyl `{
-      max-width: 100%
-      display: inline-block
-    }`,
-    prefix: lyl `{
-      max-height: 2em
-      display: flex
-      align-items: center
-    }`,
-    infix: lyl `{
-      display: inline-flex
-      position: relative
-      align-items: baseline
-      min-width: 0
-      width: 180px
-      flex: 1 0
-    }`,
-    suffix: lyl `{
-      max-height: 2em
-      display: flex
-      align-items: center
-    }`,
-    labelContainer: lyl `{
-      ...${LY_COMMON_STYLES.fill}
-      pointer-events: none
-      display: flex
-      width: 100%
-    }`,
+          )), `${className}`)}${className} ${classes.hint},${className} ${classes.error}{display:block;font-size:.75em;margin-top:.25em;}`,
+    animations: ( ) => (className: string) => `${className} ${classes.labelSpan}{transition:font-size ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s;}${className} ${classes.label}{transition:${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s;}`,
+    container: (className: string) => `${className}{height:100%;display:flex;align-items:center;position:relative;-webkit-tap-highlight-color:transparent;}${st2c((LY_COMMON_STYLES.fill), `${className}:after`)}${className}:after{content:'';pointer-events:none;}`,
+    fieldset: (className: string) => `${st2c((LY_COMMON_STYLES.fill), `${className}`)}${className}{margin:0;border-style:solid;border-width:0;}`,
+    fieldsetSpan: (className: string) => `${className}{padding:0;height:2px;}`,
+    labelSpan: (className: string) => `${className}{max-width:100%;display:inline-block;}`,
+    prefix: (className: string) => `${className}{max-height:2em;display:flex;align-items:center;}`,
+    infix: (className: string) => `${className}{display:inline-flex;position:relative;align-items:baseline;min-width:0;width:180px;flex:1 0;}`,
+    suffix: (className: string) => `${className}{max-height:2em;display:flex;align-items:center;}`,
+    labelContainer: (className: string) => `${st2c((LY_COMMON_STYLES.fill), `${className}`)}${className}{pointer-events:none;display:flex;width:100%;}`,
     labelSpacingStart: null,
-    labelCenter: lyl `{
-      display: flex
-      max-width: 100%
-    }`,
-    labelSpacingEnd: lyl `{
-      flex: 1
-    }`,
-    label: lyl `{
-      ...${LY_COMMON_STYLES.fill}
-      margin: 0
-      border: none
-      pointer-events: none
-      white-space: nowrap
-      text-overflow: ellipsis
-      overflow: hidden
-      width: 100%
-    }`,
+    labelCenter: (className: string) => `${className}{display:flex;max-width:100%;}`,
+    labelSpacingEnd: (className: string) => `${className}{flex:1;}`,
+    label: (className: string) => `${st2c((LY_COMMON_STYLES.fill), `${className}`)}${className}{margin:0;border:none;pointer-events:none;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;width:100%;}`,
     isFloatingLabel: null,
-    floatingLabel: ( ) => lyl `{
-      ${classes.labelSpan} {
-        font-size: 75%
-      }
-    }`,
-    placeholder: lyl `{
-      ...${LY_COMMON_STYLES.fill}
-      pointer-events: none
-    }`,
+    floatingLabel: ( ) => (className: string) => `${className} ${classes.labelSpan}{font-size:75%;}`,
+    placeholder: (className: string) => `${st2c((LY_COMMON_STYLES.fill), `${className}`)}${className}{pointer-events:none;}`,
     focused: null,
-    inputNative: lyl `{
-      resize: vertical
-      padding: 0
-      outline: none
-      border: none
-      background-color: transparent
-      color: inherit
-      font: inherit
-      width: 100%
-      select& {
-        -moz-appearance: none
-        -webkit-appearance: none
-        position: relative
-        background-color: transparent
-        display: inline-flex
-        box-sizing: border-box
-        padding-${after}: 1em
-        option:not([disabled]) {
-          color: initial
-        }
-        optgroup:not([disabled]) {
-          color: initial
-        }
-      }
-      select&::-ms-expand {
-        display: none
-      }
-      select&::-moz-focus-inner {
-        border: 0
-      }
-      select&:not(:disabled) {
-        cursor: pointer
-      }
-      select&::-ms-value {
-        color: inherit
-        background: 0 0
-      }
-    }`,
-    hintContainer: lyl `{
-      min-height: 1.25em
-      line-height: 1.25
-      > div {
-        display: flex
-        flex: 1 0 auto
-        max-width: 100%
-        overflow: hidden
-        justify-content: space-between
-      }
-    }`,
-    disabled: ( ) => lyl `{
-      &, & ${classes.label}, & ${classes.container}:after {
-        color: ${theme.disabled.default}
-        cursor: default
-      }
-    }`,
+    inputNative: (className: string) => `${className}{resize:vertical;padding:0;outline:none;border:none;background-color:transparent;color:inherit;font:inherit;width:100%;}select${className}{-moz-appearance:none;-webkit-appearance:none;position:relative;background-color:transparent;display:inline-flex;box-sizing:border-box;padding-${after}:1em;}select${className} option:not([disabled]){color:initial;}select${className} optgroup:not([disabled]){color:initial;}select${className}::-ms-expand{display:none;}select${className}::-moz-focus-inner{border:0;}select${className}:not(:disabled){cursor:pointer;}select${className}::-ms-value{color:inherit;background:0 0;}`,
+    hintContainer: (className: string) => `${className}{min-height:1.25em;line-height:1.25;}${className} > div{display:flex;flex:1 0 auto;max-width:100%;overflow:hidden;justify-content:space-between;}`,
+    disabled: ( ) => (className: string) => `${className},${className} ${classes.label},${className} ${classes.container}:after{color:${theme.disabled.default};cursor:default;}`,
     hint: null,
     error: null,
-    errorState: ( ) => lyl `{
-      & ${classes.label}, & ${classes.hintContainer}, &${classes.selectArrow} ${classes.infix}:after {
-        color: ${theme.warn.default}!important
-      }
-      & ${classes.fieldset}, & ${classes.container}:after {
-        border-color: ${theme.warn.default}!important
-      }
-      & ${classes.inputNative} {
-        caret-color: ${theme.warn.default}!important
-      }
-      & ${classes.hintContainer} ly-hint:not(${classes.hintAfter}) {
-        display: none
-      }
-      & ${classes.labelSpan} {
-        animation: ${shake} ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}
-      }
-      & ${classes.inputNative}::selection, & ${classes.inputNative}::-moz-selection {
-          background-color: ${theme.warn.default} !important
-          color: ${theme.warn.contrast} !important
-      }
-    }`,
-    hintAfter: lyl `{
-      margin-${before}: auto
-    }`,
-    hintBefore: lyl `{
-      margin-${after}: auto
-    }`,
-    selectArrow: ( ) => lyl `{
-      ${classes.infix} {
-        &::after {
-          position: absolute
-          content: ''
-          width: 0
-          height: 0
-          border-left: 0.3125em solid transparent
-          border-right: 0.3125em solid transparent
-          border-top: 0.3125em solid
-          top: 50%
-          ${after}: 0
-          margin-top: -0.15625em
-          pointer-events: none
-        }
-      }
-    }`
+    errorState: ( ) => (className: string) => `${className} ${classes.label},${className} ${classes.hintContainer},${className}${classes.selectArrow} ${classes.infix}:after{color:${theme.warn.default}!important;}${className} ${classes.fieldset},${className} ${classes.container}:after{border-color:${theme.warn.default}!important;}${className} ${classes.inputNative}{caret-color:${theme.warn.default}!important;}${className} ${classes.hintContainer} ly-hint:not(${classes.hintAfter}){display:none;}${className} ${classes.labelSpan}{animation:${shake} ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration};}${className} ${classes.inputNative}::selection,${className} ${classes.inputNative}::-moz-selection{background-color:${theme.warn.default} !important;color:${theme.warn.contrast} !important;}`,
+    hintAfter: (className: string) => `${className}{margin-${before}:auto;}`,
+    hintBefore: (className: string) => `${className}{margin-${after}:auto;}`,
+    selectArrow: ( ) => (className: string) => `${className} ${classes.infix}::after{position:absolute;content:'';width:0;height:0;border-left:0.3125em solid transparent;border-right:0.3125em solid transparent;border-top:0.3125em solid;top:50%;${after}:0;margin-top:-0.15625em;pointer-events:none;}`
   };
 };
 

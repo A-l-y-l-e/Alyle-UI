@@ -6,7 +6,13 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ElementsLoader } from './elements-loader.service';
 import { Title, Meta } from '@angular/platform-browser';
 import { LyTypographyVariables } from '@alyle/ui/typography';
-import { ThemeVariables, LyTheme2, lyl, StyleCollection, StyleTemplate, Platform } from '@alyle/ui';
+import {
+  ThemeVariables,
+  LyTheme2,
+  st2c,
+  StyleCollection,
+  StyleTemplate,
+  Platform } from '@alyle/ui';
 import { ViewComponent } from '@app/demo-view/view/view.component';
 import { Router } from '@angular/router';
 import { Ads, ADS_STYLES } from '@shared/ads';
@@ -27,32 +33,7 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
       : typ();
   };
   return {
-    root: lyl `{
-      > div > {
-        h1 {
-          {
-            ...${getStyle(h3!)}
-          }
-          font-size: ${theme.pxToRem(40)} !important
-          margin: 1em 0
-        }
-        h2 {
-          ...${getStyle(h4!)}
-        }
-        h3 {
-          ...${getStyle(h5!)}
-        }
-        h4 {
-          ...${getStyle(h6!)}
-        }
-        h5 {
-          ...${getStyle(subtitle1!)}
-        }
-        h6 {
-          ...${getStyle(subtitle2!)}
-        }
-      }
-    }`
+    root: (className: string) => `${st2c((getStyle(h3!)), `${className} > div > h1`)}${className} > div > h1{font-size:${theme.pxToRem(40)} !important;margin:1em 0;}${st2c((getStyle(h4!)), `${className} > div > h2`)}${st2c((getStyle(h5!)), `${className} > div > h3`)}${st2c((getStyle(h6!)), `${className} > div > h4`)}${st2c((getStyle(subtitle1!)), `${className} > div > h5`)}${st2c((getStyle(subtitle2!)), `${className} > div > h6`)}`
   };
 };
 

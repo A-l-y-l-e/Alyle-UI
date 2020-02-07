@@ -12,7 +12,16 @@ import {
   OnDestroy,
   NgZone
 } from '@angular/core';
-import { LyTheme2, mergeDeep, LY_COMMON_STYLES, ThemeVariables, lyl, ThemeRef, StyleCollection, LyClasses, StyleTemplate } from '@alyle/ui';
+import {
+  LyTheme2,
+  mergeDeep,
+  LY_COMMON_STYLES,
+  ThemeVariables,
+  st2c,
+  ThemeRef,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate } from '@alyle/ui';
 import { Subscription, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -33,74 +42,16 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
   return {
     $name: LyImageCropper.и,
     $priority: STYLE_PRIORITY,
-    root: ( ) => lyl `{
-      -webkit-user-select: none
-      -moz-user-select: none
-      -ms-user-select: none
-      user-select: none
-      display: flex
-      overflow: hidden
-      position: relative
-      justify-content: center
-      align-items: center
-      {
-        ...${
+    root: ( ) => (className: string) => `${className}{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:flex;overflow:hidden;position:relative;justify-content:center;align-items:center;}${st2c((
           (theme.cropper
             && theme.cropper.root
             && (theme.cropper.root instanceof StyleCollection
               ? theme.cropper.root.setTransformer(fn => fn(cropper))
               : theme.cropper.root(cropper))
-          )
-        }
-      }
-    }`,
-    imgContainer: lyl `{
-      cursor: move
-      position: absolute
-      top: 0
-      left: 0
-      & > canvas {
-        pointer-events: none
-      }
-    }`,
-    area: lyl `{
-      pointer-events: none
-      box-shadow: 0 0 0 20000px rgba(0, 0, 0, 0.4)
-      ...${LY_COMMON_STYLES.fill}
-      margin: auto
-      &:before, &:after {
-        ...${LY_COMMON_STYLES.fill}
-        content: ''
-      }
-      &:before {
-        width: 0
-        height: 0
-        margin: auto
-        border-radius: 50%
-        background: #fff
-        border: solid 2px rgb(255, 255, 255)
-      }
-      &:after {
-        border: solid 2px rgb(255, 255, 255)
-      }
-    }`,
-    defaultContent: lyl `{
-      display: flex
-      align-items: center
-      justify-content: center
-      &, & > input {
-        ...${LY_COMMON_STYLES.fill}
-      }
-      & *:not(input) {
-        pointer-events: none
-      }
-      & > input {
-        background: transparent
-        opacity: 0
-        width: 100%
-        height: 100%
-      }
-    }`
+          )), `${className}`)}`,
+    imgContainer: (className: string) => `${className}{cursor:move;position:absolute;top:0;left:0;}${className} > canvas{pointer-events:none;}`,
+    area: (className: string) => `${className}{pointer-events:none;box-shadow:0 0 0 20000px rgba(0, 0, 0, 0.4);margin:auto;}${st2c((LY_COMMON_STYLES.fill), `${className}`)}${st2c((LY_COMMON_STYLES.fill), `${className}:before,${className}:after`)}${className}:before,${className}:after{content:'';}${className}:before{width:0;height:0;margin:auto;border-radius:50%;background:#fff;border:solid 2px rgb(255, 255, 255);}${className}:after{border:solid 2px rgb(255, 255, 255);}`,
+    defaultContent: (className: string) => `${className}{display:flex;align-items:center;justify-content:center;}${st2c((LY_COMMON_STYLES.fill), `${className},${className} > input`)}${className} *:not(input){pointer-events:none;}${className} > input{background:transparent;opacity:0;width:100%;height:100%;}`
   };
 };
 /** Image Cropper Config */

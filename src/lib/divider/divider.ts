@@ -1,11 +1,11 @@
 import { Directive, Input, OnInit } from '@angular/core';
-import { ThemeVariables, lyl, StyleRenderer, LyHostClass, toBoolean } from '@alyle/ui';
+import {
+  ThemeVariables,
+  StyleRenderer,
+  LyHostClass,
+  toBoolean } from '@alyle/ui';
 
-const STYLES = (theme: ThemeVariables) => lyl `{
-  display: block
-  background-color: ${theme.divider}
-  height: 1px
-}`;
+const STYLES = (theme: ThemeVariables) => (className: string) => `${className}{display:block;background-color:${theme.divider};height:1px;}`;
 
 @Directive({
   selector: 'ly-divider',
@@ -25,9 +25,7 @@ export class LyDivider implements OnInit {
     if (newVal) {
       this[0x1] = this._styleRenderer.add(
         `${LyDivider.и}--inset`,
-        ({before}) => lyl `{
-          margin-${before}: 74px
-        }`,
+        ({before}) => (className: string) => `${className}{margin-${before}:74px;}`,
         this[0x1]
       );
     } else {

@@ -1,5 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables, ThemeRef, lyl } from '@alyle/ui';
+import {
+  LyTheme2,
+  ThemeVariables,
+  ThemeRef } from '@alyle/ui';
 import { STYLES as EXPANSION_STYLES } from '@alyle/ui/expansion';
 
 
@@ -12,43 +15,9 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   const { before } = theme;
 
   return ({
-    expansion: ( ) => lyl `{
-      ${expansion.panel} {
-        &::after {
-          transition: border ${
+    expansion: ( ) => (className: string) => `${className} ${expansion.panel}::after{transition:border ${
             theme.animations.durations.entering}ms ${
-            theme.animations.curves.standard
-          }
-          content: ''
-          position: absolute
-          top: 0
-          bottom: 0
-          ${before}: 0
-          border-${before}: 2px solid transparent
-        }
-      }
-      ${expansion.panelHeader} {
-        height: 54px
-      }
-      ${expansion.panelTitle} {
-        font-weight: 500
-      }
-
-      ${expansion.expanded} {
-        ${expansion.panelHeader} {
-          height: 64px
-        }
-        &${expansion.panel} {
-          background: ${theme.background.secondary}
-          &::after {
-            border-${before}: 2px solid ${theme.primary.default}
-          }
-        }
-        ${expansion.panelHeader} ${expansion.panelTitle} {
-          color: ${theme.primary.default}
-        }
-      }
-    }`
+            theme.animations.curves.standard};content:'';position:absolute;top:0;bottom:0;${before}:0;border-${before}:2px solid transparent;}${className} ${expansion.panelHeader}{height:54px;}${className} ${expansion.panelTitle}{font-weight:500;}${className} ${expansion.expanded} ${expansion.panelHeader}{height:64px;}${className} ${expansion.expanded}${expansion.panel}{background:${theme.background.secondary};}${className} ${expansion.expanded}${expansion.panel}::after{border-${before}:2px solid ${theme.primary.default};}${className} ${expansion.expanded} ${expansion.panelHeader} ${expansion.panelTitle}{color:${theme.primary.default};}`
   });
 };
 

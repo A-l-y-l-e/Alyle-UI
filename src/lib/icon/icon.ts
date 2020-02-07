@@ -19,10 +19,8 @@ import {
   mixinStyleUpdater,
   Platform,
   ThemeVariables,
-  lyl,
   keyframesUniqueId,
-  LyHostClass
-  } from '@alyle/ui';
+  LyHostClass } from '@alyle/ui';
 import { take } from 'rxjs/operators';
 
 const STYLE_PRIORITY = -2;
@@ -40,19 +38,8 @@ export const STYLES = (theme: ThemeVariables) => {
   two = two.darken(.25 * (lum < .5 ? -1 : 1.1));
   return {
     $priority: STYLE_PRIORITY,
-    $global: lyl `{
-      @keyframes ${loading} {
-        0% {
-          background-position: 200% 50%
-        }
-
-        100% {
-          background-position: -200% 50%
-        }
-      }
-    }`,
-    loading: lyl `{
-      background: ${
+    $global: (className: string) => `@keyframes ${loading}{${className} 0%{background-position:200% 50%;}${className} 100%{background-position:-200% 50%;}}`,
+    loading: (className: string) => `${className}{background:${
         `linear-gradient(270deg, ${
           one
         }, ${
@@ -61,14 +48,8 @@ export const STYLES = (theme: ThemeVariables) => {
           two
         }, ${
           one
-        })`
-      }
-      background-size: 400% 400%
-      animation: ${loading} 8s ease-in-out infinite
-    }`,
-    defaultIcon: lyl `{
-      border-radius: 50px
-    }`
+        })`};background-size:400% 400%;animation:${loading} 8s ease-in-out infinite;}`,
+    defaultIcon: (className: string) => `${className}{border-radius:50px;}`
   };
 };
 
