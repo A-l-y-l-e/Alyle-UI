@@ -26,6 +26,7 @@ export const AUIRoutes: {
     name: 'Guides',
     route: 'guides',
     routes: [
+      { route: 'optimizing-styles' , name: 'Optimizing Styles'},
       { route: 'lazy-loading' , name: 'Lazy Loading'},
       { route: 'migrating-to-alyle-ui-3' , name: 'Migrating to Alyle UI 3'}
     ].sort(sort)

@@ -19,7 +19,7 @@ const argv = yargs
 if (argv.help) {
   console.log(`Version ${pkg.version}\n`);
   console.log(chalk.bold.yellowBright(note));
-  console.log(`Usage: lyl dist/my-app`);
+  console.log(`Usage: lyl src`);
   process.exit(0);
 }
 
