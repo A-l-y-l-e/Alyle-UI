@@ -1,12 +1,5 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
-import {
-  LyTheme2,
-  eachMedia,
-  ThemeVariables,
-  StyleCollection,
-  StyleTemplate,
-  LyHostClass,
-  StyleRenderer } from '@alyle/ui';
+import { LyTheme2, eachMedia, ThemeVariables, StyleCollection, StyleTemplate, LyHostClass, StyleRenderer, lyl } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 
@@ -26,8 +19,17 @@ export type AlignItems = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 export const STYLES = () => ({
   $priority: STYLE_PRIORITY,
   $name: LyGrid.и,
-  root: (className: string) => `${className}{width:100%;display:flex;flex-wrap:wrap;box-sizing:border-box;}`,
-  item: (className: string) => `${className},${className} :first-child{box-sizing:border-box;}`
+  root: lyl `{
+    width: 100%
+    display: flex
+    flex-wrap: wrap
+    box-sizing: border-box
+  }`,
+  item: lyl `{
+    &, & :first-child {
+      box-sizing: border-box
+    }
+  }`
 });
 
 export type Justify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
@@ -328,11 +330,21 @@ export class LyGridItem implements OnInit {
 
         if (media) {
           medias.add(
-            (className: string) => `@media ${theme.breakpoints[media]}{${className}{max-width:${maxWidth}%;flex-basis:${flexBasis}%;flex-grow:${flexGrow};}}`
+            lyl `{
+              @media ${theme.breakpoints[media]} {
+                max-width: ${maxWidth}%
+                flex-basis: ${flexBasis}%
+                flex-grow: ${flexGrow}
+              }
+            }`
           );
         } else {
           medias.add(
-            (className: string) => `${className}{max-width:${maxWidth}%;flex-basis:${flexBasis}%;flex-grow:${flexGrow};}`
+            lyl `{
+              max-width: ${maxWidth}%
+              flex-basis: ${flexBasis}%
+              flex-grow: ${flexGrow}
+            }`
           );
         }
       });

@@ -21,7 +21,7 @@ import {
   mixinStyleUpdater,
   ThemeVariables,
   toBoolean,
-  st2c,
+  lyl,
   StyleCollection,
   LyClasses,
   StyleTemplate,
@@ -29,7 +29,8 @@ import {
   LyHostClass,
   StyleRenderer,
   WithStyles,
-  Style } from '@alyle/ui';
+  Style
+  } from '@alyle/ui';
 
 export interface LyCardTheme {
   /** Styles for Card Component */
@@ -47,17 +48,42 @@ export const STYLES = (theme: ThemeVariables & LyCardVariables, ref: ThemeRef) =
   return {
     $priority: STYLE_PRIORITY,
     $name: LyCard.и,
-    root: ( ) => (className: string) => `${className}{display:block;overflow:hidden;border-radius:2px;}${st2c((
+    root: ( ) => lyl `{
+      display: block
+      overflow: hidden
+      border-radius: 2px
+      ...${
         (theme.card
           && theme.card.root
           && (theme.card.root instanceof StyleCollection
             ? theme.card.root.setTransformer(fn => fn(card))
             : theme.card.root(card))
-        )), `${className}`)}`,
-    bgImg: (className: string) => `${className}{display:block;background-size:cover;background-repeat:no-repeat;background-position:center;}`,
-    content: (className: string) => `${className}{display:block;padding:16px 24px;}${className} ${theme.getBreakpoint('XSmall')}{padding:16px 16px;}`,
-    actions: (className: string) => `${className}{display:block;padding:8px 12px;}${className} ${theme.getBreakpoint('XSmall')}{padding:8px 4px;}`,
-    actionsItem: (className: string) => `${className}{margin:0 4px;}`
+        )
+      }
+    }`,
+    bgImg: lyl `{
+      display: block
+      background-size: cover
+      background-repeat: no-repeat
+      background-position: center
+    }`,
+    content: lyl `{
+      display: block
+      padding: 16px 24px
+      ${theme.getBreakpoint('XSmall')} {
+        padding: 16px 16px
+      }
+    }`,
+    actions: lyl `{
+      display: block
+      padding: 8px 12px
+      ${theme.getBreakpoint('XSmall')} {
+        padding: 8px 4px
+      }
+    }`,
+    actionsItem: lyl `{
+      margin: 0 4px
+    }`
   };
 };
 
@@ -192,7 +218,9 @@ export class LyCardMedia implements WithStyles, OnInit {
   private _ratio: string;
 
   @Input()
-  @Style<string>((val) => () => (className: string) => `${className}{background-image:url('${val}');}`)
+  @Style<string>((val) => () => lyl `{
+    background-image: url('${val}')
+  }`)
   bgImg: string;
 
   /**
@@ -208,9 +236,15 @@ export class LyCardMedia implements WithStyles, OnInit {
       this._ratio = val;
       this[0x2] = this.sRenderer.add(
         `${LyCardMedia.и}--ratio-${val}`,
-        () => (className: string) => `${className}::before{content:'';display:block;padding-top:${val
+        () => lyl `{
+          &::before {
+            content: ''
+            display: block
+            padding-top: ${val
               .split(':')
-              .reduce((prev, current) => (+current / +prev * 100).toString())}%;}`,
+              .reduce((prev, current) => (+current / +prev * 100).toString())}%
+          }
+        }`,
         STYLE_PRIORITY,
         this[0x2]
       );

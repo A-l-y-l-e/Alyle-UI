@@ -1,9 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import {
-  LyTheme2 } from '@alyle/ui';
+import { lyl, LyTheme2 } from '@alyle/ui';
 
 const STYLES = () => ({
-  menu: (className: string) => `${className}{color:red;}`
+  menu: lyl `{
+    color: red
+  }`
 });
 
 @Component({

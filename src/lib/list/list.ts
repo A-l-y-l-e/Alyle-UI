@@ -36,8 +36,9 @@ import {
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  st2c,
-  ThemeRef } from '@alyle/ui';
+  lyl,
+  ThemeRef
+  } from '@alyle/ui';
 import { LyAvatar } from '@alyle/ui/avatar';
 
 export interface LyListTheme {
@@ -58,22 +59,100 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
   return {
     $name: LyList.и,
     $priority: STYLE_PRIORITY,
-    root: ( ) => (className: string) => `${className}{display:block;position:relative;padding-top:8px;padding-bottom:8px;}${st2c((
+    root: ( ) => lyl `{
+      display: block
+      position: relative
+      padding-top: 8px
+      padding-bottom: 8px
+      {
+        ...${
           (theme.list
             && theme.list.root
             && (theme.list.root instanceof StyleCollection
               ? theme.list.root.setTransformer(fn => fn(list))
               : theme.list.root(list))
-          )), `${className}`)}`,
-    listItem: ( ) => (className: string) => `${st2c((LY_COMMON_STYLES.button), `${className}`)}${className}{font-family:${theme.typography.fontFamily};font-size:${theme.pxToRem(16)};color:${theme.text.default};display:flex;width:100%;position:relative;padding:0 16px;min-height:48px;overflow:hidden;text-align:left;align-items:flex-start;justify-content:flex-start;border-radius:0;}${className}::after{content:'';width:100%;height:100%;background:transparent;opacity:0;pointer-events:none;}${st2c((LY_COMMON_STYLES.fill), `${className}::after`)}${className}::after },${className}::after${list.onFocusByKeyboard}::after,${className}::after${list.actionListItem}:hover::after{background:currentColor;opacity:.13;border-radius:inherit;}`,
+          )
+        }
+      }
+    }`,
+    listItem: ( ) => lyl `{
+      ...${LY_COMMON_STYLES.button}
+      font-family: ${theme.typography.fontFamily}
+      font-size: ${theme.pxToRem(16)}
+      color: ${theme.text.default}
+      display: flex
+      width: 100%
+      position: relative
+      padding: 0 16px
+      min-height: 48px
+      overflow: hidden
+      text-align: left
+      align-items: flex-start
+      justify-content: flex-start
+      border-radius: 0
+      &::after {
+        content: ''
+        ...${LY_COMMON_STYLES.fill}
+        width: 100%
+        height: 100%
+        background: transparent
+        opacity: 0
+        pointer-events: none
+      },
+      &${list.onFocusByKeyboard}::after, &${list.actionListItem}:hover::after {
+        background: currentColor
+        opacity: .13
+        border-radius: inherit
+      }
+    }`,
     onFocusByKeyboard: null,
-    listItemContent: (className: string) => `${className}{display:flex;justify-content:inherit;align-items:inherit;align-content:inherit;font-size:inherit;width:100%;height:100%;box-sizing:border-box;}`,
-    oneLine: (className: string) => `${className}{padding-top:8px;padding-bottom:8px;min-height:48px;}`,
-    twoLine: ( ) => (className: string) => `${className}{padding-top:16px;padding-bottom:16px;min-height:64px;}${className} ${list.lines}{margin-bottom:-4px;}`,
-    actionListItem: (className: string) => `${className}{cursor:pointer;user-select:none;}`,
-    lines: (className: string) => `${className}{align-self:stretch;min-width:0;width:100%;justify-content:center;flex-direction:column;display:flex;}`,
-    listItemWithIcon: ( ) => (className: string) => `${className} ${list.lines}{padding-${before}:16px;}`,
-    twoLineWithIcon: ( ) => (className: string) => `${className}{padding-top:16px;padding-bottom:16px;}${className} ${list.lines}{margin-bottom:-4px;}`
+    listItemContent: lyl `{
+      display: flex
+      justify-content: inherit
+      align-items: inherit
+      align-content: inherit
+      font-size: inherit
+      width: 100%
+      height: 100%
+      box-sizing: border-box
+    }`,
+    oneLine: lyl `{
+      padding-top: 8px
+      padding-bottom: 8px
+      min-height: 48px
+    }`,
+    twoLine: ( ) => lyl `{
+      padding-top: 16px
+      padding-bottom: 16px
+      min-height: 64px
+      ${list.lines} {
+        margin-bottom: -4px
+      }
+    }`,
+    actionListItem: lyl `{
+      cursor: pointer
+      user-select: none
+    }`,
+    lines: lyl `{
+      align-self: stretch
+      min-width: 0
+      width: 100%
+      justify-content: center
+      flex-direction: column
+      display: flex
+    }`,
+    listItemWithIcon: ( ) => lyl `{
+      ${list.lines} {
+        padding-${before}: 16px
+      }
+    }`,
+    twoLineWithIcon: ( ) => lyl `{
+      padding-top: 16px
+      padding-bottom: 16px
+      ${list.lines} {
+        margin-bottom: -4px
+      }
+    }`
   };
 };
 

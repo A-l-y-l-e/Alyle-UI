@@ -33,13 +33,12 @@ import {
   ThemeVariables,
   LyFocusState,
   LY_COMMON_STYLES,
-  st2c,
-  StyleCollection,
+  lyl, StyleCollection,
   LyClasses,
   StyleTemplate,
   ThemeRef,
   LyHostClass,
-  StyleRenderer } from '@alyle/ui';
+  StyleRenderer} from '@alyle/ui';
 
 export interface LyRadioTheme {
   /** Styles for Radio Component */
@@ -72,21 +71,97 @@ export const STYLES = (theme: ThemeVariables & LyRadioVariables, ref: ThemeRef) 
   const { after, before } = theme;
   return {
     $priority: STYLE_PRIORITY,
-    root: ( ) => (className: string) => `${className}{display:inline-block;}${st2c((
+    root: ( ) => lyl `{
+      display: inline-block
+      {
+        ...${
           (theme.radio
             && theme.radio.root
             && (theme.radio.root instanceof StyleCollection
               ? theme.radio.root.setTransformer(fn => fn(radio))
               : theme.radio.root(radio))
-          )), `${className}`)}`,
-    radio: ( ) => (className: string) => `${className}{display:inline-block;margin-${after}:16px;margin-${before}:-16px;}${className}${radio.checked} ${radio.container} div:nth-child(1){transform:scale(1.25);}${className}${radio.checked} ${radio.container} div:nth-child(2){transform:scale(0.8);}${className}${radio.onFocusByKeyboard} ${radio.container}::after{box-shadow:0 0 0 12px;background:currentColor;opacity:.13;border-radius:50%;}`,
-    label: (className: string) => `${className}{margin-${before}:16px;cursor:pointer;white-space:nowrap;position:relative;display:flex;align-items:baseline;padding-top:12px;padding-bottom:12px;}`,
+          )
+        }
+      }
+    }`,
+    radio: ( ) => lyl `{
+      display: inline-block
+      margin-${after}: 16px
+      margin-${before}: -16px
+      &${radio.checked} {
+        ${radio.container} {
+          div:nth-child(1) {
+            transform: scale(1.25)
+          }
+          div:nth-child(2) {
+            transform: scale(0.8)
+          }
+        }
+      }
+      &${radio.onFocusByKeyboard} ${radio.container}::after {
+        box-shadow: 0 0 0 12px
+        background: currentColor
+        opacity: .13
+        border-radius: 50%
+      }
+    }`,
+    label: lyl `{
+      margin-${before}: 16px
+      cursor: pointer
+      white-space: nowrap
+      position: relative
+      display: flex
+      align-items: baseline
+      padding-top: 12px
+      padding-bottom: 12px
+    }`,
     labelContent: null,
-    container: (className: string) => `${className}{position:relative;margin-${before}:.125em;margin-${after}:.5em;margin-top:auto;margin-bottom:auto;width:16px;height:16px;}${className} div{margin:auto;border-radius:50%;width:1em;height:1em;box-sizing:border-box;}${className}::after{content:'';width:16px;height:16px;margin:auto;}${st2c((LY_COMMON_STYLES.fill), `${className}::after`)}${className} div:nth-child(2){background:currentColor;transform:scale(0);}${className} div:nth-child(1){transform:scale(1);border:solid .08em currentColor;color:${theme.text.disabled};}`,
+    container: lyl `{
+      position: relative
+      margin-${before}: .125em
+      margin-${after}: .5em
+      margin-top: auto
+      margin-bottom: auto
+      width: 16px
+      height: 16px
+      div {
+        margin: auto
+        border-radius: 50%
+        width: 1em
+        height: 1em
+        box-sizing: border-box
+      }
+      &::after {
+        content: ''
+        ...${LY_COMMON_STYLES.fill}
+        width: 16px
+        height: 16px
+        margin: auto
+      }
+      div:nth-child(2) {
+        background: currentColor
+        transform: scale(0)
+      }
+      div:nth-child(1) {
+        transform: scale(1)
+        border: solid .08em currentColor
+        color: ${theme.text.disabled}
+      }
+    }`,
     checked: null,
-    _animations: ( ) => (className: string) => `${className} ${radio.container} div{transition:transform cubic-bezier(.1, 1, 0.5, 1);transition-duration:250ms;}`,
+    _animations: ( ) => lyl `{
+      ${radio.container} div {
+        transition: transform cubic-bezier(.1, 1, 0.5, 1)
+        transition-duration: 250ms
+      }
+    }`,
     onFocusByKeyboard: null,
-    disabled: ( ) => (className: string) => `${className}{color:${theme.disabled.contrast};}${className} ${radio.container} div{color:${theme.disabled.contrast}!important;}`
+    disabled: ( ) => lyl `{
+      color: ${theme.disabled.contrast}
+      ${radio.container} div {
+        color: ${theme.disabled.contrast}!important
+      }
+    }`
   };
 };
 
@@ -290,7 +365,11 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
             checked,
             container
           } = ref.selectorsOf(STYLES);
-          return (className: string) => `${className}${checked} ${container},${className}${checked} ${container} div:nth-child(1),${className} ${container} div:nth-child(2){color:${theme.colorOf(val)};}`;
+          return lyl `{
+            &${checked} ${container}, &${checked} ${container} div:nth-child(1), & ${container} div:nth-child(2) {
+              color: ${theme.colorOf(val)}
+            }
+          }`;
         },
         STYLE_PRIORITY,
         this[0x1]

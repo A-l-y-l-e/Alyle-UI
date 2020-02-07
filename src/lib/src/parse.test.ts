@@ -1,6 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
-import {
-  StyleCollection } from './parse';
+import { StyleCollection, lyl } from './parse';
 import { mergeThemes } from './style-utils';
 
 const test = anyTest as TestInterface<Context>;
@@ -14,19 +13,29 @@ test.before(t => {
 test('merge theme StyleCollection with StyleTemplate', t => {
   const themeA = {
     a: new StyleCollection(),
-    b: new StyleCollection((className: string) => `${className}{color:red;}`)
+    b: new StyleCollection(lyl `{
+      color: red
+    }`)
   };
   const themeB = {
-    a: (className: string) => `${className}{color:red;}`,
-    b: (className: string) => `${className}{background-color:#000000;}`
+    a: lyl `{
+      color: red
+    }`,
+    b: lyl `{
+      background-color: #000000
+    }`
   };
 
   const themeC = {
-    b: new StyleCollection((className: string) => `${className}{color:#000;}`),
+    b: new StyleCollection(lyl `{
+      color: #000
+    }`),
   };
 
   const themeD = {
-    b: (className: string) => `${className}{background:#fff;}`,
+    b: lyl `{
+      background: #fff
+    }`,
   };
 
   mergeThemes(themeA, themeB);

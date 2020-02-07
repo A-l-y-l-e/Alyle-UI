@@ -8,12 +8,7 @@ import {
 } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Router, NavigationEnd } from '@angular/router';
-import {
-  AUI_VERSION,
-  LyTheme2,
-  ThemeVariables,
-  Platform,
-  ThemeRef } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef, lyl } from '@alyle/ui';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark, AUIThemeVariables } from './app.module';
@@ -31,17 +26,67 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
   const classes = ref.selectorsOf(styles);
   return {
     $name: 'app',
-    $global: (className: string) => `${className} body{background-color:${theme.background.default};color:${theme.text.default};font-family:${theme.typography.fontFamily};margin:0;direction:${theme.direction};}${className} a:not([ly-button]){color:${theme.accent.default};text-decoration:inherit;}${className} a:not([ly-button]):hover{text-decoration:underline;}`,
-    appContainer: ( ) => (className: string) => `${className}{display:flex;align-items:center;justify-content:center;min-height:calc(100vh);}${className} ${classes.demo}{max-width:960px;min-height:100vh;flex:1;padding:96px 2rem;width:100%;box-sizing:border-box;}`,
+    $global: lyl `{
+      body {
+        background-color: ${theme.background.default}
+        color: ${theme.text.default}
+        font-family: ${theme.typography.fontFamily}
+        margin: 0
+        direction: ${theme.direction}
+      }
+      a:not([ly-button]) {
+        color: ${theme.accent.default}
+        text-decoration: inherit
+        &:hover {
+          text-decoration: underline
+        }
+      }
+    }`,
+    appContainer: ( ) => lyl `{
+      display: flex
+      align-items: center
+      justify-content: center
+      min-height: calc(100vh)
+      ${classes.demo} {
+        max-width: 960px
+        min-height: 100vh
+        flex: 1
+        padding: 96px 2rem
+        width: 100%
+        box-sizing: border-box
+      }
+    }`,
     demo: null,
-    docsViewer: (className: string) => `${className} p{line-height:1.5;}`,
+    docsViewer: lyl `{
+      p {
+        line-height: 1.5
+      }
+    }`,
     root: {
       display: 'block',
     },
-    drawer: (className: string) => `${className}::-webkit-scrollbar{width:16px;}${className}::-webkit-scrollbar-thumb{background:${
+    drawer: lyl `{
+      &::-webkit-scrollbar {
+        width: 16px
+      }
+      &::-webkit-scrollbar-thumb {
+        background: ${
           (theme.background.primary.default.luminance() < 0.5
           ? theme.text.light
-          : theme.text.dark).luminance(.5)};background-clip:padding-box;border:6px solid transparent;-webkit-border-radius:12px;border-radius:12px;-webkit-box-shadow:none;box-shadow:none;}${className}::-webkit-scrollbar-track{background:none;border:none;}`,
+          : theme.text.dark).luminance(.5)
+        }
+        background-clip: padding-box
+        border: 6px solid transparent
+        -webkit-border-radius: 12px
+        border-radius: 12px
+        -webkit-box-shadow: none
+        box-shadow: none
+      }
+      &::-webkit-scrollbar-track {
+        background: none
+        border: none
+      }
+    }`,
     drawerUl: {
       overflow: 'hidden',
       position: 'relative',

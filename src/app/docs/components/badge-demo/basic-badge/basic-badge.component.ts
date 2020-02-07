@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
-import {
-  LyTheme2 } from '@alyle/ui';
+import { LyTheme2, lyl } from '@alyle/ui';
 
 const styles = () => {
 
   return {
-    root: (className: string) => `${className} [ly-button]{margin:1em;}`,
-    padding: (className: string) => `${className}{padding:0 1em;}`
+    root: lyl `{
+      & [ly-button] {
+        margin: 1em
+      }
+    }`,
+    padding: lyl `{
+      padding: 0 1em
+    }`
   };
 };
 

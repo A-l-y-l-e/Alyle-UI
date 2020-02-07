@@ -16,16 +16,7 @@ import {
   DoCheck,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
-import {
-  LyOverlayRef,
-  LyTheme2,
-  ThemeVariables,
-  shadowBuilder,
-  st2c,
-  LyClasses,
-  StyleCollection,
-  StyleTemplate,
-  ThemeRef } from '@alyle/ui';
+import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder, lyl, LyClasses, StyleCollection, StyleTemplate, ThemeRef } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
@@ -51,13 +42,29 @@ export interface LyDialogVariables {
 const STYLES = (theme: ThemeVariables & LyDialogVariables, ref: ThemeRef) => {
   const dialog = ref.selectorsOf(STYLES);
   return {
-    root: ( ) => (className: string) => `${className}{display:flex;position:relative;background-color:${theme.background.primary.default};border-radius:4px;box-shadow:${shadowBuilder(12)};overflow:auto;}${st2c((
+    root: ( ) => lyl `{
+      display: flex
+      position: relative
+      background-color: ${theme.background.primary.default}
+      border-radius: 4px
+      box-shadow: ${shadowBuilder(12)}
+      overflow: auto
+      > :first-child {
+        display: flex
+        flex-direction: column
+        width: 100%
+      }
+      {
+        ...${
           (theme.dialog
             && theme.dialog.root
             && (theme.dialog.root instanceof StyleCollection
               ? theme.dialog.root.setTransformer(fn => fn(dialog))
               : theme.dialog.root(dialog))
-          )), `${className}`)}${className} > :first-child{display:flex;flex-direction:column;width:100%;}`
+          )
+        }
+      }
+    }`
   };
 };
 

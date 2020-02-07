@@ -17,8 +17,7 @@ import {
   InjectionToken,
   Inject,
   Optional} from '@angular/core';
-import {
-  LyTheme2,
+import { LyTheme2,
   ThemeVariables,
   toBoolean,
   LY_COMMON_STYLES,
@@ -30,9 +29,9 @@ import {
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  st2c,
+  lyl,
   ThemeRef,
-  StyleRenderer } from '@alyle/ui';
+  StyleRenderer} from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -76,44 +75,248 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
   const { before } = theme;
   return {
     $priority: STYLE_PRIORITY,
-    root: () => (className: string) => `${className}{display:inline-block;position:relative;box-sizing:border-box;cursor:pointer;}${st2c((
+    root: () => lyl `{
+      display: inline-block
+      position: relative
+      box-sizing: border-box
+      cursor: pointer
+      ${__.bg} {
+        ...${LY_COMMON_STYLES.fill}
+        margin: auto
+      }
+      // always show visible thumb, when {thumbVisible} is available
+      &${__.thumbVisible} ${__.thumb},
+      // on hover
+      &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover ${__.thumb},
+      // on focused
+      &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused} ${__.thumb} {
+        border-radius: 50% 50% 0%
+      }
+
+      &${__.thumbVisible} ${__.thumbContent}::before,
+      &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover::before,
+      &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused}::before {
+        transform: scale(1)
+      }
+      {
+        ...${
           (theme.slider
             && theme.slider.root
             && (theme.slider.root instanceof StyleCollection
               ? theme.slider.root.setTransformer(fn => fn(__)).css
               : theme.slider.root(__))
-          )), `${className}`)}${st2c((LY_COMMON_STYLES.fill), `${className} ${__.bg}`)}${className} ${__.bg}{margin:auto;}${className}${__.thumbVisible} ${__.thumb},${className}:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover ${__.thumb},${className}:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused} ${__.thumb}{border-radius:50% 50% 0%;}${className}${__.thumbVisible} ${__.thumbContent}::before,${className}:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover::before,${className}:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused}::before{transform:scale(1);}`,
+          )
+        }
+      }
+    }`,
 
-    track: (className: string) => `${className}{position:absolute;margin:auto;}`,
+    track: lyl `{
+      position: absolute
+      margin: auto
+    }`,
     bg: null,
-    thumbContainer: (className: string) => `${className}{width:0;height:0;position:absolute;margin:auto;}`,
-    thumbContent: (className: string) => `${className}::before{content:'';position:absolute;opacity:.6;transform:scale(0);transition:transform ${
-          theme.animations.durations.entering}ms ${theme.animations.curves.sharp} 0ms, background ${
-          theme.animations.durations.complex}ms ${theme.animations.curves.sharp} 0ms;}`,
-    thumb: (className: string) => `${className}{position:absolute;width:12px;height:12px;left:-6px;top:-6px;border-radius:50%;outline:0;transition:${['border-radius'].map(prop => `${prop} ${
-        theme.animations.durations.exiting
-      }ms ${theme.animations.curves.standard} 0ms`).join()};}${className}::before{content:'';border-radius:50%;transition:${['box-shadow'].map(prop => `${prop} ${
+    thumbContainer: lyl `{
+      width: 0
+      height: 0
+      position: absolute
+      margin: auto
+    }`,
+    thumbContent: lyl `{
+      &::before {
+        content: ''
+        position: absolute
+        opacity: .6
+        transform: scale(0)
+        transition: transform ${
           theme.animations.durations.entering
-        }ms ${theme.animations.curves.sharp} 0ms`).join()};}${st2c((LY_COMMON_STYLES.fill), `${className}::before`)}`,
-    thumbLabel: (className: string) => `${className}{position:absolute;width:28px;height:28px;border-radius:50%;top:-14px;${before}:-14px;transition:${['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
+        }ms ${theme.animations.curves.sharp} 0ms, background ${
+          theme.animations.durations.complex
+        }ms ${theme.animations.curves.sharp} 0ms
+      }
+    }`,
+    thumb: lyl `{
+      position: absolute
+      width: 12px
+      height: 12px
+      left: -6px
+      top: -6px
+      border-radius: 50%
+      outline: 0
+      transition: ${['border-radius'].map(prop => `${prop} ${
+        theme.animations.durations.exiting
+      }ms ${theme.animations.curves.standard} 0ms`).join()}
+      &::before {
+        content: ''
+        ...${LY_COMMON_STYLES.fill}
+        border-radius: 50%
+        transition: ${['box-shadow'].map(prop => `${prop} ${
+          theme.animations.durations.entering
+        }ms ${theme.animations.curves.sharp} 0ms`).join()}
+      }
+    }`,
+    thumbLabel: lyl `{
+      position: absolute
+      width: 28px
+      height: 28px
+      border-radius: 50%
+      top: -14px
+      ${before}: -14px
+      transition: ${['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
         theme.animations.durations.entering
-      }ms ${theme.animations.curves.sharp} 0ms`).join()};}`,
-    thumbLabelValue: (className: string) => `${className}{display:flex;height:100%;width:100%;align-items:center;justify-content:center;font-size:12px;color:#fff;}`,
+      }ms ${theme.animations.curves.sharp} 0ms`).join()}
+    }`,
+    thumbLabelValue: lyl `{
+      display: flex
+      height: 100%
+      width: 100%
+      align-items: center
+      justify-content: center
+      font-size: 12px
+      color: #fff
+    }`,
 
-    horizontal: () => (className: string) => `${className}{width:120px;height:2px;padding:10px 0;touch-action:pan-y !important;}${className} ${__.track},${className} ${__.bg}{height:2px;width:100%;}${className} ${__.track}{${before}:0;top:0;bottom:0;}${className} ${__.thumb}{transform:rotateZ(-135deg);}${className} ${__.thumbLabel}{transform:rotateZ(45deg) scale(0);}${className}${__.thumbVisible} ${__.thumbLabel},${className}:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},${className} ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel}{border-radius:50% 50% 0%;top:-50px;transform:rotateZ(45deg) scale(1);}${className} ${__.thumbLabelValue}{transform:rotateZ(-45deg);}${className} ${__.thumbContainer}{top:0;bottom:0;}${className} ${__.thumbContent}::before{width:2px;height:24px;left:-1px;top:-24px;}${className} ${__.tick}{width:2px;height:inherit;top:0;bottom:0;}${className} ${__.mark}{top:22px;transform:translateX(${theme.direction === Dir.ltr ? '-' : ''}50%);}${className}${__.marked}{margin-bottom:24px;}`,
-    vertical: () => (className: string) => `${className}{width:2px;height:120px;padding:0 10px;touch-action:pan-x !important;}${className} ${__.track},${className} ${__.bg}{height:100%;width:2px;}${className} ${__.track}{bottom:0;left:0;right:0;}${className} ${__.thumb}{transform:${theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'};}${className} ${__.thumbLabel}{transform:rotateZ(-45deg) scale(0);}${className}${__.thumbVisible} ${__.thumbLabel},${className}:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},${className} ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel}{border-radius:${theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'};before:-50px;transform:rotateZ(-45deg) scale(1);}${className} ${__.thumbLabelValue}{transform:rotateZ(45deg);}${className} ${__.thumbContainer}{left:0;right:0;}${className} ${__.thumbContent}::before{width:24px;height:2px;before:-24px;top:-1px;}${className} ${__.tick}{width:inherit;height:2px;left:0;right:0;}${className} ${__.mark}{${before}:22px;transform:translateY(50%);}${className}${__.marked}{${theme.direction === Dir.ltr ? 'margin-right' : 'margin-left'}:24px;}`,
+    horizontal: () => lyl `{
+      width: 120px
+      height: 2px
+      padding: 10px 0
+      touch-action: pan-y !important
+      ${__.track}, ${__.bg} {
+        height: 2px
+        width: 100%
+      }
+      ${__.track} {
+        ${before}: 0
+        top: 0
+        bottom: 0
+      }
+      & ${__.thumb} {
+        transform: rotateZ(-135deg)
+      }
+
+      ${__.thumbLabel} {
+        transform: rotateZ(45deg) scale(0)
+      }
+      // always show visible thumb, when {thumbVisible} is available
+      &${__.thumbVisible} ${__.thumbLabel},
+      // on hover
+      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+      // on focused
+      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+        border-radius: 50% 50% 0%
+        top: -50px
+        transform: rotateZ(45deg) scale(1)
+      }
+
+      & ${__.thumbLabelValue} {
+        transform: rotateZ(-45deg)
+      }
+      ${__.thumbContainer} {
+        top: 0
+        bottom: 0
+      }
+      & ${__.thumbContent}::before {
+        width: 2px
+        height: 24px
+        left: -1px
+        top: -24px
+      }
+
+      ${__.tick} {
+        width: 2px
+        height: inherit
+        top: 0
+        bottom: 0
+      }
+      ${__.mark} {
+        top: 22px
+        transform: translateX(${theme.direction === Dir.ltr ? '-' : ''}50%)
+      }
+      &${__.marked} {
+        margin-bottom: 24px
+      }
+    }`,
+    vertical: () => lyl `{
+      width: 2px
+      height: 120px
+      padding: 0 10px
+      touch-action: pan-x !important
+      & ${__.track}, & ${__.bg} {
+        height: 100%
+        width: 2px
+      }
+      ${__.track} {
+        bottom: 0
+        left: 0
+        right: 0
+      }
+      & ${__.thumb} {
+        transform: ${theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'}
+      }
+      & ${__.thumbLabel} {
+        transform: rotateZ(-45deg) scale(0)
+      }
+      // always show visible thumb, when {thumbVisible} is available
+      &${__.thumbVisible} ${__.thumbLabel},
+      // on hover
+      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+      // on focused
+      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+        border-radius: ${theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'}
+        before: -50px
+        transform: rotateZ(-45deg) scale(1)
+      }
+
+      & ${__.thumbLabelValue} {
+        transform: rotateZ(45deg)
+      }
+      ${__.thumbContainer} {
+        left: 0
+        right: 0
+      }
+      ${__.thumbContent}::before {
+        width: 24px
+        height: 2px
+        before: -24px
+        top: -1px
+      }
+      ${__.tick} {
+        width: inherit
+        height: 2px
+        left: 0
+        right: 0
+      }
+      ${__.mark} {
+        ${before}: 22px
+        transform: translateY(50%)
+      }
+      &${__.marked} {
+        ${theme.direction === Dir.ltr ? 'margin-right' : 'margin-left'}: 24px
+      }
+    }`,
 
     marked: null,
-    mark: (className: string) => `${className}{position:absolute;white-space:nowrap;font-size:14px;color:${theme.text.secondary};}`,
-    markActive: (className: string) => `${className}{color:currentColor;}`,
-    tick: (className: string) => `${className}{position:absolute;margin:auto;}`,
+    mark: lyl `{
+      position: absolute
+      white-space: nowrap
+      font-size: 14px
+      color: ${theme.text.secondary}
+    }`,
+    markActive: lyl `{
+      color: currentColor
+    }`,
+    tick: lyl `{
+      position: absolute
+      margin: auto
+    }`,
     tickActive: null,
 
     thumbVisible: null,
     thumbNotVisible: null,
     thumbContentFocused: null,
     sliding: null,
-    disabled: (className: string) => `${className}{cursor:default;}`
+    disabled: lyl `{
+      cursor: default
+    }`
   };
 };
 

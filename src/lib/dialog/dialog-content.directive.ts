@@ -1,12 +1,17 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import {
-  LyTheme2 } from '@alyle/ui';
+import { LyTheme2, lyl } from '@alyle/ui';
 
 /** @docs-private */
 const STYLE_PRIORITY = -2;
 
 /** @docs-private */
-const STYLES_DIALOG_CONTENT = () => (className: string) => `${className}{display:block;overflow-y:auto;flex:1 1 auto;padding:0 24px 24px;-webkit-overflow-scrolling:touch;}`;
+const STYLES_DIALOG_CONTENT = () => lyl `{
+  display: block
+  overflow-y: auto
+  flex: 1 1 auto
+  padding: 0 24px 24px
+  -webkit-overflow-scrolling: touch
+}`;
 
 @Directive({
   selector: 'ly-dialog-content, [ly-dialog-content], [lyDialogContent]',
