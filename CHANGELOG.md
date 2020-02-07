@@ -4,7 +4,7 @@
 ### Bug Fixes
 
 * show error when using `height` in Drawer ([1f5a8fa](https://github.com/A-l-y-l-e/Alyle-UI/commit/1f5a8fa))
-* **checkbox:** use input color with `[@style](https://github.com/style)` decorator ([9e62585](https://github.com/A-l-y-l-e/Alyle-UI/commit/9e62585))
+* **checkbox:** use input color with `@style` decorator ([9e62585](https://github.com/A-l-y-l-e/Alyle-UI/commit/9e62585))
 * **drawer:** rename `[width]` and `[height]` ([81a299a](https://github.com/A-l-y-l-e/Alyle-UI/commit/81a299a))
 * **image-cropper:** choosing the same image does not load ([fc0047d](https://github.com/A-l-y-l-e/Alyle-UI/commit/fc0047d))
 * **img-cropper:** fix Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported. ([15affe7](https://github.com/A-l-y-l-e/Alyle-UI/commit/15affe7))
@@ -30,7 +30,11 @@
 * improve docs ([#104](https://github.com/A-l-y-l-e/Alyle-UI/issues/104)) ([00e151e](https://github.com/A-l-y-l-e/Alyle-UI/commit/00e151e))
 * ultra customizable ([7a8fdaf](https://github.com/A-l-y-l-e/Alyle-UI/commit/7a8fdaf))
 
+### BREAKING CHANGES
 
+**drawer:**
+
+`[width]` and `[height]` is deprecated Rename from `[width]` to `[drawerWidth]` and from `[height]` to `[drawerHeight]`. More info [here](http://alyle.io/guides/migrating-to-alyle-ui-3)
 
 ## [2.9.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.6...2.9.7) (2019-12-04)
 
