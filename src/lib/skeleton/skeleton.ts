@@ -1,5 +1,11 @@
 import { Directive, Input } from '@angular/core';
-import { ThemeVariables, keyframesUniqueId, lyl, LyHostClass, StyleRenderer, toBoolean, Dir } from '@alyle/ui';
+import {
+  ThemeVariables,
+  keyframesUniqueId,
+  LyHostClass,
+  StyleRenderer,
+  toBoolean,
+  Dir } from '@alyle/ui';
 
 const STYLE_PRIORITY = -0.5;
 export const STYLES = (theme: ThemeVariables) => {
@@ -19,20 +25,8 @@ export const STYLES = (theme: ThemeVariables) => {
   return {
     $name: LySkeleton.и,
     $priority: STYLE_PRIORITY,
-    $global: lyl `{
-      @keyframes ${id} {
-        0% {
-          background-position: ${-dir * 200}% 50%
-        }
-
-        100% {
-          background-position: ${dir * 200}% 50%
-        }
-      }
-    }`,
-    root: lyl `{
-      content: ''
-      background: ${
+    $global: (className: string) => `@keyframes ${id}{${className} 0%{background-position:${-dir * 200}% 50%;}${className} 100%{background-position:${dir * 200}% 50%;}}`,
+    root: (className: string) => `${className}{content:'';background:${
         `linear-gradient(270deg, ${
           one
         }, ${
@@ -41,14 +35,7 @@ export const STYLES = (theme: ThemeVariables) => {
           two
         }, ${
           one
-        })`
-      }
-      background-size: 400% 400%
-      animation: ${id} 8s ease-in-out infinite
-      color: transparent
-      cursor: progress
-      user-select: none
-    }`
+        })`};background-size:400% 400%;animation:${id} 8s ease-in-out infinite;color:transparent;cursor:progress;user-select:none;}`
   };
 };
 

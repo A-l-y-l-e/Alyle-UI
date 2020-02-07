@@ -9,7 +9,15 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2, lyl, StyleRenderer, LyHammerGestureConfig } from '@alyle/ui';
+import {
+  LyCommonModule,
+  LY_THEME,
+  LY_THEME_GLOBAL_VARIABLES,
+  RecursivePartial,
+  LY_THEME_NAME,
+  LyTheme2,
+  StyleRenderer,
+  LyHammerGestureConfig } from '@alyle/ui';
 import { ResponsiveModule } from '@alyle/ui/responsive';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -59,10 +67,7 @@ export class CustomMinimaLight {
   };
   stackblitz = '#1389FD';
   snackBar = {
-    root: lyl `{
-      background: ${new Color(0x000000)}
-      border-radius: 0
-    }`
+    root: (className: string) => `${className}{background:${new Color(0x000000)};border-radius:0;}`
   };
 }
 
@@ -97,14 +102,7 @@ export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDar
   transparent = new Color(0, 0, 0, 0);
   typography: LyTypographyTheme = {
     lyTyp: {
-      subTitle: () => lyl `{
-        font-family: 'Roboto', sans-serif
-        text-align: center
-        padding-above: 1em
-        opacity: .6
-        font-size: 32px
-        font-weight: 400
-      }`
+      subTitle: () => (className: string) => `${className}{font-family:'Roboto', sans-serif;text-align:center;padding-above:1em;opacity:.6;font-size:32px;font-weight:400;}`
     }
   };
 }

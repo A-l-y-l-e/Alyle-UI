@@ -1,14 +1,15 @@
 import { Directive, ElementRef, Renderer2, Input, OnInit, OnChanges } from '@angular/core';
-import { LyTheme2,
+import {
+  LyTheme2,
   toBoolean,
   ThemeVariables,
   mixinStyleUpdater,
   mixinColor,
   StyleCollection,
   StyleTemplate,
-  lyl,
+  st2c,
   LyHostClass,
-  StyleRenderer} from '@alyle/ui';
+  StyleRenderer } from '@alyle/ui';
 
 export interface LyTypographyTheme {
   /** Styles for Typography Component */
@@ -29,28 +30,16 @@ export const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   return {
     $name: LyTypography.и,
     $priority: STYLE_PRIORITY,
-    root: lyl `{
-      margin: 0
-      display: block
-      font-family: ${theme.typography.fontFamily}
-      ...${
+    root: (className: string) => `${className}{margin:0;display:block;font-family:${theme.typography.fontFamily};}${st2c((
         (theme.typography
           && theme.typography.root
           && (theme.typography.root instanceof StyleCollection
             ? theme.typography.root.setTransformer(fn => fn()).css
             : theme.typography.root())
-        )
-      }
-    }`,
-    gutterTop: lyl `{
-      margin-top: 0.35em
-    }`,
-    gutterBottom: lyl `{
-      margin-bottom: 0.35em
-    }`,
-    gutter: lyl `{
-      margin: 0.35em 0
-    }`
+        )), `${className}`)}`,
+    gutterTop: (className: string) => `${className}{margin-top:0.35em;}`,
+    gutterBottom: (className: string) => `${className}{margin-bottom:0.35em;}`,
+    gutter: (className: string) => `${className}{margin:0.35em 0;}`
   };
 };
 

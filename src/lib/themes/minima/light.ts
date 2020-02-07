@@ -1,4 +1,8 @@
-import { ThemeConfig, shadowBuilder, lyl, StyleCollection, mergeThemes } from '@alyle/ui';
+import {
+  ThemeConfig,
+  shadowBuilder,
+  StyleCollection,
+  mergeThemes } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
 import { LyFieldTheme } from '@alyle/ui/field';
@@ -65,33 +69,15 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       fieldset,
       labelContainer,
       placeholder,
-      label}) => lyl `{
-      ${container}:after, ${fieldset}, ${labelContainer} {
-        border-color: ${new Color(0, 0, 0, 0.23)}
-      }
-      ${label}, ${placeholder} {
-        color: ${new Color(0, 0, 0, 0.6)}
-      }
-    }`,
+      label}) => (className: string) => `${className} ${container}:after,${className} ${fieldset},${className} ${labelContainer}{border-color:${new Color(0, 0, 0, 0.23)};}${className} ${label},${className} ${placeholder}{color:${new Color(0, 0, 0, 0.6)};}`,
     appearance: {
-      filled: ({ container }) => lyl `{
-        ${container} {
-          background-color: ${new Color(0, 0, 0, 0.04)}
-        }
-      }`
+      filled: ({ container }) => (className: string) => `${className} ${container}{background-color:${new Color(0, 0, 0, 0.04)};}`
     }
   });
   snackBar: LySnackBarTheme = {
-    root: new StyleCollection(lyl `{
-      background: ${new Color(0x323232)}
-      color: ${new Color(0xffffff)}
-      box-shadow: ${shadowBuilder(4, new Color(0x323232))}
-    }`)
+    root: new StyleCollection((className: string) => `${className}{background:${new Color(0x323232)};color:${new Color(0xffffff)};box-shadow:${shadowBuilder(4, new Color(0x323232))};}`)
   };
   tooltip: LyTooltipTheme = {
-    root: new StyleCollection(() => lyl `{
-      background: ${new Color(50, 50, 50, 0.85)}
-      color: ${new Color(0xffffff)}
-    }`)
+    root: new StyleCollection(() => (className: string) => `${className}{background:${new Color(50, 50, 50, 0.85)};color:${new Color(0xffffff)};}`)
   };
 }

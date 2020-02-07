@@ -1,6 +1,9 @@
 import anyTest, { TestInterface } from 'ava';
 import { hasLylStyle, styleCompiler } from './compiler';
-import { st2c, StyleCollection, lyl } from '../src/parse';
+import {
+  st2c,
+  StyleCollection,
+  st2c } from '../src/parse';
 import * as tsNode from 'ts-node';
 
 const test = anyTest as TestInterface<Context>;
@@ -50,7 +53,10 @@ class Context {
   `;
 
   simpleStyle = `
-  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+  import {
+  LyTheme2,
+  LyHostClass,
+  st2c } from '@alyle/ui';
 
   const style = lyl \`{
     color: red
@@ -58,7 +64,10 @@ class Context {
   `;
 
   simpleStyle2 = `
-  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+  import {
+  LyTheme2,
+  LyHostClass,
+  st2c } from '@alyle/ui';
 
   const style = lyl \`{
     color: red
@@ -70,7 +79,10 @@ class Context {
   `;
 
   complexStyle = `
-  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+  import {
+  LyTheme2,
+  LyHostClass,
+  st2c } from '@alyle/ui';
 
   const style = lyl \`{
     color: red
@@ -81,7 +93,10 @@ class Context {
   `;
 
   simpleAndComplexStyle = `
-  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+  import {
+  LyTheme2,
+  LyHostClass,
+  st2c } from '@alyle/ui';
 
   const topZero = lyl \`{
     top: 0
@@ -95,7 +110,10 @@ class Context {
   `;
 
   simpleStyleNoCompile = `
-  import { LyTheme2, LyHostClass, lyl as styleBlock } from '@alyle/ui';
+  import {
+  LyTheme2,
+  LyHostClass,
+  lyl as styleBlock } from '@alyle/ui';
 
   const topZero = styleBlock \`{
     top: 0
@@ -103,7 +121,10 @@ class Context {
   `;
 
   complexStyleNoCompile = `
-  import { LyTheme2, LyHostClass, lyl as styleBlock } from '@alyle/ui';
+  import {
+  LyTheme2,
+  LyHostClass,
+  lyl as styleBlock } from '@alyle/ui';
 
   const topZero = styleBlock \`{
     top: 0
@@ -117,7 +138,11 @@ class Context {
   `;
 
   complexStyleNoCompileAndSimpleStyle = `
-  import { LyTheme2, LyHostClass, lyl, lyl as styleBlock } from '@alyle/ui';
+  import {
+  LyTheme2,
+  LyHostClass,
+  st2c,
+  lyl as styleBlock } from '@alyle/ui';
 
   const topZero = lyl \`{
     top: 0
@@ -144,7 +169,10 @@ class Context {
   styles = `
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+import {
+  LyTheme2,
+  LyHostClass,
+  st2c } from '@alyle/ui';
 
 import { AUIThemeVariables } from '@app/app.module';
 
@@ -437,23 +465,12 @@ test(`with comments`, async t => {
   `);
   t.is(css, `.y .a{color:blue;}`);
   t.log(styleContent);
-  t.is(lyl `{
-    // Color blue
-    .a {
-      color: blue
-    }
-  }`('.y'), `.y .a{color:blue;}`);
+  t.is((className: string) => `${className} .a{color:blue;}`('.y'), `.y .a{color:blue;}`);
 });
 test(`media queries with inheritance style`, async t => {
 
-  const colorBlue = lyl `{
-    color: blue
-  }`;
-  const colorBlueAll = lyl `{
-    @media all {
-      ...${colorBlue}
-    }
-  }`;
+  const colorBlue = (className: string) => `${className}{color:blue;}`;
+  const colorBlueAll = (className: string) => `@media all{/* __READY__ */${st2c((colorBlue), `${className}`)}}`;
 
   const css1 = evalScript(`
   ${st2c}
@@ -469,20 +486,8 @@ test(`media queries with inheritance style`, async t => {
   style('.y');
   `);
 
-  const inStyle = lyl `{
-    color: blue
-    sel {
-      prop: value
-    }
-  }`;
-  const styleContent = lyl `{
-    @media all {
-      prop: value
-      prop2: value2
-      ...${inStyle}
-      prop3: value3
-    }
-  }`;
+  const inStyle = (className: string) => `${className}{color:blue;}${className} sel{prop:value;}`;
+  const styleContent = (className: string) => `@media all{${className}{prop:value;prop2:value2;}/* __READY__ */${st2c((inStyle), `${className}`)}${className}{prop3:value3;}}`;
 
   const css2 = evalScript(`
   ${st2c}

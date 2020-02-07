@@ -1,20 +1,13 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { LyTheme2, ThemeVariables, lyl } from '@alyle/ui';
+import {
+  LyTheme2,
+  ThemeVariables } from '@alyle/ui';
 
 /** @docs-private */
 const STYLE_PRIORITY = -2;
 
 /** @docs-private */
-const STYLES_DIALOG_TITLE = (theme: ThemeVariables) => lyl `{
-  display: block
-  flex: 0 0 auto
-  margin: 20px 0 16px
-  padding: 0 24px
-  font-size: 20px
-  line-height: 24px
-  font-weight: 500
-  font-family: ${theme.typography.fontFamily}
-}`;
+const STYLES_DIALOG_TITLE = (theme: ThemeVariables) => (className: string) => `${className}{display:block;flex:0 0 auto;margin:20px 0 16px;padding:0 24px;font-size:20px;line-height:24px;font-weight:500;font-family:${theme.typography.fontFamily};}`;
 
 @Directive({
   selector: '[ly-dialog-title], [lyDialogTitle]',

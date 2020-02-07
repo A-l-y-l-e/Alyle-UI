@@ -1,4 +1,7 @@
-import { shadowBuilder, lyl, StyleCollection, mergeThemes } from '@alyle/ui';
+import {
+  shadowBuilder,
+  StyleCollection,
+  mergeThemes } from '@alyle/ui';
 import { MinimaBase } from './base';
 import { color, Color } from '@alyle/ui/color';
 import { LyFieldTheme } from '@alyle/ui/field';
@@ -61,33 +64,15 @@ export class MinimaDark extends MinimaBase {
   colorShadow = shadow;
   shadow = shadow;
   field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
-    root: _ => lyl `{
-      ${_.container}:after, ${_.fieldset}, ${_.labelContainer} {
-        border-color: ${new Color(255, 255, 255, 0.12)}
-      }
-      ${_.label}, ${_.placeholder} {
-        color: ${new Color(255, 255, 255, 0.4)}
-      }
-    }`,
+    root: _ => (className: string) => `${className} ${_.container}:after,${className} ${_.fieldset},${className} ${_.labelContainer}{border-color:${new Color(255, 255, 255, 0.12)};}${className} ${_.label},${className} ${_.placeholder}{color:${new Color(255, 255, 255, 0.4)};}`,
     appearance: {
-      filled: _ => lyl `{
-        ${_.container} {
-          background-color: ${new Color(255, 255, 255, 0.04)}
-        }
-      }`
+      filled: _ => (className: string) => `${className} ${_.container}{background-color:${new Color(255, 255, 255, 0.04)};}`
     }
   });
   snackBar: LySnackBarTheme = {
-    root: new StyleCollection(lyl `{
-      background: ${new Color(0xfafafa)}
-      color: ${new Color(0, 0, 0, .87)}
-      box-shadow: ${shadowBuilder(4, new Color(0xfafafa))}
-    }`)
+    root: new StyleCollection((className: string) => `${className}{background:${new Color(0xfafafa)};color:${new Color(0, 0, 0, .87)};box-shadow:${shadowBuilder(4, new Color(0xfafafa))};}`)
   };
   tooltip: LyTooltipTheme = {
-    root: new StyleCollection(() => lyl `{
-      background: ${new Color(250, 250, 250, 0.85)}
-      color: ${new Color(0, 0, 0, .87)}
-    }`)
+    root: new StyleCollection(() => (className: string) => `${className}{background:${new Color(250, 250, 250, 0.85)};color:${new Color(0, 0, 0, .87)};}`)
   };
 }

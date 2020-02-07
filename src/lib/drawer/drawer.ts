@@ -30,14 +30,13 @@ import {
   YPosition,
   WinResize,
   Platform,
-  lyl,
+  st2c,
   StyleRenderer,
   LyHostClass,
   ThemeRef,
   StyleCollection,
   StyleTemplate,
-  LyClasses
-  } from '@alyle/ui';
+  LyClasses } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 
 export interface LyDrawerTheme {
@@ -69,35 +68,13 @@ export const STYLES = (theme: ThemeVariables & LyDrawerVariables, ref: ThemeRef)
         ? theme.drawer.root.setTransformer(fn => fn(__)).css
         : theme.drawer.root(__))
     ),
-    drawerContainer: lyl `{
-      display: block
-      position: relative
-      overflow: hidden
-      -webkit-overflow-scrolling: touch
-    }`,
-    drawer: lyl `{
-      display: block
-      position: fixed
-      z-index: ${theme.zIndex.drawer}
-      overflow: auto
-      visibility: hidden
-    }`,
-    drawerContent: lyl `{
-      display: block
-    }`,
-    drawerOpened: lyl `{
-      transform: translate(0px, 0px)
-      visibility: visible
-    }`,
+    drawerContainer: (className: string) => `${className}{display:block;position:relative;overflow:hidden;-webkit-overflow-scrolling:touch;}`,
+    drawer: (className: string) => `${className}{display:block;position:fixed;z-index:${theme.zIndex.drawer};overflow:auto;visibility:hidden;}`,
+    drawerContent: (className: string) => `${className}{display:block;}`,
+    drawerOpened: (className: string) => `${className}{transform:translate(0px, 0px);visibility:visible;}`,
     drawerClosed: null,
-    backdrop: lyl `{
-      ...${LY_COMMON_STYLES.fill}
-      background-color: ${theme.drawer.backdrop}
-    }`,
-    transition: lyl `{
-      transition: ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}
-      transition-property: transform, margin, visibility
-    }`
+    backdrop: (className: string) => `${st2c((LY_COMMON_STYLES.fill), `${className}`)}${className}{background-color:${theme.drawer.backdrop};}`,
+    transition: (className: string) => `${className}{transition:${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration};transition-property:transform, margin, visibility;}`
   };
 };
 
@@ -223,9 +200,7 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
     if (val !== this.position) {
       this._position = val;
       this[0x1] = this._styleRenderer.add(`${LyDrawer.и}--position-${val}`,
-      (theme: ThemeVariables) => lyl `{
-        ${theme.getDirection(val as any)}: 0
-      }`, STYLE_PRIORITY, this[0x1]);
+      (theme: ThemeVariables) => (className: string) => `${className}{${theme.getDirection(val as any)}:0;}`, STYLE_PRIORITY, this[0x1]);
     }
   }
   get position(): LyDrawerPosition {

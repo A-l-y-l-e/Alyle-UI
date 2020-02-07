@@ -33,12 +33,11 @@ import {
   getLyThemeVariableUndefinedError,
   StyleTemplate,
   LyClasses,
-  lyl,
+  st2c,
   LY_COMMON_STYLES,
   ThemeRef,
   StyleCollection,
-  LyHostClass
-} from '@alyle/ui';
+  LyHostClass } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 
 export interface LyButtonTheme {
@@ -80,79 +79,17 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
   return {
     $priority: STYLE_PRIORITY,
     $name: LyButton.и,
-    root: () => lyl `{
-      font-family: ${typography.fontFamily}
-      color: ${theme.text.default}
-      -webkit-tap-highlight-color: transparent
-      background-color: ${new Color(0, 0, 0, 0)}
-      border: 0
-      padding: 0 1em
-      -moz-appearance: none
-      margin: 0
-      border-radius: 3px
-      outline: none
-      font-weight: 500
-      box-sizing: border-box
-      position: relative
-      justify-content: center
-      align-items: center
-      align-content: center
-      display: inline-flex
-      cursor: pointer
-      -webkit-user-select: none
-      -moz-user-select: none
-      -ms-user-select: none
-      user-select: none
-      text-decoration-line: none
-      -webkit-text-decoration-line: none
-      font-size: ${theme.pxToRem(14)}
-      &::-moz-focus-inner {
-        border: 0
-      }
-      &::before {
-        content: ''
-        {
-          ...${LY_COMMON_STYLES.fill}
-        }
-        width: 100%
-        height: 100%
-        background: transparent
-        opacity: 0
-        pointer-events: none
-      }
-      &${button.onFocusByKeyboard}::before, &:hover::before {
-        background: currentColor
-        opacity: .13
-        border-radius: inherit
-      }
-      {
-        ...${
+    root: () => (className: string) => `${className}{font-family:${typography.fontFamily};color:${theme.text.default};-webkit-tap-highlight-color:transparent;background-color:${new Color(0, 0, 0, 0)};border:0;padding:0 1em;-moz-appearance:none;margin:0;border-radius:3px;outline:none;font-weight:500;box-sizing:border-box;position:relative;justify-content:center;align-items:center;align-content:center;display:inline-flex;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;text-decoration-line:none;-webkit-text-decoration-line:none;font-size:${theme.pxToRem(14)};}${st2c((
           (theme.button
             && theme.button.root
             && (theme.button.root instanceof StyleCollection
               ? theme.button.root.setTransformer(fn => fn(button)).css
               : theme.button.root(button))
-          )
-        }
-      }
-    }`,
-    content: lyl `{
-      padding: 0
-      display: flex
-      justify-content: inherit
-      align-items: inherit
-      align-content: inherit
-      width: 100%
-      height: 100%
-      box-sizing: border-box
-    }`,
+          )), `${className}`)}${className}::-moz-focus-inner{border:0;}${className}::before{content:'';width:100%;height:100%;background:transparent;opacity:0;pointer-events:none;}${st2c((LY_COMMON_STYLES.fill), `${className}::before`)}${className}${button.onFocusByKeyboard}::before,${className}:hover::before{background:currentColor;opacity:.13;border-radius:inherit;}`,
+    content: (className: string) => `${className}{padding:0;display:flex;justify-content:inherit;align-items:inherit;align-content:inherit;width:100%;height:100%;box-sizing:border-box;}`,
     /** When focus by keyboard */
     onFocusByKeyboard: null,
-    animations: lyl `{
-      &:hover, &:hover::before, &:focus, &:focus::before {
-        transition: background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms
-      }
-    }`
+    animations: (className: string) => `${className}:hover,${className}:hover::before,${className}:focus,${className}:focus::before{transition:background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms;}`
   };
 };
 
@@ -282,10 +219,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     this.setAutoContrast();
     this._triggerElement = _el;
     if (Platform.FIREFOX) {
-      const newClass = this._theme.renderStyle('button-ff', () => lyl `{
-        &::-moz-focus-inner,&::-moz-focus-inner {
-          border: 0
-        }`, STYLE_PRIORITY);
+      const newClass = this._theme.renderStyle('button-ff', () => (className: string) => `${className}::-moz-focus-inner,${className}::-moz-focus-inner{border:0;}`, STYLE_PRIORITY);
       _renderer.addClass(_el.nativeElement, newClass);
     }
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);

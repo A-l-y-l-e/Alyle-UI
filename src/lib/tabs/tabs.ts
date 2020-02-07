@@ -46,13 +46,12 @@ import {
   scrollWithAnimation,
   toBoolean,
   LyHostClass,
-  lyl,
+  st2c,
   LY_COMMON_STYLES,
   ThemeRef,
   StyleCollection,
   LyClasses,
-  StyleTemplate
-  } from '@alyle/ui';
+  StyleTemplate } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
 import { Subscription } from 'rxjs';
@@ -81,100 +80,27 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
   return {
     $name: LyTabs.и,
     $priority: STYLE_PRIORITY,
-    root: () => lyl `{
-      display: block
-      {
-        ...${
+    root: () => (className: string) => `${className}{display:block;}${st2c((
           (theme.tab
             && theme.tab.root
             && (theme.tab.root instanceof StyleCollection
               ? theme.tab.root.setTransformer(fn => fn(__)).css
               : theme.tab.root(__))
-          )
-        }
-      }
-    }`,
-    container: lyl `{
-      display: flex
-    }`,
-    tab: lyl `{
-      position: relative
-      display: inline-flex
-    }`,
+          )), `${className}`)}`,
+    container: (className: string) => `${className}{display:flex;}`,
+    tab: (className: string) => `${className}{position:relative;display:inline-flex;}`,
     /** Tab content */
-    contentContainer: lyl `{
-      overflow: hidden
-      flex-grow: 1
-    }`,
+    contentContainer: (className: string) => `${className}{overflow:hidden;flex-grow:1;}`,
     /** Tab header */
-    tabsLabels: lyl `{
-      display: flex
-      position: relative
-    }`,
-    tabsLabelsContainer: () => lyl `{
-      overflow: hidden
-      ${__.scrollable} & {
-        @media (hover: none) {
-          overflow: auto
-        }
-      }
-    }`,
-    label: lyl `{
-      -webkit-tap-highlight-color: transparent
-      -webkit-appearance: none
-      background-color: transparent
-      user-select: none
-      border: 0
-      min-width: 72px
-      padding: 0 24px
-      cursor: pointer
-      height: 48px
-      display: inline-flex
-      justify-content: center
-      align-items: center
-      position: relative
-      overflow: hidden
-      font-family: ${theme.typography.fontFamily}
-      font-size: ${theme.pxToRem(theme.typography.fontSize)}
-      letter-spacing: 0.02857em
-      color: currentColor
-      outline: none
-      width: 100%
-      font-weight: 500
-      opacity: .7
-      ${theme.getBreakpoint('XSmall')} {
-        padding: 0 12px
-      }
-    }`,
-    tabLabelActive: lyl `{
-      opacity: 1
-    }`,
-    tabContents: lyl `{
-      display: flex
-      transition: 450ms cubic-bezier(.1, 1, 0.5, 1)
-      will-change: transform
-      height: 100%
-    }`,
-    tabContent: lyl `{
-      width: 100%
-      height: 100%
-      flex-shrink: 0
-      position: relative
-    }`,
-    tabsIndicator: lyl `{
-      position: absolute
-      height: 2px
-      transition: 450ms cubic-bezier(.1, 1, 0.5, 1)
-      background: currentColor
-    }`,
-    tabsIndicatorForServer: lyl `{
-      position: absolute
-      background: currentColor
-    }`,
-    rippleContainer: lyl `{
-      ...${LY_COMMON_STYLES.fill}
-      overflow: hidden
-    }`,
+    tabsLabels: (className: string) => `${className}{display:flex;position:relative;}`,
+    tabsLabelsContainer: () => (className: string) => `${className}{overflow:hidden;}@media (hover: none){${__.scrollable} ${className}{overflow:auto;}}`,
+    label: (className: string) => `${className}{-webkit-tap-highlight-color:transparent;-webkit-appearance:none;background-color:transparent;user-select:none;border:0;min-width:72px;padding:0 24px;cursor:pointer;height:48px;display:inline-flex;justify-content:center;align-items:center;position:relative;overflow:hidden;font-family:${theme.typography.fontFamily};font-size:${theme.pxToRem(theme.typography.fontSize)};letter-spacing:0.02857em;color:currentColor;outline:none;width:100%;font-weight:500;opacity:.7;}${className} ${theme.getBreakpoint('XSmall')}{padding:0 12px;}`,
+    tabLabelActive: (className: string) => `${className}{opacity:1;}`,
+    tabContents: (className: string) => `${className}{display:flex;transition:450ms cubic-bezier(.1, 1, 0.5, 1);will-change:transform;height:100%;}`,
+    tabContent: (className: string) => `${className}{width:100%;height:100%;flex-shrink:0;position:relative;}`,
+    tabsIndicator: (className: string) => `${className}{position:absolute;height:2px;transition:450ms cubic-bezier(.1, 1, 0.5, 1);background:currentColor;}`,
+    tabsIndicatorForServer: (className: string) => `${className}{position:absolute;background:currentColor;}`,
+    rippleContainer: (className: string) => `${st2c((LY_COMMON_STYLES.fill), `${className}`)}${className}{overflow:hidden;}`,
     scrollable: null
   };
 };

@@ -24,7 +24,7 @@ import {
   ThemeVariables,
   toBoolean,
   ThemeRef,
-  lyl,
+  st2c,
   LyHostClass,
   StyleRenderer,
   LY_COMMON_STYLES,
@@ -32,8 +32,7 @@ import {
   LyClasses,
   StyleTemplate,
   Style,
-  WithStyles
-  } from '@alyle/ui';
+  WithStyles } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 
 const STYLE_PRIORITY = -2;
@@ -58,106 +57,20 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
   return {
     $name: LyCheckbox.и,
     $priority: STYLE_PRIORITY,
-    root: ( ) => lyl `{
-      margin-${after}: 16px
-      margin-${before}: -16px
-      display: inline-flex
-      &${checkbox.disabled}:not(${checkbox.checked}) ${checkbox.icon}:before {
-        color: ${theme.disabled.default}
-      }
-      &${checkbox.disabled} {
-        pointer-events: none
-        ${checkbox.layout} {
-          color: ${theme.text.secondary}
-        }
-      }
-      &${checkbox.disabled}${checkbox.checked} ${checkbox.icon}:before {
-        border: 0
-        background: ${theme.disabled.default}
-      }
-      &${checkbox.onFocusByKeyboard} ${checkbox.icon}::after {
-        box-shadow: 0 0 0 12px
-        opacity: .13
-        border-radius: 50%
-      }
-      &:not(${checkbox.checked}) ${checkbox.icon} {
-        color: ${theme.text.secondary}
-      }
-      {
-        ...${
+    root: ( ) => (className: string) => `${className}{margin-${after}:16px;margin-${before}:-16px;display:inline-flex;}${st2c((
           (theme.checkbox
             && theme.checkbox.root
             && (theme.checkbox.root instanceof StyleCollection
               ? theme.checkbox.root.setTransformer(fn => fn(checkbox))
               : theme.checkbox.root(checkbox))
-          )
-        }
-      }
-    }`,
-    layout: lyl `{
-      display: inline-flex
-      align-items: baseline
-      cursor: pointer
-      margin-${before}: 16px
-      padding-top: 12px
-      padding-bottom: 12px
-    }`,
-    icon: lyl `{
-      position: relative
-      margin-${after}: 8px
-      margin-top: auto
-      margin-bottom: auto
-      width: 16px
-      height: 16px
-      user-select: none
-      &::before, &::after {
-        content: ''
-        ...${LY_COMMON_STYLES.fill}
-        width: 16px
-        height: 16px
-        margin: auto
-        box-sizing: border-box
-      }
-      &::before {
-        border: solid 2px
-        border-radius: 2px
-      }
-      svg {
-        position: absolute
-        polyline {
-          fill: none
-          stroke: ${theme.background.primary.default}
-          stroke-width: 2
-          stroke-linecap: round
-          stroke-linejoin: round
-          stroke-dasharray: 18px
-          stroke-dashoffset: 18px
-        }
-      }
-    }`,
-    checked: ( ) => lyl `{
-      & ${checkbox.icon}::before {
-        background: currentColor
-      }
-      & ${checkbox.icon} polyline {
-        stroke-dashoffset: 0
-      }
-    }`,
+          )), `${className}`)}${className}${checkbox.disabled}:not(${checkbox.checked}) ${checkbox.icon}:before{color:${theme.disabled.default};}${className}${checkbox.disabled}{pointer-events:none;}${className}${checkbox.disabled} ${checkbox.layout}{color:${theme.text.secondary};}${className}${checkbox.disabled}${checkbox.checked} ${checkbox.icon}:before{border:0;background:${theme.disabled.default};}${className}${checkbox.onFocusByKeyboard} ${checkbox.icon}::after{box-shadow:0 0 0 12px;opacity:.13;border-radius:50%;}${className}:not(${checkbox.checked}) ${checkbox.icon}{color:${theme.text.secondary};}`,
+    layout: (className: string) => `${className}{display:inline-flex;align-items:baseline;cursor:pointer;margin-${before}:16px;padding-top:12px;padding-bottom:12px;}`,
+    icon: (className: string) => `${className}{position:relative;margin-${after}:8px;margin-top:auto;margin-bottom:auto;width:16px;height:16px;user-select:none;}${className}::before,${className}::after{content:'';width:16px;height:16px;margin:auto;box-sizing:border-box;}${st2c((LY_COMMON_STYLES.fill), `${className}::before,${className}::after`)}${className}::before{border:solid 2px;border-radius:2px;}${className} svg{position:absolute;}${className} svg polyline{fill:none;stroke:${theme.background.primary.default};stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:18px;stroke-dashoffset:18px;}`,
+    checked: ( ) => (className: string) => `${className} ${checkbox.icon}::before{background:currentColor;}${className} ${checkbox.icon} polyline{stroke-dashoffset:0;}`,
     input: LY_COMMON_STYLES.visuallyHidden,
     onFocusByKeyboard: null,
-    disabled: ( ) => lyl `{
-    & ${checkbox.input} {
-        visibility: hidden
-      }
-      & ${checkbox.icon} {
-        color: inherit !important
-      }
-    }`,
-    animations: ( ) => lyl `{
-      ${checkbox.icon} svg polyline {
-        transition: all ${theme.animations.durations.entering}ms ${theme.animations.curves.sharp}
-      }
-    }`
+    disabled: ( ) => (className: string) => `${className} ${checkbox.input}{visibility:hidden;}${className} ${checkbox.icon}{color:inherit !important;}`,
+    animations: ( ) => (className: string) => `${className} ${checkbox.icon} svg polyline{transition:all ${theme.animations.durations.entering}ms ${theme.animations.curves.sharp};}`
   };
 };
 

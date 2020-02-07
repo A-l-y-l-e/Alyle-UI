@@ -62,12 +62,11 @@ import {
   XPosition,
   YPosition,
   Dir,
-  lyl,
+  st2c,
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  ThemeRef
-  } from '@alyle/ui';
+  ThemeRef } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
@@ -88,23 +87,13 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
   const { after } = theme;
   return {
     $priority: STYLE_PRIORITY,
-    root: () => lyl `{
-      display: block
-      padding-${after}: 1em
-      min-width: em
-      min-height: 1.5em
-      -webkit-tap-highlight-color: transparent
-      {
-        ...${
+    root: () => (className: string) => `${className}{display:block;padding-${after}:1em;min-width:em;min-height:1.5em;-webkit-tap-highlight-color:transparent;}${st2c((
           (theme.select
             && theme.select.root
             && (theme.select.root instanceof StyleCollection
               ? theme.select.root.setTransformer(fn => fn(select))
               : theme.select.root(select))
-          )
-        }
-      }
-    }`,
+          )), `${className}`)}`,
     container: {
       background: theme.background.primary.default,
       borderRadius: '2px',

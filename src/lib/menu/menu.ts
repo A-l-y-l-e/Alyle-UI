@@ -28,10 +28,8 @@ import {
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  lyl,
   ThemeRef,
-  toBoolean
-  } from '@alyle/ui';
+  toBoolean } from '@alyle/ui';
 import {
   trigger,
   style,
@@ -65,27 +63,8 @@ export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) =
           ? theme.menu.root.setTransformer(fn => fn(menu)).css
           : theme.menu.root(menu))
     ),
-    container: lyl `{
-      background: ${theme.background.primary.default}
-      border-radius: 2px
-      box-shadow: ${shadowBuilder(4)}
-      display: block
-      padding-top: 8px
-      padding-bottom: 8px
-      transform-origin: inherit
-      pointer-events: all
-      overflow: auto
-      max-height: inherit
-      max-width: inherit
-      box-sizing: border-box
-    }`,
-    item: lyl `{
-      display: flex
-      min-height: 48px
-      border-radius: 0
-      width: 100%
-      justify-content: flex-start
-    }`
+    container: (className: string) => `${className}{background:${theme.background.primary.default};border-radius:2px;box-shadow:${shadowBuilder(4)};display:block;padding-top:8px;padding-bottom:8px;transform-origin:inherit;pointer-events:all;overflow:auto;max-height:inherit;max-width:inherit;box-sizing:border-box;}`,
+    item: (className: string) => `${className}{display:flex;min-height:48px;border-radius:0;width:100%;justify-content:flex-start;}`
   };
 };
 

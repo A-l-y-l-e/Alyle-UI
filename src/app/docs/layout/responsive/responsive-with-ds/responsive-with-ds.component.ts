@@ -1,65 +1,22 @@
 import { Component } from '@angular/core';
-import { ThemeVariables, lyl, StyleRenderer } from '@alyle/ui';
+import {
+  ThemeVariables,
+  st2c,
+  StyleRenderer } from '@alyle/ui';
 
 const STYLES = (theme: ThemeVariables) => {
   const { breakpoints } = theme;
-  const mediaStyles = lyl `{
-    color: ${theme.primary.contrast}
-    background-color: ${theme.primary.default}
-  }`;
+  const mediaStyles = (className: string) => `${className}{color:${theme.primary.contrast};background-color:${theme.primary.default};}`;
   return {
-    box: lyl `{
-      background-color: ${theme.background.primary.default}
-      min-width: 110px
-      display: inline-flex
-      min-height: 110px
-      padding: 1em
-      font-size: 14px
-      text-align: center
-      word-break: break-all
-      align-items: center
-      justify-content: center
-    }`,
-    demo1: lyl `{
-      @media ${breakpoints.XSmall} {
-        ...${mediaStyles}
-      }
-    }`,
-    demo2: lyl `{
-      @media ${breakpoints.Small} {
-        ...${mediaStyles}
-      }
-    }`,
-    demo3: lyl `{
-      @media ${breakpoints.Medium} {
-        ...${mediaStyles}
-      }
-    }`,
-    demo4: lyl `{
-      @media ${breakpoints.Large} {
-        ...${mediaStyles}
-      }
-    }`,
-    demo5: lyl `{
-      @media ${breakpoints.XLarge} {
-        ...${mediaStyles}
-      }
-    }`,
-    demo6: lyl `{
-      @media ${breakpoints.Handset} {
-        ...${mediaStyles}
-      }
-    }`,
-    demo7: lyl `{
-      @media ${breakpoints.Tablet} {
-        ...${mediaStyles}
-      }
-    }`,
-    demo8: lyl `{
-      @media ${breakpoints.Web} {
-        ...${mediaStyles}
-      }
-    }`
+    box: (className: string) => `${className}{background-color:${theme.background.primary.default};min-width:110px;display:inline-flex;min-height:110px;padding:1em;font-size:14px;text-align:center;word-break:break-all;align-items:center;justify-content:center;}`,
+    demo1: (className: string) => `@media ${breakpoints.XSmall}{/* __READY__ */${st2c((mediaStyles), `${className}`)}}`,
+    demo2: (className: string) => `@media ${breakpoints.Small}{/* __READY__ */${st2c((mediaStyles), `${className}`)}}`,
+    demo3: (className: string) => `@media ${breakpoints.Medium}{/* __READY__ */${st2c((mediaStyles), `${className}`)}}`,
+    demo4: (className: string) => `@media ${breakpoints.Large}{/* __READY__ */${st2c((mediaStyles), `${className}`)}}`,
+    demo5: (className: string) => `@media ${breakpoints.XLarge}{/* __READY__ */${st2c((mediaStyles), `${className}`)}}`,
+    demo6: (className: string) => `@media ${breakpoints.Handset}{/* __READY__ */${st2c((mediaStyles), `${className}`)}}`,
+    demo7: (className: string) => `@media ${breakpoints.Tablet}{/* __READY__ */${st2c((mediaStyles), `${className}`)}}`,
+    demo8: (className: string) => `@media ${breakpoints.Web}{/* __READY__ */${st2c((mediaStyles), `${className}`)}}`
   };
 };
 
