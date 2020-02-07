@@ -17,13 +17,14 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   ThemeVariables,
-  st2c,
+  lyl,
   StyleCollection,
   LyClasses,
   StyleTemplate,
   ThemeRef,
   StyleRenderer,
-  LyHostClass } from '@alyle/ui';
+  LyHostClass
+} from '@alyle/ui';
 
 export interface LyToolbarTheme {
   /** Styles for Toolbar Component */
@@ -47,13 +48,30 @@ export const STYLES = (theme: ThemeVariables & LyToolbarVariables, ref: ThemeRef
   const __ = ref.selectorsOf(STYLES);
   return {
     $priority: STYLE_PRIORITY,
-    root: () => (className: string) => `${className}{padding:0 16px;display:flex;box-sizing:border-box;width:100%;flex-direction:row;align-items:center;white-space:nowrap;height:64px;z-index:${theme.zIndex.toolbar};}${st2c((
+    root: () => lyl `{
+      padding: 0 16px
+      display: flex
+      box-sizing: border-box
+      width: 100%
+      flex-direction: row
+      align-items: center
+      white-space: nowrap
+      height: 64px
+      z-index: ${theme.zIndex.toolbar}
+      ${theme.getBreakpoint('XSmall')} {
+        height: 56px
+      }
+      {
+        ...${
           (theme.toolbar
             && theme.toolbar.root
             && (theme.toolbar.root instanceof StyleCollection
               ? theme.toolbar.root.setTransformer(fn => fn(__)).css
               : theme.toolbar.root(__))
-          )), `${className}`)}${className} ${theme.getBreakpoint('XSmall')}{height:56px;}`
+          )
+        }
+      }
+    }`
   };
 };
 

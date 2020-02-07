@@ -1,12 +1,17 @@
 import { Injectable, Renderer2, RendererFactory2, isDevMode, NgZone } from '@angular/core';
-import {
-  Platform,
-  LyTheme2 } from '@alyle/ui';
+import { Platform, LyTheme2, lyl } from '@alyle/ui';
 import { take } from 'rxjs/operators';
 
 let count = -1;
 
-export const ADS_STYLES = () => (className: string) => `${className}{display:block;position:relative;max-width:345px;min-height:130px;margin-top:32px;margin-bottom:24px;}`;
+export const ADS_STYLES = () => lyl `{
+  display: block
+  position: relative
+  max-width: 345px
+  min-height: 130px
+  margin-top: 32px
+  margin-bottom: 24px
+}`;
 
 @Injectable({
   providedIn: 'root'

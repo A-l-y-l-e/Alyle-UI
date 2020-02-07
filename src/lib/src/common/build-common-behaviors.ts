@@ -12,8 +12,7 @@ import { LyTheme2 } from '../theme/theme2.service';
 import { ElementRef } from '@angular/core';
 import { getNativeElement } from '../minimal/common';
 import { ThemeVariables } from '../theme/theme-config';
-import {
-   } from '../parse';
+import { lyl } from '../parse';
 
 const DEFAULT_VALUE = '';
 const STYLE_PRIORITY = -1;
@@ -105,7 +104,16 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
             }
           }
         }
-        return (className: string) => `${className}{${sColor ? 'color:' + sColor : ''};${sBackground ? 'background:' + sBackground : ''};${sBorder ? 'border:' + sBorder : ''};${sPointerEvents ? 'pointer-events:' + sPointerEvents : ''};${sBoxShadow ? 'box-shadow:' + sBoxShadow : ''};}${className}:active{${sBoxShadowActive ? 'box-shadow:' + sBoxShadowActive : ''};}`;
+        return lyl `{
+          ${sColor ? 'color:' + sColor : ''}
+          ${sBackground ? 'background:' + sBackground : ''}
+          ${sBorder ? 'border:' + sBorder : ''}
+          ${sPointerEvents ? 'pointer-events:' + sPointerEvents : ''}
+          ${sBoxShadow ? 'box-shadow:' + sBoxShadow : ''}
+          &:active {
+            ${sBoxShadowActive ? 'box-shadow:' + sBoxShadowActive : ''}
+          }
+        }`;
       }, STYLE_PRIORITY);
 
       el.classList.remove(this._classNameAnonymous);

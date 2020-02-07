@@ -1,9 +1,11 @@
 import {
   LyStyleUtils,
   Dir,
+  lyl,
   shadowBuilder,
   StyleCollection,
-  StyleTemplate } from '@alyle/ui';
+  StyleTemplate
+} from '@alyle/ui';
 import { iconButton, icon, zIndex, animations, RippleVariables } from './variables';
 import { Breakpoints } from '@alyle/ui/responsive';
 
@@ -39,42 +41,226 @@ export class MinimaBase extends LyStyleUtils {
   direction = Dir.ltr;
   button: LyButtonTheme = {
     size: {
-      small: () => (className: string) => `${className}{padding:0 8px;font-size:${this.pxToRem(13)};min-height:32px;min-width:48p;}`,
-      medium: () => (className: string) => `${className}{padding:0 14px;min-height:36px;min-width:64px;}`,
-      large: () => (className: string) => `${className}{padding:0 21px;font-size:${this.pxToRem(15)};min-height:40px;min-width:96px;}`
+      small: () => lyl `{
+        padding: 0 8px
+        font-size: ${this.pxToRem(13)}
+        min-height: 32px
+        min-width: 48p
+      }`,
+      medium: () => lyl `{
+        padding: 0 14px
+        min-height: 36px
+        min-width: 64px
+      }`,
+      large: () => lyl `{
+        padding: 0 21px
+        font-size: ${this.pxToRem(15)}
+        min-height: 40px
+        min-width: 96px
+      }`
     },
     appearance: {
-      icon: () => (className: string) => `${className}{min-width:40px;width:40px;height:40px;padding:0;border-radius:50%;}`,
-      fab: () => (className: string) => `${className}{min-width:56px;width:56px;height:56px;padding:0;border-radius:50%;}`,
-      miniFab: () => (className: string) => `${className}{min-width:40px;width:40px;height:40px;padding:0;border-radius:50%;}`
+      icon: () => lyl `{
+        min-width: 40px
+        width: 40px
+        height: 40px
+        padding: 0
+        border-radius: 50%
+      }`,
+      fab: () => lyl `{
+        min-width: 56px
+        width: 56px
+        height: 56px
+        padding: 0
+        border-radius: 50%
+      }`,
+      miniFab: () => lyl `{
+        min-width: 40px
+        width: 40px
+        height: 40px
+        padding: 0
+        border-radius: 50%
+      }`
     }
   };
   badge: LyBadgeTheme = {
     appearance: {
-      default: () => (className: string) => `${className}{padding:0 6px;min-width:22px;height:22px;border-radius:2em;}`,
-      dot: () => (className: string) => `${className}{width:6px;height:6px;border-radius:50%;}`
+      default: () => lyl `{
+        padding: 0 6px
+        min-width: 22px
+        height: 22px
+        border-radius: 2em
+      }`,
+      dot: () => lyl `{
+        width: 6px
+        height: 6px
+        border-radius: 50%
+      }`
     }
   };
   checkbox: LyCheckboxTheme = {
-    color: (checkbox, color) => (className: string) => `${className}${checkbox.checked} ${checkbox.icon}{color:${color};}${className}${checkbox.checked}:not({disabled}) ${checkbox.icon}{box-shadow:${shadowBuilder(1, color)};}`
+    color: (checkbox, color) => lyl `{
+      &${checkbox.checked} ${checkbox.icon} {
+        color: ${color}
+      }
+      &${checkbox.checked}:not({disabled}) ${checkbox.icon} {
+        box-shadow: ${shadowBuilder(1, color)}
+      }
+    }`
   };
   expansion: ExpansionConfig = {
-    root: classes => (className: string) => `${className} ${classes.panelHeader}{height:48px;}${className} ${classes.expanded} ${classes.panelHeader}{height:64px;}`,
+    root: classes => lyl `{
+      ${classes.panelHeader} {
+        height: 48px
+      }
+      ${classes.expanded} ${classes.panelHeader} {
+        height: 64px
+      }
+    }`,
     appearance: {
-      popOut: classes => (className: string) => `${className} ${classes.panel}{transition:margin ${this.animations.durations.entering}ms ${this.animations.curves.standard};}${className} ${classes.expanded}${classes.panel}{margin:16px 0;}${className} ${classes.expanded}${classes.panel}:first-child{margin-top:0;}${className} ${classes.expanded}${classes.panel}:last-child{margin-bottom:0jj;}`
+      popOut: classes => lyl `{
+        ${classes.panel} {
+          transition: margin ${this.animations.durations.entering}ms ${this.animations.curves.standard}
+        }
+        ${classes.expanded}${classes.panel} {
+          margin: 16px 0
+          &:first-child {
+            margin-top: 0
+          }
+          &:last-child {
+            margin-bottom: 0jj
+          }
+        }
+      }`
     }
   };
 
   field: LyFieldTheme = {
     appearance: {
       standard: new StyleCollection(
-        (classes) => (className: string) => `${className}:not(${classes.disabled}) ${classes.container}:hover:after{border-bottom-color:currentColor;}${className}${classes.disabled} ${classes.container}:after{border-bottom-style:dotted;border-color:inherit;}${className} textarea{inputNative}{margin:0.25em 0;}${className} ${classes.inputNative}:not(textarea){padding:0.25em 0;}${className} ${classes.container}{padding:1em 0 0;}${className} ${classes.container}:after{border-bottom-style:solid;border-bottom-width:1px;}${className}${classes.focused} ${classes.container}:after{border-width:2px;border-color:currentColor;}${className} ${classes.label}{margin:0.25em 0;}${className} ${classes.placeholder}{margin:0.25em 0;}${className} ${classes.floatingLabel}{transform:translateY(-1.25em);}`
+        (classes) => lyl `{
+          &:not(${classes.disabled}) ${classes.container}:hover:after {
+            border-bottom-color: currentColor
+          }
+          &${classes.disabled} ${classes.container}:after {
+            border-bottom-style: dotted
+            border-color: inherit
+          }
+          textarea{inputNative} {
+            margin: 0.25em 0
+          }
+          ${classes.inputNative}:not(textarea) {
+            padding: 0.25em 0
+          }
+          & ${classes.container} {
+            padding: 1em 0 0
+            &:after {
+              border-bottom-style: solid
+              border-bottom-width: 1px
+            }
+          }
+          &${classes.focused} ${classes.container} {
+            &:after {
+              border-width: 2px
+              border-color: currentColor
+            }
+          }
+          & ${classes.label} {
+            margin: 0.25em 0
+          }
+          & ${classes.placeholder} {
+            margin: 0.25em 0
+          }
+          & ${classes.floatingLabel} {
+            transform: translateY(-1.25em)
+          }
+        }`
       ),
       outlined: new StyleCollection(
-        classes => (className: string) => `${className}:not(${classes.focused}):not({disabled}):hover ${classes.fieldset}{border-color:currentColor;}${className}${classes.focused} ${classes.fieldset}{border-width:2px;border-color:inherit;}${className} textarea${classes.inputNative}{margin:1em 0;}${className} ${classes.inputNative}:not(textarea){padding:1em 0;}${className} ${classes.container}{padding:0 0.75em;}${className} ${classes.fieldset}{border-width:1px;border-radius:5px;padding:0 .5em;}${className} ${classes.prefix}:after{padding:0.25em;}${className} ${classes.suffix}:after{padding:0.25em;}${className} ${classes.label}{margin:1em 0;}${className} ${classes.placeholder}{margin:1em 0;}${className} ${classes.floatingLabel}${classes.label}{transform:translateY(-1.75em);}${className} ${classes.hintContainer}{padding:0 0.75em;}`
+        classes => lyl `{
+          &:not(${classes.focused}):not({disabled}):hover ${classes.fieldset} {
+            border-color: currentColor
+          }
+          &${classes.focused} ${classes.fieldset} {
+            border-width: 2px
+            border-color: inherit
+          }
+          & textarea${classes.inputNative} {
+            margin: 1em 0
+          }
+          & ${classes.inputNative}:not(textarea) {
+            padding: 1em 0
+          }
+          & ${classes.container} {
+            padding: 0 0.75em
+          }
+          & ${classes.fieldset} {
+            border-width: 1px
+            border-radius: 5px
+            padding: 0 .5em
+          }
+          & ${classes.prefix} {
+            &:after {
+              padding: 0.25em
+            }
+          }
+          & ${classes.suffix} {
+            &:after {
+              padding: 0.25em
+            }
+          }
+          & ${classes.label} {
+            margin: 1em 0
+          }
+          & ${classes.placeholder} {
+            margin: 1em 0
+          }
+          & ${classes.floatingLabel}${classes.label} {
+            transform: translateY(-1.75em)
+          }
+          & ${classes.hintContainer} {
+            padding: 0 0.75em
+          }
+        }`
       ),
       filled: new StyleCollection(
-        classes => (className: string) => `${className}:not(${classes.focused}):not(${classes.disabled}) ${classes.container}:hover:after{border-bottom-width:1px;}${className} textarea${classes.inputNative}{margin:1.59375em 0 0.40625em;}${className} ${classes.inputNative}:not(textarea){padding:1.59375em 0 0.40625em;}${className} ${classes.container}{border-radius:5px 5px 0 0;padding:0 0.75em;}${className} ${classes.container}:after{border-bottom-style:solid;border-bottom-color:currentColor;border-bottom-width:0;}${className}${classes.focused} ${classes.container}:after{border-bottom-width:2px;}${className} ${classes.placeholder}{margin:1.59375em 0 0.40625em;}${className} ${classes.label}{margin:1em 0;}${className} ${classes.floatingLabel}${classes.label}{transform:translateY(-.75em);}${className} ${classes.hintContainer}{padding:0 0.75em;}`
+        classes => lyl `{
+          &:not(${classes.focused}):not(${classes.disabled}) ${classes.container}:hover:after {
+            border-bottom-width: 1px
+          }
+          textarea${classes.inputNative} {
+            margin: 1.59375em 0 0.40625em
+          }
+          ${classes.inputNative}:not(textarea) {
+            padding: 1.59375em 0 0.40625em
+          }
+          & ${classes.container} {
+            border-radius: 5px 5px 0 0
+            padding: 0 0.75em
+            &:after {
+              border-bottom-style: solid
+              border-bottom-color: currentColor
+              border-bottom-width: 0
+            }
+          }
+          &${classes.focused} ${classes.container} {
+            &:after {
+              border-bottom-width: 2px
+            }
+          }
+          & ${classes.placeholder} {
+            margin: 1.59375em 0 0.40625em
+          }
+          & ${classes.label} {
+            margin: 1em 0
+          }
+          & ${classes.floatingLabel}${classes.label} {
+            transform: translateY(-.75em)
+          }
+          & ${classes.hintContainer} {
+            padding: 0 0.75em
+          }
+        }`
       )
     }
   };
@@ -82,7 +268,9 @@ export class MinimaBase extends LyStyleUtils {
   toolbar: LyToolbarTheme = {
     appearance: {
       dense: new StyleCollection(
-        () => (className: string) => `${className}{height:56px;}`
+        () => lyl `{
+          height: 56px
+        }`
       )
     }
   };
@@ -106,7 +294,49 @@ export class MinimaBase extends LyStyleUtils {
       thumbVisible,
       thumbNotVisible,
       sliding
-    }, color) => (className: string) => `${className} ${track},${className} ${thumb},${className} ${thumbLabel},${className} ${bg},${className} ${tick}{background-color:${color};}${className}:not(${disabled}) ${thumbContentFocused} ${thumb}::before,${className}:not(${disabled}) ${thumb}:hover::before{box-shadow:0 0 0 8px ${color.alpha(.13)};}${className}${sliding} ${thumbContentFocused} ${thumb}::before{box-shadow:0 0 0 16px ${color.alpha(.13)};}${className} ${tickActive}{background-color:${color.luminance(0.6)};}${className} ${bg}{opacity:.3;}${className}:not(${disabled}) ${thumbContent}::before{background:${color};}${className}:not(${disabled})${horizontal}${thumbVisible} ${thumbContent}::before,${className}:not(${disabled})${horizontal}:not(${thumbNotVisible}) ${thumbContent}:hover::before,${className}:not(${disabled})${horizontal}:not(${thumbNotVisible}) ${thumbContent}${thumbContentFocused}::before{background:linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);}${className}:not(${disabled})${vertical}${thumbVisible} ${thumbContent}::before,${className}:not(${disabled})${vertical}:not(${thumbNotVisible}) ${thumbContent}:hover::before,${className}:not(${disabled})${vertical}:not(${thumbNotVisible}) ${thumbContent}${thumbContentFocused}::before{background:linear-gradient(90deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%);}`,
+    }, color) => lyl `{
+      & ${track}, & ${thumb}, & ${thumbLabel}, & ${bg}, & ${tick} {
+        background-color: ${color}
+      }
+      &:not(${disabled}) ${thumbContentFocused} ${thumb}::before, &:not(${disabled}) ${thumb}:hover::before {
+        box-shadow: 0 0 0 8px ${color.alpha(.13)}
+      }
+      &${sliding} ${thumbContentFocused} ${thumb}::before {
+        box-shadow: 0 0 0 16px ${color.alpha(.13)}
+      }
+      ${tickActive} {
+        background-color: ${color.luminance(0.6)}
+      }
+      ${bg} {
+        opacity: .3
+      }
+
+      &:not(${disabled}) {
+        & ${thumbContent}::before {
+          background: ${color}
+        }
+        &${horizontal} {
+          // always show visible thumb, when {thumbVisible} is available
+          &${thumbVisible} ${thumbContent}::before,
+          // on hover
+          &:not(${thumbNotVisible}) ${thumbContent}:hover::before,
+          // on focused
+          &:not(${thumbNotVisible}) ${thumbContent}${thumbContentFocused}::before {
+            background: linear-gradient(0deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%)
+          }
+        }
+        &${vertical} {
+          // always show visible thumb, when {thumbVisible} is available
+          &${thumbVisible} ${thumbContent}::before,
+          // on hover
+          &:not(${thumbNotVisible}) ${thumbContent}:hover::before,
+          // on focused
+          &:not(${thumbNotVisible}) ${thumbContent}${thumbContentFocused}::before {
+            background: linear-gradient(90deg, ${color} 0%, rgba(0, 0, 0, 0) 50%, ${color} 100%)
+          }
+        }
+      }
+    }`,
     disabled: ({
       track,
       thumb,
@@ -122,26 +352,110 @@ export class MinimaBase extends LyStyleUtils {
       const colorDisabled = color.darken(2)
       .desaturate(2.5);
       const colorDisabledLum0_4 = colorDisabled.luminance(.4);
-      return (className: string) => `${className} ${track},${className} ${thumb},${className} ${thumbLabel},${className} ${bg},${className} ${tick}{background-color:${colorDisabled.luminance(.4).css()};}${className} ${tickActive}{background-color:${colorDisabled.luminance(.6).css()};}${className}${horizontal} ${thumbContent}::before{background:linear-gradient(0deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%);}${className}${vertical} ${thumbContent}::before{background:linear-gradient(90deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%);}${className} ${bg}{opacity:.3;}${className}${horizontal} ${thumbContainer}::before{background:${(this as any).disabled.default};}${className}${vertical} ${thumbContainer}::before{background:${(this as any).disabled.default};}`;
+      return lyl `{
+        & ${track},
+        & ${thumb},
+        & ${thumbLabel},
+        & ${bg},
+        & ${tick} {
+          background-color: ${colorDisabled.luminance(.4).css()}
+        }
+        ${tickActive} {
+          background-color: ${colorDisabled.luminance(.6).css()}
+        }
+        &${horizontal} {
+          & ${thumbContent}::before {
+            background: linear-gradient(0deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%)
+          }
+        }
+        &${vertical} {
+          & ${thumbContent}::before {
+            background: linear-gradient(90deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%)
+          }
+        }
+        ${bg} {
+          opacity: .3
+        }
+        &${horizontal} ${thumbContainer}::before {
+          background: ${(this as any).disabled.default}
+        }
+        &${vertical} ${thumbContainer}::before {
+          background: ${(this as any).disabled.default}
+        }
+      }`;
     }
   };
 
   constructor() {
     super();
     this.typography.lyTyp = {
-      display4: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(96)};font-weight:300;letter-spacing:${-1.5 / 96}em;}`),
-      display3: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(60)};font-weight:300;letter-spacing:${-0.5 / 60}em;}`),
-      display2: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(48)};font-weight:400;letter-spacing:0;}`),
-      display1: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(34)};font-weight:400;letter-spacing:${0.25 / 34}em;}`),
-      headline: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(24)};font-weight:400;letter-spacing:0;}`),
-      title: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(20)};font-weight:500;letter-spacing:${0.15 / 20}em;}`),
-      subheading: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(16)};font-weight:400;letter-spacing:${0.15 / 16}em;line-height:${this.pxToRem(24)};}`),
-      subheading2: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(14)};font-weight:500;letter-spacing:${0.1 / 14}em;}`),
-      body1: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(16)};font-weight:400,        letter-spacing: ${0.5 / 16}em;}`),
-      body2: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(14)};font-weight:400;letter-spacing:${0.25 / 14}em;}`),
-      button: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(14)};font-weight:500;letter-spacing:${1.25 / 14}em;}`),
-      caption: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(12)};font-weight:400;letter-spacing:${0.4 / 12}em;}`),
-      overline: new StyleCollection(() => (className: string) => `${className}{font-size:${this.pxToRem(10)};font-weight:400;letter-spacing:${1.5 / 10}em;text-transform:uppercase;}`)
+      display4: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(96)}
+        font-weight: 300
+        letter-spacing: ${-1.5 / 96}em
+      }`),
+      display3: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(60)}
+        font-weight: 300
+        letter-spacing: ${-0.5 / 60}em
+      }`),
+      display2: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(48)}
+        font-weight: 400
+        letter-spacing: 0
+      }`),
+      display1: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(34)}
+        font-weight: 400
+        letter-spacing: ${0.25 / 34}em
+      }`),
+      headline: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(24)}
+        font-weight: 400
+        letter-spacing: 0
+      }`),
+      title: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(20)}
+        font-weight: 500
+        letter-spacing: ${0.15 / 20}em
+      }`),
+      subheading: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(16)}
+        font-weight: 400
+        letter-spacing: ${0.15 / 16}em
+        line-height: ${this.pxToRem(24)}
+      }`),
+      subheading2: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(14)}
+        font-weight: 500
+        letter-spacing: ${0.1 / 14}em
+      }`),
+      body1: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(16)}
+        font-weight: 400,
+        letter-spacing: ${0.5 / 16}em
+      }`),
+      body2: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(14)}
+        font-weight: 400
+        letter-spacing: ${0.25 / 14}em
+      }`),
+      button: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(14)}
+        font-weight: 500
+        letter-spacing: ${1.25 / 14}em
+      }`),
+      caption: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(12)}
+        font-weight: 400
+        letter-spacing: ${0.4 / 12}em
+      }`),
+      overline: new StyleCollection(() => lyl `{
+        font-size: ${this.pxToRem(10)}
+        font-weight: 400
+        letter-spacing: ${1.5 / 10}em
+        text-transform: uppercase
+      }`)
     };
 
     const { lyTyp } = this.typography;

@@ -19,12 +19,13 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   ThemeVariables,
-  st2c,
+  lyl,
   LyClasses,
   StyleTemplate,
   ThemeRef,
   LyHostClass,
-  StyleCollection } from '@alyle/ui';
+  StyleCollection
+} from '@alyle/ui';
 
 
 export interface LyBadgeVariables {
@@ -55,14 +56,32 @@ export const STYLES = (theme: ThemeVariables & LyBadgeVariables, ref: ThemeRef) 
   return {
     $name: LyBadge.и,
     $priority: STYLE_PRIORITY,
-    root: ( ) => (className: string) => `${className}{position:absolute;display:flex;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:${theme.pxToRem(12)};font-family:${theme.typography.fontFamily};justify-content:center;align-items:center;box-sizing:border-box;z-index:1;}${st2c((
+    root: ( ) => lyl `{
+      position: absolute
+      display: flex
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      font-size: ${theme.pxToRem(12)}
+      font-family: ${theme.typography.fontFamily}
+      justify-content: center
+      align-items: center
+      box-sizing: border-box
+      z-index: 1
+      {
+        ...${
           (theme.badge
             && theme.badge.root
             && (theme.badge.root instanceof StyleCollection
               ? theme.badge.root.setTransformer(fn => fn(badge))
               : theme.badge.root(badge))
-          )), `${className}`)}`,
-    relative: (className: string) => `${className}{position:relative;}`
+          )
+        }
+      }
+    }`,
+    relative: lyl `{
+      position: relative
+    }`
   };
 };
 
@@ -160,7 +179,10 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
         const newClass = this._theme.renderStyle(`${LyBadge.и}-overlap-${val}&${hp}&${vp}`, (theme: ThemeVariables) => {
           const p = overlap === 'circle'
             ? 14 : 0;
-          return (className: string) => `${className}{${theme.getDirection(vp)}:${p}%;${theme.getDirection(hp)}:${p}%;}`;
+          return lyl `{
+            ${theme.getDirection(vp)}: ${p}%
+            ${theme.getDirection(hp)}: ${p}%
+          }`;
         }, STYLE_PRIORITY);
         this._overlapClass = this._hostClass.update(newClass, this._overlapClass);
       });
@@ -190,7 +212,10 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
       this._lyBadgeBg = val;
 
       const newClass = this._theme.renderStyle(`${LyBadge.и}--bg-${val}`,
-      (theme: ThemeVariables) => (className: string) => `${className}{background-color:${theme.colorOf(val)};color:${theme.colorOf(`${val}:contrast`)};}`, STYLE_PRIORITY);
+      (theme: ThemeVariables) => lyl `{
+        background-color: ${theme.colorOf(val)}
+        color: ${theme.colorOf(`${val}:contrast`)
+      }`, STYLE_PRIORITY);
 
       Promise.resolve(null!).then(() => {
         this[0x1] = this._hostClass.update(newClass, this[0x1]);
@@ -324,8 +349,10 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
       }
 
       const newClass = this._theme.renderStyle(`${LyBadge.и}--position-${hp}-${vp}`,
-      (theme: ThemeVariables) => (className: string) => `${className}{transform:translate(${theme.after === 'right'
-          ? x : -x}%, ${y}%);}`, STYLE_PRIORITY);
+      (theme: ThemeVariables) => lyl `{
+        transform: translate(${theme.after === 'right'
+          ? x : -x}%, ${y}%)
+      }`, STYLE_PRIORITY);
 
       Promise.resolve(null!).then(() => {
         this._positionClass = this._hostClass.update(newClass, this._positionClass);

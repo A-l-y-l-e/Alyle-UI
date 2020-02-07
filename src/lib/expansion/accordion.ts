@@ -1,12 +1,5 @@
 import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import {
-  toBoolean,
-  ThemeVariables,
-  LyTheme2,
-  getLyThemeVariableUndefinedError,
-  ThemeRef,
-  LyClasses,
-  StyleTemplate } from '@alyle/ui';
+import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError, lyl, ThemeRef, LyClasses, StyleTemplate } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 export interface ExpansionConfig {
@@ -32,20 +25,92 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
   return {
     $priority: STYLE_PRIORITY,
     $name: LyAccordion.и,
-    $global: ( ) => (className: string) => `${className} ${classes.panelTitle},${className} ${classes.panelDescription}{display:flex;margin-${after}:16px;}${className} ${classes.panel}:not(${classes.disabled}) ${classes.panelTitle}{color:${theme.text.default};}${className} ${classes.panel}:not(${classes.disabled}) ${classes.panelDescription}{color:${theme.text.secondary};}`,
+    $global: ( ) => lyl `{
+      ${classes.panelTitle}, ${classes.panelDescription} {
+        display: flex
+        margin-${after}: 16px
+      }
+      ${classes.panel}:not(${classes.disabled}) {
+        ${classes.panelTitle} {
+          color: ${theme.text.default}
+        }
+        ${classes.panelDescription} {
+          color: ${theme.text.secondary}
+        }
+      }
+    }`,
     root: (theme.expansion && theme.expansion.root) ? () => theme.expansion!.root!(classes) : null,
-    panel: ( ) => (className: string) => `${className}{display:block;overflow:hidden;position:relative;}${className}:not(${classes.disabled}) ${classes.panelHeader}{cursor:pointer;}`,
-    panelHeader: ( ) => (className: string) => `${className}{display:flex;position:relative;flex-direction:row;align-items:center;padding:0 24px;transition:height ${theme.animations.durations.entering}ms ${theme.animations.curves.standard};font-family:${theme.typography.fontFamily};font-size:${theme.pxToRem(15)};font-weight:400;}${classes.panel}:not(${classes.expanded}):not(${classes.disabled}) ${className}:hover{background:${theme.hover};}@media (hover: none){${classes.panel}:not(${classes.expanded}):not(${classes.disabled}) ${className}:hover{background:none;}}`,
-    panelHeaderContent: (className: string) => `${className}{display:flex;flex:1;flex-direction:row;align-items:center;overflow:hidden;}`,
-    panelContent: (className: string) => `${className}{display:flex;flex-direction:column;overflow:visible;}`,
-    panelBody: (className: string) => `${className}{visibility:hidden;padding:0 24px 16px;transition:visibility ${
-        theme.animations.durations.entering}ms ${
-        theme.animations.curves.standard};font-family:${theme.typography.fontFamily};font-size:${theme.pxToRem(14)};font-weight:400;line-height:${theme.pxToRem(20)};}`,
-    panelTitle: (className: string) => `${className}{flex-grow:1;}`,
-    panelDescription: (className: string) => `${className}{flex-grow:2;}`,
-    panelActionRow: (className: string) => `${className}{border-top:1px solid ${theme.divider};display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px;}`,
-    expanded: ( ) => (className: string) => `${className} ${classes.panelBody}{visibility:visible;}`,
-    disabled: (className: string) => `${className}{color:${theme.disabled.contrast};}`
+    panel: ( ) => lyl `{
+      display: block
+      overflow: hidden
+      position: relative
+      &:not(${classes.disabled}) ${classes.panelHeader} {
+        cursor: pointer
+      }
+    }`,
+    panelHeader: ( ) => lyl `{
+      display: flex
+      position: relative
+      flex-direction: row
+      align-items: center
+      padding: 0 24px
+      transition: height ${theme.animations.durations.entering}ms ${theme.animations.curves.standard}
+      font-family: ${theme.typography.fontFamily}
+      font-size: ${theme.pxToRem(15)}
+      font-weight: 400
+      ${classes.panel}:not(${classes.expanded}):not(${classes.disabled}) &:hover {
+        background: ${theme.hover}
+        @media (hover: none) {
+          background: none
+        }
+      }
+    }`,
+    panelHeaderContent: lyl `{
+      display: flex
+      flex: 1
+      flex-direction: row
+      align-items: center
+      overflow: hidden
+    }`,
+    panelContent: lyl `{
+      display: flex
+      flex-direction: column
+      overflow: visible
+    }`,
+    panelBody: lyl `{
+      visibility: hidden
+      padding: 0 24px 16px
+      transition: visibility ${
+        theme.animations.durations.entering
+      }ms ${
+        theme.animations.curves.standard
+      }
+      font-family: ${theme.typography.fontFamily}
+      font-size: ${theme.pxToRem(14)}
+      font-weight: 400
+      line-height: ${theme.pxToRem(20)}
+    }`,
+    panelTitle: lyl `{
+      flex-grow: 1
+    }`,
+    panelDescription: lyl `{
+      flex-grow: 2
+    }`,
+    panelActionRow: lyl `{
+      border-top: 1px solid ${theme.divider}
+      display: flex
+      flex-direction: row
+      justify-content: flex-end
+      padding: 16px 8px 16px 24px
+    }`,
+    expanded: ( ) => lyl `{
+      ${classes.panelBody} {
+        visibility: visible
+      }
+    }`,
+    disabled: lyl `{
+      color: ${theme.disabled.contrast}
+    }`
   };
 };
 

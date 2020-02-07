@@ -1,13 +1,5 @@
 import { Directive, Input, TemplateRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import {
-  LyTheme2,
-  LyOverlay,
-  ThemeVariables,
-  XPosition,
-  YPosition,
-  st2c,
-  StyleTemplate,
-  StyleCollection } from '@alyle/ui';
+import { LyTheme2, LyOverlay, ThemeVariables, XPosition, YPosition, lyl, StyleTemplate, StyleCollection } from '@alyle/ui';
 import { LySnackBarService } from './snack-bar.service';
 import { LySnackBarRef } from './snack-bar-ref';
 
@@ -26,9 +18,31 @@ const DEFAULT_HORIZONTAL_POSITION = XPosition.after;
 const DEFAULT_VERTICAL_POSITION = YPosition.below;
 export const STYLES = (theme: ThemeVariables & LySnackBarVariables) => ({
   $priority: STYLE_PRIORITY,
-  root: (className: string) => `${className}{border-radius:4px;display:flex;justify-content:space-between;align-items:center;margin:8px;padding:0 16px;min-height:48px;min-width:320px;max-width:320px;opacity:0;transition:opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms;font-size:${theme.pxToRem(theme.typography.fontSize)};box-sizing:border-box;}${st2c((
+  root: lyl `{
+    border-radius: 4px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin: 8px
+    padding: 0 16px
+    min-height: 48px
+    min-width: 320px
+    max-width: 320px
+    opacity: 0
+    transition: opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms
+    font-size: ${theme.pxToRem(theme.typography.fontSize)}
+    box-sizing: border-box
+    ${theme.getBreakpoint('XSmall')} {
+      width: calc(100% - 16px)
+      min-width: calc(100% - 16px)
+    }
+    {
+      ...${
         (theme.snackBar
-          && theme.snackBar.root) || null), `${className}`)}${className} ${theme.getBreakpoint('XSmall')}{width:calc(100% - 16px);min-width:calc(100% - 16px);}`
+          && theme.snackBar.root) || null
+      }
+    }
+  }`
 });
 
 /** Event that is emitted when a snack bar is dismissed. */
@@ -102,14 +116,26 @@ export class LySnackBar implements OnDestroy {
             hp = theme.getDirection(horizontalPosition as any);
           }
 
-          return (className: string) => `${className}{margin-left:${marginLeft};left:${left};margin-right:${marginRight};right:${right};transform:${transform};top:${top};bottom:${bottom};${hp}:0;}`;
+          return lyl `{
+            margin-left: ${marginLeft}
+            left: ${left}
+            margin-right: ${marginRight}
+            right: ${right}
+            transform: ${transform}
+            top: ${top}
+            bottom: ${bottom}
+            ${hp}: 0
+          }`;
         }, STYLE_PRIORITY)
       ]
     });
 
     this._theme.requestAnimationFrame(() => {
       const newClass = this._theme.renderStyle('SnackBar:open', () => (
-        (className: string) => `${className}{opacity:1;transform:translateY(0);}`
+        lyl `{
+          opacity: 1
+          transform: translateY(0)
+        }`
       ), STYLE_PRIORITY);
       snackBar.containerElement.classList.add(newClass);
     });

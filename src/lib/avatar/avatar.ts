@@ -9,10 +9,11 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   ThemeVariables,
-  st2c,
+  lyl,
   StyleTemplate,
   LyHostClass,
-  StyleRenderer } from '@alyle/ui';
+  StyleRenderer
+} from '@alyle/ui';
 
 export interface LyAvatarTheme {
   /** Styles for Avatar Component */
@@ -40,10 +41,32 @@ export const STYLES = (theme: ThemeVariables & LyAvatarVariables) => {
   return {
     $name: LyAvatar.и,
     $priority: STYLE_PRIORITY,
-    root: (className: string) => `${className}{display:inline-flex;position:relative;font-size:1.25em;flex-shrink:0;align-items:center;user-select:none;border-radius:50%;text-align:center;justify-content:center;}${st2c((
+    root: lyl `{
+      display: inline-flex
+      position: relative
+      font-size: 1.25em
+      flex-shrink: 0
+      align-items: center
+      user-select: none
+      border-radius: 50%
+      text-align: center
+      justify-content: center
+      &>img {
+        width: 100%
+        height: 100%
+        border-radius: 50%
+        display: block
+        object-fit: cover
+        -webkit-background-clip: padding-box
+      }
+      {
+        ...${
           (theme.avatar
             && theme.avatar.root
-            && theme.avatar.root())), `${className}`)}${className}>img{width:100%;height:100%;border-radius:50%;display:block;object-fit:cover;-webkit-background-clip:padding-box;}`
+            && theme.avatar.root())
+        }
+      }
+    }`
   };
 };
 
@@ -92,11 +115,17 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
     if (val !== this.size) {
       this._size = val;
       this[0x1] = this._styleRenderer.add(`${LyAvatar.и}-size-${val}`, () => (
-        (className: string) => `${className}{width:${val}px;height:${val}px;}`
+        lyl `{
+          width: ${val}px
+          height: ${val}px
+        }`
       ), STYLE_PRIORITY, this[0x1]);
 
       // const newClass = this._theme.renderStyle(`${LyAvatar.и}.size:${val}`, () => (
-      //   (className: string) => ``
+      //   lyl `{
+      //     width: ${val}px
+      //     height: ${val}px
+      //   }`
       // ), STYLE_PRIORITY);
       // this._sizeClass = this._hostClass.update(newClass, this._sizeClass);
     }

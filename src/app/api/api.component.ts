@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Subscription, of, asapScheduler } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import {
-  LyTheme2,
-  Platform,
-  StyleRenderer } from '@alyle/ui';
+import { LyTheme2, Platform, lyl, StyleRenderer } from '@alyle/ui';
 
 import { AppComponent } from '@app/app.component';
 import { tap, map, catchError, observeOn, switchMap, takeUntil } from 'rxjs/operators';
@@ -18,9 +15,25 @@ import { APIService, APIList } from './api.service';
 const STYLES = () => {
   return {
     $priority: 1,
-    header: (className: string) => `${className}{display:flex;align-items:center;}`,
-    breadcrumbContainer: (className: string) => `${className}{display:flex;}`,
-    label: (className: string) => `${className}{width:initial;padding:4px 6px;height:initial;line-height:initial;display:inline-flex;align-items:center;text-transform:uppercase;}${className}::before{content:'';}`
+    header: lyl `{
+      display: flex
+      align-items: center
+    }`,
+    breadcrumbContainer: lyl `{
+      display: flex
+    }`,
+    label: lyl `{
+      width: initial
+      padding: 4px 6px
+      height: initial
+      line-height: initial
+      display: inline-flex
+      align-items: center
+      text-transform: uppercase
+      &::before {
+        content: ''
+      }
+    }`
   };
 };
 
