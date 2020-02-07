@@ -2,9 +2,6 @@
 
 
 
-## [2.9.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.5...2.9.6) (2019-10-24)
-
-
 ### Bug Fixes
 
 * **cropper:** support for Ionic ([f539e34](https://github.com/A-l-y-l-e/Alyle-UI/commit/f539e34))
