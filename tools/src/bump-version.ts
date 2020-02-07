@@ -49,6 +49,9 @@ function createVersion(currentVersion: string) {
     } else if (/major/i.test(MSG!)) {
       version = semver.inc(currentVersion, 'major')!;
     }
+  } else if (/> ?docs:prod/i.test(MSG!)) {
+    // Nothing
+    version = currentVersion;
   } else {
     version = semver.inc(currentVersion, 'prerelease', 'preview')!
       .replace('w.0', `w.${(env.SYSTEM_PULLREQUEST_SOURCECOMMITID! || env.BUILD_SOURCEVERSION!).slice(0, 6)}`);
