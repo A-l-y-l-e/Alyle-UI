@@ -37,6 +37,7 @@
 |radio|✔️|✔️|[Docs](https://alyle.io/components/radio)|
 |select|✔️|✔️|[Docs](https://alyle.io/components/select)|
 |snack bar|✔️|✔️|[Docs](https://alyle.io/components/snack-bar)|
+|skeleton screen|✔️|✔️|[Docs](https://alyle.io/components/skeleton)|
 |slider|✔️|✔️|[Docs](https://alyle.io/components/slider)|
 |tabs|✔️|✔️|[Docs](https://alyle.io/components/tabs)|
 |toolbar|✔️|✔️|[Docs](https://alyle.io/components/toolbar)|
