@@ -105,7 +105,7 @@
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.13.1",
     "typedoc": "^0.15.0",
-    "typescript": "~3.5.3",
+    "typescript": "~3.6.4",
     "yargs": "^13.2.2"
   },
   "schematics": "./dist/@alyle/ui/schematics/collection.json",
