@@ -4,9 +4,11 @@ import { MinimaBase } from './base';
 import { LyFieldTheme } from '@alyle/ui/field';
 import { LyTooltipTheme } from '@alyle/ui/tooltip';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
+import { Injectable } from '@angular/core';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0x333333);
+@Injectable()
 export class MinimaLight extends MinimaBase implements ThemeConfig {
   name = 'minima-light';
   primary = {

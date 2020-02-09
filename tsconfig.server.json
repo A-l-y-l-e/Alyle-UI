@@ -8,15 +8,11 @@
       "google.analytics"
     ]
   },
-  "include": [
-    "src/**/*.ts"
+  "files": [
+    "src/main.server.ts"
   ],
-  "exclude": [
-    "src/test.ts",
-    "src/**/*.spec.ts",
-    "src/lib/schematics/**/*.ts",
-    "src/lib/style-compiler/**/*.ts",
-    "src/**/*.test.ts"
+  "include": [
+    "src/**/*.d.ts"
   ],
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule"

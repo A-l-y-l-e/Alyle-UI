@@ -172,7 +172,7 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   private _tabResizeSub: Subscription;
   private _isOpen: boolean;
 
-  @ViewChild(TemplateRef, { static: false }) _backdrop: TemplateRef<any>;
+  @ViewChild(TemplateRef) _backdrop: TemplateRef<any>;
 
   @Input()
   set width(_val: string) {

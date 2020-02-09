@@ -1,4 +1,4 @@
-import { NgModule, Directive } from '@angular/core';
+import { NgModule, Directive, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyCommonModule, LY_THEME_NAME, LY_THEME, LyTheme2, StyleRenderer } from '@alyle/ui';
 import { LyButtonModule } from '@alyle/ui/button';
@@ -7,9 +7,11 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
 import { MultipleThemesDemo01Component } from './multiple-themes-demo-01.component';
 
+@Injectable()
 export class NewMinimaLight extends MinimaLight {
   name = 'new-minima-light';
 }
+@Injectable()
 export class NewMinimaDark extends MinimaDark {
   name = 'new-minima-dark';
 }

@@ -576,7 +576,7 @@ export class LyTab implements OnInit {
   _isBrowser = Platform.isBrowser;
   @ContentChild(LyTabContent, { read: TemplateRef, static: true }) _templateRefLazy: TemplateRef<LyTabContent>;
   @ViewChild('_templateNgContent', { static: true }) _templateRef: TemplateRef<any>;
-  @ViewChild('tabIndicator', { static: false }) _tabIndicator: ElementRef;
+  @ViewChild('tabIndicator') _tabIndicator: ElementRef;
   @ContentChild(forwardRef(() => LyTabLabel), { static: true }) _tabLabel: LyTabLabel & { };
 
   constructor(
@@ -621,7 +621,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     }
   }
 
-  @ViewChild('rippleContainer', { static: false }) _rippleContainer: ElementRef;
+  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   @HostListener('click') _onClickTab() {
     if (!this.disabled) {
       this._tabs.selectedIndex = this._tab.index;

@@ -14,6 +14,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/alyle-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -51,6 +52,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -184,7 +191,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib///ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -217,7 +225,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/grid/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/grid/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -250,7 +259,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/themes/minima/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/themes/minima/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -283,7 +293,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/card/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/card/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -316,7 +327,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/typography/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/typography/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -349,7 +361,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/responsive/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/responsive/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -382,7 +395,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/icon/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/icon/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -415,7 +429,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/button/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/button/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -448,7 +463,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/radio/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/radio/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -481,7 +497,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/resizing-cropping-images/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/resizing-cropping-images/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -514,7 +531,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/carousel/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/carousel/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -547,7 +565,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/menu/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/menu/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -580,7 +599,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/checkbox/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/checkbox/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -613,7 +633,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/tabs/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/tabs/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -646,7 +667,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/toolbar/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/toolbar/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -679,7 +701,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/drawer/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/drawer/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -712,7 +735,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/badge/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/badge/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -745,7 +769,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/field/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/field/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -778,7 +803,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/snack-bar/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/snack-bar/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -811,7 +837,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/tooltip/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/tooltip/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -844,7 +871,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/avatar/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/avatar/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -877,7 +905,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/list/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/list/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -910,7 +939,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/divider/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/divider/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -943,7 +973,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/select/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/select/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -976,7 +1007,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/dialog/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/dialog/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -1009,7 +1041,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/expansion/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/expansion/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -1042,7 +1075,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/slider/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/slider/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -1075,7 +1109,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/color/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/color/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -1108,7 +1143,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/style-compiler/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/style-compiler/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -1141,7 +1177,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/image-cropper/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/image-cropper/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -1174,7 +1211,8 @@
           "configurations": {
             "production": {
               "project": "dist/lib/skeleton/ng-package.prod.json"
-            }
+            ,              "tsConfig": "dist/lib/skeleton/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {

@@ -5,7 +5,7 @@ import { StyleRenderer } from './minimal/renderer-style';
 
 @NgModule()
 export class LyThemeModule {
-  static setTheme(themeName: string): ModuleWithProviders {
+  static setTheme(themeName: string): ModuleWithProviders<LyThemeModule> {
     return {
       ngModule: LyThemeModule,
       providers: [

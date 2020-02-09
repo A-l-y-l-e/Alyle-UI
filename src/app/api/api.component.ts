@@ -70,7 +70,7 @@ export class ApiComponent implements OnInit, OnDestroy {
   private void$ = of<void>(undefined);
   routeParamsSubscription = Subscription.EMPTY;
   private onDestroy$ = new EventEmitter<void>();
-  @ViewChild('code', { static: false }) code: ElementRef<HTMLDivElement>;
+  @ViewChild('code') code: ElementRef<HTMLDivElement>;
   constructor(
     readonly sRenderer: StyleRenderer,
     private http: HttpClient,

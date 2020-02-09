@@ -4,10 +4,12 @@ import { color, Color } from '@alyle/ui/color';
 import { LyFieldTheme } from '@alyle/ui/field';
 import { LyTooltipTheme } from '@alyle/ui/tooltip';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
+import { Injectable } from '@angular/core';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0, 0, 0, 1);
 
+@Injectable()
 export class MinimaDark extends MinimaBase {
   name = 'minima-dark';
   primary = {

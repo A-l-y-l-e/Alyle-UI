@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { LyDrawerModule } from '@alyle/ui/drawer';
@@ -43,6 +43,7 @@ const SublimeLight = {
   shadow: new Color(0xB36FBC)
 };
 
+@Injectable()
 export class CustomMinimaLight {
   name = 'minima-light';
   shadow = '#505050';
@@ -66,6 +67,7 @@ export class CustomMinimaLight {
   };
 }
 
+@Injectable()
 export class CustomMinimaDark {
   name = 'minima-dark';
   shadow = 'rgba(0, 0, 0, 1)';
@@ -82,10 +84,12 @@ export class CustomMinimaDark {
   };
   stackblitz = '#fff';
 }
+@Injectable()
 export class CustomMinimaDeepDark extends CustomMinimaDark {
   name = 'minima-deep-dark';
 }
 
+@Injectable()
 export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDark> {
   testVal = '#00bcd4';
   Quepal = Quepal;
