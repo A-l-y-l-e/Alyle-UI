@@ -245,6 +245,11 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   @ViewChild('tabContents', { static: true }) tabContents: ElementRef;
   @ViewChild('tabsIndicator', { static: true }) tabsIndicator: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
+  /**
+   * By default, when changing a tab, the previous one is created and deleted.
+   * With this, the content will only be hidden instead of deleting it.
+   */
+  @Input() keepContent: boolean;
   @Input()
   set scrollable(val: any) {
     const newVal = toBoolean(val);
@@ -546,11 +551,13 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       });
     }
     tab._tabLabel._updateTabState();
+    if (this.keepContent) {
+      return tab._templateRefLazy || tab._templateRef;
+    }
     if (this.selectedIndex === tab.index) {
       return tab._templateRefLazy || tab._templateRef;
-    } else {
-      return null;
     }
+    return null;
   }
 
   private _getFlexDirection(val: LyTabsHeaderPlacement) {
