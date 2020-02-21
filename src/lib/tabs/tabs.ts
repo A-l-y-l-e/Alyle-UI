@@ -246,10 +246,20 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   @ViewChild('tabsIndicator', { static: true }) tabsIndicator: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
   /**
+   * Keep the content.
    * By default, when changing a tab, the previous one is created and deleted.
    * With this, the content will only be hidden instead of deleting it.
    */
-  @Input() keepContent: boolean;
+  @Input()
+  set keepContent(val: boolean) {
+    const newVal = toBoolean(val);
+    this._keepContent = newVal;
+  }
+  get keepContent() {
+    return this._keepContent;
+  }
+  private _keepContent: boolean;
+
   @Input()
   set scrollable(val: any) {
     const newVal = toBoolean(val);
