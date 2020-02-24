@@ -16,6 +16,14 @@ Tabs organize content across different screens.
   <aui-tabs-with-asynchronously-loading></aui-tabs-with-asynchronously-loading>
 </demo-view>
 
+## Dynamic Height
+
+The tab content will animate its height according to the height of the active tab.
+
+<demo-view path="docs/layout/tabs-demo/tabs-dynamic-height">
+  <aui-tabs-dynamic-height></aui-tabs-dynamic-height>
+</demo-view>
+
 <h2 lyTyp="headline" gutter>Icon</h2>
 <demo-view path="docs/layout/tabs-demo/tabs-with-icon">
   <aui-tabs-with-icon></aui-tabs-with-icon>
@@ -35,3 +43,11 @@ Tabs organize content across different screens.
 <demo-view path="docs/layout/tabs-demo/tabs-placement">
   <aui-tabs-placement></aui-tabs-placement>
 </demo-view>
+
+## Limitations
+
+* When using `keepContent` attribute with `headerPlacement="before"` or `headerPlacement="after"` you must explicitly set a height to `ly-tabs` for it to work properly.
+
+* `headerPlacement="before"` or `headerPlacement="after"` does not work with `dynamicHeight`.
+
+

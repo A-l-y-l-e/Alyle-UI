@@ -12,6 +12,8 @@ import { TabsWithAsynchronouslyLoadingModule } from './tabs-with-asynchronously-
 import { TabsAlignModule } from './tabs-align/tabs-align.module';
 import { TabsWithIconModule } from './tabs-with-icon/tabs-with-icon.module';
 import { TabsPlacementModule } from './tabs-placement/tabs-placement.module';
+import { TabsDynamicHeightModule } from './tabs-dynamic-height/tabs-dynamic-height.module';
+import { TabsDynamicHeightComponent } from './tabs-dynamic-height/tabs-dynamic-height.component';
 
 
 const elements = [
@@ -20,7 +22,8 @@ const elements = [
   TabsWithAsynchronouslyLoadingComponent,
   TabsAlignComponent,
   TabsWithIconComponent,
-  TabsPlacementComponent
+  TabsPlacementComponent,
+  TabsDynamicHeightComponent
 ];
 
 @NgModule({
@@ -30,7 +33,8 @@ const elements = [
     TabsWithAsynchronouslyLoadingModule,
     TabsAlignModule,
     TabsWithIconModule,
-    TabsPlacementModule
+    TabsPlacementModule,
+    TabsDynamicHeightModule
   ],
   entryComponents: elements
 })

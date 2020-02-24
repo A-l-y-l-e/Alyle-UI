@@ -12,6 +12,8 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TabsAlignModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./tabs-align/tabs-align.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TabsWithIconModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./tabs-with-icon/tabs-with-icon.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TabsPlacementModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./tabs-placement/tabs-placement.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TabsDynamicHeightModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./tabs-dynamic-height/tabs-dynamic-height.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TabsDynamicHeightComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./tabs-dynamic-height/tabs-dynamic-height.component'</span><span class="tt18 ttae">;</span>
 
 
 <span class="tt18 tt1j">const</span> elements <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
@@ -20,7 +22,8 @@
   TabsWithAsynchronouslyLoadingComponent<span class="tt18 ttae">,</span>
   TabsAlignComponent<span class="tt18 ttae">,</span>
   TabsWithIconComponent<span class="tt18 ttae">,</span>
-  TabsPlacementComponent
+  TabsPlacementComponent<span class="tt18 ttae">,</span>
+  TabsDynamicHeightComponent
 <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
@@ -30,7 +33,8 @@
     TabsWithAsynchronouslyLoadingModule<span class="tt18 ttae">,</span>
     TabsAlignModule<span class="tt18 ttae">,</span>
     TabsWithIconModule<span class="tt18 ttae">,</span>
-    TabsPlacementModule
+    TabsPlacementModule<span class="tt18 ttae">,</span>
+    TabsDynamicHeightModule
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   entryComponents<span class="tt18 ttb0">:</span> elements
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
