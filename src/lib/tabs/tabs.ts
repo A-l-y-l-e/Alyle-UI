@@ -53,11 +53,11 @@ import {
   StyleCollection,
   LyClasses,
   StyleTemplate,
+  StyleRenderer
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
 import { Subscription } from 'rxjs';
-import { StyleRenderer } from '../src/minimal';
 
 export interface LyTabTheme {
   /** Styles for Tab Component */
