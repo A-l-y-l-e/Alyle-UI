@@ -574,7 +574,9 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   }
 
   private _updateDynamicHeight(container: HTMLDivElement, tabIndex: number) {
-
+    if (this._timeoutIds[tabIndex] != null) {
+      window.clearTimeout(this._timeoutIds[tabIndex]);
+    }
     if (this.selectedIndex === tabIndex) {
       const {
         height: contentInnerHeightBefore,
@@ -608,10 +610,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 
     } else {
       if (Platform.isBrowser) {
-
-        if (this._timeoutIds[tabIndex] != null) {
-          window.clearTimeout(this._timeoutIds[tabIndex]);
-        }
         const indexBefore = this._selectedBeforeIndex;
         if (indexBefore === tabIndex) {
           if (this.dynamicHeight) {
