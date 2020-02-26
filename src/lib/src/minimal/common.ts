@@ -1,6 +1,7 @@
 import {
   Directive, Input, TemplateRef, ViewContainerRef, OnDestroy, NgModule, ElementRef
 } from '@angular/core';
+import { Platform } from '../platform/index';
 
 export interface KeyAttribute {
   [key: string]: any;
@@ -24,7 +25,7 @@ export class NgTranscludeDirective implements OnDestroy {
   @Input()
   set ngTransclude(templateRef: TemplateRef<any>) {
     if (templateRef && !this._ngTransclude) {
-      if (this._timeoutId != null) {
+      if (Platform.isBrowser && this._timeoutId != null) {
         window.clearTimeout(this._timeoutId);
         this._timeoutId = null!;
         this.vcr.clear();
@@ -44,7 +45,7 @@ export class NgTranscludeDirective implements OnDestroy {
   constructor(readonly vcr: ViewContainerRef) { }
 
   clear() {
-    if (this.timeout) {
+    if (Platform.isBrowser && this.timeout) {
       this._timeoutId = window.setTimeout(() => {
         this.vcr.clear();
         this._timeoutId = null!;
@@ -55,7 +56,9 @@ export class NgTranscludeDirective implements OnDestroy {
   }
 
   ngOnDestroy() {
-    window.clearTimeout(this._timeoutId);
+    if (Platform.isBrowser) {
+      window.clearTimeout(this._timeoutId);
+    }
     this.vcr.clear();
   }
 }
