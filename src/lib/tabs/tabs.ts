@@ -578,10 +578,10 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       window.clearTimeout(this._timeoutIds[tabIndex]);
     }
     if (this.selectedIndex === tabIndex) {
-      const {
-        height: contentInnerHeightBefore,
-      } = (this.tabContents.nativeElement as HTMLElement)
-        .getBoundingClientRect();
+      const contentInnerHeightBefore = Platform.isBrowser
+        ? (this.tabContents.nativeElement as HTMLElement)
+          .getBoundingClientRect().height
+        : null;
       this.renderer.removeClass(container, this.classes.hiddenContent);
 
       if (Platform.isBrowser && this.dynamicHeight) {
