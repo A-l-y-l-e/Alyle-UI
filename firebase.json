@@ -45,6 +45,13 @@
           }
         ]
       }
+    ],
+    "redirects": [
+      {
+        "source" : "/components/resizing-cropping-images",
+        "destination" : "/components/image-cropper",
+        "type" : 301
+      }
     ]
   }
 }

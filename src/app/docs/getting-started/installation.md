@@ -73,7 +73,7 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
     [ LyTheme2 ],
     [ StyleRenderer ],
     // Theme that will be applied to this module
-    { provide: LY_THEME_NAME, useClass: 'minima-light' },
+    { provide: LY_THEME_NAME, useValue: 'minima-light' },
     { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: `minima-light`
     { provide: LY_THEME, useClass: MinimaDark, multi: true } // name: `minima-dark`
   ]
