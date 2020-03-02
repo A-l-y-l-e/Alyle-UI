@@ -11,6 +11,7 @@ import { Ads } from '@shared/ads';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { STYLES as API_LIST_CLASSES } from './api-list.component';
 import { APIService, APIList } from './api.service';
+import { SEOService } from '@shared/seo.service';
 
 const STYLES = () => {
   return {
@@ -81,7 +82,8 @@ export class ApiComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private app: AppComponent,
     private ads: Ads,
-    cdr: ChangeDetectorRef
+    cdr: ChangeDetectorRef,
+    private seo: SEOService
   ) {
     this.doc$
       .pipe(
@@ -99,9 +101,10 @@ export class ApiComponent implements OnInit, OnDestroy {
   }
 
   render(path: string) {
+    path = this.seo.url(path).pathname;
     return this.void$
       .pipe(
-        tap(() => this.app.docViewer && this.app.docViewer.setNoIndex(true)),
+        tap(() => this.app.docViewer && this.seo.setNoIndex(true)),
         switchMap(async () => await
           this.http.get<APIPkgSymbol | APIPkgSymbolList[]>(`${path}.json`).pipe(catchError((error) => this.apiService.handleError(error))).toPromise()
         .catch((title: string) => {
@@ -124,7 +127,7 @@ export class ApiComponent implements OnInit, OnDestroy {
           if (docViewer) {
             docViewer.isLoading.emit(false);
             if (data) {
-              docViewer.setNoIndex(false);
+              this.seo.setNoIndex(false);
               const splited = path.split('/').filter(_ => _);
               let title: string;
               if (splited.length === 3 || splited.length === 4) {
@@ -132,7 +135,7 @@ export class ApiComponent implements OnInit, OnDestroy {
               } else {
                 title = splited.pop()!;
               }
-              docViewer.setTitle(`Alyle UI - ${title}`);
+              this.seo.setTitle(`Alyle UI - ${title}`);
             }
             // Show skeleton screen Platform is Server
             if (!Platform.isBrowser) {

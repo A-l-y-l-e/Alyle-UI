@@ -1,15 +1,14 @@
-import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, isDevMode, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, ChangeDetectionStrategy } from '@angular/core';
 import { observeOn, switchMap, takeUntil, take, catchError, tap } from 'rxjs/operators';
 import { asapScheduler, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { ElementsLoader } from './elements-loader.service';
-import { Title, Meta } from '@angular/platform-browser';
 import { LyTypographyVariables } from '@alyle/ui/typography';
 import { ThemeVariables, LyTheme2, lyl, StyleCollection, StyleTemplate, Platform } from '@alyle/ui';
 import { ViewComponent } from '@app/demo-view/view/view.component';
-import { Router } from '@angular/router';
 import { Ads, ADS_STYLES } from '@shared/ads';
+import { SEOService } from '@app/shared/seo.service';
 
 // Initialization prevents flicker once pre-rendering is on
 const initialDocViewerElement = Platform.isBrowser ? document.querySelector('aui-doc-viewer > div') : null;
@@ -82,8 +81,8 @@ export class DocViewer {
       if (val !== '/' && val !== '') {
         this.docContents$.emit(val);
       } else {
-        this.setTitle();
-        this.setNoIndex(false);
+        this.seo.setTitle();
+        this.seo.setNoIndex(false);
         this.hostElement.innerHTML = '';
         this.isError.emit(null!);
       }
@@ -96,12 +95,10 @@ export class DocViewer {
     elementRef: ElementRef,
     private http: HttpClient,
     private elementsLoader: ElementsLoader,
-    private titleService: Title,
-    private metaService: Meta,
     private theme: LyTheme2,
     private renderer: Renderer2,
-    private router: Router,
-    private ads: Ads
+    private ads: Ads,
+    private seo: SEOService
   ) {
     this.isLoading.emit(!initialDocViewerContent);
     this.hostElement = renderer.createElement('div');
@@ -129,6 +126,7 @@ export class DocViewer {
   }
 
   render(path: string) {
+    path = this.seo.url(path).pathname;
     this.isLoading.emit(!initialDocViewerContent);
     if (!initialDocViewerContent) {
       this.hostElement.innerHTML = '';
@@ -150,9 +148,9 @@ export class DocViewer {
               const is404 = (err instanceof Error) ? false : err.status === 404;
               console.error('Err', errorMessage);
               this.isLoading.emit(false);
-              this.setNoIndex(true);
+              this.seo.setNoIndex(true);
               const errMsg = is404 ? 'PAGE NOT FOUND' : 'REQUEST FOR DOCUMENT FAILED';
-              this.setTitle(`Alyle UI - ${errMsg}`);
+              this.seo.setTitle(`Alyle UI - ${errMsg}`);
               this.isError.emit({
                 title: errMsg
               });
@@ -167,7 +165,7 @@ export class DocViewer {
           initialDocViewerContent = '';
           if (html !== 'API') {
             this.isLoading.emit(false);
-            this.setNoIndex(false);
+            this.seo.setNoIndex(false);
             const { hostElement } = this;
             hostElement.innerHTML = html;
             const h1 = hostElement.querySelector('h1');
@@ -175,7 +173,7 @@ export class DocViewer {
             if (path.includes('/components/')) {
               title = `${title} Angular Component`;
             }
-            this.setTitle(`Alyle UI - ${title}`);
+            this.seo.setTitle(`Alyle UI - ${title}`);
             // Show skeleton screen Platform is Server
             if (!Platform.isBrowser) {
               hostElement.innerHTML = '';
@@ -186,27 +184,5 @@ export class DocViewer {
         }
       })
     );
-  }
-
-  /**
-   * Tell search engine crawlers whether to index this page
-   */
-  setNoIndex(val: boolean) {
-    if (val) {
-      this.metaService.addTag({ name: 'robots', content: 'noindex' });
-    } else {
-      this.metaService.removeTag('name="robots"');
-    }
-  }
-
-  setTitle(val?: string) {
-    this.titleService.setTitle(val
-      ? val
-      : 'Alyle UI: Minimal Design, a set of components for Angular');
-
-    if (Platform.isBrowser && !isDevMode()) {
-      ga('set', 'page', this.router.url || '/');
-      ga('send', 'pageview');
-    }
   }
 }
