@@ -29,7 +29,9 @@ import {
   AfterViewInit,
   AfterContentInit,
   Directive,
-  ContentChild
+  ContentChild,
+  Output,
+  EventEmitter
   } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -164,6 +166,15 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
   };
 };
 
+/** Change event object that is emitted when the select value has changed. */
+export class LySelectChange {
+  constructor(
+    /** Reference to the select that emitted the change event. */
+    public source: LySelect,
+    /** Current value of the select that emitted the event. */
+    public value: any) { }
+}
+
 /** @docs-private */
 const ANIMATIONS = [
   trigger('selectEnter', [
@@ -247,6 +258,16 @@ export class LySelect
   @ViewChild(forwardRef(() => LyOption), { static: false }) _options: QueryList<LyOption>;
   @ContentChildren(forwardRef(() => LyOption), { descendants: true }) options: QueryList<LyOption>;
   @ContentChild(LySelectTrigger, { static: false }) customTrigger: LySelectTrigger;
+
+  /** Event emitted when the selected value has been changed by the user. */
+  @Output() readonly selectionChange: EventEmitter<LySelectChange> = new EventEmitter<LySelectChange>();
+
+  /**
+   * Event that emits whenever the raw value of the select changes. This is here primarily
+   * to facilitate the two-way binding for the `value` input.
+   * @docs-private
+   */
+  @Output() readonly valueChange: EventEmitter<any> = new EventEmitter<any>();
 
   /**
    * The registered callback function called when a change event occurs on the input element.
@@ -735,7 +756,9 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     } else {
       this.toggle();
     }
+    this._select.valueChange.emit(this._select._value);
     this._select.onChange(this._select._value);
+    this._select.selectionChange.emit(new LySelectChange(this._select, this._select._value));
   }
 
   /**
