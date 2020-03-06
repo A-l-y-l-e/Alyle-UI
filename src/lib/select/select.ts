@@ -71,7 +71,7 @@ import {
   ThemeRef
   } from '@alyle/ui';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, startWith } from 'rxjs/operators';
 
 export interface LySelectTheme {
   /** Styles for Select Component */
@@ -305,10 +305,10 @@ export class LySelect
   /** @docs-private */
   @Input()
   set value(val) {
-    if (val !== this.value && this._selectionModel) {
+    if (val !== this.value) {
       this._value = val;
-      this.writeValue(val);
-      if (this.options) {
+      if (this.options && this._selectionModel) {
+        this.writeValue(val);
         if (this.multiple) {
           if (Array.isArray(this.value)) {
             const values: LyOption[] = [];
@@ -350,9 +350,9 @@ export class LySelect
             selected.select();
           }
         }
+        this.stateChanges.next();
+        this._cd.markForCheck();
       }
-      this.stateChanges.next();
-      this._cd.markForCheck();
     }
   }
   get value() {
@@ -522,28 +522,35 @@ export class LySelect
       this.stateChanges.next();
       this._cd.markForCheck();
     });
+    this.options.changes.pipe(
+      startWith(null),
+      takeUntil(this._destroy)
+    ).subscribe(() => {
+
+      const selecteds: LyOption[] = [];
+      this.options.forEach(option => {
+        if (option.isSelected) {
+          selecteds.push(option);
+        }
+      });
+
+      // this only update the refs
+      if (selecteds.length) {
+        this._selectionModel.clear();
+        selecteds.forEach(option => this._selectionModel.select(option));
+      }
+      const oldValue = this.value;
+      this.value = null;
+      this.value = oldValue;
+      this.stateChanges.next();
+      this._cd.markForCheck();
+      console.log('change', this.value, this.options);
+    });
   }
 
   ngAfterViewInit() {
-    if (this.options) {
-      this.options.changes.pipe(
-        takeUntil(this._destroy)
-      ).subscribe(() => {
-
-        const selecteds: LyOption[] = [];
-        this.options.forEach(option => {
-          if (option.isSelected) {
-            selecteds.push(option);
-          }
-        });
-
-        // this only update the refs
-        if (selecteds.length) {
-          this._selectionModel.clear();
-          selecteds.forEach(option => this._selectionModel.select(option));
-        }
-      });
-    }
+    // if (this.options) {
+    // }
   }
 
   ngOnDestroy() {
