@@ -26,7 +26,6 @@ import {
   OnChanges,
   QueryList,
   ContentChildren,
-  AfterViewInit,
   AfterContentInit,
   Directive,
   ContentChild,
@@ -226,7 +225,7 @@ export class LySelectTrigger { }
 })
 export class LySelect
     extends LySelectMixinBase
-    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterContentInit, AfterViewInit, OnDestroy {
+    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterContentInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES);
   /** @internal */
@@ -544,13 +543,7 @@ export class LySelect
       this.value = oldValue;
       this.stateChanges.next();
       this._cd.markForCheck();
-      console.log('change', this.value, this.options);
     });
-  }
-
-  ngAfterViewInit() {
-    // if (this.options) {
-    // }
   }
 
   ngOnDestroy() {
