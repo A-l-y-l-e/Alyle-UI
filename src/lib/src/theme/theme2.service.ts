@@ -261,6 +261,18 @@ export class LyTheme2 {
     return false;
   }
 
+  /**
+   * return selectors if exists
+   *
+   * e.g.
+   *
+   * ```ts
+   * {
+   *   root: '.c'
+   * }
+   * ```
+   * @param styles id
+   */
   selectorsOf<T>(styles: T): LyClasses<T> {
     const themeName = this.initialTheme;
     if (!_STYLE_MAP.has(styles)) {
@@ -768,4 +780,4 @@ function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;
 }
 
-export interface ThemeRef extends Pick<LyTheme2, 'selectorsOf'> { }
+export interface ThemeRef extends Pick<LyTheme2, 'selectorsOf' | 'renderStyleSheet'> { }

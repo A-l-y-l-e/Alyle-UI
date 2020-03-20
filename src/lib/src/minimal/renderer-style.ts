@@ -1,4 +1,4 @@
-import { Injectable, ElementRef, Renderer2, Optional } from '@angular/core';
+import { Injectable, ElementRef, Renderer2, Optional, Self } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
 import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
@@ -12,8 +12,8 @@ export class StyleRenderer {
 
   constructor(
     private _theme: LyTheme2,
-    @Optional() _el: ElementRef,
-    @Optional() private _renderer: Renderer2
+    @Self() @Optional() _el: ElementRef,
+    @Self() @Optional() private _renderer: Renderer2
   ) {
     if (_el) {
       this._nEl = _el.nativeElement;
@@ -37,9 +37,9 @@ export class StyleRenderer {
    *
    */
   renderSheet<T>(styles: T & LyStyles, applyRootClass?: boolean): LyClasses<T> {
-    const classes = this._theme._createStyleContent2(styles, null, null, TypeStyle.Multiple);
-    if (applyRootClass && classes.root) {
-      this.addClass(classes.root);
+    const classes = this._theme.renderStyleSheet(styles);
+    if (applyRootClass && (classes as any).root) {
+      this.addClass((classes as any).root);
     }
     return classes;
   }
