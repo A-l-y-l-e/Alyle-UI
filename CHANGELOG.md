@@ -1,3 +1,12 @@
+## [3.1.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.1.1...3.1.2) (2020-03-20)
+
+
+### Bug Fixes
+
+* **drawer:** unable to customize using a theme ([ab1a526](https://github.com/A-l-y-l-e/Alyle-UI/commit/ab1a526))
+
+
+
 ## [3.1.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.0.0...3.1.1) (2020-03-06)
 
 
