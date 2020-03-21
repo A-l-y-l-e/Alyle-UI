@@ -95,7 +95,7 @@
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-mocha-reporter": "^2.2.5",
-    "ng-packagr": "^9.0.0",
+    "ng-packagr": "^9.0.3",
     "protractor": "~5.4.0",
     "replace-in-file": "^3.4.2",
     "semver": "^6.3.0",
