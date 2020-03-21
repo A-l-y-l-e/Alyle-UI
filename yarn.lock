@@ -1294,15 +1294,22 @@
     rxjs "6.5.3"
     webpack-sources "1.4.3"
 
-"@nguniversal/express-engine@^8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-8.1.1.tgz#253f2a484764cf183a679847a0c25c52d5b25ab9"
-  integrity sha512-LKfNnKb1BU1IyI/U7LcDgU744ptrn7fTYb3QqHAlGaozHUNRjXpNuBdkrcAS5+8UAhRlTllpSt1c+TmY2/tomA==
+"@nguniversal/common@9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@nguniversal/common/-/common-9.0.2.tgz#808d71b05d7cefcef0fa597c1a81980ec84b9b37"
+  integrity sha512-vrQ/iTPrbA7P1qzYiPp4t+Z4G1cugRN8M5Sd51lTcugiPrnxGHYpLnUITnlfCzGbb4QYUV9I+gDcjM3PeKeopA==
 
-"@nguniversal/module-map-ngfactory-loader@^8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@nguniversal/module-map-ngfactory-loader/-/module-map-ngfactory-loader-8.1.1.tgz#653522a616daaeae21d134752879beebb7da31ca"
-  integrity sha512-vXFydMTPFRfGjmtdwtbNhl4Pmfg580Yit0vzlTeb3ZC1v+TJKR2GzaWYUileWxS60FrgNF4/tkOEL5ouDDx6Bw==
+"@nguniversal/express-engine@^9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-9.0.2.tgz#d1aea1d8b9486ff65be6463e64e093e593249ca2"
+  integrity sha512-3BZue9Rk4spuRZieE8gm7vuUZuL2cWlsIw0pPHBRT5LDnM26zk124eUIOMbxZZGAa2pQLkZ7bh1H1eXit6ISHw==
+  dependencies:
+    "@nguniversal/common" "9.0.2"
+
+"@nguniversal/module-map-ngfactory-loader@^8.2.6":
+  version "8.2.6"
+  resolved "https://registry.yarnpkg.com/@nguniversal/module-map-ngfactory-loader/-/module-map-ngfactory-loader-8.2.6.tgz#0edc07c4437566970392c9bca1d13b8964971cb0"
+  integrity sha512-YcxXSrDZt6iDR+YbesJvprNpHd1nRLeThJwAFlcwvK/GVGSyKeWV6eqk3bRkBkgkw8OwaG/4lOQ4aofxQw+13w==
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
@@ -12780,10 +12787,10 @@ typescript@3.6.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.4.tgz#b18752bb3792bc1a0281335f7f6ebf1bbfc5b91d"
   integrity sha512-unoCll1+l+YK4i4F8f22TaNVPRHcD9PA3yCuZ8g5e0qGqlVlJ/8FSateOLLSagn+Yg5+ZwuPkL8LFUc0Jcvksg==
 
-typescript@~3.6.4:
-  version "3.6.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.5.tgz#dae20114a7b4ff4bd642db9c8c699f2953e8bbdb"
-  integrity sha512-BEjlc0Z06ORZKbtcxGrIvvwYs5hAnuo6TKdNFL55frVDlB+na3z5bsLhFaIxmT+dPWgBIjMo6aNnTOgHHmHgiQ==
+typescript@~3.7.4:
+  version "3.7.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
+  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
 
 uglify-js@3.4.x:
   version "3.4.10"
