@@ -37,9 +37,9 @@ export class StyleRenderer {
    *
    */
   renderSheet<T>(styles: T & LyStyles, applyRootClass?: boolean): LyClasses<T> {
-    const classes = this._theme._createStyleContent2(styles, null, null, TypeStyle.Multiple);
-    if (applyRootClass && classes.root) {
-      this.addClass(classes.root);
+    const classes = this._theme.renderStyleSheet(styles);
+    if (applyRootClass && (classes as any).root) {
+      this.addClass((classes as any).root);
     }
     return classes;
   }

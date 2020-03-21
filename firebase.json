@@ -2,9 +2,10 @@
   "hosting": {
     "public": "dist/alyle-ui",
     "trailingSlash": false,
+    "cleanUrls": true,
     "rewrites": [
       {
-        "source": "**",
+        "source": "**/!(*.*)",
         "destination": "/index.html"
       }
     ],
