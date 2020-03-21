@@ -1,4 +1,4 @@
-import { Injectable, ElementRef, Renderer2, Optional, Self } from '@angular/core';
+import { Injectable, ElementRef, Renderer2, Optional } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
 import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
@@ -12,8 +12,8 @@ export class StyleRenderer {
 
   constructor(
     private _theme: LyTheme2,
-    @Self() @Optional() _el: ElementRef,
-    @Self() @Optional() private _renderer: Renderer2
+    @Optional() _el: ElementRef,
+    @Optional() private _renderer: Renderer2
   ) {
     if (_el) {
       this._nEl = _el.nativeElement;
