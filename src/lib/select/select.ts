@@ -26,10 +26,11 @@ import {
   OnChanges,
   QueryList,
   ContentChildren,
-  AfterViewInit,
   AfterContentInit,
   Directive,
-  ContentChild
+  ContentChild,
+  Output,
+  EventEmitter
   } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -69,7 +70,7 @@ import {
   ThemeRef
   } from '@alyle/ui';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, startWith } from 'rxjs/operators';
 
 export interface LySelectTheme {
   /** Styles for Select Component */
@@ -164,6 +165,15 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
   };
 };
 
+/** Change event object that is emitted when the select value has changed. */
+export class LySelectChange {
+  constructor(
+    /** Reference to the select that emitted the change event. */
+    public source: LySelect,
+    /** Current value of the select that emitted the event. */
+    public value: any) { }
+}
+
 /** @docs-private */
 const ANIMATIONS = [
   trigger('selectEnter', [
@@ -215,7 +225,7 @@ export class LySelectTrigger { }
 })
 export class LySelect
     extends LySelectMixinBase
-    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterContentInit, AfterViewInit, OnDestroy {
+    implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterContentInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES);
   /** @internal */
@@ -247,6 +257,16 @@ export class LySelect
   @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
   @ContentChildren(forwardRef(() => LyOption), { descendants: true }) options: QueryList<LyOption>;
   @ContentChild(LySelectTrigger) customTrigger: LySelectTrigger;
+
+  /** Event emitted when the selected value has been changed by the user. */
+  @Output() readonly selectionChange: EventEmitter<LySelectChange> = new EventEmitter<LySelectChange>();
+
+  /**
+   * Event that emits whenever the raw value of the select changes. This is here primarily
+   * to facilitate the two-way binding for the `value` input.
+   * @docs-private
+   */
+  @Output() readonly valueChange: EventEmitter<any> = new EventEmitter<any>();
 
   /**
    * The registered callback function called when a change event occurs on the input element.
@@ -284,10 +304,10 @@ export class LySelect
   /** @docs-private */
   @Input()
   set value(val) {
-    if (val !== this.value && this._selectionModel) {
+    if (val !== this.value) {
       this._value = val;
-      this.writeValue(val);
-      if (this.options) {
+      if (this.options && this._selectionModel) {
+        this.writeValue(val);
         if (this.multiple) {
           if (Array.isArray(this.value)) {
             const values: LyOption[] = [];
@@ -329,9 +349,9 @@ export class LySelect
             selected.select();
           }
         }
+        this.stateChanges.next();
+        this._cd.markForCheck();
       }
-      this.stateChanges.next();
-      this._cd.markForCheck();
     }
   }
   get value() {
@@ -501,28 +521,29 @@ export class LySelect
       this.stateChanges.next();
       this._cd.markForCheck();
     });
-  }
+    this.options.changes.pipe(
+      startWith(null),
+      takeUntil(this._destroy)
+    ).subscribe(() => {
 
-  ngAfterViewInit() {
-    if (this.options) {
-      this.options.changes.pipe(
-        takeUntil(this._destroy)
-      ).subscribe(() => {
-
-        const selecteds: LyOption[] = [];
-        this.options.forEach(option => {
-          if (option.isSelected) {
-            selecteds.push(option);
-          }
-        });
-
-        // this only update the refs
-        if (selecteds.length) {
-          this._selectionModel.clear();
-          selecteds.forEach(option => this._selectionModel.select(option));
+      const selecteds: LyOption[] = [];
+      this.options.forEach(option => {
+        if (option.isSelected) {
+          selecteds.push(option);
         }
       });
-    }
+
+      // this only update the refs
+      if (selecteds.length) {
+        this._selectionModel.clear();
+        selecteds.forEach(option => this._selectionModel.select(option));
+      }
+      const oldValue = this.value;
+      this.value = null;
+      this.value = oldValue;
+      this.stateChanges.next();
+      this._cd.markForCheck();
+    });
   }
 
   ngOnDestroy() {
@@ -735,7 +756,9 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     } else {
       this.toggle();
     }
+    this._select.valueChange.emit(this._select._value);
     this._select.onChange(this._select._value);
+    this._select.selectionChange.emit(new LySelectChange(this._select, this._select._value));
   }
 
   /**

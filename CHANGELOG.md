@@ -1,3 +1,48 @@
+## [3.1.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.1.1...3.1.2) (2020-03-20)
+
+
+### Bug Fixes
+
+* **drawer:** unable to customize using a theme ([ab1a526](https://github.com/A-l-y-l-e/Alyle-UI/commit/ab1a526))
+
+
+
+## [3.1.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.0.0...3.1.1) (2020-03-06)
+
+
+### Bug Fixes
+
+* **carousel:** fix styles ([cae9497](https://github.com/A-l-y-l-e/Alyle-UI/commit/cae9497))
+* **select:** add `selectionChange` missing ([112f15e](https://github.com/A-l-y-l-e/Alyle-UI/commit/112f15e))
+* **select:** support select with asynchronously options ([e87c007](https://github.com/A-l-y-l-e/Alyle-UI/commit/e87c007))
+
+
+### Features
+
+* **memoize:** add memoize ([a2baac0](https://github.com/A-l-y-l-e/Alyle-UI/commit/a2baac0))
+* **tabs:** add @Input() keepContent ([7bd525c](https://github.com/A-l-y-l-e/Alyle-UI/commit/7bd525c))
+* **tabs:** add the `dynamicHeight` and `keepContent` option ([8554a35](https://github.com/A-l-y-l-e/Alyle-UI/commit/8554a35))
+
+
+
+# [3.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.0.0...3.1.0) (2020-03-06)
+
+
+### Bug Fixes
+
+* **carousel:** fix styles ([cae9497](https://github.com/A-l-y-l-e/Alyle-UI/commit/cae9497))
+* **select:** add `selectionChange` missing ([112f15e](https://github.com/A-l-y-l-e/Alyle-UI/commit/112f15e))
+* **select:** support select with asynchronously options ([e87c007](https://github.com/A-l-y-l-e/Alyle-UI/commit/e87c007))
+
+
+### Features
+
+* **memoize:** add memoize ([a2baac0](https://github.com/A-l-y-l-e/Alyle-UI/commit/a2baac0))
+* **tabs:** add `@Input() keepContent` ([7bd525c](https://github.com/A-l-y-l-e/Alyle-UI/commit/7bd525c))
+* **tabs:** add the `dynamicHeight` and `keepContent` option ([8554a35](https://github.com/A-l-y-l-e/Alyle-UI/commit/8554a35))
+
+
+
 # [3.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.7...3.0.0) (2020-02-07)
 
 

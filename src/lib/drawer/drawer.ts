@@ -36,7 +36,8 @@ import {
   ThemeRef,
   StyleCollection,
   StyleTemplate,
-  LyClasses
+  LyClasses,
+  WithStyles
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 
@@ -119,17 +120,20 @@ export class LyDrawerContent {
 }
 
 @Directive({
-  selector: 'ly-drawer-container'
+  selector: 'ly-drawer-container',
+  providers: [
+    StyleRenderer
+  ]
 })
-export class LyDrawerContainer {
+export class LyDrawerContainer implements WithStyles {
   /** @docs-private */
-  readonly classes = this._theme.renderStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   _openDrawers = 0;
   @ContentChild(forwardRef(() => LyDrawerContent), { static: true }) _drawerContent: LyDrawerContent;
   constructor(
-    private _theme: LyTheme2,
     private _renderer: Renderer2,
-    private _el: ElementRef
+    private _el: ElementRef,
+    readonly sRenderer: StyleRenderer
   ) {
     this._renderer.addClass(this._el.nativeElement, this.classes.drawerContainer);
   }

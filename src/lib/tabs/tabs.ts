@@ -21,7 +21,8 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  Optional
+  Optional,
+  ViewChildren
   } from '@angular/core';
 import {
   LyTheme2,
@@ -51,7 +52,8 @@ import {
   ThemeRef,
   StyleCollection,
   LyClasses,
-  StyleTemplate
+  StyleTemplate,
+  StyleRenderer
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
@@ -82,7 +84,7 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
     $name: LyTabs.и,
     $priority: STYLE_PRIORITY,
     root: () => lyl `{
-      display: block
+      display: flex
       {
         ...${
           (theme.tab
@@ -94,25 +96,26 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
         }
       }
     }`,
-    container: lyl `{
-      display: flex
-    }`,
     tab: lyl `{
       position: relative
       display: inline-flex
     }`,
     /** Tab content */
     contentContainer: lyl `{
+      display: flex
       overflow: hidden
       flex-grow: 1
+      width: 100%
     }`,
     /** Tab header */
     tabsLabels: lyl `{
       display: flex
       position: relative
+      height: 100%
     }`,
-    tabsLabelsContainer: () => lyl `{
+    labelsContainer: () => lyl `{
       overflow: hidden
+      flex-shrink: 0
       ${__.scrollable} & {
         @media (hover: none) {
           overflow: auto
@@ -153,14 +156,16 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
       display: flex
       transition: 450ms cubic-bezier(.1, 1, 0.5, 1)
       will-change: transform
-      height: 100%
+      width: 100%
     }`,
     tabContent: lyl `{
       width: 100%
       height: 100%
       flex-shrink: 0
       position: relative
+      overflow: auto
     }`,
+    tabContentInner: null,
     tabsIndicator: lyl `{
       position: absolute
       height: 2px
@@ -175,7 +180,16 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
       ...${LY_COMMON_STYLES.fill}
       overflow: hidden
     }`,
-    scrollable: null
+    scrollable: null,
+    hiddenContent: () => lyl `{
+      visibility: hidden
+      transition: visibility linear 1s
+      ${__.column} & {
+        height: 0
+      }
+    }`,
+    column: null,
+    row: null
   };
 };
 
@@ -216,13 +230,16 @@ mixinBg(
   exportAs: 'lyTabs',
   inputs: [
     'bg', 'elevation', 'shadowColor'
+  ],
+  providers: [
+    StyleRenderer
   ]
 })
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   /** @docs-private */
   static и = 'LyTabs';
   /** @docs-private */
-  readonly classes = this.theme.renderStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   _selectedIndex: number;
   _selectedBeforeIndex: number;
   _selectedTab: LyTab | null;
@@ -240,11 +257,40 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _selectedIndexClass: string;
   private _tabResizeSub: Subscription;
   private _scrollable: boolean;
+  private _timeoutIds: { [index: number]: number } = {};
 
   @ViewChild('tabs', { static: true }) tabsRef: ElementRef;
   @ViewChild('tabContents', { static: true }) tabContents: ElementRef;
   @ViewChild('tabsIndicator', { static: true }) tabsIndicator: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
+  /**
+   * Keep the content.
+   * By default, when changing a tab, the previous one is created and deleted.
+   * With this, the content will only be hidden instead of deleting it.
+   */
+  @Input()
+  set keepContent(val: boolean) {
+    const newVal = toBoolean(val);
+    this._keepContent = newVal;
+  }
+  get keepContent() {
+    return this._keepContent;
+  }
+  private _keepContent: boolean;
+
+  /**
+   * Whether the tab group should grow to the size of the active tab.
+   */
+  @Input()
+  set dynamicHeight(val: boolean) {
+    const newVal = toBoolean(val);
+    this._dynamicHeight = newVal;
+  }
+  get dynamicHeight() {
+    return this._dynamicHeight;
+  }
+  private _dynamicHeight: boolean;
+
   @Input()
   set scrollable(val: any) {
     const newVal = toBoolean(val);
@@ -279,6 +325,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   set headerPlacement(val: LyTabsHeaderPlacement) {
     if (val !== this.headerPlacement) {
       this._headerPlacement = val;
+      this.sRenderer.toggleClass(this.classes.column, val === 'above' || val === 'below');
+      this.sRenderer.toggleClass(this.classes.row, val === 'before' || val === 'after');
       this._headerPlacementClass = this.theme.addStyle(`lyTabs.headerPlacement:${val}`,
       () => {
         let flexDirectionContainer: string;
@@ -323,7 +371,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           flexDirection = 'column';
         }
         return {
-          [`.${this.classes.container}`]: {
+          [`&`]: {
             flexDirection: flexDirectionContainer
           },
           [`& .${this.classes.tabsIndicator},& .${this.classes.tabsIndicatorForServer}`]: {
@@ -409,13 +457,15 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 
   @Output() selectedIndexChange: EventEmitter<any> = new EventEmitter();
   @ContentChildren(forwardRef(() => LyTab)) tabsList: QueryList<LyTab>;
+  @ViewChildren('tabContent') tabContentList: QueryList<ElementRef<HTMLDivElement>>;
 
   constructor(
     private theme: LyTheme2,
     private renderer: Renderer2,
     private el: ElementRef,
     private cd: ChangeDetectorRef,
-    private _resizeService: WinResize
+    private _resizeService: WinResize,
+    readonly sRenderer: StyleRenderer
   ) {
     super(theme);
     this.setAutoContrast();
@@ -472,6 +522,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     if (this._tabResizeSub) {
       this._tabResizeSub.unsubscribe();
     }
+    Object.keys(this._timeoutIds)
+      .forEach((key) => clearTimeout(this._timeoutIds[key]));
   }
 
   private _findIndex(selectedIndex: number, index: string | number) {
@@ -521,16 +573,92 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this.renderer.addClass(this.tabContents.nativeElement, this._selectedIndexClass);
   }
 
+  private _updateDynamicHeight(container: HTMLDivElement, tabIndex: number) {
+    if (this._timeoutIds[tabIndex] != null) {
+      window.clearTimeout(this._timeoutIds[tabIndex]);
+    }
+    if (this.selectedIndex === tabIndex) {
+      const contentInnerHeightBefore = Platform.isBrowser
+        ? (this.tabContents.nativeElement as HTMLElement)
+          .getBoundingClientRect().height
+        : null;
+      this.renderer.removeClass(container, this.classes.hiddenContent);
+
+      if (Platform.isBrowser && this.dynamicHeight) {
+        if (this._timeoutIds[tabIndex] != null) {
+          window.clearTimeout(this._timeoutIds[tabIndex]);
+        }
+        const { headerPlacement: placement } = this;
+        const {
+          height: contentInnerHeight,
+        } = (container.firstElementChild! as HTMLElement)
+          .getBoundingClientRect();
+        const { curves, durations } = this._theme.variables.animations;
+        // row
+        if (placement === 'above' || placement === 'below') {
+          container.style.height = `${contentInnerHeightBefore}px`;
+          window.getComputedStyle(container).getPropertyValue('opacity');
+          container.style.transition = `height ${curves.standard} ${durations.complex}ms`;
+          container.style.height = `${contentInnerHeight}px`;
+        }
+        this._timeoutIds[`_${tabIndex}`] = setTimeout(() => {
+          container.style.height = '';
+          container.style.transition = '';
+          delete this._timeoutIds[`_${tabIndex}`];
+        }, 450);
+      }
+
+    } else {
+      if (Platform.isBrowser) {
+        const indexBefore = this._selectedBeforeIndex;
+        if (indexBefore === tabIndex) {
+          if (this.dynamicHeight) {
+            const { nativeElement: contentAfter } = this.tabContentList
+              .find((_, index) => index === this._selectedIndex)!;
+            const { nativeElement: contentBefore } = this.tabContentList
+              .find((_, index) => index === tabIndex)!;
+            const {
+              height: contentInnerHeightBefore,
+            } = (this.tabContents.nativeElement as HTMLElement)
+              .getBoundingClientRect();
+            const {
+              height: contentInnerHeightAfter,
+            } = (contentAfter.firstElementChild! as HTMLElement)
+              .getBoundingClientRect();
+
+            const { curves, durations } = this._theme.variables.animations;
+            contentBefore.style.height = `${contentInnerHeightBefore}px`;
+            window.getComputedStyle(contentBefore).getPropertyValue('opacity');
+            contentBefore.style.transition = `height ${curves.standard} ${durations.complex}ms`;
+            contentBefore.style.height = `${contentInnerHeightAfter}px`;
+            this._timeoutIds[`__${tabIndex}`] = window.setTimeout(() => {
+              contentBefore.style.height = '';
+              contentBefore.style.transition = '';
+              delete this._timeoutIds[`_${tabIndex}`];
+            }, 450);
+          }
+        }
+        this._timeoutIds[tabIndex] = window.setTimeout(() => {
+          this.renderer.addClass(container, this.classes.hiddenContent);
+          delete this._timeoutIds[tabIndex];
+        }, 450);
+      } else {
+        this.renderer.addClass(container, this.classes.hiddenContent);
+      }
+    }
+  }
+
   _markForCheck() {
     this.cd.markForCheck();
   }
 
-  loadTemplate(tab: LyTab, index: number): TemplateRef<LyTabContent> | null {
+  loadTemplate(tab: LyTab, index: number, tabContent: HTMLDivElement): TemplateRef<LyTabContent> | null {
     tab.index = index;
     if (this.selectedIndex === tab.index) {
       // set 0 if is null
       this._selectedTab = tab;
       Promise.resolve(null).then(() => {
+        this._updateDynamicHeight(tabContent, index);
         if (Platform.isBrowser) {
           this._updateIndicator(tab);
         } else {
@@ -544,13 +672,17 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this._colorClass);
         }
       });
+    } else {
+      Promise.resolve(null).then(() => this._updateDynamicHeight(tabContent, index));
     }
     tab._tabLabel._updateTabState();
+    if (this.keepContent) {
+      return tab._templateRefLazy || tab._templateRef;
+    }
     if (this.selectedIndex === tab.index) {
       return tab._templateRefLazy || tab._templateRef;
-    } else {
-      return null;
     }
+    return null;
   }
 
   private _getFlexDirection(val: LyTabsHeaderPlacement) {
@@ -568,7 +700,10 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   selector: 'ly-tab',
   templateUrl: './tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class LyTab implements OnInit {
   /** Current tab index */
@@ -582,7 +717,8 @@ export class LyTab implements OnInit {
   constructor(
     private _tabs: LyTabs,
     public _renderer: Renderer2,
-    public _el: ElementRef
+    public _el: ElementRef,
+    readonly sRenderer: StyleRenderer
   ) { }
 
   ngOnInit() {

@@ -2,9 +2,10 @@
   "hosting": {
     "public": "dist/alyle-ui",
     "trailingSlash": false,
+    "cleanUrls": true,
     "rewrites": [
       {
-        "source": "**",
+        "source": "**/!(*.*)",
         "destination": "/index.html"
       }
     ],
@@ -44,6 +45,13 @@
             "value": "max-age=5184000"
           }
         ]
+      }
+    ],
+    "redirects": [
+      {
+        "source" : "/components/resizing-cropping-images",
+        "destination" : "/components/image-cropper",
+        "type" : 301
       }
     ]
   }

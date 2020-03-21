@@ -64,7 +64,7 @@ export class GlobalVariables implements PartialThemeVariables {
     shadow: color(0xB36FBC)
   }; // demo: <button ly-button raised bg="SublimeLight">Button</button>
   button = {
-    root: lyl `{
+    root: () => lyl `{
       border-radius: 2em
     }`
   };
@@ -89,9 +89,7 @@ export class GlobalVariables implements PartialThemeVariables {
 export class AppModule { }
 ```
 
-<p>
-  You can combine the types of the themes. This can be useful at the time of using the variables, since all the declared variables will be available. For example:
-</p>
+You can combine the types of the themes. This can be useful at the time of using the variables, since all the declared variables will be available. For example:
 
 ```ts
 // app.module.ts
@@ -133,5 +131,5 @@ export class GlobalVariables implements PartialThemeVariables {
 </p>
 
 <p>
-  <a [routerLink]="'/components/typography'">Here</a> you can find more about Typography.
+  <a href="/components/typography">Here</a> you can find more about Typography.
 </p>

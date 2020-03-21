@@ -1,6 +1,7 @@
 import { ThemeVariables } from './theme-config';
 import { StyleTemplate } from '../parse';
 import { Color } from '@alyle/ui/color';
+import { memoize } from '../minimal/memoize';
 
 /**
  * For internal use only
@@ -105,6 +106,6 @@ export interface LyComponentStyle<COMPONENT, INPUTS extends keyof COMPONENT> {
   [key: string]: LyComponentStyleItem<COMPONENT, INPUTS>;
 }
 
-export function getThemeNameForSelectors(themeId: string) {
+export const getThemeNameForSelectors = memoize((themeId: string) => {
   return `${themeId}<~(selectors)`;
-}
+});

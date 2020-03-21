@@ -1,17 +1,22 @@
-<div [className]="classes.container">
-  <div #tabs [className]="classes.tabsLabelsContainer">
-    <div [className]="classes.tabsLabels">
-      <ng-content></ng-content>
-      <span #tabsIndicator></span>
-    </div>
-  </div>
-  <div [className]="classes.contentContainer">
-    <div [className]="classes.tabContents" #tabContents>
-      <ng-template ngFor let-item [ngForOf]="tabsList" let-x="index">
-        <div [className]="classes.tabContent">
-          <ng-template [ngTransclude]="loadTemplate(item, x)"></ng-template>
-        </div>
-      </ng-template>
-    </div>
+<!-- <div [className]="classes.container"> -->
+<div #tabs [className]="classes.labelsContainer">
+  <div [className]="classes.tabsLabels">
+    <ng-content></ng-content>
+    <span #tabsIndicator></span>
   </div>
 </div>
+<div [className]="classes.contentContainer">
+  <div [className]="classes.tabContents" #tabContents>
+    <!-- <ng-template ngFor let-item [ngForOf]="tabsList" let-x="index"> -->
+      <div #tabContent *ngFor="let item of tabsList; index as x" [className]="classes.tabContent">
+        <div [className]="classes.tabContentInner">
+          <ng-template #_template="ngTransclude"
+            [timeout]="450"
+            [ngTransclude]="loadTemplate(item, x, tabContent)"
+          ></ng-template>
+        </div>
+      </div>
+    <!-- </ng-template> -->
+  </div>
+</div>
+<!-- </div> -->

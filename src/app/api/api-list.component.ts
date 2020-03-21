@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { APIService, APIList } from './api.service';
 import { Observable } from 'rxjs';
-import { lyl, ThemeVariables, StyleRenderer } from '@alyle/ui';
+import { lyl, ThemeVariables, StyleRenderer, WithStyles } from '@alyle/ui';
 import { AppComponent } from '@app/app.component';
 import { tap } from 'rxjs/operators';
+import { SEOService } from '@shared/seo.service';
 
 export const STYLES = (theme: ThemeVariables) => {
   const { before, after } = theme;
@@ -133,7 +134,7 @@ export const STYLES = (theme: ThemeVariables) => {
     StyleRenderer
   ]
 })
-export class ApiListComponent {
+export class ApiListComponent implements WithStyles {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);
   apiListObservable: Observable<APIList[]>;
   filterTypeValue: string | null = null;
@@ -153,14 +154,15 @@ export class ApiListComponent {
   constructor(
     apiService: APIService,
     readonly sRenderer: StyleRenderer,
-    app: AppComponent
+    app: AppComponent,
+    seo: SEOService
   ) {
     this.apiListObservable = apiService.getList()
       .pipe(
-        tap(() => app.docViewer && app.docViewer.setNoIndex(false)),
-        tap(() => app.docViewer!.isLoading.emit(false))
+        tap(() => app.docViewer && seo.setNoIndex(false)),
+        tap(() => app.docViewer && seo.setTitle('API List')),
+        tap(() => app.docViewer!.isLoading.emit(false)),
       );
-    sRenderer.addClass(this.classes.root);
   }
 
   hasItem(api: APIList) {
