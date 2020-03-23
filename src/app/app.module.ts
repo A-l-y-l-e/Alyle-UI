@@ -135,7 +135,7 @@ export function themeNameProviderFactory() {
     HomeComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: '@alyle/ui'}),
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
     CommonModule,
     FormsModule,
     HttpClientModule,
