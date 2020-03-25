@@ -3,8 +3,6 @@ import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
 import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
 
-const __CLASS_NAME__ = '__CLASS_NAME__';
-
 @Injectable()
 export class StyleRenderer {
   private readonly _set: Set<string> = new Set<string>();
@@ -256,7 +254,7 @@ export function Style<INPUT = any, C = any>(
 ) {
 
   return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
-    const index = `${__CLASS_NAME__}${propertyKey}`;
+    const index = `_${propertyKey}Class`;
     if (descriptor) {
       const set = descriptor.set!;
       descriptor.set = function (val: INPUT) {

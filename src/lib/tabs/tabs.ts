@@ -53,7 +53,8 @@ import {
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  StyleRenderer
+  StyleRenderer,
+  Style
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
@@ -246,8 +247,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   _selectedBeforeTab: LyTab | null;
   _isViewInitLoaded: boolean;
   private _tabsSubscription = Subscription.EMPTY;
-  private _color: string;
-  private _colorClass: string;
   private _headerPlacement: LyTabsHeaderPlacement;
   private _headerPlacementClass: string;
   private _alignTabs: AlignTabs;
@@ -261,7 +260,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 
   @ViewChild('tabs', { static: true }) tabsRef: ElementRef;
   @ViewChild('tabContents', { static: true }) tabContents: ElementRef;
-  @ViewChild('tabsIndicator', { static: true }) tabsIndicator: ElementRef;
+  @ViewChild('tabsIndicator', { static: true, read: ElementRef }) tabsIndicator?: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
   /**
    * Keep the content.
@@ -305,21 +304,17 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     return this._scrollable;
   }
   @Input()
-  set indicatorColor(val: string) {
-    if (val !== this.indicatorColor) {
-      this._color = val;
-      this._colorClass = this.theme.addStyle(
-        `k-tab-indicator-color:${val}`,
-        theme => (
-          `color:${theme.colorOf(val)};`
-        ),
-        this.tabsIndicator.nativeElement, this._colorClass
-      );
+  @Style<string | null>(
+    (val) => (theme, ref) => {
+      const __ = ref.selectorsOf(STYLES);
+      return lyl `{
+        ${__.tabsIndicator} {
+          color:${theme.colorOf(val)}
+        }
+      }`;
     }
-  }
-  get indicatorColor() {
-    return this._color;
-  }
+  ) indicatorColor: string | null;
+  private _colorClass: string;
 
   @Input()
   set headerPlacement(val: LyTabsHeaderPlacement) {
@@ -482,7 +477,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this.selectedIndex = 0;
     }
     this.renderer.addClass(this.el.nativeElement, this.classes.root);
-    const tabsIndicatorEl = this.tabsIndicator.nativeElement;
+    const tabsIndicatorEl = this.tabsIndicator!.nativeElement;
     this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);
     /** Set default Color */
     if (!this.indicatorColor && !this.bg && !this.textColor && !this.elevation) {
@@ -544,15 +539,15 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       const rects = el.getBoundingClientRect();
 
       if (this.headerPlacement === XPosition.after || this.headerPlacement === XPosition.before) {
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'height', `${rects.height}px`);
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'top', `${el.offsetTop}px`);
-        this.renderer.removeStyle(this.tabsIndicator.nativeElement, 'width');
-        this.renderer.removeStyle(this.tabsIndicator.nativeElement, 'left');
+        this.renderer.setStyle(this.tabsIndicator!.nativeElement, 'height', `${rects.height}px`);
+        this.renderer.setStyle(this.tabsIndicator!.nativeElement, 'top', `${el.offsetTop}px`);
+        this.renderer.removeStyle(this.tabsIndicator!.nativeElement, 'width');
+        this.renderer.removeStyle(this.tabsIndicator!.nativeElement, 'left');
       } else {
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'width', `${rects.width}px`);
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'left', `${el.offsetLeft}px`);
-        this.renderer.removeStyle(this.tabsIndicator.nativeElement, 'height');
-        this.renderer.removeStyle(this.tabsIndicator.nativeElement, 'top');
+        this.renderer.setStyle(this.tabsIndicator!.nativeElement, 'width', `${rects.width}px`);
+        this.renderer.setStyle(this.tabsIndicator!.nativeElement, 'left', `${el.offsetLeft}px`);
+        this.renderer.removeStyle(this.tabsIndicator!.nativeElement, 'height');
+        this.renderer.removeStyle(this.tabsIndicator!.nativeElement, 'top');
       }
     }
   }
