@@ -21,7 +21,7 @@
 
 <div [className]="classes.hintContainer">
   <div *ngIf="_hintChildren.length && (persistentHint || _control?.errorState || _control?.focused)">
-    <span *ngIf="_control.errorState">
+    <span *ngIf="_control?.errorState">
       <ng-content select="ly-error"></ng-content>
     </span>
     <ng-content select="ly-hint"></ng-content>
@@ -37,5 +37,5 @@
 
 <ng-template #_placeholderTemplate>
   <ng-content select="ly-placeholder"></ng-content>
-  <ng-container *ngIf="_control.placeholder">{{ _control.placeholder }}</ng-container>
+  <ng-container *ngIf="_control?.placeholder">{{ _control?.placeholder }}</ng-container>
 </ng-template>

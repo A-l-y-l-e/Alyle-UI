@@ -1,4 +1,4 @@
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -136,6 +136,7 @@ export function themeNameProviderFactory() {
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'serverApp'}),
+    HammerModule,
     CommonModule,
     FormsModule,
     HttpClientModule,

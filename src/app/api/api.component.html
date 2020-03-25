@@ -8,16 +8,17 @@
   </div>
   <header [ngClass]="classes.header" [mt]="2" [mb]="1">
     <h1 [lyTyp]="'h4'" [mf]="2">{{ doc.name }}</h1>
-    <label *ngIf="doc.code" [ngClass]="[classes.label, apiListClasses.Symbol, apiListClasses[doc.symbol]]">{{ doc.symbol }}</label>
+    <label *ngIf="doc.code" [ngClass]="[classes.label, apiListClasses.Symbol, apiListClasses[doc.symbol]]">***{{ doc.symbol }}</label>
   </header>
-  <div *ngIf="doc.code; else elseBlock" [innerHTML]="doc.code"></div>
+  <div *ngIf="doc.code; else elseBlock" [innerHTML]="doc?.code"></div>
 
   <ng-template #elseBlock>
-    <ng-container *ngFor="let pkgSymbolList of doc.items">
+    <ng-container *ngFor="let pkgSymbolList of doc?.items">
       <h2 [lyTyp]="'h5'" [lyTyp]="'h5'" [mt]="3" [mb]="2">{{ pkgSymbolList.key }}</h2>
       <ul [class]="apiListClasses.apiList">
         <ng-container *ngFor="let item of pkgSymbolList.items">
-          <li *ngIf="filterTypeValue == null || filterTypeValue === item.symbol">
+          others
+          <li>
             <a routerLink="./{{ item.name }}">
               <span [ngClass]="[apiListClasses.Symbol, apiListClasses[item.symbol] || '']"></span>{{ item.name }}</a>
           </li>
@@ -26,66 +27,3 @@
     </ng-container>
   </ng-template>
 </ng-container>
-
-
-<!-- <ng-container *ngIf="doc | async as api; else loading">
-  <h2 [lyTyp]="'headline'" gutter>Modules</h2>
-  <span [innerHTML]="joinList(api.ngModuleList)"></span>
-  <ng-template [ngIf]="api.componentList.length">
-    <h2 [lyTyp]="'headline'" gutter>Components</h2>
-    <ng-template ngFor let-component [ngForOf]="api.componentList" let-x="index">
-      <h3 [lyTyp]="'title'" gutter>{{ component.name }}</h3>
-      <p>Selector: <span [innerHTML]="component.selector"></span></p>
-      <p *ngIf="component.inputs as inputs">Inputs: <span [innerHTML]="inputs"></span></p>
-      <p *ngIf="component.exportAs as exportAs">ExportAs: <span [innerHTML]="exportAs"></span></p>
-      <span *ngIf="component.children" [innerHTML]="component.children"></span>
-    </ng-template>
-  </ng-template>
-  <ng-template [ngIf]="api.directiveList.length">
-    <h2 [lyTyp]="'headline'" gutter>Directives</h2>
-    <ng-template ngFor let-directive [ngForOf]="api.directiveList" let-x="index">
-      <h3 [lyTyp]="'title'" gutter>{{ directive.name }}</h3>
-      <p>Selector: <span [innerHTML]="directive.selector"></span></p>
-      <p *ngIf="directive.inputs as inputs">Inputs: <span [innerHTML]="inputs"></span></p>
-      <p *ngIf="directive.exportAs as exportAs">ExportAs: <span [innerHTML]="exportAs"></span></p>
-      <span *ngIf="directive.children" [innerHTML]="directive.children"></span>
-    </ng-template>
-  </ng-template>
-  <ng-container *ngIf="api.injectableList as injectables">
-    <h2 [lyTyp]="'headline'" gutter>Injectables</h2>
-    <span [innerHTML]="joinList(injectables)"></span>
-  </ng-container>
-  <ng-container *ngIf="api.typeAliasList as typeAliasList">
-    <h2 [lyTyp]="'headline'" gutter>Type Aliases</h2>
-    <span [innerHTML]="joinList(typeAliasList)"></span>
-  </ng-container>
-  <ng-container *ngIf="api.interfaceList as interfaces">
-    <h2 [lyTyp]="'headline'" gutter>Interfaces</h2>
-    <span [innerHTML]="joinList(interfaces)"></span>
-  </ng-container>
-  <ng-container *ngIf="api.enumerationList as enumerationList">
-    <h2 [lyTyp]="'headline'" gutter>Enumerations</h2>
-    <span [innerHTML]="joinList(enumerationList)"></span>
-  </ng-container>
-  <ng-container *ngIf="api.variableList as variableList">
-    <h2 [lyTyp]="'headline'" gutter>Default variables</h2>
-    <span [innerHTML]="joinList(variableList)"></span>
-  </ng-container>
-  <ng-container *ngIf="api.functionList as functionList">
-    <h2 [lyTyp]="'headline'" gutter>Functions</h2>
-    <span [innerHTML]="joinList(functionList)"></span>
-  </ng-container>
-  <ng-container *ngIf="api.classList as classList">
-    <h2 [lyTyp]="'headline'" gutter>Classes</h2>
-    <span [innerHTML]="joinList(classList)"></span>
-  </ng-container>
-  <ng-container *ngIf="themePkg.length as len">
-    <ng-template ngFor let-pkg [ngForOf]="themePkg">
-      <h2 [lyTyp]="'headline'" gutter *ngIf="len === 1">Global theme</h2>
-      <h2 [lyTyp]="'headline'" gutter *ngIf="len > 1">Theme {{ pkg.name }}</h2>
-      <span [innerHTML]="pkg.themeJSON"></span>
-    </ng-template>
-  </ng-container>
-</ng-container>
-<ng-template #loading>Loading...</ng-template> -->
-
