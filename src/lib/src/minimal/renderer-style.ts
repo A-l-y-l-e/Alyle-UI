@@ -245,52 +245,80 @@ export class StyleRenderer {
 /**
  * Parameter decorator to be used for create Dynamic style together with `@Input`
  * @param style style
+ * @decorator
+ */
+export function Style<INPUT = any, C = any>(
+  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null)
+): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void;
+
+/**
+ * Parameter decorator to be used for create Dynamic style together with `@Input`
+ * @param style style
+ * @decorator
+ */
+export function Style<INPUT = any, C = any>(
+  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null),
+  priority: number
+): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void;
+
+/**
+ * Parameter decorator to be used for create Dynamic style together with `@Input`
+ * @param style style
  * @param priority priority of style, default: 0
  * @decorator
  */
 export function Style<INPUT = any, C = any>(
-  style: (val: NonNullable<INPUT>, comp: C) => ((theme: any, ref: ThemeRef) => StyleTemplate),
+  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null),
   priority?: number
 ) {
 
   return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
-    const index = `_${propertyKey}Class`;
+    const _propertyKeyClass = `_${propertyKey}Class`;
+    const _propertyKey = `_${propertyKey}`;
     if (descriptor) {
       const set = descriptor.set!;
       descriptor.set = function (val: INPUT) {
         const that: WithStyles = this;
-        if (val == null) {
-          that.sRenderer.removeClass(that[index]);
-        } else {
-          that[index] = that.sRenderer.add(
+        that[_propertyKey] = val;
+        const styleTemplate = style(val as any, that as any);
+        if (val == null || styleTemplate == null) {
+          that.sRenderer.removeClass(that[_propertyKeyClass]);
+        } else if (that[_propertyKey] !== val) {
+          that[_propertyKeyClass] = that.sRenderer.add(
             `${getComponentName(that)}--${propertyKey}-${val}`,
-            style(val as any, that as any),
-            priority || that.$priority || (that.constructor as any).$priority || 0,
-            that[index]
+            styleTemplate,
+            priority ?? that.$priority ?? (that.constructor as any).$priority ?? 0,
+            that[_propertyKeyClass]
           );
         }
         set.call(that, val);
       };
+      if (!descriptor.get) {
+        descriptor.get = function () {
+          return this[_propertyKey];
+        };
+      }
     } else {
       Object.defineProperty(target, propertyKey, {
         configurable: true,
         enumerable: true,
         set(val: INPUT) {
           const that: WithStyles = this;
-          if (val == null) {
-            that.sRenderer.removeClass(that[index]);
-          } else {
-            that[`_${propertyKey}`] = val;
-            that[index] = that.sRenderer.add(
+          const styleTemplate = style(val as NonNullable<INPUT>, that as any);
+          if (val == null || styleTemplate == null) {
+            that.sRenderer.removeClass(that[_propertyKeyClass]);
+          } else if (that[_propertyKey] !== val) {
+            that[_propertyKeyClass] = that.sRenderer.add(
               `${getComponentName(that)}--${propertyKey}-${val}`,
-              style(val as NonNullable<INPUT>, that as any),
-              priority || that.$priority || (that.constructor as any).$priority || 0,
-              that[index]
+              styleTemplate,
+              priority ?? that.$priority ?? (that.constructor as any).$priority ?? 0,
+              that[_propertyKeyClass]
             );
           }
+          that[_propertyKey] = val;
         },
         get() {
-          return this[`_${propertyKey}`];
+          return this[_propertyKey];
         }
       });
     }
