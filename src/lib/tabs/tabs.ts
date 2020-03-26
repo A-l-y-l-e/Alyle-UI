@@ -223,6 +223,9 @@ mixinBg(
             mixinShadowColor(
               mixinDisableRipple(LyTabLabelBase)))))))));
 
+/**
+ * @dynamic
+ */
 @Component({
   selector: 'ly-tabs',
   templateUrl: './tabs.html',
@@ -305,7 +308,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   }
   @Input()
   @Style<string | null>(
-    (val) => (theme, ref) => {
+    val => (theme, ref) => {
       const __ = ref.selectorsOf(STYLES);
       return lyl `{
         ${__.tabsIndicator} {
@@ -313,7 +316,11 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
         }
       }`;
     }
-  ) indicatorColor: string | null;
+  )
+  set indicatorColor(val: string) {
+    console.log('from indicatorColor', val, this);
+  }
+
   private _colorClass: string;
 
   @Input()
