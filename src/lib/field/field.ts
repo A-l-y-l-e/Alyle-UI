@@ -38,7 +38,9 @@ import {
   lyl,
   ThemeRef,
   LY_COMMON_STYLES,
-  keyframesUniqueId} from '@alyle/ui';
+  keyframesUniqueId,
+  WithStyles
+} from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
@@ -48,6 +50,8 @@ import { Subject } from 'rxjs';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
 import { LyError } from './error';
 import { LyFieldControlBase } from './field-control-base';
+import { Style } from '../src/minimal';
+import { AUIThemeVariables } from '@app/app.module';
 
 export interface LyFieldTheme {
   /** Styles for Field Component */
@@ -349,7 +353,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
     StyleRenderer,
   ]
 })
-export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewInit, OnDestroy {
   /**
    * styles
    * @docs-private
@@ -458,11 +462,25 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
   }
 
   /** The field appearance style. */
+  @Style<string | null>(
+    val => (theme: AUIThemeVariables, ref) => {
+      const classes = ref.selectorsOf(STYLES);
+      if (theme.field && theme.field.appearance) {
+        const appearance = theme.field.appearance[val];
+        if (appearance) {
+          return appearance instanceof StyleCollection
+            ? appearance.setTransformer((_) => _(classes)).css
+            : appearance(classes);
+        }
+      }
+      throw new Error(`[${val}] not found in theme.field.appearance`);
+    }
+  )
   @Input()
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      this[0x1] = this._styleRenderer.add(
+      this[0x1] = this.sRenderer.add(
         `ly-field.appearance:${val}`,
         (theme: ThemeVariables & LyFieldVariables, ref) => {
           const classes = ref.selectorsOf(STYLES);
@@ -474,7 +492,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
                 : appearance(classes);
             }
           }
-          throw new Error(`${val} not found in theme.field.appearance`);
+          throw new Error(`[${val}] not found in theme.field.appearance`);
       }, STYLE_PRIORITY, this[0x1]);
     }
   }
@@ -495,7 +513,7 @@ export class LyField implements OnInit, AfterContentInit, AfterViewInit, OnDestr
     private _theme: LyTheme2,
     private _cd: ChangeDetectorRef,
     private _ngZone: NgZone,
-    private _styleRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
