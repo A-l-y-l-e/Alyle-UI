@@ -48,11 +48,11 @@ export class CustomMinimaLight {
   name = 'minima-light';
   shadow = '#505050';
   codeColor = 'rgba(0, 23, 31, 0.7)';
-  codeBg = '#fff';
+  codeBg = '#ffffff';
   myColor = 'pink';
   discord = '#7289DA';
   drawerButton = '#5f6368';
-  demoBg = new Color(0xc7c7c7);
+  demoBg = new Color(0x8c8c8c);
   prism = {
     colorText: '#626682',
     string: '#27b98f',

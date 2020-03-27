@@ -474,33 +474,11 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
         }
       }
       throw new Error(`[${val}] not found in theme.field.appearance`);
-    }
+    },
+    STYLE_PRIORITY
   )
   @Input()
-  set appearance(val: string) {
-    if (val !== this.appearance) {
-      this._appearance = val;
-      this[0x1] = this.sRenderer.add(
-        `ly-field.appearance:${val}`,
-        (theme: ThemeVariables & LyFieldVariables, ref) => {
-          const classes = ref.selectorsOf(STYLES);
-          if (theme.field && theme.field.appearance) {
-            const appearance = theme.field.appearance[val];
-            if (appearance) {
-              return appearance instanceof StyleCollection
-                ? appearance.setTransformer((_) => _(classes)).css
-                : appearance(classes);
-            }
-          }
-          throw new Error(`[${val}] not found in theme.field.appearance`);
-      }, STYLE_PRIORITY, this[0x1]);
-    }
-  }
-  get appearance() {
-    return this._appearance;
-  }
-
-  [0x1]: string;
+  appearance: string | null;
 
   @HostListener('focus') onFocus() {
     this._el.nativeElement.focus();

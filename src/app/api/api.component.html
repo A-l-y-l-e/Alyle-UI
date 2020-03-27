@@ -8,7 +8,7 @@
   </div>
   <header [ngClass]="classes.header" [mt]="2" [mb]="1">
     <h1 [lyTyp]="'h4'" [mf]="2">{{ doc.name }}</h1>
-    <label *ngIf="doc.code" [ngClass]="[classes.label, apiListClasses.Symbol, apiListClasses[doc.symbol]]">***{{ doc.symbol }}</label>
+    <label *ngIf="doc.code" [ngClass]="[classes.label, apiListClasses.Symbol, apiListClasses[doc.symbol]]">{{ doc.symbol }}</label>
   </header>
   <div *ngIf="doc.code; else elseBlock" [innerHTML]="doc?.code"></div>
 
@@ -17,7 +17,6 @@
       <h2 [lyTyp]="'h5'" [lyTyp]="'h5'" [mt]="3" [mb]="2">{{ pkgSymbolList.key }}</h2>
       <ul [class]="apiListClasses.apiList">
         <ng-container *ngFor="let item of pkgSymbolList.items">
-          others
           <li>
             <a routerLink="./{{ item.name }}">
               <span [ngClass]="[apiListClasses.Symbol, apiListClasses[item.symbol] || '']"></span>{{ item.name }}</a>
