@@ -3,11 +3,15 @@
 Since the gestures do not work in lazy-loading (as `ly-carousel`, `ly-slider` and `ly-img-cropper`), manually add the following:
 
 ```ts
-import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { LyHammerGestureConfig } from '@alyle/ui';
 
 @NgModule({
   ...
+  imports: [
+    ...
+    HammerModule
+  ],
   providers: [
     ...
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }

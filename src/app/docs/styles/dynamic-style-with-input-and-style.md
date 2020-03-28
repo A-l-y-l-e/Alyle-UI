@@ -48,3 +48,25 @@ export class MyComponent implements WithStyles {
 
 Alyle UI already contains directives to customize any element, such as [Sizing](./styles/sizing)
 
+## Angular Libraries: Using Lambdas in the Style Decorator
+
+If you are building an angular library that will be deployed to npm you will probably get the following error
+
+```bash
+ERROR: /path/lib/my-component/my-component.ts:143:1: Error encountered in metadata generated for exported symbol 'MyComponent': 
+ /path/lib/my-component/my-component.ts:225:5: Metadata collected contains an error that will be reported at runtime: Lambda not supported.
+```
+
+To avoid that error, you should add a comment with `@dynamic` in the component.
+
+e.g.
+
+```ts
+/**
+ * @dynamic
+ */
+@Component({
+  ...
+})
+...
+```

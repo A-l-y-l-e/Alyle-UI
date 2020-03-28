@@ -5,6 +5,6 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@alyle/ui": "^3.0.0"
+    "@alyle/ui": "^3.1.2"
   }
 }

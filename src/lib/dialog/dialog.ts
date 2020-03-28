@@ -92,12 +92,12 @@ export class LyDialog {
 /**
  * convert number to px
  */
-function toPx(val: string | number | undefined | null): string | null {
+function toPx(val: string | number | undefined | null): string {
   if (typeof val === 'number') {
     return `${val}px`;
   } else if (val) {
     return val;
   }
 
-  return null;
+  return '';
 }

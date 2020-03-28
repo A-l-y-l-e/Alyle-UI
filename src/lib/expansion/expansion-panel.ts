@@ -85,7 +85,7 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   _lazyContentRef: TemplateRef<any>;
 
   /** Content that will be rendered lazily. */
-  @ContentChild(LyExpansionPanelContent, { static: false }) readonly _lazyContent: LyExpansionPanelContent;
+  @ContentChild(LyExpansionPanelContent) readonly _lazyContent: LyExpansionPanelContent;
 
   /** Event emitted every time the LyExpansionPanel is closed. */
   @Output() closed: EventEmitter<void> = new EventEmitter<void>();

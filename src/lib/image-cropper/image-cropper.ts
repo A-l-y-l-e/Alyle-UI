@@ -240,7 +240,7 @@ export class LyImageCropper implements OnDestroy {
   isCropped: boolean;
 
   @ViewChild('_imgContainer', { static: true }) _imgContainer: ElementRef;
-  @ViewChild('_area', { static: false }) _croppingContainer: ElementRef;
+  @ViewChild('_area') _croppingContainer: ElementRef;
   @ViewChild('_imgCanvas', { static: true }) _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Input()
   get config(): ImgCropperConfig {

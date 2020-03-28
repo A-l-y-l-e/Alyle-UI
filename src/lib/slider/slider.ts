@@ -407,7 +407,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
   _rootClasses = new Set<string>();
 
-  @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
+  @ViewChild('bg') _bg?: ElementRef<HTMLDivElement>;
   @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
   @ViewChild('ticksRef', { static: true }) _ticksRef: ElementRef<HTMLDivElement>;
   @ViewChildren('thumbsRef') _thumbsRef?: QueryList<ElementRef<HTMLDivElement>>;
@@ -972,10 +972,10 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     if (track) {
 
-      track.nativeElement.style.width = null;
-      track.nativeElement.style.height = null;
-      track.nativeElement.style.left = null;
-      track.nativeElement.style.right = null;
+      track.nativeElement.style.width = null!;
+      track.nativeElement.style.height = null!;
+      track.nativeElement.style.left = null!;
+      track.nativeElement.style.right = null!;
 
       if (this.vertical) {
         track.nativeElement.style.height = `${(maxPercent - minPercent)}%`;

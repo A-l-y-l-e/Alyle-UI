@@ -315,9 +315,9 @@ export class AppComponent implements OnInit {
   routes = AUIRoutes.slice(1);
   currentRoutePath: string;
 
-  @ViewChild(DocViewer, { static: false }) docViewer?: DocViewer;
+  @ViewChild(DocViewer) docViewer?: DocViewer;
   @ViewChild(LyDrawer, { static: true }) drawer: LyDrawer;
-  @ViewChild(LySnackBar, { static: false }) sb: LySnackBar;
+  @ViewChild(LySnackBar) sb: LySnackBar;
   @ViewChild(PageContentComponent, { static: true }) page: PageContentComponent;
 
   constructor(

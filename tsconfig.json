@@ -8,7 +8,6 @@
     "downlevelIteration": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "noUnusedParameters": true,
@@ -58,5 +57,9 @@
       "@shared/*": ["./src/app/shared/*"],
       "@app/*": ["./src/app/*"]
     }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }

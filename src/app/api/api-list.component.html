@@ -6,7 +6,7 @@
     <ly-select [(ngModel)]="filterTypeValue">
       <ly-select-trigger>
         <span
-          [ngClass]="[classes.Symbol, classes[filterTypeValue] || '']"
+          [ngClass]="[classes.Symbol, classes[filterTypeValue || ''] || '']"
         ></span>{{ filterTypeValue }}
       </ly-select-trigger>
       <ly-option>All</ly-option>
