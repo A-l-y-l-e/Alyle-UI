@@ -1,33 +1,35 @@
 import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
-import { LyTheme2, Platform } from '@alyle/ui';
+import { Platform, StyleRenderer, lyl, WithStyles } from '@alyle/ui';
 import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
 
-const styles = ({
-  actions: {
-    display: 'flex'
-  },
-  cropping: {
-    maxWidth: '400px',
-    height: '300px'
-  },
-  flex: {
+const STYLES = () => ({
+  actions: lyl `{
+    display: flex
+  }`,
+  cropping: lyl `{
+    max-width: 400px
+    height: 300px
+  }`,
+  flex: lyl `{
     flex: 1
-  },
-  range: {
-    textAlign: 'center',
-    maxWidth: '400px',
-    margin: '14px'
-  }
+  }`,
+  range: lyl `{
+    text-align: center
+    max-width: 400px
+    margin: 14px
+  }`
 });
 
 @Component({
   selector: 'image-cropper-example-01',
   templateUrl: './image-cropper-example-01.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  providers: [
+    StyleRenderer
+  ]
 })
-export class ImageCropperExample01Component implements AfterViewInit {
-  classes = this.theme.addStyleSheet(styles);
+export class ImageCropperExample01Component implements WithStyles, AfterViewInit {
+  classes = this.sRenderer.renderSheet(STYLES);
   croppedImage?: string;
   result: string;
   scale: number;
@@ -41,7 +43,7 @@ export class ImageCropperExample01Component implements AfterViewInit {
   };
 
   constructor(
-    private theme: LyTheme2
+    readonly sRenderer: StyleRenderer
   ) { }
 
   ngAfterViewInit() {
