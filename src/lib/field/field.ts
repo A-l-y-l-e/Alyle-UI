@@ -341,7 +341,9 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
   };
 };
 
-
+/**
+ * @dynamic
+ */
 @Component({
   selector: 'ly-field',
   exportAs: 'lyFormField',
