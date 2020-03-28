@@ -39,7 +39,8 @@ import {
   ThemeRef,
   LY_COMMON_STYLES,
   keyframesUniqueId,
-  WithStyles
+  WithStyles,
+  Style
 } from '@alyle/ui';
 import { LyLabel } from './label';
 import { LyPlaceholder } from './placeholder';
@@ -50,8 +51,6 @@ import { Subject } from 'rxjs';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
 import { LyError } from './error';
 import { LyFieldControlBase } from './field-control-base';
-import { Style } from '../src/minimal';
-import { AUIThemeVariables } from '@app/app.module';
 
 export interface LyFieldTheme {
   /** Styles for Field Component */
@@ -465,7 +464,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
 
   /** The field appearance style. */
   @Style<string | null>(
-    val => (theme: AUIThemeVariables, ref) => {
+    val => (theme: LyFieldVariables, ref) => {
       const classes = ref.selectorsOf(STYLES);
       if (theme.field && theme.field.appearance) {
         const appearance = theme.field.appearance[val];
