@@ -2,9 +2,17 @@
 <h1 id="image-cropper">Image Cropper</h1>
 <p>Resize, rotate and crop images with Canvas.</p>
 <p>By default if a file that is not an image is loaded, an error will be emit, the error can be captured by the <code class="ttm ttx">error</code> event.</p>
-<demo-view path="docs/components/image-cropper-demo/image-cropper-example-01" viewLabel="Basic">
+<demo-view path="docs/components/image-cropper-demo/image-cropper-example-01">
   <image-cropper-example-01></image-cropper-example-01>
 </demo-view>
+<h2 id="rotate-image">Rotate Image</h2>
+<p>For rotation we can use the <code class="ttm ttx">rotate(degrees)</code> method.</p>
+<p>It can only be rotated 90 degrees, in each execution, for example, it cannot be rotated from 0 to 45 degrees. And if the number is negative, it will rotate counterclockwise</p>
+<p>e.g.</p>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">(click)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>cropper.rotate(-90)<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>rotate counterclockwise<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
+or
+<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">(click)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>cropper.rotate(90)<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>rotate clockwise<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
+</code></pre>
 <h2 id="with-dialog">With Dialog</h2>
 <demo-view path="docs/components/image-cropper-demo/cropper-with-dialog">
   <aui-cropper-with-dialog></aui-cropper-with-dialog>
