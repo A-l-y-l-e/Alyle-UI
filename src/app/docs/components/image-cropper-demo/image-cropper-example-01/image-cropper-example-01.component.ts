@@ -3,17 +3,11 @@ import { Platform, StyleRenderer, lyl, WithStyles } from '@alyle/ui';
 import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
 
 const STYLES = () => ({
-  actions: lyl `{
-    display: flex
-  }`,
-  cropping: lyl `{
+  cropper: lyl `{
     max-width: 400px
     height: 300px
   }`,
-  flex: lyl `{
-    flex: 1
-  }`,
-  range: lyl `{
+  sliderContainer: lyl `{
     text-align: center
     max-width: 400px
     margin: 14px
@@ -31,7 +25,6 @@ const STYLES = () => ({
 export class ImageCropperExample01Component implements WithStyles, AfterViewInit {
   classes = this.sRenderer.renderSheet(STYLES);
   croppedImage?: string;
-  result: string;
   scale: number;
   @ViewChild(LyImageCropper) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {

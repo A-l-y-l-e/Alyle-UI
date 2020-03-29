@@ -1,26 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { LyImageCropperModule } from '@alyle/ui/image-cropper';
+import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
-import { LySliderModule } from '@alyle/ui/slider';
+import { LyDialogModule } from '@alyle/ui/dialog';
 
-import { ImageCropperExample01Component } from './image-cropper-example-01.component';
+import { CropperWithDialogComponent } from './cropper-with-dialog.component';
+import { CropperDialog } from './cropper-dialog';
 
 
 
 @NgModule({
+  declarations: [
+    CropperWithDialogComponent,
+    CropperDialog
+  ],
   imports: [
     CommonModule,
     FormsModule,
     LyImageCropperModule,
     LySliderModule,
     LyButtonModule,
-    LyIconModule
+    LyIconModule,
+    LyDialogModule
   ],
-  exports: [ImageCropperExample01Component],
-  declarations: [ImageCropperExample01Component]
+  exports: [CropperWithDialogComponent]
 })
-export class ImageCropperExample01Module { }
+export class CropperWithDialogModule { }

@@ -101,15 +101,21 @@ This library uses Roboto Font & Google's Material Icons, you can add this in `sr
 
 The <code class="html"><ly-carousel></code>, <code class="html"><ly-slider></code> and <code class="html"><ly-img-cropper></code> components require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
 
-<prism language="bash" code="yarn add hammerjs"></prism>
+```bash
+yarn add hammerjs
+```
 
-<p>or</p>
+or
 
-<prism language="bash" code="npm install --save hammerjs"></prism>
+```bash
+npm install --save hammerjs
+```
 
 <p>Import in src/main.ts</p>
 
-<prism language="typescript" code="import 'hammerjs';"></prism>
+```bash
+import 'hammerjs';
+```
 
 ### Step 4: Applies styles to AppComponent
 
@@ -127,14 +133,22 @@ const STYLES = (theme: ThemeVariables) => ({
       margin: 0
       direction: ${theme.direction}
     }
+  }`,
+  root: lyl `{
+    display: block
   }`
 });
 
-@Component({...})
-export class AppComponent {
-  readonly classes = this.styleRenderer.renderSheet(STYLES);
+@Component({
+  ...
+  providers: [
+    StyleRenderer
+  ]
+})
+export class AppComponent implements WithStyles {
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   constructor(
-    private styleRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer
   ) { }
 }
 ```

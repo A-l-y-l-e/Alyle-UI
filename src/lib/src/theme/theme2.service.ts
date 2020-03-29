@@ -140,7 +140,7 @@ export class LyTheme2 {
     }
     return this._createStyleContent2(styleOrId,
       null,
-      priority,
+      priorityOrStyle as number,
       TypeStyle.LylStyle);
   }
 

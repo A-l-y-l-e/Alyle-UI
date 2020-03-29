@@ -1,27 +1,32 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> NgModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> CommonModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/common'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> FormsModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/forms'</span><span class="tt18 ttae">;</span>
-
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyImageCropperModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/image-cropper'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LySliderModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/slider'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyButtonModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/button'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyIconModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/icon'</span><span class="tt18 ttae">;</span>
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LySliderModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/slider'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyDialogModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/dialog'</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ImageCropperExample01Component <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./image-cropper-example-01.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> CropperWithDialogComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./cropper-with-dialog.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> CropperDialog <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./cropper-dialog'</span><span class="tt18 ttae">;</span>
 
 
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  declarations<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
+    CropperWithDialogComponent<span class="tt18 ttae">,</span>
+    CropperDialog
+  <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     CommonModule<span class="tt18 ttae">,</span>
     FormsModule<span class="tt18 ttae">,</span>
     LyImageCropperModule<span class="tt18 ttae">,</span>
     LySliderModule<span class="tt18 ttae">,</span>
     LyButtonModule<span class="tt18 ttae">,</span>
-    LyIconModule
+    LyIconModule<span class="tt18 ttae">,</span>
+    LyDialogModule
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
-  exports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>ImageCropperExample01Component<span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
-  declarations<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>ImageCropperExample01Component<span class="tt18 ttae">]</span>
+  exports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>CropperWithDialogComponent<span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
-<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ImageCropperExample01Module</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">CropperWithDialogModule</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 </code></pre>

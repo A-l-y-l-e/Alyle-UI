@@ -6,18 +6,22 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ImageCropperExample01Module <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./image-cropper-example-01/image-cropper-example-01.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ImageCropperExample02Module <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./image-cropper-example-02/image-cropper-example-02.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ImageCropperExample03Module <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./image-cropper-example-03/image-cropper-example-03.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> CropperWithDialogModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./cropper-with-dialog/cropper-with-dialog.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> CropperWithDialogComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./cropper-with-dialog/cropper-with-dialog.component'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> elements <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
   ImageCropperExample01Component<span class="tt18 ttae">,</span>
   ImageCropperExample02Component<span class="tt18 ttae">,</span>
-  ImageCropperExample03Component
+  ImageCropperExample03Component<span class="tt18 ttae">,</span>
+  CropperWithDialogComponent
 <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     ImageCropperExample01Module<span class="tt18 ttae">,</span>
     ImageCropperExample02Module<span class="tt18 ttae">,</span>
-    ImageCropperExample03Module
+    ImageCropperExample03Module<span class="tt18 ttae">,</span>
+    CropperWithDialogModule
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   entryComponents<span class="tt18 ttb0">:</span> elements
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
