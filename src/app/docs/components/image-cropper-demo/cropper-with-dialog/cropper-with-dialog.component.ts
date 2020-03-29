@@ -17,13 +17,16 @@ export class CropperWithDialogComponent {
   ) { }
 
   openCropperDialog(event: Event) {
+    this.cropped = null!;
     this._dialog.open<CropperDialog, Event>(CropperDialog, {
       data: event,
       width: 320,
       disableClose: true
-    }).afterClosed.subscribe((result: ImgCropperEvent) => {
-      this.cropped = result.dataURL;
-      this._cd.markForCheck();
+    }).afterClosed.subscribe((result?: ImgCropperEvent) => {
+      if (result) {
+        this.cropped = result.dataURL;
+        this._cd.markForCheck();
+      }
     });
   }
 }
