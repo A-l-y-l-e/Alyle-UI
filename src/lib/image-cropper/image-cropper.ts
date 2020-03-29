@@ -840,7 +840,7 @@ export class LyImageCropper implements OnDestroy {
 
     /**
      * Step final
-     * Resizing & cropping image
+     * Resize & crop image
      */
     const oc = document.createElement('canvas'),
     ctx = oc.getContext('2d')!;
@@ -857,7 +857,7 @@ export class LyImageCropper implements OnDestroy {
 
   /**
    * Crop Image
-   * Resizing & cropping image
+   * Resize & crop image
    */
   crop(config?: ImgCropperConfig): ImgCropperEvent {
     const newConfig = config ? mergeDeep({}, this.config || CONFIG_DEFAULT, config) : this.config;
