@@ -243,6 +243,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   /** @docs-private */
   static и = 'LyTabs';
   /** @docs-private */
+  $priority = STYLE_PRIORITY;
+  /** @docs-private */
   readonly classes = this.sRenderer.renderSheet(STYLES, true);
   _selectedIndex: number;
   _selectedBeforeIndex: number;
@@ -306,6 +308,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   get scrollable() {
     return this._scrollable;
   }
+
   @Input()
   @Style<string | null>(
     val => (theme, ref) => {
@@ -316,12 +319,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
         }
       }`;
     }
-  )
-  set indicatorColor(val: string) {
-    console.log('from indicatorColor', val, this);
-  }
-
-  private _colorClass: string;
+  ) indicatorColor: string;
 
   @Input()
   set headerPlacement(val: LyTabsHeaderPlacement) {
@@ -668,10 +666,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           const selectedBeforeTab = this._selectedBeforeTab;
           if (selectedBeforeTab) {
             this.renderer.removeClass(selectedBeforeTab._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
-            this.renderer.removeClass(selectedBeforeTab._tabIndicator.nativeElement, this._colorClass);
           }
           this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
-          this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this._colorClass);
         }
       });
     } else {
