@@ -8,12 +8,15 @@ import { ImageCropperExample02Module } from './image-cropper-example-02/image-cr
 import { ImageCropperExample03Module } from './image-cropper-example-03/image-cropper-example-03.module';
 import { CropperWithDialogModule } from './cropper-with-dialog/cropper-with-dialog.module';
 import { CropperWithDialogComponent } from './cropper-with-dialog/cropper-with-dialog.component';
+import { CropCircleModule } from './crop-circle/crop-circle.module';
+import { CropCircleComponent } from './crop-circle/crop-circle.component';
 
 const elements = [
   ImageCropperExample01Component,
   ImageCropperExample02Component,
   ImageCropperExample03Component,
-  CropperWithDialogComponent
+  CropperWithDialogComponent,
+  CropCircleComponent
 ];
 
 @NgModule({
@@ -21,7 +24,8 @@ const elements = [
     ImageCropperExample01Module,
     ImageCropperExample02Module,
     ImageCropperExample03Module,
-    CropperWithDialogModule
+    CropperWithDialogModule,
+    CropCircleModule
   ],
   entryComponents: elements
 })

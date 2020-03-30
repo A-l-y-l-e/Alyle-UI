@@ -1,32 +1,48 @@
-import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
-import { Platform, StyleRenderer, lyl, WithStyles } from '@alyle/ui';
-import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
+import { Component, ChangeDetectionStrategy, AfterViewInit, ViewChild } from '@angular/core';
+import { lyl, WithStyles, StyleRenderer, Platform, ThemeRef, ThemeVariables } from '@alyle/ui';
+import {
+  LyImageCropper,
+  ImgCropperConfig,
+  ImgCropperEvent,
+  ImgCropperErrorEvent,
+  STYLES as CROPPER_STYLES
+} from '@alyle/ui/image-cropper';
 
-const STYLES = () => ({
-  cropper: lyl `{
-    max-width: 400px
-    height: 300px
-  }`,
-  sliderContainer: lyl `{
-    text-align: center
-    max-width: 400px
-    margin: 14px
-  }`
-});
+const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
+
+  ref.renderStyleSheet(CROPPER_STYLES);
+  const cropper = ref.selectorsOf(CROPPER_STYLES);
+  return {
+    cropper: lyl `{
+      max-width: 400px
+      height: 300px
+    }`,
+    sliderContainer: lyl `{
+      text-align: center
+      max-width: 400px
+      margin: 14px
+    }`,
+    cropCircle: lyl `{
+      ${cropper.area}, ${cropper.area}::after {
+        border-radius: 50%
+      }
+    }`,
+    cropResult: lyl `{
+      border-radius: 50%
+    }`
+  };
+};
 
 @Component({
-  selector: 'image-cropper-example-01',
-  templateUrl: './image-cropper-example-01.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    StyleRenderer
-  ]
+  selector: 'aui-crop-circle',
+  templateUrl: './crop-circle.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ImageCropperExample01Component implements WithStyles, AfterViewInit {
+export class CropCircleComponent implements WithStyles, AfterViewInit {
   classes = this.sRenderer.renderSheet(STYLES);
   croppedImage?: string;
   scale: number;
-  @ViewChild(LyImageCropper) cropper: LyImageCropper;
+  @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     // autoCrop: true,
     width: 150, // Default `250`
@@ -74,5 +90,4 @@ export class ImageCropperExample01Component implements WithStyles, AfterViewInit
   onerror(e: ImgCropperErrorEvent) {
     console.warn(`'${e.name}' is not a valid image`, e);
   }
-
 }
