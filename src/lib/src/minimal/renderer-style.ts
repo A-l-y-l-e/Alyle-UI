@@ -279,11 +279,12 @@ export function Style<INPUT = any, C = any>(
       const set = descriptor.set!;
       descriptor.set = function (val: INPUT) {
         const that: WithStyles = this;
+        const oldValue = that[_propertyKey];
         that[_propertyKey] = val;
         const styleTemplate = style(val as any, that as any);
         if (val == null || styleTemplate == null) {
           that.sRenderer.removeClass(that[_propertyKeyClass]);
-        } else if (that[_propertyKey] !== val) {
+        } else if (oldValue !== val) {
           that[_propertyKeyClass] = that.sRenderer.add(
             `${getComponentName(that)}--${propertyKey}-${val}`,
             styleTemplate,
@@ -304,10 +305,12 @@ export function Style<INPUT = any, C = any>(
         enumerable: true,
         set(val: INPUT) {
           const that: WithStyles = this;
+          const oldValue = that[_propertyKey];
+          that[_propertyKey] = val;
           const styleTemplate = style(val as NonNullable<INPUT>, that as any);
           if (val == null || styleTemplate == null) {
             that.sRenderer.removeClass(that[_propertyKeyClass]);
-          } else if (that[_propertyKey] !== val) {
+          } else if (oldValue !== val) {
             that[_propertyKeyClass] = that.sRenderer.add(
               `${getComponentName(that)}--${propertyKey}-${val}`,
               styleTemplate,
