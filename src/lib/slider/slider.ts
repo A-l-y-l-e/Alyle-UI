@@ -262,7 +262,7 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       // on focused
       & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
         border-radius: ${theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'}
-        before: -50px
+        ${before}: -50px
         transform: rotateZ(-45deg) scale(1)
       }
 
@@ -276,7 +276,7 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       ${__.thumbContent}::before {
         width: 24px
         height: 2px
-        before: -24px
+        ${before}: -24px
         top: -1px
       }
       ${__.tick} {
