@@ -23,7 +23,6 @@ import { LyTheme2,
   LY_COMMON_STYLES,
   HammerInput,
   toNumber,
-  LyHostClass,
   untilComponentDestroyed,
   Dir,
   StyleCollection,
@@ -353,7 +352,6 @@ export interface LySliderMark {
   exportAs: 'lySlider',
   providers: [
     LY_SLIDER_CONTROL_VALUE_ACCESSOR,
-    LyHostClass,
     StyleRenderer
   ],
   host: {
@@ -445,8 +443,8 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
       const { thumbNotVisible: thumbNotVisibleClass } = this.classes;
       this._thumbVisible = newVal;
 
-      this._hostClass.toggle(thumbVisibleClass, newVal === true);
-      this._hostClass.toggle(thumbNotVisibleClass, newVal === false);
+      this.sRenderer.toggleClass(thumbVisibleClass, newVal === true);
+      this.sRenderer.toggleClass(thumbNotVisibleClass, newVal === false);
 
     }
   }
@@ -683,11 +681,11 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
           STYLE_PRIORITY + 1.5,
           this._disabledClass
         );
-        this._hostClass.add(this.classes.disabled);
+        this.sRenderer.addClass(this.classes.disabled);
         this._disabledClass = newClass;
       } else if (this._disabledClass) {
-        this._hostClass.remove(this._disabledClass);
-        this._hostClass.remove(this.classes.disabled);
+        this.sRenderer.removeClass(this._disabledClass);
+        this.sRenderer.removeClass(this.classes.disabled);
         this._disabledClass = null;
       }
     }
@@ -718,7 +716,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     private _el: ElementRef,
     private _renderer: Renderer2,
     private _cd: ChangeDetectorRef,
-    private _hostClass: LyHostClass,
+    readonly sRenderer: StyleRenderer,
     private _sr: StyleRenderer,
     @Optional() @Inject(LY_SLIDER_DEFAULT_OPTIONS) private _default: LySliderDefaultOptions
   ) {
