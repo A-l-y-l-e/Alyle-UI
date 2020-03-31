@@ -47,11 +47,11 @@ import {
 
 /** Import Alyle UI */
 import {
-  LyThemeModule,
   LyTheme2,
   StyleRenderer,
   LY_THEME,
-  LY_THEME_NAME
+  LY_THEME_NAME,
+  LyHammerGestureConfig
 } from '@alyle/ui';
 
 /** Import the component modules */

@@ -11,8 +11,8 @@
 ```ts
 ...
 import {
-  LyThemeModule,
   LY_THEME,
+  LY_THEME_NAME,
   LY_THEME_GLOBAL_VARIABLES,
   PartialThemeVariables
 } from '@alyle/ui';
@@ -73,11 +73,10 @@ export class GlobalVariables implements PartialThemeVariables {
 /** set theme */
 @NgModule({
   ...
-  imports: [
-    LyThemeModule.setTheme('minima-dark')
-  ],
   provides: [
     ...
+    // Theme that will be applied to this module
+    { provide: LY_THEME_NAME, useValue: 'minima-light' },
     { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name minima-light
     { provide: LY_THEME, useClass: MinimaDark, multi: true }, // name minima-dark
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true }, // name minima-light
