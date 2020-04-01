@@ -23,8 +23,8 @@ import {
   LyClasses,
   StyleTemplate,
   ThemeRef,
-  LyHostClass,
-  StyleCollection
+  StyleCollection,
+  StyleRenderer
 } from '@alyle/ui';
 
 
@@ -126,7 +126,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
   private _positionClass: string;
   private _badgeEl: any;
   private _badgeElementRef: any;
-  private _hostClass: LyHostClass;
+  private _sRenderer?: StyleRenderer;
 
   /** The content for the badge */
   @Input('lyBadge')
@@ -184,7 +184,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
             ${theme.getDirection(hp)}: ${p}%
           }`;
         }, STYLE_PRIORITY);
-        this._overlapClass = this._hostClass.update(newClass, this._overlapClass);
+        this._overlapClass = this._sRenderer!.updateClass(newClass, this._overlapClass);
       });
     }
   }
@@ -218,7 +218,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
       }`, STYLE_PRIORITY);
 
       Promise.resolve(null!).then(() => {
-        this[0x1] = this._hostClass.update(newClass, this[0x1]);
+        this[0x1] = this._sRenderer!.updateClass(newClass, this[0x1]);
       });
 
 
@@ -259,7 +259,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
         STYLE_PRIORITY
       );
       Promise.resolve(null!).then(() => {
-        this._appearanceClass = this._hostClass.update(newClass, this._appearanceClass);
+        this._appearanceClass = this._sRenderer!.updateClass(newClass, this._appearanceClass);
       });
     }
   }
@@ -282,8 +282,8 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
       this.updateStyle(this._el);
     }
     this._updatePosition();
-    if (!this._hostClass) {
-      this._hostClass = new LyHostClass(this._el, this._renderer);
+    if (!this._sRenderer) {
+      this._sRenderer = new StyleRenderer(this._theme, this._el, this._renderer);
     }
   }
 
@@ -355,7 +355,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
       }`, STYLE_PRIORITY);
 
       Promise.resolve(null!).then(() => {
-        this._positionClass = this._hostClass.update(newClass, this._positionClass);
+        this._positionClass = this._sRenderer!.updateClass(newClass, this._positionClass);
       });
 
     }
@@ -366,7 +366,7 @@ export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDe
       const badge = this._badgeEl = this._renderer.createElement('div');
       this._renderer.appendChild((this.container) || this._el.nativeElement, badge);
       this._badgeElementRef = badge;
-      this._hostClass = new LyHostClass(new ElementRef(badge), this._renderer);
+      this._sRenderer = new StyleRenderer(this._theme, new ElementRef(badge), this._renderer);
 
       /** Add position relative */
       this._renderer.addClass(this._el.nativeElement, this.classes.relative);

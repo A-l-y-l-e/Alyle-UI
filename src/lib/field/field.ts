@@ -33,7 +33,6 @@ import {
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  LyHostClass,
   StyleRenderer,
   lyl,
   ThemeRef,
@@ -350,7 +349,6 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    LyHostClass,
     StyleRenderer,
   ]
 })

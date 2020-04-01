@@ -32,7 +32,6 @@ import {
   Platform,
   lyl,
   StyleRenderer,
-  LyHostClass,
   ThemeRef,
   StyleCollection,
   StyleTemplate,
@@ -150,7 +149,6 @@ export class LyDrawerContainer implements WithStyles {
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyDrawer',
   providers: [
-    LyHostClass,
     StyleRenderer
   ]
 })

@@ -50,7 +50,7 @@ class Context {
   `;
 
   simpleStyle = `
-  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+  import { LyTheme2, StyleRenderer, lyl } from '@alyle/ui';
 
   const style = lyl \`{
     color: red
@@ -58,7 +58,7 @@ class Context {
   `;
 
   simpleStyle2 = `
-  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+  import { LyTheme2, StyleRenderer, lyl } from '@alyle/ui';
 
   const style = lyl \`{
     color: red
@@ -70,7 +70,7 @@ class Context {
   `;
 
   complexStyle = `
-  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+  import { LyTheme2, StyleRenderer, lyl } from '@alyle/ui';
 
   const style = lyl \`{
     color: red
@@ -81,7 +81,7 @@ class Context {
   `;
 
   simpleAndComplexStyle = `
-  import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+  import { LyTheme2, StyleRenderer, lyl } from '@alyle/ui';
 
   const topZero = lyl \`{
     top: 0
@@ -95,7 +95,7 @@ class Context {
   `;
 
   simpleStyleNoCompile = `
-  import { LyTheme2, LyHostClass, lyl as styleBlock } from '@alyle/ui';
+  import { LyTheme2, StyleRenderer, lyl as styleBlock } from '@alyle/ui';
 
   const topZero = styleBlock \`{
     top: 0
@@ -103,7 +103,7 @@ class Context {
   `;
 
   complexStyleNoCompile = `
-  import { LyTheme2, LyHostClass, lyl as styleBlock } from '@alyle/ui';
+  import { LyTheme2, StyleRenderer, lyl as styleBlock } from '@alyle/ui';
 
   const topZero = styleBlock \`{
     top: 0
@@ -117,7 +117,7 @@ class Context {
   `;
 
   complexStyleNoCompileAndSimpleStyle = `
-  import { LyTheme2, LyHostClass, lyl, lyl as styleBlock } from '@alyle/ui';
+  import { LyTheme2, StyleRenderer, lyl, lyl as styleBlock } from '@alyle/ui';
 
   const topZero = lyl \`{
     top: 0
@@ -144,7 +144,7 @@ class Context {
   styles = `
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LyTheme2, LyHostClass, lyl } from '@alyle/ui';
+import { LyTheme2, StyleRenderer, lyl } from '@alyle/ui';
 
 import { AUIThemeVariables } from '@app/app.module';
 
@@ -282,7 +282,7 @@ test(`compile simple style`, async t => {
   t.is(`
   import {
   LyTheme2,
-  LyHostClass } from '@alyle/ui';
+  StyleRenderer } from '@alyle/ui';
 
   const style = (className: string) => \`\${className}{color:red;}\`;
   `, css);
@@ -293,7 +293,7 @@ test(`compile simple styles in a file`, async t => {
   t.is(`
   import {
   LyTheme2,
-  LyHostClass } from '@alyle/ui';
+  StyleRenderer } from '@alyle/ui';
 
   const style = (className: string) => \`\${className}{color:red;}\`;
 
@@ -306,7 +306,7 @@ test(`compile complex style`, async t => {
   t.is(css, `
   import {
   LyTheme2,
-  LyHostClass,
+  StyleRenderer,
   st2c } from '@alyle/ui';
 
   const style = (className: string) => \`\${className}{color:red;}\${st2c((
@@ -320,7 +320,7 @@ test(`compile simple and complex style`, async t => {
   t.is(css, `
   import {
   LyTheme2,
-  LyHostClass,
+  StyleRenderer,
   st2c } from '@alyle/ui';
 
   const topZero = (className: string) => \`\${className}{top:0;}\`
@@ -344,7 +344,7 @@ test(`do not compile a complex style with simple style`, t => {
   t.is(css, `
   import {
   LyTheme2,
-  LyHostClass,
+  StyleRenderer,
   lyl as styleBlock } from '@alyle/ui';
 
   const topZero = (className: string) => \`\${className}{top:0;}\`
@@ -366,7 +366,7 @@ import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, Chan
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   LyTheme2,
-  LyHostClass,
+  StyleRenderer,
   st2c } from '@alyle/ui';
 
 import { AUIThemeVariables } from '@app/app.module';

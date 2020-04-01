@@ -26,7 +26,6 @@ import {
   LyClasses,
   StyleTemplate,
   ThemeRef,
-  LyHostClass,
   StyleRenderer,
   WithStyles,
   Style
@@ -207,8 +206,7 @@ export class LyCardActions implements OnInit {
 @Directive({
   selector: 'ly-card-media',
   providers: [
-    StyleRenderer,
-    LyHostClass
+    StyleRenderer
   ]
 })
 export class LyCardMedia implements WithStyles, OnInit {

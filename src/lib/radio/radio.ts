@@ -37,7 +37,6 @@ import {
   LyClasses,
   StyleTemplate,
   ThemeRef,
-  LyHostClass,
   StyleRenderer} from '@alyle/ui';
 
 export interface LyRadioTheme {
@@ -322,7 +321,6 @@ export const LyRadioMixinBase = mixinDisableRipple(LyRadioBase);
     'disableRipple'
   ],
   providers: [
-    LyHostClass,
     StyleRenderer
   ]
 })

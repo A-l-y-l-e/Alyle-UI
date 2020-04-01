@@ -46,7 +46,6 @@ import {
   WinResize,
   scrollWithAnimation,
   toBoolean,
-  LyHostClass,
   lyl,
   LY_COMMON_STYLES,
   ThemeRef,
@@ -737,13 +736,16 @@ export class LyTab implements OnInit {
     'shadowColor',
     'disableRipple'
   ],
-  providers: [LyHostClass]
+  providers: [
+    StyleRenderer
+  ]
 })
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _activeTabStyle: boolean;
   private _active: boolean;
   disableRipple: boolean;
   _isBrowser = Platform.isBrowser;
+
   @Input()
   get active() {
     return this._active;
@@ -770,11 +772,11 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     _ngZone: NgZone,
     _rippleService: LyRippleService,
     _focusState: LyFocusState,
-    _hostClass: LyHostClass,
+    readonly sRenderer: StyleRenderer,
     @Optional() private _tab: LyTab,
     @Optional() private _tabs: LyTabs
   ) {
-    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, _hostClass, null as any);
+    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, sRenderer, null as any);
   }
 
   ngOnInit() {

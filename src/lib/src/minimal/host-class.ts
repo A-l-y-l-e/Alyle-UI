@@ -11,6 +11,7 @@ export class LyHostClass {
     private _renderer: Renderer2
   ) {
     this._nEl = _el.nativeElement;
+    console.log(`LyHostClass: Deprecated use instead StyleRenderer`);
   }
 
   add(className: string) {

@@ -25,7 +25,6 @@ import {
   toBoolean,
   ThemeRef,
   lyl,
-  LyHostClass,
   StyleRenderer,
   LY_COMMON_STYLES,
   StyleCollection,
@@ -199,7 +198,6 @@ export const LyCheckboxMixinBase = mixinDisableRipple(LyCheckboxBase);
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    LyHostClass,
     StyleRenderer,
     LY_CHECKBOX_CONTROL_VALUE_ACCESSOR,
   ],

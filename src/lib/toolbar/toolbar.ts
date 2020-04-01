@@ -22,8 +22,7 @@ import {
   LyClasses,
   StyleTemplate,
   ThemeRef,
-  StyleRenderer,
-  LyHostClass
+  StyleRenderer
 } from '@alyle/ui';
 
 export interface LyToolbarTheme {
@@ -105,7 +104,6 @@ export const LyToolbarMixinBase = mixinStyleUpdater(
     'shadowColor'
   ],
   providers: [
-    LyHostClass,
     StyleRenderer
   ]
 })
@@ -132,7 +130,7 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      this._appearanceClass = this._sr.add(
+      this._appearanceClass = this.sRenderer.add(
         `LyToolbar.appearance:${val}`,
         (theme: LyToolbarVariables, ref) => {
           const classes = ref.selectorsOf(STYLES);
@@ -158,7 +156,7 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
     _renderer: Renderer2,
     private _el: ElementRef,
     private theme: LyTheme2,
-    private _sr: StyleRenderer
+    readonly sRenderer: StyleRenderer
   ) {
     super(theme);
     this.setAutoContrast();

@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { lyl, LyTheme2, LyHostClass } from '@alyle/ui';
+import { lyl, LyTheme2, StyleRenderer } from '@alyle/ui';
 
 import { AUIThemeVariables } from '@app/app.module';
 import { AUIRoutesMap } from '../routes';
@@ -70,26 +70,27 @@ const commonConfigVariables = ['appearance', 'size', 'lyTyp'];
   templateUrl: './page-content.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [LyHostClass]
+  providers: [
+    StyleRenderer
+  ]
 })
 export class PageContentComponent {
-  readonly classes = this._theme.addStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   pathPkg: string;
   isPkg: boolean;
   opts: {
     name: string
     items: string[]
   }[];
+
   constructor(
-    _hostClass: LyHostClass,
     public route: ActivatedRoute,
     public router: Router,
     private _theme: LyTheme2,
     private _el: ElementRef<HTMLElement>,
-    private _cd: ChangeDetectorRef
-  ) {
-    _hostClass.add(this.classes.root);
-  }
+    private _cd: ChangeDetectorRef,
+    readonly sRenderer: StyleRenderer
+  ) { }
 
   _getHostElement() {
     return this._el.nativeElement;
