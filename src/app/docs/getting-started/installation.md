@@ -7,7 +7,7 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 
-> Please note that as of version 3.2.0 you have support for Angular 9. If your project uses Angular 8, then use version 3.1.2
+> Please note that as of version 3 you have support for Angular 8+. And there is no support for Angular 7.
 
 ## Angular CLI
 
