@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
-import { LyTheme2, eachMedia, ThemeVariables, StyleCollection, StyleTemplate, LyHostClass, StyleRenderer, lyl } from '@alyle/ui';
+import { LyTheme2, eachMedia, ThemeVariables, StyleCollection, StyleTemplate, StyleRenderer, lyl } from '@alyle/ui';
 
 const STYLE_PRIORITY = -1;
 
@@ -296,7 +296,6 @@ export class LyGrid {
 @Directive({
   selector: 'ly-grid[item], [ly-grid-item], [lyGridItem]',
   providers: [
-    LyHostClass,
     StyleRenderer
   ]
 })

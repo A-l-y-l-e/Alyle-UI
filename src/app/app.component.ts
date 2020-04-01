@@ -1,14 +1,11 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  Renderer2,
-  OnInit,
   ViewChild,
-  ElementRef
 } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Router, NavigationEnd } from '@angular/router';
-import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef, lyl } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef, lyl, StyleRenderer } from '@alyle/ui';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark, AUIThemeVariables } from './app.module';
@@ -22,8 +19,9 @@ import { prismCustomClass } from './core/prism-custom-class';
 import { SVG_ICONS } from './core/svg-icons';
 import { DocViewer } from './docs/docs-viewer';
 
-const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, ref: ThemeRef) => {
-  const classes = ref.selectorsOf(styles);
+const STYLES = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, ref: ThemeRef) => {
+  const classes = ref.selectorsOf(STYLES);
+  const { before } = theme;
   return {
     $name: 'app',
     $global: lyl `{
@@ -41,6 +39,9 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
           text-decoration: underline
         }
       }
+    }`,
+    root: lyl `{
+      display: block
     }`,
     appContainer: ( ) => lyl `{
       display: flex
@@ -62,9 +63,6 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
         line-height: 1.5
       }
     }`,
-    root: {
-      display: 'block',
-    },
     drawer: lyl `{
       &::-webkit-scrollbar {
         width: 16px
@@ -87,37 +85,37 @@ const styles = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
         border: none
       }
     }`,
-    drawerUl: {
-      overflow: 'hidden',
-      position: 'relative',
-      listStyle: 'none',
-      padding: '2rem 1.8rem',
-      margin: 0,
-      borderBottom: '1px solid rgba(0, 0, 0, 0.11)'
-    },
-    drawerButton: {
-      color: theme.drawerButton,
-      fontWeight: 400,
-      borderBefore: '3px solid transparent',
-      display: 'flex',
-      justifyContent: 'space-between',
-      borderRadius: 0,
-      '&:hover, &{onLinkActive}': {
-        color: theme.primary.default,
-        borderBefore: '3px solid'
+    drawerUl: lyl `{
+      overflow: hidden
+      position: relative
+      list-style: none
+      padding: 2rem 1.8rem
+      margin: 0
+      border-bottom: 1px solid rgba(0, 0, 0, 0.11)
+    }`,
+    drawerButton: () => lyl `{
+      color: ${theme.drawerButton}
+      font-weight: 400
+      border-${before}: 3px solid transparent
+      display: flex
+      justify-content: space-between
+      border-radius: 0
+      &:hover, &${classes.onLinkActive} {
+        color: ${theme.primary.default}
+        border-${before}: 3px solid
       }
-    },
+    }`,
     onLinkActive: null,
-    footer: {
-      position: 'relative',
-      padding: '1em',
-      textAlign: 'center'
-    },
-    discordHover: {
-      '&:hover': {
-        color: theme.discord
+    footer: lyl `{
+      position: relative
+      padding: 1em
+      text-align: center
+    }`,
+    discordHover: lyl `{
+      &:hover {
+        color: ${theme.discord}
       }
-    }
+    }`
   };
 };
 
@@ -306,25 +304,27 @@ const PRISM_STYLES = (theme: AUIThemeVariables) => {
   selector: 'aui-root',
   templateUrl: './app.component.html',
   preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
-export class AppComponent implements OnInit {
-  readonly classes = this.theme.addStyleSheet(styles);
+export class AppComponent {
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   routesComponents: any;
   version = AUI_VERSION;
   routes = AUIRoutes.slice(1);
   currentRoutePath: string;
 
-  @ViewChild(DocViewer, { static: false }) docViewer?: DocViewer;
+  @ViewChild(DocViewer) docViewer?: DocViewer;
   @ViewChild(LyDrawer, { static: true }) drawer: LyDrawer;
-  @ViewChild(LySnackBar, { static: false }) sb: LySnackBar;
+  @ViewChild(LySnackBar) sb: LySnackBar;
   @ViewChild(PageContentComponent, { static: true }) page: PageContentComponent;
 
   constructor(
-    private _el: ElementRef,
     public router: Router,
     private theme: LyTheme2,
-    private renderer: Renderer2,
+    readonly sRenderer: StyleRenderer,
     private _location: Location,
     sanitizer: DomSanitizer,
     iconService: LyIconService,
@@ -366,10 +366,6 @@ export class AppComponent implements OnInit {
       this.currentRoutePath = pathname;
       this.page.updateRoute(pathname);
     });
-  }
-
-  ngOnInit() {
-    this.renderer.addClass(this._el.nativeElement, this.classes.root);
   }
 
   reload() {

@@ -1,8 +1,10 @@
 import { ThemeConfig } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { MinimaDark } from './dark';
+import { Injectable } from '@angular/core';
 
 const shadow = new Color(0, 0, 0, 1);
+@Injectable()
 export class MinimaDeepDark extends MinimaDark implements ThemeConfig {
   name = 'minima-deep-dark';
   background = {

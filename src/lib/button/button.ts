@@ -37,7 +37,7 @@ import {
   LY_COMMON_STYLES,
   ThemeRef,
   StyleCollection,
-  LyHostClass
+  StyleRenderer
 } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 
@@ -190,7 +190,9 @@ mixinBg(
     'shadowColor',
     'disableRipple'
   ],
-  providers: [LyHostClass],
+  providers: [
+    StyleRenderer
+  ],
   exportAs: 'lyButton'
 })
 export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
@@ -207,7 +209,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   private _appearanceClass: string;
   private _onFocusByKeyboardState: boolean;
 
-  @ViewChild('rippleContainer', { static: false }) _rippleContainer: ElementRef;
+  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
   /** @docs-private */
   @Input('sensitive')
@@ -237,7 +239,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
         },
         STYLE_PRIORITY
       );
-      this._sizeClass = this._hostClass.update(newClass, this._sizeClass);
+      this._sizeClass = this.sRenderer.updateClass(newClass, this._sizeClass);
     }
   }
 
@@ -259,7 +261,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
           return theme.button!.appearance![val]!(ref.selectorsOf(STYLES));
         },
       STYLE_PRIORITY + 1);
-      this._appearanceClass = this._hostClass.update(newClass, this._appearanceClass);
+      this._appearanceClass = this.sRenderer.updateClass(newClass, this._appearanceClass);
     }
   }
 
@@ -275,7 +277,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     _ngZone: NgZone,
     public _rippleService: LyRippleService,
     private _focusState: LyFocusState,
-    private _hostClass: LyHostClass,
+    readonly sRenderer: StyleRenderer,
     @Optional() @Inject(LY_BUTTON_DEFAULT_OPTIONS) private _defaultConfig: LyButtonDefaultOptions
   ) {
     super(_theme, _ngZone);

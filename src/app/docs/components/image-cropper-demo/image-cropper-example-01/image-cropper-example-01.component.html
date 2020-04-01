@@ -1,9 +1,9 @@
-<div [className]="classes.actions">
+<div [display]="'flex'">
   <button ly-button color="primary" (click)="_fileInput.click()">
     <ly-icon>image</ly-icon>
     <span>Select File</span>
   </button>
-  <span [className]="classes.flex"></span>
+  <span [flex]="1"></span>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropping.selectInputEvent($event)" accept="image/*" hidden>
   <button raised ly-button bg="accent" *ngIf="cropping.isCropped">Upload</button>
@@ -20,16 +20,17 @@
   <button (click)="cropping.clean()" ly-button>Clean</button>
 </div>
 
-<ly-img-cropper [withClass]="classes.cropping" #cropping
-[config]="myConfig"
-[(scale)]="scale"
-(cropped)="onCropped($event)"
-(loaded)="onloaded($event)"
-(error)="onerror($event)">
+<ly-img-cropper [withClass]="classes.cropper" #cropping
+  [config]="myConfig"
+  [(scale)]="scale"
+  (cropped)="onCropped($event)"
+  (loaded)="onloaded($event)"
+  (error)="onerror($event)"
+>
   <span>Drag and drop image</span>
 </ly-img-cropper>
 
-<div *ngIf="cropping.isLoaded" [className]="classes.range">
+<div *ngIf="cropping.isLoaded" [className]="classes.sliderContainer">
   <ly-slider
     [thumbVisible]="false"
     [min]="cropping.minScale"

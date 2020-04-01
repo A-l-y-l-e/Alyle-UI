@@ -1,3 +1,20 @@
+# [3.2.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.1.2...3.2.0) (2020-04-01)
+
+
+### Bug Fixes
+
+* **select:** fix vertical slider styles ([a914bd5](https://github.com/A-l-y-l-e/Alyle-UI/commit/a914bd536f65284cbfa2215cea2544c40b752160))
+* **slider:** fix disable styles ([06e8031](https://github.com/A-l-y-l-e/Alyle-UI/commit/06e803170364d4925b9cfe6e10027d5f89609754))
+* expose renderStyleSheet ([0d87ce6](https://github.com/A-l-y-l-e/Alyle-UI/commit/0d87ce656785f3817ca5b651191cbfbecdaefc3e))
+* rename `getClass` to `selectorOf` ([061ce47](https://github.com/A-l-y-l-e/Alyle-UI/commit/061ce472132075ad53a559c00c269bbd910a39b2))
+
+
+### Features
+
+* support for Angular 9 ([#111](https://github.com/A-l-y-l-e/Alyle-UI/issues/111)) ([e3d96d0](https://github.com/A-l-y-l-e/Alyle-UI/commit/e3d96d09c08d3059b67eaabdb997adf601b9f3a1))
+
+
+
 ## [3.1.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.1.1...3.1.2) (2020-03-20)
 
 

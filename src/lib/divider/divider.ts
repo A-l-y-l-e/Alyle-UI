@@ -1,5 +1,5 @@
 import { Directive, Input, OnInit } from '@angular/core';
-import { ThemeVariables, lyl, StyleRenderer, LyHostClass, toBoolean } from '@alyle/ui';
+import { ThemeVariables, lyl, StyleRenderer, toBoolean } from '@alyle/ui';
 
 const STYLES = (theme: ThemeVariables) => lyl `{
   display: block
@@ -10,7 +10,6 @@ const STYLES = (theme: ThemeVariables) => lyl `{
 @Directive({
   selector: 'ly-divider',
   providers: [
-    LyHostClass,
     StyleRenderer
   ]
 })
@@ -23,7 +22,7 @@ export class LyDivider implements OnInit {
   set inset(val: boolean) {
     const newVal = this._inset = toBoolean(val);
     if (newVal) {
-      this[0x1] = this._styleRenderer.add(
+      this[0x1] = this.sRenderer.add(
         `${LyDivider.и}--inset`,
         ({before}) => lyl `{
           margin-${before}: 74px
@@ -31,7 +30,7 @@ export class LyDivider implements OnInit {
         this[0x1]
       );
     } else {
-      this._hostClass.remove(this[0x1]);
+      this.sRenderer.removeClass(this[0x1]);
     }
   }
   get inset() {
@@ -40,11 +39,10 @@ export class LyDivider implements OnInit {
   [0x1]: string;
 
   constructor(
-    private _styleRenderer: StyleRenderer,
-    private _hostClass: LyHostClass
+    readonly sRenderer: StyleRenderer
   ) { }
 
   ngOnInit() {
-    this._styleRenderer.add(STYLES);
+    this.sRenderer.add(STYLES);
   }
 }

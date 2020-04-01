@@ -25,7 +25,6 @@ import {
   toBoolean,
   ThemeRef,
   lyl,
-  LyHostClass,
   StyleRenderer,
   LY_COMMON_STYLES,
   StyleCollection,
@@ -199,7 +198,6 @@ export const LyCheckboxMixinBase = mixinDisableRipple(LyCheckboxBase);
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    LyHostClass,
     StyleRenderer,
     LY_CHECKBOX_CONTROL_VALUE_ACCESSOR,
   ],
@@ -224,7 +222,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
   protected _disabled;
   private _onFocusByKeyboardState: boolean;
 
-  @ViewChild('innerContainer', { static: false }) _innerContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('innerContainer') _innerContainer: ElementRef<HTMLDivElement>;
 
   /** The value attribute of the native input element */
   @Input() value: string;
@@ -293,7 +291,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
       new EventEmitter<LyCheckboxChange>();
 
   /** The native `<input type="checkbox">` element */
-  @ViewChild('input', { static: false }) _inputElement: ElementRef<HTMLInputElement>;
+  @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
 
   _onTouched: () => any = () => {};
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};

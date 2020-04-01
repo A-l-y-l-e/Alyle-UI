@@ -7,7 +7,6 @@ import { LyTheme2,
   StyleCollection,
   StyleTemplate,
   lyl,
-  LyHostClass,
   StyleRenderer} from '@alyle/ui';
 
 export interface LyTypographyTheme {
@@ -72,7 +71,6 @@ export const LyTypographyMixinBase = mixinStyleUpdater(
     'color'
   ],
   providers: [
-    LyHostClass,
     StyleRenderer
   ]
 })
@@ -132,7 +130,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
     const newVal = toBoolean(val);
     if (newVal !== this.gutter) {
       this._gutter = newVal;
-      this.hostClass.toggle(this.classes.gutter, newVal);
+      this.sRenderer.toggleClass(this.classes.gutter, newVal);
     }
   }
   get gutter() {
@@ -144,7 +142,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
     const newVal = toBoolean(val);
     if (newVal !== this.gutterTop) {
       this._gutterTop = newVal;
-      this.hostClass.toggle(this.classes.gutterTop, newVal);
+      this.sRenderer.toggleClass(this.classes.gutterTop, newVal);
     }
   }
   get gutterTop() {
@@ -156,7 +154,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
     const newVal = toBoolean(val);
     if (newVal !== this.gutterBottom) {
       this._gutterBottom = newVal;
-      this.hostClass.toggle(this.classes.gutterBottom, newVal);
+      this.sRenderer.toggleClass(this.classes.gutterBottom, newVal);
     }
   }
   get gutterBottom() {
@@ -167,8 +165,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
     _theme: LyTheme2,
     private _el: ElementRef,
     private renderer: Renderer2,
-    private sr: StyleRenderer,
-    private hostClass: LyHostClass
+    readonly sRenderer: StyleRenderer
   ) {
     super(_theme);
     this.renderer.addClass(this._el.nativeElement, this.classes.root);
@@ -187,7 +184,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
   private _createTypClass(val: string, instance: string | null) {
     const newKey = `k-typ:${val}`;
 
-    return this.sr.add(newKey,
+    return this.sRenderer.add(newKey,
       (theme: LyTypographyVariables) => {
         if (theme.typography && theme.typography.lyTyp) {
           const lyTyp = theme.typography.lyTyp[val];

@@ -127,7 +127,7 @@ export class LyMenu implements OnInit, AfterViewInit {
    * @docs-private
    */
   destroy: () => void;
-  @ViewChild('container', { static: false }) _container: ElementRef<HTMLDivElement>;
+  @ViewChild('container') _container: ElementRef<HTMLDivElement>;
   @Input() ref: LyMenuTriggerFor & { };
 
   /** Position where the menu will be placed. */

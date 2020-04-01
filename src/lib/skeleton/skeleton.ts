@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { ThemeVariables, keyframesUniqueId, lyl, LyHostClass, StyleRenderer, toBoolean, Dir } from '@alyle/ui';
+import { ThemeVariables, keyframesUniqueId, lyl, StyleRenderer, toBoolean, Dir } from '@alyle/ui';
 
 const STYLE_PRIORITY = -0.5;
 export const STYLES = (theme: ThemeVariables) => {
@@ -55,7 +55,6 @@ export const STYLES = (theme: ThemeVariables) => {
 @Directive({
   selector: '[lySkeleton]',
   providers: [
-    LyHostClass,
     StyleRenderer
   ],
   exportAs: 'lySkeleton'
@@ -64,7 +63,7 @@ export class LySkeleton {
   /** @docs-private */
   static readonly и = 'LySkeleton';
   /** @docs-private */
-  readonly classes = this.styleRenderer.renderSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES);
 
   @Input('lySkeleton')
   get skeleton() {
@@ -73,12 +72,11 @@ export class LySkeleton {
   set skeleton(val: boolean) {
     const newVal = toBoolean(val);
     this._skeleton = newVal;
-    this.hostClass.toggle(this.classes.root, newVal);
+    this.sRenderer.toggleClass(this.classes.root, newVal);
   }
   private _skeleton: boolean;
 
   constructor(
-    private styleRenderer: StyleRenderer,
-    private hostClass: LyHostClass
+    readonly sRenderer: StyleRenderer
   ) { }
 }

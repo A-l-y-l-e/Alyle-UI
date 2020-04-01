@@ -1,39 +1,34 @@
 import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
-import { LyTheme2, Platform } from '@alyle/ui';
+import { Platform, StyleRenderer, lyl, WithStyles } from '@alyle/ui';
 import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
 
-const styles = ({
-  actions: {
-    display: 'flex'
-  },
-  cropping: {
-    maxWidth: '400px',
-    height: '300px'
-  },
-  flex: {
-    flex: 1
-  },
-  range: {
-    textAlign: 'center',
-    maxWidth: '400px',
-    margin: '14px'
-  }
+const STYLES = () => ({
+  cropper: lyl `{
+    max-width: 400px
+    height: 300px
+  }`,
+  sliderContainer: lyl `{
+    text-align: center
+    max-width: 400px
+    margin: 14px
+  }`
 });
 
 @Component({
   selector: 'image-cropper-example-01',
   templateUrl: './image-cropper-example-01.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  providers: [
+    StyleRenderer
+  ]
 })
-export class ImageCropperExample01Component implements AfterViewInit {
-  classes = this.theme.addStyleSheet(styles);
+export class ImageCropperExample01Component implements WithStyles, AfterViewInit {
+  classes = this.sRenderer.renderSheet(STYLES);
   croppedImage?: string;
-  result: string;
   scale: number;
-  @ViewChild(LyImageCropper, { static: false }) cropper: LyImageCropper;
+  @ViewChild(LyImageCropper) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    autoCrop: true, // Default `false`
+    // autoCrop: true,
     width: 150, // Default `250`
     height: 150, // Default `200`
     fill: '#ff2997', // Default transparent if type = png else #000
@@ -41,7 +36,7 @@ export class ImageCropperExample01Component implements AfterViewInit {
   };
 
   constructor(
-    private theme: LyTheme2
+    readonly sRenderer: StyleRenderer
   ) { }
 
   ngAfterViewInit() {

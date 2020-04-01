@@ -40,3 +40,18 @@
 <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>my-component</span> <span class="tt18 ttbx">[fontSize]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>fontSize<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>Content<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>my-component</span><span class="tt18 ttae">></span></span>
 </code></pre>
 <p>Alyle UI already contains directives to customize any element, such as <a href="./styles/sizing">Sizing</a></p>
+<h2 id="angular-libraries-using-lambdas-in-the-style-decorator">Angular Libraries: Using Lambdas in the Style Decorator</h2>
+<p>If you are building an angular library that will be deployed to npm you will probably get the following error</p>
+<pre class="ttb"><code prsm class="ttm">ERROR: /path/lib/my-component/my-component.ts:143:1: Error encountered <span class="tt18 tt1j">in</span> metadata generated <span class="tt18 tt1j">for</span> exported symbol <span class="tt18 tt3z">'MyComponent'</span><span class="tt18 ttcj ttc8">:</span> 
+ /path/lib/my-component/my-component.ts:225:5: Metadata collected contains an error that will be reported at runtime: Lambda not supported.
+</code></pre>
+<p>To avoid that error, you should add a comment with <code class="ttm ttx">@dynamic</code> in the component.</p>
+<p>e.g.</p>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt3o">/**
+ * @dynamic
+ */</span>
+@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  <span class="tt18 ttb0">...</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 ttb0">...</span>
+</code></pre>

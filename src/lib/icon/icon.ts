@@ -21,7 +21,7 @@ import {
   ThemeVariables,
   lyl,
   keyframesUniqueId,
-  LyHostClass
+  StyleRenderer
   } from '@alyle/ui';
 import { take } from 'rxjs/operators';
 
@@ -101,7 +101,7 @@ mixinBg(
   ],
   exportAs: 'lyIcon',
   providers: [
-    LyHostClass
+    StyleRenderer
   ]
 })
 export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDestroy {
@@ -151,7 +151,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
     private _el: ElementRef,
     private _renderer: Renderer2,
     theme: LyTheme2,
-    private _hostClass: LyHostClass
+    readonly sRenderer: StyleRenderer
   ) {
     super(theme);
     this.setAutoContrast();
@@ -190,8 +190,8 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
   }
 
   private _addDefaultIcon() {
-    this._hostClass.add(this.classes.defaultIcon);
-    this._hostClass.add(this.classes.loading);
+    this.sRenderer.addClass(this.classes.defaultIcon);
+    this.sRenderer.addClass(this.classes.loading);
   }
 
   // private _appendDefaultSvgIcon() {
@@ -230,8 +230,8 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
    */
   private _cleanIcon() {
     const icon = this._iconElement;
-    this._hostClass.remove(this.classes.defaultIcon);
-    this._hostClass.remove(this.classes.loading);
+    this.sRenderer.removeClass(this.classes.defaultIcon);
+    this.sRenderer.removeClass(this.classes.loading);
     if (icon) {
       this._renderer.removeChild(this._el.nativeElement, icon);
       this._iconElement = undefined;

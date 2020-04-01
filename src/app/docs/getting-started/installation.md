@@ -7,12 +7,11 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 
-> Please note that as of version 2.9.0 you have support for Angular 8. If your project uses Angular 7, then use version 2.7.8. There is no longer support for Angular 7.
+> Please note that as of version 3 you have support for Angular 8+. And there is no support for Angular 7.
 
 ## Angular CLI
-<p>
-  Using with the Angular CLI command will update your Angular project so that it is ready to be used.
-</p>
+
+Using with the Angular CLI command will update your Angular project so that it is ready to be used.
 
 ```bash
 ng add @alyle/ui
@@ -39,13 +38,20 @@ npm install --save @alyle/ui
 /** Import animations */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// Gestures
+import {
+  ...
+  HAMMER_GESTURE_CONFIG,
+  HammerModule
+} from '@angular/platform-browser';
+
 /** Import Alyle UI */
 import {
-  LyThemeModule,
   LyTheme2,
   StyleRenderer,
   LY_THEME,
-  LY_THEME_NAME
+  LY_THEME_NAME,
+  LyHammerGestureConfig
 } from '@alyle/ui';
 
 /** Import the component modules */
@@ -66,7 +72,8 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
     LyButtonModule,
     LyToolbarModule,
     LyImageCropperModule
-    ...
+    // Gestures
+    HammerModule
   ],
   /** Add themes */
   providers: [
@@ -75,7 +82,9 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
     // Theme that will be applied to this module
     { provide: LY_THEME_NAME, useValue: 'minima-light' },
     { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: `minima-light`
-    { provide: LY_THEME, useClass: MinimaDark, multi: true } // name: `minima-dark`
+    { provide: LY_THEME, useClass: MinimaDark, multi: true }, // name: `minima-dark`
+    // Gestures
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ]
   ...
 })
@@ -92,15 +101,21 @@ This library uses Roboto Font & Google's Material Icons, you can add this in `sr
 
 The <code class="html"><ly-carousel></code>, <code class="html"><ly-slider></code> and <code class="html"><ly-img-cropper></code> components require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
 
-<prism language="bash" code="yarn add hammerjs"></prism>
+```bash
+yarn add hammerjs
+```
 
-<p>or</p>
+or
 
-<prism language="bash" code="npm install --save hammerjs"></prism>
+```bash
+npm install --save hammerjs
+```
 
 <p>Import in src/main.ts</p>
 
-<prism language="typescript" code="import 'hammerjs';"></prism>
+```bash
+import 'hammerjs';
+```
 
 ### Step 4: Applies styles to AppComponent
 
@@ -118,14 +133,22 @@ const STYLES = (theme: ThemeVariables) => ({
       margin: 0
       direction: ${theme.direction}
     }
+  }`,
+  root: lyl `{
+    display: block
   }`
 });
 
-@Component({...})
-export class AppComponent {
-  readonly classes = this.styleRenderer.renderSheet(STYLES);
+@Component({
+  ...
+  providers: [
+    StyleRenderer
+  ]
+})
+export class AppComponent implements WithStyles {
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   constructor(
-    private styleRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer
   ) { }
 }
 ```

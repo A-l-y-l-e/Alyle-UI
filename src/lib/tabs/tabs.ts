@@ -46,14 +46,14 @@ import {
   WinResize,
   scrollWithAnimation,
   toBoolean,
-  LyHostClass,
   lyl,
   LY_COMMON_STYLES,
   ThemeRef,
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  StyleRenderer
+  StyleRenderer,
+  Style
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
@@ -222,6 +222,9 @@ mixinBg(
             mixinShadowColor(
               mixinDisableRipple(LyTabLabelBase)))))))));
 
+/**
+ * @dynamic
+ */
 @Component({
   selector: 'ly-tabs',
   templateUrl: './tabs.html',
@@ -239,6 +242,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   /** @docs-private */
   static и = 'LyTabs';
   /** @docs-private */
+  $priority = STYLE_PRIORITY;
+  /** @docs-private */
   readonly classes = this.sRenderer.renderSheet(STYLES, true);
   _selectedIndex: number;
   _selectedBeforeIndex: number;
@@ -246,8 +251,6 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   _selectedBeforeTab: LyTab | null;
   _isViewInitLoaded: boolean;
   private _tabsSubscription = Subscription.EMPTY;
-  private _color: string;
-  private _colorClass: string;
   private _headerPlacement: LyTabsHeaderPlacement;
   private _headerPlacementClass: string;
   private _alignTabs: AlignTabs;
@@ -261,7 +264,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 
   @ViewChild('tabs', { static: true }) tabsRef: ElementRef;
   @ViewChild('tabContents', { static: true }) tabContents: ElementRef;
-  @ViewChild('tabsIndicator', { static: true }) tabsIndicator: ElementRef;
+  @ViewChild('tabsIndicator', { static: true, read: ElementRef }) tabsIndicator?: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
   /**
    * Keep the content.
@@ -304,22 +307,18 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   get scrollable() {
     return this._scrollable;
   }
+
   @Input()
-  set indicatorColor(val: string) {
-    if (val !== this.indicatorColor) {
-      this._color = val;
-      this._colorClass = this.theme.addStyle(
-        `k-tab-indicator-color:${val}`,
-        theme => (
-          `color:${theme.colorOf(val)};`
-        ),
-        this.tabsIndicator.nativeElement, this._colorClass
-      );
+  @Style<string | null>(
+    val => (theme, ref) => {
+      const __ = ref.selectorsOf(STYLES);
+      return lyl `{
+        ${__.tabsIndicator} {
+          color:${theme.colorOf(val)}
+        }
+      }`;
     }
-  }
-  get indicatorColor() {
-    return this._color;
-  }
+  ) indicatorColor: string;
 
   @Input()
   set headerPlacement(val: LyTabsHeaderPlacement) {
@@ -482,7 +481,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this.selectedIndex = 0;
     }
     this.renderer.addClass(this.el.nativeElement, this.classes.root);
-    const tabsIndicatorEl = this.tabsIndicator.nativeElement;
+    const tabsIndicatorEl = this.tabsIndicator!.nativeElement;
     this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);
     /** Set default Color */
     if (!this.indicatorColor && !this.bg && !this.textColor && !this.elevation) {
@@ -544,15 +543,15 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       const rects = el.getBoundingClientRect();
 
       if (this.headerPlacement === XPosition.after || this.headerPlacement === XPosition.before) {
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'height', `${rects.height}px`);
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'top', `${el.offsetTop}px`);
-        this.renderer.removeStyle(this.tabsIndicator.nativeElement, 'width');
-        this.renderer.removeStyle(this.tabsIndicator.nativeElement, 'left');
+        this.renderer.setStyle(this.tabsIndicator!.nativeElement, 'height', `${rects.height}px`);
+        this.renderer.setStyle(this.tabsIndicator!.nativeElement, 'top', `${el.offsetTop}px`);
+        this.renderer.removeStyle(this.tabsIndicator!.nativeElement, 'width');
+        this.renderer.removeStyle(this.tabsIndicator!.nativeElement, 'left');
       } else {
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'width', `${rects.width}px`);
-        this.renderer.setStyle(this.tabsIndicator.nativeElement, 'left', `${el.offsetLeft}px`);
-        this.renderer.removeStyle(this.tabsIndicator.nativeElement, 'height');
-        this.renderer.removeStyle(this.tabsIndicator.nativeElement, 'top');
+        this.renderer.setStyle(this.tabsIndicator!.nativeElement, 'width', `${rects.width}px`);
+        this.renderer.setStyle(this.tabsIndicator!.nativeElement, 'left', `${el.offsetLeft}px`);
+        this.renderer.removeStyle(this.tabsIndicator!.nativeElement, 'height');
+        this.renderer.removeStyle(this.tabsIndicator!.nativeElement, 'top');
       }
     }
   }
@@ -666,10 +665,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           const selectedBeforeTab = this._selectedBeforeTab;
           if (selectedBeforeTab) {
             this.renderer.removeClass(selectedBeforeTab._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
-            this.renderer.removeClass(selectedBeforeTab._tabIndicator.nativeElement, this._colorClass);
           }
           this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
-          this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this._colorClass);
         }
       });
     } else {
@@ -711,7 +708,7 @@ export class LyTab implements OnInit {
   _isBrowser = Platform.isBrowser;
   @ContentChild(LyTabContent, { read: TemplateRef, static: true }) _templateRefLazy: TemplateRef<LyTabContent>;
   @ViewChild('_templateNgContent', { static: true }) _templateRef: TemplateRef<any>;
-  @ViewChild('tabIndicator', { static: false }) _tabIndicator: ElementRef;
+  @ViewChild('tabIndicator') _tabIndicator: ElementRef;
   @ContentChild(forwardRef(() => LyTabLabel), { static: true }) _tabLabel: LyTabLabel & { };
 
   constructor(
@@ -739,13 +736,16 @@ export class LyTab implements OnInit {
     'shadowColor',
     'disableRipple'
   ],
-  providers: [LyHostClass]
+  providers: [
+    StyleRenderer
+  ]
 })
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _activeTabStyle: boolean;
   private _active: boolean;
   disableRipple: boolean;
   _isBrowser = Platform.isBrowser;
+
   @Input()
   get active() {
     return this._active;
@@ -757,7 +757,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     }
   }
 
-  @ViewChild('rippleContainer', { static: false }) _rippleContainer: ElementRef;
+  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
   @HostListener('click') _onClickTab() {
     if (!this.disabled) {
       this._tabs.selectedIndex = this._tab.index;
@@ -772,11 +772,11 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     _ngZone: NgZone,
     _rippleService: LyRippleService,
     _focusState: LyFocusState,
-    _hostClass: LyHostClass,
+    readonly sRenderer: StyleRenderer,
     @Optional() private _tab: LyTab,
     @Optional() private _tabs: LyTabs
   ) {
-    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, _hostClass, null as any);
+    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, sRenderer, null as any);
   }
 
   ngOnInit() {

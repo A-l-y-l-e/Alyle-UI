@@ -1,9 +1,9 @@
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { LyDrawerModule } from '@alyle/ui/drawer';
@@ -43,15 +43,16 @@ const SublimeLight = {
   shadow: new Color(0xB36FBC)
 };
 
+@Injectable()
 export class CustomMinimaLight {
   name = 'minima-light';
   shadow = '#505050';
   codeColor = 'rgba(0, 23, 31, 0.7)';
-  codeBg = '#fff';
+  codeBg = '#ffffff';
   myColor = 'pink';
   discord = '#7289DA';
   drawerButton = '#5f6368';
-  demoBg = new Color(0xc7c7c7);
+  demoBg = new Color(0x8c8c8c);
   prism = {
     colorText: '#626682',
     string: '#27b98f',
@@ -66,6 +67,7 @@ export class CustomMinimaLight {
   };
 }
 
+@Injectable()
 export class CustomMinimaDark {
   name = 'minima-dark';
   shadow = 'rgba(0, 0, 0, 1)';
@@ -82,10 +84,12 @@ export class CustomMinimaDark {
   };
   stackblitz = '#fff';
 }
+@Injectable()
 export class CustomMinimaDeepDark extends CustomMinimaDark {
   name = 'minima-deep-dark';
 }
 
+@Injectable()
 export class GlobalVariables implements RecursivePartial<MinimaLight & MinimaDark> {
   testVal = '#00bcd4';
   Quepal = Quepal;
@@ -131,7 +135,8 @@ export function themeNameProviderFactory() {
     HomeComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: '@alyle/ui'}),
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    HammerModule,
     CommonModule,
     FormsModule,
     HttpClientModule,

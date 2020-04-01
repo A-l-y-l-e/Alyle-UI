@@ -11,7 +11,6 @@ import {
   ThemeVariables,
   lyl,
   StyleTemplate,
-  LyHostClass,
   StyleRenderer
 } from '@alyle/ui';
 
@@ -97,7 +96,6 @@ export const LyAvatarMixinBase = mixinStyleUpdater(
     'shadowColor',
   ],
   providers: [
-    LyHostClass,
     StyleRenderer
   ]
 })
@@ -114,7 +112,7 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
   set size(val: number) {
     if (val !== this.size) {
       this._size = val;
-      this[0x1] = this._styleRenderer.add(`${LyAvatar.и}-size-${val}`, () => (
+      this[0x1] = this.sRenderer.add(`${LyAvatar.и}-size-${val}`, () => (
         lyl `{
           width: ${val}px
           height: ${val}px
@@ -139,7 +137,7 @@ export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
     theme: LyTheme2,
     renderer: Renderer2,
     private _elementRef: ElementRef,
-    private _styleRenderer: StyleRenderer,
+    readonly sRenderer: StyleRenderer,
     @Optional() @Inject(LY_AVATAR_DEFAULT_OPTIONS) private _defaults: LyAvatarDefaultOptions
   ) {
     super(theme);

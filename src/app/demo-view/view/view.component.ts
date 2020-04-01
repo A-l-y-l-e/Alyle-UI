@@ -153,29 +153,38 @@ export class ViewComponent implements OnInit {
     );
     data.subscribe(([res1, res2, res3, ...others]) => {
       const otherModules = `/** Angular */
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 /** Alyle UI */
-import { LyThemeModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES } from '@alyle/ui';
+import {
+  LyTheme2,
+  StyleRenderer,
+  LY_THEME,
+  LY_THEME_NAME,
+  LY_THEME_GLOBAL_VARIABLES,
+  LyHammerGestureConfig
+} from '@alyle/ui';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
+import { color } from '@alyle/ui/color';
+
 export class GlobalVariables {
-  testVal = '#00bcd4';
+  testVal = color(0x00bcd4);
   Quepal = {
     default: \`linear-gradient(135deg,#11998e 0%,#38ef7d 100%)\`,
-    contrast: '#fff',
-    shadow: '#11998e'
+    contrast: color(0xffffff),
+    shadow: color(0x11998e)
   };
   SublimeLight = {
     default: \`linear-gradient(135deg,#FC5C7D 0%,#6A82FB 100%)\`,
-    contrast: '#fff',
-    shadow: '#B36FBC'
+    contrast: color(0xffffff),
+    shadow: color(0xB36FBC)
   };
   Amber = {
-    default: '#ffc107',
-    contrast: 'rgba(0, 0, 0, 0.87)'
+    default: color(0xffc107),
+    contrast: color(0, 0, 0, 0.87)
   };
 }
 `;
@@ -190,11 +199,14 @@ export class GlobalVariables {
         return str + `BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    LyThemeModule.setTheme('minima-light'),
+    HammerModule,
     `;
       }).replace(DECLARATIONS_REGEXP, (str, token) => {
         return `bootstrap: [${token}],
   providers: [
+    [ LyTheme2 ],
+    [ StyleRenderer ],
+    { provide: LY_THEME_NAME, useValue: 'minima-light' },
     {
       provide: LY_THEME,
       useClass: MinimaLight,
@@ -208,7 +220,9 @@ export class GlobalVariables {
     {
       provide: LY_THEME_GLOBAL_VARIABLES,
       useClass: GlobalVariables
-    } // global variables
+    }, // global variables
+    // Gestures
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ],\n  ` + str;
       });
 
@@ -289,6 +303,7 @@ export class GlobalVariables {
         'zone.js': '^0.9.1',
         'rxjs': '^6.4.0',
         'hammerjs': '2.0.8',
+        'tslib': '^1.10.0',
         'web-animations-js': 'latest'
       },
       settings: {

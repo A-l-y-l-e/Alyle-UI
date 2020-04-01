@@ -23,7 +23,7 @@ const styles = {
 export class ImageCropperExample03Component {
   classes = this.theme.addStyleSheet(styles);
   croppedImage?: string;
-  @ViewChild(LyImageCropper, { static: false }) img: LyImageCropper;
+  @ViewChild(LyImageCropper) img: LyImageCropper;
   result: string;
   myConfig: ImgCropperConfig = {
     width: 150, // Default `250`

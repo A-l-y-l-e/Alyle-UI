@@ -9,8 +9,8 @@
 </p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttb0">...</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span>
-  LyThemeModule<span class="tt18 ttae">,</span>
   <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span>
   <span class="tt18 ttbb">LY_THEME_GLOBAL_VARIABLES</span><span class="tt18 ttae">,</span>
   PartialThemeVariables
 <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
@@ -25,12 +25,12 @@
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">CustomMinimaLight</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">PartialThemeVariables</span> <span class="tt18 ttae">&#123;</span>
   name <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">'minima-light'</span><span class="tt18 ttae">;</span>
   primary <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">default</span><span class="tt18 ttb0">:</span> <style>._13fyuvbg{background:rgb(33,150,243);opacity:1;}._13fyuvbg *{color:white !important;}</style><span class="_13fyuvbg"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0x2196f3</span><span class="tt18 ttae">)</span></span><span class="tt18 ttae">,</span>
-    contrast<span class="tt18 ttb0">:</span> <style>._2hmb3fx0{background:rgb(255,255,255);opacity:1;}._2hmb3fx0 *{color:#202020 !important;}</style><span class="_2hmb3fx0"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0xffffff</span><span class="tt18 ttae">)</span></span>
+    <span class="tt18 tt1j">default</span><span class="tt18 ttb0">:</span> <style>._daqme2v6{background:rgb(33,150,243);opacity:1;}._daqme2v6 *{color:white !important;}</style><span class="_daqme2v6"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0x2196f3</span><span class="tt18 ttae">)</span></span><span class="tt18 ttae">,</span>
+    contrast<span class="tt18 ttb0">:</span> <style>._fo2lgzuy{background:rgb(255,255,255);opacity:1;}._fo2lgzuy *{color:#202020 !important;}</style><span class="_fo2lgzuy"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0xffffff</span><span class="tt18 ttae">)</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
   accent <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">default</span><span class="tt18 ttb0">:</span> <style>._2obrwb6n{background:rgb(233,30,99);opacity:1;}._2obrwb6n *{color:white !important;}</style><span class="_2obrwb6n"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0xe91e63</span><span class="tt18 ttae">)</span></span><span class="tt18 ttae">,</span>
-    contrast<span class="tt18 ttb0">:</span> <style>._jow2wbs7{background:rgb(255,255,255);opacity:1;}._jow2wbs7 *{color:#202020 !important;}</style><span class="_jow2wbs7"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0xffffff</span><span class="tt18 ttae">)</span></span>
+    <span class="tt18 tt1j">default</span><span class="tt18 ttb0">:</span> <style>._3nra9xhg{background:rgb(233,30,99);opacity:1;}._3nra9xhg *{color:white !important;}</style><span class="_3nra9xhg"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0xe91e63</span><span class="tt18 ttae">)</span></span><span class="tt18 ttae">,</span>
+    contrast<span class="tt18 ttb0">:</span> <style>._3ngcbj6j{background:rgb(255,255,255);opacity:1;}._3ngcbj6j *{color:#202020 !important;}</style><span class="_3ngcbj6j"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0xffffff</span><span class="tt18 ttae">)</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span>
 
@@ -41,12 +41,12 @@
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">CustomMinimaDark</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">PartialThemeVariables</span> <span class="tt18 ttae">&#123;</span>
   name <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">'minima-dark'</span><span class="tt18 ttae">;</span>
   primary <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">default</span><span class="tt18 ttb0">:</span> <style>._eazb92q6{background:rgb(156,39,176);opacity:1;}._eazb92q6 *{color:white !important;}</style><span class="_eazb92q6"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0x9c27b0</span><span class="tt18 ttae">)</span></span><span class="tt18 ttae">,</span>
-    contrast<span class="tt18 ttb0">:</span> <style>._bvl99rui{background:rgb(255,255,255);opacity:1;}._bvl99rui *{color:#202020 !important;}</style><span class="_bvl99rui"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0xffffff</span><span class="tt18 ttae">)</span></span>
+    <span class="tt18 tt1j">default</span><span class="tt18 ttb0">:</span> <style>._8vto1bwg{background:rgb(156,39,176);opacity:1;}._8vto1bwg *{color:white !important;}</style><span class="_8vto1bwg"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0x9c27b0</span><span class="tt18 ttae">)</span></span><span class="tt18 ttae">,</span>
+    contrast<span class="tt18 ttb0">:</span> <style>._5u1mlcm2{background:rgb(255,255,255);opacity:1;}._5u1mlcm2 *{color:#202020 !important;}</style><span class="_5u1mlcm2"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0xffffff</span><span class="tt18 ttae">)</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
   accent <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">default</span><span class="tt18 ttb0">:</span> <style>._h3o2227e{background:rgb(105,240,174);opacity:1;}._h3o2227e *{color:#202020 !important;}</style><span class="_h3o2227e"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0x69f0ae</span><span class="tt18 ttae">)</span></span><span class="tt18 ttae">,</span>
-    contrast<span class="tt18 ttb0">:</span> <style>._c0pju8nf{background:rgb(32,32,32);opacity:1;}._c0pju8nf *{color:white !important;}</style><span class="_c0pju8nf"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0x202020</span><span class="tt18 ttae">)</span></span>
+    <span class="tt18 tt1j">default</span><span class="tt18 ttb0">:</span> <style>._c93yt9ft{background:rgb(105,240,174);opacity:1;}._c93yt9ft *{color:#202020 !important;}</style><span class="_c93yt9ft"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0x69f0ae</span><span class="tt18 ttae">)</span></span><span class="tt18 ttae">,</span>
+    contrast<span class="tt18 ttb0">:</span> <style>._710bdaph{background:rgb(32,32,32);opacity:1;}._710bdaph *{color:white !important;}</style><span class="_710bdaph"><span class="tt18 tta3">color</span><span class="tt18 ttae">(</span><span class="tt18 ttap">0x202020</span><span class="tt18 ttae">)</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span>
 
@@ -71,11 +71,10 @@
 <span class="tt18 tt3o">/** set theme */</span>
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   <span class="tt18 ttb0">...</span>
-  imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
-    LyThemeModule<span class="tt18 ttae">.</span><span class="tt18 tta3">setTheme</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'minima-dark'</span><span class="tt18 ttae">)</span>
-  <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   provides<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     <span class="tt18 ttb0">...</span>
+    <span class="tt18 tt3o">// Theme that will be applied to this module</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME_NAME</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'minima-light'</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
     <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttb0">:</span> MinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// name minima-light</span>
     <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttb0">:</span> MinimaDark<span class="tt18 ttae">,</span> multi<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// name minima-dark</span>
     <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_THEME</span><span class="tt18 ttae">,</span> useClass<span class="tt18 ttb0">:</span> CustomMinimaLight<span class="tt18 ttae">,</span> multi<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// name minima-light</span>

@@ -67,11 +67,12 @@ export class ApiComponent implements OnInit, OnDestroy {
   readonly apiListClasses = this.sRenderer.renderSheet(API_LIST_CLASSES);
 
   readonly doc$ = new EventEmitter<void>();
-  doc: APIPkgSymbolSanitized | APIPkgSymbolList[] | null;
+  doc: APIPkgSymbolList | APIPkgSymbolSanitized | null | any;
   private void$ = of<void>(undefined);
   routeParamsSubscription = Subscription.EMPTY;
   private onDestroy$ = new EventEmitter<void>();
-  @ViewChild('code', { static: false }) code: ElementRef<HTMLDivElement>;
+  @ViewChild('code') code: ElementRef<HTMLDivElement>;
+
   constructor(
     readonly sRenderer: StyleRenderer,
     private http: HttpClient,
@@ -92,7 +93,7 @@ export class ApiComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$)
       )
       .subscribe((data) => {
-        this.doc = data;
+        this.doc = data as APIPkgSymbolList;
         cdr.markForCheck();
       });
     this.routeParamsSubscription = this.route.url.pipe(takeUntil(this.onDestroy$)).subscribe(async () => {
@@ -106,7 +107,7 @@ export class ApiComponent implements OnInit, OnDestroy {
       .pipe(
         tap(() => this.app.docViewer && this.seo.setNoIndex(true)),
         switchMap(async () => await
-          this.http.get<APIPkgSymbol | APIPkgSymbolList[]>(`${path}.json`).pipe(catchError((error) => this.apiService.handleError(error))).toPromise()
+          this.http.get<APIPkgSymbol | APIPkgSymbolList[] | APIPkgSymbolList>(`${path}.json`).pipe(catchError((error) => this.apiService.handleError(error))).toPromise()
         .catch((title: string) => {
           this.app.docViewer!.isError.emit({
             title

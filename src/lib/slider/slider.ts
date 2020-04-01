@@ -23,7 +23,6 @@ import { LyTheme2,
   LY_COMMON_STYLES,
   HammerInput,
   toNumber,
-  LyHostClass,
   untilComponentDestroyed,
   Dir,
   StyleCollection,
@@ -262,7 +261,7 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       // on focused
       & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
         border-radius: ${theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'}
-        before: -50px
+        ${before}: -50px
         transform: rotateZ(-45deg) scale(1)
       }
 
@@ -276,7 +275,7 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       ${__.thumbContent}::before {
         width: 24px
         height: 2px
-        before: -24px
+        ${before}: -24px
         top: -1px
       }
       ${__.tick} {
@@ -353,7 +352,6 @@ export interface LySliderMark {
   exportAs: 'lySlider',
   providers: [
     LY_SLIDER_CONTROL_VALUE_ACCESSOR,
-    LyHostClass,
     StyleRenderer
   ],
   host: {
@@ -407,7 +405,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
   _rootClasses = new Set<string>();
 
-  @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
+  @ViewChild('bg') _bg?: ElementRef<HTMLDivElement>;
   @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
   @ViewChild('ticksRef', { static: true }) _ticksRef: ElementRef<HTMLDivElement>;
   @ViewChildren('thumbsRef') _thumbsRef?: QueryList<ElementRef<HTMLDivElement>>;
@@ -445,8 +443,8 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
       const { thumbNotVisible: thumbNotVisibleClass } = this.classes;
       this._thumbVisible = newVal;
 
-      this._hostClass.toggle(thumbVisibleClass, newVal === true);
-      this._hostClass.toggle(thumbNotVisibleClass, newVal === false);
+      this.sRenderer.toggleClass(thumbVisibleClass, newVal === true);
+      this.sRenderer.toggleClass(thumbNotVisibleClass, newVal === false);
 
     }
   }
@@ -683,11 +681,11 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
           STYLE_PRIORITY + 1.5,
           this._disabledClass
         );
-        this._hostClass.add(this.classes.disabled);
+        this.sRenderer.addClass(this.classes.disabled);
         this._disabledClass = newClass;
       } else if (this._disabledClass) {
-        this._hostClass.remove(this._disabledClass);
-        this._hostClass.remove(this.classes.disabled);
+        this.sRenderer.removeClass(this._disabledClass);
+        this.sRenderer.removeClass(this.classes.disabled);
         this._disabledClass = null;
       }
     }
@@ -718,7 +716,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     private _el: ElementRef,
     private _renderer: Renderer2,
     private _cd: ChangeDetectorRef,
-    private _hostClass: LyHostClass,
+    readonly sRenderer: StyleRenderer,
     private _sr: StyleRenderer,
     @Optional() @Inject(LY_SLIDER_DEFAULT_OPTIONS) private _default: LySliderDefaultOptions
   ) {
@@ -972,10 +970,10 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     if (track) {
 
-      track.nativeElement.style.width = null;
-      track.nativeElement.style.height = null;
-      track.nativeElement.style.left = null;
-      track.nativeElement.style.right = null;
+      track.nativeElement.style.width = null!;
+      track.nativeElement.style.height = null!;
+      track.nativeElement.style.left = null!;
+      track.nativeElement.style.right = null!;
 
       if (this.vertical) {
         track.nativeElement.style.height = `${(maxPercent - minPercent)}%`;
