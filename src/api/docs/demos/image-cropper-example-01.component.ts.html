@@ -68,10 +68,10 @@
     <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>croppedImage <span class="tt18 ttb0">=</span> e<span class="tt18 ttae">.</span>dataURL<span class="tt18 ttae">;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'cropped img: '</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
-  <span class="tt18 tta3">onloaded</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tta3">onLoaded</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'img loaded'</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
-  <span class="tt18 tta3">onerror</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperErrorEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tta3">onError</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperErrorEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">warn</span><span class="tt18 ttae">(</span><span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">'</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>e<span class="tt18 ttae">.</span>name<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">' is not a valid image</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 

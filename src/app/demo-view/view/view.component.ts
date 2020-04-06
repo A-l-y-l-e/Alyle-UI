@@ -88,7 +88,7 @@ export class ViewComponent implements OnInit {
   @Input()
   set extraPaths(val: string[] | string) {
     if (typeof val === 'string') {
-      val = [val];
+      val = val.split(',');
     }
     val.forEach(item => {
       this.files.push({

@@ -1,10 +1,16 @@
-import { Component, ChangeDetectionStrategy, Inject, ViewChild, AfterViewInit } from '@angular/core';
-import { StyleRenderer, WithStyles, lyl, ThemeRef } from '@alyle/ui';
+import { Component, ChangeDetectionStrategy, Inject, ViewChild, AfterViewInit, NgZone } from '@angular/core';
+import { StyleRenderer, WithStyles, lyl, ThemeRef, ThemeVariables } from '@alyle/ui';
 import { LyDialogRef, LY_DIALOG_DATA } from '@alyle/ui/dialog';
 import { STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
-import { LyImageCropper, ImgCropperConfig, ImgCropperEvent, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
+import {
+  LyImageCropper,
+  ImgCropperConfig,
+  ImgCropperEvent,
+  ImgCropperErrorEvent
+} from '@alyle/ui/image-cropper';
+import { take } from 'rxjs/operators';
 
-const STYLES = (_theme, ref: ThemeRef) => {
+const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   ref.renderStyleSheet(SLIDER_STYLES);
   const slider = ref.selectorsOf(SLIDER_STYLES);
   return {
@@ -47,23 +53,28 @@ export class CropperDialog implements WithStyles, AfterViewInit {
   };
 
   constructor(
+    @Inject(LY_DIALOG_DATA) private event: Event,
     readonly sRenderer: StyleRenderer,
     public dialogRef: LyDialogRef,
-    @Inject(LY_DIALOG_DATA) private event: Event
+    private _ngZone: NgZone
   ) { }
 
   ngAfterViewInit() {
-    this.cropper.selectInputEvent(this.event);
+    this._ngZone.onStable
+    .pipe(take(1))
+    .subscribe(() => this.cropper.selectInputEvent(this.event));
   }
 
   onCropped(e: ImgCropperEvent) {
     console.log('cropped img: ', e);
   }
-  onloaded(e: ImgCropperEvent) {
+  onLoaded(e: ImgCropperEvent) {
     console.log('img loaded', e);
   }
-  onerror(e: ImgCropperErrorEvent) {
+  onError(e: ImgCropperErrorEvent) {
     console.warn(`'${e.name}' is not a valid image`, e);
+    // Close the dialog if it fails
+    this.dialogRef.close();
   }
 
 }
