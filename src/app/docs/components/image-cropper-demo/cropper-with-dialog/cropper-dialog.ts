@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject, ViewChild, AfterViewInit, NgZone } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { StyleRenderer, WithStyles, lyl, ThemeRef, ThemeVariables } from '@alyle/ui';
 import { LyDialogRef, LY_DIALOG_DATA } from '@alyle/ui/dialog';
 import { STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
@@ -8,7 +8,6 @@ import {
   ImgCropperEvent,
   ImgCropperErrorEvent
 } from '@alyle/ui/image-cropper';
-import { take } from 'rxjs/operators';
 
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   ref.renderStyleSheet(SLIDER_STYLES);
@@ -55,14 +54,14 @@ export class CropperDialog implements WithStyles, AfterViewInit {
   constructor(
     @Inject(LY_DIALOG_DATA) private event: Event,
     readonly sRenderer: StyleRenderer,
-    public dialogRef: LyDialogRef,
-    private _ngZone: NgZone
+    public dialogRef: LyDialogRef
   ) { }
 
   ngAfterViewInit() {
-    this._ngZone.onStable
-    .pipe(take(1))
-    .subscribe(() => this.cropper.selectInputEvent(this.event));
+    // Load image when dialog animation has finished
+    this.dialogRef.afterOpened.subscribe(() => {
+      this.cropper.selectInputEvent(this.event);
+    });
   }
 
   onCropped(e: ImgCropperEvent) {

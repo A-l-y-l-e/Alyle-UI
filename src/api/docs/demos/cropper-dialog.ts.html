@@ -1,4 +1,4 @@
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy<span class="tt18 ttae">,</span> Inject<span class="tt18 ttae">,</span> ViewChild<span class="tt18 ttae">,</span> AfterViewInit<span class="tt18 ttae">,</span> NgZone <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy<span class="tt18 ttae">,</span> Inject<span class="tt18 ttae">,</span> ViewChild<span class="tt18 ttae">,</span> AfterViewInit <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> StyleRenderer<span class="tt18 ttae">,</span> WithStyles<span class="tt18 ttae">,</span> lyl<span class="tt18 ttae">,</span> ThemeRef<span class="tt18 ttae">,</span> ThemeVariables <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyDialogRef<span class="tt18 ttae">,</span> <span class="tt18 ttbb">LY_DIALOG_DATA</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/dialog'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttbb">STYLES</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttbb">SLIDER_STYLES</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/slider'</span><span class="tt18 ttae">;</span>
@@ -8,7 +8,6 @@
   ImgCropperEvent<span class="tt18 ttae">,</span>
   ImgCropperErrorEvent
 <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/image-cropper'</span><span class="tt18 ttae">;</span>
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> take <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'rxjs/operators'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">_theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">,</span> ref<span class="tt18 ttb0">:</span> ThemeRef</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
   ref<span class="tt18 ttae">.</span><span class="tt18 tta3">renderStyleSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">SLIDER_STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
@@ -55,14 +54,14 @@
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
     <span class="tt18 parameter">@<span class="tt18 tta3">Inject</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">LY_DIALOG_DATA</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">private</span> event<span class="tt18 ttb0">:</span> Event<span class="tt18 ttae">,</span>
     <span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer<span class="tt18 ttae">,</span>
-    <span class="tt18 tt1j">public</span> dialogRef<span class="tt18 ttb0">:</span> LyDialogRef<span class="tt18 ttae">,</span>
-    <span class="tt18 tt1j">private</span> _ngZone<span class="tt18 ttb0">:</span> NgZone</span>
+    <span class="tt18 tt1j">public</span> dialogRef<span class="tt18 ttb0">:</span> LyDialogRef</span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">ngAfterViewInit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_ngZone<span class="tt18 ttae">.</span>onStable
-    <span class="tt18 ttae">.</span><span class="tt18 tta3">pipe</span><span class="tt18 ttae">(</span><span class="tt18 tta3">take</span><span class="tt18 ttae">(</span><span class="tt18 ttap">1</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span>
-    <span class="tt18 ttae">.</span><span class="tt18 tta3">subscribe</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">selectInputEvent</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>event<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt3o">// Load image when dialog animation has finished</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>dialogRef<span class="tt18 ttae">.</span>afterOpened<span class="tt18 ttae">.</span><span class="tt18 tta3">subscribe</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">selectInputEvent</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>event<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">onCropped</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>

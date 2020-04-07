@@ -404,8 +404,7 @@ export class LyImageCropper implements OnDestroy {
 
           this.cd.markForCheck();
         },
-        (error) => {
-          console.log(error);
+        () => {
           const cropEvent: ImgCropperErrorEvent = {
             name: fileName,
             size: fileSize,
@@ -663,9 +662,7 @@ export class LyImageCropper implements OnDestroy {
 
       img.onerror = err => observer.error(err);
       img.onabort = err => observer.error(err);
-      img.onload = () => {
-        observer.next(null!);
-      };
+      img.onload = () => observer.next(null!);
     })
     .pipe(take(1), takeUntil(this._destroy))
     .subscribe(
@@ -679,9 +676,8 @@ export class LyImageCropper implements OnDestroy {
           .onStable
           .pipe(take(1), takeUntil(this._destroy))
           .subscribe(
-            () => this._ngZone.run(() => setTimeout(() => this._positionImg(cropEvent, fn), 0))
+            () => setTimeout(() => this._ngZone.run(() => this._positionImg(cropEvent, fn)))
           );
-
       },
       () => {
         (cropEvent as ImgCropperErrorEvent).error = ImgCropperError.Type;
