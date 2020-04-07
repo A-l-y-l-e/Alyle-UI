@@ -1,3 +1,12 @@
+## [3.2.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.1...3.2.2) (2020-04-07)
+
+
+### Bug Fixes
+
+* **cropper:** cropper don't work until change ([9a009f6](https://github.com/A-l-y-l-e/Alyle-UI/commit/9a009f6051535bba5fae2b4c1ed9639d3cd43e46))
+
+
+
 ## [3.2.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.0...3.2.1) (2020-04-07)
 
 
