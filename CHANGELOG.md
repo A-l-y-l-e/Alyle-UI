@@ -1,3 +1,13 @@
+## [3.2.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.0...3.2.1) (2020-04-07)
+
+
+### Bug Fixes
+
+* **cropper:** cropper don't work until change ([8f396c7](https://github.com/A-l-y-l-e/Alyle-UI/commit/8f396c7a3169567bf5d018f11bca40b6c4f14792)), closes [#115](https://github.com/A-l-y-l-e/Alyle-UI/issues/115)
+* change `LyHostClass` to `StyleRenderer` ([6067526](https://github.com/A-l-y-l-e/Alyle-UI/commit/6067526f9425753f74177cbbc4259f0c7d209a73))
+
+
+
 # [3.2.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.1.2...3.2.0) (2020-04-01)
 
 
