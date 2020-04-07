@@ -1,16 +1,14 @@
 import * as ts from 'typescript';
-import { Tree, SchematicsException } from '@angular-devkit/schematics';
-import { getProjectTargets, targetBuildNotFoundError } from '@schematics/angular/utility/project-targets';
+import { Tree, SchematicsException, SchematicContext } from '@angular-devkit/schematics';
 import { addImport, getTsSourceFile, prettierConstructorParameters } from '../utils/ast';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
+import { getAppComponentPath } from './get-app-component-path';
 
 /** Adds the styles to the src/app/app.component.ts file. */
-export function setUpStyles(options: any, filePath: string, content?: string): (host: Tree) => Tree {
-  return (host: Tree) => {
-    const projectTargets = getProjectTargets(host, options.project);
-
-    if (!projectTargets.build) {
-      throw targetBuildNotFoundError();
+export function setUpStyles(options: any, filePath?: string, content?: string) {
+  return (host: Tree, _context: SchematicContext) => {
+    if (!filePath) {
+      filePath = getAppComponentPath(host, options);
     }
 
     const buffer = host.read(filePath);

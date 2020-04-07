@@ -1,5 +1,4 @@
 import { Tree } from '@angular-devkit/schematics';
-import { getProjectTargets, targetBuildNotFoundError } from '@schematics/angular/utility/project-targets';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getDecoratorMetadata, findNode } from '@schematics/angular/utility/ast-utils';
 import * as ts from 'typescript';
@@ -7,13 +6,13 @@ import { dirname } from 'path';
 import { normalize } from '@angular-devkit/core';
 import { getTsSourceFile } from './ast';
 import { Schema } from '../ng-add/schema';
+import { getProjectFromWorkspace, getProjectMainFile } from '@angular/cdk/schematics';
+import { getWorkspace } from '@schematics/angular/utility/config';
 
 export function getAppComponentPath(host: Tree, options: Schema) {
-  const projectTargets = getProjectTargets(host, options.project);
-  if (!projectTargets.build) {
-    throw targetBuildNotFoundError();
-  }
-  const mainPath = projectTargets.build.options.main;
+  const workspace = getWorkspace(host);
+  const project = getProjectFromWorkspace(workspace, options.project);
+  const mainPath = getProjectMainFile(project);
   const modulePath = getAppModulePath(host, mainPath);
   const moduleSource = getTsSourceFile(host, modulePath);
   const decoratorMetadata = getDecoratorMetadata(moduleSource, 'NgModule', '@angular/core');

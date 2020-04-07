@@ -1,8 +1,7 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { Schema } from './schema';
-import { getProjectFromWorkspace } from '../utils/get-project';
-import { getProjectTargetOptions } from '../utils/get-project-target';
+import { getProjectFromWorkspace, getProjectMainFile } from '@angular/cdk/schematics';
 
 const hammerjsImportStatement = `import 'hammerjs';`;
 
@@ -15,7 +14,7 @@ export function addHammerJsToMain(options: Schema): Rule {
     }
     const workspace = getWorkspace(host);
     const project = getProjectFromWorkspace(workspace, options.project);
-    const mainFile = getProjectTargetOptions(project, 'build').main;
+    const mainFile = getProjectMainFile(project);
 
     const recorder = host.beginUpdate(mainFile);
     const buffer = host.read(mainFile);

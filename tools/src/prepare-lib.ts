@@ -92,5 +92,3 @@ components.forEach((lib, index) => {
   };
   writeFileSync(`${process.cwd()}/angular.json`, JSON.stringify(angularCliConfig, undefined, 2), 'utf8');
 });
-
-export const allComponents = components;

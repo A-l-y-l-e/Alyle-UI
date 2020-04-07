@@ -6,6 +6,12 @@
       "factory": "./ng-add",
       "schema": "./ng-add/schema.json"
     },
+    "ng-add-setup-project": {
+      "description": "Sets up the specified project after the ng-add dependencies have been installed.",
+      "private": true,
+      "factory": "./ng-add/setup-project",
+      "schema": "./ng-add/schema.json"
+    },
     "component": {
       "aliases": [ "c" ],
       "factory": "./component",

@@ -16,6 +16,23 @@
       "default": true,
       "description": "Whether gesture support should be set up.",
       "x-prompt": "Set up HammerJS for gesture recognition?"
+    },
+    "themes": {
+      "description": "Themes that will be added to project.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      },
+      "x-prompt": {
+        "message": "What themes should be added?",
+        "type": "list",
+        "multiselect": true,
+        "items": [
+          "minima-light", "minima-deep-dark", "minima-dark"
+        ]
+      },
+      "default": ["minima-light"]
     }
   },
   "required": []

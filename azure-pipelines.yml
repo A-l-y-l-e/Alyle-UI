@@ -26,6 +26,7 @@ jobs:
       targetType: 'inline'
       script: |
         set -e
+        . ci/setup.sh
         yarn --frozen-lockfile
       noRc: false
     displayName: "Install Dependencies"
