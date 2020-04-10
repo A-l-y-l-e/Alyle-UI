@@ -1,7 +1,9 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { Schema } from './schema';
-import { getProjectFromWorkspace, getProjectMainFile } from '@angular/cdk/schematics';
+import { getProjectFromWorkspace, getProjectMainFile, getAppModulePath, addSymbolToNgModuleMetadata } from '@angular/cdk/schematics';
+import { InsertChange } from '@schematics/angular/utility/change';
+import { getTsSourceFile, addImport } from '../utils/ast';
 
 const hammerjsImportStatement = `import 'hammerjs';`;
 
@@ -15,8 +17,9 @@ export function addHammerJsToMain(options: Schema): Rule {
     const workspace = getWorkspace(host);
     const project = getProjectFromWorkspace(workspace, options.project);
     const mainFile = getProjectMainFile(project);
+    const modulePath = getAppModulePath(host, mainFile);
 
-    const recorder = host.beginUpdate(mainFile);
+    let recorder = host.beginUpdate(mainFile);
     const buffer = host.read(mainFile);
 
     if (!buffer) {
@@ -32,5 +35,21 @@ export function addHammerJsToMain(options: Schema): Rule {
 
     recorder.insertRight(0, `${hammerjsImportStatement}\n`);
     host.commitUpdate(recorder);
+
+
+    addImport(host, modulePath, ['LyHammerGestureConfig'], '@alyle/ui');
+    addImport(host, modulePath, ['HAMMER_GESTURE_CONFIG'], '@angular/platform-browser');
+
+    const moduleSource = getTsSourceFile(host, modulePath);
+    const themeSimbolName = `{ provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }`;
+    const metadataChanges = addSymbolToNgModuleMetadata(
+      moduleSource, modulePath, 'providers', themeSimbolName);
+    if (metadataChanges) {
+      recorder = host.beginUpdate(modulePath);
+      metadataChanges.forEach((change: InsertChange) => {
+        recorder.insertRight(change.pos, change.toAdd);
+      });
+      host.commitUpdate(recorder);
+    }
   };
 }

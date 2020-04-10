@@ -42,7 +42,6 @@ test(`should update package.json from CLI ng-add command`, async t => {
   t.truthy(dependencies[`@alyle/ui`]);
   t.truthy(dependencies[`@angular/cdk`]);
   t.truthy(dependencies[`hammerjs`]);
-  t.log(tree.readContent('/package.json'));
 });
 
 test(`ng-add-setup-project with default options`, async t => {
@@ -61,9 +60,10 @@ test(`ng-add-setup-project with default options`, async t => {
   t.is(appComponent.match(/StyleRenderer/g)?.length, 3);
   t.true(appComponent.includes('readonly sRenderer: StyleRenderer'));
   t.true(appComponent.includes('readonly classes = this.sRenderer.renderSheet(STYLES, true)'));
+  t.true(appModule.includes(`{ provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }`));
 
   t.true(main.includes(`import 'hammerjs';`));
-  t.log(main);
+  t.log(tree.readContent('/projects/Alyle/src/app/app.module.ts'));
 });
 
 test(`ng-add-setup-project with two themes`, async t => {
@@ -83,7 +83,10 @@ test(`ng-add-setup-project without gestures`, async t => {
     gestures: false
   } as Schema, appTree).toPromise();
 
+  const appModule = tree.readContent('/projects/Alyle/src/app/app.module.ts');
   const main = tree.readContent('/projects/Alyle/src/app/app.module.ts');
-  t.true(!main.includes(`import 'hammerjs';`));
+
+  t.false(main.includes(`import 'hammerjs';`));
+  t.false(appModule.includes(`{ provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }`));
 });
 
