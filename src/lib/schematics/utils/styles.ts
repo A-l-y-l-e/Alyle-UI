@@ -1,11 +1,20 @@
 import * as ts from 'typescript';
 import { Tree, SchematicsException, SchematicContext } from '@angular-devkit/schematics';
-import { addImport, getTsSourceFile, prettierConstructorParameters } from '../utils/ast';
+import { addImport, getTsSourceFile, prettierConstructorParameters, addProvider } from '../utils/ast';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 import { getAppComponentPath } from './get-app-component-path';
 
+const STYLES = `\n\nconst STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
+  return {
+    root: lyl \`{
+      display: block
+    }\`
+  };
+};`;
+
 /** Adds the styles to the src/app/app.component.ts file. */
-export function setUpStyles(options: any, filePath?: string, content?: string) {
+export function setUpStyles(options: any, filePath?: string, decorator = 'Component', content = STYLES) {
   return (host: Tree, _context: SchematicContext) => {
     if (!filePath) {
       filePath = getAppComponentPath(host, options);
@@ -18,7 +27,8 @@ export function setUpStyles(options: any, filePath?: string, content?: string) {
     }
 
     // add import style
-    addImport(host, filePath, ['LyTheme2', 'ThemeVariables'], '@alyle/ui');
+    addImport(host, filePath, ['ThemeVariables', 'ThemeRef'], '@alyle/ui');
+    addProvider(host, filePath, decorator, 'StyleRenderer', '@alyle/ui');
 
     let component = getComponentOrDirective(host, filePath);
     const componentStartPos = component.decorators![0].pos;
@@ -34,8 +44,8 @@ export function setUpStyles(options: any, filePath?: string, content?: string) {
       .some(prop => (prop.kind === ts.SyntaxKind.Constructor) && !!(prop as ts.ConstructorDeclaration).body);
     let constructor: ts.ConstructorDeclaration;
     let __recorder = host.beginUpdate(filePath);
-    const propertyValue = `\n  readonly classes = this.theme.addStyleSheet(STYLES);\n`;
-    const constructorCall = `  constructor(\n    private theme: LyTheme2\n  ) { }\n`;
+    const propertyValue = `\n  readonly classes = this.sRenderer.renderSheet(STYLES, true);\n`;
+    const constructorCall = `  constructor(\n    readonly sRendeder: StyleRenderer\n  ) { }\n`;
     const OpenBraceTokenPos = findNodes(component, ts.SyntaxKind.OpenBraceToken)
     .filter(prop => prop.parent === component).map(prop => prop.end)[0];
 
@@ -53,9 +63,9 @@ export function setUpStyles(options: any, filePath?: string, content?: string) {
       .filter(prop => prop.parent === constructor).map(prop => prop.end)[0];
 
       if (constructor.parameters.length) {
-        __recorder.insertLeft(pos, `\n    private theme: LyTheme2,\n  `);
+        __recorder.insertLeft(pos, `\n    readonly sRenderer: StyleRenderer,\n  `);
       } else {
-        __recorder.insertLeft(pos, `\n    private theme: LyTheme2\n  `);
+        __recorder.insertLeft(pos, `\n    readonly sRenderer: StyleRenderer\n  `);
       }
     } else if (component.members.length) {
       const latestPropertyDeclarationEnd = component.members

@@ -10,7 +10,7 @@ function updateFiles(options): Rule {
     host.overwrite(directivePath, buffer.replace(/\,?\n  styles: \[\]/, ''));
 
     return chain([
-      setUpStyles(options, directivePath)
+      setUpStyles(options, directivePath, 'Directive')
     ]);
   };
 }

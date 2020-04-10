@@ -62,7 +62,7 @@ function updateAppModule(options: Schema) {
     }
 
     // add import theme
-    ['LyThemeModule', 'LY_THEME'].forEach((_import) => {
+    ['LyThemeModule', 'LY_THEME', 'LY_THEME_NAME'].forEach((_import) => {
       moduleSource = getTsSourceFile(host, modulePath);
       importModule = _import;
       importPath = '@alyle/ui';
@@ -149,23 +149,29 @@ function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
   return source;
 }
 
+const STYLES = `\n\nconst STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
+  return {
+    $global: lyl \`{
+      body {
+        background-color: \${theme.background.default}
+        color: \${theme.text.default}
+        font-family: \${theme.typography.fontFamily}
+        margin: 0
+        direction: \${theme.direction}
+      }
+    }\`,
+    root: lyl \`{
+      display: block
+    }\`
+  };
+};`;
 
 export default function (options: Schema): Rule {
-  const STYLES = `\n\nconst STYLES = (theme: ThemeVariables) => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.background.default,
-      color: theme.text.default,
-      fontFamily: theme.typography.fontFamily,
-      margin: 0,
-      direction: theme.direction
-    }
-  }
-});`;
   return chain([
     addHammerJsToMain(options),
     updateAppModule(options),
     addFontsToIndex(options),
-    setUpStyles(options, null!, STYLES),
+    setUpStyles(options, null!, null!, STYLES),
   ]);
 }

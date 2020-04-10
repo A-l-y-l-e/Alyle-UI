@@ -53,7 +53,9 @@ test(`ng-add-setup-project with default options`, async t => {
   t.is(appModuleContent.match(/BrowserAnimationsModule/g)?.length, 2);
   t.is(appModuleContent.match(/HammerModule/g)?.length, 2);
   t.is(appModuleContent.match(/MinimaLight/g)?.length, 2);
-  t.log(tree.readContent('/projects/Alyle/src/app/app.module.ts'));
+  t.is(appModuleContent.match(/LY_THEME/g)?.length, 4);
+  t.is(appModuleContent.match(/LY_THEME_NAME/g)?.length, 2);
+  t.log(tree.readContent('/projects/Alyle/src/app/app.component.ts'));
 });
 
 test(`ng-add-setup-project with two themes`, async t => {
@@ -65,6 +67,5 @@ test(`ng-add-setup-project with two themes`, async t => {
   const appModuleContent = tree.readContent('/projects/Alyle/src/app/app.module.ts');
   t.is(appModuleContent.match(/MinimaLight/g)?.length, 2);
   t.is(appModuleContent.match(/MinimaDeepDark/g)?.length, 2);
-  t.log(tree.readContent('/projects/Alyle/src/app/app.module.ts'));
 });
 
