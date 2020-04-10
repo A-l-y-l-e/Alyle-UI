@@ -27,7 +27,7 @@ export function setUpStyles(options: any, filePath?: string, decorator = 'Compon
     }
 
     // add import style
-    addImport(host, filePath, ['ThemeVariables', 'ThemeRef'], '@alyle/ui');
+    addImport(host, filePath, ['ThemeVariables', 'ThemeRef', 'lyl'], '@alyle/ui');
     addProvider(host, filePath, decorator, 'StyleRenderer', '@alyle/ui');
 
     let component = getComponentOrDirective(host, filePath);
@@ -44,7 +44,7 @@ export function setUpStyles(options: any, filePath?: string, decorator = 'Compon
     let constructor: ts.ConstructorDeclaration;
     let __recorder = host.beginUpdate(filePath);
     const propertyValue = `\n  readonly classes = this.sRenderer.renderSheet(STYLES, true);\n`;
-    const constructorCall = `  constructor(\n    readonly sRendeder: StyleRenderer\n  ) { }\n`;
+    const constructorCall = `  constructor(\n    readonly sRenderer: StyleRenderer\n  ) { }\n`;
     const OpenBraceTokenPos = findNodes(component, ts.SyntaxKind.OpenBraceToken)
     .filter(prop => prop.parent === component).map(prop => prop.end)[0];
 
