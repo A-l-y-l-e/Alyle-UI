@@ -59,7 +59,7 @@ test(`ng-add-setup-project with default options`, async t => {
   t.is(appModule.match(/LY_THEME_NAME/g)?.length, 2);
 
   t.is(appComponent.match(/StyleRenderer/g)?.length, 3);
-  t.true(appComponent.includes('readonly sRendeder: StyleRenderer'));
+  t.true(appComponent.includes('readonly sRenderer: StyleRenderer'));
   t.true(appComponent.includes('readonly classes = this.sRenderer.renderSheet(STYLES, true)'));
 
   t.true(main.includes(`import 'hammerjs';`));
