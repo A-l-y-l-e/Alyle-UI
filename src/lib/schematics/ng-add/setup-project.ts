@@ -21,6 +21,7 @@ import { Schema } from './schema';
 import { addHammerJsToMain } from './gestures';
 import { addFontsToIndex } from './fonts';
 import { setUpStyles } from '../utils/styles';
+import { addProvider } from '../utils/ast';
 
 function updateAppModule(options: Schema) {
   return (host: Tree, _context: SchematicContext) => {
@@ -92,6 +93,14 @@ function updateAppModule(options: Schema) {
 
     // register HammerModule in app module
     addModuleImportToModule(host, modulePath, 'HammerModule', '@angular/platform-browser');
+
+
+    [
+      'StyleRenderer',
+      'LyTheme2'
+    ].forEach(provider => {
+      addProvider(host, modulePath, 'NgModule', provider, '@alyle/ui');
+    });
 
     // set theme
     moduleSource = getTsSourceFile(host, modulePath);
