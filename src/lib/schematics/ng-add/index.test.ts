@@ -48,14 +48,22 @@ test(`should update package.json from CLI ng-add command`, async t => {
 test(`ng-add-setup-project with default options`, async t => {
   const { appTree, runner } = t.context;
   const tree = await runner.runSchematicAsync('ng-add-setup-project', { }, appTree).toPromise();
-  const appModuleContent = tree.readContent('/projects/Alyle/src/app/app.module.ts');
+  const appModule = tree.readContent('/projects/Alyle/src/app/app.module.ts');
+  const appComponent = tree.readContent('/projects/Alyle/src/app/app.component.ts');
+  const main = tree.readContent('/projects/Alyle/src/main.ts');
 
-  t.is(appModuleContent.match(/BrowserAnimationsModule/g)?.length, 2);
-  t.is(appModuleContent.match(/HammerModule/g)?.length, 2);
-  t.is(appModuleContent.match(/MinimaLight/g)?.length, 2);
-  t.is(appModuleContent.match(/LY_THEME/g)?.length, 4);
-  t.is(appModuleContent.match(/LY_THEME_NAME/g)?.length, 2);
-  t.log(tree.readContent('/projects/Alyle/src/app/app.component.ts'));
+  t.is(appModule.match(/BrowserAnimationsModule/g)?.length, 2);
+  t.is(appModule.match(/HammerModule/g)?.length, 2);
+  t.is(appModule.match(/MinimaLight/g)?.length, 2);
+  t.is(appModule.match(/LY_THEME/g)?.length, 4);
+  t.is(appModule.match(/LY_THEME_NAME/g)?.length, 2);
+
+  t.is(appComponent.match(/StyleRenderer/g)?.length, 3);
+  t.true(appComponent.includes('readonly sRendeder: StyleRenderer'));
+  t.true(appComponent.includes('readonly classes = this.sRenderer.renderSheet(STYLES, true)'));
+
+  t.true(main.includes(`import 'hammerjs';`));
+  t.log(main);
 });
 
 test(`ng-add-setup-project with two themes`, async t => {
@@ -64,8 +72,18 @@ test(`ng-add-setup-project with two themes`, async t => {
     themes: ['minima-light', 'minima-deep-dark']
   } as Schema, appTree).toPromise();
 
-  const appModuleContent = tree.readContent('/projects/Alyle/src/app/app.module.ts');
-  t.is(appModuleContent.match(/MinimaLight/g)?.length, 2);
-  t.is(appModuleContent.match(/MinimaDeepDark/g)?.length, 2);
+  const appModule = tree.readContent('/projects/Alyle/src/app/app.module.ts');
+  t.is(appModule.match(/MinimaLight/g)?.length, 2);
+  t.is(appModule.match(/MinimaDeepDark/g)?.length, 2);
+});
+
+test(`ng-add-setup-project without gestures`, async t => {
+  const { appTree, runner } = t.context;
+  const tree = await runner.runSchematicAsync('ng-add-setup-project', {
+    gestures: false
+  } as Schema, appTree).toPromise();
+
+  const main = tree.readContent('/projects/Alyle/src/app/app.module.ts');
+  t.true(!main.includes(`import 'hammerjs';`));
 });
 

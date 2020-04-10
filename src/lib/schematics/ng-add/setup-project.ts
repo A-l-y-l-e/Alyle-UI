@@ -172,6 +172,6 @@ export default function (options: Schema): Rule {
     addHammerJsToMain(options),
     updateAppModule(options),
     addFontsToIndex(options),
-    setUpStyles(options, null!, null!, STYLES),
+    setUpStyles(options, undefined, undefined, STYLES),
   ]);
 }

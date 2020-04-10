@@ -33,9 +33,8 @@ export function setUpStyles(options: any, filePath?: string, decorator = 'Compon
     let component = getComponentOrDirective(host, filePath);
     const componentStartPos = component.decorators![0].pos;
 
-    const defaultContentStyle = `\n\nconst STYLES = (_theme: ThemeVariables) => ({ });`;
     const recorder = host.beginUpdate(filePath);
-    recorder.insertLeft(componentStartPos, content || defaultContentStyle);
+    recorder.insertLeft(componentStartPos, content);
     host.commitUpdate(recorder);
 
     component = getComponentOrDirective(host, filePath);
