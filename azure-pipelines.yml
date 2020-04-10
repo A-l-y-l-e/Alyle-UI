@@ -38,7 +38,7 @@ jobs:
       yarn global add serve
       yarn tools:prepare-lib
       ./ci/scripts/build-style-compiler.sh
-      node dist/@alyle/ui/style-compiler/main src
+      # node dist/@alyle/ui/style-compiler/main src
       # yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
       yarn build
     displayName: 'Build App'
