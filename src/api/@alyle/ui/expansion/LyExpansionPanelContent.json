@@ -2,5 +2,5 @@
   "pkg": "@alyle/ui/expansion",
   "name": "LyExpansionPanelContent",
   "symbol": "Directive",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\">@<span class=\"tt18 tta3\">Directive</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">&#123;</span>\n    selector<span class=\"tt18 ttae\">:</span> <span class=\"tt18 tt3z\">'ng-template[lyExpansionPanelContent]'</span>\n<span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">)</span>\n<span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">class</span> <span class=\"tt18 ttc8\">LyExpansionPanelContent</span> <span class=\"tt18 ttae\">&#123;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\">@<span class=\"tt18 tta3\">Directive</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">&#123;</span>\n    selector<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 tt3z\">'ng-template[lyExpansionPanelContent]'</span>\n<span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">)</span>\n<span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">class</span> <span class=\"tt18 ttc8\">LyExpansionPanelContent</span> <span class=\"tt18 ttae\">&#123;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
 }

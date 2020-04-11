@@ -2,5 +2,5 @@
   "pkg": "@alyle/ui",
   "name": "RequireParamsStyleUpdater",
   "symbol": "Interface",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">RequireParamsStyleUpdater</span> <span class=\"tt18 ttae\">&#123;</span>\n  _theme<span class=\"tt18 ttae\">:</span> LyTheme2<span class=\"tt18 ttae\">;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">RequireParamsStyleUpdater</span> <span class=\"tt18 ttae\">&#123;</span>\n  _theme<span class=\"tt18 ttb0\">:</span> LyTheme2<span class=\"tt18 ttae\">;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
 }

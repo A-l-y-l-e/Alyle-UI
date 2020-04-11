@@ -205,7 +205,7 @@
       {
         "pkg": "@alyle/ui",
         "name": "getThemeNameForSelectors",
-        "symbol": "Function"
+        "symbol": "Const"
       },
       {
         "pkg": "@alyle/ui",
@@ -441,6 +441,16 @@
         "pkg": "@alyle/ui",
         "name": "LyWithClass",
         "symbol": "Directive"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "MediaQueryArray",
+        "symbol": "Type alias"
+      },
+      {
+        "pkg": "@alyle/ui",
+        "name": "memoize",
+        "symbol": "Function"
       },
       {
         "pkg": "@alyle/ui",
@@ -1684,6 +1694,11 @@
       },
       {
         "pkg": "@alyle/ui/select",
+        "name": "LySelectChange",
+        "symbol": "Class"
+      },
+      {
+        "pkg": "@alyle/ui/select",
         "name": "LySelectModule",
         "symbol": "NgModule"
       },
@@ -1950,22 +1965,22 @@
       {
         "pkg": "@alyle/ui/themes/minima",
         "name": "MinimaBase",
-        "symbol": "Class"
+        "symbol": "Injectable"
       },
       {
         "pkg": "@alyle/ui/themes/minima",
         "name": "MinimaDark",
-        "symbol": "Class"
+        "symbol": "Injectable"
       },
       {
         "pkg": "@alyle/ui/themes/minima",
         "name": "MinimaDeepDark",
-        "symbol": "Class"
+        "symbol": "Injectable"
       },
       {
         "pkg": "@alyle/ui/themes/minima",
         "name": "MinimaLight",
-        "symbol": "Class"
+        "symbol": "Injectable"
       },
       {
         "pkg": "@alyle/ui/themes/minima",

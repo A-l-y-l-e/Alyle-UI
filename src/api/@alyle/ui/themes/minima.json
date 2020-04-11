@@ -42,27 +42,27 @@
       ]
     },
     {
-      "key": "Class",
+      "key": "Injectable",
       "items": [
         {
           "pkg": "@alyle/ui/themes/minima",
           "name": "MinimaBase",
-          "symbol": "Class"
+          "symbol": "Injectable"
         },
         {
           "pkg": "@alyle/ui/themes/minima",
           "name": "MinimaDark",
-          "symbol": "Class"
+          "symbol": "Injectable"
         },
         {
           "pkg": "@alyle/ui/themes/minima",
           "name": "MinimaDeepDark",
-          "symbol": "Class"
+          "symbol": "Injectable"
         },
         {
           "pkg": "@alyle/ui/themes/minima",
           "name": "MinimaLight",
-          "symbol": "Class"
+          "symbol": "Injectable"
         }
       ]
     },

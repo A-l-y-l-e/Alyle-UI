@@ -2,5 +2,5 @@
   "pkg": "@alyle/ui/style-compiler/util",
   "name": "findNode",
   "symbol": "Function",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">function</span> <span class=\"tt18 tta3\">findNode</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 parameter\">node<span class=\"tt18 ttae\">:</span> ts<span class=\"tt18 ttae\">.</span>Node<span class=\"tt18 ttae\">,</span> kind<span class=\"tt18 ttae\">:</span> ts<span class=\"tt18 ttae\">.</span>SyntaxKind</span><span class=\"tt18 ttae\">)</span></code></pre>"
+  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">function</span> <span class=\"tt18 tta3\">findNode</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 parameter\">node<span class=\"tt18 ttb0\">:</span> ts<span class=\"tt18 ttae\">.</span>Node<span class=\"tt18 ttae\">,</span> kind<span class=\"tt18 ttb0\">:</span> ts<span class=\"tt18 ttae\">.</span>SyntaxKind</span><span class=\"tt18 ttae\">)</span></code></pre>"
 }

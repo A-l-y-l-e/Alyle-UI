@@ -35,7 +35,7 @@ const APIList: DocsPackage[] = [];
 
     if (child.children) {
       const pkgName = join('@alyle/ui', getPackageName(child.name));
-      const file = join('src/lib', child.sources![0].fileName);
+      const file = join(child.sources![0].fileName);
 
       let API = APIList.find(api => api.pkg === pkgName);
 
