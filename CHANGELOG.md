@@ -1,3 +1,12 @@
+## [3.2.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.2...3.2.3) (2020-04-11)
+
+
+### Bug Fixes
+
+* **schematics:** fix schematics ([99ee007](https://github.com/A-l-y-l-e/Alyle-UI/commit/99ee0070bc6926499d24d480d496edd203645a0c))
+
+
+
 ## [3.2.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.1...3.2.2) (2020-04-07)
 
 

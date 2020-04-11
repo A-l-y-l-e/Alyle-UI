@@ -1,10 +1,10 @@
 {
   "name": "alyle-ui-srcs",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "license": "MIT",
   "engines": {
     "node": ">=12.13.0 <13.0.0"
-  }, 
+  },
   "scripts": {
     "start": "ng serve --port 1111",
     "build": "yarn prerender && ngsw-config dist/alyle-ui src/ngsw-config.json",
