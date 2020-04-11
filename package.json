@@ -4,10 +4,11 @@
   "license": "MIT",
   "engines": {
     "node": ">=12.13.0 <13.0.0"
-  },
+  }, 
   "scripts": {
     "start": "ng serve --port 1111",
-    "build": "yarn tools:docs-api && yarn prerender && ngsw-config dist/alyle-ui src/ngsw-config.json",
+    "build": "yarn prerender && ngsw-config dist/alyle-ui src/ngsw-config.json",
+    "build:ci": "yarn tools:docs-api && ./ci/scripts/build-style-compiler.sh && node dist/@alyle/ui/style-compiler/main src && yarn prerender && ngsw-config dist/alyle-ui src/ngsw-config.json",
     "build:browser": "ng build alyle-ui --prod",
     "build:server": "ng run alyle-ui:server",
     "serve": "yarn build && firebase serve only hosting",
@@ -17,7 +18,7 @@
     "mv:index.html": "mkdir functions/dist && mv dist/index.html functions/dist/",
     "build:tools": "rm -rf dist/tools && tsc -p tools",
     "w:tools": "rm -rf dist/tools && tsc -p tools -w",
-    "build:@alyle/ui": "yarn ng-packagr -p dist/lib/ng-package.json && yarn build:schematics && ts-node tools/src/build-lib && ts-node tools/src/copy-readme",
+    "build:@alyle/ui": "./ci/scripts/build-docs-artifacts.sh",
     "tools:prepare-lib": "yarn && ts-node tools/src/prepare-lib",
     "tools:bump": "ts-node tools/bump-version && yarn changelog",
     "tools:bump-nightly": "ts-node tools/src/bump-version --nightly",

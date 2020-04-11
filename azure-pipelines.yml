@@ -36,11 +36,9 @@ jobs:
       export MSG=$(ts-node tools/src/commit-msg)
       ts-node tools/*/bump-version.ts
       yarn global add serve
+
       yarn tools:prepare-lib
-      ./ci/scripts/build-style-compiler.sh
-      node dist/@alyle/ui/style-compiler/main src
-      # yarn ng build alyle-ui --aot --output-path dist/alyle-ui-aot
-      yarn build
+      yarn build:ci
     displayName: 'Build App'
   - task: PublishPipelineArtifact@1
     inputs:
@@ -57,7 +55,7 @@ jobs:
       versionSpec: '12.x'
   - bash: |
       set -e
-      ./ci/scripts/build-docs-artifacts.sh
+      yarn build:@alyle/ui
     displayName: build:@alyle/ui
   - script: |
       set -e
