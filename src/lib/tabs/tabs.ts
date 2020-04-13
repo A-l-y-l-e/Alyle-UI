@@ -43,7 +43,6 @@ import {
   Dir,
   LyRippleService,
   LyFocusState,
-  WinResize,
   scrollWithAnimation,
   toBoolean,
   lyl,
@@ -58,6 +57,7 @@ import {
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
 import { Subscription } from 'rxjs';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 
 export interface LyTabTheme {
   /** Styles for Tab Component */
@@ -463,7 +463,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     private renderer: Renderer2,
     private el: ElementRef,
     private cd: ChangeDetectorRef,
-    private _resizeService: WinResize,
+    private _viewportRuler: ViewportRuler,
     readonly sRenderer: StyleRenderer
   ) {
     super(theme);
@@ -507,7 +507,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this.updateStyle(this.tabsRef.nativeElement);
     this._isViewInitLoaded = true;
     if (Platform.isBrowser) {
-      this._tabResizeSub = this._resizeService.resize$.subscribe(() => {
+      this._tabResizeSub = this._viewportRuler.change().subscribe(() => {
         if (this._selectedTab) {
           this._updateIndicator(this._selectedTab);
           this._selectedTab._tabLabel._updateTabScroll();

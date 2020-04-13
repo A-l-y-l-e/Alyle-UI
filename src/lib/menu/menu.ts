@@ -39,6 +39,7 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
+// import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyMenuTheme {
   /** Styles for Menu Component */
@@ -59,8 +60,7 @@ export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) =
   return {
     $priority: STYLE_PRIORITY,
     root: () => (
-      theme.menu
-        && theme.menu.root
+      theme.menu?.root
         && (theme.menu.root instanceof StyleCollection
           ? theme.menu.root.setTransformer(fn => fn(menu)).css
           : theme.menu.root(menu))
@@ -148,6 +148,9 @@ export class LyMenu implements OnInit, AfterViewInit {
     this._hasBackdrop = toBoolean(value);
   }
   private _hasBackdrop: boolean = true;
+
+  // @Input()
+  // set openOnHover(val: string _);
 
   @HostBinding('@menuLeave') menuLeave2;
   @HostListener('@menuLeave.done', ['$event']) endAnimation(e) {

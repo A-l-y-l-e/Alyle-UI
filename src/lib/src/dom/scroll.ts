@@ -4,6 +4,10 @@ import { auditTime, map, share } from 'rxjs/operators';
 import { empty, fromEvent, Observable } from 'rxjs';
 import { Platform } from '../platform/platform';
 
+/**
+ * @deprecated use ScrollDispatcher instead
+ * import { ScrollDispatcher } from '@angular/cdk/scrolling';
+ */
 @Injectable({
   providedIn: 'root'
 })

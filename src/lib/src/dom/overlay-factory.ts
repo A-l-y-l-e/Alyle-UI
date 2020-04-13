@@ -1,12 +1,11 @@
 import { EmbeddedViewRef, ComponentRef, ComponentFactoryResolver, ApplicationRef, TemplateRef, Injector, Type } from '@angular/core';
 import { Subscription, merge } from 'rxjs';
-import { WinScroll } from './scroll';
-import { WinResize } from './resize';
 import { LyOverlayConfig } from './overlay-config';
 import { LyOverlayBackdrop } from './overlay-backdrop';
 import { LyOverlayContainer } from './overlay-container';
 import { createOverlayInjector } from './overlay-injector';
 import { Platform } from '../platform/index';
+import { ScrollDispatcher, ViewportRuler } from '@angular/cdk/scrolling';
 
 export class OverlayFactory<T = any> {
   private _viewRef: EmbeddedViewRef<any>;
@@ -34,8 +33,8 @@ export class OverlayFactory<T = any> {
     private _overlayContainer: LyOverlayContainer,
     _context: any,
     private _injector: Injector,
-    windowScroll: WinScroll,
-    resizeService: WinResize,
+    _scrollDispatcher: ScrollDispatcher,
+    _viewportRuler: ViewportRuler,
     config?: LyOverlayConfig
   ) {
     this._config = config = { ...new LyOverlayConfig(), ...config };
@@ -63,7 +62,7 @@ export class OverlayFactory<T = any> {
         this.onResizeScroll = config.onResizeScroll;
       }
 
-      this._windowSRSub = merge(windowScroll.scroll$, resizeService.resize$).subscribe(() => {
+      this._windowSRSub = merge(_scrollDispatcher.scrolled(0), _viewportRuler.change()).subscribe(() => {
         if (this.onResizeScroll) {
           this.onResizeScroll();
         }

@@ -1,9 +1,8 @@
 import { TemplateRef, Injectable, ApplicationRef, ComponentFactoryResolver, Injector, Type } from '@angular/core';
-import { WinResize } from './resize';
-import { WinScroll } from './scroll';
 import { LyOverlayContainer } from './overlay-container';
 import { OverlayFactory } from './overlay-factory';
 import { LyOverlayConfig } from './overlay-config';
+import { ScrollDispatcher, ViewportRuler } from '@angular/cdk/scrolling';
 
 @Injectable()
 export class LyOverlay {
@@ -13,8 +12,8 @@ export class LyOverlay {
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _appRef: ApplicationRef,
     private _injector: Injector,
-    private _windowScroll: WinScroll,
-    private _resizeService: WinResize
+    private _scrollDispatcher: ScrollDispatcher,
+    private _viewportRuler: ViewportRuler
   ) { }
 
   create<T>(templateOrComponent: Type<T> | TemplateRef<any> | string, context?: any, config?: LyOverlayConfig) {
@@ -25,8 +24,8 @@ export class LyOverlay {
       this._overlayContainer,
       context,
       this._injector,
-      this._windowScroll,
-      this._resizeService,
+      this._scrollDispatcher,
+      this._viewportRuler,
       config
     );
   }

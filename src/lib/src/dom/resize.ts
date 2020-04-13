@@ -5,6 +5,10 @@ import { map, share, auditTime } from 'rxjs/operators';
 
 import { Platform } from '../platform/index';
 
+/**
+ * @deprecated use ViewportRuler instead
+ * import { ViewportRuler } from '@angular/cdk/scrolling';
+ */
 @Injectable({
   providedIn: 'root'
 })

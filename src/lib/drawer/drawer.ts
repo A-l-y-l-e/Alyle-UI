@@ -28,7 +28,6 @@ import {
   XPosition,
   DirPosition,
   YPosition,
-  WinResize,
   Platform,
   lyl,
   StyleRenderer,
@@ -39,6 +38,7 @@ import {
   WithStyles
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 
 export interface LyDrawerTheme {
   /** Styles for Button Component */
@@ -242,7 +242,7 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
     private _el: ElementRef,
     private _drawerContainer: LyDrawerContainer,
     private _vcr: ViewContainerRef,
-    private _winResize: WinResize,
+    private _viewportRuler: ViewportRuler,
     private _cd: ChangeDetectorRef,
     private _zone: NgZone
   ) {
@@ -423,7 +423,7 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     if (Platform.isBrowser) {
-      this._tabResizeSub = this._winResize.resize$.subscribe(() => {
+      this._tabResizeSub = this._viewportRuler.change().subscribe(() => {
         this.ngOnChanges();
       });
     }

@@ -17,7 +17,6 @@ import {
   Placement,
   Platform,
   ThemeVariables,
-  WinScroll,
   XPosition,
   YPosition,
   Positioning,
@@ -27,6 +26,7 @@ import {
   ThemeRef
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 export interface LyTooltipTheme {
   /** Styles for Tooltip Component */
@@ -99,7 +99,7 @@ export class LyTooltip implements OnInit, OnDestroy {
     private _cd: ChangeDetectorRef,
     private _focusState: LyFocusState,
     ngZone: NgZone,
-    scroll: WinScroll
+    scroll: ScrollDispatcher
   ) {
     if (Platform.isBrowser) {
       const element: HTMLElement = _el.nativeElement;
@@ -113,7 +113,7 @@ export class LyTooltip implements OnInit, OnDestroy {
 
       this._listeners.forEach((listener, event) => element.addEventListener(event, listener));
 
-      this._scrollSub = scroll.scroll$.subscribe(() => {
+      this._scrollSub = scroll.scrolled().subscribe(() => {
         if (this._tooltipOverlay) {
           this._scrollVal++;
           if (this._scrollVal > 10) {

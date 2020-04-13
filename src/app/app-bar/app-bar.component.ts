@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { LyTheme2, CoreTheme as ThemeManager, Platform, WinScroll } from '@alyle/ui';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
+import { LyTheme2, CoreTheme as ThemeManager, Platform } from '@alyle/ui';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { AppComponent } from '../app.component';
 import { AUIThemeVariables } from '../app.module';
 import { Ads } from '@shared/ads';
 import { Location } from '@angular/common';
+import { ScrollDispatcher, ViewportRuler } from '@angular/cdk/scrolling';
 
 const styles = (theme: AUIThemeVariables) => ({
   root: {
@@ -71,11 +72,13 @@ export class AppBarComponent implements OnInit, OnDestroy {
     private appComponent: AppComponent,
     public theme: LyTheme2,
     public themeManager: ThemeManager,
-    private winScroll: WinScroll,
+    private _scrollDispatcher: ScrollDispatcher,
     private router: Router,
     private cd: ChangeDetectorRef,
     private _ads: Ads,
-    private _location: Location
+    private _location: Location,
+    private _viewportRuler: ViewportRuler,
+    private _ngZone: NgZone
   ) {
     this.themes = Array.from(themeManager.themes)
       // Themes that are used in multiple themes demo
@@ -100,13 +103,16 @@ export class AppBarComponent implements OnInit, OnDestroy {
       }
     });
     if (Platform.isBrowser) {
-      this.scrollSub = this.winScroll.scroll$.subscribe((val) => {
+      this.scrollSub = this._scrollDispatcher.scrolled().subscribe(() => {
         if (this.router.url === '/' || this.router.url === '') {
-          if (val > 90) {
-            this.setDefaultStyles();
-          } else {
-            this.setForHomeStyles();
-          }
+          const viewportScrollPositionTop = this._viewportRuler.getViewportScrollPosition().top;
+          this._ngZone.run(() => {
+            if (viewportScrollPositionTop > 90) {
+              this.setDefaultStyles();
+            } else {
+              this.setForHomeStyles();
+            }
+          });
         }
       });
     }
