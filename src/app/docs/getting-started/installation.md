@@ -22,7 +22,7 @@ ng add @alyle/ui
 ### Step 1: Install Alyle UI
 
 ```bash
-yarn add @alyle/ui
+yarn add @alyle/ui @angular/cdk
 ```
 
 <p>or</p>
