@@ -9,17 +9,17 @@
   <div #_slide [className]="classes.slide">
     <ng-content></ng-content>
   </div>
-  <div [className]="classes.indicators" *ngIf="lyItems.length !== 1 && hasNavigationIndicators">
-    <ol
+  <ol [className]="classes.indicators" *ngIf="lyItems.length !== 1 && hasNavigationIndicators">
+    <li
       *ngFor="let item of lyItems; index as i"
       [ngClass]="[classes.indicator, selectedIndex == i ? classes.indicatorActive : '']"
       (click)="_select(i)"
     >
-      <li
+      <span
         [class]="classes.indicatorIcon"
-      ></li>
-    </ol>
-  </div>
+      ></span>
+    </li>
+  </ol>
   <div *ngIf="hasNavigationArrows" [ngClass]="[classes.actions, 'left']" (click)="prev()">
     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
   </div>
