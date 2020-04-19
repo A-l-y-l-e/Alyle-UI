@@ -1,3 +1,17 @@
+## [3.2.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.3...3.2.4) (2020-04-19)
+
+
+### Bug Fixes
+
+* use `ScrollDispatcher & ViewportRuler` instead of `WinScroll & WinResize` ([a762567](https://github.com/A-l-y-l-e/Alyle-UI/commit/a7625675c384a7b7c91986938a30481830938b37))
+
+
+### Features
+
+* add `hasNavigationArrows` & `hasNavigationIndicators` option ([488110c](https://github.com/A-l-y-l-e/Alyle-UI/commit/488110ce9ef200ab9b25b8eddd77dd709725b51b))
+
+
+
 ## [3.2.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.2...3.2.3) (2020-04-11)
 
 
