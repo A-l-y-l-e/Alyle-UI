@@ -14,7 +14,7 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl, keyframesUniqueId, StyleCollection, LyClasses, StyleTemplate } from '@alyle/ui';
+import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl, keyframesUniqueId, StyleCollection, LyClasses, StyleTemplate, shadowBuilder, StyleRenderer } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -131,7 +131,7 @@ export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRe
         -webkit-user-drag: initial !important
       }
     }`,
-    carouselIndicators: lyl `{
+    indicators: () => lyl `{
       position: absolute
       bottom: 0
       left: 0
@@ -142,25 +142,29 @@ export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRe
       align-items: center
       justify-content: center
       height: 48px
-      &>div {
-        display: inline-block
-        border-radius: 50%
-        cursor: pointer
-        position: relative
-        padding: .5em
-        outline: none
-      }
-      &>div > span {
-        transition: 300ms cubic-bezier(0.65, 0.05, 0.36, 1)
-        width: 1em
-        height: 1em
-        transform: scale(.5)
-        border-radius: 50%
-        will-change: transform
-        display: block
-        opacity: .65
-      }
-      &>div>span.active {
+    }`,
+    indicator: () => lyl `{
+      display: inline-block
+      border-radius: 50%
+      cursor: pointer
+      position: relative
+      padding: .5em
+      outline: none
+    }`,
+    indicatorIcon: () => lyl `{
+      transition: 300ms cubic-bezier(0.65, 0.05, 0.36, 1)
+      width: 1em
+      height: 1em
+      transform: scale(.5)
+      border-radius: 50%
+      will-change: transform
+      display: block
+      opacity: .65
+      box-shadow: ${shadowBuilder(8, theme.text.default)}
+      background: ${theme.background.primary.default}
+    }`,
+    indicatorActive: () => lyl `{
+      ${carousel.indicatorIcon} {
         transform: scale(1)
         opacity: 1
       }
@@ -200,11 +204,14 @@ export enum CarouselMode {
   host: {
     '(mouseenter)': '_onMouseEnter()',
     '(mouseleave)': '_onMouseLeave()'
-  }
+  },
+  providers: [
+    StyleRenderer
+  ]
 })
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   private _intervalFn: number | null = null;
   @ViewChild('slideContainer') slideContainer: ElementRef;
   @ViewChild('_slide') _slide: ElementRef;
@@ -288,14 +295,31 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     return this._interval;
   }
 
+  @Input()
+  set hasNavigationArrows(val: boolean) {
+    this._hasNavigationArrows = toBoolean(val);
+  }
+  get hasNavigationArrows() {
+    return this._hasNavigationArrows;
+  }
+  private _hasNavigationArrows: boolean = true;
+
+  @Input()
+  set hasNavigationIndicators(val: boolean) {
+    this._hasNavigationIndicators = toBoolean(val);
+  }
+  get hasNavigationIndicators() {
+    return this._hasNavigationIndicators;
+  }
+  private _hasNavigationIndicators: boolean = true;
+
   constructor(
     private _el: ElementRef,
     private _cd: ChangeDetectorRef,
     private _theme: LyTheme2,
-    private _renderer: Renderer2
-  ) {
-    this._renderer.addClass(_el.nativeElement, this.classes.root);
-  }
+    private _renderer: Renderer2,
+    readonly sRenderer: StyleRenderer
+  ) { }
 
   ngOnInit() {
     if (!this.touch) {

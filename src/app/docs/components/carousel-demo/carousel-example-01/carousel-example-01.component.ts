@@ -1,40 +1,45 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { StyleRenderer, lyl } from '@alyle/ui';
 
-const styles = ({
-  carousel: {
-    margin: 'auto',
-    // responsive
-    maxWidth: '540px',
-    height: '50vh',
-    minHeight: '220px',
-    maxHeight: '320px'
-  },
-  carouselItem: {
-    display: 'flex',
-    textAlign: 'center',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    height: '100%',
-    flexDirection: 'column',
-    padding: '1em 1em 48px',
-    boxSizing: 'border-box',
-    color: '#fff',
-    '&:nth-child(3)': {
-      color: '#2b2b2b'
-    }
-  }
-});
+const STYLES = () => {
+  return {
+    carousel: () => lyl `{
+      margin: auto
+      // responsive
+      max-width: 540px
+      height: 50vh
+      min-height: 220px
+      max-height: 320px
+    }`,
+    carouselItem: () => lyl `{
+      display: flex
+      text-align: center
+      justify-content: flex-end
+      align-items: center
+      height: 100%
+      flex-direction: column
+      padding: 1em 1em 48px
+      box-sizing: border-box
+      color: #fff
+      &:nth-child(3) {
+        color: #2b2b2b
+      }
+    }`
+  };
+};
 
 @Component({
   selector: 'carousel-example-01',
   templateUrl: './carousel-example-01.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class CarouselExample01Component {
 
-  readonly classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.sRenderer.renderSheet(STYLES);
   items = [
     {
       title: 'Mountains',
@@ -54,6 +59,6 @@ export class CarouselExample01Component {
   ];
 
   constructor(
-    private theme: LyTheme2
+    private sRenderer: StyleRenderer
   ) { }
 }
