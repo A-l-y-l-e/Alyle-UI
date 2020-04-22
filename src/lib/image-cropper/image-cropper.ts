@@ -104,19 +104,19 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
   };
 };
 /** Image Cropper Config */
-export interface ImgCropperConfig {
+export class ImgCropperConfig {
   /** Cropper area width */
-  width: number;
+  width: number = 250;
   /** Cropper area height */
-  height: number;
+  height: number = 200;
   /** If this is not defined, the new image will be automatically defined. */
   type?: string;
   /** Background color( default: null), if is null in png is transparent but not in jpg. */
   fill?: string | null;
   /** Set anti-aliased( default: true) */
-  antiAliased?: boolean;
+  antiAliased?: boolean = true;
   autoCrop?: boolean;
-  output?: ImgOutput | ImgResolution;
+  output?: ImgOutput | ImgResolution = ImgResolution.Default;
   /**
    * Zoom out until the entire image fits into the cropping area.
    * default: false
@@ -138,7 +138,7 @@ export interface ImgOutput {
 export enum ImgResolution {
   /** Resizing & cropping */
   Default,
-  /** Only cropping */
+  /** Only cropping,  */
   OriginalImage
 }
 
@@ -158,33 +158,40 @@ export interface ImgCropperEvent {
   name: string | null;
   /** Filetype */
   type?: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
   /** Original Image data URL */
   originalDataURL?: string;
-  scale?: number;
+  scale: number;
   /** Current rotation in degrees */
-  rotation?: number;
+  rotation: number;
   /** Size of the image in bytes */
-  size?: number;
+  size: number;
+  /** Offset from the left edge of the image */
+  left: number;
+  /** Offset from the top edge of the image */
+  top: number;
+  /** Offset from the left edge of the image to center of area */
+  xOrigin: number;
+  /** Offset from the left edge of the image to center of area */
+  yOrigin: number;
+  /** @deprecated Use `xOrigin & yOrigin` instead. */
   position?: {
     x: number
     y: number
   };
 }
 
-export interface ImgCropperErrorEvent extends ImgCropperEvent {
+export interface ImgCropperErrorEvent {
+  name: string;
+  /** Size of the image in bytes */
+  size: number;
+  /** Filetype */
+  type: string;
   /** Type of error */
   error: ImgCropperError;
   errorMsg?: string;
 }
-
-const CONFIG_DEFAULT = <ImgCropperConfig>{
-  width: 250,
-  height: 200,
-  output: ImgResolution.Default,
-  antiAliased: true
-};
 
 interface ImgRect {
   x: number;
@@ -239,14 +246,14 @@ export class LyImageCropper implements OnDestroy {
   isCropped: boolean;
 
   @ViewChild('_imgContainer', { static: true }) _imgContainer: ElementRef;
-  @ViewChild('_area') _croppingContainer: ElementRef;
+  @ViewChild('_area') _areaRef: ElementRef;
   @ViewChild('_imgCanvas', { static: true }) _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Input()
   get config(): ImgCropperConfig {
     return this._config;
   }
   set config(val: ImgCropperConfig) {
-    this._config = mergeDeep({}, CONFIG_DEFAULT, val);
+    this._config = mergeDeep({}, new ImgCropperConfig(), val);
     const maxFileSize = this._config.maxFileSize;
     if (maxFileSize) {
       this.maxFileSize = maxFileSize;
@@ -409,7 +416,8 @@ export class LyImageCropper implements OnDestroy {
             name: fileName,
             size: fileSize,
             error: ImgCropperError.Other,
-            errorMsg: 'The File could not be loaded.'
+            errorMsg: 'The File could not be loaded.',
+            type: _img.files![0].type
           };
           this.clean();
           this.error.emit(cropEvent as ImgCropperErrorEvent);
@@ -558,15 +566,15 @@ export class LyImageCropper implements OnDestroy {
     });
   }
 
-  updatePosition(x?: number, y?: number) {
+  updatePosition(xOrigin?: number, yOrigin?: number) {
     const hostRect = this._rootRect();
-    const croppingContainerRect = this._areaCropperRect();
-    if (x === undefined && y === undefined) {
-      x = this._imgRect.xc;
-      y = this._imgRect.yc;
+    const areaRect = this._areaCropperRect();
+    if (xOrigin === undefined && yOrigin === undefined) {
+      xOrigin = this._imgRect.xc;
+      yOrigin = this._imgRect.yc;
     }
-    x = (croppingContainerRect.left - hostRect.left) - (x! - (this.config.width / 2));
-    y = (croppingContainerRect.top - hostRect.top) - (y! - (this.config.height / 2));
+    const x = (areaRect.left - hostRect.left) - (xOrigin! - (this.config.width / 2));
+    const y = (areaRect.top - hostRect.top) - (yOrigin! - (this.config.height / 2));
     this._setStylesForContImg({
       x, y
     });
@@ -649,15 +657,13 @@ export class LyImageCropper implements OnDestroy {
     const fileName = this._fileName;
     const defaultType = this._defaultType;
 
-    const cropEvent: ImgCropperEvent = {
+    const cropEvent = {
       name: fileName,
       type: defaultType,
-      originalDataURL: src
-    };
+      originalDataURL: src,
+      size: fileSize || undefined
+    } as ImgCropperEvent;
 
-    if (fileSize) {
-      cropEvent.size = fileSize;
-    }
     new Observable<void>(observer => {
 
       img.onerror = err => observer.error(err);
@@ -680,8 +686,13 @@ export class LyImageCropper implements OnDestroy {
           );
       },
       () => {
-        (cropEvent as ImgCropperErrorEvent).error = ImgCropperError.Type;
-        this.error.emit(cropEvent as ImgCropperErrorEvent);
+        const error: ImgCropperErrorEvent = {
+          name: fileName!,
+          error: ImgCropperError.Type,
+          type: defaultType!,
+          size: fileSize!
+        };
+        this.error.emit(error);
       }
     );
 
@@ -842,7 +853,7 @@ export class LyImageCropper implements OnDestroy {
    * Resize & crop image
    */
   crop(config?: ImgCropperConfig): ImgCropperEvent {
-    const newConfig = config ? mergeDeep({}, this.config || CONFIG_DEFAULT, config) : this.config;
+    const newConfig = config ? mergeDeep({}, this.config || new ImgCropperConfig(), config) : this.config;
     const cropEvent = this._imgCrop(newConfig);
     this.cd.markForCheck();
     return cropEvent;
@@ -853,10 +864,11 @@ export class LyImageCropper implements OnDestroy {
    */
   private _imgCrop(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
-    const imgRect = this._imgRect!;
+    const areaRect = this._areaCropperRect();
+    const canvaRect = this._canvaRect();
     const scaleFix = this._scal3Fix!;
-    const left = imgRect.xc - (myConfig.width / 2 / scaleFix);
-    const top = imgRect.yc - (myConfig.height / 2 / scaleFix);
+    const left = (areaRect.left - canvaRect.left) / scaleFix;
+    const top = (areaRect.top - canvaRect.top) / scaleFix;
     const config = {
       width: myConfig.width,
       height: myConfig.height
@@ -873,12 +885,12 @@ export class LyImageCropper implements OnDestroy {
     );
     let result = canvasElement;
     const antiAliasedQ = myConfig.antiAliased ? .5 : 1;
-    if (myConfig.output === 0) {
+    if (myConfig.output === ImgResolution.Default) {
       result = this.imageSmoothingQuality(result, config, antiAliasedQ);
     } else if (typeof myConfig.output === 'object') {
       result = this.imageSmoothingQuality(result, myConfig.output, antiAliasedQ);
     }
-    let url;
+    let url: string;
     if (myConfig.type) {
       url = result.toDataURL(`${myConfig.type}`);
     } else {
@@ -891,8 +903,13 @@ export class LyImageCropper implements OnDestroy {
       width: config.width,
       height: config.height,
       originalDataURL: this._originalImgBase64,
-      scale: this._scal3Fix,
+      scale: this._scal3Fix!,
       rotation: this._rotation,
+      left: areaRect.left - canvaRect.left,
+      top: areaRect.top - canvaRect.top,
+      size: this._sizeInBytes!,
+      xOrigin: this._imgRect.xc,
+      yOrigin: this._imgRect.yc,
       position: {
         x: this._imgRect.xc,
         y: this._imgRect.yc
@@ -909,7 +926,11 @@ export class LyImageCropper implements OnDestroy {
   }
 
   private _areaCropperRect(): DOMRect {
-    return this._croppingContainer.nativeElement.getBoundingClientRect() as DOMRect;
+    return this._areaRef.nativeElement.getBoundingClientRect() as DOMRect;
+  }
+
+  private _canvaRect(): DOMRect {
+    return this._imgCanvas.nativeElement.getBoundingClientRect();
   }
 
 }
