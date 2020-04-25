@@ -137,6 +137,9 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
         font-size: .75em
         margin-top: .25em
       }
+      ly-icon {
+        font-size: inherit
+      }
       {
         ...${
           (theme.field
