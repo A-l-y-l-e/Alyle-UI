@@ -51,6 +51,16 @@ export const STYLES = (theme: ThemeVariables) => {
         }
       }
     }`,
+    root: () => lyl `{
+      font-size: ${theme.icon.fontSize}
+      width: 1em
+      position: relative
+      height: 1em
+      display: inline-flex
+      -webkit-box-sizing: content-box
+      -moz-box-sizing: content-box
+      box-sizing: content-box
+    }`,
     loading: lyl `{
       background: ${
         `linear-gradient(270deg, ${
@@ -105,7 +115,7 @@ mixinBg(
   ]
 })
 export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDestroy {
-  readonly classes = this._theme.addStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   private _icon: string;
   private _fontSet: string;
   private _previousFontSet: FontClassOptions;
@@ -208,16 +218,6 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
 
   ngOnInit() {
     this._updateClass();
-    this._theme.addStyle('lyIconRoot', (theme: ThemeVariables) => (
-      `font-size:${theme.icon.fontSize};` +
-      `width:1em;` +
-      `position:relative;` +
-      `height:1em;` +
-      `display:inline-flex;` +
-      `-webkit-box-sizing: content-box;` +
-      `-moz-box-sizing: content-box;` +
-      `box-sizing: content-box;`
-    ), this._el.nativeElement, undefined, STYLE_PRIORITY);
   }
 
   ngOnDestroy() {
