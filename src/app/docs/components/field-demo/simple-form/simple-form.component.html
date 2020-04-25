@@ -16,6 +16,15 @@
   </ly-field>
 
   <ly-field appearance="filled" fullWidth>
+    <textarea lyNativeControl formControlName="bio"></textarea>
+    <ly-label>Bio <ly-icon>favorite</ly-icon></ly-label>
+    <ly-hint>Hint</ly-hint>
+    <ly-hint [align]="'after'">{{ bio.value?.length || 0 }}/256</ly-hint>
+    <ly-error *ngIf="bio.hasError('required')">Required</ly-error>
+    <ly-error *ngIf="bio.hasError('maxlength')">Max 256 characters</ly-error>
+  </ly-field>
+
+  <ly-field appearance="filled" fullWidth>
     <input lyNativeControl
       type="number"
       placeholder="Phone number"
@@ -46,9 +55,17 @@
     <ly-hint>Hint</ly-hint>
     <ly-error>Required</ly-error>
   </ly-field>
+
   <button ly-button
+    [mf]="1"
     bg="primary"
     raised
     type="submit"
   >Submit</button>
+  <button ly-button
+    (click)="profileForm.reset()"
+    bg="primary"
+    raised
+    type="button"
+  >Reset</button>
 </form>

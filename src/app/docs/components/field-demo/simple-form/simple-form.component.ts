@@ -22,6 +22,10 @@ export class SimpleFormComponent {
       Validators.minLength(5),
       Validators.maxLength(16)
     ]),
+    bio: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(256)
+    ]),
     phone: new FormControl('', Validators.required),
     email: new FormControl('', [
       Validators.required, Validators.email
@@ -31,6 +35,10 @@ export class SimpleFormComponent {
 
   get username() {
     return this.profileForm.get('username')!;
+  }
+
+  get bio() {
+    return this.profileForm.get('bio')!;
   }
 
   constructor(private theme: LyTheme2) { }

@@ -47,15 +47,15 @@
       <span class="tt18 tt1j">const</span> config <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
         scale<span class="tt18 ttb0">:</span> <span class="tt18 ttap">0.745864772531767</span><span class="tt18 ttae">,</span>
         position<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
-          x<span class="tt18 ttb0">:</span> <span class="tt18 ttap">642.380608078103</span><span class="tt18 ttae">,</span>
-          y<span class="tt18 ttb0">:</span> <span class="tt18 ttap">236.26357452128866</span>
+          xOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">642.380608078103</span><span class="tt18 ttae">,</span>
+          yOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">236.26357452128866</span>
         <span class="tt18 ttae">&#125;</span>
       <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
       <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">setImageUrl</span><span class="tt18 ttae">(</span>
         <span class="tt18 tt3z">'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash-1.png?alt=media&amp;token=96a29be5-e3ef-4f71-8437-76ac8013372c'</span><span class="tt18 ttae">,</span>
         <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
           <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">setScale</span><span class="tt18 ttae">(</span>config<span class="tt18 ttae">.</span>scale<span class="tt18 ttae">,</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-          <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">updatePosition</span><span class="tt18 ttae">(</span>config<span class="tt18 ttae">.</span>position<span class="tt18 ttae">.</span>x<span class="tt18 ttae">,</span> config<span class="tt18 ttae">.</span>position<span class="tt18 ttae">.</span>y<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+          <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">updatePosition</span><span class="tt18 ttae">(</span>config<span class="tt18 ttae">.</span>position<span class="tt18 ttae">.</span>xOrigin<span class="tt18 ttae">,</span> config<span class="tt18 ttae">.</span>position<span class="tt18 ttae">.</span>yOrigin<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
           <span class="tt18 tt3o">// You can also rotate the image</span>
           <span class="tt18 tt3o">// this.cropper.rotate(90);</span>
         <span class="tt18 ttae">&#125;</span>
