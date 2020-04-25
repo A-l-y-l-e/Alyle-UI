@@ -10,6 +10,8 @@ import { DialogResponsiveModule } from './dialog-responsive/dialog-responsive.mo
 import { FullScreenDialogModule } from './full-screen-dialog/full-screen-dialog.module';
 import { DialogPromptModule } from './dialog-prompt/dialog-prompt.module';
 import { DialogNgTemplateModule } from './dialog-ng-template/dialog-ng-template.module';
+import { DialogWithSelectComponent } from './dialog-with-select/dialog-with-select.component';
+import { DialogWithSelectModule } from './dialog-with-select/dialog-with-select.module';
 
 
 const elements = [
@@ -17,7 +19,8 @@ const elements = [
   DialogResponsiveComponent,
   FullScreenDialogComponent,
   DialogPromptComponent,
-  DialogNgTemplateComponent
+  DialogNgTemplateComponent,
+  DialogWithSelectComponent
 ];
 
 @NgModule({
@@ -26,7 +29,8 @@ const elements = [
     DialogResponsiveModule,
     FullScreenDialogModule,
     DialogPromptModule,
-    DialogNgTemplateModule
+    DialogNgTemplateModule,
+    DialogWithSelectModule
   ],
   entryComponents: elements
 })

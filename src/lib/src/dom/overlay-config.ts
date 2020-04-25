@@ -1,3 +1,5 @@
+import { Injector } from '@angular/core';
+
 export class LyOverlayConfig {
   /** Styles for overlay container */
   styles?: Object;
@@ -11,4 +13,5 @@ export class LyOverlayConfig {
    * Whether the user can click on the backdrop to close the overlay.
    */
   disableClose?: boolean = false;
+  injector?: Injector;
 }

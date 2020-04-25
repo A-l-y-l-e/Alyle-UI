@@ -10,6 +10,8 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> FullScreenDialogModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./full-screen-dialog/full-screen-dialog.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> DialogPromptModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./dialog-prompt/dialog-prompt.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> DialogNgTemplateModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./dialog-ng-template/dialog-ng-template.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> DialogWithSelectComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./dialog-with-select/dialog-with-select.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> DialogWithSelectModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./dialog-with-select/dialog-with-select.module'</span><span class="tt18 ttae">;</span>
 
 
 <span class="tt18 tt1j">const</span> elements <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
@@ -17,7 +19,8 @@
   DialogResponsiveComponent<span class="tt18 ttae">,</span>
   FullScreenDialogComponent<span class="tt18 ttae">,</span>
   DialogPromptComponent<span class="tt18 ttae">,</span>
-  DialogNgTemplateComponent
+  DialogNgTemplateComponent<span class="tt18 ttae">,</span>
+  DialogWithSelectComponent
 <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
@@ -26,7 +29,8 @@
     DialogResponsiveModule<span class="tt18 ttae">,</span>
     FullScreenDialogModule<span class="tt18 ttae">,</span>
     DialogPromptModule<span class="tt18 ttae">,</span>
-    DialogNgTemplateModule
+    DialogNgTemplateModule<span class="tt18 ttae">,</span>
+    DialogWithSelectModule
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   entryComponents<span class="tt18 ttb0">:</span> elements
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>

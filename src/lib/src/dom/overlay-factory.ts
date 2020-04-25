@@ -4,18 +4,16 @@ import { LyOverlayConfig } from './overlay-config';
 import { LyOverlayBackdrop } from './overlay-backdrop';
 import { LyOverlayContainer } from './overlay-container';
 import { createOverlayInjector } from './overlay-injector';
-import { Platform } from '../platform/index';
 import { ScrollDispatcher, ViewportRuler } from '@angular/cdk/scrolling';
 
 export class OverlayFactory<T = any> {
   private _viewRef: EmbeddedViewRef<any>;
   private _el?: HTMLDivElement;
+  private _backdropElement?: Element;
   private _compRef: ComponentRef<T> | null;
   private _compRefOverlayBackdrop?: ComponentRef<any> | null;
   private _windowSRSub: Subscription = Subscription.EMPTY;
 
-  private _paddingRight: string | null;
-  private _config: LyOverlayConfig;
   private _newInjector: Injector;
   /** Function that will be called on scroll or resize event */
   onResizeScroll: (() => void) | null;
@@ -35,9 +33,9 @@ export class OverlayFactory<T = any> {
     private _injector: Injector,
     _scrollDispatcher: ScrollDispatcher,
     _viewportRuler: ViewportRuler,
-    config?: LyOverlayConfig
+    _config?: LyOverlayConfig
   ) {
-    this._config = config = { ...new LyOverlayConfig(), ...config };
+    const config = { ...new LyOverlayConfig(), ..._config };
     this._el = document.createElement('div');
     const __styles = {
       position: 'absolute',
@@ -50,7 +48,7 @@ export class OverlayFactory<T = any> {
       Object.assign(__styles, config.styles);
     }
 
-    const newInjector = this._newInjector = createOverlayInjector(this._injector, {
+    const newInjector = this._newInjector = createOverlayInjector(config.injector || this._injector, {
       fnDestroy: this.destroy.bind(this),
         ...config,
         styles: __styles,
@@ -73,27 +71,28 @@ export class OverlayFactory<T = any> {
         classes.forEach((className) => (this._el as HTMLDivElement).classList.add(className));
       }
     }
-
     this.updateBackdrop(!!config.hasBackdrop);
-
     this._appendComponentToBody(_templateRefOrComponent, _context, newInjector);
-    this._hiddeScroll();
+    this._updateBackdropPosition();
 
   }
 
   updateBackdrop(hasBackdrop: boolean) {
     if (hasBackdrop) {
+      if (this._compRefOverlayBackdrop) {
+        return;
+      }
       this._compRefOverlayBackdrop = this._generateComponent(LyOverlayBackdrop, this._newInjector);
       this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
-      const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
-      this._overlayContainer._add(backdropEl, true);
+      this._backdropElement = this._compRefOverlayBackdrop.location.nativeElement;
+      this._overlayContainer._add(this._backdropElement!);
     } else if (this._compRefOverlayBackdrop) {
-      this._resetScroll();
       this._appRef.detachView(this._compRefOverlayBackdrop.hostView);
-      const backdropEl = this._compRefOverlayBackdrop.location.nativeElement;
-      this._overlayContainer._remove(backdropEl);
+      this._backdropElement = this._compRefOverlayBackdrop.location.nativeElement;
+      this._overlayContainer._remove(this._backdropElement);
       this._compRefOverlayBackdrop = null;
     }
+    this._updateBackdropPosition();
   }
 
   private _updateStyles(__styles: object) {
@@ -119,15 +118,25 @@ export class OverlayFactory<T = any> {
       viewRef.rootNodes.forEach(_ => this._el!.appendChild(_));
 
       // Append DOM element to the body
-      this._overlayContainer._add(this._el);
+      this._overlayContainer._add(this._el!);
     } else if (typeof type === 'string') {
       this._el!.innerText = type;
-      this._overlayContainer._add(this._el);
+      this._overlayContainer._add(this._el!);
     } else {
       this._compRef = this._generateComponent(type, injector);
       this._appRef.attachView(this._compRef.hostView);
       this._el!.appendChild(this._compRef.location.nativeElement);
-      this._overlayContainer._add(this._el);
+      this._overlayContainer._add(this._el!);
+    }
+  }
+
+  private _updateBackdropPosition() {
+    const container = this._overlayContainer.containerElement;
+    if (
+      this._backdropElement?.parentElement === container
+      && this._el?.parentElement === container
+    ) {
+      this._overlayContainer.containerElement.insertBefore(this._backdropElement, this._el);
     }
   }
 
@@ -148,7 +157,6 @@ export class OverlayFactory<T = any> {
 
   /** Remove element of DOM */
   remove() {
-    this._resetScroll();
     if (this._viewRef) {
       this._viewRef.destroy();
       this._overlayContainer._remove(this._el);
@@ -171,28 +179,5 @@ export class OverlayFactory<T = any> {
   destroy() {
     this.detach();
     this.remove();
-  }
-
-  private _hiddeScroll() {
-    if (Platform.isBrowser && this._config.hasBackdrop && this._overlayContainer.overlayLen) {
-      const scrollWidth = window.innerWidth - window.document.body.clientWidth;
-      if (scrollWidth) {
-        const computedStyle = getComputedStyle(window.document.body);
-
-        this._paddingRight = computedStyle.getPropertyValue('padding-right');
-        window.document.body.style.paddingRight = `calc(${scrollWidth}px + ${this._paddingRight})`;
-
-      }
-      window.document.body.style.overflow = 'hidden';
-    }
-  }
-  private _resetScroll() {
-    if (Platform.isBrowser && this._config.hasBackdrop && this._overlayContainer.overlayLen) {
-      if (this._paddingRight) {
-        window.document.body.style.paddingRight = this._paddingRight;
-        this._paddingRight = null;
-      }
-      window.document.body.style.overflow = '';
-    }
   }
 }

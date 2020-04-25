@@ -44,3 +44,11 @@ The <code class="ts">LyDialog</code> service can be used to open modal dialogs.
 >
   <aui-dialog-ng-template></aui-dialog-ng-template>
 </demo-view>
+
+<h2 [lyTyp]="'display1'" gutter>Dialog With Select</h2>
+<demo-view
+  path="docs/components/dialog-demo/dialog-with-select"
+  extra-paths="dialog-with-select-dialog.ts,dialog-with-select-dialog.html"
+>
+  <aui-dialog-with-select></aui-dialog-with-select>
+</demo-view>
