@@ -1,3 +1,20 @@
+## [3.2.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.4...3.2.5) (2020-04-28)
+
+
+### Bug Fixes
+
+* **field:** add styles for `ly-icon` ([45e37bb](https://github.com/A-l-y-l-e/Alyle-UI/commit/45e37bb9ac444da7942f6e3b70c681c206b0f9e9))
+* **icon:** fix root style ([186f2e6](https://github.com/A-l-y-l-e/Alyle-UI/commit/186f2e6e8459d862945743a1667602cd41df9abf))
+* fix dialog with select ([1b75ebb](https://github.com/A-l-y-l-e/Alyle-UI/commit/1b75ebb859a83f9f8e05c998755b7e127b45f732))
+* rename `x` to `XOrigin` ([71ca4cd](https://github.com/A-l-y-l-e/Alyle-UI/commit/71ca4cd3a504af4854c138bec82bfe2fe8e253d7))
+
+
+### Features
+
+* add `left` and `top` to result ([2d0211f](https://github.com/A-l-y-l-e/Alyle-UI/commit/2d0211f5ea46ef4e22776b3323d8092e0887c396))
+
+
+
 ## [3.2.4](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.3...3.2.4) (2020-04-19)
 
 
