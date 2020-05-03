@@ -17,6 +17,9 @@ export type Placement = XPosition | YPosition;
 
 const INITIAL_V = 'initial';
 
+/**
+ * @depracated Use `OverlayPosition` instead.
+ */
 export class Positioning {
   private _offsetCheck = 16;
   private readonly _originRect = this.origin.getBoundingClientRect() as DOMRect;
@@ -25,7 +28,9 @@ export class Positioning {
   y: number;
   ax: number;
   ay: number;
+  /** Origin X */
   ox: string;
+  /** Origin Y */
   oy: string;
   width: string = INITIAL_V;
   height: string = INITIAL_V;
@@ -116,14 +121,14 @@ export class Positioning {
     if (this.xPosition && this.yPosition) {
       throw new Error(`You can not use \`xPosition\` and \`yPosition\` together, use only one of them.`);
     }
-    if ((this.xPosition || this.yPosition) && !this.placement) {
-      throw new Error(`\`placement\` is required.`);
-    }
+    // if ((this.xPosition || this.yPosition) && !this.placement) {
+    //   throw new Error(`\`placement\` is required.`);
+    // }
     let x = this._originRect.x,
         y = this._originRect.y,
         ox = 'center',
         oy = 'center';
-    if (this.placement) {
+    // if (this.placement) {
       if (this.placement === YPosition.above) {
         x += (this._originRect.width - this._overlayElementRect.width) / 2;
         y += -this._overlayElementRect.height;
@@ -174,20 +179,20 @@ export class Positioning {
         }
       } else if (this.yPosition) {
         if (this.yPosition === YPosition.above) {
-          y = this._originRect.y;
-          oy = '0%';
-
-          // set offset
-          y -= this.offsetY;
-        } else if (this.yPosition === YPosition.below) {
           y = this._originRect.y + this._originRect.height - this._overlayElementRect.height;
           oy = '100%';
 
           // set offset
           y += this.offsetY;
+        } else if (this.yPosition === YPosition.below) {
+          y = this._originRect.y;
+          oy = '0%';
+
+          // set offset
+          y -= this.offsetY;
         }
       }
-    }
+    // }
     this.x = x;
     this.y = y;
     this.ax = x;

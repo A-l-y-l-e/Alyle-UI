@@ -1,0 +1,54 @@
+<button ly-button [openOnHover]="openOnHover" [lyMenuTriggerFor]="_myMenu">
+  I'm a button
+</button>
+
+<ng-template #_myMenu let-M>
+  <ly-menu
+    [ref]="M"
+    [hasBackdrop]="hasBackdrop"
+    [xAnchor]="xAnchor"
+    [yAnchor]="yAnchor"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+  >
+    <button ly-button ly-menu-item *ngFor="let item of [0, 0, 0, 0]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>
+
+<div>
+  <ly-checkbox [(ngModel)]="hasBackdrop">hasBackdrop</ly-checkbox>
+  <ly-checkbox [(ngModel)]="openOnHover">openOnHover</ly-checkbox>
+</div>
+
+<div>
+  <ly-radio-group [(ngModel)]="xAnchor">
+    <label lyTyp="subheading" gutterBottom>xAnchor: </label>
+    <ly-radio value="before">before</ly-radio>
+    <ly-radio value="after">after</ly-radio>
+  </ly-radio-group>
+</div>
+<div>
+  <ly-radio-group [(ngModel)]="yAnchor">
+    <label lyTyp="subheading" gutterBottom>yAnchor: </label>
+    <ly-radio value="above">above</ly-radio>
+    <ly-radio value="below">below</ly-radio>
+  </ly-radio-group>
+</div>
+
+<div>
+  <ly-radio-group [(ngModel)]="xAxis">
+    <label lyTyp="subheading" gutterBottom>xAxis: </label>
+    <ly-radio value="before">before</ly-radio>
+    <ly-radio value="after">after</ly-radio>
+  </ly-radio-group>
+</div>
+
+<div>
+  <ly-radio-group [(ngModel)]="yAxis">
+    <label lyTyp="subheading" gutterBottom>yAxis: </label>
+    <ly-radio value="above">above</ly-radio>
+    <ly-radio value="below">below</ly-radio>
+  </ly-radio-group>
+</div>
