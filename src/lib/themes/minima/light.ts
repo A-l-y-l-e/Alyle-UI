@@ -1,9 +1,10 @@
 import { ThemeConfig, shadowBuilder, lyl, StyleCollection, mergeThemes } from '@alyle/ui';
-import { Color } from '@alyle/ui/color';
+import { Color, color } from '@alyle/ui/color';
 import { MinimaBase } from './base';
 import { LyFieldTheme } from '@alyle/ui/field';
 import { LyTooltipTheme } from '@alyle/ui/tooltip';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
+import { LyMenuTheme } from '@alyle/ui/menu';
 import { Injectable } from '@angular/core';
 
 const contrast = new Color(0xffffff);
@@ -95,5 +96,15 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       background: ${new Color(50, 50, 50, 0.85)}
       color: ${new Color(0xffffff)}
     }`)
+  };
+
+  menu: LyMenuTheme = {
+    root: new StyleCollection(
+      __ => lyl `{
+        ${__.itemSubMenuTrigger}:after {
+          color: ${color(0, 0, 0, 0.54)}
+        }
+      }`
+    )
   };
 }

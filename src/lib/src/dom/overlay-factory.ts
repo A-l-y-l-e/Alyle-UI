@@ -18,6 +18,10 @@ export class OverlayFactory<T = any> {
   /** Function that will be called on scroll or resize event */
   onResizeScroll: (() => void) | null;
 
+  get injector(): Injector | undefined {
+    return this._newInjector;
+  }
+
   get containerElement() {
     return this._el as HTMLDivElement;
   }

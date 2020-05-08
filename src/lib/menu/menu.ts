@@ -3,7 +3,6 @@ import {
   Component,
   Directive,
   ElementRef,
-  HostBinding,
   HostListener,
   Input,
   OnDestroy,
@@ -14,7 +13,11 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  OnChanges
+  OnChanges,
+  ContentChildren,
+  forwardRef,
+  QueryList,
+  HostBinding
   } from '@angular/core';
 import {
   LyOverlay,
@@ -31,19 +34,21 @@ import {
   StyleTemplate,
   lyl,
   ThemeRef,
-  LyOverlayPosition
+  LyOverlayPosition,
+  StyleRenderer
   } from '@alyle/ui';
 import {
   trigger,
   style,
   animate,
   transition,
-  keyframes,
-  AnimationEvent
+  AnimationEvent,
+  group
 } from '@angular/animations';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Subject } from 'rxjs';
 import { ViewportRuler } from '@angular/cdk/scrolling';
+import { Subject, asapScheduler } from 'rxjs';
+import { take, delay } from 'rxjs/operators';
 
 export interface LyMenuTheme {
   /** Styles for Menu Component */
@@ -59,6 +64,7 @@ const STYLE_PRIORITY = -1;
 
 export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) => {
   const menu = ref.selectorsOf(STYLES);
+  const { after } = theme;
   return {
     $priority: STYLE_PRIORITY,
     root: () => (
@@ -87,27 +93,41 @@ export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) =
       border-radius: 0
       width: 100%
       justify-content: flex-start
+    }`,
+    itemSubMenuTrigger: () => lyl `{
+      padding-${after}: 32px
+      &::after {
+        width: 0
+        height: 0
+        border-style: solid
+        border-width: 5px 0 5px 5px
+        border-color: transparent transparent transparent currentColor
+        content: ""
+        display: inline-block
+        position: absolute
+        top: 50%
+        ${after}: 16px
+        transform: translateY(-50%)
+      }
     }`
   };
 };
 
 const ANIMATIONS = [
-  trigger('menuEnter', [
-    transition('void => in', [
-      animate('125ms cubic-bezier(0, 0, 0.2, 1)', keyframes([
-        style({
-          opacity: 0,
-          transform: 'scale(0.8)'
-        }),
-        style({
-          opacity: 1,
-          transform: 'scale(1)'
-        })
-      ]))
-    ]),
+  trigger('transformMenu', [
+    transition('void => enter', group([
+      style({
+        opacity: 0,
+        transform: 'scale(0.8)'
+      }),
+      animate('100ms linear', style({
+        opacity: 1
+      })),
+      animate('120ms cubic-bezier(0, 0, 0.2, 1)', style({transform: 'scale(1)'})),
+    ]))
   ]),
-  trigger('menuLeave', [
-    transition('* => void', animate('150ms linear', style({ opacity: 0 })))
+  trigger('transformMenuLeave', [
+    transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 })))
   ])
 ];
 
@@ -124,14 +144,35 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
    * @docs-private
    */
   readonly classes = this._theme.renderStyleSheet(STYLES);
+
+  /** Whether the menu is animating. */
+  _isAnimating: boolean;
+
+  /** Whether the menu is destroying. */
+  _isDestroying: boolean;
+
+  /** Emits whenever an animation on the menu completes. */
+  _animationDone = new Subject<AnimationEvent>();
+
+  private _menuRef: OverlayFactory<any>;
   /**
    * Destroy menu
    * @docs-private
    */
   destroy: () => void;
   @ViewChild('container') _container?: ElementRef<HTMLDivElement>;
+  @ContentChildren(forwardRef(() => LyMenuItem)) readonly menuItems?: QueryList<LyMenuItem>;
 
-  @Input() ref: LyMenuTriggerFor;
+  /** Menu Trigger */
+  @Input()
+  set ref(value: LyMenuTriggerFor) {
+    this._ref = value;
+    this._menuRef = value._menuRef!;
+  }
+  get ref() {
+    return this._ref;
+  }
+  private _ref: LyMenuTriggerFor;
 
   /** The point in the anchor where the menu `xAxis` will be attached. */
   @Input() xAnchor: XPosition;
@@ -174,13 +215,6 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
   }
   private _hasBackdrop: boolean = true;
 
-  @HostBinding('@menuLeave') menuLeave2;
-  @HostListener('@menuLeave.done', ['$event']) endAnimation(e: AnimationEvent) {
-    if (e.toState === 'void') {
-      this.ref.destroy();
-    }
-  }
-
   constructor(
     private _theme: LyTheme2,
     private _el: ElementRef,
@@ -192,7 +226,7 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
 
   ngOnChanges() {
     if (this.ref?._menuRef && this._container) {
-      this.ref._menuRef.updateBackdrop(this.hasBackdrop);
+      this.ref._menuRef.updateBackdrop(this.ref._isItemSubMenuTrigger() ? false : this.hasBackdrop);
       this._updatePlacement();
     }
   }
@@ -201,16 +235,12 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
     if (!this.ref) {
       throw new Error('LyMenu: require @Input() ref');
     }
-    // if (!this.placement && !this.xPosition && !this.yPosition) {
-    //   this.xPosition = DEFAULT_XPOSITION;
-    //   this.placement = DEFAULT_PLACEMENT;
-    // }
   }
 
   ngAfterViewInit() {
     if (this.ref._menuRef) {
       this.ref._menuRef.onResizeScroll = this._updatePlacement.bind(this);
-      this.ref._menuRef.updateBackdrop(this.hasBackdrop);
+      this.ref._menuRef.updateBackdrop(this.ref._isItemSubMenuTrigger() ? false : this.hasBackdrop);
     }
     this._updatePlacement();
     this.ref.menuOpened.emit();
@@ -229,13 +259,19 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
 
     const position = this.placement
       ? new Positioning(this.placement, this.xPosition, this.yPosition, this.ref._getHostElement(), el, this._theme.variables)
-      : new LyOverlayPosition(this._theme, this._viewportRuler, this.ref._getHostElement(), el)
-        .setXAnchor(this.xAnchor)
-        .setYAnchor(this.yAnchor)
-        .setXAxis(this.xAxis)
-        .setYAxis(this.yAxis)
-        .setFlip(true)
-        .build();
+      : !this.ref._isItemSubMenuTrigger()
+        ? new LyOverlayPosition(this._theme, this._viewportRuler, this.ref._getHostElement(), el)
+          .setXAnchor(this.xAnchor)
+          .setYAnchor(this.yAnchor)
+          .setXAxis(this.xAxis)
+          .setYAxis(this.yAxis)
+          .setFlip(true)
+          .build()
+        : new LyOverlayPosition(this._theme, this._viewportRuler, this.ref._getHostElement(), el)
+          .setXAnchor(XPosition.after)
+          .setYAnchor(YPosition.above)
+          .setFlip(true)
+          .build();
 
     if (position instanceof Positioning) {
       // set position deprecated
@@ -256,18 +292,34 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
 
   }
 
+  @HostBinding('@transformMenuLeave') transformMenuLeave: unknown;
+  @HostListener('@transformMenuLeave.start', ['$event']) _onAnimationStart(event: AnimationEvent) {
+    this._isAnimating = true;
+    if (event.triggerName === 'transformMenuLeave' && event.toState === 'void') {
+      this._isDestroying = true;
+    }
+  }
+  @HostListener('@transformMenuLeave.done', ['$event']) _onAnimationDone(event: AnimationEvent) {
+    this._animationDone.next(event);
+    this._isAnimating = false;
+    if (event.toState === 'void' && event.triggerName === 'transformMenuLeave') {
+      this.ref.destroy(this._menuRef);
+    }
+  }
+
+
   static ngAcceptInputType_hasBackdrop: BooleanInput;
 }
 
 @Directive({
-  selector: '[ly-menu-item]'
+  selector: '[ly-menu-item]',
+  host: {
+    '(click)': '_handleClick()',
+    '(mouseenter)': '_handleMouseEnter()'
+  }
 })
 export class LyMenuItem {
-  @HostListener('click') _click() {
-    if (this._menu.ref && this._menu.ref._menuRef) {
-      this._menu.ref.closeMenu();
-    }
-  }
+
   constructor(
     @Optional() private _menu: LyMenu,
     el: ElementRef,
@@ -275,25 +327,74 @@ export class LyMenuItem {
   ) {
     renderer.addClass(el.nativeElement, _menu.classes.item);
   }
+
+  _handleClick() {
+    if (this._menu.ref && this._menu.ref._menuRef) {
+      if (!this._getItemSubMenuTrigger()) {
+        let currentTrigger = this._menu.ref;
+        while (currentTrigger) {
+          currentTrigger.closeMenu();
+          currentTrigger = currentTrigger._menu?.ref;
+        }
+      }
+    }
+  }
+
+  _handleMouseEnter() {
+    const itemSubMenuTrigger = this._getItemSubMenuTrigger();
+    if (itemSubMenuTrigger && !this._menu._isDestroying) {
+      if (this._menu._isAnimating) {
+        this._menu._animationDone
+        .pipe(take(1), delay(0, asapScheduler))
+        .subscribe(() => {
+          itemSubMenuTrigger.openMenu();
+          this._closeOtherMenus();
+        });
+      } else {
+        itemSubMenuTrigger.openMenu();
+        this._closeOtherMenus();
+      }
+    } else {
+      this._closeOtherMenus();
+    }
+  }
+
+  /** Except for this, close all menus */
+  private _closeOtherMenus() {
+    this._menu.menuItems!.forEach(menuItem => {
+      if (menuItem !== this) {
+        menuItem._getItemSubMenuTrigger()?.closeMenu();
+      }
+    });
+  }
+
+  _setItemSubMenuTrigger(menuTrigger: LyMenuTriggerFor) {
+    this._itemSubMenuTrigger = menuTrigger;
+  }
+  _getItemSubMenuTrigger() {
+    return this._itemSubMenuTrigger;
+  }
+  private _itemSubMenuTrigger?: LyMenuTriggerFor;
 }
+
 
 @Directive({
   selector: '[lyMenuTriggerFor]',
   host: {
-    '(click)': '_handleClick()',
-    '(mouseenter)': '_handleMouseEnter()',
-    '(mouseleave)': '_handleMouseLeave()'
+    '(click)': '_handleClick()'
   },
-  exportAs: 'lyMenuTriggerFor'
+  exportAs: 'lyMenuTriggerFor',
+  providers: [
+    StyleRenderer
+  ]
 })
 export class LyMenuTriggerFor implements OnDestroy {
+  readonly classes = this.sRenderer.renderSheet(STYLES);
+
   /** Current menuRef */
   _menuRef?: OverlayFactory | null;
   private _menuOpen = false;
   private _destroying: boolean;
-
-  /** Stream that emits when the menu item is hovered. */
-  readonly _hovered: Subject<boolean> = new Subject<boolean>();
 
   /** Whether the menu is open. */
   get menuOpen() {
@@ -312,13 +413,24 @@ export class LyMenuTriggerFor implements OnDestroy {
   }
   private _openOnHover: boolean = true;
 
+  /** Data to be passed to the menu. */
+  @Input('lyMenuTriggerData') menuData: any;
+
   @Output() readonly menuOpened = new EventEmitter<void>();
   @Output() readonly menuClosed = new EventEmitter<void>();
 
   constructor(
     private elementRef: ElementRef,
-    private overlay: LyOverlay
-  ) { }
+    private overlay: LyOverlay,
+    @Optional() private _menuItem: LyMenuItem,
+    readonly sRenderer: StyleRenderer,
+    @Optional() public _menu: LyMenu
+  ) {
+    if (this._isItemSubMenuTrigger()) {
+      _menuItem._setItemSubMenuTrigger(this);
+      sRenderer.addClass(this.classes.itemSubMenuTrigger);
+    }
+  }
 
   ngOnDestroy() {
     // Not force destruction if it is already being destroyed
@@ -328,22 +440,17 @@ export class LyMenuTriggerFor implements OnDestroy {
   }
 
   _handleClick() {
-    this.toggleMenu();
-  }
-
-  _handleMouseEnter() {
-    this._hovered.next(true);
-  }
-
-  _handleMouseLeave() {
-    this._hovered.next(false);
+    if (!this._isItemSubMenuTrigger()) {
+      this.toggleMenu();
+    }
   }
 
   /** Opens the menu */
   openMenu() {
     if (!this._menuRef) {
       this._menuRef = this.overlay.create(this.lyMenuTriggerFor, {
-        $implicit: this
+        $implicit: this,
+        data: this.menuData
       }, {
         styles: {
           top: 0,
@@ -373,20 +480,18 @@ export class LyMenuTriggerFor implements OnDestroy {
   /** @docs-private */
   detach() {
     if (this._menuRef) {
-      this._destroying = true;
       this._menuRef.detach();
+      this._menuRef = null;
+      this._destroying = true;
     }
   }
 
   /** @docs-private */
-  destroy() {
-    if (this._menuRef) {
-      this.menuClosed.emit(null!);
-      this._menuRef.remove();
-      this._menuRef = null;
-      this._destroying = false;
-      Promise.resolve(null).then(() => this._menuOpen = false);
-    }
+  destroy(menuRef: OverlayFactory<any>) {
+    this.menuClosed.emit(null!);
+    menuRef.remove();
+    this._destroying = false;
+    Promise.resolve(null).then(() => this._menuOpen = false);
   }
 
   _getHostElement() {
@@ -395,6 +500,13 @@ export class LyMenuTriggerFor implements OnDestroy {
 
   _setMenuOpenToTrue() {
     this._menuOpen = true;
+  }
+
+  /**
+   * @docs-private
+   */
+  _isItemSubMenuTrigger() {
+    return !!this._menuItem;
   }
 
 }

@@ -1,5 +1,8 @@
 <div #container
   [class]="classes.container"
-  [@menuEnter]="'in'">
+  [@transformMenu]="'enter'"
+  (@transformMenu.start)="_onAnimationStart($event)"
+  (@transformMenu.done)="_onAnimationDone($event)"
+>
   <ng-content></ng-content>
 </div>
