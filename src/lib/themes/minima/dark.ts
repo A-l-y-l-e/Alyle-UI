@@ -5,6 +5,7 @@ import { LyFieldTheme } from '@alyle/ui/field';
 import { LyTooltipTheme } from '@alyle/ui/tooltip';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 import { Injectable } from '@angular/core';
+import { LyMenuTheme } from '@alyle/ui/menu';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0, 0, 0, 1);
@@ -91,5 +92,15 @@ export class MinimaDark extends MinimaBase {
       background: ${new Color(250, 250, 250, 0.85)}
       color: ${new Color(0, 0, 0, .87)}
     }`)
+  };
+
+  menu: LyMenuTheme = {
+    root: new StyleCollection(
+      __ => lyl `{
+        ${__.itemSubMenuTrigger}:after {
+          color: ${color(0xffffff)}
+        }
+      }`
+    )
   };
 }

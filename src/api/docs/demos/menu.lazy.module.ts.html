@@ -4,16 +4,20 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> MenuDemo01Module <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./menu-demo-01/menu-demo-01.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> MenuPlaygroundComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./menu-playground/menu-playground.component'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> MenuPlaygroundModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./menu-playground/menu-playground.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> NestedMenuModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./nested-menu/nested-menu.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> NestedMenuComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./nested-menu/nested-menu.component'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> entryComponents <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
   MenuDemo01Component<span class="tt18 ttae">,</span>
-  MenuPlaygroundComponent
+  MenuPlaygroundComponent<span class="tt18 ttae">,</span>
+  NestedMenuComponent
 <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     MenuDemo01Module<span class="tt18 ttae">,</span>
-    MenuPlaygroundModule
+    MenuPlaygroundModule<span class="tt18 ttae">,</span>
+    NestedMenuModule
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   entryComponents
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>

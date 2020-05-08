@@ -18,7 +18,6 @@ const STYLE_PRIORITY = -0.5;
  * [height], [maxHeight], [minHeight],
  * Others
  * [lyStyle]
- * [width]
  */
 @Directive({
   selector: `[lyStyle],

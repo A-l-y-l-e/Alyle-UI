@@ -1,0 +1,44 @@
+<button ly-button [lyMenuTriggerFor]="rootMenu">menu</button>
+
+<ng-template #rootMenu let-M>
+  <ly-menu
+    [ref]="M"
+  >
+    <button ly-button ly-menu-item [lyMenuTriggerFor]="subMenu">Sub menu</button>
+    <button ly-button ly-menu-item [lyMenuTriggerFor]="subMenu2">Sub menu 2</button>
+    <button ly-button ly-menu-item *ngFor="let item of [0, 0, 0, 0]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>
+
+<ng-template #subMenu let-T>
+  <ly-menu
+    [ref]="T"
+  >
+    <button ly-button ly-menu-item *ngFor="let item of [0, 0, 0, 0]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>
+
+<ng-template #subMenu2 let-T>
+  <ly-menu
+    [ref]="T"
+  >
+    <button ly-button ly-menu-item [lyMenuTriggerFor]="subMenu3">Sub menu 3</button>
+    <button ly-button ly-menu-item *ngFor="let item of [0, 0, 0, 0]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>
+
+<ng-template #subMenu3 let-T>
+  <ly-menu
+    [ref]="T"
+  >
+    <button ly-button ly-menu-item *ngFor="let item of [0, 0, 0, 0]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>
