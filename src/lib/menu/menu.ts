@@ -266,8 +266,13 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
 
   /** Update Menu Position */
   private _updatePlacement () {
-    const el = this.ref._menuRef!.containerElement as HTMLElement;
-    const container = this._container!.nativeElement;
+    const el = this.ref._menuRef?.containerElement;
+    const container = this._container?.nativeElement;
+
+    // Do not update when not available
+    if (!el || !container) {
+      return;
+    }
 
     // reset height & width
     this._renderer.setStyle(container, 'height', 'initial');
