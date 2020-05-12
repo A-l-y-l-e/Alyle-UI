@@ -226,6 +226,7 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
 
   ngOnChanges() {
     if (this.ref?._menuRef && this._container) {
+      // Update backdrop
       this.ref._menuRef.updateBackdrop(this.ref._isItemSubMenuTrigger() ? false : this.hasBackdrop);
       this._updatePlacement();
     }
@@ -247,8 +248,23 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
     Promise.resolve(null).then(() => {
       this.ref._setMenuOpenToTrue();
     });
+    const hostTrigger = this._getHostMenuTrigger();
+    hostTrigger._menuDetached
+      .pipe(take(1))
+      .subscribe(() => this._ref.closeMenu());
   }
 
+  private _getHostMenuTrigger() {
+    let menuTrigger = this.ref;
+
+    while (menuTrigger._menu?.ref) {
+      menuTrigger = menuTrigger._menu.ref;
+    }
+
+    return menuTrigger;
+  }
+
+  /** Update Menu Position */
   private _updatePlacement () {
     const el = this.ref._menuRef!.containerElement as HTMLElement;
     const container = this._container!.nativeElement;
@@ -395,6 +411,7 @@ export class LyMenuTriggerFor implements OnDestroy {
   _menuRef?: OverlayFactory | null;
   private _menuOpen = false;
   private _destroying: boolean;
+  _menuDetached = new Subject<void>();
 
   /** Whether the menu is open. */
   get menuOpen() {
@@ -483,6 +500,7 @@ export class LyMenuTriggerFor implements OnDestroy {
       this._menuRef.detach();
       this._menuRef = null;
       this._destroying = true;
+      this._menuDetached.next();
     }
   }
 
