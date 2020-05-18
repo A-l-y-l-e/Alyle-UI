@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { lyl, LyTheme2, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { lyl, ThemeVariables, ThemeRef, StyleRenderer } from '@alyle/ui';
 import { STYLES as BUTTON_STYLES } from '@alyle/ui/button';
 
 const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
@@ -31,12 +31,15 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
 @Component({
   selector: 'aui-custom-badge',
   templateUrl: './custom-badge.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class CustomBadgeComponent implements OnInit {
-  readonly classes = this._theme.renderStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES);
   constructor(
-    private _theme: LyTheme2
+    readonly sRenderer: StyleRenderer
   ) { }
 
   ngOnInit() {

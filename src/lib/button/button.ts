@@ -201,7 +201,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
    * Style
    * @docs-private
    */
-  readonly classes = this._theme.renderStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES);
   private _rippleSensitive = false;
   private _size: string;
   private _sizeClass: string | null;

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2, ThemeVariables, lyl } from '@alyle/ui';
+import { ThemeVariables, lyl, StyleRenderer } from '@alyle/ui';
 
 const STYLES = (theme: ThemeVariables) => ({
   nav: lyl `{
@@ -58,13 +58,16 @@ const STYLES = (theme: ThemeVariables) => ({
 @Component({
   selector: 'aui-ds-nesting',
   templateUrl: './ds-nesting.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class DsNestingComponent {
 
-  readonly classes = this._theme.renderStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES);
 
   constructor(
-    private _theme: LyTheme2
+    readonly sRenderer: StyleRenderer
   ) { }
 }

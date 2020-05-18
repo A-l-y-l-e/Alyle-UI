@@ -137,7 +137,10 @@ const ANIMATIONS = [
   selector: 'ly-menu',
   animations: [...ANIMATIONS],
   templateUrl: 'menu.html',
-  exportAs: 'lyMenu'
+  exportAs: 'lyMenu',
+  providers: [
+    StyleRenderer
+  ]
 })
 export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
@@ -148,7 +151,7 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
    * styles
    * @docs-private
    */
-  readonly classes = this._theme.renderStyleSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
 
   /** Whether the menu is animating. */
   _isAnimating: boolean;
@@ -224,10 +227,9 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     private _theme: LyTheme2,
     private _el: ElementRef,
     private _renderer: Renderer2,
-    private _viewportRuler: ViewportRuler
-  ) {
-    this._renderer.addClass(this._el.nativeElement, this.classes.root);
-  }
+    private _viewportRuler: ViewportRuler,
+    readonly sRenderer: StyleRenderer
+  ) { }
 
   ngOnChanges() {
     if (this.ref?._menuRef && this._container) {
