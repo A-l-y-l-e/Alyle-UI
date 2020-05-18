@@ -13,6 +13,12 @@ Menus allow users make a selection from multiple options.
   <aui-nested-menu></aui-nested-menu>
 </demo-view>
 
+## Open on hover Menu
+
+<demo-view path="docs/components/menu-demo/open-on-hover-menu">
+  <aui-open-on-hover-menu></aui-open-on-hover-menu>
+</demo-view>
+
 ## Menu Playground
 
 <demo-view path="docs/components/menu-demo/menu-playground">

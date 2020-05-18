@@ -48,7 +48,7 @@ import {
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import { Subject, asapScheduler } from 'rxjs';
-import { take, delay } from 'rxjs/operators';
+import { take, delay, debounceTime } from 'rxjs/operators';
 
 export interface LyMenuTheme {
   /** Styles for Menu Component */
@@ -66,6 +66,7 @@ export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) =
   const menu = ref.selectorsOf(STYLES);
   const { after } = theme;
   return {
+    $name: LyMenu.и,
     $priority: STYLE_PRIORITY,
     root: () => (
       theme.menu?.root
@@ -138,7 +139,11 @@ const ANIMATIONS = [
   templateUrl: 'menu.html',
   exportAs: 'lyMenu'
 })
-export class LyMenu implements OnChanges, OnInit, AfterViewInit {
+export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
+
+  /** @docs-private */
+  static readonly и = 'LyMenu';
+
   /**
    * styles
    * @docs-private
@@ -229,6 +234,7 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
       // Update backdrop
       this.ref._menuRef.updateBackdrop(this.ref._isItemSubMenuTrigger() ? false : this.hasBackdrop);
       this._updatePlacement();
+      this._checkBackdropAndOpenOnHover();
     }
   }
 
@@ -242,6 +248,7 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
     if (this.ref._menuRef) {
       this.ref._menuRef.onResizeScroll = this._updatePlacement.bind(this);
       this.ref._menuRef.updateBackdrop(this.ref._isItemSubMenuTrigger() ? false : this.hasBackdrop);
+      this._checkBackdropAndOpenOnHover();
     }
     this._updatePlacement();
     this.ref.menuOpened.emit();
@@ -252,6 +259,18 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
     hostTrigger._menuDetached
       .pipe(take(1))
       .subscribe(() => this._ref.closeMenu());
+    this._addOpenOnHover();
+  }
+
+  ngOnDestroy() {
+    this._removeOpenOnHoverListeners();
+  }
+
+  private _checkBackdropAndOpenOnHover() {
+    const hostTrigger = this._getHostMenuTrigger();
+    if (this.hasBackdrop && hostTrigger._menuOpenOnHoverRef?.openOnHover) {
+      throw new Error(`${LyMenu.и}: Can't use [hasBackdrop] with [openOnHover] at the same time, set [hasBackdrop] to false to use [openOnHover]`);
+    }
   }
 
   private _getHostMenuTrigger() {
@@ -262,6 +281,38 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit {
     }
 
     return menuTrigger;
+  }
+
+  private _addOpenOnHover() {
+    const hostTrigger = this._getHostMenuTrigger();
+    if (hostTrigger._menuOpenOnHoverRef?.openOnHover && !this._mouseenterListen && !this._mouseleaveListen) {
+      hostTrigger._menuOpenOnHoverRef!._handleMouseEnterOrLeave(true);
+      this._mouseenterListen = this._renderer
+        .listen(
+          this._el.nativeElement,
+          'mouseenter',
+          () => hostTrigger._menuOpenOnHoverRef!._handleMouseEnterOrLeave(true)
+        );
+
+      this._mouseleaveListen = this._renderer
+        .listen(
+          this._el.nativeElement,
+          'mouseleave',
+          () => hostTrigger._menuOpenOnHoverRef!._handleMouseEnterOrLeave(false)
+        );
+    }
+  }
+  private _mouseenterListen?: () => void;
+  private _mouseleaveListen?: () => void;
+
+  /** Remove listeners */
+  private _removeOpenOnHoverListeners() {
+    if (this._mouseenterListen) {
+      this._mouseenterListen();
+    }
+    if (this._mouseleaveListen) {
+      this._mouseleaveListen();
+    }
   }
 
   /** Update Menu Position */
@@ -417,6 +468,7 @@ export class LyMenuTriggerFor implements OnDestroy {
   private _menuOpen = false;
   private _destroying: boolean;
   _menuDetached = new Subject<void>();
+  _menuOpenOnHoverRef?: LyMenuOpenOnHover;
 
   /** Whether the menu is open. */
   get menuOpen() {
@@ -424,16 +476,6 @@ export class LyMenuTriggerFor implements OnDestroy {
   }
 
   @Input() lyMenuTriggerFor: TemplateRef<any>;
-
-  /** Whether menu should open on hover. */
-  @Input()
-  get openOnHover(): boolean {
-    return this._openOnHover;
-  }
-  set openOnHover(value: boolean) {
-    this._openOnHover = coerceBooleanProperty(value);
-  }
-  private _openOnHover: boolean = true;
 
   /** Data to be passed to the menu. */
   @Input('lyMenuTriggerData') menuData: any;
@@ -459,6 +501,7 @@ export class LyMenuTriggerFor implements OnDestroy {
     if (!this._destroying) {
       this.closeMenu();
     }
+    this._menuDetached.complete();
   }
 
   _handleClick() {
@@ -532,4 +575,67 @@ export class LyMenuTriggerFor implements OnDestroy {
     return !!this._menuItem;
   }
 
+}
+
+@Directive({
+  selector: '[lyMenuTriggerFor][openOnHover]',
+  host: {
+    '(mouseenter)': '_handleMouseEnterOrLeave(true)',
+    '(mouseleave)': '_handleMouseEnterOrLeave(false)'
+  }
+})
+export class LyMenuOpenOnHover implements OnDestroy {
+
+  private _events = new Subject<boolean>();
+
+  /** Whether menu should open on hover. */
+  @Input()
+  get openOnHover(): boolean {
+    return this._openOnHover;
+  }
+  set openOnHover(value: boolean) {
+    this._openOnHover = coerceBooleanProperty(value);
+    Promise.resolve(null)
+    .then(() => this._openOnHover
+      ? this._trigger._menuOpenOnHoverRef = this
+      : delete this._trigger._menuOpenOnHoverRef);
+  }
+  private _openOnHover: boolean = true;
+
+  constructor(
+    private _trigger: LyMenuTriggerFor
+  ) {
+    _trigger._menuOpenOnHoverRef = this;
+    this._events
+      .pipe(
+        debounceTime(200)
+      )
+      .subscribe(enterOrLeave => {
+        if (this.openOnHover) {
+          if (enterOrLeave) {
+            _trigger.openMenu();
+          } else {
+            _trigger.closeMenu();
+          }
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this._events.complete();
+  }
+
+  /** Handle mouseenter */
+  _handleMouseEnterOrLeave(enter: true): void;
+  /** Handle mouseleave */
+  _handleMouseEnterOrLeave(leave: false): void;
+  /** Handle mouseenter or mouseleave */
+  _handleMouseEnterOrLeave(leaveOrEnter: boolean): void {
+    if (this.openOnHover) {
+      if (leaveOrEnter) {
+        this._trigger.openMenu();
+      }
+      this._events.next(leaveOrEnter);
+    }
+  }
 }

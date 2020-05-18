@@ -18,8 +18,8 @@
 </ng-template>
 
 <div>
-  <ly-checkbox [(ngModel)]="hasBackdrop">hasBackdrop</ly-checkbox>
-  <ly-checkbox [(ngModel)]="openOnHover">openOnHover</ly-checkbox>
+  <ly-checkbox [disabled]="openOnHover" [(ngModel)]="hasBackdrop">hasBackdrop</ly-checkbox>
+  <ly-checkbox [disabled]="hasBackdrop" [(ngModel)]="openOnHover">openOnHover</ly-checkbox>
 </div>
 
 <div>

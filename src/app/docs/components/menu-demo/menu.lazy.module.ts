@@ -6,18 +6,22 @@ import { MenuPlaygroundComponent } from './menu-playground/menu-playground.compo
 import { MenuPlaygroundModule } from './menu-playground/menu-playground.module';
 import { NestedMenuModule } from './nested-menu/nested-menu.module';
 import { NestedMenuComponent } from './nested-menu/nested-menu.component';
+import { OpenOnHoverMenuModule } from './open-on-hover-menu/open-on-hover-menu.module';
+import { OpenOnHoverMenuComponent } from './open-on-hover-menu/open-on-hover-menu.component';
 
 const entryComponents = [
   MenuDemo01Component,
   MenuPlaygroundComponent,
-  NestedMenuComponent
+  NestedMenuComponent,
+  OpenOnHoverMenuComponent
 ];
 
 @NgModule({
   imports: [
     MenuDemo01Module,
     MenuPlaygroundModule,
-    NestedMenuModule
+    NestedMenuModule,
+    OpenOnHoverMenuModule
   ],
   entryComponents
 })

@@ -1,0 +1,15 @@
+<button ly-button
+  [lyMenuTriggerFor]="menu"
+  [openOnHover]="true"
+>Menu</button>
+
+<ng-template #menu let-T>
+  <ly-menu
+    [ref]="T"
+    [hasBackdrop]="false"
+  >
+    <button ly-button ly-menu-item *ngFor="let item of [0, 0, 0, 0]; index as i">
+      <span>Item {{ i + 1 }}</span>
+    </button>
+  </ly-menu>
+</ng-template>
