@@ -1,3 +1,21 @@
+## [3.2.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.5...3.2.6) (2020-05-19)
+
+
+### Bug Fixes
+
+* **field:** fix styles for ly-icon ([5b3e651](https://github.com/A-l-y-l-e/Alyle-UI/commit/5b3e651708092ac6e2c4008768c4071d996d59c7))
+* **menu:** close all submenus at the same time ([ab7ca62](https://github.com/A-l-y-l-e/Alyle-UI/commit/ab7ca62393f1e6758e9452910ec46958671a54b3))
+* **menu:** use `StyleRenderer` ([a5e09dc](https://github.com/A-l-y-l-e/Alyle-UI/commit/a5e09dcc8c98a25a48dd027471022f6cbd45ed94))
+
+
+### Features
+
+* **menu:** Able to create nested menu ([d4613f9](https://github.com/A-l-y-l-e/Alyle-UI/commit/d4613f9da77c2c9ca73dedd1683ae1a94a2ce2c5)), closes [#92](https://github.com/A-l-y-l-e/Alyle-UI/issues/92) [#114](https://github.com/A-l-y-l-e/Alyle-UI/issues/114)
+* **menu:** Able to create nested menu ([859dfcc](https://github.com/A-l-y-l-e/Alyle-UI/commit/859dfcc109ab33a8e5df071df29245a9bbe64d61)), closes [#92](https://github.com/A-l-y-l-e/Alyle-UI/issues/92) [#114](https://github.com/A-l-y-l-e/Alyle-UI/issues/114)
+* refactor overlay position ([57ca626](https://github.com/A-l-y-l-e/Alyle-UI/commit/57ca626a52deda1ce8cb5a2c6f9a5941c1b2ffeb))
+
+
+
 ## [3.2.5](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.4...3.2.5) (2020-04-28)
 
 
