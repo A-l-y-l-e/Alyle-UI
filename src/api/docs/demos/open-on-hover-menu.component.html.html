@@ -1,13 +1,12 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">ly-button</span>
-  <span class="tt18 ttbx">#T</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>lyMenuTriggerFor<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">[lyMenuTriggerFor]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>menu<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">(mouseenter)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>T.openMenu()<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[openOnHover]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>true<span class="tt18 ttae">"</span></span>
 <span class="tt18 ttae">></span></span>Menu<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
 
 <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ng-template</span> <span class="tt18 ttbx">#menu</span> <span class="tt18 ttbx">let-T</span><span class="tt18 ttae">></span></span>
   <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-menu</span>
     <span class="tt18 ttbx">[ref]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>T<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">(mouseleave)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>T.closeMenu()<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttbx">[hasBackdrop]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>false<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttae">></span></span>
     <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">ly-button</span> <span class="tt18 ttbx">ly-menu-item</span> <span class="tt18 ttbx">*ngFor</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>let item of [0, 0, 0, 0]; index as i<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
       <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>span</span><span class="tt18 ttae">></span></span>Item &#123;&#123; i + 1 &#125;&#125;<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>span</span><span class="tt18 ttae">></span></span>
