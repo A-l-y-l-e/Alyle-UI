@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, AfterViewInit, ViewChild } from '@angular/core';
-import { lyl, WithStyles, StyleRenderer, Platform, ThemeRef, ThemeVariables } from '@alyle/ui';
+import { lyl, WithStyles, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
 import {
   LyImageCropper,
   ImgCropperConfig,
@@ -7,6 +7,7 @@ import {
   ImgCropperErrorEvent,
   STYLES as CROPPER_STYLES
 } from '@alyle/ui/image-cropper';
+import { Platform } from '@angular/cdk/platform';
 
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
 
@@ -52,14 +53,15 @@ export class CropCircleComponent implements WithStyles, AfterViewInit {
   };
 
   constructor(
-    readonly sRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer,
+    private _platform: Platform
   ) { }
 
   ngAfterViewInit() {
 
     // demo: Load image from URL and update position, scale, rotate
     // this is supported only for browsers
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       const config = {
         scale: 0.745864772531767,
         position: {

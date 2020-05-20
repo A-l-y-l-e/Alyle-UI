@@ -1,5 +1,5 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy<span class="tt18 ttae">,</span> AfterViewInit<span class="tt18 ttae">,</span> ViewChild <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> lyl<span class="tt18 ttae">,</span> WithStyles<span class="tt18 ttae">,</span> StyleRenderer<span class="tt18 ttae">,</span> Platform<span class="tt18 ttae">,</span> ThemeRef<span class="tt18 ttae">,</span> ThemeVariables <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> lyl<span class="tt18 ttae">,</span> WithStyles<span class="tt18 ttae">,</span> StyleRenderer<span class="tt18 ttae">,</span> ThemeRef<span class="tt18 ttae">,</span> ThemeVariables <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span>
   LyImageCropper<span class="tt18 ttae">,</span>
   ImgCropperConfig<span class="tt18 ttae">,</span>
@@ -7,6 +7,7 @@
   ImgCropperErrorEvent<span class="tt18 ttae">,</span>
   <span class="tt18 ttbb">STYLES</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttbb">CROPPER_STYLES</span>
 <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/image-cropper'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Platform <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/cdk/platform'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">_theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">,</span> ref<span class="tt18 ttb0">:</span> ThemeRef</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
 
@@ -52,14 +53,15 @@
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> _platform<span class="tt18 ttb0">:</span> Platform</span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">ngAfterViewInit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
 
     <span class="tt18 tt3o">// demo: Load image from URL and update position, scale, rotate</span>
     <span class="tt18 tt3o">// this is supported only for browsers</span>
-    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>Platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
       <span class="tt18 tt1j">const</span> config <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
         scale<span class="tt18 ttb0">:</span> <span class="tt18 ttap">0.745864772531767</span><span class="tt18 ttae">,</span>
         position<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>

@@ -12,9 +12,10 @@ import { Observable, of, merge, forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, retry, map } from 'rxjs/operators';
-import { Platform, AUI_VERSION, LyTheme2 } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
 import { AUIThemeVariables } from '../../app.module';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Platform } from '@angular/cdk/platform';
 
 const MODULE_REGEXP = /export\sclass\s([\w]+)Module/;
 const EXPORTS_REGEXP = /exports\:\s?\[[\w]+\]\,?([\s]+)?/;
@@ -105,7 +106,8 @@ export class ViewComponent implements OnInit {
     private el: ElementRef,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private theme: LyTheme2
+    private theme: LyTheme2,
+    private _platform: Platform
   ) {
     renderer.addClass(el.nativeElement, this.classes.root);
   }
@@ -119,7 +121,7 @@ export class ViewComponent implements OnInit {
       retry(3),
       catchError((err: HttpErrorResponse) => of(`Error: ${err.statusText}`))
     );
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       const req = merge(of('Loading...'), getUrl);
       return req;
     } else {

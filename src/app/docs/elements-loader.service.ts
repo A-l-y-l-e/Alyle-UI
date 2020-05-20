@@ -1,7 +1,7 @@
 import { Injectable, Injector, Compiler, Inject, NgModuleFactory, Type } from '@angular/core';
 import { ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN } from './element-registry';
 import { LoadChildrenCallback } from '@angular/router';
-import { Platform } from '@alyle/ui';
+import { Platform } from '@angular/cdk/platform';
 
 @Injectable()
 export class ElementsLoader {
@@ -9,6 +9,7 @@ export class ElementsLoader {
   constructor(
     private injector: Injector,
     private compiler: Compiler,
+    private platform: Platform,
     @Inject(ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN) private elementModulePaths: Map<string, LoadChildrenCallback>
   ) { }
 
@@ -42,7 +43,7 @@ export class ElementsLoader {
       // const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(entryComponent);
 
       // container.createComponent(compFactory);
-      if (Platform.isBrowser) {
+      if (this.platform.isBrowser) {
         const { createCustomElement } = require('@angular/elements');
         await Promise.all(components.map((comp) => {
           const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(comp);

@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Subscription, of, asapScheduler } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { LyTheme2, Platform, lyl, StyleRenderer } from '@alyle/ui';
+import { Platform } from '@angular/cdk/platform';
+import { LyTheme2, lyl, StyleRenderer } from '@alyle/ui';
 
 import { AppComponent } from '@app/app.component';
 import { tap, map, catchError, observeOn, switchMap, takeUntil } from 'rxjs/operators';
@@ -84,7 +85,8 @@ export class ApiComponent implements OnInit, OnDestroy {
     private app: AppComponent,
     private ads: Ads,
     cdr: ChangeDetectorRef,
-    private seo: SEOService
+    private seo: SEOService,
+    private _platform: Platform
   ) {
     this.doc$
       .pipe(
@@ -139,7 +141,7 @@ export class ApiComponent implements OnInit, OnDestroy {
               this.seo.setTitle(`Alyle UI - ${title}`);
             }
             // Show skeleton screen Platform is Server
-            if (!Platform.isBrowser) {
+            if (!this._platform.isBrowser) {
               const { hostElement } = docViewer;
               hostElement.innerHTML = '';
               docViewer.isLoading.emit(true);

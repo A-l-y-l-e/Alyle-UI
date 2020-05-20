@@ -5,13 +5,16 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { ElementsLoader } from './elements-loader.service';
 import { LyTypographyVariables } from '@alyle/ui/typography';
-import { ThemeVariables, LyTheme2, lyl, StyleCollection, StyleTemplate, Platform } from '@alyle/ui';
+import { ThemeVariables, LyTheme2, lyl, StyleCollection, StyleTemplate } from '@alyle/ui';
 import { ViewComponent } from '@app/demo-view/view/view.component';
 import { Ads, ADS_STYLES } from '@shared/ads';
 import { SEOService } from '@app/shared/seo.service';
+import { Platform } from '@angular/cdk/platform';
 
 // Initialization prevents flicker once pre-rendering is on
-const initialDocViewerElement = Platform.isBrowser ? document.querySelector('aui-doc-viewer > div') : null;
+const initialDocViewerElement = typeof document === 'object' && !!document
+  ? document.querySelector('aui-doc-viewer > div')
+  : null;
 let initialDocViewerContent = initialDocViewerElement ? initialDocViewerElement.innerHTML : '';
 
 interface Err {
@@ -98,7 +101,8 @@ export class DocViewer {
     private theme: LyTheme2,
     private renderer: Renderer2,
     private ads: Ads,
-    private seo: SEOService
+    private seo: SEOService,
+    private _platform: Platform
   ) {
     this.isLoading.emit(!initialDocViewerContent);
     this.hostElement = renderer.createElement('div');
@@ -106,7 +110,7 @@ export class DocViewer {
     this.renderer.addClass(elementRef.nativeElement, this.classes.root);
     this.hostElement.innerHTML = initialDocViewerContent;
 
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       const { createCustomElement } = require('@angular/elements');
       const element = createCustomElement(ViewComponent, { injector });
       customElements.define('demo-view', element);
@@ -175,7 +179,7 @@ export class DocViewer {
             }
             this.seo.setTitle(`Alyle UI - ${title}`);
             // Show skeleton screen Platform is Server
-            if (!Platform.isBrowser) {
+            if (!this._platform.isBrowser) {
               hostElement.innerHTML = '';
               this.isLoading.emit(true);
             }

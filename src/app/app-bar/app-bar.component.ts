@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
-import { LyTheme2, CoreTheme as ThemeManager, Platform } from '@alyle/ui';
+import { LyTheme2, CoreTheme as ThemeManager } from '@alyle/ui';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { AUIThemeVariables } from '../app.module';
 import { Ads } from '@shared/ads';
 import { Location } from '@angular/common';
 import { ScrollDispatcher, ViewportRuler } from '@angular/cdk/scrolling';
+import { Platform } from '@angular/cdk/platform';
 
 const styles = (theme: AUIThemeVariables) => ({
   root: {
@@ -78,7 +79,8 @@ export class AppBarComponent implements OnInit, OnDestroy {
     private _ads: Ads,
     private _location: Location,
     private _viewportRuler: ViewportRuler,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _platform: Platform
   ) {
     this.themes = Array.from(themeManager.themes)
       // Themes that are used in multiple themes demo
@@ -102,7 +104,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
         this.setDefaultStyles();
       }
     });
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this.scrollSub = this._scrollDispatcher.scrolled().subscribe(() => {
         if (this.router.url === '/' || this.router.url === '') {
           const viewportScrollPositionTop = this._viewportRuler.getViewportScrollPosition().top;
@@ -140,7 +142,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this.scrollSub.unsubscribe();
     }
   }

@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Router, NavigationEnd } from '@angular/router';
-import { AUI_VERSION, LyTheme2, ThemeVariables, Platform, ThemeRef, lyl, StyleRenderer } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, ThemeVariables, ThemeRef, lyl, StyleRenderer } from '@alyle/ui';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark, AUIThemeVariables } from './app.module';
@@ -13,6 +13,7 @@ import { LySnackBar } from '@alyle/ui/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AUIRoutes } from './routes';
 import { Location } from '@angular/common';
+import { Platform } from '@angular/cdk/platform';
 import { filter } from 'rxjs/operators';
 import { PageContentComponent } from './page-content/page-content.component';
 import { prismCustomClass } from './core/prism-custom-class';
@@ -328,10 +329,11 @@ export class AppComponent {
     private _location: Location,
     sanitizer: DomSanitizer,
     iconService: LyIconService,
-    updates: SwUpdate
+    updates: SwUpdate,
+    platform: Platform
   ) {
     this.theme.addStyleSheet(PRISM_STYLES);
-    if (Platform.isBrowser) {
+    if (platform.isBrowser) {
       updates.available.subscribe(event => {
         console.log('current version is', event.current);
         console.log('available version is', event.available);
@@ -358,7 +360,7 @@ export class AppComponent {
       if (this.docViewer) {
         this.docViewer.path = this._location.path();
       }
-      const pathname = Platform.isBrowser
+      const pathname = platform.isBrowser
       ? location.pathname === '/'
         ? ''
         : location.pathname
