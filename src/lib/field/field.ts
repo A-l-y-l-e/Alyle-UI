@@ -102,6 +102,26 @@ export const STYLE_SELECT_ARROW = lyl `{
   }
 }`;
 
+const MIXIN_CDK_TEXTAREA_AUTOSIZE_MEASURING_BASE = lyl `{
+  padding: 2px 0 !important
+  box-sizing: content-box !important
+}`;
+
+const STYLE_AUTOSIZE = lyl `{
+  textarea.cdk-textarea-autosize {
+    resize: none
+  }
+  textarea.cdk-textarea-autosize-measuring {
+    ...${MIXIN_CDK_TEXTAREA_AUTOSIZE_MEASURING_BASE}
+    height: auto !important
+    overflow: hidden !important
+  }
+  textarea.cdk-textarea-autosize-measuring-firefox {
+    ...${MIXIN_CDK_TEXTAREA_AUTOSIZE_MEASURING_BASE}
+    height: 0 !important
+  }
+}`;
+
 export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) => {
   const classes = ref.selectorsOf(STYLES);
   const {before, after } = theme;
@@ -126,6 +146,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
           margin-${before}: 0
         }
       }
+      ...${STYLE_AUTOSIZE}
     }`,
     root: ( ) => lyl `{
       display: inline-block
