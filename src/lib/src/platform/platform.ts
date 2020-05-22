@@ -5,6 +5,8 @@ const hasV8BreakIterator = (typeof(Intl) !== 'undefined' && (Intl as any).v8Brea
 /**
  * Service to detect the current platform by comparing the userAgent strings and
  * checking browser-specific global properties.
+ * @deprecated Use Angular CDK instead
+ * `import { Platform } from '@angular/cdk/platform'`
  */
 export class Platform {
   static readonly isBrowser: boolean = typeof document === 'object' && !!document;
