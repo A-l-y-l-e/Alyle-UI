@@ -101,7 +101,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   menu: LyMenuTheme = {
     root: new StyleCollection(
       __ => lyl `{
-        ${__.itemSubMenuTrigger}:after {
+        ${__.item} ly-icon, ${__.itemSubMenuTrigger}:after {
           color: ${color(0, 0, 0, 0.54)}
         }
       }`

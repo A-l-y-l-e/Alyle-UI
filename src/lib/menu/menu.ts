@@ -94,6 +94,9 @@ export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) =
       border-radius: 0
       width: 100%
       justify-content: flex-start
+      ly-icon {
+        margin-${after}: 16px
+      }
     }`,
     itemSubMenuTrigger: () => lyl `{
       padding-${after}: 32px
