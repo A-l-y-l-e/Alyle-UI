@@ -14,9 +14,22 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { Platform, LyTheme2, toBoolean, ThemeVariables, DirAlias, ThemeRef, lyl, keyframesUniqueId, StyleCollection, LyClasses, StyleTemplate, shadowBuilder, StyleRenderer } from '@alyle/ui';
+import {
+  LyTheme2,
+  toBoolean,
+  ThemeVariables,
+  DirAlias,
+  ThemeRef,
+  lyl,
+  keyframesUniqueId,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  shadowBuilder,
+  StyleRenderer } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Platform } from '@angular/cdk/platform';
 
 /** Default interval in ms */
 const DEFAULT_INTERVAL = 7000;
@@ -318,7 +331,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     private _cd: ChangeDetectorRef,
     private _theme: LyTheme2,
     private _renderer: Renderer2,
-    readonly sRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer,
+    private _platform: Platform
   ) { }
 
   ngOnInit() {
@@ -335,7 +349,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this._renderer.addClass(this.slideContainer.nativeElement, this.classes.slideContainer);
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this._renderer.addClass(this.slideContainer.nativeElement, this.classes.slideAnim);
     }
 
@@ -345,7 +359,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this._destroy.next();
     this._destroy.complete();
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this.stop();
     }
   }
@@ -460,7 +474,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _resetInterval() {
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this.stop();
       this._restartProgressBarAnimation();
       this._markForCheck();

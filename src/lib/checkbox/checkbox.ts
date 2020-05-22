@@ -34,6 +34,7 @@ import {
   WithStyles
   } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
+import { Platform } from '@angular/cdk/platform';
 
 const STYLE_PRIORITY = -2;
 const DEFAULT_WITH_COLOR = 'accent';
@@ -182,7 +183,8 @@ export class LyCheckboxChange {
 export class LyCheckboxBase {
   constructor(
     public _theme: LyTheme2,
-    public _ngZone: NgZone
+    public _ngZone: NgZone,
+    public _platform: Platform
   ) { }
 }
 
@@ -304,9 +306,10 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
     private _changeDetectorRef: ChangeDetectorRef,
     private _focusState: LyFocusState,
     readonly sRenderer: StyleRenderer,
-    ngZone: NgZone
+    ngZone: NgZone,
+    platform: Platform
   ) {
-    super(_theme, ngZone);
+    super(_theme, ngZone, platform);
     this._triggerElement = this._el;
     this._rippleConfig = {
       centered: true,

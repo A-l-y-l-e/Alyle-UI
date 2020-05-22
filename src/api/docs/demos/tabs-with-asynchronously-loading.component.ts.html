@@ -1,6 +1,6 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Observable<span class="tt18 ttae">,</span> Observer <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'rxjs'</span><span class="tt18 ttae">;</span>
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Platform <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Platform <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/cdk/platform'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">interface</span> <span class="tt18 ttc8">ExampleTab</span> <span class="tt18 ttae">&#123;</span>
   label<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
@@ -15,9 +15,11 @@
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">TabsWithAsynchronouslyLoadingComponent</span> <span class="tt18 ttae">&#123;</span>
   asyncTabs<span class="tt18 ttb0">:</span> Observable<span class="tt18 ttb0">&lt;</span>ExampleTab<span class="tt18 ttae">[</span><span class="tt18 ttae">]</span><span class="tt18 ttb0">></span><span class="tt18 ttae">;</span>
 
-  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 parameter">platform<span class="tt18 ttb0">:</span> Platform</span>
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>asyncTabs <span class="tt18 ttb0">=</span> Observable<span class="tt18 ttae">.</span><span class="tt18 tta3">create</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 parameter">observer<span class="tt18 ttb0">:</span> Observer<span class="tt18 ttb0">&lt;</span>ExampleTab<span class="tt18 ttae">[</span><span class="tt18 ttae">]</span><span class="tt18 ttb0">></span></span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
-      <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>Platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
         <span class="tt18 tta3">setTimeout</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
           observer<span class="tt18 ttae">.</span><span class="tt18 tta3">next</span><span class="tt18 ttae">(</span><span class="tt18 ttae">[</span>
             <span class="tt18 ttae">&#123;</span>label<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'First'</span><span class="tt18 ttae">,</span> content<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Content 1'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>

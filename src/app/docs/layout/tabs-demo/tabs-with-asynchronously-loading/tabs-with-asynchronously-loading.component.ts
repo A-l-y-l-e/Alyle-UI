@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
-import { Platform } from '@alyle/ui';
+import { Platform } from '@angular/cdk/platform';
 
 export interface ExampleTab {
   label: string;
@@ -15,9 +15,11 @@ export interface ExampleTab {
 export class TabsWithAsynchronouslyLoadingComponent {
   asyncTabs: Observable<ExampleTab[]>;
 
-  constructor() {
+  constructor(
+    platform: Platform
+  ) {
     this.asyncTabs = Observable.create((observer: Observer<ExampleTab[]>) => {
-      if (Platform.isBrowser) {
+      if (platform.isBrowser) {
         setTimeout(() => {
           observer.next([
             {label: 'First', content: 'Content 1'},

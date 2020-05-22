@@ -38,6 +38,7 @@ import {
   StyleTemplate,
   ThemeRef,
   StyleRenderer} from '@alyle/ui';
+import { Platform } from '@angular/cdk/platform';
 
 export interface LyRadioTheme {
   /** Styles for Radio Component */
@@ -305,7 +306,8 @@ export class LyRadioGroup implements ControlValueAccessor {
 export class LyRadioBase {
   constructor(
     public _theme: LyTheme2,
-    public _ngZone: NgZone
+    public _ngZone: NgZone,
+    public _platform: Platform
   ) { }
 }
 
@@ -433,9 +435,10 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
     ngZone: NgZone,
     public _coreStyles: LyCoreStyles,
     private _focusState: LyFocusState,
-    private _styleRenderer: StyleRenderer
+    private _styleRenderer: StyleRenderer,
+    platform: Platform
   ) {
-    super(theme, ngZone);
+    super(theme, ngZone, platform);
     this._triggerElement = this._elementRef;
     this._rippleConfig = {
       centered: true,

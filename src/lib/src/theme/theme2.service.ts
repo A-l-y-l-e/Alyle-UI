@@ -2,7 +2,6 @@ import { Injectable, Renderer2, Inject, isDevMode, NgZone, Optional } from '@ang
 import { LY_THEME_NAME, ThemeVariables, LY_THEME, LY_THEME_GLOBAL_VARIABLES, ThemeConfig } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { DataStyle } from '../theme.service';
-import { Platform } from '../platform';
 import { DOCUMENT } from '@angular/common';
 import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
@@ -19,6 +18,7 @@ import { StyleMap5,
   LyStyles } from './style';
 import { Subject } from 'rxjs';
 import { StyleTemplate, StringIdGenerator } from '../parse';
+import { Platform } from '@angular/cdk/platform';
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
@@ -65,7 +65,7 @@ export class LyTheme2 {
   }
   private themeMap = THEME_MAP;
   /** ssr or hmr */
-  private isDevOrServer = isDevMode() || !Platform.isBrowser;
+  private isDevOrServer = isDevMode() || !this._platform.isBrowser;
 
 
   constructor(
@@ -75,7 +75,8 @@ export class LyTheme2 {
     @Optional() @Inject(LY_THEME) themeConfig: ThemeConfig[] | ThemeConfig,
     @Optional() @Inject(LY_THEME_GLOBAL_VARIABLES) globalVariables: ThemeConfig,
     @Inject(DOCUMENT) private _document: any,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _platform: Platform
   ) {
     if (themeConfig) {
       core.initializeTheme(themeConfig, globalVariables);
@@ -197,7 +198,7 @@ export class LyTheme2 {
     return newClass;
   }
   setTheme(nam: string) {
-    if (!Platform.isBrowser) {
+    if (!this._platform.isBrowser) {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
     if (nam !== this.config.name) {

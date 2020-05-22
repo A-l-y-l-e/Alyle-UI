@@ -27,7 +27,6 @@ import {
   LyTheme2,
   ThemeVariables,
   ElementObserver,
-  Platform,
   toBoolean,
   DirAlias,
   StyleCollection,
@@ -50,6 +49,7 @@ import { Subject } from 'rxjs';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
 import { LyError } from './error';
 import { LyFieldControlBase } from './field-control-base';
+import { Platform } from '@angular/cdk/platform';
 
 export interface LyFieldTheme {
   /** Styles for Field Component */
@@ -516,7 +516,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     private _theme: LyTheme2,
     private _cd: ChangeDetectorRef,
     private _ngZone: NgZone,
-    readonly sRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer,
+    private _platform: Platform
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
@@ -549,7 +550,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
 
   ngAfterViewInit() {
     this._updateFloatingLabel();
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this._ngZone.runOutsideAngular(() => {
         if (this._prefixContainer) {
           const el = this._prefixContainer.nativeElement;

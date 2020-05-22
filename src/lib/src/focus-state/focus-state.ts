@@ -1,7 +1,8 @@
 import { ElementRef, NgZone, Injectable, OnDestroy } from '@angular/core';
-import { Platform, supportsPassiveEventListeners } from '../platform/index';
+import { supportsPassiveEventListeners } from '../platform/index';
 import { Observable, Subject } from 'rxjs';
 import { getNativeElement } from '../minimal/common';
+import { Platform } from '@angular/cdk/platform';
 
 export enum FocusStatus {
   /**mouse and/or touch*/
@@ -27,11 +28,12 @@ export class LyFocusState implements OnDestroy {
   private _count = 0;
 
   constructor(
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _platform: Platform
   ) { }
 
   listen(element: HTMLElement | ElementRef<HTMLElement>, keyElement?: HTMLElement | ElementRef<HTMLElement>): Observable<FocusState> | null {
-    if (!Platform.isBrowser) {
+    if (!this._platform.isBrowser) {
       // return null if it is not browser platform
       return null;
     }
@@ -76,7 +78,7 @@ export class LyFocusState implements OnDestroy {
   }
 
   unlisten(element: HTMLElement | ElementRef<HTMLElement>) {
-    if (!Platform.isBrowser) {
+    if (!this._platform.isBrowser) {
       return;
     }
     const el = getNativeElement(element);
@@ -97,7 +99,7 @@ export class LyFocusState implements OnDestroy {
   }
 
   private _addGlobalListeners() {
-    if (!Platform.isBrowser) {
+    if (!this._platform.isBrowser) {
       return;
     }
 

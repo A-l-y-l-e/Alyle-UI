@@ -2,7 +2,8 @@ import { Injectable, Inject, isDevMode } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Platform, memoize } from '@alyle/ui';
+import { memoize } from '@alyle/ui';
+import { Platform } from '@angular/cdk/platform';
 
 
 @Injectable({
@@ -18,7 +19,8 @@ export class SEOService {
     @Inject(DOCUMENT) private dom: Document,
     private titleService: Title,
     private metaService: Meta,
-    private router: Router
+    private router: Router,
+    private _platform: Platform
   ) { }
 
   updateCanonicalUrl(url?: string) {
@@ -59,7 +61,7 @@ export class SEOService {
       this.updateCanonicalUrl();
     }
 
-    if (Platform.isBrowser && !isDevMode()) {
+    if (this._platform.isBrowser && !isDevMode()) {
       ga('set', 'page', this.router.url || '/');
       ga('send', 'pageview');
     }

@@ -1,14 +1,15 @@
 import { ElementRef, NgZone } from '@angular/core';
 import { Constructor } from './constructor';
 import { toBoolean } from '../minimal/is-boolean';
-import { Platform } from '../platform';
 import { LyTheme2 } from '../theme/theme2.service';
 import { Ripple, RippleConfig } from '../ripple/ripple';
 import { styles } from '../ripple/ripple.service';
+import { Platform } from '@angular/cdk/platform';
 
 export interface RequireParams {
   _theme: LyTheme2;
   _ngZone: NgZone;
+  _platform: Platform;
 }
 
 export interface CanDisableRipple {
@@ -29,7 +30,7 @@ export function mixinDisableRipple<T extends Constructor<RequireParams>>(base: T
 
     get disableRipple(): boolean { return this._disableRipple; }
     set disableRipple(val: boolean) {
-      if (Platform.isBrowser && val !== this._disableRipple) {
+      if (this._platform.isBrowser && val !== this._disableRipple) {
         const newVal = this._disableRipple = toBoolean(val);
         // remove previous ripple if exist
         this._removeRippleEvents();
@@ -50,7 +51,7 @@ export function mixinDisableRipple<T extends Constructor<RequireParams>>(base: T
     }
 
     _removeRippleEvents() {
-      if (Platform.isBrowser) {
+      if (this._platform.isBrowser) {
         if (this._ripple) {
           this._ripple.removeEvents();
           this._ripple = null;

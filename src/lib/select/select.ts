@@ -71,6 +71,7 @@ import {
   } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { take, takeUntil, startWith } from 'rxjs/operators';
+import { Platform } from '@angular/cdk/platform';
 
 export interface LySelectTheme {
   /** Styles for Select Component */
@@ -712,7 +713,8 @@ export class LySelect
 export class LyOptionBase {
   constructor(
     public _theme: LyTheme2,
-    public _ngZone: NgZone
+    public _ngZone: NgZone,
+    public _platform: Platform
   ) { }
 }
 
@@ -795,8 +797,10 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
               _theme: LyTheme2,
               /** @internal */
               public _cd: ChangeDetectorRef,
-              _ngZone: NgZone) {
-    super(_theme, _ngZone);
+              _ngZone: NgZone,
+              platform: Platform
+  ) {
+    super(_theme, _ngZone, platform);
     _renderer.addClass(_el.nativeElement, this.classes.option);
     this.setAutoContrast();
     this._triggerElement = _el;

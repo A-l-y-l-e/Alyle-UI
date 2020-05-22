@@ -1,6 +1,8 @@
 import { Injectable, Renderer2, RendererFactory2, isDevMode, NgZone } from '@angular/core';
-import { Platform, LyTheme2, lyl } from '@alyle/ui';
+import { LyTheme2, lyl } from '@alyle/ui';
 import { take } from 'rxjs/operators';
+import { Platform } from '@angular/cdk/platform';
+
 
 let count = -1;
 
@@ -21,12 +23,14 @@ export class Ads {
 
   constructor(
     private _ngZone: NgZone,
-    rendererFactory: RendererFactory2) {
+    rendererFactory: RendererFactory2,
+    private _platform: Platform
+  ) {
     this._renderer = rendererFactory.createRenderer(null, null);
   }
 
   update(path: string, theme: LyTheme2) {
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       count++;
       if (count > 0 || ( path !== '' && path !== '/')) {
         this._removeOld();

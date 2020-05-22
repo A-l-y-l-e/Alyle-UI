@@ -30,6 +30,7 @@ import {
   WithStyles,
   Style
   } from '@alyle/ui';
+import { Platform } from '@angular/cdk/platform';
 
 export interface LyCardTheme {
   /** Styles for Card Component */
@@ -94,7 +95,8 @@ const STYLE_PRIORITY = -1;
 export class LyCardBase {
   constructor(
     public _theme: LyTheme2,
-    public _ngZone: NgZone
+    public _ngZone: NgZone,
+    public _platform: Platform
   ) { }
 }
 
@@ -133,9 +135,10 @@ export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDest
     private theme: LyTheme2,
     private _el: ElementRef,
     private renderer: Renderer2,
-    ngZone: NgZone
+    ngZone: NgZone,
+    platform: Platform
   ) {
-    super(theme, ngZone);
+    super(theme, ngZone, platform);
     this.setAutoContrast();
   }
 

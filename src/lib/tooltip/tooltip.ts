@@ -15,7 +15,6 @@ import {
   LyTheme2,
   OverlayFactory,
   Placement,
-  Platform,
   ThemeVariables,
   XPosition,
   YPosition,
@@ -27,6 +26,7 @@ import {
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
+import { Platform } from '@angular/cdk/platform';
 
 export interface LyTooltipTheme {
   /** Styles for Tooltip Component */
@@ -99,11 +99,12 @@ export class LyTooltip implements OnInit, OnDestroy {
     private _cd: ChangeDetectorRef,
     private _focusState: LyFocusState,
     ngZone: NgZone,
-    scroll: ScrollDispatcher
+    scroll: ScrollDispatcher,
+    platform: Platform
   ) {
-    if (Platform.isBrowser) {
+    if (platform.isBrowser) {
       const element: HTMLElement = _el.nativeElement;
-      if (!Platform.IOS && !Platform.ANDROID) {
+      if (!platform.IOS && !platform.ANDROID) {
         this._listeners
           .set('mouseenter', () => this.show())
           .set('mouseleave', () => this.hide());

@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, Renderer2, ElementRef, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
-import { LyTheme2, Platform } from '@alyle/ui';
+import { LyTheme2 } from '@alyle/ui';
+import { Platform } from '@angular/cdk/platform';
 
 const styles = ({
   root: {
@@ -86,13 +87,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     renderer: Renderer2,
     el: ElementRef,
     private theme: LyTheme2,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private _platform: Platform
   ) {
     renderer.addClass(el.nativeElement, this.classes.root);
   }
 
   ngOnInit() {
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this.theme.requestAnimationFrame(() => {
         this.intra = new Intra('#1a0e2d', 700, 17, 3000, 0.000009, 9000);
         this.intra.start();
@@ -101,7 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       if (this.intra) {
         this.intra.stop();
       }

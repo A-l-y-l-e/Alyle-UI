@@ -2,8 +2,8 @@ import { Injectable, Inject, Renderer2, RendererFactory2, ViewEncapsulation } fr
 import { ThemeConfig, ThemeVariables } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
-import { Platform } from '../platform';
 import { mergeThemes } from '../style-utils';
+import { Platform } from '@angular/cdk/platform';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +20,12 @@ export class CoreTheme {
   private _document: Document;
   constructor(
     private rendererFactory: RendererFactory2,
-    @Inject(DOCUMENT) _document: any
+    @Inject(DOCUMENT) _document: any,
+    platform: Platform
   ) {
     this._document = _document;
 
-    if (Platform.isBrowser) {
+    if (platform.isBrowser) {
       // Clean
       const nodes: NodeList = this._document.body.querySelectorAll('ly-s-c');
       if (nodes.length) {

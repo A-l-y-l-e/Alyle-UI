@@ -35,7 +35,6 @@ import {
   mixinRaised,
   mixinShadowColor,
   mixinStyleUpdater,
-  Platform,
   ThemeVariables,
   AlignAlias,
   YPosition,
@@ -58,6 +57,7 @@ import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
 import { Subscription } from 'rxjs';
 import { ViewportRuler } from '@angular/cdk/scrolling';
+import { Platform } from '@angular/cdk/platform';
 
 export interface LyTabTheme {
   /** Styles for Tab Component */
@@ -207,7 +207,8 @@ export const LyTabsMixinBase = mixinStyleUpdater(mixinBg(mixinElevation(mixinSha
 export class LyTabLabelBase {
   constructor(
     public _theme: LyTheme2,
-    public _ngZone: NgZone
+    public _ngZone: NgZone,
+    public _platform: Platform
   ) { }
 }
 
@@ -464,7 +465,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     private el: ElementRef,
     private cd: ChangeDetectorRef,
     private _viewportRuler: ViewportRuler,
-    readonly sRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer,
+    private _platform: Platform
   ) {
     super(theme);
     this.setAutoContrast();
@@ -506,7 +508,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   ngAfterViewInit() {
     this.updateStyle(this.tabsRef.nativeElement);
     this._isViewInitLoaded = true;
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this._tabResizeSub = this._viewportRuler.change().subscribe(() => {
         if (this._selectedTab) {
           this._updateIndicator(this._selectedTab);
@@ -577,13 +579,13 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       window.clearTimeout(this._timeoutIds[tabIndex]);
     }
     if (this.selectedIndex === tabIndex) {
-      const contentInnerHeightBefore = Platform.isBrowser
+      const contentInnerHeightBefore = this._platform.isBrowser
         ? (this.tabContents.nativeElement as HTMLElement)
           .getBoundingClientRect().height
         : null;
       this.renderer.removeClass(container, this.classes.hiddenContent);
 
-      if (Platform.isBrowser && this.dynamicHeight) {
+      if (this._platform.isBrowser && this.dynamicHeight) {
         if (this._timeoutIds[tabIndex] != null) {
           window.clearTimeout(this._timeoutIds[tabIndex]);
         }
@@ -608,7 +610,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       }
 
     } else {
-      if (Platform.isBrowser) {
+      if (this._platform.isBrowser) {
         const indexBefore = this._selectedBeforeIndex;
         if (indexBefore === tabIndex) {
           if (this.dynamicHeight) {
@@ -658,7 +660,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       this._selectedTab = tab;
       Promise.resolve(null).then(() => {
         this._updateDynamicHeight(tabContent, index);
-        if (Platform.isBrowser) {
+        if (this._platform.isBrowser) {
           this._updateIndicator(tab);
         } else {
           // for server
@@ -705,7 +707,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 export class LyTab implements OnInit {
   /** Current tab index */
   index: number;
-  _isBrowser = Platform.isBrowser;
+  _isBrowser = this._platform.isBrowser;
   @ContentChild(LyTabContent, { read: TemplateRef, static: true }) _templateRefLazy: TemplateRef<LyTabContent>;
   @ViewChild('_templateNgContent', { static: true }) _templateRef: TemplateRef<any>;
   @ViewChild('tabIndicator') _tabIndicator: ElementRef;
@@ -715,7 +717,8 @@ export class LyTab implements OnInit {
     private _tabs: LyTabs,
     public _renderer: Renderer2,
     public _el: ElementRef,
-    readonly sRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer,
+    private _platform: Platform
   ) { }
 
   ngOnInit() {
@@ -744,7 +747,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _activeTabStyle: boolean;
   private _active: boolean;
   disableRipple: boolean;
-  _isBrowser = Platform.isBrowser;
+  _isBrowser = this._platform.isBrowser;
 
   @Input()
   get active() {
@@ -774,9 +777,10 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     _focusState: LyFocusState,
     readonly sRenderer: StyleRenderer,
     @Optional() private _tab: LyTab,
-    @Optional() private _tabs: LyTabs
+    @Optional() private _tabs: LyTabs,
+    platform: Platform
   ) {
-    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, sRenderer, null as any);
+    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, sRenderer, platform, null as any);
   }
 
   ngOnInit() {
@@ -802,7 +806,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   }
 
   _updateTabScroll() {
-    if (Platform.isBrowser && this._tabs.scrollable) {
+    if (this._platform.isBrowser && this._tabs.scrollable) {
       const tab = this._tab._el.nativeElement as HTMLElement;
       const tabContainer = this._tabs.tabsRef.nativeElement as HTMLElement;
       if (tabContainer.scrollWidth !== tabContainer.offsetWidth) {

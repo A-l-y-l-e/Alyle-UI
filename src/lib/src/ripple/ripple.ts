@@ -1,6 +1,6 @@
 import { NgZone } from '@angular/core';
-import { Platform } from '../platform';
 import { ThemeVariables } from '../theme/theme-config';
+import { Platform } from '@angular/cdk/platform';
 
 export interface RippleConfig {
   centered?: boolean;
@@ -31,9 +31,10 @@ export class Ripple {
     private _ngZone: NgZone,
     private classes: any,
     private _containerElement: HTMLElement,
-    private _triggerElement?: HTMLElement
+    platform: Platform,
+    private _triggerElement?: HTMLElement,
   ) {
-    if (Platform.isBrowser) {
+    if (platform.isBrowser) {
       if (typeof PointerEvent === 'function' && typeof TouchEvent  === 'function') {
         this._eventHandlers.set('pointerdown', this.onPointerDown.bind(this));
       } else {

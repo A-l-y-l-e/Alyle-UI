@@ -17,13 +17,13 @@ import {
   mixinRaised,
   mixinShadowColor,
   mixinStyleUpdater,
-  Platform,
   ThemeVariables,
   lyl,
   keyframesUniqueId,
   StyleRenderer
   } from '@alyle/ui';
 import { take } from 'rxjs/operators';
+import { Platform } from '@angular/cdk/platform';
 
 const STYLE_PRIORITY = -2;
 export const STYLES = (theme: ThemeVariables) => {
@@ -130,7 +130,7 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
   set icon(val: string) {
     this._icon = val;
     this._addDefaultIcon();
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       this._prepareSvgIcon(this.iconService.getSvg(val));
     }
   }
@@ -161,7 +161,8 @@ export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDest
     private _el: ElementRef,
     private _renderer: Renderer2,
     theme: LyTheme2,
-    readonly sRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer,
+    private _platform: Platform
   ) {
     super(theme);
     this.setAutoContrast();

@@ -31,7 +31,6 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   toBoolean,
-  Platform,
   ThemeVariables,
   StyleCollection,
   LyClasses,
@@ -40,6 +39,7 @@ import {
   ThemeRef
   } from '@alyle/ui';
 import { LyAvatar } from '@alyle/ui/avatar';
+import { Platform } from '@angular/cdk/platform';
 
 export interface LyListTheme {
   /** Styles for List Component */
@@ -177,7 +177,8 @@ export class LyList {
 export class LyListItemBase {
   constructor(
     public _theme: LyTheme2,
-    public _ngZone: NgZone
+    public _ngZone: NgZone,
+    public _platform: Platform
   ) { }
 }
 
@@ -212,7 +213,7 @@ mixinBg(
 export class LyListItem extends LyListItemMixinBase implements OnInit, AfterContentInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._list.classes;
-  readonly _isBrowser = Platform.isBrowser;
+  readonly _isBrowser = this._platform.isBrowser;
   private _isActionListItem: boolean;
   private _onFocusByKeyboardState: boolean;
 
@@ -252,9 +253,10 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
     public _rippleService: LyRippleService,
     private _focusState: LyFocusState,
     private _list: LyList,
-    private _cd: ChangeDetectorRef
+    private _cd: ChangeDetectorRef,
+    _platform: Platform
   ) {
-    super(theme, ngZone);
+    super(theme, ngZone, _platform);
     this.setAutoContrast();
     this._triggerElement = _el;
   }

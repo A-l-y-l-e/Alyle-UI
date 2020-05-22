@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '../platform/index';
 import { LyTheme2 } from '../theme/theme2.service';
 import { ThemeVariables } from '../theme/theme-config';
+import { Platform } from '@angular/cdk/platform';
 
 const styles = (theme: ThemeVariables) => ({
   overlay: {
@@ -27,9 +27,10 @@ export class LyOverlayContainer {
   }
   private _isActiveOverlayContainer: boolean;
   constructor(
-    private theme: LyTheme2
+    private theme: LyTheme2,
+    private _platform: Platform
   ) {
-    if (Platform.isBrowser) {
+    if (this._platform.isBrowser) {
       const container = document.createElement('ly-overlay-container');
       document.body.appendChild(container);
       this._containerElement = container;

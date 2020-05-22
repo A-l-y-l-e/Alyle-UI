@@ -15,7 +15,6 @@ import {
   Optional
 } from '@angular/core';
 import {
-  Platform,
   toBoolean,
   LyTheme2,
   ThemeVariables,
@@ -40,6 +39,7 @@ import {
   StyleRenderer
 } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
+import { Platform } from '@angular/cdk/platform';
 
 export interface LyButtonTheme {
   /** Styles for Button Component */
@@ -160,7 +160,8 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
 export class LyButtonBase {
   constructor(
     public _theme: LyTheme2,
-    public _ngZone: NgZone
+    public _ngZone: NgZone,
+    public _platform: Platform
   ) { }
 }
 
@@ -278,12 +279,13 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     public _rippleService: LyRippleService,
     private _focusState: LyFocusState,
     readonly sRenderer: StyleRenderer,
+    platform: Platform,
     @Optional() @Inject(LY_BUTTON_DEFAULT_OPTIONS) private _defaultConfig: LyButtonDefaultOptions
   ) {
-    super(_theme, _ngZone);
+    super(_theme, _ngZone, platform);
     this.setAutoContrast();
     this._triggerElement = _el;
-    if (Platform.FIREFOX) {
+    if (this._platform.FIREFOX) {
       const newClass = this._theme.renderStyle('button-ff', () => lyl `{
         &::-moz-focus-inner,&::-moz-focus-inner {
           border: 0
