@@ -2,13 +2,15 @@ import { Directive, OnChanges, ElementRef, NgZone, OnDestroy, Input, OnInit, Ren
 import { LyTheme2 } from './theme2.service';
 import { mixinStyleUpdater, mixinBg, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor, mixinDisableRipple, mixinColor } from '../common/index';
 import { toBoolean } from '../minimal/is-boolean';
+import { Platform } from '@angular/cdk/platform';
 
 const DEFAULT_BG = 'paper';
 
 export class LyPaperBase {
   constructor(
     public _theme: LyTheme2,
-    public _ngZone: NgZone
+    public _ngZone: NgZone,
+    public _platform: Platform
   ) { }
 }
 
@@ -48,9 +50,10 @@ export class LyPaper extends LyPaperMixinBase implements OnChanges, OnInit, OnDe
     theme: LyTheme2,
     ngZone: NgZone,
     private _el: ElementRef,
-    private _renderer: Renderer2
+    private _renderer: Renderer2,
+    platform: Platform
   ) {
-    super(theme, ngZone);
+    super(theme, ngZone, platform);
     this.setAutoContrast();
     this._triggerElement = this._el;
     this._rippleContainer = this._el;
