@@ -7,6 +7,12 @@ Menus allow users make a selection from multiple options.
   <aui-menu-demo-01></aui-menu-demo-01>
 </demo-view>
 
+## Menu with icons
+
+<demo-view path="docs/components/menu-demo/menu-with-icons">
+  <aui-menu-with-icons></aui-menu-with-icons>
+</demo-view>
+
 ## Nested Menu
 
 <demo-view path="docs/components/menu-demo/nested-menu">

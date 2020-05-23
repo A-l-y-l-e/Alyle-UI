@@ -1,0 +1,58 @@
+<button ly-button
+  appearance="icon"
+  [lyMenuTriggerFor]="menuTemplateRef"
+><ly-icon>more_vert</ly-icon></button>
+
+<ng-template #menuTemplateRef let-M>
+  <ly-menu [ref]="M">
+    <button ly-button ly-menu-item>
+      <ly-icon>remove_red_eye</ly-icon>
+      <span>Preview</span>
+    </button>
+    <button ly-button ly-menu-item>
+      <ly-icon>person_add</ly-icon>
+      <span>Share</span>
+    </button>
+    <button ly-button ly-menu-item>
+      <ly-icon>link</ly-icon>
+      <span>Get Link</span>
+    </button>
+    <ly-divider></ly-divider>
+    <button ly-button ly-menu-item>
+      <ly-icon>content_copy</ly-icon>
+      <span>Preview</span>
+    </button>
+    <button ly-button ly-menu-item>
+      <ly-icon>get_app</ly-icon>
+      <span>Download</span>
+    </button>
+  </ly-menu>
+</ng-template>
+
+<button ly-button
+  appearance="icon"
+  [lyMenuTriggerFor]="clipboard"
+><ly-icon>more_vert</ly-icon></button>
+
+<ng-template #clipboard let-M>
+  <ly-menu [ref]="M" [width]="180">
+    <button ly-button ly-menu-item>
+      <ly-icon>content_cut</ly-icon>
+      <span>Cut</span>
+      <span [class]="classes.spacer"></span>
+      <span>⌘X</span>
+    </button>
+    <button ly-button ly-menu-item>
+      <ly-icon>content_copy</ly-icon>
+      <span>Copy</span>
+      <span [class]="classes.spacer"></span>
+      <span>⌘C</span>
+    </button>
+    <button ly-button ly-menu-item>
+      <ly-icon>content_paste</ly-icon>
+      <span>Paste</span>
+      <span [class]="classes.spacer"></span>
+      <span>⌘V</span>
+    </button>
+  </ly-menu>
+</ng-template>

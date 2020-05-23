@@ -48,7 +48,7 @@ const styles = (theme: AUIThemeVariables) => ({
   encapsulation: ViewEncapsulation.None
 })
 export class AppBarComponent implements OnInit, OnDestroy {
-  classes = this.theme.addStyleSheet(styles, 1);
+  classes = this.lyTheme.addStyleSheet(styles, 1);
   themes: string[];
   drawer: LyDrawer;
   bg = 'transparent';
@@ -71,7 +71,7 @@ export class AppBarComponent implements OnInit, OnDestroy {
   private scrollSub: Subscription;
   constructor(
     private appComponent: AppComponent,
-    public theme: LyTheme2,
+    public lyTheme: LyTheme2,
     public themeManager: ThemeManager,
     private _scrollDispatcher: ScrollDispatcher,
     private router: Router,
@@ -86,6 +86,8 @@ export class AppBarComponent implements OnInit, OnDestroy {
       // Themes that are used in multiple themes demo
       // that should not be displayed on the menu.
       .filter(nam => !nam.startsWith('new-'));
+
+    this.themes.map(theme => console.log(theme, themeManager.get(theme)));
   }
 
   ngOnInit() {
@@ -137,8 +139,8 @@ export class AppBarComponent implements OnInit, OnDestroy {
     if (typeof localStorage === 'object') {
       localStorage.setItem('theme-name', themeName);
     }
-    this.theme.setTheme(themeName);
-    this._ads.update(this._location.path(true), this.theme);
+    this.lyTheme.setTheme(themeName);
+    this._ads.update(this._location.path(true), this.lyTheme);
   }
 
   ngOnDestroy() {

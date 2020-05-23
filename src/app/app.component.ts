@@ -349,6 +349,7 @@ export class AppComponent {
     iconService.setSvg('Water', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Water'));
     iconService.setSvg('Snow', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/Snow'));
     iconService.setSvg('Discord', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/social/discord'));
+    iconService.setSvg('Palette', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/palette'));
 
     SVG_ICONS.forEach(svg => iconService.addSvgIconLiteral(svg[0], sanitizer.bypassSecurityTrustHtml(svg[1])));
 

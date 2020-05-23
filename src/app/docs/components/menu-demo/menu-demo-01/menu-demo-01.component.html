@@ -1,31 +1,9 @@
-<button ly-button [lyMenuTriggerFor]="menuTemplateRef">Default</button>
+<button ly-button
+  [lyMenuTriggerFor]="menuTemplateRef"
+>Button</button>
 
 <ng-template #menuTemplateRef let-M>
   <ly-menu [ref]="M">
-    <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
-      <span>Item {{ i + 1 }}</span>
-    </button>
-  </ly-menu>
-</ng-template>
-
-<h3 [lyTyp]="'title'" [gutter]="true">Placement</h3>
-
-<button ly-button [lyMenuTriggerFor]="menuTemplateRef2">after</button>
-<ng-template #menuTemplateRef2 let-M>
-  <ly-menu [ref]="M" placement="after">
-    <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
-      <span>Item {{ i + 1 }}</span>
-    </button>
-  </ly-menu>
-</ng-template>
-
-<h3 [lyTyp]="'title'" [gutter]="true">Placement + Position</h3>
-
-<button ly-button [lyMenuTriggerFor]="menuTemplateRef3">
-  after below
-</button>
-<ng-template #menuTemplateRef3 let-M>
-  <ly-menu [ref]="M" placement="after" yPosition="below">
     <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
       <span>Item {{ i + 1 }}</span>
     </button>

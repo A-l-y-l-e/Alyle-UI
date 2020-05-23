@@ -8,12 +8,15 @@ import { NestedMenuModule } from './nested-menu/nested-menu.module';
 import { NestedMenuComponent } from './nested-menu/nested-menu.component';
 import { OpenOnHoverMenuModule } from './open-on-hover-menu/open-on-hover-menu.module';
 import { OpenOnHoverMenuComponent } from './open-on-hover-menu/open-on-hover-menu.component';
+import { MenuWithIconsModule } from './menu-with-icons/menu-with-icons.module';
+import { MenuWithIconsComponent } from './menu-with-icons/menu-with-icons.component';
 
 const entryComponents = [
   MenuDemo01Component,
   MenuPlaygroundComponent,
   NestedMenuComponent,
-  OpenOnHoverMenuComponent
+  OpenOnHoverMenuComponent,
+  MenuWithIconsComponent
 ];
 
 @NgModule({
@@ -21,7 +24,8 @@ const entryComponents = [
     MenuDemo01Module,
     MenuPlaygroundModule,
     NestedMenuModule,
-    OpenOnHoverMenuModule
+    OpenOnHoverMenuModule,
+    MenuWithIconsModule
   ],
   entryComponents
 })

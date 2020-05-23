@@ -94,6 +94,7 @@ export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) =
       border-radius: 0
       width: 100%
       justify-content: flex-start
+      font-weight: 400
       ly-icon {
         margin-${after}: 16px
       }
