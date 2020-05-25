@@ -1,3 +1,15 @@
+## [3.2.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.6...3.2.7) (2020-05-25)
+
+
+### Bug Fixes
+
+* **menu:** fix menu with icon ([d7162b0](https://github.com/A-l-y-l-e/Alyle-UI/commit/d7162b08697c6de7dbff67c14a5d574023518794))
+* `Platform` exported in `@alyle/ui` is deprecated. ([724ba4d](https://github.com/A-l-y-l-e/Alyle-UI/commit/724ba4d8bb17168b52c6b442c2314e8a27a76063))
+* fix `<textarea>` with `cdkTextareaAutosize` ([fb78cfa](https://github.com/A-l-y-l-e/Alyle-UI/commit/fb78cfacdc08933c0dcc69d464faf403017a5d66))
+* use Platform CDK ([34205fe](https://github.com/A-l-y-l-e/Alyle-UI/commit/34205fe70790f8396164ee0e4125a04df7c1f6cd))
+
+
+
 ## [3.2.6](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.5...3.2.6) (2020-05-19)
 
 
