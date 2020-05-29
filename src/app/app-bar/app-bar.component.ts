@@ -86,8 +86,6 @@ export class AppBarComponent implements OnInit, OnDestroy {
       // Themes that are used in multiple themes demo
       // that should not be displayed on the menu.
       .filter(nam => !nam.startsWith('new-'));
-
-    this.themes.map(theme => console.log(theme, themeManager.get(theme)));
   }
 
   ngOnInit() {
