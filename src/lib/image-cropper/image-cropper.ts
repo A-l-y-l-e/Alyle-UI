@@ -56,10 +56,9 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
     }`,
     imgContainer: lyl `{
       cursor: move
-      position: absolute
-      top: 0
-      left: 0
+      ...${LY_COMMON_STYLES.fill}
       & > canvas {
+        display: block
         pointer-events: none
       }
     }`,
