@@ -1,3 +1,12 @@
+## [3.2.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.7...3.2.8) (2020-05-30)
+
+
+### Bug Fixes
+
+* **cropper:** some parts of the image is not draggable ([6873797](https://github.com/A-l-y-l-e/Alyle-UI/commit/6873797acd3734da8eb6d833b527d94957e4294b)), closes [#116](https://github.com/A-l-y-l-e/Alyle-UI/issues/116)
+
+
+
 ## [3.2.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.6...3.2.7) (2020-05-25)
 
 
