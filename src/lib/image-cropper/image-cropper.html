@@ -1,8 +1,9 @@
 <div #_imgContainer
-[className]="classes.imgContainer"
-(slidestart)="_moveStart()"
-(slide)="_move($event)"
-(slideend)="_slideEnd()">
+  [className]="classes.imgContainer"
+  (slidestart)="_moveStart()"
+  (slide)="_move($event)"
+  (slideend)="_slideEnd()"
+>
   <canvas #_imgCanvas></canvas>
 </div>
 <div #_area *ngIf="_isLoadedImg; else content" [className]="classes.area" [ngStyle]="{

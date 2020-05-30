@@ -61,8 +61,11 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
       left: 0
       display: flex
       & > canvas {
-        pointer-events: none
+        display: block
       }
+    }`,
+    overlay: lyl `{
+      ...${LY_COMMON_STYLES.fill}
     }`,
     area: lyl `{
       pointer-events: none
