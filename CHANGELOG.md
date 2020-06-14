@@ -1,3 +1,19 @@
+## [3.2.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.8...3.2.9) (2020-06-14)
+
+
+### Bug Fixes
+
+* slightly remove the status contrast disabled ([6bdf277](https://github.com/A-l-y-l-e/Alyle-UI/commit/6bdf277d5e4ad8093ad39fa670c7f3ba26f1302a))
+* **button:** fix disabled raised ([4786e2a](https://github.com/A-l-y-l-e/Alyle-UI/commit/4786e2abe08d6614634b29a289215f44e03e38fa))
+* **button:** remove duplicate style ([2df7aa8](https://github.com/A-l-y-l-e/Alyle-UI/commit/2df7aa82581f18e11e80ad0ae3953b8e735c6b90))
+
+
+### Features
+
+* **snack-bark:** ability to pass data to a snack bar ([44fc180](https://github.com/A-l-y-l-e/Alyle-UI/commit/44fc180edf980b46eb691d6c93e2fad1235eba8f))
+
+
+
 ## [3.2.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.7...3.2.8) (2020-05-30)
 
 
