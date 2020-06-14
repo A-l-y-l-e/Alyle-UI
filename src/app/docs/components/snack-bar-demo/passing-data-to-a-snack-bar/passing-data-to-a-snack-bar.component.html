@@ -1,0 +1,10 @@
+<button ly-button (click)="open()">Show snack-bar</button>
+
+<ng-template ly-snack-bar
+  #sb="lySnackBar"
+  (afterDismissed)="afterDismissed($event)"
+  [duration]="2000"
+  let-msg="msg"
+>
+  <span>{{ msg }}</span>
+</ng-template>

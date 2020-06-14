@@ -3,7 +3,14 @@
 
 Snackbars provide brief messages at the bottom of the screen.
 
-<h2 [lyTyp]="'display1'" gutter>Basic SnackBar</h2>
+## Basic SnackBar
+
 <demo-view path="docs/components/snack-bar-demo/basic-snack-bar">
   <aui-basic-snack-bar></aui-basic-snack-bar>
+</demo-view>
+
+## Passing data to a SnackBar
+
+<demo-view path="docs/components/snack-bar-demo/passing-data-to-a-snack-bar">
+  <aui-passing-data-to-a-snack-bar></aui-passing-data-to-a-snack-bar>
 </demo-view>

@@ -59,12 +59,12 @@ export class CustomMinimaLight {
     keyword: '#7c4dff'
   };
   stackblitz = '#1389FD';
-  snackBar = {
-    root: lyl `{
-      background: ${new Color(0x000000)}
-      border-radius: 0
-    }`
-  };
+  // snackBar = {
+  //   root: lyl `{
+  //     background: ${new Color(0x000000)}
+  //     border-radius: 0
+  //   }`
+  // };
 }
 
 @Injectable()
