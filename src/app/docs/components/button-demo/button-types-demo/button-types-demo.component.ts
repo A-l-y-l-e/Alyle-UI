@@ -1,29 +1,36 @@
-import { Component } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { lyl, ThemeVariables, StyleRenderer } from '@alyle/ui';
 
-const styles = () => ({
-  root: {
-    button: {
-      marginAfter: '1em',
-      marginTop: '.5em',
-      marginBottom: '.5em'
-    }
-  },
-  row: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginBottom: '.5em',
-    alignItems: 'center'
-  }
-});
+const STYLES = (theme: ThemeVariables) => {
+  const { after } = theme;
+  return {
+    root: lyl `{
+      button {
+        margin-${after}: 1em
+        margin-top: .5em
+        margin-bottom: .5em
+      }
+    }`,
+    row: lyl `{
+      display: flex
+      flex-wrap: wrap
+      margin-bottom: .5em
+      align-items: center
+    }`
+  };
+};
 
 @Component({
   selector: 'aui-button-types-demo',
-  templateUrl: './button-types-demo.component.html'
+  templateUrl: './button-types-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class ButtonTypesDemoComponent {
-  readonly classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   constructor(
-    private theme: LyTheme2
+    readonly sRenderer: StyleRenderer
   ) { }
  }
