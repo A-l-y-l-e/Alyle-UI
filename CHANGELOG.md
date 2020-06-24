@@ -1,3 +1,23 @@
+<a name="1.9.12"></a>
+## [1.9.12](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...1.9.12) (2020-06-24)
+
+
+### Bug Fixes
+
+* **cropper:** some parts of the image is not draggable ([499bef9](https://github.com/A-l-y-l-e/Alyle-UI/commit/499bef9)), closes [#116](https://github.com/A-l-y-l-e/Alyle-UI/issues/116)
+
+
+
+<a name="1.9.12"></a>
+## [1.9.12](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...1.9.12) (2020-06-24)
+
+
+### Bug Fixes
+
+* **cropper:** some parts of the image is not draggable ([499bef9](https://github.com/A-l-y-l-e/Alyle-UI/commit/499bef9)), closes [#116](https://github.com/A-l-y-l-e/Alyle-UI/issues/116)
+
+
+
 <a name="1.9.11"></a>
 ## [1.9.11](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.10...1.9.11) (2018-12-27)
 
