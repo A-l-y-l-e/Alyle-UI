@@ -1,5 +1,14 @@
 import { CDK_TABLE_TEMPLATE, CdkTable, CDK_TABLE} from '@angular/cdk/table';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { lyl } from '@alyle/ui';
+
+export const STYLES = () => {
+  return {
+    root: lyl `{
+      display: block
+    }`
+  };
+};
 
 /**
  * Wrapper for the CdkTable with Material design styles.
