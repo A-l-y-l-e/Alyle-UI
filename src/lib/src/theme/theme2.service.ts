@@ -197,17 +197,22 @@ export class LyTheme2 {
     this.updateClassName(element, renderer, newClass, oldClass);
     return newClass;
   }
-  setTheme(nam: string) {
+
+  /**
+   * Change the current theme for another.
+   * @param themeName theme name
+   */
+  setTheme(themeName: string) {
     if (!this._platform.isBrowser) {
       throw new Error(`\`theme.setTheme('theme-name')\` is only available in browser platform`);
     }
-    if (nam !== this.config.name) {
+    if (themeName !== this.config.name) {
       const theme = this.themeMap.get(this.initialTheme);
       if (theme == null) {
-        throw new Error(`Theme ${nam} not found in themeMap`);
+        throw new Error(`Theme ${themeName} not found in themeMap`);
       }
-      theme.change = nam;
-      this.config = this.core.get(nam)!;
+      theme.change = themeName;
+      this.config = this.core.get(themeName)!;
       this._updateAllStyles();
     }
   }
