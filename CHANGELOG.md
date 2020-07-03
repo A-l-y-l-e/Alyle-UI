@@ -1,3 +1,12 @@
+# [3.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.9...3.3.0) (2020-07-03)
+
+
+### Features
+
+* **cropper:** remove Hammer.js ([aa4a54d](https://github.com/A-l-y-l-e/Alyle-UI/commit/aa4a54d265d7651e42e8f761fe5f753a29927393))
+
+
+
 ## [2.9.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.7...2.9.8) (2020-06-25)
 
 
