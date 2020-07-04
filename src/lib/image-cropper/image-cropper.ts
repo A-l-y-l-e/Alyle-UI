@@ -18,6 +18,7 @@ import { Subject, Observable } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
+import { resizeCanvas } from './resize-canvas';
 
 export interface LyImageCropperTheme {
   /** Styles for Image Cropper Component */
@@ -121,7 +122,11 @@ export class ImgCropperConfig {
   type?: string;
   /** Background color( default: null), if is null in png is transparent but not in jpg. */
   fill?: string | null;
-  /** Set anti-aliased( default: true) */
+  /**
+   * Set anti-aliased( default: true)
+   * @deprecated this is not necessary as the cutter will automatically resize the image
+   * to the best quality
+   */
   antiAliased?: boolean = true;
   autoCrop?: boolean;
   output?: ImgOutput | ImgResolution = ImgResolution.Default;
@@ -871,57 +876,7 @@ export class LyImageCropper implements OnDestroy {
       config.height / canvas.height);
   }
 
-  private imageSmoothingQuality(img: HTMLCanvasElement, config, quality: number): HTMLCanvasElement {
-    /** Calculate total number of steps needed */
-    let  numSteps = Math.ceil(Math.log(Math.max(img.width, img.height) / Math.max(config.width, config.height)) / Math.log(2)) - 1;
-    numSteps = numSteps <= 0 ? 0 : numSteps;
-
-    /**Array steps */
-    const steps = Array.from(Array(numSteps).keys());
-
-    /** Context */
-    const octx = img.getContext('2d')!;
-
-    const q = ((quality * 10) ** numSteps) / (10 ** numSteps);
-    const fileType = this._defaultType;
-    /** If Steps => imageSmoothingQuality */
-    if (numSteps) {
-      /** Set size */
-      const w = img.width * quality;
-      const h = img.height * quality;
-      /** Only the new img is shown. */
-      if (fileType === 'image/png' || fileType === 'image/svg+xml') {
-        octx.globalCompositeOperation = 'copy';
-      }
-
-      /** Steps */
-      (steps as Array<number>).forEach(() => {
-        octx.drawImage(img,
-          0, 0,
-          w, h
-        );
-      });
-    }
-
-    /**
-     * Step final
-     * Resize & crop image
-     */
-    const oc = document.createElement('canvas'),
-    ctx = oc.getContext('2d')!;
-    oc.width = config.width;
-    oc.height = config.height;
-    ctx.drawImage(img,
-      0, 0,
-      img.width * q, img.height * q,
-      0, 0,
-      oc.width, oc.height
-    );
-    return oc;
-  }
-
   /**
-   * Crop Image
    * Resize & crop image
    */
   crop(config?: ImgCropperConfig): ImgCropperEvent {
@@ -955,14 +910,13 @@ export class LyImageCropper implements OnDestroy {
     ctx.drawImage(this._imgCanvas.nativeElement,
       -(left), -(top),
     );
-    let result = canvasElement;
-    const antiAliasedQ = myConfig.antiAliased ? .5 : 1;
-    console.log({scaleFix, });
+    const result = canvasElement;
     if (myConfig.output === ImgResolution.Default) {
-      result = this.imageSmoothingQuality(result, config, antiAliasedQ);
+      resizeCanvas(result, config.width, config.height);
     } else if (typeof myConfig.output === 'object') {
-      result = this.imageSmoothingQuality(result, myConfig.output, antiAliasedQ);
+      resizeCanvas(result, myConfig.output.width, myConfig.output.height);
     }
+
     let url: string;
     if (myConfig.type) {
       url = result.toDataURL(`${myConfig.type}`);
