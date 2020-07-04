@@ -5,6 +5,9 @@
 
 * **cropper:** resize canvas with best quality ([cb5a855](https://github.com/A-l-y-l-e/Alyle-UI/commit/cb5a855b2a9d30a6779dab5c29b0df0495cc64da))
 
+BREAKING CHANGES:
+
+`ImgCropperConfig.antiAliased` has been deprecated, this is not necessary as the cutter will automatically resize the image to the best quality.
 
 
 # [3.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.9...3.3.0) (2020-07-03)
