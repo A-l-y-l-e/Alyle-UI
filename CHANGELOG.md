@@ -7,7 +7,7 @@
 
 ### BREAKING CHANGES
 
-`ImgCropperConfig.antiAliased` has been deprecated, this is not necessary as the cutter will automatically resize the image to the best quality.
+**cropper:**`ImgCropperConfig.antiAliased` has been deprecated, this is not necessary as the cutter will automatically resize the image to the best quality.
 
 
 # [3.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.9...3.3.0) (2020-07-03)
