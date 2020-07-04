@@ -124,7 +124,7 @@ export class ImgCropperConfig {
   fill?: string | null;
   /**
    * Set anti-aliased( default: true)
-   * @deprecated this is not necessary as the cutter will automatically resize the image
+   * @deprecated this is not necessary as the cropper will automatically resize the image
    * to the best quality
    */
   antiAliased?: boolean = true;
