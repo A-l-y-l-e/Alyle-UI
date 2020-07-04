@@ -65,6 +65,7 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
       top: 0
       left: 0
       display: flex
+      touch-action: none
       & > canvas {
         display: block
       }
