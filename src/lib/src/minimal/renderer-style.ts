@@ -346,7 +346,7 @@ function applyStyle<INPUT, C>(
   const oldValue = c[_propertyKey];
   c[_propertyKey] = val;
   const styleTemplate = style(val as NonNullable<INPUT>, c as any);
-  if (val == null || styleTemplate == null) {
+  if ((val as any) === false || val == null || styleTemplate == null) {
     c.sRenderer.removeClass(c[_propertyKeyClass]);
   } else if (oldValue !== val) {
     c[_propertyKeyClass] = c.sRenderer.add(
