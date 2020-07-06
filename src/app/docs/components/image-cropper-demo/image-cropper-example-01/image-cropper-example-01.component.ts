@@ -33,7 +33,8 @@ export class ImageCropperExample01Component implements WithStyles, AfterViewInit
     width: 150, // Default `250`
     height: 150, // Default `200`
     fill: '#ff2997', // Default transparent if type = png else #000
-    type: 'image/png' // Or you can also use `image/jpeg`
+    type: 'image/png', // Or you can also use `image/jpeg`
+    round: true
   };
 
   constructor(

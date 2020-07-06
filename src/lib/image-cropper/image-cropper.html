@@ -6,10 +6,13 @@ show the wrong cursor. We prevent it by stopping the `selectstart` event. -->
 >
   <canvas #_imgCanvas></canvas>
 </div>
-<div #_area *ngIf="_isLoadedImg; else content" [className]="classes.area" [ngStyle]="{
-  width: config.width + 'px',
-  height: config.height + 'px'
-}"></div>
+<ly-cropper-area #_area
+  [round]="!!config.round"
+  *ngIf="_isLoadedImg; else content"
+  [ngStyle]="{
+    width: config.width + 'px',
+    height: config.height + 'px'
+  }"></ly-cropper-area>
 <ng-template #content>
   <div [className]="classes.defaultContent">
     <input #_fileInput type="file" (change)="selectInputEvent($event)" accept="image/*">

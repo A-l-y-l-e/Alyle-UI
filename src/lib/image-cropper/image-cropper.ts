@@ -35,6 +35,7 @@ const STYLE_PRIORITY = -2;
 
 export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) => {
   const cropper = ref.selectorsOf(STYLES);
+  const { after } = theme;
   return {
     $name: LyImageCropper.и,
     $priority: STYLE_PRIORITY,
@@ -78,20 +79,27 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
       box-shadow: 0 0 0 20000px rgba(0, 0, 0, 0.4)
       ...${LY_COMMON_STYLES.fill}
       margin: auto
-      &:before, &:after {
+      &:after {
         ...${LY_COMMON_STYLES.fill}
         content: ''
-      }
-      &:before {
-        width: 0
-        height: 0
-        margin: auto
-        border-radius: 50%
-        background: #fff
         border: solid 2px rgb(255, 255, 255)
+        border-radius: inherit
       }
-      &:after {
-        border: solid 2px rgb(255, 255, 255)
+    }`,
+    resizer: lyl `{
+      width: 10px
+      height: 10px
+      background: #fff
+      border-radius: 3px
+      position: absolute
+      touch-action: none
+      bottom: 0
+      ${after}: 0
+      pointer-events: all
+      cursor: ${
+        after === 'right'
+          ? 'nwse-resize'
+          : 'nesw-resize'
       }
     }`,
     defaultContent: lyl `{
@@ -141,6 +149,17 @@ export class ImgCropperConfig {
    * Note: It only works when the image is received from the `<input>` event.
    */
   maxFileSize?: number | null;
+  round?: boolean;
+  /**
+   * Whether the cropper area is resizable.
+   * default: false
+   */
+  resizableArea?: boolean;
+  /**
+   * Keep the width and height of the growing area the same according
+   * to `ImgCropperConfig.width` and `ImgCropperConfig.height`
+   */
+  keepAspectRatio?: boolean;
 }
 
 export interface ImgOutput {
@@ -270,7 +289,9 @@ export class LyImageCropper implements OnDestroy {
   isCropped: boolean;
 
   @ViewChild('_imgContainer', { static: true }) _imgContainer: ElementRef;
-  @ViewChild('_area') _areaRef: ElementRef;
+  @ViewChild('_area', {
+    read: ElementRef
+  }) _areaRef: ElementRef;
   @ViewChild('_imgCanvas', { static: true }) _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Input()
   get config(): ImgCropperConfig {
@@ -549,13 +570,13 @@ export class LyImageCropper implements OnDestroy {
     }
 
     this._ngZone.run(() => {
+      this._isSliding = true;
       this.offset = {
         x: this._imgRect.x,
         y: this._imgRect.y,
         left: this._imgRect.xc,
         top: this._imgRect.yc
       };
-      this._isSliding = true;
       this._lastPointerEvent = event;
       this._startPointerEvent = getGesturePointFromEvent(event);
       event.preventDefault();
@@ -577,6 +598,7 @@ export class LyImageCropper implements OnDestroy {
     this._pointerMove({
       clientX: 0,
       clientY: 0,
+      type: 'n',
       preventDefault: () => {}
     } as MouseEvent);
     this._isSliding = false;
@@ -1135,5 +1157,5 @@ function getGesturePointFromEvent(event: TouchEvent | MouseEvent) {
 
 /** Returns whether an event is a touch event. */
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
-  return !!(event as TouchEvent).targetTouches;
+  return event.type[0] === 't';
 }
