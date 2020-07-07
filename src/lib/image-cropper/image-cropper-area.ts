@@ -50,7 +50,7 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
 
   constructor(
     readonly sRenderer: StyleRenderer,
-    private _el: ElementRef,
+    readonly _elementRef: ElementRef,
     private _ngZone: NgZone,
     readonly _cropper: LyImageCropper,
     @Inject(DOCUMENT) _document: any
@@ -97,30 +97,45 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
     if (this._isSliding) {
       event.preventDefault();
       this._lastPointerEvent = event;
-      const element: HTMLDivElement = this._el.nativeElement;
-      const { width, height } = this._cropper.config;
+      const element: HTMLDivElement = this._elementRef.nativeElement;
+      const { width, height, minWidth, minHeight } = this._cropper.config;
       const point = getGesturePointFromEvent(event);
       const deltaX = point.x - this._startPointerEvent!.x;
       const deltaY = point.y - this._startPointerEvent!.y;
       let newWidth = 0;
       let newHeight = 0;
+      const rootRect = this._cropper._rootRect();
       if (this.round) {
+        // The distance from the center of the cropper area to the pointer
         const originX = ((width / 2 / Math.sqrt(2)) + deltaX);
         const originY = ((height / 2 / Math.sqrt(2)) + deltaY);
-        const radius = Math.sqrt(originX ** 2 + originY ** 2);
-        newWidth = newHeight = radius * 2;
-      } else if (this._cropper.config.keepAspectRatio) {
+
+        // Leg
+        const side = Math.sqrt(originX ** 2 + originY ** 2);
+        newWidth = newHeight = side * 2;
+        const min = Math.min(rootRect.width, rootRect.height);
+        if (newWidth > min) {
+          newWidth = newHeight = min;
+        }
+      } else if (this._cropper.config.keepAspectRatio || event.shiftKey) {
         const m = Math.max(width + deltaX * 2, height + deltaY * 2);
         newWidth = newHeight = m;
       } else {
         newWidth = width + deltaX * 2;
         newHeight = height + deltaY * 2;
       }
+      if (newWidth < minWidth!) {
+        newWidth = minWidth!;
+      }
+      if (newHeight < minHeight!) {
+        newHeight = minHeight!;
+      }
+      newWidth = Math.round(newWidth);
+      newHeight = Math.round(newHeight);
       element.style.width = `${newWidth}px`;
       element.style.height = `${newHeight}px`;
       this._currentWidth = newWidth;
       this._currentHeight = newHeight;
-      // console.log({deltaX, deltaY, width, height, newWidth, newHeight});
     }
   }
 
@@ -206,4 +221,3 @@ function getGesturePointFromEvent(event: TouchEvent | MouseEvent) {
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   return event.type[0] === 't';
 }
-

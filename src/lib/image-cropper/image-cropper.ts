@@ -79,6 +79,8 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
       box-shadow: 0 0 0 20000px rgba(0, 0, 0, 0.4)
       ...${LY_COMMON_STYLES.fill}
       margin: auto
+      max-width: 100%
+      max-height: 100%
       &:before, &:after {
         ...${LY_COMMON_STYLES.fill}
         content: ''
@@ -137,6 +139,8 @@ export class ImgCropperConfig {
   width: number = 250;
   /** Cropper area height */
   height: number = 200;
+  minWidth?: number = 40;
+  minHeight?: number = 40;
   /** If this is not defined, the new image will be automatically defined. */
   type?: string;
   /** Background color( default: null), if is null in png is transparent but not in jpg. */
@@ -159,7 +163,12 @@ export class ImgCropperConfig {
    * Note: It only works when the image is received from the `<input>` event.
    */
   maxFileSize?: number | null;
-  round?: boolean = true;
+  /**
+   * Whether the cropper area will be round.
+   * This implies that the cropper area will maintain its aspect ratio.
+   * default: false
+   */
+  round?: boolean;
   /**
    * Whether the cropper area is resizable.
    * default: false
@@ -168,8 +177,9 @@ export class ImgCropperConfig {
   /**
    * Keep the width and height of the growing area the same according
    * to `ImgCropperConfig.width` and `ImgCropperConfig.height`
+   * default: false
    */
-  keepAspectRatio?: boolean = true;
+  keepAspectRatio?: boolean;
 }
 
 export interface ImgOutput {
@@ -357,7 +367,7 @@ export class LyImageCropper implements OnDestroy {
   constructor(
     readonly sRenderer: StyleRenderer,
     private _renderer: Renderer2,
-    private elementRef: ElementRef<HTMLElement>,
+    readonly _elementRef: ElementRef<HTMLElement>,
     private cd: ChangeDetectorRef,
     private _ngZone: NgZone,
     @Inject(DOCUMENT) _document: any,
@@ -540,7 +550,7 @@ export class LyImageCropper implements OnDestroy {
   }
 
   private _getCenterPoints() {
-    const root = this.elementRef.nativeElement as HTMLElement;
+    const root = this._elementRef.nativeElement as HTMLElement;
     const img = this._imgCanvas.nativeElement;
     const x = (root.offsetWidth - (img.width)) / 2;
     const y = (root.offsetHeight - (img.height)) / 2;
@@ -554,7 +564,7 @@ export class LyImageCropper implements OnDestroy {
    * Ajustar a la pantalla
    */
   fitToScreen() {
-    const container = this.elementRef.nativeElement as HTMLElement;
+    const container = this._elementRef.nativeElement as HTMLElement;
     const min = {
       width: container.offsetWidth,
       height: container.offsetHeight
@@ -981,8 +991,8 @@ export class LyImageCropper implements OnDestroy {
     return cropEvent;
   }
 
-  private _rootRect(): DOMRect {
-    return this.elementRef.nativeElement.getBoundingClientRect() as DOMRect;
+  _rootRect(): DOMRect {
+    return this._elementRef.nativeElement.getBoundingClientRect() as DOMRect;
   }
 
   private _areaCropperRect(): DOMRect {
