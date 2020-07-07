@@ -2,14 +2,18 @@
 
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> BasicSnackBarComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./basic-snack-bar/basic-snack-bar.component'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> BasicSnackBarModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./basic-snack-bar/basic-snack-bar.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> PassingDataToASnackBarModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./passing-data-to-a-snack-bar/passing-data-to-a-snack-bar.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> PassingDataToASnackBarComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./passing-data-to-a-snack-bar/passing-data-to-a-snack-bar.component'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> elements <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
-  BasicSnackBarComponent
+  BasicSnackBarComponent<span class="tt18 ttae">,</span>
+  PassingDataToASnackBarComponent
 <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
-    BasicSnackBarModule
+    BasicSnackBarModule<span class="tt18 ttae">,</span>
+    PassingDataToASnackBarModule
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   entryComponents<span class="tt18 ttb0">:</span> elements
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>

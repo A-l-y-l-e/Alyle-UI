@@ -1,0 +1,55 @@
+<div
+  display="flex"
+  justifyContent="center"
+  alignItems="center"
+>
+
+  <button ly-button
+    (click)="load('loading1')"
+    [disabled]="loading1"
+    raised
+  >
+    <span [lyStyle]="loading1 ? 'opacity:0' : null">
+      Upload File
+    </span>
+    <ly-icon [lyStyle]="loading1 ? 'opacity:0' : null" [pe]="1">cloud_upload</ly-icon>
+    <div [class]="classes.spinner" *ngIf="loading1">
+      <svg viewBox="22 22 44 44">
+        <circle [class]="classes.spinnerCircle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle>
+      </svg>
+    </div>
+  </button>
+
+  <button ly-button
+    (click)="load('loading2')"
+    [disabled]="loading2"
+    bg="primary"
+    raised
+  >
+    <span [lyStyle]="loading2 ? 'opacity:0' : null">
+      Upload File
+    </span>
+    <ly-icon [lyStyle]="loading2 ? 'opacity:0' : null" [pe]="1">cloud_upload</ly-icon>
+    <div [class]="classes.spinner" *ngIf="loading2">
+      <svg viewBox="22 22 44 44">
+        <circle [class]="classes.spinnerCircle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle>
+      </svg>
+    </div>
+  </button>
+
+  <button ly-button
+    (click)="load('loading3')"
+    [disabled]="loading3"
+    appearance="fab"
+    bg="primary"
+    raised
+  >
+    <ly-icon [lyStyle]="loading3 ? 'opacity:0' : null">cloud_upload</ly-icon>
+    <div [class]="classes.spinner" *ngIf="loading3">
+      <svg viewBox="22 22 44 44">
+        <circle [class]="classes.spinnerCircle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle>
+      </svg>
+    </div>
+  </button>
+
+</div>

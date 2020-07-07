@@ -94,7 +94,7 @@ onError(e: ImgCropperErrorEvent) {
 
 ## Cropper image from URL
 
-We can use the <code class="ts">setImageUrl(src: string, fn?: () => void)</code> method.
+You can use the <code class="ts">setImageUrl(src: string, fn?: () => void)</code> method.
 
 <demo-view path="docs/components/image-cropper-demo/image-cropper-example-01">
   <image-cropper-example-01></image-cropper-example-01>
@@ -102,13 +102,15 @@ We can use the <code class="ts">setImageUrl(src: string, fn?: () => void)</code>
 
 ## Crop Circle
 
+For this just add the `border-radius: 50%` styles to the cropper area.
+
 <demo-view path="docs/components/image-cropper-demo/crop-circle">
   <aui-crop-circle></aui-crop-circle>
 </demo-view>
 
 ## Just crop image
 
-Just crop the output image and it is not resized.
+Just crop the output image and it is not resized. 
 
 <demo-view path="docs/components/image-cropper-demo/image-cropper-example-02">
   <image-cropper-example-02></image-cropper-example-02>
@@ -116,7 +118,7 @@ Just crop the output image and it is not resized.
 
 ## Set output image
 
-Just resize the output image.
+If you want the image output to be equal to the size of the cropping area, for example if the cropping area is `300x300` then the output image will be `300x300`
 
 <demo-view path="docs/components/image-cropper-demo/image-cropper-example-03">
   <image-cropper-example-03></image-cropper-example-03>

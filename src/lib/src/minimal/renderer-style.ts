@@ -29,15 +29,30 @@ export class StyleRenderer {
    *
    * ```ts
    * const STYLES = () => ({
-   *   root: lyl `{...}` // this class will be added to the root component
+   *   root: lyl `{...}`, // this class will be added to the root component
+   *   item: lyl `{...}`
    * })
    * ```
    *
+   * Also accepts the name of a class.
+   *
+   * e.g.
+   *
+   * ```ts
+   * renderSheet(STYLES, 'item')
+   * ```
    */
-  renderSheet<T>(styles: T & LyStyles, applyRootClass?: boolean): LyClasses<T> {
+  renderSheet<T>(styles: T & LyStyles, applyRootClass?: boolean | keyof LyClasses<T>): LyClasses<T> {
     const classes = this._theme.renderStyleSheet(styles);
-    if (applyRootClass && (classes as any).root) {
+    if (applyRootClass === true && (classes as any).root) {
       this.addClass((classes as any).root);
+      return classes;
+    }
+    if (applyRootClass) {
+      const customClass = (classes as any)[applyRootClass];
+      if (customClass) {
+        this.addClass(customClass);
+      }
     }
     return classes;
   }
@@ -242,13 +257,15 @@ export class StyleRenderer {
 
 }
 
+export type InputStyle<INPUT, C> = (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null);
+
 /**
  * Parameter decorator to be used for create Dynamic style together with `@Input`
  * @param style style
  * @decorator
  */
 export function Style<INPUT = any, C = any>(
-  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null)
+  style: InputStyle<INPUT, C>
 ): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void;
 
 /**
@@ -257,7 +274,7 @@ export function Style<INPUT = any, C = any>(
  * @decorator
  */
 export function Style<INPUT = any, C = any>(
-  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null),
+  style: InputStyle<INPUT, C>,
   priority: number
 ): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void;
 
@@ -268,7 +285,7 @@ export function Style<INPUT = any, C = any>(
  * @decorator
  */
 export function Style<INPUT = any, C = any>(
-  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null),
+  style: InputStyle<INPUT, C>,
   priority?: number
 ) {
 
@@ -278,21 +295,16 @@ export function Style<INPUT = any, C = any>(
     if (descriptor) {
       const set = descriptor.set!;
       descriptor.set = function (val: INPUT) {
-        const that: WithStyles = this;
-        const oldValue = that[_propertyKey];
-        that[_propertyKey] = val;
-        const styleTemplate = style(val as any, that as any);
-        if (val == null || styleTemplate == null) {
-          that.sRenderer.removeClass(that[_propertyKeyClass]);
-        } else if (oldValue !== val) {
-          that[_propertyKeyClass] = that.sRenderer.add(
-            `${getComponentName(that)}--${propertyKey}-${val}`,
-            styleTemplate,
-            priority ?? that.$priority ?? (that.constructor as any).$priority ?? 0,
-            that[_propertyKeyClass]
-          );
-        }
-        set.call(that, val);
+        applyStyle(
+          this,
+          propertyKey,
+          _propertyKey,
+          _propertyKeyClass,
+          val,
+          style,
+          priority
+        );
+        set.call(this, val);
       };
       if (!descriptor.get) {
         descriptor.get = function () {
@@ -304,21 +316,15 @@ export function Style<INPUT = any, C = any>(
         configurable: true,
         enumerable: true,
         set(val: INPUT) {
-          const that: WithStyles = this;
-          const oldValue = that[_propertyKey];
-          that[_propertyKey] = val;
-          const styleTemplate = style(val as NonNullable<INPUT>, that as any);
-          if (val == null || styleTemplate == null) {
-            that.sRenderer.removeClass(that[_propertyKeyClass]);
-          } else if (oldValue !== val) {
-            that[_propertyKeyClass] = that.sRenderer.add(
-              `${getComponentName(that)}--${propertyKey}-${val}`,
-              styleTemplate,
-              priority ?? that.$priority ?? (that.constructor as any).$priority ?? 0,
-              that[_propertyKeyClass]
-            );
-          }
-          that[_propertyKey] = val;
+          applyStyle(
+            this,
+            propertyKey,
+            _propertyKey,
+            _propertyKeyClass,
+            val,
+            style,
+            priority
+          );
         },
         get() {
           return this[_propertyKey];
@@ -326,6 +332,30 @@ export function Style<INPUT = any, C = any>(
       });
     }
   };
+}
+
+function applyStyle<INPUT, C>(
+  c: WithStyles,
+  propertyKey: string,
+  _propertyKey: string,
+  _propertyKeyClass: string,
+  val: INPUT,
+  style: InputStyle<INPUT, C>,
+  priority?: number
+) {
+  const oldValue = c[_propertyKey];
+  c[_propertyKey] = val;
+  const styleTemplate = style(val as NonNullable<INPUT>, c as any);
+  if ((val as any) === false || val == null || styleTemplate == null) {
+    c.sRenderer.removeClass(c[_propertyKeyClass]);
+  } else if (oldValue !== val) {
+    c[_propertyKeyClass] = c.sRenderer.add(
+      `${getComponentName(c)}--${propertyKey}-${val}`,
+      styleTemplate,
+      priority ?? c.$priority ?? (c.constructor as any).$priority ?? 0,
+      c[_propertyKeyClass]
+    );
+  }
 }
 
 export interface WithStyles {

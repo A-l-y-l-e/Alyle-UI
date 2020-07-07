@@ -6,6 +6,9 @@ import { LySnackBarDismiss } from '@alyle/ui/snack-bar';
   templateUrl: './basic-snack-bar.component.html'
 })
 export class BasicSnackBarComponent {
+  data = {
+    val: 'test'
+  };
   afterDismissed(e: LySnackBarDismiss) {
     console.log(e);
   }

@@ -14,3 +14,9 @@ Buttons allow users to take actions, and make choices, with a single tap.
 <demo-view path="docs/components/button-demo/icon-label-buttons">
   <aui-icon-label-buttons></aui-icon-label-buttons>
 </demo-view>
+
+## Button with loading state
+
+<demo-view path="docs/components/button-demo/button-with-loading-state">
+  <aui-button-with-loading-state></aui-button-with-loading-state>
+</demo-view>

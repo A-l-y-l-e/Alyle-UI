@@ -285,13 +285,6 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     super(_theme, _ngZone, platform);
     this.setAutoContrast();
     this._triggerElement = _el;
-    if (this._platform.FIREFOX) {
-      const newClass = this._theme.renderStyle('button-ff', () => lyl `{
-        &::-moz-focus-inner,&::-moz-focus-inner {
-          border: 0
-        }`, STYLE_PRIORITY);
-      _renderer.addClass(_el.nativeElement, newClass);
-    }
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
     if (!(_theme.variables as LyButtonVariables).button) {
       throw getLyThemeVariableUndefinedError('button');

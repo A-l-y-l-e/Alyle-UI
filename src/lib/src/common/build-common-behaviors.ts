@@ -71,7 +71,7 @@ export function mixinStyleUpdater<T extends CanStyleUpdaterCtor>(base: T): Const
         if (__disabled) {
           sColor = theme.disabled.contrast;
           sPointerEvents = 'none';
-          if (__bg) {
+          if (__bg || __raised) {
             sBackground = theme.disabled.default;
           }
         } else {

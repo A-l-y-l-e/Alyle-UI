@@ -62,6 +62,7 @@ export class LySnackBar implements OnDestroy {
   @Input() horizontalPosition: 'center' | XPosition;
   @Input() verticalPosition: YPosition;
   @Output() afterDismissed = new EventEmitter<LySnackBarDismiss>();
+
   constructor(
     private _templateRef: TemplateRef<any>,
     private _theme: LyTheme2,
@@ -72,8 +73,11 @@ export class LySnackBar implements OnDestroy {
   ngOnDestroy() {
     this.dismiss();
   }
-
-  open() {
+  /**
+   * Open a LySnackBar template
+   * @param snackBarData Data to be passed to the snack-bark.
+   */
+  open(snackBarData?: any) {
     // close previous snackBar if exist
     const sbrPrev = this._snackBarService._currentSnackBar;
     if (sbrPrev) {
@@ -84,7 +88,7 @@ export class LySnackBar implements OnDestroy {
     const horizontalPosition = this.horizontalPosition || DEFAULT_HORIZONTAL_POSITION;
     const verticalPosition = this.verticalPosition || DEFAULT_VERTICAL_POSITION;
 
-    const snackBar = this._overlay.create(this._templateRef, undefined, {
+    const snackBar = this._overlay.create(this._templateRef, snackBarData, {
       styles: {
         // this remove previous style
         justifyContent: null

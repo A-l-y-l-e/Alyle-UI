@@ -1,3 +1,57 @@
+## [3.3.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.3.0...3.3.1) (2020-07-04)
+
+
+### Bug Fixes
+
+* **cropper:** resize canvas with best quality ([cb5a855](https://github.com/A-l-y-l-e/Alyle-UI/commit/cb5a855b2a9d30a6779dab5c29b0df0495cc64da))
+
+### BREAKING CHANGES
+
+**cropper:** `ImgCropperConfig.antiAliased` has been deprecated, this is not necessary as the cropper will automatically resize the image to the best quality.
+
+
+# [3.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.9...3.3.0) (2020-07-03)
+
+
+### Features
+
+* **cropper:** remove Hammer.js ([aa4a54d](https://github.com/A-l-y-l-e/Alyle-UI/commit/aa4a54d265d7651e42e8f761fe5f753a29927393))
+
+
+
+## [2.9.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.7...2.9.8) (2020-06-25)
+
+
+### Bug Fixes
+
+* **cropper:** some parts of the image is not draggable ([2ab8c0c](https://github.com/A-l-y-l-e/Alyle-UI/commit/2ab8c0c)), closes [#116](https://github.com/A-l-y-l-e/Alyle-UI/issues/116)
+
+
+<a name="1.9.12"></a>
+## [1.9.12](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...1.9.12) (2020-06-24)
+
+
+### Bug Fixes
+
+* **cropper:** some parts of the image is not draggable ([499bef9](https://github.com/A-l-y-l-e/Alyle-UI/commit/499bef9)), closes [#116](https://github.com/A-l-y-l-e/Alyle-UI/issues/116)
+
+
+## [3.2.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.8...3.2.9) (2020-06-14)
+
+
+### Bug Fixes
+
+* slightly remove the status contrast disabled ([6bdf277](https://github.com/A-l-y-l-e/Alyle-UI/commit/6bdf277d5e4ad8093ad39fa670c7f3ba26f1302a))
+* **button:** fix disabled raised ([4786e2a](https://github.com/A-l-y-l-e/Alyle-UI/commit/4786e2abe08d6614634b29a289215f44e03e38fa))
+* **button:** remove duplicate style ([2df7aa8](https://github.com/A-l-y-l-e/Alyle-UI/commit/2df7aa82581f18e11e80ad0ae3953b8e735c6b90))
+
+
+### Features
+
+* **snack-bark:** ability to pass data to a snack bar ([44fc180](https://github.com/A-l-y-l-e/Alyle-UI/commit/44fc180edf980b46eb691d6c93e2fad1235eba8f))
+
+
+
 ## [3.2.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.7...3.2.8) (2020-05-30)
 
 

@@ -4,17 +4,21 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> IconLabelButtonsModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./icon-label-buttons/icon-label-buttons.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ButtonTypesDemoComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./button-types-demo/button-types-demo.component'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> IconLabelButtonsComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./icon-label-buttons/icon-label-buttons.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ButtonWithLoadingStateModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./button-with-loading-state/button-with-loading-state.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ButtonWithLoadingStateComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./button-with-loading-state/button-with-loading-state.component'</span><span class="tt18 ttae">;</span>
 
 
 <span class="tt18 tt1j">const</span> elements <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
   ButtonTypesDemoComponent<span class="tt18 ttae">,</span>
-  IconLabelButtonsComponent
+  IconLabelButtonsComponent<span class="tt18 ttae">,</span>
+  ButtonWithLoadingStateComponent
 <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     ButtonTypesDemoModule<span class="tt18 ttae">,</span>
-    IconLabelButtonsModule
+    IconLabelButtonsModule<span class="tt18 ttae">,</span>
+    ButtonWithLoadingStateModule
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
   entryComponents<span class="tt18 ttb0">:</span> elements
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
