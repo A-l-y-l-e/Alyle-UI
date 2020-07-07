@@ -104,11 +104,14 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
       const deltaY = point.y - this._startPointerEvent!.y;
       let newWidth = 0;
       let newHeight = 0;
-      if (this._cropper.config.keepAspectRatio) {
+      if (this.round) {
+        const originX = ((width / 2 / Math.sqrt(2)) + deltaX);
+        const originY = ((height / 2 / Math.sqrt(2)) + deltaY);
+        const radius = Math.sqrt(originX ** 2 + originY ** 2);
+        newWidth = newHeight = radius * 2;
+      } else if (this._cropper.config.keepAspectRatio) {
         const m = Math.max(width + deltaX * 2, height + deltaY * 2);
         newWidth = newHeight = m;
-      } else if (this.round) {
-        const n = Math.sqrt((newWidth ** 2) + (newHeight ** 2)) / Math.sqrt(2);
       } else {
         newWidth = width + deltaX * 2;
         newHeight = height + deltaY * 2;
@@ -203,3 +206,4 @@ function getGesturePointFromEvent(event: TouchEvent | MouseEvent) {
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   return event.type[0] === 't';
 }
+

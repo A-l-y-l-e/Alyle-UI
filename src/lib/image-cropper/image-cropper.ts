@@ -79,9 +79,19 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
       box-shadow: 0 0 0 20000px rgba(0, 0, 0, 0.4)
       ...${LY_COMMON_STYLES.fill}
       margin: auto
-      &:after {
+      &:before, &:after {
         ...${LY_COMMON_STYLES.fill}
         content: ''
+      }
+      &:before {
+        width: 0
+        height: 0
+        margin: auto
+        border-radius: 50%
+        background: #fff
+        border: solid 2px rgb(255, 255, 255)
+      }
+      &:after {
         border: solid 2px rgb(255, 255, 255)
         border-radius: inherit
       }
@@ -149,7 +159,7 @@ export class ImgCropperConfig {
    * Note: It only works when the image is received from the `<input>` event.
    */
   maxFileSize?: number | null;
-  round?: boolean;
+  round?: boolean = true;
   /**
    * Whether the cropper area is resizable.
    * default: false
@@ -159,7 +169,7 @@ export class ImgCropperConfig {
    * Keep the width and height of the growing area the same according
    * to `ImgCropperConfig.width` and `ImgCropperConfig.height`
    */
-  keepAspectRatio?: boolean;
+  keepAspectRatio?: boolean = true;
 }
 
 export interface ImgOutput {
