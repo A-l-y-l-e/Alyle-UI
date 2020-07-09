@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, Input, OnDestroy, ChangeDetectionStrategy, Inject, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ElementRef, NgZone, Input, OnDestroy, ChangeDetectionStrategy, Inject, ViewChild } from '@angular/core';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { Style, WithStyles, StyleRenderer, lyl } from '@alyle/ui';
 import { STYLES, LyImageCropper } from './image-cropper';
@@ -20,7 +20,7 @@ const pos = (100 * Math.sqrt(2) - 100) / 2 / Math.sqrt(2);
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyCropperArea'
 })
-export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
+export class LyCropperArea implements WithStyles, OnDestroy {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'area');
 
   private _isSliding: boolean;
@@ -36,16 +36,20 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
   /** Used to subscribe to global move and end events */
   protected _document: Document;
 
-  @ViewChild('resizer', { static: true }) readonly _resizer: ElementRef;
+  @ViewChild('resizer') readonly _resizer?: ElementRef;
 
   @Input()
   set resizableArea(val: boolean) {
-    this._resizableArea = val;
-    if (val) {
-      this._removeResizableArea();
-      this._addResizableArea();
-    } else {
-      this._removeResizableArea();
+    if (val !== this._resizableArea) {
+      this._resizableArea = val;
+      Promise.resolve(null).then(() => {
+        if (val) {
+          this._removeResizableArea();
+          this._addResizableArea();
+        } else {
+          this._removeResizableArea();
+        }
+      });
     }
   }
   get resizableArea() {
@@ -69,48 +73,31 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
     readonly _elementRef: ElementRef,
     private _ngZone: NgZone,
     readonly _cropper: LyImageCropper,
-    private _cd: ChangeDetectorRef,
     @Inject(DOCUMENT) _document: any,
   ) {
     this._document = _document;
   }
 
-  ngOnInit() {
-    if (this.resizableArea) {
-      this._ngZone.runOutsideAngular(() => {
-        const element = this._resizer.nativeElement;
-        element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
-        element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
-      });
-    }
+  ngOnDestroy() {
+    this._removeResizableArea();
   }
 
-  ngOnDestroy() {
-    if (this.resizableArea) {
-      const element = this._resizer.nativeElement;
+  private _addResizableArea() {
+    this._ngZone.runOutsideAngular(() => {
+      const element = this._resizer!.nativeElement;
+      element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
+      element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
+    });
+  }
+
+  private _removeResizableArea() {
+    const element = this._resizer?.nativeElement;
+    if (element) {
       this._lastPointerEvent = null;
       this._removeGlobalEvents();
       element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
       element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
     }
-  }
-
-  private _addResizableArea() {
-    this._ngZone.runOutsideAngular(() => {
-      const element = this._resizer.nativeElement;
-      element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
-      element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
-    });
-    this._cd.markForCheck();
-  }
-
-  private _removeResizableArea() {
-    const element = this._resizer.nativeElement;
-    this._lastPointerEvent = null;
-    this._removeGlobalEvents();
-    element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
-    element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
-    this._cd.markForCheck();
   }
 
   private _pointerDown = (event: MouseEvent | TouchEvent) => {
@@ -152,12 +139,9 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
         // Leg
         const side = Math.sqrt(originX ** 2 + originY ** 2);
         newWidth = newHeight = side * 2;
-        const min = Math.min(rootRect.width, rootRect.height);
-        if (newWidth > min) {
-          newWidth = newHeight = min;
-        }
+
       } else if (this._cropper.config.keepAspectRatio || event.shiftKey) {
-        const m = Math.min(width + deltaX * 2, height + deltaY * 2);
+        const m = Math.max(width + deltaX * 2, height + deltaY * 2);
         newWidth = newHeight = m;
       } else {
         newWidth = width + deltaX * 2;
@@ -169,8 +153,24 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
       if (newHeight < minHeight!) {
         newHeight = minHeight!;
       }
+      if (this.round || this._cropper.config.keepAspectRatio || event.shiftKey) {
+        const min = Math.min(rootRect.width, rootRect.height);
+        if (newWidth > min) {
+          newWidth = newHeight = min;
+        }
+      } else {
+        if (newWidth > rootRect.width) {
+          newWidth = newHeight = rootRect.width;
+        }
+        if (newHeight > rootRect.height) {
+          newHeight = newHeight = rootRect.height;
+        }
+      }
+
+      // round values
       newWidth = Math.round(newWidth);
       newHeight = Math.round(newHeight);
+
       element.style.width = `${newWidth}px`;
       element.style.height = `${newHeight}px`;
       this._currentWidth = newWidth;
