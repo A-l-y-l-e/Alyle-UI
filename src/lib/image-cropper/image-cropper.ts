@@ -146,7 +146,7 @@ export class ImgCropperConfig {
   /** Background color( default: null), if is null in png is transparent but not in jpg. */
   fill?: string | null;
   /**
-   * Set anti-aliased( default: true)
+   * Set anti-aliased (default: true)
    * @deprecated this is not necessary as the cropper will automatically resize the image
    * to the best quality
    */
@@ -182,16 +182,29 @@ export class ImgCropperConfig {
   keepAspectRatio?: boolean;
 }
 
+/**
+ * The output image
+ * With this option you can resize the output image,
+ * also only width or height can be accepted.
+ */
 export interface ImgOutput {
-  width: number;
-  height: number;
+  /**
+   * The cropped image will be resized to this `width`.
+   */
+  width?: number;
+  /**
+   * Cropped image will be resized to this `height`.
+   */
+  height?: number;
 }
 
 /** Image output */
 export enum ImgResolution {
-  /** Resizing & cropping */
+  /**
+   * The output image will be equal to the size of the crop area.
+   */
   Default,
-  /** Only cropping,  */
+  /** Just crop the image without resizing */
   OriginalImage
 }
 
