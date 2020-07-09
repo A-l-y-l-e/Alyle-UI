@@ -64,6 +64,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       .${__.resizer} {
         ${after}: ${pos}%
         bottom: ${pos}%
+        transform: translate(4px, 4px)
       }
     }`
   ) round: boolean;
