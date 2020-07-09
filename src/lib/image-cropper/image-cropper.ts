@@ -186,6 +186,7 @@ export class ImgCropperConfig {
  * The output image
  * With this option you can resize the output image,
  * also only width or height can be accepted.
+ * If `width` or `height` are undefined or 0 this will be set automatically.
  */
 export interface ImgOutput {
   /**
@@ -952,12 +953,13 @@ export class LyImageCropper implements OnDestroy {
     const scaleFix = this._scal3Fix!;
     const left = (areaRect.left - canvaRect.left) / scaleFix;
     const top = (areaRect.top - canvaRect.top) / scaleFix;
-    const config = {
+    const { output } = myConfig;
+    const area = {
       width: myConfig.width,
       height: myConfig.height
     };
-    canvasElement.width = config.width / scaleFix;
-    canvasElement.height = config.height / scaleFix;
+    canvasElement.width = area.width / scaleFix;
+    canvasElement.height = area.height / scaleFix;
     const ctx = canvasElement.getContext('2d')!;
     if (myConfig.fill) {
       ctx.fillStyle = myConfig.fill;
@@ -968,9 +970,17 @@ export class LyImageCropper implements OnDestroy {
     );
     const result = canvasElement;
     if (myConfig.output === ImgResolution.Default) {
-      resizeCanvas(result, config.width, config.height);
-    } else if (typeof myConfig.output === 'object') {
-      resizeCanvas(result, myConfig.output.width, myConfig.output.height);
+      resizeCanvas(result, area.width, area.height);
+    } else if (typeof output === 'object') {
+      if (output.width && output.height) {
+        resizeCanvas(result, output.width, output.height);
+      } else if (output.width) {
+        const newHeight = area.height * output.width / area.width;
+        resizeCanvas(result, output.width, newHeight);
+      } else if (output.height) {
+        const newWidth = area.width * output.height / area.height;
+        resizeCanvas(result, newWidth, output.height);
+      }
     }
 
     let url: string;
@@ -983,8 +993,8 @@ export class LyImageCropper implements OnDestroy {
       dataURL: url,
       type: this._defaultType || myConfig.type,
       name: this._fileName,
-      width: config.width,
-      height: config.height,
+      width: area.width,
+      height: area.height,
       originalDataURL: this._originalImgBase64,
       scale: this._scal3Fix!,
       rotation: this._rotation,

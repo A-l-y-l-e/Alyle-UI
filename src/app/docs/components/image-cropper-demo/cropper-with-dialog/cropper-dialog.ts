@@ -48,7 +48,10 @@ export class CropperDialog implements WithStyles, AfterViewInit {
   myConfig: ImgCropperConfig = {
     width: 150, // Default `250`
     height: 150, // Default `200`
-    type: 'image/png' // Or you can also use `image/jpeg`
+    type: 'image/png', // Or you can also use `image/jpeg`
+    output: {
+      height: 300
+    }
   };
 
   constructor(
