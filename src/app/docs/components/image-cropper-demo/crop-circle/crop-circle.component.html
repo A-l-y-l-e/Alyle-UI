@@ -20,7 +20,7 @@
   <button (click)="cropper.clean()" ly-button>Clean</button>
 </div>
 
-<ly-img-cropper [ngClass]="[classes.cropper, classes.cropCircle]"
+<ly-img-cropper [ngClass]="[classes.cropper]"
   [config]="myConfig"
   [(scale)]="scale"
   (cropped)="onCropped($event)"

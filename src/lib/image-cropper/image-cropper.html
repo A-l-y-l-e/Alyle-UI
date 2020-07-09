@@ -8,6 +8,8 @@ show the wrong cursor. We prevent it by stopping the `selectstart` event. -->
 </div>
 <ly-cropper-area #_area
   [round]="!!config.round"
+  [resizableArea]="!!config.resizableArea"
+  [keepAspectRatio]="!!config.keepAspectRatio"
   *ngIf="_isLoadedImg; else content"
   [ngStyle]="{
     width: config.width + 'px',

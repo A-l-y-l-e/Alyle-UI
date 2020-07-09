@@ -1,1 +1,4 @@
-<div #resizer [class]="classes.resizer"></div>
+<div #resizer
+  *ngIf="resizableArea"
+  [class]="classes.resizer"
+></div>

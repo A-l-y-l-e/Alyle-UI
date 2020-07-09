@@ -184,19 +184,19 @@ export class ImgCropperConfig {
 
 /**
  * The output image
- * With this option you can resize the output image,
- * also only width or height can be accepted.
- * If `width` or `height` are undefined or 0 this will be set automatically.
+ * With this option you can resize the output image.
+ * If `width` or `height` are 0, this will be set automatically.
+ * Both cannot be 0.
  */
 export interface ImgOutput {
   /**
    * The cropped image will be resized to this `width`.
    */
-  width?: number;
+  width: number;
   /**
    * Cropped image will be resized to this `height`.
    */
-  height?: number;
+  height: number;
 }
 
 /** Image output */

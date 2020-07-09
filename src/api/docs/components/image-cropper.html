@@ -60,7 +60,7 @@ or
   <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">warn</span><span class="tt18 ttae">(</span><span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">'</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>e<span class="tt18 ttae">.</span>name<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">' is not a valid image</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>
-<h2 id="cropper-with-dialog">Cropper With Dialog</h2>
+<h2 id="cropper-with-dialog-and-resizable-area">Cropper With Dialog and resizable area</h2>
 <demo-view
   path="docs/components/image-cropper-demo/cropper-with-dialog"
   extra-paths="cropper-dialog.ts,cropper-dialog.html"
@@ -73,7 +73,8 @@ or
   <image-cropper-example-01></image-cropper-example-01>
 </demo-view>
 <h2 id="crop-circle">Crop Circle</h2>
-<p>For this just add the <code class="ttm ttx">border-radius: 50%</code> styles to the cropper area.</p>
+<p><del>For this just add the <code class="ttm ttx">border-radius: 50%</code> styles to the cropper area.</del>
+You can add round to the cropper settings.</p>
 <demo-view path="docs/components/image-cropper-demo/crop-circle">
   <aui-crop-circle></aui-crop-circle>
 </demo-view>
@@ -83,7 +84,28 @@ or
   <image-cropper-example-02></image-cropper-example-02>
 </demo-view>
 <h2 id="set-output-image">Set output image</h2>
-<p>If you want the image output to be equal to the size of the cropping area, for example if the cropping area is <code class="ttm ttx">300x300</code> then the output image will be <code class="ttm ttx">300x300</code></p>
+<p>If you want the output image to always be <code class="ttm ttx">40x40</code>.</p>
+<pre class="ttb"><code prsm class="ttm">myConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
+    width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span>
+    height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">type</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'image/png'</span><span class="tt18 ttae">,</span>
+    output<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+      width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">40</span><span class="tt18 ttae">,</span>
+      height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">40</span>
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+</code></pre>
+<p>You can also just define <code class="ttm ttx">width</code> or <code class="ttm ttx">height</code>.</p>
+<pre class="ttb"><code prsm class="ttm">myConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
+    width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span>
+    height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">type</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'image/png'</span><span class="tt18 ttae">,</span>
+    output<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
+      width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">40</span><span class="tt18 ttae">,</span>
+      height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">0</span> <span class="tt18 tt3o">// Will be defined automatically</span>
+    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+</code></pre>
 <demo-view path="docs/components/image-cropper-demo/image-cropper-example-03">
   <image-cropper-example-03></image-cropper-example-03>
 </demo-view>

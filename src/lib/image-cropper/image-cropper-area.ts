@@ -121,7 +121,7 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
           newWidth = newHeight = min;
         }
       } else if (this._cropper.config.keepAspectRatio || event.shiftKey) {
-        const m = Math.max(width + deltaX * 2, height + deltaY * 2);
+        const m = Math.min(width + deltaX * 2, height + deltaY * 2);
         newWidth = newHeight = m;
       } else {
         newWidth = width + deltaX * 2;
@@ -203,8 +203,6 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
   private _getWindow(): Window {
     return this._document.defaultView || window;
   }
-
-  static ngAcceptInputType: boolean;
 }
 
 function getGesturePointFromEvent(event: TouchEvent | MouseEvent) {

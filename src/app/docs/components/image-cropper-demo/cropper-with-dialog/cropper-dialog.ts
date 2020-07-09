@@ -46,12 +46,14 @@ export class CropperDialog implements WithStyles, AfterViewInit {
   scale: number;
   @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    width: 150, // Default `250`
-    height: 150, // Default `200`
-    type: 'image/png', // Or you can also use `image/jpeg`
+    width: 150,
+    height: 150,
+    type: 'image/png',
+    keepAspectRatio: true,
     output: {
-      height: 300
-    }
+      width: 200,
+      height: 200
+    },
   };
 
   constructor(
