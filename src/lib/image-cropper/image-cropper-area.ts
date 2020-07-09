@@ -42,6 +42,7 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
   set resizableArea(val: boolean) {
     this._resizableArea = val;
     if (val) {
+      this._removeResizableArea();
       this._addResizableArea();
     } else {
       this._removeResizableArea();
