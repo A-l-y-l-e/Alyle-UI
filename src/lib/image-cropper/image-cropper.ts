@@ -107,6 +107,7 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
       touch-action: none
       bottom: 0
       ${after}: 0
+      transform: translate(4px, 4px)
       pointer-events: all
       cursor: ${
         after === 'right'

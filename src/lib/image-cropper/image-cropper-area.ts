@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, Input, OnDestroy, ChangeDetectionStrategy, Inject, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, NgZone, Input, OnDestroy, ChangeDetectionStrategy, Inject, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { Style, WithStyles, StyleRenderer, lyl } from '@alyle/ui';
 import { STYLES, LyImageCropper } from './image-cropper';
@@ -38,7 +38,19 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
 
   @ViewChild('resizer', { static: true }) readonly _resizer: ElementRef;
 
-  @Input() resizableArea: boolean;
+  @Input()
+  set resizableArea(val: boolean) {
+    this._resizableArea = val;
+    if (val) {
+      this._addResizableArea();
+    } else {
+      this._removeResizableArea();
+    }
+  }
+  get resizableArea() {
+    return this._resizableArea;
+  }
+  private _resizableArea: boolean;
   @Input() keepAspectRatio: boolean;
   @Input()
   @Style<boolean, LyCropperArea>(
@@ -56,7 +68,8 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
     readonly _elementRef: ElementRef,
     private _ngZone: NgZone,
     readonly _cropper: LyImageCropper,
-    @Inject(DOCUMENT) _document: any
+    private _cd: ChangeDetectorRef,
+    @Inject(DOCUMENT) _document: any,
   ) {
     this._document = _document;
   }
@@ -79,6 +92,24 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
       element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
       element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
     }
+  }
+
+  private _addResizableArea() {
+    this._ngZone.runOutsideAngular(() => {
+      const element = this._resizer.nativeElement;
+      element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
+      element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
+    });
+    this._cd.markForCheck();
+  }
+
+  private _removeResizableArea() {
+    const element = this._resizer.nativeElement;
+    this._lastPointerEvent = null;
+    this._removeGlobalEvents();
+    element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
+    element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
+    this._cd.markForCheck();
   }
 
   private _pointerDown = (event: MouseEvent | TouchEvent) => {
