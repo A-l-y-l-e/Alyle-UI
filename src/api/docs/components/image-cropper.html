@@ -62,10 +62,12 @@ or
 </code></pre>
 <h2 id="cropper-with-dialog-and-resizable-area">Cropper with Dialog and resizable area</h2>
 <p>Use <code class="ttm ttx">resizableArea</code> to have a resizable cropper area.</p>
+<p>The below example is shown with <code class="ttm ttx">resizableArea</code> and <code class="ttm ttx">keepAspectRatio</code>, by default they are disabled.</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">MyComponent</span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 ttb0">...</span>
   myConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
     resizableArea<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span>
+    keepAspectRatio<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span>
     <span class="tt18 ttb0">...</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span>

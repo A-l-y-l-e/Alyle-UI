@@ -87,11 +87,14 @@ onError(e: ImgCropperErrorEvent) {
 
 Use `resizableArea` to have a resizable cropper area.
 
+The below example is shown with `resizableArea` and `keepAspectRatio`, by default they are disabled.
+
 ```ts
 export class MyComponent {
   ...
   myConfig: ImgCropperConfig = {
     resizableArea: true,
+    keepAspectRatio: true
     ...
   };
 }
