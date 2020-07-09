@@ -6,10 +6,10 @@
   <span [flex]="1"></span>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
-  <button raised ly-button bg="accent" *ngIf="cropper.isCropped">Upload</button>
+  <button raised ly-button bg="accent" *ngIf="croppedImage">Upload</button>
 </div>
 
-<div *ngIf="cropper.isLoaded">
+<div *ngIf="ready">
   <button (click)="cropper.zoomIn()" ly-button appearance="icon"><ly-icon>zoom_in</ly-icon></button>
   <button (click)="cropper.zoomOut()" ly-button appearance="icon"><ly-icon>zoom_out</ly-icon></button>
   <button (click)="cropper.center()" ly-button appearance="icon"><ly-icon>filter_center_focus</ly-icon></button>
@@ -23,6 +23,9 @@
 <ly-img-cropper [ngClass]="[classes.cropper]"
   [config]="myConfig"
   [(scale)]="scale"
+  (minScale)="minScale = $event"
+  (ready)="ready = true"
+  (cleaned)="ready = false"
   (cropped)="onCropped($event)"
   (loaded)="onLoaded($event)"
   (error)="onError($event)"
@@ -30,18 +33,18 @@
   <span>Drag and drop image</span>
 </ly-img-cropper>
 
-<div *ngIf="cropper.isLoaded" [className]="classes.sliderContainer">
+<div *ngIf="ready" [className]="classes.sliderContainer">
   <ly-slider
     [thumbVisible]="false"
-    [min]="cropper.minScale"
+    [min]="minScale"
     [max]="1"
     [(ngModel)]="scale"
     (input)="scale = $event.value"
     step="0.000001"></ly-slider>
 </div>
 
-<button *ngIf="cropper.isLoaded" color="accent" (click)="cropper.crop()" ly-button>
+<button *ngIf="ready" color="accent" (click)="cropper.crop()" ly-button>
   <ly-icon>crop</ly-icon>crop
 </button>
 
-<div><img [class]="classes.cropResult" *ngIf="cropper.isCropped" [src]="croppedImage"></div>
+<div><img [class]="classes.cropResult" *ngIf="croppedImage" [src]="croppedImage"></div>

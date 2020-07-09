@@ -27,6 +27,8 @@ export class ImageCropperExample01Component implements WithStyles, AfterViewInit
   classes = this.sRenderer.renderSheet(STYLES);
   croppedImage?: string;
   scale: number;
+  ready: boolean;
+  minScale: number;
   @ViewChild(LyImageCropper) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     // autoCrop: true,

@@ -320,6 +320,8 @@ export class LyImageCropper implements OnDestroy {
 
   /** When is loaded image & ready for crop */
   isLoaded: boolean;
+  /** When the cropper is ready to be interacted  */
+  isReady: boolean;
   isCropped: boolean;
 
   @ViewChild('_imgContainer', { static: true }) _imgContainer: ElementRef;
@@ -360,11 +362,23 @@ export class LyImageCropper implements OnDestroy {
 
   @Output() readonly scaleChange = new EventEmitter<number>();
 
-  /** Emits when the image is ready for cropper */
+  // tslint:disable-next-line: no-output-rename
+  @Output('minScale') readonly minScaleChange = new EventEmitter<number>();
+
+  /** @deprecated Emits when the image is loaded, instead use `cropperReady` */
   @Output() readonly loaded = new EventEmitter<ImgCropperEvent>();
+
+  /** Emits when the image is loaded */
+  @Output() readonly imageLoaded = new EventEmitter<ImgCropperEvent>();
+
+  /** Emits when the cropper is ready to be interacted */
+  @Output() readonly ready = new EventEmitter<ImgCropperEvent>();
 
   /** On crop new image */
   @Output() readonly cropped = new EventEmitter<ImgCropperEvent>();
+
+  /** Emits when the cropper is cleaned */
+  @Output() readonly cleaned = new EventEmitter<void>();
 
   /** Emit an error when the loaded image is not valid */
   @Output() readonly error = new EventEmitter<ImgCropperErrorEvent>();
@@ -639,6 +653,10 @@ export class LyImageCropper implements OnDestroy {
     this._startPointerEvent = null;
   }
 
+  _markForCheck() {
+    this.cd.markForCheck();
+  }
+
   /**
    * Called when the user has moved their pointer after
    * starting to drag.
@@ -759,6 +777,7 @@ export class LyImageCropper implements OnDestroy {
       const canvas = this._imgCanvas.nativeElement;
       canvas.width = 0;
       canvas.height = 0;
+      this.cleaned.emit(null!);
       this.cd.markForCheck();
     }
   }
@@ -815,6 +834,7 @@ export class LyImageCropper implements OnDestroy {
         cropEvent.width = img.width;
         cropEvent.height = img.height;
         this._isLoadedImg = true;
+        this.imageLoaded.emit(cropEvent);
         this.cd.markForCheck();
         this._ngZone
           .onStable
@@ -853,6 +873,7 @@ export class LyImageCropper implements OnDestroy {
 
     this.isLoaded = true;
     this._cropIfAutoCrop();
+    this.ready.emit(cropEvent);
     this.loaded.emit(cropEvent);
     this.cd.markForCheck();
   }
@@ -926,11 +947,16 @@ export class LyImageCropper implements OnDestroy {
     this._cropIfAutoCrop();
   }
 
-  private _updateMinScale(canvas: HTMLCanvasElement) {
+  _updateMinScale(canvas?: HTMLCanvasElement) {
+    if (!canvas) {
+      canvas = this._imgCanvas.nativeElement;
+    }
     const config = this.config;
-    this._minScale = (config.extraZoomOut ? Math.min : Math.max)(
+    const minScale = (config.extraZoomOut ? Math.min : Math.max)(
       config.width / canvas.width,
       config.height / canvas.height);
+    this._minScale = minScale;
+    this.minScaleChange.emit(minScale!);
   }
 
   /**

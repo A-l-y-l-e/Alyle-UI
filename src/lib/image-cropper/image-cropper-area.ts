@@ -187,6 +187,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       this._cropper.config.width = this._currentWidth;
       this._cropper.config.height = this._currentHeight;
       this._cropper.config = this._cropper.config;
+      this._cropper._updateMinScale();
       this._isSliding = false;
       this._startPointerEvent = null;
     }

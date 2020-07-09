@@ -43,7 +43,9 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
 export class CropperDialog implements WithStyles, AfterViewInit {
 
   readonly classes = this.sRenderer.renderSheet(STYLES);
+  ready: boolean;
   scale: number;
+  minScale: number;
   @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     width: 150,

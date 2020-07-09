@@ -35,7 +35,9 @@ export class CropCircleComponent implements WithStyles, AfterViewInit {
   classes = this.sRenderer.renderSheet(STYLES);
   croppedImage?: string;
   scale: number;
-  @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
+  ready: boolean;
+  minScale: number;
+  @ViewChild(LyImageCropper, { static: true }) readonly cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     // autoCrop: true,
     width: 150, // Default `250`
