@@ -62,19 +62,23 @@ export class LyCropperArea implements WithStyles, OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._ngZone.runOutsideAngular(() => {
-      const element = this._resizer.nativeElement;
-      element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
-      element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
-    });
+    if (this.resizableArea) {
+      this._ngZone.runOutsideAngular(() => {
+        const element = this._resizer.nativeElement;
+        element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
+        element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
+      });
+    }
   }
 
   ngOnDestroy() {
-    const element = this._resizer.nativeElement;
-    this._lastPointerEvent = null;
-    this._removeGlobalEvents();
-    element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
-    element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
+    if (this.resizableArea) {
+      const element = this._resizer.nativeElement;
+      this._lastPointerEvent = null;
+      this._removeGlobalEvents();
+      element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
+      element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
+    }
   }
 
   private _pointerDown = (event: MouseEvent | TouchEvent) => {
