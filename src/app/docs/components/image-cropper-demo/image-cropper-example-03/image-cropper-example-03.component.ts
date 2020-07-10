@@ -1,29 +1,35 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { LyImageCropper, ImgCropperConfig } from '@alyle/ui/image-cropper';
-import { LyTheme2 } from '@alyle/ui';
+import { StyleRenderer, lyl } from '@alyle/ui';
 
-const styles = {
-  actions: {
-    display: 'flex'
-  },
-  cropping: {
-    maxWidth: '400px',
-    height: '300px'
-  },
-  flex: {
-    flex: 1
-  }
+const styles = () => {
+  return {
+    actions: lyl `{
+      display: flex
+    }`,
+    cropper: lyl `{
+      max-width: 400px
+      height: 300px
+    }`,
+    flex: lyl `{
+      flex: 1
+    }`
+  };
 };
 
 @Component({
   selector: 'image-cropper-example-03',
   templateUrl: './image-cropper-example-03.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class ImageCropperExample03Component {
-  classes = this.theme.addStyleSheet(styles);
+  classes = this.sRenderer.renderSheet(styles);
   croppedImage?: string;
-  @ViewChild(LyImageCropper) img: LyImageCropper;
+  ready: boolean;
+  @ViewChild(LyImageCropper, { static: true }) readonly cropper: LyImageCropper;
   result: string;
   myConfig: ImgCropperConfig = {
     width: 150, // Default `250`
@@ -40,6 +46,6 @@ export class ImageCropperExample03Component {
   }
 
   constructor(
-    private theme: LyTheme2
+    readonly sRenderer: StyleRenderer
   ) { }
 }

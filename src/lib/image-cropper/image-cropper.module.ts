@@ -1,17 +1,13 @@
-import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LyHammerGestureConfig } from '@alyle/ui';
 
 import { LyImageCropper } from './image-cropper';
+import { LyCropperArea } from './image-cropper-area';
 
 @NgModule({
   imports: [CommonModule],
   exports: [LyImageCropper],
-  providers: [
-    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
-  ],
-  declarations: [LyImageCropper]
+  declarations: [LyImageCropper, LyCropperArea]
 })
-export class LyImageCropperModule {}
+export class LyImageCropperModule { }

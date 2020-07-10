@@ -83,7 +83,22 @@ onError(e: ImgCropperErrorEvent) {
 }
 ```
 
-## Cropper With Dialog
+## Cropper with Dialog and resizable area
+
+Use `resizableArea` to have a resizable cropper area.
+
+The below example is shown with `resizableArea` and `keepAspectRatio`, by default they are disabled.
+
+```ts
+export class MyComponent {
+  ...
+  myConfig: ImgCropperConfig = {
+    resizableArea: true,
+    keepAspectRatio: true
+    ...
+  };
+}
+```
 
 <demo-view
   path="docs/components/image-cropper-demo/cropper-with-dialog"
@@ -102,7 +117,18 @@ You can use the <code class="ts">setImageUrl(src: string, fn?: () => void)</code
 
 ## Crop Circle
 
-For this just add the `border-radius: 50%` styles to the cropper area.
+~~For this just add the `border-radius: 50%` styles to the cropper area.~~
+
+You can add `round` to the cropper config. If set to true, `keepAspectRatio` will also be true (since an oval image would not make sense).
+
+```ts
+myConfig: ImgCropperConfig = {
+  width: 150,
+  height: 150,
+  round: true,
+  ...
+};
+```
 
 <demo-view path="docs/components/image-cropper-demo/crop-circle">
   <aui-crop-circle></aui-crop-circle>
@@ -118,7 +144,35 @@ Just crop the output image and it is not resized.
 
 ## Set output image
 
-If you want the image output to be equal to the size of the cropping area, for example if the cropping area is `300x300` then the output image will be `300x300`
+If you want the output image to always be `40x40`.
+
+```ts
+myConfig: ImgCropperConfig = {
+  width: 150,
+  height: 150,
+  type: 'image/png',
+  output: {
+    width: 40,
+    height: 40
+  },
+  ...
+};
+```
+
+You can also just define `width` or `height`.
+
+```ts
+myConfig: ImgCropperConfig = {
+  width: 150,
+  height: 150,
+  type: 'image/png',
+  output: {
+    width: 40,
+    height: 0 // Will be defined automatically
+  },
+  ...
+};
+```
 
 <demo-view path="docs/components/image-cropper-demo/image-cropper-example-03">
   <image-cropper-example-03></image-cropper-example-03>
