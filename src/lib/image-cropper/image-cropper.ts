@@ -113,6 +113,13 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
           ? 'nwse-resize'
           : 'nesw-resize'
       }
+      &:before {
+        ...${LY_COMMON_STYLES.fill}
+        content: ''
+        width: 20px
+        height: 20px
+        transform: translate(-25%, -25%)
+      }
     }`,
     defaultContent: lyl `{
       display: flex
