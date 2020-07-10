@@ -39,7 +39,6 @@ export class CropCircleComponent implements WithStyles, AfterViewInit {
   minScale: number;
   @ViewChild(LyImageCropper, { static: true }) readonly cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    // autoCrop: true,
     width: 150, // Default `250`
     height: 150, // Default `200`
     fill: '#ff2997', // Default transparent if type = png else #000
