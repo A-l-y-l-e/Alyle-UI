@@ -1,3 +1,21 @@
+# [3.4.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.3.1...3.4.0) (2020-07-10)
+
+
+### Bug Fixes
+
+* **cropper:** `autoCrop` does not work when image is dragged and then drop it ([1c79f5f](https://github.com/A-l-y-l-e/Alyle-UI/commit/1c79f5f294b596365c5e57ef4ead17e70952e82a)), closes [#121](https://github.com/A-l-y-l-e/Alyle-UI/issues/121)
+* **cropper:** error dragging image while scrolling is in progress ([69db9bc](https://github.com/A-l-y-l-e/Alyle-UI/commit/69db9bc41d4d5719b356ba74e269bce8d68b4f0b))
+* **cropper:** expand selection area for resizer ([2536af8](https://github.com/A-l-y-l-e/Alyle-UI/commit/2536af886fc13ba74efd47f7501e133ff7156cd0))
+* `@Style` decorator does not support boolean values ([00d61cc](https://github.com/A-l-y-l-e/Alyle-UI/commit/00d61ccf9457fb4cb1226a47b2b84fd28db82049))
+
+
+### Features
+
+* **cropper:** Add resizable area, round, and keepAspectRatio options ([#119](https://github.com/A-l-y-l-e/Alyle-UI/issues/119)) ([0227d49](https://github.com/A-l-y-l-e/Alyle-UI/commit/0227d4982cc350b9e11fc11f766ff4591fda53ee)), closes [#94](https://github.com/A-l-y-l-e/Alyle-UI/issues/94)
+* support for another className instead of `root` for `renderSheet` ([e01c9b7](https://github.com/A-l-y-l-e/Alyle-UI/commit/e01c9b72e4c93b90e66d8e5bf14a1e2fdc5c374c))
+
+
+
 ## [3.3.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.3.0...3.3.1) (2020-07-04)
 
 
