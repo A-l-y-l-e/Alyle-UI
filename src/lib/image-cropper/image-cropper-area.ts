@@ -9,7 +9,7 @@ const activeEventOptions = normalizePassiveListenerOptions({passive: false});
 const pos = (100 * Math.sqrt(2) - 100) / 2 / Math.sqrt(2);
 
 /**
- * @dinamic
+ * @dynamic
  */
 @Component({
   selector: 'ly-cropper-area',
