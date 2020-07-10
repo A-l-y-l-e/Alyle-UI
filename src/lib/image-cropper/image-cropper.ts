@@ -1060,6 +1060,7 @@ export class LyImageCropper implements OnDestroy {
       this._removeGlobalEvents();
       this._isSliding = false;
       this._startPointerEvent = null;
+      this._cropIfAutoCrop();
     }
   }
 
