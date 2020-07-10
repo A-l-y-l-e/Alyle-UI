@@ -1044,11 +1044,11 @@ export class LyImageCropper implements OnDestroy {
     return this._elementRef.nativeElement.getBoundingClientRect() as DOMRect;
   }
 
-  private _areaCropperRect(): DOMRect {
+  _areaCropperRect(): DOMRect {
     return this._areaRef.nativeElement.getBoundingClientRect() as DOMRect;
   }
 
-  private _canvaRect(): DOMRect {
+  _canvaRect(): DOMRect {
     return this._imgCanvas.nativeElement.getBoundingClientRect();
   }
 

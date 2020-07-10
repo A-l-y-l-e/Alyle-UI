@@ -32,6 +32,8 @@ export class LyCropperArea implements WithStyles, OnDestroy {
   } | null;
   private _currentWidth: number;
   private _currentHeight: number;
+  private _startAreaRect: DOMRect;
+  private _startImgRect: DOMRect;
 
   /** Used to subscribe to global move and end events */
   protected _document: Document;
@@ -114,6 +116,8 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       this._isSliding = true;
       this._lastPointerEvent = event;
       this._startPointerEvent = getGesturePointFromEvent(event);
+      this._startAreaRect = this._cropper._areaCropperRect();
+      this._startImgRect = this._cropper._canvaRect();
       event.preventDefault();
       this._bindGlobalEvents(event);
     });
@@ -129,9 +133,13 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       const point = getGesturePointFromEvent(event);
       const deltaX = point.x - this._startPointerEvent!.x;
       const deltaY = point.y - this._startPointerEvent!.y;
+      const startAreaRect = this._startAreaRect;
+      const startImgRect = this._startImgRect;
+      const keepAspectRatio = this.round || this._cropper.config.keepAspectRatio || event.shiftKey;
       let newWidth = 0;
       let newHeight = 0;
       const rootRect = this._cropper._rootRect();
+
       if (this.round) {
         // The distance from the center of the cropper area to the pointer
         const originX = ((width / 2 / Math.sqrt(2)) + deltaX);
@@ -148,13 +156,18 @@ export class LyCropperArea implements WithStyles, OnDestroy {
         newWidth = width + deltaX * 2;
         newHeight = height + deltaY * 2;
       }
+
+      // To min width
       if (newWidth < minWidth!) {
         newWidth = minWidth!;
       }
+      // To min height
       if (newHeight < minHeight!) {
         newHeight = minHeight!;
       }
-      if (this.round || this._cropper.config.keepAspectRatio || event.shiftKey) {
+
+      // Do not overflow the container
+      if (keepAspectRatio) {
         const min = Math.min(rootRect.width, rootRect.height);
         if (newWidth > min) {
           newWidth = newHeight = min;
@@ -167,6 +180,31 @@ export class LyCropperArea implements WithStyles, OnDestroy {
           newHeight = newHeight = rootRect.height;
         }
       }
+
+      // Do not overflow the cropper area
+      const centerX = startAreaRect.x + startAreaRect.width / 2;
+      const centerY = startAreaRect.y + startAreaRect.height / 2;
+      const topOverflow = startImgRect.y > centerY - (newHeight / 2);
+      const bottomOverflow = centerY + (newHeight / 2) > startImgRect.bottom;
+      const minHeightOnOverflow = Math.min((centerY - startImgRect.y) * 2, (startImgRect.bottom - centerY) * 2);
+      const leftOverflow = startImgRect.x > centerX - (newWidth / 2);
+      const rightOverflow = centerX + (newWidth / 2) > startImgRect.right;
+      const minWidthOnOverflow = Math.min((centerX - startImgRect.x) * 2, (startImgRect.right - centerX) * 2);
+      const minOnOverflow = Math.min(minWidthOnOverflow, minHeightOnOverflow);
+
+      if (keepAspectRatio) {
+        if (topOverflow || bottomOverflow || leftOverflow || rightOverflow) {
+          newHeight = newWidth = minOnOverflow;
+        }
+      } else {
+        if (topOverflow || bottomOverflow ) {
+          newHeight = minHeightOnOverflow;
+        }
+        if (leftOverflow || rightOverflow) {
+          newWidth = minWidthOnOverflow;
+        }
+      }
+
 
       // round values
       newWidth = Math.round(newWidth);

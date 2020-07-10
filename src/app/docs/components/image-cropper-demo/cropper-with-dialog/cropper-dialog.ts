@@ -51,7 +51,7 @@ export class CropperDialog implements WithStyles, AfterViewInit {
     width: 150,
     height: 150,
     type: 'image/png',
-    keepAspectRatio: true,
+    keepAspectRatio: false,
     output: {
       width: 200,
       height: 200
