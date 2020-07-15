@@ -1,3 +1,12 @@
+## [3.4.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.0...3.4.1) (2020-07-15)
+
+
+### Bug Fixes
+
+* **select:** error when opening a `ly-select` has no `ly-option` ([83995cd](https://github.com/A-l-y-l-e/Alyle-UI/commit/83995cde13dc75bf56818be1039baea9df065f88))
+
+
+
 # [3.4.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.3.1...3.4.0) (2020-07-10)
 
 
