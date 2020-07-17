@@ -53,6 +53,7 @@ export const STYLES = (theme: AUIThemeVariables) => {
       .carbon-text {
         display: block
         padding-${before}: 12px
+        padding-top: .5em
         ...${
           subheading instanceof StyleCollection
             ? subheading.setTransformer(fn => fn(subheading)).css
@@ -100,26 +101,21 @@ export class Ads {
             const ref = document.querySelector('aui-doc-viewer p');
             if (ref) {
               const Div = this._renderer.createElement('div');
-              const Carbon = this._renderer.createElement('div');
               const CarbonScript = this._renderer.createElement('script');
               const nextSibling = this._renderer.nextSibling(ref);
               const parentNode = this._renderer.parentNode(ref);
 
-              this._renderer.appendChild(Div, Carbon);
               this._renderer.addClass(Div, className);
               CarbonScript.setAttribute('async', 'async');
               CarbonScript.setAttribute('type', 'text/javascript');
               CarbonScript.setAttribute('src', '//cdn.carbonads.com/carbon.js?serve=CEBDT2J7&placement=alyleio');
               CarbonScript.setAttribute('id', '_carbonads_js');
-              this._renderer.setAttribute(Carbon, 'id', 'carbon_ads_container');
               this._renderer.insertBefore(
                 parentNode,
                 Div,
                 nextSibling
               );
-              if (!isDevMode()) {
-                Carbon.innerHTML = `<div style="padding: 1em">ads</div>`;
-              } else {
+              if (isDevMode()) {
                 this._renderer.appendChild(
                   Div,
                   CarbonScript
