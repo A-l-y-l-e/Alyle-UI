@@ -109,7 +109,7 @@ export class Ads {
                 Div,
                 nextSibling
               );
-              if (isDevMode()) {
+              if (!isDevMode()) {
                 this._renderer.appendChild(
                   Div,
                   CarbonScript
