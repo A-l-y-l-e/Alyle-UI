@@ -99,7 +99,7 @@ This library uses Roboto Font & Google's Material Icons, you can add this in `sr
 
 ## Step 3: Install HammerJs</h2>
 
-Both <code class="html"><ly-carousel></code> and <code class="html"><ly-slider></code> components require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
+Both components <code class="html"><ly-carousel></code> and <code class="html"><ly-slider></code> require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
 
 ```bash
 yarn add hammerjs
