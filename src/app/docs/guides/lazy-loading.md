@@ -1,6 +1,6 @@
 # Lazy Loading
 
-Since the gestures do not work in lazy-loading (as `ly-carousel`, `ly-slider` and `ly-img-cropper`), manually add the following:
+Since the gestures do not work in lazy-loading (as `ly-carousel` and `ly-slider`), manually add the following:
 
 ```ts
 import { HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
