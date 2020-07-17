@@ -5,7 +5,7 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-img-cropper</span>
   <span class="tt18 ttbx">[config]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>myConfig<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">[(scale)]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>scale<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">(ready)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>ready = true<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">(ready)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>onReady($event)<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">(minScale)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>minScale = $event<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">(cleaned)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>ready = false<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">(cropped)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>onCropped($event)<span class="tt18 ttae">"</span></span>
@@ -43,7 +43,8 @@
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Cropped img: '</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
-  <span class="tt18 tta3">onLoaded</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tta3">onReady</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>ready <span class="tt18 ttb0">=</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Img ready for cropper'</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 

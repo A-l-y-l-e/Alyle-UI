@@ -10,7 +10,7 @@ Add the <code class="html"><ly-img-cropper></code> to your template:
 <ly-img-cropper
   [config]="myConfig"
   [(scale)]="scale"
-  (ready)="ready = true"
+  (ready)="onReady($event)"
   (minScale)="minScale = $event"
   (cleaned)="ready = false"
   (cropped)="onCropped($event)"
@@ -53,7 +53,8 @@ export class MyComponent {
     console.log('Cropped img: ', e);
   }
 
-  onLoaded(e: ImgCropperEvent) {
+  onReady(e: ImgCropperEvent) {
+    this.ready = true;
     console.log('Img ready for cropper', e);
   }
 
