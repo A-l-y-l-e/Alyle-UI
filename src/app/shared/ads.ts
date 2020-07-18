@@ -20,7 +20,11 @@ export const STYLES = (theme: AUIThemeVariables) => {
   return {
     $global: lyl `{
       #carbonads {
-        padding: 12px 12px 12px 142px
+        padding: ${
+          before === 'left'
+            ? '12px 12px 12px 142px'
+            : '12px 142px 12px 12px'
+        }
         overflow: hidden
         background-color: ${theme.paper.default}
         a {
