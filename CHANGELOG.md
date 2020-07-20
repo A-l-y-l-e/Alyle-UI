@@ -1,3 +1,7 @@
+## [3.4.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.1...3.4.2) (2020-07-20)
+
+
+
 ## [3.4.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.0...3.4.1) (2020-07-15)
 
 
