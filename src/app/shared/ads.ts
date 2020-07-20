@@ -50,7 +50,6 @@ export const STYLES = (theme: AUIThemeVariables) => {
         .carbon-text {
           display: block
           padding-${before}: 12px
-          padding-top: .5em
           ...${
             subheading instanceof StyleCollection
               ? subheading.setTransformer(fn => fn(subheading)).css
@@ -59,6 +58,7 @@ export const STYLES = (theme: AUIThemeVariables) => {
         }
 
         .carbon-poweredby {
+          padding-top: .5em
           display: block
           padding-${before}: 12px
           line-height: 1
