@@ -136,11 +136,19 @@ export class OverlayFactory<T = any> {
 
   private _updateBackdropPosition() {
     const container = this._overlayContainer.containerElement;
+    // if (
+    //   this._backdropElement?.parentElement === container
+    //   && this._el?.parentElement === container
+    // ) {
+    //   this._overlayContainer.containerElement.insertBefore(this._backdropElement, this._el);
+    // }
+    let _a: any;
+    let _b: any;
     if (
-      this._backdropElement?.parentElement === container
-      && this._el?.parentElement === container
+      ((_a = this._backdropElement) === null || _a === void 0 ? void 0 : _a.parentElement) === container
+      && ((_b = this._el) === null || _b === void 0 ? void 0 : _b.parentElement) === container
     ) {
-      this._overlayContainer.containerElement.insertBefore(this._backdropElement, this._el);
+      this._overlayContainer.containerElement.insertBefore(this._backdropElement!, this._el!);
     }
   }
 

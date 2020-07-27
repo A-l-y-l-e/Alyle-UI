@@ -45,7 +45,7 @@ import {
   AnimationEvent,
   group
 } from '@angular/animations';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import { Subject, asapScheduler } from 'rxjs';
 import { take, delay, debounceTime } from 'rxjs/operators';
@@ -69,7 +69,7 @@ export const STYLES = (theme: ThemeVariables & LyMenuVariables, ref: ThemeRef) =
     $name: LyMenu.и,
     $priority: STYLE_PRIORITY,
     root: () => (
-      theme.menu?.root
+      (theme.menu && theme.menu.root)
         && (theme.menu.root instanceof StyleCollection
           ? theme.menu.root.setTransformer(fn => fn(menu)).css
           : theme.menu.root(menu))
@@ -172,7 +172,7 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
    * @docs-private
    */
   destroy: () => void;
-  @ViewChild('container') _container?: ElementRef<HTMLDivElement>;
+  @ViewChild('container', { static: false }) _container?: ElementRef<HTMLDivElement>;
   @ContentChildren(forwardRef(() => LyMenuItem)) readonly menuItems?: QueryList<LyMenuItem>;
 
   /** Menu Trigger */
@@ -236,7 +236,10 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnChanges() {
-    if (this.ref?._menuRef && this._container) {
+    if (
+      // this.ref?._menuRef
+      this.ref && this.ref._menuRef
+      && this._container) {
       // Update backdrop
       this.ref._menuRef.updateBackdrop(this.ref._isItemSubMenuTrigger() ? false : this.hasBackdrop);
       this._updatePlacement();
@@ -274,7 +277,11 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
   private _checkBackdropAndOpenOnHover() {
     const hostTrigger = this._getHostMenuTrigger();
-    if (this.hasBackdrop && hostTrigger._menuOpenOnHoverRef?.openOnHover) {
+    if (
+      this.hasBackdrop
+      // && hostTrigger._menuOpenOnHoverRef?.openOnHover
+      && (hostTrigger._menuOpenOnHoverRef && hostTrigger._menuOpenOnHoverRef.openOnHover)
+    ) {
       throw new Error(`${LyMenu.и}: Can't use [hasBackdrop] with [openOnHover] at the same time, set [hasBackdrop] to false to use [openOnHover]`);
     }
   }
@@ -282,7 +289,8 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   private _getHostMenuTrigger() {
     let menuTrigger = this.ref;
 
-    while (menuTrigger._menu?.ref) {
+    // while (menuTrigger._menu?.ref) {
+    while (menuTrigger._menu && menuTrigger._menu.ref) {
       menuTrigger = menuTrigger._menu.ref;
     }
 
@@ -291,7 +299,11 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
   private _addOpenOnHover() {
     const hostTrigger = this._getHostMenuTrigger();
-    if (hostTrigger._menuOpenOnHoverRef?.openOnHover && !this._mouseenterListen && !this._mouseleaveListen) {
+    if (
+      // hostTrigger._menuOpenOnHoverRef?.openOnHover
+      hostTrigger._menuOpenOnHoverRef && hostTrigger._menuOpenOnHoverRef.openOnHover
+      && !this._mouseenterListen && !this._mouseleaveListen
+    ) {
       hostTrigger._menuOpenOnHoverRef!._handleMouseEnterOrLeave(true);
       this._mouseenterListen = this._renderer
         .listen(
@@ -323,8 +335,11 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
   /** Update Menu Position */
   private _updatePlacement () {
-    const el = this.ref._menuRef?.containerElement;
-    const container = this._container?.nativeElement;
+    // const el = this.ref._menuRef?.containerElement;
+    // const container = this._container?.nativeElement;
+    let _a: any, _b: any;
+    const el = (_a = this.ref._menuRef) === null || _a === void 0 ? void 0 : _a.containerElement;
+    const container = (_b = this._container) === null || _b === void 0 ? void 0 : _b.nativeElement;
 
     // Do not update when not available
     if (!el || !container) {
@@ -385,8 +400,6 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-
-  static ngAcceptInputType_hasBackdrop: BooleanInput;
 }
 
 @Directive({
@@ -412,7 +425,9 @@ export class LyMenuItem {
         let currentTrigger = this._menu.ref;
         while (currentTrigger) {
           currentTrigger.closeMenu();
-          currentTrigger = currentTrigger._menu?.ref;
+          // currentTrigger = currentTrigger._menu?.ref;
+          let _a: any;
+          currentTrigger = (_a = currentTrigger._menu) === null || _a === void 0 ? void 0 : _a.ref;
         }
       }
     }
@@ -441,7 +456,10 @@ export class LyMenuItem {
   private _closeOtherMenus() {
     this._menu.menuItems!.forEach(menuItem => {
       if (menuItem !== this) {
-        menuItem._getItemSubMenuTrigger()?.closeMenu();
+        // menuItem._getItemSubMenuTrigger()?.closeMenu();
+        let _a: any;
+        // tslint:disable-next-line: no-unused-expression
+        (_a = menuItem._getItemSubMenuTrigger()) === null || _a === void 0 ? void 0 : _a.closeMenu();
       }
     });
   }

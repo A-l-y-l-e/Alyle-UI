@@ -29,7 +29,7 @@ export class ImageCropperExample01Component implements WithStyles, AfterViewInit
   scale: number;
   ready: boolean;
   minScale: number;
-  @ViewChild(LyImageCropper) cropper: LyImageCropper;
+  @ViewChild(LyImageCropper, { static: false}) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     // autoCrop: true,
     width: 150, // Default `250`

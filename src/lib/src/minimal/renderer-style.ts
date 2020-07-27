@@ -349,10 +349,13 @@ function applyStyle<INPUT, C>(
   if ((val as any) === false || val == null || styleTemplate == null) {
     c.sRenderer.removeClass(c[_propertyKeyClass]);
   } else if (oldValue !== val) {
+    let _a: any, _b: any;
     c[_propertyKeyClass] = c.sRenderer.add(
       `${getComponentName(c)}--${propertyKey}-${val}`,
       styleTemplate,
-      priority ?? c.$priority ?? (c.constructor as any).$priority ?? 0,
+      // priority ?? c.$priority ?? (c.constructor as any).$priority ?? 0,
+      // tslint:disable-next-line: max-line-length
+      (_b = (_a = priority !== null && priority !== void 0 ? priority : c.$priority) !== null && _a !== void 0 ? _a : (c.constructor as any).$priority) !== null && _b !== void 0 ? _b : 0,
       c[_propertyKeyClass]
     );
   }

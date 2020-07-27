@@ -233,11 +233,13 @@ export class LyOverlayPosition {
     return this;
   }
   setXAxis(val?: XPosition | null) {
-    this._xAxis = val ?? XPosition.after;
+    // this._xAxis = val ?? XPosition.after;
+    this._xAxis = val !== null && val !== void 0 ? val : XPosition.after;
     return this;
   }
   setYAxis(val?: YPosition | null) {
-    this._yAxis = val ?? YPosition.below;
+    // this._yAxis = val ?? YPosition.below;
+    this._yAxis = val !== null && val !== void 0 ? val : YPosition.below;
     return this;
   }
 

@@ -8,7 +8,7 @@ import { LySnackBar } from '@alyle/ui/snack-bar';
 })
 export class PassingDataToASnackBarComponent {
 
-  @ViewChild('sb') sb: LySnackBar;
+  @ViewChild('sb', { static: false}) sb: LySnackBar;
 
   open() {
     this.sb.open({

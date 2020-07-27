@@ -341,9 +341,9 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   private _animClass: string;
   private _disabled: boolean;
   private _disabledClass?: string;
-  @ViewChild('_input') _input: ElementRef;
-  @ViewChild('_radioContainer') private _radioContainer: ElementRef;
-  @ViewChild('_labelContainer') _labelContainer: ElementRef;
+  @ViewChild('_input', { static: false }) _input: ElementRef;
+  @ViewChild('_radioContainer', { static: false }) private _radioContainer: ElementRef;
+  @ViewChild('_labelContainer', { static: false }) _labelContainer: ElementRef;
   @Output() change = new EventEmitter<boolean>();
 
   @Input()
