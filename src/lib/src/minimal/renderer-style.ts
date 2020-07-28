@@ -290,16 +290,14 @@ export function Style<INPUT = any, C = any>(
 ) {
 
   return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
-    const _propertyKeyClass = `_${propertyKey}Class`;
-    const _propertyKey = `_${propertyKey}`;
+    // const _propertyKeyClass = `_${propertyKey}Class`;
+    // const _propertyKey = `_${propertyKey}`;
     if (descriptor) {
       const set = descriptor.set!;
       descriptor.set = function (val: INPUT) {
-        applyStyle(
+        createStyle(
           this,
           propertyKey,
-          _propertyKey,
-          _propertyKeyClass,
           val,
           style,
           priority
@@ -308,7 +306,7 @@ export function Style<INPUT = any, C = any>(
       };
       if (!descriptor.get) {
         descriptor.get = function () {
-          return this[_propertyKey];
+          return this[`_${propertyKey}`];
         };
       }
     } else {
@@ -316,33 +314,39 @@ export function Style<INPUT = any, C = any>(
         configurable: true,
         enumerable: true,
         set(val: INPUT) {
-          applyStyle(
+          createStyle(
             this,
             propertyKey,
-            _propertyKey,
-            _propertyKeyClass,
             val,
             style,
             priority
           );
         },
         get() {
-          return this[_propertyKey];
+          return this[`_${propertyKey}`];
         }
       });
     }
   };
 }
 
-function applyStyle<INPUT, C>(
+/**
+ * Create a style for component with a key
+ * @param c The component
+ * @param propertyKey Style key
+ * @param val value
+ * @param style style template
+ * @param priority priority of style
+ */
+export function createStyle<INPUT, C>(
   c: WithStyles,
   propertyKey: string,
-  _propertyKey: string,
-  _propertyKeyClass: string,
   val: INPUT,
   style: InputStyle<INPUT, C>,
   priority?: number
 ) {
+  const _propertyKeyClass = `_${propertyKey}Class`;
+  const _propertyKey = `_${propertyKey}`;
   const oldValue = c[_propertyKey];
   c[_propertyKey] = val;
   const styleTemplate = style(val as NonNullable<INPUT>, c as any);
