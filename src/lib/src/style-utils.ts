@@ -139,6 +139,54 @@ export type MediaQueryArray = (
   (number | string | [(string | number), string])
 )[];
 
+/**
+ * Extract breakpoints from a string to make it a unique `StyleTemplate`
+ * @param str Media Queries in inline style
+ * @param transformer A function with parameters to create a `StyleTemplate`
+ */
+export function withMediaInline(
+  str: string | number | MediaQueryArray,
+  transformer: ((val: string | number, media: string | null, index: number) => StyleTemplate)
+) {
+  const styleCollection = new StyleCollection();
+  if (typeof str === 'string') {
+    const values = str.split(/\ /g);
+    for (let index = 0; index < values.length; index++) {
+      const valItem = values[index].split(/\@/g);
+      const strValue = valItem.shift()!;
+      const len = valItem.length;
+      const value = isNaN(+strValue) ? strValue : +strValue;
+      if (len) {
+        for (let j = 0; j < len; j++) {
+          styleCollection.add(transformer(value, valItem[j], index));
+        }
+      } else {
+        styleCollection.add(transformer(value, null, index));
+      }
+    }
+  } else if (Array.isArray(str)) {
+    for (let index = 0; index < str.length; index++) {
+      const val = str[index];
+      if (typeof val === 'number' || typeof val === 'string') {
+        styleCollection.add(transformer(val, null, index));
+      } else {
+        const medias = val[1].split(/\@/g).filter(media => media);
+        const strValue = val[0];
+        const len = medias.length;
+        if (len) {
+          for (let ii = 0; ii < len; ii++) {
+            styleCollection.add(transformer(strValue, medias[ii], index));
+          }
+        } else {
+          styleCollection.add(transformer(strValue, null, index));
+        }
+      }
+    }
+  } else {
+    styleCollection.add(transformer(str, null, 0));
+  }
+  return styleCollection.css;
+}
 
 export function eachMedia(
   str: string | number | MediaQueryArray,
