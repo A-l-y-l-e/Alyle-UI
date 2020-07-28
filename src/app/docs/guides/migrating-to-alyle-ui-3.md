@@ -42,7 +42,7 @@ export class CustomMinimaLight implements PartialThemeVariables {
 }
 ```
 
-## Dinamic Styles
+## Dynamic Styles
 
 The new feature of Alyle UI 3, is that now styles support template string.
 
