@@ -291,7 +291,7 @@ export function Style<INPUT = any, C = any>(
 
   return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
     // const _propertyKeyClass = `_${propertyKey}Class`;
-    // const _propertyKey = `_${propertyKey}`;
+    const _propertyKey = `_${propertyKey}`;
     if (descriptor) {
       const set = descriptor.set!;
       descriptor.set = function (val: INPUT) {
@@ -306,7 +306,7 @@ export function Style<INPUT = any, C = any>(
       };
       if (!descriptor.get) {
         descriptor.get = function () {
-          return this[`_${propertyKey}`];
+          return this[_propertyKey];
         };
       }
     } else {
@@ -323,7 +323,7 @@ export function Style<INPUT = any, C = any>(
           );
         },
         get() {
-          return this[`_${propertyKey}`];
+          return this[_propertyKey];
         }
       });
     }
