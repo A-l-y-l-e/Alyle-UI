@@ -198,7 +198,7 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/compiler-cli@~8.3.29":
+"@angular/compiler-cli@~8.2.14":
   version "8.2.14"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-8.2.14.tgz#1997bec04a6b9d022954e5747505fe8906994594"
   integrity sha512-XDrTyrlIZM+0NquVT+Kbg5bn48AaWFT+B3bAT288PENrTdkuxuF9AhjFRZj8jnMdmaE4O2rioEkXBtl6z3zptA==
@@ -1266,7 +1266,7 @@
     tree-kill "1.2.2"
     webpack-sources "1.4.3"
 
-"@nguniversal/builders@~8.3.29":
+"@nguniversal/builders@~9.0.2":
   version "9.0.2"
   resolved "https://registry.yarnpkg.com/@nguniversal/builders/-/builders-9.0.2.tgz#10b2196f1587b41fa1369b5127ef2998ed1d11cf"
   integrity sha512-k7TQktIdC/07KlUszgJjtpyuJArHE3fpiCg2wl4xXGdy3+xj9SpgzcgUhVCrcagjIBux7uTLcOqt12Zk4R43Ig==
