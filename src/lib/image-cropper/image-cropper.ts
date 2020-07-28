@@ -373,7 +373,7 @@ export class LyImageCropper implements OnDestroy {
   // tslint:disable-next-line: no-output-rename
   @Output('minScale') readonly minScaleChange = new EventEmitter<number>();
 
-  /** @deprecated Emits when the image is loaded, instead use `cropperReady` */
+  /** @deprecated Emits when the image is loaded, instead use `ready` */
   @Output() readonly loaded = new EventEmitter<ImgCropperEvent>();
 
   /** Emits when the image is loaded */

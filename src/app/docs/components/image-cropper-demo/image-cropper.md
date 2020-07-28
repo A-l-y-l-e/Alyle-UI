@@ -4,42 +4,57 @@
 
 Resize, rotate and crop images with Canvas.
 
-e.g.
+Add the <code class="html"><ly-img-cropper></code> to your template:
 
 ```html
 <ly-img-cropper
   [config]="myConfig"
   [(scale)]="scale"
+  (ready)="onReady($event)"
+  (minScale)="minScale = $event"
+  (cleaned)="ready = false"
   (cropped)="onCropped($event)"
   (loaded)="onLoaded($event)"
   (error)="onError($event)"
 >
   <span>Drag and drop image</span>
 </ly-img-cropper>
-<ly-slider
-  [thumbVisible]="false"
-  [min]="cropper.minScale"
-  [max]="1"
-  [(ngModel)]="scale"
-  (input)="scale = $event.value"
-  step="0.000001"></ly-slider>
+
+<ng-container *ngIf="ready">
+  <ly-slider
+    [thumbVisible]="false"
+    [min]="minScale"
+    [max]="1"
+    [(ngModel)]="scale"
+    (input)="scale = $event.value"
+    step="0.000001"></ly-slider>
+</ng-container>
 
 ```
 
+You can use [`ImgCropperConfig`](https://alyle.io/api/@alyle/ui/image-cropper/ImgCropperConfig) to configure the cropper.
+
+
 ```ts
 export class MyComponent {
+  ready: boolean;
   scale: number;
+  minScale: number;
   @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     width: 150, // Default `250`
     height: 150, // Default `200`
-    type: 'image/png' // Or you can also use `image/jpeg`
+    type: 'image/png', // Or you can also use `image/jpeg`
+    output: {
+      width: 200
+    }
   };
   onCropped(e: ImgCropperEvent) {
     console.log('Cropped img: ', e);
   }
 
-  onLoaded(e: ImgCropperEvent) {
+  onReady(e: ImgCropperEvent) {
+    this.ready = true;
     console.log('Img ready for cropper', e);
   }
 
