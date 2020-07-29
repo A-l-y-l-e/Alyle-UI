@@ -17,6 +17,9 @@ const styles = {
   }
 };
 
+/**
+ * @deprecated use `[display]` instead.
+ */
 @Directive({
   selector: '[lyShow], [lyHide]'
 })
