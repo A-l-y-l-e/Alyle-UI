@@ -1,12 +1,9 @@
 import { strings } from '@angular-devkit/core';
 import * as ts from 'typescript';
-import { insertImport, isImported } from '@schematics/angular/utility/ast-utils';
+import { insertImport, isImported, addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import {
-  getAppModulePath,
-  addModuleImportToModule,
-  addSymbolToNgModuleMetadata,
   getProjectMainFile,
   getProjectFromWorkspace
 } from '@angular/cdk/schematics';
@@ -22,6 +19,7 @@ import { addHammerJsToMain } from './gestures';
 import { addFontsToIndex } from './fonts';
 import { setUpStyles } from '../utils/styles';
 import { addProvider } from '../utils/ast';
+import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 
 function updateAppModule(options: Schema) {
   return (host: Tree, _context: SchematicContext) => {
@@ -90,9 +88,6 @@ function updateAppModule(options: Schema) {
     //   });
     //   host.commitUpdate(recorder);
     // }
-
-    // register HammerModule in app module
-    addModuleImportToModule(host, modulePath, 'HammerModule', '@angular/platform-browser');
 
 
     [

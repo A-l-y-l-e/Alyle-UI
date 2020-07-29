@@ -1,7 +1,8 @@
 import { Tree, SchematicsException } from '@angular-devkit/schematics';
 import { Schema } from './schema';
-import { appendHtmlElementToHead, getProjectFromWorkspace, getProjectIndexFiles } from '@angular/cdk/schematics';
+import { appendHtmlElementToHead, getProjectFromWorkspace } from '@angular/cdk/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
+import { getProjectIndexFiles } from '../utils/project-index-file';
 
 /** Adds the Roboto & Material Icons fonts to the index HTML file. */
 export function addFontsToIndex(options: Schema): (host: Tree) => Tree {
