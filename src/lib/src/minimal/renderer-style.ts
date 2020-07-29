@@ -257,7 +257,7 @@ export class StyleRenderer {
 
 }
 
-export type InputStyle<INPUT, C> = (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null);
+export type InputStyle<INPUT, C = any> = (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null);
 
 /**
  * Parameter decorator to be used for create Dynamic style together with `@Input`
@@ -290,6 +290,7 @@ export function Style<INPUT = any, C = any>(
 ) {
 
   return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
+    target.constructor[propertyKey] = style;
     // const _propertyKeyClass = `_${propertyKey}Class`;
     const _propertyKey = `_${propertyKey}`;
     if (descriptor) {
@@ -333,18 +334,19 @@ export function Style<INPUT = any, C = any>(
 /**
  * Create a style for component with a key
  * @param c The component
- * @param propertyKey Style key
+ * @param propertyKeyConfig Style key
  * @param val value
  * @param style style template
  * @param priority priority of style
  */
 export function createStyle<INPUT, C>(
   c: WithStyles,
-  propertyKey: string,
+  propertyKeyConfig: string | StylePropertyKey,
   val: INPUT,
   style: InputStyle<INPUT, C>,
   priority?: number
 ) {
+  const propertyKey = typeof propertyKeyConfig === 'string' ? propertyKeyConfig : propertyKeyConfig.key;
   const _propertyKeyClass = `_${propertyKey}Class`;
   const _propertyKey = `_${propertyKey}`;
   const oldValue = c[_propertyKey];
@@ -354,12 +356,17 @@ export function createStyle<INPUT, C>(
     c.sRenderer.removeClass(c[_propertyKeyClass]);
   } else if (oldValue !== val) {
     c[_propertyKeyClass] = c.sRenderer.add(
-      `${getComponentName(c)}--${propertyKey}-${val}`,
+      `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}--${propertyKey}-${val}`,
       styleTemplate,
       priority ?? c.$priority ?? (c.constructor as any).$priority ?? 0,
       c[_propertyKeyClass]
     );
   }
+}
+
+export interface StylePropertyKey {
+  и: string;
+  key: string;
 }
 
 export interface WithStyles {
