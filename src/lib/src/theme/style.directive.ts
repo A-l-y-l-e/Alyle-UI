@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { lyl, StyleTemplate } from '../parse';
 import { eachMedia, MediaQueryArray } from '../style-utils';
-import { StyleRenderer, Style, WithStyles } from '../minimal/renderer-style';
+import { StyleRenderer, Style, WithStyles, InputStyle } from '../minimal/renderer-style';
 import { ThemeRef } from './theme2.service';
 import { ThemeVariables } from './theme-config';
 
@@ -202,6 +202,7 @@ export class LyStyle implements WithStyles {
         ), true)
   ) my: string | number | null;
 
+  static readonly with: InputStyle<string | number | null>;
   @Input()
   @Style<string | number | null>(
     value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (

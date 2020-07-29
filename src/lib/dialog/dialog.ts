@@ -1,11 +1,20 @@
 import { Injectable, Type, TemplateRef, ComponentFactoryResolver, ComponentFactory, Injector, StaticProvider } from '@angular/core';
-import { LyOverlay, LyOverlayRef, LyTheme2, STYLES_BACKDROP_DARK } from '@alyle/ui';
+import { LyOverlay, LyOverlayRef, LyTheme2, STYLES_BACKDROP_DARK, createStyle, LyStyle, MediaQueryArray } from '@alyle/ui';
 
 import { LyDialogContainer } from './dialog-container.component';
 import { LyDialogRef } from './dialog-ref';
 import { DynamicInjector } from './dynamic-injector';
 import { LyDialogConfig } from './dialog-config';
 import { LY_DIALOG_DATA } from './dialog-data';
+
+const dialogContainerStyleProperties = [
+  'width',
+  'maxWidth',
+  'minWidth',
+  'height',
+  'maxHeight',
+  'minHeight',
+];
 
 @Injectable()
 export class LyDialog {
@@ -54,14 +63,17 @@ export class LyDialog {
     });
 
     const instance: LyDialogContainer = overlayRef.componentRef!.instance;
-    const dialogContainerStyle = instance._getHostElement().style;
 
-    dialogContainerStyle.width = toPx(config.width);
-    dialogContainerStyle.maxWidth = toPx(config.maxWidth);
-    dialogContainerStyle.minWidth = toPx(config.minWidth);
-    dialogContainerStyle.height = toPx(config.height);
-    dialogContainerStyle.maxHeight = toPx(config.maxHeight);
-    dialogContainerStyle.minHeight = toPx(config.minHeight);
+    dialogContainerStyleProperties.forEach(property => {
+      if (config![property]) {
+        createStyle<string | MediaQueryArray | number | null, LyDialogContainer>(
+          instance,
+          { key: property, и: LyStyle.и },
+          config![property],
+          LyStyle[property]
+        );
+      }
+    });
 
     const providers: StaticProvider[] = [
       {
@@ -89,15 +101,3 @@ export class LyDialog {
   }
 }
 
-/**
- * convert number to px
- */
-function toPx(val: string | number | undefined | null): string {
-  if (typeof val === 'number') {
-    return `${val}px`;
-  } else if (val) {
-    return val;
-  }
-
-  return '';
-}
