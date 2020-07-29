@@ -1,3 +1,24 @@
+# [3.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.2...3.5.0) (2020-07-29)
+
+
+### Bug Fixes
+
+* lyShow is deprecated ([8ea68ec](https://github.com/A-l-y-l-e/Alyle-UI/commit/8ea68ec8a492853394393b19672aff248f484264))
+
+
+### Features
+
+* **dialog:** support beakpoints in `LyDialogConfig` ([79bf46a](https://github.com/A-l-y-l-e/Alyle-UI/commit/79bf46a69d87b07f59156d82a96569fa5f837866))
+* expose `createStyle` to create styles from a key ([c492df1](https://github.com/A-l-y-l-e/Alyle-UI/commit/c492df108490cda48bb60cd5da07aa82e71a6ce5))
+* expose `withMediaInline` (Media Queries in inline style) ([11e53e2](https://github.com/A-l-y-l-e/Alyle-UI/commit/11e53e22889dae7edeea27bf4b6ec25163433fc2))
+
+
+### BREAKING CHANGES
+
+* lyShow is deprecated, you can use `[display]`
+
+
+
 ## [3.4.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.1...3.4.2) (2020-07-20)
 
 
