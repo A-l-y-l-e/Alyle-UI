@@ -7,8 +7,8 @@
   },
   "scripts": {
     "start": "ng serve --port 1111",
-    "build": "yarn prerender && ngsw-config dist/alyle-ui src/ngsw-config.json",
-    "build:ci": "yarn tools:docs-api && ./ci/scripts/build-style-compiler.sh && node dist/@alyle/ui/style-compiler/main src && yarn prerender && ngsw-config dist/alyle-ui src/ngsw-config.json",
+    "build": "ng build alyle-ui --prod",
+    "build:ci": "yarn tools:docs-api && ./ci/scripts/build-style-compiler.sh && node dist/@alyle/ui/style-compiler/main src && yarn build",
     "build:browser": "ng build alyle-ui --prod",
     "build:server": "ng run alyle-ui:server",
     "serve": "yarn build && firebase serve only hosting",
