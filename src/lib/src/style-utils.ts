@@ -146,6 +146,7 @@ export type MediaQueryArrayDeprecated = (
  * Extract breakpoints from a string to make it a unique `StyleTemplate`
  * @param str Media Queries in inline style
  * @param transformer A function with parameters to create a `StyleTemplate`
+ * @deprecated
  */
 export function withMediaInline(
   str: string | number | MediaQueryArray,
@@ -159,8 +160,8 @@ export function withMediaInline(
         styleCollection.add(transformer(_[0], _[1]));
       });
     }
-  } else if (typeof str === 'number' || str === null || str === void 0) {
-    styleCollection.add(transformer(str, null));
+  } else if (typeof str === 'number' || str === null || str === undefined) {
+    styleCollection.add(transformer(<any>str, null));
   } else {
     for (let index = 0; index < str.length; index++) {
       const val = str[index];
@@ -245,7 +246,7 @@ export function eachMedia(
       }
     }
   } else if (typeof str === 'number' || typeof str === 'string' || str === null || str === undefined) {
-    resolveMediaEachItemStyle(fn, str, null, 0, styleCollection);
+    resolveMediaEachItemStyle(fn, <any>str, null, 0, styleCollection);
   } else {
     // is array
     for (let index = 0; index < str.length; index++) {
