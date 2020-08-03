@@ -20,8 +20,8 @@
 <blockquote>
   <p>It should be noted that this style will be added globally</p>
 </blockquote>
-<p>We must keep in mind that when we extend a theme, styles can be replaced or added one over another.</p>
-<p>For example if I declare the styles in the <code class="ttm ttx">minimal-dark</code> theme, and also declare in <code class="ttm ttx">GlobalVariables</code>, the style that will be rendered will be the one in Global variables. This is a default behavior, to represent both styles you must declare <code class="ttm ttx">StyleCollection</code> first.</p>
+<p>When we extend a theme, styles can be replaced or added one over another.</p>
+<p>For example if I declare the styles in the <code class="ttm ttx">minimal-dark</code> theme, and also declare in <code class="ttm ttx">GlobalVariables</code>, both styles render, because was initially declared in the theme.</p>
 <p>The following example shows how both styles are rendered.</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 ttb0">...</span>
@@ -40,16 +40,13 @@
 
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">GlobalVariables</span> <span class="tt18 ttae">&#123;</span>
   button <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt3o">// This override the previous style (both styles are rendered).</span>
     <span class="tt18 function-variable tta3">root</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       border-radius: 2em
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>
-<blockquote>
-  <p>This happens because <code class="ttm ttx">StyleCollection</code> was initially declared.</p>
-</blockquote>
+<p>This happens because <code class="ttm ttx">StyleCollection</code> was initially declared.</p>
 <p>Instead if I add a style with <code class="ttm ttx">StyleCollection</code>, the previous styles will be omitted.</p>
 <p>For instance:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span>
@@ -62,6 +59,8 @@
   name <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">'minima-light'</span><span class="tt18 ttae">;</span>
   button <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 tt3o">// This style is not rendered.</span>
+    <span class="tt18 tt3o">// Because `StyleCollection` is declared in `GlobalVariables.button`,</span>
+    <span class="tt18 tt3o">// thus this style will be overridden</span>
     <span class="tt18 function-variable tta3">root</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       border-radius: 8px
       prop: value
