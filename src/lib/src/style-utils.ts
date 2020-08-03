@@ -244,7 +244,7 @@ export function eachMedia(
         resolveMediaEachItemStyle(fn, value, null, index, styleCollection);
       }
     }
-  } else if (typeof str === 'number' || typeof str === 'string' || str === null || str === void 0) {
+  } else if (typeof str === 'number' || typeof str === 'string' || str === null || str === undefined) {
     resolveMediaEachItemStyle(fn, str, null, 0, styleCollection);
   } else {
     // is array
