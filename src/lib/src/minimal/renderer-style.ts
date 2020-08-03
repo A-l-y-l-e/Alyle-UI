@@ -431,7 +431,7 @@ export function _renderStyle<INPUT, C>(
     c[_propertyKeyClass].push(c.sRenderer.add(
       `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}-${propertyKey}-${valAndMedia}`,
       styleTemplate,
-      priority ?? c.$priority ?? (c.constructor as any).$priority ?? 0,
+      getComponentPriority(c, priority),
       c[_propertyKeyClass]
     ));
   }
@@ -450,4 +450,7 @@ export interface WithStyles {
 
 function getComponentName(comp: any) {
   return comp.constructor.и || comp.constructor.name || 'unnamed';
+}
+function getComponentPriority(comp: any, priority?: number) {
+  return priority ?? comp.$priority ?? (comp.constructor as any).$priority ?? 0;
 }
