@@ -91,11 +91,6 @@ test('Inline Media Query: display:none display:block@Large@XLarge', t => {
   ]);
 });
 
-test(`Inline Media Query: ['color:blue']`, t => {
-  const media = parseMediaQueryFromString('color:blue');
-  t.deepEqual(media, [['color:blue', null]]);
-});
-
 function getInlineMediaQueries(str: string) {
   const media: [string | number, string | null][] = Array.prototype.concat.apply([], parseMediaQueriesFromString(str).map(_ => parseMediaQueryFromString(_)));
   return media;
