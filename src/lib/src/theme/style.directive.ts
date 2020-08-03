@@ -1,8 +1,7 @@
 import { Directive, Input } from '@angular/core';
-import { lyl, StyleTemplate } from '../parse';
-import { eachMedia, MediaQueryArray } from '../style-utils';
+import { lyl } from '../parse';
+import { eachMedia } from '../style-utils';
 import { StyleRenderer, Style, WithStyles, InputStyle } from '../minimal/renderer-style';
-import { ThemeRef } from './theme2.service';
 import { ThemeVariables } from './theme-config';
 
 const STYLE_PRIORITY = -0.5;
@@ -47,16 +46,17 @@ const STYLE_PRIORITY = -0.5;
 export class LyStyle implements WithStyles {
   /** @docs-private */
   static readonly и = 'LyStyle';
+  static readonly $priority = STYLE_PRIORITY;
 
   @Input()
   @Style<string | number | null>(
-    value => ({breakpoints}: ThemeVariables) => eachMedia(value, (val, media) => (
+    (value, media) => ({breakpoints}: ThemeVariables) => (
       lyl `{
         @media ${(media && breakpoints[media]) || 'all'} {
-          padding: ${to8Px(val)}
+          padding: ${to8Px(value)}
         }
       }`
-    ), true)
+    )
   ) p: string | number | null;
 
   @Input()
@@ -433,30 +433,16 @@ export class LyStyle implements WithStyles {
   ) order: string | number | null;
 
   @Input()
-  get lyStyle() {
-    return this._lyStyle;
-  }
-  set lyStyle(val: string | MediaQueryArray | ((theme: any, ref: ThemeRef) => StyleTemplate) | null) {
-    if (typeof val === 'function') {
-      this[0xa] = this.sRenderer.add(val, this[0xa]);
-    } else if (val != null) {
-      this[0xa] = this.sRenderer.add(
-        `${LyStyle.и}--style-${val}`,
-        ({breakpoints}: ThemeVariables) => eachMedia(val!, (v, media) => (
-          lyl `{
-            @media ${(media && (breakpoints[media] || media)) || 'all'} {
-              ${v}
-            }
-          }`
-        ), true),
-        STYLE_PRIORITY,
-        this[0xa]
-      );
-    } else {
-      this.sRenderer.removeClass(this[0xa]);
-    }
-  }
-  private _lyStyle: string | null;
+  @Style<string | number | null>(
+    (value, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && (breakpoints[media] || media)) || 'all'} {
+          ${value}
+        }
+      }`
+    )
+  )
+  lyStyle: string | null;
 
   constructor(
     readonly sRenderer: StyleRenderer
@@ -471,13 +457,27 @@ export class LyStyle implements WithStyles {
 function to8Px(val: number | string) {
   return typeof val === 'number'
     ? `${val * 8}px`
-    : val;
+    : val.includes(' ')
+      ? val.split(' ').map(_ => strTo8Px(_)).join(' ')
+      : strTo8Px(val);
+}
+
+function strTo8Px(val: string) {
+  const num = +val;
+  return isNaN(num) ? val : `${num * 8}px`;
+}
+
+function strToPx(val: string) {
+  const num = +val;
+  return isNaN(num) ? val : `${num}px`;
 }
 
 function transform(value: number | string) {
   return value <= 1
     ? `${value as number * 100}%`
-    : typeof value === 'string'
-      ? value
-      : `${value}px`;
+    : typeof value === 'number'
+      ? `${value}px`
+      : value.includes(' ')
+        ? value.split(' ').map(_ => strToPx(_)).join(' ')
+        : strToPx(value);
 }
