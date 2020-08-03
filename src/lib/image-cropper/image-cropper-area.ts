@@ -61,7 +61,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
   @Input() keepAspectRatio: boolean;
   @Input()
   @Style<boolean, LyCropperArea>(
-    (_value, { classes: __ }) => ({ after }) => lyl `{
+    (_value, _, { classes: __ }) => ({ after }) => lyl `{
       border-radius: 50%
       .${__.resizer} {
         ${after}: ${pos}%

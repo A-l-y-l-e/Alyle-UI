@@ -24,9 +24,9 @@ export class GlobalVariables implements PartialThemeVariables {
 
 > It should be noted that this style will be added globally
 
-We must keep in mind that when we extend a theme, styles can be replaced or added one over another.
+When we extend a theme, styles can be replaced or added one over another.
 
-For example if I declare the styles in the `minimal-dark` theme, and also declare in `GlobalVariables`, the style that will be rendered will be the one in Global variables. This is a default behavior, to represent both styles you must declare `StyleCollection` first.
+For example if I declare the styles in the `minimal-dark` theme, and also declare in `GlobalVariables`, both styles render, because was initially declared in the theme.
 
 The following example shows how both styles are rendered.
 
@@ -48,7 +48,6 @@ export class CustomMinimaLight {
 
 export class GlobalVariables {
   button = {
-    // This override the previous style (both styles are rendered).
     root: () => lyl `{
       border-radius: 2em
     }`
@@ -56,7 +55,7 @@ export class GlobalVariables {
 }
 ```
 
-> This happens because `StyleCollection` was initially declared.
+This happens because `StyleCollection` was initially declared.
 
 Instead if I add a style with `StyleCollection`, the previous styles will be omitted.
 
@@ -73,6 +72,8 @@ export class CustomMinimaLight {
   name = 'minima-light';
   button = {
     // This style is not rendered.
+    // Because `StyleCollection` is declared in `GlobalVariables.button`,
+    // thus this style will be overridden
     root: () => lyl `{
       border-radius: 8px
       prop: value

@@ -72,7 +72,7 @@ export class DocViewer {
   readonly isLoading = new EventEmitter<boolean>();
   readonly isError = new EventEmitter<Err | void>();
 
-  ADS_STYLES = ADS_STYLES;
+  readonly ADS_STYLES = this.theme.renderStyle(ADS_STYLES);
 
   @Input()
   get path() {

@@ -42,6 +42,7 @@ export class MinimaBase extends LyStyleUtils {
   animations = animations;
   direction = Dir.ltr;
   button: LyButtonTheme = {
+    root: new StyleCollection(),
     size: {
       small: () => lyl `{
         padding: 0 8px
@@ -130,7 +131,7 @@ export class MinimaBase extends LyStyleUtils {
             margin-top: 0
           }
           &:last-child {
-            margin-bottom: 0jj
+            margin-bottom: 0
           }
         }
       }`
@@ -148,7 +149,7 @@ export class MinimaBase extends LyStyleUtils {
             border-bottom-style: dotted
             border-color: inherit
           }
-          textarea{inputNative} {
+          textarea${classes.inputNative} {
             margin: 0.25em 0
           }
           ${classes.inputNative}:not(textarea) {

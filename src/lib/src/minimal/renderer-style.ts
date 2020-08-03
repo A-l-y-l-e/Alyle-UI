@@ -2,6 +2,7 @@ import { Injectable, ElementRef, Renderer2, Optional } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
 import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
+import { parseMediaQueriesFromString, parseMediaQueryFromString, MediaQueryArray } from '../style-utils';
 
 @Injectable()
 export class StyleRenderer {
@@ -241,6 +242,14 @@ export class StyleRenderer {
     }
   }
 
+  removeClasses(rawClassVal?: string[] | null | undefined) {
+    if (rawClassVal) {
+      rawClassVal.forEach(klass =>
+        this.removeClass(klass)
+      );
+    }
+  }
+
   toggleClass(className: string, enabled: boolean) {
     if (enabled) {
       this.addClass(className);
@@ -257,7 +266,10 @@ export class StyleRenderer {
 
 }
 
-export type InputStyle<INPUT, C = any> = (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null);
+export type InputStyle<INPUT, C = any> = (val: Exclude<NonNullable<INPUT>, MediaQueryArray>, media: string | null, comp: C) =>
+  (
+    ((theme: any, ref: ThemeRef) => StyleTemplate) | null
+  );
 
 /**
  * Parameter decorator to be used for create Dynamic style together with `@Input`
@@ -335,14 +347,14 @@ export function Style<INPUT = any, C = any>(
  * Create a style for component with a key
  * @param c The component
  * @param propertyKeyConfig Style key
- * @param val value
+ * @param value value
  * @param style style template
  * @param priority priority of style
  */
 export function createStyle<INPUT, C>(
   c: WithStyles,
   propertyKeyConfig: string | StylePropertyKey,
-  val: INPUT,
+  value: INPUT,
   style: InputStyle<INPUT, C>,
   priority?: number
 ) {
@@ -350,20 +362,78 @@ export function createStyle<INPUT, C>(
   const _propertyKeyClass = `_${propertyKey}Class`;
   const _propertyKey = `_${propertyKey}`;
   const oldValue = c[_propertyKey];
-  c[_propertyKey] = val;
-  const styleTemplate = style(val as NonNullable<INPUT>, c as any);
-  if ((val as any) === false || val == null || styleTemplate == null) {
-    c.sRenderer.removeClass(c[_propertyKeyClass]);
-  } else if (oldValue !== val) {
-    let _a: any, _b: any;
-    c[_propertyKeyClass] = c.sRenderer.add(
-      `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}--${propertyKey}-${val}`,
+  c[_propertyKey] = value;
+  if (value === null || value === undefined || (value as any) === false) {
+    // Remove classes
+    const classesForRemove: null | string[] = c[_propertyKeyClass];
+    if (classesForRemove && classesForRemove.length) {
+      classesForRemove.forEach((className: string) =>
+        c.sRenderer.removeClass(className)
+      );
+    }
+  } else if (typeof value === 'string') {
+    if (oldValue !== value) {
+      c.sRenderer.removeClasses(c[_propertyKeyClass]);
+      const values = parseMediaQueriesFromString(value);
+      for (let index = 0; index < values.length; index++) {
+        const valAndMediaKey = values[index];
+        parseMediaQueryFromString(valAndMediaKey).forEach((_) => {
+          _renderStyle(c, propertyKeyConfig, _[0], _[1], valAndMediaKey, style, priority);
+        });
+      }
+    }
+  } else if (typeof value === 'number') {
+    if (oldValue !== value) {
+      c.sRenderer.removeClasses(c[_propertyKeyClass]);
+      _renderStyle(c, propertyKeyConfig, value as any, null, value as any, style, priority);
+    }
+  } else if (oldValue !== `${value}`) {
+    c.sRenderer.removeClasses(c[_propertyKeyClass]);
+    // Is array
+    for (let index = 0; index < (value as any).length; index++) {
+      const val = value[index];
+      if (typeof val === 'number' || val === null || val === undefined) {
+        _renderStyle(c, propertyKeyConfig, val, null, val, style, priority);
+      } if (typeof val === 'string') {
+        parseMediaQueryFromString(val).forEach((_) => {
+          _renderStyle(c, propertyKeyConfig, _[0], _[1], val, style, priority);
+        });
+      }
+    }
+  }
+}
+
+export function _renderStyle<INPUT, C>(
+  c: WithStyles,
+  propertyKeyConfig: string | StylePropertyKey,
+  val: string | number,
+  media: string | null,
+  valAndMedia: string | number | null | undefined,
+  style: InputStyle<INPUT, C>,
+  priority?: number
+) {
+  const propertyKey = typeof propertyKeyConfig === 'string' ? propertyKeyConfig : propertyKeyConfig.key;
+  const _propertyKeyClass = `_${propertyKey}Class`;
+  const styleTemplate = style(val as any, media, c as any);
+  if (styleTemplate == null) {
+    // Remove classes
+    const classesForRemove: null | string[] = c[_propertyKeyClass];
+    if (classesForRemove && classesForRemove.length) {
+      classesForRemove.forEach((className: string) =>
+        c.sRenderer.removeClass(className)
+      );
+      c[_propertyKeyClass] = [];
+    }
+  } else {
+    if (c[_propertyKeyClass] === undefined) {
+      c[_propertyKeyClass] = [];
+    }
+    c[_propertyKeyClass].push(c.sRenderer.add(
+      `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}-${propertyKey}-${valAndMedia}`,
       styleTemplate,
-      // priority ?? c.$priority ?? (c.constructor as any).$priority ?? 0,
-      // tslint:disable-next-line: max-line-length
-      (_b = (_a = priority !== null && priority !== void 0 ? priority : c.$priority) !== null && _a !== void 0 ? _a : (c.constructor as any).$priority) !== null && _b !== void 0 ? _b : 0,
+      priority ?? c.$priority ?? (c.constructor as any).$priority ?? 0,
       c[_propertyKeyClass]
-    );
+    ));
   }
 }
 

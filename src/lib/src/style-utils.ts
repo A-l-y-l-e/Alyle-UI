@@ -1,6 +1,7 @@
 import { Color, hexColorToInt } from '@alyle/ui/color';
 import { _STYLE_MAP, Styles, LyClasses } from './theme/style';
 import { StyleCollection, StyleTemplate } from './parse';
+import { memoize } from './minimal/memoize';
 
 export class LyStyleUtils {
   name: string;
@@ -135,7 +136,9 @@ function get(obj: Object, path: string[] | string, optional?: string): Color {
   // return typeof obj === 'string' ? obj as string : obj['default'] as string;
 }
 
-export type MediaQueryArray = (
+export type MediaQueryArray = (string | number)[];
+
+export type MediaQueryArrayDeprecated = (
   (number | string | [(string | number), string])
 )[];
 
@@ -143,62 +146,83 @@ export type MediaQueryArray = (
  * Extract breakpoints from a string to make it a unique `StyleTemplate`
  * @param str Media Queries in inline style
  * @param transformer A function with parameters to create a `StyleTemplate`
+ * @deprecated
  */
 export function withMediaInline(
   str: string | number | MediaQueryArray,
-  transformer: ((val: string | number, media: string | null, index: number) => StyleTemplate)
+  transformer: ((val: string | number, media: string | null) => StyleTemplate)
 ) {
   const styleCollection = new StyleCollection();
   if (typeof str === 'string') {
-    const values = str.split(/\ /g);
+    const values = parseMediaQueriesFromString(str);
     for (let index = 0; index < values.length; index++) {
-      const valItem = values[index].split(/\@/g);
-      const strValue = valItem.shift()!;
-      const len = valItem.length;
-      const value = isNaN(+strValue) ? strValue : +strValue;
-      if (len) {
-        for (let j = 0; j < len; j++) {
-          styleCollection.add(transformer(value, valItem[j], index));
-        }
-      } else {
-        styleCollection.add(transformer(value, null, index));
-      }
+      parseMediaQueryFromString(values[index]).forEach((_) => {
+        styleCollection.add(transformer(_[0], _[1]));
+      });
     }
-  } else if (Array.isArray(str)) {
+  } else if (typeof str === 'number' || str === null || str === undefined) {
+    styleCollection.add(transformer(<any>str, null));
+  } else {
     for (let index = 0; index < str.length; index++) {
       const val = str[index];
-      if (typeof val === 'number' || typeof val === 'string') {
-        styleCollection.add(transformer(val, null, index));
-      } else {
-        const medias = val[1].split(/\@/g).filter(media => media);
-        const strValue = val[0];
-        const len = medias.length;
-        if (len) {
-          for (let ii = 0; ii < len; ii++) {
-            styleCollection.add(transformer(strValue, medias[ii], index));
-          }
-        } else {
-          styleCollection.add(transformer(strValue, null, index));
-        }
+      if (typeof val === 'number' || val === null || val === undefined) {
+        styleCollection.add(transformer(val, null));
+      } if (typeof val === 'string') {
+        parseMediaQueryFromString(val).forEach((_) => {
+          styleCollection.add(transformer(_[0], _[1]));
+        });
       }
     }
-  } else {
-    styleCollection.add(transformer(str, null, 0));
   }
   return styleCollection.css;
 }
 
+/**
+ * Extract media query from a string
+ */
+export const parseMediaQueryFromString = memoize((key: string) => {
+  const valItem = key.split(/\@/g);
+  const strValue = valItem.shift()!;
+  const len = valItem.length;
+  const value = isNaN(+strValue) ? strValue : +strValue;
+  const re: [string | number, string | null][] = [];
+  if (len) {
+    for (let j = 0; j < len; j++) {
+      re.push([value, valItem[j]]);
+    }
+  } else {
+    re.push([value, null]);
+  }
+  return re;
+});
+
+/**
+ * Extract media queries from a string
+ */
+export const parseMediaQueriesFromString = memoize((key: string) => {
+  return key.split(' ');
+});
+
+/**
+ * @depracated use `withMediaInline` instead.
+ */
 export function eachMedia(
-  str: string | number | MediaQueryArray,
+  str: string | number | MediaQueryArrayDeprecated,
   fn: ((val: string | number, media: string | null, index: number) => void)
 ): void;
+/**
+ * @depracated use `withMediaInline` instead.
+ */
 export function eachMedia(
-  str: string | number | MediaQueryArray,
+  str: string | number | MediaQueryArrayDeprecated,
   fn: ((val: string | number, media: string | null, index: number) => StyleTemplate),
   styleCollection: boolean
 ): StyleTemplate;
+/**
+ * @depracated use `withMediaInline` instead.
+ */
 export function eachMedia(
-  str: string | number | MediaQueryArray,
+  str: string | number | MediaQueryArrayDeprecated,
   fn: ((val: string | number, media: string | null, index: number) => (void | StyleTemplate)),
   withStyleCollection?: boolean
 ): StyleTemplate | void {
@@ -221,7 +245,10 @@ export function eachMedia(
         resolveMediaEachItemStyle(fn, value, null, index, styleCollection);
       }
     }
-  } else if (Array.isArray(str)) {
+  } else if (typeof str === 'number' || typeof str === 'string' || str === null || str === undefined) {
+    resolveMediaEachItemStyle(fn, <any>str, null, 0, styleCollection);
+  } else {
+    // is array
     for (let index = 0; index < str.length; index++) {
       const val = str[index];
       if (typeof val === 'number' || typeof val === 'string') {
@@ -238,9 +265,8 @@ export function eachMedia(
           resolveMediaEachItemStyle(fn, strValue, null, index, styleCollection);
         }
       }
+
     }
-  } else {
-    resolveMediaEachItemStyle(fn, str, null, 0, styleCollection);
   }
   if (styleCollection) {
     return styleCollection.css;

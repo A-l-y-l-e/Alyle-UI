@@ -3,8 +3,11 @@
 <p>Spacing utilities are useful for adding responsive padding and the margin of an element.</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[m]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>2 1@XSmall<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
 </code></pre>
+<blockquote>
+  <p>To add a responsive value see <a href="/styles/inline-media-query">here</a>.</p>
+</blockquote>
 <h2 id="inputs">Inputs</h2>
-<p>These are the shorthand attributes that can be used in an element. If the value is a number then it is multiplied by 8 and converted to pixel values ​​otherwise if it is a string the value will be used as raw CSS.</p>
+<p>These are the shorthand attributes that can be used in an element. If the value is a <strong>number then it is multiplied by 8</strong> and converted to pixel values ​​otherwise if it is a <strong>number in a string without a suffix</strong> the value will be used as raw CSS.</p>
 <ul>
 <li><code class="ttm ttx">p</code> - Defines the <code class="ttm ttx">padding</code> style property.</li>
 <li><code class="ttm ttx">pf</code> - Defines the <code class="ttm ttx">padding-after</code> style property.</li>
@@ -21,3 +24,14 @@
 <li><code class="ttm ttx">mx</code> - Defines the <code class="ttm ttx">margin-left</code> &amp; <code class="ttm ttx">padding-right</code> style property.</li>
 <li><code class="ttm ttx">my</code> - Defines the <code class="ttm ttx">margin-top</code> &amp; <code class="ttm ttx">margin-bottom</code> style property.</li>
 </ul>
+<h2 id="supported-values">Supported values</h2>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[p]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>2<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>     -> 2 * 8 = 16px
+<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[p]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span><span class="tt18 ttae">'</span>2'<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>   -> 2 * 8 = 16px. Why?
+                     Because a number in a string with no suffix is ​​used as a number
+                     and then converted to pixel values.
+<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[p]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span><span class="tt18 ttae">'</span>2em'<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span> -> 2em
+<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[p]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>null<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>  -> remove the previously defined style.
+</code></pre>
+<blockquote>
+  <p>To add a responsive value see <a href="/styles/inline-media-query">here</a>.</p>
+</blockquote>

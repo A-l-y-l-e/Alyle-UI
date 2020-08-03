@@ -49,7 +49,8 @@ export const AUIRoutes: {
     routes: [
       { route: 'dynamic-style-with-input-and-style', name: '@Style' },
       { route: 'sizing', name: 'Sizing' },
-      { route: 'spacing', name: 'Spacing' }
+      { route: 'spacing', name: 'Spacing' },
+      { route: 'inline-media-query', name: 'Inline Media Query' },
     ].sort(sort)
   },
   {
