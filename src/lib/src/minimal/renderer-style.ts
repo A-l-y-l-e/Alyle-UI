@@ -242,6 +242,14 @@ export class StyleRenderer {
     }
   }
 
+  removeClasses(rawClassVal?: string[] | null | undefined) {
+    if (rawClassVal) {
+      rawClassVal.forEach(klass =>
+        this.removeClass(klass)
+      );
+    }
+  }
+
   toggleClass(className: string, enabled: boolean) {
     if (enabled) {
       this.addClass(className);
@@ -365,6 +373,7 @@ export function createStyle<INPUT, C>(
     }
   } else if (typeof value === 'string') {
     if (oldValue !== value) {
+      c.sRenderer.removeClasses(c[_propertyKeyClass]);
       const values = parseMediaQueriesFromString(value);
       for (let index = 0; index < values.length; index++) {
         const valAndMediaKey = values[index];
@@ -375,9 +384,11 @@ export function createStyle<INPUT, C>(
     }
   } else if (typeof value === 'number') {
     if (oldValue !== value) {
+      c.sRenderer.removeClasses(c[_propertyKeyClass]);
       _renderStyle(c, propertyKeyConfig, value as any, null, value as any, style, priority);
     }
   } else if (oldValue !== `${value}`) {
+    c.sRenderer.removeClasses(c[_propertyKeyClass]);
     // Is array
     for (let index = 0; index < (value as any).length; index++) {
       const val = value[index];
