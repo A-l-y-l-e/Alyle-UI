@@ -343,14 +343,14 @@ export class LyTheme2 {
           ? createLylStyle(
               styleMap,
               (styles as ((theme: any, ref: ThemeRef) => StyleTemplate))(config, this),
-              themeName)
-          : groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config);
+              themeName, this.core.classNamePrefix)
+          : groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config, this.core.classNamePrefix);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }
       } else {
         /** create a new id for style that does not <-<require>-> changes */
-        css = groupStyleToString(styleMap, styles as StyleGroup, themeName, newId as string, type, config);
+        css = groupStyleToString(styleMap, styles as StyleGroup, themeName, newId as string, type, config, this.core.classNamePrefix);
         styleMap.css = css;
       }
       if (!this.elements.has(newId)) {
@@ -441,13 +441,9 @@ export class LyTheme2 {
 function createLylStyle(
   styleMap: StyleMap5,
   styles: StyleTemplate,
-  themeName: string
+  themeName: string,
+  classNamePrefix?: string
 ) {
-  // const className = styleMap.requireUpdate
-  // ? styleMap[themeName] || (styleMap[themeName] = createNextClassId())
-  // : styleMap.classes
-  //   ? styleMap.classes
-  //   : styleMap.classes = createNextClassId();
 
   // use current class or set new
   let className: string;
@@ -455,9 +451,9 @@ function createLylStyle(
     || (
       styleMap[themeName] = isDevMode()
         ? styleMap.id
-          ? `${toValidClassName(styleMap.id!)}-${createNextClassId()}`
-          : `${(styleMap.styles as Function).name || 'ii'}-${createNextClassId()}`
-        : createNextClassId()
+          ? `${toValidClassName(styleMap.id!)}-${createNextClassId(classNamePrefix)}`
+          : `${(styleMap.styles as Function).name || 'ii'}-${createNextClassId(classNamePrefix)}`
+        : createNextClassId(classNamePrefix)
     );
 
   return styles(`.${className}`);
@@ -469,17 +465,18 @@ function groupStyleToString(
   themeName: string,
   id: string | null,
   typeStyle: TypeStyle,
-  themeVariables: ThemeVariables
+  themeVariables: ThemeVariables,
+  classNamePrefix?: string
 ) {
 
   // for styles type string
   if (typeStyle === TypeStyle.OnlyOne) {
     // use current class or set new
     const className = styleMap.requireUpdate
-    ? styleMap[themeName] || (styleMap[themeName] = createNextClassId())
+    ? styleMap[themeName] || (styleMap[themeName] = createNextClassId(classNamePrefix))
     : styleMap.classes
       ? styleMap.classes
-      : styleMap.classes = createNextClassId();
+      : styleMap.classes = createNextClassId(classNamePrefix);
     let rules: string;
     if (typeof styles === 'string') {
       rules = `.${className}{${styles}}`;
@@ -528,14 +525,14 @@ function groupStyleToString(
       // set new id if not exist
       if (!(key in classesMap)) {
         classesMap[key] = isDevMode()
-          ? `${toValidClassName(name + key)}-${createUniqueClassID()}`
-          : createUniqueClassID();
+          ? `${toValidClassName(name + key)}-${createNextClassId(classNamePrefix)}`
+          : createNextClassId(classNamePrefix);
       }
 
     } else if (typeof value === 'object' || value === null) {
       // set new id if not exist
       if (!(key in classesMap)) {
-        classesMap[key] = isDevMode() ? toValidClassName(`y-${name}${key}-${createNextClassId()}`) : createNextClassId();
+        classesMap[key] = isDevMode() ? toValidClassName(`y-${name}${key}-${createNextClassId(classNamePrefix)}`) : createNextClassId(classNamePrefix);
       }
 
     } else {
@@ -776,11 +773,10 @@ export function capitalizeFirstLetter(str: string) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-function createNextClassId() {
-  return yClassID.next();
-}
-function createUniqueClassID() {
-  return yClassID.next();
+function createNextClassId(classNamePrefix?: string) {
+  return classNamePrefix
+    ? `${classNamePrefix}${yClassID.next()}`
+    : yClassID.next();
 }
 function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;
