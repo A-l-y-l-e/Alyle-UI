@@ -1,6 +1,7 @@
 # Inline Media Query
 
-Breakpoints can be used in the template and can be very useful for adding a responsive style to an element
+Breakpoints can be used in the template and can be very useful for adding a responsive style to an element.
+
 e.g.
 
 ```html
@@ -23,7 +24,7 @@ For example I want to add both `padding: 16px 0px 32px` and `padding: 8px 0px 16
 ```html
 <div [p]="[
   '2 0 4',
-  ['1 0 2', 'XSmall']
+  '1 0 2@XSmall'
 ]">
 ```
 

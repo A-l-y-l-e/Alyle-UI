@@ -340,7 +340,7 @@ export class StringIdGenerator {
     return r.join('');
   }
 
-  _increment() {
+  private _increment() {
     for (let i = 0; i < this._nextId.length; i++) {
       const val = ++this._nextId[i];
       if (val >= this._chars.length) {

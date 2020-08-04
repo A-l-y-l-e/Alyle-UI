@@ -7,7 +7,7 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 
-> Please note that as of version 3 you have support for Angular 8+. And there is no support for Angular 7.
+> Currently the latest version of Alyle UI supports Angular 9, if your project uses Angular 8, you can use version 3.
 
 ## Angular CLI
 
