@@ -1,9 +1,439 @@
-import { Directive, Input } from '@angular/core';
+import { Directive } from '@angular/core';
 import { lyl } from '../parse';
 import { StyleRenderer, Style, WithStyles, InputStyle } from '../minimal/renderer-style';
 import { ThemeVariables } from './theme-config';
 
 const STYLE_PRIORITY = -0.5;
+
+/**
+ * @dynamic
+ */
+@Directive({
+  selector: `[lyStyle],
+              [lyColor],
+              [lyP], [lyPf], [lyPe], [lyPt], [lyPb], [lyPx], [lyPy],
+              [lyM], [lyMf], [lyMe], [lyMt], [lyMb], [lyMx], [lyMy],
+              [lySize],
+              [lyWidth], [lyMaxWidth], [lyMinWidth],
+              [lyHeight], [lyMaxHeight], [lyMinHeight],
+              [lyDisplay],
+              [lyFlex],
+              [lyFlexBasis],
+              [lyFlexDirection],
+              [lyFlexGrow],
+              [lyFlexSelf],
+              [lyFlexShrink],
+              [lyFlexWrap],
+              [lyJustifyContent],
+              [lyJustifyItems],
+              [lyJustifySelf],
+              [lyAlignContent],
+              [lyAlignItems],
+              [lyOrder]`,
+  providers: [
+    StyleRenderer
+  ],
+  inputs: [
+    'color: lyColor',
+    'p: lyP', 'pf: lyPf', 'pe: lyPe', 'pt: lyPt', 'pb: lyPb', 'px: lyPx', 'py: lyPy',
+    'm: lyM', 'mf: lyMf', 'me: lyMe', 'mt: lyMt', 'mb: lyMb', 'mx: lyMx', 'my: lyMy',
+    'size: lySize',
+    'width: lyWidth', 'maxWidth: lyMaxWidth', 'minWidth: lyMinWidth',
+    'height: lyHeight', 'maxHeight: lyMaxHeight', 'minHeight: lyMinHeight',
+    'display: lyDisplay',
+    'flex: lyFlex',
+    'flexBasis: lyFlexBasis',
+    'flexDirection: lyFlexDirection',
+    'flexGrow: lyFlexGrow',
+    'flexSelf: lyFlexSelf',
+    'flexShrink: lyFlexShrink',
+    'flexWrap: lyFlexWrap',
+    'justifyContent: lyJustifyContent',
+    'justifyItems: lyJustifyItems',
+    'justifySelf: lyJustifySelf',
+    'alignContent: lyAlignContent',
+    'alignItems: lyAlignItems',
+    'order: lyOrder'
+  ]
+})
+export class LyStyle implements WithStyles {
+  /** @docs-private */
+  static readonly и = 'LyStyle';
+  static readonly $priority = STYLE_PRIORITY;
+
+  @Style<string | null>(
+    (value) => (theme: ThemeVariables) => (
+      lyl `{
+        color: ${theme.colorOf(value)}
+      }`
+    )
+  ) color: string | number | null;
+
+  @Style<string | number | null>(
+    (value, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          padding: ${to8Px(value)}
+        }
+      }`
+    )
+  ) p: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints, after}) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          padding-${after}: ${to8Px(val)}
+        }
+      }`
+    )
+  ) pf: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints, before}) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          padding-${before}: ${to8Px(val)}
+        }
+      }`
+    )
+  ) pe: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          padding-top: ${to8Px(val)}
+        }
+      }`
+    )
+  ) pt: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          padding-bottom: ${to8Px(val)}
+        }
+      }`
+    )
+  ) pb: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          padding: 0 ${to8Px(val)}
+        }
+      }`
+    )
+  ) px: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          padding: ${to8Px(val)} 0
+        }
+      }`
+    )
+  ) py: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          margin: ${to8Px(val)}
+        }
+      }`
+    )
+  ) m: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints, after}) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          margin-${after}: ${to8Px(val)}
+        }
+      }`
+    )
+  ) mf: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints, before}) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          margin-${before}: ${to8Px(val)}
+        }
+      }`
+    )
+  ) me: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          margin-top: ${to8Px(val)}
+        }
+      }`
+    )
+  ) mt: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+          lyl `{
+            @media ${(media && breakpoints[media]) || 'all'} {
+              margin-bottom: ${to8Px(val)}
+            }
+          }`
+        )
+  ) mb: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+          lyl `{
+            @media ${(media && breakpoints[media]) || 'all'} {
+              margin: 0 ${to8Px(val)}
+            }
+          }`
+        )
+  ) mx: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+          lyl `{
+            @media ${(media && breakpoints[media]) || 'all'} {
+              margin: ${to8Px(val)} 0
+            }
+          }`
+        )
+  ) my: string | number | null;
+
+  static readonly with: InputStyle<string | number | null>;
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          width: ${transform(val)}
+        }
+      }`
+    )
+  ) width: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          max-width: ${transform(val)}
+        }
+      }`
+    )
+  ) maxWidth: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          min-width: ${transform(val)}
+        }
+      }`
+    )
+  ) minWidth: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          height: ${transform(val)}
+        }
+      }`
+    )
+  ) height: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          max-height: ${transform(val)}
+        }
+      }`
+    )
+  ) maxHeight: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          min-height: ${transform(val)}
+        }
+      }`
+    )
+  ) minHeight: string | number | null;
+
+  set size(value: string | number | null) {
+    this.width = value;
+    this.height = value;
+  }
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          display: ${val}
+        }
+      }`
+    )
+  ) display: string | null;
+
+
+  // Flexbox
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          flex: ${val}
+        }
+      }`
+    )
+  ) flex: string | number | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          flex-basis: ${val}
+        }
+      }`
+    )
+  ) flexBasis: string | number | null;
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          flex-direction: ${val}
+        }
+      }`
+    )
+  ) flexDirection: string | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          flex-grow: ${val}
+        }
+      }`
+    )
+  ) flexGrow: string | number | null;
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          flex-self: ${val}
+        }
+      }`
+    )
+  ) flexSelf: string | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          flex-shrink: ${val}
+        }
+      }`
+    )
+  ) flexShrink: string | number | null;
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          flex-wrap: ${val}
+        }
+      }`
+    )
+  ) flexWrap: string | null;
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          justify-content: ${val}
+        }
+      }`
+    )
+  ) justifyContent: string | null;
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          justify-items: ${val}
+        }
+      }`
+    )
+  ) justifyItems: string | null;
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          justify-self: ${val}
+        }
+      }`
+    )
+  ) justifySelf: string | null;
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          align-content: ${val}
+        }
+      }`
+    )
+  ) alignContent: string | null;
+
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          align-items: ${val}
+        }
+      }`
+    )
+  ) alignItems: string | null;
+
+  @Style<string | number | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          order: ${val}
+        }
+      }`
+    )
+  ) order: string | number | null;
+
+  @Style<string | number | null>(
+    (value, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && (breakpoints[media] || media)) || 'all'} {
+          ${value}
+        }
+      }`
+    )
+  )
+  lyStyle: string | null;
+
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
+
+}
 
 /**
  * @dynamic
@@ -18,7 +448,7 @@ const STYLE_PRIORITY = -0.5;
  * [lyStyle]
  */
 @Directive({
-  selector: `[lyStyle],
+  selector: `
               [p], [pf], [pe], [pt], [pb], [px], [py],
               [m], [mf], [me], [mt], [mb], [mx], [my],
               [size],
@@ -40,414 +470,30 @@ const STYLE_PRIORITY = -0.5;
               [order]`,
   providers: [
     StyleRenderer
+  ],
+  inputs: [
+    'p', 'pf', 'pe', 'pt', 'pb', 'px', 'py',
+    'm', 'mf', 'me', 'mt', 'mb', 'mx', 'my',
+    'size',
+    'width', 'maxWidth', 'minWidth',
+    'height', 'maxHeight', 'minHeight',
+    'display',
+    'flex',
+    'flexBasis',
+    'flexDirection',
+    'flexGrow',
+    'flexSelf',
+    'flexShrink',
+    'flexWrap',
+    'justifyContent',
+    'justifyItems',
+    'justifySelf',
+    'alignContent',
+    'alignItems',
+    'order',
   ]
 })
-export class LyStyle implements WithStyles {
-  /** @docs-private */
-  static readonly и = 'LyStyle';
-  static readonly $priority = STYLE_PRIORITY;
-
-  @Input()
-  @Style<string | number | null>(
-    (value, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          padding: ${to8Px(value)}
-        }
-      }`
-    )
-  ) p: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints, after}) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          padding-${after}: ${to8Px(val)}
-        }
-      }`
-    )
-  ) pf: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints, before}) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          padding-${before}: ${to8Px(val)}
-        }
-      }`
-    )
-  ) pe: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          padding-top: ${to8Px(val)}
-        }
-      }`
-    )
-  ) pt: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          padding-bottom: ${to8Px(val)}
-        }
-      }`
-    )
-  ) pb: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          padding: 0 ${to8Px(val)}
-        }
-      }`
-    )
-  ) px: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          padding: ${to8Px(val)} 0
-        }
-      }`
-    )
-  ) py: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          margin: ${to8Px(val)}
-        }
-      }`
-    )
-  ) m: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints, after}) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          margin-${after}: ${to8Px(val)}
-        }
-      }`
-    )
-  ) mf: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints, before}) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          margin-${before}: ${to8Px(val)}
-        }
-      }`
-    )
-  ) me: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          margin-top: ${to8Px(val)}
-        }
-      }`
-    )
-  ) mt: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-          lyl `{
-            @media ${(media && breakpoints[media]) || 'all'} {
-              margin-bottom: ${to8Px(val)}
-            }
-          }`
-        )
-  ) mb: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-          lyl `{
-            @media ${(media && breakpoints[media]) || 'all'} {
-              margin: 0 ${to8Px(val)}
-            }
-          }`
-        )
-  ) mx: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-          lyl `{
-            @media ${(media && breakpoints[media]) || 'all'} {
-              margin: ${to8Px(val)} 0
-            }
-          }`
-        )
-  ) my: string | number | null;
-
-  static readonly with: InputStyle<string | number | null>;
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          width: ${transform(val)}
-        }
-      }`
-    )
-  ) width: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          max-width: ${transform(val)}
-        }
-      }`
-    )
-  ) maxWidth: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          min-width: ${transform(val)}
-        }
-      }`
-    )
-  ) minWidth: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          height: ${transform(val)}
-        }
-      }`
-    )
-  ) height: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          max-height: ${transform(val)}
-        }
-      }`
-    )
-  ) maxHeight: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          min-height: ${transform(val)}
-        }
-      }`
-    )
-  ) minHeight: string | number | null;
-
-  @Input()
-  set size(value: string | number | null) {
-    this.width = value;
-    this.height = value;
-  }
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          display: ${val}
-        }
-      }`
-    )
-  ) display: string | null;
-
-
-  // Flexbox
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          flex: ${val}
-        }
-      }`
-    )
-  ) flex: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          flex-basis: ${val}
-        }
-      }`
-    )
-  ) flexBasis: string | number | null;
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          flex-direction: ${val}
-        }
-      }`
-    )
-  ) flexDirection: string | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          flex-grow: ${val}
-        }
-      }`
-    )
-  ) flexGrow: string | number | null;
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          flex-self: ${val}
-        }
-      }`
-    )
-  ) flexSelf: string | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          flex-shrink: ${val}
-        }
-      }`
-    )
-  ) flexShrink: string | number | null;
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          flex-wrap: ${val}
-        }
-      }`
-    )
-  ) flexWrap: string | null;
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          justify-content: ${val}
-        }
-      }`
-    )
-  ) justifyContent: string | null;
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          justify-items: ${val}
-        }
-      }`
-    )
-  ) justifyItems: string | null;
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          justify-self: ${val}
-        }
-      }`
-    )
-  ) justifySelf: string | null;
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          align-content: ${val}
-        }
-      }`
-    )
-  ) alignContent: string | null;
-
-  @Input()
-  @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          align-items: ${val}
-        }
-      }`
-    )
-  ) alignItems: string | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
-          order: ${val}
-        }
-      }`
-    )
-  ) order: string | number | null;
-
-  @Input()
-  @Style<string | number | null>(
-    (value, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && (breakpoints[media] || media)) || 'all'} {
-          ${value}
-        }
-      }`
-    )
-  )
-  lyStyle: string | null;
-
-  constructor(
-    readonly sRenderer: StyleRenderer
-  ) { }
-
-}
+export class LyStyleDeprecated extends LyStyle { }
 
 /**
  * Convert to px if the value is a number, otherwise leave it as is
