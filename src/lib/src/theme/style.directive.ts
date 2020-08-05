@@ -34,6 +34,7 @@ const STYLE_PRIORITY = -0.5;
     StyleRenderer
   ],
   inputs: [
+    'lyStyle',
     'color: lyColor',
     'p: lyP', 'pf: lyPf', 'pe: lyPe', 'pt: lyPt', 'pb: lyPb', 'px: lyPx', 'py: lyPy',
     'm: lyM', 'mf: lyMf', 'me: lyMe', 'mt: lyMt', 'mb: lyMb', 'mx: lyMx', 'my: lyMy',

@@ -7,7 +7,7 @@ There are two ways for an element to be responsive, using directives or dynamic 
 
 ## Using `LyStyle` directive
 
-You can use the `[display]` or `[lyStyle]` attribute to show and hide items. We import `LyCommonModule`, to use this feature.
+You can use the `[lyDisplay]` or `[lyStyle]` attribute to show and hide items. We import `LyCommonModule`, to use this feature.
 
 e.g.
 

@@ -15,7 +15,7 @@
 
 ### BREAKING CHANGES
 
-* lyShow is deprecated, you can use `[display]`
+* lyShow is deprecated, you can use `[lyDisplay]`
 
 
 

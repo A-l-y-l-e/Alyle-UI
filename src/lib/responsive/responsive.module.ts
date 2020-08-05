@@ -3,7 +3,7 @@ import { MediaDirective } from './media.directive';
 import { LyCommonModule } from '@alyle/ui';
 
 /**
- * @deprecated use instead `[display]` or `[lyStyle]`
+ * @deprecated use instead `[lyDisplay]` or `[lyStyle]`
  */
 @NgModule({
   declarations: [MediaDirective],

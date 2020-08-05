@@ -13,6 +13,16 @@
   </button>
 </ly-grid>
 
+<div
+  [lyColor]="'primary'"
+  [lyP]="2"
+>hi</div>
+
+<div lyColor="primary" [lyP]="'2 1@XSmall'">hi</div>
+<div lyColor="primary">hi</div>
+<div lyColor="accent">hi</div>
+<div lyColor="accent">hi</div>
+
 <ng-template #menu let-M>
   <ly-menu [ref]="M">
     <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">

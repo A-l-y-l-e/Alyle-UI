@@ -6,15 +6,15 @@
       <a [routerLink]="'/api/' + doc.pkg">{{ doc.pkg }}</a>
     </div>
   </div>
-  <header [ngClass]="classes.header" [mt]="2" [mb]="1">
-    <h1 [lyTyp]="'h4'" [mf]="2">{{ doc.name }}</h1>
+  <header [ngClass]="classes.header" [lyMt]="2" [lyMb]="1">
+    <h1 [lyTyp]="'h4'" [lyMf]="2">{{ doc.name }}</h1>
     <label *ngIf="doc.code" [ngClass]="[classes.label, apiListClasses.Symbol, apiListClasses[doc.symbol]]">{{ doc.symbol }}</label>
   </header>
   <div *ngIf="doc.code; else elseBlock" [innerHTML]="doc?.code"></div>
 
   <ng-template #elseBlock>
     <ng-container *ngFor="let pkgSymbolList of doc?.items">
-      <h2 [lyTyp]="'h5'" [lyTyp]="'h5'" [mt]="3" [mb]="2">{{ pkgSymbolList.key }}</h2>
+      <h2 [lyTyp]="'h5'" [lyTyp]="'h5'" [lyMt]="3" [lyMb]="2">{{ pkgSymbolList.key }}</h2>
       <ul [class]="apiListClasses.apiList">
         <ng-container *ngFor="let item of pkgSymbolList.items">
           <li>
