@@ -5,7 +5,7 @@ Breakpoints can be used in the template and can be very useful for adding a resp
 e.g.
 
 ```html
-<div [m]="2 1@XSmall">
+<div [lyM]="2 1@XSmall">
 ```
 
 The example above can be understood as follows:
@@ -18,7 +18,7 @@ The example above can be understood as follows:
 ```
 
 ```html
-<div [m]="2 1@XSmall@Small">
+<div [lyM]="2 1@XSmall@Small">
 ```
 
 The example above can be understood as follows:
@@ -36,7 +36,7 @@ It is important to note that each CSS declaration is separated by a space (` `).
 For example I want to add both `padding: 16px 0px 32px` and `padding: 8px 0px 16px@XSmall`, it would be like this:
 
 ```html
-<div [p]="[
+<div [lyP]="[
   '2 0 4',
   '1 0 2@XSmall'
 ]">
