@@ -12,14 +12,10 @@ You can use the `[lyDisplay]` or `[lyStyle]` attribute to show and hide items. W
 e.g.
 
 ```html
-<!-- Only shown for tablet and web -->
+<!-- Only shown for tablet or web -->
 <button display="none block@Tablet@Web">Button</button>
 <button lyStyle="display:none display:block@Tablet@Web">Button</button>
 
-<button [lyStyle]="[
-  'display:none',
-  ['display:block', '(max-width: 599.99px)']
-]">Button</button>
 ```
 
 <demo-view path="docs/layout/responsive/responsive-demo-01">
