@@ -20,7 +20,7 @@
     "w:tools": "rm -rf dist/tools && tsc -p tools -w",
     "build:@alyle/ui": "./ci/scripts/build-docs-artifacts.sh",
     "tools:prepare-lib": "yarn && ts-node tools/src/prepare-lib",
-    "tools:bump": "ts-node tools/bump-version && yarn changelog",
+    "tools:bump": "ts-node tools/*/bump-version && yarn changelog",
     "tools:bump-nightly": "ts-node tools/src/bump-version --nightly",
     "tools:deploy": "ts-node tools/src/deploy",
     "tools:typedoc": "yarn typedoc --mode modules --json dist/docs.json --tsconfig tsconfig.td.json --excludePrivate --excludeProtected --excludeExternals",
