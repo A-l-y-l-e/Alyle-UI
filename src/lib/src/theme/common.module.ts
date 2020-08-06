@@ -6,16 +6,7 @@ import { LyStyle, LyStyleDeprecated } from './style.directive';
 
 @NgModule({
   declarations: [LyStyle, LyWithClass, LyPaper],
-  exports: [LyStyle, LyWithClass, LyPaper]
+  exports: [LyStyle, LyWithClass, LyPaper, LyStyleDeprecated]
 })
 export class LyCommonModule { }
 
-/**
- * @deprecated
- * LyStyle without prefixes
- */
-@NgModule({
-  declarations: [LyStyleDeprecated],
-  exports: [LyStyleDeprecated]
-})
-export class LyCommonDeprecatedModule { }

@@ -13,7 +13,7 @@ e.g.
 
 ```html
 <!-- Only shown for tablet or web -->
-<button display="none block@Tablet@Web">Button</button>
+<button lyDisplay="none block@Tablet@Web">Button</button>
 <button lyStyle="display:none display:block@Tablet@Web">Button</button>
 
 ```

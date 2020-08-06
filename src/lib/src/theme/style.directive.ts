@@ -1,4 +1,4 @@
-import { Directive } from '@angular/core';
+import { Directive, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
 import { lyl } from '../parse';
 import { StyleRenderer, Style, WithStyles, InputStyle } from '../minimal/renderer-style';
 import { ThemeVariables } from './theme-config';
@@ -433,7 +433,6 @@ export class LyStyle implements WithStyles {
   constructor(
     readonly sRenderer: StyleRenderer
   ) { }
-
 }
 
 /**
@@ -494,7 +493,27 @@ export class LyStyle implements WithStyles {
     'order',
   ]
 })
-export class LyStyleDeprecated extends LyStyle { }
+export class LyStyleDeprecated extends LyStyle implements OnChanges {
+
+  constructor(
+    sRenderer: StyleRenderer,
+    private _el: ElementRef
+  ) {
+    super(sRenderer);
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    for (const key in changes) {
+      if (changes.hasOwnProperty(key)) {
+        const message = `[${key}] is deprecated, use [ly${key.charAt(0).toUpperCase() + key.slice(1)}] instead.`;
+        console.error({
+          message,
+          element: this._el.nativeElement
+        });
+        throw new Error(message);
+      }
+    }
+  }
+}
 
 /**
  * Convert to px if the value is a number, otherwise leave it as is
