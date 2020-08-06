@@ -7,20 +7,23 @@ There are two ways for an element to be responsive, using directives or dynamic 
 
 ## Using `LyStyle` directive
 
-You can use the `[display]` or `[lyStyle]` attribute to show and hide items. We import `LyCommonModule`, to use this feature.
+You can use the `[lyDisplay]` or `[lyStyle]` attribute to show and hide items. We import `LyCommonModule`, to use this feature.
 
 e.g.
 
 ```html
-<!-- Only shown for tablet and web -->
-<button display="none block@Tablet@Web">Button</button>
+<!-- Only shown for tablet or web -->
+<button lyDisplay="none block@Tablet@Web">Button</button>
 <button lyStyle="display:none display:block@Tablet@Web">Button</button>
 
-<button [lyStyle]="[
-  'display:none',
-  ['display:block', '(max-width: 599.99px)']
-]">Button</button>
+<!-- This will be hidden in `XSmall` -->
+<button lyDisplay="none@XSmall">Button</button>
+
+<!-- This will be hidden in `XSmall` or `Small` -->
+<button lyDisplay="none@XSmall@Small">Button</button>
 ```
+
+> To add a responsive value see [here](/styles/inline-media-query).
 
 <demo-view path="docs/layout/responsive/responsive-demo-01">
   <responsive-demo-01></responsive-demo-01>

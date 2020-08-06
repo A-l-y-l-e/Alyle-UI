@@ -35,10 +35,10 @@ export class MyComponent implements WithStyles {
 ```
 
 ```html
-<!-- font-size: 16 -->
+<!-- font-size: 16px -->
 <my-component [fontSize]="16">Content</my-component>
 
-<!-- font-size: 14 -->
+<!-- font-size: 14px -->
 <my-component fontSize>Content</my-component>
 
 <!-- fontSize = 16, then it changes to null -->

@@ -429,7 +429,7 @@ export function _renderStyle<INPUT, C>(
       c[_propertyKeyClass] = [];
     }
     c[_propertyKeyClass].push(c.sRenderer.add(
-      `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}-${propertyKey}-${valAndMedia}`,
+      `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}--${propertyKey}-${valAndMedia}`,
       styleTemplate,
       getComponentPriority(c, priority),
       c[_propertyKeyClass]

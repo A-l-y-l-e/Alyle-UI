@@ -1,4 +1,4 @@
-<div ly-dialog-content [px]="0">
+<div ly-dialog-content [lyPx]="0">
 
   <div *ngIf="ready">
     <button (click)="cropper.zoomIn()" ly-button appearance="icon"><ly-icon>zoom_in</ly-icon></button>
@@ -37,7 +37,7 @@
 
 </div>
 
-<div container *ngIf="ready" [justifyContent]="'flex-end'" ly-dialog-actions>
+<div container *ngIf="ready" [lyJustifyContent]="'flex-end'" ly-dialog-actions>
   <button ly-button color="primary" (click)="dialogRef.close()">CANCEL</button>
   <button ly-button color="primary" (click)="dialogRef.close(cropper.crop())">DONE</button>
 </div>

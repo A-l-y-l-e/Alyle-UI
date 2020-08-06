@@ -19,7 +19,7 @@
 
   <ng-container *ngFor="let api of apiList">
     <ng-container *ngIf="hasItem(api)">
-      <h2 [lyTyp]="'h5'" [mt]="3" [mb]="2">
+      <h2 [lyTyp]="'h5'" [lyMt]="3" [lyMb]="2">
         <a routerLink="./{{ api.pkg }}">{{ api.pkg }}</a>
       </h2>
       <ul [class]="classes.apiList">

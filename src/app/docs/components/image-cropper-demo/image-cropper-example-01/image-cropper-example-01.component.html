@@ -1,9 +1,9 @@
-<div [display]="'flex'">
+<div [lyDisplay]="'flex'">
   <button ly-button color="primary" (click)="_fileInput.click()">
     <ly-icon>image</ly-icon>
     <span>Select File</span>
   </button>
-  <span [flex]="1"></span>
+  <span [lyFlex]="1"></span>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
   <button raised ly-button bg="accent" *ngIf="croppedImage">Upload</button>

@@ -30,12 +30,12 @@ These are the shorthand attributes that can be used in an element. If the value 
 ## Supported values
 
 ```html
-<div [p]="2">     -> 2 * 8 = 16px
-<div [p]="'2'">   -> 2 * 8 = 16px. Why?
+<div [lyP]="2">     -> 2 * 8 = 16px
+<div [lyP]="'2'">   -> 2 * 8 = 16px. Why?
                      Because a number in a string with no suffix is ​​used as a number
                      and then converted to pixel values.
-<div [p]="'2em'"> -> 2em
-<div [p]="null">  -> remove the previously defined style.
+<div [lyP]="'2em'"> -> 2em
+<div [lyP]="null">  -> remove the previously defined style.
 ```
 
 > To add a responsive value see [here](/styles/inline-media-query).

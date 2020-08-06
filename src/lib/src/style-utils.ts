@@ -56,7 +56,7 @@ export class LyStyleUtils {
     if (typeof value === 'number') {
       return new Color(value);
     }
-    if (value.includes('#') && value.length === 7) {
+    if (value[0] === '#' && value.length === 7) {
       return new Color(hexColorToInt(value));
     }
     const color = get(this, value, optional);
