@@ -1,3 +1,18 @@
+# [9.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.5.0...9.0.0) (2020-08-06)
+
+
+### Bug Fixes
+
+* prefix directive `LyStyle` ([55b3206](https://github.com/A-l-y-l-e/Alyle-UI/commit/55b320641e69841ff48a0b1761b977d6c89c087e))
+* **style:** `LyStyle` do not render duplicate styles ([979ac09](https://github.com/A-l-y-l-e/Alyle-UI/commit/979ac09cd0c2a54a757cac8d800f7e81e04d50e8))
+
+
+### Features
+
+* ability to add a prefix to the css classes in production mode ([b9d4b8c](https://github.com/A-l-y-l-e/Alyle-UI/commit/b9d4b8c31ba1c52adf9892c1c9791fd35a5f883f))
+
+
+
 # [3.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.2...3.5.0) (2020-07-29)
 
 
