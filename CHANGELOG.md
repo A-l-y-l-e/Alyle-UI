@@ -68,9 +68,13 @@ class MyComp {
 
 `lyShow` is deprecated, you can use `[lyDisplay]`
 
-# 9.0.0 (2020-08-06)
+# 8.0.1 (2020-08-06)
 
-Version
+Version for Angular 8.
+
+```bash
+yarn install @alyle/ui@^8.0.1
+```
 
 
 # [3.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.2...3.5.0) (2020-07-29)
