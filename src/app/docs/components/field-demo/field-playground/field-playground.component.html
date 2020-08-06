@@ -14,7 +14,7 @@ formControl(password):
 >Is disabled</ly-checkbox>
 <ly-checkbox [formControl]="isReadonly">Is readonly</ly-checkbox>
 <button ly-button color="primary" (click)="password.reset()" [disabled]="password.untouched">reset</button>
-<ly-grid container alignItems="center" [spacingX]="16">
+<ly-grid container [lyAlignItems]="'center'" [spacingX]="16">
   <ly-grid item [col]="'6 12@XSmall'">
     <ly-field fullWidth #_field [appearance]="appearance.value">
       <input
