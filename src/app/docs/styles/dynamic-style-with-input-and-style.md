@@ -46,7 +46,7 @@ export class MyComponent implements WithStyles {
 <div [lyDisplay]="none@XSmall@Small"> // this is not shown in `XSmall`, nor in `Small`
 ```
 
-Fortunately Alyle UI contains [`LyStyle`](/@alyle/ui/LyStyle) Directive to customize elements.
+Fortunately Alyle UI contains [`LyStyle`](/api/@alyle/ui/LyStyle) Directive to customize elements.
 
 
 ## Angular Libraries: Using Lambdas in the Style Decorator
