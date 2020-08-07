@@ -1,32 +1,39 @@
 # Dynamic style with `@Input` and `@Style`
 
-Using the `@Style` decorator, you can create styles with the value of `@Input`.
+Using the `@Style` decorator, you can create responsive styles with the value of `@Input`.
+
+## The responsive decorator `@Style`
+
+The `@Style` decorator extracts the values and the media queries, [here](/styles/inline-media-query) see more about how to extract the values.
 
 If the value is null or undefined, it will remove if there is a previously defined style.
 
-For instance:
+e.g.
 
 ```ts
-import { Component, Input } from '@angular/core';
-import { Style, StyleRenderer, Lyl, WithStyles } from '@alyle/ui';
+import { Directive, Input } from '@angular/core';
+import { Style, StyleRenderer, lyl, WithStyles, ThemeVariables } from '@alyle/ui';
 
 /**
  * @dynamic
  */
-@Component({
-  selector: 'my-component',
-  template: '<ng-content></ng-content>',
+@Directive({
+  selector: '[lyDisplay]',
   providers: [
     StyleRenderer
   ]
 })
 export class MyComponent implements WithStyles {
   @Input()
-  @Style<number | null>(
-    (value) => () => lyl `{
-      font-size: ${value || 14}px
-    }`
-  ) fontSize: number | null;
+  @Style<string | null>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          display: ${val}
+        }
+      }`
+    )
+  ) display: string | null;
 
   constructor(
     readonly sRenderer: StyleRenderer
@@ -35,18 +42,12 @@ export class MyComponent implements WithStyles {
 ```
 
 ```html
-<!-- font-size: 16px -->
-<my-component [fontSize]="16">Content</my-component>
-
-<!-- font-size: 14px -->
-<my-component fontSize>Content</my-component>
-
-<!-- fontSize = 16, then it changes to null -->
-<!-- therefore, the style will be removed -->
-<my-component [fontSize]="fontSize">Content</my-component>
+<div [lyDisplay]="none@XSmall">       // this is not shown in `XSmall`
+<div [lyDisplay]="none@XSmall@Small"> // this is not shown in `XSmall`, nor in `Small`
 ```
 
-Alyle UI already contains directives to customize any element, such as [Sizing](./styles/sizing)
+Fortunately Alyle UI contains [`LyStyle`](/@alyle/ui/LyStyle) Directive to customize elements.
+
 
 ## Angular Libraries: Using Lambdas in the Style Decorator
 
