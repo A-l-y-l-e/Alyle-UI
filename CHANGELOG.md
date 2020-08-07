@@ -73,7 +73,7 @@ class MyComp {
 Version for Angular 8.
 
 ```bash
-yarn install @alyle/ui@^8.0.1
+yarn add @alyle/ui@^8.0.1
 ```
 
 
