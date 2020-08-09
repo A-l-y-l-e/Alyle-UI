@@ -213,7 +213,7 @@ You can also use [`@Style`](/styles/dynamic-style-with-input-and-style) to creat
 
 ## About class names
 
-Class names in development mode are generated with a unique id and can change, like `.LyButton-root-a`, but in production they change to `.a`.
+Class names in development mode are generated with a unique id (like `.LyButton-root-a`) and can change, but in production they change to `.a`.
 
 It should be noted that class names change in both development and production. However, if you want to add a style to a class or to customize a component see [here](/customization/theming-components).
 
