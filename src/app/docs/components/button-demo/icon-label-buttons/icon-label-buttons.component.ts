@@ -2,15 +2,16 @@ import { Component } from '@angular/core';
 import { StyleRenderer, lyl, ThemeVariables, ThemeRef } from '@alyle/ui';
 import { STYLES as STYLES_BUTTON } from '@alyle/ui/button';
 
-const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
+const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   // Make sure button styles have been rendered
   ref.renderStyleSheet(STYLES_BUTTON);
   // Get selectors
   const button = ref.selectorsOf(STYLES_BUTTON);
+  const { after } = theme;
   return {
     root: lyl `{
       ${button.root} {
-        margin: 1em
+        margin-${after}: 1em
       }
     }`,
     iconSmall: lyl `{
