@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { StyleRenderer, ThemeVariables, lyl } from '@alyle/ui';
+import { StyleRenderer, lyl, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { STYLES as STYLES_BUTTON } from '@alyle/ui/button';
 
-const STYLES = (theme: ThemeVariables) => {
-  const { before, after } = theme;
+const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
+  // Make sure button styles have been rendered
+  ref.renderStyleSheet(STYLES_BUTTON);
+  // Get selectors
+  const button = ref.selectorsOf(STYLES_BUTTON);
   return {
-    button: lyl `{
-      margin: 1em
-    }`,
-    labelBefore: lyl `{
-      padding-${after}: 8px
-    }`,
-    labelAfter: lyl `{
-      padding-${before}: 8px
+    root: lyl `{
+      ${button.root} {
+        margin: 1em
+      }
     }`,
     iconSmall: lyl `{
       font-size: 20px
@@ -27,7 +27,7 @@ const STYLES = (theme: ThemeVariables) => {
   ]
 })
 export class IconLabelButtonsComponent {
-  readonly classes = this.sRenderer.renderSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
   constructor(
     readonly sRenderer: StyleRenderer
   ) { }

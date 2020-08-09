@@ -1,9 +1,15 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { ThemeVariables, StyleRenderer, lyl, keyframesUniqueId } from '@alyle/ui';
+import { ThemeVariables, StyleRenderer, lyl, keyframesUniqueId, ThemeRef } from '@alyle/ui';
+import { STYLES as STYLES_BUTTON } from '@alyle/ui/button';
 
-const STYLES = (theme: ThemeVariables) => {
+const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+  // Make sure button styles have been rendered
+  ref.renderStyleSheet(STYLES_BUTTON);
+  // Get selectors
+  const button = ref.selectorsOf(STYLES_BUTTON);
   const circularRotate = keyframesUniqueId.next();
   const { after } = theme;
+
   return {
     $global: lyl `{
       @keyframes ${circularRotate} {
@@ -16,7 +22,7 @@ const STYLES = (theme: ThemeVariables) => {
       }
     }`,
     root: lyl `{
-      button {
+      ${button.root} {
         margin-${after}: 1em
       }
     }`,
