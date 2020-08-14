@@ -145,7 +145,7 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
       width: 100%
       font-weight: 500
       opacity: .7
-      ${theme.getBreakpoint('XSmall')} {
+      @media ${theme.breakpoints['XSmall']} {
         padding: 0 12px
       }
     }`,

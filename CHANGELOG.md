@@ -1,3 +1,82 @@
+# [9.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.5.0...9.0.0) (2020-08-06)
+
+
+### Bug Fixes
+
+* prefix directive `LyStyle` ([55b3206](https://github.com/A-l-y-l-e/Alyle-UI/commit/55b320641e69841ff48a0b1761b977d6c89c087e))
+* **style:** `LyStyle` do not render duplicate styles ([979ac09](https://github.com/A-l-y-l-e/Alyle-UI/commit/979ac09cd0c2a54a757cac8d800f7e81e04d50e8))
+
+
+### Features
+
+* ability to add a prefix to the css classes in production mode ([b9d4b8c](https://github.com/A-l-y-l-e/Alyle-UI/commit/b9d4b8c31ba1c52adf9892c1c9791fd35a5f883f))
+
+
+### BREAKING CHANGES:
+
+All attributes of `LyStyle` are now prefixed.
+
+before:
+
+```html
+<div [p]="2">
+<div [width]="1">
+```
+
+after:
+
+```html
+<div [lyP]="2">
+<div [lyWidth]="1">
+```
+
+Inline media query no longer supports nested values. Now only supports an array of strings.
+
+before:
+
+```html
+<div [lyStyle]="[
+  'display:none',
+  ['display:block', '@xsmall']
+]">
+```
+
+after:
+
+```html
+<div [lyStyle]="[
+  'display:none',
+  'display:block@XSmall'
+]">
+```
+
+`LyStyle` no longer supports function type styles, use [dynamic styles](https://alyle.io/customization/dynamic-styles) instead.
+
+before:
+
+```ts
+class MyComp {
+  style = () => lyl `{
+    ...
+  }`
+}
+```
+
+```html
+<div [lyStyle]="style">
+```
+
+`lyShow` is deprecated, you can use `[lyDisplay]`
+
+# 8.0.1 (2020-08-06)
+
+Version for Angular 8.
+
+```bash
+yarn add @alyle/ui@^8.0.1
+```
+
+
 # [3.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.2...3.5.0) (2020-07-29)
 
 

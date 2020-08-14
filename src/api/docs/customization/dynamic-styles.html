@@ -160,9 +160,21 @@
 <p>It's the same as CSS media queries.</p>
 <p>For instance:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttb0">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
-  @media </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'XSmall'</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
+  @media </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>breakpoints<span class="tt18 ttae">[</span><span class="tt18 tt3z">'XSmall'</span><span class="tt18 ttae">]</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
     display: none
   &#125;
 &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
 </code></pre>
-<p>You can also use <a href="./styles/dynamic-style-with-input-and-style"><code class="ttm ttx">@Style</code></a> to create dynamic styles with <code class="ttm ttx">@Input</code>.</p>
+<p>You can also use <a href="/styles/dynamic-style-with-input-and-style"><code class="ttm ttx">@Style</code></a> to create dynamic styles with <code class="ttm ttx">@Input</code>.</p>
+<h2 id="about-class-names">About class names</h2>
+<p>Class names in development mode are generated with a unique id (like <code class="ttm ttx">.LyButton-root-a</code>) and can change, but in production they change to <code class="ttm ttx">.a</code>.</p>
+<p>It should be noted that class names change in both development and production. However, if you want to add a style to a class or to customize a component see <a href="/customization/theming-components">here</a>.</p>
+<h3 id="prefixing-of-class-names-in-production">Prefixing of class names in production</h3>
+<p>If the class names in production conflict with your classes, you can prefix.</p>
+<p>In your <code class="ttm ttx">AppModule</code>:</p>
+<pre class="ttb"><code prsm class="ttm">@<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
+    <span class="tt18 ttae">&#123;</span> provide<span class="tt18 ttb0">:</span> <span class="tt18 ttbb">LY_CLASS_NAME_PREFIX</span><span class="tt18 ttae">,</span> useValue<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'app-'</span> <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 ttae">]</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+</code></pre>

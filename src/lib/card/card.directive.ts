@@ -70,14 +70,14 @@ export const STYLES = (theme: ThemeVariables & LyCardVariables, ref: ThemeRef) =
     content: lyl `{
       display: block
       padding: 16px 24px
-      ${theme.getBreakpoint('XSmall')} {
+      @media ${theme.breakpoints['XSmall']} {
         padding: 16px 16px
       }
     }`,
     actions: lyl `{
       display: block
       padding: 8px 12px
-      ${theme.getBreakpoint('XSmall')} {
+      @media ${theme.breakpoints['XSmall']} {
         padding: 8px 4px
       }
     }`,

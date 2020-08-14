@@ -92,3 +92,44 @@ export class GlobalVariables {
 ```
 
 > Note that all components have initially declared `StyleCollection`.
+
+## Customize a component
+
+If you want to customize a component within a component without customizing it globally, add the styles in parent component as shown below:
+
+```ts
+import { lyl, StyleRenderer, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { STYLES as BUTTON_STYLES } from '@alyle/ui/button';
+
+const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+  // Make sure button styles have been rendered
+  ref.renderStyleSheet(BUTTON_STYLES);
+  // get selectors
+  const button = ref.selectorsOf(BUTTON_STYLES);
+  return {
+    root: lyl `{
+      ${button.root} {
+        border-radius: 2em
+      }
+    }`
+  }
+};
+
+@Component({
+  ...
+  providers: [
+    StyleRenderer
+  ]
+})
+export class MyComponent implements WithStyles {
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
+}
+```
+
+```html
+<button ly-button raised bg="primary">Round button</button>
+<button ly-button raised bg="primary">Round button</button>
+```

@@ -57,7 +57,7 @@ export const STYLES = (theme: ThemeVariables & LyToolbarVariables, ref: ThemeRef
       white-space: nowrap
       height: 64px
       z-index: ${theme.zIndex.toolbar}
-      ${theme.getBreakpoint('XSmall')} {
+      @media ${theme.breakpoints['XSmall']} {
         height: 56px
       }
       {
