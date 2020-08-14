@@ -1,3 +1,172 @@
+# [9.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.5.0...9.0.0) (2020-08-06)
+
+
+### Bug Fixes
+
+* prefix directive `LyStyle` ([55b3206](https://github.com/A-l-y-l-e/Alyle-UI/commit/55b320641e69841ff48a0b1761b977d6c89c087e))
+* **style:** `LyStyle` do not render duplicate styles ([979ac09](https://github.com/A-l-y-l-e/Alyle-UI/commit/979ac09cd0c2a54a757cac8d800f7e81e04d50e8))
+
+
+### Features
+
+* ability to add a prefix to the css classes in production mode ([b9d4b8c](https://github.com/A-l-y-l-e/Alyle-UI/commit/b9d4b8c31ba1c52adf9892c1c9791fd35a5f883f))
+
+
+### BREAKING CHANGES:
+
+All attributes of `LyStyle` are now prefixed.
+
+before:
+
+```html
+<div [p]="2">
+<div [width]="1">
+```
+
+after:
+
+```html
+<div [lyP]="2">
+<div [lyWidth]="1">
+```
+
+Inline media query no longer supports nested values. Now only supports an array of strings.
+
+before:
+
+```html
+<div [lyStyle]="[
+  'display:none',
+  ['display:block', '@xsmall']
+]">
+```
+
+after:
+
+```html
+<div [lyStyle]="[
+  'display:none',
+  'display:block@XSmall'
+]">
+```
+
+`LyStyle` no longer supports function type styles, use [dynamic styles](https://alyle.io/customization/dynamic-styles) instead.
+
+before:
+
+```ts
+class MyComp {
+  style = () => lyl `{
+    ...
+  }`
+}
+```
+
+```html
+<div [lyStyle]="style">
+```
+
+`lyShow` is deprecated, you can use `[lyDisplay]`
+
+# 8.0.1 (2020-08-06)
+
+Version for Angular 8.
+
+```bash
+yarn add @alyle/ui@^8.0.1
+```
+
+
+# [3.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.2...3.5.0) (2020-07-29)
+
+
+### Bug Fixes
+
+* lyShow is deprecated ([8ea68ec](https://github.com/A-l-y-l-e/Alyle-UI/commit/8ea68ec8a492853394393b19672aff248f484264))
+
+
+### Features
+
+* **dialog:** support beakpoints in `LyDialogConfig` ([79bf46a](https://github.com/A-l-y-l-e/Alyle-UI/commit/79bf46a69d87b07f59156d82a96569fa5f837866))
+* expose `createStyle` to create styles from a key ([c492df1](https://github.com/A-l-y-l-e/Alyle-UI/commit/c492df108490cda48bb60cd5da07aa82e71a6ce5))
+* expose `withMediaInline` (Media Queries in inline style) ([11e53e2](https://github.com/A-l-y-l-e/Alyle-UI/commit/11e53e22889dae7edeea27bf4b6ec25163433fc2))
+
+
+### BREAKING CHANGES
+
+* lyShow is deprecated, you can use `[lyDisplay]`
+
+
+
+## [3.4.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.1...3.4.2) (2020-07-20)
+
+
+
+## [3.4.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.4.0...3.4.1) (2020-07-15)
+
+
+### Bug Fixes
+
+* **select:** error when opening a `ly-select` has no `ly-option` ([83995cd](https://github.com/A-l-y-l-e/Alyle-UI/commit/83995cde13dc75bf56818be1039baea9df065f88))
+
+
+
+# [3.4.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.3.1...3.4.0) (2020-07-10)
+
+
+### Bug Fixes
+
+* **cropper:** `autoCrop` does not work when image is dragged and then drop it ([1c79f5f](https://github.com/A-l-y-l-e/Alyle-UI/commit/1c79f5f294b596365c5e57ef4ead17e70952e82a)), closes [#121](https://github.com/A-l-y-l-e/Alyle-UI/issues/121)
+* **cropper:** error dragging image while scrolling is in progress ([69db9bc](https://github.com/A-l-y-l-e/Alyle-UI/commit/69db9bc41d4d5719b356ba74e269bce8d68b4f0b))
+* **cropper:** expand selection area for resizer ([2536af8](https://github.com/A-l-y-l-e/Alyle-UI/commit/2536af886fc13ba74efd47f7501e133ff7156cd0))
+* `@Style` decorator does not support boolean values ([00d61cc](https://github.com/A-l-y-l-e/Alyle-UI/commit/00d61ccf9457fb4cb1226a47b2b84fd28db82049))
+
+
+### Features
+
+* **cropper:** Add resizable area, round, and keepAspectRatio options ([#119](https://github.com/A-l-y-l-e/Alyle-UI/issues/119)) ([0227d49](https://github.com/A-l-y-l-e/Alyle-UI/commit/0227d4982cc350b9e11fc11f766ff4591fda53ee)), closes [#94](https://github.com/A-l-y-l-e/Alyle-UI/issues/94)
+* support for another className instead of `root` for `renderSheet` ([e01c9b7](https://github.com/A-l-y-l-e/Alyle-UI/commit/e01c9b72e4c93b90e66d8e5bf14a1e2fdc5c374c))
+
+
+
+## [3.3.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.3.0...3.3.1) (2020-07-04)
+
+
+### Bug Fixes
+
+* **cropper:** resize canvas with best quality ([cb5a855](https://github.com/A-l-y-l-e/Alyle-UI/commit/cb5a855b2a9d30a6779dab5c29b0df0495cc64da))
+
+### BREAKING CHANGES
+
+**cropper:** `ImgCropperConfig.antiAliased` has been deprecated, this is not necessary as the cropper will automatically resize the image to the best quality.
+
+
+# [3.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.9...3.3.0) (2020-07-03)
+
+
+### Features
+
+* **cropper:** remove Hammer.js ([aa4a54d](https://github.com/A-l-y-l-e/Alyle-UI/commit/aa4a54d265d7651e42e8f761fe5f753a29927393))
+
+
+
+## [2.9.8](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.7...2.9.8) (2020-06-25)
+
+
+### Bug Fixes
+
+* **cropper:** some parts of the image is not draggable ([2ab8c0c](https://github.com/A-l-y-l-e/Alyle-UI/commit/2ab8c0c)), closes [#116](https://github.com/A-l-y-l-e/Alyle-UI/issues/116)
+
+
+<a name="1.9.12"></a>
+## [1.9.12](https://github.com/A-l-y-l-e/Alyle-UI/compare/1.9.11...1.9.12) (2020-06-24)
+
+
+### Bug Fixes
+
+* **cropper:** some parts of the image is not draggable ([499bef9](https://github.com/A-l-y-l-e/Alyle-UI/commit/499bef9)), closes [#116](https://github.com/A-l-y-l-e/Alyle-UI/issues/116)
+
+
 ## [3.2.9](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.2.8...3.2.9) (2020-06-14)
 
 

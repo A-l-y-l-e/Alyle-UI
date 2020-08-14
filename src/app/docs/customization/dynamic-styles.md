@@ -209,4 +209,25 @@ For instance:
 }`
 ```
 
-You can also use [`@Style`](./styles/dynamic-style-with-input-and-style) to create dynamic styles with `@Input`.
+You can also use [`@Style`](/styles/dynamic-style-with-input-and-style) to create dynamic styles with `@Input`.
+
+## About class names
+
+Class names in development mode are generated with a unique id (like `.LyButton-root-a`) and can change, but in production they change to `.a`.
+
+It should be noted that class names change in both development and production. However, if you want to add a style to a class or to customize a component see [here](/customization/theming-components).
+
+### Prefixing of class names in production
+
+If the class names in production conflict with your classes, you can prefix.
+
+In your `AppModule`:
+
+```ts
+@NgModule({
+  providers: [
+    { provide: LY_CLASS_NAME_PREFIX, useValue: 'app-' }
+  ]
+})
+```
+

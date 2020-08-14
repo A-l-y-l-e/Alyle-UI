@@ -1,5 +1,5 @@
-import { Injectable, Inject, Renderer2, RendererFactory2, ViewEncapsulation } from '@angular/core';
-import { ThemeConfig, ThemeVariables } from './theme-config';
+import { Injectable, Inject, Renderer2, RendererFactory2, ViewEncapsulation, Optional, isDevMode } from '@angular/core';
+import { ThemeConfig, ThemeVariables, LY_CLASS_NAME_PREFIX } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
 import { mergeThemes } from '../style-utils';
@@ -9,6 +9,7 @@ import { Platform } from '@angular/cdk/platform';
   providedIn: 'root'
 })
 export class CoreTheme {
+  readonly classNamePrefix?: string;
   renderer: Renderer2;
   mediaStyleContainer: HTMLElement;
   primaryStyleContainer: HTMLElement;
@@ -21,9 +22,14 @@ export class CoreTheme {
   constructor(
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) _document: any,
-    platform: Platform
+    platform: Platform,
+    @Optional() @Inject(LY_CLASS_NAME_PREFIX) readonly _classNamePrefix?: string
   ) {
     this._document = _document;
+
+    if (!isDevMode() && _classNamePrefix) {
+      this.classNamePrefix = _classNamePrefix;
+    }
 
     if (platform.isBrowser) {
       // Clean

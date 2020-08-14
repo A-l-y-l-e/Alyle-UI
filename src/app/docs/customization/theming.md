@@ -1,6 +1,7 @@
 # Theming
 
 ## Overwriting the variables of a theme
+
 <p>
   <code>MinimaLight & MinimaDark</code> are already created themes, you can edit and add new variables.
 </p>
@@ -109,7 +110,64 @@ const styles = (theme: AppThemeVariables) => ({
 });
 ```
 
-<h2 lyTyp="headline" gutter>Typography</h2>
+## Changing themes at run-time
+
+You can apply a theme at runtime for example, before a theme's styles are rendered you can define the name of the theme.
+
+You can do something like this:
+
+```ts
+export function themeNameProviderFactory() {
+  if (typeof localStorage === 'object') {
+    const themeName = localStorage.getItem('theme-name');
+    if (themeName) {
+      return themeName;
+    }
+  }
+
+  // Default theme
+  return 'minima-light';
+}
+
+@NgModule({
+  ...
+  providers: [
+    ...
+    { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory },
+  ]
+})
+export class AppModule { }
+```
+
+## Switch themes
+
+If you want you can change the current theme for another.
+
+
+```ts
+@Component({
+  ...
+})
+export class MyComponent {
+  constructor(
+    private _theme: LyTheme2
+  ) { }
+
+  setTheme(themeName: string) {
+    this._theme.setTheme(themeName);
+  }
+}
+```
+
+```html
+<button ly-button (click)="setTheme('minima-light')">Set Light theme</button>
+<button ly-button (click)="setTheme('minima-dark')">Set Dark theme</button>
+```
+
+> In order to change the themes it is necessary to have loaded the themes to be used.
+
+
+## Typography
 
 <p>
   By default use Roboto Font, you can change the font.

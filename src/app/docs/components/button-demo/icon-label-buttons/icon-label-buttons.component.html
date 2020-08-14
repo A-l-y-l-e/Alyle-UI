@@ -1,14 +1,14 @@
-<ly-grid container justify="center" alignItems="center">
-  <button [withClass]="classes.button" ly-button outlined raised color="warn" shadowColor="warn">
+<ly-grid container justify="center" [lyAlignItems]="'center'">
+  <button ly-button outlined raised color="warn" shadowColor="warn">
     <ly-icon>delete_forever</ly-icon>
-    <span [className]="classes.labelAfter">Delete forever</span>
+    <span [lyPe]="1">Delete forever</span>
   </button>
-  <button [withClass]="classes.button" ly-button bg="primary" raised>
-    <span [className]="classes.labelBefore">Send</span>
+  <button ly-button bg="primary" raised>
+    <span [lyPf]="1">Send</span>
     <ly-icon>send</ly-icon>
   </button>
-  <button [withClass]="classes.button" ly-button bg="primary" raised size="small">
-    <span [className]="classes.labelBefore">Save</span>
-    <ly-icon [withClass]="classes.iconSmall">save</ly-icon>
+  <button ly-button bg="primary" raised size="small">
+    <span [lyPf]="1">Save</span>
+    <ly-icon [class]="classes.iconSmall">save</ly-icon>
   </button>
 </ly-grid>

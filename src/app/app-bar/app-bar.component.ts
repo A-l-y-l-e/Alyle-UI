@@ -6,7 +6,6 @@ import { filter } from 'rxjs/operators';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { AppComponent } from '../app.component';
 import { AUIThemeVariables } from '../app.module';
-import { Ads } from '@shared/ads';
 import { Location } from '@angular/common';
 import { ScrollDispatcher, ViewportRuler } from '@angular/cdk/scrolling';
 import { Platform } from '@angular/cdk/platform';
@@ -76,7 +75,6 @@ export class AppBarComponent implements OnInit, OnDestroy {
     private _scrollDispatcher: ScrollDispatcher,
     private router: Router,
     private cd: ChangeDetectorRef,
-    private _ads: Ads,
     private _location: Location,
     private _viewportRuler: ViewportRuler,
     private _ngZone: NgZone,
@@ -138,7 +136,6 @@ export class AppBarComponent implements OnInit, OnDestroy {
       localStorage.setItem('theme-name', themeName);
     }
     this.lyTheme.setTheme(themeName);
-    this._ads.update(this._location.path(true), this.lyTheme);
   }
 
   ngOnDestroy() {

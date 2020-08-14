@@ -16,7 +16,7 @@ import {
   DoCheck,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
-import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder, lyl, LyClasses, StyleCollection, StyleTemplate, ThemeRef } from '@alyle/ui';
+import { LyOverlayRef, LyTheme2, ThemeVariables, shadowBuilder, lyl, LyClasses, StyleCollection, StyleTemplate, ThemeRef, StyleRenderer, WithStyles } from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 import { LyDialogRef } from './dialog-ref';
@@ -87,9 +87,12 @@ const STYLES = (theme: ThemeVariables & LyDialogVariables, ref: ThemeRef) => {
     '[@dialogContainer]': '_state',
     '(@dialogContainer.start)': '_onAnimationStart($event)',
     '(@dialogContainer.done)': '_onAnimationDone($event)'
-  }
+  },
+  providers: [
+    StyleRenderer
+  ]
 })
-export class LyDialogContainer implements OnInit, DoCheck {
+export class LyDialogContainer implements WithStyles, OnInit, DoCheck {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _embeddedViewRef: EmbeddedViewRef<any>;
@@ -117,6 +120,7 @@ export class LyDialogContainer implements OnInit, DoCheck {
   private _newInjector: Injector;
 
   constructor(
+    readonly sRenderer: StyleRenderer,
     private _appRef: ApplicationRef,
     private _overlayRef: LyOverlayRef,
     private _theme: LyTheme2,

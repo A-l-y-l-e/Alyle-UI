@@ -7,33 +7,6 @@ let id: number = 0;
 
 /**
  * Transform a lyl style block to CSS
- *
- * Allowed blocks:
- *
- * // Simple
- * const BUTTON_STYLE = lyl `{
- *   padding: 8px 12px
- *   font-size: 14px
- *   border-radius: 9px
- *   border: 1px solid #e0e0e0
- * }`
- *
- * // Nesting
- * const style = lyl `{
- *   ul > {
- *     li {
- *       list-style-type: none;
- *     }
- *   }
- *   p {
- *     ~ {
- *       span {
- *         opacity: 0.8;
- *       }
- *     }
- *   }
- * }`
- *
  */
 export class LylParse {
 
@@ -367,7 +340,7 @@ export class StringIdGenerator {
     return r.join('');
   }
 
-  _increment() {
+  private _increment() {
     for (let i = 0; i < this._nextId.length; i++) {
       const val = ++this._nextId[i];
       if (val >= this._chars.length) {

@@ -660,9 +660,14 @@ export class LySelect
     this._renderer.setStyle(container, 'width', `${panelWidth}px`);
 
 
-    const selectedElement: HTMLElement = this._selectionModel.isEmpty()
-        ? el.querySelector('ly-option')!
-        : this._selectionModel.selected[0]._getHostElement();
+    let selectedElement: HTMLElement | null = this._selectionModel.isEmpty()
+        ? el.querySelector('ly-option')
+        : this._selectionModel.selected[0]._getHostElement() as HTMLElement;
+
+    if (!selectedElement) {
+      selectedElement = (el.firstElementChild!.firstElementChild! || el.firstElementChild!) as HTMLElement;
+    }
+
 
     const offset = {
       y: -(nativeElement.offsetHeight / 2 + selectedElement.offsetTop + selectedElement.offsetHeight / 2),

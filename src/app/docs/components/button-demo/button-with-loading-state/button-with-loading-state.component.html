@@ -1,7 +1,7 @@
 <div
-  display="flex"
-  justifyContent="center"
-  alignItems="center"
+  [lyDisplay]="'flex'"
+  [lyJustifyContent]="'center'"
+  [lyAlignItems]="'center'"
 >
 
   <button ly-button
@@ -12,7 +12,7 @@
     <span [lyStyle]="loading1 ? 'opacity:0' : null">
       Upload File
     </span>
-    <ly-icon [lyStyle]="loading1 ? 'opacity:0' : null" [pe]="1">cloud_upload</ly-icon>
+    <ly-icon [lyStyle]="loading1 ? 'opacity:0' : null" [lyPe]="1">cloud_upload</ly-icon>
     <div [class]="classes.spinner" *ngIf="loading1">
       <svg viewBox="22 22 44 44">
         <circle [class]="classes.spinnerCircle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle>
@@ -29,7 +29,7 @@
     <span [lyStyle]="loading2 ? 'opacity:0' : null">
       Upload File
     </span>
-    <ly-icon [lyStyle]="loading2 ? 'opacity:0' : null" [pe]="1">cloud_upload</ly-icon>
+    <ly-icon [lyStyle]="loading2 ? 'opacity:0' : null" [lyPe]="1">cloud_upload</ly-icon>
     <div [class]="classes.spinner" *ngIf="loading2">
       <svg viewBox="22 22 44 44">
         <circle [class]="classes.spinnerCircle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle>

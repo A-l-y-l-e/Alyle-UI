@@ -1,13 +1,13 @@
 <ng-container *ngIf="isLoading; else elseBlock">
   <ly-paper
-    p="1em"
-    m=".5em"
+    [lyP]="'1em'"
+    [lyM]="'.5em'"
     [elevation]="2"
   >
     <h3 [lyTyp]="'title'"
       gutterBottom
       lySkeleton
-      [width]=".35"
+      [lyWidth]=".35"
     >{{ '\u00A0' }}</h3>
     <p [lyTyp]="'body1'" lySkeleton>
       {{ '\u00A0' }}
@@ -17,8 +17,8 @@
 
 <ng-template #elseBlock>
   <ly-paper
-    p="1em"
-    m=".5em"
+    [lyP]="'1em'"
+    [lyM]="'.5em'"
     [elevation]="2"
   >
     <h3 [lyTyp]="'title'"

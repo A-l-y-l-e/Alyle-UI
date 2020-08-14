@@ -2,6 +2,7 @@ import { Injectable, ElementRef, Renderer2, Optional } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
 import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
+import { parseMediaQueriesFromString, parseMediaQueryFromString, MediaQueryArray } from '../style-utils';
 
 @Injectable()
 export class StyleRenderer {
@@ -29,15 +30,30 @@ export class StyleRenderer {
    *
    * ```ts
    * const STYLES = () => ({
-   *   root: lyl `{...}` // this class will be added to the root component
+   *   root: lyl `{...}`, // this class will be added to the root component
+   *   item: lyl `{...}`
    * })
    * ```
    *
+   * Also accepts the name of a class.
+   *
+   * e.g.
+   *
+   * ```ts
+   * renderSheet(STYLES, 'item')
+   * ```
    */
-  renderSheet<T>(styles: T & LyStyles, applyRootClass?: boolean): LyClasses<T> {
+  renderSheet<T>(styles: T & LyStyles, applyRootClass?: boolean | keyof LyClasses<T>): LyClasses<T> {
     const classes = this._theme.renderStyleSheet(styles);
-    if (applyRootClass && (classes as any).root) {
+    if (applyRootClass === true && (classes as any).root) {
       this.addClass((classes as any).root);
+      return classes;
+    }
+    if (applyRootClass) {
+      const customClass = (classes as any)[applyRootClass];
+      if (customClass) {
+        this.addClass(customClass);
+      }
     }
     return classes;
   }
@@ -226,6 +242,14 @@ export class StyleRenderer {
     }
   }
 
+  removeClasses(rawClassVal?: string[] | null | undefined) {
+    if (rawClassVal) {
+      rawClassVal.forEach(klass =>
+        this.removeClass(klass)
+      );
+    }
+  }
+
   toggleClass(className: string, enabled: boolean) {
     if (enabled) {
       this.addClass(className);
@@ -242,13 +266,18 @@ export class StyleRenderer {
 
 }
 
+export type InputStyle<INPUT, C = any> = (val: Exclude<NonNullable<INPUT>, MediaQueryArray>, media: string | null, comp: C) =>
+  (
+    ((theme: any, ref: ThemeRef) => StyleTemplate) | null
+  );
+
 /**
  * Parameter decorator to be used for create Dynamic style together with `@Input`
  * @param style style
  * @decorator
  */
 export function Style<INPUT = any, C = any>(
-  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null)
+  style: InputStyle<INPUT, C>
 ): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void;
 
 /**
@@ -257,7 +286,7 @@ export function Style<INPUT = any, C = any>(
  * @decorator
  */
 export function Style<INPUT = any, C = any>(
-  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null),
+  style: InputStyle<INPUT, C>,
   priority: number
 ): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void;
 
@@ -268,31 +297,25 @@ export function Style<INPUT = any, C = any>(
  * @decorator
  */
 export function Style<INPUT = any, C = any>(
-  style: (val: NonNullable<INPUT>, comp: C) => (((theme: any, ref: ThemeRef) => StyleTemplate) | null),
+  style: InputStyle<INPUT, C>,
   priority?: number
 ) {
 
   return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
-    const _propertyKeyClass = `_${propertyKey}Class`;
+    target.constructor[propertyKey] = style;
+    // const _propertyKeyClass = `_${propertyKey}Class`;
     const _propertyKey = `_${propertyKey}`;
     if (descriptor) {
       const set = descriptor.set!;
       descriptor.set = function (val: INPUT) {
-        const that: WithStyles = this;
-        const oldValue = that[_propertyKey];
-        that[_propertyKey] = val;
-        const styleTemplate = style(val as any, that as any);
-        if (val == null || styleTemplate == null) {
-          that.sRenderer.removeClass(that[_propertyKeyClass]);
-        } else if (oldValue !== val) {
-          that[_propertyKeyClass] = that.sRenderer.add(
-            `${getComponentName(that)}--${propertyKey}-${val}`,
-            styleTemplate,
-            priority ?? that.$priority ?? (that.constructor as any).$priority ?? 0,
-            that[_propertyKeyClass]
-          );
-        }
-        set.call(that, val);
+        createStyle(
+          this,
+          propertyKey,
+          val,
+          style,
+          priority
+        );
+        set.call(this, val);
       };
       if (!descriptor.get) {
         descriptor.get = function () {
@@ -304,21 +327,13 @@ export function Style<INPUT = any, C = any>(
         configurable: true,
         enumerable: true,
         set(val: INPUT) {
-          const that: WithStyles = this;
-          const oldValue = that[_propertyKey];
-          that[_propertyKey] = val;
-          const styleTemplate = style(val as NonNullable<INPUT>, that as any);
-          if (val == null || styleTemplate == null) {
-            that.sRenderer.removeClass(that[_propertyKeyClass]);
-          } else if (oldValue !== val) {
-            that[_propertyKeyClass] = that.sRenderer.add(
-              `${getComponentName(that)}--${propertyKey}-${val}`,
-              styleTemplate,
-              priority ?? that.$priority ?? (that.constructor as any).$priority ?? 0,
-              that[_propertyKeyClass]
-            );
-          }
-          that[_propertyKey] = val;
+          createStyle(
+            this,
+            propertyKey,
+            val,
+            style,
+            priority
+          );
         },
         get() {
           return this[_propertyKey];
@@ -326,6 +341,105 @@ export function Style<INPUT = any, C = any>(
       });
     }
   };
+}
+
+/**
+ * Create a style for component with a key
+ * @param c The component
+ * @param propertyKeyConfig Style key
+ * @param value value
+ * @param style style template
+ * @param priority priority of style
+ */
+export function createStyle<INPUT, C>(
+  c: WithStyles,
+  propertyKeyConfig: string | StylePropertyKey,
+  value: INPUT,
+  style: InputStyle<INPUT, C>,
+  priority?: number
+) {
+  const propertyKey = typeof propertyKeyConfig === 'string' ? propertyKeyConfig : propertyKeyConfig.key;
+  const _propertyKeyClass = `_${propertyKey}Class`;
+  const _propertyKey = `_${propertyKey}`;
+  const oldValue = c[_propertyKey];
+  c[_propertyKey] = value;
+  if (value === null || value === undefined || (value as any) === false) {
+    // Remove classes
+    const classesForRemove: null | string[] = c[_propertyKeyClass];
+    if (classesForRemove && classesForRemove.length) {
+      classesForRemove.forEach((className: string) =>
+        c.sRenderer.removeClass(className)
+      );
+    }
+  } else if (typeof value === 'string') {
+    if (oldValue !== value) {
+      c.sRenderer.removeClasses(c[_propertyKeyClass]);
+      const values = parseMediaQueriesFromString(value);
+      for (let index = 0; index < values.length; index++) {
+        const valAndMediaKey = values[index];
+        parseMediaQueryFromString(valAndMediaKey).forEach((_) => {
+          _renderStyle(c, propertyKeyConfig, _[0], _[1], valAndMediaKey, style, priority);
+        });
+      }
+    }
+  } else if (typeof value === 'number') {
+    if (oldValue !== value) {
+      c.sRenderer.removeClasses(c[_propertyKeyClass]);
+      _renderStyle(c, propertyKeyConfig, value as any, null, value as any, style, priority);
+    }
+  } else if (oldValue !== `${value}`) {
+    c.sRenderer.removeClasses(c[_propertyKeyClass]);
+    // Is array
+    for (let index = 0; index < (value as any).length; index++) {
+      const val = value[index];
+      if (typeof val === 'number' || val === null || val === undefined) {
+        _renderStyle(c, propertyKeyConfig, val, null, val, style, priority);
+      } if (typeof val === 'string') {
+        parseMediaQueryFromString(val).forEach((_) => {
+          _renderStyle(c, propertyKeyConfig, _[0], _[1], val, style, priority);
+        });
+      }
+    }
+  }
+}
+
+export function _renderStyle<INPUT, C>(
+  c: WithStyles,
+  propertyKeyConfig: string | StylePropertyKey,
+  val: string | number,
+  media: string | null,
+  valAndMedia: string | number | null | undefined,
+  style: InputStyle<INPUT, C>,
+  priority?: number
+) {
+  const propertyKey = typeof propertyKeyConfig === 'string' ? propertyKeyConfig : propertyKeyConfig.key;
+  const _propertyKeyClass = `_${propertyKey}Class`;
+  const styleTemplate = style(val as any, media, c as any);
+  if (styleTemplate == null) {
+    // Remove classes
+    const classesForRemove: null | string[] = c[_propertyKeyClass];
+    if (classesForRemove && classesForRemove.length) {
+      classesForRemove.forEach((className: string) =>
+        c.sRenderer.removeClass(className)
+      );
+      c[_propertyKeyClass] = [];
+    }
+  } else {
+    if (c[_propertyKeyClass] === undefined) {
+      c[_propertyKeyClass] = [];
+    }
+    c[_propertyKeyClass].push(c.sRenderer.add(
+      `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}--${propertyKey}-${valAndMedia}`,
+      styleTemplate,
+      getComponentPriority(c, priority),
+      c[_propertyKeyClass]
+    ));
+  }
+}
+
+export interface StylePropertyKey {
+  и: string;
+  key: string;
 }
 
 export interface WithStyles {
@@ -336,4 +450,7 @@ export interface WithStyles {
 
 function getComponentName(comp: any) {
   return comp.constructor.и || comp.constructor.name || 'unnamed';
+}
+function getComponentPriority(comp: any, priority?: number) {
+  return priority ?? comp.$priority ?? (comp.constructor as any).$priority ?? 0;
 }

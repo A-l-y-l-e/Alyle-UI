@@ -7,6 +7,12 @@ export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariable
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
 export const LY_THEME_NAME = new InjectionToken<string>('ly.theme.name');
 
+/**
+ * Add a prefix to the class name that will be generated for styles.
+ * Only works in production mode.
+ */
+export const LY_CLASS_NAME_PREFIX = new InjectionToken<string>('LY_CLASS_NAME_PREFIX');
+
 export interface ThemeConfig {
   name: string;
   primary: DefaultVal & PaletteColor;

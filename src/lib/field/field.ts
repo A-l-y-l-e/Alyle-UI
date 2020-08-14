@@ -487,6 +487,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   }
 
   /** The field appearance style. */
+  @Input()
   @Style<string | null>(
     val => (theme: LyFieldVariables, ref) => {
       const classes = ref.selectorsOf(STYLES);
@@ -502,7 +503,6 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     },
     STYLE_PRIORITY
   )
-  @Input()
   appearance: string | null;
 
   @HostListener('focus') onFocus() {

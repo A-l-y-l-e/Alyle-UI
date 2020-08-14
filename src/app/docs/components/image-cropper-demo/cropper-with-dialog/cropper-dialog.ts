@@ -43,12 +43,20 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
 export class CropperDialog implements WithStyles, AfterViewInit {
 
   readonly classes = this.sRenderer.renderSheet(STYLES);
+  ready: boolean;
   scale: number;
+  minScale: number;
   @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    width: 150, // Default `250`
-    height: 150, // Default `200`
-    type: 'image/png' // Or you can also use `image/jpeg`
+    width: 150,
+    height: 150,
+    type: 'image/png',
+    keepAspectRatio: true,
+    output: {
+      width: 200,
+      height: 200
+    },
+    resizableArea: true
   };
 
   constructor(

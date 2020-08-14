@@ -55,9 +55,16 @@ walk(directory).then(async (res) => {
     const content = (await fs.readFile(file)).toString('utf8');
     const hasLyl = hasLylStyle(content);
     if (hasLyl) {
-      const compiled = styleCompiler(content);
-      await fs.writeFile(file, compiled, 'utf8');
-      console.log(`${chalk.bold.greenBright('Updated: ')}${file}`);
+      let compiled: string | null = null;
+      try {
+        compiled = styleCompiler(content);
+        console.log(`${chalk.bold.greenBright('Updated: ')}${file}`);
+      } catch (error) {
+        console.log(chalk.yellow(`error in ${file}`), error);
+      }
+      if (compiled) {
+        await fs.writeFile(file, compiled, 'utf8');
+      }
     }
   });
 

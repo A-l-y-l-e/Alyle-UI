@@ -1,18 +1,15 @@
 import { Component, ChangeDetectionStrategy, AfterViewInit, ViewChild } from '@angular/core';
-import { lyl, WithStyles, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
+import { lyl, WithStyles, StyleRenderer, ThemeVariables } from '@alyle/ui';
 import {
   LyImageCropper,
   ImgCropperConfig,
   ImgCropperEvent,
-  ImgCropperErrorEvent,
-  STYLES as CROPPER_STYLES
+  ImgCropperErrorEvent
 } from '@alyle/ui/image-cropper';
 import { Platform } from '@angular/cdk/platform';
 
-const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
+const STYLES = (_theme: ThemeVariables) => {
 
-  ref.renderStyleSheet(CROPPER_STYLES);
-  const cropper = ref.selectorsOf(CROPPER_STYLES);
   return {
     cropper: lyl `{
       max-width: 400px
@@ -22,11 +19,6 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
       text-align: center
       max-width: 400px
       margin: 14px
-    }`,
-    cropCircle: lyl `{
-      ${cropper.area}, ${cropper.area}::after {
-        border-radius: 50%
-      }
     }`,
     cropResult: lyl `{
       border-radius: 50%
@@ -43,13 +35,15 @@ export class CropCircleComponent implements WithStyles, AfterViewInit {
   classes = this.sRenderer.renderSheet(STYLES);
   croppedImage?: string;
   scale: number;
-  @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
+  ready: boolean;
+  minScale: number;
+  @ViewChild(LyImageCropper, { static: true }) readonly cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    // autoCrop: true,
     width: 150, // Default `250`
     height: 150, // Default `200`
     fill: '#ff2997', // Default transparent if type = png else #000
-    type: 'image/png' // Or you can also use `image/jpeg`
+    type: 'image/png', // Or you can also use `image/jpeg`
+    round: true
   };
 
   constructor(

@@ -72,7 +72,7 @@
   <span class="tt18 tt1j">readonly</span> isLoading <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">EventEmitter</span><span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">boolean</span><span class="tt18 ttb0">></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 tt1j">readonly</span> isError <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">EventEmitter</span><span class="tt18 ttb0">&lt;</span>Err <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">void</span><span class="tt18 ttb0">></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
-  <span class="tt18 ttbb">ADS_STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttbb">ADS_STYLES</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">readonly</span> <span class="tt18 ttbb">ADS_STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">renderStyle</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">ADS_STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
   @<span class="tt18 tta3">Input</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span>
   <span class="tt18 tt1j">get</span> <span class="tt18 tta3">path</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>

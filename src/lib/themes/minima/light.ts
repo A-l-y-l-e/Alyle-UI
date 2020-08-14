@@ -63,7 +63,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
   };
   bar = new Color(0xf5f5f5);
   field: LyFieldTheme = mergeThemes<LyFieldTheme, LyFieldTheme>(this.field, {
-    root: ({
+    root: new StyleCollection(({
       container,
       fieldset,
       labelContainer,
@@ -75,7 +75,7 @@ export class MinimaLight extends MinimaBase implements ThemeConfig {
       ${label}, ${placeholder} {
         color: ${new Color(0, 0, 0, 0.6)}
       }
-    }`,
+    }`),
     appearance: {
       filled: ({ container }) => lyl `{
         ${container} {

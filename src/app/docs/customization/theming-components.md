@@ -24,9 +24,9 @@ export class GlobalVariables implements PartialThemeVariables {
 
 > It should be noted that this style will be added globally
 
-We must keep in mind that when we extend a theme, styles can be replaced or added one over another.
+When we extend a theme, styles can be replaced or added one over another.
 
-For example if I declare the styles in the `minimal-dark` theme, and also declare in `GlobalVariables`, the style that will be rendered will be the one in Global variables. This is a default behavior, to represent both styles you must declare `StyleCollection` first.
+For example if I declare the styles in the `minimal-dark` theme, and also declare in `GlobalVariables`, both styles render, because was initially declared in the theme.
 
 The following example shows how both styles are rendered.
 
@@ -48,7 +48,6 @@ export class CustomMinimaLight {
 
 export class GlobalVariables {
   button = {
-    // This override the previous style (both styles are rendered).
     root: () => lyl `{
       border-radius: 2em
     }`
@@ -56,7 +55,7 @@ export class GlobalVariables {
 }
 ```
 
-> This happens because `StyleCollection` was initially declared.
+This happens because `StyleCollection` was initially declared.
 
 Instead if I add a style with `StyleCollection`, the previous styles will be omitted.
 
@@ -73,6 +72,8 @@ export class CustomMinimaLight {
   name = 'minima-light';
   button = {
     // This style is not rendered.
+    // Because `StyleCollection` is declared in `GlobalVariables.button`,
+    // thus this style will be overridden
     root: () => lyl `{
       border-radius: 8px
       prop: value
@@ -91,3 +92,44 @@ export class GlobalVariables {
 ```
 
 > Note that all components have initially declared `StyleCollection`.
+
+## Customize a component
+
+If you want to customize a component within a component without customizing it globally, add the styles in parent component as shown below:
+
+```ts
+import { lyl, StyleRenderer, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { STYLES as BUTTON_STYLES } from '@alyle/ui/button';
+
+const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+  // Make sure button styles have been rendered
+  ref.renderStyleSheet(BUTTON_STYLES);
+  // get selectors
+  const button = ref.selectorsOf(BUTTON_STYLES);
+  return {
+    root: lyl `{
+      ${button.root} {
+        border-radius: 2em
+      }
+    }`
+  }
+};
+
+@Component({
+  ...
+  providers: [
+    StyleRenderer
+  ]
+})
+export class MyComponent implements WithStyles {
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
+}
+```
+
+```html
+<button ly-button raised bg="primary">Round button</button>
+<button ly-button raised bg="primary">Round button</button>
+```
