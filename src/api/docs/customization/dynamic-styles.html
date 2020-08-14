@@ -160,7 +160,7 @@
 <p>It's the same as CSS media queries.</p>
 <p>For instance:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttb0">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
-  @media </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">getBreakpoint</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'XSmall'</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
+  @media </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>breakpoints<span class="tt18 ttae">[</span><span class="tt18 tt3z">'XSmall'</span><span class="tt18 ttae">]</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
     display: none
   &#125;
 &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
