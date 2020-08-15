@@ -1,3 +1,16 @@
+## [9.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.0...9.0.1) (2020-08-15)
+
+
+### Bug Fixes
+
+* **card:** fix media queries ([a498956](https://github.com/A-l-y-l-e/Alyle-UI/commit/a498956fd9768f31f95b2f046b6c586385fef1cc))
+* **snack-bar:** fix media queries ([21ce323](https://github.com/A-l-y-l-e/Alyle-UI/commit/21ce32362829f7b969fadaaabc557ef494dde8f0))
+* **tabs:** fix media queries ([383c3fe](https://github.com/A-l-y-l-e/Alyle-UI/commit/383c3fea54a6e77da29189f60a474698c95f64f9))
+* **toolbar:** fix media queries ([2939414](https://github.com/A-l-y-l-e/Alyle-UI/commit/2939414e25e133984b5866a88208a528dece246a))
+* multiple inline media queries not working ([1dc7a4e](https://github.com/A-l-y-l-e/Alyle-UI/commit/1dc7a4ecbe5bd480ff43b7e3164b860d6eee7e10))
+
+
+
 ## [8.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.0...v3.5.x) (2020-08-14)
 
 
