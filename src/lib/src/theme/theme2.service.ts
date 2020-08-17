@@ -284,7 +284,7 @@ export class LyTheme2 {
     if (!_STYLE_MAP.has(styles)) {
       _STYLE_MAP.set(styles, {
         isNewStyle: true,
-        styles: <Styles><unknown>styles,
+        styles: styles as unknown as Styles,
         type: TypeStyle.Multiple,
         css: {},
         id: null
@@ -497,7 +497,7 @@ function groupStyleToString(
   const themeNameForSelectors = getThemeNameForSelectors(themeName);
   const classesMap = styleMap[themeName] || (styleMap[themeName] = {});
   const selectorsMap = styleMap[themeNameForSelectors] || (styleMap[themeNameForSelectors] = {});
-  const styleGroup = <StyleGroup>styles;
+  const styleGroup = styles as StyleGroup;
   let content = '';
   const name = styleGroup.$name ? `${styleGroup.$name}-` : '';
 

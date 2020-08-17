@@ -58,9 +58,20 @@ const STYLE_PRIORITY = -0.5;
   ]
 })
 export class LyStyle implements WithStyles {
+
+  set size(value: string | number | null) {
+    this.width = value;
+    this.height = value;
+  }
+
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
   /** @docs-private */
   static readonly и = 'LyStyle';
   static readonly $priority = STYLE_PRIORITY;
+
+  static readonly with: InputStyle<string | number | null>;
 
   @Style<string | null>(
     (value) => (theme: ThemeVariables) => (
@@ -209,8 +220,6 @@ export class LyStyle implements WithStyles {
           }`
         )
   ) my: string | number | null;
-
-  static readonly with: InputStyle<string | number | null>;
   @Style<string | number | null>(
     (val, media) => ({breakpoints}: ThemeVariables) => (
       lyl `{
@@ -270,11 +279,6 @@ export class LyStyle implements WithStyles {
       }`
     )
   ) minHeight: string | number | null;
-
-  set size(value: string | number | null) {
-    this.width = value;
-    this.height = value;
-  }
 
   @Style<string | null>(
     (val, media) => ({breakpoints}: ThemeVariables) => (
@@ -429,10 +433,6 @@ export class LyStyle implements WithStyles {
     )
   )
   lyStyle: string | null;
-
-  constructor(
-    readonly sRenderer: StyleRenderer
-  ) { }
 }
 
 /**

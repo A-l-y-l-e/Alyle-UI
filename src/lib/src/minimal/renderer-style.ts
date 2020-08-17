@@ -146,7 +146,7 @@ export class StyleRenderer {
           null,
           null,
           TypeStyle.LylStyle);
-          oldClass = style as string;
+        oldClass = style as string;
       }
     } else if (len === 3) {
       if (typeof id === 'string') {
@@ -307,7 +307,7 @@ export function Style<INPUT = any, C = any>(
     const _propertyKey = `_${propertyKey}`;
     if (descriptor) {
       const set = descriptor.set!;
-      descriptor.set = function (val: INPUT) {
+      descriptor.set = function(val: INPUT) {
         createStyle(
           this,
           propertyKey,
@@ -318,7 +318,7 @@ export function Style<INPUT = any, C = any>(
         set.call(this, val);
       };
       if (!descriptor.get) {
-        descriptor.get = function () {
+        descriptor.get = function() {
           return this[_propertyKey];
         };
       }
