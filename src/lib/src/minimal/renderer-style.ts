@@ -146,7 +146,7 @@ export class StyleRenderer {
           null,
           null,
           TypeStyle.LylStyle);
-          oldClass = style as string;
+        oldClass = style as string;
       }
     } else if (len === 3) {
       if (typeof id === 'string') {
@@ -307,7 +307,7 @@ export function Style<INPUT = any, C = any>(
     const _propertyKey = `_${propertyKey}`;
     if (descriptor) {
       const set = descriptor.set!;
-      descriptor.set = function (val: INPUT) {
+      descriptor.set = function(val: INPUT) {
         createStyle(
           this,
           propertyKey,
@@ -318,7 +318,7 @@ export function Style<INPUT = any, C = any>(
         set.call(this, val);
       };
       if (!descriptor.get) {
-        descriptor.get = function () {
+        descriptor.get = function() {
           return this[_propertyKey];
         };
       }
@@ -378,14 +378,14 @@ export function createStyle<INPUT, C>(
       for (let index = 0; index < values.length; index++) {
         const valAndMediaKey = values[index];
         parseMediaQueryFromString(valAndMediaKey).forEach((_) => {
-          _renderStyle(c, propertyKeyConfig, _[0], _[1], valAndMediaKey, style, priority);
+          _renderStyle(c, propertyKeyConfig, _[0], _[1], style, priority);
         });
       }
     }
   } else if (typeof value === 'number') {
     if (oldValue !== value) {
       c.sRenderer.removeClasses(c[_propertyKeyClass]);
-      _renderStyle(c, propertyKeyConfig, value as any, null, value as any, style, priority);
+      _renderStyle(c, propertyKeyConfig, value as any, null, style, priority);
     }
   } else if (oldValue !== `${value}`) {
     c.sRenderer.removeClasses(c[_propertyKeyClass]);
@@ -393,10 +393,10 @@ export function createStyle<INPUT, C>(
     for (let index = 0; index < (value as any).length; index++) {
       const val = value[index];
       if (typeof val === 'number' || val === null || val === undefined) {
-        _renderStyle(c, propertyKeyConfig, val, null, val, style, priority);
+        _renderStyle(c, propertyKeyConfig, val, null, style, priority);
       } if (typeof val === 'string') {
         parseMediaQueryFromString(val).forEach((_) => {
-          _renderStyle(c, propertyKeyConfig, _[0], _[1], val, style, priority);
+          _renderStyle(c, propertyKeyConfig, _[0], _[1], style, priority);
         });
       }
     }
@@ -408,7 +408,6 @@ export function _renderStyle<INPUT, C>(
   propertyKeyConfig: string | StylePropertyKey,
   val: string | number,
   media: string | null,
-  valAndMedia: string | number | null | undefined,
   style: InputStyle<INPUT, C>,
   priority?: number
 ) {
@@ -429,7 +428,7 @@ export function _renderStyle<INPUT, C>(
       c[_propertyKeyClass] = [];
     }
     c[_propertyKeyClass].push(c.sRenderer.add(
-      `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}--${propertyKey}-${valAndMedia}`,
+      `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}--${propertyKey}-${media ? val + '_' + media : val}`,
       styleTemplate,
       getComponentPriority(c, priority),
       c[_propertyKeyClass]

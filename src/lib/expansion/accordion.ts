@@ -177,7 +177,7 @@ export class LyAccordion implements OnInit {
     private _el: ElementRef) { }
 
   ngOnInit() {
-    const { expansion } = <ExpansionVariables>this._theme.variables;
+    const { expansion } = this._theme.variables as ExpansionVariables;
     if (expansion) {
       this._renderer.addClass(this._el.nativeElement, this.classes.root);
 

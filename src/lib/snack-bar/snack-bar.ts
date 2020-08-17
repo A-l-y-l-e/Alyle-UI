@@ -32,7 +32,7 @@ export const STYLES = (theme: ThemeVariables & LySnackBarVariables) => ({
     transition: opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms
     font-size: ${theme.pxToRem(theme.typography.fontSize)}
     box-sizing: border-box
-    ${theme.getBreakpoint('XSmall')} {
+    @media ${theme.breakpoints['XSmall']} {
       width: calc(100% - 16px)
       min-width: calc(100% - 16px)
     }

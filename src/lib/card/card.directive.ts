@@ -70,14 +70,14 @@ export const STYLES = (theme: ThemeVariables & LyCardVariables, ref: ThemeRef) =
     content: lyl `{
       display: block
       padding: 16px 24px
-      ${theme.getBreakpoint('XSmall')} {
+      @media ${theme.breakpoints['XSmall']} {
         padding: 16px 16px
       }
     }`,
     actions: lyl `{
       display: block
       padding: 8px 12px
-      ${theme.getBreakpoint('XSmall')} {
+      @media ${theme.breakpoints['XSmall']} {
         padding: 8px 4px
       }
     }`,
@@ -213,16 +213,6 @@ export class LyCardActions implements OnInit {
   ]
 })
 export class LyCardMedia implements WithStyles, OnInit {
-  static readonly и = 'LyCardMedia';
-  static readonly $priority = STYLE_PRIORITY;
-
-  private _ratio: string;
-
-  @Input()
-  @Style<string>((val) => () => lyl `{
-    background-image: url('${val}')
-  }`)
-  bgImg: string;
 
   /**
    * Aspect ratio
@@ -254,7 +244,6 @@ export class LyCardMedia implements WithStyles, OnInit {
   get ratio() {
     return this._ratio;
   }
-  [0x2]: string;
 
   constructor(
     readonly sRenderer: StyleRenderer,
@@ -262,12 +251,23 @@ export class LyCardMedia implements WithStyles, OnInit {
   ) {
     sRenderer.addClass(card.classes.bgImg);
   }
+  static readonly и = 'LyCardMedia';
+  static readonly $priority = STYLE_PRIORITY;
+
+  static ngAcceptInputType_bgImg: string;
+
+  private _ratio: string;
+
+  @Input()
+  @Style<string>((val) => () => lyl `{
+    background-image: url('${val}')
+  }`)
+  bgImg: string;
+  [0x2]: string;
 
   ngOnInit() {
     if (!this.ratio) {
       this.ratio = DEFAULT_ASPECT_RATIO;
     }
   }
-
-  static ngAcceptInputType_bgImg: string;
 }

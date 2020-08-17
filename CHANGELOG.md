@@ -1,3 +1,39 @@
+# [10.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.1...10.0.0) (2020-08-17)
+
+
+### Features
+
+* Support for Angular 10 ([#129](https://github.com/A-l-y-l-e/Alyle-UI/issues/129)) ([879d089](https://github.com/A-l-y-l-e/Alyle-UI/commit/879d089b387a703ec74bfff691db42d836d28f0c))
+
+
+
+## [9.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.0...9.0.1) (2020-08-15)
+
+
+### Bug Fixes
+
+* **card:** fix media queries ([a498956](https://github.com/A-l-y-l-e/Alyle-UI/commit/a498956fd9768f31f95b2f046b6c586385fef1cc))
+* **snack-bar:** fix media queries ([21ce323](https://github.com/A-l-y-l-e/Alyle-UI/commit/21ce32362829f7b969fadaaabc557ef494dde8f0))
+* **tabs:** fix media queries ([383c3fe](https://github.com/A-l-y-l-e/Alyle-UI/commit/383c3fea54a6e77da29189f60a474698c95f64f9))
+* **toolbar:** fix media queries ([2939414](https://github.com/A-l-y-l-e/Alyle-UI/commit/2939414e25e133984b5866a88208a528dece246a))
+* multiple inline media queries not working ([1dc7a4e](https://github.com/A-l-y-l-e/Alyle-UI/commit/1dc7a4ecbe5bd480ff43b7e3164b860d6eee7e10))
+
+
+
+## [8.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.0...v3.5.x) (2020-08-14)
+
+
+### Bug Fixes
+
+* **card:** fix media queries ([a498956](https://github.com/A-l-y-l-e/Alyle-UI/commit/a498956fd9768f31f95b2f046b6c586385fef1cc))
+* **snack-bar:** fix media queries ([21ce323](https://github.com/A-l-y-l-e/Alyle-UI/commit/21ce32362829f7b969fadaaabc557ef494dde8f0))
+* **tabs:** fix media queries ([383c3fe](https://github.com/A-l-y-l-e/Alyle-UI/commit/383c3fea54a6e77da29189f60a474698c95f64f9))
+* **toolbar:** fix media queries ([2939414](https://github.com/A-l-y-l-e/Alyle-UI/commit/2939414e25e133984b5866a88208a528dece246a))
+* multiple inline media queries not working ([1dc7a4e](https://github.com/A-l-y-l-e/Alyle-UI/commit/1dc7a4ecbe5bd480ff43b7e3164b860d6eee7e10))
+* support for Angular 8 ([e3e9bd4](https://github.com/A-l-y-l-e/Alyle-UI/commit/e3e9bd4ef29190ab3f495b64c419ab934801c91a))
+
+
+
 # [9.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/3.5.0...9.0.0) (2020-08-06)
 
 

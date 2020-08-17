@@ -3,9 +3,9 @@ import { NodePackageInstallTask, RunSchematicTask } from '@angular-devkit/schema
 import { Schema } from './schema';
 import { addPackageToPackageJson, getPackageVersionFromPackageJson } from '../utils/package-config';
 
-const AUI_VERSION = '9.0.0';
+const AUI_VERSION = '10.0.0';
 const HAMMERJS_VERSION = '^2.0.8';
-const ANGULAR_CDK_VERSION = '^9.2.4';
+const ANGULAR_CDK_VERSION = '^10.1.3';
 
 
 export default function (options: Schema): Rule {

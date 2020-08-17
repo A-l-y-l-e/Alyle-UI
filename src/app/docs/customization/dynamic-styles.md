@@ -203,7 +203,7 @@ For instance:
 
 ```ts
 (theme: ThemeVariables) => lyl `{
-  @media ${theme.getBreakpoint('XSmall')} {
+  @media ${theme.breakpoints['XSmall']} {
     display: none
   }
 }`
