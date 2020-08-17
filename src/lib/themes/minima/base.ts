@@ -297,7 +297,7 @@ export class MinimaBase extends LyStyleUtils {
       thumbVisible,
       thumbNotVisible,
       sliding
-    }, color) => lyl `{
+    },      color) => lyl `{
       & ${track}, & ${thumb}, & ${thumbLabel}, & ${bg}, & ${tick} {
         background-color: ${color}
       }
@@ -340,18 +340,20 @@ export class MinimaBase extends LyStyleUtils {
         }
       }
     }`,
-    disabled: ({
-      track,
-      thumb,
-      thumbContainer,
-      thumbContent,
-      thumbLabel,
-      bg,
-      tick,
-      tickActive,
-      horizontal,
-      vertical
-    }, color) => {
+    disabled: (
+      {
+        track,
+        thumb,
+        thumbContainer,
+        thumbContent,
+        thumbLabel,
+        bg,
+        tick,
+        tickActive,
+        horizontal,
+        vertical
+      },
+      color ) => {
       const colorDisabled = color.darken(2)
       .desaturate(2.5);
       const colorDisabledLum0_4 = colorDisabled.luminance(.4);

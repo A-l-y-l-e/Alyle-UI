@@ -12,7 +12,7 @@ export class DialogWithSelectDialog {
     username: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
-      Validators.maxLength(16)
+      Validators.maxLength(32)
     ]),
     option: new FormControl('', Validators.required)
   });

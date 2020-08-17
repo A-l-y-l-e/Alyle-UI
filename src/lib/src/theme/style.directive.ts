@@ -1,4 +1,4 @@
-import { Directive, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
+import { Directive } from '@angular/core';
 import { lyl } from '../parse';
 import { StyleRenderer, Style, WithStyles, InputStyle } from '../minimal/renderer-style';
 import { ThemeVariables } from './theme-config';
@@ -58,9 +58,20 @@ const STYLE_PRIORITY = -0.5;
   ]
 })
 export class LyStyle implements WithStyles {
+
+  set size(value: string | number | null) {
+    this.width = value;
+    this.height = value;
+  }
+
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
   /** @docs-private */
   static readonly и = 'LyStyle';
   static readonly $priority = STYLE_PRIORITY;
+
+  static readonly with: InputStyle<string | number | null>;
 
   @Style<string | null>(
     (value) => (theme: ThemeVariables) => (
@@ -209,8 +220,6 @@ export class LyStyle implements WithStyles {
           }`
         )
   ) my: string | number | null;
-
-  static readonly with: InputStyle<string | number | null>;
   @Style<string | number | null>(
     (val, media) => ({breakpoints}: ThemeVariables) => (
       lyl `{
@@ -270,11 +279,6 @@ export class LyStyle implements WithStyles {
       }`
     )
   ) minHeight: string | number | null;
-
-  set size(value: string | number | null) {
-    this.width = value;
-    this.height = value;
-  }
 
   @Style<string | null>(
     (val, media) => ({breakpoints}: ThemeVariables) => (
@@ -429,92 +433,6 @@ export class LyStyle implements WithStyles {
     )
   )
   lyStyle: string | null;
-
-  constructor(
-    readonly sRenderer: StyleRenderer
-  ) { }
-}
-
-/**
- * @dynamic
- * Spacing
- * [p], [pf], [pe], [pt], [pb], [px], [py],
- * [m], [mf], [me], [mt], [mb], [mx], [my],
- * Sizing
- * [size],
- * [width], [maxWidth], [minWidth],
- * [height], [maxHeight], [minHeight],
- * Others
- * [lyStyle]
- */
-@Directive({
-  selector: `
-              [p], [pf], [pe], [pt], [pb], [px], [py],
-              [m], [mf], [me], [mt], [mb], [mx], [my],
-              [size]:not([ly-button]),
-              [width]:not(svg):not(canvas):not(embed):not(iframe):not(img):not(input):not(object):not(video),
-              [maxWidth], [minWidth],
-              [height]:not(svg):not(canvas):not(embed):not(iframe):not(img):not(input):not(object):not(video),
-              [maxHeight], [minHeight],
-              [display],
-              [flex],
-              [flexBasis],
-              [flexDirection],
-              [flexGrow],
-              [flexSelf],
-              [flexShrink],
-              [flexWrap],
-              [justifyContent],
-              [justifyItems],
-              [justifySelf],
-              [alignContent],
-              [alignItems],
-              [order]`,
-  providers: [
-    StyleRenderer
-  ],
-  inputs: [
-    'p', 'pf', 'pe', 'pt', 'pb', 'px', 'py',
-    'm', 'mf', 'me', 'mt', 'mb', 'mx', 'my',
-    'size',
-    'width', 'maxWidth', 'minWidth',
-    'height', 'maxHeight', 'minHeight',
-    'display',
-    'flex',
-    'flexBasis',
-    'flexDirection',
-    'flexGrow',
-    'flexSelf',
-    'flexShrink',
-    'flexWrap',
-    'justifyContent',
-    'justifyItems',
-    'justifySelf',
-    'alignContent',
-    'alignItems',
-    'order',
-  ]
-})
-export class LyStyleDeprecated extends LyStyle implements OnChanges {
-
-  constructor(
-    sRenderer: StyleRenderer,
-    private _el: ElementRef
-  ) {
-    super(sRenderer);
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    for (const key in changes) {
-      if (changes.hasOwnProperty(key)) {
-        const message = `[${key}] is deprecated, use [ly${key.charAt(0).toUpperCase() + key.slice(1)}] instead.`;
-        console.error({
-          message,
-          element: this._el.nativeElement
-        });
-        throw new Error(message);
-      }
-    }
-  }
 }
 
 /**

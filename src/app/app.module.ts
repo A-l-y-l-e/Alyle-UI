@@ -143,7 +143,6 @@ export function themeNameProviderFactory() {
     BrowserAnimationsModule,
     RouterModule,
     // LyThemeModule.setTheme('minima-light'),
-    ResponsiveModule,
     LyCommonModule,
     LyButtonModule,
     LyDrawerModule,
