@@ -60,3 +60,4 @@ firebase-debug.log
 #others
 publish.sh
 /others
+sync-config.json
