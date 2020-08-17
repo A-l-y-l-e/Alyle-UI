@@ -151,14 +151,14 @@ export class LyTheme2 {
    * @param style Styles
    * @param el Element
    * @param instance The instance of this, this replaces the existing style with a new one when it changes
-   * @param parentStyle
+   * @param parentStyle Parent Style
    */
   addStyle(id: string,
-    style?: StyleDeclarationsBlock,
-    el?: any,
-    instance?: string | null,
-    priority?: number | null,
-    parentStyle?: Styles) {
+           style?: StyleDeclarationsBlock,
+           el?: any,
+           instance?: string | null,
+           priority?: number | null,
+           parentStyle?: Styles) {
     const newClass = this._createStyleContent2(style, id, priority, TypeStyle.OnlyOne, false, parentStyle) as string;
     if (newClass === instance) {
       return newClass;
@@ -532,7 +532,9 @@ function groupStyleToString(
     } else if (typeof value === 'object' || value === null) {
       // set new id if not exist
       if (!(key in classesMap)) {
-        classesMap[key] = isDevMode() ? toValidClassName(`y-${name}${key}-${createNextClassId(classNamePrefix)}`) : createNextClassId(classNamePrefix);
+        classesMap[key] = isDevMode()
+        ? toValidClassName(`y-${name}${key}-${createNextClassId(classNamePrefix)}`)
+        : createNextClassId(classNamePrefix);
       }
 
     } else {
