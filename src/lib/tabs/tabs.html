@@ -9,7 +9,7 @@
     <div #tabContent *ngFor="let item of tabsList; index as x" [className]="classes.tabContent">
       <div [className]="classes.tabContentInner">
         <ng-template #_template="ngTransclude"
-          [timeout]="450"
+          [timeout]="animationDuration"
           [ngTransclude]="loadTemplate(item, x, tabContent)"
         ></ng-template>
       </div>

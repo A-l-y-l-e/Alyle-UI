@@ -183,7 +183,6 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
     scrollable: null,
     hiddenContent: () => lyl `{
       visibility: hidden
-      transition: visibility linear 1s
       ${__.column} & {
         height: 0
       }
@@ -264,7 +263,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _timeoutIds: { [index: number]: number } = {};
 
   @ViewChild('tabs', { static: true }) tabsRef: ElementRef;
-  @ViewChild('tabContents', { static: true }) tabContents: ElementRef;
+  @ViewChild('tabContents', { static: true }) tabContents: ElementRef<HTMLDivElement>;
   @ViewChild('tabsIndicator', { static: true, read: ElementRef }) tabsIndicator?: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
   /**
@@ -281,6 +280,19 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     return this._keepContent;
   }
   private _keepContent: boolean;
+
+  /** Animation duration in milliseconds */
+  @Input()
+  set animationDuration(val: number) {
+    this._animationDuration = val;
+    Promise.resolve().then(() => {
+      this.tabContents.nativeElement.style.transitionDuration = `${val}ms`;
+    });
+  }
+  get animationDuration() {
+    return this._animationDuration;
+  }
+  private _animationDuration: number;
 
   /**
    * Whether the tab group should grow to the size of the active tab.
@@ -470,6 +482,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   ) {
     super(theme);
     this.setAutoContrast();
+    this.animationDuration = 500;
   }
 
   ngOnChanges() {
@@ -607,7 +620,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           container.style.height = '';
           container.style.transition = '';
           delete this._timeoutIds[`_${tabIndex}`];
-        }, 450);
+        }, this.animationDuration);
       }
 
     } else { // Update previous selected tab
@@ -626,10 +639,10 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           } = (contentAfter.firstElementChild! as HTMLElement)
             .getBoundingClientRect();
 
-          const { curves, durations } = this._theme.variables.animations;
+          const { curves } = this._theme.variables.animations;
           contentBefore.style.height = `${contentInnerHeightBefore}px`;
           window.getComputedStyle(contentBefore).getPropertyValue('opacity');
-          contentBefore.style.transition = `height ${curves.standard} ${durations.complex}ms`;
+          contentBefore.style.transition = `height ${curves.standard} ${this.animationDuration}ms`;
           contentBefore.style.height = `${contentInnerHeightAfter}px`;
           contentBefore.style.overflowY = 'hidden';
           contentAfter.style.overflowY = 'hidden';
@@ -639,12 +652,12 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
             contentBefore.style.overflowY = '';
             contentAfter.style.overflowY = '';
             delete this._timeoutIds[`_${tabIndex}`];
-          }, 450);
+          }, this.animationDuration);
         }
         this._timeoutIds[tabIndex] = window.setTimeout(() => {
           this.renderer.addClass(container, this.classes.hiddenContent);
           delete this._timeoutIds[tabIndex];
-        }, 450);
+        }, this.animationDuration);
       } else {
         this.renderer.addClass(container, this.classes.hiddenContent);
       }
