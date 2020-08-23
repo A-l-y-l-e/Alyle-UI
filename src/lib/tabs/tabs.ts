@@ -578,6 +578,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     if (this._timeoutIds[tabIndex] != null) {
       window.clearTimeout(this._timeoutIds[tabIndex]);
     }
+    // Update currently selected tab
     if (this.selectedIndex === tabIndex) {
       const contentInnerHeightBefore = this._platform.isBrowser
         ? (this.tabContents.nativeElement as HTMLElement)
@@ -609,35 +610,36 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
         }, 450);
       }
 
-    } else {
-      if (this._platform.isBrowser) {
-        const indexBefore = this._selectedBeforeIndex;
-        if (indexBefore === tabIndex) {
-          if (this.dynamicHeight) {
-            const { nativeElement: contentAfter } = this.tabContentList
-              .find((_, index) => index === this._selectedIndex)!;
-            const { nativeElement: contentBefore } = this.tabContentList
-              .find((_, index) => index === tabIndex)!;
-            const {
-              height: contentInnerHeightBefore,
-            } = (this.tabContents.nativeElement as HTMLElement)
-              .getBoundingClientRect();
-            const {
-              height: contentInnerHeightAfter,
-            } = (contentAfter.firstElementChild! as HTMLElement)
-              .getBoundingClientRect();
+    } else { // Update previous selected tab
+      if (this._platform.isBrowser && this._selectedBeforeIndex === tabIndex) {
+        if (this.dynamicHeight) {
+          const { nativeElement: contentAfter } = this.tabContentList
+            .find((_, index) => index === this._selectedIndex)!;
+          const { nativeElement: contentBefore } = this.tabContentList
+            .find((_, index) => index === tabIndex)!;
+          const {
+            height: contentInnerHeightBefore,
+          } = (this.tabContents.nativeElement as HTMLElement)
+            .getBoundingClientRect();
+          const {
+            height: contentInnerHeightAfter,
+          } = (contentAfter.firstElementChild! as HTMLElement)
+            .getBoundingClientRect();
 
-            const { curves, durations } = this._theme.variables.animations;
-            contentBefore.style.height = `${contentInnerHeightBefore}px`;
-            window.getComputedStyle(contentBefore).getPropertyValue('opacity');
-            contentBefore.style.transition = `height ${curves.standard} ${durations.complex}ms`;
-            contentBefore.style.height = `${contentInnerHeightAfter}px`;
-            this._timeoutIds[`__${tabIndex}`] = window.setTimeout(() => {
-              contentBefore.style.height = '';
-              contentBefore.style.transition = '';
-              delete this._timeoutIds[`_${tabIndex}`];
-            }, 450);
-          }
+          const { curves, durations } = this._theme.variables.animations;
+          contentBefore.style.height = `${contentInnerHeightBefore}px`;
+          window.getComputedStyle(contentBefore).getPropertyValue('opacity');
+          contentBefore.style.transition = `height ${curves.standard} ${durations.complex}ms`;
+          contentBefore.style.height = `${contentInnerHeightAfter}px`;
+          contentBefore.style.overflowY = 'hidden';
+          contentAfter.style.overflowY = 'hidden';
+          this._timeoutIds[`__${tabIndex}`] = window.setTimeout(() => {
+            contentBefore.style.height = '';
+            contentBefore.style.transition = '';
+            contentBefore.style.overflowY = '';
+            contentAfter.style.overflowY = '';
+            delete this._timeoutIds[`_${tabIndex}`];
+          }, 450);
         }
         this._timeoutIds[tabIndex] = window.setTimeout(() => {
           this.renderer.addClass(container, this.classes.hiddenContent);
