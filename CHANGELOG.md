@@ -1,3 +1,18 @@
+# [10.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.0.0...10.1.0) (2020-08-24)
+
+
+### Bug Fixes
+
+* **tabs:** when changing tabs the content shows the `overflowY` with `dynamicHeight` ([26dd227](https://github.com/A-l-y-l-e/Alyle-UI/commit/26dd2271b441bd19ba76da09b9c17bb901426c58))
+
+
+### Features
+
+* **field:** add `ly-display-with` ([ea67154](https://github.com/A-l-y-l-e/Alyle-UI/commit/ea67154ee19dd6a03f171d4c215d5758b3127954))
+* **tabs:** add `animationDuration`option ([925e40a](https://github.com/A-l-y-l-e/Alyle-UI/commit/925e40a060902baf136cdd6d791899b5e1a5b3cf))
+
+
+
 # [10.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.1...10.0.0) (2020-08-17)
 
 
