@@ -1,5 +1,4 @@
 {
-  "extends": "tslint:recommended",
   "rulesDirectory": [
     "codelyzer"
   ],

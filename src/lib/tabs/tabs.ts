@@ -183,7 +183,6 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
     scrollable: null,
     hiddenContent: () => lyl `{
       visibility: hidden
-      transition: visibility linear 1s
       ${__.column} & {
         height: 0
       }
@@ -264,7 +263,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _timeoutIds: { [index: number]: number } = {};
 
   @ViewChild('tabs', { static: true }) tabsRef: ElementRef;
-  @ViewChild('tabContents', { static: true }) tabContents: ElementRef;
+  @ViewChild('tabContents', { static: true }) tabContents: ElementRef<HTMLDivElement>;
   @ViewChild('tabsIndicator', { static: true, read: ElementRef }) tabsIndicator?: ElementRef;
   @Input() selectedIndexOnChange: 'auto' | number = 'auto';
   /**
@@ -281,6 +280,19 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     return this._keepContent;
   }
   private _keepContent: boolean;
+
+  /** Animation duration in milliseconds */
+  @Input()
+  set animationDuration(val: number) {
+    this._animationDuration = val;
+    Promise.resolve().then(() => {
+      this.tabContents.nativeElement.style.transitionDuration = `${val}ms`;
+    });
+  }
+  get animationDuration() {
+    return this._animationDuration;
+  }
+  private _animationDuration: number;
 
   /**
    * Whether the tab group should grow to the size of the active tab.
@@ -470,6 +482,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   ) {
     super(theme);
     this.setAutoContrast();
+    this.animationDuration = 500;
   }
 
   ngOnChanges() {
@@ -578,6 +591,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     if (this._timeoutIds[tabIndex] != null) {
       window.clearTimeout(this._timeoutIds[tabIndex]);
     }
+    // Update currently selected tab
     if (this.selectedIndex === tabIndex) {
       const contentInnerHeightBefore = this._platform.isBrowser
         ? (this.tabContents.nativeElement as HTMLElement)
@@ -606,43 +620,44 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           container.style.height = '';
           container.style.transition = '';
           delete this._timeoutIds[`_${tabIndex}`];
-        }, 450);
+        }, this.animationDuration);
       }
 
-    } else {
-      if (this._platform.isBrowser) {
-        const indexBefore = this._selectedBeforeIndex;
-        if (indexBefore === tabIndex) {
-          if (this.dynamicHeight) {
-            const { nativeElement: contentAfter } = this.tabContentList
-              .find((_, index) => index === this._selectedIndex)!;
-            const { nativeElement: contentBefore } = this.tabContentList
-              .find((_, index) => index === tabIndex)!;
-            const {
-              height: contentInnerHeightBefore,
-            } = (this.tabContents.nativeElement as HTMLElement)
-              .getBoundingClientRect();
-            const {
-              height: contentInnerHeightAfter,
-            } = (contentAfter.firstElementChild! as HTMLElement)
-              .getBoundingClientRect();
+    } else { // Update previous selected tab
+      if (this._platform.isBrowser && this._selectedBeforeIndex === tabIndex) {
+        if (this.dynamicHeight) {
+          const { nativeElement: contentAfter } = this.tabContentList
+            .find((_, index) => index === this._selectedIndex)!;
+          const { nativeElement: contentBefore } = this.tabContentList
+            .find((_, index) => index === tabIndex)!;
+          const {
+            height: contentInnerHeightBefore,
+          } = (this.tabContents.nativeElement as HTMLElement)
+            .getBoundingClientRect();
+          const {
+            height: contentInnerHeightAfter,
+          } = (contentAfter.firstElementChild! as HTMLElement)
+            .getBoundingClientRect();
 
-            const { curves, durations } = this._theme.variables.animations;
-            contentBefore.style.height = `${contentInnerHeightBefore}px`;
-            window.getComputedStyle(contentBefore).getPropertyValue('opacity');
-            contentBefore.style.transition = `height ${curves.standard} ${durations.complex}ms`;
-            contentBefore.style.height = `${contentInnerHeightAfter}px`;
-            this._timeoutIds[`__${tabIndex}`] = window.setTimeout(() => {
-              contentBefore.style.height = '';
-              contentBefore.style.transition = '';
-              delete this._timeoutIds[`_${tabIndex}`];
-            }, 450);
-          }
+          const { curves } = this._theme.variables.animations;
+          contentBefore.style.height = `${contentInnerHeightBefore}px`;
+          window.getComputedStyle(contentBefore).getPropertyValue('opacity');
+          contentBefore.style.transition = `height ${curves.standard} ${this.animationDuration}ms`;
+          contentBefore.style.height = `${contentInnerHeightAfter}px`;
+          contentBefore.style.overflowY = 'hidden';
+          contentAfter.style.overflowY = 'hidden';
+          this._timeoutIds[`__${tabIndex}`] = window.setTimeout(() => {
+            contentBefore.style.height = '';
+            contentBefore.style.transition = '';
+            contentBefore.style.overflowY = '';
+            contentAfter.style.overflowY = '';
+            delete this._timeoutIds[`_${tabIndex}`];
+          }, this.animationDuration);
         }
         this._timeoutIds[tabIndex] = window.setTimeout(() => {
           this.renderer.addClass(container, this.classes.hiddenContent);
           delete this._timeoutIds[tabIndex];
-        }, 450);
+        }, this.animationDuration);
       } else {
         this.renderer.addClass(container, this.classes.hiddenContent);
       }

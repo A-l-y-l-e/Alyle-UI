@@ -50,6 +50,7 @@ import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
 import { LyError } from './error';
 import { LyFieldControlBase } from './field-control-base';
 import { Platform } from '@angular/cdk/platform';
+import { LyDisplayWith } from './display-with';
 
 export interface LyFieldTheme {
   /** Styles for Field Component */
@@ -299,6 +300,17 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
         background: 0 0
       }
     }`,
+    /** Is used to hide the input when `displayWith` is shown */
+    _hiddenInput: lyl `{
+      opacity: 0
+    }`,
+    displayWith: lyl `{
+      flex-shrink: 0
+      white-space: nowrap
+      text-overflow: ellipsis
+      overflow: hidden
+      width: 100%
+    }`,
     hintContainer: lyl `{
       min-height: 1.25em
       line-height: 1.25
@@ -404,6 +416,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   @ContentChild(forwardRef(() => LyFieldControlBase)) _control?: LyFieldControlBase;
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
+  @ContentChild(LyDisplayWith) readonly _displayWithChild: QueryList<LyDisplayWith>;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
   @ContentChildren(LyPrefix) _prefixChildren: QueryList<LyPrefix>;
   @ContentChildren(LySuffix) _suffixChildren: QueryList<LySuffix>;
@@ -411,6 +424,14 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
 
   get errorState() {
     return this._control ? this._control.errorState : false;
+  }
+
+  get displayWithStatus() {
+    return !!(this._displayWithChild
+      && this._control
+      && !this._control.empty
+      && !this._control.focused
+      && !this._control.errorState);
   }
 
   @Input() persistentHint: boolean;
@@ -534,6 +555,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   ngAfterContentInit() {
     this._control!.stateChanges.subscribe(() => {
       this._updateFloatingLabel();
+      this._updateDisplayWith();
       this._markForCheck();
     });
 
@@ -666,6 +688,10 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     }
   }
 
+  private _updateDisplayWith() {
+    this._control?.sRenderer.toggleClass(this.classes._hiddenInput, this.displayWithStatus);
+  }
+
   private _markForCheck() {
     this._cd.markForCheck();
   }
@@ -681,6 +707,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       'input[lyInput], textarea[lyInput], input[lyNativeControl], textarea[lyNativeControl], select[lyNativeControl]',
   exportAs: 'LyNativeControl',
   providers: [
+    StyleRenderer,
     { provide: LyFieldControlBase, useExisting: LyNativeControl }
   ]
 })
@@ -784,6 +811,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
 
   constructor(
     private _theme: LyTheme2,
+    readonly sRenderer: StyleRenderer,
     private _el: ElementRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
     private _renderer: Renderer2,
     @Optional() private _field: LyField,

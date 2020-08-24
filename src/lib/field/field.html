@@ -4,6 +4,11 @@
     <ng-content select="[lyPrefix]"></ng-content>
   </div>
   <div [className]="classes.infix">
+    <ng-container
+      *ngIf="displayWithStatus"
+    >
+      <ng-content select="ly-display-with"></ng-content>
+    </ng-container>
     <ng-content></ng-content>
     <div [className]="classes.label" *ngIf="_isLabel()" #_labelContainer2>
       <span #_labelSpan [className]="classes.labelSpan">
