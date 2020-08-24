@@ -1,5 +1,6 @@
 import { NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { StyleRenderer } from '@alyle/ui';
 
 /** An interface which allows a control to work inside of a `LyField`. */
 export abstract class LyFieldControlBase<T = any> {
@@ -14,6 +15,7 @@ export abstract class LyFieldControlBase<T = any> {
   readonly disabled: boolean;
   readonly required: boolean;
   readonly floatingLabel: boolean;
+  readonly sRenderer: StyleRenderer;
   /** Handles a click on the control's container. */
   abstract onContainerClick?(event: MouseEvent): void;
 }

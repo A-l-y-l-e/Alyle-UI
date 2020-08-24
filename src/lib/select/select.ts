@@ -67,7 +67,8 @@ import {
   StyleCollection,
   LyClasses,
   StyleTemplate,
-  ThemeRef
+  ThemeRef,
+  StyleRenderer
   } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { take, takeUntil, startWith } from 'rxjs/operators';
@@ -221,6 +222,7 @@ export class LySelectTrigger { }
   animations: [...ANIMATIONS],
   inputs: ['tabIndex'],
   providers: [
+    StyleRenderer,
     { provide: LyFieldControlBase, useExisting: LySelect }
   ]
 })
@@ -448,6 +450,7 @@ export class LySelect
   }
 
   constructor(private _theme: LyTheme2,
+              readonly sRenderer: StyleRenderer,
               private _renderer: Renderer2,
               private _el: ElementRef,
               private _overlay: LyOverlay,
