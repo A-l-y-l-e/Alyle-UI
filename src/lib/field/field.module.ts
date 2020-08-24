@@ -9,6 +9,7 @@ import { LySuffix } from './suffix';
 import { LyHint } from './hint';
 import { LyError } from './error';
 import { LY_FIELD_STYLES_TOKEN } from './field-styles-token';
+import { LyDisplayWith } from './display-with';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { LY_FIELD_STYLES_TOKEN } from './field-styles-token';
     LySuffix,
     LyHint,
     LyError,
+    LyDisplayWith,
     LyCommonModule
   ],
   providers: [
@@ -32,6 +34,16 @@ import { LY_FIELD_STYLES_TOKEN } from './field-styles-token';
       useValue: STYLES
     }
   ],
-  declarations: [ LyField, LyPlaceholder, LyLabel, LyNativeControl, LyPrefix, LySuffix, LyHint, LyError ]
+  declarations: [
+    LyField,
+    LyPlaceholder,
+    LyLabel,
+    LyNativeControl,
+    LyPrefix,
+    LySuffix,
+    LyHint,
+    LyError,
+    LyDisplayWith
+  ]
 })
 export class LyFieldModule { }
