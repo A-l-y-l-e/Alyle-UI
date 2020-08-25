@@ -108,7 +108,7 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
       width: 100%
     }`,
     /** Tab header */
-    tabsLabels: lyl `{
+    labels: lyl `{
       display: flex
       position: relative
       height: 100%
@@ -149,30 +149,30 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
         padding: 0 12px
       }
     }`,
-    tabLabelActive: lyl `{
+    labelActive: lyl `{
       opacity: 1
     }`,
-    tabContents: lyl `{
+    contents: lyl `{
       display: flex
       transition: 450ms cubic-bezier(.1, 1, 0.5, 1)
       will-change: transform
       width: 100%
     }`,
-    tabContent: lyl `{
+    content: lyl `{
       width: 100%
       height: 100%
       flex-shrink: 0
       position: relative
       overflow: auto
     }`,
-    tabContentInner: null,
-    tabsIndicator: lyl `{
+    contentInner: null,
+    indicator: lyl `{
       position: absolute
       height: 2px
       transition: 450ms cubic-bezier(.1, 1, 0.5, 1)
       background: currentColor
     }`,
-    tabsIndicatorForServer: lyl `{
+    indicatorForServer: lyl `{
       position: absolute
       background: currentColor
     }`,
@@ -326,7 +326,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     val => (theme, ref) => {
       const __ = ref.selectorsOf(STYLES);
       return lyl `{
-        ${__.tabsIndicator} {
+        ${__.indicator} {
           color:${theme.colorOf(val)}
         }
       }`;
@@ -386,17 +386,17 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           [`&`]: {
             flexDirection: flexDirectionContainer
           },
-          [`& .${this.classes.tabsIndicator},& .${this.classes.tabsIndicatorForServer}`]: {
+          [`& .${this.classes.indicator},& .${this.classes.indicatorForServer}`]: {
             [position]: 0,
             height,
             width
           },
-          [`.${this.classes.tabsIndicatorForServer}`]: {
+          [`.${this.classes.indicatorForServer}`]: {
             width: widthServer,
             height: heightServer
           },
-          [`& .${this.classes.tabsLabels},& .${this.classes.tabContents}`]: { flexDirection },
-          [`.${this.classes.tabContents}`]: { flexDirection }
+          [`& .${this.classes.labels},& .${this.classes.contents}`]: { flexDirection },
+          [`.${this.classes.contents}`]: { flexDirection }
         };
       },
       this.el.nativeElement,
@@ -415,12 +415,12 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this._alignTabsClass = this.theme.addStyle(`lyAlignTabs: ${val}`,
     (
       val === 'stretch' ? {
-        [`& .${this.classes.tabsLabels} .${this.classes.tab}`]: {
+        [`& .${this.classes.labels} .${this.classes.tab}`]: {
           flexBasis: 0,
           flexGrow: 1
         }
       } : {
-        [`& .${this.classes.tabsLabels}`]: {
+        [`& .${this.classes.labels}`]: {
           justifyContent: val in AlignAlias ? AlignAlias[val] : val
         }
       }
@@ -438,7 +438,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this._textColor = val;
     this._textColorClass = this.theme.addStyle(`lyTabs.textColor:${val}`,
     (theme: ThemeVariables) => ({
-      [`& .${this.classes.tabLabelActive}`]: {
+      [`& .${this.classes.labelActive}`]: {
         color: theme.colorOf(val)
       }
     }),
@@ -497,7 +497,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     }
     this.renderer.addClass(this.el.nativeElement, this.classes.root);
     const tabsIndicatorEl = this.tabsIndicator!.nativeElement;
-    this.renderer.addClass(tabsIndicatorEl, this.classes.tabsIndicator);
+    this.renderer.addClass(tabsIndicatorEl, this.classes.indicator);
     /** Set default Color */
     if (!this.indicatorColor && !this.bg && !this.textColor && !this.elevation) {
       this.indicatorColor = DEFAULT_INDICATOR_COLOR;
@@ -681,9 +681,9 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           // for server
           const selectedBeforeTab = this._selectedBeforeTab;
           if (selectedBeforeTab) {
-            this.renderer.removeClass(selectedBeforeTab._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
+            this.renderer.removeClass(selectedBeforeTab._tabIndicator.nativeElement, this.classes.indicatorForServer);
           }
-          this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this.classes.tabsIndicatorForServer);
+          this.renderer.addClass(this._selectedTab!._tabIndicator.nativeElement, this.classes.indicatorForServer);
         }
       });
     } else {
@@ -811,12 +811,12 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     if (this._tabs._selectedIndex === this._tab.index) {
       if (!this._activeTabStyle) {
         this._activeTabStyle = true;
-        this._renderer.addClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
+        this._renderer.addClass(this._el.nativeElement, this._tabs.classes.labelActive);
         this._updateTabScroll();
       }
     } else if (this._activeTabStyle) {
       this._activeTabStyle = false;
-      this._renderer.removeClass(this._el.nativeElement, this._tabs.classes.tabLabelActive);
+      this._renderer.removeClass(this._el.nativeElement, this._tabs.classes.labelActive);
     }
   }
 
