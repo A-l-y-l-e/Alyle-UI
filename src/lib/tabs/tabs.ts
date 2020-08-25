@@ -100,7 +100,7 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
       position: relative
       display: inline-flex
     }`,
-    /** Tab content */
+    /** Tab container */
     contentContainer: lyl `{
       display: flex
       overflow: hidden
@@ -165,6 +165,7 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
       position: relative
       overflow: auto
     }`,
+    contentActive: null,
     contentInner: null,
     indicator: lyl `{
       position: absolute
@@ -598,6 +599,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
           .getBoundingClientRect().height
         : null;
       this.renderer.removeClass(container, this.classes.hiddenContent);
+      this.renderer.addClass(container, this.classes.contentActive);
 
       if (this._platform.isBrowser && this.dynamicHeight) {
         if (this._timeoutIds[tabIndex] != null) {
@@ -624,6 +626,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       }
 
     } else { // Update previous selected tab
+      this.renderer.removeClass(container, this.classes.contentActive);
       if (this._platform.isBrowser && this._selectedBeforeIndex === tabIndex) {
         if (this.dynamicHeight) {
           const { nativeElement: contentAfter } = this.tabContentList
