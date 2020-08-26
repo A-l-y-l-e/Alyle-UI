@@ -592,6 +592,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
 
   ngAfterViewInit() {
     this._updateFloatingLabel();
+    this._updateDisplayWith();
     this._renderer.addClass(this._el.nativeElement, this.classes.animations);
   }
 
@@ -683,7 +684,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   }
 
   private _updateDisplayWith() {
-    this._control?.sRenderer.toggleClass(this.classes._hiddenInput, this.displayWithStatus);
+    this._control!.sRenderer.toggleClass(this.classes._hiddenInput, this.displayWithStatus);
   }
 
   private _markForCheck() {
