@@ -344,7 +344,7 @@ export function Style<INPUT = any, C = any>(
 }
 
 /**
- * Create a style for component with a key
+ * Create a responsive style for component with a key
  * @param c The component
  * @param propertyKeyConfig Style key
  * @param value value
