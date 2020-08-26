@@ -162,6 +162,11 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
           font-size: inherit
         }
       }
+      ${classes.prefix}, ${classes.suffix} {
+        position: relative
+        white-space: nowrap
+        flex: none
+      }
       {
         ...${
           (theme.field
@@ -184,9 +189,10 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
     container: lyl `{
       height: 100%
       display: flex
-      align-items: center
+      align-items: baseline
       position: relative
       -webkit-tap-highlight-color: transparent
+      box-sizing: border-box
       &:after {
         ...${LY_COMMON_STYLES.fill}
         content: ''
@@ -204,24 +210,17 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       height: 2px
     }`,
     prefix: lyl `{
-      position: relative
       max-height: 2em
-      display: flex
-      align-items: center
     }`,
     infix: lyl `{
       display: inline-flex
       position: relative
-      align-items: baseline
       min-width: 0
       width: 180px
-      flex: 1 0
+      flex: auto
     }`,
     suffix: lyl `{
-      position: relative
       max-height: 2em
-      display: flex
-      align-items: center
     }`,
     labelContainer: lyl `{
       ...${LY_COMMON_STYLES.fill}
