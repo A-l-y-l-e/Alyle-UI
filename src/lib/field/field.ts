@@ -337,7 +337,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
     }`,
     disabled: ( ) => lyl `{
       &, & ${classes.label}, & ${classes.container}:after {
-        color: ${theme.disabled.default}
+        color: ${theme.disabled.contrast}
         cursor: default
       }
     }`,
