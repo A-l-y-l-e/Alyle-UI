@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LyCommonModule } from '@alyle/ui';
+import { ObserversModule } from '@angular/cdk/observers';
 import { LyField, LyNativeControl, STYLES } from './field';
 import { LyPlaceholder } from './placeholder';
 import { LyLabel } from './label';
@@ -14,7 +15,8 @@ import { LyDisplayWith } from './display-with';
 @NgModule({
   imports: [
     CommonModule,
-    LyCommonModule
+    LyCommonModule,
+    ObserversModule
   ],
   exports: [
     LyField,

@@ -145,18 +145,18 @@ export class MinimaBase extends LyStyleUtils {
           &:not(${classes.disabled}) ${classes.container}:hover:after {
             border-bottom-color: currentColor
           }
+          ${classes.infix} {
+            border-top: ${1.125 * 0.75}em solid transparent
+          }
+          ${classes.infix}, ${classes.placeholder}, ${classes.displayWith} {
+            padding: .5em 0
+          }
           &${classes.disabled} ${classes.container}:after {
             border-bottom-style: dotted
             border-color: inherit
           }
-          textarea${classes.inputNative} {
-            margin: 0.25em 0
-          }
-          ${classes.inputNative}:not(textarea) {
-            padding: 0.25em 0
-          }
           & ${classes.container} {
-            padding: 1em 0 0
+            padding-top: 0.75em
             &:after {
               border-bottom-style: solid
               border-bottom-width: 1px
@@ -169,13 +169,12 @@ export class MinimaBase extends LyStyleUtils {
             }
           }
           & ${classes.label} {
-            margin: 0.25em 0
-          }
-          & ${classes.placeholder} {
-            margin: 0.25em 0
+            padding-top: ${1.125 * 0.75}em
+            margin-top: ${-1.125 * 0.75 + 0.5}em
           }
           & ${classes.floatingLabel} {
-            transform: translateY(-1.25em)
+            transform: translateY(${1.125 * -0.75 - 0.5}em)
+            transform-origin: ${this.before}
           }
         }`
       ),
@@ -184,15 +183,15 @@ export class MinimaBase extends LyStyleUtils {
           &:not(${classes.focused}):not({disabled}):hover ${classes.fieldset} {
             border-color: currentColor
           }
+          ${classes.infix} {
+            border-top: ${1.125 * 0.75}em solid transparent
+          }
+          ${classes.infix}, ${classes.placeholder}, ${classes.displayWith} {
+            padding: 1em 0
+          }
           &${classes.focused} ${classes.fieldset} {
             border-width: 2px
             border-color: inherit
-          }
-          & textarea${classes.inputNative} {
-            margin: 1em 0
-          }
-          & ${classes.inputNative}:not(textarea) {
-            padding: 1em 0
           }
           & ${classes.container} {
             padding: 0 0.75em
@@ -201,25 +200,20 @@ export class MinimaBase extends LyStyleUtils {
             border-width: 1px
             border-radius: 5px
             padding: 0 .5em
+            margin-top: .25em
           }
-          & ${classes.prefix} {
-            &:after {
-              padding: 0.25em
-            }
-          }
-          & ${classes.suffix} {
+          & ${classes.prefix}, ${classes.suffix} {
+            top: 0.25em
             &:after {
               padding: 0.25em
             }
           }
           & ${classes.label} {
-            margin: 1em 0
+            padding-top: ${1.125 * 0.75}em
+            margin-top: ${1.125 * 0.75 - 1}em
           }
-          & ${classes.placeholder} {
-            margin: 1em 0
-          }
-          & ${classes.floatingLabel}${classes.label} {
-            transform: translateY(-1.75em)
+          & ${classes.floatingLabel} {
+            transform: translateY(${-1.125 * 0.75 - 0.75}em)
           }
           & ${classes.hintContainer} {
             padding: 0 0.75em
@@ -231,15 +225,15 @@ export class MinimaBase extends LyStyleUtils {
           &:not(${classes.focused}):not(${classes.disabled}) ${classes.container}:hover:after {
             border-bottom-width: 1px
           }
-          textarea${classes.inputNative} {
-            margin: 1.59375em 0 0.40625em
+          ${classes.infix} {
+            border-top: ${1.125 * 0.75}em solid transparent
           }
-          ${classes.inputNative}:not(textarea) {
-            padding: 1.59375em 0 0.40625em
+          ${classes.infix}, ${classes.placeholder}, ${classes.displayWith} {
+            padding: 0.25em 0 0.75em
           }
           & ${classes.container} {
+            padding: .75em .75em 0 .75em
             border-radius: 5px 5px 0 0
-            padding: 0 0.75em
             &:after {
               border-bottom-style: solid
               border-bottom-color: currentColor
@@ -251,14 +245,13 @@ export class MinimaBase extends LyStyleUtils {
               border-bottom-width: 2px
             }
           }
-          & ${classes.placeholder} {
-            margin: 1.59375em 0 0.40625em
-          }
           & ${classes.label} {
-            margin: 1em 0
+            padding-top: ${1.125 * 0.75}em
+            margin-top: ${-1.125 * 0.75 - .25}em
           }
-          & ${classes.floatingLabel}${classes.label} {
-            transform: translateY(-.75em)
+          & ${classes.floatingLabel} {
+            transform: translateY(${1.125 * -0.75 + 0.25}em)
+            transform-origin: ${this.before}
           }
           & ${classes.hintContainer} {
             padding: 0 0.75em

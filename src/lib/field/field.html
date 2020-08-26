@@ -1,5 +1,9 @@
-<div [className]="classes.container" (click)="_control && _control.onContainerClick && _control.onContainerClick($event)">
-  <fieldset [className]="classes.fieldset"><legend #_fieldsetLegend [className]="classes.fieldsetSpan"></legend></fieldset>
+<div #_container
+  [className]="classes.container"
+  (click)="_control && _control.onContainerClick && _control.onContainerClick($event)">
+  <fieldset
+    *ngIf="appearance === 'outlined'"
+    [className]="classes.fieldset"><legend [className]="classes.fieldsetSpan"></legend></fieldset>
   <div [className]="classes.prefix" *ngIf="_prefixChildren.length" #_prefixContainer>
     <ng-content select="[lyPrefix]"></ng-content>
   </div>
@@ -10,12 +14,17 @@
       <ng-content select="ly-display-with"></ng-content>
     </ng-container>
     <ng-content></ng-content>
-    <div [className]="classes.label" *ngIf="_isLabel()" #_labelContainer2>
-      <span #_labelSpan [className]="classes.labelSpan">
+    <span [className]="classes.label" *ngIf="_isLabel()" #_labelContainer2>
+      <span #_labelSpan [className]="classes.labelSpan"
+        (cdkObserveContent)="_updateFielsetSpan()"
+        [cdkObserveContentDisabled]="appearance != 'outlined'"
+      >
         <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
       </span>
-    </div>
-    <div [className]="classes.placeholder" *ngIf="_isPlaceholder() && _control?.empty && (_control?.floatingLabel || floatingLabel)">
+    </span>
+    <div [className]="classes.placeholder"
+      *ngIf="_isPlaceholder() && _control?.empty && (_control?.floatingLabel || floatingLabel)"
+    >
       <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
     </div>
   </div>
@@ -42,5 +51,5 @@
 
 <ng-template #_placeholderTemplate>
   <ng-content select="ly-placeholder"></ng-content>
-  <ng-container *ngIf="_control?.placeholder">{{ _control?.placeholder }}</ng-container>
+  <span *ngIf="_control?.placeholder">{{ _control?.placeholder }}</span>
 </ng-template>
