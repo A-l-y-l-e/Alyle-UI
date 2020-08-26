@@ -31,6 +31,7 @@
       [elevation]="8"
       [shadowColor]="'demoBg'"
       scrollable
+      [animationDuration]="0"
     >
       <ly-tab *ngFor="let file of files; let i = index">
         <button ly-tab-label>{{ file.label }}</button>

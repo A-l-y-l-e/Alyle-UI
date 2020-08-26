@@ -8,12 +8,18 @@ import { FieldPlaygroundModule } from './field-playground/field-playground.modul
 import { SimpleFormModule } from './simple-form/simple-form.module';
 import { FieldWithCdkAutosizeModule } from './field-with-cdk-autosize/field-with-cdk-autosize.module';
 import { FieldWithCdkAutosizeComponent } from './field-with-cdk-autosize/field-with-cdk-autosize.component';
+import { FieldWithPrefixAndSuffixComponent } from './field-with-prefix-and-suffix/field-with-prefix-and-suffix.component';
+import { FieldWithPrefixAndSuffixModule } from './field-with-prefix-and-suffix/field-with-prefix-and-suffix.module';
+import { FieldWithDisplayWithModule } from './field-with-display-with/field-with-display-with.module';
+import { FieldWithDisplayWithComponent } from './field-with-display-with/field-with-display-with.component';
 
 const elements = [
   BasicFieldComponent,
   FieldPlaygroundComponent,
   SimpleFormComponent,
-  FieldWithCdkAutosizeComponent
+  FieldWithCdkAutosizeComponent,
+  FieldWithPrefixAndSuffixComponent,
+  FieldWithDisplayWithComponent
 ];
 
 @NgModule({
@@ -21,7 +27,9 @@ const elements = [
     BasicFieldModule,
     FieldPlaygroundModule,
     SimpleFormModule,
-    FieldWithCdkAutosizeModule
+    FieldWithCdkAutosizeModule,
+    FieldWithPrefixAndSuffixModule,
+    FieldWithDisplayWithModule
   ],
   entryComponents: elements
 })

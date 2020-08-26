@@ -2,20 +2,19 @@
   (ngSubmit)="onSubmit()"
   [className]="classes.container"
 >
-  <ly-field appearance="filled" fullWidth>
+  <ly-field appearance="filled" [lyWidth]="1" [persistentHint]="true">
     <input lyNativeControl
       type="text"
-      placeholder="Username"
       formControlName="username"
     >
-    <ly-hint>Hint</ly-hint>
+    <ly-label>Username</ly-label>
     <ly-error *ngIf="username.hasError('minlength')">Min 5 characters</ly-error>
     <ly-error *ngIf="username.hasError('maxlength')">Max 16 characters</ly-error>
     <ly-error *ngIf="username.hasError('required')">Required</ly-error>
     <ly-hint [align]="'after'">{{ username.value?.length || 0 }}/16</ly-hint>
   </ly-field>
 
-  <ly-field appearance="filled" fullWidth>
+  <ly-field appearance="filled" [lyWidth]="1">
     <textarea lyNativeControl formControlName="bio"></textarea>
     <ly-label>Bio <ly-icon>favorite</ly-icon></ly-label>
     <ly-hint>Hint</ly-hint>
@@ -24,28 +23,29 @@
     <ly-error *ngIf="bio.hasError('maxlength')">Max 256 characters</ly-error>
   </ly-field>
 
-  <ly-field appearance="filled" fullWidth>
+  <ly-field appearance="filled" [lyWidth]="1">
+    <ly-label>Phone number</ly-label>
     <input lyNativeControl
       type="number"
-      placeholder="Phone number"
       formControlName="phone"
     >
     <ly-hint>Hint</ly-hint>
     <ly-error>Required</ly-error>
   </ly-field>
 
-  <ly-field appearance="filled" fullWidth>
+  <ly-field appearance="filled" [lyWidth]="1">
+    <ly-label>Email address</ly-label>
     <input lyNativeControl
       type="text"
-      placeholder="Email address"
       formControlName="email"
     >
     <ly-hint>Hint</ly-hint>
     <ly-error>Required</ly-error>
   </ly-field>
 
-  <ly-field appearance="filled" fullWidth>
-    <ly-select placeholder="Select something"
+  <ly-field appearance="filled" [lyWidth]="1">
+    <ly-label>Select something</ly-label>
+    <ly-select
       formControlName="option"
     >
       <ly-option value="opt-1">Item 1</ly-option>
