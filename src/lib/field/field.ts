@@ -252,6 +252,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       overflow: hidden
       display: block
       width: 100%
+      height: 100%
       transform-origin: ${before} 0
     }`,
     isFloatingLabel: null,
