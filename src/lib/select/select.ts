@@ -94,8 +94,7 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
     root: () => lyl `{
       display: block
       padding-${after}: 1em
-      min-width: em
-      min-height: 1.5em
+      min-height: 1em
       -webkit-tap-highlight-color: transparent
       {
         ...${
