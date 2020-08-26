@@ -314,7 +314,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
     }`,
     /** Is used to hide the input when `displayWith` is shown */
     _hiddenInput: lyl `{
-      opacity: 0
+      color: transparent
     }`,
     displayWith: lyl `{
       ...${LY_COMMON_STYLES.fill}
@@ -322,6 +322,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       text-overflow: ellipsis
       overflow: hidden
       width: 100%
+      pointer-events: none
     }`,
     hintContainer: lyl `{
       min-height: 1.25em

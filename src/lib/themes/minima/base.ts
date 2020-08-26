@@ -202,10 +202,9 @@ export class MinimaBase extends LyStyleUtils {
             padding: 0 .5em
             margin-top: .25em
           }
-          & ${classes.prefix}, ${classes.suffix} {
-            top: 0.25em
-            &:after {
-              padding: 0.25em
+          ${classes.prefix}, ${classes.suffix} {
+            [ly-button] {
+              top: 0.25em
             }
           }
           & ${classes.label} {
