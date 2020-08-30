@@ -148,6 +148,33 @@ const ANIMATIONS = [
 })
 export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
+  /** Menu Trigger */
+  @Input()
+  set ref(value: LyMenuTriggerFor) {
+    this._ref = value;
+    this._menuRef = value._menuRef!;
+  }
+  get ref() {
+    return this._ref;
+  }
+
+  /** Whether the menu has a backdrop. */
+  @Input()
+  get hasBackdrop(): boolean {
+    return this._hasBackdrop;
+  }
+  set hasBackdrop(value: boolean) {
+    this._hasBackdrop = coerceBooleanProperty(value);
+  }
+
+  constructor(
+    private _theme: LyTheme2,
+    private _el: ElementRef,
+    private _renderer: Renderer2,
+    private _viewportRuler: ViewportRuler,
+    readonly sRenderer: StyleRenderer
+  ) { }
+
   /** @docs-private */
   static readonly и = 'LyMenu';
 
@@ -174,16 +201,6 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   destroy: () => void;
   @ViewChild('container', { static: false }) _container?: ElementRef<HTMLDivElement>;
   @ContentChildren(forwardRef(() => LyMenuItem)) readonly menuItems?: QueryList<LyMenuItem>;
-
-  /** Menu Trigger */
-  @Input()
-  set ref(value: LyMenuTriggerFor) {
-    this._ref = value;
-    this._menuRef = value._menuRef!;
-  }
-  get ref() {
-    return this._ref;
-  }
   private _ref: LyMenuTriggerFor;
 
   /** The point in the anchor where the menu `xAxis` will be attached. */
@@ -216,24 +233,11 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
    * @deprecated Use `yAxis` instead.
    */
   @Input() yPosition: YPosition;
-
-  /** Whether the menu has a backdrop. */
-  @Input()
-  get hasBackdrop(): boolean {
-    return this._hasBackdrop;
-  }
-  set hasBackdrop(value: boolean) {
-    this._hasBackdrop = coerceBooleanProperty(value);
-  }
   private _hasBackdrop: boolean = true;
+  private _mouseenterListen?: () => void;
+  private _mouseleaveListen?: () => void;
 
-  constructor(
-    private _theme: LyTheme2,
-    private _el: ElementRef,
-    private _renderer: Renderer2,
-    private _viewportRuler: ViewportRuler,
-    readonly sRenderer: StyleRenderer
-  ) { }
+  @HostBinding('@transformMenuLeave') transformMenuLeave: unknown;
 
   ngOnChanges() {
     if (
@@ -320,8 +324,6 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         );
     }
   }
-  private _mouseenterListen?: () => void;
-  private _mouseleaveListen?: () => void;
 
   /** Remove listeners */
   private _removeOpenOnHoverListeners() {
@@ -334,12 +336,9 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Update Menu Position */
-  private _updatePlacement () {
-    // const el = this.ref._menuRef?.containerElement;
-    // const container = this._container?.nativeElement;
-    let _a: any, _b: any;
-    const el = (_a = this.ref._menuRef) === null || _a === void 0 ? void 0 : _a.containerElement;
-    const container = (_b = this._container) === null || _b === void 0 ? void 0 : _b.nativeElement;
+  private _updatePlacement() {
+    const el = this.ref._menuRef ? this.ref._menuRef.containerElement : null;
+    const container = this._container ? this._container.nativeElement : null;
 
     // Do not update when not available
     if (!el || !container) {
@@ -384,8 +383,6 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     }
 
   }
-
-  @HostBinding('@transformMenuLeave') transformMenuLeave: unknown;
   @HostListener('@transformMenuLeave.start', ['$event']) _onAnimationStart(event: AnimationEvent) {
     this._isAnimating = true;
     if (event.triggerName === 'transformMenuLeave' && event.toState === 'void') {
@@ -399,7 +396,6 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
       this.ref.destroy(this._menuRef);
     }
   }
-
 }
 
 @Directive({
@@ -418,6 +414,7 @@ export class LyMenuItem {
   ) {
     renderer.addClass(el.nativeElement, _menu.classes.item);
   }
+  private _itemSubMenuTrigger?: LyMenuTriggerFor;
 
   _handleClick() {
     if (this._menu.ref && this._menu.ref._menuRef) {
@@ -470,7 +467,6 @@ export class LyMenuItem {
   _getItemSubMenuTrigger() {
     return this._itemSubMenuTrigger;
   }
-  private _itemSubMenuTrigger?: LyMenuTriggerFor;
 }
 
 

@@ -5,8 +5,10 @@ import { LyDialogRef, LyDialog } from '@alyle/ui/dialog';
 const STYLES = (theme: ThemeVariables) => {
   return {
     dialog: lyl `{
-      @media ${theme.breakpoints['Small']},
-      ${theme.breakpoints['XSmall']} {
+      @media ${[
+        theme.breakpoints['Small'],
+        theme.breakpoints['XSmall']
+      ].join()} {
         border-radius: 0
       }
     }`

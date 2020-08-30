@@ -254,8 +254,8 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
   set checked(val: boolean) {
     const newVal = toBoolean(val);
     // if (newVal !== this.checked) {
-      this._checked = newVal;
-      if (newVal) {
+    this._checked = newVal;
+    if (newVal) {
         this._renderer.addClass(this._el.nativeElement, this.classes.checked);
       } else {
         this._renderer.removeClass(this._el.nativeElement, this.classes.checked);

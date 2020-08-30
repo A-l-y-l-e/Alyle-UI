@@ -161,7 +161,7 @@ export function withMediaInline(
       });
     }
   } else if (typeof str === 'number' || str === null || str === undefined) {
-    styleCollection.add(transformer(<any>str, null));
+    styleCollection.add(transformer(str as any, null));
   } else {
     for (let index = 0; index < str.length; index++) {
       const val = str[index];
@@ -246,7 +246,7 @@ export function eachMedia(
       }
     }
   } else if (typeof str === 'number' || typeof str === 'string' || str === null || str === undefined) {
-    resolveMediaEachItemStyle(fn, <any>str, null, 0, styleCollection);
+    resolveMediaEachItemStyle(fn, str as any, null, 0, styleCollection);
   } else {
     // is array
     for (let index = 0; index < str.length; index++) {

@@ -1,0 +1,40 @@
+<ly-grid container [spacing]="16">
+  <ly-grid item col="4 6@XSmall@Small">
+    <ly-field appearance="outlined" [lyWidth]="1">
+      <span lySuffix>Kg</span>
+      <input lyNativeControl
+        type="number"
+        value="10"
+      >
+      <ly-label>Weight</ly-label>
+      <ly-hint>Hint</ly-hint>
+    </ly-field>
+  </ly-grid>
+  <ly-grid item col="4 6@XSmall@Small">
+    <ly-field appearance="outlined" [lyWidth]="1">
+      <input lyNativeControl
+        type="string"
+        value="example"
+      >
+      <span lySuffix>@gmail.com</span>
+      <ly-label>Email</ly-label>
+      <ly-hint>Hint</ly-hint>
+    </ly-field>
+  </ly-grid>
+  <ly-grid item col="4 6@XSmall@Small">
+    <ly-field appearance="outlined" [lyWidth]="1">
+      <input lyNativeControl
+        type="string"
+        value="example"
+      >
+      <button ly-button appearance="icon" lyPrefix [lyMf]="'0.25em'">
+        <ly-icon>add_circle</ly-icon>
+      </button>
+      <button ly-button appearance="icon" lySuffix>
+        <ly-icon>mic</ly-icon>
+      </button>
+      <ly-label>Label</ly-label>
+      <ly-hint>Hint</ly-hint>
+    </ly-field>
+  </ly-grid>
+</ly-grid>
