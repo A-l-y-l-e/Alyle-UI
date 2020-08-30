@@ -1,5 +1,5 @@
-version: 9.0.1
-lastUpdate: '2020-08-15T00:25:36.312Z'
+version: 9.1.0
+lastUpdate: '2020-08-30T22:33:58.002Z'
 components:
   '@alyle/ui': /
   '@alyle/ui/color': color
