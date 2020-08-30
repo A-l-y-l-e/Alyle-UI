@@ -11,7 +11,7 @@
       >
       <ly-hint>Hint</ly-hint>
       <ly-error *ngIf="username.hasError('minlength')">Min 5 characters</ly-error>
-      <ly-error *ngIf="username.hasError('maxlength')">Max 16 characters</ly-error>
+      <ly-error *ngIf="username.hasError('maxlength')">Max 32 characters</ly-error>
       <ly-error *ngIf="username.hasError('required')">Required</ly-error>
       <ly-hint [align]="'after'">{{ username.value?.length || 0 }}/32</ly-hint>
     </ly-field>

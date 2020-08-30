@@ -1,0 +1,9 @@
+<ly-field appearance="filled">
+  <input lyNativeControl
+    type="number"
+    [formControl]="price"
+  >
+  <ly-label>Price</ly-label>
+  <ly-display-with>{{ price.value | currency }}</ly-display-with>
+  <ly-hint>Hint</ly-hint>
+</ly-field>

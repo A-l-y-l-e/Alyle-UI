@@ -303,9 +303,9 @@ export class GlobalVariables {
         '@angular/platform-browser-dynamic': VERSION.full,
         'core-js': '^2.6.1',
         'zone.js': '^0.9.1',
-        'rxjs': '^6.4.0',
-        'hammerjs': '2.0.8',
-        'tslib': '^1.10.0',
+        rxjs: '^6.4.0',
+        hammerjs: '2.0.8',
+        tslib: '^1.10.0',
         'web-animations-js': 'latest'
       },
       settings: {

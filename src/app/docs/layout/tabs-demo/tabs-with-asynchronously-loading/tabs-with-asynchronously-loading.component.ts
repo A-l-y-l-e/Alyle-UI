@@ -18,7 +18,7 @@ export class TabsWithAsynchronouslyLoadingComponent {
   constructor(
     platform: Platform
   ) {
-    this.asyncTabs = Observable.create((observer: Observer<ExampleTab[]>) => {
+    this.asyncTabs = new Observable((observer: Observer<ExampleTab[]>) => {
       if (platform.isBrowser) {
         setTimeout(() => {
           observer.next([
