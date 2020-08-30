@@ -690,7 +690,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
   _rootClasses = new Set<string>();
 
-  @ViewChild('bg') _bg?: ElementRef<HTMLDivElement>;
+  @ViewChild('bg', { static: false }) _bg?: ElementRef<HTMLDivElement>;
   @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
   @ViewChild('ticksRef', { static: true }) _ticksRef: ElementRef<HTMLDivElement>;
   @ViewChildren('thumbsRef') _thumbsRef?: QueryList<ElementRef<HTMLDivElement>>;
