@@ -8,9 +8,8 @@
   <div [className]="classes.contents" #tabContents>
     <div #tabContent *ngFor="let item of tabsList; index as x" [className]="classes.content">
       <div [className]="classes.contentInner">
-        <ng-template #_template="ngTransclude"
-          [timeout]="animationDuration"
-          [ngTransclude]="loadTemplate(item, x, tabContent)"
+        <ng-template
+          [cdkPortalOutlet]="loadTemplate(item, x)"
         ></ng-template>
       </div>
     </div>

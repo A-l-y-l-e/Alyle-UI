@@ -1,11 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
-
-const styles = ({
-  content: {
-    padding: '2em'
-  }
-});
 
 @Component({
   selector: 'aui-tabs-with-lazy-loading',
@@ -13,12 +6,9 @@ const styles = ({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabsWithLazyLoadingComponent {
-  readonly classes = this.theme.addStyleSheet(styles);
   tabLoadTimes: Date[] = [];
 
-  constructor(
-    private theme: LyTheme2
-  ) { }
+  constructor() { }
 
   getTime(index: number) {
     if (!this.tabLoadTimes[index]) {
