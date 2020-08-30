@@ -29,6 +29,43 @@
 * **tabs:** add `animationDuration`option ([925e40a](https://github.com/A-l-y-l-e/Alyle-UI/commit/925e40a060902baf136cdd6d791899b5e1a5b3cf))
 
 
+# [9.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.0...9.1.0) (2020-08-30)
+
+### Bug Fixes
+
+* **typography:** fix `body1` ([c3c095d](https://github.com/A-l-y-l-e/Alyle-UI/commit/c3c095d83c3dbedb06ee8a6d5e2a820d2ef26c8b))
+* remove redundant prefixes from styles (`tab`) ([98be60a](https://github.com/A-l-y-l-e/Alyle-UI/commit/98be60a3dd02fae0916b970bc09c43f55ea35bef))
+* **tabs:** when changing tabs the content shows the `overflowY` with `dynamicHeight` ([26dd227](https://github.com/A-l-y-l-e/Alyle-UI/commit/26dd2271b441bd19ba76da09b9c17bb901426c58))
+
+
+### Features
+
+* **field:** improve styles ([fb6c43b](https://github.com/A-l-y-l-e/Alyle-UI/commit/fb6c43bd947dd622335eb834d6aeee0a8bb4847e))
+* **tabs:** improve tabs ([684c28b](https://github.com/A-l-y-l-e/Alyle-UI/commit/684c28b6ded4951d1625172e1dd1cc6446b5cfa2))
+* add `contentActive` className when a` content` is active ([8fa11fa](https://github.com/A-l-y-l-e/Alyle-UI/commit/8fa11faf3aa0d9725f3c5c6f301a5d942290330c))
+* **field:** add `ly-display-with` ([ea67154](https://github.com/A-l-y-l-e/Alyle-UI/commit/ea67154ee19dd6a03f171d4c215d5758b3127954))
+* **tabs:** add `animationDuration`option ([925e40a](https://github.com/A-l-y-l-e/Alyle-UI/commit/925e40a060902baf136cdd6d791899b5e1a5b3cf))
+
+
+# [8.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.0...8.1.0) (2020-08-30)
+
+
+### Bug Fixes
+
+* **typography:** fix `body1` ([c3c095d](https://github.com/A-l-y-l-e/Alyle-UI/commit/c3c095d83c3dbedb06ee8a6d5e2a820d2ef26c8b))
+* remove redundant prefixes from styles (`tab`) ([98be60a](https://github.com/A-l-y-l-e/Alyle-UI/commit/98be60a3dd02fae0916b970bc09c43f55ea35bef))
+* **tabs:** when changing tabs the content shows the `overflowY` with `dynamicHeight` ([26dd227](https://github.com/A-l-y-l-e/Alyle-UI/commit/26dd2271b441bd19ba76da09b9c17bb901426c58))
+
+
+### Features
+
+* **field:** improve styles ([fb6c43b](https://github.com/A-l-y-l-e/Alyle-UI/commit/fb6c43bd947dd622335eb834d6aeee0a8bb4847e))
+* **tabs:** improve tabs ([684c28b](https://github.com/A-l-y-l-e/Alyle-UI/commit/684c28b6ded4951d1625172e1dd1cc6446b5cfa2))
+* add `contentActive` className when a` content` is active ([8fa11fa](https://github.com/A-l-y-l-e/Alyle-UI/commit/8fa11faf3aa0d9725f3c5c6f301a5d942290330c))
+* **field:** add `ly-display-with` ([ea67154](https://github.com/A-l-y-l-e/Alyle-UI/commit/ea67154ee19dd6a03f171d4c215d5758b3127954))
+* **tabs:** add `animationDuration`option ([925e40a](https://github.com/A-l-y-l-e/Alyle-UI/commit/925e40a060902baf136cdd6d791899b5e1a5b3cf))
+
+
 
 # [10.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.1...10.0.0) (2020-08-17)
 
