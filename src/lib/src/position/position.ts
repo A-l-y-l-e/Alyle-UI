@@ -129,7 +129,7 @@ export class Positioning {
         ox = 'center',
         oy = 'center';
     // if (this.placement) {
-      if (this.placement === YPosition.above) {
+    if (this.placement === YPosition.above) {
         x += (this._originRect.width - this._overlayElementRect.width) / 2;
         y += -this._overlayElementRect.height;
         oy = 'bottom';
@@ -162,7 +162,7 @@ export class Positioning {
         }
       }
 
-      if (this.xPosition) {
+    if (this.xPosition) {
         const dir = this._themeVariables.getDirection(this.xPosition as any);
         if (dir === DirPosition.right) {
           ox = '0%';

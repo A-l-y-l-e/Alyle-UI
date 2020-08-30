@@ -9,8 +9,17 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LyDrawerModule } from '@alyle/ui/drawer';
 import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyMenuModule } from '@alyle/ui/menu';
-import { LyCommonModule, LY_THEME, LY_THEME_GLOBAL_VARIABLES, RecursivePartial, LY_THEME_NAME, LyTheme2, lyl, StyleRenderer, LyHammerGestureConfig } from '@alyle/ui';
-import { ResponsiveModule } from '@alyle/ui/responsive';
+import {
+  LyCommonModule,
+  LY_THEME,
+  LY_THEME_GLOBAL_VARIABLES,
+  RecursivePartial,
+  LY_THEME_NAME,
+  LyTheme2,
+  lyl,
+  StyleRenderer,
+  LyHammerGestureConfig
+} from '@alyle/ui';
 import { LyButtonModule } from '@alyle/ui/button';
 
 import { AppComponent } from './app.component';
@@ -143,7 +152,6 @@ export function themeNameProviderFactory() {
     BrowserAnimationsModule,
     RouterModule,
     // LyThemeModule.setTheme('minima-light'),
-    ResponsiveModule,
     LyCommonModule,
     LyButtonModule,
     LyDrawerModule,
