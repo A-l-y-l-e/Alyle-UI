@@ -429,7 +429,7 @@ export class MinimaBase extends LyStyleUtils {
       }`),
       body1: new StyleCollection(() => lyl `{
         font-size: ${this.pxToRem(16)}
-        font-weight: 400,
+        font-weight: 400
         letter-spacing: ${0.5 / 16}em
       }`),
       body2: new StyleCollection(() => lyl `{
