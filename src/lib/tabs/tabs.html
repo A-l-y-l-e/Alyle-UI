@@ -1,16 +1,15 @@
 <div #tabs [className]="classes.labelsContainer">
-  <div [className]="classes.tabsLabels">
+  <div [className]="classes.labels">
     <ng-content></ng-content>
     <span #tabsIndicator></span>
   </div>
 </div>
 <div [className]="classes.contentContainer">
-  <div [className]="classes.tabContents" #tabContents>
-    <div #tabContent *ngFor="let item of tabsList; index as x" [className]="classes.tabContent">
-      <div [className]="classes.tabContentInner">
-        <ng-template #_template="ngTransclude"
-          [timeout]="animationDuration"
-          [ngTransclude]="loadTemplate(item, x, tabContent)"
+  <div [className]="classes.contents" #tabContents>
+    <div #tabContent *ngFor="let item of tabsList; index as x" [className]="classes.content">
+      <div [className]="classes.contentInner">
+        <ng-template
+          [cdkPortalOutlet]="loadTemplate(item, x)"
         ></ng-template>
       </div>
     </div>

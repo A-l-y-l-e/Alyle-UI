@@ -344,7 +344,7 @@ export function Style<INPUT = any, C = any>(
 }
 
 /**
- * Create a style for component with a key
+ * Create a responsive style for component with a key
  * @param c The component
  * @param propertyKeyConfig Style key
  * @param value value
@@ -394,7 +394,7 @@ export function createStyle<INPUT, C>(
       const val = value[index];
       if (typeof val === 'number' || val === null || val === undefined) {
         _renderStyle(c, propertyKeyConfig, val, null, style, priority);
-      } if (typeof val === 'string') {
+      } else if (typeof val === 'string') {
         parseMediaQueryFromString(val).forEach((_) => {
           _renderStyle(c, propertyKeyConfig, _[0], _[1], style, priority);
         });
