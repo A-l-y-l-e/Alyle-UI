@@ -40,7 +40,7 @@ export class ComplexCheckboxComponent {
       }))
     )
   });
-  fruitsAbstractControlArray: AbstractControl[] = (<FormArray>this.form.get('fruits')).controls;
+  fruitsAbstractControlArray: AbstractControl[] = (this.form.get('fruits') as FormArray).controls;
 
   get selectedFruits() {
     const fruits = this.fruits.filter(_ => !_.disabled);

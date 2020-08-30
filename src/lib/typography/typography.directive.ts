@@ -76,9 +76,9 @@ export const LyTypographyMixinBase = mixinStyleUpdater(
 })
 export class LyTypography extends LyTypographyMixinBase implements OnInit, OnChanges {
   /** @docs-private */
-  readonly classes = this._theme.renderStyleSheet(STYLES);
-  /** @docs-private */
   static readonly и = 'LyTypography';
+  /** @docs-private */
+  readonly classes = this._theme.renderStyleSheet(STYLES);
   private _lyTyp: string;
   private _lyTypClass: string | null;
 
@@ -101,7 +101,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
       }
     }
   }
-  get lyTyp() {
+  get lyTyp(): string {
     return this._lyTyp;
   }
 
@@ -121,7 +121,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
       this._noWrapClass = undefined;
     }
   }
-  get noWrap() {
+  get noWrap(): boolean {
     return this._noWrap;
   }
 
@@ -188,7 +188,7 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
       (theme: LyTypographyVariables) => {
         if (theme.typography && theme.typography.lyTyp) {
           const lyTyp = theme.typography.lyTyp[val];
-            if (lyTyp) {
+          if (lyTyp) {
               return lyTyp instanceof StyleCollection
                 ? lyTyp.setTransformer((_) => _()).css
                 : lyTyp();
