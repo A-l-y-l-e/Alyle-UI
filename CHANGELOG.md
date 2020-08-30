@@ -1,3 +1,12 @@
+# [8.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.0...8.1.0) (2020-08-30)
+
+
+### Bug Fixes
+
+* support for Angular 8 ([e3e9bd4](https://github.com/A-l-y-l-e/Alyle-UI/commit/e3e9bd4ef29190ab3f495b64c419ab934801c91a))
+
+
+
 ## [8.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.0...8.0.2) (2020-08-14)
 
 
