@@ -361,73 +361,6 @@ export interface LySliderMark {
   }
 })
 export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
-  static и = 'LySlider';
-  readonly classes = this._theme.renderStyleSheet(STYLES);
-
-  private _disabled: boolean;
-  private _disabledClass: string | null;
-  private _color: string;
-  private _colorClass: string;
-
-  private _vertical: boolean;
-  private _verticalClass?: string | null;
-
-  private _appearance: string;
-  private _appearanceClass: string;
-
-  private _value: number | (number | null)[] | null = null;
-  private _thumbsOnSlideStart: Thumb[] | null;
-  private _valueOnSlideStart: number | (number | null)[] | null;
-
-  private _min: number = 0;
-  private _max: number = 100;
-
-  private _step: number = 1;
-  private _stepPrecision?: number | null;
-
-  private _closestIndex: number | null;
-  private _currentRect: DOMRect | null;
-
-  _changes = new Subject<void>();
-
-  /** Min percentage, this is for mark. */
-  _minPercent: number;
-  /** Max percentage, this is for mark. */
-  _maxPercent: number;
-
-  /**
-   * Whether or not the thumb is sliding.
-   */
-  _isSliding: boolean;
-  _slidingThumbValue?: number | null;
-
-  _thumbs: Thumb[] = [];
-
-  _rootClasses = new Set<string>();
-
-  @ViewChild('bg') _bg?: ElementRef<HTMLDivElement>;
-  @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
-  @ViewChild('ticksRef', { static: true }) _ticksRef: ElementRef<HTMLDivElement>;
-  @ViewChildren('thumbsRef') _thumbsRef?: QueryList<ElementRef<HTMLDivElement>>;
-
-  @Input() displayWith: (value: number | null) => string | number;
-
-  /** Event emitted when the slider value has changed. */
-  @Output() readonly change: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
-
-  /** Event emitted when the slider thumb moves. */
-  @Output() readonly input: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
-
-  /** @docs-private */
-  @Output() readonly valueChange: EventEmitter<number | (number | null)[] | null> = new EventEmitter<number | (number | null)[] | null>();
-
-  /**
-   * The registered callback function called when a blur event occurs on the input element.
-   * @docs-private
-   */
-  onTouched = () => {};
-
-  private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
   /** Whether or not to show the thumb. */
   @Input()
@@ -448,8 +381,6 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     }
   }
-
-  private _thumbVisible: boolean | null;
 
   /** Whether or not to show the marks, also accepts an array of marks. */
   @Input()
@@ -480,10 +411,6 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     }
 
   }
-
-  private _marks: boolean | LySliderMark[];
-  private _marksClass: string | null;
-  _marksList?: LySliderMark[] | null;
 
   /** The maximum value that the slider can have. */
   @Input()
@@ -704,12 +631,9 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     const newValue = toNumber(val, toBoolean(val));
     this._ticks = newValue;
   }
-  private _ticks: number | boolean;
-  _tickInterval: number;
   get _tickList() {
     return this.__tickList;
   }
-  private __tickList: number[];
   // private _ngClass: NgClass;
   constructor(
     private _theme: LyTheme2,
@@ -722,6 +646,82 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
+  static и = 'LySlider';
+  readonly classes = this._theme.renderStyleSheet(STYLES);
+
+  private _disabled: boolean;
+  private _disabledClass: string | null;
+  private _color: string;
+  private _colorClass: string;
+
+  private _vertical: boolean;
+  private _verticalClass?: string | null;
+
+  private _appearance: string;
+  private _appearanceClass: string;
+
+  private _value: number | (number | null)[] | null = null;
+  private _thumbsOnSlideStart: Thumb[] | null;
+  private _valueOnSlideStart: number | (number | null)[] | null;
+
+  private _min: number = 0;
+  private _max: number = 100;
+
+  private _step: number = 1;
+  private _stepPrecision?: number | null;
+
+  private _closestIndex: number | null;
+  private _currentRect: DOMRect | null;
+
+  _changes = new Subject<void>();
+
+  /** Min percentage, this is for mark. */
+  _minPercent: number;
+  /** Max percentage, this is for mark. */
+  _maxPercent: number;
+
+  /**
+   * Whether or not the thumb is sliding.
+   */
+  _isSliding: boolean;
+  _slidingThumbValue?: number | null;
+
+  _thumbs: Thumb[] = [];
+
+  _rootClasses = new Set<string>();
+
+  @ViewChild('bg') _bg?: ElementRef<HTMLDivElement>;
+  @ViewChild('track', { static: true }) _track: ElementRef<HTMLDivElement>;
+  @ViewChild('ticksRef', { static: true }) _ticksRef: ElementRef<HTMLDivElement>;
+  @ViewChildren('thumbsRef') _thumbsRef?: QueryList<ElementRef<HTMLDivElement>>;
+
+  @Input() displayWith: (value: number | null) => string | number;
+
+  /** Event emitted when the slider value has changed. */
+  @Output() readonly change: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
+
+  /** Event emitted when the slider thumb moves. */
+  @Output() readonly input: EventEmitter<LySliderChange> = new EventEmitter<LySliderChange>();
+
+  /** @docs-private */
+  @Output() readonly valueChange: EventEmitter<number | (number | null)[] | null> = new EventEmitter<number | (number | null)[] | null>();
+
+  private _thumbVisible: boolean | null;
+
+  private _marks: boolean | LySliderMark[];
+  private _marksClass: string | null;
+  _marksList?: LySliderMark[] | null;
+  private _ticks: number | boolean;
+  _tickInterval: number;
+  private __tickList: number[];
+
+  /**
+   * The registered callback function called when a blur event occurs on the input element.
+   * @docs-private
+   */
+  onTouched = () => {};
+
+  private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
   ngOnChanges() {
     this._updateTickValues();

@@ -164,7 +164,7 @@ export class LyTooltip implements OnInit, OnDestroy {
     if (!this._tooltipOverlay && this.tooltip && !this._showTimeoutId) {
       const tooltipRef = this.tooltip;
 
-      this._showTimeoutId = <any>setTimeout(() => {
+      this._showTimeoutId = setTimeout(() => {
         // const rect = this._el.nativeElement.getBoundingClientRect();
         const tooltip = this._tooltipOverlay = this._overlay.create(tooltipRef, undefined, {
           styles: {
@@ -190,8 +190,6 @@ export class LyTooltip implements OnInit, OnDestroy {
           hasBackdrop: false
         });
         this._updatePosition();
-        // const position = new Positioning(this.placement, this.xPosition, this.yPosition, this._el.nativeElement, tooltip.containerElement, this._theme.variables, 13);
-        // tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0)`;
 
         this._theme.requestAnimationFrame(() => {
           this._theme.addStyle('lyTooltip:open', ({
@@ -201,7 +199,7 @@ export class LyTooltip implements OnInit, OnDestroy {
 
         this._showTimeoutId = null;
         this._markForCheck();
-      }, delay);
+      }, delay) as any;
     }
   }
 
@@ -215,14 +213,14 @@ export class LyTooltip implements OnInit, OnDestroy {
     }
     if (tooltipOverlay && !this._hideTimeoutId) {
 
-      this._hideTimeoutId = <any>setTimeout(() => {
+      this._hideTimeoutId = setTimeout(() => {
         this._renderer.removeClass(tooltipOverlay.containerElement, this._theme.addStyle('lyTooltip:open', null));
         setTimeout(() => tooltipOverlay.destroy(), 300);
         this._tooltipOverlay = null;
 
         this._hideTimeoutId = null;
         this._markForCheck();
-      }, delay);
+      }, delay) as any;
     }
   }
 

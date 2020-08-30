@@ -3,7 +3,7 @@
     <ly-tab>
       <button ly-tab-label>Home</button>
       <ng-template ly-tab-content>
-        <p lyTyp="body1" [withClass]="classes.content">
+        <p lyTyp="body1" [lyP]="4">
           Home content - loaded: {{ getTime(1) | date:'EEEE, h:mm:ss a' }}
         </p>
       </ng-template>
@@ -11,7 +11,7 @@
     <ly-tab>
       <button ly-tab-label>Pages</button>
       <ng-template ly-tab-content>
-        <p lyTyp="body1" [withClass]="classes.content">
+        <p lyTyp="body1" [lyP]="4">
           Pages content - loaded: {{ getTime(2) | date:'EEEE, h:mm:ss a' }}
         </p>
       </ng-template>
@@ -19,7 +19,7 @@
     <ly-tab>
       <button ly-tab-label>Post</button>
       <ng-template ly-tab-content>
-        <p lyTyp="body1" [withClass]="classes.content">
+        <p lyTyp="body1" [lyP]="4">
           Post content - loaded: {{ getTime(3) | date:'EEEE, h:mm:ss a' }}
         </p>
       </ng-template>

@@ -7,7 +7,7 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 
-> Currently the latest version of Alyle UI supports Angular 9, if your project uses Angular 8, you can use version `@alyle/ui@8.0.1`.
+> Currently the latest version of Alyle UI supports Angular 10, if your project uses Angular 9, you can use Alyle UI 9.
 
 ## Angular CLI
 
@@ -71,7 +71,8 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
     // Add components
     LyButtonModule,
     LyToolbarModule,
-    LyImageCropperModule
+    LyImageCropperModule,
+    // ...
     // Gestures
     HammerModule
   ],

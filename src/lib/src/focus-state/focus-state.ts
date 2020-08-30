@@ -103,7 +103,7 @@ export class LyFocusState implements OnDestroy {
       return;
     }
 
-    const eventListenerOptions = supportsPassiveEventListeners
+    const eventListenerOptions = supportsPassiveEventListeners()
     ? {
       passive: true,
       capture: true
