@@ -93,6 +93,7 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
     $priority: STYLE_PRIORITY,
     root: () => lyl `{
       display: block
+      position: relative
       padding-${after}: 1em
       min-height: 1em
       -webkit-tap-highlight-color: transparent
