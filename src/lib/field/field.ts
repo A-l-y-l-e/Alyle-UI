@@ -49,7 +49,7 @@ import { LyError } from './error';
 import { LyFieldControlBase } from './field-control-base';
 import { Platform } from '@angular/cdk/platform';
 import { LyDisplayWith } from './display-with';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
 
 export interface LyFieldTheme {
   /** Styles for Field Component */
@@ -152,10 +152,8 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       display: inline-block
       position: relative
       line-height: 1.125
-      & ${classes.hint}, & ${classes.error} {
+      ${classes.hint}, ${classes.error} {
         display: block
-        font-size: .75em
-        margin-top: .25em
       }
       ${classes.label}, ${classes.placeholder} {
         ly-icon {
@@ -326,10 +324,10 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
     }`,
     hintContainer: lyl `{
       min-height: 1.25em
-      line-height: 1.25
+      font-size: 0.75em
+      margin-top: .25em
       > div {
         display: flex
-        flex: 1 0 auto
         max-width: 100%
         overflow: hidden
         justify-content: space-between
@@ -536,8 +534,10 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     },
     STYLE_PRIORITY
   )
-  set appearance(_val: string | null) {
-    this._updateFielsetSpan();
+  set appearance(val: string | null) {
+    if (val === 'outlined') {
+      this._updateFielsetSpanOnStable = true;
+    }
   }
 
   @HostListener('focus') onFocus() {
@@ -588,13 +588,16 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
           this._updateFielsetSpan();
         }
       });
+      this._ngZone.onStable.pipe(take(1), takeUntil(this._destroyed)).subscribe(() => {
+        this._renderer.addClass(this._el.nativeElement, this.classes.animations);
+      });
     });
   }
 
   ngAfterViewInit() {
+    this._updateFielsetSpan();
     this._updateFloatingLabel();
     this._updateDisplayWith();
-    this._renderer.addClass(this._el.nativeElement, this.classes.animations);
   }
 
   ngOnDestroy() {
@@ -608,7 +611,9 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     }
 
     const label = this._isLabel() ? this._labelSpan.nativeElement : null;
-    const labelFirstChild = this._isLabel() ? this._labelSpan.nativeElement.firstElementChild! : null;
+    const labelFirstChild = this._isLabel()
+      ? this._labelSpan.nativeElement.firstElementChild as HTMLElement
+      : null;
     if (this.appearance !== 'outlined' || !label) {
       return;
     }
@@ -619,23 +624,27 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       return;
     }
     const labelRect = label.getBoundingClientRect();
+    const container = this._container.nativeElement;
     const containerRect = this._container.nativeElement.getBoundingClientRect();
-    const beforeMargin = Math.abs(containerRect[before] - labelRect[before]);
     let { width } = labelFirstChild!.getBoundingClientRect();
-    if (!this._isFloating) {
-      width -= width / 100 * 25;
-    }
-    /** Add 6px of spacing */
+    const percent = containerRect.width / container.offsetWidth;
+    const labelPercent = labelRect.width / label.offsetWidth;
+    let beforeMargin = Math.abs(
+      (containerRect[before] - labelRect[before]) / percent) - 12;
+    width /= labelPercent;
+    width *= .75;
+    // add 6px of space
     width += 6;
-    width = width > labelRect.width
-      ? labelRect.width
+    width = width > (label.parentElement!.offsetWidth)
+      ? (label.parentElement!.offsetWidth)
       : width;
     width = Math.round(width);
-    fieldsetLegend.style[`margin-${before}`] = `${beforeMargin - 12}px`;
+    beforeMargin = Math.round(beforeMargin);
+    fieldsetLegend.style[`margin-${before}`] = `${beforeMargin}px`;
+    this._updateFielsetSpanOnStable = false;
     this._fielsetSpanClass = this._theme.addStyle(`style.fieldsetSpanFocused:${width}`, {
       [`&.${this.classes.isFloatingLabel} .${this.classes.fieldsetSpan}`]: {width: `${width}px`}
     }, this._el.nativeElement, this._fielsetSpanClass, STYLE_PRIORITY);
-    this._updateFielsetSpanOnStable = false;
   }
   /** @ignore */
   _isLabel() {
