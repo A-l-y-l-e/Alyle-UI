@@ -34,10 +34,10 @@
 </div>
 
 <div [className]="classes.hintContainer">
-  <div *ngIf="_hintChildren.length && (persistentHint || _control?.errorState || _control?.focused)">
-    <span *ngIf="_control?.errorState">
+  <div *ngIf="(_hintChildren.length || _errorChildren.length) && (persistentHint || _control?.errorState || _control?.focused)">
+    <ng-container *ngIf="_control?.errorState">
       <ng-content select="ly-error"></ng-content>
-    </span>
+    </ng-container>
     <ng-content select="ly-hint"></ng-content>
   </div>
 </div>
