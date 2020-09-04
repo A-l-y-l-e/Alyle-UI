@@ -589,6 +589,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
         }
       });
       this._ngZone.onStable.pipe(take(1), takeUntil(this._destroyed)).subscribe(() => {
+        this._updateDisplayWith();
         this._renderer.addClass(this._el.nativeElement, this.classes.animations);
       });
     });
@@ -597,7 +598,6 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   ngAfterViewInit() {
     this._updateFielsetSpan();
     this._updateFloatingLabel();
-    this._updateDisplayWith();
   }
 
   ngOnDestroy() {
@@ -694,7 +694,9 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   }
 
   private _updateDisplayWith() {
-    this._control!.sRenderer.toggleClass(this.classes._hiddenInput, this.displayWithStatus);
+    if (this._control) {
+      this._control.sRenderer.toggleClass(this.classes._hiddenInput, this.displayWithStatus);
+    }
   }
 
   private _markForCheck() {
