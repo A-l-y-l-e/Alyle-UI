@@ -1,3 +1,14 @@
+## [10.2.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.0...10.2.1) (2020-09-04)
+
+
+### Bug Fixes
+
+* **field:** outlined field does not work in dialog ([d0c0b45](https://github.com/A-l-y-l-e/Alyle-UI/commit/d0c0b457367a1dac5378645d69e70f61c59b7483))
+* **field:** outlined field does not work in dialog ([bc8a162](https://github.com/A-l-y-l-e/Alyle-UI/commit/bc8a162cb317d6b51eeb7cefdba702e335f8038f))
+* **select:** fix selectArrow with `standard`, `outlined` & `filled` ([cddd50a](https://github.com/A-l-y-l-e/Alyle-UI/commit/cddd50a6ab922618efb0952c5057330eb5778458))
+
+
+
 # [10.2.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.1.0...10.2.0) (2020-08-30)
 
 
