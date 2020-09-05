@@ -43,7 +43,7 @@ import { LyPlaceholder } from './placeholder';
 import { LyHint } from './hint';
 import { LyPrefix } from './prefix';
 import { LySuffix } from './suffix';
-import { Subject } from 'rxjs';
+import { Subject, merge } from 'rxjs';
 import { NgControl, NgForm, FormGroupDirective } from '@angular/forms';
 import { LyError } from './error';
 import { LyFieldControlBase } from './field-control-base';
@@ -578,6 +578,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     if (ngControl && ngControl.valueChanges) {
       ngControl.valueChanges.pipe(takeUntil(this._destroyed)).subscribe(() => {
         this._updateFloatingLabel();
+        this._updateDisplayWith();
         this._markForCheck();
       });
     }
@@ -592,6 +593,11 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
         this._updateDisplayWith();
         this._renderer.addClass(this._el.nativeElement, this.classes.animations);
       });
+    });
+
+    merge(this._prefixChildren.changes, this._suffixChildren.changes).subscribe(() => {
+      this._updateFielsetSpanOnStable = true;
+      this._markForCheck();
     });
   }
 
