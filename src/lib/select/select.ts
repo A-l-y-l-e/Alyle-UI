@@ -12,7 +12,6 @@ import {
   DoCheck,
   ElementRef,
   forwardRef,
-  Host,
   HostListener,
   Input,
   OnDestroy,
@@ -30,7 +29,8 @@ import {
   Directive,
   ContentChild,
   Output,
-  EventEmitter
+  EventEmitter,
+  isDevMode,
   } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -41,7 +41,6 @@ import {
 import { LyField, LyFieldControlBase, STYLES as FIELD_STYLES } from '@alyle/ui/field';
 import {
   LyOverlay,
-  LySelectionModel,
   LyTheme2,
   OverlayFactory,
   shadowBuilder,
@@ -49,14 +48,6 @@ import {
   toBoolean,
   Positioning,
   CanDisableCtor,
-  mixinStyleUpdater,
-  mixinBg,
-  mixinColor,
-  mixinRaised,
-  mixinDisabled,
-  mixinOutlined,
-  mixinElevation,
-  mixinShadowColor,
   mixinDisableRipple,
   mixinTabIndex,
   LyRippleService,
@@ -70,9 +61,16 @@ import {
   ThemeRef,
   StyleRenderer
   } from '@alyle/ui';
-import { Subject } from 'rxjs';
-import { take, takeUntil, startWith } from 'rxjs/operators';
+import { Subject, Observable, defer, merge } from 'rxjs';
+import { take, takeUntil, startWith, switchMap, distinctUntilChanged, filter, mapTo } from 'rxjs/operators';
 import { Platform } from '@angular/cdk/platform';
+import { FocusableOption, FocusOrigin, ActiveDescendantKeyManager } from '@angular/cdk/a11y';
+import { ENTER, SPACE, hasModifierKey, DOWN_ARROW, UP_ARROW, LEFT_ARROW, RIGHT_ARROW, A } from '@angular/cdk/keycodes';
+import { coerceNumberProperty, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Style, WithStyles } from '../src/minimal';
+import { getLySelectNonFunctionValueError, getLySelectNonArrayValueError } from './select-errors';
+
 
 export interface LySelectTheme {
   /** Styles for Select Component */
@@ -142,13 +140,16 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
       '-moz-user-select': 'none',
       '-ms-user-select': 'none',
       userSelect: 'none',
-      lineHeight: '3em',
+      lineHeight: 1.125,
       height: '3em',
-      cursor: 'pointer'
+      cursor: 'pointer',
     },
+    optionActive: lyl `{
+      background: ${theme.hover}
+    }`,
     optionText: {
       'ly-checkbox ~ &': {
-        marginBefore: '-16px',
+        marginBefore: '-1em',
         display: 'flex',
         alignItems: 'inherit',
         alignContent: 'inherit'
@@ -191,10 +192,8 @@ const ANIMATIONS = [
         })
       ]))
     ]),
-  ]),
-  trigger('selectLeave', [
     transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 })))
-  ])
+  ]),
 ];
 
 /** @docs-private */
@@ -217,7 +216,10 @@ export class LySelectTrigger { }
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lySelect',
   host: {
-    '[attr.tabindex]': 'tabIndex'
+    '[attr.tabindex]': 'tabIndex',
+    '(keydown)': '_handleKeydown($event)',
+    '(focus)': '_onFocus()',
+    '(blur)': '_onBlur()',
   },
   animations: [...ANIMATIONS],
   inputs: ['tabIndex'],
@@ -232,9 +234,13 @@ export class LySelect
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES);
   /** @internal */
-  _selectionModel: LySelectionModel<LyOption>;
+  _selectionModel: SelectionModel<LyOption>;
   /** @internal */
   _value: any;
+
+  /** The cached font-size of the trigger element. */
+  _triggerFontSize = 0;
+
   private _overlayRef: OverlayFactory | null;
   protected _disabled = false;
   protected _required = false;
@@ -251,8 +257,32 @@ export class LySelect
   errorState: boolean = false;
   private _cursorClass: string;
 
+  /** Manages keyboard events for options in the panel. */
+  _keyManager: ActiveDescendantKeyManager<LyOption>;
+
+  /** Emits when the panel element is finished transforming in. */
+  _panelDoneAnimatingStream = new Subject<string>();
+
+  /** Comparison function to specify which option is displayed. Defaults to object equality. */
+  private _compareWith = (o1: any, o2: any) => o1 === o2;
+
   /** Emits whenever the component is destroyed. */
   private readonly _destroy = new Subject<void>();
+
+  /** Combined stream of all of the child options' change events. */
+  readonly optionSelectionChanges: Observable<LyOptionSelectionChange> = defer(() => {
+    const options = this.options;
+
+    if (options) {
+      return options.changes.pipe(
+        startWith(options),
+        switchMap(() => merge(...options.map(option => option.onSelectionChange)))
+      );
+    }
+
+    return this._ngZone.onStable
+      .pipe(take(1), switchMap(() => this.optionSelectionChanges));
+  }) as Observable<LyOptionSelectionChange>;
 
   @ViewChild('templateRef') templateRef: TemplateRef<any>;
   @ViewChild('valueText') valueTextDivRef: ElementRef<HTMLDivElement>;
@@ -260,6 +290,17 @@ export class LySelect
   @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
   @ContentChildren(forwardRef(() => LyOption), { descendants: true }) options: QueryList<LyOption>;
   @ContentChild(LySelectTrigger) customTrigger: LySelectTrigger;
+
+  /** Event emitted when the select panel has been toggled. */
+  @Output() readonly openedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  /** Event emitted when the select has been opened. */
+  @Output('opened') readonly _openedStream: Observable<void> =
+      this.openedChange.pipe(filter(o => o), mapTo(null!));
+
+  /** Event emitted when the select has been closed. */
+  @Output('closed') readonly _closedStream: Observable<void> =
+      this.openedChange.pipe(filter(o => !o), mapTo(null!));
 
   /** Event emitted when the selected value has been changed by the user. */
   @Output() readonly selectionChange: EventEmitter<LySelectChange> = new EventEmitter<LySelectChange>();
@@ -281,84 +322,101 @@ export class LySelect
    */
   onTouched = () => {};
 
-  @HostListener('blur') _onBlur() {
-    if (this._focused !== false && !this._opened) {
-      this._focused = false;
-      this.stateChanges.next();
-    }
-  }
-  @HostListener('focus') _onFocus() {
-    if (this._focused !== true && !this.disabled) {
+  _onFocus() {
+    if (!this.disabled) {
       this._focused = true;
       this.stateChanges.next();
     }
   }
-
-  /** @internal */
-  _endAnimation(e) {
-    if (e.toState === 'void') {
-      if (this._overlayRef) {
-        this._overlayRef.remove();
-        this._overlayRef = null;
-      }
+  _onBlur() {
+    this._focused = false;
+    if (!this.disabled && !this._opened) {
+      this.onTouched();
+      this._cd.markForCheck();
+      this.stateChanges.next();
     }
   }
 
-  /** @docs-private */
+  /** Time to wait in milliseconds after the last keystroke before moving focus to an item. */
   @Input()
-  set value(val) {
-    if (val !== this.value) {
-      this._value = val;
-      if (this.options && this._selectionModel) {
-        this.writeValue(val);
-        if (this.multiple) {
-          if (Array.isArray(this.value)) {
-            const values: LyOption[] = [];
-            this.options.forEach(opt => {
-              if (this.value.some(_ => this._valueKey(_) === this._valueKeyFn(opt))) {
-                values.push(opt);
-              }
-            });
-
-            if (values.length) {
-              const beforeSelecteds = this._selectionModel.selected;
-              // reset
-              this._selectionModel.clear();
-              // select values
-              values.forEach(opt => opt.select());
-
-              // deselect old values
-              if (beforeSelecteds.length) {
-                beforeSelecteds.forEach(opt => {
-                  opt.ngOnChanges();
-                  opt._cd.markForCheck();
-                });
-              }
-            }
-          }
-        } else {
-          // reset
-          const selecteds = this._selectionModel.selected;
-          this._selectionModel.clear();
-          if (selecteds.length) {
-            selecteds.forEach(opt => {
-              opt.ngOnChanges();
-              opt._cd.markForCheck();
-            });
-          }
-
-          const selected = this.options.find(opt => this._valueKeyFn(opt) === this.valueKey(this.value));
-          if (selected) {
-            selected.select();
-          }
-        }
-        this.stateChanges.next();
-        this._cd.markForCheck();
-      }
+  get typeaheadDebounceInterval(): number { return this._typeaheadDebounceInterval; }
+  set typeaheadDebounceInterval(value: number) {
+    const newVal = coerceNumberProperty(value);
+    if (this._typeaheadDebounceInterval !== newVal && this._keyManager) {
+      this._typeaheadDebounceInterval = newVal;
+      this._keyManager.withTypeAhead(newVal);
     }
   }
-  get value() {
-    return this._value;
+  private _typeaheadDebounceInterval: number;
+
+  // /** @docs-private */
+  // @Input()
+  // set value(val) {
+  //   if (val !== this.value) {
+  //     this._value = val;
+  //     if (this.options && this._selectionModel) {
+  //       // this.writeValue(val);
+  //       if (this.multiple) {
+  //         if (Array.isArray(this.value)) {
+  //           const values: LyOption[] = [];
+  //           this.options.forEach(opt => {
+  //             if (this.value.some(_ => this._valueKey(_) === this._valueKeyFn(opt))) {
+  //               values.push(opt);
+  //             }
+  //           });
+
+  //           if (values.length) {
+  //             const beforeSelecteds = this._selectionModel.selected;
+  //             // reset
+  //             this._selectionModel.clear();
+  //             // select values
+  //             values.forEach(opt => opt.select());
+
+  //             // deselect old values
+  //             if (beforeSelecteds.length) {
+  //               beforeSelecteds.forEach(opt => {
+  //                 opt.ngOnChanges();
+  //                 opt._cd.markForCheck();
+  //               });
+  //             }
+  //           }
+  //         }
+  //       } else {
+  //         // reset
+  //         const selecteds = this._selectionModel.selected;
+  //         this._selectionModel.clear();
+  //         if (selecteds.length) {
+  //           selecteds.forEach(opt => {
+  //             opt.ngOnChanges();
+  //             opt._cd.markForCheck();
+  //           });
+  //         }
+
+  //         const selected = this.options.find(opt => this._valueKeyFn(opt) === this.valueKey(this.value));
+  //         if (selected) {
+  //           selected.select();
+  //         }
+  //       }
+  //       this.stateChanges.next();
+  //       this._cd.markForCheck();
+  //     }
+  //   }
+  // }
+  // get value() {
+  //   return this._value;
+  // }
+
+  /** Value of the select control. */
+  @Input()
+  get value(): any { return this._value; }
+  set value(newValue: any) {
+    if (newValue !== this._value) {
+      if (this.options) {
+        this._setSelectionByValue(newValue);
+      }
+
+      this._value = newValue;
+    }
   }
 
   /** Whether the input is disabled. */
@@ -381,6 +439,7 @@ export class LySelect
           this._hasDisabledClass = true;
         }
       }
+      this.stateChanges.next();
     }
   }
   get disabled(): boolean {
@@ -415,13 +474,36 @@ export class LySelect
   }
   get placeholder(): string { return this._placeholder; }
 
+  /**
+   * Function to compare the option values with the selected values. The first argument
+   * is a value from an option. The second is a value from the selection. A boolean
+   * should be returned.
+   */
+  @Input()
+  get compareWith() { return this._compareWith; }
+  set compareWith(fn: (o1: any, o2: any) => boolean) {
+    if (typeof fn !== 'function' && isDevMode) {
+      throw getLySelectNonFunctionValueError();
+    }
+    this._compareWith = fn;
+    if (this._selectionModel) {
+      // A different comparator means the selection could change.
+      this._initializeSelection();
+    }
+  }
+
+  /**
+   * Function used to sort the values in a select in multiple mode.
+   * Follows the same logic as `Array.prototype.sort`.
+   */
+  @Input() sortComparator: (a: LyOption, b: LyOption, options: LyOption[]) => number;
+
   get focused() {
     return this._focused;
   }
 
   get empty() {
-    const val = this.value;
-    return this.multiple ? this._selectionModel.isEmpty() : val == null || this._selectionModel.isEmpty();
+    return !this._selectionModel || this._selectionModel.isEmpty();
   }
 
   get floatingLabel() {
@@ -444,9 +526,9 @@ export class LySelect
   }
 
   /** Current selecteds */
-  get selected() {
+  get selected(): LyOption | LyOption[] {
     const selected = this._selectionModel.selected;
-    return this.multiple ? selected.map(option => option.value) : selected[0].value;
+    return this.multiple ? selected : selected[0];
   }
 
   constructor(private _theme: LyTheme2,
@@ -479,10 +561,28 @@ export class LySelect
   }
 
   ngOnInit() {
-    this._selectionModel = new LySelectionModel<LyOption>({
-      multiple: this.multiple ? true : undefined,
-      getKey: this._valueKeyFn
-    });
+    this._selectionModel = new SelectionModel<LyOption>(this.multiple);
+    this.stateChanges.next();
+
+    // We need `distinctUntilChanged` here, because some browsers will
+    // fire the animation end event twice for the same animation. See:
+    // https://github.com/angular/angular/issues/24084
+    this._panelDoneAnimatingStream
+      .pipe(distinctUntilChanged(), takeUntil(this._destroy))
+      .subscribe(() => {
+        if (this._opened) {
+          this.openedChange.emit(true);
+        } else {
+          if (this._overlayRef) {
+            this._overlayRef.remove();
+            this._overlayRef = null;
+          }
+          this.openedChange.emit(false);
+          this.stateChanges.next();
+          this._cd.markForCheck();
+        }
+      });
+
     const ngControl = this.ngControl;
 
     // update styles on disabled
@@ -520,33 +620,27 @@ export class LySelect
   }
 
   ngAfterContentInit() {
+    this._initKeyManager();
+
+    this.options.changes.pipe(startWith(null), takeUntil(this._destroy)).subscribe(() => {
+      this._resetOptions();
+      this._initializeSelection();
+    });
+
+    this._selectionModel.changed.pipe(takeUntil(this._destroy)).subscribe(event => {
+      event.added.forEach(option => option.select());
+      event.removed.forEach(option => option.deselect());
+    });
+
     Promise.resolve().then(() => {
       this.value = this.ngControl ? this.ngControl.value : this._value;
       this.stateChanges.next();
       this._cd.markForCheck();
     });
-    this.options.changes.pipe(
-      startWith(null),
-      takeUntil(this._destroy)
-    ).subscribe(() => {
-
-      const selecteds: LyOption[] = [];
-      this.options.forEach(option => {
-        if (option.isSelected) {
-          selecteds.push(option);
-        }
-      });
-
-      // this only update the refs
-      if (selecteds.length) {
-        this._selectionModel.clear();
-        selecteds.forEach(option => this._selectionModel.select(option));
+    this._keyManager.change.pipe(takeUntil(this._destroy)).subscribe(() => {
+      if (!this._opened && !this.multiple && this._keyManager.activeItem) {
+        this._keyManager.activeItem._selectViaInteraction();
       }
-      const oldValue = this.value;
-      this.value = null;
-      this.value = oldValue;
-      this.stateChanges.next();
-      this._cd.markForCheck();
     });
   }
 
@@ -560,12 +654,11 @@ export class LySelect
   }
 
   open() {
-    if (this.disabled) {
+    if (this.disabled || !this.options || !this.options.length || this._opened) {
       return;
     }
-    // this._updateSelectedClass();
     this._opened = true;
-    this.stateChanges.next();
+    this._overlayRef?.remove();
     this._overlayRef = this._overlay.create(this.templateRef, null, {
       styles: {
         top: 0,
@@ -575,18 +668,22 @@ export class LySelect
       fnDestroy: this.close.bind(this),
       onResizeScroll: this._updatePlacement.bind(this)
     });
+    this._keyManager.withHorizontalOrientation(null);
+    this._triggerFontSize = parseInt(getComputedStyle(this._getHostElement()).fontSize || '0');
+    this._cd.markForCheck();
     this._ngZone.onStable.pipe(
       take(1)
     ).subscribe(() => this._updatePlacement());
   }
 
   close() {
-    if (this._overlayRef) {
-      this.onTouched();
-      this._overlayRef.detach();
+    if (this._opened) {
+      console.warn('closing...');
       this._opened = false;
-      this._getHostElement().focus();
-      this.stateChanges.next();
+      this._overlayRef?.detach();
+      this._keyManager.withHorizontalOrientation(this._theme.variables.direction);
+      this._cd.markForCheck();
+      this.onTouched();
     }
   }
 
@@ -596,8 +693,10 @@ export class LySelect
     this._getHostElement().focus();
   }
 
-  /** Focuses the input. */
-  focus(): void { this._getHostElement().focus(); }
+  /** Focuses the select element. */
+  focus(options?: FocusOptions): void {
+    this._getHostElement().focus(options);
+  }
 
   _getHostElement() {
     return this._el.nativeElement;
@@ -609,10 +708,7 @@ export class LySelect
    * @param value The checked value
    */
   writeValue(value: any): void {
-    if (this.options) {
-      this.value = value;
-
-    }
+    this.value = value;
   }
 
   /**
@@ -645,16 +741,145 @@ export class LySelect
     this.stateChanges.next();
   }
 
+  /** Handles all keydown events on the select. */
+  _handleKeydown(event: KeyboardEvent): void {
+    if (!this.disabled) {
+      this._opened ? this._handleOpenKeydown(event) : this._handleClosedKeydown(event);
+    }
+  }
+
+  /** Handles keyboard events while the select is closed. */
+  private _handleClosedKeydown(event: KeyboardEvent): void {
+    const keyCode = event.keyCode;
+    const isArrowKey = keyCode === DOWN_ARROW || keyCode === UP_ARROW ||
+                       keyCode === LEFT_ARROW || keyCode === RIGHT_ARROW;
+    const isOpenKey = keyCode === ENTER || keyCode === SPACE;
+    const manager = this._keyManager;
+
+    // Open the select on ALT + arrow key to match the native <select>
+    if (!manager.isTyping() && (isOpenKey && !hasModifierKey(event)) ||
+      ((this.multiple || event.altKey) && isArrowKey)) {
+      event.preventDefault(); // prevents the page from scrolling down when pressing space
+      this.open();
+    } else if (!this.multiple) {
+      manager.onKeydown(event);
+    }
+  }
+
+  /** Handles keyboard events when the selected is open. */
+  private _handleOpenKeydown(event: KeyboardEvent): void {
+    const manager = this._keyManager;
+    const keyCode = event.keyCode;
+    const isArrowKey = keyCode === DOWN_ARROW || keyCode === UP_ARROW;
+    const isTyping = manager.isTyping();
+
+    if (isArrowKey && event.altKey) {
+      // Close the select on ALT + arrow key to match the native <select>
+      event.preventDefault();
+      this.close();
+      // Don't do anything in this case if the user is typing,
+      // because the typing sequence can include the space key.
+    } else if (!isTyping && (keyCode === ENTER || keyCode === SPACE) && manager.activeItem &&
+      !hasModifierKey(event)) {
+      event.preventDefault();
+      manager.activeItem._selectViaInteraction();
+    } else if (!isTyping && this._multiple && keyCode === A && event.ctrlKey) {
+      event.preventDefault();
+      const hasDeselectedOptions = this.options.some(opt => !opt.disabled && !opt.selected);
+
+      this.options.forEach(option => {
+        if (!option.disabled) {
+          hasDeselectedOptions ? option.select() : option.deselect();
+        }
+      });
+    } else {
+      const previouslyFocusedIndex = manager.activeItemIndex;
+
+      manager.onKeydown(event);
+
+      if (this._multiple && isArrowKey && event.shiftKey && manager.activeItem &&
+          manager.activeItemIndex !== previouslyFocusedIndex) {
+        manager.activeItem._selectViaInteraction();
+      }
+    }
+  }
+
+  private _initializeSelection(): void {
+    // Defer setting the value in order to avoid the "Expression
+    // has changed after it was checked" errors from Angular.
+    Promise.resolve().then(() => {
+      this._setSelectionByValue(this.ngControl ? this.ngControl.value : this._value);
+      this.stateChanges.next();
+    });
+  }
+
+  /**
+   * Sets the selected option based on a value. If no option can be
+   * found with the designated value, the select trigger is cleared.
+   */
+  private _setSelectionByValue(value: any | any[]): void {
+    if (this.multiple && value) {
+      if (!Array.isArray(value) && isDevMode()) {
+        throw getLySelectNonArrayValueError();
+      }
+
+      this._selectionModel.clear();
+      value.forEach((currentValue: any) => this._selectValue(currentValue));
+      this._sortValues();
+    } else {
+      this._selectionModel.clear();
+      const correspondingOption = this._selectValue(value);
+
+      // Shift focus to the active item. Note that we shouldn't do this in multiple
+      // mode, because we don't know what option the user interacted with last.
+      if (correspondingOption) {
+        this._keyManager.updateActiveItem(correspondingOption);
+      } else if (!this._opened) {
+        // Otherwise reset the highlighted option. Note that we only want to do this while
+        // closed, because doing it while open can shift the user's focus unnecessarily.
+        this._keyManager.updateActiveItem(-1);
+      }
+    }
+
+    this._cd.markForCheck();
+  }
+
+  /**
+   * Finds and selects and option based on its value.
+   * @returns Option that has the corresponding value.
+   */
+  private _selectValue(value: any): LyOption | undefined {
+    const correspondingOption = this.options.find((option: LyOption) => {
+      try {
+        // Treat null as a special reset value.
+        return option.value != null && this._compareWith(option.value, value);
+      } catch (error) {
+        if (isDevMode()) {
+          // Notify developers of errors in their comparator.
+          console.warn(error);
+        }
+        return false;
+      }
+    });
+
+    if (correspondingOption) {
+      this._selectionModel.select(correspondingOption);
+    }
+
+    return correspondingOption;
+  }
+
   private _updatePlacement() {
     const el = this._overlayRef!.containerElement as HTMLElement;
     const container = el.querySelector('div')!;
+    const triggerFontSize = this._triggerFontSize;
     const { nativeElement } = this.valueTextDivRef;
     let panelWidth: number;
 
     if (this.multiple) {
-      panelWidth = nativeElement.offsetWidth + 32 * 2;
+      panelWidth = nativeElement.offsetWidth + triggerFontSize * 4;
     } else {
-      panelWidth = nativeElement.offsetWidth + 32;
+      panelWidth = nativeElement.offsetWidth + triggerFontSize * 2;
     }
 
 
@@ -671,10 +896,9 @@ export class LySelect
       selectedElement = (el.firstElementChild!.firstElementChild! || el.firstElementChild!) as HTMLElement;
     }
 
-
     const offset = {
       y: -(nativeElement.offsetHeight / 2 + selectedElement.offsetTop + selectedElement.offsetHeight / 2),
-      x: -16
+      x: -triggerFontSize
     };
 
     // scroll to selected option
@@ -683,7 +907,8 @@ export class LySelect
       if (container.scrollTop === selectedElement.offsetTop) {
         container.scrollTop = container.scrollTop - (container.offsetHeight / 2) + selectedElement.offsetHeight / 2;
       } else {
-        container.scrollTop = container.scrollTop - (container.offsetHeight / 2 - (selectedElement.offsetTop - container.scrollTop)) + selectedElement.offsetHeight / 2;
+        container.scrollTop = container.scrollTop
+        - (container.offsetHeight / 2 - (selectedElement.offsetTop - container.scrollTop)) + selectedElement.offsetHeight / 2;
       }
       offset.y = container.scrollTop + offset.y;
     }
@@ -715,6 +940,133 @@ export class LySelect
     this._renderer.setStyle(container, 'width', width);
   }
 
+  /** Sets up a key manager to listen to keyboard events on the overlay panel. */
+  private _initKeyManager() {
+    this._keyManager = new ActiveDescendantKeyManager<LyOption>(this.options)
+      .withTypeAhead(this._typeaheadDebounceInterval)
+      .withVerticalOrientation()
+      .withHorizontalOrientation(this._theme.variables.direction)
+      .withHomeAndEnd()
+      .withAllowedModifierKeys(['shiftKey']);
+
+    this._keyManager.tabOut.pipe(takeUntil(this._destroy)).subscribe(() => {
+      if (this._opened) {
+        console.log('ontab');
+        // Select the active item when tabbing away. This is consistent with how the native
+        // select behaves. Note that we only want to do this in single selection mode.
+        if (!this.multiple && this._keyManager.activeItem) {
+          this._keyManager.activeItem._selectViaInteraction();
+          console.log('customClick');
+        }
+
+        // Restore focus to the trigger before closing. Ensures that the focus
+        // position won't be lost if the user got focus into the overlay.
+        this.focus();
+        this.close();
+      }
+    });
+
+    this._keyManager.change.pipe(takeUntil(this._destroy)).subscribe(() => {
+      if (this._opened) {
+        // this._scrollActiveOptionIntoView();
+      } else if (!this._opened && !this.multiple && this._keyManager.activeItem) {
+        this._keyManager.activeItem._selectViaInteraction();
+      }
+    });
+  }
+
+  /** Sorts the selected values in the selected based on their order in the panel. */
+  private _sortValues() {
+    if (this.multiple) {
+      const options = this.options.toArray();
+
+      this._selectionModel.sort((a, b) => {
+        return this.sortComparator ? this.sortComparator(a, b, options) :
+                                     options.indexOf(a) - options.indexOf(b);
+      });
+      this.stateChanges.next();
+    }
+  }
+
+  private _resetOptions(): void {
+    const changedOrDestroyed = merge(this.options.changes, this._destroy);
+
+    this.optionSelectionChanges.pipe(takeUntil(changedOrDestroyed)).subscribe(event => {
+      this._onSelect(event.source, event.isUserInput);
+
+      if (event.isUserInput && !this.multiple && this._opened) {
+        this.close();
+        this.focus();
+      }
+    });
+  }
+
+  /** Invoked when an option is clicked. */
+  private _onSelect(option: LyOption, isUserInput: boolean): void {
+    const wasSelected = this._selectionModel.isSelected(option);
+
+    if (option.value == null && !this._multiple) {
+      option.deselect();
+      this._selectionModel.clear();
+
+      if (this.value != null) {
+        this._propagateChanges(option.value);
+      }
+    } else {
+      if (wasSelected !== option.selected) {
+        option.selected ? this._selectionModel.select(option) :
+                          this._selectionModel.deselect(option);
+      }
+
+      if (isUserInput) {
+        this._keyManager.setActiveItem(option);
+      }
+
+      if (this.multiple) {
+        this._sortValues();
+        if (isUserInput) {
+          // In case the user selected the option with their mouse, we
+          // want to restore focus back to the trigger, in order to
+          // prevent the select keyboard controls from clashing with
+          // the ones from `mat-option`.
+          this.focus();
+        }
+      }
+    }
+
+    if (wasSelected !== this._selectionModel.isSelected(option)) {
+      this._propagateChanges();
+    }
+
+    this.stateChanges.next();
+  }
+
+  /** Emits change event to set the model value. */
+  private _propagateChanges(fallbackValue?: any): void {
+    let valueToEmit: any = null;
+
+    if (this.multiple) {
+      valueToEmit = (this.selected as LyOption[]).map(option => option.value);
+    } else {
+      valueToEmit = this.selected ? (this.selected as LyOption).value : fallbackValue;
+    }
+
+    this._value = valueToEmit;
+    this.valueChange.emit(valueToEmit);
+    this.onChange(valueToEmit);
+    this.selectionChange.emit(new LySelectChange(this, valueToEmit));
+    this._cd.markForCheck();
+  }
+
+}
+
+/** Event object emitted by LyOption when selected or deselected. */
+export class LyOptionSelectionChange {
+  constructor(
+    /** Reference to the option that emitted the event. */
+    public source: LyOption,
+    /** Whether the change in the option's value was a result of a user action. */
+    public isUserInput = false) { }
 }
 
 /** @docs-private */
@@ -727,49 +1079,45 @@ export class LyOptionBase {
 }
 
 /** @docs-private */
-export const LyOptionMixinBase = mixinStyleUpdater(
-  mixinBg(
-      mixinColor(
-        mixinRaised(
-          mixinDisabled(
-            mixinOutlined(
-              mixinElevation(
-                mixinShadowColor(
-                  mixinDisableRipple(LyOptionBase)))))))));
+export const LyOptionMixinBase = mixinDisableRipple(LyOptionBase);
 
 @Component({
   selector: 'ly-option',
   templateUrl: './option.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(keydown)': '_handleKeydown($event)',
+    '[attr.tabindex]': '_getTabIndex()',
+  },
   inputs: [
-    'bg',
-    'color',
-    'raised',
-    'disabled',
-    'outlined',
-    'elevation',
-    'shadowColor',
     'disableRipple'
+  ],
+  providers: [
+    StyleRenderer
   ]
 })
-export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
+export class LyOption extends LyOptionMixinBase implements WithStyles, FocusableOption, OnInit, OnChanges {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _value: any;
+  private _selected = false;
+  private _disabled = false;
 
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
+  /** Event emitted when the option is selected or deselected. */
+  // tslint:disable-next-line: no-output-on-prefix
+  @Output() readonly onSelectionChange = new EventEmitter<LyOptionSelectionChange>();
+
   @HostListener('click') _onClick() {
-    if (!this._select.multiple) {
-      this.select();
-      this._select.close();
-    } else {
-      this.toggle();
-    }
-    this._select.valueChange.emit(this._select._value);
-    this._select.onChange(this._select._value);
-    this._select.selectionChange.emit(new LySelectChange(this._select, this._select._value));
+    this._selectViaInteraction();
   }
+
+  /** Whether or not the option is currently selected. */
+  get selected(): boolean { return this._selected; }
+
+  /** Whether the wrapping component is in multiple selection mode. */
+  get multiple() { return this._select && this._select.multiple; }
 
   /**
    * Tracks simple string values bound to the option element.
@@ -782,26 +1130,46 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     return this._value;
   }
 
+  /** Whether the option is disabled. */
+  @Input()
+  set disabled(value: any) {
+    this._disabled = coerceBooleanProperty(value);
+  }
+  get disabled() {
+    return this._disabled;
+  }
+
+  @Style<string | null>(
+    value => (theme: ThemeVariables) => lyl `{
+      color: ${theme.colorOf(value)}
+    }`
+  )
+  _selectedColor: string | null;
+
   /** The displayed value of the option. */
   get viewValue(): string {
     return ((this._getHostElement() as Element).textContent || '').trim();
   }
 
-  /** The color of Select */
+  /** The color of Select option */
   get _color() {
-    return this._select._selectionModel.isSelected(this) ? this._select._field.color : null;
+    return this._selected ? this._select._field.color : null;
   }
 
+  /**
+   * @deprecated use instead `selected`
+   */
   get isSelected(): boolean {
-    return this._select._selectionModel.isSelected(this);
+    return this._selected;
   }
 
-  constructor(/** @internal */
-              @Host() public _select: LySelect,
+  constructor(readonly sRenderer: StyleRenderer,
+              /** @internal */
+              private _select: LySelect,
               private _el: ElementRef,
               /** @internal */
               public _rippleService: LyRippleService,
-              _renderer: Renderer2,
+              private _renderer: Renderer2,
               _theme: LyTheme2,
               /** @internal */
               public _cd: ChangeDetectorRef,
@@ -810,7 +1178,6 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
   ) {
     super(_theme, _ngZone, platform);
     _renderer.addClass(_el.nativeElement, this.classes.option);
-    this.setAutoContrast();
     this._triggerElement = _el;
   }
 
@@ -820,69 +1187,145 @@ export class LyOption extends LyOptionMixinBase implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges() {
-    this.updateStyle(this._el);
+  ngOnChanges() { }
+
+  /** Applies the styles for an active item to this item. */
+  setActiveStyles(): void {
+    this._renderer.addClass(this._getHostElement(), this.classes.optionActive);
   }
 
-  select() {
-    if (this.disabled) {
-      return;
-    }
-    if (this._select.multiple) {
-      const beforeSelecteds = this._select._selectionModel.selected;
-      this._select._selectionModel.select(this);
-      this._select._value = this._select._selectionModel.selected.map(opt => opt.value);
-      this.updateStyle(this._el);
-      if (beforeSelecteds.length) {
-        beforeSelecteds.forEach(opt => opt.ngOnChanges());
-      }
-    } else {
-      if (!this._select._selectionModel.isSelected(this)) {
-        const beforeSelecteds = this._select._selectionModel.selected;
-        this._select._selectionModel.select(this);
-        this._select._value = this._value;
-        this.updateStyle(this._el);
-        if (beforeSelecteds.length) {
-          beforeSelecteds.forEach(opt => opt.ngOnChanges());
-        }
-      }
-    }
-    this._select._cd.markForCheck();
-    this._select.stateChanges.next();
-    this._cd.markForCheck();
+  /** Applies the styles for an inactive item to this item. */
+  setInactiveStyles(): void {
+    this._renderer.removeClass(this._getHostElement(), this.classes.optionActive);
   }
 
-  toggle() {
-    if (this.disabled) {
-      return;
+  /** Gets the label to be used when determining whether the option should be focused. */
+  getLabel(): string {
+    return this.viewValue;
+  }
+
+  // select() {
+  //   if (this.disabled) {
+  //     return;
+  //   }
+  //   if (this._select.multiple) {
+  //     const beforeSelecteds = this._select._selectionModel.selected;
+  //     this._select._selectionModel.select(this);
+  //     this._select._value = this._select._selectionModel.selected.map(opt => opt.value);
+  //     this.updateStyle(this._el);
+  //     if (beforeSelecteds.length) {
+  //       beforeSelecteds.forEach(opt => opt.ngOnChanges());
+  //     }
+  //   } else {
+  //     if (!this._select._selectionModel.isSelected(this)) {
+  //       const beforeSelecteds = this._select._selectionModel.selected;
+  //       this._select._selectionModel.select(this);
+  //       this._select._value = this._value;
+  //       this.updateStyle(this._el);
+  //       if (beforeSelecteds.length) {
+  //         beforeSelecteds.forEach(opt => opt.ngOnChanges());
+  //       }
+  //     }
+  //   }
+  //   this._select._cd.markForCheck();
+  //   this._select.stateChanges.next();
+  //   this._cd.markForCheck();
+  // }
+
+  /** Selects the option. */
+  select(): void {
+    if (!this._selected) {
+      this._selected = true;
+      this._selectedColor = this._color;
+      this._cd.markForCheck();
+      this._emitSelectionChangeEvent();
     }
-    if (this._select.multiple) {
-      const beforeSelecteds = this._select._selectionModel.selected;
-      this._select._selectionModel.toggle(this);
-      this._select._value = this._select._selectionModel.selected.map(opt => opt.value);
-      this.updateStyle(this._el);
-      if (beforeSelecteds.length) {
-        beforeSelecteds.forEach(opt => opt.ngOnChanges());
-      }
-    } else {
-      if (!this._select._selectionModel.isSelected(this)) {
-        const beforeSelecteds = this._select._selectionModel.selected;
-        this._select._selectionModel.toggle(this);
-        this._select._value = this._value;
-        this.updateStyle(this._el);
-        if (beforeSelecteds.length) {
-          beforeSelecteds.forEach(opt => opt.ngOnChanges());
-        }
-      }
+  }
+
+  /** Deselects the option. */
+  deselect(): void {
+    if (this._selected) {
+      this._selected = false;
+      this._selectedColor = null;
+      this._cd.markForCheck();
+      this._emitSelectionChangeEvent();
     }
-    this._select._cd.markForCheck();
-    this._select.stateChanges.next();
-    this._cd.markForCheck();
+  }
+
+  // toggle() {
+  //   if (this.disabled) {
+  //     return;
+  //   }
+  //   if (this._select.multiple) {
+  //     const beforeSelecteds = this._select._selectionModel.selected;
+  //     this._select._selectionModel.toggle(this);
+  //     this._select._value = this._select._selectionModel.selected.map(opt => opt.value);
+  //     this.updateStyle(this._el);
+  //     if (beforeSelecteds.length) {
+  //       beforeSelecteds.forEach(opt => opt.ngOnChanges());
+  //     }
+  //   } else {
+  //     if (!this._select._selectionModel.isSelected(this)) {
+  //       const beforeSelecteds = this._select._selectionModel.selected;
+  //       this._select._selectionModel.toggle(this);
+  //       this._select._value = this._value;
+  //       this.updateStyle(this._el);
+  //       if (beforeSelecteds.length) {
+  //         beforeSelecteds.forEach(opt => opt.ngOnChanges());
+  //       }
+  //     }
+  //   }
+  //   this._select._cd.markForCheck();
+  //   this._select.stateChanges.next();
+  //   this._cd.markForCheck();
+  // }
+
+  /** Sets focus onto this option. */
+  focus(_origin?: FocusOrigin, options?: FocusOptions) {
+    const element = this._getHostElement();
+
+    if (typeof element.focus === 'function') {
+      element.focus(options);
+    }
+  }
+
+  /** Ensures the option is selected when activated from the keyboard. */
+  _handleKeydown(event: KeyboardEvent): void {
+    // tslint:disable-next-line: deprecation
+    if ((event.keyCode === ENTER || event.keyCode === SPACE) && !hasModifierKey(event)) {
+      this._selectViaInteraction();
+
+      // Prevent the page from scrolling down and form submits.
+      event.preventDefault();
+    }
+  }
+
+  /**
+   * `Selects the option while indicating the selection came from the user. Used to
+   * determine if the select's view -> model callback should be invoked.`
+   */
+  _selectViaInteraction(): void {
+    if (!this.disabled) {
+      this._selected = this.multiple ? !this._selected : true;
+      this._selectedColor = this._color;
+      this._cd.markForCheck();
+      this._emitSelectionChangeEvent(true);
+    }
   }
 
   /** @internal */
-  _getHostElement() {
+  _getHostElement(): HTMLElement {
     return this._el.nativeElement;
+  }
+
+  /** Returns the correct tabindex for the option depending on disabled state. */
+  _getTabIndex(): string {
+    return this.disabled ? '-1' : '0';
+  }
+
+  /** Emits the selection change event. */
+  private _emitSelectionChangeEvent(isUserInput = false): void {
+    this.onSelectionChange.emit(new LyOptionSelectionChange(this, isUserInput));
   }
 
 }

@@ -7,7 +7,16 @@
 </div>
 
 <ng-template #templateRef>
-  <div #container [className]="classes.container" [@selectEnter]="'in'" (@selectLeave.done)="_endAnimation($event)">
+  <div
+    #container
+    tabindex="-1"
+    role="listbox"
+    [className]="classes.container"
+    [@selectEnter]="'in'"
+    (@selectEnter.done)="_panelDoneAnimatingStream.next($event.toState)"
+    (keydown)="_handleKeydown($event)"
+    [style.font-size.px]="_triggerFontSize"
+  >
     <ng-content></ng-content>
   </div>
 </ng-template>
