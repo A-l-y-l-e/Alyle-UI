@@ -20,7 +20,6 @@ import {
   HostBinding,
   Optional,
   Self,
-  forwardRef,
   DoCheck
   } from '@angular/core';
 import {
@@ -423,7 +422,12 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   @ViewChild('_labelSpan') _labelSpan: ElementRef<HTMLDivElement>;
   @ViewChild('_prefixContainer') _prefixContainer: ElementRef<HTMLDivElement>;
   @ViewChild('_suffixContainer') _suffixContainer: ElementRef<HTMLDivElement>;
-  @ContentChild(forwardRef(() => LyFieldControlBase)) _control?: LyFieldControlBase;
+  @ContentChild(LyFieldControlBase) _controlNonStatic?: LyFieldControlBase;
+  @ContentChild(LyFieldControlBase, { static: true }) _controlStatic: LyFieldControlBase<any>;
+  get _control() {
+    // Support both Ivy and ViewEngine.
+    return this._controlNonStatic || this._controlStatic;
+  }
   @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
   @ContentChild(LyLabel) _labelChild: LyLabel;
   @ContentChild(LyDisplayWith) readonly _displayWithChild: QueryList<LyDisplayWith>;
