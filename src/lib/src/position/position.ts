@@ -18,7 +18,7 @@ export type Placement = XPosition | YPosition;
 const INITIAL_V = 'initial';
 
 /**
- * @depracated Use `OverlayPosition` instead.
+ * @deprecated Use `OverlayPosition` instead.
  */
 export class Positioning {
   private _offsetCheck = 16;
