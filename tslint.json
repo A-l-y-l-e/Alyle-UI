@@ -63,12 +63,12 @@
       true,
       "single"
     ],
-    "radix": true,
+    "radix": false,
     "triple-equals": [
       true,
       "allow-null-check"
     ],
-    "no-output-rename": true,
+    "no-output-rename": false,
     "use-pipe-transform-interface": true,
     "no-duplicate-imports": true,
     "no-duplicate-variable": true,
@@ -110,17 +110,6 @@
     "max-line-length": [
       true,
       140
-    ],
-    "member-ordering": [
-      true,
-      {
-        "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
-        ]
-      }
     ],
     "no-redundant-jsdoc": false,
     "no-var-requires": false,
