@@ -658,7 +658,9 @@ export class LySelect
       return;
     }
     this._opened = true;
-    this._overlayRef?.remove();
+    if (this._overlayRef) {
+      this._overlayRef.destroy();
+    }
     this._overlayRef = this._overlay.create(this.templateRef, null, {
       styles: {
         top: 0,
@@ -670,7 +672,9 @@ export class LySelect
     });
     this._keyManager.withHorizontalOrientation(null);
     this._triggerFontSize = parseInt(getComputedStyle(this._getHostElement()).fontSize || '0');
+    this._highlightCorrectOption();
     this._cd.markForCheck();
+    this.stateChanges.next();
     this._ngZone.onStable.pipe(
       take(1)
     ).subscribe(() => this._updatePlacement());
@@ -678,7 +682,6 @@ export class LySelect
 
   close() {
     if (this._opened) {
-      console.warn('closing...');
       this._opened = false;
       this._overlayRef?.detach();
       this._keyManager.withHorizontalOrientation(this._theme.variables.direction);
@@ -689,8 +692,8 @@ export class LySelect
 
   /** @docs-private */
   onContainerClick() {
+    this.focus();
     this.open();
-    this._getHostElement().focus();
   }
 
   /** Focuses the select element. */
@@ -951,12 +954,10 @@ export class LySelect
 
     this._keyManager.tabOut.pipe(takeUntil(this._destroy)).subscribe(() => {
       if (this._opened) {
-        console.log('ontab');
         // Select the active item when tabbing away. This is consistent with how the native
         // select behaves. Note that we only want to do this in single selection mode.
         if (!this.multiple && this._keyManager.activeItem) {
           this._keyManager.activeItem._selectViaInteraction();
-          console.log('customClick');
         }
 
         // Restore focus to the trigger before closing. Ensures that the focus
@@ -1028,7 +1029,7 @@ export class LySelect
           // In case the user selected the option with their mouse, we
           // want to restore focus back to the trigger, in order to
           // prevent the select keyboard controls from clashing with
-          // the ones from `mat-option`.
+          // the ones from `ly-option`.
           this.focus();
         }
       }
@@ -1056,6 +1057,20 @@ export class LySelect
     this.onChange(valueToEmit);
     this.selectionChange.emit(new LySelectChange(this, valueToEmit));
     this._cd.markForCheck();
+  }
+
+  /**
+   * Highlights the selected item. If no option is selected, it will highlight
+   * the first item instead.
+   */
+  private _highlightCorrectOption(): void {
+    if (this._keyManager) {
+      if (this.empty) {
+        this._keyManager.setFirstItemActive();
+      } else {
+        this._keyManager.setActiveItem(this._selectionModel.selected[0]);
+      }
+    }
   }
 
 }
@@ -1191,12 +1206,12 @@ export class LyOption extends LyOptionMixinBase implements WithStyles, Focusable
 
   /** Applies the styles for an active item to this item. */
   setActiveStyles(): void {
-    this._renderer.addClass(this._getHostElement(), this.classes.optionActive);
+    this.sRenderer.addClass(this.classes.optionActive);
   }
 
   /** Applies the styles for an inactive item to this item. */
   setInactiveStyles(): void {
-    this._renderer.removeClass(this._getHostElement(), this.classes.optionActive);
+    this.sRenderer.removeClass(this.classes.optionActive);
   }
 
   /** Gets the label to be used when determining whether the option should be focused. */
