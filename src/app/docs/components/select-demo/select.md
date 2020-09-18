@@ -31,11 +31,11 @@
 
 <h2 [lyTyp]="'display1'" gutter>Select with option object value</h2>
 
+When the values ​​of `ly-option` are objects and change, you can use [compareWith](https://angular.io/api/forms/SelectControlValueAccessor#customizing-option-selection) so that the selection is not lost.
+
 <demo-view path="docs/components/select-demo/select-option-object-value">
   <aui-select-option-object-value></aui-select-option-object-value>
 </demo-view>
-
-> When the values ​​of `ly-option` are objects and change, you can use [compareWith](luking) so that the selection is not lost.
 
 <h2 [lyTyp]="'display1'" gutter>Disabled select</h2>
 <demo-view path="docs/components/select-demo/select-disable">

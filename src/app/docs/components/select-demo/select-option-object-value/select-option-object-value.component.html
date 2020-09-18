@@ -4,7 +4,7 @@
     [formControl]="fruitControl"
     multiple>
     <ly-option *ngFor="let fruit of fruits"
-      [value]="fruit.value">{{ fruit.viewValue }}</ly-option>
+      [value]="fruit">{{ fruit.viewValue }}</ly-option>
   </ly-select>
   <ly-hint>Hint</ly-hint>
   <ly-error *ngIf="fruitControl.hasError('required')">Required</ly-error>

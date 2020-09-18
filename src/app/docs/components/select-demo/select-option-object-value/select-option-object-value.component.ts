@@ -19,7 +19,11 @@ export class SelectOptionObjectValueComponent {
     { value: 'mango-3', viewValue: 'Mango' }
   ];
   fruitControl = new FormControl([
-    'cherry-2'
+    { value: 'cherry-2', viewValue: 'Cherry' }
   ], [Validators.required]);
+
+  compareWithFn(opt1: Fruit, opt2: Fruit) {
+    return opt1.value === opt2.value;
+  }
 
 }
