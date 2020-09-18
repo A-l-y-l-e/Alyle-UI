@@ -1063,6 +1063,9 @@ export class LyOptionBase {
 /** @docs-private */
 export const LyOptionMixinBase = mixinDisableRipple(LyOptionBase);
 
+/**
+ * @dynamic
+ */
 @Component({
   selector: 'ly-option',
   templateUrl: './option.html',
