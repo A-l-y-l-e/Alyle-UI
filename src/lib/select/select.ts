@@ -252,7 +252,6 @@ export class LySelect
   private _multiple: boolean;
   private _opened: boolean;
   private _valueKey: (opt: unknown) => unknown = same;
-  private _valueKeyFn: (opt: LyOption) => unknown = getValue;
   _focused: boolean = false;
   errorState: boolean = false;
   private _cursorClass: string;
@@ -349,63 +348,6 @@ export class LySelect
   }
   private _typeaheadDebounceInterval: number;
 
-  // /** @docs-private */
-  // @Input()
-  // set value(val) {
-  //   if (val !== this.value) {
-  //     this._value = val;
-  //     if (this.options && this._selectionModel) {
-  //       // this.writeValue(val);
-  //       if (this.multiple) {
-  //         if (Array.isArray(this.value)) {
-  //           const values: LyOption[] = [];
-  //           this.options.forEach(opt => {
-  //             if (this.value.some(_ => this._valueKey(_) === this._valueKeyFn(opt))) {
-  //               values.push(opt);
-  //             }
-  //           });
-
-  //           if (values.length) {
-  //             const beforeSelecteds = this._selectionModel.selected;
-  //             // reset
-  //             this._selectionModel.clear();
-  //             // select values
-  //             values.forEach(opt => opt.select());
-
-  //             // deselect old values
-  //             if (beforeSelecteds.length) {
-  //               beforeSelecteds.forEach(opt => {
-  //                 opt.ngOnChanges();
-  //                 opt._cd.markForCheck();
-  //               });
-  //             }
-  //           }
-  //         }
-  //       } else {
-  //         // reset
-  //         const selecteds = this._selectionModel.selected;
-  //         this._selectionModel.clear();
-  //         if (selecteds.length) {
-  //           selecteds.forEach(opt => {
-  //             opt.ngOnChanges();
-  //             opt._cd.markForCheck();
-  //           });
-  //         }
-
-  //         const selected = this.options.find(opt => this._valueKeyFn(opt) === this.valueKey(this.value));
-  //         if (selected) {
-  //           selected.select();
-  //         }
-  //       }
-  //       this.stateChanges.next();
-  //       this._cd.markForCheck();
-  //     }
-  //   }
-  // }
-  // get value() {
-  //   return this._value;
-  // }
-
   /** Value of the select control. */
   @Input()
   get value(): any { return this._value; }
@@ -461,10 +403,13 @@ export class LySelect
   }
   get multiple(): boolean { return this._multiple; }
 
+  /**
+   * @deprecated has been deprecated in favor of `compareWith`
+   */
   @Input()
   set valueKey(fn: (opt: unknown) => unknown) {
-    this._valueKeyFn = (opt: LyOption) => fn(getValue(opt));
     this._valueKey = fn;
+    console.warn('LySelect: `[valueKey]` has been deprecated in favor of `[compareWith]`');
   }
   get valueKey(): (opt: unknown) => unknown { return this._valueKey; }
 
@@ -677,7 +622,7 @@ export class LySelect
     this.stateChanges.next();
     this._ngZone.onStable.pipe(
       take(1)
-    ).subscribe(() => this._updatePlacement());
+    ).subscribe(() => this._updatePlacement(true));
   }
 
   close() {
@@ -853,6 +798,9 @@ export class LySelect
    */
   private _selectValue(value: any): LyOption | undefined {
     const correspondingOption = this.options.find((option: LyOption) => {
+      if (this._valueKey !== same) {
+        return this.valueKey(option.value) === this.valueKey(value);
+      }
       try {
         // Treat null as a special reset value.
         return option.value != null && this._compareWith(option.value, value);
@@ -872,7 +820,7 @@ export class LySelect
     return correspondingOption;
   }
 
-  private _updatePlacement() {
+  private _updatePlacement(updateScroll: boolean) {
     const el = this._overlayRef!.containerElement as HTMLElement;
     const container = el.querySelector('div')!;
     const triggerFontSize = this._triggerFontSize;
@@ -906,12 +854,13 @@ export class LySelect
 
     // scroll to selected option
     if (container.scrollHeight !== container.offsetHeight) {
-      container.scrollTop = selectedElement.offsetTop;
-      if (container.scrollTop === selectedElement.offsetTop) {
-        container.scrollTop = container.scrollTop - (container.offsetHeight / 2) + selectedElement.offsetHeight / 2;
-      } else {
-        container.scrollTop = container.scrollTop
-        - (container.offsetHeight / 2 - (selectedElement.offsetTop - container.scrollTop)) + selectedElement.offsetHeight / 2;
+      if (updateScroll) {
+        if (container.scrollTop === selectedElement.offsetTop) {
+          container.scrollTop = container.scrollTop - (container.offsetHeight / 2) + selectedElement.offsetHeight / 2;
+        } else {
+          container.scrollTop = container.scrollTop
+          - (container.offsetHeight / 2 - (selectedElement.offsetTop - container.scrollTop)) + selectedElement.offsetHeight / 2;
+        }
       }
       offset.y = container.scrollTop + offset.y;
     }
@@ -969,7 +918,7 @@ export class LySelect
 
     this._keyManager.change.pipe(takeUntil(this._destroy)).subscribe(() => {
       if (this._opened) {
-        // this._scrollActiveOptionIntoView();
+        this._scrollActiveOptionIntoView();
       } else if (!this._opened && !this.multiple && this._keyManager.activeItem) {
         this._keyManager.activeItem._selectViaInteraction();
       }
@@ -1073,6 +1022,24 @@ export class LySelect
     }
   }
 
+  /** Scrolls the active option into view. */
+  private _scrollActiveOptionIntoView(): void {
+    const el = this._overlayRef!.containerElement as HTMLElement;
+    const container = el.querySelector('div')!;
+    const activeOption = this._keyManager.activeItem!._getHostElement();
+    // const containerRect = container.getBoundingClientRect();
+    // const activeOptionRect = ;
+    if (typeof activeOption.scrollIntoView === 'function') {
+      if (container.scrollTop > activeOption.offsetTop) {
+        container.scrollTop = activeOption.offsetTop;
+      } else if (
+        container.scrollTop + container.offsetHeight < activeOption.offsetTop + activeOption.offsetHeight
+      ) {
+        container.scrollTop = activeOption.offsetTop - container.offsetHeight + activeOption.offsetHeight;
+      }
+    }
+  }
+
 }
 
 /** Event object emitted by LyOption when selected or deselected. */
@@ -1101,6 +1068,7 @@ export const LyOptionMixinBase = mixinDisableRipple(LyOptionBase);
   templateUrl: './option.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    'role': 'option',
     '(keydown)': '_handleKeydown($event)',
     '[attr.tabindex]': '_getTabIndex()',
   },
@@ -1180,11 +1148,11 @@ export class LyOption extends LyOptionMixinBase implements WithStyles, Focusable
 
   constructor(readonly sRenderer: StyleRenderer,
               /** @internal */
-              private _select: LySelect,
+              readonly _select: LySelect,
               private _el: ElementRef,
               /** @internal */
               public _rippleService: LyRippleService,
-              private _renderer: Renderer2,
+              _renderer: Renderer2,
               _theme: LyTheme2,
               /** @internal */
               public _cd: ChangeDetectorRef,
@@ -1219,34 +1187,6 @@ export class LyOption extends LyOptionMixinBase implements WithStyles, Focusable
     return this.viewValue;
   }
 
-  // select() {
-  //   if (this.disabled) {
-  //     return;
-  //   }
-  //   if (this._select.multiple) {
-  //     const beforeSelecteds = this._select._selectionModel.selected;
-  //     this._select._selectionModel.select(this);
-  //     this._select._value = this._select._selectionModel.selected.map(opt => opt.value);
-  //     this.updateStyle(this._el);
-  //     if (beforeSelecteds.length) {
-  //       beforeSelecteds.forEach(opt => opt.ngOnChanges());
-  //     }
-  //   } else {
-  //     if (!this._select._selectionModel.isSelected(this)) {
-  //       const beforeSelecteds = this._select._selectionModel.selected;
-  //       this._select._selectionModel.select(this);
-  //       this._select._value = this._value;
-  //       this.updateStyle(this._el);
-  //       if (beforeSelecteds.length) {
-  //         beforeSelecteds.forEach(opt => opt.ngOnChanges());
-  //       }
-  //     }
-  //   }
-  //   this._select._cd.markForCheck();
-  //   this._select.stateChanges.next();
-  //   this._cd.markForCheck();
-  // }
-
   /** Selects the option. */
   select(): void {
     if (!this._selected) {
@@ -1266,34 +1206,6 @@ export class LyOption extends LyOptionMixinBase implements WithStyles, Focusable
       this._emitSelectionChangeEvent();
     }
   }
-
-  // toggle() {
-  //   if (this.disabled) {
-  //     return;
-  //   }
-  //   if (this._select.multiple) {
-  //     const beforeSelecteds = this._select._selectionModel.selected;
-  //     this._select._selectionModel.toggle(this);
-  //     this._select._value = this._select._selectionModel.selected.map(opt => opt.value);
-  //     this.updateStyle(this._el);
-  //     if (beforeSelecteds.length) {
-  //       beforeSelecteds.forEach(opt => opt.ngOnChanges());
-  //     }
-  //   } else {
-  //     if (!this._select._selectionModel.isSelected(this)) {
-  //       const beforeSelecteds = this._select._selectionModel.selected;
-  //       this._select._selectionModel.toggle(this);
-  //       this._select._value = this._value;
-  //       this.updateStyle(this._el);
-  //       if (beforeSelecteds.length) {
-  //         beforeSelecteds.forEach(opt => opt.ngOnChanges());
-  //       }
-  //     }
-  //   }
-  //   this._select._cd.markForCheck();
-  //   this._select.stateChanges.next();
-  //   this._cd.markForCheck();
-  // }
 
   /** Sets focus onto this option. */
   focus(_origin?: FocusOrigin, options?: FocusOptions) {
@@ -1347,7 +1259,4 @@ export class LyOption extends LyOptionMixinBase implements WithStyles, Focusable
 
 function same(o: unknown): unknown {
   return o;
-}
-function getValue(o: LyOption): unknown {
-  return o.value;
 }
