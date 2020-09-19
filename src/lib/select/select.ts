@@ -59,7 +59,9 @@ import {
   LyClasses,
   StyleTemplate,
   ThemeRef,
-  StyleRenderer
+  StyleRenderer,
+  Style,
+  WithStyles
   } from '@alyle/ui';
 import { Subject, Observable, defer, merge } from 'rxjs';
 import { take, takeUntil, startWith, switchMap, distinctUntilChanged, filter, mapTo } from 'rxjs/operators';
@@ -68,7 +70,6 @@ import { FocusableOption, FocusOrigin, ActiveDescendantKeyManager } from '@angul
 import { ENTER, SPACE, hasModifierKey, DOWN_ARROW, UP_ARROW, LEFT_ARROW, RIGHT_ARROW, A } from '@angular/cdk/keycodes';
 import { coerceNumberProperty, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Style, WithStyles } from '@alyle/ui';
 import { getLySelectNonFunctionValueError, getLySelectNonArrayValueError } from './select-errors';
 
 
