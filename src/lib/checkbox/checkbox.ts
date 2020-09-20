@@ -54,13 +54,11 @@ export interface LyCheckboxVariables {
 
 export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRef) => {
   const checkbox = ref.selectorsOf(STYLES);
-  const { before, after } = theme;
+  const { after } = theme;
   return {
     $name: LyCheckbox.и,
     $priority: STYLE_PRIORITY,
     root: ( ) => lyl `{
-      margin-${after}: 16px
-      margin-${before}: -16px
       display: inline-flex
       &${checkbox.disabled}:not(${checkbox.checked}) ${checkbox.icon}:before {
         color: ${theme.disabled.default}
@@ -94,19 +92,20 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
         }
       }
     }`,
-    layout: lyl `{
+    layout: () => lyl `{
       display: inline-flex
       align-items: baseline
       cursor: pointer
-      margin-${before}: 16px
-      padding-top: 12px
-      padding-bottom: 12px
+      user-select: none
+      white-space: nowrap
+      ${checkbox.label} {
+        user-select: auto
+      }
     }`,
     icon: lyl `{
       position: relative
+      margin: auto
       margin-${after}: 8px
-      margin-top: auto
-      margin-bottom: auto
       width: 16px
       height: 16px
       user-select: none
@@ -134,6 +133,9 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
           stroke-dashoffset: 18px
         }
       }
+    }`,
+    label: lyl `{
+      line-height: 24px
     }`,
     checked: ( ) => lyl `{
       & ${checkbox.icon}::before {
