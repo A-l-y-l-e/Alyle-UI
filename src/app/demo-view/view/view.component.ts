@@ -156,7 +156,7 @@ export class ViewComponent implements OnInit {
     ]);
     data.subscribe(([res1, res2, res3, ...others]) => {
       const otherModules = `/** Angular */
-import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -202,7 +202,6 @@ export class GlobalVariables {
         return str + `BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    HammerModule,
     `;
       }).replace(DECLARATIONS_REGEXP, (str, token) => {
         return `bootstrap: [${token}],

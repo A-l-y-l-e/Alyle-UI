@@ -226,9 +226,9 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */
   readonly classes = this.sRenderer.renderSheet(STYLES, true);
   private _intervalFn: number | null = null;
-  @ViewChild('slideContainer') slideContainer: ElementRef;
-  @ViewChild('_slide') _slide: ElementRef;
-  @ViewChild('_progressBar') _progressBar: ElementRef<HTMLDivElement>;
+  @ViewChild('slideContainer', { static: false }) slideContainer: ElementRef;
+  @ViewChild('_slide', { static: false }) _slide: ElementRef;
+  @ViewChild('_progressBar', { static: false }) _progressBar: ElementRef<HTMLDivElement>;
   @ContentChildren(forwardRef(() => LyCarouselItem)) lyItems: QueryList<LyCarouselItem>;
   /** @docs-private */
   @Input() mode: CarouselMode = CarouselMode.default;

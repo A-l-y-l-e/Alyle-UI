@@ -1,8 +1,7 @@
 import { Tree, SchematicsException } from '@angular-devkit/schematics';
 import * as ts from 'typescript';
-import { isImported, insertImport } from '@schematics/angular/utility/ast-utils';
+import { isImported, insertImport, getDecoratorMetadata, getMetadataField } from '@schematics/angular/utility/ast-utils';
 import { InsertChange, Change } from '@schematics/angular/utility/change';
-import { getDecoratorMetadata, getMetadataField, parseSourceFile } from '@angular/cdk/schematics';
 
 export function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
   const buffer = host.read(path);
@@ -238,4 +237,13 @@ export function addProvider(host: Tree, modulePath: string, decorator: string, c
   });
 
   host.commitUpdate(recorder);
+}
+
+/** Reads file given path and returns TypeScript source file. */
+export function parseSourceFile(host: Tree, path: string): ts.SourceFile {
+  const buffer = host.read(path);
+  if (!buffer) {
+    throw new SchematicsException(`Could not find file for path: ${path}`);
+  }
+  return ts.createSourceFile(path, buffer.toString(), ts.ScriptTarget.Latest, true);
 }

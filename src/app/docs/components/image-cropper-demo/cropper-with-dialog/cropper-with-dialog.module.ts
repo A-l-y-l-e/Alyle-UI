@@ -26,6 +26,7 @@ import { CropperDialog } from './cropper-dialog';
     LyIconModule,
     LyDialogModule
   ],
-  exports: [CropperWithDialogComponent]
+  exports: [CropperWithDialogComponent],
+  entryComponents: [CropperDialog]
 })
 export class CropperWithDialogModule { }

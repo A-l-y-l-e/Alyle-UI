@@ -38,7 +38,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
   /** Used to subscribe to global move and end events */
   protected _document: Document;
 
-  @ViewChild('resizer') readonly _resizer?: ElementRef;
+  @ViewChild('resizer', { static: false }) readonly _resizer?: ElementRef;
 
   @Input()
   set resizableArea(val: boolean) {
@@ -94,7 +94,10 @@ export class LyCropperArea implements WithStyles, OnDestroy {
   }
 
   private _removeResizableArea() {
-    const element = this._resizer?.nativeElement;
+    // const element = this._resizer?.nativeElement;
+    let _a: any;
+    const element = (_a = this._resizer) === null || _a === void 0 ? void 0 : _a.nativeElement;
+
     if (element) {
       this._lastPointerEvent = null;
       this._removeGlobalEvents();

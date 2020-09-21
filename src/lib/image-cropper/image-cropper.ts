@@ -333,7 +333,8 @@ export class LyImageCropper implements OnDestroy {
 
   @ViewChild('_imgContainer', { static: true }) _imgContainer: ElementRef;
   @ViewChild('_area', {
-    read: ElementRef
+    read: ElementRef,
+    static: false
   }) _areaRef: ElementRef;
   @ViewChild('_imgCanvas', { static: true }) _imgCanvas: ElementRef<HTMLCanvasElement>;
   @Input()
@@ -1056,7 +1057,7 @@ export class LyImageCropper implements OnDestroy {
   }
 
   _canvaRect(): DOMRect {
-    return this._imgCanvas.nativeElement.getBoundingClientRect();
+    return this._imgCanvas.nativeElement.getBoundingClientRect() as DOMRect;
   }
 
 

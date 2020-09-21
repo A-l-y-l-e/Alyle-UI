@@ -1,61 +1,22 @@
-## [10.2.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.0...10.2.1) (2020-09-04)
+# [8.2.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.1...8.2.0) (2020-09-21)
 
 
 ### Bug Fixes
 
-* **field:** outlined field does not work in dialog ([d0c0b45](https://github.com/A-l-y-l-e/Alyle-UI/commit/d0c0b457367a1dac5378645d69e70f61c59b7483))
-* **field:** outlined field does not work in dialog ([bc8a162](https://github.com/A-l-y-l-e/Alyle-UI/commit/bc8a162cb317d6b51eeb7cefdba702e335f8038f))
-* **select:** fix selectArrow with `standard`, `outlined` & `filled` ([cddd50a](https://github.com/A-l-y-l-e/Alyle-UI/commit/cddd50a6ab922618efb0952c5057330eb5778458))
-
-
-
-# [10.2.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.1.0...10.2.0) (2020-08-30)
-
-
-### Bug Fixes
-
-* **typography:** fix `body1` ([c3c095d](https://github.com/A-l-y-l-e/Alyle-UI/commit/c3c095d83c3dbedb06ee8a6d5e2a820d2ef26c8b))
-* remove redundant prefixes from styles (`tab`) ([98be60a](https://github.com/A-l-y-l-e/Alyle-UI/commit/98be60a3dd02fae0916b970bc09c43f55ea35bef))
+* **radio:** remove padding ([23b2822](https://github.com/A-l-y-l-e/Alyle-UI/commit/23b2822beded7ff340de654a8c1274f30321222b))
+* `Style` not working with boolean true ([6c11dce](https://github.com/A-l-y-l-e/Alyle-UI/commit/6c11dce8c50fcee85bca7fe0c8ae18cd02d2a869))
+* **checkbox:** remove padding ([e8e483f](https://github.com/A-l-y-l-e/Alyle-UI/commit/e8e483f3238ce54075edc7403bcfac79896815ca))
+* **radio:** remove margin ([b9b8f2d](https://github.com/A-l-y-l-e/Alyle-UI/commit/b9b8f2d7d69998301c6cf0300bd48fbea2424c13))
+* restore `LyStyleDeprecatedModule` ([3fdbde6](https://github.com/A-l-y-l-e/Alyle-UI/commit/3fdbde6907d00fca5fadc5b546ced918acb83acc))
+* **field:** `markForCheck` on change prefix or suffix ([dd2c0ee](https://github.com/A-l-y-l-e/Alyle-UI/commit/dd2c0ee4cd5b0540966091c829358b10d1517960))
+* support for Angular 8 ([e3e9bd4](https://github.com/A-l-y-l-e/Alyle-UI/commit/e3e9bd4ef29190ab3f495b64c419ab934801c91a))
 
 
 ### Features
 
-* **field:** improve styles ([fb6c43b](https://github.com/A-l-y-l-e/Alyle-UI/commit/fb6c43bd947dd622335eb834d6aeee0a8bb4847e))
-* **tabs:** improve tabs ([684c28b](https://github.com/A-l-y-l-e/Alyle-UI/commit/684c28b6ded4951d1625172e1dd1cc6446b5cfa2))
-* add `contentActive` className when a` content` is active ([8fa11fa](https://github.com/A-l-y-l-e/Alyle-UI/commit/8fa11faf3aa0d9725f3c5c6f301a5d942290330c))
+* add `lyBg` ([48028a3](https://github.com/A-l-y-l-e/Alyle-UI/commit/48028a32ef1a0080e2a7cf4a78593b7f0ab3d8f9))
+* **select:** improve accessibility ([57ad543](https://github.com/A-l-y-l-e/Alyle-UI/commit/57ad54384054237ec513b3fb583129b81158dfb9))
 
-
-
-# [10.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.0.0...10.1.0) (2020-08-24)
-
-
-### Bug Fixes
-
-* **tabs:** when changing tabs the content shows the `overflowY` with `dynamicHeight` ([26dd227](https://github.com/A-l-y-l-e/Alyle-UI/commit/26dd2271b441bd19ba76da09b9c17bb901426c58))
-
-
-### Features
-
-* **field:** add `ly-display-with` ([ea67154](https://github.com/A-l-y-l-e/Alyle-UI/commit/ea67154ee19dd6a03f171d4c215d5758b3127954))
-* **tabs:** add `animationDuration`option ([925e40a](https://github.com/A-l-y-l-e/Alyle-UI/commit/925e40a060902baf136cdd6d791899b5e1a5b3cf))
-
-
-# [9.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.0...9.1.0) (2020-08-30)
-
-### Bug Fixes
-
-* **typography:** fix `body1` ([c3c095d](https://github.com/A-l-y-l-e/Alyle-UI/commit/c3c095d83c3dbedb06ee8a6d5e2a820d2ef26c8b))
-* remove redundant prefixes from styles (`tab`) ([98be60a](https://github.com/A-l-y-l-e/Alyle-UI/commit/98be60a3dd02fae0916b970bc09c43f55ea35bef))
-* **tabs:** when changing tabs the content shows the `overflowY` with `dynamicHeight` ([26dd227](https://github.com/A-l-y-l-e/Alyle-UI/commit/26dd2271b441bd19ba76da09b9c17bb901426c58))
-
-
-### Features
-
-* **field:** improve styles ([fb6c43b](https://github.com/A-l-y-l-e/Alyle-UI/commit/fb6c43bd947dd622335eb834d6aeee0a8bb4847e))
-* **tabs:** improve tabs ([684c28b](https://github.com/A-l-y-l-e/Alyle-UI/commit/684c28b6ded4951d1625172e1dd1cc6446b5cfa2))
-* add `contentActive` className when a` content` is active ([8fa11fa](https://github.com/A-l-y-l-e/Alyle-UI/commit/8fa11faf3aa0d9725f3c5c6f301a5d942290330c))
-* **field:** add `ly-display-with` ([ea67154](https://github.com/A-l-y-l-e/Alyle-UI/commit/ea67154ee19dd6a03f171d4c215d5758b3127954))
-* **tabs:** add `animationDuration`option ([925e40a](https://github.com/A-l-y-l-e/Alyle-UI/commit/925e40a060902baf136cdd6d791899b5e1a5b3cf))
 
 
 # [8.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.0...8.1.0) (2020-08-30)
@@ -63,44 +24,11 @@
 
 ### Bug Fixes
 
-* **typography:** fix `body1` ([c3c095d](https://github.com/A-l-y-l-e/Alyle-UI/commit/c3c095d83c3dbedb06ee8a6d5e2a820d2ef26c8b))
-* remove redundant prefixes from styles (`tab`) ([98be60a](https://github.com/A-l-y-l-e/Alyle-UI/commit/98be60a3dd02fae0916b970bc09c43f55ea35bef))
-* **tabs:** when changing tabs the content shows the `overflowY` with `dynamicHeight` ([26dd227](https://github.com/A-l-y-l-e/Alyle-UI/commit/26dd2271b441bd19ba76da09b9c17bb901426c58))
-
-
-### Features
-
-* **field:** improve styles ([fb6c43b](https://github.com/A-l-y-l-e/Alyle-UI/commit/fb6c43bd947dd622335eb834d6aeee0a8bb4847e))
-* **tabs:** improve tabs ([684c28b](https://github.com/A-l-y-l-e/Alyle-UI/commit/684c28b6ded4951d1625172e1dd1cc6446b5cfa2))
-* add `contentActive` className when a` content` is active ([8fa11fa](https://github.com/A-l-y-l-e/Alyle-UI/commit/8fa11faf3aa0d9725f3c5c6f301a5d942290330c))
-* **field:** add `ly-display-with` ([ea67154](https://github.com/A-l-y-l-e/Alyle-UI/commit/ea67154ee19dd6a03f171d4c215d5758b3127954))
-* **tabs:** add `animationDuration`option ([925e40a](https://github.com/A-l-y-l-e/Alyle-UI/commit/925e40a060902baf136cdd6d791899b5e1a5b3cf))
+* support for Angular 8 ([e3e9bd4](https://github.com/A-l-y-l-e/Alyle-UI/commit/e3e9bd4ef29190ab3f495b64c419ab934801c91a))
 
 
 
-# [10.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.1...10.0.0) (2020-08-17)
-
-
-### Features
-
-* Support for Angular 10 ([#129](https://github.com/A-l-y-l-e/Alyle-UI/issues/129)) ([879d089](https://github.com/A-l-y-l-e/Alyle-UI/commit/879d089b387a703ec74bfff691db42d836d28f0c))
-
-
-
-## [9.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.0...9.0.1) (2020-08-15)
-
-
-### Bug Fixes
-
-* **card:** fix media queries ([a498956](https://github.com/A-l-y-l-e/Alyle-UI/commit/a498956fd9768f31f95b2f046b6c586385fef1cc))
-* **snack-bar:** fix media queries ([21ce323](https://github.com/A-l-y-l-e/Alyle-UI/commit/21ce32362829f7b969fadaaabc557ef494dde8f0))
-* **tabs:** fix media queries ([383c3fe](https://github.com/A-l-y-l-e/Alyle-UI/commit/383c3fea54a6e77da29189f60a474698c95f64f9))
-* **toolbar:** fix media queries ([2939414](https://github.com/A-l-y-l-e/Alyle-UI/commit/2939414e25e133984b5866a88208a528dece246a))
-* multiple inline media queries not working ([1dc7a4e](https://github.com/A-l-y-l-e/Alyle-UI/commit/1dc7a4ecbe5bd480ff43b7e3164b860d6eee7e10))
-
-
-
-## [8.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.0...v3.5.x) (2020-08-14)
+## [8.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/9.0.0...8.0.2) (2020-08-14)
 
 
 ### Bug Fixes

@@ -417,20 +417,20 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   private _fullWidthClass?: string;
   private _updateFielsetSpanOnStable: boolean;
   @ViewChild('_container', { static: true }) _container: ElementRef<HTMLDivElement>;
-  @ViewChild('_labelContainer') _labelContainer: ElementRef<HTMLDivElement>;
-  @ViewChild('_labelContainer2') _labelContainer2: ElementRef<HTMLDivElement>;
-  @ViewChild('_labelSpan') _labelSpan: ElementRef<HTMLDivElement>;
-  @ViewChild('_prefixContainer') _prefixContainer: ElementRef<HTMLDivElement>;
-  @ViewChild('_suffixContainer') _suffixContainer: ElementRef<HTMLDivElement>;
-  @ContentChild(LyFieldControlBase) _controlNonStatic?: LyFieldControlBase;
+  @ViewChild('_labelContainer', { static: false }) _labelContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('_labelContainer2', { static: false }) _labelContainer2: ElementRef<HTMLDivElement>;
+  @ViewChild('_labelSpan', { static: false }) _labelSpan: ElementRef<HTMLDivElement>;
+  @ViewChild('_prefixContainer', { static: false }) _prefixContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('_suffixContainer', { static: false }) _suffixContainer: ElementRef<HTMLDivElement>;
+  @ContentChild(LyFieldControlBase, { static: false }) _controlNonStatic?: LyFieldControlBase;
   @ContentChild(LyFieldControlBase, { static: true }) _controlStatic: LyFieldControlBase<any>;
   get _control() {
     // Support both Ivy and ViewEngine.
     return this._controlNonStatic || this._controlStatic;
   }
-  @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
-  @ContentChild(LyLabel) _labelChild: LyLabel;
-  @ContentChild(LyDisplayWith) readonly _displayWithChild: QueryList<LyDisplayWith>;
+  @ContentChild(LyPlaceholder, { static: false }) _placeholderChild: LyPlaceholder;
+  @ContentChild(LyLabel, { static: false }) _labelChild: LyLabel;
+  @ContentChild(LyDisplayWith, { static: false }) readonly _displayWithChild: QueryList<LyDisplayWith>;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
   @ContentChildren(LyPrefix) _prefixChildren: QueryList<LyPrefix>;
   @ContentChildren(LySuffix) _suffixChildren: QueryList<LySuffix>;

@@ -317,9 +317,9 @@ export class AppComponent {
   routes = AUIRoutes.slice(1);
   currentRoutePath: string;
 
-  @ViewChild(DocViewer) docViewer?: DocViewer;
+  @ViewChild(DocViewer, { static: false}) docViewer?: DocViewer;
   @ViewChild(LyDrawer, { static: true }) drawer: LyDrawer;
-  @ViewChild(LySnackBar) sb: LySnackBar;
+  @ViewChild(LySnackBar, { static: false}) sb: LySnackBar;
   @ViewChild(PageContentComponent, { static: true }) page: PageContentComponent;
 
   constructor(

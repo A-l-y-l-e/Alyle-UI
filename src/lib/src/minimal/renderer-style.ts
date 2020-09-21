@@ -451,5 +451,8 @@ function getComponentName(comp: any) {
   return comp.constructor.и || comp.constructor.name || 'unnamed';
 }
 function getComponentPriority(comp: any, priority?: number) {
-  return priority ?? comp.$priority ?? (comp.constructor as any).$priority ?? 0;
+  // return priority ?? comp.$priority ?? (comp.constructor as any).$priority ?? 0;
+  let _a: any, _b: any;
+  // tslint:disable-next-line: max-line-length
+  return (_b = (_a = priority !== null && priority !== void 0 ? priority : comp.$priority) !== null && _a !== void 0 ? _a : comp.constructor.$priority) !== null && _b !== void 0 ? _b : 0;
 }

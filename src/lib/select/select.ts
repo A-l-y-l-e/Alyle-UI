@@ -283,12 +283,12 @@ export class LySelect
       .pipe(take(1), switchMap(() => this.optionSelectionChanges));
   }) as Observable<LyOptionSelectionChange>;
 
-  @ViewChild('templateRef') templateRef: TemplateRef<any>;
-  @ViewChild('valueText') valueTextDivRef: ElementRef<HTMLDivElement>;
+  @ViewChild('templateRef', { static: false }) templateRef: TemplateRef<any>;
+  @ViewChild('valueText', { static: false }) valueTextDivRef: ElementRef<HTMLDivElement>;
   /** @internal */
-  @ViewChild(forwardRef(() => LyOption)) _options: QueryList<LyOption>;
+  @ViewChild(forwardRef(() => LyOption), { static: false }) _options: QueryList<LyOption>;
   @ContentChildren(forwardRef(() => LyOption), { descendants: true }) options: QueryList<LyOption>;
-  @ContentChild(LySelectTrigger) customTrigger: LySelectTrigger;
+  @ContentChild(LySelectTrigger, { static: false }) customTrigger: LySelectTrigger;
 
   /** Event emitted when the select panel has been toggled. */
   @Output() readonly openedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -628,7 +628,9 @@ export class LySelect
   close() {
     if (this._opened) {
       this._opened = false;
-      this._overlayRef?.detach();
+      if (this._overlayRef) {
+        this._overlayRef.detach();
+      }
       this._keyManager.withHorizontalOrientation(this._theme.variables.direction);
       this._cd.markForCheck();
       this.onTouched();
@@ -705,7 +707,7 @@ export class LySelect
     const manager = this._keyManager;
 
     // Open the select on ALT + arrow key to match the native <select>
-    if (!manager.isTyping() && (isOpenKey && !hasModifierKey(event)) ||
+    if ((isOpenKey && !hasModifierKey(event)) ||
       ((this.multiple || event.altKey) && isArrowKey)) {
       event.preventDefault(); // prevents the page from scrolling down when pressing space
       this.open();
@@ -719,19 +721,16 @@ export class LySelect
     const manager = this._keyManager;
     const keyCode = event.keyCode;
     const isArrowKey = keyCode === DOWN_ARROW || keyCode === UP_ARROW;
-    const isTyping = manager.isTyping();
 
     if (isArrowKey && event.altKey) {
       // Close the select on ALT + arrow key to match the native <select>
       event.preventDefault();
       this.close();
-      // Don't do anything in this case if the user is typing,
-      // because the typing sequence can include the space key.
-    } else if (!isTyping && (keyCode === ENTER || keyCode === SPACE) && manager.activeItem &&
+    } else if ((keyCode === ENTER || keyCode === SPACE) && manager.activeItem &&
       !hasModifierKey(event)) {
       event.preventDefault();
       manager.activeItem._selectViaInteraction();
-    } else if (!isTyping && this._multiple && keyCode === A && event.ctrlKey) {
+    } else if (this._multiple && keyCode === A && event.ctrlKey) {
       event.preventDefault();
       const hasDeselectedOptions = this.options.some(opt => !opt.disabled && !opt.selected);
 
@@ -898,7 +897,6 @@ export class LySelect
       .withTypeAhead(this._typeaheadDebounceInterval)
       .withVerticalOrientation()
       .withHorizontalOrientation(this._theme.variables.direction)
-      .withHomeAndEnd()
       .withAllowedModifierKeys(['shiftKey']);
 
     this._keyManager.tabOut.pipe(takeUntil(this._destroy)).subscribe(() => {
@@ -1089,7 +1087,7 @@ export class LyOption extends LyOptionMixinBase implements WithStyles, Focusable
   private _selected = false;
   private _disabled = false;
 
-  @ViewChild('rippleContainer') _rippleContainer: ElementRef;
+  @ViewChild('rippleContainer', { static: false }) _rippleContainer: ElementRef;
 
   /** Event emitted when the option is selected or deselected. */
   // tslint:disable-next-line: no-output-on-prefix

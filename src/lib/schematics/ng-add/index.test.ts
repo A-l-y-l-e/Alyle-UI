@@ -51,13 +51,12 @@ test(`ng-add-setup-project with default options`, async t => {
   const appComponent = tree.readContent('/projects/Alyle/src/app/app.component.ts');
   const main = tree.readContent('/projects/Alyle/src/main.ts');
 
-  t.is(appModule.match(/BrowserAnimationsModule/g)?.length, 2);
-  t.is(appModule.match(/HammerModule/g)?.length, 2);
-  t.is(appModule.match(/MinimaLight/g)?.length, 2);
-  t.is(appModule.match(/LY_THEME/g)?.length, 4);
-  t.is(appModule.match(/LY_THEME_NAME/g)?.length, 2);
+  t.is(appModule.match(/BrowserAnimationsModule/g)!.length, 2);
+  t.is(appModule.match(/MinimaLight/g)!.length, 2);
+  t.is(appModule.match(/LY_THEME/g)!.length, 4);
+  t.is(appModule.match(/LY_THEME_NAME/g)!.length, 2);
 
-  t.is(appComponent.match(/StyleRenderer/g)?.length, 3);
+  t.is(appComponent.match(/StyleRenderer/g)!.length, 3);
   t.true(appComponent.includes('readonly sRenderer: StyleRenderer'));
   t.true(appComponent.includes('readonly classes = this.sRenderer.renderSheet(STYLES, true)'));
   t.true(appModule.includes(`{ provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }`));
@@ -73,8 +72,8 @@ test(`ng-add-setup-project with two themes`, async t => {
   } as Schema, appTree).toPromise();
 
   const appModule = tree.readContent('/projects/Alyle/src/app/app.module.ts');
-  t.is(appModule.match(/MinimaLight/g)?.length, 2);
-  t.is(appModule.match(/MinimaDeepDark/g)?.length, 2);
+  t.is(appModule.match(/MinimaLight/g)!.length, 2);
+  t.is(appModule.match(/MinimaDeepDark/g)!.length, 2);
 });
 
 test(`ng-add-setup-project without gestures`, async t => {
