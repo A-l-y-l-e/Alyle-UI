@@ -71,6 +71,7 @@ export const STYLES = (theme: ThemeVariables & LyRadioVariables, ref: ThemeRef) 
   const { after, before } = theme;
   return {
     $priority: STYLE_PRIORITY,
+    /** ly-radio-group */
     root: ( ) => lyl `{
       display: inline-block
       {
@@ -86,8 +87,7 @@ export const STYLES = (theme: ThemeVariables & LyRadioVariables, ref: ThemeRef) 
     }`,
     radio: ( ) => lyl `{
       display: inline-block
-      margin-${after}: 16px
-      margin-${before}: -16px
+      -webkit-tap-highlight-color: transparent
       &${radio.checked} {
         ${radio.container} {
           div:nth-child(1) {
@@ -106,7 +106,7 @@ export const STYLES = (theme: ThemeVariables & LyRadioVariables, ref: ThemeRef) 
       }
     }`,
     label: lyl `{
-      margin-${before}: 16px
+      user-select: none
       cursor: pointer
       white-space: nowrap
       position: relative
