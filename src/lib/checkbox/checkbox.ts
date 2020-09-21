@@ -60,6 +60,7 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
     $priority: STYLE_PRIORITY,
     root: ( ) => lyl `{
       display: inline-flex
+      -webkit-tap-highlight-color: transparent
       &${checkbox.disabled}:not(${checkbox.checked}) ${checkbox.icon}:before {
         color: ${theme.disabled.default}
       }
