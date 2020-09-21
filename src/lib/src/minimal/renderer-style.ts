@@ -382,7 +382,7 @@ export function createStyle<INPUT, C>(
         });
       }
     }
-  } else if (typeof value === 'number') {
+  } else if (typeof value === 'number' || (value as any) === true) {
     if (oldValue !== value) {
       c.sRenderer.removeClasses(c[_propertyKeyClass]);
       _renderStyle(c, propertyKeyConfig, value as any, null, style, priority);
