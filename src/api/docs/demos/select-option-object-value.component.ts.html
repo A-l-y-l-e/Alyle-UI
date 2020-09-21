@@ -22,9 +22,8 @@
     <span class="tt18 ttae">&#123;</span> value<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'cherry-2'</span><span class="tt18 ttae">,</span> viewValue<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Cherry'</span> <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span> <span class="tt18 ttae">[</span>Validators<span class="tt18 ttae">.</span>required<span class="tt18 ttae">]</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
-  <span class="tt18 tt3o">/** For `&lt;ly-select>` */</span>
-  <span class="tt18 tta3">valueKeyFn</span><span class="tt18 ttae">(</span><span class="tt18 parameter">opt<span class="tt18 ttb0">:</span> Fruit</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">return</span> opt<span class="tt18 ttae">.</span>value<span class="tt18 ttae">;</span>
+  <span class="tt18 tta3">compareWithFn</span><span class="tt18 ttae">(</span><span class="tt18 parameter">opt1<span class="tt18 ttb0">:</span> Fruit<span class="tt18 ttae">,</span> opt2<span class="tt18 ttb0">:</span> Fruit</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">return</span> opt1<span class="tt18 ttae">.</span>value <span class="tt18 ttb0">===</span> opt2<span class="tt18 ttae">.</span>value<span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
 <span class="tt18 ttae">&#125;</span>

@@ -22,9 +22,8 @@ export class SelectOptionObjectValueComponent {
     { value: 'cherry-2', viewValue: 'Cherry' }
   ], [Validators.required]);
 
-  /** For `<ly-select>` */
-  valueKeyFn(opt: Fruit) {
-    return opt.value;
+  compareWithFn(opt1: Fruit, opt2: Fruit) {
+    return opt1.value === opt2.value;
   }
 
 }
