@@ -36,6 +36,7 @@ const STYLE_PRIORITY = -0.5;
   inputs: [
     'lyStyle',
     'color: lyColor',
+    'bg: lyBg',
     'p: lyP', 'pf: lyPf', 'pe: lyPe', 'pt: lyPt', 'pb: lyPb', 'px: lyPx', 'py: lyPy',
     'm: lyM', 'mf: lyMf', 'me: lyMe', 'mt: lyMt', 'mb: lyMb', 'mx: lyMx', 'my: lyMy',
     'size: lySize',
@@ -80,6 +81,14 @@ export class LyStyle implements WithStyles {
       }`
     )
   ) color: string | number | null;
+
+  @Style<string | null>(
+    (value) => (theme: ThemeVariables) => (
+      lyl `{
+        background: ${theme.colorOf(value)}
+      }`
+    )
+  ) bg: string | number | null;
 
   @Style<string | number | null>(
     (value, media) => ({breakpoints}: ThemeVariables) => (
