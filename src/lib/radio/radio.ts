@@ -112,8 +112,6 @@ export const STYLES = (theme: ThemeVariables & LyRadioVariables, ref: ThemeRef) 
       position: relative
       display: flex
       align-items: baseline
-      padding-top: 12px
-      padding-bottom: 12px
     }`,
     labelContent: null,
     container: lyl `{
