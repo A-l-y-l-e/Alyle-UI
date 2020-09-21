@@ -428,9 +428,9 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     // Support both Ivy and ViewEngine.
     return this._controlNonStatic || this._controlStatic;
   }
-  @ContentChild(LyPlaceholder) _placeholderChild: LyPlaceholder;
-  @ContentChild(LyLabel) _labelChild: LyLabel;
-  @ContentChild(LyDisplayWith) readonly _displayWithChild: QueryList<LyDisplayWith>;
+  @ContentChild(LyPlaceholder, { static: false }) _placeholderChild: LyPlaceholder;
+  @ContentChild(LyLabel, { static: false }) _labelChild: LyLabel;
+  @ContentChild(LyDisplayWith, { static: false }) readonly _displayWithChild: QueryList<LyDisplayWith>;
   @ContentChildren(LyHint) _hintChildren: QueryList<LyHint>;
   @ContentChildren(LyPrefix) _prefixChildren: QueryList<LyPrefix>;
   @ContentChildren(LySuffix) _suffixChildren: QueryList<LySuffix>;
