@@ -12,4 +12,4 @@ To build @alyle/ui, run `yarn build:@alyle/ui`. The output can be found under di
 
 To run tests, run `. ./init.sh && npx ava`.
 
-> We currently use Ava for testing, and not Jasmine & Karma, those will be added as soon as possible.
+> We currently use Ava for testing, and not Jasmine & Karma, these will be added as soon as possible.
