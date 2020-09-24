@@ -898,7 +898,6 @@ export class LySelect
       .withTypeAhead(this._typeaheadDebounceInterval)
       .withVerticalOrientation()
       .withHorizontalOrientation(this._theme.variables.direction)
-      .withHomeAndEnd()
       .withAllowedModifierKeys(['shiftKey']);
 
     this._keyManager.tabOut.pipe(takeUntil(this._destroy)).subscribe(() => {
