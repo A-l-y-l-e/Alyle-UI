@@ -1,4 +1,4 @@
-import { Directive } from '@angular/core';
+import { Directive, ElementRef, SimpleChanges, OnChanges, isDevMode } from '@angular/core';
 import { lyl } from '../parse';
 import { StyleRenderer, Style, WithStyles, InputStyle } from '../minimal/renderer-style';
 import { ThemeVariables } from './theme-config';
@@ -36,6 +36,7 @@ const STYLE_PRIORITY = -0.5;
   inputs: [
     'lyStyle',
     'color: lyColor',
+    'bg: lyBg',
     'p: lyP', 'pf: lyPf', 'pe: lyPe', 'pt: lyPt', 'pb: lyPb', 'px: lyPx', 'py: lyPy',
     'm: lyM', 'mf: lyMf', 'me: lyMe', 'mt: lyMt', 'mb: lyMb', 'mx: lyMx', 'my: lyMy',
     'size: lySize',
@@ -80,6 +81,14 @@ export class LyStyle implements WithStyles {
       }`
     )
   ) color: string | number | null;
+
+  @Style<string | null>(
+    (value) => (theme: ThemeVariables) => (
+      lyl `{
+        background: ${theme.colorOf(value)}
+      }`
+    )
+  ) bg: string | number | null;
 
   @Style<string | number | null>(
     (value, media) => ({breakpoints}: ThemeVariables) => (
@@ -433,6 +442,89 @@ export class LyStyle implements WithStyles {
     )
   )
   lyStyle: string | null;
+}
+
+/**
+ * @dynamic
+ * @deprecated
+ * Spacing
+ * [p], [pf], [pe], [pt], [pb], [px], [py],
+ * [m], [mf], [me], [mt], [mb], [mx], [my],
+ * Sizing
+ * [size],
+ * [width], [maxWidth], [minWidth],
+ * [height], [maxHeight], [minHeight],
+ * Others
+ * [lyStyle]
+ */
+@Directive({
+  selector: `
+              [p], [pf], [pe], [pt], [pb], [px], [py],
+              [m], [mf], [me], [mt], [mb], [mx], [my],
+              [size]:not([ly-button]),
+              [width]:not(svg):not(canvas):not(embed):not(iframe):not(img):not(input):not(object):not(video),
+              [maxWidth], [minWidth],
+              [height]:not(svg):not(canvas):not(embed):not(iframe):not(img):not(input):not(object):not(video),
+              [maxHeight], [minHeight],
+              [display],
+              [flex],
+              [flexBasis],
+              [flexDirection],
+              [flexGrow],
+              [flexSelf],
+              [flexShrink],
+              [flexWrap],
+              [justifyContent],
+              [justifyItems],
+              [justifySelf],
+              [alignContent],
+              [alignItems],
+              [order]`,
+  providers: [
+    StyleRenderer
+  ],
+  inputs: [
+    'p', 'pf', 'pe', 'pt', 'pb', 'px', 'py',
+    'm', 'mf', 'me', 'mt', 'mb', 'mx', 'my',
+    'size',
+    'width', 'maxWidth', 'minWidth',
+    'height', 'maxHeight', 'minHeight',
+    'display',
+    'flex',
+    'flexBasis',
+    'flexDirection',
+    'flexGrow',
+    'flexSelf',
+    'flexShrink',
+    'flexWrap',
+    'justifyContent',
+    'justifyItems',
+    'justifySelf',
+    'alignContent',
+    'alignItems',
+    'order',
+  ]
+})
+export class LyStyleDeprecated extends LyStyle implements OnChanges {
+  constructor(
+    sRenderer: StyleRenderer,
+    private _el: ElementRef
+  ) {
+    super(sRenderer);
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (isDevMode()) {
+      for (const key in changes) {
+        if (changes.hasOwnProperty(key)) {
+          const message = `[${key}] is deprecated, use [ly${key.charAt(0).toUpperCase() + key.slice(1)}] instead.`;
+          console.warn({
+            message,
+            element: this._el.nativeElement
+          });
+        }
+      }
+    }
+  }
 }
 
 /**

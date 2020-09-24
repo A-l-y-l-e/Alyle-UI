@@ -30,9 +30,9 @@
 </demo-view>
 
 <h2 [lyTyp]="'display1'" gutter>Select with option object value</h2>
-<p>
-  If the value is an object and also has an immutable state, you can use the <code class="html">valueKey</code> property of <code class="html"><ly-select></code>, the property accepts only a function that returns the unique id of the object.
-</p>
+
+When the values ​​of `ly-option` are objects and change, you can use [compareWith](https://angular.io/api/forms/SelectControlValueAccessor#customizing-option-selection) so that the selection is not lost.
+
 <demo-view path="docs/components/select-demo/select-option-object-value">
   <aui-select-option-object-value></aui-select-option-object-value>
 </demo-view>

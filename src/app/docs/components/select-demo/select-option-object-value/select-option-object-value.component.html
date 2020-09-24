@@ -2,7 +2,6 @@
   <ly-label>Label</ly-label>
   <ly-select placeholder="Placeholder"
     [formControl]="fruitControl"
-    [valueKey]="valueKeyFn"
     multiple>
     <ly-option *ngFor="let fruit of fruits"
       [value]="fruit">{{ fruit.viewValue }}</ly-option>

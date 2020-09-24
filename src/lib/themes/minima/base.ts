@@ -148,6 +148,9 @@ export class MinimaBase extends LyStyleUtils {
           ${classes.infix} {
             border-top: ${1.125 * 0.75}em solid transparent
           }
+          &${classes.selectArrow} ${classes.infix}::after {
+            top: 0.4em
+          }
           ${classes.infix}, ${classes.placeholder}, ${classes.displayWith} {
             padding: .5em 0
           }
@@ -188,6 +191,9 @@ export class MinimaBase extends LyStyleUtils {
           }
           ${classes.infix}, ${classes.placeholder}, ${classes.displayWith} {
             padding: 1em 0
+          }
+          &${classes.selectArrow} ${classes.infix}::after {
+            top: 1em
           }
           &${classes.focused} ${classes.fieldset} {
             border-width: 2px
