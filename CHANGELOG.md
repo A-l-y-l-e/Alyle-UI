@@ -1,3 +1,7 @@
+# [9.2.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.3.0...9.2.0) (2020-09-24)
+
+
+
 # [9.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.0...9.1.0) (2020-08-30)
 
 
