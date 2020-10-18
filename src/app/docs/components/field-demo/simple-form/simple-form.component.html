@@ -1,6 +1,7 @@
 <form [formGroup]="profileForm"
   (ngSubmit)="onSubmit()"
   [className]="classes.container"
+  #profileNgForm="ngForm"
 >
   <ly-field appearance="filled" [lyWidth]="1" [persistentHint]="true">
     <input lyNativeControl
@@ -63,7 +64,7 @@
     type="submit"
   >Submit</button>
   <button ly-button
-    (click)="profileForm.reset()"
+    (click)="profileNgForm.reset()"
     bg="primary"
     raised
     type="button"
