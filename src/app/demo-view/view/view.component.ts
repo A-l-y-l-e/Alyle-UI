@@ -8,6 +8,7 @@ import {
   isDevMode,
   Renderer2
 } from '@angular/core';
+import { VERSION as CDK_VERSION } from '@angular/cdk';
 import { Observable, of, merge, forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -150,9 +151,9 @@ export class ViewComponent implements OnInit {
         span.innerHTML = html;
         return span.innerText;
       })));
-    const data = forkJoin(
+    const data = forkJoin([
       ...urls
-    );
+    ]);
     data.subscribe(([res1, res2, res3, ...others]) => {
       const otherModules = `/** Angular */
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
@@ -295,6 +296,7 @@ export class GlobalVariables {
         '@alyle/ui': AUI_VERSION,
         '@angular/cli': '^8.0.3',
         '@angular/core': VERSION.full,
+        '@angular/cdk': CDK_VERSION.full,
         '@angular/common': VERSION.full,
         '@angular/forms': VERSION.full,
         '@angular/animations': VERSION.full,
