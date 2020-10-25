@@ -111,7 +111,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 }
 
-declare var SimplexNoise: { new(): { noise3D: (arg0: number, arg1: number, arg2: number) => number; }; new(): { noise3D: (arg0: number, arg1: number, arg2: number) => number; }; };
+declare var SimplexNoise: {
+  new(): {
+    noise3D: (arg0: number, arg1: number, arg2: number) => number;
+  };
+  new(): {
+    noise3D: (arg0: number, arg1: number, arg2: number) => number;
+  };
+};
 
 // const Config = {
 //   backgroundColor: '#030722',
@@ -311,8 +318,8 @@ class Particle {
   x: number;
   y: number;
   color: HSLA;
-  pastX = this.x;
-  pastY = this.y;
+  pastX: number;
+  pastY: number;
   constructor(x?: number, y?: number, color?: { h: number; s: number; l: number; a: number; }) {
     this.x = x || 0;
     this.y = y || 0;
