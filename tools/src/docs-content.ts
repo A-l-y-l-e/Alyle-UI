@@ -99,7 +99,7 @@ const APIList: DocsPackage[] = [];
               let scriptBlock = '';
               nods.forEach((nod) => {
                 if (ts.isFunctionDeclaration(nod!)) {
-                  nod.body = undefined;
+                  (nod.body as any) = undefined;
                   const printer = ts.createPrinter({
                     newLine: ts.NewLineKind.LineFeed,
                     omitTrailingSemicolon: true
@@ -108,7 +108,7 @@ const APIList: DocsPackage[] = [];
                 } else if (name.toLowerCase() === 'styles') {
                   scriptBlock += nod!.getFullText().trim() + `\n`;
                 } else if (ts.isClassDeclaration(nod!)) {
-                  nod.members = ts.createNodeArray(
+                  (nod.members as any) = ts.factory.createNodeArray(
                     nod.members
                       .filter(mem => !/@docs-private|docsPrivate|internal/.test(mem.getFullText()))
                       // Ignore [0x1]
@@ -133,7 +133,7 @@ const APIList: DocsPackage[] = [];
                       || ts.isSetAccessor(mem)
                       || ts.isMethodDeclaration(mem)
                     ) {
-                      mem.body = undefined;
+                      (mem.body as any) = undefined;
                     }
                   });
                   const printer = ts.createPrinter({
