@@ -6,7 +6,8 @@ import {
   CdkHeaderRow,
   CdkHeaderRowDef,
   CdkRow,
-  CdkRowDef
+  CdkRowDef,
+  CdkNoDataRow
 } from '@angular/cdk/table';
 import {ChangeDetectionStrategy, Component, Directive, ViewEncapsulation} from '@angular/core';
 
@@ -101,4 +102,12 @@ export class LyFooterRow extends CdkFooterRow {
   providers: [{provide: CdkRow, useExisting: LyRow}],
 })
 export class LyRow extends CdkRow {
+}
+
+/** Row that can be used to display a message when no data is shown in the table. */
+@Directive({
+  selector: 'ng-template[lyNoDataRow]',
+  providers: [{provide: CdkNoDataRow, useExisting: LyNoDataRow}],
+})
+export class LyNoDataRow extends CdkNoDataRow {
 }

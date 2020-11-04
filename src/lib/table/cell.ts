@@ -1,10 +1,8 @@
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Directive, ElementRef, Input } from '@angular/core';
 import {
-  CdkCell,
   CdkCellDef,
-  CdkColumnDef, CdkFooterCell, CdkFooterCellDef,
-  CdkHeaderCell,
+  CdkColumnDef, CdkFooterCellDef,
   CdkHeaderCellDef,
 } from '@angular/cdk/table';
 
@@ -52,9 +50,29 @@ export class LyFooterCellDef extends CdkFooterCellDef {}
 })
 export class LyColumnDef extends CdkColumnDef {
   /** Unique name for this column. */
-  @Input('lyColumnDef') name: string;
+  @Input('lyColumnDef')
+  get name(): string { return this._name; }
+  set name(name: string) { this._setNameInput(name); }
+
+  /**
+   * Add "ly-column-" prefix.
+   * @docs-private
+   */
+  protected _updateColumnCssClassName() {
+    super._updateColumnCssClassName();
+    this._columnCssClassName = `ly-column-${this.cssClassFriendlyName}` as unknown as string[];
+  }
 
   static ngAcceptInputType_sticky: BooleanInput;
+}
+
+/** Base class for the cells. Adds a CSS classname that identifies the column it renders in. */
+export class BaseCdkCell {
+  constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
+    const classList = elementRef.nativeElement.classList;
+    const className = columnDef._columnCssClassName;
+    classList.add(className);
+  }
 }
 
 /** Header cell template container that adds the right classes and role. */
@@ -65,11 +83,9 @@ export class LyColumnDef extends CdkColumnDef {
     'role': 'columnheader',
   },
 })
-export class LyHeaderCell extends CdkHeaderCell {
-  constructor(columnDef: CdkColumnDef,
-              elementRef: ElementRef<HTMLElement>) {
+export class LyHeaderCell extends BaseCdkCell {
+  constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
     super(columnDef, elementRef);
-    elementRef.nativeElement.classList.add(`ly-column-${columnDef.cssClassFriendlyName}`);
   }
 }
 
@@ -81,11 +97,9 @@ export class LyHeaderCell extends CdkHeaderCell {
     'role': 'gridcell',
   },
 })
-export class LyFooterCell extends CdkFooterCell {
-  constructor(columnDef: CdkColumnDef,
-              elementRef: ElementRef) {
+export class LyFooterCell extends BaseCdkCell {
+  constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
     super(columnDef, elementRef);
-    elementRef.nativeElement.classList.add(`ly-column-${columnDef.cssClassFriendlyName}`);
   }
 }
 
@@ -97,10 +111,8 @@ export class LyFooterCell extends CdkFooterCell {
     'role': 'gridcell',
   },
 })
-export class LyCell extends CdkCell {
-  constructor(columnDef: CdkColumnDef,
-              elementRef: ElementRef<HTMLElement>) {
+export class LyCell extends BaseCdkCell {
+  constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
     super(columnDef, elementRef);
-    elementRef.nativeElement.classList.add(`ly-column-${columnDef.cssClassFriendlyName}`);
   }
 }
