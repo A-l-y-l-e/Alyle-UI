@@ -1,3 +1,12 @@
+# [10.4.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.3.0...10.4.0) (2020-11-07)
+
+
+### Bug Fixes
+
+* **cropper:** fix image loader ([aab805e](https://github.com/A-l-y-l-e/Alyle-UI/commit/aab805eef049758a0fffcc459934f8200aba24ed)), closes [#138](https://github.com/A-l-y-l-e/Alyle-UI/issues/138)
+
+
+
 # [10.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.2.1...10.3.0) (2020-09-21)
 
 
