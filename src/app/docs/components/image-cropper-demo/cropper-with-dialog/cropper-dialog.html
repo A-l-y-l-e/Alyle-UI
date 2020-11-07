@@ -10,7 +10,7 @@
     <button (click)="cropper.setScale(1)" ly-button>1:1</button>
   </div>
 
-  <ly-img-cropper [withClass]="classes.cropper"
+  <ly-img-cropper
     [config]="myConfig"
     [(scale)]="scale"
     (ready)="ready = true"

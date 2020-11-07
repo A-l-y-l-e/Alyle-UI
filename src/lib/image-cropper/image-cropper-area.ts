@@ -117,7 +117,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       this._lastPointerEvent = event;
       this._startPointerEvent = getGesturePointFromEvent(event);
       this._startAreaRect = this._cropper._areaCropperRect();
-      this._startImgRect = this._cropper._canvaRect();
+      this._startImgRect = this._cropper._canvasRect();
       event.preventDefault();
       this._bindGlobalEvents(event);
     });

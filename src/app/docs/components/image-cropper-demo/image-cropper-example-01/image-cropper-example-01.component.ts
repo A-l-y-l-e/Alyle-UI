@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
 import { StyleRenderer, lyl, WithStyles } from '@alyle/ui';
-import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
+import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent, ImgCropperLoaderConfig } from '@alyle/ui/image-cropper';
 import { Platform } from '@angular/cdk/platform';
 
 const STYLES = () => ({
@@ -45,25 +45,19 @@ export class ImageCropperExample01Component implements WithStyles, AfterViewInit
 
   ngAfterViewInit() {
 
-    // demo: Load image from URL and update position, scale, rotate
+    // demo: Load image from URL and update position, scale & rotate
     // this is supported only for browsers
     if (this._platform.isBrowser) {
-      const config = {
+      const config: ImgCropperLoaderConfig = {
         scale: 0.745864772531767,
-        position: {
-          xOrigin: 642.380608078103,
-          yOrigin: 236.26357452128866
-        }
+        xOrigin: 642.380608078103,
+        yOrigin: 236.26357452128866,
+        // areaWidth: 100,
+        // areaHeight: 100,
+        rotation: 0,
+        originalDataURL: 'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash-1.png?alt=media&token=96a29be5-e3ef-4f71-8437-76ac8013372c'
       };
-      this.cropper.setImageUrl(
-        'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash-1.png?alt=media&token=96a29be5-e3ef-4f71-8437-76ac8013372c',
-        () => {
-          this.cropper.setScale(config.scale, true);
-          this.cropper.updatePosition(config.position.xOrigin, config.position.yOrigin);
-          // You can also rotate the image
-          // this.cropper.rotate(90);
-        }
-      );
+      this.cropper.loadImage(config);
     }
 
   }

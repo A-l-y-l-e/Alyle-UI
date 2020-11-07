@@ -92,12 +92,22 @@ or
   <aui-cropper-with-dialog></aui-cropper-with-dialog>
 </demo-view>
 <h2 id="cropper-image-from-url">Cropper image from URL</h2>
-<p>You can use the <code class="ttm ttx"><span class="tt18 tta3">setImageUrl</span><span class="tt18 ttae">(</span>src<span class="tt18 ttb0">:</span>&nbsp;<span class="tt18 ttcj">string</span><span class="tt18 ttae">,</span> fn<span class="tt18 ttb0">?</span><span class="tt18 ttb0">:</span>&nbsp;<span class="tt18 ttae">(</span><span class="tt18 ttae">)</span>&nbsp;<span class="tt18 ttb0">=></span>&nbsp;<span class="tt18 tt1j">void</span><span class="tt18 ttae">)</span></code> method.</p>
+<p>You can use the <code class="ttm ttx"><span class="tt18 tta3">loadImage</span><span class="tt18 ttae">(</span>config<span class="tt18 ttb0">:</span> ImgCropperLoaderConfig<span class="tt18 ttae">)</span></code> method.</p>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">const</span> config <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
+  scale<span class="tt18 ttb0">:</span> <span class="tt18 ttap">0.745864772531767</span><span class="tt18 ttae">,</span>
+  xOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">642.380608078103</span><span class="tt18 ttae">,</span>
+  yOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">236.26357452128866</span><span class="tt18 ttae">,</span>
+  <span class="tt18 tt3o">// areaWidth: 100, // Use when cropper area is not fixed</span>
+  <span class="tt18 tt3o">// areaHeight: 100,</span>
+  rotation<span class="tt18 ttb0">:</span> <span class="tt18 ttap">0</span><span class="tt18 ttae">,</span>
+  originalDataURL<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'https://...'</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">loadImage</span><span class="tt18 ttae">(</span>config<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+</code></pre>
 <demo-view path="docs/components/image-cropper-demo/image-cropper-example-01">
   <image-cropper-example-01></image-cropper-example-01>
 </demo-view>
 <h2 id="crop-circle">Crop Circle</h2>
-<p><del>For this just add the <code class="ttm ttx">border-radius: 50%</code> styles to the cropper area.</del></p>
 <p>You can add <code class="ttm ttx">round</code> to the cropper config. If set to true, <code class="ttm ttx">keepAspectRatio</code> will also be true (since an oval image would not make sense).</p>
 <pre class="ttb"><code prsm class="ttm">myConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
   width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span>
