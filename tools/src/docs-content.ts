@@ -24,13 +24,15 @@ interface DocsPackage {
 }
 
 
-const docsJSON: ProjectReflection = JSON.parse(readFileSync(join(process.cwd(), 'dist/docs.json')).toString());
-
-const OUT_DIR = join(process.cwd(), `src/api/@alyle/ui`);
-
-const APIList: DocsPackage[] = [];
 
 (async () => {
+  if (!process.argv.slice(-1).includes('start')) {
+    return;
+  }
+  const docsJSON: ProjectReflection = JSON.parse(readFileSync(join(process.cwd(), 'dist/docs.json')).toString());
+  const OUT_DIR = join(process.cwd(), `src/api/@alyle/ui`);
+  const APIList: DocsPackage[] = [];
+
   for await (const child of docsJSON.children!) {
 
     if (child.children) {
