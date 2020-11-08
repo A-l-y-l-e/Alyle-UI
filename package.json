@@ -122,7 +122,8 @@
       "tsconfig-paths/register"
     ],
     "files": [
-      "src/**/*.test.ts"
+      "src/**/*.test.ts",
+      "tools/**/*.test.ts"
     ],
     "failFast": true,
     "failWithoutAssertions": false

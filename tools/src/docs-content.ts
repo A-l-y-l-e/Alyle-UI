@@ -4,7 +4,7 @@
 
 import * as ts from 'typescript';
 import { writeFileSync, readFileSync, promises } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
 
 import { ProjectReflection, DeclarationReflection, Reflection } from 'typedoc';
 import { ensureDirSync } from 'fs-extra';
@@ -34,7 +34,7 @@ const APIList: DocsPackage[] = [];
   for await (const child of docsJSON.children!) {
 
     if (child.children) {
-      const pkgName = join('@alyle/ui', getPackageName(child.name));
+      const pkgName = getPackageNameFromPath(child.name);
       const file = join(child.sources![0].fileName);
 
       let API = APIList.find(api => api.pkg === pkgName);
@@ -225,12 +225,12 @@ function getNode(node: ts.Node, keys: string[], foundNodes: ts.Node[] = []): ts.
   return foundNodes;
 }
 
-function getPackageName(name: string) {
-  // ignore src
-  if (name.indexOf('\"src') === 0) {
-    return '';
+export function getPackageNameFromPath(nam: string) {
+  nam = nam.replace(/"/g, '');
+  if (nam.startsWith('src/lib/src')) {
+    return '@alyle/ui';
   }
-  return name.split('/').slice(0, -1).join('/').replace(`\"`, '');
+  return '@alyle/ui/' + dirname(nam).split('/').slice(-1)[0];
 }
 
 function toCamelcase(str: string) {
@@ -241,7 +241,8 @@ function toCamelcase(str: string) {
 }
 
 function checkIfContainTagPrivate(refl: DeclarationReflection): boolean {
-  const comment: Reflection['comment'] = refl.comment || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : undefined);
+  const comment: Reflection['comment'] = refl.comment
+    || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : undefined);
   if (comment && comment.tags) {
     return comment.tags.some(_ => _['tag'] === 'docs-private');
   } else {
@@ -249,7 +250,8 @@ function checkIfContainTagPrivate(refl: DeclarationReflection): boolean {
   }
 }
 function hasTag(refl: DeclarationReflection, tag: string): boolean {
-  const comment: Reflection['comment'] = refl.comment || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : undefined);
+  const comment: Reflection['comment'] = refl.comment
+    || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : undefined);
   if (comment && comment.tags) {
     return comment.tags.some(_ => _['tag'] === tag);
   } else {
