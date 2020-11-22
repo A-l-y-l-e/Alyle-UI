@@ -188,6 +188,13 @@ export class ImgCropperConfig {
    * default: false
    */
   keepAspectRatio?: boolean;
+  /**
+   * Whether the cropper area is responsive.
+   * By default, the width and height of the cropper area is fixed,
+   * so can use when the cropper area is larger than its container,
+   * otherwise this will bring problems when cropping.
+   */
+  responsiveArea?: boolean = true;
 }
 
 /**
@@ -381,6 +388,12 @@ export class LyImageCropper implements OnInit, OnDestroy {
   }
   set config(val: ImgCropperConfig) {
     this._config = mergeDeep({}, new ImgCropperConfig(), val);
+    if (
+      this._config.round
+      && this.config.width !== this.config.height
+    ) {
+      throw new Error(`${LyImageCropper.и}: Both width and height must be equal when using \`ImgCropperConfig.round = true\``);
+    }
     const maxFileSize = this._config.maxFileSize;
     if (maxFileSize) {
       this.maxFileSize = maxFileSize;
@@ -467,6 +480,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
     element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
   }
 
+  /** Load image with canvas */
   private _imgLoaded(imgElement: HTMLImageElement) {
     if (imgElement) {
       this._img = imgElement;
@@ -513,6 +527,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
   @HostListener('window:resize') _resize$() {
     if (this.isLoaded) {
       this.updatePosition();
+      this._updateAreaIfNeeded();
     }
   }
 
@@ -780,8 +795,8 @@ export class LyImageCropper implements OnInit, OnDestroy {
     }
     x = (areaRect.left - hostRect.left);
     y = (areaRect.top - hostRect.top);
-    x -= (xOrigin! - (this.config.width / 2));
-    y -= (yOrigin! - (this.config.height / 2));
+    x -= (xOrigin! - (areaRect.width / 2));
+    y -= (yOrigin! - (areaRect.height / 2));
 
     this._setStylesForContImg({
       x, y
@@ -905,6 +920,47 @@ export class LyImageCropper implements OnInit, OnDestroy {
     );
   }
 
+  private _updateAreaIfNeeded() {
+    if (!this._config.responsiveArea) {
+      return;
+    }
+    const rootRect = this._rootRect();
+    const width = this.config.width;
+    const minWidth = this.config.minWidth || 0;
+    const height = this.config.height;
+    const minHeight = this.config.minHeight || 0;
+    if (
+      !(width > rootRect.width
+        && width > minWidth
+      || height > rootRect.height
+        && height > minHeight)
+    ) {
+      return;
+    }
+    const minArea = Math.min(width, height);
+    const minHost = Math.min(rootRect.width, rootRect.height);
+    const currentArea = minArea;
+    const currentScale = this._scal3Fix!;
+    const newArea = minHost;
+    const newScale = (currentScale * newArea) / currentArea;
+    const keepAspectRatio = this.config.round || this.config.keepAspectRatio;
+
+    if (keepAspectRatio || width === height) {
+      this.config.width = this.config.height = minHost;
+    } else {
+      if (minArea === width) {
+        this.config.width = minHost;
+        this.config.height = (minHost * height) / width;
+      } else {
+        this.config.width = (minHost * width) / height;
+        this.config.height = minHost;
+      }
+    }
+    this._updateMinScale();
+    this.setScale(newScale);
+    this._markForCheck();
+  }
+
   /**
    * Load Image from URL
    * @deprecated Use `loadImage` instead of `setImageUrl`
@@ -931,6 +987,10 @@ export class LyImageCropper implements OnInit, OnDestroy {
         this.updatePosition(loadConfig.xOrigin, loadConfig.yOrigin);
       }
       this.rotate(loadConfig.rotation || 0);
+      this._markForCheck();
+      Promise.resolve(null).then(() => {
+        this._updateAreaIfNeeded();
+      });
     }
 
     this.isLoaded = true;
