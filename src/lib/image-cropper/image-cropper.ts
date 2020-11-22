@@ -194,7 +194,7 @@ export class ImgCropperConfig {
    * so can use when the cropper area is larger than its container,
    * otherwise this will bring problems when cropping.
    */
-  responsiveArea?: boolean = true;
+  responsiveArea?: boolean;
 }
 
 /**
