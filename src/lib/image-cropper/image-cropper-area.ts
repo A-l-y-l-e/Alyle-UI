@@ -135,7 +135,8 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       const deltaY = point.y - this._startPointerEvent!.y;
       const startAreaRect = this._startAreaRect;
       const startImgRect = this._startImgRect;
-      const keepAspectRatio = this.round || this._cropper.config.keepAspectRatio || event.shiftKey;
+      const round = this.round;
+      const keepAspectRatio = this._cropper.config.keepAspectRatio || event.shiftKey;
       let newWidth = 0;
       let newHeight = 0;
       const rootRect = this._cropper._rootRect();
@@ -149,9 +150,19 @@ export class LyCropperArea implements WithStyles, OnDestroy {
         const side = Math.sqrt(originX ** 2 + originY ** 2);
         newWidth = newHeight = side * 2;
 
-      } else if (this._cropper.config.keepAspectRatio || event.shiftKey) {
-        const m = Math.max(width + deltaX * 2, height + deltaY * 2);
-        newWidth = newHeight = m;
+      } else if (keepAspectRatio) {
+        newWidth = width + deltaX * 2;
+        newHeight = height + deltaY * 2;
+        // const m = Math.max(width, height);
+        if (width !== height) {
+          if (width > height) {
+            newHeight = height / (width / newWidth);
+          } else if (height > width) {
+            newWidth = width / (height / newHeight);
+          }
+        } else {
+          newWidth = newHeight = Math.max(newWidth, newHeight);
+        }
       } else {
         newWidth = width + deltaX * 2;
         newHeight = height + deltaY * 2;
@@ -166,21 +177,6 @@ export class LyCropperArea implements WithStyles, OnDestroy {
         newHeight = minHeight!;
       }
 
-      // Do not overflow the container
-      if (keepAspectRatio) {
-        const min = Math.min(rootRect.width, rootRect.height);
-        if (newWidth > min) {
-          newWidth = newHeight = min;
-        }
-      } else {
-        if (newWidth > rootRect.width) {
-          newWidth = newHeight = rootRect.width;
-        }
-        if (newHeight > rootRect.height) {
-          newHeight = newHeight = rootRect.height;
-        }
-      }
-
       // Do not overflow the cropper area
       const centerX = startAreaRect.x + startAreaRect.width / 2;
       const centerY = startAreaRect.y + startAreaRect.height / 2;
@@ -191,17 +187,48 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       const rightOverflow = centerX + (newWidth / 2) > startImgRect.right;
       const minWidthOnOverflow = Math.min((centerX - startImgRect.x) * 2, (startImgRect.right - centerX) * 2);
       const minOnOverflow = Math.min(minWidthOnOverflow, minHeightOnOverflow);
-
-      if (keepAspectRatio) {
+      if (round || (width === height)) {
         if (topOverflow || bottomOverflow || leftOverflow || rightOverflow) {
           newHeight = newWidth = minOnOverflow;
         }
+      } else if (keepAspectRatio) {
+        if (height > width && (topOverflow || bottomOverflow)) {
+          newHeight = minHeightOnOverflow;
+          newWidth = width / (height / minHeightOnOverflow);
+        } else if ( width > height && (leftOverflow || rightOverflow)) {
+          newWidth = minWidthOnOverflow;
+          newHeight = height / (width / minWidthOnOverflow);
+        }
       } else {
-        if (topOverflow || bottomOverflow ) {
+        if (topOverflow || bottomOverflow) {
           newHeight = minHeightOnOverflow;
         }
         if (leftOverflow || rightOverflow) {
           newWidth = minWidthOnOverflow;
+        }
+      }
+
+      // Do not overflow the container
+      if (round) {
+        const min = Math.min(rootRect.width, rootRect.height);
+        if (newWidth > min) {
+          newWidth = newHeight = min;
+        } else if (newHeight > min) {
+          newWidth = newHeight = min;
+        }
+      } else if (keepAspectRatio) {
+        if (newWidth > rootRect.width) {
+          newWidth = rootRect.width;
+          newHeight = height / (width / rootRect.width);
+        } else if (newHeight > rootRect.height) {
+          newWidth = width / (height / rootRect.height);
+          newHeight = rootRect.height;
+        }
+      } else {
+        if (newWidth > rootRect.width) {
+          newWidth = rootRect.width;
+        } else if (newHeight > rootRect.height) {
+          newHeight = rootRect.height;
         }
       }
 
