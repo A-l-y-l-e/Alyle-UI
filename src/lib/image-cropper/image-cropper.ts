@@ -80,8 +80,6 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
       box-shadow: 0 0 0 20000px rgba(0, 0, 0, 0.4)
       ...${LY_COMMON_STYLES.fill}
       margin: auto
-      max-width: 100%
-      max-height: 100%
       &:before, &:after {
         ...${LY_COMMON_STYLES.fill}
         content: ''
@@ -364,6 +362,8 @@ export class LyImageCropper implements OnInit, OnDestroy {
     x: number
     y: number
   } | null;
+  _primaryAreaWidth: number = 0;
+  _primaryAreaHeight: number = 0;
 
   /**
    * When is loaded image
@@ -388,6 +388,8 @@ export class LyImageCropper implements OnInit, OnDestroy {
   }
   set config(val: ImgCropperConfig) {
     this._config = mergeDeep({}, new ImgCropperConfig(), val);
+    this._primaryAreaWidth = this.config.width;
+    this._primaryAreaHeight = this.config.height;
     if (
       this._config.round
       && this.config.width !== this.config.height
@@ -788,6 +790,12 @@ export class LyImageCropper implements OnInit, OnDestroy {
   updatePosition(xOrigin?: number, yOrigin?: number) {
     const hostRect = this._rootRect();
     const areaRect = this._areaCropperRect();
+    const areaWidth = areaRect.width > hostRect.width
+      ? hostRect.width
+      : areaRect.width;
+    const areaHeight = areaRect.height > hostRect.height
+      ? hostRect.height
+      : areaRect.height;
     let x: number, y: number;
     if (xOrigin == null && yOrigin == null) {
       xOrigin = this._imgRect.xc;
@@ -795,8 +803,8 @@ export class LyImageCropper implements OnInit, OnDestroy {
     }
     x = (areaRect.left - hostRect.left);
     y = (areaRect.top - hostRect.top);
-    x -= (xOrigin! - (areaRect.width / 2));
-    y -= (yOrigin! - (areaRect.height / 2));
+    x -= (xOrigin! - (areaWidth / 2));
+    y -= (yOrigin! - (areaHeight / 2));
 
     this._setStylesForContImg({
       x, y
@@ -876,8 +884,8 @@ export class LyImageCropper implements OnInit, OnDestroy {
       : { ...config };
     let src = _config.originalDataURL;
     if (_config.areaWidth && _config.areaHeight) {
-      this.config.width = _config.areaWidth;
-      this.config.height = _config.areaHeight;
+      this._primaryAreaWidth = this.config.width = _config.areaWidth;
+      this._primaryAreaHeight = this.config.height = _config.areaHeight;
     }
     src = normalizeSVG(src);
 
@@ -895,8 +903,6 @@ export class LyImageCropper implements OnInit, OnDestroy {
     .subscribe(
       () => {
         this._imgLoaded(img);
-        cropEvent.width = img.width;
-        cropEvent.height = img.height;
         this._isLoadedImg = true;
         this.imageLoaded.emit(cropEvent);
         this.cd.markForCheck();
@@ -924,41 +930,46 @@ export class LyImageCropper implements OnInit, OnDestroy {
     if (!this._config.responsiveArea) {
       return;
     }
+
     const rootRect = this._rootRect();
-    const width = this.config.width;
-    const minWidth = this.config.minWidth || 0;
-    const height = this.config.height;
-    const minHeight = this.config.minHeight || 0;
-    if (
-      !(width > rootRect.width
-        && width > minWidth
-      || height > rootRect.height
-        && height > minHeight)
-    ) {
+    const areaRect = this._areaCropperRect();
+    const minWidth = this.config.minWidth || 1;
+    const minHeight = this.config.minHeight || 1;
+    if (!(
+      areaRect.width > rootRect.width
+      || areaRect.height > rootRect.height
+      || areaRect.width < this._primaryAreaWidth
+      || areaRect.height < this._primaryAreaHeight
+    )) {
       return;
     }
-    const minArea = Math.min(width, height);
-    const minHost = Math.min(rootRect.width, rootRect.height);
-    const currentArea = minArea;
+    const areaWidthConf = Math.max(this.config.width, minWidth);
+    const areaWidthMax = Math.max(rootRect.width, minWidth);
+    const minHost = Math.min(
+      Math.max(rootRect.width, minWidth), Math.max(rootRect.height, minHeight)
+    );
     const currentScale = this._scal3Fix!;
-    const newArea = minHost;
-    const newScale = (currentScale * newArea) / currentArea;
-    const keepAspectRatio = this.config.round || this.config.keepAspectRatio;
+    let newScale = 0;
+    const roundConf = this.config.round;
 
-    if (keepAspectRatio || width === height) {
+    if (roundConf) {
       this.config.width = this.config.height = minHost;
     } else {
-      if (minArea === width) {
-        this.config.width = minHost;
-        this.config.height = (minHost * height) / width;
-      } else {
-        this.config.width = (minHost * width) / height;
-        this.config.height = minHost;
+      if (areaWidthConf === areaRect.width) {
+        if (areaWidthMax > this._primaryAreaWidth) {
+          this.config.width = this._primaryAreaWidth;
+          this.config.height = (this._primaryAreaWidth * areaRect.height) / areaRect.width;
+          newScale = (currentScale * this._primaryAreaWidth) / areaRect.width;
+        } else {
+          this.config.width = areaWidthMax;
+          this.config.height = (areaWidthMax * areaRect.height) / areaRect.width;
+          newScale = (currentScale * areaWidthMax) / areaRect.width;
+        }
+        this._updateMinScale();
+        this.setScale(newScale);
+        this._markForCheck();
       }
     }
-    this._updateMinScale();
-    this.setScale(newScale);
-    this._markForCheck();
   }
 
   /**

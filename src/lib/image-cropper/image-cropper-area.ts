@@ -141,7 +141,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       let newHeight = 0;
       const rootRect = this._cropper._rootRect();
 
-      if (this.round) {
+      if (round) {
         // The distance from the center of the cropper area to the pointer
         const originX = ((width / 2 / Math.sqrt(2)) + deltaX);
         const originY = ((height / 2 / Math.sqrt(2)) + deltaY);
@@ -153,7 +153,6 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       } else if (keepAspectRatio) {
         newWidth = width + deltaX * 2;
         newHeight = height + deltaY * 2;
-        // const m = Math.max(width, height);
         if (width !== height) {
           if (width > height) {
             newHeight = height / (width / newWidth);
@@ -187,17 +186,30 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       const rightOverflow = centerX + (newWidth / 2) > startImgRect.right;
       const minWidthOnOverflow = Math.min((centerX - startImgRect.x) * 2, (startImgRect.right - centerX) * 2);
       const minOnOverflow = Math.min(minWidthOnOverflow, minHeightOnOverflow);
-      if (round || (width === height)) {
+      if (round) {
         if (topOverflow || bottomOverflow || leftOverflow || rightOverflow) {
           newHeight = newWidth = minOnOverflow;
         }
       } else if (keepAspectRatio) {
-        if (height > width && (topOverflow || bottomOverflow)) {
+        const newNewWidth: number[] = [];
+        const newNewHeight: number[] = [];
+        if ((topOverflow || bottomOverflow) && Math.min()) {
           newHeight = minHeightOnOverflow;
+          newNewHeight.push(newHeight);
           newWidth = width / (height / minHeightOnOverflow);
-        } else if ( width > height && (leftOverflow || rightOverflow)) {
+          newNewWidth.push(newWidth);
+        }
+        if ((leftOverflow || rightOverflow)) {
           newWidth = minWidthOnOverflow;
+          newNewWidth.push(newWidth);
           newHeight = height / (width / minWidthOnOverflow);
+          newNewHeight.push(newHeight);
+        }
+        if (newNewWidth.length === 2) {
+          newWidth = Math.min(...newNewWidth);
+        }
+        if (newNewHeight.length === 2) {
+          newHeight = Math.min(...newNewHeight);
         }
       } else {
         if (topOverflow || bottomOverflow) {
@@ -249,8 +261,8 @@ export class LyCropperArea implements WithStyles, OnDestroy {
     if (this._isSliding) {
       event.preventDefault();
       this._removeGlobalEvents();
-      this._cropper.config.width = this._currentWidth;
-      this._cropper.config.height = this._currentHeight;
+      this._cropper._primaryAreaWidth = this._cropper.config.width = this._currentWidth;
+      this._cropper._primaryAreaHeight = this._cropper.config.height = this._currentHeight;
       this._cropper.config = this._cropper.config;
       this._cropper._updateMinScale();
       this._isSliding = false;
