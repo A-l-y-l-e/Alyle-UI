@@ -8,7 +8,6 @@ import {
   ViewChild,
   EventEmitter,
   Renderer2,
-  HostListener,
   OnDestroy,
   NgZone,
   Inject,
@@ -20,6 +19,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
 import { resizeCanvas } from './resize-canvas';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 
 export interface LyImageCropperTheme {
   /** Styles for Image Cropper Component */
@@ -460,8 +460,14 @@ export class LyImageCropper implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private _ngZone: NgZone,
     @Inject(DOCUMENT) _document: any,
+    viewPortRuler: ViewportRuler
   ) {
     this._document = _document;
+    viewPortRuler.change()
+    .pipe(takeUntil(this._destroy))
+    .subscribe(() =>
+      this._ngZone.run(() => this.updateCropperPosition())
+    );
   }
 
   ngOnInit() {
@@ -525,8 +531,11 @@ export class LyImageCropper implements OnInit, OnDestroy {
       }
     }
   }
-
-  @HostListener('window:resize') _resize$() {
+  /**
+   * Update area and image position only if needed,
+   * this is used when window resize
+   */
+  updateCropperPosition() {
     if (this.isLoaded) {
       this.updatePosition();
       this._updateAreaIfNeeded();
