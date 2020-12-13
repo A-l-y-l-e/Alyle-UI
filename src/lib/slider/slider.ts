@@ -547,14 +547,18 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
       const valueIsArray = Array.isArray(val);
       if (typeof val === 'number') {
         let newValue = Number(val);
-        newValue = parseFloat(newValue.toFixed(this._stepPrecision as number));
+        newValue = (newValue === this.min || newValue === this.max)
+          ? newValue
+          : parseFloat(newValue.toFixed(this._stepPrecision as number));
         this._value = newValue;
       } else if (valueIsArray && !arrayEquals(this._value, val)) {
         let newValue = val as number[];
         newValue = newValue.map(
           _val => _val === null
-          ? _val
-          : parseFloat(_val.toFixed(this._stepPrecision as number)));
+            ? _val
+            : (_val === this.min || _val === this.max)
+              ? _val
+              : parseFloat(_val.toFixed(this._stepPrecision as number)));
 
         this._value = newValue;
       }
