@@ -351,9 +351,10 @@ export class LyImageCropper implements OnInit, OnDestroy {
   private _scale?: number;
   private _scal3Fix?: number;
   private _minScale?: number;
+  private _configPrimary: ImgCropperConfig;
   private _config: ImgCropperConfig;
   private _imgRect: ImgRect = {} as any;
-  private _rotation: number;
+  private _rotation: number = 0;
   // private _sizeInBytes: number | null;
   private _isSliding: boolean;
   /** Keeps track of the last pointer event that was captured by the crop area. */
@@ -362,8 +363,8 @@ export class LyImageCropper implements OnInit, OnDestroy {
     x: number
     y: number
   } | null;
-  _primaryAreaWidth: number = 0;
-  _primaryAreaHeight: number = 0;
+  _primaryAreaWidth: number;
+  _primaryAreaHeight: number;
 
   _primaryScale: number;
 
@@ -390,6 +391,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
   }
   set config(val: ImgCropperConfig) {
     this._config = mergeDeep({}, new ImgCropperConfig(), val);
+    this._configPrimary = mergeDeep({}, this._config);
     this._primaryAreaWidth = this.config.width;
     this._primaryAreaHeight = this.config.height;
     if (
@@ -498,7 +500,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
       canvas.width = imgElement.width;
       canvas.height = imgElement.height;
       const ctx = canvas.getContext('2d')!;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, imgElement.width, imgElement.height);
       ctx.drawImage(imgElement, 0, 0);
 
       /** set min scale */
@@ -511,7 +513,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
     y?: number
   }) {
     const newStyles = { } as any;
-    if (values.x !== void 0 && values.y !== void 0) {
+    if (values.x != null && values.y != null) {
       const rootRect = this._rootRect();
       const x = rootRect.width / 2 - (values.x);
       const y = rootRect.height / 2 - (values.y);
@@ -662,7 +664,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
   }
 
   /**
-   * Ajustar a la pantalla
+   * Fit to screen
    */
   fitToScreen() {
     const container = this._elementRef.nativeElement as HTMLElement;
@@ -861,6 +863,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
       this.isLoaded = false;
       this.isCropped = false;
       this._currentLoadConfig = undefined;
+      this.config = this._configPrimary;
       const canvas = this._imgCanvas.nativeElement;
       canvas.width = 0;
       canvas.height = 0;
@@ -895,9 +898,11 @@ export class LyImageCropper implements OnInit, OnDestroy {
       ? { originalDataURL: config }
       : { ...config };
     let src = _config.originalDataURL;
+    this._primaryAreaWidth = this._configPrimary.width;
+    this._primaryAreaHeight = this._configPrimary.height;
     if (_config.areaWidth && _config.areaHeight) {
-      this._primaryAreaWidth = this.config.width = _config.areaWidth;
-      this._primaryAreaHeight = this.config.height = _config.areaHeight;
+      this.config.width = _config.areaWidth;
+      this.config.height = _config.areaHeight;
     }
     src = normalizeSVG(src);
 
@@ -918,13 +923,15 @@ export class LyImageCropper implements OnInit, OnDestroy {
         this._isLoadedImg = true;
         this.imageLoaded.emit(cropEvent);
         this.cd.markForCheck();
-        this._ngZone
-          .onStable
-          .asObservable()
-          .pipe(take(1), takeUntil(this._destroy))
-          .subscribe(
-            () => setTimeout(() => this._ngZone.run(() => this._positionImg(cropEvent, fn)))
-          );
+        this._ngZone.runOutsideAngular(() => {
+          this._ngZone
+            .onStable
+            .asObservable()
+            .pipe(take(1), takeUntil(this._destroy))
+            .subscribe(
+              () => setTimeout(() => this._ngZone.run(() => this._positionImg(cropEvent, fn)))
+            );
+        });
       },
       () => {
         const error: ImgCropperErrorEvent = {
@@ -978,7 +985,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
           newScale = (currentScale * areaWidthMax) / areaRect.width;
         }
         this._updateMinScale();
-        this.setScale(newScale);
+        this.setScale(newScale, true);
         this._markForCheck();
       }
     }
@@ -1007,26 +1014,34 @@ export class LyImageCropper implements OnInit, OnDestroy {
       fn();
     } else {
       if (loadConfig.scale) {
-        this.setScale(loadConfig.scale);
+        this.setScale(loadConfig.scale, true);
       } else {
         this.setScale(this.minScale, true);
       }
-      if (loadConfig.xOrigin && loadConfig.yOrigin) {
-        this.updatePosition(loadConfig.xOrigin, loadConfig.yOrigin);
-      }
       this.rotate(loadConfig.rotation || 0);
+      this._updateAreaIfNeeded();
       this._markForCheck();
-      Promise.resolve(null).then(() => {
-        this._updateAreaIfNeeded();
+      this._ngZone.runOutsideAngular(() => {
+        this._ngZone
+          .onStable
+          .asObservable()
+          .pipe(take(1), takeUntil(this._destroy))
+          .subscribe(() => {
+            if (loadConfig.xOrigin != null && loadConfig.yOrigin != null) {
+              this.updatePosition(loadConfig.xOrigin, loadConfig.yOrigin);
+            }
+            this._updateAreaIfNeeded();
+            this.isLoaded = true;
+            this._cropIfAutoCrop();
+            this._ngZone.run(() => {
+              this._markForCheck();
+              this.ready.emit(cropEvent);
+              // tslint:disable-next-line: deprecation
+              this.loaded.emit(cropEvent);
+            });
+          });
       });
     }
-
-    this.isLoaded = true;
-    this._cropIfAutoCrop();
-    this.ready.emit(cropEvent);
-    // tslint:disable-next-line: deprecation
-    this.loaded.emit(cropEvent);
-    this.cd.markForCheck();
   }
 
   rotate(degrees: number) {
@@ -1035,11 +1050,15 @@ export class LyImageCropper implements OnInit, OnDestroy {
     if (validDegrees < 0) {
       validDegrees += 360;
     }
-    this._rotation = _normalizeDegrees((this._rotation || 0) + validDegrees);
+    const newRotation = _normalizeDegrees((this._rotation || 0) + validDegrees);
+    if (newRotation === this._rotation) {
+      return;
+    }
     const degreesRad = validDegrees * Math.PI / 180;
     const canvas = this._imgCanvas.nativeElement;
     const canvasClon = createCanvasImg(canvas);
     const ctx = canvas.getContext('2d')!;
+    this._rotation = newRotation;
 
     // clear
     ctx.clearRect(0, 0, canvasClon.width, canvasClon.height);
@@ -1176,8 +1195,8 @@ export class LyImageCropper implements OnInit, OnDestroy {
       dataURL,
       type,
       name: currentImageLoadConfig.name!,
-      areaWidth: area.width,
-      areaHeight: area.height,
+      areaWidth: this._primaryAreaWidth,
+      areaHeight: this._primaryAreaHeight,
       width: result.width,
       height: result.height,
       originalDataURL: currentImageLoadConfig.originalDataURL,
