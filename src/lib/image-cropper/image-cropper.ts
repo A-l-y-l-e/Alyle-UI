@@ -365,6 +365,8 @@ export class LyImageCropper implements OnInit, OnDestroy {
   _primaryAreaWidth: number = 0;
   _primaryAreaHeight: number = 0;
 
+  _primaryScale: number;
+
   /**
    * When is loaded image
    * @internal
@@ -618,6 +620,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
       return;
     }
     this._scal3Fix = newSize;
+    this._updatePrimaryScale();
     if (this.isLoaded) {
       if (changed) {
         const originPosition = {...this._imgRect};
@@ -981,6 +984,11 @@ export class LyImageCropper implements OnInit, OnDestroy {
     }
   }
 
+  private _updatePrimaryScale() {
+    const scale = this._scal3Fix! / (this.config.width / this._primaryAreaWidth);
+    this._primaryScale = scale;
+  }
+
   /**
    * Load Image from URL
    * @deprecated Use `loadImage` instead of `setImageUrl`
@@ -1173,7 +1181,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
       width: result.width,
       height: result.height,
       originalDataURL: currentImageLoadConfig.originalDataURL,
-      scale: this._scal3Fix!,
+      scale: this._primaryScale!,
       rotation: this._rotation,
       left: (areaRect.left - canvasRect.left) / this._scal3Fix!,
       top: (areaRect.top - canvasRect.top) / this._scal3Fix!,
