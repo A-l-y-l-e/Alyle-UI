@@ -1,14 +1,16 @@
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy<span class="tt18 ttae">,</span> Inject<span class="tt18 ttae">,</span> ViewChild<span class="tt18 ttae">,</span> AfterViewInit <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> StyleRenderer<span class="tt18 ttae">,</span> WithStyles<span class="tt18 ttae">,</span> lyl<span class="tt18 ttae">,</span> ThemeRef<span class="tt18 ttae">,</span> ThemeVariables <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyDialogRef<span class="tt18 ttae">,</span> <span class="tt18 ttbb">LY_DIALOG_DATA</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/dialog'</span><span class="tt18 ttae">;</span>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> AfterViewInit<span class="tt18 ttae">,</span> ChangeDetectionStrategy<span class="tt18 ttae">,</span> ViewChild <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttbb">STYLES</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttbb">SLIDER_STYLES</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/slider'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ThemeVariables<span class="tt18 ttae">,</span> ThemeRef<span class="tt18 ttae">,</span> lyl<span class="tt18 ttae">,</span> StyleRenderer <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 ttbb">STYLES</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttbb">CROPPER_STYLES</span><span class="tt18 ttae">,</span>
   LyImageCropper<span class="tt18 ttae">,</span>
   ImgCropperConfig<span class="tt18 ttae">,</span>
   ImgCropperEvent<span class="tt18 ttae">,</span>
-  ImgCropperErrorEvent
+  ImgCropperErrorEvent<span class="tt18 ttae">,</span>
+  ImgCropperLoaderConfig<span class="tt18 ttae">,</span>
+  ImgResolution
 <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/image-cropper'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Platform <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/cdk/platform'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">_theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">,</span> ref<span class="tt18 ttb0">:</span> ThemeRef</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
   ref<span class="tt18 ttae">.</span><span class="tt18 tta3">renderStyleSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">SLIDER_STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
@@ -19,68 +21,77 @@
   <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
     root<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>cropper<span class="tt18 ttae">.</span>root<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
-        max-width: 320px
+        max-width: 400px
         height: 320px
+      &#125;
+      </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>slider<span class="tt18 ttae">.</span>root<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
+        width: 100%
+        max-width: 400px
+        padding-left: 1em
+        padding-right: 1em
       &#125;
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span>
     sliderContainer<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
-      position: relative
-      </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>slider<span class="tt18 ttae">.</span>root<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
-        width: 80%
-        position: absolute
-        left: 0
-        right: 0
-        margin: auto
-        top: -32px
-      &#125;
-    &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span>
-    slider<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
-      padding: 1em
+      text-align: center
+      max-width: 400px
+      padding: 14px
+      box-sizing: border-box
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
 @<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./cropper-dialog.html'</span><span class="tt18 ttae">,</span>
-  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush<span class="tt18 ttae">,</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-full-cropper-width'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./full-cropper-width.component.html'</span><span class="tt18 ttae">,</span>
   providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     StyleRenderer
-  <span class="tt18 ttae">]</span>
+  <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
-<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">CropperDialog</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">WithStyles</span><span class="tt18 ttae">,</span> AfterViewInit <span class="tt18 ttae">&#123;</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">FullCropperWidthComponent</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">AfterViewInit</span> <span class="tt18 ttae">&#123;</span>
 
   <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>sRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'root'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  croppedImage<span class="tt18 ttb0">?</span><span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
   ready<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">boolean</span><span class="tt18 ttae">;</span>
   scale<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
   minScale<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
+  maxScale<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
   @<span class="tt18 tta3">ViewChild</span><span class="tt18 ttae">(</span>LyImageCropper<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 tt1j">static</span><span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span> cropper<span class="tt18 ttb0">:</span> LyImageCropper<span class="tt18 ttae">;</span>
   myConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-    width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span>
-    height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span>
-    <span class="tt18 tt3o">// type: 'image/png',</span>
+    <span class="tt18 tt3o">// 3:1 aspect ratio</span>
+    width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span> <span class="tt18 ttb0">*</span> <span class="tt18 ttap">3</span><span class="tt18 ttae">,</span>
+    height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span><span class="tt18 ttae">,</span>
     keepAspectRatio<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span>
     responsiveArea<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span>
-    output<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
-      width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span><span class="tt18 ttae">,</span>
-      height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span>
-    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-    resizableArea<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span>
+    output<span class="tt18 ttb0">:</span> ImgResolution<span class="tt18 ttae">.</span>OriginalImage<span class="tt18 ttae">,</span>
+    <span class="tt18 tt3o">// extraZoomOut: true</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
+  displayWith <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>_value<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span> <span class="tt18 ttb0">|</span> <span class="tt18 parameter"><span class="tt18 ttcj">number</span></span> <span class="tt18 ttb0">=></span>  <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">const</span> percent <span class="tt18 ttb0">=</span> Math<span class="tt18 ttae">.</span><span class="tt18 tta3">round</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttb0">?.</span>_primaryScale <span class="tt18 ttb0">||</span> <span class="tt18 ttap">0</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">*</span> <span class="tt18 ttap">100</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">return</span> <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>percent<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">%</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter">@<span class="tt18 tta3">Inject</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">LY_DIALOG_DATA</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">private</span> event<span class="tt18 ttb0">:</span> Event<span class="tt18 ttae">,</span>
-    <span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer<span class="tt18 ttae">,</span>
-    <span class="tt18 tt1j">public</span> dialogRef<span class="tt18 ttb0">:</span> LyDialogRef</span>
+    <span class="tt18 parameter"><span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> _platform<span class="tt18 ttb0">:</span> Platform</span>
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">ngAfterViewInit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt3o">// Load image when dialog animation has finished</span>
-    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>dialogRef<span class="tt18 ttae">.</span>afterOpened<span class="tt18 ttae">.</span><span class="tt18 tta3">subscribe</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
-      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">selectInputEvent</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>event<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-    <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">const</span> config<span class="tt18 ttb0">:</span> ImgCropperLoaderConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
+        rotation<span class="tt18 ttb0">:</span> <span class="tt18 ttap">270</span><span class="tt18 ttae">,</span>
+        xOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1223.864013671875</span><span class="tt18 ttae">,</span>
+        yOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">2183.6171875</span><span class="tt18 ttae">,</span>
+        scale<span class="tt18 ttb0">:</span>   <span class="tt18 ttap">0.9556462499999999</span><span class="tt18 ttae">,</span>
+        originalDataURL<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Ftimothy-dykes-1zwiiaFER8Y-unsplash.jpg?alt=media&amp;token=b4c3611b-8eb5-4add-94b9-8d85e58e334d'</span>
+      <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">loadImage</span><span class="tt18 ttae">(</span>config<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">onCropped</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>croppedImage <span class="tt18 ttb0">=</span> e<span class="tt18 ttae">.</span>dataURL<span class="tt18 ttae">;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'cropped img: '</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
   <span class="tt18 tta3">onLoaded</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
@@ -88,8 +99,6 @@
   <span class="tt18 ttae">&#125;</span>
   <span class="tt18 tta3">onError</span><span class="tt18 ttae">(</span><span class="tt18 parameter">e<span class="tt18 ttb0">:</span> ImgCropperErrorEvent</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">warn</span><span class="tt18 ttae">(</span><span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">'</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>e<span class="tt18 ttae">.</span>name<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">' is not a valid image</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-    <span class="tt18 tt3o">// Close the dialog if it fails</span>
-    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>dialogRef<span class="tt18 ttae">.</span><span class="tt18 tta3">close</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
 <span class="tt18 ttae">&#125;</span>

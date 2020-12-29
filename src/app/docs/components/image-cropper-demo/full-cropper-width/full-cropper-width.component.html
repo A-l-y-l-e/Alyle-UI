@@ -20,10 +20,11 @@
   <button (click)="cropper.clean()" ly-button>Clean</button>
 </div>
 
-<ly-img-cropper [withClass]="classes.cropper"
+<ly-img-cropper
   [config]="myConfig"
   [(scale)]="scale"
   (minScale)="minScale = $event"
+  (maxScale)="maxScale = $event"
   (ready)="ready = true"
   (cleaned)="ready = false"
   (cropped)="onCropped($event)"
@@ -35,18 +36,22 @@
 
 <div *ngIf="ready" [className]="classes.sliderContainer">
   <ly-slider
-    [thumbVisible]="false"
+    [thumbVisible]="true"
+    [marks]="true"
     [min]="minScale"
-    [max]="1"
+    [max]="maxScale"
     [(ngModel)]="scale"
     (input)="scale = $event.value"
-    step="0.000001"></ly-slider>
+    [displayWith]="displayWith"
+    step="0.000001">
+      <ly-mark [value]="0.75" (click)="scale=0.75">1:1</ly-mark>
+  </ly-slider>
 </div>
 
-<button *ngIf="ready" color="accent" (click)="cropper.crop()" ly-button>
+<button ly-button *ngIf="ready" color="accent" (click)="cropper.crop()">
   <ly-icon>crop</ly-icon>crop
 </button>
 
 <div>
-  <img *ngIf="croppedImage" [src]="croppedImage">
+  <img [lyWidth]="1" *ngIf="croppedImage" [src]="croppedImage">
 </div>

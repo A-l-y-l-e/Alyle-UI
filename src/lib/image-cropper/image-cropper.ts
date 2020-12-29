@@ -429,6 +429,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: no-output-rename
   @Output('minScale') readonly minScaleChange = new EventEmitter<number>();
+  @Output('maxScale') readonly maxScaleChange = new EventEmitter<number>();
 
   /** @deprecated Emits when the image is loaded, instead use `ready` */
   @Output() readonly loaded = new EventEmitter<ImgCropperEvent>();
@@ -505,6 +506,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
 
       /** set min scale */
       this._updateMinScale(canvas);
+      this._updateMaxScale();
     }
   }
 
@@ -985,6 +987,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
           newScale = (currentScale * areaWidthMax) / areaRect.width;
         }
         this._updateMinScale();
+        this._updateMaxScale();
         this.setScale(newScale, true);
         this._markForCheck();
       }
@@ -1009,6 +1012,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
   private _positionImg(cropEvent: ImgCropperEvent, fn?: () => void) {
     const loadConfig = this._currentLoadConfig!;
     this._updateMinScale(this._imgCanvas.nativeElement);
+    this._updateMaxScale();
     this.isLoaded = false;
     if (fn) {
       fn();
@@ -1097,6 +1101,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
 
     // Update min scale
     this._updateMinScale(canvas);
+    this._updateMaxScale();
 
     // set the minimum scale, only if necessary
     if (this.scale! < this.minScale!) {
@@ -1134,6 +1139,11 @@ export class LyImageCropper implements OnInit, OnDestroy {
       config.height / canvas.height);
     this._minScale = minScale;
     this.minScaleChange.emit(minScale!);
+  }
+
+  private _updateMaxScale() {
+    const maxScale = (this.config.width / this._primaryAreaWidth);
+    this.maxScaleChange.emit(maxScale);
   }
 
   /**

@@ -36,6 +36,7 @@ export class ImageCropperExample01Component implements WithStyles, AfterViewInit
     height: 150, // Default `200`
     fill: '#ff2997', // Default transparent if type = png else #000
     type: 'image/png', // Or you can also use `image/jpeg`
+    responsiveArea: true
   };
 
   constructor(

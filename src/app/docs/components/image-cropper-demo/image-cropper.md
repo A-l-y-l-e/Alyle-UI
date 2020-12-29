@@ -143,6 +143,12 @@ this.cropper.loadImage(config);
   <image-cropper-example-01></image-cropper-example-01>
 </demo-view>
 
+## Full cropper area width
+
+<demo-view path="docs/components/image-cropper-demo/aui-full-cropper-width">
+  <aui-full-cropper-width></aui-full-cropper-width>
+</demo-view>
+
 ## Crop Circle
 
 You can add `round` to the cropper config. If set to true, `keepAspectRatio` will also be true (since an oval image would not make sense).
