@@ -427,8 +427,10 @@ export class LyImageCropper implements OnInit, OnDestroy {
 
   @Output() readonly scaleChange = new EventEmitter<number>();
 
-  // tslint:disable-next-line: no-output-rename
+  /** Emits minimum supported image scale */
   @Output('minScale') readonly minScaleChange = new EventEmitter<number>();
+
+  /** Emits maximum supported image scale */
   @Output('maxScale') readonly maxScaleChange = new EventEmitter<number>();
 
   /** @deprecated Emits when the image is loaded, instead use `ready` */
