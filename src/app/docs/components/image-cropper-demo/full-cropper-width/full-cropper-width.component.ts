@@ -64,7 +64,6 @@ export class FullCropperWidthComponent implements AfterViewInit {
     keepAspectRatio: true,
     responsiveArea: true,
     output: ImgResolution.OriginalImage,
-    // extraZoomOut: true
   };
 
   displayWith = (_value: number | null): string | number =>  {
@@ -80,10 +79,10 @@ export class FullCropperWidthComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (this._platform.isBrowser) {
       const config: ImgCropperLoaderConfig = {
-        rotation: 270,
-        xOrigin: 1223.864013671875,
-        yOrigin: 2183.6171875,
-        scale:   0.9556462499999999,
+        rotation: 0,
+        xOrigin: 3235.7749135491986,
+        yOrigin: 1711.626216978359,
+        scale:   0.11451599999999999,
         originalDataURL: 'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Ftimothy-dykes-1zwiiaFER8Y-unsplash.jpg?alt=media&token=b4c3611b-8eb5-4add-94b9-8d85e58e334d'
       };
       this.cropper.loadImage(config);

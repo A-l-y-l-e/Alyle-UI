@@ -16,7 +16,6 @@
   <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
   <button (click)="cropper.fit()" ly-button>Fit</button>
   <button (click)="cropper.fitToScreen()" ly-button>Fit to screen</button>
-  <button (click)="cropper.setScale(1)" ly-button>1:1</button>
   <button (click)="cropper.clean()" ly-button>Clean</button>
 </div>
 
@@ -44,7 +43,8 @@
     (input)="scale = $event.value"
     [displayWith]="displayWith"
     step="0.000001">
-      <ly-mark [value]="0.75" (click)="scale=0.75">1:1</ly-mark>
+      <ly-mark [value]="minScale" (click)="scale=minScale">Min</ly-mark>
+      <ly-mark [value]="maxScale" (click)="scale=maxScale">Max</ly-mark>
   </ly-slider>
 </div>
 

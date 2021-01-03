@@ -64,7 +64,6 @@
     keepAspectRatio<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span>
     responsiveArea<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span>
     output<span class="tt18 ttb0">:</span> ImgResolution<span class="tt18 ttae">.</span>OriginalImage<span class="tt18 ttae">,</span>
-    <span class="tt18 tt3o">// extraZoomOut: true</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
   displayWith <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>_value<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span> <span class="tt18 ttb0">|</span> <span class="tt18 parameter"><span class="tt18 ttcj">number</span></span> <span class="tt18 ttb0">=></span>  <span class="tt18 ttae">&#123;</span>
@@ -80,10 +79,10 @@
   <span class="tt18 tta3">ngAfterViewInit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
       <span class="tt18 tt1j">const</span> config<span class="tt18 ttb0">:</span> ImgCropperLoaderConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-        rotation<span class="tt18 ttb0">:</span> <span class="tt18 ttap">270</span><span class="tt18 ttae">,</span>
-        xOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1223.864013671875</span><span class="tt18 ttae">,</span>
-        yOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">2183.6171875</span><span class="tt18 ttae">,</span>
-        scale<span class="tt18 ttb0">:</span>   <span class="tt18 ttap">0.9556462499999999</span><span class="tt18 ttae">,</span>
+        rotation<span class="tt18 ttb0">:</span> <span class="tt18 ttap">0</span><span class="tt18 ttae">,</span>
+        xOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3235.7749135491986</span><span class="tt18 ttae">,</span>
+        yOrigin<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1711.626216978359</span><span class="tt18 ttae">,</span>
+        scale<span class="tt18 ttb0">:</span>   <span class="tt18 ttap">0.11451599999999999</span><span class="tt18 ttae">,</span>
         originalDataURL<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Ftimothy-dykes-1zwiiaFER8Y-unsplash.jpg?alt=media&amp;token=b4c3611b-8eb5-4add-94b9-8d85e58e334d'</span>
       <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
       <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttae">.</span><span class="tt18 tta3">loadImage</span><span class="tt18 ttae">(</span>config<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
