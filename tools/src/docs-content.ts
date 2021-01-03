@@ -231,6 +231,8 @@ export function getPackageNameFromPath(nam: string) {
   nam = nam.replace(/"/g, '');
   if (nam.startsWith('src/lib/src')) {
     return '@alyle/ui';
+  } else if (nam.startsWith('src/lib/themes')) {
+    return `@alyle/ui/themes/${dirname(nam).split('/').slice(-1)[0]}`;
   }
   return '@alyle/ui/' + dirname(nam).split('/').slice(-1)[0];
 }
