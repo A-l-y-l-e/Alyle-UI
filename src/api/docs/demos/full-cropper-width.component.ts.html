@@ -66,11 +66,6 @@
     output<span class="tt18 ttb0">:</span> ImgResolution<span class="tt18 ttae">.</span>OriginalImage<span class="tt18 ttae">,</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
-  displayWith <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>_value<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span> <span class="tt18 ttb0">|</span> <span class="tt18 parameter"><span class="tt18 ttcj">number</span></span> <span class="tt18 ttb0">=></span>  <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">const</span> percent <span class="tt18 ttb0">=</span> Math<span class="tt18 ttae">.</span><span class="tt18 tta3">round</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>cropper<span class="tt18 ttb0">?.</span>_primaryScale <span class="tt18 ttb0">||</span> <span class="tt18 ttap">0</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">*</span> <span class="tt18 ttap">100</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-    <span class="tt18 tt1j">return</span> <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>percent<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">%</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">;</span>
-  <span class="tt18 ttae">&#125;</span>
-
   <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
     <span class="tt18 parameter"><span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer<span class="tt18 ttae">,</span>
     <span class="tt18 tt1j">private</span> _platform<span class="tt18 ttb0">:</span> Platform</span>

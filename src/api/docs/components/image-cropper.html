@@ -108,6 +108,15 @@ or
   <image-cropper-example-01></image-cropper-example-01>
 </demo-view>
 <h2 id="full-cropper-area-width">Full cropper area width</h2>
+<p>The demo below has an aspect ratio of 3:1 and results in an image with a maximum width of 600px.</p>
+<pre class="ttb"><code prsm class="ttm">myConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
+  width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span> <span class="tt18 ttb0">*</span> <span class="tt18 ttap">3</span><span class="tt18 ttae">,</span>
+  height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span><span class="tt18 ttae">,</span>
+  keepAspectRatio<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span>
+  responsiveArea<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">,</span>
+  output<span class="tt18 ttb0">:</span> ImgResolution<span class="tt18 ttae">.</span>OriginalImage<span class="tt18 ttae">,</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+</code></pre>
 <demo-view path="docs/components/image-cropper-demo/aui-full-cropper-width">
   <aui-full-cropper-width></aui-full-cropper-width>
 </demo-view>
