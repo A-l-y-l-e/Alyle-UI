@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui/avatar",
-  "name": "LyAvatarTheme",
-  "symbol": "Interface",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">LyAvatarTheme</span> <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/** Styles for Avatar Component */</span>\n  root<span class=\"tt18 ttb0\">?</span><span class=\"tt18 ttb0\">:</span> <span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> <span class=\"tt18 ttb0\">=></span> StyleTemplate<span class=\"tt18 ttae\">;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
-}

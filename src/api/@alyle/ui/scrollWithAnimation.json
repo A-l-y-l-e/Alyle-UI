@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui",
-  "name": "scrollWithAnimation",
-  "symbol": "Function",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3o\">/**\n * @experimental\n */</span>\n<span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">function</span> <span class=\"tt18 tta3\">scrollWithAnimation</span><span class=\"tt18 ttae\">(</span>element<span class=\"tt18 ttb0\">:</span> HTMLElement<span class=\"tt18 ttae\">,</span> to<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 ttcj\">number</span><span class=\"tt18 ttae\">,</span> duration<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 ttcj\">number</span><span class=\"tt18 ttae\">,</span> p<span class=\"tt18 ttb0\">?</span><span class=\"tt18 ttb0\">:</span> <span class=\"tt18 tt3z\">'x'</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 tt3z\">'y'</span><span class=\"tt18 ttae\">,</span> motion<span class=\"tt18 ttb0\">?</span><span class=\"tt18 ttb0\">:</span> <span class=\"tt18 ttae\">(</span><span class=\"tt18 parameter\">t<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 ttcj\">number</span></span><span class=\"tt18 ttae\">)</span> <span class=\"tt18 ttb0\">=></span> <span class=\"tt18 ttcj\">number</span><span class=\"tt18 ttae\">)</span></code></pre>"
-}

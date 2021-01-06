@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui",
-  "name": "LyPaperMixinBase",
-  "symbol": "Const",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> LyPaperMixinBase <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tta3\">mixinStyleUpdater</span><span class=\"tt18 ttae\">(</span>\n<span class=\"tt18 tta3\">mixinBg</span><span class=\"tt18 ttae\">(</span>\n  <span class=\"tt18 tta3\">mixinColor</span><span class=\"tt18 ttae\">(</span>\n    <span class=\"tt18 tta3\">mixinRaised</span><span class=\"tt18 ttae\">(</span>\n      <span class=\"tt18 tta3\">mixinOutlined</span><span class=\"tt18 ttae\">(</span>\n        <span class=\"tt18 tta3\">mixinElevation</span><span class=\"tt18 ttae\">(</span>\n          <span class=\"tt18 tta3\">mixinShadowColor</span><span class=\"tt18 ttae\">(</span>\n            <span class=\"tt18 tta3\">mixinDisableRipple</span><span class=\"tt18 ttae\">(</span>LyPaperBase<span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">;</span></code></pre>"
-}

@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui",
-  "name": "STYLES_BACKDROP_ROOT",
-  "symbol": "Const",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">const</span> <span class=\"tt18 ttbb\">STYLES_BACKDROP_ROOT</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 ttb0\">...</span><span class=\"tt18 ttbb\">LY_COMMON_STYLES_DEPRECATED</span><span class=\"tt18 ttae\">.</span>fill<span class=\"tt18 ttae\">,</span>\n  width<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 tt3z\">'100vw'</span><span class=\"tt18 ttae\">,</span>\n  height<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 tt3z\">'100vh'</span><span class=\"tt18 ttae\">,</span>\n  pointerEvents<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 tt3z\">'all'</span><span class=\"tt18 ttae\">,</span>\n  userSelect<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 tt3z\">'none'</span>\n<span class=\"tt18 ttae\">&#125;</span><span class=\"tt18 ttae\">)</span><span class=\"tt18 ttae\">;</span></code></pre>"
-}

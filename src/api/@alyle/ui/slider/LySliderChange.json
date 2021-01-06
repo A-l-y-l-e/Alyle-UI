@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui/slider",
-  "name": "LySliderChange",
-  "symbol": "Class",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3o\">/** A change event emitted by the LySlider component. */</span>\n<span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">class</span> <span class=\"tt18 ttc8\">LySliderChange</span> <span class=\"tt18 ttae\">&#123;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
-}
