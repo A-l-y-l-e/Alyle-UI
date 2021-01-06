@@ -351,6 +351,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
   private _scale?: number;
   private _scal3Fix?: number;
   private _minScale?: number;
+  private _maxScale?: number;
   private _configPrimary: ImgCropperConfig;
   private _config: ImgCropperConfig;
   private _imgRect: ImgRect = {} as any;
@@ -366,7 +367,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
   _primaryAreaWidth: number;
   _primaryAreaHeight: number;
 
-  _primaryScale: number;
+  _absoluteScale: number;
 
   /**
    * When is loaded image
@@ -626,7 +627,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
       return;
     }
     this._scal3Fix = newSize;
-    this._updatePrimaryScale();
+    this._updateAbsoluteScale();
     if (this.isLoaded) {
       if (changed) {
         const originPosition = {...this._imgRect};
@@ -839,13 +840,13 @@ export class LyImageCropper implements OnInit, OnDestroy {
     }
   }
 
-  /**+ */
+  /** + */
   zoomIn() {
     const scale = this._scal3Fix! + .05;
-    if (scale > 0 && scale <= 1) {
+    if (scale > this.minScale! && scale <= this._maxScale!) {
       this.setScale(scale);
     } else {
-      this.setScale(1);
+      this.setScale(this._maxScale!);
     }
   }
 
@@ -876,10 +877,10 @@ export class LyImageCropper implements OnInit, OnDestroy {
     }
   }
 
-  /**- */
+  /** - */
   zoomOut() {
     const scale = this._scal3Fix! - .05;
-    if (scale > this.minScale! && scale <= 1) {
+    if (scale > this.minScale! && scale <= this._maxScale!) {
       this.setScale(scale);
     } else {
       this.fit();
@@ -996,9 +997,9 @@ export class LyImageCropper implements OnInit, OnDestroy {
     }
   }
 
-  private _updatePrimaryScale() {
+  private _updateAbsoluteScale() {
     const scale = this._scal3Fix! / (this.config.width / this._primaryAreaWidth);
-    this._primaryScale = scale;
+    this._absoluteScale = scale;
   }
 
   /**
@@ -1145,6 +1146,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
 
   private _updateMaxScale() {
     const maxScale = (this.config.width / this._primaryAreaWidth);
+    this._maxScale = maxScale;
     this.maxScaleChange.emit(maxScale);
   }
 
@@ -1212,7 +1214,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
       width: result.width,
       height: result.height,
       originalDataURL: currentImageLoadConfig.originalDataURL,
-      scale: this._primaryScale!,
+      scale: this._absoluteScale!,
       rotation: this._rotation,
       left: (areaRect.left - canvasRect.left) / this._scal3Fix!,
       top: (areaRect.top - canvasRect.top) / this._scal3Fix!,
