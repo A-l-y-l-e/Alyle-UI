@@ -66,11 +66,6 @@ export class FullCropperWidthComponent implements AfterViewInit {
     output: ImgResolution.OriginalImage,
   };
 
-  displayWith = (_value: number | null): string | number =>  {
-    const percent = Math.round((this.cropper?._primaryScale || 0) * 100);
-    return `${percent}%`;
-  }
-
   constructor(
     readonly sRenderer: StyleRenderer,
     private _platform: Platform

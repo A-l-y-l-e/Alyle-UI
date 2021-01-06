@@ -35,13 +35,12 @@
 
 <div *ngIf="ready" [className]="classes.sliderContainer">
   <ly-slider
-    [thumbVisible]="true"
+    [thumbVisible]="false"
     [marks]="true"
     [min]="minScale"
     [max]="maxScale"
     [(ngModel)]="scale"
     (input)="scale = $event.value"
-    [displayWith]="displayWith"
     step="0.000001">
       <ly-mark [value]="minScale" (click)="scale=minScale">Min</ly-mark>
       <ly-mark [value]="maxScale" (click)="scale=maxScale">Max</ly-mark>
@@ -53,5 +52,5 @@
 </button>
 
 <div>
-  <img [lyWidth]="1" *ngIf="croppedImage" [src]="croppedImage">
+  <img [lyMaxWidth]="1" *ngIf="croppedImage" [src]="croppedImage">
 </div>

@@ -145,6 +145,18 @@ this.cropper.loadImage(config);
 
 ## Full cropper area width
 
+The demo below has an aspect ratio of 3:1 and results in an image with a maximum width of 600px.
+
+```ts
+myConfig: ImgCropperConfig = {
+  width: 200 * 3,
+  height: 200,
+  keepAspectRatio: true,
+  responsiveArea: true,
+  output: ImgResolution.OriginalImage,
+};
+```
+
 <demo-view path="docs/components/image-cropper-demo/aui-full-cropper-width">
   <aui-full-cropper-width></aui-full-cropper-width>
 </demo-view>
