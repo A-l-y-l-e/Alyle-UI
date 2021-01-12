@@ -1,3 +1,23 @@
+# [10.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.4.0...10.5.0) (2021-01-12)
+
+
+### Bug Fixes
+
+* **cropper:** error when area is larger than container, and fix some bugs ([ecd97c5](https://github.com/A-l-y-l-e/Alyle-UI/commit/ecd97c50ba92fc34c2eb0f3227ff12a9a8c7fd36)), closes [#139](https://github.com/A-l-y-l-e/Alyle-UI/issues/139)
+* **cropper:** fix `keepAspectRatio` ([6004165](https://github.com/A-l-y-l-e/Alyle-UI/commit/6004165076ec700ca992fe2050a81a12331b3d9f))
+* **cropper:** fix scaling when screen is resized ([53a096f](https://github.com/A-l-y-l-e/Alyle-UI/commit/53a096f7b4bca150da964692c18bee8b3313742b))
+* **cropper:** fixes `zoomIn` and` zoomOut` methods when used in conjunction with `ImgCropperConfig.responsiveArea` ([7586b61](https://github.com/A-l-y-l-e/Alyle-UI/commit/7586b6173753e92ce0a59a6070ffcbc6b359f109))
+* **slider:** respect both the minimum and maximum values in decimals ([1b2aec7](https://github.com/A-l-y-l-e/Alyle-UI/commit/1b2aec7c0cfb01560241e09daff55dde456caa18))
+* fix `keepAspectRatio` with different width and height ([8e1f4ce](https://github.com/A-l-y-l-e/Alyle-UI/commit/8e1f4ceac91889152a7519050def6726e442c655))
+
+
+### Features
+
+* **cropper:** add `responsiveArea` ([ec96a23](https://github.com/A-l-y-l-e/Alyle-UI/commit/ec96a232400a2e38badffa16d1507e3ab0e2f0ed))
+* **cropper:** expose method `updateCropperPosition` ([9433f85](https://github.com/A-l-y-l-e/Alyle-UI/commit/9433f85f943ad28b6902f12b25be2ac65b02574c))
+
+
+
 # [10.4.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.3.0...10.4.0) (2020-11-07)
 
 
