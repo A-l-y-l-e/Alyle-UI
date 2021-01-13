@@ -8,7 +8,7 @@
 * **cropper:** fix scaling when screen is resized ([53a096f](https://github.com/A-l-y-l-e/Alyle-UI/commit/53a096f7b4bca150da964692c18bee8b3313742b))
 * **cropper:** fixes `zoomIn` and` zoomOut` methods when used in conjunction with `ImgCropperConfig.responsiveArea` ([7586b61](https://github.com/A-l-y-l-e/Alyle-UI/commit/7586b6173753e92ce0a59a6070ffcbc6b359f109))
 * **slider:** respect both the minimum and maximum values in decimals ([1b2aec7](https://github.com/A-l-y-l-e/Alyle-UI/commit/1b2aec7c0cfb01560241e09daff55dde456caa18))
-* fix `keepAspectRatio` with different width and height ([8e1f4ce](https://github.com/A-l-y-l-e/Alyle-UI/commit/8e1f4ceac91889152a7519050def6726e442c655))
+* **cropper:** fix `keepAspectRatio` with different width and height ([8e1f4ce](https://github.com/A-l-y-l-e/Alyle-UI/commit/8e1f4ceac91889152a7519050def6726e442c655))
 
 
 ### Features
