@@ -352,6 +352,7 @@ export class LyImageCropper implements OnInit, OnDestroy {
   private _scal3Fix?: number;
   private _minScale?: number;
   private _maxScale?: number;
+  /** Initial config */
   private _configPrimary: ImgCropperConfig;
   private _config: ImgCropperConfig;
   private _imgRect: ImgRect = {} as any;
@@ -1189,7 +1190,10 @@ export class LyImageCropper implements OnInit, OnDestroy {
     );
     const result = canvasElement;
     if (myConfig.output === ImgResolution.Default) {
-      resizeCanvas(result, area.width, area.height);
+      resizeCanvas(
+        result,
+        this._configPrimary.width,
+        this._configPrimary.height);
     } else if (typeof output === 'object') {
       if (output.width && output.height) {
         resizeCanvas(result, output.width, output.height);
