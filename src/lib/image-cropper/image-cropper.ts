@@ -215,7 +215,7 @@ export interface ImgOutput {
 /** Image output */
 export enum ImgResolution {
   /**
-   * The output image will be equal to the size of the crop area.
+   * The output image will be equal to the initial size of the cropper area.
    */
   Default,
   /** Just crop the image without resizing */
