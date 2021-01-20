@@ -1,3 +1,12 @@
+## [10.5.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.5.0...10.5.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* **cropper:** default output is wrong when using `responsiveArea` ([20c5105](https://github.com/A-l-y-l-e/Alyle-UI/commit/20c5105599c773d8b8011814d711eb35ddbda5e0))
+
+
+
 # [10.5.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.4.0...10.5.0) (2021-01-12)
 
 
