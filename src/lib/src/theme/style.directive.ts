@@ -11,6 +11,7 @@ const STYLE_PRIORITY = -0.5;
 @Directive({
   selector: `[lyStyle],
               [lyColor],
+              [lyBg],
               [lyP], [lyPf], [lyPe], [lyPt], [lyPb], [lyPx], [lyPy],
               [lyM], [lyMf], [lyMe], [lyMt], [lyMb], [lyMx], [lyMy],
               [lySize],
