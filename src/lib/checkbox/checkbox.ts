@@ -124,6 +124,7 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
       }
       svg {
         position: absolute
+        left: 0
         polyline {
           fill: none
           stroke: ${theme.background.primary.default}
