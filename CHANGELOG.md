@@ -1,3 +1,13 @@
+## [10.5.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.5.1...10.5.2) (2021-05-07)
+
+
+### Bug Fixes
+
+* fix checkbox with text align right ([a9160c3](https://github.com/A-l-y-l-e/Alyle-UI/commit/a9160c3e265bde5822af64e6dfed79e8f66f4af6))
+* **style:** fix lyBg ([dd52359](https://github.com/A-l-y-l-e/Alyle-UI/commit/dd5235919c97aa9d1d812dc0e02f23eb12b8ccf6))
+
+
+
 ## [10.5.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.5.0...10.5.1) (2021-01-20)
 
 
