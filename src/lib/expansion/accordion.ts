@@ -1,7 +1,15 @@
 import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError, lyl, ThemeRef, LyClasses, StyleTemplate } from '@alyle/ui';
+import { toBoolean,
+  ThemeVariables,
+  LyTheme2,
+  getLyThemeVariableUndefinedError,
+  lyl,
+  ThemeRef,
+  LyClasses,
+  StyleTemplate,
+  StyleRenderer
+} from '@alyle/ui';
 import { Subject } from 'rxjs';
-import { StyleRenderer } from '../src/minimal';
 
 export interface ExpansionConfig {
   root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
