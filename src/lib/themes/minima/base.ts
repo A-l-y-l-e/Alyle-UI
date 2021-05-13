@@ -351,29 +351,28 @@ export class MinimaBase extends LyStyleUtils {
         horizontal,
         vertical
       },
-      color ) => {
-      const colorDisabled = color.darken(2)
-      .desaturate(2.5);
-      const colorDisabledLum0_4 = colorDisabled.luminance(.4);
+      _color
+    ) => {
+      const colorDisabled = (this as any).disabled.contrast;
       return lyl `{
         & ${track},
         & ${thumb},
         & ${thumbLabel},
         & ${bg},
         & ${tick} {
-          background-color: ${colorDisabled.luminance(.4).css()}
+          background-color: ${colorDisabled}
         }
         ${tickActive} {
-          background-color: ${colorDisabled.luminance(.6).css()}
+          background-color: ${colorDisabled}
         }
         &${horizontal} {
           & ${thumbContent}::before {
-            background: linear-gradient(0deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%)
+            background: linear-gradient(0deg, ${colorDisabled} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabled} 100%)
           }
         }
         &${vertical} {
           & ${thumbContent}::before {
-            background: linear-gradient(90deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%)
+            background: linear-gradient(90deg, ${colorDisabled} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabled} 100%)
           }
         }
         ${bg} {
