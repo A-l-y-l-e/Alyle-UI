@@ -39,6 +39,11 @@ export interface LySliderTheme {
   /** Styles for Slider Component */
   root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+  /**
+   * Disabled state
+   * @param classes Classes
+   * @param color color slider (deprecated)
+   */
   disabled?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate)>
   | ((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate);
   color?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate)>
@@ -111,6 +116,7 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
 
     track: lyl `{
       position: absolute
+      transform-origin: 0 0
       margin: auto
     }`,
     bg: null,
@@ -589,31 +595,35 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     if (newVal !== this.disabled) {
       this._disabled = newVal;
       if (newVal) {
-        const color = this.color;
-        const styleKey = `${LySlider.и}.disabled:${val}-${color}`;
-        let newStyle: ((theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => StyleTemplate);
-        newStyle = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
-          const clr = theme.colorOf(color);
-          const __ = ref.selectorsOf(STYLES);
+        // TODO: remove promise when color parameter removed
+        Promise.resolve(null).then(() => {
+          // TODO: deprecated
+          const color = this.color;
+          const styleKey = `${LySlider.и}.disabled:${val}-${color}`;
+          let newStyle: ((theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => StyleTemplate);
+          newStyle = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
+            const clr = theme.colorOf(color);
+            const __ = ref.selectorsOf(STYLES);
 
-          if (theme.slider && theme.slider.disabled) {
-            const sliderColor = theme.slider.disabled;
-            if (sliderColor) {
-              return sliderColor instanceof StyleCollection
-                ? (sliderColor).setTransformer((_) => _(__, clr)).css
-                : sliderColor(__, clr);
+            if (theme.slider && theme.slider.disabled) {
+              const sliderColor = theme.slider.disabled;
+              if (sliderColor) {
+                return sliderColor instanceof StyleCollection
+                  ? (sliderColor).setTransformer((_) => _(__, clr)).css
+                  : sliderColor(__, clr);
+              }
             }
-          }
-          throw new Error(`${val} not found in theme.slider.color`);
-        };
-        const newClass = this._sr.add(
-          styleKey,
-          newStyle,
-          STYLE_PRIORITY + 1.5,
-          this._disabledClass
-        );
-        this.sRenderer.addClass(this.classes.disabled);
-        this._disabledClass = newClass;
+            throw new Error(`${val} not found in theme.slider.color`);
+          };
+          const newClass = this._sr.add(
+            styleKey,
+            newStyle,
+            STYLE_PRIORITY + 1.5,
+            this._disabledClass
+          );
+          this.sRenderer.addClass(this.classes.disabled);
+          this._disabledClass = newClass;
+        });
       } else if (this._disabledClass) {
         this.sRenderer.removeClass(this._disabledClass);
         this.sRenderer.removeClass(this.classes.disabled);
@@ -963,29 +973,20 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     const track = this._track;
     const thumbs = this._thumbs;
     const thumbsPercents = thumbs.map(thumb => thumb.percent!);
-    const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
-
+    // const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
+    const axis = this.vertical ? 'Y' : 'X';
+    const sign = this._theme.variables.direction === 'rtl' ? '-' : '';
     if (thumbs.length === 1) {
       thumbsPercents.unshift(0);
     }
 
     const minPercent = this._minPercent = Math.min(...thumbsPercents);
     const maxPercent = this._maxPercent = Math.max(...thumbsPercents);
+    const percent = (maxPercent / 100) - (minPercent / 100);
 
+    const scale = this.vertical ? `1, ${percent}, 1` : `${percent}, 1, 1`;
     if (track) {
-
-      track.nativeElement.style.width = null!;
-      track.nativeElement.style.height = null!;
-      track.nativeElement.style.left = null!;
-      track.nativeElement.style.right = null!;
-
-      if (this.vertical) {
-        track.nativeElement.style.height = `${(maxPercent - minPercent)}%`;
-        track.nativeElement.style.bottom = `${minPercent}%`;
-      } else {
-        track.nativeElement.style.width = `${maxPercent - minPercent}%`;
-        track.nativeElement.style[direction] = `${minPercent}%`;
-      }
+      track.nativeElement.style.transform = `translate${axis}(${sign}${minPercent}%) scale3d(${scale})`;
     }
   }
 
