@@ -984,7 +984,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     const maxPercent = this._maxPercent = Math.max(...thumbsPercents);
     const percent = (maxPercent / 100) - (minPercent / 100);
 
-    const scale = this.vertical ? `1, ${percent}, 1` : `${percent}, 1, 1`;
+    const scale = this.vertical ? `1, ${1 - percent}, 1` : `${percent}, 1, 1`;
     if (track) {
       track.nativeElement.style.transform = `translate${axis}(${sign}${minPercent}%) scale3d(${scale})`;
     }
