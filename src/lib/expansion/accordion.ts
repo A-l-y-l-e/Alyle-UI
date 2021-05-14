@@ -48,7 +48,7 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
         }
       }
     }`,
-    root: (theme.expansion && theme.expansion.root) ? () => theme.expansion!.root!(classes) : null,
+    root: (theme.expansion?.root) ? () => theme.expansion!.root!(classes) : null,
     panel: ( ) => lyl `{
       display: block
       overflow: hidden
