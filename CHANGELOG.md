@@ -1,3 +1,14 @@
+## [10.5.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.5.2...10.5.3) (2021-05-14)
+
+
+### Bug Fixes
+
+* **expansion:** fix expansion appearance ([3e277d3](https://github.com/A-l-y-l-e/Alyle-UI/commit/3e277d3c5b2fb36257a29d8e4a61a790d9aaa1ff))
+* **slider:** error when using a disabled ly-slider ([37dbc45](https://github.com/A-l-y-l-e/Alyle-UI/commit/37dbc45d1c5d0b15b1249a5b40c8486e62a769ba)), closes [#145](https://github.com/A-l-y-l-e/Alyle-UI/issues/145)
+* **slider:** remove theme color parameter ([cf94edf](https://github.com/A-l-y-l-e/Alyle-UI/commit/cf94edfa21cf654ca16b9c78d717b9f29f09b555))
+
+
+
 ## [10.5.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.5.1...10.5.2) (2021-05-07)
 
 
