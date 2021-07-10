@@ -70,7 +70,8 @@ export class LyDialog {
           instance,
           { key: property, и: LyStyle.и },
           config![property],
-          LyStyle[property]
+          LyStyle[property],
+          LyStyle.$priority
         );
       }
     });
