@@ -92,9 +92,9 @@ export class LyStyle implements WithStyles {
   ) bg: string | number | null;
 
   @Style<string | number | null>(
-    (value, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (value, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           padding: ${to8Px(value)}
         }
       }`
@@ -102,9 +102,9 @@ export class LyStyle implements WithStyles {
   ) p: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints, after}) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints, after }) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           padding-${after}: ${to8Px(val)}
         }
       }`
@@ -112,9 +112,9 @@ export class LyStyle implements WithStyles {
   ) pf: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints, before}) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints, before }) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           padding-${before}: ${to8Px(val)}
         }
       }`
@@ -122,9 +122,9 @@ export class LyStyle implements WithStyles {
   ) pe: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           padding-top: ${to8Px(val)}
         }
       }`
@@ -132,9 +132,9 @@ export class LyStyle implements WithStyles {
   ) pt: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           padding-bottom: ${to8Px(val)}
         }
       }`
@@ -142,9 +142,9 @@ export class LyStyle implements WithStyles {
   ) pb: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           padding: 0 ${to8Px(val)}
         }
       }`
@@ -152,9 +152,9 @@ export class LyStyle implements WithStyles {
   ) px: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           padding: ${to8Px(val)} 0
         }
       }`
@@ -162,9 +162,9 @@ export class LyStyle implements WithStyles {
   ) py: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           margin: ${to8Px(val)}
         }
       }`
@@ -172,9 +172,9 @@ export class LyStyle implements WithStyles {
   ) m: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints, after}) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints, after }) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           margin-${after}: ${to8Px(val)}
         }
       }`
@@ -182,9 +182,9 @@ export class LyStyle implements WithStyles {
   ) mf: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints, before}) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints, before }) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           margin-${before}: ${to8Px(val)}
         }
       }`
@@ -192,9 +192,9 @@ export class LyStyle implements WithStyles {
   ) me: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           margin-top: ${to8Px(val)}
         }
       }`
@@ -202,38 +202,38 @@ export class LyStyle implements WithStyles {
   ) mt: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-          lyl `{
-            @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+            @media ${(media && breakpoints[ media ]) || 'all'} {
               margin-bottom: ${to8Px(val)}
             }
           }`
-        )
+    )
   ) mb: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-          lyl `{
-            @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+            @media ${(media && breakpoints[ media ]) || 'all'} {
               margin: 0 ${to8Px(val)}
             }
           }`
-        )
+    )
   ) mx: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-          lyl `{
-            @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+            @media ${(media && breakpoints[ media ]) || 'all'} {
               margin: ${to8Px(val)} 0
             }
           }`
-        )
+    )
   ) my: string | number | null;
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           width: ${transform(val)}
         }
       }`
@@ -241,9 +241,9 @@ export class LyStyle implements WithStyles {
   ) width: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           max-width: ${transform(val)}
         }
       }`
@@ -251,9 +251,9 @@ export class LyStyle implements WithStyles {
   ) maxWidth: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           min-width: ${transform(val)}
         }
       }`
@@ -261,9 +261,9 @@ export class LyStyle implements WithStyles {
   ) minWidth: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           height: ${transform(val)}
         }
       }`
@@ -271,9 +271,9 @@ export class LyStyle implements WithStyles {
   ) height: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           max-height: ${transform(val)}
         }
       }`
@@ -281,9 +281,9 @@ export class LyStyle implements WithStyles {
   ) maxHeight: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           min-height: ${transform(val)}
         }
       }`
@@ -291,9 +291,9 @@ export class LyStyle implements WithStyles {
   ) minHeight: string | number | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           display: ${val}
         }
       }`
@@ -304,9 +304,9 @@ export class LyStyle implements WithStyles {
   // Flexbox
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           flex: ${val}
         }
       }`
@@ -314,9 +314,9 @@ export class LyStyle implements WithStyles {
   ) flex: string | number | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           flex-basis: ${val}
         }
       }`
@@ -324,9 +324,9 @@ export class LyStyle implements WithStyles {
   ) flexBasis: string | number | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           flex-direction: ${val}
         }
       }`
@@ -334,9 +334,9 @@ export class LyStyle implements WithStyles {
   ) flexDirection: string | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           flex-grow: ${val}
         }
       }`
@@ -344,9 +344,9 @@ export class LyStyle implements WithStyles {
   ) flexGrow: string | number | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           flex-self: ${val}
         }
       }`
@@ -354,9 +354,9 @@ export class LyStyle implements WithStyles {
   ) flexSelf: string | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           flex-shrink: ${val}
         }
       }`
@@ -364,9 +364,9 @@ export class LyStyle implements WithStyles {
   ) flexShrink: string | number | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           flex-wrap: ${val}
         }
       }`
@@ -374,9 +374,9 @@ export class LyStyle implements WithStyles {
   ) flexWrap: string | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           justify-content: ${val}
         }
       }`
@@ -384,9 +384,9 @@ export class LyStyle implements WithStyles {
   ) justifyContent: string | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           justify-items: ${val}
         }
       }`
@@ -394,9 +394,9 @@ export class LyStyle implements WithStyles {
   ) justifyItems: string | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           justify-self: ${val}
         }
       }`
@@ -404,9 +404,9 @@ export class LyStyle implements WithStyles {
   ) justifySelf: string | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           align-content: ${val}
         }
       }`
@@ -414,9 +414,9 @@ export class LyStyle implements WithStyles {
   ) alignContent: string | null;
 
   @Style<string | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           align-items: ${val}
         }
       }`
@@ -424,9 +424,9 @@ export class LyStyle implements WithStyles {
   ) alignItems: string | null;
 
   @Style<string | number | null>(
-    (val, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && breakpoints[media]) || 'all'} {
+    (val, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && breakpoints[ media ]) || 'all'} {
           order: ${val}
         }
       }`
@@ -434,9 +434,9 @@ export class LyStyle implements WithStyles {
   ) order: string | number | null;
 
   @Style<string | number | null>(
-    (value, media) => ({breakpoints}: ThemeVariables) => (
-      lyl `{
-        @media ${(media && (breakpoints[media] || media)) || 'all'} {
+    (value, media) => ({ breakpoints }: ThemeVariables) => (
+      lyl`{
+        @media ${(media && (breakpoints[ media ] || media)) || 'all'} {
           ${value}
         }
       }`
