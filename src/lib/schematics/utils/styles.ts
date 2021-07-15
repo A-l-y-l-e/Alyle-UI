@@ -15,9 +15,9 @@ const STYLES = `\n\nconst STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
 
 /** Adds the styles to the src/app/app.component.ts file. */
 export function setUpStyles(options: any, filePath?: string, decorator = 'Component', content = STYLES) {
-  return (host: Tree, _context: SchematicContext) => {
+  return async (host: Tree, _context: SchematicContext) => {
     if (!filePath) {
-      filePath = getAppComponentPath(host, options);
+      filePath = await getAppComponentPath(host, options);
     }
 
     const buffer = host.read(filePath);
@@ -81,7 +81,7 @@ export function setUpStyles(options: any, filePath?: string, decorator = 'Compon
 
     prettierConstructorParameters(host, filePath, constructor);
 
-    return host;
+    // return host;
   };
 }
 

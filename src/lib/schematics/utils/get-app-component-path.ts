@@ -9,8 +9,8 @@ import { Schema } from '../ng-add/schema';
 import { getProjectFromWorkspace, getProjectMainFile } from '@angular/cdk/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-export function getAppComponentPath(host: Tree, options: Schema) {
-  const workspace = getWorkspace(host);
+export async function getAppComponentPath(host: Tree, options: Schema) {
+  const workspace = await getWorkspace(host);
   const project = getProjectFromWorkspace(workspace, options.project);
   const mainPath = getProjectMainFile(project);
   const modulePath = getAppModulePath(host, mainPath);

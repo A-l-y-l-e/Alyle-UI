@@ -24,10 +24,10 @@ import { setUpStyles } from '../utils/styles';
 import { addProvider } from '../utils/ast';
 
 function updateAppModule(options: Schema) {
-  return (host: Tree, _context: SchematicContext) => {
+  return async (host: Tree, _context: SchematicContext) => {
     _context.logger.debug('Updating appmodule');
 
-    const workspace = getWorkspace(host);
+    const workspace = await getWorkspace(host);
     const project = getProjectFromWorkspace(workspace, options.project);
     const themes = options.themes.length ? options.themes : ['minima-light'];
     const theme = options.themes[0];
