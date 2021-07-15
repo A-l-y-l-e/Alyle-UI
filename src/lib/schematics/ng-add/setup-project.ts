@@ -1,8 +1,8 @@
 import { strings } from '@angular-devkit/core';
 import * as ts from 'typescript';
-import { insertImport, isImported } from '@schematics/angular/utility/ast-utils';
+import { insertImport, isImported } from '../utils/vendored-ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
-import { getWorkspace } from '@schematics/angular/utility/config';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
 import {
   getAppModulePath,
   addModuleImportToModule,

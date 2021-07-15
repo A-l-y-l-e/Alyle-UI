@@ -1,6 +1,6 @@
 import { Tree, SchematicsException } from '@angular-devkit/schematics';
 import * as ts from 'typescript';
-import { isImported, insertImport } from '@schematics/angular/utility/ast-utils';
+import { isImported, insertImport } from './vendored-ast-utils';
 import { InsertChange, Change } from '@schematics/angular/utility/change';
 import { getDecoratorMetadata, getMetadataField, parseSourceFile } from '@angular/cdk/schematics';
 

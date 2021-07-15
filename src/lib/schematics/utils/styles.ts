@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import { Tree, SchematicsException, SchematicContext } from '@angular-devkit/schematics';
 import { addImport, getTsSourceFile, prettierConstructorParameters, addProvider } from '../utils/ast';
-import { findNodes } from '@schematics/angular/utility/ast-utils';
+import { findNodes } from './vendored-ast-utils';
 import { getAppComponentPath } from './get-app-component-path';
 
 const STYLES = `\n\nconst STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
