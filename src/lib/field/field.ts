@@ -604,9 +604,6 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       this._markForCheck();
     });
 
-    this._theme.directionChanged.pipe(takeUntil(this._destroyed)).subscribe(() => {
-      this._updateFielsetSpan();
-    });
   }
 
   ngAfterViewInit() {
