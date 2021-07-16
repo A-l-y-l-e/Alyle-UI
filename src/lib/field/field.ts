@@ -624,11 +624,15 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       return;
     }
 
+    if (this.appearance !== 'outlined') {
+      return;
+    }
+
     const label = this._isLabel() ? this._labelSpan.nativeElement : null;
     const labelFirstChild = this._isLabel()
       ? this._labelSpan.nativeElement.firstElementChild as HTMLElement
       : null;
-    if (this.appearance !== 'outlined' || !label) {
+    if (!label) {
       return;
     }
     const before = this._theme.variables.before;
