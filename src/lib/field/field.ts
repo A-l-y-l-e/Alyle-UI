@@ -177,7 +177,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
     }`,
     animations: ( ) => lyl `{
       & ${classes.labelSpan} {
-        transition: transform ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
+        transition: ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
       }
       & ${classes.label} {
         transition: ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
@@ -603,6 +603,10 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       this._updateFielsetSpanOnStable = true;
       this._markForCheck();
     });
+
+    this._theme.directionChanged.pipe(takeUntil(this._destroyed)).subscribe(() => {
+      this._updateFielsetSpan();
+    });
   }
 
   ngAfterViewInit() {
@@ -650,6 +654,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       : width;
     width = Math.round(width);
     beforeMargin = Math.round(beforeMargin);
+    fieldsetLegend.style[`margin-right`] = ``;
+    fieldsetLegend.style[`margin-left`] = ``;
     fieldsetLegend.style[`margin-${before}`] = `${beforeMargin}px`;
     this._updateFielsetSpanOnStable = false;
     this._fielsetSpanClass = this._theme.addStyle(`style.fieldsetSpanFocused:${width}`, {
