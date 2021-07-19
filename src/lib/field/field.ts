@@ -20,7 +20,9 @@ import {
   HostBinding,
   Optional,
   Self,
-  DoCheck
+  DoCheck,
+  InjectionToken,
+  Inject,
   } from '@angular/core';
 import {
   LyTheme2,
@@ -69,6 +71,25 @@ export interface LyFieldTheme {
 export interface LyFieldVariables {
   field?: LyFieldTheme;
 }
+
+export interface LyFieldDefaultOptions {
+  appearance?: string;
+  /**
+   * Whether the label is floating.
+   * false (default): The label will only float when needed
+   * true: The label will always be floating
+   */
+  floatingLabel?: boolean;
+  /**
+   * Whether the hint will always show.
+   * false (default): The hint will only be shown when the text is focused
+   * true: The hint will always show
+   */
+  persistentHint?: boolean;
+}
+
+export const LY_FIELD_DEFAULT_OPTIONS =
+  new InjectionToken<LyFieldDefaultOptions>('LY_FIELD_DEFAULT_OPTIONS')
 
 /** LyField */
 const STYLE_PRIORITY = -2;
@@ -486,47 +507,43 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
 
   /** Theme color for the component. */
   @Input()
-  set color(val: string) {
-    if (val !== this._color) {
-      this._color = val;
-      this._colorClass = this._theme.addStyle(`ly-field.color:${val}`, (theme: ThemeVariables) => {
-        const color = theme.colorOf(val);
-        const contrast = theme.colorOf(`${val}:contrast`);
-        return {
-          [`&.${this.classes.focused} .${this.classes.container}:after, &{focused}{selectArrow} {infix}:after`]: {
-            color
-          },
-          [`&.${this.classes.focused} .${this.classes.fieldset}`]: {
-            borderColor: color
-          },
-          [`&.${this.classes.focused} .${this.classes.label}`]: {
-            color
-          },
-          [`& .${this.classes.inputNative}`]: {
-            caretColor: color
-          },
-          '& {inputNative}::selection': {
-            backgroundColor: color,
-            color: contrast
-          },
-          '& {inputNative}::-moz-selection': {
-            backgroundColor: color,
-            color: contrast
-          }
-        };
-      }, this._el.nativeElement, this._colorClass, STYLE_PRIORITY + 1, STYLES);
+  @Style<string>(
+    val => (theme: ThemeVariables, ref) => {
+      const classes = ref.selectorsOf(STYLES);
+      const color = theme.colorOf(val);
+      const contrast = theme.colorOf(`${val}:contrast`);
+      return lyl `{
+        &${classes.focused} ${classes.container}:after,
+        &${classes.focused}${classes.selectArrow} ${classes.infix}:after {
+          color: ${color}
+        }
+        &${classes.focused} ${classes.fieldset} {
+          border-color: ${color}
+        }
+        &${classes.focused} ${classes.label} {
+          color: ${color}
+        }
+        & ${classes.inputNative} {
+          caret-color: ${color}
+        }
+        & ${classes.inputNative}::selection {
+          background-color: ${color}
+          color: ${contrast}
+        }
+        & ${classes.inputNative}::-moz-selection {
+          background-color: ${color}
+          color: ${contrast}
+        }
+      }`;
     }
-  }
-  get color() {
-    return this._color;
-  }
+  ) color: string;
 
   /** The field appearance style. */
   @Input()
   @Style<string | null>(
     val => (theme: LyFieldVariables, ref) => {
       const classes = ref.selectorsOf(STYLES);
-      if (theme.field && theme.field.appearance) {
+      if (theme.field?.appearance) {
         const appearance = theme.field.appearance[val];
         if (appearance) {
           return appearance instanceof StyleCollection
@@ -555,7 +572,9 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     private _cd: ChangeDetectorRef,
     private _ngZone: NgZone,
     readonly sRenderer: StyleRenderer,
-    private _platform: Platform
+    private _platform: Platform,
+    @Optional() @Inject(LY_FIELD_DEFAULT_OPTIONS)
+    private _defaults: LyFieldDefaultOptions
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
@@ -565,7 +584,13 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       this.color = DEFAULT_WITH_COLOR;
     }
     if (!this.appearance) {
-      this.appearance = DEFAULT_APPEARANCE;
+      this.appearance = this._defaults?.appearance ? this._defaults?.appearance : DEFAULT_APPEARANCE;
+    }
+    if (!this.persistentHint) {
+      this.persistentHint = (this._defaults?.persistentHint != null) ? this._defaults.persistentHint : false;
+    }
+    if (!this.floatingLabel) {
+      this.persistentHint = (this._defaults?.floatingLabel != null) ? this._defaults.floatingLabel : false;
     }
   }
 
