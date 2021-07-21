@@ -86,15 +86,21 @@ export interface LyFieldDefaultOptions {
    * true: The hint will always show
    */
   persistentHint?: boolean;
+  /**
+   * Floating label size
+   * Default: 0.75
+   */
+  floatingLabelSize?: number;
 }
 
 export const LY_FIELD_DEFAULT_OPTIONS =
-  new InjectionToken<LyFieldDefaultOptions>('LY_FIELD_DEFAULT_OPTIONS')
+  new InjectionToken<LyFieldDefaultOptions>('LY_FIELD_DEFAULT_OPTIONS');
 
 /** LyField */
 const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
 const DEFAULT_WITH_COLOR = 'primary';
+const DEFAULT_FLOATING_LABEL_SIZE = 0.75;
 
 const inputText = [
   'text',
@@ -273,12 +279,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       transform-origin: ${before} 0
     }`,
     isFloatingLabel: null,
-    floatingLabel: ( ) => lyl `{
-      ${classes.labelSpan} {
-        transform: scale(.75)
-        width: 133%
-      }
-    }`,
+    floatingLabel: null,
     placeholder: lyl `{
       ...${LY_COMMON_STYLES.fill}
       pointer-events: none
@@ -471,6 +472,26 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
 
   @Input() persistentHint: boolean;
 
+  /**
+   * Floating label size
+   * Default: 0.75
+   */
+  @Input()
+  @Style(
+    (val, media) => ({ breakpoints }: ThemeVariables, ref) => {
+      const classes = ref.selectorsOf(STYLES);
+      return lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          ${classes.floatingLabel} ${classes.labelSpan} {
+            transform: scale(${val})
+            width: ${Math.round(100 / 0.75)}%
+          }
+        }
+      }`;
+    }
+  )
+  floatingLabelSize: number | null;
+
   @Input()
   set fullWidth(val: boolean) {
     const newVal = toBoolean(val);
@@ -583,13 +604,18 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     if (!this.color) {
       this.color = DEFAULT_WITH_COLOR;
     }
+    if (this.floatingLabelSize == null) {
+      this.floatingLabelSize = (this._defaults?.floatingLabelSize != null)
+        ? this._defaults?.floatingLabelSize
+        : DEFAULT_FLOATING_LABEL_SIZE;
+    }
     if (!this.appearance) {
       this.appearance = this._defaults?.appearance ? this._defaults?.appearance : DEFAULT_APPEARANCE;
     }
-    if (!this.persistentHint) {
+    if (this.persistentHint == null) {
       this.persistentHint = (this._defaults?.persistentHint != null) ? this._defaults.persistentHint : false;
     }
-    if (!this.floatingLabel) {
+    if (this.floatingLabel == null) {
       this.persistentHint = (this._defaults?.floatingLabel != null) ? this._defaults.floatingLabel : false;
     }
   }
@@ -646,6 +672,10 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       return;
     }
 
+    if (this.floatingLabelSize == null) {
+      return;
+    }
+
     if (this.appearance !== 'outlined') {
       return;
     }
@@ -672,7 +702,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     let beforeMargin = Math.abs(
       (containerRect[before] - labelRect[before]) / percent) - 12;
     width /= labelPercent;
-    width *= .75;
+    width *= this.floatingLabelSize;
     // add 6px of space
     width += 6;
     width = width > (label.parentElement!.offsetWidth)
