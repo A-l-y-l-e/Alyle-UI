@@ -93,7 +93,9 @@ export const LyToolbarMixinBase = mixinStyleUpdater(
             mixinOutlined(
               mixinElevation(
                 mixinShadowColor(LyToolbarBase))))))));
-
+/**
+ * @dynamic
+ */
 @Directive({
   selector: 'ly-toolbar',
   inputs: [
