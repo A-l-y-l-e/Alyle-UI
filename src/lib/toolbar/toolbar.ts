@@ -22,9 +22,9 @@ import {
   LyClasses,
   StyleTemplate,
   ThemeRef,
-  StyleRenderer
+  StyleRenderer,
+  Style
 } from '@alyle/ui';
-import { Style } from '../src/minimal';
 
 export interface LyToolbarTheme {
   /** Styles for Toolbar Component */
