@@ -6,14 +6,13 @@ import {
   ChangeDetectionStrategy,
   VERSION,
   isDevMode,
-  Renderer2
 } from '@angular/core';
 import { VERSION as CDK_VERSION } from '@angular/cdk';
 import { Observable, of, merge, forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, retry, map } from 'rxjs/operators';
-import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
+import { AUI_VERSION, lyl, StyleRenderer, ThemeRef } from '@alyle/ui';
 import { AUIThemeVariables } from '../../app.module';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Platform } from '@angular/cdk/platform';
@@ -25,41 +24,46 @@ const DECLARATIONS_REGEXP = /declarations: \[\:?(?:[\s]+)?([\w]+)(?:[\,\s\w]+)?\
 const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
 const SELECTOR_APP = 'root-app';
 
-const styles = (theme: AUIThemeVariables) => ({
-  root: {
-    position: 'relative',
-    display: 'block',
-    '> div > ly-paper': {
-      display: 'block'
-    }
-  },
-  codeContainer: {
-    overflowY: 'auto',
-    height: '100%',
-    background: 'transparent',
-    marginTop: '1px',
-    '> *': {
-      margin: 0
-    }
-  },
-  tabContainer: {
-    padding: '48px 24px 24px 24px'
-  },
-  tabContent: {
-    padding: '24px 24px 0 24px'
-  },
-  code: {
-    position: 'absolute',
-    after: 0,
-    top: '4px',
-    zIndex: 1
-  },
-  stackblitzButton: {
-    '&:hover': {
-      color: theme.stackblitz
-    }
-  }
-});
+export const STYLES = (theme: AUIThemeVariables, ref: ThemeRef) => {
+  const classes = ref.selectorsOf(STYLES);
+  const { after } = theme;
+  return {
+    root: () => lyl `{
+      position: relative
+      display: block
+      > div > ly-paper {
+        display: block
+      }
+      ...${theme.demoViewer?.(classes)}
+    }`,
+    codeContainer: lyl `{
+      overflow-y: auto
+      height: 100%
+      background: transparent
+      margin-top: 1px
+      > * {
+        margin: 0
+      }
+    }`,
+    tabContainer: lyl `{
+      padding: 48px 24px 24px 24px
+    }`,
+    tabContent: lyl `{
+      padding: 24px 24px 0 24px
+    }`,
+    code: lyl `{
+      position: absolute
+      ${after}: 0
+      top: 4px
+      z-index: 1
+    }`,
+    stackblitzButton: lyl `{
+      &:hover {
+        color: ${theme.stackblitz}
+      }
+    }`
+  };
+};
 
 interface Demos {
   path?: string;
@@ -72,10 +76,13 @@ interface Demos {
   selector: 'demo-view',
   templateUrl: './view.component.html',
   preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class ViewComponent implements OnInit {
-  readonly classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   hasCode = false;
   name: string;
   folderName: string;
@@ -102,16 +109,13 @@ export class ViewComponent implements OnInit {
     this.files.push();
   }
   constructor(
-    renderer: Renderer2,
+    readonly sRenderer: StyleRenderer,
     private http: HttpClient,
     private el: ElementRef,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private theme: LyTheme2,
     private _platform: Platform
-  ) {
-    renderer.addClass(el.nativeElement, this.classes.root);
-  }
+  ) { }
   toggleCode() {
     this.hasCode = !this.hasCode;
   }
