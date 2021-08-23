@@ -1,3 +1,25 @@
+# [11.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.5.3...11.0.0) (2021-08-23)
+
+
+### Bug Fixes
+
+* **@Style:** render media queries styles with priority ([0934534](https://github.com/A-l-y-l-e/Alyle-UI/commit/0934534f1502979ba810dc26c9aeef4a8a050ce6))
+* **dialog:** dialog styles are not rendered with priority ([f8c193a](https://github.com/A-l-y-l-e/Alyle-UI/commit/f8c193a5089298e1ebf6369887819bad3e07d20f))
+* **field:** update the field when the direction is changed ([198d796](https://github.com/A-l-y-l-e/Alyle-UI/commit/198d796d01601039512015f623dd7a45868e22c3))
+* **schematics:** fix schematics in Angular 11 ([3e6fcbd](https://github.com/A-l-y-l-e/Alyle-UI/commit/3e6fcbd00cea4053cbe3f3dca1f11fd593bf9991))
+* **slider:** fix vertical slider ([ec969f3](https://github.com/A-l-y-l-e/Alyle-UI/commit/ec969f3ed172561730e4af78a0cb69720098fc70))
+* **theme:** fix dark theme ([f44a258](https://github.com/A-l-y-l-e/Alyle-UI/commit/f44a2589f520d576ad1fbc06d38f9416be3ea693))
+
+
+### Features
+
+* **field:** add LyFieldDefaultOptions ([829bc2e](https://github.com/A-l-y-l-e/Alyle-UI/commit/829bc2e3200f2229eade81dcbef72f5b48ae9bec))
+* **field:** add option `floatingLabelSize` ([e47027c](https://github.com/A-l-y-l-e/Alyle-UI/commit/e47027c692892c127bb07e7e05afecfaf754b4ac))
+* **toolbar:** switch to `@Style` ([8e597b5](https://github.com/A-l-y-l-e/Alyle-UI/commit/8e597b5a6846eb6dbc910a45eb2fce61792581af))
+* support Angular 11 ([597c770](https://github.com/A-l-y-l-e/Alyle-UI/commit/597c770cf9db7e7c5c74e134676a4c273c1ab4a4))
+
+
+
 ## [10.5.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.5.2...10.5.3) (2021-05-14)
 
 
