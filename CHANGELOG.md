@@ -1,3 +1,12 @@
+## [11.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.0.1...11.0.2) (2021-08-31)
+
+
+### Bug Fixes
+
+* **field:** fix bugs with hints ([d3eb625](https://github.com/A-l-y-l-e/Alyle-UI/commit/d3eb6259658ee57d93a5b2f46dea5b8a66960365))
+
+
+
 ## [11.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.0.0...11.0.1) (2021-08-31)
 
 
