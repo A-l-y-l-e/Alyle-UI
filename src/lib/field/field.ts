@@ -352,6 +352,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
         max-width: 100%
         overflow: hidden
         justify-content: space-between
+        align-items: center
       }
     }`,
     disabled: ( ) => lyl `{
