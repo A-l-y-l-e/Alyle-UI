@@ -616,7 +616,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       this.persistentHint = (this._defaults?.persistentHint != null) ? this._defaults.persistentHint : false;
     }
     if (this.floatingLabel == null) {
-      this.persistentHint = (this._defaults?.floatingLabel != null) ? this._defaults.floatingLabel : false;
+      this.floatingLabel = (this._defaults?.floatingLabel != null) ? this._defaults.floatingLabel : false;
     }
   }
 
