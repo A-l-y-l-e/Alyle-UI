@@ -1,3 +1,12 @@
+## [11.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.0.0...11.0.1) (2021-08-31)
+
+
+### Bug Fixes
+
+* **field:** fix `persistentHint` ([30234c7](https://github.com/A-l-y-l-e/Alyle-UI/commit/30234c7b399dd8f69dc7668b5ae4b4cacbe58aee))
+
+
+
 # [11.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/10.5.3...11.0.0) (2021-08-23)
 
 
