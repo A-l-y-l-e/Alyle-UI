@@ -3,7 +3,7 @@ import { NodePackageInstallTask, RunSchematicTask } from '@angular-devkit/schema
 import { Schema } from './schema';
 import { addPackageToPackageJson, getPackageVersionFromPackageJson } from '../utils/package-config';
 
-const AUI_VERSION = '11.0.1';
+const AUI_VERSION = '11.0.2';
 const HAMMERJS_VERSION = '^2.0.8';
 const ANGULAR_CDK_VERSION = '^11.2.13';
 
