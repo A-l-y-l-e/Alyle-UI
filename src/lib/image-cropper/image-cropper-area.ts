@@ -193,7 +193,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
       } else if (keepAspectRatio) {
         const newNewWidth: number[] = [];
         const newNewHeight: number[] = [];
-        if ((topOverflow || bottomOverflow) && Math.min()) {
+        if ((topOverflow || bottomOverflow)) {
           newHeight = minHeightOnOverflow;
           newNewHeight.push(newHeight);
           newWidth = width / (height / minHeightOnOverflow);
@@ -232,14 +232,16 @@ export class LyCropperArea implements WithStyles, OnDestroy {
         if (newWidth > rootRect.width) {
           newWidth = rootRect.width;
           newHeight = height / (width / rootRect.width);
-        } else if (newHeight > rootRect.height) {
+        }
+        if (newHeight > rootRect.height) {
           newWidth = width / (height / rootRect.height);
           newHeight = rootRect.height;
         }
       } else {
         if (newWidth > rootRect.width) {
           newWidth = rootRect.width;
-        } else if (newHeight > rootRect.height) {
+        }
+        if (newHeight > rootRect.height) {
           newHeight = rootRect.height;
         }
       }
