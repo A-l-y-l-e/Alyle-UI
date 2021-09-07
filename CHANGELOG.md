@@ -1,3 +1,13 @@
+## [11.0.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.0.2...11.0.3) (2021-09-07)
+
+
+### Bug Fixes
+
+* **cropper:** Resizer can be dragged outside of the image area ([64d14ae](https://github.com/A-l-y-l-e/Alyle-UI/commit/64d14ae765d8ea500afde7682db369cb028ba131)), closes [#156](https://github.com/A-l-y-l-e/Alyle-UI/issues/156)
+* **dialog:** fix dialog with cropper ([88d94bb](https://github.com/A-l-y-l-e/Alyle-UI/commit/88d94bb5765a462610e8a035d401710fd1ee5144))
+
+
+
 ## [11.0.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.0.1...11.0.2) (2021-08-31)
 
 
