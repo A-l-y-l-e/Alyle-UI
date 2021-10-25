@@ -47,6 +47,10 @@
   <ng-container *ngIf="!_labelChild">
     <ng-template *ngTemplateOutlet="_placeholderTemplate"></ng-template>
   </ng-container>
+  <span
+    [className]="classes.fieldRequiredMarker"
+    aria-hidden="true"
+    *ngIf="!hideRequiredMarker && _control.required && !_control.disabled">&#32;*</span>
 </ng-template>
 
 <ng-template #_placeholderTemplate>

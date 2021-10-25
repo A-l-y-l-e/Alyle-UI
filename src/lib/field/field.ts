@@ -51,6 +51,7 @@ import { LyFieldControlBase } from './field-control-base';
 import { Platform } from '@angular/cdk/platform';
 import { LyDisplayWith } from './display-with';
 import { takeUntil, take } from 'rxjs/operators';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyFieldTheme {
   /** Styles for Field Component */
@@ -91,6 +92,10 @@ export interface LyFieldDefaultOptions {
    * Default: 0.75
    */
   floatingLabelSize?: number;
+  /**
+   * Whether the required marker should be hidden.
+   */
+  hideRequiredMarker?: boolean;
 }
 
 export const LY_FIELD_DEFAULT_OPTIONS =
@@ -287,7 +292,11 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       text-overflow: ellipsis
       overflow: hidden
     }`,
-    focused: null,
+    focused: () => lyl `{
+      &:not(${classes.errorState}) ${classes.fieldRequiredMarker} {
+        color: ${theme.accent.default}
+      }
+    }`,
     inputNative: lyl `{
       padding: 0
       outline: none
@@ -362,6 +371,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       }
     }`,
     hint: null,
+    fieldRequiredMarker: null,
     error: null,
     errorState: ( ) => lyl `{
       & ${classes.label}, & ${classes.hintContainer}, &${classes.selectArrow} ${classes.infix}:after {
@@ -470,6 +480,16 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       && !this._control.focused
       && !this._control.errorState);
   }
+
+  /** Whether the required marker should be hidden. */
+  @Input()
+  get hideRequiredMarker(): boolean {
+    return this._hideRequiredMarker;
+  }
+  set hideRequiredMarker(value: boolean) {
+    this._hideRequiredMarker = coerceBooleanProperty(value);
+  }
+  private _hideRequiredMarker: boolean;
 
   @Input() persistentHint: boolean;
 
@@ -599,6 +619,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     private _defaults: LyFieldDefaultOptions
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
+    this._hideRequiredMarker =
+      _defaults?.hideRequiredMarker != null ? _defaults.hideRequiredMarker : false;
   }
 
   ngOnInit() {
@@ -682,8 +704,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     }
 
     const label = this._isLabel() ? this._labelSpan.nativeElement : null;
-    const labelFirstChild = this._isLabel()
-      ? this._labelSpan.nativeElement.firstElementChild as HTMLElement
+    const labelChildren = this._isLabel()
+      ? this._labelSpan.nativeElement.children
       : null;
     if (!label) {
       return;
@@ -697,7 +719,10 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     const labelRect = label.getBoundingClientRect();
     const container = this._container.nativeElement;
     const containerRect = this._container.nativeElement.getBoundingClientRect();
-    let { width } = labelFirstChild!.getBoundingClientRect();
+    let width = 0;
+    for (let index = 0; index < labelChildren!.length; index++) {
+      width += labelChildren![index].getBoundingClientRect().width;
+    }
     const percent = containerRect.width / container.offsetWidth;
     const labelPercent = labelRect.width / label.offsetWidth;
     let beforeMargin = Math.abs(
@@ -779,6 +804,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   _getHostElement() {
     return this._el.nativeElement;
   }
+
+  static ngAcceptInputType_hideRequiredMarker: BooleanInput;
 
 }
 
@@ -866,7 +893,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   @HostBinding()
   @Input()
   set required(value: boolean) {
-    this._required = toBoolean(value);
+    this._required = coerceBooleanProperty(value);
   }
   get required(): boolean { return this._required; }
 
