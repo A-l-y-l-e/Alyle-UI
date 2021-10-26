@@ -13,7 +13,7 @@ jobs:
 - job: NightlyArtifacts
   displayName: Nightly Artifacts
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'ubuntu-20.04'
   condition: eq(variables['build.reason'], 'Schedule')
   steps:
   - task: NodeTool@0
@@ -37,7 +37,7 @@ jobs:
 - job: Bump
   displayName: Bump Version
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'ubuntu-20.04'
   condition: eq(variables['BumpVersion'], 'true')
   steps:
   - task: NodeTool@0

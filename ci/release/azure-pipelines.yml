@@ -12,7 +12,7 @@ jobs:
 
 - job: Release
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'ubuntu-20.04'
   steps:
   - task: NodeTool@0
     inputs:
