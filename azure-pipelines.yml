@@ -12,7 +12,7 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '12.x'
+      versionSpec: '16.x'
   - script: |
       curl -o- -L https://yarnpkg.com/install.sh | bash
     displayName: "Install Yarn"
@@ -52,7 +52,7 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '12.x'
+      versionSpec: '16.x'
   - bash: |
       set -e
       yarn build:@alyle/ui
