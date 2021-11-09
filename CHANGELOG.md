@@ -1,3 +1,17 @@
+# [11.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.0.3...11.1.0) (2021-11-09)
+
+
+### Bug Fixes
+
+* **ci:** update vmImage to Ubuntu 20.04 ([545a8fc](https://github.com/A-l-y-l-e/Alyle-UI/commit/545a8fc3d457dfcab4b99a0d11da09ef59077b95))
+
+
+### Features
+
+* **field:** add required marker ([972fa38](https://github.com/A-l-y-l-e/Alyle-UI/commit/972fa38fcd3597f8a409e5b93d354ead4c64ef12)), closes [#166](https://github.com/A-l-y-l-e/Alyle-UI/issues/166)
+
+
+
 ## [11.0.3](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.0.2...11.0.3) (2021-09-07)
 
 
