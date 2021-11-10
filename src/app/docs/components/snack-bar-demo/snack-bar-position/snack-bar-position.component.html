@@ -1,0 +1,32 @@
+<ly-field appearance="outlined">
+  <ly-label>Horizontal position</ly-label>
+  <ly-select placeholder="Placeholder" [(value)]="horizontalPosition">
+    <ly-option value="center">Center</ly-option>
+    <ly-option value="before">Before</ly-option>
+    <ly-option value="after">After</ly-option>
+    <ly-option value="left">Left</ly-option>
+    <ly-option value="right">Right</ly-option>
+  </ly-select>
+</ly-field>
+
+<ly-field appearance="outlined">
+  <ly-label>Vertical position</ly-label>
+  <ly-select placeholder="Placeholder" [(value)]='verticalPosition'>
+    <ly-option value="above">Above</ly-option>
+    <ly-option value="below">Below</ly-option>
+  </ly-select>
+</ly-field>
+
+<button ly-button (click)="sb.open()">Show snack-bar</button>
+
+<ng-template ly-snack-bar
+  #sb="lySnackBar"
+  duration="Infinity"
+  [horizontalPosition]="horizontalPosition"
+  [verticalPosition]="verticalPosition"
+>
+  <span>Message</span>
+  <button ly-button color="accent" (click)="sb.dismiss()">
+    Dismiss
+  </button>
+</ng-template>
