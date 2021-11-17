@@ -1,3 +1,13 @@
+## [11.1.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.1.0...11.1.1) (2021-11-11)
+
+
+### Bug Fixes
+
+* **snack-bar:** fix snack-bar position ([700c63a](https://github.com/A-l-y-l-e/Alyle-UI/commit/700c63a583425b77e85d2bde859a1b438bf95ff1))
+* **snackBar:** fix Snack Bar without pointer events ([20903ac](https://github.com/A-l-y-l-e/Alyle-UI/commit/20903ac7a0b23e27f09bcdd9b777e8e760c21f96))
+
+
+
 # [11.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.0.3...11.1.0) (2021-11-09)
 
 
