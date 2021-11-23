@@ -14,5 +14,9 @@
   "compileOnSave": false,
   "include": [
     "src"
+  ],
+  "exclude": [
+    "src/generate-api-docs.ts",
+    "src/**/*.test.ts",
   ]
 }
