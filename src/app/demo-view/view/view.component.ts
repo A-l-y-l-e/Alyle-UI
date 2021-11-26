@@ -286,7 +286,7 @@ export class GlobalVariables {
           `}).catch(err => console.error(err));`
         ),
         'polyfills.ts': (
-          `import 'core-js/es6/reflect';\nimport 'core-js/es7/reflect';\nimport 'zone.js/dist/zone';\nimport 'hammerjs';\nimport 'web-animations-js';\n`
+          `import 'core-js/es6/reflect';\nimport 'core-js/es7/reflect';\nimport 'zone.js';\nimport 'hammerjs';\nimport 'web-animations-js';\n`
         ),
         'index.html': (
           `<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet">\n` +
