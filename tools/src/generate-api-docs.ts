@@ -200,7 +200,7 @@ async function render() {
 
 
 (async () => {
-  // await generateJson();
+  await generateJson();
   await render();
 })().catch((error) => {
   throw new Error(error);
