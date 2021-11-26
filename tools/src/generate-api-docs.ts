@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import { Application, TypeDocReader, TSConfigReader, ProjectReflection, DeclarationReflection, Reflection } from 'typedoc';
 
 import { highlight } from './html-loader/highlight';
-
+import { hashCode } from './utils/hash-code';
 const { readFile, mkdir, writeFile } = fs.promises;
 
 interface PkgSymbol {
@@ -167,7 +167,8 @@ async function render() {
             code: highlight(removeLifecycleHook(scriptBlock.trim()), 'ts')
           };
           const outDir = path.join(OUT_DIR, pkgName.replace('@alyle/ui', ''));
-          const out = path.join(outDir, `${name}.json`);
+          const outName = `${name}_${hashCode(name).toString(36)}`;
+          const out = path.join(outDir, `${outName}`);
           await mkdir(outDir, { recursive: true });
           await writeFile(out, JSON.stringify(newContent, null, 2));
           console.log(`  JSON written to .${out.slice(process.cwd().length)}`);
@@ -185,18 +186,21 @@ async function render() {
   });
   await writeFile(path.join(OUT_DIR, 'APIList.json'), JSON.stringify(list, null, 2), 'utf8');
   await writeFile(path.join(OUT_DIR, 'APIList.min.json'), JSON.stringify(list), 'utf8');
-
+  console.log(chalk.greenBright(`\nList`));
   list.forEach(async (pkg) => {
     const newPath = path.join(OUT_DIR, pkg.pkg.replace('@alyle/ui', '') + '.json')
       .replace('/.json', '.json');
+    const filenameWithoutExt = path.basename(newPath, '.json');
+    const fullPath = path.join(path.dirname(newPath), `${filenameWithoutExt}_${hashCode(filenameWithoutExt).toString(36)}`);
     pkg.items = groupBy(pkg.items as PkgSymbol[], 'symbol');
-    await writeFile(newPath, JSON.stringify(pkg, null, 2));
+    await writeFile(fullPath, JSON.stringify(pkg, null, 2));
+    console.log(`  JSON written to .${fullPath.slice(process.cwd().length)}`);
   });
 }
 
 
 (async () => {
-  await generateJson();
+  // await generateJson();
   await render();
 })().catch((error) => {
   throw new Error(error);

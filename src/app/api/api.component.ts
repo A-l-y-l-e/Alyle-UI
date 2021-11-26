@@ -13,6 +13,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { STYLES as API_LIST_CLASSES } from './api-list.component';
 import { APIService, APIList } from './api.service';
 import { SEOService } from '@shared/seo.service';
+import { hashCode } from '@app/core';
 
 const STYLES = () => {
   return {
@@ -105,11 +106,12 @@ export class ApiComponent implements OnInit, OnDestroy {
 
   render(path: string) {
     path = this.seo.url(path).pathname;
+    const nam = path.split('/').reverse()[0];
     return this.void$
       .pipe(
         tap(() => this.app.docViewer && this.seo.setNoIndex(true)),
         switchMap(async () => await
-          this.http.get<APIPkgSymbol | APIPkgSymbolList[] | APIPkgSymbolList>(`${path}.json`).pipe(catchError((error) => this.apiService.handleError(error))).toPromise()
+          this.http.get<APIPkgSymbol | APIPkgSymbolList[] | APIPkgSymbolList>(`${`${path}_${hashCode(nam).toString(36)}`}`).pipe(catchError((error) => this.apiService.handleError(error))).toPromise()
         .catch((title: string) => {
           this.app.docViewer!.isError.emit({
             title
