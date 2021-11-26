@@ -26,7 +26,7 @@ export const STYLES = () => ({
     box-sizing: border-box
   }`,
   item: lyl `{
-    &, & :first-child {
+    &, & > :first-child {
       box-sizing: border-box
     }
   }`
