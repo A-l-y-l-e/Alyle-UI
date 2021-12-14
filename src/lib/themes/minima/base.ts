@@ -294,10 +294,14 @@ export class MinimaBase extends LyStyleUtils {
       vertical,
       thumbVisible,
       thumbNotVisible,
-      sliding
-    },      color) => lyl `{
+      sliding,
+      thumbLabelValue
+    },      color, contrast) => lyl `{
       & ${track}, & ${thumb}, & ${thumbLabel}, & ${bg}, & ${tick} {
         background-color: ${color}
+        ${thumbLabelValue} {
+          color: ${contrast}
+        }
       }
       &:not(${disabled}) ${thumbContentFocused} ${thumb}::before, &:not(${disabled}) ${thumb}:hover::before {
         box-shadow: 0 0 0 8px ${color.alpha(.13)}

@@ -46,8 +46,8 @@ export interface LySliderTheme {
    */
   disabled?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate)>
   | ((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate);
-  color?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate)>
-  | ((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate);
+  color?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color, contrast: Color) => StyleTemplate)>
+  | ((classes: LyClasses<typeof STYLES>, color: Color, contrast: Color) => StyleTemplate);
   appearance?: {
     standard?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
@@ -483,14 +483,15 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     const newStyle = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
       const color = theme.colorOf(val);
+      const contrast = theme.colorOf(`${val}:contrast`);
       const __ = ref.selectorsOf(STYLES);
 
       if (theme.slider && theme.slider.color) {
         const sliderColor = theme.slider.color;
         if (sliderColor) {
           return sliderColor instanceof StyleCollection
-            ? (sliderColor).setTransformer((_) => _(__, color)).css
-            : sliderColor(__, color);
+            ? (sliderColor).setTransformer((_) => _(__, color, contrast)).css
+            : sliderColor(__, color, contrast);
         }
       }
       throw new Error(`${val} not found in theme.slider.color`);

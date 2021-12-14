@@ -129,7 +129,7 @@ function get(obj: Object, path: string[] | string, optional?: string): Color {
   if (obj instanceof Color) {
     return obj;
   } else if (optional) {
-    return obj[optional] || obj['default'];
+    return obj[optional] ?? obj['default'];
   } else {
     return obj['default'];
   }
@@ -167,7 +167,7 @@ export function withMediaInline(
       const val = str[index];
       if (typeof val === 'number' || val === null || val === undefined) {
         styleCollection.add(transformer(val, null));
-      } if (typeof val === 'string') {
+      } else if (typeof val === 'string') {
         parseMediaQueryFromString(val).forEach((_) => {
           styleCollection.add(transformer(_[0], _[1]));
         });
