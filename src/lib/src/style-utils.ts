@@ -91,6 +91,10 @@ export class LyStyleUtils {
     }
     return val;
   }
+
+  isRTL() {
+    return this.direction === Dir.rtl;
+  }
 }
 
 export enum Dir {
