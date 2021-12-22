@@ -18,12 +18,12 @@
   <div
     [className]="classes.thumbContent"
     [ngClass]="thumb.focused ? classes.thumbContentFocused : null"
+    #thumbsRef
+      (focus)="_onFocusThumb(thumb)"
+      (blur)="_onBlurThumb(thumb)"
+      [attr.tabindex]="disabled ? -1 : 0"
   >
     <div
-      #thumbsRef
-      (focus)="_onFocus(thumb)"
-      (blur)="_onBlur(thumb)"
-      [attr.tabindex]="disabled ? -1 : 0"
       [className]="classes.thumb"
     ></div>
     <div [className]="classes.thumbLabel" *ngIf="thumbVisible !== false">
