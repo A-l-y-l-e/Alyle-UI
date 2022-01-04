@@ -174,29 +174,29 @@ export class LylParse {
     let media: string | null = null;
     const sel = selectors
       .map(_ => _.filter(__ => {
-        if (__.startsWith('@')) {
+        if (__ && __.startsWith('@')) {
           // save media
           media = __;
           return false;
         }
         return __;
       }))
-      .filter(_ => _.length)
-      .reduce((prev, current) => {
-        const result = prev.map(item => current.map(cu => {
-          if (cu.includes('&')) {
-            return cu.replace(AMPERSAND_REGEX(), item);
-          }
-          return `${item} ${cu}`;
-        }));
-        return Array.prototype.concat.apply([], result);
-      })
-      .join(',');
+      .filter(_ => _.length);
+
+    const sel2 = sel.length ? sel.reduce((prv, curr) => {
+      const result = prv.map(item => curr.map(cu => {
+        if (cu.includes('&')) {
+          return cu.replace(AMPERSAND_REGEX(), item);
+        }
+        return `${item} ${cu}`;
+      }));
+      return Array.prototype.concat.apply([], result);
+    }).join(',') : '';
 
     if (media) {
-      return `${media}{${sel}`;
+      return `${media}{${sel2}`;
     }
-    return sel;
+    return sel2;
   }
 
 }
