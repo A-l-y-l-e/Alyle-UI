@@ -398,6 +398,7 @@ test(`compile keyframe`, async t => {
 });
 
 test(`compile style with dynamic properties and values`, async t => {
+  const proAndValue = 'color:red';
   const css = evalScript(`
   const proAndValue = 'color:red';
   const style = lyl \`{
@@ -406,7 +407,12 @@ test(`compile style with dynamic properties and values`, async t => {
   }\`;
   style('.y');
   `);
-  t.is(css, `.y{color:red;cursor:default;}`);
+  const result = `.y{color:red;cursor:default;}`;
+  t.is(lyl `{
+    ${proAndValue}
+    cursor: default
+  }`('.y'), result);
+  t.is(css, result);
 });
 
 test(`commas and linefeed to separate selectors`, async t => {
@@ -509,6 +515,89 @@ test(`media queries with inheritance style`, async t => {
   const expected2 = '@media all{.y{prop:value;prop2:value2;}.y{color:blue;}.y sel{prop:value;}.y{prop3:value3;}}';
   t.is(removeComments(styleContent('.y')), expected2);
   t.is(removeComments(css2), expected2);
+});
+
+test(`media queries with inheritance style 2`, async t => {
+  const otherStyle = lyl `{
+    other-prop: other-value
+    span {
+      level: value
+    }
+  }`;
+  const css = lyl `{
+    prop: value
+    div {
+      ...${otherStyle}
+    }
+  }`('.y');
+  const compiled = evalScript(`
+  ${st2c}
+  ${StyleCollection}
+  const otherStyle = lyl \`{
+    other-prop: other-value
+    span {
+      level: value
+    }
+  }\`;
+  const style = lyl \`{
+    prop: value
+    div {
+      ...\${otherStyle}
+    }
+  }\`;
+  style('.y');
+  `);
+  const result = '.y{prop:value;}.y div{other-prop:other-value;}.y div span{level:value;}';
+  t.is(compiled, result);
+  t.is(removeComments(css), result);
+});
+
+test(`@font-face`, async t => {
+  const styleContent = `{
+    @font-face {
+      font-family: "Open Sans"
+      src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"), url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
+      font-weight:700
+    }
+    @font-face {
+      font-family: "Open Sans"
+      src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"), url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
+      font-weight:800
+    }
+  }`;
+  const css = evalScript(`
+  const style = lyl \`${styleContent}\`;
+  style('.y');
+  `);
+  const result = `@font-face{`
+    + `font-family:"Open Sans";`
+    + `src:url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),`
+         + `url("/fonts/OpenSans-Regular-webfont.woff") format("woff");`
+    + `font-weight:700;`
+    + `}`
+    + `@font-face{`
+    + `font-family:"Open Sans";`
+    + `src:url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),`
+        + `url("/fonts/OpenSans-Regular-webfont.woff") format("woff");`
+    + `font-weight:800;`
+    + `}`;
+  t.log(css);
+
+  t.is(lyl `{
+    @font-face {
+      font-family: "Open Sans"
+      src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+           url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
+      font-weight: 700
+    }
+    @font-face {
+      font-family: "Open Sans"
+      src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+           url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
+      font-weight: 800
+    }
+  }`(''), result);
+  t.is(css, result);
 });
 
 function evalScript(script: string) {
