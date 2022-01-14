@@ -1,5 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
-import { StyleCollection, lyl } from './parse';
+import { StyleCollection, lyl, resolveSelectors } from './parse';
 import { mergeThemes } from './style-utils';
 
 const test = anyTest as TestInterface<Context>;
@@ -54,4 +54,34 @@ test('merge theme StyleCollection with StyleTemplate', t => {
   );
   t.true(mergeThemes({}, themeA, themeB, themeC, themeD).b instanceof StyleCollection);
   t.true(mergeThemes({}, themeA, themeB, themeC, themeD).a instanceof StyleCollection);
+});
+
+test('resolve empty selector', t => {
+  t.is(resolveSelectors([[]]), '');
+  t.is(resolveSelectors([[], []]), '');
+});
+
+test('resolve simple selector', t => {
+  t.is(resolveSelectors([['.a']]), '.a');
+});
+
+test('resolve two or more selectors', t => {
+  t.is(resolveSelectors([['.a']]), '.a');
+  t.is(resolveSelectors([['.a'], ['.b']]), '.a .b');
+  t.is(resolveSelectors([['.a'], ['.b'], ['.c']]), '.a .b .c');
+});
+
+test('resolve two or more selectors between commas', t => {
+  t.is(resolveSelectors([['.a', '.b']]), '.a,.b');
+  t.is(resolveSelectors([['.a'], ['.b', '.c']]), '.a .b,.a .c');
+});
+
+test('resolve media query', t => {
+  t.is(resolveSelectors([['@media print']]), '@media print');
+  t.is(resolveSelectors(['@media print', ['.a']]), '@media print{.a');
+  t.is(resolveSelectors([['.a'], '@media print']), '@media print{.a');
+  t.is(resolveSelectors([['.a'], '@media print', ['.b']]), '@media print{.a .b');
+});
+test('resolve with empty selector', t => {
+  t.is(resolveSelectors([['.a'], ['']]), '.a');
 });

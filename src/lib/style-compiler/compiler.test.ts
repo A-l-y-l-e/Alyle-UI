@@ -222,8 +222,10 @@ const item2 = lyl \`{
     color: red
     @media (max-width: 599px) {
       color: blue
+      prop: 14px
       .item {
         color: purple
+        sub-prop: 12px
       }
     }
   }\`
@@ -389,7 +391,7 @@ test(`compile simple media query`, async t => {
 
 test(`compile complex media query`, async t => {
   const css = evalScript(t.context.complexMediaQuery);
-  t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;}.y .item{color:purple;}}`);
+  t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;prop:14px;}.y .item{color:purple;sub-prop:12px;}}`);
 });
 
 test(`compile keyframe`, async t => {
@@ -437,18 +439,18 @@ test(`with comments`, async t => {
       color: blue
     }
   }`;
-  const css = evalScript(`
+  const cssCompiled = evalScript(`
   const style = lyl \`${styleContent}\`;
   style('.y');
   `);
-  t.is(css, `.y .a{color:blue;}`);
-  t.log(styleContent);
   t.is(lyl `{
     // Color blue
     .a {
       color: blue
     }
   }`('.y'), `.y .a{color:blue;}`);
+  t.log(styleContent);
+  t.is(cssCompiled, `.y .a{color:blue;}`);
 });
 test(`media queries with inheritance style`, async t => {
 
@@ -509,12 +511,12 @@ test(`media queries with inheritance style`, async t => {
   }\`;
   style('.y');
   `);
-  const expected1 = '@media all{.y{color:blue;}}';
-  t.is(removeComments(colorBlueAll('.y')), expected1);
-  t.is(removeComments(css1), expected1);
   const expected2 = '@media all{.y{prop:value;prop2:value2;}.y{color:blue;}.y sel{prop:value;}.y{prop3:value3;}}';
   t.is(removeComments(styleContent('.y')), expected2);
   t.is(removeComments(css2), expected2);
+  const expected1 = '@media all{.y{color:blue;}}';
+  t.is(removeComments(colorBlueAll('.y')), expected1);
+  t.is(removeComments(css1), expected1);
 });
 
 test(`media queries with inheritance style 2`, async t => {
@@ -552,6 +554,35 @@ test(`media queries with inheritance style 2`, async t => {
   t.is(removeComments(css), result);
 });
 
+test(`deep style`, async t => {
+  const STYLE = lyl `{
+    prop: value
+    .a {
+      propA: valueA
+      .b {
+        propB: valueB
+      }
+    }
+  }`('.root');
+  const compiled = evalScript(`
+  ${st2c}
+  ${StyleCollection}
+  const style = lyl \`{
+    prop: value
+    .a {
+      propA: valueA
+      .b {
+        propB: valueB
+      }
+    }
+  }\`;
+  style('.root');
+  `);
+  const result = '.root{prop:value;}.root .a{propA:valueA;}.root .a .b{propB:valueB;}';
+  t.is(STYLE, result);
+  t.is(compiled, result);
+});
+
 test(`@font-face`, async t => {
   const styleContent = `{
     @font-face {
@@ -565,7 +596,7 @@ test(`@font-face`, async t => {
       font-weight:800
     }
   }`;
-  const css = evalScript(`
+  const cssCompiled = evalScript(`
   const style = lyl \`${styleContent}\`;
   style('.y');
   `);
@@ -581,7 +612,7 @@ test(`@font-face`, async t => {
         + `url("/fonts/OpenSans-Regular-webfont.woff") format("woff");`
     + `font-weight:800;`
     + `}`;
-  t.log(css);
+  t.log(cssCompiled);
 
   t.is(lyl `{
     @font-face {
@@ -596,8 +627,8 @@ test(`@font-face`, async t => {
            url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
       font-weight: 800
     }
-  }`(''), result);
-  t.is(css, result);
+  }`('.y'), result);
+  t.is(cssCompiled, result);
 });
 
 function evalScript(script: string) {
