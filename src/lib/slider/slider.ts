@@ -88,7 +88,6 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       display: inline-block
       position: relative
       box-sizing: border-box
-      // cursor: pointer
       ${__.bg} {
         ...${LY_COMMON_STYLES.fill}
         margin: auto
