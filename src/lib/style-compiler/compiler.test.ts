@@ -210,41 +210,6 @@ const item2 = lyl \`{
 }\`;
 `;
 
-  simpleMediaQuery = `const style = lyl \`{
-    color: red
-    @media (max-width: 599px) {
-      color: blue
-    }
-  }\`
-  style('.y')`;
-
-  complexMediaQuery = `const style = lyl \`{
-    color: red
-    @media (max-width: 599px) {
-      color: blue
-      prop: 14px
-      .item {
-        color: purple
-        sub-prop: 12px
-      }
-    }
-  }\`
-  style('.y')`;
-
-  keyframe = `
-  const id = 'a';
-  const keyframe = lyl \`{
-    @keyframe \${id} {
-      0% {
-        color: red
-      }
-      100% {
-        color: blue
-      }
-    }
-  }\`
-  keyframe('')`;
-
 }
 
 
@@ -385,18 +350,80 @@ const item2 = (className: string) => \`\${st2c((item), \`\${className}\`)}\${cla
 });
 
 test(`compile simple media query`, async t => {
-  const css = evalScript(t.context.simpleMediaQuery);
+  const simpleMediaQuery = `const style = lyl \`{
+    color: red
+    @media (max-width: 599px) {
+      color: blue
+    }
+  }\`
+  style('.y')`;
+  const css = evalScript(simpleMediaQuery);
   t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;}}`);
 });
 
 test(`compile complex media query`, async t => {
-  const css = evalScript(t.context.complexMediaQuery);
-  t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;prop:14px;}.y .item{color:purple;sub-prop:12px;}}`);
+  const complexMediaQuery = `const style = lyl \`{
+    color: red
+    @media (max-width: 799px) {
+      .item {
+        color: purple
+        sub-prop: 12px
+      }
+    }
+  }\`
+  style('.y')`;
+  const css = evalScript(complexMediaQuery);
+  t.is(css, `.y{color:red;}@media (max-width: 799px){.y .item{color:purple;sub-prop:12px;}}`);
+});
+
+test(`compile complex media query 2`, async t => {
+  const complexMediaQuery = `const style = lyl \`{
+    color: red
+    @media (max-width: 799px) {
+      color: blue
+      prop: 14px
+      .item {
+        color: purple
+        sub-prop: 12px
+      }
+    }
+  }\`
+  style('.y')`;
+  const css = evalScript(complexMediaQuery);
+  t.is(css, `.y{color:red;}@media (max-width: 799px){.y{color:blue;prop:14px;}.y .item{color:purple;sub-prop:12px;}}`);
 });
 
 test(`compile keyframe`, async t => {
-  const css = evalScript(t.context.keyframe);
+  const keyframe = `
+  const id = 'a';
+  const keyframe = lyl \`{
+    @keyframe \${id} {
+      0% {
+        color: red
+      }
+      100% {
+        color: blue
+      }
+    }
+  }\`
+  keyframe('.y')`;
+  const css = evalScript(keyframe);
   t.is(css, `@keyframe a{ 0%{color:red;} 100%{color:blue;}}`);
+});
+
+test(`lyl keyframe`, async t => {
+  const identifier = 'identifier';
+  const keyframe = lyl `{
+    @keyframe ${identifier} {
+      0% {
+        color: red
+      }
+      100% {
+        color: blue
+      }
+    }
+  }`;
+  t.is(keyframe('.y'), `@keyframe identifier{ 0%{color:red;} 100%{color:blue;}}`);
 });
 
 test(`compile style with dynamic properties and values`, async t => {

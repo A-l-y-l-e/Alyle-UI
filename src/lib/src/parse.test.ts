@@ -77,11 +77,20 @@ test('resolve two or more selectors between commas', t => {
 });
 
 test('resolve media query', t => {
-  t.is(resolveSelectors([['@media print']]), '@media print');
+  t.is(resolveSelectors(['@media print']), '@media print{');
   t.is(resolveSelectors(['@media print', ['.a']]), '@media print{.a');
   t.is(resolveSelectors([['.a'], '@media print']), '@media print{.a');
   t.is(resolveSelectors([['.a'], '@media print', ['.b']]), '@media print{.a .b');
 });
+
+test('resolve with media query but ignoring media query on output', t => {
+  t.is(resolveSelectors(['@media print'], true), '');
+  t.is(resolveSelectors(['@media print', ['.a']], true), '.a');
+  t.is(resolveSelectors([['.a'], '@media print'], true), '.a');
+  t.is(resolveSelectors([['.a'], '@media print', ['.b']], true), '.a .b');
+});
+
 test('resolve with empty selector', t => {
   t.is(resolveSelectors([['.a'], ['']]), '.a');
 });
+
