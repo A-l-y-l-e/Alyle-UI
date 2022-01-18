@@ -408,7 +408,7 @@ test(`compile keyframe`, async t => {
   }\`
   keyframe('.y')`;
   const css = evalScript(keyframe);
-  t.is(css, `@keyframe a{ 0%{color:red;} 100%{color:blue;}}`);
+  t.is(css, `@keyframe a{0%{color:red;}100%{color:blue;}}`);
 });
 
 test(`lyl keyframe`, async t => {
@@ -423,8 +423,38 @@ test(`lyl keyframe`, async t => {
       }
     }
   }`;
-  t.is(keyframe('.y'), `@keyframe identifier{ 0%{color:red;} 100%{color:blue;}}`);
+  t.is(keyframe('.y'), `@keyframe identifier{0%{color:red;}100%{color:blue;}}`);
 });
+
+test(`compile infinite-spinning keyframe`, async t => {
+  const keyframe = lyl `{
+    @keyframes infinite-spinning {
+      from {
+        transform: rotate(0deg)
+      }
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  }`;
+  t.is(keyframe('.y'), `@keyframes infinite-spinning{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}`);
+});
+
+test(`lyl infinite-spinning keyframe`, async t => {
+  const keyframe = lyl `{
+    @keyframes infinite-spinning {
+      from {
+        transform: rotate(0deg)
+      }
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  }`;
+  t.is(keyframe('.y'), `@keyframes infinite-spinning{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}`);
+});
+
+
 
 test(`compile style with dynamic properties and values`, async t => {
   const proAndValue = 'color:red';
