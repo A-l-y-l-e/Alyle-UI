@@ -20,8 +20,13 @@ export function styleCompiler(content: string) {
     const source = ts.createSourceFile('', styleBlock, ts.ScriptTarget.Latest, true);
     const templateExpression = findNode(source, ts.SyntaxKind.TemplateExpression) as ts.TemplateExpression | null;
     if (!templateExpression) {
-      const cssContent = new LylParse(styleBlock.slice(1, styleBlock.length - 1), '${className}', true, false).toCss();
-      styleBlock = `(className: string) => \`${cssContent}\``;
+      const parsed = new LylParse(styleBlock.slice(1, styleBlock.length - 1), '${className}', true, false);
+      const cssContent = parsed.toCss();
+      if (cssContent.includes('${className}')) {
+        styleBlock = `(className: string) => \`${cssContent}\``;
+      } else {
+        styleBlock = `() => \`${cssContent}\``;
+      }
       return styleBlock;
     }
 
@@ -42,13 +47,17 @@ export function styleCompiler(content: string) {
     if (templateString.includes('...${')) {
       complexStyles++;
     }
-
-    const css = new LylParse(
+    const _parsed = new LylParse(
       templateString.slice(1, templateString.length - 1),
       '${className}',
       true, false
-    ).toCss().replace(REPLACE_ID_REGEX(), (id: string) => data[id] || id);
-    styleBlock = `(className: string) => \`${css}\``;
+    );
+    const css = _parsed.toCss().replace(REPLACE_ID_REGEX(), (id: string) => data[id] || id);
+    if (css.includes('${className}')) {
+      styleBlock = `(className: string) => \`${css}\``;
+    } else {
+      styleBlock = `() => \`${css}\``;
+    }
     return styleBlock;
   });
 

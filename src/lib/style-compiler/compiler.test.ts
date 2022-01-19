@@ -393,6 +393,24 @@ test(`compile complex media query 2`, async t => {
   t.is(css, `.y{color:red;}@media (max-width: 799px){.y{color:blue;prop:14px;}.y .item{color:purple;sub-prop:12px;}}`);
 });
 
+test(`compile keyframe without \`className\` parameter`, async t => {
+  const keyframe = `
+  const keyframe = lyl \`{
+    @keyframe identifier {
+      0% {
+        color: red
+      }
+      100% {
+        color: blue
+      }
+    }
+  }\`
+  keyframe('.y')`;
+  const css = styleCompiler(keyframe).trim();
+  t.is(css, `const keyframe = () => \`@keyframe identifier{0%{color:red;}100%{color:blue;}}\`
+  keyframe('.y')`);
+});
+
 test(`compile keyframe`, async t => {
   const keyframe = `
   const id = 'a';
