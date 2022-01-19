@@ -3,7 +3,7 @@ import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { ThemeVariables } from '../theme/theme-config';
 import { toBoolean } from '../minimal/is-boolean';
 import { lyl } from '../parse';
-import { StyleRenderer } from '../minimal';
+import { StyleRenderer } from '../minimal/renderer-style';
 
 const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);

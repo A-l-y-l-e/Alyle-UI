@@ -5217,11 +5217,6 @@ esbuild-wasm@0.13.8:
   resolved "https://registry.yarnpkg.com/esbuild-wasm/-/esbuild-wasm-0.13.8.tgz#f34134c187ffcfc22d476e925917f70bab40f8b0"
   integrity sha512-UbD+3nloiSpJWXTCInZQrqPe8Y+RLfDkY/5kEHiXsw/lmaEvibe69qTzQu16m5R9je/0bF7VYQ5jaEOq0z9lLA==
 
-esbuild-wasm@^0.12.15:
-  version "0.12.29"
-  resolved "https://registry.yarnpkg.com/esbuild-wasm/-/esbuild-wasm-0.12.29.tgz#1d210bb7d463b2ca51c54d69bb4192d9709f6100"
-  integrity sha512-amSuB/qOGnTFYLOxGHDGosQbOKZnrinniPHFf6ZxzeNH7WAjLkjXluKyKAtX2YuhTkUXm9XV9igl13iqYZ44fQ==
-
 esbuild-windows-32@0.13.8:
   version "0.13.8"
   resolved "https://registry.yarnpkg.com/esbuild-windows-32/-/esbuild-windows-32-0.13.8.tgz#892d093e32a21c0c9135e5a0ffdc380aeb70e763"
@@ -5259,11 +5254,6 @@ esbuild@0.13.8:
     esbuild-windows-32 "0.13.8"
     esbuild-windows-64 "0.13.8"
     esbuild-windows-arm64 "0.13.8"
-
-esbuild@^0.12.15:
-  version "0.12.29"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.12.29.tgz#be602db7c4dc78944a9dbde0d1ea19d36c1f882d"
-  integrity sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==
 
 escalade@^3.1.1:
   version "3.1.1"
@@ -8939,10 +8929,10 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ng-packagr@^12.2.5:
-  version "12.2.5"
-  resolved "https://registry.yarnpkg.com/ng-packagr/-/ng-packagr-12.2.5.tgz#94e965102bdeca672e942f9b7b5e203f9abe2262"
-  integrity sha512-iNxX8lgAMNYAfXDBJomD7SeFpG47uoyKkGCWQo78AlFS4q3fGiFEIRrX842MTuASshYVAqMaBkaKPOajPx7VXw==
+ng-packagr@^12.2.6:
+  version "12.2.6"
+  resolved "https://registry.yarnpkg.com/ng-packagr/-/ng-packagr-12.2.6.tgz#e3e6d8cdcf32df7c8ec6a7419b6bb3d6dc586224"
+  integrity sha512-E+dDZjYHlgEeKyT1eS+15SBNmjuenIrN/CaDogRI504jaA0UxxB0p0G1xg3X0vKSYO0PUvIRsfO/T2iiy5ZTdg==
   dependencies:
     "@rollup/plugin-commonjs" "^20.0.0"
     "@rollup/plugin-json" "^4.1.0"
@@ -8954,7 +8944,7 @@ ng-packagr@^12.2.5:
     chokidar "^3.5.1"
     commander "^8.0.0"
     dependency-graph "^0.11.0"
-    esbuild-wasm "^0.12.15"
+    esbuild-wasm "0.13.8"
     find-cache-dir "^3.3.1"
     glob "^7.1.6"
     injection-js "^2.4.0"
@@ -8971,7 +8961,7 @@ ng-packagr@^12.2.5:
     sass "^1.32.8"
     stylus "^0.54.8"
   optionalDependencies:
-    esbuild "^0.12.15"
+    esbuild "0.13.8"
 
 nice-napi@^1.0.2:
   version "1.0.2"
