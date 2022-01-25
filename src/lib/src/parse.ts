@@ -30,7 +30,7 @@ export class LylParse {
 
   constructor(
     private _template: string,
-    private _className: string = '${className}',
+    private _className: string = '${_className}',
     private _isServer: boolean,
     /** Is true when used inside lyl */
     private _isDevMode: boolean

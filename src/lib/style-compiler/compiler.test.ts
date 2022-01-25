@@ -251,7 +251,7 @@ test(`compile simple style`, async t => {
   LyTheme2,
   StyleRenderer } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color:red;}\`;
+  const style = (_className: string) => \`\${_className}{color:red;}\`;
   `, css);
 });
 
@@ -262,9 +262,9 @@ test(`compile simple styles in a file`, async t => {
   LyTheme2,
   StyleRenderer } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color:red;}\`;
+  const style = (_className: string) => \`\${_className}{color:red;}\`;
 
-  const style2 = (className: string) => \`\${className}{color:blue;}\`;
+  const style2 = (_className: string) => \`\${_className}{color:blue;}\`;
   `, css);
 });
 
@@ -276,8 +276,8 @@ test(`compile complex style`, async t => {
   StyleRenderer,
   st2c } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color:red;}\${st2c((
-      topZero), \`\${className}\`)}\`;
+  const style = (_className: string) => \`\${_className}{color:red;}\${st2c((
+      topZero), \`\${_className}\`)}\`;
   `);
 });
 
@@ -290,9 +290,9 @@ test(`compile simple and complex style`, async t => {
   StyleRenderer,
   st2c } from '@alyle/ui';
 
-  const topZero = (className: string) => \`\${className}{top:0;}\`
-  const style = (className: string) => \`\${className}{color:red;}\${st2c((
-      topZero), \`\${className}\`)}\`;
+  const topZero = (_className: string) => \`\${_className}{top:0;}\`
+  const style = (_className: string) => \`\${_className}{color:red;}\${st2c((
+      topZero), \`\${_className}\`)}\`;
   `);
 });
 
@@ -314,7 +314,7 @@ test(`do not compile a complex style with simple style`, t => {
   StyleRenderer,
   lyl as styleBlock } from '@alyle/ui';
 
-  const topZero = (className: string) => \`\${className}{top:0;}\`
+  const topZero = (_className: string) => \`\${_className}{top:0;}\`
   const style = styleBlock \`{
     color: red
     ...\${
@@ -340,11 +340,11 @@ import { AUIThemeVariables } from '@app/app.module';
 
 const zero = 0;
 
-const topZero = (className: string) => \`\${className}{top:\${zero}px;}\`;
+const topZero = (_className: string) => \`\${_className}{top:\${zero}px;}\`;
 
-const colorRedAndTopZero = (className: string) => \`\${className}{color:red;}\${st2c((item0), \`\${className}\`)}\`;
+const colorRedAndTopZero = (_className: string) => \`\${_className}{color:red;}\${st2c((item0), \`\${_className}\`)}\`;
 
-const item2 = (className: string) => \`\${st2c((item), \`\${className}\`)}\${className} ul{margin:0;padding:\${zero};list-style:none;}\${st2c((item), \`\${className} ul\`)}\${className} li a{display:inline-block;}\${className} a{display:block;padding:6px \${12}px;text-decoration:none;}\${className} ul > li{list-style-type:none;}\${className} h2 + p{border-top:1px solid gray;}\${className} p ~ span{opacity:0.8;}\`;
+const item2 = (_className: string) => \`\${st2c((item), \`\${_className}\`)}\${_className} ul{margin:0;padding:\${zero};list-style:none;}\${st2c((item), \`\${_className} ul\`)}\${_className} li a{display:inline-block;}\${_className} a{display:block;padding:6px \${12}px;text-decoration:none;}\${_className} ul > li{list-style-type:none;}\${_className} h2 + p{border-top:1px solid gray;}\${_className} p ~ span{opacity:0.8;}\`;
 `);
 // tslint:enable
 });
@@ -393,7 +393,7 @@ test(`compile complex media query 2`, async t => {
   t.is(css, `.y{color:red;}@media (max-width: 799px){.y{color:blue;prop:14px;}.y .item{color:purple;sub-prop:12px;}}`);
 });
 
-test(`compile keyframe without \`className\` parameter`, async t => {
+test(`compile keyframe with \`className\` parameter`, async t => {
   const keyframe = `
   const keyframe = lyl \`{
     @keyframe identifier {
@@ -407,7 +407,7 @@ test(`compile keyframe without \`className\` parameter`, async t => {
   }\`
   keyframe('.y')`;
   const css = styleCompiler(keyframe).trim();
-  t.is(css, `const keyframe = () => \`@keyframe identifier{0%{color:red;}100%{color:blue;}}\`
+  t.is(css, `const keyframe = (_className: string) => \`@keyframe identifier{0%{color:red;}100%{color:blue;}}\`
   keyframe('.y')`);
 });
 
