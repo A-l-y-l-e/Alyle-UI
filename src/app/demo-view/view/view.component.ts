@@ -32,43 +32,43 @@ export const STYLES = (theme: AUIThemeVariables, ref: ThemeRef) => {
     $global: lyl `{
       @font-face {
         font-family: Fira Code
-        src: ${`url('${$host}eot/FiraCode-Light.eot'),` +
-        `url('${$host}eot/FiraCode-Light.eot') format('embedded-opentype'),` +
-            `url('${$host}woff2/FiraCode-Light.woff2') format('woff2'),` +
-            `url('${$host}woff/FiraCode-Light.woff') format('woff'),` +
-            `url('${$host}ttf/FiraCode-Light.ttf') format('truetype')`}
+        src: url('${$host}eot/FiraCode-Light.eot')
+        src: url('${$host}eot/FiraCode-Light.eot') format('embedded-opentype'),
+            url('${$host}woff2/FiraCode-Light.woff2') format('woff2'),
+            url('${$host}woff/FiraCode-Light.woff') format('woff'),
+            url('${$host}ttf/FiraCode-Light.ttf') format('truetype')
         font-weight: 300
         font-style: normal
       }
       @font-face {
           font-family: Fira Code
-          src: ${`url('${$host}eot/FiraCode-Regular.eot')` +
-          `url('${$host}eot/FiraCode-Regular.eot') format('embedded-opentype'),` +
-              `url('${$host}woff2/FiraCode-Regular.woff2') format('woff2'),` +
-              `url('${$host}woff/FiraCode-Regular.woff') format('woff'),` +
-              `url('${$host}ttf/FiraCode-Regular.ttf') format('truetype')`}
+          src: url('${$host}eot/FiraCode-Regular.eot')
+          src: url('${$host}eot/FiraCode-Regular.eot') format('embedded-opentype'),
+              url('${$host}woff2/FiraCode-Regular.woff2') format('woff2'),
+              url('${$host}woff/FiraCode-Regular.woff') format('woff'),
+              url('${$host}ttf/FiraCode-Regular.ttf') format('truetype')
           font-weight: 400
           font-style: normal
       }
 
       @font-face {
           font-family: Fira Code
-          src: ${`url('${$host}eot/FiraCode-Medium.eot')` +
-          `url('${$host}eot/FiraCode-Medium.eot') format('embedded-opentype'),` +
-              `url('${$host}woff2/FiraCode-Medium.woff2') format('woff2'),` +
-              `url('${$host}woff/FiraCode-Medium.woff') format('woff'),` +
-              `url('${$host}ttf/FiraCode-Medium.ttf') format('truetype')`}
+          src: url('${$host}eot/FiraCode-Medium.eot')
+          src: url('${$host}eot/FiraCode-Medium.eot') format('embedded-opentype'),
+              url('${$host}woff2/FiraCode-Medium.woff2') format('woff2'),
+              url('${$host}woff/FiraCode-Medium.woff') format('woff'),
+              url('${$host}ttf/FiraCode-Medium.ttf') format('truetype')
           font-weight: 500
           font-style: normal
       }
 
       @font-face {
           font-family: Fira Code
-          src: ${`url('${$host}eot/FiraCode-Bold.eot')` +
-          `url('${$host}eot/FiraCode-Bold.eot') format('embedded-opentype'),` +
-              `url('${$host}woff2/FiraCode-Bold.woff2') format('woff2'),` +
-              `url('${$host}woff/FiraCode-Bold.woff') format('woff'),` +
-              `url('${$host}ttf/FiraCode-Bold.ttf') format('truetype')`}
+          src: url('${$host}eot/FiraCode-Bold.eot')
+          src: url('${$host}eot/FiraCode-Bold.eot') format('embedded-opentype'),
+              url('${$host}woff2/FiraCode-Bold.woff2') format('woff2'),
+              url('${$host}woff/FiraCode-Bold.woff') format('woff'),
+              url('${$host}ttf/FiraCode-Bold.ttf') format('truetype')
           font-weight: 700
           font-style: normal
       }

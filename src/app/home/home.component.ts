@@ -1,78 +1,82 @@
-import { Component, ChangeDetectionStrategy, Renderer2, ElementRef, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
+import { lyl, LyTheme2, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
 import { Platform } from '@angular/cdk/platform';
-
-const styles = ({
-  root: {
-    display: 'block'
-  },
-  intraContainer: {
-    textAlign: 'center',
-    color: '#fff',
-    marginTop: '-32px',
-    height: 'calc(100vh - 64px)',
-    minHeight: '336px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  intraContent: {
-    position: 'relative',
-    '& {buttons} a': {
-      margin: '8px'
-    },
-    '& > p': {
-      fontWeight: 300,
-    },
-    '& > h1': {
-      fontFamily: `'Nunito', sans-serif`,
-      letterSpacing: '-.04em',
-      textShadow: 'rgba(255, 255, 255, 0.4) 0px 0px 11px'
-    }
-  },
-  buttons: {
-    display: 'inline-flex',
-    paddingTop: '1em'
-  },
-  container: {
-    paddingAbove: '1.5em',
-    textAlign: 'center',
-  },
-  gridContainer: {
-    position: 'relative',
-    textAlign: 'center',
-    marginTop: '1em',
-    marginBottom: '1em',
-    'ly-grid': {
-      h2: {
-        fontFamily: `'Nunito', sans-serif`,
-        marginBelow: '.5em'
-      },
-      p: {
-        opacity: .87
+const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
+  const __ = ref.selectorsOf(STYLES);
+  return {
+    root: lyl `{
+      display: block
+    }`,
+    intraContainer: lyl `{
+      text-align: center
+      color: #fff
+      margin-top: -32px
+      height: calc(100vh - 64px)
+      min-height: 336px
+      display: flex
+      justify-content: center
+      align-items: center
+    }`,
+    intraContent: () => lyl `{
+      position: relative
+      & ${__.buttons} a {
+        margin: 8px
       }
-    }
-  },
-  canvas: {
-    backgroundColor: '#1a0e2d',
-    width: '100%',
-    height: '100vh',
-    minHeight: '400px',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    pointerEvents: 'none'
-  }
-});
+      & > p {
+        font-weight: 300
+      }
+      & > h1 {
+        font-family: 'Nunito', sans-serif
+        letter-spacing: -.04em
+        text-shadow: rgba(255, 255, 255, 0.4) 0px 0px 11px
+      }
+    }`,
+    buttons: lyl `{
+      display: inline-flex
+      padding-top: 1em
+    }`,
+    container: lyl `{
+      padding-top: 1.5em
+      text-align: center
+    }`,
+    gridContainer: lyl `{
+      position: relative
+      text-align: center
+      margin-top: 1em
+      margin-bottom: 1em
+      ly-grid {
+        h2 {
+          margin-bottom: .5em
+        }
+        p {
+          opacity: .87
+        }
+      }
+    }`,
+    canvas: lyl `{
+      background-color: #1a0e2d
+      width: 100%
+      height: 100vh
+      min-height: 400px
+      position: absolute
+      left: 0
+      top: 0
+      pointer-events: none
+    }`
+  };
+};
 
 @Component({
   selector: 'aui-home',
   templateUrl: './home.component.html',
   preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  readonly classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   private intra: Intra;
 
   @HostListener('window:resize') _resize$() {
@@ -84,14 +88,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    renderer: Renderer2,
-    el: ElementRef,
+    readonly sRenderer: StyleRenderer,
     private theme: LyTheme2,
     private ngZone: NgZone,
     private _platform: Platform
-  ) {
-    renderer.addClass(el.nativeElement, this.classes.root);
-  }
+  ) { }
 
   ngOnInit() {
     if (this._platform.isBrowser) {

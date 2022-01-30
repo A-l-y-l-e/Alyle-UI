@@ -2,7 +2,7 @@
 <h1 id="inline-media-query">Inline Media Query</h1>
 <p>Breakpoints can be used in the template and can be very useful for adding a responsive style to an element.</p>
 <p>e.g.</p>
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[lyM]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>2 1@XSmall<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[lyM]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>2 1@XSmall<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
 </code></pre>
 <p>The example above can be understood as follows:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttae">[</span>
@@ -10,7 +10,7 @@
   <span class="tt18 ttae">[</span><span class="tt18 ttap">1</span> <span class="tt18 ttb0">*</span> <span class="tt18 ttap">8</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'XSmall'</span><span class="tt18 ttae">]</span> <span class="tt18 tt3o">// margin: 8px in XSmall</span>
 <span class="tt18 ttae">]</span>
 </code></pre>
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[lyM]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>2 1@XSmall@Small<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[lyM]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>2 1@XSmall@Small<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
 </code></pre>
 <p>The example above can be understood as follows:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 ttae">[</span>
@@ -21,8 +21,8 @@
 </code></pre>
 <p>It is important to note that each CSS declaration is separated by a space (<code class="ttm ttx"></code>). So there are two styles above. However, if you want to add a CSS declaration that contains multiple spaces you can do it this way:</p>
 <p>For example I want to add both <code class="ttm ttx">padding: 16px 0px 32px</code> and <code class="ttm ttx">padding: 8px 0px 16px@XSmall</code>, it would be like this:</p>
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[lyP]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>[
-  '2 0 4',
-  '1 0 2@XSmall'
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>div</span> <span class="tt18 ttbx">[lyP]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>[
+  <span class="tt18 ttae">'</span>2 0 4<span class="tt18 ttae">'</span>,
+  <span class="tt18 ttae">'</span>1 0 2@XSmall<span class="tt18 ttae">'</span>
 ]<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
 </code></pre>
