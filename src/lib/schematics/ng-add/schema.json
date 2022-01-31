@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "alyle-ui-ng-add",
+  "$id": "alyle-ui-ng-add",
   "title": "Alyle UI ng-add schematic",
   "type": "object",
   "properties": {
