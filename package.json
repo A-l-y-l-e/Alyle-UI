@@ -60,7 +60,7 @@
     "moment": "^2.22.2",
     "prismjs": "^1.19.0",
     "rxjs": "^6.6.2",
-    "tslib": "^2.0.0",
+    "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
