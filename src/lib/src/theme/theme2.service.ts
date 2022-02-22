@@ -59,6 +59,10 @@ export class LyTheme2 {
     return this._directionChanged.asObservable();
   }
 
+  /** Event emitted when the theme has changed. */
+  private _themeChanged = new Subject<void>();
+  readonly themeChanged = this._themeChanged.asObservable();
+
   /** Get Theme Variables */
   get variables(): ThemeVariables {
     return this.config;
@@ -216,6 +220,7 @@ export class LyTheme2 {
       theme.change = themeName;
       this.config = this.core.get(themeName)!;
       this._updateAllStyles();
+      this._themeChanged.next();
     }
   }
 
