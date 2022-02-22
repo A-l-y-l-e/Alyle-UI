@@ -142,6 +142,8 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
     checked: ( ) => lyl `{
       & ${checkbox.icon}::before {
         background: currentColor
+        -webkit-print-color-adjust: exact
+        color-adjust: exact
       }
       & ${checkbox.icon} polyline {
         stroke-dashoffset: 0
