@@ -1,14 +1,14 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> OnInit<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> XPosition<span class="tt18 ttae">,</span> YPosition <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 decorator"><span class="tt18 at ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-menu-playground'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./menu-playground.component.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">MenuPlaygroundComponent</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">OnInit</span> <span class="tt18 ttae">&#123;</span>
-  openOnHover <span class="tt18 ttb0">=</span> <span class="tt18 boolean">false</span><span class="tt18 ttae">;</span>
-  hasBackdrop <span class="tt18 ttb0">=</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">;</span>
+  openOnHover <span class="tt18 ttb0">=</span> <span class="tt18 tted">false</span><span class="tt18 ttae">;</span>
+  hasBackdrop <span class="tt18 ttb0">=</span> <span class="tt18 tted">true</span><span class="tt18 ttae">;</span>
   xAnchor<span class="tt18 ttb0">:</span> XPosition <span class="tt18 ttb0">=</span> XPosition<span class="tt18 ttae">.</span>before<span class="tt18 ttae">;</span>
   yAnchor<span class="tt18 ttb0">:</span> YPosition <span class="tt18 ttb0">=</span> YPosition<span class="tt18 ttae">.</span>below<span class="tt18 ttae">;</span>
   xAxis<span class="tt18 ttb0">:</span> XPosition <span class="tt18 ttb0">=</span> XPosition<span class="tt18 ttae">.</span>after<span class="tt18 ttae">;</span>

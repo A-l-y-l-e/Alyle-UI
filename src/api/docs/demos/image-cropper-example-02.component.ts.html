@@ -2,22 +2,22 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ImgResolution<span class="tt18 ttae">,</span> ImgCropperConfig<span class="tt18 ttae">,</span> ImgCropperEvent<span class="tt18 ttae">,</span> LyImageCropper <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/image-cropper'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> lyl<span class="tt18 ttae">,</span> StyleRenderer <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">styles</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+<span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">styles</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
-    actions<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+    actions<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       display: flex
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span>
-    cropper<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+    cropper<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       max-width: 400px
       height: 300px
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span>
-    flex<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+    flex<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       flex: 1
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 decorator"><span class="tt18 at ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'image-cropper-example-02'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./image-cropper-example-02.component.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush<span class="tt18 ttae">,</span>
@@ -35,7 +35,7 @@
     height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `200`,</span>
     output<span class="tt18 ttb0">:</span> ImgResolution<span class="tt18 ttae">.</span>OriginalImage <span class="tt18 tt3o">// Default ImgResolution.Default</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
-  <span class="tt18 decorator"><span class="tt18 at ttb0">@</span><span class="tt18 tta3">ViewChild</span></span><span class="tt18 ttae">(</span>LyImageCropper<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 tt1j">static</span><span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">readonly</span> cropper<span class="tt18 ttb0">:</span> LyImageCropper<span class="tt18 ttae">;</span>
+  <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">ViewChild</span></span><span class="tt18 ttae">(</span>LyImageCropper<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 tt1j">static</span><span class="tt18 ttb0">:</span> <span class="tt18 tted">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">readonly</span> cropper<span class="tt18 ttb0">:</span> LyImageCropper<span class="tt18 ttae">;</span>
 
   <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
     <span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer

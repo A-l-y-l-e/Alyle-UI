@@ -11,17 +11,17 @@
 <span class="tt18 tt3o">/**
  * @dynamic
  */</span>
-<span class="tt18 decorator"><span class="tt18 at ttb0">@</span><span class="tt18 tta3">Directive</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Directive</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'[lyDisplay]'</span><span class="tt18 ttae">,</span>
   providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     StyleRenderer
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">MyComponent</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">WithStyles</span> <span class="tt18 ttae">&#123;</span>
-  <span class="tt18 decorator"><span class="tt18 at ttb0">@</span><span class="tt18 tta3">Input</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span>
-  <span class="tt18 decorator"><span class="tt18 at ttb0">@</span><span class="tt18 tta3">Style</span></span><span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttb0">></span><span class="tt18 ttae">(</span>
+  <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Input</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span>
+  <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Style</span></span><span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">null</span><span class="tt18 ttb0">></span><span class="tt18 ttae">(</span>
     <span class="tt18 ttae">(</span>val<span class="tt18 ttae">,</span> media<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>breakpoints<span class="tt18 ttae">&#125;</span><span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span>
-      lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+      lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
         @media </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 ttae">(</span>media <span class="tt18 ttb0">&amp;&amp;</span> breakpoints<span class="tt18 ttae">[</span>media<span class="tt18 ttae">]</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">||</span> <span class="tt18 tt3z">'all'</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
           display: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>val<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
         &#125;
@@ -48,7 +48,7 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt3o">/**
  * @dynamic
  */</span>
-<span class="tt18 decorator"><span class="tt18 at ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   <span class="tt18 ttb0">...</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 ttb0">...</span>

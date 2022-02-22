@@ -2,7 +2,7 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ThemeVariables<span class="tt18 ttae">,</span> StyleRenderer<span class="tt18 ttae">,</span> lyl<span class="tt18 ttae">,</span> keyframesUniqueId<span class="tt18 ttae">,</span> ThemeRef <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttbb">STYLES</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttbb">STYLES_BUTTON</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/button'</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">,</span> ref<span class="tt18 ttb0">:</span> ThemeRef<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+<span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">,</span> ref<span class="tt18 ttb0">:</span> ThemeRef<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 tt3o">// Make sure button styles have been rendered</span>
   ref<span class="tt18 ttae">.</span><span class="tt18 tta3">renderStyleSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES_BUTTON</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 tt3o">// Get selectors</span>
@@ -11,7 +11,7 @@
   <span class="tt18 tt1j">const</span> <span class="tt18 ttae">&#123;</span> after <span class="tt18 ttae">&#125;</span> <span class="tt18 ttb0">=</span> theme<span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
-    $global<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+    $global<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       @keyframes </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>circularRotate<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
         0% &#123;
           transform-origin: 50% 50%
@@ -21,18 +21,18 @@
         &#125;
       &#125;
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span>
-    root<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+    root<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>button<span class="tt18 ttae">.</span>root<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
         margin-</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>after<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">: 1em
       &#125;
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span>
-    spinner<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+    spinner<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       position: absolute
       width: 24px
       height: 24px
       animation: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>circularRotate<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> 1.4s linear infinite
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span>
-    spinnerCircle<span class="tt18 ttb0">:</span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+    spinnerCircle<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>disabled<span class="tt18 ttae">.</span>contrast<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
       stroke-dasharray: 80px, 200px
       stroke-dashoffset: 0px
@@ -41,7 +41,7 @@
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 decorator"><span class="tt18 at ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-button-with-loading-state'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./button-with-loading-state.component.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush<span class="tt18 ttae">,</span>
@@ -51,16 +51,16 @@
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ButtonWithLoadingStateComponent</span> <span class="tt18 ttae">&#123;</span>
 
-  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>sRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">,</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>sRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">,</span> <span class="tt18 tted">true</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
-  loading1 <span class="tt18 ttb0">=</span> <span class="tt18 boolean">false</span><span class="tt18 ttae">;</span>
-  loading2 <span class="tt18 ttb0">=</span> <span class="tt18 boolean">false</span><span class="tt18 ttae">;</span>
-  loading3 <span class="tt18 ttb0">=</span> <span class="tt18 boolean">false</span><span class="tt18 ttae">;</span>
+  loading1 <span class="tt18 ttb0">=</span> <span class="tt18 tted">false</span><span class="tt18 ttae">;</span>
+  loading2 <span class="tt18 ttb0">=</span> <span class="tt18 tted">false</span><span class="tt18 ttae">;</span>
+  loading3 <span class="tt18 ttb0">=</span> <span class="tt18 tted">false</span><span class="tt18 ttae">;</span>
 
   <span class="tt18 tta3">load</span><span class="tt18 ttae">(</span>loading<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">this</span><span class="tt18 ttae">[</span>loading<span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 boolean">true</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">[</span>loading<span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 tted">true</span><span class="tt18 ttae">;</span>
     <span class="tt18 tta3">setTimeout</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
-      <span class="tt18 tt1j">this</span><span class="tt18 ttae">[</span>loading<span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 boolean">false</span><span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">[</span>loading<span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 tted">false</span><span class="tt18 ttae">;</span>
       <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_cd<span class="tt18 ttae">.</span><span class="tt18 tta3">markForCheck</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
     <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span> <span class="tt18 ttap">2000</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
