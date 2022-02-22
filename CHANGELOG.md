@@ -1,3 +1,17 @@
+# [12.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/12.0.0...12.1.0) (2022-02-22)
+
+
+### Bug Fixes
+
+* **checkbox:** fix checkbox checked for printing ([5e1cf3c](https://github.com/A-l-y-l-e/Alyle-UI/commit/5e1cf3c1101c33985e1ee5ee9889aa5b6b41bb2c))
+
+
+### Features
+
+* **theme:** add `themeChanged` observable ([c486298](https://github.com/A-l-y-l-e/Alyle-UI/commit/c486298db719da429110251f8cfd03e7a666b079))
+
+
+
 # [12.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/11.1.1...12.0.0) (2022-02-01)
 
 
