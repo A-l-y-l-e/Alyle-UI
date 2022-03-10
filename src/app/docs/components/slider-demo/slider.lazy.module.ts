@@ -4,19 +4,23 @@ import { BasicSliderComponent } from './basic-slider/basic-slider.component';
 import { SliderPlaygroundComponent } from './slider-playground/slider-playground.component';
 import { BasicSliderModule } from './basic-slider/basic-slider.module';
 import { SliderPlaygroundModule } from './slider-playground/slider-playground.module';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
+import { SliderCustomMarksComponent } from './slider-custom-marks/slider-custom-marks.component';
+import { SliderCustomMarksModule } from './slider-custom-marks/slider-custom-marks.module';
 
 const elements = [
   BasicSliderComponent,
-  SliderPlaygroundComponent
+  SliderPlaygroundComponent,
+  SliderCustomMarksComponent
 ];
 
 @NgModule({
   imports: [
     BasicSliderModule,
-    SliderPlaygroundModule
-  ],
-  entryComponents: elements
+    SliderPlaygroundModule,
+    SliderCustomMarksModule
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

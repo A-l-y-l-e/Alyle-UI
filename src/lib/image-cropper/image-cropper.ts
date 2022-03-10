@@ -13,7 +13,18 @@ import {
   Inject,
   OnInit
 } from '@angular/core';
-import { mergeDeep, LY_COMMON_STYLES, ThemeVariables, lyl, ThemeRef, StyleCollection, LyClasses, StyleTemplate, StyleRenderer } from '@alyle/ui';
+import {
+  mergeDeep,
+  LY_COMMON_STYLES,
+  ThemeVariables,
+  lyl,
+  ThemeRef,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  StyleRenderer,
+  WithStyles,
+  Style } from '@alyle/ui';
 import { Subject, Observable } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
@@ -33,6 +44,8 @@ export interface LyImageCropperVariables {
 
 const activeEventOptions = normalizePassiveListenerOptions({passive: false});
 const STYLE_PRIORITY = -2;
+const DATA_IMAGE_SVG_PREFIX = 'data:image/svg+xml;base64,';
+const pos = (100 * Math.sqrt(2) - 100) / 2 / Math.sqrt(2);
 
 export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) => {
   const cropper = ref.selectorsOf(STYLES);
@@ -1312,6 +1325,320 @@ export class LyImageCropper implements OnInit, OnDestroy {
 }
 
 /**
+ * @dynamic
+ */
+@Component({
+  selector: 'ly-cropper-area',
+  templateUrl: './image-cropper-area.html',
+  providers: [
+    StyleRenderer
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: 'lyCropperArea'
+})
+export class LyCropperArea implements WithStyles, OnDestroy {
+  readonly classes = this.sRenderer.renderSheet(STYLES, 'area');
+
+  private _isSliding: boolean;
+  /** Keeps track of the last pointer event that was captured by the crop area. */
+  private _lastPointerEvent: MouseEvent | TouchEvent | null;
+  private _startPointerEvent: {
+    x: number
+    y: number
+  } | null;
+  private _currentWidth: number;
+  private _currentHeight: number;
+  private _startAreaRect: DOMRect;
+  private _startImgRect: DOMRect;
+
+  /** Used to subscribe to global move and end events */
+  protected _document: Document;
+
+  @ViewChild('resizer') readonly _resizer?: ElementRef;
+
+  @Input()
+  set resizableArea(val: boolean) {
+    if (val !== this._resizableArea) {
+      this._resizableArea = val;
+      Promise.resolve(null).then(() => {
+        if (val) {
+          this._removeResizableArea();
+          this._addResizableArea();
+        } else {
+          this._removeResizableArea();
+        }
+      });
+    }
+  }
+  get resizableArea() {
+    return this._resizableArea;
+  }
+  private _resizableArea: boolean;
+  @Input() keepAspectRatio: boolean;
+  @Input()
+  @Style<boolean, LyCropperArea>(
+    (_value, _, { classes: __ }) => ({ after }) => lyl `{
+      border-radius: 50%
+      .${__.resizer} {
+        ${after}: ${pos}%
+        bottom: ${pos}%
+        transform: translate(4px, 4px)
+      }
+    }`
+  ) round: boolean;
+
+  constructor(
+    readonly sRenderer: StyleRenderer,
+    readonly _elementRef: ElementRef,
+    private _ngZone: NgZone,
+    readonly _cropper: LyImageCropper,
+    @Inject(DOCUMENT) _document: any,
+  ) {
+    this._document = _document;
+  }
+
+  ngOnDestroy() {
+    this._removeResizableArea();
+  }
+
+  private _addResizableArea() {
+    this._ngZone.runOutsideAngular(() => {
+      const element = this._resizer!.nativeElement;
+      element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
+      element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
+    });
+  }
+
+  private _removeResizableArea() {
+    const element = this._resizer?.nativeElement;
+    if (element) {
+      this._lastPointerEvent = null;
+      this._removeGlobalEvents();
+      element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
+      element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
+    }
+  }
+
+  private _pointerDown = (event: MouseEvent | TouchEvent) => {
+    // Don't do anything if the
+    // user is using anything other than the main mouse button.
+    if (this._isSliding || (!isTouchEvent(event) && event.button !== 0)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this._ngZone.run(() => {
+      this._isSliding = true;
+      this._lastPointerEvent = event;
+      this._startPointerEvent = getGesturePointFromEvent(event);
+      this._startAreaRect = this._cropper._areaCropperRect();
+      this._startImgRect = this._cropper._canvasRect();
+      event.preventDefault();
+      this._bindGlobalEvents(event);
+    });
+
+  }
+
+  private _pointerMove = (event: MouseEvent | TouchEvent) => {
+    if (this._isSliding) {
+      event.preventDefault();
+      this._lastPointerEvent = event;
+      const element: HTMLDivElement = this._elementRef.nativeElement;
+      const { width, height, minWidth, minHeight } = this._cropper.config;
+      const point = getGesturePointFromEvent(event);
+      const deltaX = point.x - this._startPointerEvent!.x;
+      const deltaY = point.y - this._startPointerEvent!.y;
+      const startAreaRect = this._startAreaRect;
+      const startImgRect = this._startImgRect;
+      const round = this.round;
+      const keepAspectRatio = this._cropper.config.keepAspectRatio || event.shiftKey;
+      let newWidth = 0;
+      let newHeight = 0;
+      const rootRect = this._cropper._rootRect();
+
+      if (round) {
+        // The distance from the center of the cropper area to the pointer
+        const originX = ((width / 2 / Math.sqrt(2)) + deltaX);
+        const originY = ((height / 2 / Math.sqrt(2)) + deltaY);
+
+        // Leg
+        const side = Math.sqrt(originX ** 2 + originY ** 2);
+        newWidth = newHeight = side * 2;
+
+      } else if (keepAspectRatio) {
+        newWidth = width + deltaX * 2;
+        newHeight = height + deltaY * 2;
+        if (width !== height) {
+          if (width > height) {
+            newHeight = height / (width / newWidth);
+          } else if (height > width) {
+            newWidth = width / (height / newHeight);
+          }
+        } else {
+          newWidth = newHeight = Math.max(newWidth, newHeight);
+        }
+      } else {
+        newWidth = width + deltaX * 2;
+        newHeight = height + deltaY * 2;
+      }
+
+      // To min width
+      if (newWidth < minWidth!) {
+        newWidth = minWidth!;
+      }
+      // To min height
+      if (newHeight < minHeight!) {
+        newHeight = minHeight!;
+      }
+
+      // Do not overflow the cropper area
+      const centerX = startAreaRect.x + startAreaRect.width / 2;
+      const centerY = startAreaRect.y + startAreaRect.height / 2;
+      const topOverflow = startImgRect.y > centerY - (newHeight / 2);
+      const bottomOverflow = centerY + (newHeight / 2) > startImgRect.bottom;
+      const minHeightOnOverflow = Math.min((centerY - startImgRect.y) * 2, (startImgRect.bottom - centerY) * 2);
+      const leftOverflow = startImgRect.x > centerX - (newWidth / 2);
+      const rightOverflow = centerX + (newWidth / 2) > startImgRect.right;
+      const minWidthOnOverflow = Math.min((centerX - startImgRect.x) * 2, (startImgRect.right - centerX) * 2);
+      const minOnOverflow = Math.min(minWidthOnOverflow, minHeightOnOverflow);
+      if (round) {
+        if (topOverflow || bottomOverflow || leftOverflow || rightOverflow) {
+          newHeight = newWidth = minOnOverflow;
+        }
+      } else if (keepAspectRatio) {
+        const newNewWidth: number[] = [];
+        const newNewHeight: number[] = [];
+        if ((topOverflow || bottomOverflow)) {
+          newHeight = minHeightOnOverflow;
+          newNewHeight.push(newHeight);
+          newWidth = width / (height / minHeightOnOverflow);
+          newNewWidth.push(newWidth);
+        }
+        if ((leftOverflow || rightOverflow)) {
+          newWidth = minWidthOnOverflow;
+          newNewWidth.push(newWidth);
+          newHeight = height / (width / minWidthOnOverflow);
+          newNewHeight.push(newHeight);
+        }
+        if (newNewWidth.length === 2) {
+          newWidth = Math.min(...newNewWidth);
+        }
+        if (newNewHeight.length === 2) {
+          newHeight = Math.min(...newNewHeight);
+        }
+      } else {
+        if (topOverflow || bottomOverflow) {
+          newHeight = minHeightOnOverflow;
+        }
+        if (leftOverflow || rightOverflow) {
+          newWidth = minWidthOnOverflow;
+        }
+      }
+
+      // Do not overflow the container
+      if (round) {
+        const min = Math.min(rootRect.width, rootRect.height);
+        if (newWidth > min) {
+          newWidth = newHeight = min;
+        } else if (newHeight > min) {
+          newWidth = newHeight = min;
+        }
+      } else if (keepAspectRatio) {
+        if (newWidth > rootRect.width) {
+          newWidth = rootRect.width;
+          newHeight = height / (width / rootRect.width);
+        }
+        if (newHeight > rootRect.height) {
+          newWidth = width / (height / rootRect.height);
+          newHeight = rootRect.height;
+        }
+      } else {
+        if (newWidth > rootRect.width) {
+          newWidth = rootRect.width;
+        }
+        if (newHeight > rootRect.height) {
+          newHeight = rootRect.height;
+        }
+      }
+
+
+      // round values
+      newWidth = Math.round(newWidth);
+      newHeight = Math.round(newHeight);
+
+      element.style.width = `${newWidth}px`;
+      element.style.height = `${newHeight}px`;
+      this._currentWidth = newWidth;
+      this._currentHeight = newHeight;
+    }
+  }
+
+  /** Called when the user has lifted their pointer. */
+  private _pointerUp = (event: TouchEvent | MouseEvent) => {
+    if (this._isSliding) {
+      event.preventDefault();
+      this._removeGlobalEvents();
+      this._cropper._primaryAreaWidth = this._cropper.config.width = this._currentWidth;
+      this._cropper._primaryAreaHeight = this._cropper.config.height = this._currentHeight;
+      this._cropper.config = this._cropper.config;
+      this._cropper._updateMinScale();
+      this._isSliding = false;
+      this._startPointerEvent = null;
+    }
+  }
+
+  /** Called when the window has lost focus. */
+  private _windowBlur = () => {
+    // If the window is blurred while dragging we need to stop dragging because the
+    // browser won't dispatch the `mouseup` and `touchend` events anymore.
+    if (this._lastPointerEvent) {
+      this._pointerUp(this._lastPointerEvent);
+    }
+  }
+
+  private _bindGlobalEvents(triggerEvent: TouchEvent | MouseEvent) {
+    const element = this._document;
+    const isTouch = isTouchEvent(triggerEvent);
+    const moveEventName = isTouch ? 'touchmove' : 'mousemove';
+    const endEventName = isTouch ? 'touchend' : 'mouseup';
+    element.addEventListener(moveEventName, this._pointerMove, activeEventOptions);
+    element.addEventListener(endEventName, this._pointerUp, activeEventOptions);
+
+    if (isTouch) {
+      element.addEventListener('touchcancel', this._pointerUp, activeEventOptions);
+    }
+
+    const window = this._getWindow();
+
+    if (typeof window !== 'undefined' && window) {
+      window.addEventListener('blur', this._windowBlur);
+    }
+  }
+
+  /** Removes any global event listeners that we may have added. */
+  private _removeGlobalEvents() {
+    const element = this._document;
+    element.removeEventListener('mousemove', this._pointerMove, activeEventOptions);
+    element.removeEventListener('mouseup', this._pointerUp, activeEventOptions);
+    element.removeEventListener('touchmove', this._pointerMove, activeEventOptions);
+    element.removeEventListener('touchend', this._pointerUp, activeEventOptions);
+    element.removeEventListener('touchcancel', this._pointerUp, activeEventOptions);
+
+    const window = this._getWindow();
+
+    if (typeof window !== 'undefined' && window) {
+      window.removeEventListener('blur', this._windowBlur);
+    }
+  }
+
+  /** Use defaultView of injected document if available or fallback to global window reference */
+  private _getWindow(): Window {
+    return this._document.defaultView || window;
+  }
+}
+
+/**
  * Normalize degrees for cropper rotation
  * @docs-private
  */
@@ -1342,9 +1669,6 @@ function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
   // return the new canvas
   return newCanvas;
 }
-
-
-const DATA_IMAGE_SVG_PREFIX = 'data:image/svg+xml;base64,';
 
 function normalizeSVG(dataURL: string) {
   if (window.atob && isSvgImage(dataURL)) {
@@ -1378,7 +1702,6 @@ function createHtmlImg(src: string) {
   img.src = src;
   return img;
 }
-
 
 function getGesturePointFromEvent(event: TouchEvent | MouseEvent) {
 

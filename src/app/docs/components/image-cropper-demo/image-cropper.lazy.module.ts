@@ -12,6 +12,7 @@ import { CropCircleModule } from './crop-circle/crop-circle.module';
 import { CropCircleComponent } from './crop-circle/crop-circle.component';
 import { FullCropperWidthModule } from './full-cropper-width/full-cropper-width.module';
 import { FullCropperWidthComponent } from './full-cropper-width/full-cropper-width.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   ImageCropperExample01Component,
@@ -30,9 +31,8 @@ const elements = [
     CropperWithDialogModule,
     CropCircleModule,
     FullCropperWidthModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

@@ -6,6 +6,7 @@ import { DotBadgeComponent } from './dot-badge/dot-badge.component';
 import { BasicBadgeModule } from './basic-badge/basic-badge.module';
 import { CustomBadgeModule } from './custom-badge/custom-badge.module';
 import { DotBadgeModule } from './dot-badge/dot-badge.module';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 
 const elements = [
@@ -19,9 +20,8 @@ const elements = [
     BasicBadgeModule,
     CustomBadgeModule,
     DotBadgeModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

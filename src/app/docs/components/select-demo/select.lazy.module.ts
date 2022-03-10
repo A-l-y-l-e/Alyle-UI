@@ -14,6 +14,7 @@ import { SelectReactiveFormComponent } from './select-reactive-form/select-react
 import { SelectOptionObjectValueComponent } from './select-option-object-value/select-option-object-value.component';
 import { SelectDisableComponent } from './select-disable/select-disable.component';
 import { SelectCustomTriggerComponent } from './select-custom-trigger/select-custom-trigger.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   BasicSelectComponent,
@@ -34,9 +35,8 @@ const elements = [
     SelectOptionObjectValueModule,
     SelectDisableModule,
     SelectCustomTriggerModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

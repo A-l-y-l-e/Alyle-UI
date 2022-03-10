@@ -10,6 +10,7 @@ import { OpenOnHoverMenuModule } from './open-on-hover-menu/open-on-hover-menu.m
 import { OpenOnHoverMenuComponent } from './open-on-hover-menu/open-on-hover-menu.component';
 import { MenuWithIconsModule } from './menu-with-icons/menu-with-icons.module';
 import { MenuWithIconsComponent } from './menu-with-icons/menu-with-icons.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const entryComponents = [
   MenuDemo01Component,
@@ -26,9 +27,8 @@ const entryComponents = [
     NestedMenuModule,
     OpenOnHoverMenuModule,
     MenuWithIconsModule
-  ],
-  entryComponents
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = entryComponents;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = entryComponents;
 }

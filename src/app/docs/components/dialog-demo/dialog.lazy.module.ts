@@ -12,6 +12,7 @@ import { DialogPromptModule } from './dialog-prompt/dialog-prompt.module';
 import { DialogNgTemplateModule } from './dialog-ng-template/dialog-ng-template.module';
 import { DialogWithSelectComponent } from './dialog-with-select/dialog-with-select.component';
 import { DialogWithSelectModule } from './dialog-with-select/dialog-with-select.module';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 
 const elements = [
@@ -31,9 +32,8 @@ const elements = [
     DialogPromptModule,
     DialogNgTemplateModule,
     DialogWithSelectModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

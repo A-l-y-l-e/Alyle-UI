@@ -8,6 +8,11 @@ Slider allows the user to specify a numeric value between a minimum and maximum 
   <aui-basic-slider></aui-basic-slider>
 </demo-view>
 
+<h2 [lyTyp]="'display1'">Custom marks</h2>
+<demo-view path="docs/components/slider-demo/slider-custom-marks">
+  <aui-slider-custom-marks></aui-slider-custom-marks>
+</demo-view>
+
 <h2 [lyTyp]="'display1'">Slider Playground</h2>
 <demo-view path="docs/components/slider-demo/slider-playground">
   <aui-slider-playground></aui-slider-playground>

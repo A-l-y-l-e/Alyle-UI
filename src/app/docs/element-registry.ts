@@ -1,5 +1,5 @@
 import { LoadChildrenCallback } from '@angular/router';
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Type } from '@angular/core';
 
 export const ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES = [
   {
@@ -124,8 +124,18 @@ export const ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES = [
   }
 ];
 
+/**
+ * Interface expected to be implemented by all modules that declare a component that can be used as
+ * a custom element.
+ */
+export interface WithCustomElementComponent {
+  customElementComponents: Type<any>[];
+}
+
 /** Injection token to provide the element path modules. */
-export const ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN = new InjectionToken<Map<string, LoadChildrenCallback>>('ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN');
+export const ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN = new InjectionToken<
+  Map<string, LoadChildrenCallback>
+>('ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN');
 
 export const ELEMENT_MODULE_LOAD_CALLBACKS = new Map<string, LoadChildrenCallback>();
 ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES.forEach(route => {

@@ -8,6 +8,7 @@ import { CarouselExample01Module } from './carousel-example-01/carousel-example-
 import { CarouselWithGesturesModule } from './carousel-with-gestures/carousel-with-gestures.module';
 import { CarouselWithBarModule } from './carousel-with-bar/carousel-with-bar.module';
 import { CarouselPauseOnHoverModule } from './carousel-pause-on-hover/carousel-pause-on-hover.module';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 
 const elements = [
@@ -23,9 +24,8 @@ const elements = [
     CarouselWithGesturesModule,
     CarouselWithBarModule,
     CarouselPauseOnHoverModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

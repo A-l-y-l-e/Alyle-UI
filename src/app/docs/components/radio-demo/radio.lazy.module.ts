@@ -4,6 +4,7 @@ import { BasicRadioComponent } from './basic-radio/basic-radio.component';
 import { RadioExample01Component } from './radio-example-01/radio-example-01.component';
 import { BasicRadioModule } from './basic-radio/basic-radio.module';
 import { RadioExample01Module } from './radio-example-01/radio-example-01.module';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   BasicRadioComponent,
@@ -14,9 +15,8 @@ const elements = [
   imports: [
     BasicRadioModule,
     RadioExample01Module
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

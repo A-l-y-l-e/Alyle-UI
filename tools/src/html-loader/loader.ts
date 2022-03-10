@@ -3,7 +3,7 @@ import { prism } from './prism';
 import { prismCustomClass } from './prism-custom-class';
 import * as domino from 'domino';
 import { color } from '@alyle/ui/color';
-import { lyl } from '@alyle/ui';
+// import { lyl } from '@alyle/ui';
 
 global['color'] = color;
 showdown.extension('custom', function() {
@@ -106,15 +106,23 @@ function highlightColors(content: string) {
             const rgba = color(...eval(`${colorRgx[0]}.rgba()`));
             const lum = rgba.luminance();
             const id = `_${Math.floor(Math.random() * Date.now()).toString(36)}`;
-            const styl = lyl `{
-              & {
-                background: ${rgba.css()}
-                opacity: ${rgba.alpha()}
-              }
-              * {
-                color: ${lum < 0.5 ? 'white' : '#202020'} !important
-              }
-            }`(`.${id}`);
+            // const styl = lyl `{
+            //   & {
+            //     background: ${rgba.css()}
+            //     opacity: ${rgba.alpha()}
+            //   }
+            //   * {
+            //     color: ${lum < 0.5 ? 'white' : '#202020'} !important
+            //   }
+            // }`(`.${id}`);
+            const styl = `.${id}{`
+              + `background:${rgba.css()};`
+              + `opacity:${rgba.alpha()}`
+              + `}`
+              + `.${id} *{`
+              + `color: ${lum < 0.5 ? 'white' : '#202020'} !important`
+              + `}`;
+
             return `<style>${styl}</style><span class="${id}">${item}</span>`;
           }
         }

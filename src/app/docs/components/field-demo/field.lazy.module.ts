@@ -12,6 +12,7 @@ import { FieldWithPrefixAndSuffixComponent } from './field-with-prefix-and-suffi
 import { FieldWithPrefixAndSuffixModule } from './field-with-prefix-and-suffix/field-with-prefix-and-suffix.module';
 import { FieldWithDisplayWithModule } from './field-with-display-with/field-with-display-with.module';
 import { FieldWithDisplayWithComponent } from './field-with-display-with/field-with-display-with.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   BasicFieldComponent,
@@ -30,9 +31,8 @@ const elements = [
     FieldWithCdkAutosizeModule,
     FieldWithPrefixAndSuffixModule,
     FieldWithDisplayWithModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

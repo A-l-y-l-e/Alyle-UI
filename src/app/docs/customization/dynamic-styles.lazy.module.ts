@@ -9,6 +9,7 @@ import { DsNestingModule } from './dynamic-styles/ds-nesting/ds-nesting.module';
 import { DsNestingComponent } from './dynamic-styles/ds-nesting/ds-nesting.component';
 import { DsReusableStylesModule } from './dynamic-styles/ds-reusable-styles/ds-reusable-styles.module';
 import { DsReusableStylesComponent } from './dynamic-styles/ds-reusable-styles/ds-reusable-styles.component';
+import { WithCustomElementComponent } from '../element-registry';
 
 const elements = [
   WithThemeVariablesComponent,
@@ -24,9 +25,8 @@ const elements = [
     DsCssDeclarationsBlockModule,
     DsNestingModule,
     DsReusableStylesModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

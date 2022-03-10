@@ -6,6 +6,7 @@ import { ToolbarDenseComponent } from './toolbar-dense/toolbar-dense.component';
 import { ToolbarBasicDemoModule } from './toolbar-basic-demo/toolbar-basic-demo.module';
 import { ToolbarWithIconsModule } from './toolbar-with-icons/toolbar-with-icons.module';
 import { ToolbarDenseModule } from './toolbar-dense/toolbar-dense.module';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   ToolbarBasicDemoComponent,
@@ -18,9 +19,8 @@ const elements = [
     ToolbarBasicDemoModule,
     ToolbarWithIconsModule,
     ToolbarDenseModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

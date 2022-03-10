@@ -6,6 +6,7 @@ import { PassingDataToASnackBarModule } from './passing-data-to-a-snack-bar/pass
 import { PassingDataToASnackBarComponent } from './passing-data-to-a-snack-bar/passing-data-to-a-snack-bar.component';
 import { SnackBarPositionModule } from './snack-bar-position/snack-bar-position.module';
 import { SnackBarPositionComponent } from './snack-bar-position/snack-bar-position.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   BasicSnackBarComponent,
@@ -18,9 +19,8 @@ const elements = [
     BasicSnackBarModule,
     PassingDataToASnackBarModule,
     SnackBarPositionModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

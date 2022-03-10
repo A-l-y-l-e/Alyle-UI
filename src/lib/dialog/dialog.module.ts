@@ -9,29 +9,26 @@ import { LyDialogContent } from './dialog-content.directive';
 import { LyDialogActions } from './dialog-actions.directive';
 
 @NgModule({
-  entryComponents: [
-    LyDialogContainer
-  ],
-  declarations: [
-    LyDialogContainer,
-    LyDialogTitle,
-    LyDialogContent,
-    LyDialogActions
-  ],
-  imports: [
-    CommonModule,
-    LyCommonModule,
-    LyOverlayModule
-  ],
-  exports: [
-    LyCommonModule,
-    LyDialogContainer,
-    LyDialogTitle,
-    LyDialogContent,
-    LyDialogActions
-  ],
-  providers: [
-    LyDialog
-  ]
+    declarations: [
+        LyDialogContainer,
+        LyDialogTitle,
+        LyDialogContent,
+        LyDialogActions
+    ],
+    imports: [
+        CommonModule,
+        LyCommonModule,
+        LyOverlayModule
+    ],
+    exports: [
+        LyCommonModule,
+        LyDialogContainer,
+        LyDialogTitle,
+        LyDialogContent,
+        LyDialogActions
+    ],
+    providers: [
+        LyDialog
+    ]
 })
 export class LyDialogModule { }
