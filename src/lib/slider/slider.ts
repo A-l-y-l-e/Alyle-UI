@@ -37,6 +37,9 @@ import { Subject } from 'rxjs';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
 import { DOWN_ARROW, END, hasModifierKey, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
+import { LY_SLIDER } from './tokens';
+import { гvalueToPercent } from './util';
+
 const activeEventOptions = normalizePassiveListenerOptions({passive: false});
 
 export interface LySliderTheme {
@@ -377,7 +380,8 @@ export interface LySliderMark {
   exportAs: 'lySlider',
   providers: [
     LY_SLIDER_CONTROL_VALUE_ACCESSOR,
-    StyleRenderer
+    StyleRenderer,
+    { provide: LY_SLIDER, useExisting: LySlider },
   ],
   host: {
     '(focus)': '_onFocus()',
@@ -1352,10 +1356,6 @@ function findClosest(values: number[], currentValue: number) {
   return closestIndex;
 }
 
-export function гvalueToPercent(value: number, min: number, max: number) {
-  return ((value - min) * 100) / (max - min);
-}
-
 function percentToValue(percent, min, max) {
   return (max - min) * (percent / 100) + min;
 }
@@ -1381,10 +1381,6 @@ function clamp(value: number, min: number, max: number) {
     return max;
   }
   return value;
-}
-
-export function гbetween(x: number, min: number, max: number) {
-  return x >= min && x <= max;
 }
 
 function ASC(a: number, b: number) {
@@ -1443,3 +1439,7 @@ function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
 
   return undefined;
 }
+function LY_TICK(LY_TICK: any) {
+  throw new Error('Function not implemented.');
+}
+

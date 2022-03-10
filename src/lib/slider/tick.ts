@@ -1,6 +1,7 @@
-import { Directive, Renderer2, ElementRef, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { LySlider, гbetween, гvalueToPercent } from './slider';
+import { Directive, Renderer2, ElementRef, Input, OnInit, OnDestroy, OnChanges, Inject } from '@angular/core';
+import { гbetween, гvalueToPercent } from './util';
 import { untilComponentDestroyed } from '@alyle/ui';
+import { LY_SLIDER } from './tokens';
 
 @Directive({
   selector: 'ly-tick'
@@ -14,9 +15,9 @@ export class LyTick implements OnChanges, OnInit, OnDestroy {
   @Input() value: number;
 
   constructor(
-    private _slider: LySlider,
     private _renderer: Renderer2,
-    private _el: ElementRef
+    private _el: ElementRef,
+    @Inject(LY_SLIDER) public _slider?: any,
   ) { }
 
   ngOnChanges() {

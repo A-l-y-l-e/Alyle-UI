@@ -1,7 +1,8 @@
 import { untilComponentDestroyed } from '@alyle/ui';
-import { Component, Input, Renderer2, ElementRef, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { LySlider, гvalueToPercent, гbetween } from './slider';
+import { Component, Input, Renderer2, ElementRef, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy, Inject } from '@angular/core';
+import { гvalueToPercent, гbetween } from './util';
 import { LyTick } from './tick';
+import { LY_SLIDER, LY_TICK } from './tokens';
 
 @Component({
   selector: 'ly-mark',
@@ -14,16 +15,14 @@ export class LyMark implements OnInit, OnDestroy {
 
   private _markActiveClass?: string | null;
 
-  @ViewChild(LyTick, { static: true}) _tick: LyTick;
-
+  @ViewChild(LY_TICK, { static: true}) _tick: LyTick;
 
   @Input() value: number;
 
-
   constructor(
-    private _slider: LySlider,
     private _renderer: Renderer2,
-    private _el: ElementRef
+    private _el: ElementRef,
+    @Inject(LY_SLIDER) public _slider?: any,
   ) {
     _renderer.addClass(_el.nativeElement, _slider.classes.mark);
   }
