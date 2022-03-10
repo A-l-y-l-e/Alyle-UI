@@ -1439,7 +1439,3 @@ function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
 
   return undefined;
 }
-function LY_TICK(LY_TICK: any) {
-  throw new Error('Function not implemented.');
-}
-
