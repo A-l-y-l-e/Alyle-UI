@@ -1,3 +1,12 @@
+## [12.1.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/12.1.0...12.1.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* **slider:** slider marks are collapsed ([90860af](https://github.com/A-l-y-l-e/Alyle-UI/commit/90860af0b26d0f2d040dff8f9d94928122efcfc2)), closes [#180](https://github.com/A-l-y-l-e/Alyle-UI/issues/180)
+
+
+
 # [12.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/12.0.0...12.1.0) (2022-02-22)
 
 
