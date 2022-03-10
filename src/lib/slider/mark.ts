@@ -33,6 +33,7 @@ export class LyMark implements OnInit, OnDestroy {
     this._slider._changes.pipe(untilComponentDestroyed(this)).subscribe(() => {
       this._updateMark();
     });
+    this._updateMark();
   }
 
   private _updateMark() {
