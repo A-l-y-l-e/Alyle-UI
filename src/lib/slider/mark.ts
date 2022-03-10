@@ -2,7 +2,7 @@ import { untilComponentDestroyed } from '@alyle/ui';
 import { Component, Input, Renderer2, ElementRef, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy, Inject } from '@angular/core';
 import { гvalueToPercent, гbetween } from './util';
 import { LyTick } from './tick';
-import { LY_SLIDER, LY_TICK } from './tokens';
+import { LY_SLIDER } from './tokens';
 
 @Component({
   selector: 'ly-mark',
@@ -15,7 +15,7 @@ export class LyMark implements OnInit, OnDestroy {
 
   private _markActiveClass?: string | null;
 
-  @ViewChild(LY_TICK, { static: true}) _tick: LyTick;
+  @ViewChild(LyTick, { static: true}) _tick: LyTick;
 
   @Input() value: number;
 
