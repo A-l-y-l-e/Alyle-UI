@@ -30,7 +30,7 @@ export class LyStyleUtils {
     WebLandscape: string,
     [key: string]: string
   };
-  direction: Dir;
+  direction: Dir | `${Dir}`;
 
   /** Returns left or right according to the direction */
   get before() {

@@ -232,6 +232,14 @@ export class LyTheme2 {
     this._directionChanged.next();
   }
 
+  setDirection(dir: Dir | `${Dir}`) {
+    if (this.config.direction !== dir) {
+      this.config.direction = dir;
+      this._updateAllStyles();
+      this._directionChanged.next();
+    }
+  }
+
   private _updateAllStyles() {
     this.elements.forEach((_, key) => {
       const styleData = _STYLE_MAP.get(key)!;

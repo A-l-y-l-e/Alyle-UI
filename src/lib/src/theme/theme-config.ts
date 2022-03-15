@@ -64,7 +64,7 @@ export interface ThemeConfig {
     overlay: number
     [key: string]: number
   };
-  direction?: Dir;
+  direction?: Dir | `${Dir}`;
   animations: {
     curves: {
       standard: string
