@@ -9,6 +9,8 @@
     [vertical]="vertical"
     [thumbVisible]="thumbVisible"
     [disabled]="disabled"
+    [color]="'primary'"
+    [size]="size"
   >
     <ly-mark [value]="11">$11</ly-mark>
     <ly-mark [value]="40">$40</ly-mark>
@@ -48,6 +50,13 @@
     <ly-radio [value]="null">Null</ly-radio>
     <ly-radio [value]="true">True</ly-radio>
     <ly-radio [value]="false">False</ly-radio>
+  </ly-radio-group>
+</div>
+<div>
+  <label>Thumb visible: </label>
+  <ly-radio-group [(ngModel)]="size">
+    <ly-radio [value]="'small'">Small</ly-radio>
+    <ly-radio [value]="'medium'">Medium</ly-radio>
   </ly-radio-group>
 </div>
 <div>

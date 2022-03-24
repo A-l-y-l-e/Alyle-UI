@@ -280,6 +280,48 @@ export class MinimaBase extends LyStyleUtils {
     appearance: {
       standard: new StyleCollection()
     },
+    size: {
+      small: new StyleCollection(
+        (__) => lyl `{
+          &${__.horizontal} {
+            ${__.wrapper} {
+              height: 2px
+            }
+          }
+          &${__.vertical} {
+            ${__.wrapper} {
+              width: 2px
+            }
+          }
+        }`
+      ),
+      medium: new StyleCollection(
+        (__) => lyl `{
+          ${__.track}, ${__.bg} {
+            border-radius: 12px
+          }
+          &${__.horizontal} {
+            ${__.wrapper} {
+              height: 4px
+            }
+            ${__.tick} {
+              height: 2px
+            }
+          }
+          &${__.vertical} {
+            ${__.wrapper} {
+              width: 4px
+            }
+            ${__.tick} {
+              width: 2px
+            }
+          }
+          ${__.track} {
+            border: 1px solid currentcolor
+          }
+        }`
+      )
+    },
     color: ({
       track,
       thumb,
@@ -297,6 +339,9 @@ export class MinimaBase extends LyStyleUtils {
       sliding,
       thumbLabelValue
     },      color, contrast) => lyl `{
+      ${track}, ${bg} {
+        color: ${color}
+      }
       & ${track}, & ${thumb}, & ${thumbLabel}, & ${bg}, & ${tick} {
         background-color: ${color}
         ${thumbLabelValue} {
@@ -310,7 +355,7 @@ export class MinimaBase extends LyStyleUtils {
         box-shadow: 0 0 0 16px ${color.alpha(.13)}
       }
       ${tickActive} {
-        background-color: ${color.luminance(0.6)}
+        background-color: ${contrast.alpha(0.5)}
       }
       ${bg} {
         opacity: .3
@@ -387,6 +432,9 @@ export class MinimaBase extends LyStyleUtils {
         }
         &${vertical} ${thumbContainer}::before {
           background: ${(this as any).disabled.default}
+        }
+        ${track} {
+          border: 1px solid ${colorDisabled}
         }
       }`;
     }

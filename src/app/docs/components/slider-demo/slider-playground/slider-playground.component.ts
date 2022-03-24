@@ -25,6 +25,7 @@ export class SliderPlaygroundComponent implements OnInit {
   ticksPerStep = true;
   tickInterval = 1;
   disabled = false;
+  size: 'small' | 'medium' = 'small';
 
   get ticks(): number | boolean {
     return this.showTicks

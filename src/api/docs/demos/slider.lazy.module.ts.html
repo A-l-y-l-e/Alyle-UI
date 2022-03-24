@@ -7,18 +7,22 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> WithCustomElementComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@app/docs/element-registry'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> SliderCustomMarksComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./slider-custom-marks/slider-custom-marks.component'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> SliderCustomMarksModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./slider-custom-marks/slider-custom-marks.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> SliderSizesModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./slider-sizes/slider-sizes.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> SliderSizesComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./slider-sizes/slider-sizes.component'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> elements <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
   BasicSliderComponent<span class="tt18 ttae">,</span>
   SliderPlaygroundComponent<span class="tt18 ttae">,</span>
-  SliderCustomMarksComponent
+  SliderCustomMarksComponent<span class="tt18 ttae">,</span>
+  SliderSizesComponent
 <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">NgModule</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     BasicSliderModule<span class="tt18 ttae">,</span>
     SliderPlaygroundModule<span class="tt18 ttae">,</span>
-    SliderCustomMarksModule
+    SliderCustomMarksModule<span class="tt18 ttae">,</span>
+    SliderSizesModule
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">LazyModule</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">WithCustomElementComponent</span> <span class="tt18 ttae">&#123;</span>

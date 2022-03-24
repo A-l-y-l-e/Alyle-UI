@@ -30,7 +30,8 @@ import { LyTheme2,
   StyleTemplate,
   lyl,
   ThemeRef,
-  StyleRenderer} from '@alyle/ui';
+  StyleRenderer,
+  Style} from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -58,6 +59,16 @@ export interface LySliderTheme {
   appearance?: {
     standard?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+    material?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+    [key: string]: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined;
+  };
+  size?: {
+    small?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+    medium?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
     [key: string]: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined;
   };
@@ -83,7 +94,7 @@ export const LY_SLIDER_CONTROL_VALUE_ACCESSOR = {
 const STYLE_PRIORITY = -2;
 export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);
-  const { before } = theme;
+  const { before, after } = theme;
   const isRTL = theme.isRTL();
   return {
     $priority: STYLE_PRIORITY,
@@ -127,6 +138,12 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       }
     }`,
 
+    wrapper: lyl `{
+      -webkit-print-color-adjust: exact
+      color-adjust: exact
+      position: absolute
+    }`,
+
     track: () => lyl `{
       position: absolute
       margin: auto
@@ -159,10 +176,10 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
     }`,
     thumb: lyl `{
       position: absolute
-      width: 12px
-      height: 12px
-      left: -6px
-      top: -6px
+      width: 14px
+      height: 14px
+      left: -7px
+      top: -7px
       border-radius: 50%
       outline: 0
       cursor: -webkit-grab
@@ -203,12 +220,19 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
     }`,
 
     horizontal: () => lyl `{
-      width: 120px
-      height: 2px
-      padding: 10px 0
+      width: 128px
+      height: 48px
+      padding: 8px
       touch-action: pan-y !important
+      ${__.wrapper} {
+        top: 23px
+        left: 8px
+        right: 8px
+      }
+      ${__.track}, ${__.bg}, ${__.track} {
+        height: inherit
+      }
       ${__.track}, ${__.bg} {
-        height: 2px
         width: 100%
       }
       ${__.track} {
@@ -250,7 +274,6 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
 
       ${__.tick} {
         width: 2px
-        height: inherit
         top: 0
         bottom: 0
         transform: translate(-1px, 0%)
@@ -264,18 +287,25 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       }
     }`,
     vertical: () => lyl `{
-      width: 2px
-      height: 120px
-      padding: 0 10px
+      width: 48px
+      height: 128px
+      padding: 8px
       touch-action: pan-x !important
+      ${__.wrapper} {
+        ${before}: 23px
+        top: 8px
+        bottom: 8px
+      }
+      ${__.track}, ${__.bg}, ${__.track} {
+        width: inherit
+      }
       & ${__.track}, & ${__.bg} {
         height: 100%
-        width: 2px
       }
       ${__.track} {
         bottom: 0
-        left: 0
-        right: 0
+        ${before}: -1px
+        ${after}: 0
       }
       & ${__.thumb} {
         transform: ${theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'}
@@ -415,6 +445,9 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   /** The dimensions of the slider. */
   private _sliderDimensions: ClientRect | null = null;
 
+   /** Reference to the inner slider wrapper element. */
+  @ViewChild('wrapper', { static: true }) readonly _wrapper: ElementRef;
+
   /** Whether or not to show the thumb. */
   @Input()
   get thumbVisible() {
@@ -518,6 +551,27 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   get appearance() {
     return this._appearance;
   }
+
+  /** The slider size. */
+  @Input()
+  @Style<string | null>(
+    val => (
+      theme: ThemeVariables & LySliderVariables,
+      ref: ThemeRef
+    ) => {
+      const slider = ref.selectorsOf(STYLES);
+      if (theme.slider?.size) {
+        const size = theme.slider.size[val];
+        if (size) {
+          return size instanceof StyleCollection
+            ? size.setTransformer((_) => _(slider)).css
+            : size(slider);
+        }
+      }
+      throw new Error(`${LySlider.и}: styles theme.checkbox.size is undefined`);
+    }
+  , STYLE_PRIORITY)
+  size: string | null;
 
   /** Color of Slider */
   @Input()
@@ -819,6 +873,11 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
       this.appearance = (this._default && this._default.appearance) || 'standard';
     }
 
+    /** Set default size */
+    if (this.size == null) {
+      this.size = 'small';
+    }
+
     /** Set horizontal slider */
     if (this.vertical == null) {
       this.vertical = false;
@@ -833,6 +892,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     if (this.step == null) {
       this.step = 1;
     }
+
   }
 
   ngOnDestroy() {
@@ -944,6 +1004,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     if (!valueEquals(oldValue, this.value)) {
       this._emitInputEvent();
       this._emitChangeEvent();
+      this._changes.next();
     }
 
     event.preventDefault();
@@ -1167,8 +1228,8 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     const thumbs = this._thumbs;
     const thumbsPercents = thumbs.map(thumb => thumb.percent!);
     // const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
-    const axis = this.vertical ? 'Y' : 'X';
-    const sign = this._theme.variables.direction === 'rtl' ? '-' : '';
+    // const axis = this.vertical ? 'Y' : 'X';
+    // const sign = this._theme.variables.direction === 'rtl' ? '-' : '';
     if (thumbs.length === 1) {
       thumbsPercents.unshift(0);
     }
@@ -1177,9 +1238,18 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     const maxPercent = this._maxPercent = Math.max(...thumbsPercents);
     const percent = (maxPercent / 100) - (minPercent / 100);
 
-    const scale = this.vertical ? `1, ${percent}, 1` : `${percent}, 1, 1`;
+    // const scale = this.vertical ? `1, ${percent}, 1` : `${percent}, 1, 1`;
+    const position = this.vertical ? 'height' : 'width';
+    const location = this.vertical ? 'bottom' : (this._theme.variables.direction === 'rtl' ? 'right' : 'left');
     if (track) {
-      track.nativeElement.style.transform = `translate${axis}(${sign}${minPercent}%) scale3d(${scale})`;
+      // track.nativeElement.style.transform = `translate${axis}(${sign}${minPercent}%)`;
+      // track.nativeElement.style.transform = `translate${axis}(${sign}${minPercent}%) scale3d(${scale})`;
+      track.nativeElement.style.width = '';
+      track.nativeElement.style.height = '';
+      track.nativeElement.style.left = '';
+      track.nativeElement.style.right = '';
+      track.nativeElement.style[position] = `${percent * 100}%`;
+      track.nativeElement.style[location] = `${minPercent}%`;
     }
   }
 

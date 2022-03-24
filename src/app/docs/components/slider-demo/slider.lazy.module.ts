@@ -7,18 +7,22 @@ import { SliderPlaygroundModule } from './slider-playground/slider-playground.mo
 import { WithCustomElementComponent } from '@app/docs/element-registry';
 import { SliderCustomMarksComponent } from './slider-custom-marks/slider-custom-marks.component';
 import { SliderCustomMarksModule } from './slider-custom-marks/slider-custom-marks.module';
+import { SliderSizesModule } from './slider-sizes/slider-sizes.module';
+import { SliderSizesComponent } from './slider-sizes/slider-sizes.component';
 
 const elements = [
   BasicSliderComponent,
   SliderPlaygroundComponent,
-  SliderCustomMarksComponent
+  SliderCustomMarksComponent,
+  SliderSizesComponent
 ];
 
 @NgModule({
   imports: [
     BasicSliderModule,
     SliderPlaygroundModule,
-    SliderCustomMarksModule
+    SliderCustomMarksModule,
+    SliderSizesModule
   ]
 })
 export class LazyModule implements WithCustomElementComponent {

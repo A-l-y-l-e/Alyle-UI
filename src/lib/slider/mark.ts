@@ -28,7 +28,7 @@ export class LyMark implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._renderer.insertBefore(this._slider._getHostElement(), this._tick._getHostElement(), this._slider._ticksRef.nativeElement);
+    this._renderer.insertBefore(this._slider._wrapper.nativeElement, this._tick._getHostElement(), this._slider._ticksRef.nativeElement);
     this._slider._changes.pipe(untilComponentDestroyed(this)).subscribe(() => {
       this._updateMark();
     });
