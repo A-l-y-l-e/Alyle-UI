@@ -5,7 +5,7 @@ import * as domino from 'domino';
 import { color } from '@alyle/ui/color';
 // import { lyl } from '@alyle/ui';
 
-global['color'] = color;
+(global as any)['color'] = color;
 showdown.extension('custom', function() {
   return [{
     type: 'output',
@@ -67,18 +67,18 @@ showdown.extension('prism', () => {
   ];
 });
 
-export default function (markdown: string) {
-  this.cacheable();
+// export function functionA(markdown: string) {
+//   this.cacheable();
 
-  const converter = new showdown.Converter({
-    extensions: ['prism'],
-    strikethrough: true
-  });
+//   const converter = new showdown.Converter({
+//     extensions: ['prism'],
+//     strikethrough: true
+//   });
 
-  const html = converter.makeHtml(markdown);
+//   const html = converter.makeHtml(markdown);
 
-  return html;
-}
+//   return html;
+// }
 
 export function mdToHtml(markdown: string) {
   const converter = new showdown.Converter({
@@ -165,7 +165,7 @@ function escape(html: string) {
   };
 
   if (escapeTest.test(html)) {
-    return html.replace(escapeReplace, (ch: '{' | '}') => replacements[ch]);
+    return html.replace(escapeReplace, (ch: string) => replacements[ch as '{' | '}']);
   }
 
   return html;
