@@ -59,7 +59,7 @@ export interface LySliderTheme {
   appearance?: {
     standard?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
-    material?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    md?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
     [key: string]: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined;
@@ -106,21 +106,11 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
         ...${LY_COMMON_STYLES.fill}
         margin: auto
       }
-      // always show visible thumb, when {thumbVisible} is available
-      &${__.thumbVisible} ${__.thumb},
-      // on hover
-      &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover ${__.thumb},
-      // on focused
-      &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused} ${__.thumb} {
-        border-radius: 50% 50% 0%
-      }
 
-      &${__.thumbVisible} ${__.thumbContent}::before,
-      &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover::before,
-      &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused}::before {
-        transform: scale(1)
-      }
+
       &${__.sliding} {
+        cursor: -webkit-grabbing
+        cursor: grabbing
         ${__.thumb}, ${__.thumbLabel} {
           cursor: -webkit-grabbing
           cursor: grabbing
@@ -162,29 +152,19 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       margin: auto
     }`,
     thumbContent: lyl `{
-      &::before {
-        content: ''
-        position: absolute
-        opacity: .6
-        transform: scale(0)
-        transition: transform ${
-          theme.animations.durations.entering
-        }ms ${theme.animations.curves.sharp} 0ms, background ${
-          theme.animations.durations.complex
-        }ms ${theme.animations.curves.sharp} 0ms
-      }
+      display: flex
+      justify-content: center
+      align-items: center
     }`,
     thumb: lyl `{
       position: absolute
-      width: 14px
-      height: 14px
-      left: -7px
-      top: -7px
+      width: 16px
+      height: 16px
       border-radius: 50%
       outline: 0
       cursor: -webkit-grab
       cursor: grab
-      transition: ${['border-radius'].map(prop => `${prop} ${
+      transition: ${['border-radius', 'transform'].map(prop => `${prop} ${
         theme.animations.durations.exiting
       }ms ${theme.animations.curves.standard} 0ms`).join()}
       &::before {
@@ -198,6 +178,7 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
     }`,
     thumbLabel: lyl `{
       position: absolute
+      font-size: 12px
       width: 28px
       height: 28px
       border-radius: 50%
@@ -205,9 +186,13 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       ${before}: -14px
       cursor: -webkit-grab
       cursor: grab
-      transition: ${['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
-        theme.animations.durations.entering
-      }ms ${theme.animations.curves.sharp} 0ms`).join()}
+      transition: ${[
+        'transform',
+        'top',
+        'left',
+        'right',
+        'border-radius'
+      ].map(prop => `${prop} 150ms ${theme.animations.curves.standard} 0ms`).join()}
     }`,
     thumbLabelValue: lyl `{
       display: flex
@@ -215,8 +200,6 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       width: 100%
       align-items: center
       justify-content: center
-      font-size: 12px
-      color: #fff
     }`,
 
     horizontal: () => lyl `{
@@ -240,36 +223,10 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
         top: 0
         bottom: 0
       }
-      & ${__.thumb} {
-        transform: rotateZ(-135deg)
-      }
 
-      ${__.thumbLabel} {
-        transform: rotateZ(45deg) scale(0)
-      }
-      // always show visible thumb, when {thumbVisible} is available
-      &${__.thumbVisible} ${__.thumbLabel},
-      // on hover
-      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
-      // on focused
-      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
-        border-radius: 50% 50% 0%
-        top: -50px
-        transform: rotateZ(45deg) scale(1)
-      }
-
-      & ${__.thumbLabelValue} {
-        transform: rotateZ(-45deg)
-      }
       ${__.thumbContainer} {
         top: 0
         bottom: 0
-      }
-      & ${__.thumbContent}::before {
-        width: 2px
-        height: 24px
-        left: -1px
-        top: -24px
       }
 
       ${__.tick} {
@@ -307,36 +264,12 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
         ${before}: -1px
         ${after}: 0
       }
-      & ${__.thumb} {
-        transform: ${theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'}
-      }
-      & ${__.thumbLabel} {
-        transform: rotateZ(-45deg) scale(0)
-      }
-      // always show visible thumb, when {thumbVisible} is available
-      &${__.thumbVisible} ${__.thumbLabel},
-      // on hover
-      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
-      // on focused
-      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
-        border-radius: ${theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'}
-        ${before}: -50px
-        transform: rotateZ(-45deg) scale(1)
-      }
 
-      & ${__.thumbLabelValue} {
-        transform: rotateZ(45deg)
-      }
       ${__.thumbContainer} {
         left: 0
         right: 0
       }
-      ${__.thumbContent}::before {
-        width: 24px
-        height: 2px
-        ${before}: -24px
-        top: -1px
-      }
+
       ${__.tick} {
         width: inherit
         height: 2px

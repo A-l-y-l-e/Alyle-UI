@@ -358,7 +358,8 @@ export function mergeThemes(target: any, ...sources: any[]): any {
         } else if (sourceKey instanceof Color) {
           target[key] = sourceKey;
         } else {
-          Object.assign(target, { [key]: source[key] });
+          // Object.assign(target, { [key]: source[key] });
+          target[key] = source[key];
         }
       }
     }
