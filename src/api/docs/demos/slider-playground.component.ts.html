@@ -1,20 +1,25 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> OnInit<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyTheme2 <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> lyl<span class="tt18 ttae">,</span> StyleRenderer <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 tt1j">const</span> <span class="tt18 ttbb">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-  sliderContainer<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
-    minHeight<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'48px'</span>
-  <span class="tt18 ttae">&#125;</span>
-<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
+    sliderContainer<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+      margin: 16px
+    &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-slider-playground'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./slider-playground.component.html'</span><span class="tt18 ttae">,</span>
-  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush<span class="tt18 ttae">,</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
+    StyleRenderer
+  <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">SliderPlaygroundComponent</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">OnInit</span> <span class="tt18 ttae">&#123;</span>
-  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">addStyleSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-  value <span class="tt18 ttb0">=</span> <span class="tt18 ttap">0</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>sRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  value <span class="tt18 ttb0">=</span> <span class="tt18 ttap">70</span><span class="tt18 ttae">;</span>
   min <span class="tt18 ttb0">=</span> <span class="tt18 ttap">0</span><span class="tt18 ttae">;</span>
   max <span class="tt18 ttb0">=</span> <span class="tt18 ttap">100</span><span class="tt18 ttae">;</span>
   step <span class="tt18 ttb0">=</span> <span class="tt18 ttap">10</span><span class="tt18 ttae">;</span>
@@ -25,6 +30,9 @@
   ticksPerStep <span class="tt18 ttb0">=</span> <span class="tt18 tted">true</span><span class="tt18 ttae">;</span>
   tickInterval <span class="tt18 ttb0">=</span> <span class="tt18 ttap">1</span><span class="tt18 ttae">;</span>
   disabled <span class="tt18 ttb0">=</span> <span class="tt18 tted">false</span><span class="tt18 ttae">;</span>
+  size<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'small'</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt3z">'medium'</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">'small'</span><span class="tt18 ttae">;</span>
+  color<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'primary'</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt3z">'accent'</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">'primary'</span><span class="tt18 ttae">;</span>
+  appearance<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'s<span style="background:tan;color:white;opacity:1">tan</span>dard'</span> <span class="tt18 ttb0">|</span> <span class="tt18 tt3z">'md'</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">'s<span style="background:tan;color:white;opacity:1">tan</span>dard'</span><span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">get</span> <span class="tt18 tta3">ticks</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span> <span class="tt18 ttb0">|</span> <span class="tt18 ttcj">boolean</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>showTicks
@@ -34,7 +42,9 @@
       <span class="tt18 ttb0">:</span> <span class="tt18 tted">false</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
-  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">private</span> theme<span class="tt18 ttb0">:</span> LyTheme2<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">ngOnInit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 ttae">&#125;</span>
