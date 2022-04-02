@@ -14,6 +14,9 @@
 * **slider:** add sizes ([7f8563c](https://github.com/A-l-y-l-e/Alyle-UI/commit/7f8563c3cbdc2a0df33323541e737a73143576a1))
 * **theme:** add `setDirection` method ([fa5aa4d](https://github.com/A-l-y-l-e/Alyle-UI/commit/fa5aa4d413c065322c5f1388ce4fa27c69a7a5de))
 
+### BREAKING CHANGES:
+
+* **Slider:** Slider styles have changed slightly, make sure they are what you expect after switching to Alyle UI v13
 
 
 ## [12.1.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/12.1.0...12.1.1) (2022-03-10)
