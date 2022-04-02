@@ -1,3 +1,21 @@
+# [13.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/12.1.1...13.0.0) (2022-04-02)
+
+
+### Bug Fixes
+
+* **tooltip:** tooltip does not disappear with DnD on mobile device ([9566299](https://github.com/A-l-y-l-e/Alyle-UI/commit/95662996b5f06152ef63f074dbac83efeec7e91b)), closes [#183](https://github.com/A-l-y-l-e/Alyle-UI/issues/183)
+
+
+### Features
+
+* add support for Angular 13 ([34a7151](https://github.com/A-l-y-l-e/Alyle-UI/commit/34a7151da4b2e82b99dddf67c561e3d1da48c510))
+* **slider:** add `md` appearance ([05d554e](https://github.com/A-l-y-l-e/Alyle-UI/commit/05d554e89cdce139acc4eba7722ab74681ede3d2))
+* **slider:** add demos ([6bef480](https://github.com/A-l-y-l-e/Alyle-UI/commit/6bef4809d37ecb9bd8166002c5782fd8970616f5))
+* **slider:** add sizes ([7f8563c](https://github.com/A-l-y-l-e/Alyle-UI/commit/7f8563c3cbdc2a0df33323541e737a73143576a1))
+* **theme:** add `setDirection` method ([fa5aa4d](https://github.com/A-l-y-l-e/Alyle-UI/commit/fa5aa4d413c065322c5f1388ce4fa27c69a7a5de))
+
+
+
 ## [12.1.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/12.1.0...12.1.1) (2022-03-10)
 
 
