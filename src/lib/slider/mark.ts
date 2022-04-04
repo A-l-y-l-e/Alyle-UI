@@ -1,7 +1,8 @@
 import { untilComponentDestroyed } from '@alyle/ui';
-import { Component, Input, Renderer2, ElementRef, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { LySlider, гvalueToPercent, гbetween } from './slider';
+import { Component, Input, Renderer2, ElementRef, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy, Inject } from '@angular/core';
+import { гvalueToPercent, гbetween } from './util';
 import { LyTick } from './tick';
+import { LY_SLIDER } from './tokens';
 
 @Component({
   selector: 'ly-mark',
@@ -16,23 +17,22 @@ export class LyMark implements OnInit, OnDestroy {
 
   @ViewChild(LyTick, { static: true}) _tick: LyTick;
 
-
   @Input() value: number;
 
-
   constructor(
-    private _slider: LySlider,
     private _renderer: Renderer2,
-    private _el: ElementRef
+    private _el: ElementRef,
+    @Inject(LY_SLIDER) public _slider?: any,
   ) {
     _renderer.addClass(_el.nativeElement, _slider.classes.mark);
   }
 
   ngOnInit() {
-    this._renderer.insertBefore(this._slider._getHostElement(), this._tick._getHostElement(), this._slider._ticksRef.nativeElement);
+    this._renderer.insertBefore(this._slider._wrapper.nativeElement, this._tick._getHostElement(), this._slider._ticksRef.nativeElement);
     this._slider._changes.pipe(untilComponentDestroyed(this)).subscribe(() => {
       this._updateMark();
     });
+    this._updateMark();
   }
 
   private _updateMark() {

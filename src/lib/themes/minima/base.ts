@@ -278,7 +278,196 @@ export class MinimaBase extends LyStyleUtils {
 
   slider: LySliderTheme = {
     appearance: {
-      standard: new StyleCollection()
+      standard: new StyleCollection(
+        __ => lyl `{
+          // always show visible thumb, when {thumbVisible} is available
+          &${__.thumbVisible} ${__.thumb},
+          // on hover
+          &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover ${__.thumb},
+          // on focused
+          &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused} ${__.thumb} {
+            border-radius: 50% 50% 0%
+          }
+          &${__.horizontal} {
+            ${__.thumbLabel} {
+              transform: rotateZ(45deg) scale(0)
+            }
+            ${__.thumbLabelValue} {
+              transform: rotateZ(-45deg)
+            }
+            ${__.thumb} {
+              transform: rotateZ(-135deg)
+            }
+            // always show visible thumb, when {thumbVisible} is available
+            &${__.thumbVisible} ${__.thumbLabel},
+            // on hover
+            &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+            // on focused
+            ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+              border-radius: 50% 50% 0%
+              top: -50px
+              transform: rotateZ(45deg) scale(1)
+            }
+            & ${__.thumbContent}::before {
+              width: 2px
+              height: 24px
+              left: -1px
+              top: -24px
+            }
+          }
+          &${__.vertical} {
+            ${__.thumbLabel} {
+              transform: rotateZ(-45deg) scale(0)
+            }
+            ${__.thumbLabelValue} {
+              transform: rotateZ(45deg)
+            }
+            ${__.thumb} {
+              transform: ${this.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'}
+            }
+            // always show visible thumb, when {thumbVisible} is available
+            &${__.thumbVisible} ${__.thumbLabel},
+            // on hover
+            &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+            // on focused
+            ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+              border-radius: ${this.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'}
+              ${this.before}: -50px
+              transform: rotateZ(-45deg) scale(1)
+            }
+            ${__.thumbContent}::before {
+              width: 24px
+              height: 2px
+              ${this.before}: -24px
+              top: -1px
+            }
+          }
+
+          ${__.thumbContent}::before {
+            content: ''
+            position: absolute
+            opacity: .6
+            transform: scale(0)
+            transition: transform ${
+              this.animations.durations.entering
+            }ms ${this.animations.curves.sharp} 0ms, background ${
+              this.animations.durations.complex
+            }ms ${this.animations.curves.sharp} 0ms
+          }
+
+          &${__.thumbVisible} ${__.thumbContent}::before,
+          &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover::before,
+          &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused}::before {
+            transform: scale(1)
+          }
+
+        }`
+      ),
+      md: new StyleCollection(
+        (__) => lyl `{
+          ${__.thumbLabel} {
+            width: unset
+            height: unset
+            right: unset
+            left: unset
+            padding: 0.5em 0.833em
+            font-size: 12px
+            border-radius: 4px
+            transform: scale(0)
+            &::before {
+              display: block
+              position: absolute
+              content: ''
+              background-color: inherit
+              width: 8px
+              height: 8px
+            }
+          }
+          &${__.horizontal} {
+            ${__.thumbLabel}::before {
+              bottom: 0
+              left: 50%
+              transform: translate(-50%, 50%) rotate(45deg)
+            }
+            // always show visible thumb, when {thumbVisible} is available
+            &${__.thumbVisible},
+            // on hover
+            &:not(${__.disabled}) ${__.thumbContent}:hover,
+            // on focused
+            & ${__.thumbContent}${__.thumbContentFocused} {
+              ${__.thumbLabel} {
+                top: -45px
+                transform: scale(1)
+              }
+            }
+          }
+          &${__.vertical} {
+            // always show visible thumb, when {thumbVisible} is available
+            &${__.thumbVisible} ${__.thumbLabel},
+            // on hover
+            &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
+            // on focused
+            ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
+              ${this.after}: 20px
+              transform: scale(1)
+            }
+            ${__.thumbLabel}::before {
+              top: 50%
+              ${this.after}: 0%
+              transform: translate(${this.isRTL() ? -50 : 50}%, -50%) rotate(45deg)
+          }
+        }`
+      )
+    },
+    size: {
+      small: new StyleCollection(
+        (__) => lyl `{
+          ${__.thumb} {
+            width: 14px
+            height: 14px
+          }
+          &${__.horizontal} {
+            ${__.wrapper} {
+              height: 2px
+            }
+          }
+          &${__.vertical} {
+            ${__.wrapper} {
+              width: 2px
+            }
+          }
+        }`
+      ),
+      medium: new StyleCollection(
+        (__) => lyl `{
+          ${__.thumb} {
+            width: 18px
+            height: 18px
+          }
+          ${__.track}, ${__.bg} {
+            border-radius: 12px
+          }
+          &${__.horizontal} {
+            ${__.wrapper} {
+              height: 4px
+            }
+            ${__.tick} {
+              height: 2px
+            }
+          }
+          &${__.vertical} {
+            ${__.wrapper} {
+              width: 4px
+            }
+            ${__.tick} {
+              width: 2px
+            }
+          }
+          ${__.track} {
+            border: 1px solid currentcolor
+          }
+        }`
+      )
     },
     color: ({
       track,
@@ -294,10 +483,16 @@ export class MinimaBase extends LyStyleUtils {
       vertical,
       thumbVisible,
       thumbNotVisible,
-      sliding
-    },      color) => lyl `{
+      sliding,
+    },      color, contrast) => lyl `{
+      ${track}, ${bg} {
+        color: ${color}
+      }
       & ${track}, & ${thumb}, & ${thumbLabel}, & ${bg}, & ${tick} {
         background-color: ${color}
+      }
+      ${thumbLabel} {
+        color: ${contrast}
       }
       &:not(${disabled}) ${thumbContentFocused} ${thumb}::before, &:not(${disabled}) ${thumb}:hover::before {
         box-shadow: 0 0 0 8px ${color.alpha(.13)}
@@ -306,7 +501,7 @@ export class MinimaBase extends LyStyleUtils {
         box-shadow: 0 0 0 16px ${color.alpha(.13)}
       }
       ${tickActive} {
-        background-color: ${color.luminance(0.6)}
+        background-color: ${contrast.alpha(0.5)}
       }
       ${bg} {
         opacity: .3
@@ -351,29 +546,28 @@ export class MinimaBase extends LyStyleUtils {
         horizontal,
         vertical
       },
-      color ) => {
-      const colorDisabled = color.darken(2)
-      .desaturate(2.5);
-      const colorDisabledLum0_4 = colorDisabled.luminance(.4);
+      _color
+    ) => {
+      const colorDisabled = (this as any).disabled.contrast;
       return lyl `{
         & ${track},
         & ${thumb},
         & ${thumbLabel},
         & ${bg},
         & ${tick} {
-          background-color: ${colorDisabled.luminance(.4).css()}
+          background-color: ${colorDisabled}
         }
         ${tickActive} {
-          background-color: ${colorDisabled.luminance(.6).css()}
+          background-color: ${colorDisabled}
         }
         &${horizontal} {
           & ${thumbContent}::before {
-            background: linear-gradient(0deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%)
+            background: linear-gradient(0deg, ${colorDisabled} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabled} 100%)
           }
         }
         &${vertical} {
           & ${thumbContent}::before {
-            background: linear-gradient(90deg, ${colorDisabledLum0_4} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabledLum0_4} 100%)
+            background: linear-gradient(90deg, ${colorDisabled} 0%, rgba(0, 0, 0, 0) 50%, ${colorDisabled} 100%)
           }
         }
         ${bg} {
@@ -384,6 +578,9 @@ export class MinimaBase extends LyStyleUtils {
         }
         &${vertical} ${thumbContainer}::before {
           background: ${(this as any).disabled.default}
+        }
+        ${track} {
+          border: 1px solid ${colorDisabled}
         }
       }`;
     }

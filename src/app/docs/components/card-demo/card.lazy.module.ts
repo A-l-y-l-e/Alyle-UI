@@ -1,4 +1,5 @@
 import { NgModule, Type } from '@angular/core';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 import { CardDemoBasicComponent } from './card-demo-basic/card-demo-basic.component';
 import { CardDemoBasicModule } from './card-demo-basic/card-demo-basic.module';
@@ -10,9 +11,8 @@ const elements = [
 @NgModule({
   imports: [
     CardDemoBasicModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

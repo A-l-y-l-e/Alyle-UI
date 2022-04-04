@@ -38,23 +38,17 @@ export class LyDialog {
       componentFactoryOrTemplate = this._componentFactoryResolver.resolveComponentFactory(componentOrTemplateRef);
     }
 
-    const onReziseScroll = () => {
-      // I would have used FlexBox to position, but not,
-      // because it creates a blurring effect in the text
-      // when the `dialog` is opened
-      const dialogContainerElement = overlayRef.containerElement;
-      const x = window.innerWidth / 2 - dialogContainerElement.offsetWidth / 2;
-      const y = window.innerHeight / 2 - dialogContainerElement.offsetHeight / 2;
-      dialogContainerElement.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`;
-    };
+    const noop = () => {};
 
     const overlayRef = this._overlay.create(LyDialogContainer, null, {
       styles: {
         top: 0,
-        left: 0
+        left: 0,
+        right: 0,
+        bottom: 0
       },
       hasBackdrop: config.hasBackdrop,
-      onResizeScroll: onReziseScroll,
+      onResizeScroll: noop,
       disableClose: config.disableClose,
       backdropClass: config.backdropClass || this._theme.style(STYLES_BACKDROP_DARK),
       fnDestroy: () => {
@@ -70,7 +64,8 @@ export class LyDialog {
           instance,
           { key: property, и: LyStyle.и },
           config![property],
-          LyStyle[property]
+          LyStyle[property],
+          LyStyle.$priority
         );
       }
     });

@@ -46,8 +46,13 @@ const classList = [
   'class-name',
   'builtin',
   'property',
-  'selector'
-];
+  'selector',
+  'at',
+  'decorator',
+  'template-string',
+  'boolean',
+  'function-variable'
+]; // Must be equal to: Alyle-UI/src/app/core/prism-custom-class.ts
 export const prismCustomClass = () => {
   if (!customClass) {
     customClass = {};

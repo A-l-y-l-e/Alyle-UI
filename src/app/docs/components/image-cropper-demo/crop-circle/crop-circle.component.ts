@@ -1,19 +1,25 @@
 import { Component, ChangeDetectionStrategy, AfterViewInit, ViewChild } from '@angular/core';
-import { lyl, WithStyles, StyleRenderer, ThemeVariables } from '@alyle/ui';
+import { lyl, WithStyles, StyleRenderer, ThemeVariables, ThemeRef } from '@alyle/ui';
 import {
+  STYLES as CROPPER_STYLES,
   LyImageCropper,
   ImgCropperConfig,
   ImgCropperEvent,
-  ImgCropperErrorEvent
+  ImgCropperErrorEvent,
+  ImgCropperLoaderConfig
 } from '@alyle/ui/image-cropper';
 import { Platform } from '@angular/cdk/platform';
 
-const STYLES = (_theme: ThemeVariables) => {
+const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
+  ref.renderStyleSheet(CROPPER_STYLES);
+  const cropper = ref.selectorsOf(CROPPER_STYLES);
 
   return {
-    cropper: lyl `{
-      max-width: 400px
-      height: 300px
+    root: lyl `{
+      ${cropper.root} {
+        max-width: 400px
+        height: 300px
+      }
     }`,
     sliderContainer: lyl `{
       text-align: center
@@ -29,10 +35,13 @@ const STYLES = (_theme: ThemeVariables) => {
 @Component({
   selector: 'aui-crop-circle',
   templateUrl: './crop-circle.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class CropCircleComponent implements WithStyles, AfterViewInit {
-  classes = this.sRenderer.renderSheet(STYLES);
+  classes = this.sRenderer.renderSheet(STYLES, 'root');
   croppedImage?: string;
   scale: number;
   ready: boolean;
@@ -56,22 +65,14 @@ export class CropCircleComponent implements WithStyles, AfterViewInit {
     // demo: Load image from URL and update position, scale, rotate
     // this is supported only for browsers
     if (this._platform.isBrowser) {
-      const config = {
+      const config: ImgCropperLoaderConfig = {
         scale: 0.745864772531767,
-        position: {
-          x: 642.380608078103,
-          y: 236.26357452128866
-        }
+        xOrigin: 642.380608078103,
+        yOrigin: 236.26357452128866,
+        // rotation: 90,
+        originalDataURL: 'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash-1.png?alt=media&token=96a29be5-e3ef-4f71-8437-76ac8013372c'
       };
-      this.cropper.setImageUrl(
-        'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash-1.png?alt=media&token=96a29be5-e3ef-4f71-8437-76ac8013372c',
-        () => {
-          this.cropper.setScale(config.scale, true);
-          this.cropper.updatePosition(config.position.x, config.position.y);
-          // You can also rotate the image
-          // this.cropper.rotate(90);
-        }
-      );
+      this.cropper.loadImage(config);
     }
 
   }

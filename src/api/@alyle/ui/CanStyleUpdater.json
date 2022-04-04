@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui",
-  "name": "CanStyleUpdater",
-  "symbol": "Interface",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">interface</span> <span class=\"tt18 ttc8\">CanStyleUpdater</span> <span class=\"tt18 ttae\">&#123;</span>\n  _theme<span class=\"tt18 ttb0\">:</span> LyTheme2<span class=\"tt18 ttae\">;</span>\n  <span class=\"tt18 function-variable tta3\">updateStyle</span><span class=\"tt18 ttb0\">:</span> <span class=\"tt18 ttae\">(</span><span class=\"tt18 parameter\">element<span class=\"tt18 ttb0\">:</span> ElementRef <span class=\"tt18 ttb0\">|</span> Element</span><span class=\"tt18 ttae\">)</span> <span class=\"tt18 ttb0\">=></span> <span class=\"tt18 tt1j\">void</span><span class=\"tt18 ttae\">;</span>\n  <span class=\"tt18 function-variable tta3\">setAutoContrast</span><span class=\"tt18 ttb0\">:</span> <span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span> <span class=\"tt18 ttb0\">=></span> <span class=\"tt18 tt1j\">void</span><span class=\"tt18 ttae\">;</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
-}

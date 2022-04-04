@@ -3,6 +3,7 @@ let customClass: null | {
   [key: string]: string
 } = null;
 
+
 const classList = [
   'pre',
   'code',
@@ -46,8 +47,13 @@ const classList = [
   'class-name',
   'builtin',
   'property',
-  'selector'
-];
+  'selector',
+  'at',
+  'decorator',
+  'template-string',
+  'boolean',
+  'function-variable'
+]; // Must be equal to: Alyle-UI/tools/src/html-loader/prism-custom-class.ts
 export const prismCustomClass = () => {
   if (!customClass) {
     customClass = {};
@@ -57,3 +63,4 @@ export const prismCustomClass = () => {
   }
   return customClass;
 };
+

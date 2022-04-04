@@ -1,16 +1,16 @@
 import { Tree } from '@angular-devkit/schematics';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { getDecoratorMetadata, findNode } from '@schematics/angular/utility/ast-utils';
+import { getDecoratorMetadata, findNode } from './vendored-ast-utils';
 import * as ts from 'typescript';
 import { dirname } from 'path';
 import { normalize } from '@angular-devkit/core';
 import { getTsSourceFile } from './ast';
 import { Schema } from '../ng-add/schema';
 import { getProjectFromWorkspace, getProjectMainFile } from '@angular/cdk/schematics';
-import { getWorkspace } from '@schematics/angular/utility/config';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-export function getAppComponentPath(host: Tree, options: Schema) {
-  const workspace = getWorkspace(host);
+export async function getAppComponentPath(host: Tree, options: Schema) {
+  const workspace = await getWorkspace(host);
   const project = getProjectFromWorkspace(workspace, options.project);
   const mainPath = getProjectMainFile(project);
   const modulePath = getAppModulePath(host, mainPath);

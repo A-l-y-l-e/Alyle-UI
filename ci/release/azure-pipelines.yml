@@ -12,11 +12,11 @@ jobs:
 
 - job: Release
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'ubuntu-20.04'
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '12.x'
+      versionSpec: '16.x'
   - script: |
       sh ci/scripts/release.sh
     displayName: Release

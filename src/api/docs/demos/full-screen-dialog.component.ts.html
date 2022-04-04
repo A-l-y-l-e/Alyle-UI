@@ -8,36 +8,36 @@
   borderRadius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">0</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
-@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-full-screen-dialog'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./full-screen-dialog.component.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">FullScreenDialogComponent</span> <span class="tt18 ttae">&#123;</span>
 
-  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> _dialog<span class="tt18 ttb0">:</span> LyDialog<span class="tt18 ttae">,</span>
-    <span class="tt18 tt1j">private</span> _theme<span class="tt18 ttb0">:</span> LyTheme2</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 tt1j">private</span> _dialog<span class="tt18 ttb0">:</span> LyDialog<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> _theme<span class="tt18 ttb0">:</span> LyTheme2
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">open</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">const</span> dialogRef <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_dialog<span class="tt18 ttae">.</span>open<span class="tt18 ttb0">&lt;</span>FullScreenDialog<span class="tt18 ttb0">></span><span class="tt18 ttae">(</span>FullScreenDialog<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">const</span> dialogRef <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_dialog<span class="tt18 ttae">.</span><span class="tt18 generic-function"><span class="tt18 tta3">open</span><span class="tt18 generic ttc8"><span class="tt18 ttb0">&lt;</span>FullScreenDialog<span class="tt18 ttb0">></span></span></span><span class="tt18 ttae">(</span>FullScreenDialog<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span>
       maxWidth<span class="tt18 ttb0">:</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// current style overrides</span>
       maxHeight<span class="tt18 ttb0">:</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// current style overrides</span>
       containerClass<span class="tt18 ttb0">:</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_theme<span class="tt18 ttae">.</span><span class="tt18 tta3">style</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES_DIALOG</span><span class="tt18 ttae">)</span>
     <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-    dialogRef<span class="tt18 ttae">.</span>afterClosed<span class="tt18 ttae">.</span><span class="tt18 tta3">subscribe</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 parameter">result</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span>result<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    dialogRef<span class="tt18 ttae">.</span>afterClosed<span class="tt18 ttae">.</span><span class="tt18 tta3">subscribe</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span>result<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span>result<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
 <span class="tt18 ttae">&#125;</span>
 
-@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./full-screen-dialog.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">FullScreenDialog</span> <span class="tt18 ttae">&#123;</span>
-  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">public</span> dialogRef<span class="tt18 ttb0">:</span> LyDialogRef</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 tt1j">public</span> dialogRef<span class="tt18 ttb0">:</span> LyDialogRef
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>

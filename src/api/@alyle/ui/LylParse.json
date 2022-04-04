@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui",
-  "name": "LylParse",
-  "symbol": "Class",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt3o\">/**\n * Transform a lyl style block to CSS\n *\n * Allowed blocks:\n *\n * // Simple\n * const BUTTON_STYLE = lyl `&#123;\n *   padding: 8px 12px\n *   font-size: 14px\n *   border-radius: 9px\n *   border: 1px solid #e0e0e0\n * &#125;`\n *\n * // Nesting\n * const style = lyl `&#123;\n *   ul > &#123;\n *     li &#123;\n *       list-style-type: none\n *     &#125;\n *   &#125;\n *   p &#123;\n *     ~ &#123;\n *       span &#123;\n *         opacity: 0.8\n *       &#125;\n *     &#125;\n *   &#125;\n * &#125;`\n *\n */</span>\n<span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">class</span> <span class=\"tt18 ttc8\">LylParse</span> <span class=\"tt18 ttae\">&#123;</span>\n    <span class=\"tt18 tta3\">toCss</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 ttae\">)</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
-}

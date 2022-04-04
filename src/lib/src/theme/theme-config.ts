@@ -24,10 +24,13 @@ export interface ThemeConfig {
   };
   paper: DefaultVal & PaletteColor;
   background: {
-    /** secondary */
+    /** Secondary */
     default: Color
+    /** @deprecated use paper.default instead */
     primary: DefaultVal & PaletteColor
+    /** @deprecated use background.default instead */
     secondary: Color
+    /** @deprecated */
     tertiary: Color
   };
   hover: Color;
@@ -61,7 +64,7 @@ export interface ThemeConfig {
     overlay: number
     [key: string]: number
   };
-  direction?: Dir;
+  direction?: Dir | `${Dir}`;
   animations: {
     curves: {
       standard: string

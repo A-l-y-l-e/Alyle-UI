@@ -7,7 +7,7 @@ import { testConfig } from './config/test-config';
 import { karmaConf } from './config/karma.conf';
 import { PackageConf } from './config/package.conf';
 
-const camelCase = (str: string) => str.replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/\s+/g, '');
+// const camelCase = (str: string) => str.replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/\s+/g, '');
 
 const dirLib = `${process.cwd()}/src/lib`;
 const dist = `${process.cwd()}/dist/lib`;
@@ -29,8 +29,7 @@ components.forEach((lib, index) => {
     writeFileSync(`${dist}/${lib.path}/package.json`, JSON.stringify({
       ngPackage: {
         lib: {
-          entryFile: 'public_api.ts',
-          umdId: `ly.${camelCase(lib.path)}`
+          entryFile: 'public_api.ts'
         }
       }
     }), 'utf8');

@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui",
-  "name": "shadowBuilder",
-  "symbol": "Function",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">function</span> <span class=\"tt18 tta3\">shadowBuilder</span><span class=\"tt18 ttae\">(</span><span class=\"tt18 parameter\">elevation<span class=\"tt18 ttb0\">:</span> <span class=\"tt18 ttcj\">number</span> <span class=\"tt18 ttb0\">|</span> <span class=\"tt18 ttcj\">string</span><span class=\"tt18 ttae\">,</span> color<span class=\"tt18 ttb0\">?</span><span class=\"tt18 ttb0\">:</span> Color</span><span class=\"tt18 ttae\">)</span></code></pre>"
-}

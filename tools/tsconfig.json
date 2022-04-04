@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "lib": ["es6", "dom", "es2015.promise", "es2015.collection", "es2015.iterable", "es2015.core"],
-    "module": "commonjs",
+    "lib": ["es2020"],
+    "module": "es2020",
     "outDir": "../dist/tools",
     "strictNullChecks": true,
+    "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es2018",
+    "target": "es2020",
     "noFallthroughCasesInSwitch": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
     "typeRoots": [
       "../node_modules/@types"
     ]
@@ -14,5 +17,9 @@
   "compileOnSave": false,
   "include": [
     "src"
+  ],
+  "exclude": [
+    "src/generate-api-docs.ts",
+    "src/**/*.test.ts",
   ]
 }

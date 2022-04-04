@@ -8,17 +8,29 @@ import {
   ViewChild,
   EventEmitter,
   Renderer2,
-  HostListener,
   OnDestroy,
   NgZone,
-  Inject
+  Inject,
+  OnInit
 } from '@angular/core';
-import { mergeDeep, LY_COMMON_STYLES, ThemeVariables, lyl, ThemeRef, StyleCollection, LyClasses, StyleTemplate, StyleRenderer } from '@alyle/ui';
+import {
+  mergeDeep,
+  LY_COMMON_STYLES,
+  ThemeVariables,
+  lyl,
+  ThemeRef,
+  StyleCollection,
+  LyClasses,
+  StyleTemplate,
+  StyleRenderer,
+  WithStyles,
+  Style } from '@alyle/ui';
 import { Subject, Observable } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
 import { resizeCanvas } from './resize-canvas';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 
 export interface LyImageCropperTheme {
   /** Styles for Image Cropper Component */
@@ -32,6 +44,8 @@ export interface LyImageCropperVariables {
 
 const activeEventOptions = normalizePassiveListenerOptions({passive: false});
 const STYLE_PRIORITY = -2;
+const DATA_IMAGE_SVG_PREFIX = 'data:image/svg+xml;base64,';
+const pos = (100 * Math.sqrt(2) - 100) / 2 / Math.sqrt(2);
 
 export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) => {
   const cropper = ref.selectorsOf(STYLES);
@@ -79,8 +93,6 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
       box-shadow: 0 0 0 20000px rgba(0, 0, 0, 0.4)
       ...${LY_COMMON_STYLES.fill}
       margin: auto
-      max-width: 100%
-      max-height: 100%
       &:before, &:after {
         ...${LY_COMMON_STYLES.fill}
         content: ''
@@ -187,6 +199,13 @@ export class ImgCropperConfig {
    * default: false
    */
   keepAspectRatio?: boolean;
+  /**
+   * Whether the cropper area is responsive.
+   * By default, the width and height of the cropper area is fixed,
+   * so can use when the cropper area is larger than its container,
+   * otherwise this will bring problems when cropping.
+   */
+  responsiveArea?: boolean;
 }
 
 /**
@@ -209,7 +228,7 @@ export interface ImgOutput {
 /** Image output */
 export enum ImgResolution {
   /**
-   * The output image will be equal to the size of the crop area.
+   * The output image will be equal to the initial size of the cropper area.
    */
   Default,
   /** Just crop the image without resizing */
@@ -232,7 +251,13 @@ export interface ImgCropperEvent {
   name: string | null;
   /** Filetype */
   type?: string;
+  /** Cropped area width */
+  areaWidth: number;
+  /** Cropped area height */
+  areaHeight: number;
+  /** Cropped image width */
   width: number;
+  /** Cropped image height */
   height: number;
   /** Original Image data URL */
   originalDataURL?: string;
@@ -241,13 +266,19 @@ export interface ImgCropperEvent {
   rotation: number;
   /** Size of the image in bytes */
   size: number;
-  /** Offset from the left edge of the image */
+  /** Scaled offset from the left edge of the image */
   left: number;
-  /** Offset from the top edge of the image */
+  /** Scaled offset from the top edge of the image */
   top: number;
-  /** Offset from the left edge of the image to center of area */
+  /**
+   * Scaled offset from the left edge of the image to center of area
+   * Can be used to set image position
+   */
   xOrigin: number;
-  /** Offset from the left edge of the image to center of area */
+  /**
+   * Scaled offset from the top edge of the image to center of area
+   * Can be used to set image position
+   */
   yOrigin: number;
   /** @deprecated Use `xOrigin & yOrigin` instead. */
   position?: {
@@ -257,7 +288,7 @@ export interface ImgCropperEvent {
 }
 
 export interface ImgCropperErrorEvent {
-  name: string;
+  name?: string;
   /** Size of the image in bytes */
   size: number;
   /** Filetype */
@@ -277,6 +308,31 @@ interface ImgRect {
   ht: number;
 }
 
+export interface ImgCropperLoaderConfig {
+  name?: string | null;
+  /** Filetype */
+  type?: string;
+  /** Cropped area width */
+  areaWidth?: number;
+  /** Cropped area height */
+  areaHeight?: number;
+  /** Cropped image width */
+  width?: number;
+  /** Cropped image height */
+  height?: number;
+  /** Original Image data URL */
+  originalDataURL: string;
+  scale?: number;
+  /** Current rotation in degrees */
+  rotation?: number;
+  /** Size of the image in bytes */
+  size?: number;
+  /** Offset from the left edge of the image to center of area */
+  xOrigin?: number;
+  /** Offset from the top edge of the image to center of area */
+  yOrigin?: number;
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
@@ -285,16 +341,17 @@ interface ImgRect {
   providers: [
     StyleRenderer
   ]
- })
-export class LyImageCropper implements OnDestroy {
+})
+export class LyImageCropper implements OnInit, OnDestroy {
   static readonly и = 'LyImageCropper';
   /**
    * styles
    * @docs-private
    */
   readonly classes = this.sRenderer.renderSheet(STYLES, true);
-  _originalImgBase64?: string;
-  private _fileName: string | null;
+  private _currentLoadConfig?: ImgCropperLoaderConfig;
+  // _originalImgBase64?: string;
+  // private _fileName: string | null;
 
   /** Original image */
   private _img: HTMLImageElement;
@@ -307,10 +364,13 @@ export class LyImageCropper implements OnDestroy {
   private _scale?: number;
   private _scal3Fix?: number;
   private _minScale?: number;
+  private _maxScale?: number;
+  /** Initial config */
+  private _configPrimary: ImgCropperConfig;
   private _config: ImgCropperConfig;
   private _imgRect: ImgRect = {} as any;
-  private _rotation: number;
-  private _sizeInBytes: number | null;
+  private _rotation: number = 0;
+  // private _sizeInBytes: number | null;
   private _isSliding: boolean;
   /** Keeps track of the last pointer event that was captured by the crop area. */
   private _lastPointerEvent: MouseEvent | TouchEvent | null;
@@ -318,6 +378,10 @@ export class LyImageCropper implements OnDestroy {
     x: number
     y: number
   } | null;
+  _primaryAreaWidth: number;
+  _primaryAreaHeight: number;
+
+  _absoluteScale: number;
 
   /**
    * When is loaded image
@@ -342,6 +406,15 @@ export class LyImageCropper implements OnDestroy {
   }
   set config(val: ImgCropperConfig) {
     this._config = mergeDeep({}, new ImgCropperConfig(), val);
+    this._configPrimary = mergeDeep({}, this._config);
+    this._primaryAreaWidth = this.config.width;
+    this._primaryAreaHeight = this.config.height;
+    if (
+      this._config.round
+      && this.config.width !== this.config.height
+    ) {
+      throw new Error(`${LyImageCropper.и}: Both width and height must be equal when using \`ImgCropperConfig.round = true\``);
+    }
     const maxFileSize = this._config.maxFileSize;
     if (maxFileSize) {
       this.maxFileSize = maxFileSize;
@@ -369,8 +442,11 @@ export class LyImageCropper implements OnDestroy {
 
   @Output() readonly scaleChange = new EventEmitter<number>();
 
-  // tslint:disable-next-line: no-output-rename
+  /** Emits minimum supported image scale */
   @Output('minScale') readonly minScaleChange = new EventEmitter<number>();
+
+  /** Emits maximum supported image scale */
+  @Output('maxScale') readonly maxScaleChange = new EventEmitter<number>();
 
   /** @deprecated Emits when the image is loaded, instead use `ready` */
   @Output() readonly loaded = new EventEmitter<ImgCropperEvent>();
@@ -388,9 +464,9 @@ export class LyImageCropper implements OnDestroy {
   @Output() readonly cleaned = new EventEmitter<void>();
 
   /** Emit an error when the loaded image is not valid */
+  // tslint:disable-next-line: no-output-native
   @Output() readonly error = new EventEmitter<ImgCropperErrorEvent>();
 
-  private _defaultType?: string;
   private _currentInputElement?: HTMLInputElement;
 
   /** Emits whenever the component is destroyed. */
@@ -406,8 +482,14 @@ export class LyImageCropper implements OnDestroy {
     private cd: ChangeDetectorRef,
     private _ngZone: NgZone,
     @Inject(DOCUMENT) _document: any,
+    viewPortRuler: ViewportRuler
   ) {
     this._document = _document;
+    viewPortRuler.change()
+    .pipe(takeUntil(this._destroy))
+    .subscribe(() =>
+      this._ngZone.run(() => this.updateCropperPosition())
+    );
   }
 
   ngOnInit() {
@@ -428,6 +510,7 @@ export class LyImageCropper implements OnDestroy {
     element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
   }
 
+  /** Load image with canvas */
   private _imgLoaded(imgElement: HTMLImageElement) {
     if (imgElement) {
       this._img = imgElement;
@@ -435,11 +518,12 @@ export class LyImageCropper implements OnDestroy {
       canvas.width = imgElement.width;
       canvas.height = imgElement.height;
       const ctx = canvas.getContext('2d')!;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, imgElement.width, imgElement.height);
       ctx.drawImage(imgElement, 0, 0);
 
       /** set min scale */
       this._updateMinScale(canvas);
+      this._updateMaxScale();
     }
   }
 
@@ -448,7 +532,7 @@ export class LyImageCropper implements OnDestroy {
     y?: number
   }) {
     const newStyles = { } as any;
-    if (values.x !== void 0 && values.y !== void 0) {
+    if (values.x != null && values.y != null) {
       const rootRect = this._rootRect();
       const x = rootRect.width / 2 - (values.x);
       const y = rootRect.height / 2 - (values.y);
@@ -470,13 +554,18 @@ export class LyImageCropper implements OnDestroy {
       }
     }
   }
-
-  @HostListener('window:resize') _resize$() {
+  /**
+   * Update area and image position only if needed,
+   * this is used when window resize
+   */
+  updateCropperPosition() {
     if (this.isLoaded) {
       this.updatePosition();
+      this._updateAreaIfNeeded();
     }
   }
 
+  /** Load Image from input event */
   selectInputEvent(img: Event) {
     this._currentInputElement = img.target as HTMLInputElement;
     const _img = img.target as HTMLInputElement;
@@ -514,17 +603,14 @@ export class LyImageCropper implements OnDestroy {
       .pipe(take(1), takeUntil(this._destroy))
       .subscribe(
         (loadEvent) => {
-          const originalImageUrl = (loadEvent.target as FileReader).result as string;
-          // Set type
-          if (!this.config.type) {
-            this._defaultType = _img.files![0].type;
-          }
-          // set name
-          this._fileName = fileName;
-          // set file size
-          this._sizeInBytes = _img.files![0].size;
+          const originalDataURL = (loadEvent.target as FileReader).result as string;
 
-          this.setImageUrl(originalImageUrl);
+          this.loadImage({
+            name: fileName,
+            size: _img.files![0].size, // size in bytes
+            type: this.config.type || _img.files![0].type,
+            originalDataURL
+          });
 
           this.cd.markForCheck();
         },
@@ -555,6 +641,7 @@ export class LyImageCropper implements OnDestroy {
       return;
     }
     this._scal3Fix = newSize;
+    this._updateAbsoluteScale();
     if (this.isLoaded) {
       if (changed) {
         const originPosition = {...this._imgRect};
@@ -596,7 +683,7 @@ export class LyImageCropper implements OnDestroy {
   }
 
   /**
-   * Ajustar a la pantalla
+   * Fit to screen
    */
   fitToScreen() {
     const container = this._elementRef.nativeElement as HTMLElement;
@@ -690,7 +777,9 @@ export class LyImageCropper implements OnDestroy {
       const limitLeft = (config.width / 2 / scaleFix) >= startP.left - (deltaX / scaleFix);
       const limitRight = (config.width / 2 / scaleFix) + (canvas.width) - (startP.left - (deltaX / scaleFix)) <= config.width / scaleFix;
       const limitTop = ((config.height / 2 / scaleFix) >= (startP.top - (deltaY / scaleFix)));
-      const limitBottom = (((config.height / 2 / scaleFix) + (canvas.height) - (startP.top - (deltaY / scaleFix))) <= (config.height / scaleFix));
+      const limitBottom = (
+        ((config.height / 2 / scaleFix) + (canvas.height) - (startP.top - (deltaY / scaleFix))) <= (config.height / scaleFix)
+      );
 
       // Limit for left
       if ((limitLeft && !isMinScaleX) || (!limitLeft && isMinScaleX)) {
@@ -729,15 +818,27 @@ export class LyImageCropper implements OnDestroy {
     }
   }
 
+  updatePosition(): void;
+  updatePosition(xOrigin: number, yOrigin: number): void;
   updatePosition(xOrigin?: number, yOrigin?: number) {
     const hostRect = this._rootRect();
     const areaRect = this._areaCropperRect();
-    if (xOrigin === undefined && yOrigin === undefined) {
+    const areaWidth = areaRect.width > hostRect.width
+      ? hostRect.width
+      : areaRect.width;
+    const areaHeight = areaRect.height > hostRect.height
+      ? hostRect.height
+      : areaRect.height;
+    let x: number, y: number;
+    if (xOrigin == null && yOrigin == null) {
       xOrigin = this._imgRect.xc;
       yOrigin = this._imgRect.yc;
     }
-    const x = (areaRect.left - hostRect.left) - (xOrigin! - (this.config.width / 2));
-    const y = (areaRect.top - hostRect.top) - (yOrigin! - (this.config.height / 2));
+    x = (areaRect.left - hostRect.left);
+    y = (areaRect.top - hostRect.top);
+    x -= (xOrigin! - (areaWidth / 2));
+    y -= (yOrigin! - (areaHeight / 2));
+
     this._setStylesForContImg({
       x, y
     });
@@ -753,13 +854,13 @@ export class LyImageCropper implements OnDestroy {
     }
   }
 
-  /**+ */
+  /** + */
   zoomIn() {
     const scale = this._scal3Fix! + .05;
-    if (scale > 0 && scale <= 1) {
+    if (scale > this.minScale! && scale <= this._maxScale!) {
       this.setScale(scale);
     } else {
-      this.setScale(1);
+      this.setScale(this._maxScale!);
     }
   }
 
@@ -780,7 +881,8 @@ export class LyImageCropper implements OnDestroy {
       this._isLoadedImg = false;
       this.isLoaded = false;
       this.isCropped = false;
-      this._originalImgBase64 = undefined;
+      this._currentLoadConfig = undefined;
+      this.config = this._configPrimary;
       const canvas = this._imgCanvas.nativeElement;
       canvas.width = 0;
       canvas.height = 0;
@@ -789,10 +891,10 @@ export class LyImageCropper implements OnDestroy {
     }
   }
 
-  /**- */
+  /** - */
   zoomOut() {
     const scale = this._scal3Fix! - .05;
-    if (scale > this.minScale! && scale <= 1) {
+    if (scale > this.minScale! && scale <= this._maxScale!) {
       this.setScale(scale);
     } else {
       this.fit();
@@ -805,28 +907,27 @@ export class LyImageCropper implements OnDestroy {
     this._setStylesForContImg(newStyles);
     this._cropIfAutoCrop();
   }
-
-/**
- * Load Image from URL
- * @param src URL
- * @param fn function that will be called before emit the event loaded
- */
-  setImageUrl(src: string, fn?: () => void) {
+  /**
+   * load an image from a given configuration,
+   * or from the result of a cropped image
+   */
+  loadImage(config: ImgCropperLoaderConfig | string, fn?: () => void) {
     this.clean();
-    this._originalImgBase64 = src;
+    const _config = this._currentLoadConfig = typeof config === 'string'
+      ? { originalDataURL: config }
+      : { ...config };
+    let src = _config.originalDataURL;
+    this._primaryAreaWidth = this._configPrimary.width;
+    this._primaryAreaHeight = this._configPrimary.height;
+    if (_config.areaWidth && _config.areaHeight) {
+      this.config.width = _config.areaWidth;
+      this.config.height = _config.areaHeight;
+    }
     src = normalizeSVG(src);
 
     const img = createHtmlImg(src);
-    const fileSize = this._sizeInBytes;
-    const fileName = this._fileName;
-    const defaultType = this._defaultType;
 
-    const cropEvent = {
-      name: fileName,
-      type: defaultType,
-      originalDataURL: src,
-      size: fileSize || undefined
-    } as ImgCropperEvent;
+    const cropEvent = { ..._config } as ImgCropperEvent;
 
     new Observable<void>(observer => {
 
@@ -838,59 +939,147 @@ export class LyImageCropper implements OnDestroy {
     .subscribe(
       () => {
         this._imgLoaded(img);
-        cropEvent.width = img.width;
-        cropEvent.height = img.height;
         this._isLoadedImg = true;
         this.imageLoaded.emit(cropEvent);
         this.cd.markForCheck();
-        this._ngZone
-          .onStable
-          .pipe(take(1), takeUntil(this._destroy))
-          .subscribe(
-            () => setTimeout(() => this._ngZone.run(() => this._positionImg(cropEvent, fn)))
-          );
+        this._ngZone.runOutsideAngular(() => {
+          this._ngZone
+            .onStable
+            .asObservable()
+            .pipe(take(1), takeUntil(this._destroy))
+            .subscribe(
+              () => setTimeout(() => this._ngZone.run(() => this._positionImg(cropEvent, fn)))
+            );
+        });
       },
       () => {
         const error: ImgCropperErrorEvent = {
-          name: fileName!,
+          name: _config.name!,
           error: ImgCropperError.Type,
-          type: defaultType!,
-          size: fileSize!
+          type: _config.type!,
+          size: _config.size!
         };
         this.error.emit(error);
       }
     );
+  }
 
+  private _updateAreaIfNeeded() {
+    if (!this._config.responsiveArea) {
+      return;
+    }
 
-    // clear
-    this._sizeInBytes = null;
-    this._fileName = null;
-    this._defaultType = undefined;
+    const rootRect = this._rootRect();
+    const areaRect = this._areaCropperRect();
+    const minWidth = this.config.minWidth || 1;
+    const minHeight = this.config.minHeight || 1;
+    if (!(
+      areaRect.width > rootRect.width
+      || areaRect.height > rootRect.height
+      || areaRect.width < this._primaryAreaWidth
+      || areaRect.height < this._primaryAreaHeight
+    )) {
+      return;
+    }
+    const areaWidthConf = Math.max(this.config.width, minWidth);
+    const areaWidthMax = Math.max(rootRect.width, minWidth);
+    const minHost = Math.min(
+      Math.max(rootRect.width, minWidth), Math.max(rootRect.height, minHeight)
+    );
+    const currentScale = this._scal3Fix!;
+    let newScale = 0;
+    const roundConf = this.config.round;
+
+    if (roundConf) {
+      this.config.width = this.config.height = minHost;
+    } else {
+      if (areaWidthConf === areaRect.width) {
+        if (areaWidthMax > this._primaryAreaWidth) {
+          this.config.width = this._primaryAreaWidth;
+          this.config.height = (this._primaryAreaWidth * areaRect.height) / areaRect.width;
+          newScale = (currentScale * this._primaryAreaWidth) / areaRect.width;
+        } else {
+          this.config.width = areaWidthMax;
+          this.config.height = (areaWidthMax * areaRect.height) / areaRect.width;
+          newScale = (currentScale * areaWidthMax) / areaRect.width;
+        }
+        this._updateMinScale();
+        this._updateMaxScale();
+        this.setScale(newScale, true);
+        this._markForCheck();
+      }
+    }
+  }
+
+  private _updateAbsoluteScale() {
+    const scale = this._scal3Fix! / (this.config.width / this._primaryAreaWidth);
+    this._absoluteScale = scale;
+  }
+
+  /**
+   * Load Image from URL
+   * @deprecated Use `loadImage` instead of `setImageUrl`
+   * @param src URL
+   * @param fn function that will be called before emit the event loaded
+   */
+  setImageUrl(src: string, fn?: () => void) {
+    this.loadImage(src, fn);
   }
 
   private _positionImg(cropEvent: ImgCropperEvent, fn?: () => void) {
+    const loadConfig = this._currentLoadConfig!;
     this._updateMinScale(this._imgCanvas.nativeElement);
+    this._updateMaxScale();
     this.isLoaded = false;
-
     if (fn) {
       fn();
     } else {
-      this.setScale(this.minScale, true);
+      if (loadConfig.scale) {
+        this.setScale(loadConfig.scale, true);
+      } else {
+        this.setScale(this.minScale, true);
+      }
+      this.rotate(loadConfig.rotation || 0);
+      this._updateAreaIfNeeded();
+      this._markForCheck();
+      this._ngZone.runOutsideAngular(() => {
+        this._ngZone
+          .onStable
+          .asObservable()
+          .pipe(take(1), takeUntil(this._destroy))
+          .subscribe(() => {
+            if (loadConfig.xOrigin != null && loadConfig.yOrigin != null) {
+              this.updatePosition(loadConfig.xOrigin, loadConfig.yOrigin);
+            }
+            this._updateAreaIfNeeded();
+            this.isLoaded = true;
+            this._cropIfAutoCrop();
+            this._ngZone.run(() => {
+              this._markForCheck();
+              this.ready.emit(cropEvent);
+              // tslint:disable-next-line: deprecation
+              this.loaded.emit(cropEvent);
+            });
+          });
+      });
     }
-
-    this.isLoaded = true;
-    this._cropIfAutoCrop();
-    this.ready.emit(cropEvent);
-    this.loaded.emit(cropEvent);
-    this.cd.markForCheck();
   }
 
   rotate(degrees: number) {
-    const validDegrees = this._rotation = convertToValidDegrees(degrees);
+    let validDegrees = _normalizeDegrees(degrees);
+    // If negative convert to positive
+    if (validDegrees < 0) {
+      validDegrees += 360;
+    }
+    const newRotation = _normalizeDegrees((this._rotation || 0) + validDegrees);
+    if (newRotation === this._rotation) {
+      return;
+    }
     const degreesRad = validDegrees * Math.PI / 180;
     const canvas = this._imgCanvas.nativeElement;
     const canvasClon = createCanvasImg(canvas);
     const ctx = canvas.getContext('2d')!;
+    this._rotation = newRotation;
 
     // clear
     ctx.clearRect(0, 0, canvasClon.width, canvasClon.height);
@@ -899,8 +1088,10 @@ export class LyImageCropper implements OnDestroy {
     const transform = `rotate(${validDegrees}deg) scale(${1 / this._scal3Fix!})`;
     const transformOrigin = `${this._imgRect.xc}px ${this._imgRect.yc}px 0`;
     canvas.style.transform = transform;
+    // tslint:disable-next-line: deprecation
     canvas.style.webkitTransform = transform;
     canvas.style.transformOrigin = transformOrigin;
+    // tslint:disable-next-line: deprecation
     canvas.style.webkitTransformOrigin = transformOrigin;
 
     const { left, top } = canvas.getBoundingClientRect() as DOMRect;
@@ -927,6 +1118,7 @@ export class LyImageCropper implements OnDestroy {
 
     // Update min scale
     this._updateMinScale(canvas);
+    this._updateMaxScale();
 
     // set the minimum scale, only if necessary
     if (this.scale! < this.minScale!) {
@@ -966,11 +1158,18 @@ export class LyImageCropper implements OnDestroy {
     this.minScaleChange.emit(minScale!);
   }
 
+  private _updateMaxScale() {
+    const maxScale = (this.config.width / this._primaryAreaWidth);
+    this._maxScale = maxScale;
+    this.maxScaleChange.emit(maxScale);
+  }
+
   /**
    * Resize & crop image
    */
   crop(config?: ImgCropperConfig): ImgCropperEvent {
-    const newConfig = config ? mergeDeep({}, this.config || new ImgCropperConfig(), config) : this.config;
+    const newConfig = config
+    ? mergeDeep({ }, this.config || new ImgCropperConfig(), config) : this.config;
     const cropEvent = this._imgCrop(newConfig);
     this.cd.markForCheck();
     return cropEvent;
@@ -982,11 +1181,12 @@ export class LyImageCropper implements OnDestroy {
   private _imgCrop(myConfig: ImgCropperConfig) {
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
     const areaRect = this._areaCropperRect();
-    const canvaRect = this._canvaRect();
+    const canvasRect = this._canvasRect();
     const scaleFix = this._scal3Fix!;
-    const left = (areaRect.left - canvaRect.left) / scaleFix;
-    const top = (areaRect.top - canvaRect.top) / scaleFix;
+    const left = (areaRect.left - canvasRect.left) / scaleFix;
+    const top = (areaRect.top - canvasRect.top) / scaleFix;
     const { output } = myConfig;
+    const currentImageLoadConfig = this._currentLoadConfig!;
     const area = {
       width: myConfig.width,
       height: myConfig.height
@@ -1003,7 +1203,10 @@ export class LyImageCropper implements OnDestroy {
     );
     const result = canvasElement;
     if (myConfig.output === ImgResolution.Default) {
-      resizeCanvas(result, area.width, area.height);
+      resizeCanvas(
+        result,
+        this._configPrimary.width,
+        this._configPrimary.height);
     } else if (typeof output === 'object') {
       if (output.width && output.height) {
         resizeCanvas(result, output.width, output.height);
@@ -1015,25 +1218,24 @@ export class LyImageCropper implements OnDestroy {
         resizeCanvas(result, newWidth, output.height);
       }
     }
-
-    let url: string;
-    if (myConfig.type) {
-      url = result.toDataURL(`${myConfig.type}`);
-    } else {
-      url = result.toDataURL(this._defaultType);
-    }
+    const type = currentImageLoadConfig.originalDataURL.startsWith('http')
+      ? currentImageLoadConfig.type || myConfig.type
+      : myConfig.type || currentImageLoadConfig.type!;
+    const dataURL = result.toDataURL(type);
     const cropEvent: ImgCropperEvent = {
-      dataURL: url,
-      type: this._defaultType || myConfig.type,
-      name: this._fileName,
-      width: area.width,
-      height: area.height,
-      originalDataURL: this._originalImgBase64,
-      scale: this._scal3Fix!,
+      dataURL,
+      type,
+      name: currentImageLoadConfig.name!,
+      areaWidth: this._primaryAreaWidth,
+      areaHeight: this._primaryAreaHeight,
+      width: result.width,
+      height: result.height,
+      originalDataURL: currentImageLoadConfig.originalDataURL,
+      scale: this._absoluteScale!,
       rotation: this._rotation,
-      left: areaRect.left - canvaRect.left,
-      top: areaRect.top - canvaRect.top,
-      size: this._sizeInBytes!,
+      left: (areaRect.left - canvasRect.left) / this._scal3Fix!,
+      top: (areaRect.top - canvasRect.top) / this._scal3Fix!,
+      size: currentImageLoadConfig.size!,
       xOrigin: this._imgRect.xc,
       yOrigin: this._imgRect.yc,
       position: {
@@ -1055,7 +1257,7 @@ export class LyImageCropper implements OnDestroy {
     return this._areaRef.nativeElement.getBoundingClientRect() as DOMRect;
   }
 
-  _canvaRect(): DOMRect {
+  _canvasRect(): DOMRect {
     return this._imgCanvas.nativeElement.getBoundingClientRect();
   }
 
@@ -1123,43 +1325,329 @@ export class LyImageCropper implements OnDestroy {
 }
 
 /**
- * convertToValidDegrees(45) === 90
- * convertToValidDegrees(40) === 0
- * convertToValidDegrees(100) === 90
- * @docs-private
+ * @dynamic
  */
-function convertToValidDegrees(num: number) {
-  const val360 = limitNum(num, 360);
-  const val90 = limitNum(val360.result, 90);
-  const sign = Math.sign(num);
-  if (val90.result >= (90 / 2)) {
-    return 90 * (val90.parts + 1) * sign;
-  } else {
-    return 90 * val90.parts * sign;
+@Component({
+  selector: 'ly-cropper-area',
+  templateUrl: './image-cropper-area.html',
+  providers: [
+    StyleRenderer
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: 'lyCropperArea'
+})
+export class LyCropperArea implements WithStyles, OnDestroy {
+  readonly classes = this.sRenderer.renderSheet(STYLES, 'area');
+
+  private _isSliding: boolean;
+  /** Keeps track of the last pointer event that was captured by the crop area. */
+  private _lastPointerEvent: MouseEvent | TouchEvent | null;
+  private _startPointerEvent: {
+    x: number
+    y: number
+  } | null;
+  private _currentWidth: number;
+  private _currentHeight: number;
+  private _startAreaRect: DOMRect;
+  private _startImgRect: DOMRect;
+
+  /** Used to subscribe to global move and end events */
+  protected _document: Document;
+
+  @ViewChild('resizer') readonly _resizer?: ElementRef;
+
+  @Input()
+  set resizableArea(val: boolean) {
+    if (val !== this._resizableArea) {
+      this._resizableArea = val;
+      Promise.resolve(null).then(() => {
+        if (val) {
+          this._removeResizableArea();
+          this._addResizableArea();
+        } else {
+          this._removeResizableArea();
+        }
+      });
+    }
+  }
+  get resizableArea() {
+    return this._resizableArea;
+  }
+  private _resizableArea: boolean;
+  @Input() keepAspectRatio: boolean;
+  @Input()
+  @Style<boolean, LyCropperArea>(
+    (_value, _, { classes: __ }) => ({ after }) => lyl `{
+      border-radius: 50%
+      .${__.resizer} {
+        ${after}: ${pos}%
+        bottom: ${pos}%
+        transform: translate(4px, 4px)
+      }
+    }`
+  ) round: boolean;
+
+  constructor(
+    readonly sRenderer: StyleRenderer,
+    readonly _elementRef: ElementRef,
+    private _ngZone: NgZone,
+    readonly _cropper: LyImageCropper,
+    @Inject(DOCUMENT) _document: any,
+  ) {
+    this._document = _document;
+  }
+
+  ngOnDestroy() {
+    this._removeResizableArea();
+  }
+
+  private _addResizableArea() {
+    this._ngZone.runOutsideAngular(() => {
+      const element = this._resizer!.nativeElement;
+      element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
+      element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
+    });
+  }
+
+  private _removeResizableArea() {
+    const element = this._resizer?.nativeElement;
+    if (element) {
+      this._lastPointerEvent = null;
+      this._removeGlobalEvents();
+      element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
+      element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
+    }
+  }
+
+  private _pointerDown = (event: MouseEvent | TouchEvent) => {
+    // Don't do anything if the
+    // user is using anything other than the main mouse button.
+    if (this._isSliding || (!isTouchEvent(event) && event.button !== 0)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this._ngZone.run(() => {
+      this._isSliding = true;
+      this._lastPointerEvent = event;
+      this._startPointerEvent = getGesturePointFromEvent(event);
+      this._startAreaRect = this._cropper._areaCropperRect();
+      this._startImgRect = this._cropper._canvasRect();
+      event.preventDefault();
+      this._bindGlobalEvents(event);
+    });
+
+  }
+
+  private _pointerMove = (event: MouseEvent | TouchEvent) => {
+    if (this._isSliding) {
+      event.preventDefault();
+      this._lastPointerEvent = event;
+      const element: HTMLDivElement = this._elementRef.nativeElement;
+      const { width, height, minWidth, minHeight } = this._cropper.config;
+      const point = getGesturePointFromEvent(event);
+      const deltaX = point.x - this._startPointerEvent!.x;
+      const deltaY = point.y - this._startPointerEvent!.y;
+      const startAreaRect = this._startAreaRect;
+      const startImgRect = this._startImgRect;
+      const round = this.round;
+      const keepAspectRatio = this._cropper.config.keepAspectRatio || event.shiftKey;
+      let newWidth = 0;
+      let newHeight = 0;
+      const rootRect = this._cropper._rootRect();
+
+      if (round) {
+        // The distance from the center of the cropper area to the pointer
+        const originX = ((width / 2 / Math.sqrt(2)) + deltaX);
+        const originY = ((height / 2 / Math.sqrt(2)) + deltaY);
+
+        // Leg
+        const side = Math.sqrt(originX ** 2 + originY ** 2);
+        newWidth = newHeight = side * 2;
+
+      } else if (keepAspectRatio) {
+        newWidth = width + deltaX * 2;
+        newHeight = height + deltaY * 2;
+        if (width !== height) {
+          if (width > height) {
+            newHeight = height / (width / newWidth);
+          } else if (height > width) {
+            newWidth = width / (height / newHeight);
+          }
+        } else {
+          newWidth = newHeight = Math.max(newWidth, newHeight);
+        }
+      } else {
+        newWidth = width + deltaX * 2;
+        newHeight = height + deltaY * 2;
+      }
+
+      // To min width
+      if (newWidth < minWidth!) {
+        newWidth = minWidth!;
+      }
+      // To min height
+      if (newHeight < minHeight!) {
+        newHeight = minHeight!;
+      }
+
+      // Do not overflow the cropper area
+      const centerX = startAreaRect.x + startAreaRect.width / 2;
+      const centerY = startAreaRect.y + startAreaRect.height / 2;
+      const topOverflow = startImgRect.y > centerY - (newHeight / 2);
+      const bottomOverflow = centerY + (newHeight / 2) > startImgRect.bottom;
+      const minHeightOnOverflow = Math.min((centerY - startImgRect.y) * 2, (startImgRect.bottom - centerY) * 2);
+      const leftOverflow = startImgRect.x > centerX - (newWidth / 2);
+      const rightOverflow = centerX + (newWidth / 2) > startImgRect.right;
+      const minWidthOnOverflow = Math.min((centerX - startImgRect.x) * 2, (startImgRect.right - centerX) * 2);
+      const minOnOverflow = Math.min(minWidthOnOverflow, minHeightOnOverflow);
+      if (round) {
+        if (topOverflow || bottomOverflow || leftOverflow || rightOverflow) {
+          newHeight = newWidth = minOnOverflow;
+        }
+      } else if (keepAspectRatio) {
+        const newNewWidth: number[] = [];
+        const newNewHeight: number[] = [];
+        if ((topOverflow || bottomOverflow)) {
+          newHeight = minHeightOnOverflow;
+          newNewHeight.push(newHeight);
+          newWidth = width / (height / minHeightOnOverflow);
+          newNewWidth.push(newWidth);
+        }
+        if ((leftOverflow || rightOverflow)) {
+          newWidth = minWidthOnOverflow;
+          newNewWidth.push(newWidth);
+          newHeight = height / (width / minWidthOnOverflow);
+          newNewHeight.push(newHeight);
+        }
+        if (newNewWidth.length === 2) {
+          newWidth = Math.min(...newNewWidth);
+        }
+        if (newNewHeight.length === 2) {
+          newHeight = Math.min(...newNewHeight);
+        }
+      } else {
+        if (topOverflow || bottomOverflow) {
+          newHeight = minHeightOnOverflow;
+        }
+        if (leftOverflow || rightOverflow) {
+          newWidth = minWidthOnOverflow;
+        }
+      }
+
+      // Do not overflow the container
+      if (round) {
+        const min = Math.min(rootRect.width, rootRect.height);
+        if (newWidth > min) {
+          newWidth = newHeight = min;
+        } else if (newHeight > min) {
+          newWidth = newHeight = min;
+        }
+      } else if (keepAspectRatio) {
+        if (newWidth > rootRect.width) {
+          newWidth = rootRect.width;
+          newHeight = height / (width / rootRect.width);
+        }
+        if (newHeight > rootRect.height) {
+          newWidth = width / (height / rootRect.height);
+          newHeight = rootRect.height;
+        }
+      } else {
+        if (newWidth > rootRect.width) {
+          newWidth = rootRect.width;
+        }
+        if (newHeight > rootRect.height) {
+          newHeight = rootRect.height;
+        }
+      }
+
+
+      // round values
+      newWidth = Math.round(newWidth);
+      newHeight = Math.round(newHeight);
+
+      element.style.width = `${newWidth}px`;
+      element.style.height = `${newHeight}px`;
+      this._currentWidth = newWidth;
+      this._currentHeight = newHeight;
+    }
+  }
+
+  /** Called when the user has lifted their pointer. */
+  private _pointerUp = (event: TouchEvent | MouseEvent) => {
+    if (this._isSliding) {
+      event.preventDefault();
+      this._removeGlobalEvents();
+      this._cropper._primaryAreaWidth = this._cropper.config.width = this._currentWidth;
+      this._cropper._primaryAreaHeight = this._cropper.config.height = this._currentHeight;
+      this._cropper.config = this._cropper.config;
+      this._cropper._updateMinScale();
+      this._isSliding = false;
+      this._startPointerEvent = null;
+    }
+  }
+
+  /** Called when the window has lost focus. */
+  private _windowBlur = () => {
+    // If the window is blurred while dragging we need to stop dragging because the
+    // browser won't dispatch the `mouseup` and `touchend` events anymore.
+    if (this._lastPointerEvent) {
+      this._pointerUp(this._lastPointerEvent);
+    }
+  }
+
+  private _bindGlobalEvents(triggerEvent: TouchEvent | MouseEvent) {
+    const element = this._document;
+    const isTouch = isTouchEvent(triggerEvent);
+    const moveEventName = isTouch ? 'touchmove' : 'mousemove';
+    const endEventName = isTouch ? 'touchend' : 'mouseup';
+    element.addEventListener(moveEventName, this._pointerMove, activeEventOptions);
+    element.addEventListener(endEventName, this._pointerUp, activeEventOptions);
+
+    if (isTouch) {
+      element.addEventListener('touchcancel', this._pointerUp, activeEventOptions);
+    }
+
+    const window = this._getWindow();
+
+    if (typeof window !== 'undefined' && window) {
+      window.addEventListener('blur', this._windowBlur);
+    }
+  }
+
+  /** Removes any global event listeners that we may have added. */
+  private _removeGlobalEvents() {
+    const element = this._document;
+    element.removeEventListener('mousemove', this._pointerMove, activeEventOptions);
+    element.removeEventListener('mouseup', this._pointerUp, activeEventOptions);
+    element.removeEventListener('touchmove', this._pointerMove, activeEventOptions);
+    element.removeEventListener('touchend', this._pointerUp, activeEventOptions);
+    element.removeEventListener('touchcancel', this._pointerUp, activeEventOptions);
+
+    const window = this._getWindow();
+
+    if (typeof window !== 'undefined' && window) {
+      window.removeEventListener('blur', this._windowBlur);
+    }
+  }
+
+  /** Use defaultView of injected document if available or fallback to global window reference */
+  private _getWindow(): Window {
+    return this._document.defaultView || window;
   }
 }
 
 /**
- * demo:
- * limitNum(450, 360) === 90
+ * Normalize degrees for cropper rotation
  * @docs-private
  */
-function limitNum(num: number, num2: number) {
-  const numAbs = Math.abs(num);
-  const parts = Math.floor(numAbs / num2);
-  let result: number;
-  if (parts) {
-    result = numAbs - (num2 * parts);
-  } else {
-    result = num;
+export function _normalizeDegrees(n: number) {
+  const de = n % 360;
+  if (de % 90) {
+    throw new Error(`LyCropper: Invalid \`${n}\` degree, only accepted values: 0, 90, 180, 270 & 360.`);
   }
-  if (numAbs !== num) {
-    result *= -1;
-  }
-  return {
-    result,
-    parts
-  };
+  return de;
 }
 
 /**
@@ -1181,9 +1669,6 @@ function createCanvasImg(img: HTMLCanvasElement | HTMLImageElement) {
   // return the new canvas
   return newCanvas;
 }
-
-
-const DATA_IMAGE_SVG_PREFIX = 'data:image/svg+xml;base64,';
 
 function normalizeSVG(dataURL: string) {
   if (window.atob && isSvgImage(dataURL)) {
@@ -1218,7 +1703,6 @@ function createHtmlImg(src: string) {
   return img;
 }
 
-
 function getGesturePointFromEvent(event: TouchEvent | MouseEvent) {
 
   // `touches` will be empty for start/end events so we have to fall back to `changedTouches`.
@@ -1235,4 +1719,8 @@ function getGesturePointFromEvent(event: TouchEvent | MouseEvent) {
 /** Returns whether an event is a touch event. */
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   return event.type[0] === 't';
+}
+
+export function round(n: number) {
+  return Math.round(n);
 }

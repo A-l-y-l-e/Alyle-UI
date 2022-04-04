@@ -46,7 +46,7 @@ export class OverlayFactory<T = any> {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      pointerEvents: 'all'
+      pointerEvents: 'none'
     };
     if (config) {
       Object.assign(__styles, config.styles);

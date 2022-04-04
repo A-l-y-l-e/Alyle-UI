@@ -1,9 +1,27 @@
 import { Color } from '@alyle/ui/color';
 
-const LINE_FEED_REGEX = () => /(\n?[^\n]+\n?)/g;
+const LINE_FEED_REGEX = () => /[\n\s]*([^\n]+)/g;
 const AMPERSAND_REGEX = () => /&/g;
-const STYLE_TEMPLATE_REGEX = () => /__LY_EXPRESSION__\[[\w]+\]/g;
-let id: number = 0;
+
+enum RuleType {
+  FontFace,
+  MediaQuery,
+  KeyFrame,
+  Style,
+  DynamicStyle,
+  CompiledStyle
+}
+
+interface Rule {
+  selector: string;
+  block: string;
+  type: RuleType;
+  hasMedia?: boolean;
+  isEmpty: boolean;
+  isReady?: boolean;
+}
+
+type Selectors = string[] | string;
 
 /**
  * Transform a lyl style block to CSS
@@ -12,194 +30,225 @@ export class LylParse {
 
   constructor(
     private _template: string,
-    private _className: string = '${className}'
+    private _className: string = '${_className}',
+    private _isServer: boolean,
+    /** Is true when used inside lyl */
+    private _isDevMode: boolean
   ) { }
 
   toCss() {
-    const selectors: (string[])[] = [];
-    let selector: null | string = null;
-    const rules = new Map<string, string[]>();
+    const selectors: Selectors[] = [];
+    const resolvedSelectors: Rule[] = [];
+    const rules: Rule[] = [];
     this._template
-      .replace(/(\/\/\s[^\n\r]*(?:[\n\r]+|$))/g, '')
-      .replace(/,\n/g, ',')
+      .replace(/(\/\/\s[^\n\r]*(?:[\n\r]+|$))/g, '') // remove comments
+      .replace(/,[\n\s]+/g, ',')
       .replace(LINE_FEED_REGEX(), (_ex, fullLine: string) => {
-      fullLine = fullLine.trim();
 
       if (fullLine.endsWith('{')) {
         if (selectors.length === 0) {
           selectors.push([this._className]);
-          selector = selectors[0][0];
+          this._createRule(rules, RuleType.Style, selectors, resolvedSelectors);
         } else {
           const line_1 = fullLine.slice(0, fullLine.length - 1).trim();
-          const isMediaQuery = line_1.includes('@');
-          if (isMediaQuery) {
+          if (line_1 === '@font-face') {
             selectors.push(
-              [line_1.trim()]
+              line_1
             );
-            if (!rules.has(line_1)) {
-              rules.set(line_1, []);
-            }
+            this._createRule(rules, RuleType.FontFace, selectors, resolvedSelectors);
+          } else if (line_1.startsWith('@m')) {
+            selectors.push(
+              line_1
+            );
+            this._createRule(rules, RuleType.MediaQuery, selectors, resolvedSelectors);
+
+          } else if (line_1.startsWith('@k')) {
+            selectors.push(
+              line_1
+            );
+            this._createRule(rules, RuleType.KeyFrame, selectors, resolvedSelectors);
           } else {
             selectors.push(
               line_1
               .split(',')
               .map(_ => _.trim())
-            );
+              );
+            this._createRule(rules, RuleType.Style, selectors, resolvedSelectors);
           }
-          selector = this._resolveSelectors(selectors);
 
         }
 
 
-        if (!rules.has(selector)) {
-          rules.set(selector, []);
-        }
-      } else if (fullLine.length === 1 && fullLine.endsWith('}')) {
-        selectors.pop();
-        if (selectors.length) {
-          selector = this._resolveSelectors(selectors);
-          if (!rules.has(selector)) {
-            rules.set(selector, []);
-          }
-        }
-      } else if (fullLine.startsWith('/* >> ds')) {
-        selector = this._resolveSelectors(selectors);
+      } else if (fullLine.length === 1 && fullLine === '}') {
+        this._removeParentSelector(rules, selectors, resolvedSelectors);
+      } else if (this._isDevMode && fullLine.startsWith('/* >> ds')) {
         const lin = fullLine;
 
-        // Ignore compiled css
-        rules.get(selector)!.push(lin);
-        // fullLine = lin;
-        // /** For non LylModule< */else {
-        //   fullLine = `\${(${lin.slice(2, lin.length - 1)})(\`${selector}\`)}`;
-        //   rules.set(createUniqueCommentSelector('ds'), fullLine);
-        // } /** for non LylModule>  */
-      } else if (fullLine.startsWith('...')) {
-        // for non LylModule>
+        this._createRuleWithResolvedSelector(rules, RuleType.DynamicStyle, selectors, resolvedSelectors, lin);
+      } else if (this._isServer && fullLine.startsWith('...')) {
         const content = fullLine.slice(3);
-        selector = this._resolveSelectors(selectors);
-        // Ignore compiled css
-        rules.get(selector)!.push(`${createUniqueCommentSelector('cc')}${content}`);
+
+        this._createRuleWithResolvedSelector(rules, RuleType.CompiledStyle, selectors, resolvedSelectors, content);
+
       } else {
         if (fullLine) {
-          if (fullLine.includes('undefined') || fullLine.startsWith('// ')) {
+          if (this._isDevMode && fullLine.includes('undefined')) {
             return '';
           }
-          if (fullLine.endsWith(';')) {
+          if (this._isDevMode && fullLine.endsWith(';')) {
             throw new Error(`Do not require semicolon in [${fullLine}]`);
           }
           if (fullLine.includes(': ')) {
             fullLine = fullLine.replace(': ', ':');
           }
           fullLine += ';';
-          rules.get(selector!)!.push(fullLine);
+          this._appendDeclaration(rules, RuleType.Style, fullLine);
         }
       }
       return '';
     });
 
-    // Join media queries & keyframes
-    rules.forEach((val, key) => {
-      const matchArray = key.match(/(@[^\${]*(?:\${[^{]*)*){/);
-      if (matchArray) {
-        const media = matchArray[1];
-        if (media !== key && val.length) {
-          const after = rules.get(media)!;
-          const sel = key.replace(media + '{', '');
-          const newValue = after + val.reduce((previous, current) => {
 
-            const last = previous[previous.length - 1];
-            // __READY__ is added to be ignored by content.startsWith ('/ * >> xx')
-            if (current.startsWith('/* >> ds')) {
-              previous.push('/* __READY__ */' + current.replace(/\|\|\&\|\|/g, sel));
-            } else if (current.startsWith('/* >> cc')) {
-              previous.push('/* __READY__ */' + transformCC(current, sel));
-            } else {
-              if (Array.isArray(last)) {
-                last.push(current);
-              } else {
-                previous.push([current]);
-              }
-            }
-            return previous;
-          }, [] as (string | string[])[])
-            .map(item => Array.isArray(item) ? `${sel}{${item.join('')}}` : item).join('');
-          // const newValue = after
-          // + sel
-          // + `{${val.join('')}}`;
-          rules.set(media, [newValue]);
-          rules.delete(key);
-        }
-      }
-    });
-
-    return Array.from(rules.entries())
-      .filter(rule => rule[1])
+    return rules
+      .filter(rule => !rule.isEmpty)
       .map(rule => {
-        const sel = rule[0];
-        const contents = rule[1];
-        const css: string[] = [];
-        const contentRendered: string[] = [];
-        const set = new Set<string[]>();
-
-        for (let index = 0; index < contents.length; index++) {
-          const content = contents[index];
-          if (content) {
-            if (content.startsWith('/* >> ds')) {
-              contentRendered.push(content.replace(/\|\|\&\|\|/g, sel));
-              set.add(contentRendered);
-            } else if (content.startsWith('/* >> cc')) {
-              contentRendered.push(transformCC(content, sel));
-              set.add(contentRendered);
-            } else {
-              // css += `${sel}{${content}}`;
-              css.push(content);
-              set.add(css);
-            }
-          }
-        }
-        return Array.from(set).map((_) => {
-          if (_ === css) {
-            return css.length
-            ? `${sel}{${css.join('')}}`
-            : '';
-          } else {
-            return _.join('');
-          }
-        }).join('');
+        return rule.block;
       }).join('');
 
   }
 
-  private _resolveSelectors(selectors: (string[])[]) {
-    let media: string | null = null;
-    const sel = selectors
-      .map(_ => _.filter(__ => {
-        if (__.startsWith('@')) {
-          // save media
-          media = __;
-          return false;
-        }
-        return __;
-      }))
-      .filter(_ => _.length)
-      .reduce((prev, current) => {
-        const result = prev.map(item => current.map(cu => {
-          if (cu.includes('&')) {
-            return cu.replace(AMPERSAND_REGEX(), item);
-          }
-          return `${item} ${cu}`;
-        }));
-        return Array.prototype.concat.apply([], result);
-      })
-      .join(',');
 
-    if (media) {
-      return `${media}{${sel}`;
+  private _createRule(rules: Rule[], type: RuleType, selectors: Selectors[], resolvedSelectors: Rule[]) {
+    const parentRule = resolvedSelectors[resolvedSelectors.length - 1] as (Rule | undefined);
+    const prevRule = rules[rules.length - 1] as (Rule | undefined);
+
+    if (prevRule && !prevRule.isReady) {
+      prevRule.block += `}`;
+      prevRule.isReady = true;
     }
-    return sel;
+    let selector = '';
+    if (type === RuleType.FontFace) {
+      selector = `@font-face`;
+    } else if (type === RuleType.KeyFrame) {
+      selector = selectors[1] as string;
+    } else if (parentRule && parentRule.type === RuleType.KeyFrame) {
+      selector = selectors[selectors.length - 1][0];
+    } else if (type === RuleType.MediaQuery || (parentRule && parentRule.type === RuleType.MediaQuery && prevRule && prevRule.isEmpty)) {
+      selector = resolveSelectors(selectors, false);
+    } else {
+      selector = resolveSelectors(selectors, true);
+    }
+    const rule: Rule = {
+      selector,
+      block: `${selector}{`,
+      type: RuleType.Style,
+      isEmpty: true
+    };
+    resolvedSelectors.push({selector: '', block: '', type: type, isEmpty: true});
+    rules.push(rule);
+
+    // If is new media query
+    if (type === RuleType.MediaQuery) {
+      // rule.block += `{`;
+      rule.hasMedia = true;
+    }
+    if (parentRule && parentRule.hasMedia) {
+      rule.hasMedia = true;
+    }
+
+    if (type === RuleType.KeyFrame) {
+      rule.isReady = true;
+      rule.isEmpty = false;
+    }
+    return rule;
+  }
+
+  private _createRuleWithResolvedSelector(
+    rules: Rule[],
+    type: RuleType,
+    selectors: Selectors[],
+    resolvedSelectors: Rule[],
+    content: string
+  ) {
+    if (!content) {
+      return;
+    }
+
+    const prevRule = rules[rules.length - 1];
+    const parentRule = resolvedSelectors[resolvedSelectors.length - 1] as (Rule | undefined);
+    const { hasMedia } = prevRule;
+    let selector = '';
+    if (type === RuleType.MediaQuery || (parentRule && parentRule.type === RuleType.MediaQuery && prevRule && prevRule.isEmpty)) {
+      selector = resolveSelectors(selectors, false);
+    } else {
+      selector = resolveSelectors(selectors, true);
+    }
+
+    // Close previous
+    if (prevRule && !prevRule.isReady) {
+      prevRule.block += `}`;
+    }
+
+    const rule: Rule = {
+      selector: selector,
+      block: ``,
+      type,
+      hasMedia,
+      isEmpty: false
+    };
+    if (type === RuleType.CompiledStyle) {
+      rule.block = transformCC(content, selector);
+    } else if (type === RuleType.DynamicStyle) {
+      rule.block = content.replace(/\|\|\&\|\|/g, selector);
+    }
+    rule.isReady = true;
+    rules.push(rule);
+  }
+
+  private _appendDeclaration(rules: Rule[], _type: RuleType, content: string) {
+    if (!content) {
+      return;
+    }
+
+    let prevRule = rules[rules.length - 1];
+    if (prevRule && prevRule.isReady) {
+      prevRule = {
+        selector: prevRule.selector,
+        block: `${prevRule.selector}{`,
+        type: prevRule.type,
+        hasMedia: prevRule.hasMedia,
+        isEmpty: false
+      };
+      rules.push(prevRule);
+    }
+    prevRule.block += content;
+    prevRule.isEmpty = false;
+
+  }
+
+  private _removeParentSelector(rules: Rule[], selectors: Selectors[], resolvedSelectors: Rule[]) {
+    selectors.pop();
+    const prevRule = rules[rules.length - 1] as (undefined | Rule);
+    const currentRule = resolvedSelectors.pop();
+    if (!prevRule) {
+      return;
+    }
+
+    // Close previous rule
+    if (!prevRule.isReady) {
+      prevRule.block += `}`;
+      prevRule.isReady = true;
+    }
+    if (
+      currentRule && (currentRule.type === RuleType.MediaQuery || currentRule.type === RuleType.KeyFrame)
+    ) {
+      prevRule.block += `}`;
+      prevRule.isReady = true;
+    }
   }
 
 }
+
 
 function transformCC(content: string, sel: string) {
   content = content.replace(/\/\* >> cc[^\/\*]+\*\//g, '');
@@ -208,13 +257,44 @@ function transformCC(content: string, sel: string) {
   return `\${${expression}}`;
 }
 
+export function resolveSelectors(selectors: Selectors[], ignoreMediaQuery?: boolean) {
+  let media: string | null = null;
+  const sel = selectors
+    .filter((_): _ is string[] => {
+      if (typeof _ === 'string') {
+        if (!ignoreMediaQuery) {
+          media = _;
+        }
+        return false;
+      }
+      return !!_.filter(__ => __).length;
+    });
+
+  const sel2 = sel.length === 1
+    ? sel[0].join(',')
+    : sel.length ? (sel.reduce((prv, curr) => {
+    const result = prv.map(item => curr.map(cu => {
+      if (cu.includes('&')) {
+        return cu.replace(AMPERSAND_REGEX(), item);
+      }
+      return `${item} ${cu}`;
+    }));
+    return Array.prototype.concat.apply([], result) as string[];
+  }) as string[]).join(',') : '';
+
+  if (media) {
+    return `${media}{${sel2}`;
+  }
+  return sel2;
+}
+
+
 export type StyleTemplate = (className: string) => string;
 
 export function lyl(literals: TemplateStringsArray, ...placeholders: (string | Color | StyleCollection | number | StyleTemplate | null | undefined)[]) {
   return (className: string) => {
     let result = '';
     // Save expressions
-    const exMap: {[key: string]: string} = {};
     for (let i = 0; i < placeholders.length; i++) {
       const placeholder = placeholders[i];
       result += literals[i];
@@ -226,21 +306,14 @@ export function lyl(literals: TemplateStringsArray, ...placeholders: (string | C
           result += `${createUniqueCommentSelector('ds')}${st2c(placeholder, '||&||')}`;
         }
       } else {
-        const newID = `__LY_EXPRESSION__[__${(id++).toString(36)}]`;
-        result += newID;
-        exMap[newID] = `${placeholder}`;
+        result += placeholder;
       }
     }
 
     // add the last literal
     result += literals[literals.length - 1];
-    const css = new LylParse(result, className).toCss();
-    return css.replace(STYLE_TEMPLATE_REGEX(), (str) => {
-      if (str in exMap) {
-        return exMap[str];
-      }
-      return '';
-    });
+    const css = new LylParse(result, className, false, true).toCss();
+    return css;
   };
 }
 
@@ -312,16 +385,6 @@ export function st2c(
   }
   return fn(className);
 }
-
-// export function normalizeStyleTemplate(
-//   fn: StyleTemplate
-//   ) {
-//   if (fn.length) {
-//     return fn as StyleTemplate;
-//   } else {
-//     return (fn as (() => StyleTemplate))();
-//   }
-// }
 
 export class StringIdGenerator {
   private _chars: string;

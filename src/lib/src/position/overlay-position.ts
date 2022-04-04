@@ -275,7 +275,7 @@ function getMutableClientRect(element: Element): ClientRect {
     left: clientRect.left,
     width: clientRect.width,
     height: clientRect.height
-  };
+  } as ClientRect;
 }
 
 function flipPosition(position: XPosition): XPosition;

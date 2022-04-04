@@ -16,12 +16,12 @@ import {
   ViewChildren,
   InjectionToken,
   Inject,
-  Optional} from '@angular/core';
+  Optional,
+  NgZone} from '@angular/core';
 import { LyTheme2,
   ThemeVariables,
   toBoolean,
   LY_COMMON_STYLES,
-  HammerInput,
   toNumber,
   untilComponentDestroyed,
   Dir,
@@ -30,21 +30,44 @@ import { LyTheme2,
   StyleTemplate,
   lyl,
   ThemeRef,
-  StyleRenderer} from '@alyle/ui';
+  StyleRenderer,
+  Style} from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
+import { DOCUMENT } from '@angular/common';
+import { DOWN_ARROW, END, hasModifierKey, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
+import { LY_SLIDER } from './tokens';
+import { гvalueToPercent } from './util';
+
+const activeEventOptions = normalizePassiveListenerOptions({passive: false});
 
 export interface LySliderTheme {
   /** Styles for Slider Component */
   root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+  /**
+   * Disabled state
+   * @param classes Classes
+   * @param color color slider (deprecated)
+   */
   disabled?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate)>
   | ((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate);
-  color?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate)>
-  | ((classes: LyClasses<typeof STYLES>, color: Color) => StyleTemplate);
+  color?: StyleCollection<((classes: LyClasses<typeof STYLES>, color: Color, contrast: Color) => StyleTemplate)>
+  | ((classes: LyClasses<typeof STYLES>, color: Color, contrast: Color) => StyleTemplate);
   appearance?: {
     standard?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+    md?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+    [key: string]: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined;
+  };
+  size?: {
+    small?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+    medium?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
     [key: string]: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined;
@@ -71,31 +94,27 @@ export const LY_SLIDER_CONTROL_VALUE_ACCESSOR = {
 const STYLE_PRIORITY = -2;
 export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);
-  const { before } = theme;
+  const { before, after } = theme;
+  const isRTL = theme.isRTL();
   return {
     $priority: STYLE_PRIORITY,
     root: () => lyl `{
       display: inline-block
       position: relative
       box-sizing: border-box
-      cursor: pointer
       ${__.bg} {
         ...${LY_COMMON_STYLES.fill}
         margin: auto
       }
-      // always show visible thumb, when {thumbVisible} is available
-      &${__.thumbVisible} ${__.thumb},
-      // on hover
-      &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover ${__.thumb},
-      // on focused
-      &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused} ${__.thumb} {
-        border-radius: 50% 50% 0%
-      }
 
-      &${__.thumbVisible} ${__.thumbContent}::before,
-      &:not(${__.thumbNotVisible}):not(${__.disabled}) ${__.thumbContent}:hover::before,
-      &:not(${__.thumbNotVisible}) ${__.thumbContent}${__.thumbContentFocused}::before {
-        transform: scale(1)
+
+      &${__.sliding} {
+        cursor: -webkit-grabbing
+        cursor: grabbing
+        ${__.thumb}, ${__.thumbLabel} {
+          cursor: -webkit-grabbing
+          cursor: grabbing
+        }
       }
       {
         ...${
@@ -109,9 +128,21 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       }
     }`,
 
-    track: lyl `{
+    wrapper: lyl `{
+      -webkit-print-color-adjust: exact
+      color-adjust: exact
+      position: absolute
+    }`,
+
+    track: () => lyl `{
       position: absolute
       margin: auto
+      ${__.horizontal} & {
+        transform-origin: ${ isRTL ? 100 : 0}% 0
+      }
+      ${__.vertical} & {
+        transform-origin: ${ isRTL ? 100 : 0}% 100%
+      }
     }`,
     bg: null,
     thumbContainer: lyl `{
@@ -121,27 +152,19 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       margin: auto
     }`,
     thumbContent: lyl `{
-      &::before {
-        content: ''
-        position: absolute
-        opacity: .6
-        transform: scale(0)
-        transition: transform ${
-          theme.animations.durations.entering
-        }ms ${theme.animations.curves.sharp} 0ms, background ${
-          theme.animations.durations.complex
-        }ms ${theme.animations.curves.sharp} 0ms
-      }
+      display: flex
+      justify-content: center
+      align-items: center
     }`,
     thumb: lyl `{
       position: absolute
-      width: 12px
-      height: 12px
-      left: -6px
-      top: -6px
+      width: 16px
+      height: 16px
       border-radius: 50%
       outline: 0
-      transition: ${['border-radius'].map(prop => `${prop} ${
+      cursor: -webkit-grab
+      cursor: grab
+      transition: ${['border-radius', 'transform'].map(prop => `${prop} ${
         theme.animations.durations.exiting
       }ms ${theme.animations.curves.standard} 0ms`).join()}
       &::before {
@@ -155,14 +178,21 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
     }`,
     thumbLabel: lyl `{
       position: absolute
+      font-size: 12px
       width: 28px
       height: 28px
       border-radius: 50%
       top: -14px
       ${before}: -14px
-      transition: ${['transform', 'top', 'left', 'right', 'border-radius'].map(prop => `${prop} ${
-        theme.animations.durations.entering
-      }ms ${theme.animations.curves.sharp} 0ms`).join()}
+      cursor: -webkit-grab
+      cursor: grab
+      transition: ${[
+        'transform',
+        'top',
+        'left',
+        'right',
+        'border-radius'
+      ].map(prop => `${prop} 150ms ${theme.animations.curves.standard} 0ms`).join()}
     }`,
     thumbLabelValue: lyl `{
       display: flex
@@ -170,17 +200,22 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       width: 100%
       align-items: center
       justify-content: center
-      font-size: 12px
-      color: #fff
     }`,
 
     horizontal: () => lyl `{
-      width: 120px
-      height: 2px
-      padding: 10px 0
+      width: 128px
+      height: 48px
+      padding: 8px
       touch-action: pan-y !important
+      ${__.wrapper} {
+        top: 23px
+        left: 8px
+        right: 8px
+      }
+      ${__.track}, ${__.bg}, ${__.track} {
+        height: inherit
+      }
       ${__.track}, ${__.bg} {
-        height: 2px
         width: 100%
       }
       ${__.track} {
@@ -188,43 +223,17 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
         top: 0
         bottom: 0
       }
-      & ${__.thumb} {
-        transform: rotateZ(-135deg)
-      }
 
-      ${__.thumbLabel} {
-        transform: rotateZ(45deg) scale(0)
-      }
-      // always show visible thumb, when {thumbVisible} is available
-      &${__.thumbVisible} ${__.thumbLabel},
-      // on hover
-      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
-      // on focused
-      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
-        border-radius: 50% 50% 0%
-        top: -50px
-        transform: rotateZ(45deg) scale(1)
-      }
-
-      & ${__.thumbLabelValue} {
-        transform: rotateZ(-45deg)
-      }
       ${__.thumbContainer} {
         top: 0
         bottom: 0
       }
-      & ${__.thumbContent}::before {
-        width: 2px
-        height: 24px
-        left: -1px
-        top: -24px
-      }
 
       ${__.tick} {
         width: 2px
-        height: inherit
         top: 0
         bottom: 0
+        transform: translate(-1px, 0%)
       }
       ${__.mark} {
         top: 22px
@@ -235,49 +244,32 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
       }
     }`,
     vertical: () => lyl `{
-      width: 2px
-      height: 120px
-      padding: 0 10px
+      width: 48px
+      height: 128px
+      padding: 8px
       touch-action: pan-x !important
+      ${__.wrapper} {
+        ${before}: 23px
+        top: 8px
+        bottom: 8px
+      }
+      ${__.track}, ${__.bg}, ${__.track} {
+        width: inherit
+      }
       & ${__.track}, & ${__.bg} {
         height: 100%
-        width: 2px
       }
       ${__.track} {
         bottom: 0
-        left: 0
-        right: 0
-      }
-      & ${__.thumb} {
-        transform: ${theme.direction === Dir.ltr ? 'rotateZ(135deg)' : 'rotateZ(-45deg)'}
-      }
-      & ${__.thumbLabel} {
-        transform: rotateZ(-45deg) scale(0)
-      }
-      // always show visible thumb, when {thumbVisible} is available
-      &${__.thumbVisible} ${__.thumbLabel},
-      // on hover
-      &:not(${__.disabled}) ${__.thumbContent}:hover ${__.thumbLabel},
-      // on focused
-      & ${__.thumbContent}${__.thumbContentFocused} ${__.thumbLabel} {
-        border-radius: ${theme.direction === Dir.ltr ? '50% 50% 0%' : '0 50% 50% 50%'}
-        ${before}: -50px
-        transform: rotateZ(-45deg) scale(1)
+        ${before}: -1px
+        ${after}: 0
       }
 
-      & ${__.thumbLabelValue} {
-        transform: rotateZ(45deg)
-      }
       ${__.thumbContainer} {
         left: 0
         right: 0
       }
-      ${__.thumbContent}::before {
-        width: 24px
-        height: 2px
-        ${before}: -24px
-        top: -1px
-      }
+
       ${__.tick} {
         width: inherit
         height: 2px
@@ -318,7 +310,6 @@ export const STYLES = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef)
     }`
   };
 };
-
 /** A change event emitted by the LySlider component. */
 export class LySliderChange {
 
@@ -352,15 +343,43 @@ export interface LySliderMark {
   exportAs: 'lySlider',
   providers: [
     LY_SLIDER_CONTROL_VALUE_ACCESSOR,
-    StyleRenderer
+    StyleRenderer,
+    { provide: LY_SLIDER, useExisting: LySlider },
   ],
   host: {
-    '(slide)': '_onSlide($event)',
-    '(slideend)': '_onSlideEnd()',
-    '(tap)': '_onTap($event)'
+    '(focus)': '_onFocus()',
+    '(blur)': '_onBlur()',
+    '(keydown)': '_onKeydown($event)',
+    '(keyup)': '_onKeyup()',
+    '(mouseenter)': '_onMouseenter()',
+
+    // On Safari starting to slide temporarily triggers text selection mode which
+    // show the wrong cursor. We prevent it by stopping the `selectstart` event.
+    '(selectstart)': '$event.preventDefault()',
   }
 })
 export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
+
+  /**
+   * Identifier used to attribute a touch event to a particular slider.
+   * Will be undefined if one of the following conditions is true:
+   * - The user isn't dragging using a touch device.
+   * - The browser doesn't support `Touch.identifier`.
+   * - Dragging hasn't started yet.
+   */
+  private _touchId: number | undefined;
+
+   /** Keeps track of the last pointer event that was captured by the slider. */
+  private _lastPointerEvent: MouseEvent | TouchEvent | null;
+
+  /** Used to subscribe to global move and end events */
+  protected _document: Document;
+
+  /** The dimensions of the slider. */
+  private _sliderDimensions: ClientRect | null = null;
+
+   /** Reference to the inner slider wrapper element. */
+  @ViewChild('wrapper', { static: true }) readonly _wrapper: ElementRef;
 
   /** Whether or not to show the thumb. */
   @Input()
@@ -446,7 +465,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   set appearance(val: string) {
     if (val !== this.appearance) {
       this._appearance = val;
-      this._appearanceClass = this._sr.add(
+      this._appearanceClass = this.sRenderer.add(
         `${LySlider.и}.appearance:${val}`,
         (theme: ThemeVariables & LySliderVariables, ref) => {
           const classes = ref.selectorsOf(STYLES);
@@ -466,6 +485,27 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     return this._appearance;
   }
 
+  /** The slider size. */
+  @Input()
+  @Style<string | null>(
+    val => (
+      theme: ThemeVariables & LySliderVariables,
+      ref: ThemeRef
+    ) => {
+      const slider = ref.selectorsOf(STYLES);
+      if (theme.slider?.size) {
+        const size = theme.slider.size[val];
+        if (size) {
+          return size instanceof StyleCollection
+            ? size.setTransformer((_) => _(slider)).css
+            : size(slider);
+        }
+      }
+      throw new Error(`${LySlider.и}: styles theme.checkbox.size is undefined`);
+    }
+  , STYLE_PRIORITY)
+  size: string | null;
+
   /** Color of Slider */
   @Input()
   get color(): string {
@@ -477,19 +517,20 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     const newStyle = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
       const color = theme.colorOf(val);
+      const contrast = theme.colorOf(`${val}:contrast`);
       const __ = ref.selectorsOf(STYLES);
 
       if (theme.slider && theme.slider.color) {
         const sliderColor = theme.slider.color;
         if (sliderColor) {
           return sliderColor instanceof StyleCollection
-            ? (sliderColor).setTransformer((_) => _(__, color)).css
-            : sliderColor(__, color);
+            ? (sliderColor).setTransformer((_) => _(__, color, contrast)).css
+            : sliderColor(__, color, contrast);
         }
       }
       throw new Error(`${val} not found in theme.slider.color`);
     };
-    this._colorClass = this._sr.add(
+    this._colorClass = this.sRenderer.add(
       styleKey,
       newStyle,
       STYLE_PRIORITY + 1,
@@ -547,14 +588,18 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
       const valueIsArray = Array.isArray(val);
       if (typeof val === 'number') {
         let newValue = Number(val);
-        newValue = parseFloat(newValue.toFixed(this._stepPrecision as number));
+        newValue = (newValue === this.min || newValue === this.max)
+          ? newValue
+          : parseFloat(newValue.toFixed(this._stepPrecision as number));
         this._value = newValue;
       } else if (valueIsArray && !arrayEquals(this._value, val)) {
         let newValue = val as number[];
         newValue = newValue.map(
           _val => _val === null
-          ? _val
-          : parseFloat(_val.toFixed(this._stepPrecision as number)));
+            ? _val
+            : (_val === this.min || _val === this.max)
+              ? _val
+              : parseFloat(_val.toFixed(this._stepPrecision as number)));
 
         this._value = newValue;
       }
@@ -565,7 +610,8 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
           value: toNumber(v, this.min),
           displayValue: null,
           percent: null,
-          styles: {}
+          styles: {},
+          focused: this._thumbs?.[index]?.focused
         }));
 
       this._updateThumbs();
@@ -585,31 +631,35 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     if (newVal !== this.disabled) {
       this._disabled = newVal;
       if (newVal) {
-        const color = this.color;
-        const styleKey = `${LySlider.и}.disabled:${val}-${color}`;
-        let newStyle: ((theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => StyleTemplate);
-        newStyle = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
-          const clr = theme.colorOf(color);
-          const __ = ref.selectorsOf(STYLES);
+        // TODO: remove promise when color parameter removed
+        Promise.resolve(null).then(() => {
+          // TODO: deprecated
+          const color = this.color;
+          const styleKey = `${LySlider.и}.disabled:${val}-${color}`;
+          let newStyle: ((theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => StyleTemplate);
+          newStyle = (theme: ThemeVariables & LySliderVariables, ref: ThemeRef) => {
+            const clr = theme.colorOf(color);
+            const __ = ref.selectorsOf(STYLES);
 
-          if (theme.slider && theme.slider.disabled) {
-            const sliderColor = theme.slider.disabled;
-            if (sliderColor) {
-              return sliderColor instanceof StyleCollection
-                ? (sliderColor).setTransformer((_) => _(__, clr)).css
-                : sliderColor(__, clr);
+            if (theme.slider && theme.slider.disabled) {
+              const sliderColor = theme.slider.disabled;
+              if (sliderColor) {
+                return sliderColor instanceof StyleCollection
+                  ? (sliderColor).setTransformer((_) => _(__, clr)).css
+                  : sliderColor(__, clr);
+              }
             }
-          }
-          throw new Error(`${val} not found in theme.slider.color`);
-        };
-        const newClass = this._sr.add(
-          styleKey,
-          newStyle,
-          STYLE_PRIORITY + 1.5,
-          this._disabledClass
-        );
-        this.sRenderer.addClass(this.classes.disabled);
-        this._disabledClass = newClass;
+            throw new Error(`${val} not found in theme.slider.color`);
+          };
+          const newClass = this.sRenderer.add(
+            styleKey,
+            newStyle,
+            STYLE_PRIORITY + 1.5,
+            this._disabledClass
+          );
+          this.sRenderer.addClass(this.classes.disabled);
+          this._disabledClass = newClass;
+        });
       } else if (this._disabledClass) {
         this.sRenderer.removeClass(this._disabledClass);
         this.sRenderer.removeClass(this.classes.disabled);
@@ -641,10 +691,17 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     private _renderer: Renderer2,
     private _cd: ChangeDetectorRef,
     readonly sRenderer: StyleRenderer,
-    private _sr: StyleRenderer,
+    private _ngZone: NgZone,
+    @Inject(DOCUMENT) _document: any,
     @Optional() @Inject(LY_SLIDER_DEFAULT_OPTIONS) private _default: LySliderDefaultOptions
   ) {
+    this._document = _document;
     _renderer.addClass(_el.nativeElement, this.classes.root);
+    _ngZone.runOutsideAngular(() => {
+      const element = _el.nativeElement;
+      element.addEventListener('mousedown', this._pointerDown, activeEventOptions);
+      element.addEventListener('touchstart', this._pointerDown, activeEventOptions);
+    });
   }
   static и = 'LySlider';
   readonly classes = this._theme.renderStyleSheet(STYLES);
@@ -671,7 +728,6 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   private _stepPrecision?: number | null;
 
   private _closestIndex: number | null;
-  private _currentRect: DOMRect | null;
 
   _changes = new Subject<void>();
 
@@ -683,7 +739,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   /**
    * Whether or not the thumb is sliding.
    */
-  _isSliding: boolean;
+  _isSliding: 'keyboard' | 'pointer' | null = null;
   _slidingThumbValue?: number | null;
 
   _thumbs: Thumb[] = [];
@@ -715,6 +771,15 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   _tickInterval: number;
   private __tickList: number[];
 
+  /** Called when the window has lost focus. */
+  private _windowBlur = () => {
+    // If the window is blurred while dragging we need to stop dragging because the
+    // browser won't dispatch the `mouseup` and `touchend` events anymore.
+    if (this._lastPointerEvent) {
+      this._pointerUp(this._lastPointerEvent);
+    }
+  }
+
   /**
    * The registered callback function called when a blur event occurs on the input element.
    * @docs-private
@@ -741,6 +806,11 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
       this.appearance = (this._default && this._default.appearance) || 'standard';
     }
 
+    /** Set default size */
+    if (this.size == null) {
+      this.size = 'small';
+    }
+
     /** Set horizontal slider */
     if (this.vertical == null) {
       this.vertical = false;
@@ -755,9 +825,14 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     if (this.step == null) {
       this.step = 1;
     }
+
   }
 
   ngOnDestroy() {
+    const element = this._el.nativeElement;
+    element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
+    element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
+    this._lastPointerEvent = null;
     this._changes.complete();
   }
 
@@ -794,95 +869,219 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     this.disabled = isDisabled;
   }
 
-  _onFocus(thumb: Thumb) {
+  _onMouseenter() {
+    if (this.disabled) {
+      return;
+    }
+
+    // We save the dimensions of the slider here so we can use them to update the spacing of the
+    // ticks and determine where on the slider click and slide events happen.
+    this._sliderDimensions = this._getSliderDimensions();
+    // this._updateTickIntervalPercent();
+  }
+
+  _onFocus() {
+    // We save the dimensions of the slider here so we can use them to update the spacing of the
+    // ticks and determine where on the slider click and slide events happen.
+    this._sliderDimensions = this._getSliderDimensions();
+    // this._updateTickIntervalPercent();
+  }
+
+  _onBlur() {
+    this.onTouched();
+  }
+
+  _onKeydown(event: KeyboardEvent) {
+    if (
+      this.disabled ||
+      hasModifierKey(event) ||
+      (this._isSliding && this._isSliding !== 'keyboard')
+    ) {
+      return;
+    }
+    this._isSliding = 'keyboard';
+    const oldValue = this.value;
+
+    switch (event.keyCode) {
+      case PAGE_UP:
+        this._increment(10);
+        break;
+      case PAGE_DOWN:
+        this._increment(-10);
+        break;
+      case END:
+        this.value = this.max;
+        break;
+      case HOME:
+        this.value = this.min;
+        break;
+      case LEFT_ARROW:
+        this._increment(this._getDirection() === Dir.rtl ? 1 : -1);
+        break;
+      case UP_ARROW:
+        this._increment(1);
+        break;
+      case RIGHT_ARROW:
+        // See comment on LEFT_ARROW about the conditions under which we flip the meaning.
+        this._increment(this._getDirection() === Dir.rtl ? -1 : 1);
+        break;
+      case DOWN_ARROW:
+        this._increment(-1);
+        break;
+      default:
+        // Return if the key is not one that we explicitly handle to avoid calling preventDefault on
+        // it.
+        return;
+    }
+
+    if (!valueEquals(oldValue, this.value)) {
+      this._emitInputEvent();
+      this._emitChangeEvent();
+      this._changes.next();
+    }
+
+    event.preventDefault();
+  }
+
+  _onKeyup() {
+    if (this._isSliding === 'keyboard') {
+      this._renderer.removeClass(this._el.nativeElement, this.classes.sliding);
+      this._isSliding = null;
+      this._thumbsOnSlideStart = null;
+      this._valueOnSlideStart = null;
+      this._closestIndex = null;
+    }
+  }
+
+  private _pointerDown = (event: TouchEvent | MouseEvent) => {
+    // Don't do anything if the slider is disabled or the
+    // user is using anything other than the main mouse button.
+    if (this.disabled || this._isSliding || (!isTouchEvent(event) && event.button !== 0)) {
+      return;
+    }
+
+    this._ngZone.run(() => {
+      this._touchId = isTouchEvent(event)
+        ? getTouchIdForSlider(event, this._el.nativeElement)
+        : undefined;
+      const pointerPosition = getPointerPositionOnPage(event, this._touchId);
+
+      if (pointerPosition) {
+        const oldValue = this.value;
+        this._isSliding = 'pointer';
+        this._lastPointerEvent = event;
+        event.preventDefault();
+        this._focusHostElement();
+        this._onMouseenter(); // Simulate mouseenter in case this is a mobile device.
+        this._bindGlobalEvents(event);
+        this._focusHostElement();
+        this._setOnSlideStart();
+        this._updateValueFromPosition(pointerPosition.x, pointerPosition.y);
+
+        // Emit a change and input event if the value changed.
+        if (!valueEquals(oldValue, this.value)) {
+          this._emitInputEvent();
+          this._changes.next();
+        }
+      }
+    });
+  }
+
+   /**
+   * Called when the user has moved their pointer after
+   * starting to drag. Bound on the document level.
+   */
+  private _pointerMove = (event: TouchEvent | MouseEvent) => {
+    if (this._isSliding === 'pointer') {
+      const pointerPosition = getPointerPositionOnPage(event, this._touchId);
+
+      if (pointerPosition) {
+        // Prevent the slide from selecting anything else.
+        event.preventDefault();
+        const oldValue = this.value;
+        this._lastPointerEvent = event;
+        this._updateValueFromPosition(pointerPosition.x, pointerPosition.y);
+
+        // Native range elements always emit `input` events when the value changed while sliding.
+        if (!valueEquals(oldValue, this.value)) {
+          this._emitInputEvent();
+          this._changes.next();
+        }
+      }
+    }
+  }
+
+  /** Called when the user has lifted their pointer. Bound on the document level. */
+  private _pointerUp = (event: TouchEvent | MouseEvent) => {
+    if (this._isSliding === 'pointer') {
+      if (
+        !isTouchEvent(event) ||
+        typeof this._touchId !== 'number' ||
+        // Note that we use `changedTouches`, rather than `touches` because it
+        // seems like in most cases `touches` is empty for `touchend` events.
+        findMatchingTouch(event.changedTouches, this._touchId)
+      ) {
+        event.preventDefault();
+        this._removeGlobalEvents();
+        this._isSliding = null;
+        this._touchId = undefined;
+        this._renderer.removeClass(this._el.nativeElement, this.classes.sliding);
+
+        if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
+          this._emitChangeEvent();
+          this._changes.next();
+        }
+
+        this._thumbsOnSlideStart = null;
+        this._closestIndex = null;
+        this._valueOnSlideStart = this._lastPointerEvent = null;
+      }
+    }
+  }
+
+  _onFocusThumb(thumb: Thumb) {
     if (!this.disabled) {
       thumb.focused = true;
     }
   }
 
-  _onBlur(thumb: Thumb) {
-    if (!this.disabled) {
+  _onBlurThumb(thumb: Thumb) {
+    if (!this.disabled ) {
       thumb.focused = false;
     }
   }
 
-  _onTap(event: HammerInput) {
-    if (this.disabled) {
-      return;
-    }
-    this._startSlide();
-    this._updateValueFromPosition(event.center.x, event.center.y);
-    this._onSlideEnd();
-  }
 
-  _onSlide(event: HammerInput) {
-    if (this.disabled) {
-      return;
-    }
+  private _setOnSlideStart() {
+    if (!this._valueOnSlideStart) {
 
-    this._startSlide();
-
-    if (event['isFinal']) {
-      if (event['pointerType'] === 'touch' && event.center.x === 0 && event.center.y === 0) {
-        // restore to initial position
-        this.value = this._valueOnSlideStart;
-      } else {
-        this._updateValueFromPosition(event.center.x, event.center.y);
-      }
-      this._onSlideEnd();
-    } else {
-      this._updateValueFromPosition(event.center.x, event.center.y);
-    }
-
-
-    event.preventDefault();
-
-    this._emitInputEvent();
-    this._changes.next();
-  }
-
-  private _startSlide() {
-    if (!this._isSliding) {
-      this._isSliding = true;
       this._renderer.addClass(this._el.nativeElement, this.classes.sliding);
 
       // clone
       this._valueOnSlideStart = Array.isArray(this.value) ? this.value.slice(0) : this.value;
-
       this._thumbsOnSlideStart = this._thumbs.slice(0).map(t => ({...t}));
-      this._currentRect = this._bg!.nativeElement.getBoundingClientRect() as DOMRect;
     }
   }
 
-  _onSlideEnd() {
-    if (this._isSliding) {
-      this._isSliding = false;
-      this._renderer.removeClass(this._el.nativeElement, this.classes.sliding);
-
-      if (!valueEquals(this._valueOnSlideStart, this.value) && !this.disabled) {
-        this._emitChangeEvent();
-        this._changes.next();
-      }
-      this._thumbsOnSlideStart = null;
-      this._valueOnSlideStart = null;
-      this._closestIndex = null;
-      this._currentRect = null;
-    }
-  }
 
   _trackByFn(_index: number, item: Thumb) {
     return item.index;
   }
 
+  private _getDirection() {
+    return this._theme.variables.direction;
+  }
+
   private _updateValueFromPosition(x: number, y: number) {
-    if (!this._bg) {
+
+    if (!this._sliderDimensions) {
       return;
     }
 
-    const w = this._currentRect!.width;
-    const h = this._currentRect!.height;
-    x -= this._currentRect!.x;
-    y -= this._currentRect!.y;
+    const w = this._sliderDimensions!.width;
+    const h = this._sliderDimensions!.height;
+    x -= this._sliderDimensions.left;
+    y -= this._sliderDimensions.top;
 
     let percent = clamp(
       this.vertical
@@ -931,7 +1130,9 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
       thumb.value = val;
       thumb.displayValue = this._transformValue(val);
       thumb.percent = percent;
-      thumb.focused = false;
+      if (this._isSliding === 'pointer') {
+        thumb.focused = false;
+      }
       thumb.styles = {
         [pos.style]: pos.value
       };
@@ -959,29 +1160,29 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     const track = this._track;
     const thumbs = this._thumbs;
     const thumbsPercents = thumbs.map(thumb => thumb.percent!);
-    const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
-
+    // const direction = this._theme.variables.direction === 'rtl' ? 'right' : 'left';
+    // const axis = this.vertical ? 'Y' : 'X';
+    // const sign = this._theme.variables.direction === 'rtl' ? '-' : '';
     if (thumbs.length === 1) {
       thumbsPercents.unshift(0);
     }
 
     const minPercent = this._minPercent = Math.min(...thumbsPercents);
     const maxPercent = this._maxPercent = Math.max(...thumbsPercents);
+    const percent = (maxPercent / 100) - (minPercent / 100);
 
+    // const scale = this.vertical ? `1, ${percent}, 1` : `${percent}, 1, 1`;
+    const position = this.vertical ? 'height' : 'width';
+    const location = this.vertical ? 'bottom' : (this._theme.variables.direction === 'rtl' ? 'right' : 'left');
     if (track) {
-
-      track.nativeElement.style.width = null!;
-      track.nativeElement.style.height = null!;
-      track.nativeElement.style.left = null!;
-      track.nativeElement.style.right = null!;
-
-      if (this.vertical) {
-        track.nativeElement.style.height = `${(maxPercent - minPercent)}%`;
-        track.nativeElement.style.bottom = `${minPercent}%`;
-      } else {
-        track.nativeElement.style.width = `${maxPercent - minPercent}%`;
-        track.nativeElement.style[direction] = `${minPercent}%`;
-      }
+      // track.nativeElement.style.transform = `translate${axis}(${sign}${minPercent}%)`;
+      // track.nativeElement.style.transform = `translate${axis}(${sign}${minPercent}%) scale3d(${scale})`;
+      track.nativeElement.style.width = '';
+      track.nativeElement.style.height = '';
+      track.nativeElement.style.left = '';
+      track.nativeElement.style.right = '';
+      track.nativeElement.style[position] = `${percent * 100}%`;
+      track.nativeElement.style[location] = `${minPercent}%`;
     }
   }
 
@@ -1012,13 +1213,52 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     return value;
   }
 
+  /** Increments the slider by the given number of steps (negative number decrements). */
+  private _increment(numSteps: number) {
+    this._setOnSlideStart();
+    if (this._closestIndex == null) {
+      this._closestIndex = this._thumbsOnSlideStart!.findIndex(_ => _.focused);
+    }
+    const index = this._closestIndex;
+    const thumb = this._thumbsOnSlideStart![index];
+    const newValue = clamp((thumb.value || 0) + this.step * numSteps, this.min, this.max);
+    thumb.value = newValue;
+    if (Array.isArray(this.value)) {
+      this.value = this._thumbsOnSlideStart!.map(_ => _.value).sort(ASC);
+    } else {
+      this.value = newValue;
+    }
+
+    // focus slidingThumb
+    const currentSlidingThumb: Thumb | undefined = this._thumbs.find(t => t.value === newValue)!;
+    if (currentSlidingThumb) {
+      currentSlidingThumb.focused = true;
+      this._thumbsRef?.forEach((t, i) => {
+        if (i === currentSlidingThumb.index) {
+          t.nativeElement.focus();
+        } else {
+          this._thumbs[i].focused = false;
+        }
+      });
+    }
+  }
+
   _getHostElement() {
     return this._el.nativeElement;
   }
 
+  /**
+   * Get the bounding client rect of the slider track element.
+   * The track is used rather than the native element to ignore the extra space that the thumb can
+   * take up.
+   */
+   private _getSliderDimensions() {
+    return this._bg ? this._bg.nativeElement.getBoundingClientRect() : null;
+  }
+
   private _updateTickValues() {
     this.__tickList = [];
-    if (!this.ticks) {
+    if (!this.ticks || this.step == null) {
       return false;
     } else {
       const ticks = this.ticks;
@@ -1027,15 +1267,77 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
         : this.step;
 
       this.__tickList = [];
-      const tickIntervals = this._tickInterval + 1;
-      const stepWith = this._tickInterval;
-      for (let index = 0; index < tickIntervals; index++) {
-        this.__tickList.push(clamp(index * stepWith, this.min, this.max));
+      const stepWidth = this._tickInterval;
+      let cu = this.min;
+      this.__tickList.push(cu);
+      while (cu <= this.max) {
+        cu += stepWidth;
+        const newVal = clamp(cu, this.min, this.max);
+        this.__tickList.push(newVal);
+        // Remove duplicate value for next
+        if (newVal === this.max) {
+          break;
+        }
       }
     }
 
     this._cd.markForCheck();
   }
+
+  /**
+   * Focuses the native element.
+   */
+   private _focusHostElement(options?: FocusOptions) {
+    this._el.nativeElement.focus(options);
+  }
+
+   /**
+   * Binds our global move and end events. They're bound at the document level and only while
+   * dragging so that the user doesn't have to keep their pointer exactly over the slider
+   * as they're swiping across the screen.
+   */
+  private _bindGlobalEvents(triggerEvent: TouchEvent | MouseEvent) {
+    // Note that we bind the events to the `document`, because it allows us to capture
+    // drag cancel events where the user's pointer is outside the browser window.
+    const document = this._document;
+    const isTouch = isTouchEvent(triggerEvent);
+    const moveEventName = isTouch ? 'touchmove' : 'mousemove';
+    const endEventName = isTouch ? 'touchend' : 'mouseup';
+    document.addEventListener(moveEventName, this._pointerMove, activeEventOptions);
+    document.addEventListener(endEventName, this._pointerUp, activeEventOptions);
+
+    if (isTouch) {
+      document.addEventListener('touchcancel', this._pointerUp, activeEventOptions);
+    }
+
+    const window = this._getWindow();
+
+    if (typeof window !== 'undefined' && window) {
+      window.addEventListener('blur', this._windowBlur);
+    }
+  }
+
+  /** Removes any global event listeners that we may have added. */
+  private _removeGlobalEvents() {
+    const document = this._document;
+    document.removeEventListener('mousemove', this._pointerMove, activeEventOptions);
+    document.removeEventListener('mouseup', this._pointerUp, activeEventOptions);
+    document.removeEventListener('touchmove', this._pointerMove, activeEventOptions);
+    document.removeEventListener('touchend', this._pointerUp, activeEventOptions);
+    document.removeEventListener('touchcancel', this._pointerUp, activeEventOptions);
+
+    const window = this._getWindow();
+
+    if (typeof window !== 'undefined' && window) {
+      window.removeEventListener('blur', this._windowBlur);
+    }
+  }
+
+  /** Use defaultView of injected document if available or fallback to global window reference */
+  private _getWindow(): Window {
+    return this._document.defaultView || window;
+  }
+
 }
 
 function findClosest(values: number[], currentValue: number) {
@@ -1057,10 +1359,6 @@ function findClosest(values: number[], currentValue: number) {
   return closestIndex;
 }
 
-export function гvalueToPercent(value: number, min: number, max: number) {
-  return ((value - min) * 100) / (max - min);
-}
-
 function percentToValue(percent, min, max) {
   return (max - min) * (percent / 100) + min;
 }
@@ -1070,6 +1368,7 @@ function arrayEquals(array1: any, array2: any) {
     && array1.every((value, index) => value === array2[index]);
 }
 
+/** Quickly check if two values are equal */
 function valueEquals(value: number | (number | null)[] | null, value2: number | (number | null)[] | null) {
   if (value === value2) {
     return true;
@@ -1087,10 +1386,59 @@ function clamp(value: number, min: number, max: number) {
   return value;
 }
 
-export function гbetween(x: number, min: number, max: number) {
-  return x >= min && x <= max;
-}
-
 function ASC(a: number, b: number) {
   return a - b;
+}
+
+/** Returns whether an event is a touch event. */
+function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
+  // This function is called for every pixel that the user has dragged so we need it to be
+  // as fast as possible. Since we only bind mouse events and touch events, we can assume
+  // that if the event's name starts with `t`, it's a touch event.
+  return event.type[0] === 't';
+}
+
+/** Gets the unique ID of a touch that matches a specific slider. */
+function getTouchIdForSlider(event: TouchEvent, sliderHost: HTMLElement): number | undefined {
+  for (let i = 0; i < event.touches.length; i++) {
+    const target = event.touches[i].target as HTMLElement;
+
+    if (sliderHost === target || sliderHost.contains(target)) {
+      return event.touches[i].identifier;
+    }
+  }
+
+  return undefined;
+}
+
+/** Gets the coordinates of a touch or mouse event relative to the viewport. */
+function getPointerPositionOnPage(event: MouseEvent | TouchEvent, id: number | undefined) {
+  let point: {clientX: number; clientY: number} | undefined;
+
+  if (isTouchEvent(event)) {
+    // The `identifier` could be undefined if the browser doesn't support `TouchEvent.identifier`.
+    // If that's the case, attribute the first touch to all active sliders. This should still cover
+    // the most common case while only breaking multi-touch.
+    if (typeof id === 'number') {
+      point = findMatchingTouch(event.touches, id) || findMatchingTouch(event.changedTouches, id);
+    } else {
+      // `touches` will be empty for start/end events so we have to fall back to `changedTouches`.
+      point = event.touches[0] || event.changedTouches[0];
+    }
+  } else {
+    point = event;
+  }
+
+  return point ? {x: point.clientX, y: point.clientY} : undefined;
+}
+
+/** Finds a `Touch` with a specific ID in a `TouchList`. */
+function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
+  for (let i = 0; i < touches.length; i++) {
+    if (touches[i].identifier === id) {
+      return touches[i];
+    }
+  }
+
+  return undefined;
 }

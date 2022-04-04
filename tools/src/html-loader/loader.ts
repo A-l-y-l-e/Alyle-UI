@@ -3,9 +3,9 @@ import { prism } from './prism';
 import { prismCustomClass } from './prism-custom-class';
 import * as domino from 'domino';
 import { color } from '@alyle/ui/color';
-import { lyl } from '@alyle/ui';
+// import { lyl } from '@alyle/ui';
 
-global['color'] = color;
+(global as any)['color'] = color;
 showdown.extension('custom', function() {
   return [{
     type: 'output',
@@ -67,18 +67,18 @@ showdown.extension('prism', () => {
   ];
 });
 
-export default function (markdown: string) {
-  this.cacheable();
+// export function functionA(markdown: string) {
+//   this.cacheable();
 
-  const converter = new showdown.Converter({
-    extensions: ['prism'],
-    strikethrough: true
-  });
+//   const converter = new showdown.Converter({
+//     extensions: ['prism'],
+//     strikethrough: true
+//   });
 
-  const html = converter.makeHtml(markdown);
+//   const html = converter.makeHtml(markdown);
 
-  return html;
-}
+//   return html;
+// }
 
 export function mdToHtml(markdown: string) {
   const converter = new showdown.Converter({
@@ -106,15 +106,23 @@ function highlightColors(content: string) {
             const rgba = color(...eval(`${colorRgx[0]}.rgba()`));
             const lum = rgba.luminance();
             const id = `_${Math.floor(Math.random() * Date.now()).toString(36)}`;
-            const styl = lyl `{
-              & {
-                background: ${rgba.css()}
-                opacity: ${rgba.alpha()}
-              }
-              * {
-                color: ${lum < 0.5 ? 'white' : '#202020'} !important
-              }
-            }`(`.${id}`);
+            // const styl = lyl `{
+            //   & {
+            //     background: ${rgba.css()}
+            //     opacity: ${rgba.alpha()}
+            //   }
+            //   * {
+            //     color: ${lum < 0.5 ? 'white' : '#202020'} !important
+            //   }
+            // }`(`.${id}`);
+            const styl = `.${id}{`
+              + `background:${rgba.css()};`
+              + `opacity:${rgba.alpha()}`
+              + `}`
+              + `.${id} *{`
+              + `color: ${lum < 0.5 ? 'white' : '#202020'} !important`
+              + `}`;
+
             return `<style>${styl}</style><span class="${id}">${item}</span>`;
           }
         }
@@ -157,7 +165,7 @@ function escape(html: string) {
   };
 
   if (escapeTest.test(html)) {
-    return html.replace(escapeReplace, (ch: '{' | '}') => replacements[ch]);
+    return html.replace(escapeReplace, (ch: string) => replacements[ch as '{' | '}']);
   }
 
   return html;

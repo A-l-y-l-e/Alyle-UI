@@ -3,7 +3,7 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttbb">STYLES</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttbb">EXPANSION_STYLES</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/expansion'</span><span class="tt18 ttae">;</span>
 
 
-<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">,</span> ref<span class="tt18 ttb0">:</span> ThemeRef</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+<span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">,</span> ref<span class="tt18 ttb0">:</span> ThemeRef<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
   <span class="tt18 tt3o">// The classes for `expansion` are not yet created, therefore,</span>
   <span class="tt18 tt3o">// we will create them to use them.</span>
   <span class="tt18 tt1j">const</span> expansion <span class="tt18 ttb0">=</span> ref<span class="tt18 ttae">.</span><span class="tt18 tta3">selectorsOf</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">EXPANSION_STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
@@ -11,7 +11,7 @@
   <span class="tt18 tt1j">const</span> <span class="tt18 ttae">&#123;</span> before <span class="tt18 ttae">&#125;</span> <span class="tt18 ttb0">=</span> theme<span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">return</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-    <span class="tt18 function-variable tta3">expansion</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span> <span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 template-string"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+    <span class="tt18 tteo tta3">expansion</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span> <span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
       </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>expansion<span class="tt18 ttae">.</span>panel<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
         &amp;::after &#123;
           transition: border </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>
@@ -40,18 +40,18 @@
         &amp;</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>expansion<span class="tt18 ttae">.</span>panel<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
           background: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>background<span class="tt18 ttae">.</span>secondary<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
           &amp;::after &#123;
-            border-</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>before<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">: 2px solid </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
+            border-</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>before<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">: 2px solid </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span>default<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
           &#125;
         &#125;
         </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>expansion<span class="tt18 ttae">.</span>panelHeader<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>expansion<span class="tt18 ttae">.</span>panelTitle<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
-          color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span><span class="tt18 tt1j">default</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
+          color: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span>primary<span class="tt18 ttae">.</span>default<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
         &#125;
       &#125;
     &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
 
-@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-custom-expansion-panel'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./custom-expansion-panel.component.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
@@ -60,12 +60,12 @@
   <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_theme<span class="tt18 ttae">.</span><span class="tt18 tta3">addStyleSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
   panelStates <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
-    <span class="tt18 ttae">&#123;</span> state<span class="tt18 ttb0">:</span> <span class="tt18 boolean">false</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-    <span class="tt18 ttae">&#123;</span> state<span class="tt18 ttb0">:</span> <span class="tt18 boolean">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
-    <span class="tt18 ttae">&#123;</span> state<span class="tt18 ttb0">:</span> <span class="tt18 boolean">false</span> <span class="tt18 ttae">&#125;</span>
+    <span class="tt18 ttae">&#123;</span> state<span class="tt18 ttb0">:</span> <span class="tt18 tted">false</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> state<span class="tt18 ttb0">:</span> <span class="tt18 tted">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttae">&#123;</span> state<span class="tt18 ttb0">:</span> <span class="tt18 tted">false</span> <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
-  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span><span class="tt18 parameter"><span class="tt18 tt1j">private</span> _theme<span class="tt18 ttb0">:</span> LyTheme2</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">private</span> _theme<span class="tt18 ttb0">:</span> LyTheme2<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
 <span class="tt18 ttae">&#125;</span>
 </code></pre>

@@ -10,17 +10,16 @@ import { LyFieldModule } from '@alyle/ui/field';
 import { DialogPromptComponent, DialogPromptDialog } from './dialog-prompt.component';
 
 @NgModule({
-  declarations: [DialogPromptComponent, DialogPromptDialog],
-  entryComponents: [DialogPromptDialog],
-  imports: [
-    CommonModule,
-    FormsModule,
-    LyDialogModule,
-    LyGridModule,
-    LyButtonModule,
-    LyTypographyModule,
-    LyFieldModule
-  ],
-  exports: [DialogPromptComponent]
+    declarations: [DialogPromptComponent, DialogPromptDialog],
+    imports: [
+        CommonModule,
+        FormsModule,
+        LyDialogModule,
+        LyGridModule,
+        LyButtonModule,
+        LyTypographyModule,
+        LyFieldModule
+    ],
+    exports: [DialogPromptComponent]
 })
 export class DialogPromptModule { }

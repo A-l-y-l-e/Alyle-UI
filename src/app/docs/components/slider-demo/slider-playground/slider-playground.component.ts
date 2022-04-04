@@ -1,20 +1,25 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LyTheme2 } from '@alyle/ui';
+import { lyl, StyleRenderer } from '@alyle/ui';
 
-const STYLES = ({
-  sliderContainer: {
-    minHeight: '48px'
-  }
-});
+const STYLES = () => {
+  return {
+    sliderContainer: lyl `{
+      margin: 16px
+    }`
+  };
+};
 
 @Component({
   selector: 'aui-slider-playground',
   templateUrl: './slider-playground.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class SliderPlaygroundComponent implements OnInit {
-  readonly classes = this.theme.addStyleSheet(STYLES);
-  value = 0;
+  readonly classes = this.sRenderer.renderSheet(STYLES);
+  value = 70;
   min = 0;
   max = 100;
   step = 10;
@@ -25,6 +30,9 @@ export class SliderPlaygroundComponent implements OnInit {
   ticksPerStep = true;
   tickInterval = 1;
   disabled = false;
+  size: 'small' | 'medium' = 'small';
+  color: 'primary' | 'accent' = 'primary';
+  appearance: 'standard' | 'md' = 'standard';
 
   get ticks(): number | boolean {
     return this.showTicks
@@ -34,7 +42,9 @@ export class SliderPlaygroundComponent implements OnInit {
       : false;
   }
 
-  constructor(private theme: LyTheme2) { }
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) { }
 
   ngOnInit() {
   }

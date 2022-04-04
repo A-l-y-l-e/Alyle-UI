@@ -7,7 +7,7 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 
-> Currently the latest version of Alyle UI supports Angular 10, if your project uses Angular 9, you can use Alyle UI 9.
+> Currently the latest version of Alyle UI supports Angular 13, if your project uses Angular 11, you can use Alyle UI 11.
 
 ## Angular CLI
 
@@ -85,7 +85,7 @@ import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
     { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: `minima-light`
     { provide: LY_THEME, useClass: MinimaDark, multi: true }, // name: `minima-dark`
     // Gestures
-    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig } // Required for <ly-carousel>
   ]
   ...
 })
@@ -98,9 +98,9 @@ This library uses Roboto Font & Google's Material Icons, you can add this in `sr
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet">
 ```
 
-## Step 3: Install HammerJs</h2>
+## Step 3: Install HammerJs
 
-Both <code class="html"><ly-carousel></code> and <code class="html"><ly-slider></code> require <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
+<code class="html"><ly-carousel></code> requires <a href="http://hammerjs.github.io/">HammerJs</a> for gestures.
 
 ```bash
 yarn add hammerjs

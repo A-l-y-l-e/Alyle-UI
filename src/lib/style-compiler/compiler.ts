@@ -20,8 +20,9 @@ export function styleCompiler(content: string) {
     const source = ts.createSourceFile('', styleBlock, ts.ScriptTarget.Latest, true);
     const templateExpression = findNode(source, ts.SyntaxKind.TemplateExpression) as ts.TemplateExpression | null;
     if (!templateExpression) {
-      const cssContent = new LylParse(styleBlock.slice(1, styleBlock.length - 1)).toCss();
-      styleBlock = `(className: string) => \`${cssContent}\``;
+      const parsed = new LylParse(styleBlock.slice(1, styleBlock.length - 1), '${_className}', true, false);
+      const cssContent = parsed.toCss();
+      styleBlock = `(_className: string) => \`${cssContent}\``;
       return styleBlock;
     }
 
@@ -42,11 +43,13 @@ export function styleCompiler(content: string) {
     if (templateString.includes('...${')) {
       complexStyles++;
     }
-
-    const css = new LylParse(
-      templateString.slice(1, templateString.length - 1)
-    ).toCss().replace(REPLACE_ID_REGEX(), (id: string) => data[id] || id);
-    styleBlock = `(className: string) => \`${css}\``;
+    const _parsed = new LylParse(
+      templateString.slice(1, templateString.length - 1),
+      '${_className}',
+      true, false
+    );
+    const css = _parsed.toCss().replace(REPLACE_ID_REGEX(), (id: string) => data[id] || id);
+    styleBlock = `(_className: string) => \`${css}\``;
     return styleBlock;
   });
 
@@ -86,6 +89,9 @@ function updateImport(content: string, numSimpleStyles: number, numComplexStyles
         imp => imp === 'lyl' ? 'st2c' : imp);
     } else if (numSimpleStyles) {
       imports = imports.filter(imp => imp !== 'lyl');
+    }
+    if (!imports.length) {
+      return ``;
     }
     return `import {\n  ${imports.join(`,\n  `)} } from ${modulePath.trim()};`;
   });

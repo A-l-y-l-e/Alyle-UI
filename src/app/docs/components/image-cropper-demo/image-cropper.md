@@ -124,15 +124,44 @@ export class MyComponent {
 
 ## Cropper image from URL
 
-You can use the <code class="ts">setImageUrl(src: string, fn?: () => void)</code> method.
+You can use the <code class="ts">loadImage(config: ImgCropperLoaderConfig)</code> method.
+
+```ts
+const config = {
+  scale: 0.745864772531767,
+  xOrigin: 642.380608078103,
+  yOrigin: 236.26357452128866,
+  // areaWidth: 100, // Use when cropper area is not fixed
+  // areaHeight: 100,
+  rotation: 0,
+  originalDataURL: 'https://...'
+};
+this.cropper.loadImage(config);
+```
 
 <demo-view path="docs/components/image-cropper-demo/image-cropper-example-01">
   <image-cropper-example-01></image-cropper-example-01>
 </demo-view>
 
-## Crop Circle
+## Full cropper area width
 
-~~For this just add the `border-radius: 50%` styles to the cropper area.~~
+The demo below has an aspect ratio of 3:1 and results in an image with a maximum width of 600px.
+
+```ts
+myConfig: ImgCropperConfig = {
+  width: 200 * 3,
+  height: 200,
+  keepAspectRatio: true,
+  responsiveArea: true,
+  output: ImgResolution.OriginalImage,
+};
+```
+
+<demo-view path="docs/components/image-cropper-demo/aui-full-cropper-width">
+  <aui-full-cropper-width></aui-full-cropper-width>
+</demo-view>
+
+## Crop Circle
 
 You can add `round` to the cropper config. If set to true, `keepAspectRatio` will also be true (since an oval image would not make sense).
 

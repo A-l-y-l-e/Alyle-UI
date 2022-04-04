@@ -1,23 +1,23 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-accordion</span>
-  <span class="tt18 ttbx">[withClass]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>classes.expansion<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">[hasToggle]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>false<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[withClass]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>classes.expansion<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[hasToggle]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>false<span class="tt18 ttae">"</span></span>
 <span class="tt18 ttae">></span></span>
   <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-expansion-panel</span>
-    <span class="tt18 ttbx">*ngFor</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>let panel of panelStates; index as i<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">[expanded]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>panel.state<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">(opened)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>panel.state = true<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">(closed)</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>panel.state = false<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttbx">*ngFor</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>let panel of panelStates; index as i<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttbx">[expanded]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>panel.state<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttbx">(opened)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>panel.state = true<span class="tt18 ttae">"</span></span>
+    <span class="tt18 ttbx">(closed)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>panel.state = false<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttae">></span></span>
     <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-expansion-panel-header</span><span class="tt18 ttae">></span></span>
       <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-panel-title</span>
       <span class="tt18 ttae">></span></span>Lorem ipsum dolor sit amet elit &#123;&#123; i + 1 &#125;&#125;<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-panel-title</span><span class="tt18 ttae">></span></span>
       <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span>
         <span class="tt18 ttbx">ly-button</span>
-        <span class="tt18 ttbx">[color]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>panel.state ? 'primary' : 'text'<span class="tt18 ttae">"</span></span>
-        <span class="tt18 ttbx">appearance</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>icon<span class="tt18 ttae">"</span></span>
+        <span class="tt18 ttbx">[color]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>panel.state ? <span class="tt18 ttae">'</span>primary<span class="tt18 ttae">'</span> : <span class="tt18 ttae">'</span>text<span class="tt18 ttae">'</span><span class="tt18 ttae">"</span></span>
+        <span class="tt18 ttbx">appearance</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>icon<span class="tt18 ttae">"</span></span>
       <span class="tt18 ttae">></span></span>
         <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-expansion-icon</span>
-          <span class="tt18 ttbx">[up]</span><span class="tt18 ttbm"><span class="tt18 ttae">=</span><span class="tt18 ttae">"</span>panel.state<span class="tt18 ttae">"</span></span>
+          <span class="tt18 ttbx">[up]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>panel.state<span class="tt18 ttae">"</span></span>
         <span class="tt18 ttae">></span></span><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-expansion-icon</span><span class="tt18 ttae">></span></span>
       <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
     <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-expansion-panel-header</span><span class="tt18 ttae">></span></span>

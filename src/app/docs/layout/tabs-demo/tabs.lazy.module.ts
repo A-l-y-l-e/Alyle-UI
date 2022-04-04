@@ -14,6 +14,7 @@ import { TabsWithIconModule } from './tabs-with-icon/tabs-with-icon.module';
 import { TabsPlacementModule } from './tabs-placement/tabs-placement.module';
 import { TabsDynamicHeightModule } from './tabs-dynamic-height/tabs-dynamic-height.module';
 import { TabsDynamicHeightComponent } from './tabs-dynamic-height/tabs-dynamic-height.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 
 const elements = [
@@ -36,8 +37,7 @@ const elements = [
     TabsPlacementModule,
     TabsDynamicHeightModule
   ],
-  entryComponents: elements
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

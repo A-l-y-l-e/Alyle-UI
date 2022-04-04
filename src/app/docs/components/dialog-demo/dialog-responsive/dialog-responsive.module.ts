@@ -8,15 +8,14 @@ import { LyTypographyModule } from '@alyle/ui/typography';
 import { DialogResponsiveComponent, DialogResponsiveDemo } from './dialog-responsive.component';
 
 @NgModule({
-  declarations: [DialogResponsiveComponent, DialogResponsiveDemo],
-  entryComponents: [DialogResponsiveDemo],
-  imports: [
-    CommonModule,
-    LyDialogModule,
-    LyGridModule,
-    LyButtonModule,
-    LyTypographyModule
-  ],
-  exports: [DialogResponsiveComponent]
+    declarations: [DialogResponsiveComponent, DialogResponsiveDemo],
+    imports: [
+        CommonModule,
+        LyDialogModule,
+        LyGridModule,
+        LyButtonModule,
+        LyTypographyModule
+    ],
+    exports: [DialogResponsiveComponent]
 })
 export class DialogResponsiveModule { }

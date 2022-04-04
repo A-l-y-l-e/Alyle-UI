@@ -6,14 +6,13 @@ import {
   ChangeDetectionStrategy,
   VERSION,
   isDevMode,
-  Renderer2
 } from '@angular/core';
 import { VERSION as CDK_VERSION } from '@angular/cdk';
 import { Observable, of, merge, forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, retry, map } from 'rxjs/operators';
-import { AUI_VERSION, LyTheme2 } from '@alyle/ui';
+import { AUI_VERSION, lyl, StyleRenderer, ThemeRef } from '@alyle/ui';
 import { AUIThemeVariables } from '../../app.module';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Platform } from '@angular/cdk/platform';
@@ -25,41 +24,91 @@ const DECLARATIONS_REGEXP = /declarations: \[\:?(?:[\s]+)?([\w]+)(?:[\,\s\w]+)?\
 const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;
 const SELECTOR_APP = 'root-app';
 
-const styles = (theme: AUIThemeVariables) => ({
-  root: {
-    position: 'relative',
-    display: 'block',
-    '> div > ly-paper': {
-      display: 'block'
-    }
-  },
-  codeContainer: {
-    overflowY: 'auto',
-    height: '100%',
-    background: 'transparent',
-    marginTop: '1px',
-    '> *': {
-      margin: 0
-    }
-  },
-  tabContainer: {
-    padding: '48px 24px 24px 24px'
-  },
-  tabContent: {
-    padding: '24px 24px 0 24px'
-  },
-  code: {
-    position: 'absolute',
-    after: 0,
-    top: '4px',
-    zIndex: 1
-  },
-  stackblitzButton: {
-    '&:hover': {
-      color: theme.stackblitz
-    }
-  }
-});
+export const STYLES = (theme: AUIThemeVariables, ref: ThemeRef) => {
+  const classes = ref.selectorsOf(STYLES);
+  const $host = 'fonts/firacode/';
+  const { after } = theme;
+  return {
+    $global: lyl `{
+      @font-face {
+        font-family: Fira Code
+        src: url('${$host}eot/FiraCode-Light.eot')
+        src: url('${$host}eot/FiraCode-Light.eot') format('embedded-opentype'),
+            url('${$host}woff2/FiraCode-Light.woff2') format('woff2'),
+            url('${$host}woff/FiraCode-Light.woff') format('woff'),
+            url('${$host}ttf/FiraCode-Light.ttf') format('truetype')
+        font-weight: 300
+        font-style: normal
+      }
+      @font-face {
+          font-family: Fira Code
+          src: url('${$host}eot/FiraCode-Regular.eot')
+          src: url('${$host}eot/FiraCode-Regular.eot') format('embedded-opentype'),
+              url('${$host}woff2/FiraCode-Regular.woff2') format('woff2'),
+              url('${$host}woff/FiraCode-Regular.woff') format('woff'),
+              url('${$host}ttf/FiraCode-Regular.ttf') format('truetype')
+          font-weight: 400
+          font-style: normal
+      }
+
+      @font-face {
+          font-family: Fira Code
+          src: url('${$host}eot/FiraCode-Medium.eot')
+          src: url('${$host}eot/FiraCode-Medium.eot') format('embedded-opentype'),
+              url('${$host}woff2/FiraCode-Medium.woff2') format('woff2'),
+              url('${$host}woff/FiraCode-Medium.woff') format('woff'),
+              url('${$host}ttf/FiraCode-Medium.ttf') format('truetype')
+          font-weight: 500
+          font-style: normal
+      }
+
+      @font-face {
+          font-family: Fira Code
+          src: url('${$host}eot/FiraCode-Bold.eot')
+          src: url('${$host}eot/FiraCode-Bold.eot') format('embedded-opentype'),
+              url('${$host}woff2/FiraCode-Bold.woff2') format('woff2'),
+              url('${$host}woff/FiraCode-Bold.woff') format('woff'),
+              url('${$host}ttf/FiraCode-Bold.ttf') format('truetype')
+          font-weight: 700
+          font-style: normal
+      }
+    }`,
+    root: () => lyl `{
+      position: relative
+      display: block
+      > div > ly-paper {
+        display: block
+      }
+      ...${theme.demoViewer?.(classes)}
+    }`,
+    codeContainer: lyl `{
+      overflow-y: auto
+      height: 100%
+      background: transparent
+      margin-top: 1px
+      > * {
+        margin: 0
+      }
+    }`,
+    tabContainer: lyl `{
+      padding: 48px 24px 24px 24px
+    }`,
+    tabContent: lyl `{
+      padding: 24px 24px 0 24px
+    }`,
+    code: lyl `{
+      position: absolute
+      ${after}: 0
+      top: 4px
+      z-index: 1
+    }`,
+    stackblitzButton: lyl `{
+      &:hover {
+        color: ${theme.stackblitz}
+      }
+    }`
+  };
+};
 
 interface Demos {
   path?: string;
@@ -72,10 +121,13 @@ interface Demos {
   selector: 'demo-view',
   templateUrl: './view.component.html',
   preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    StyleRenderer
+  ]
 })
 export class ViewComponent implements OnInit {
-  readonly classes = this.theme.addStyleSheet(styles);
+  readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   hasCode = false;
   name: string;
   folderName: string;
@@ -102,16 +154,13 @@ export class ViewComponent implements OnInit {
     this.files.push();
   }
   constructor(
-    renderer: Renderer2,
+    readonly sRenderer: StyleRenderer,
     private http: HttpClient,
     private el: ElementRef,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private theme: LyTheme2,
     private _platform: Platform
-  ) {
-    renderer.addClass(el.nativeElement, this.classes.root);
-  }
+  ) { }
   toggleCode() {
     this.hasCode = !this.hasCode;
   }
@@ -282,7 +331,7 @@ export class GlobalVariables {
           `}).catch(err => console.error(err));`
         ),
         'polyfills.ts': (
-          `import 'core-js/es6/reflect';\nimport 'core-js/es7/reflect';\nimport 'zone.js/dist/zone';\nimport 'hammerjs';\nimport 'web-animations-js';\n`
+          `import 'core-js/es6/reflect';\nimport 'core-js/es7/reflect';\nimport 'zone.js';\nimport 'hammerjs';\nimport 'web-animations-js';\n`
         ),
         'index.html': (
           `<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet">\n` +

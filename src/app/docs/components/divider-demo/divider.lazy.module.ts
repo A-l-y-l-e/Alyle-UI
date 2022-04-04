@@ -4,6 +4,7 @@ import { ListDividersComponent } from './list-dividers/list-dividers.component';
 import { InsetDividersComponent } from './inset-dividers/inset-dividers.component';
 import { ListDividersModule } from './list-dividers/list-dividers.module';
 import { InsetDividersModule } from './inset-dividers/inset-dividers.module';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   ListDividersComponent,
@@ -14,9 +15,8 @@ const elements = [
   imports: [
     ListDividersModule,
     InsetDividersModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

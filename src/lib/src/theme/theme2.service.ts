@@ -59,6 +59,10 @@ export class LyTheme2 {
     return this._directionChanged.asObservable();
   }
 
+  /** Event emitted when the theme has changed. */
+  private _themeChanged = new Subject<void>();
+  readonly themeChanged = this._themeChanged.asObservable();
+
   /** Get Theme Variables */
   get variables(): ThemeVariables {
     return this.config;
@@ -66,6 +70,7 @@ export class LyTheme2 {
   private themeMap = THEME_MAP;
   /** ssr or hmr */
   private isDevOrServer = isDevMode() || !this._platform.isBrowser;
+  protected _document: Document;
 
 
   constructor(
@@ -74,10 +79,11 @@ export class LyTheme2 {
     @Inject(LY_THEME_NAME) themeName,
     @Optional() @Inject(LY_THEME) themeConfig: ThemeConfig[] | ThemeConfig,
     @Optional() @Inject(LY_THEME_GLOBAL_VARIABLES) globalVariables: ThemeConfig,
-    @Inject(DOCUMENT) private _document: any,
+    @Inject(DOCUMENT) _document: any,
     private _ngZone: NgZone,
     private _platform: Platform
   ) {
+    this._document = _document;
     if (themeConfig) {
       core.initializeTheme(themeConfig, globalVariables);
     }
@@ -214,6 +220,7 @@ export class LyTheme2 {
       theme.change = themeName;
       this.config = this.core.get(themeName)!;
       this._updateAllStyles();
+      this._themeChanged.next();
     }
   }
 
@@ -223,6 +230,14 @@ export class LyTheme2 {
     this.config.direction = current === Dir.ltr ? Dir.rtl : Dir.ltr;
     this._updateAllStyles();
     this._directionChanged.next();
+  }
+
+  setDirection(dir: Dir | `${Dir}`) {
+    if (this.config.direction !== dir) {
+      this.config.direction = dir;
+      this._updateAllStyles();
+      this._directionChanged.next();
+    }
   }
 
   private _updateAllStyles() {
@@ -354,7 +369,7 @@ export class LyTheme2 {
         styleMap.css = css;
       }
       if (!this.elements.has(newId)) {
-        const newEl = this._createElementStyle(css);
+        const newEl = this._createStyleElement();
         if (styleMap.requireUpdate) {
           // This is required for when a theme changes
           this.elements.set(newId, newEl);
@@ -363,11 +378,12 @@ export class LyTheme2 {
           // since the styles will not change
           this.stylesInDocument.styleElementGlobalMap.set(newId, newEl);
         }
-        this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), newEl);
+        this._renderCss(newEl, css, styleMap.priority);
       }
       if (forChangeTheme) {
         const el = this.elements.get(newId) as HTMLStyleElement;
-        el.innerText = css;
+        el.removeChild(el.firstChild!);
+        el.appendChild(this._document.createTextNode(css));
       }
     } else if (this.isDevOrServer) {
       /**
@@ -378,11 +394,13 @@ export class LyTheme2 {
         const _css = styleMap.css[themeName] || styleMap.css;
         const map = this.stylesInDocument.styleElementGlobalMap;
         if (styleMap.requireUpdate) {
-          this.elements.set(newId, this._createElementStyle(_css));
-          this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), this.elements.get(newId));
+          const styleElement = this._createStyleElement();
+          this.elements.set(newId, styleElement);
+          this._renderCss(styleElement, _css, styleMap.priority);
         } else if (!map.has(newId)) {
-          map.set(newId, this._createElementStyle(_css));
-          this.core.renderer.appendChild(this._createStyleContainer(styleMap.priority), map.get(newId));
+          const styleElement = this._createStyleElement();
+          map.set(newId, styleElement);
+          this._renderCss(styleElement, _css, styleMap.priority);
         }
       }
     }
@@ -390,7 +408,7 @@ export class LyTheme2 {
   }
 
   private _createStyleContainer(priority: number | null | undefined) {
-    priority = priority || 0;
+    priority = priority ?? 0;
     const { styleContainers } = this.stylesInDocument;
     if (!styleContainers.has(priority)) {
       const el = this.core.renderer.createElement(`ly-s-c`);
@@ -400,14 +418,14 @@ export class LyTheme2 {
       styleContainers.set(priority, el);
       if (styleContainers.size === 0) {
         this.core.renderer.insertBefore(this._document.body, el, this._document.body.firstChild);
-        return el;
+        return el as HTMLStyleElement;
       }
     } else {
-      return styleContainers.get(priority);
+      return styleContainers.get(priority)!;
     }
     const refChild = this.findNode(priority);
     this.core.renderer.insertBefore(this._document.body, styleContainers.get(priority), refChild);
-    return styleContainers.get(priority);
+    return styleContainers.get(priority)!;
   }
 
   private findNode(index: number) {
@@ -417,11 +435,15 @@ export class LyTheme2 {
     return (key !== undefined && styleContainers.get(key)) || this.core.firstElement;
   }
 
-  private _createElementStyle(css: string) {
-    const styleElement = this.core.renderer.createElement('style');
-    const styleText = this.core.renderer.createText(css);
-    this.core.renderer.appendChild(styleElement, styleText);
+  private _createStyleElement() {
+    const styleElement = this._document.createElement('style');
     return styleElement;
+  }
+
+  private _renderCss(styleElement: HTMLStyleElement, css: string, priority: number | undefined | null) {
+    const container = this._createStyleContainer(priority);
+    styleElement.appendChild(this._document.createTextNode(css));
+    container.appendChild(styleElement);
   }
 
   requestAnimationFrame(fn: (...args: any[]) => void) {
@@ -546,6 +568,7 @@ function groupStyleToString(
     }
 
   }
+  let requireReplaceRefs = false;
 
   for (let index = 0; index < keys.length; index++) {
     const key = keys[index];
@@ -554,9 +577,9 @@ function groupStyleToString(
       // lyl
       if (key === '$global') {
         if (value.length) {
-          content += value(`/* Global Style */`);
+          content += value(``);
         } else {
-          content += (value as (() => StyleTemplate))()(`/* Global Style */`);
+          content += (value as (() => StyleTemplate))()(``);
         }
       } else {
         const selector = selectorsMap[key];
@@ -571,15 +594,25 @@ function groupStyleToString(
       }
 
     } else if (key === '$keyframes') {
+      console.warn(`'$keyframes' is deprecated, use '$global' instead to create keyframes.`);
+      requireReplaceRefs = true;
       content += keyframesToString(name, classesMap, value as KeyframesDeprecated, themeVariables);
-    } else if (typeof value === 'object' || value === null) {
+    } else if (typeof value === 'object' && value !== null) {
+      requireReplaceRefs = true;
       const currentClassName = classesMap[key];
       const style = styleToString(key, styleGroup.$name, value as StyleContainer, themeVariables, currentClassName);
       content += style;
-    }
+      if (value === null) {
+        console.warn(`__`, {style});
+      }
+    } // ignore if value === null
   }
 
-  return replaceRefs(content, classesMap);
+  if (requireReplaceRefs) {
+    return replaceRefs(content, classesMap);
+  }
+  return content;
+
 }
 
 function replaceRefs(str: string, data: Object) {

@@ -4,6 +4,7 @@ import { ResponsiveDemo01Module } from './responsive-demo-01/responsive-demo-01.
 import { ResponsiveDemo01Component } from './responsive-demo-01/responsive-demo-01.component';
 import { ResponsiveWithDsModule } from './responsive-with-ds/responsive-with-ds.module';
 import { ResponsiveWithDsComponent } from './responsive-with-ds/responsive-with-ds.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 
 const elements = [
@@ -15,9 +16,8 @@ const elements = [
   imports: [
     ResponsiveDemo01Module,
     ResponsiveWithDsModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

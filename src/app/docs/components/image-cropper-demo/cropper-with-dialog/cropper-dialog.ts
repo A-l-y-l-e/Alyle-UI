@@ -3,6 +3,7 @@ import { StyleRenderer, WithStyles, lyl, ThemeRef, ThemeVariables } from '@alyle
 import { LyDialogRef, LY_DIALOG_DATA } from '@alyle/ui/dialog';
 import { STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
 import {
+  STYLES as CROPPER_STYLES,
   LyImageCropper,
   ImgCropperConfig,
   ImgCropperEvent,
@@ -11,15 +12,21 @@ import {
 
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   ref.renderStyleSheet(SLIDER_STYLES);
+  ref.renderStyleSheet(CROPPER_STYLES);
   const slider = ref.selectorsOf(SLIDER_STYLES);
+  const cropper = ref.selectorsOf(CROPPER_STYLES);
+
   return {
-    cropper: lyl `{
-      max-width: 320px
-      height: 320px
+    root: lyl `{
+      ${cropper.root} {
+        max-width: 320px
+        height: 320px
+      }
     }`,
     sliderContainer: lyl `{
       position: relative
       ${slider.root} {
+        width: 80%
         position: absolute
         left: 0
         right: 0
@@ -42,7 +49,7 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
 })
 export class CropperDialog implements WithStyles, AfterViewInit {
 
-  readonly classes = this.sRenderer.renderSheet(STYLES);
+  readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   ready: boolean;
   scale: number;
   minScale: number;
@@ -50,8 +57,9 @@ export class CropperDialog implements WithStyles, AfterViewInit {
   myConfig: ImgCropperConfig = {
     width: 150,
     height: 150,
-    type: 'image/png',
+    // type: 'image/png',
     keepAspectRatio: true,
+    responsiveArea: true,
     output: {
       width: 200,
       height: 200

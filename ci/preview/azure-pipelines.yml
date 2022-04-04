@@ -2,7 +2,7 @@ jobs:
 - job: Preview
   displayName: Create Docs Preview
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'ubuntu-20.04'
   steps:
   - task: Bash@3
     inputs:

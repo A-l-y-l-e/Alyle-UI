@@ -9,16 +9,15 @@ import { LyTypographyModule } from '@alyle/ui/typography';
 import { FullScreenDialogComponent, FullScreenDialog } from './full-screen-dialog.component';
 
 @NgModule({
-  declarations: [FullScreenDialogComponent, FullScreenDialog],
-  entryComponents: [FullScreenDialog],
-  imports: [
-    CommonModule,
-    LyDialogModule,
-    LyGridModule,
-    LyButtonModule,
-    LyToolbarModule,
-    LyTypographyModule
-  ],
-  exports: [FullScreenDialogComponent]
+    declarations: [FullScreenDialogComponent, FullScreenDialog],
+    imports: [
+        CommonModule,
+        LyDialogModule,
+        LyGridModule,
+        LyButtonModule,
+        LyToolbarModule,
+        LyTypographyModule
+    ],
+    exports: [FullScreenDialogComponent]
 })
 export class FullScreenDialogModule { }

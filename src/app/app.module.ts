@@ -18,7 +18,8 @@ import {
   LyTheme2,
   lyl,
   StyleRenderer,
-  LyHammerGestureConfig
+  LyHammerGestureConfig,
+  LyClasses
 } from '@alyle/ui';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -28,7 +29,7 @@ import { environment } from '@env/environment';
 import { LyIconModule } from '@alyle/ui/icon';
 import { MinimaLight, MinimaDark, MinimaDeepDark } from '@alyle/ui/themes/minima';
 import { TitleComponent } from './document/title/title.component';
-import { DemoViewModule } from './demo-view';
+import { DemoViewModule, STYLES as DEMO_VIEWER_STYLES } from './demo-view';
 import { LyTypographyModule, LyTypographyTheme } from '@alyle/ui/typography';
 import { LyCardModule } from '@alyle/ui/card';
 import { AppBarComponent } from './app-bar/app-bar.component';
@@ -92,10 +93,20 @@ export class CustomMinimaDark {
     keyword: '#3cd2ad'
   };
   stackblitz = '#fff';
+  demoViewer: ((__: LyClasses<typeof DEMO_VIEWER_STYLES>)
+    => (className: string) => string) | null = null;
 }
 @Injectable()
 export class CustomMinimaDeepDark extends CustomMinimaDark {
   name = 'minima-deep-dark';
+  demoViewer = (__: LyClasses<typeof DEMO_VIEWER_STYLES>) => lyl `{
+    > div {
+      box-shadow: 0px 0px 0px 2px #353535
+      border-radius: 9px
+      overflow: hidden
+      background: none
+    }
+  }`
 }
 
 @Injectable()

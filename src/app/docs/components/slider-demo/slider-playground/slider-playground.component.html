@@ -1,6 +1,7 @@
 <div [className]="classes.sliderContainer">
   <ly-slider
     [(ngModel)]="value"
+    [appearance]="appearance"
     [min]="min"
     [max]="max"
     [step]="step"
@@ -9,6 +10,8 @@
     [vertical]="vertical"
     [thumbVisible]="thumbVisible"
     [disabled]="disabled"
+    [color]="color"
+    [size]="size"
   >
     <ly-mark [value]="11">$11</ly-mark>
     <ly-mark [value]="40">$40</ly-mark>
@@ -43,11 +46,32 @@
   <ly-checkbox [(ngModel)]="vertical">Vertical</ly-checkbox>
 </div>
 <div>
+  <label>Color: </label>
+  <ly-radio-group [(ngModel)]="color">
+    <ly-radio [value]="'primary'">primary</ly-radio>
+    <ly-radio [value]="'accent'">accent</ly-radio>
+  </ly-radio-group>
+</div>
+<div>
+  <label>Appearance: </label>
+  <ly-radio-group [(ngModel)]="appearance">
+    <ly-radio [value]="'standard'">Standard</ly-radio>
+    <ly-radio [value]="'md'">Md</ly-radio>
+  </ly-radio-group>
+</div>
+<div>
   <label>Thumb visible: </label>
   <ly-radio-group [(ngModel)]="thumbVisible">
     <ly-radio [value]="null">Null</ly-radio>
     <ly-radio [value]="true">True</ly-radio>
     <ly-radio [value]="false">False</ly-radio>
+  </ly-radio-group>
+</div>
+<div>
+  <label>Sizes: </label>
+  <ly-radio-group [(ngModel)]="size">
+    <ly-radio [value]="'small'">Small</ly-radio>
+    <ly-radio [value]="'medium'">Medium</ly-radio>
   </ly-radio-group>
 </div>
 <div>

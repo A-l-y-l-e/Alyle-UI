@@ -3,6 +3,7 @@ import { AvatarWithButtonModule } from './avatar-with-button/avatar-with-button.
 import { BasicUsesAvatarModule } from './basic-uses-avatar/basic-uses-avatar.module';
 import { AvatarWithButtonComponent } from './avatar-with-button/avatar-with-button.component';
 import { BasicUsesAvatarComponent } from './basic-uses-avatar/basic-uses-avatar.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 
 const elements = [
@@ -15,8 +16,7 @@ const elements = [
     AvatarWithButtonModule,
     BasicUsesAvatarModule
   ],
-  entryComponents: elements
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

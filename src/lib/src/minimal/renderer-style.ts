@@ -414,6 +414,7 @@ export function _renderStyle<INPUT, C>(
   const propertyKey = typeof propertyKeyConfig === 'string' ? propertyKeyConfig : propertyKeyConfig.key;
   const _propertyKeyClass = `_${propertyKey}Class`;
   const styleTemplate = style(val as any, media, c as any);
+  const hasMedia = !!media;
   if (styleTemplate == null) {
     // Remove classes
     const classesForRemove: null | string[] = c[_propertyKeyClass];
@@ -430,7 +431,7 @@ export function _renderStyle<INPUT, C>(
     c[_propertyKeyClass].push(c.sRenderer.add(
       `${typeof propertyKeyConfig === 'string' ? getComponentName(c) : propertyKeyConfig.и}--${propertyKey}-${media ? val + '_' + media : val}`,
       styleTemplate,
-      getComponentPriority(c, priority),
+      getComponentPriority(c, hasMedia ? 99999 : priority),
       c[_propertyKeyClass]
     ));
   }

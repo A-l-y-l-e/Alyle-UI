@@ -13,12 +13,12 @@ jobs:
 - job: NightlyArtifacts
   displayName: Nightly Artifacts
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'ubuntu-20.04'
   condition: eq(variables['build.reason'], 'Schedule')
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '12.x'
+      versionSpec: '16.x'
   - script: yarn
     displayName: 'Install dependencies'
 
@@ -37,12 +37,12 @@ jobs:
 - job: Bump
   displayName: Bump Version
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'ubuntu-20.04'
   condition: eq(variables['BumpVersion'], 'true')
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '12.x'
+      versionSpec: '16.x'
   - script: |
       yarn tools:bump
       PACKAGE_VERSION=$(node -p -e "require('./package.json').version")

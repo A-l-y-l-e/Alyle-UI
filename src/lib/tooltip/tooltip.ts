@@ -7,7 +7,10 @@ import {
   OnDestroy,
   TemplateRef,
   OnInit,
-  Renderer2
+  Renderer2,
+  InjectionToken,
+  Optional,
+  Inject
   } from '@angular/core';
 import {
   LyFocusState,
@@ -26,24 +29,33 @@ import {
   } from '@alyle/ui';
 import { Subscription } from 'rxjs';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Platform } from '@angular/cdk/platform';
+import { normalizePassiveListenerOptions, Platform } from '@angular/cdk/platform';
+import { coerceNumberProperty, NumberInput } from '@angular/cdk/coercion';
+
+/** Options used to bind passive event listeners. */
+const passiveListenerOptions = normalizePassiveListenerOptions({passive: true});
+
+export interface LyTooltipDefaultOptions {
+  /** Default delay when the tooltip is shown. */
+  showDelay: number;
+
+  /** Default delay when the tooltip is hidden. */
+  hideDelay: number;
+
+  /** Default delay when hiding the tooltip on a touch device. */
+  touchendHideDelay: number;
+}
+
+export const LY_TOOLTIP_DEFAULT_OPTIONS =
+  new InjectionToken<LyTooltipDefaultOptions>('LY_TOOLTIP_DEFAULT_OPTIONS');
+
+/** Possible positions for a tooltip. */
+export type LyTooltipPosition = 'left' | 'right' | 'above' | 'below' | 'before' | 'after';
 
 export interface LyTooltipTheme {
   /** Styles for Tooltip Component */
   root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
     | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
-  appearance?: {
-    icon?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
-    fab?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
-    miniFab?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
-    [name: string]: ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined
-  };
-  size?: {
-    small?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
-    medium?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
-    large?: (classes: LyClasses<typeof STYLES>) => StyleTemplate
-    [name: string]: ((classes: LyClasses<typeof STYLES>) => StyleTemplate) | undefined
-  };
 }
 
 export interface LyTooltipVariables {
@@ -74,7 +86,7 @@ export class LyTooltip implements OnInit, OnDestroy {
   readonly classes = this._theme.renderStyleSheet(STYLES);
   private _tooltip: string | TemplateRef<any> | null;
   private _tooltipOverlay: OverlayFactory | null;
-  private _listeners = new Map<string, EventListenerOrEventListenerObject>();
+  private _listeners: (readonly [string, EventListenerOrEventListenerObject])[] = [];
   private _scrollSub: Subscription;
   private _scrollVal = 0;
   private _showTimeoutId: number | null;
@@ -86,8 +98,26 @@ export class LyTooltip implements OnInit, OnDestroy {
   get tooltip() {
     return this._tooltip;
   }
-  @Input() lyTooltipShowDelay: number = 0;
-  @Input() lyTooltipHideDelay: number = 0;
+
+  @Input('lyTooltipShowDelay')
+  get showDelay(): number {
+    return this._showDelay;
+  }
+  set showDelay(value: NumberInput) {
+    this._showDelay = coerceNumberProperty(value);
+  }
+  private _showDelay = this._defaults?.showDelay ?? 0;
+
+  @Input('lyTooltipHideDelay')
+  get hideDelay(): number {
+    return this._hideDelay;
+  }
+  set hideDelay(value: NumberInput) {
+    this._hideDelay = coerceNumberProperty(value);
+  }
+  private _hideDelay = this._defaults?.hideDelay ?? 0;
+
+
   @Input('lyTooltipPlacement') placement: Placement;
   @Input('lyTooltipXPosition') xPosition: XPosition;
   @Input('lyTooltipYPosition') yPosition: YPosition;
@@ -98,26 +128,29 @@ export class LyTooltip implements OnInit, OnDestroy {
     private _renderer: Renderer2,
     private _cd: ChangeDetectorRef,
     private _focusState: LyFocusState,
+    @Optional() @Inject(LY_TOOLTIP_DEFAULT_OPTIONS)
+    private _defaults: LyTooltipDefaultOptions,
     ngZone: NgZone,
     scroll: ScrollDispatcher,
-    platform: Platform
+    private _platform: Platform,
   ) {
-    if (platform.isBrowser) {
+    if (_platform.isBrowser) {
       const element: HTMLElement = _el.nativeElement;
-      if (!platform.IOS && !platform.ANDROID) {
-        this._listeners
-          .set('mouseenter', () => this.show())
-          .set('mouseleave', () => this.hide());
+      if (this._platformSupportsMouseEvents()) {
+        this._listeners.push(['mouseenter', () => this.show()]);
+        this._listeners.push(['mouseleave', () => this.hide()]);
       } else {
-        this._listeners.set('touchstart', () => this.show());
+        this._listeners.push(['touchstart', () => this.show()]);
+        this._listeners.push(['touchend', () => this.hide(this._defaults?.touchendHideDelay ?? 1500)]);
+        this._listeners.push(['touchcancel', () => this.hide(this._defaults?.touchendHideDelay ?? 1500)]);
       }
 
-      this._listeners.forEach((listener, event) => element.addEventListener(event, listener));
+      this._addListeners(this._listeners);
 
       this._scrollSub = scroll.scrolled().subscribe(() => {
         if (this._tooltipOverlay) {
           this._scrollVal++;
-          if (this._scrollVal > 10) {
+          if (this._scrollVal > 15) {
             ngZone.run(() => this.hide(0));
             this._scrollVal = 0;
           }
@@ -144,9 +177,10 @@ export class LyTooltip implements OnInit, OnDestroy {
     this.hide(0);
 
     // Clean up the event listeners set in the constructor
-    this._listeners.forEach((listener, event) => {
-      this._el.nativeElement.removeEventListener(event, listener);
+    this._listeners.forEach(([event, listener]) => {
+      this._el.nativeElement.removeEventListener(event, listener, passiveListenerOptions);
     });
+    this._listeners.length = 0;
 
     if (this._scrollSub) {
       this._scrollSub.unsubscribe();
@@ -155,15 +189,16 @@ export class LyTooltip implements OnInit, OnDestroy {
     this._focusState.unlisten(this._el);
   }
 
-  show(delay?: number) {
-    delay = typeof delay === 'number' ? delay : this.lyTooltipShowDelay;
+  show(delay = this.showDelay) {
     if (this._hideTimeoutId) {
       clearTimeout(this._hideTimeoutId);
       this._hideTimeoutId = null;
     }
+    if (!this._platformSupportsMouseEvents()) {
+      this._updatePosition();
+    }
     if (!this._tooltipOverlay && this.tooltip && !this._showTimeoutId) {
       const tooltipRef = this.tooltip;
-
       this._showTimeoutId = setTimeout(() => {
         // const rect = this._el.nativeElement.getBoundingClientRect();
         const tooltip = this._tooltipOverlay = this._overlay.create(tooltipRef, undefined, {
@@ -181,6 +216,8 @@ export class LyTooltip implements OnInit, OnDestroy {
               opacity: 0,
               transition: `opacity ${theme.animations.curves.standard} 300ms`,
               left: 0,
+              margin: '8px',
+              pointerEvents: 'all',
               [theme.getBreakpoint('XSmall')]: {
                 padding: '8px 16px',
                 fontSize: '14px',
@@ -203,16 +240,16 @@ export class LyTooltip implements OnInit, OnDestroy {
     }
   }
 
-  hide(delay?: number) {
-    // return;
+  hide(delay = this.hideDelay) {
     const tooltipOverlay = this._tooltipOverlay;
-    delay = typeof delay === 'number' ? delay : this.lyTooltipHideDelay;
     if (this._showTimeoutId) {
       clearTimeout(this._showTimeoutId);
       this._showTimeoutId = null;
     }
+    if (!this._platformSupportsMouseEvents()) {
+      this._updatePosition();
+    }
     if (tooltipOverlay && !this._hideTimeoutId) {
-
       this._hideTimeoutId = setTimeout(() => {
         this._renderer.removeClass(tooltipOverlay.containerElement, this._theme.addStyle('lyTooltip:open', null));
         setTimeout(() => tooltipOverlay.destroy(), 300);
@@ -249,5 +286,15 @@ export class LyTooltip implements OnInit, OnDestroy {
       );
       tooltip.containerElement.style.transform = `translate3d(${position.x}px,${position.y}px,0)`;
     }
+  }
+
+  private _addListeners(listeners: (readonly [string, EventListenerOrEventListenerObject])[]) {
+    listeners.forEach(([event, listener]) => {
+      this._el.nativeElement.addEventListener(event, listener, passiveListenerOptions);
+    });
+  }
+
+  private _platformSupportsMouseEvents() {
+    return !this._platform.IOS && !this._platform.ANDROID;
   }
 }

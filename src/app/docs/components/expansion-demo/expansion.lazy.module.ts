@@ -4,6 +4,7 @@ import { BasicExpansionComponent } from './basic-expansion/basic-expansion.compo
 import { CustomExpansionPanelComponent } from './custom-expansion-panel/custom-expansion-panel.component';
 import { BasicExpansionModule } from './basic-expansion/basic-expansion.module';
 import { CustomExpansionPanelModule } from './custom-expansion-panel/custom-expansion-panel.module';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   BasicExpansionComponent,
@@ -14,9 +15,8 @@ const elements = [
   imports: [
     BasicExpansionModule,
     CustomExpansionPanelModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

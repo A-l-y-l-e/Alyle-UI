@@ -6,6 +6,7 @@ import { ButtonTypesDemoComponent } from './button-types-demo/button-types-demo.
 import { IconLabelButtonsComponent } from './icon-label-buttons/icon-label-buttons.component';
 import { ButtonWithLoadingStateModule } from './button-with-loading-state/button-with-loading-state.module';
 import { ButtonWithLoadingStateComponent } from './button-with-loading-state/button-with-loading-state.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 
 const elements = [
@@ -19,9 +20,8 @@ const elements = [
     ButtonTypesDemoModule,
     IconLabelButtonsModule,
     ButtonWithLoadingStateModule
-  ],
-  entryComponents: elements
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

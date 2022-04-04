@@ -12,17 +12,16 @@ import { DialogWithSelectDialog } from './dialog-with-select-dialog';
 
 
 @NgModule({
-  declarations: [DialogWithSelectComponent, DialogWithSelectDialog],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    LyDialogModule,
-    LyFieldModule,
-    LySelectModule,
-    LyButtonModule
-  ],
-  entryComponents: [DialogWithSelectDialog],
-  exports: [DialogWithSelectComponent]
+    declarations: [DialogWithSelectComponent, DialogWithSelectDialog],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        LyDialogModule,
+        LyFieldModule,
+        LySelectModule,
+        LyButtonModule
+    ],
+    exports: [DialogWithSelectComponent]
 })
 export class DialogWithSelectModule { }

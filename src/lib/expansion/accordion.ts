@@ -1,5 +1,14 @@
 import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { toBoolean, ThemeVariables, LyTheme2, getLyThemeVariableUndefinedError, lyl, ThemeRef, LyClasses, StyleTemplate } from '@alyle/ui';
+import { toBoolean,
+  ThemeVariables,
+  LyTheme2,
+  getLyThemeVariableUndefinedError,
+  lyl,
+  ThemeRef,
+  LyClasses,
+  StyleTemplate,
+  StyleRenderer
+} from '@alyle/ui';
 import { Subject } from 'rxjs';
 
 export interface ExpansionConfig {
@@ -39,7 +48,7 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
         }
       }
     }`,
-    root: (theme.expansion && theme.expansion.root) ? () => theme.expansion!.root!(classes) : null,
+    root: (theme.expansion?.root) ? () => theme.expansion!.root!(classes) : null,
     panel: ( ) => lyl `{
       display: block
       overflow: hidden
@@ -116,7 +125,10 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
 
 @Directive({
   selector: 'ly-accordion',
-  exportAs: 'lyAccordion'
+  exportAs: 'lyAccordion',
+  providers: [
+    StyleRenderer,
+  ]
 })
 export class LyAccordion implements OnInit {
 
@@ -137,8 +149,8 @@ export class LyAccordion implements OnInit {
   @Input()
   set appearance(val: string) {
     this._appearance = val;
-    this._appearanceClass = this._theme.addStyle(
-      `lyAccordion.appearance:${val}`,
+    const newClass = this._theme.renderStyle(
+      `${LyAccordion.и}--${val}-appearance`,
       (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef) => {
         if (!(theme.expansion!.appearance && theme.expansion!.appearance[val])) {
           throw new Error(`Value expansion.appearance['${val}'] not found in ThemeVariables`);
@@ -146,10 +158,9 @@ export class LyAccordion implements OnInit {
         const classes = ref.selectorsOf(STYLES);
         return theme.expansion!.appearance[val]!(classes);
       },
-      this._el.nativeElement,
-      this._appearanceClass,
       STYLE_PRIORITY
     );
+    this._appearanceClass = this.sRenderer.updateClass(newClass, this._appearanceClass);
   }
   get appearance() {
     return this._appearance;
@@ -172,6 +183,7 @@ export class LyAccordion implements OnInit {
   }
 
   constructor(
+    readonly sRenderer: StyleRenderer,
     private _theme: LyTheme2,
     private _renderer: Renderer2,
     private _el: ElementRef) { }

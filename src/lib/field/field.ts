@@ -20,7 +20,9 @@ import {
   HostBinding,
   Optional,
   Self,
-  DoCheck
+  DoCheck,
+  InjectionToken,
+  Inject,
   } from '@angular/core';
 import {
   LyTheme2,
@@ -49,6 +51,7 @@ import { LyFieldControlBase } from './field-control-base';
 import { Platform } from '@angular/cdk/platform';
 import { LyDisplayWith } from './display-with';
 import { takeUntil, take } from 'rxjs/operators';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyFieldTheme {
   /** Styles for Field Component */
@@ -70,10 +73,39 @@ export interface LyFieldVariables {
   field?: LyFieldTheme;
 }
 
+export interface LyFieldDefaultOptions {
+  appearance?: string;
+  /**
+   * Whether the label is floating.
+   * false (default): The label will only float when needed
+   * true: The label will always be floating
+   */
+  floatingLabel?: boolean;
+  /**
+   * Whether the hint will always show.
+   * false (default): The hint will only be shown when the text is focused
+   * true: The hint will always show
+   */
+  persistentHint?: boolean;
+  /**
+   * Floating label size
+   * Default: 0.75
+   */
+  floatingLabelSize?: number;
+  /**
+   * Whether the required marker should be hidden.
+   */
+  hideRequiredMarker?: boolean;
+}
+
+export const LY_FIELD_DEFAULT_OPTIONS =
+  new InjectionToken<LyFieldDefaultOptions>('LY_FIELD_DEFAULT_OPTIONS');
+
 /** LyField */
 const STYLE_PRIORITY = -2;
 const DEFAULT_APPEARANCE = 'standard';
 const DEFAULT_WITH_COLOR = 'primary';
+const DEFAULT_FLOATING_LABEL_SIZE = 0.75;
 
 const inputText = [
   'text',
@@ -177,7 +209,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
     }`,
     animations: ( ) => lyl `{
       & ${classes.labelSpan} {
-        transition: transform ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
+        transition: ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
       }
       & ${classes.label} {
         transition: ${theme.animations.curves.deceleration} .${theme.animations.durations.complex}s
@@ -252,12 +284,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       transform-origin: ${before} 0
     }`,
     isFloatingLabel: null,
-    floatingLabel: ( ) => lyl `{
-      ${classes.labelSpan} {
-        transform: scale(.75)
-        width: 133%
-      }
-    }`,
+    floatingLabel: null,
     placeholder: lyl `{
       ...${LY_COMMON_STYLES.fill}
       pointer-events: none
@@ -265,7 +292,11 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       text-overflow: ellipsis
       overflow: hidden
     }`,
-    focused: null,
+    focused: () => lyl `{
+      &:not(${classes.errorState}) ${classes.fieldRequiredMarker} {
+        color: ${theme.accent.default}
+      }
+    }`,
     inputNative: lyl `{
       padding: 0
       outline: none
@@ -330,6 +361,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
         max-width: 100%
         overflow: hidden
         justify-content: space-between
+        align-items: center
       }
     }`,
     disabled: ( ) => lyl `{
@@ -339,6 +371,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
       }
     }`,
     hint: null,
+    fieldRequiredMarker: null,
     error: null,
     errorState: ( ) => lyl `{
       & ${classes.label}, & ${classes.hintContainer}, &${classes.selectArrow} ${classes.infix}:after {
@@ -448,7 +481,37 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       && !this._control.errorState);
   }
 
+  /** Whether the required marker should be hidden. */
+  @Input()
+  get hideRequiredMarker(): boolean {
+    return this._hideRequiredMarker;
+  }
+  set hideRequiredMarker(value: boolean) {
+    this._hideRequiredMarker = coerceBooleanProperty(value);
+  }
+  private _hideRequiredMarker: boolean;
+
   @Input() persistentHint: boolean;
+
+  /**
+   * Floating label size
+   * Default: 0.75
+   */
+  @Input()
+  @Style(
+    (val, media) => ({ breakpoints }: ThemeVariables, ref) => {
+      const classes = ref.selectorsOf(STYLES);
+      return lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          ${classes.floatingLabel} ${classes.labelSpan} {
+            transform: scale(${val})
+            width: ${Math.round(100 / 0.75)}%
+          }
+        }
+      }`;
+    }
+  )
+  floatingLabelSize: number | null;
 
   @Input()
   set fullWidth(val: boolean) {
@@ -486,47 +549,43 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
 
   /** Theme color for the component. */
   @Input()
-  set color(val: string) {
-    if (val !== this._color) {
-      this._color = val;
-      this._colorClass = this._theme.addStyle(`ly-field.color:${val}`, (theme: ThemeVariables) => {
-        const color = theme.colorOf(val);
-        const contrast = theme.colorOf(`${val}:contrast`);
-        return {
-          [`&.${this.classes.focused} .${this.classes.container}:after, &{focused}{selectArrow} {infix}:after`]: {
-            color
-          },
-          [`&.${this.classes.focused} .${this.classes.fieldset}`]: {
-            borderColor: color
-          },
-          [`&.${this.classes.focused} .${this.classes.label}`]: {
-            color
-          },
-          [`& .${this.classes.inputNative}`]: {
-            caretColor: color
-          },
-          '& {inputNative}::selection': {
-            backgroundColor: color,
-            color: contrast
-          },
-          '& {inputNative}::-moz-selection': {
-            backgroundColor: color,
-            color: contrast
-          }
-        };
-      }, this._el.nativeElement, this._colorClass, STYLE_PRIORITY + 1, STYLES);
+  @Style<string>(
+    val => (theme: ThemeVariables, ref) => {
+      const classes = ref.selectorsOf(STYLES);
+      const color = theme.colorOf(val);
+      const contrast = theme.colorOf(`${val}:contrast`);
+      return lyl `{
+        &${classes.focused} ${classes.container}:after,
+        &${classes.focused}${classes.selectArrow} ${classes.infix}:after {
+          color: ${color}
+        }
+        &${classes.focused} ${classes.fieldset} {
+          border-color: ${color}
+        }
+        &${classes.focused} ${classes.label} {
+          color: ${color}
+        }
+        & ${classes.inputNative} {
+          caret-color: ${color}
+        }
+        & ${classes.inputNative}::selection {
+          background-color: ${color}
+          color: ${contrast}
+        }
+        & ${classes.inputNative}::-moz-selection {
+          background-color: ${color}
+          color: ${contrast}
+        }
+      }`;
     }
-  }
-  get color() {
-    return this._color;
-  }
+  ) color: string;
 
   /** The field appearance style. */
   @Input()
   @Style<string | null>(
     val => (theme: LyFieldVariables, ref) => {
       const classes = ref.selectorsOf(STYLES);
-      if (theme.field && theme.field.appearance) {
+      if (theme.field?.appearance) {
         const appearance = theme.field.appearance[val];
         if (appearance) {
           return appearance instanceof StyleCollection
@@ -555,17 +614,32 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     private _cd: ChangeDetectorRef,
     private _ngZone: NgZone,
     readonly sRenderer: StyleRenderer,
-    private _platform: Platform
+    private _platform: Platform,
+    @Optional() @Inject(LY_FIELD_DEFAULT_OPTIONS)
+    private _defaults: LyFieldDefaultOptions
   ) {
     _renderer.addClass(_el.nativeElement, this.classes.root);
+    this._hideRequiredMarker =
+      _defaults?.hideRequiredMarker != null ? _defaults.hideRequiredMarker : false;
   }
 
   ngOnInit() {
     if (!this.color) {
       this.color = DEFAULT_WITH_COLOR;
     }
+    if (this.floatingLabelSize == null) {
+      this.floatingLabelSize = (this._defaults?.floatingLabelSize != null)
+        ? this._defaults?.floatingLabelSize
+        : DEFAULT_FLOATING_LABEL_SIZE;
+    }
     if (!this.appearance) {
-      this.appearance = DEFAULT_APPEARANCE;
+      this.appearance = this._defaults?.appearance ? this._defaults?.appearance : DEFAULT_APPEARANCE;
+    }
+    if (this.persistentHint == null) {
+      this.persistentHint = (this._defaults?.persistentHint != null) ? this._defaults.persistentHint : false;
+    }
+    if (this.floatingLabel == null) {
+      this.floatingLabel = (this._defaults?.floatingLabel != null) ? this._defaults.floatingLabel : false;
     }
   }
 
@@ -603,6 +677,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       this._updateFielsetSpanOnStable = true;
       this._markForCheck();
     });
+
   }
 
   ngAfterViewInit() {
@@ -620,11 +695,19 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       return;
     }
 
+    if (this.floatingLabelSize == null) {
+      return;
+    }
+
+    if (this.appearance !== 'outlined') {
+      return;
+    }
+
     const label = this._isLabel() ? this._labelSpan.nativeElement : null;
-    const labelFirstChild = this._isLabel()
-      ? this._labelSpan.nativeElement.firstElementChild as HTMLElement
+    const labelChildren = this._isLabel()
+      ? this._labelSpan.nativeElement.children
       : null;
-    if (this.appearance !== 'outlined' || !label) {
+    if (!label) {
       return;
     }
     const before = this._theme.variables.before;
@@ -636,13 +719,16 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     const labelRect = label.getBoundingClientRect();
     const container = this._container.nativeElement;
     const containerRect = this._container.nativeElement.getBoundingClientRect();
-    let { width } = labelFirstChild!.getBoundingClientRect();
+    let width = 0;
+    for (let index = 0; index < labelChildren!.length; index++) {
+      width += labelChildren![index].getBoundingClientRect().width;
+    }
     const percent = containerRect.width / container.offsetWidth;
     const labelPercent = labelRect.width / label.offsetWidth;
     let beforeMargin = Math.abs(
       (containerRect[before] - labelRect[before]) / percent) - 12;
     width /= labelPercent;
-    width *= .75;
+    width *= this.floatingLabelSize;
     // add 6px of space
     width += 6;
     width = width > (label.parentElement!.offsetWidth)
@@ -650,6 +736,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
       : width;
     width = Math.round(width);
     beforeMargin = Math.round(beforeMargin);
+    fieldsetLegend.style[`margin-right`] = ``;
+    fieldsetLegend.style[`margin-left`] = ``;
     fieldsetLegend.style[`margin-${before}`] = `${beforeMargin}px`;
     this._updateFielsetSpanOnStable = false;
     this._fielsetSpanClass = this._theme.addStyle(`style.fieldsetSpanFocused:${width}`, {
@@ -716,6 +804,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   _getHostElement() {
     return this._el.nativeElement;
   }
+
+  static ngAcceptInputType_hideRequiredMarker: BooleanInput;
 
 }
 
@@ -803,7 +893,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   @HostBinding()
   @Input()
   set required(value: boolean) {
-    this._required = toBoolean(value);
+    this._required = coerceBooleanProperty(value);
   }
   get required(): boolean { return this._required; }
 

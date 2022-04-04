@@ -14,7 +14,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/alyle-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -46,9 +45,16 @@
             "styles": [],
             "scripts": [
               {
-                "input": "node_modules/document-register-element/build/document-register-element.js"
+                "input": "node_modules/document-register-element/build/document-register-element.js",
+                "inject": true
               }
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -72,16 +78,15 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true,
               "ngswConfigPath": "src/ngsw-config.json"
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -105,8 +110,8 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
             "styles": [],
             "scripts": [],
             "assets": [
@@ -129,25 +134,14 @@
             ]
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/alyle-ui-server",
             "main": "server.ts",
-            "tsConfig": "tsconfig.server.json"
+            "tsConfig": "tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "production": {
@@ -161,7 +155,8 @@
               "sourceMap": false,
               "optimization": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
@@ -223,6 +218,39 @@
             "main": "dist/lib///test.ts",
             "tsConfig": "dist/lib///tsconfig.spec.json",
             "karmaConfig": "dist/lib///karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        }
+      }
+    },
+    "@alyle/ui/color": {
+      "root": "dist/lib/color",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/color/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/color/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/color/test.ts",
+            "tsConfig": "dist/lib/color/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/color/karma.conf.js",
             "progress": false,
             "codeCoverage": true,
             "browsers": "ChromeHeadless",
@@ -498,29 +526,28 @@
         }
       }
     },
-    "@alyle/ui/resizing-cropping-images": {
-      "root": "dist/lib/resizing-cropping-images",
+    "@alyle/ui/image-cropper": {
+      "root": "dist/lib/image-cropper",
       "projectType": "library",
       "prefix": "ly",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "project": "dist/lib/resizing-cropping-images/ng-package.json"
+            "project": "dist/lib/image-cropper/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "dist/lib/resizing-cropping-images/ng-package.prod.json",
-              "tsConfig": "dist/lib/resizing-cropping-images/tsconfig.lib.prod.json"
+              "project": "dist/lib/image-cropper/ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "dist/lib/resizing-cropping-images/test.ts",
-            "tsConfig": "dist/lib/resizing-cropping-images/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/resizing-cropping-images/karma.conf.js",
+            "main": "dist/lib/image-cropper/test.ts",
+            "tsConfig": "dist/lib/image-cropper/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/image-cropper/karma.conf.js",
             "progress": false,
             "codeCoverage": true,
             "browsers": "ChromeHeadless",
@@ -1082,106 +1109,6 @@
             "main": "dist/lib/slider/test.ts",
             "tsConfig": "dist/lib/slider/tsconfig.spec.json",
             "karmaConfig": "dist/lib/slider/karma.conf.js",
-            "progress": false,
-            "codeCoverage": true,
-            "browsers": "ChromeHeadless",
-            "codeCoverageExclude": [
-              "dist/lib/core/**/*",
-              "src/lib/core/**/*"
-            ]
-          }
-        }
-      }
-    },
-    "@alyle/ui/color": {
-      "root": "dist/lib/color",
-      "projectType": "library",
-      "prefix": "ly",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "dist/lib/color/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "dist/lib/color/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "dist/lib/color/test.ts",
-            "tsConfig": "dist/lib/color/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/color/karma.conf.js",
-            "progress": false,
-            "codeCoverage": true,
-            "browsers": "ChromeHeadless",
-            "codeCoverageExclude": [
-              "dist/lib/core/**/*",
-              "src/lib/core/**/*"
-            ]
-          }
-        }
-      }
-    },
-    "@alyle/ui/style-compiler": {
-      "root": "dist/lib/style-compiler",
-      "projectType": "library",
-      "prefix": "ly",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "dist/lib/style-compiler/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "dist/lib/style-compiler/ng-package.prod.json",
-              "tsConfig": "dist/lib/style-compiler/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "dist/lib/style-compiler/test.ts",
-            "tsConfig": "dist/lib/style-compiler/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/style-compiler/karma.conf.js",
-            "progress": false,
-            "codeCoverage": true,
-            "browsers": "ChromeHeadless",
-            "codeCoverageExclude": [
-              "dist/lib/core/**/*",
-              "src/lib/core/**/*"
-            ]
-          }
-        }
-      }
-    },
-    "@alyle/ui/image-cropper": {
-      "root": "dist/lib/image-cropper",
-      "projectType": "library",
-      "prefix": "ly",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "project": "dist/lib/image-cropper/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "dist/lib/image-cropper/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "dist/lib/image-cropper/test.ts",
-            "tsConfig": "dist/lib/image-cropper/tsconfig.spec.json",
-            "karmaConfig": "dist/lib/image-cropper/karma.conf.js",
             "progress": false,
             "codeCoverage": true,
             "browsers": "ChromeHeadless",

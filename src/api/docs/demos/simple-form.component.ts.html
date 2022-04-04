@@ -2,13 +2,13 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> FormGroup<span class="tt18 ttae">,</span> FormControl<span class="tt18 ttae">,</span> Validators <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/forms'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyTheme2<span class="tt18 ttae">,</span> ThemeVariables <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
-<span class="tt18 tt1j">const</span> <span class="tt18 function-variable tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 parameter">_theme<span class="tt18 ttb0">:</span> ThemeVariables</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>_theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   container<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
     maxWidth<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'320px'</span>
   <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
-@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-simple-form'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./simple-form.component.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
@@ -34,14 +34,14 @@
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">get</span> <span class="tt18 tta3">username</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>profileForm<span class="tt18 ttae">.</span><span class="tt18 tt1j">get</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'username'</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>profileForm<span class="tt18 ttae">.</span><span class="tt18 tta3">get</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'username'</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tt1j">get</span> <span class="tt18 tta3">bio</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>profileForm<span class="tt18 ttae">.</span><span class="tt18 tt1j">get</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'bio'</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>profileForm<span class="tt18 ttae">.</span><span class="tt18 tta3">get</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'bio'</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">;</span>
   <span class="tt18 ttae">&#125;</span>
 
-  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span><span class="tt18 parameter"><span class="tt18 tt1j">private</span> theme<span class="tt18 ttb0">:</span> LyTheme2</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">private</span> theme<span class="tt18 ttb0">:</span> LyTheme2<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">onSubmit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">warn</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>profileForm<span class="tt18 ttae">.</span>value<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>

@@ -210,39 +210,6 @@ const item2 = lyl \`{
 }\`;
 `;
 
-  simpleMediaQuery = `const style = lyl \`{
-    color: red
-    @media (max-width: 599px) {
-      color: blue
-    }
-  }\`
-  style('.y')`;
-
-  complexMediaQuery = `const style = lyl \`{
-    color: red
-    @media (max-width: 599px) {
-      color: blue
-      .item {
-        color: purple
-      }
-    }
-  }\`
-  style('.y')`;
-
-  keyframe = `
-  const id = 'a';
-  const keyframe = lyl \`{
-    @keyframe \${id} {
-      0% {
-        color: red
-      }
-      100% {
-        color: blue
-      }
-    }
-  }\`
-  keyframe('')`;
-
 }
 
 
@@ -284,7 +251,7 @@ test(`compile simple style`, async t => {
   LyTheme2,
   StyleRenderer } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color:red;}\`;
+  const style = (_className: string) => \`\${_className}{color:red;}\`;
   `, css);
 });
 
@@ -295,9 +262,9 @@ test(`compile simple styles in a file`, async t => {
   LyTheme2,
   StyleRenderer } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color:red;}\`;
+  const style = (_className: string) => \`\${_className}{color:red;}\`;
 
-  const style2 = (className: string) => \`\${className}{color:blue;}\`;
+  const style2 = (_className: string) => \`\${_className}{color:blue;}\`;
   `, css);
 });
 
@@ -309,8 +276,8 @@ test(`compile complex style`, async t => {
   StyleRenderer,
   st2c } from '@alyle/ui';
 
-  const style = (className: string) => \`\${className}{color:red;}\${st2c((
-      topZero), \`\${className}\`)}\`;
+  const style = (_className: string) => \`\${_className}{color:red;}\${st2c((
+      topZero), \`\${_className}\`)}\`;
   `);
 });
 
@@ -323,9 +290,9 @@ test(`compile simple and complex style`, async t => {
   StyleRenderer,
   st2c } from '@alyle/ui';
 
-  const topZero = (className: string) => \`\${className}{top:0;}\`
-  const style = (className: string) => \`\${className}{color:red;}\${st2c((
-      topZero), \`\${className}\`)}\`;
+  const topZero = (_className: string) => \`\${_className}{top:0;}\`
+  const style = (_className: string) => \`\${_className}{color:red;}\${st2c((
+      topZero), \`\${_className}\`)}\`;
   `);
 });
 
@@ -347,7 +314,7 @@ test(`do not compile a complex style with simple style`, t => {
   StyleRenderer,
   lyl as styleBlock } from '@alyle/ui';
 
-  const topZero = (className: string) => \`\${className}{top:0;}\`
+  const topZero = (_className: string) => \`\${_className}{top:0;}\`
   const style = styleBlock \`{
     color: red
     ...\${
@@ -373,31 +340,142 @@ import { AUIThemeVariables } from '@app/app.module';
 
 const zero = 0;
 
-const topZero = (className: string) => \`\${className}{top:\${zero}px;}\`;
+const topZero = (_className: string) => \`\${_className}{top:\${zero}px;}\`;
 
-const colorRedAndTopZero = (className: string) => \`\${className}{color:red;}\${st2c((item0), \`\${className}\`)}\`;
+const colorRedAndTopZero = (_className: string) => \`\${_className}{color:red;}\${st2c((item0), \`\${_className}\`)}\`;
 
-const item2 = (className: string) => \`\${st2c((item), \`\${className}\`)}\${className} ul{margin:0;padding:\${zero};list-style:none;}\${st2c((item), \`\${className} ul\`)}\${className} li a{display:inline-block;}\${className} a{display:block;padding:6px \${12}px;text-decoration:none;}\${className} ul > li{list-style-type:none;}\${className} h2 + p{border-top:1px solid gray;}\${className} p ~ span{opacity:0.8;}\`;
+const item2 = (_className: string) => \`\${st2c((item), \`\${_className}\`)}\${_className} ul{margin:0;padding:\${zero};list-style:none;}\${st2c((item), \`\${_className} ul\`)}\${_className} li a{display:inline-block;}\${_className} a{display:block;padding:6px \${12}px;text-decoration:none;}\${_className} ul > li{list-style-type:none;}\${_className} h2 + p{border-top:1px solid gray;}\${_className} p ~ span{opacity:0.8;}\`;
 `);
 // tslint:enable
 });
 
 test(`compile simple media query`, async t => {
-  const css = evalScript(t.context.simpleMediaQuery);
+  const simpleMediaQuery = `const style = lyl \`{
+    color: red
+    @media (max-width: 599px) {
+      color: blue
+    }
+  }\`
+  style('.y')`;
+  const css = evalScript(simpleMediaQuery);
   t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;}}`);
 });
 
 test(`compile complex media query`, async t => {
-  const css = evalScript(t.context.complexMediaQuery);
-  t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;}.y .item{color:purple;}}`);
+  const complexMediaQuery = `const style = lyl \`{
+    color: red
+    @media (max-width: 799px) {
+      .item {
+        color: purple
+        sub-prop: 12px
+      }
+    }
+  }\`
+  style('.y')`;
+  const css = evalScript(complexMediaQuery);
+  t.is(css, `.y{color:red;}@media (max-width: 799px){.y .item{color:purple;sub-prop:12px;}}`);
+});
+
+test(`compile complex media query 2`, async t => {
+  const complexMediaQuery = `const style = lyl \`{
+    color: red
+    @media (max-width: 799px) {
+      color: blue
+      prop: 14px
+      .item {
+        color: purple
+        sub-prop: 12px
+      }
+    }
+  }\`
+  style('.y')`;
+  const css = evalScript(complexMediaQuery);
+  t.is(css, `.y{color:red;}@media (max-width: 799px){.y{color:blue;prop:14px;}.y .item{color:purple;sub-prop:12px;}}`);
+});
+
+test(`compile keyframe with \`className\` parameter`, async t => {
+  const keyframe = `
+  const keyframe = lyl \`{
+    @keyframe identifier {
+      0% {
+        color: red
+      }
+      100% {
+        color: blue
+      }
+    }
+  }\`
+  keyframe('.y')`;
+  const css = styleCompiler(keyframe).trim();
+  t.is(css, `const keyframe = (_className: string) => \`@keyframe identifier{0%{color:red;}100%{color:blue;}}\`
+  keyframe('.y')`);
 });
 
 test(`compile keyframe`, async t => {
-  const css = evalScript(t.context.keyframe);
-  t.is(css, `@keyframe a{ 0%{color:red;} 100%{color:blue;}}`);
+  const keyframe = `
+  const id = 'a';
+  const keyframe = lyl \`{
+    @keyframe \${id} {
+      0% {
+        color: red
+      }
+      100% {
+        color: blue
+      }
+    }
+  }\`
+  keyframe('.y')`;
+  const css = evalScript(keyframe);
+  t.is(css, `@keyframe a{0%{color:red;}100%{color:blue;}}`);
 });
 
+test(`lyl keyframe`, async t => {
+  const identifier = 'identifier';
+  const keyframe = lyl `{
+    @keyframe ${identifier} {
+      0% {
+        color: red
+      }
+      100% {
+        color: blue
+      }
+    }
+  }`;
+  t.is(keyframe('.y'), `@keyframe identifier{0%{color:red;}100%{color:blue;}}`);
+});
+
+test(`compile infinite-spinning keyframe`, async t => {
+  const keyframe = lyl `{
+    @keyframes infinite-spinning {
+      from {
+        transform: rotate(0deg)
+      }
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  }`;
+  t.is(keyframe('.y'), `@keyframes infinite-spinning{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}`);
+});
+
+test(`lyl infinite-spinning keyframe`, async t => {
+  const keyframe = lyl `{
+    @keyframes infinite-spinning {
+      from {
+        transform: rotate(0deg)
+      }
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  }`;
+  t.is(keyframe('.y'), `@keyframes infinite-spinning{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}`);
+});
+
+
+
 test(`compile style with dynamic properties and values`, async t => {
+  const proAndValue = 'color:red';
   const css = evalScript(`
   const proAndValue = 'color:red';
   const style = lyl \`{
@@ -406,7 +484,12 @@ test(`compile style with dynamic properties and values`, async t => {
   }\`;
   style('.y');
   `);
-  t.is(css, `.y{color:red;cursor:default;}`);
+  const result = `.y{color:red;cursor:default;}`;
+  t.is(lyl `{
+    ${proAndValue}
+    cursor: default
+  }`('.y'), result);
+  t.is(css, result);
 });
 
 test(`commas and linefeed to separate selectors`, async t => {
@@ -431,18 +514,18 @@ test(`with comments`, async t => {
       color: blue
     }
   }`;
-  const css = evalScript(`
+  const cssCompiled = evalScript(`
   const style = lyl \`${styleContent}\`;
   style('.y');
   `);
-  t.is(css, `.y .a{color:blue;}`);
-  t.log(styleContent);
   t.is(lyl `{
     // Color blue
     .a {
       color: blue
     }
   }`('.y'), `.y .a{color:blue;}`);
+  t.log(styleContent);
+  t.is(cssCompiled, `.y .a{color:blue;}`);
 });
 test(`media queries with inheritance style`, async t => {
 
@@ -503,12 +586,124 @@ test(`media queries with inheritance style`, async t => {
   }\`;
   style('.y');
   `);
-  const expected1 = '@media all{.y{color:blue;}}';
-  t.is(removeComments(colorBlueAll('.y')), expected1);
-  t.is(removeComments(css1), expected1);
   const expected2 = '@media all{.y{prop:value;prop2:value2;}.y{color:blue;}.y sel{prop:value;}.y{prop3:value3;}}';
   t.is(removeComments(styleContent('.y')), expected2);
   t.is(removeComments(css2), expected2);
+  const expected1 = '@media all{.y{color:blue;}}';
+  t.is(removeComments(colorBlueAll('.y')), expected1);
+  t.is(removeComments(css1), expected1);
+});
+
+test(`media queries with inheritance style 2`, async t => {
+  const otherStyle = lyl `{
+    other-prop: other-value
+    span {
+      level: value
+    }
+  }`;
+  const css = lyl `{
+    prop: value
+    div {
+      ...${otherStyle}
+    }
+  }`('.y');
+  const compiled = evalScript(`
+  ${st2c}
+  ${StyleCollection}
+  const otherStyle = lyl \`{
+    other-prop: other-value
+    span {
+      level: value
+    }
+  }\`;
+  const style = lyl \`{
+    prop: value
+    div {
+      ...\${otherStyle}
+    }
+  }\`;
+  style('.y');
+  `);
+  const result = '.y{prop:value;}.y div{other-prop:other-value;}.y div span{level:value;}';
+  t.is(compiled, result);
+  t.is(removeComments(css), result);
+});
+
+test(`deep style`, async t => {
+  const STYLE = lyl `{
+    prop: value
+    .a {
+      propA: valueA
+      .b {
+        propB: valueB
+      }
+    }
+  }`('.root');
+  const compiled = evalScript(`
+  ${st2c}
+  ${StyleCollection}
+  const style = lyl \`{
+    prop: value
+    .a {
+      propA: valueA
+      .b {
+        propB: valueB
+      }
+    }
+  }\`;
+  style('.root');
+  `);
+  const result = '.root{prop:value;}.root .a{propA:valueA;}.root .a .b{propB:valueB;}';
+  t.is(STYLE, result);
+  t.is(compiled, result);
+});
+
+test(`@font-face`, async t => {
+  const styleContent = `{
+    @font-face {
+      font-family: "Open Sans"
+      src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"), url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
+      font-weight:700
+    }
+    @font-face {
+      font-family: "Open Sans"
+      src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"), url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
+      font-weight:800
+    }
+  }`;
+  const cssCompiled = evalScript(`
+  const style = lyl \`${styleContent}\`;
+  style('.y');
+  `);
+  const result = `@font-face{`
+    + `font-family:"Open Sans";`
+    + `src:url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),`
+         + `url("/fonts/OpenSans-Regular-webfont.woff") format("woff");`
+    + `font-weight:700;`
+    + `}`
+    + `@font-face{`
+    + `font-family:"Open Sans";`
+    + `src:url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),`
+        + `url("/fonts/OpenSans-Regular-webfont.woff") format("woff");`
+    + `font-weight:800;`
+    + `}`;
+  t.log(cssCompiled);
+
+  t.is(lyl `{
+    @font-face {
+      font-family: "Open Sans"
+      src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+           url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
+      font-weight: 700
+    }
+    @font-face {
+      font-family: "Open Sans"
+      src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+           url("/fonts/OpenSans-Regular-webfont.woff") format("woff")
+      font-weight: 800
+    }
+  }`('.y'), result);
+  t.is(cssCompiled, result);
 });
 
 function evalScript(script: string) {

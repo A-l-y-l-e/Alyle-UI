@@ -1,6 +1,0 @@
-{
-  "pkg": "@alyle/ui",
-  "name": "FocusStatus",
-  "symbol": "Enumeration",
-  "code": "<pre class=\"ttb\"><code prsm class=\"ttm\"><span class=\"tt18 tt1j\">export</span> <span class=\"tt18 tt1j\">enum</span> FocusStatus <span class=\"tt18 ttae\">&#123;</span>\n  <span class=\"tt18 tt3o\">/**mouse and/or touch*/</span>\n  <span class=\"tt18 ttbb\">DEFAULT</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">'default'</span><span class=\"tt18 ttae\">,</span>\n  <span class=\"tt18 tt3o\">/** keyboard and/or program*/</span>\n  <span class=\"tt18 ttbb\">KEYBOARD</span> <span class=\"tt18 ttb0\">=</span> <span class=\"tt18 tt3z\">'keyboard'</span><span class=\"tt18 ttae\">,</span>\n<span class=\"tt18 ttae\">&#125;</span></code></pre>"
-}

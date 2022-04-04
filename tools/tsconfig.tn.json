@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "../dist/dev-tools",
+    "target": "es2020",
+    "lib": ["es2020"],
+    "moduleResolution": "node",
+    "types": ["node"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true
+  }
+}

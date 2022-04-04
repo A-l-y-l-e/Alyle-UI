@@ -6,6 +6,7 @@ import { LyTooltipTheme } from '@alyle/ui/tooltip';
 import { LySnackBarTheme } from '@alyle/ui/snack-bar';
 import { Injectable } from '@angular/core';
 import { LyMenuTheme } from '@alyle/ui/menu';
+import { LySliderTheme } from '@alyle/ui/slider';
 
 const contrast = new Color(0xffffff);
 const shadow = new Color(0, 0, 0, 1);
@@ -34,19 +35,19 @@ export class MinimaDark extends MinimaBase {
     contrast: new Color(0, 0, 0, 0.87)
   };
   background = {
-    default: new Color(0x303030), // secondary
+    default: new Color(0x212121), // secondary
     primary: {
-      default: new Color(0x242424),
+      default: new Color(0x303030),
       shadow
     },
-    secondary: new Color(47, 47, 47),
+    secondary: new Color(0x212121),
     tertiary: new Color(65, 65, 65),
   };
-  hover = new Color(255, 255, 255, 0.04);
   paper = {
-    default: new Color(0x242424),
+    default: new Color(0x303030),
     shadow
   };
+  hover = new Color(255, 255, 255, 0.04);
   text = {
     default: new Color(0xffffff),
     primary: new Color(0xffffff),
@@ -105,4 +106,14 @@ export class MinimaDark extends MinimaBase {
       }`
     )
   };
+  slider: LySliderTheme = mergeThemes<LySliderTheme, LySliderTheme>(this.slider, {
+    appearance: {
+      md: __ => lyl `{
+        ${__.thumbLabel} {
+          background-color: ${new Color(0xd5d5d5)} !important
+          color: ${new Color(0, 0, 0, .87)} !important
+        }
+      }`
+    }
+  });
 }

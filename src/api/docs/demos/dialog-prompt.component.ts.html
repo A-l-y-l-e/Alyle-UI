@@ -6,7 +6,7 @@
   name<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span>
 
-@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-dialog-prompt'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./dialog-prompt.component.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
@@ -15,21 +15,21 @@
 
   name<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
 
-  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">private</span> _dialog<span class="tt18 ttb0">:</span> LyDialog<span class="tt18 ttae">,</span>
-    <span class="tt18 tt1j">private</span> _cd<span class="tt18 ttb0">:</span> ChangeDetectorRef</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 tt1j">private</span> _dialog<span class="tt18 ttb0">:</span> LyDialog<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> _cd<span class="tt18 ttb0">:</span> ChangeDetectorRef
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
   <span class="tt18 tta3">open</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">const</span> dialogRef <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_dialog<span class="tt18 ttae">.</span>open<span class="tt18 ttb0">&lt;</span>DialogPromptDialog<span class="tt18 ttae">,</span> DialogData<span class="tt18 ttb0">></span><span class="tt18 ttae">(</span>DialogPromptDialog<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">const</span> dialogRef <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_dialog<span class="tt18 ttae">.</span><span class="tt18 generic-function"><span class="tt18 tta3">open</span><span class="tt18 generic ttc8"><span class="tt18 ttb0">&lt;</span>DialogPromptDialog<span class="tt18 ttae">,</span> DialogData<span class="tt18 ttb0">></span></span></span><span class="tt18 ttae">(</span>DialogPromptDialog<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span>
       width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">250</span><span class="tt18 ttae">,</span>
       data<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
         name<span class="tt18 ttb0">:</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>name
       <span class="tt18 ttae">&#125;</span>
     <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
     dialogRef<span class="tt18 ttae">.</span>afterClosed
-    <span class="tt18 ttae">.</span><span class="tt18 tta3">pipe</span><span class="tt18 ttae">(</span><span class="tt18 tta3">filter</span><span class="tt18 ttae">(</span><span class="tt18 parameter">result</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttb0">!</span><span class="tt18 ttb0">!</span>result<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span>
-    <span class="tt18 ttae">.</span><span class="tt18 tta3">subscribe</span><span class="tt18 ttae">(</span><span class="tt18 parameter">result</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 ttae">.</span><span class="tt18 tta3">pipe</span><span class="tt18 ttae">(</span><span class="tt18 tta3">filter</span><span class="tt18 ttae">(</span>result <span class="tt18 ttb0">=></span> <span class="tt18 ttb0">!</span><span class="tt18 ttb0">!</span>result<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span>
+    <span class="tt18 ttae">.</span><span class="tt18 tta3">subscribe</span><span class="tt18 ttae">(</span>result <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
       <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>name <span class="tt18 ttb0">=</span> result<span class="tt18 ttae">;</span>
       <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_cd<span class="tt18 ttae">.</span><span class="tt18 tta3">markForCheck</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
     <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
@@ -37,14 +37,14 @@
 
 <span class="tt18 ttae">&#125;</span>
 
-@<span class="tt18 tta3">Component</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./dialog-prompt-dialog.html'</span><span class="tt18 ttae">,</span>
   changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">DialogPromptDialog</span> <span class="tt18 ttae">&#123;</span>
-  <span class="tt18 tt1j">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 parameter"><span class="tt18 tt1j">public</span> dialogRef<span class="tt18 ttb0">:</span> LyDialogRef<span class="tt18 ttae">,</span>
-    @<span class="tt18 tta3">Inject</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">LY_DIALOG_DATA</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">public</span> data<span class="tt18 ttb0">:</span> DialogData</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 tt1j">public</span> dialogRef<span class="tt18 ttb0">:</span> LyDialogRef<span class="tt18 ttae">,</span>
+    <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Inject</span></span><span class="tt18 ttae">(</span><span class="tt18 ttbb">LY_DIALOG_DATA</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">public</span> data<span class="tt18 ttb0">:</span> DialogData
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>

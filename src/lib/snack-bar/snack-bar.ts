@@ -13,6 +13,12 @@ export interface LySnackBarVariables {
   snackBar?: LySnackBarTheme;
 }
 
+/** Possible values for horizontalPosition on LySnackBarConfig. */
+export type LySnackBarHorizontalPosition = 'center' | 'before' | 'after' | 'left' | 'right';
+
+/** Possible values for verticalPosition on LySnackBarConfig. */
+export type LySnackBarVerticalPosition = 'above' | 'below';
+
 const STYLE_PRIORITY = -2;
 const DEFAULT_HORIZONTAL_POSITION = XPosition.after;
 const DEFAULT_VERTICAL_POSITION = YPosition.below;
@@ -32,6 +38,7 @@ export const STYLES = (theme: ThemeVariables & LySnackBarVariables) => ({
     transition: opacity ${theme.animations.curves.standard} 350ms, transform ${theme.animations.curves.deceleration} 350ms
     font-size: ${theme.pxToRem(theme.typography.fontSize)}
     box-sizing: border-box
+    pointer-events: all !important
     @media ${theme.breakpoints['XSmall']} {
       width: calc(100% - 16px)
       min-width: calc(100% - 16px)
@@ -109,7 +116,7 @@ export class LySnackBar implements OnDestroy {
           if (verticalPosition === YPosition.above) {
             transform = 'translateY(-180%)';
             top = 0;
-          } if (verticalPosition === YPosition.below) {
+          } else if (verticalPosition === YPosition.below) {
             transform = 'translateY(180%)';
             bottom = 0;
           }
@@ -140,7 +147,7 @@ export class LySnackBar implements OnDestroy {
           opacity: 1
           transform: translateY(0)
         }`
-      ), STYLE_PRIORITY);
+      ), STYLE_PRIORITY + 1);
       snackBar.containerElement.classList.add(newClass);
     });
 

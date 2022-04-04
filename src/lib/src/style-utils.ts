@@ -30,7 +30,7 @@ export class LyStyleUtils {
     WebLandscape: string,
     [key: string]: string
   };
-  direction: Dir;
+  direction: Dir | `${Dir}`;
 
   /** Returns left or right according to the direction */
   get before() {
@@ -91,6 +91,10 @@ export class LyStyleUtils {
     }
     return val;
   }
+
+  isRTL() {
+    return this.direction === Dir.rtl;
+  }
 }
 
 export enum Dir {
@@ -129,7 +133,7 @@ function get(obj: Object, path: string[] | string, optional?: string): Color {
   if (obj instanceof Color) {
     return obj;
   } else if (optional) {
-    return obj[optional] || obj['default'];
+    return obj[optional] ?? obj['default'];
   } else {
     return obj['default'];
   }
@@ -167,7 +171,7 @@ export function withMediaInline(
       const val = str[index];
       if (typeof val === 'number' || val === null || val === undefined) {
         styleCollection.add(transformer(val, null));
-      } if (typeof val === 'string') {
+      } else if (typeof val === 'string') {
         parseMediaQueryFromString(val).forEach((_) => {
           styleCollection.add(transformer(_[0], _[1]));
         });
@@ -354,7 +358,8 @@ export function mergeThemes(target: any, ...sources: any[]): any {
         } else if (sourceKey instanceof Color) {
           target[key] = sourceKey;
         } else {
-          Object.assign(target, { [key]: source[key] });
+          // Object.assign(target, { [key]: source[key] });
+          target[key] = source[key];
         }
       }
     }

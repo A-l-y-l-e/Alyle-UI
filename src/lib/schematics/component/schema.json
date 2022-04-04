@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SchematicsAngularComponent+AlyleUI",
+  "$id": "SchematicsAngularComponent+AlyleUI",
   "title": "Angular Component with Alyle UI Options Schema",
   "type": "object",
   "description": "Creates a new generic component definition in the given or default project.",

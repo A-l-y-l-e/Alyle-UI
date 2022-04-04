@@ -10,6 +10,7 @@
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> OpenOnHoverMenuComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./open-on-hover-menu/open-on-hover-menu.component'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> MenuWithIconsModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./menu-with-icons/menu-with-icons.module'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> MenuWithIconsComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./menu-with-icons/menu-with-icons.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> WithCustomElementComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@app/docs/element-registry'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> entryComponents <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
   MenuDemo01Component<span class="tt18 ttae">,</span>
@@ -19,17 +20,16 @@
   MenuWithIconsComponent
 <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
 
-@<span class="tt18 tta3">NgModule</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">NgModule</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
     MenuDemo01Module<span class="tt18 ttae">,</span>
     MenuPlaygroundModule<span class="tt18 ttae">,</span>
     NestedMenuModule<span class="tt18 ttae">,</span>
     OpenOnHoverMenuModule<span class="tt18 ttae">,</span>
     MenuWithIconsModule
-  <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
-  entryComponents
+  <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
-<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">LazyModule</span> <span class="tt18 ttae">&#123;</span>
-  <span class="tt18 tt1j">static</span> entryComponents<span class="tt18 ttb0">:</span> Type<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> entryComponents<span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">LazyModule</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">WithCustomElementComponent</span> <span class="tt18 ttae">&#123;</span>
+  customElementComponents<span class="tt18 ttb0">:</span> Type<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> entryComponents<span class="tt18 ttae">;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>

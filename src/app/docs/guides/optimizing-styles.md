@@ -5,7 +5,7 @@ Alyle UI contains an optional package that minimizes and optimizes styles create
 
 This is necessary if you have many styles created with `lyl`.
 
-> Keep in mind that this will change the source files irreversibly, therefore, you should only use it in production.
+> Important: Keep in mind that this will change the source files irreversibly, therefore, you should only use it in production.
 
 ## Install the Alyle UI CLI
 

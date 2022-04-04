@@ -10,13 +10,17 @@ import { CropperWithDialogModule } from './cropper-with-dialog/cropper-with-dial
 import { CropperWithDialogComponent } from './cropper-with-dialog/cropper-with-dialog.component';
 import { CropCircleModule } from './crop-circle/crop-circle.module';
 import { CropCircleComponent } from './crop-circle/crop-circle.component';
+import { FullCropperWidthModule } from './full-cropper-width/full-cropper-width.module';
+import { FullCropperWidthComponent } from './full-cropper-width/full-cropper-width.component';
+import { WithCustomElementComponent } from '@app/docs/element-registry';
 
 const elements = [
   ImageCropperExample01Component,
   ImageCropperExample02Component,
   ImageCropperExample03Component,
   CropperWithDialogComponent,
-  CropCircleComponent
+  CropCircleComponent,
+  FullCropperWidthComponent
 ];
 
 @NgModule({
@@ -25,10 +29,10 @@ const elements = [
     ImageCropperExample02Module,
     ImageCropperExample03Module,
     CropperWithDialogModule,
-    CropCircleModule
-  ],
-  entryComponents: elements
+    CropCircleModule,
+    FullCropperWidthModule
+  ]
 })
-export class LazyModule {
-  static entryComponents: Type<any>[] = elements;
+export class LazyModule implements WithCustomElementComponent {
+  customElementComponents: Type<any>[] = elements;
 }

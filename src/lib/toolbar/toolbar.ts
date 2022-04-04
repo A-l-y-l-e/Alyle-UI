@@ -22,7 +22,8 @@ import {
   LyClasses,
   StyleTemplate,
   ThemeRef,
-  StyleRenderer
+  StyleRenderer,
+  Style
 } from '@alyle/ui';
 
 export interface LyToolbarTheme {
@@ -92,7 +93,9 @@ export const LyToolbarMixinBase = mixinStyleUpdater(
             mixinOutlined(
               mixinElevation(
                 mixinShadowColor(LyToolbarBase))))))));
-
+/**
+ * @dynamic
+ */
 @Directive({
   selector: 'ly-toolbar',
   inputs: [
@@ -108,50 +111,44 @@ export const LyToolbarMixinBase = mixinStyleUpdater(
   ]
 })
 export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
+  static readonly и = 'LyToolbar';
+  static readonly $priority = STYLE_PRIORITY;
+
   /**
    * Styles
    * @docs-private
    */
   readonly classes = this.theme.renderStyleSheet(STYLES);
-  private _position: position;
-  private _positionClass: string;
-  private _appearance: string;
-  private _appearanceClass: string | null;
-  @Input()
-  set position(val: position) {
-    this._position = val;
-    this._positionClass = this.theme.addStyle(`lyToolbar.position:${val}`, `position:${val}`, this._el.nativeElement, this._positionClass, STYLE_PRIORITY);
-  }
-  get position(): position {
-    return this._position;
-  }
 
   @Input()
-  set appearance(val: string) {
-    if (val !== this.appearance) {
-      this._appearance = val;
-      this._appearanceClass = this.sRenderer.add(
-        `LyToolbar.appearance:${val}`,
-        (theme: LyToolbarVariables, ref) => {
-          const classes = ref.selectorsOf(STYLES);
-          if (theme.toolbar && theme.toolbar.appearance) {
-            const appearance = theme.toolbar.appearance[val];
-            if (appearance) {
-              return appearance instanceof StyleCollection
-                ? appearance.setTransformer((_) => _(classes)).css
-                : appearance(classes);
-            }
-          }
-          throw new Error(`${val} not found in theme.field.appearance`);
-        },
-        STYLE_PRIORITY,
-        this._appearanceClass
-      );
+  @Style<position>(
+    (val, media) => ({breakpoints}: ThemeVariables) => (
+      lyl `{
+        @media ${(media && breakpoints[media]) || 'all'} {
+          position: ${val}
+        }
+      }`
+    )
+  )
+  position: position;
+
+  @Input()
+  @Style(
+    (val) => (theme: ThemeVariables & LyToolbarVariables, ref) => {
+      const classes = ref.selectorsOf(STYLES);
+      if (theme.toolbar && theme.toolbar.appearance) {
+        const appearance = theme.toolbar.appearance[val];
+        if (appearance) {
+          return appearance instanceof StyleCollection
+            ? appearance.setTransformer((_) => _(classes)).css
+            : appearance(classes);
+        }
+      }
+      throw new Error(`${val} not found in theme.field.appearance`);
     }
-  }
-  get appearance(): string {
-    return this._appearance;
-  }
+  )
+  appearance: string;
+
   constructor(
     _renderer: Renderer2,
     private _el: ElementRef,
