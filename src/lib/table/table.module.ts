@@ -1,29 +1,31 @@
-import { NgModule } from '@angular/core';
-import { CdkTableModule } from '@angular/cdk/table';
-import { LyTable } from './table';
+import {NgModule} from '@angular/core';
+import {LyRecycleRows, LyTable} from './table';
+import {CdkTableModule} from '@angular/cdk/table';
 import {
-  LyHeaderCellDef,
-  LyColumnDef,
+  LyCell,
   LyCellDef,
+  LyColumnDef,
+  LyFooterCell,
   LyFooterCellDef,
   LyHeaderCell,
-  LyCell,
-  LyFooterCell
+  LyHeaderCellDef,
 } from './cell';
 import {
-  LyHeaderRowDef,
-  LyRowDef,
+  LyFooterRow,
   LyFooterRowDef,
   LyHeaderRow,
+  LyHeaderRowDef,
   LyRow,
-  LyFooterRow
+  LyRowDef,
+  LyNoDataRow,
 } from './row';
-import { LyTextColumn } from './text-column';
-
+import {LyTextColumn} from './text-column';
+import {LyCommonModule} from '@alyle/ui';
 
 const EXPORTED_DECLARATIONS = [
   // Table
   LyTable,
+  LyRecycleRows,
 
   // Template defs
   LyHeaderCellDef,
@@ -43,15 +45,14 @@ const EXPORTED_DECLARATIONS = [
   LyHeaderRow,
   LyRow,
   LyFooterRow,
+  LyNoDataRow,
 
   LyTextColumn,
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CdkTableModule
-  ],
-  exports: [EXPORTED_DECLARATIONS]
+  imports: [CdkTableModule, LyCommonModule],
+  exports: [LyCommonModule, EXPORTED_DECLARATIONS],
+  declarations: EXPORTED_DECLARATIONS,
 })
-export class LyTableModule { }
+export class LyTableModule {}

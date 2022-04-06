@@ -1,0 +1,54 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> lyl<span class="tt18 ttae">,</span> StyleRenderer<span class="tt18 ttae">,</span> WithStyles <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> OnInit<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">interface</span> <span class="tt18 ttc8">PeriodicElement</span> <span class="tt18 ttae">&#123;</span>
+  name<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
+  position<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
+  weight<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+
+<span class="tt18 tt1j">const</span> <span class="tt18 ttbb">ELEMENT_DATA</span><span class="tt18 ttb0">:</span> PeriodicElement<span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Hydrogen'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1.0079</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'H'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">2</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Helium'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">4.0026</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'He'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Lithium'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">6.941</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Li'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">4</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Beryllium'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">9.0122</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Be'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">5</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Boron'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">10.811</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'B'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">6</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Carbon'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">12.0107</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'C'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">7</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Nitrogen'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">14.0067</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'N'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">8</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Oxygen'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">15.9994</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'O'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">9</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Fluorine'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">18.9984</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'F'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">10</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Neon'</span><span class="tt18 ttae">,</span> weight<span class="tt18 ttb0">:</span> <span class="tt18 ttap">20.1797</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">symbol</span><span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Ne'</span><span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+<span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
+    root<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+      table &#123;
+        width: 100%
+      &#125;
+    &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-table-basic-example'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./table-basic-example.component.html'</span><span class="tt18 ttae">,</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
+    StyleRenderer
+  <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">TableBasicExampleComponent</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">WithStyles</span><span class="tt18 ttae">,</span> OnInit <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>sRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'root'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  displayedColumns<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span><span class="tt18 tt3z">'position'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'name'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'weight'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'symbol'</span><span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+  dataSource <span class="tt18 ttb0">=</span> <span class="tt18 ttbb">ELEMENT_DATA</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+
+  <span class="tt18 tta3">ngOnInit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttb0">:</span> <span class="tt18 tt1j">void</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 ttae">&#125;</span>
+
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

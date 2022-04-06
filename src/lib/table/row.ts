@@ -1,4 +1,3 @@
-import {BooleanInput} from '@angular/cdk/coercion';
 import {
   CDK_ROW_TEMPLATE,
   CdkFooterRow,
@@ -7,7 +6,7 @@ import {
   CdkHeaderRowDef,
   CdkRow,
   CdkRowDef,
-  CdkNoDataRow
+  CdkNoDataRow,
 } from '@angular/cdk/table';
 import {ChangeDetectionStrategy, Component, Directive, ViewEncapsulation} from '@angular/core';
 
@@ -20,9 +19,7 @@ import {ChangeDetectionStrategy, Component, Directive, ViewEncapsulation} from '
   providers: [{provide: CdkHeaderRowDef, useExisting: LyHeaderRowDef}],
   inputs: ['columns: lyHeaderRowDef', 'sticky: lyHeaderRowDefSticky'],
 })
-export class LyHeaderRowDef extends CdkHeaderRowDef {
-  static ngAcceptInputType_sticky: BooleanInput;
-}
+export class LyHeaderRowDef extends CdkHeaderRowDef {}
 
 /**
  * Footer row definition for the ly-table.
@@ -33,9 +30,7 @@ export class LyHeaderRowDef extends CdkHeaderRowDef {
   providers: [{provide: CdkFooterRowDef, useExisting: LyFooterRowDef}],
   inputs: ['columns: lyFooterRowDef', 'sticky: lyFooterRowDefSticky'],
 })
-export class LyFooterRowDef extends CdkFooterRowDef {
-  static ngAcceptInputType_sticky: BooleanInput;
-}
+export class LyFooterRowDef extends CdkFooterRowDef {}
 
 /**
  * Data row definition for the ly-table.
@@ -47,8 +42,7 @@ export class LyFooterRowDef extends CdkFooterRowDef {
   providers: [{provide: CdkRowDef, useExisting: LyRowDef}],
   inputs: ['columns: lyRowDefColumns', 'when: lyRowDefWhen'],
 })
-export class LyRowDef<T> extends CdkRowDef<T> {
-}
+export class LyRowDef<T> extends CdkRowDef<T> {}
 
 /** Header template container that contains the cell outlet. Adds the right class and role. */
 @Component({
@@ -65,8 +59,7 @@ export class LyRowDef<T> extends CdkRowDef<T> {
   exportAs: 'lyHeaderRow',
   providers: [{provide: CdkHeaderRow, useExisting: LyHeaderRow}],
 })
-export class LyHeaderRow extends CdkHeaderRow {
-}
+export class LyHeaderRow extends CdkHeaderRow {}
 
 /** Footer template container that contains the cell outlet. Adds the right class and role. */
 @Component({
@@ -83,8 +76,7 @@ export class LyHeaderRow extends CdkHeaderRow {
   exportAs: 'lyFooterRow',
   providers: [{provide: CdkFooterRow, useExisting: LyFooterRow}],
 })
-export class LyFooterRow extends CdkFooterRow {
-}
+export class LyFooterRow extends CdkFooterRow {}
 
 /** Data row template container that contains the cell outlet. Adds the right class and role. */
 @Component({
@@ -101,8 +93,7 @@ export class LyFooterRow extends CdkFooterRow {
   exportAs: 'lyRow',
   providers: [{provide: CdkRow, useExisting: LyRow}],
 })
-export class LyRow extends CdkRow {
-}
+export class LyRow extends CdkRow {}
 
 /** Row that can be used to display a message when no data is shown in the table. */
 @Directive({
@@ -110,4 +101,5 @@ export class LyRow extends CdkRow {
   providers: [{provide: CdkNoDataRow, useExisting: LyNoDataRow}],
 })
 export class LyNoDataRow extends CdkNoDataRow {
+  override _contentClassName = 'ly-no-data-row';
 }

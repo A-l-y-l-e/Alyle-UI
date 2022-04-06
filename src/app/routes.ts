@@ -89,6 +89,7 @@ export const AUIRoutes: {
       { route: 'expansion', api: true , name: 'Expansion Panel' },
       { route: 'slider', api: true , name: 'Slider' },
       { route: 'skeleton', api: true , name: 'Skeleton' },
+      { route: 'table', api: true , name: 'Table' },
     ].sort(sort)
   }
 ];

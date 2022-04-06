@@ -1,8 +1,11 @@
-import { BooleanInput } from '@angular/cdk/coercion';
-import { Directive, ElementRef, Input } from '@angular/core';
+import {Directive, Input} from '@angular/core';
 import {
+  CdkCell,
   CdkCellDef,
-  CdkColumnDef, CdkFooterCellDef,
+  CdkColumnDef,
+  CdkFooterCell,
+  CdkFooterCellDef,
+  CdkHeaderCell,
   CdkHeaderCellDef,
 } from '@angular/cdk/table';
 
@@ -12,7 +15,7 @@ import {
  */
 @Directive({
   selector: '[lyCellDef]',
-  providers: [{provide: CdkCellDef, useExisting: LyCellDef}]
+  providers: [{provide: CdkCellDef, useExisting: LyCellDef}],
 })
 export class LyCellDef extends CdkCellDef {}
 
@@ -22,7 +25,7 @@ export class LyCellDef extends CdkCellDef {}
  */
 @Directive({
   selector: '[lyHeaderCellDef]',
-  providers: [{provide: CdkHeaderCellDef, useExisting: LyHeaderCellDef}]
+  providers: [{provide: CdkHeaderCellDef, useExisting: LyHeaderCellDef}],
 })
 export class LyHeaderCellDef extends CdkHeaderCellDef {}
 
@@ -32,7 +35,7 @@ export class LyHeaderCellDef extends CdkHeaderCellDef {}
  */
 @Directive({
   selector: '[lyFooterCellDef]',
-  providers: [{provide: CdkFooterCellDef, useExisting: LyFooterCellDef}]
+  providers: [{provide: CdkFooterCellDef, useExisting: LyFooterCellDef}],
 })
 export class LyFooterCellDef extends CdkFooterCellDef {}
 
@@ -45,33 +48,28 @@ export class LyFooterCellDef extends CdkFooterCellDef {}
   inputs: ['sticky'],
   providers: [
     {provide: CdkColumnDef, useExisting: LyColumnDef},
-    {provide: 'LY_SORT_HEADER_COLUMN_DEF', useExisting: LyColumnDef}
+    {provide: 'MAT_SORT_HEADER_COLUMN_DEF', useExisting: LyColumnDef},
   ],
 })
 export class LyColumnDef extends CdkColumnDef {
   /** Unique name for this column. */
   @Input('lyColumnDef')
-  get name(): string { return this._name; }
-  set name(name: string) { this._setNameInput(name); }
-
-  /**
-   * Add "ly-column-" prefix.
-   * @docs-private
-   */
-  protected _updateColumnCssClassName() {
-    super._updateColumnCssClassName();
-    this._columnCssClassName = `ly-column-${this.cssClassFriendlyName}` as unknown as string[];
+  override get name(): string {
+    return this._name;
+  }
+  override set name(name: string) {
+    this._setNameInput(name);
   }
 
-  static ngAcceptInputType_sticky: BooleanInput;
-}
-
-/** Base class for the cells. Adds a CSS classname that identifies the column it renders in. */
-export class BaseCdkCell {
-  constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
-    const classList = elementRef.nativeElement.classList;
-    const className = columnDef._columnCssClassName;
-    classList.add(className);
+  /**
+   * Add "ly-column-" prefix in addition to "cdk-column-" prefix.
+   * In the future, this will only add "ly-column-" and columnCssClassName
+   * will change from type string[] to string.
+   * @docs-private
+   */
+  protected override _updateColumnCssClassName() {
+    super._updateColumnCssClassName();
+    this._columnCssClassName!.push(`ly-column-${this.cssClassFriendlyName}`);
   }
 }
 
@@ -83,11 +81,7 @@ export class BaseCdkCell {
     'role': 'columnheader',
   },
 })
-export class LyHeaderCell extends BaseCdkCell {
-  constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
-    super(columnDef, elementRef);
-  }
-}
+export class LyHeaderCell extends CdkHeaderCell {}
 
 /** Footer cell template container that adds the right classes and role. */
 @Directive({
@@ -97,11 +91,7 @@ export class LyHeaderCell extends BaseCdkCell {
     'role': 'gridcell',
   },
 })
-export class LyFooterCell extends BaseCdkCell {
-  constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
-    super(columnDef, elementRef);
-  }
-}
+export class LyFooterCell extends CdkFooterCell {}
 
 /** Cell template container that adds the right classes and role. */
 @Directive({
@@ -111,8 +101,4 @@ export class LyFooterCell extends BaseCdkCell {
     'role': 'gridcell',
   },
 })
-export class LyCell extends BaseCdkCell {
-  constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
-    super(columnDef, elementRef);
-  }
-}
+export class LyCell extends CdkCell {}

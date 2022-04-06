@@ -1,0 +1,32 @@
+<table ly-table [dataSource]="dataSource">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container lyColumnDef="position">
+    <th ly-header-cell *lyHeaderCellDef> No. </th>
+    <td ly-cell *lyCellDef="let element"> {{element.position}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container lyColumnDef="name">
+    <th ly-header-cell *lyHeaderCellDef> Name </th>
+    <td ly-cell *lyCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container lyColumnDef="weight">
+    <th ly-header-cell *lyHeaderCellDef> Weight </th>
+    <td ly-cell *lyCellDef="let element"> {{element.weight}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container lyColumnDef="symbol">
+    <th ly-header-cell *lyHeaderCellDef> Symbol </th>
+    <td ly-cell *lyCellDef="let element"> {{element.symbol}} </td>
+  </ng-container>
+
+  <tr ly-header-row *lyHeaderRowDef="displayedColumns"></tr>
+  <tr ly-row *lyRowDef="let row; columns: displayedColumns;"></tr>
+</table>
