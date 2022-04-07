@@ -8,7 +8,9 @@ import {
   CdkRowDef,
   CdkNoDataRow,
 } from '@angular/cdk/table';
-import {ChangeDetectionStrategy, Component, Directive, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Directive, TemplateRef, ViewEncapsulation} from '@angular/core';
+import { StyleRenderer } from '@alyle/ui';
+import { STYLES as TABLE_STYLES } from './styles';
 
 /**
  * Header row definition for the ly-table.
@@ -49,7 +51,6 @@ export class LyRowDef<T> extends CdkRowDef<T> {}
   selector: 'ly-header-row, tr[ly-header-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'ly-header-row',
     'role': 'row',
   },
   // See note on CdkTable for explanation on why this uses the default change detection strategy.
@@ -57,16 +58,25 @@ export class LyRowDef<T> extends CdkRowDef<T> {}
   changeDetection: ChangeDetectionStrategy.Default,
   encapsulation: ViewEncapsulation.None,
   exportAs: 'lyHeaderRow',
-  providers: [{provide: CdkHeaderRow, useExisting: LyHeaderRow}],
+  providers: [
+    {provide: CdkHeaderRow, useExisting: LyHeaderRow},
+    StyleRenderer
+  ],
 })
-export class LyHeaderRow extends CdkHeaderRow {}
+export class LyHeaderRow extends CdkHeaderRow {
+  readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'headerRow');
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) {
+    super();
+  }
+}
 
 /** Footer template container that contains the cell outlet. Adds the right class and role. */
 @Component({
   selector: 'ly-footer-row, tr[ly-footer-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'ly-footer-row',
     'role': 'row',
   },
   // See note on CdkTable for explanation on why this uses the default change detection strategy.
@@ -74,16 +84,25 @@ export class LyHeaderRow extends CdkHeaderRow {}
   changeDetection: ChangeDetectionStrategy.Default,
   encapsulation: ViewEncapsulation.None,
   exportAs: 'lyFooterRow',
-  providers: [{provide: CdkFooterRow, useExisting: LyFooterRow}],
+  providers: [
+    {provide: CdkFooterRow, useExisting: LyFooterRow},
+    StyleRenderer
+  ],
 })
-export class LyFooterRow extends CdkFooterRow {}
+export class LyFooterRow extends CdkFooterRow {
+  readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'footerRow');
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) {
+    super();
+  }
+}
 
 /** Data row template container that contains the cell outlet. Adds the right class and role. */
 @Component({
   selector: 'ly-row, tr[ly-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'ly-row',
     'role': 'row',
   },
   // See note on CdkTable for explanation on why this uses the default change detection strategy.
@@ -91,15 +110,35 @@ export class LyFooterRow extends CdkFooterRow {}
   changeDetection: ChangeDetectionStrategy.Default,
   encapsulation: ViewEncapsulation.None,
   exportAs: 'lyRow',
-  providers: [{provide: CdkRow, useExisting: LyRow}],
+  providers: [
+    {provide: CdkRow, useExisting: LyRow},
+    StyleRenderer
+  ],
 })
-export class LyRow extends CdkRow {}
+export class LyRow extends CdkRow {
+  readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'row');
+  constructor(
+    readonly sRenderer: StyleRenderer
+  ) {
+    super();
+  }
+}
 
 /** Row that can be used to display a message when no data is shown in the table. */
 @Directive({
   selector: 'ng-template[lyNoDataRow]',
-  providers: [{provide: CdkNoDataRow, useExisting: LyNoDataRow}],
+  providers: [
+    {provide: CdkNoDataRow, useExisting: LyNoDataRow},
+    StyleRenderer
+  ],
 })
 export class LyNoDataRow extends CdkNoDataRow {
-  override _contentClassName = 'ly-no-data-row';
+  readonly classes = this.sRenderer.renderSheet(TABLE_STYLES);
+  override _contentClassName = this.classes.noDataRow;
+  constructor(
+    templateRef: TemplateRef<any>,
+    readonly sRenderer: StyleRenderer
+  ) {
+    super(templateRef);
+  }
 }

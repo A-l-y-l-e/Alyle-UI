@@ -1,4 +1,4 @@
-import {Directive, Input} from '@angular/core';
+import {Directive, ElementRef, Input} from '@angular/core';
 import {
   CdkCell,
   CdkCellDef,
@@ -8,6 +8,8 @@ import {
   CdkHeaderCell,
   CdkHeaderCellDef,
 } from '@angular/cdk/table';
+import { StyleRenderer } from '@alyle/ui';
+import { STYLES as TABLE_STYLES } from './styles';
 
 /**
  * Cell definition for the ly-table.
@@ -61,44 +63,64 @@ export class LyColumnDef extends CdkColumnDef {
     this._setNameInput(name);
   }
 
-  /**
-   * Add "ly-column-" prefix in addition to "cdk-column-" prefix.
-   * In the future, this will only add "ly-column-" and columnCssClassName
-   * will change from type string[] to string.
-   * @docs-private
-   */
-  protected override _updateColumnCssClassName() {
-    super._updateColumnCssClassName();
-    this._columnCssClassName!.push(`ly-column-${this.cssClassFriendlyName}`);
-  }
 }
 
 /** Header cell template container that adds the right classes and role. */
 @Directive({
   selector: 'ly-header-cell, th[ly-header-cell]',
   host: {
-    'class': 'ly-header-cell',
     'role': 'columnheader',
   },
+  providers: [
+    StyleRenderer
+  ]
 })
-export class LyHeaderCell extends CdkHeaderCell {}
+export class LyHeaderCell extends CdkHeaderCell {
+  readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'headerCell');
+  constructor(
+    columnDef: CdkColumnDef, elementRef: ElementRef,
+    readonly sRenderer: StyleRenderer
+  ) {
+    super(columnDef, elementRef);
+  }
+}
 
 /** Footer cell template container that adds the right classes and role. */
 @Directive({
   selector: 'ly-footer-cell, td[ly-footer-cell]',
   host: {
-    'class': 'ly-footer-cell',
     'role': 'gridcell',
   },
+  providers: [
+    StyleRenderer
+  ]
 })
-export class LyFooterCell extends CdkFooterCell {}
+export class LyFooterCell extends CdkFooterCell {
+  readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'footerCell');
+  constructor(
+    columnDef: CdkColumnDef, elementRef: ElementRef,
+    readonly sRenderer: StyleRenderer
+  ) {
+    super(columnDef, elementRef);
+  }
+}
 
 /** Cell template container that adds the right classes and role. */
 @Directive({
   selector: 'ly-cell, td[ly-cell]',
   host: {
-    'class': 'ly-cell',
     'role': 'gridcell',
   },
+  providers: [
+    StyleRenderer
+  ]
 })
-export class LyCell extends CdkCell {}
+export class LyCell extends CdkCell {
+  readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'cell');
+  constructor(
+    columnDef: CdkColumnDef, elementRef: ElementRef,
+    readonly sRenderer: StyleRenderer
+  ) {
+    super(columnDef, elementRef);
+  }
+}
