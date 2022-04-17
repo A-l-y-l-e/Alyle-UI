@@ -35,7 +35,7 @@ export const LY_COMMON_STYLES = {
     position: relative
     text-decoration-line: none
     -webkit-text-decoration-line: none
-    &::-moz-focus-inner: {
+    &::-moz-focus-inner {
       border: 0
     }
   }`

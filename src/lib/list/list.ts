@@ -98,7 +98,7 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
         background: transparent
         opacity: 0
         pointer-events: none
-      },
+      }
       &${list.onFocusByKeyboard}::after, &${list.actionListItem}:hover::after {
         background: currentColor
         opacity: .13
