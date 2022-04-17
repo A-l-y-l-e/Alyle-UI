@@ -271,6 +271,66 @@ export type InputStyle<INPUT, C = any> = (val: Exclude<NonNullable<INPUT>, Media
     ((theme: any, ref: ThemeRef) => StyleTemplate) | null
   );
 
+
+/**
+ * Parameter decorator to be used for create Dynamic style together with `@Input`
+ * @param style style
+ * @param formatWith A function to format the value
+ * @decorator
+ */
+export function Style2<INPUT = any, C = any>(
+  style: InputStyle<INPUT, C>,
+  formatWith?: ((value: INPUT) => any) | null,
+  priority?: number
+): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void {
+
+  return function(
+    target: WithStyles,
+    propertyKey: string,
+    descriptor?: TypedPropertyDescriptor<INPUT>
+  ) {
+    target.constructor[propertyKey] = style;
+    const _propertyKey = `_${propertyKey}Value`;
+    if (descriptor) {
+      const set = descriptor.set!;
+      descriptor.set = function(val: INPUT) {
+        const newValue = formatWith ? formatWith(val) : val;
+        createStyle(
+          this,
+          propertyKey,
+          newValue,
+          style,
+          priority
+        );
+        set.call(this, newValue);
+      };
+      if (!descriptor.get) {
+        descriptor.get = function() {
+          return this[_propertyKey];
+        };
+      }
+    } else {
+      Object.defineProperty(target, propertyKey, {
+        configurable: true,
+        enumerable: true,
+        set(val: INPUT) {
+          const newValue = formatWith ? formatWith(val) : val;
+          createStyle(
+            this,
+            propertyKey,
+            newValue,
+            style,
+            priority
+          );
+        },
+        get() {
+          return this[_propertyKey];
+        }
+      });
+    }
+  };
+}
+
 /**
  * Parameter decorator to be used for create Dynamic style together with `@Input`
  * @param style style
@@ -299,12 +359,15 @@ export function Style<INPUT = any, C = any>(
 export function Style<INPUT = any, C = any>(
   style: InputStyle<INPUT, C>,
   priority?: number
-) {
+): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void {
 
-  return function(target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT>) {
+  return function(
+    target: WithStyles,
+    propertyKey: string,
+    descriptor?: TypedPropertyDescriptor<INPUT>
+  ) {
     target.constructor[propertyKey] = style;
-    // const _propertyKeyClass = `_${propertyKey}Class`;
-    const _propertyKey = `_${propertyKey}`;
+    const _propertyKey = `_${propertyKey}Value`;
     if (descriptor) {
       const set = descriptor.set!;
       descriptor.set = function(val: INPUT) {
@@ -360,7 +423,7 @@ export function createStyle<INPUT, C>(
 ) {
   const propertyKey = typeof propertyKeyConfig === 'string' ? propertyKeyConfig : propertyKeyConfig.key;
   const _propertyKeyClass = `_${propertyKey}Class`;
-  const _propertyKey = `_${propertyKey}`;
+  const _propertyKey = `_${propertyKey}Value`;
   const oldValue = c[_propertyKey];
   c[_propertyKey] = value;
   if (value === null || value === undefined || (value as any) === false) {
