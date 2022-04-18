@@ -59,6 +59,9 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
     }`,
     footerRow: null,
     sticky: null,
-    noDataRow: null
+    noDataRow: null,
+    fixedLayout: lyl `{
+      table-layout: fixed
+    }`
   };
 };

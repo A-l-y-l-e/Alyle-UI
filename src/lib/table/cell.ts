@@ -50,7 +50,7 @@ export class LyFooterCellDef extends CdkFooterCellDef {}
   inputs: ['sticky'],
   providers: [
     {provide: CdkColumnDef, useExisting: LyColumnDef},
-    {provide: 'MAT_SORT_HEADER_COLUMN_DEF', useExisting: LyColumnDef},
+    {provide: 'LY_SORT_HEADER_COLUMN_DEF', useExisting: LyColumnDef},
   ],
 })
 export class LyColumnDef extends CdkColumnDef {
