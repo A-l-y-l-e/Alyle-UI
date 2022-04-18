@@ -1,9 +1,21 @@
-import { lyl, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { lyl, ThemeVariables, ThemeRef, StyleCollection, LyClasses, StyleTemplate, shadowBuilder } from '@alyle/ui';
 
-export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
+export interface LyTableTheme {
+  /** Styles for Button Component */
+  root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
+    | ((classes: LyClasses<typeof STYLES>) => StyleTemplate);
+}
+
+export interface LyTableVariables {
+  table?: LyTableTheme;
+}
+
+export const STYLES = (theme: ThemeVariables & LyTableVariables, ref: ThemeRef) => {
   const { before, after } = theme;
   const __ = ref.selectorsOf(STYLES);
+  console.log('from STYLE', theme.shadow);
   return {
+    $name: `LyTable`,
     $global: () => lyl `{
       ${__.root} thead,
       ${__.root} tbody,
@@ -33,12 +45,30 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
       }
       tr${__.row}, tr${__.footerRow} {
         height: 48px
-    }
+      }
+      ${__.row}, ${__.headerRow}, ${__.footerRow}, th${__.headerCell}, td${__.cell}, td${__.footerCell} {
+        border-bottom-color: ${theme.divider}
+      }
+      ${__.cell}, ${__.footerCell} {
+        font-size: 14px
+      }
     }`,
-    root: lyl `{
+    root: () => lyl `{
       font-family: Roboto,Helvetica Neue,sans-serif
+      background: ${theme.paper.default}
+      box-shadow: ${shadowBuilder(8, theme.shadow)}
       table& {
         border-spacing: 0
+      }
+      {
+        ...${
+          (theme.table
+            && theme.table.root
+            && (theme.table.root instanceof StyleCollection
+              ? theme.table.root.setTransformer(fn => fn(__)).css
+              : theme.table.root(__))
+          )
+        }
       }
     }`,
     headerCell: lyl `{
