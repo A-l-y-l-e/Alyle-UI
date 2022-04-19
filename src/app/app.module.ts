@@ -56,7 +56,7 @@ const SublimeLight = {
 @Injectable()
 export class CustomMinimaLight {
   name = 'minima-light';
-  shadow = '#505050';
+  // shadow = '#505050';
   codeColor = 'rgba(0, 23, 31, 0.7)';
   codeBg = '#ffffff';
   myColor = 'pink';
@@ -80,7 +80,7 @@ export class CustomMinimaLight {
 @Injectable()
 export class CustomMinimaDark {
   name = 'minima-dark';
-  shadow = 'rgba(0, 0, 0, 1)';
+  // shadow = 'rgba(0, 0, 0, 1)';
   codeColor = '#efefef';
   codeBg = new Color(0x1b1b1b);
   myColor = 'teal';
