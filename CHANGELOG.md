@@ -1,3 +1,12 @@
+## [13.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.0.0...13.0.1) (2022-04-17)
+
+
+### Bug Fixes
+
+* **list:** LyList could not parse CSS stylesheet during test ([5f3f999](https://github.com/A-l-y-l-e/Alyle-UI/commit/5f3f99974c339cde1f7578c08247cd346709d44c)), closes [#187](https://github.com/A-l-y-l-e/Alyle-UI/issues/187)
+
+
+
 # [13.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/12.1.1...13.0.0) (2022-04-02)
 
 

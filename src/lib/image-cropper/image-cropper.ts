@@ -24,13 +24,15 @@ import {
   StyleTemplate,
   StyleRenderer,
   WithStyles,
-  Style } from '@alyle/ui';
+  Style2,
+} from '@alyle/ui';
 import { Subject, Observable } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
 import { resizeCanvas } from './resize-canvas';
 import { ViewportRuler } from '@angular/cdk/scrolling';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyImageCropperTheme {
   /** Styles for Image Cropper Component */
@@ -1376,16 +1378,21 @@ export class LyCropperArea implements WithStyles, OnDestroy {
   private _resizableArea: boolean;
   @Input() keepAspectRatio: boolean;
   @Input()
-  @Style<boolean, LyCropperArea>(
-    (_value, _, { classes: __ }) => ({ after }) => lyl `{
-      border-radius: 50%
-      .${__.resizer} {
-        ${after}: ${pos}%
-        bottom: ${pos}%
-        transform: translate(4px, 4px)
-      }
-    }`
-  ) round: boolean;
+  @Style2<boolean, LyCropperArea>(
+    (_value, _media) => ({ after }, ref) => {
+      ref.renderStyleSheet(STYLES);
+      const __ = ref.selectorsOf(STYLES);
+      return lyl `{
+        border-radius: 50%
+        .${__.resizer} {
+          ${after}: ${pos}%
+          bottom: ${pos}%
+          transform: translate(4px, 4px)
+        }
+      }`;
+    },
+    coerceBooleanProperty
+  ) round: BooleanInput;
 
   constructor(
     readonly sRenderer: StyleRenderer,
@@ -1721,6 +1728,6 @@ function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   return event.type[0] === 't';
 }
 
-export function round(n: number) {
+export function roundNumber(n: number) {
   return Math.round(n);
 }
