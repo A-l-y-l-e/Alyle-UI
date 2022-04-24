@@ -19,6 +19,7 @@ export class CoreTheme {
   private _themeMap = new Map<string, ThemeVariables>();
   private _styleMap = new Map<string, Map<string, DataStyle>>();
   private _document: Document;
+  static classNamePrefix?: string;
   constructor(
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) _document: any,
@@ -28,7 +29,7 @@ export class CoreTheme {
     this._document = _document;
 
     if (!isDevMode() && _classNamePrefix) {
-      this.classNamePrefix = _classNamePrefix;
+      CoreTheme.classNamePrefix = this.classNamePrefix = _classNamePrefix;
     }
 
     if (platform.isBrowser) {

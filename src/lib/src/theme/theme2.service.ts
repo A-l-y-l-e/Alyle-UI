@@ -19,6 +19,7 @@ import { StyleMap5,
 import { Subject } from 'rxjs';
 import { StyleTemplate, StringIdGenerator } from '../parse';
 import { Platform } from '@angular/cdk/platform';
+import { memoize } from '../minimal/memoize';
 
 const REF_REG_EXP = /\{([\w-]+)\}/g;
 
@@ -547,11 +548,15 @@ function groupStyleToString(
       // set new id if not exist
       if (!(key in classesMap)) {
         classesMap[key] = isDevMode()
-          ? `${toValidClassName(name + key)}-${createNextClassId(classNamePrefix)}`
+          ? (key === 'root'
+            ? `${toValidClassName(name)}${createNextClassId(classNamePrefix)}`
+            : `${toValidClassName(name + key)}-${createNextClassId(classNamePrefix)}`)
           : createNextClassId(classNamePrefix);
       }
 
     } else if (typeof value === 'object' || value === null) {
+      // TODO: @deprecated
+      // remove this in the future
       // set new id if not exist
       if (!(key in classesMap)) {
         classesMap[key] = isDevMode()
@@ -813,6 +818,22 @@ function createNextClassId(classNamePrefix?: string) {
     ? `${classNamePrefix}${yClassID.next()}`
     : yClassID.next();
 }
+
+/**
+ * Create next class id from key
+ * @private
+ */
+export const ck = memoize((_key: string) => {
+  return createNextClassId(CoreTheme.classNamePrefix);
+});
+
+/**
+ * Create next selector id from key
+ */
+export const dot = memoize((key: string) => {
+  return `.${ck(key)}`;
+});
+
 function createNextKeyframeId() {
   return `k${(nextKeyFrameId++).toString(36)}`;
 }
