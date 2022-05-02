@@ -113,6 +113,7 @@ export const STYLES = (theme: ThemeVariables & LyTableVariables, ref: ThemeRef) 
         }
       }
     }`,
+    column: null,
     headerCell: lyl `{
       color: ${theme.text.secondary}
       font-size: 12px

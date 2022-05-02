@@ -1,6 +1,8 @@
 # Table
 {@path /components}
 
+The <code class="html">ly-table</code> provides a Material Design styled data table that is used to represent data arranged in rows and columns.
+
 ## Basic use of <code class="html"><table ly-table></code>
 
 <demo-view path="table-basic-example">
@@ -24,3 +26,10 @@
 <demo-view path="table-footer-row-example">
   <aui-table-footer-row-example></aui-table-footer-row-example>
 </demo-view>
+
+## Table with sticky columns
+
+<demo-view path="table-sticky-columns-example">
+  <aui-table-sticky-columns-example></aui-table-sticky-columns-example>
+</demo-view>
+

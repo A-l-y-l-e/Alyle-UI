@@ -71,6 +71,9 @@ export class LyColumnDef extends CdkColumnDef {
    */
    protected override _updateColumnCssClassName() {
     super._updateColumnCssClassName();
+    if (this._table) {
+      this._columnCssClassName!.push(`${this._table.classes.column}-${this.cssClassFriendlyName}`);
+    }
     this._columnCssClassName!.push(ck(`ly-column-${this.cssClassFriendlyName}`));
   }
 
