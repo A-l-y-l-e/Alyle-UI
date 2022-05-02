@@ -1,0 +1,28 @@
+<ly-table [dataSource]="dataSource">
+  <!-- Position Column -->
+  <ng-container lyColumnDef="position">
+    <ly-header-cell *lyHeaderCellDef> No. </ly-header-cell>
+    <ly-cell *lyCellDef="let element"> {{element.position}} </ly-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container lyColumnDef="name">
+    <ly-header-cell *lyHeaderCellDef> Name </ly-header-cell>
+    <ly-cell *lyCellDef="let element"> {{element.name}} </ly-cell>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container lyColumnDef="weight">
+    <ly-header-cell *lyHeaderCellDef> Weight </ly-header-cell>
+    <ly-cell *lyCellDef="let element"> {{element.weight}} </ly-cell>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container lyColumnDef="symbol">
+    <ly-header-cell *lyHeaderCellDef> Symbol </ly-header-cell>
+    <ly-cell *lyCellDef="let element"> {{element.symbol}} </ly-cell>
+  </ng-container>
+
+  <ly-header-row *lyHeaderRowDef="displayedColumns"></ly-header-row>
+  <ly-row *lyRowDef="let row; columns: displayedColumns;"></ly-row>
+</ly-table>

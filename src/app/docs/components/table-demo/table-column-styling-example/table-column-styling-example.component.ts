@@ -1,5 +1,5 @@
-import { lyl, StyleRenderer, ThemeVariables, WithStyles } from '@alyle/ui';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { dot, lyl, shadowBuilder, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 export interface PeriodicElement {
   name: string;
@@ -21,33 +21,53 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
-const STYLES = (_theme: ThemeVariables) => {
+const STYLES = (theme: ThemeVariables, _ref: ThemeRef) => {
+  const { before, after, shadow } = theme;
   return {
     root: lyl `{
       table {
-        // Custom styles
+        width: 100%
+        box-shadow: ${shadowBuilder(8, shadow)}
+      }
+      ${dot('ly-column-demo-position')} {
+        width: 32px
+        border-right: 1px solid currentColor
+        padding-${after}: 24px
+        text-align: center
+      }
+
+      ${dot('ly-column-demo-name')} {
+        padding-${before}: 16px
+        font-size: 20px
+      }
+
+      ${dot('ly-column-demo-weight')} {
+        font-style: italic
+      }
+
+      ${dot('ly-column-demo-symbol')} {
+        width: 32px
+        text-align: center
+        font-weight: bold
       }
     }`
   };
 };
 
 @Component({
-  selector: 'aui-table-basic-example',
-  templateUrl: './table-basic-example.component.html',
+  selector: 'aui-table-column-styling-example',
+  templateUrl: './table-column-styling-example.component.html',
   providers: [
     StyleRenderer
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableBasicExampleComponent implements WithStyles, OnInit {
+export class TableColumnStylingExampleComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['demo-position', 'demo-name', 'demo-weight', 'demo-symbol'];
   dataSource = ELEMENT_DATA;
   constructor(
     readonly sRenderer: StyleRenderer
   ) { }
-
-  ngOnInit(): void {
-  }
 
 }

@@ -1,5 +1,5 @@
-import { lyl, StyleRenderer, ThemeVariables, WithStyles } from '@alyle/ui';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { lyl, shadowBuilder, StyleRenderer, ThemeVariables } from '@alyle/ui';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 export interface PeriodicElement {
   name: string;
@@ -21,33 +21,32 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
-const STYLES = (_theme: ThemeVariables) => {
+const STYLES = (theme: ThemeVariables) => {
   return {
     root: lyl `{
-      table {
-        // Custom styles
+      ly-table {
+        width: 100%
+        box-shadow: ${shadowBuilder(8, theme.shadow)}
       }
     }`
   };
 };
 
 @Component({
-  selector: 'aui-table-basic-example',
-  templateUrl: './table-basic-example.component.html',
+  selector: 'aui-table-flex-basic-example',
+  templateUrl: './table-flex-basic-example.component.html',
   providers: [
     StyleRenderer
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableBasicExampleComponent implements WithStyles, OnInit {
+export class TableFlexBasicExampleComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
   constructor(
     readonly sRenderer: StyleRenderer
-  ) { }
+  ) {
 
-  ngOnInit(): void {
   }
-
 }

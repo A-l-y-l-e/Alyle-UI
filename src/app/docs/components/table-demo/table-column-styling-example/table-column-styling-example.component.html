@@ -1,28 +1,24 @@
-<table ly-table [dataSource]="dataSource" [lyWidth]="1" [lyElevation]="8">
-
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
+<table ly-table [dataSource]="dataSource" class="demo-table">
   <!-- Position Column -->
-  <ng-container lyColumnDef="position">
+  <ng-container lyColumnDef="demo-position">
     <th ly-header-cell *lyHeaderCellDef> No. </th>
     <td ly-cell *lyCellDef="let element"> {{element.position}} </td>
   </ng-container>
 
   <!-- Name Column -->
-  <ng-container lyColumnDef="name">
+  <ng-container lyColumnDef="demo-name">
     <th ly-header-cell *lyHeaderCellDef> Name </th>
     <td ly-cell *lyCellDef="let element"> {{element.name}} </td>
   </ng-container>
 
   <!-- Weight Column -->
-  <ng-container lyColumnDef="weight">
+  <ng-container lyColumnDef="demo-weight">
     <th ly-header-cell *lyHeaderCellDef> Weight </th>
     <td ly-cell *lyCellDef="let element"> {{element.weight}} </td>
   </ng-container>
 
   <!-- Symbol Column -->
-  <ng-container lyColumnDef="symbol">
+  <ng-container lyColumnDef="demo-symbol">
     <th ly-header-cell *lyHeaderCellDef> Symbol </th>
     <td ly-cell *lyCellDef="let element"> {{element.symbol}} </td>
   </ng-container>

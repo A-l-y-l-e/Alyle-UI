@@ -8,7 +8,7 @@ import {
   CdkHeaderCell,
   CdkHeaderCellDef,
 } from '@angular/cdk/table';
-import { StyleRenderer } from '@alyle/ui';
+import { ck, StyleRenderer } from '@alyle/ui';
 import { STYLES as TABLE_STYLES } from './styles';
 
 /**
@@ -61,6 +61,17 @@ export class LyColumnDef extends CdkColumnDef {
   }
   override set name(name: string) {
     this._setNameInput(name);
+  }
+
+  /**
+   * Add "ly-column-" prefix in addition to "cdk-column-" prefix.
+   * In the future, this will only add "ly-column-" and columnCssClassName
+   * will change from type string[] to string.
+   * @docs-private
+   */
+   protected override _updateColumnCssClassName() {
+    super._updateColumnCssClassName();
+    this._columnCssClassName!.push(ck(`ly-column-${this.cssClassFriendlyName}`));
   }
 
 }

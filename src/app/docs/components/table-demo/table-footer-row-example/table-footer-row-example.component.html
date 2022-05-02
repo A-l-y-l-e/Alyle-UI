@@ -1,0 +1,19 @@
+<table ly-table [dataSource]="transactions">
+  <!-- Item Column -->
+  <ng-container lyColumnDef="product">
+    <th ly-header-cell *lyHeaderCellDef> Item </th>
+    <td ly-cell *lyCellDef="let transaction"> {{transaction.product}} </td>
+    <td ly-footer-cell *lyFooterCellDef> Total </td>
+  </ng-container>
+
+  <!-- Price Column -->
+  <ng-container lyColumnDef="price">
+    <th ly-header-cell *lyHeaderCellDef> Price </th>
+    <td ly-cell *lyCellDef="let transaction"> {{transaction.price | currency}} </td>
+    <td ly-footer-cell *lyFooterCellDef> {{getTotalPrice() | currency}} </td>
+  </ng-container>
+
+  <tr ly-header-row *lyHeaderRowDef="displayedColumns"></tr>
+  <tr ly-row *lyRowDef="let row; columns: displayedColumns;"></tr>
+  <tr ly-footer-row *lyFooterRowDef="displayedColumns"></tr>
+</table>
