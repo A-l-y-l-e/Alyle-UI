@@ -215,11 +215,13 @@ export class LyTheme2 {
     }
     if (themeName !== this.config.name) {
       const theme = this.themeMap.get(this.initialTheme);
+      const dir = this.config.direction;
       if (theme == null) {
         throw new Error(`Theme ${themeName} not found in themeMap`);
       }
       theme.change = themeName;
       this.config = this.core.get(themeName)!;
+      this.config.direction = dir;
       this._updateAllStyles();
       this._themeChanged.next();
     }
