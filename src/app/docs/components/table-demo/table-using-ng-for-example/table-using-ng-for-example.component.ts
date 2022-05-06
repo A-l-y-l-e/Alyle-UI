@@ -46,22 +46,22 @@ export class TableUsingNgForExampleComponent {
     {
       columnDef: 'position',
       header: 'No.',
-      cell: (element: Star) => `${element.position}`,
+      cell: (start: Star) => `${start.position}`,
     },
     {
       columnDef: 'name',
       header: 'Name',
-      cell: (element: Star) => `${element.name}`,
+      cell: (start: Star) => `${start.name}`,
     },
     {
       columnDef: 'radius',
       header: 'Radius R☉',
-      cell: (element: Star) => `${element.radius}`,
+      cell: (start: Star) => `${start.radius}`,
     },
     {
       columnDef: 'temperature',
       header: 'Temperature',
-      cell: (element: Star) => `${element.temperature}`,
+      cell: (start: Star) => `${start.temperature}`,
     },
   ];
   dataSource = ELEMENT_DATA;
