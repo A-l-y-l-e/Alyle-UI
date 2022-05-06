@@ -33,3 +33,11 @@ The <code class="html">ly-table</code> provides a Material Design styled data ta
   <aui-table-sticky-columns-example></aui-table-sticky-columns-example>
 </demo-view>
 
+## Table using ngFor
+
+Table with columns defined using ngFor instead of statically written in the template.
+
+<demo-view path="table-using-ng-for-example">
+  <aui-table-using-ng-for-example></aui-table-using-ng-for-example>
+</demo-view>
+

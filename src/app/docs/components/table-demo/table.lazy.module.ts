@@ -10,6 +10,8 @@ import { TableFooterRowExampleComponent } from './table-footer-row-example/table
 import { TableFooterRowExampleModule } from './table-footer-row-example/table-footer-row-example.module';
 import { TableStickyColumnsExampleComponent } from './table-sticky-columns-example/table-sticky-columns-example.component';
 import { TableStickyColumnsExampleModule } from './table-sticky-columns-example/table-sticky-columns-example.module';
+import { TableUsingNgForExampleComponent } from './table-using-ng-for-example/table-using-ng-for-example.component';
+import { TableUsingNgForExampleModule } from './table-using-ng-for-example/table-using-ng-for-example.module';
 
 
 const elements = [
@@ -18,6 +20,7 @@ const elements = [
   TableFlexBasicExampleComponent,
   TableFooterRowExampleComponent,
   TableStickyColumnsExampleComponent,
+  TableUsingNgForExampleComponent,
 ];
 
 @NgModule({
@@ -27,6 +30,7 @@ const elements = [
     TableFlexBasicExampleModule,
     TableFooterRowExampleModule,
     TableStickyColumnsExampleModule,
+    TableUsingNgForExampleModule,
   ],
 })
 export class LazyModule implements WithCustomElementComponent {

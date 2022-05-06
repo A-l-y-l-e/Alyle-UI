@@ -6,25 +6,25 @@
   <!-- Position Column -->
   <ng-container lyColumnDef="position">
     <th ly-header-cell *lyHeaderCellDef> No. </th>
-    <td ly-cell *lyCellDef="let element"> {{element.position}} </td>
+    <td ly-cell *lyCellDef="let star"> {{star.position}} </td>
   </ng-container>
 
   <!-- Name Column -->
   <ng-container lyColumnDef="name">
     <th ly-header-cell *lyHeaderCellDef> Name </th>
-    <td ly-cell *lyCellDef="let element"> {{element.name}} </td>
+    <td ly-cell *lyCellDef="let star"> {{star.name}} </td>
   </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container lyColumnDef="weight">
-    <th ly-header-cell *lyHeaderCellDef> Weight </th>
-    <td ly-cell *lyCellDef="let element"> {{element.weight}} </td>
+  <!-- Radius Column -->
+  <ng-container lyColumnDef="radius">
+    <th ly-header-cell *lyHeaderCellDef> Radius R☉ </th>
+    <td ly-cell *lyCellDef="let star"> {{star.radius}} </td>
   </ng-container>
 
-  <!-- Symbol Column -->
-  <ng-container lyColumnDef="symbol">
-    <th ly-header-cell *lyHeaderCellDef> Symbol </th>
-    <td ly-cell *lyCellDef="let element"> {{element.symbol}} </td>
+  <!-- Temperature Column -->
+  <ng-container lyColumnDef="temperature">
+    <th ly-header-cell *lyHeaderCellDef> Temperature K</th>
+    <td ly-cell *lyCellDef="let star"> {{star.temperature}} </td>
   </ng-container>
 
   <tr ly-header-row *lyHeaderRowDef="displayedColumns"></tr>

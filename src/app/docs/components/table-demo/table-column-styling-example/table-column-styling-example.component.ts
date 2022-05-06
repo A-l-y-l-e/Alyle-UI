@@ -1,24 +1,25 @@
 import { dot, lyl, shadowBuilder, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-export interface PeriodicElement {
-  name: string;
+export interface Star {
   position: number;
-  weight: number;
-  symbol: string;
+  name: string;
+  radius: number;
+  temperature: number;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+const ELEMENT_DATA: Star[] = [
+  { position: 1, name: 'UY Scuti', radius: 1708, temperature: 3365 },
+  { position: 2, name: 'VY Canis Majoris', radius: 1420, temperature: 3490 },
+  { position: 3, name: 'Mu Cephei', radius: 1260, temperature: 3690 },
+  { position: 4, name: 'Betelgeuse', radius: 887, temperature: 3500 },
+  { position: 5, name: 'Antares A', radius: 680, temperature: 3600 },
+  { position: 6, name: 'Pistol Star', radius: 420, temperature: 11800 },
+  { position: 7, name: 'Rigel', radius: 78.9, temperature: 11000 },
+  { position: 8, name: 'Aldebaran', radius: 45.1, temperature: 3910 },
+  { position: 9, name: 'Arcturus', radius: 25.4, temperature: 4286 },
+  { position: 10, name: 'Pollux', radius: 9.06, temperature: 4586 },
+  { position: 11, name: 'Sun', radius: 1, temperature: 5778 },
 ];
 
 const STYLES = (theme: ThemeVariables, _ref: ThemeRef) => {
@@ -41,11 +42,11 @@ const STYLES = (theme: ThemeVariables, _ref: ThemeRef) => {
         font-size: 20px
       }
 
-      ${dot('ly-column-demo-weight')} {
+      ${dot('ly-column-demo-radius')} {
         font-style: italic
       }
 
-      ${dot('ly-column-demo-symbol')} {
+      ${dot('ly-column-demo-temperature')} {
         width: 32px
         text-align: center
         font-weight: bold
@@ -64,7 +65,7 @@ const STYLES = (theme: ThemeVariables, _ref: ThemeRef) => {
 })
 export class TableColumnStylingExampleComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
-  displayedColumns: string[] = ['demo-position', 'demo-name', 'demo-weight', 'demo-symbol'];
+  displayedColumns: string[] = ['demo-position', 'demo-name', 'demo-radius', 'demo-temperature'];
   dataSource = ELEMENT_DATA;
   constructor(
     readonly sRenderer: StyleRenderer

@@ -1,6 +1,5 @@
+import { lyl, StyleRenderer, ThemeVariables } from '@alyle/ui';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { lyl, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
-import { STYLES as TABLE_STYLES } from '@alyle/ui/table';
 
 export interface Star {
   position: number;
@@ -23,65 +22,51 @@ const ELEMENT_DATA: Star[] = [
   { position: 11, name: 'Sun', radius: 1, temperature: 5778 },
 ];
 
-const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
-  ref.renderStyleSheet(TABLE_STYLES);
-  const table = ref.selectorsOf(TABLE_STYLES);
-  const { before, after } = theme;
+const STYLES = (_theme: ThemeVariables) => {
   return {
-    root: () => lyl `{
+    root: lyl `{
       table {
-        width: 800px
+        // Custom styles
       }
-
-      td${table.column}-other {
-        width: 20px
-        padding-${after}: 8px
-      }
-
-      th, td {
-        &${table.column}-position {
-          padding-${before}: 8px
-        }
-      }
-
-      ${table.sticky}-border-elem-${after} {
-        border-${before}: 1px solid ${theme.divider}
-      }
-
-      ${table.sticky}-border-elem-${before} {
-        border-${after}: 1px solid ${theme.divider}
-      }
-    }`,
-    exampleContainer: lyl `{
-      height: 400px
-      width: 550px
-      max-width: 100%
-      overflow: auto
     }`
   };
 };
 
 @Component({
-  selector: 'aui-table-sticky-columns-example',
-  templateUrl: './table-sticky-columns-example.component.html',
+  selector: 'aui-table-using-ng-for-example',
+  templateUrl: './table-using-ng-for-example.component.html',
   providers: [
     StyleRenderer
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableStickyColumnsExampleComponent {
+export class TableUsingNgForExampleComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
-  displayedColumns = [
-    'name',
-    'position',
-    'radius',
-    'temperature',
-    'position',
-    'radius',
-    'temperature',
-    'other',
+  columns = [
+    {
+      columnDef: 'position',
+      header: 'No.',
+      cell: (element: Star) => `${element.position}`,
+    },
+    {
+      columnDef: 'name',
+      header: 'Name',
+      cell: (element: Star) => `${element.name}`,
+    },
+    {
+      columnDef: 'radius',
+      header: 'Radius R☉',
+      cell: (element: Star) => `${element.radius}`,
+    },
+    {
+      columnDef: 'temperature',
+      header: 'Temperature',
+      cell: (element: Star) => `${element.temperature}`,
+    },
   ];
   dataSource = ELEMENT_DATA;
+  displayedColumns = this.columns.map(c => c.columnDef);
+
   constructor(
     readonly sRenderer: StyleRenderer
   ) { }
