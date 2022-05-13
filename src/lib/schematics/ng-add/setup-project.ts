@@ -63,7 +63,7 @@ function updateAppModule(options: Schema) {
     }
 
     // add import theme
-    ['LyThemeModule', 'LY_THEME', 'LY_THEME_NAME'].forEach((_import) => {
+    ['LY_THEME', 'LY_THEME_NAME'].forEach((_import) => {
       moduleSource = getTsSourceFile(host, modulePath);
       importModule = _import;
       importPath = '@alyle/ui';
