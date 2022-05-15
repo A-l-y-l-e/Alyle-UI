@@ -1,0 +1,8 @@
+
+  
+{
+  "installDependencies": true,
+  "env": {
+    "ENABLE_CJS_IMPORTS": true
+  }
+}
