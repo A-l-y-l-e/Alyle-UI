@@ -1,0 +1,28 @@
+<ly-table [dataSource]="dataSource">
+  <!-- Position Column -->
+  <ng-container lyColumnDef="position">
+    <ly-header-cell *lyHeaderCellDef> No. </ly-header-cell>
+    <ly-cell *lyCellDef="let star"> {{star.position}} </ly-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container lyColumnDef="name">
+    <ly-header-cell *lyHeaderCellDef> Name </ly-header-cell>
+    <ly-cell *lyCellDef="let star"> {{star.name}} </ly-cell>
+  </ng-container>
+
+  <!-- Radius Column -->
+  <ng-container lyColumnDef="radius">
+    <ly-header-cell *lyHeaderCellDef> Radius R☉ </ly-header-cell>
+    <ly-cell *lyCellDef="let star"> {{star.radius}} </ly-cell>
+  </ng-container>
+
+  <!-- Temperature Column -->
+  <ng-container lyColumnDef="temperature">
+    <ly-header-cell *lyHeaderCellDef> Temperature </ly-header-cell>
+    <ly-cell *lyCellDef="let star"> {{star.temperature}} </ly-cell>
+  </ng-container>
+
+  <ly-header-row *lyHeaderRowDef="displayedColumns"></ly-header-row>
+  <ly-row *lyRowDef="let row; columns: displayedColumns;"></ly-row>
+</ly-table>

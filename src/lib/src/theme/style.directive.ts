@@ -1,7 +1,9 @@
 import { Directive, ElementRef, SimpleChanges, OnChanges, isDevMode } from '@angular/core';
 import { lyl } from '../parse';
-import { StyleRenderer, Style, WithStyles, InputStyle } from '../minimal/renderer-style';
+import { StyleRenderer, Style, WithStyles, InputStyle, Style2 } from '../minimal/renderer-style';
 import { ThemeVariables } from './theme-config';
+import { coerceNumberProperty, NumberInput } from '@angular/cdk/coercion';
+import { shadowBuilder } from '../shadow';
 
 const STYLE_PRIORITY = -0.5;
 
@@ -56,7 +58,8 @@ const STYLE_PRIORITY = -0.5;
     'justifySelf: lyJustifySelf',
     'alignContent: lyAlignContent',
     'alignItems: lyAlignItems',
-    'order: lyOrder'
+    'order: lyOrder',
+    'elevation: lyElevation'
   ]
 })
 export class LyStyle implements WithStyles {
@@ -443,6 +446,19 @@ export class LyStyle implements WithStyles {
     )
   )
   lyStyle: string | null;
+
+  @Style2<string | number>(
+    (value: number, media) => ({ breakpoints, shadow }: ThemeVariables) => (
+      lyl `{
+        @media ${(media && (breakpoints[ media ] || media)) || 'all'} {
+          box-shadow: ${shadowBuilder(value, shadow)}
+        }
+      }`
+    ),
+    coerceNumberProperty
+  )
+  elevation: NumberInput;
+
 }
 
 /**

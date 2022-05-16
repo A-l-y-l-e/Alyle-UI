@@ -1,0 +1,13 @@
+<table ly-table [dataSource]="dataSource" [lyElevation]="8" [lyWidth]="1">
+  <ng-container *ngFor="let column of columns" [lyColumnDef]="column.columnDef">
+    <th ly-header-cell *lyHeaderCellDef>
+      {{column.header}}
+    </th>
+    <td ly-cell *lyCellDef="let row">
+      {{column.cell(row)}}
+    </td>
+  </ng-container>
+
+  <tr ly-header-row *lyHeaderRowDef="displayedColumns"></tr>
+  <tr ly-row *lyRowDef="let row; columns: displayedColumns;"></tr>
+</table>

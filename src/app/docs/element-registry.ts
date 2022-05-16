@@ -121,7 +121,11 @@ export const ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES = [
   {
     path: '/components/skeleton',
     loadChildren: () => import('./components/skeleton-demo/skeleton.lazy.module').then(mod => mod.LazyModule)
-  }
+  },
+  {
+    path: '/components/table',
+    loadChildren: () => import('./components/table-demo/table.lazy.module').then(mod => mod.LazyModule)
+  },
 ];
 
 /**

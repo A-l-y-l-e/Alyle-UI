@@ -1,0 +1,75 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> dot<span class="tt18 ttae">,</span> lyl<span class="tt18 ttae">,</span> shadowBuilder<span class="tt18 ttae">,</span> StyleRenderer<span class="tt18 ttae">,</span> ThemeRef<span class="tt18 ttae">,</span> ThemeVariables <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">interface</span> <span class="tt18 ttc8">Star</span> <span class="tt18 ttae">&#123;</span>
+  position<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
+  name<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
+  radius<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
+  temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+
+<span class="tt18 tt1j">const</span> <span class="tt18 ttbb">ELEMENT_DATA</span><span class="tt18 ttb0">:</span> Star<span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'UY Scuti'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1708</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3365</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">2</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'VY Canis Majoris'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1420</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3490</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Mu Cephei'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1260</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3690</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">4</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Betelgeuse'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">887</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3500</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">5</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Antares A'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">680</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3600</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">6</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Pistol Star'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">420</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">11800</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">7</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Rigel'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">78.9</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">11000</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">8</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Aldebaran'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">45.1</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">3910</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">9</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Arcturus'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">25.4</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">4286</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">10</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Pollux'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">9.06</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">4586</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span> position<span class="tt18 ttb0">:</span> <span class="tt18 ttap">11</span><span class="tt18 ttae">,</span> name<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Sun'</span><span class="tt18 ttae">,</span> radius<span class="tt18 ttb0">:</span> <span class="tt18 ttap">1</span><span class="tt18 ttae">,</span> temperature<span class="tt18 ttb0">:</span> <span class="tt18 ttap">5778</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+<span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>theme<span class="tt18 ttb0">:</span> ThemeVariables<span class="tt18 ttae">,</span> _ref<span class="tt18 ttb0">:</span> ThemeRef<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">const</span> <span class="tt18 ttae">&#123;</span> before<span class="tt18 ttae">,</span> after<span class="tt18 ttae">,</span> shadow <span class="tt18 ttae">&#125;</span> <span class="tt18 ttb0">=</span> theme<span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
+    root<span class="tt18 ttb0">:</span> lyl <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">&#123;
+      table &#123;
+        width: 100%
+        box-shadow: </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">shadowBuilder</span><span class="tt18 ttae">(</span><span class="tt18 ttap">8</span><span class="tt18 ttae">,</span> shadow<span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">
+      &#125;
+      </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">dot</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'ly-column-demo-position'</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
+        width: 32px
+        border-right: 1px solid currentColor
+        padding-</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>after<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">: 24px
+        text-align: center
+      &#125;
+
+      </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">dot</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'ly-column-demo-name'</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
+        padding-</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>before<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">: 16px
+        font-size: 20px
+      &#125;
+
+      </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">dot</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'ly-column-demo-radius'</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
+        font-style: italic
+      &#125;
+
+      </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">dot</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'ly-column-demo-temperature'</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> &#123;
+        width: 32px
+        text-align: center
+        font-weight: bold
+      &#125;
+    &#125;</span><span class="tt18 template-punctuation tt3z">`</span></span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-table-column-styling-example'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./table-column-styling-example.component.html'</span><span class="tt18 ttae">,</span>
+  providers<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
+    StyleRenderer
+  <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">TableColumnStylingExampleComponent</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>sRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'root'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  displayedColumns<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span><span class="tt18 tt3z">'demo-position'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'demo-name'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'demo-radius'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3z">'demo-temperature'</span><span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+  dataSource <span class="tt18 ttb0">=</span> <span class="tt18 ttbb">ELEMENT_DATA</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 tt1j">readonly</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
+
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

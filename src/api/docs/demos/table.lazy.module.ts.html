@@ -1,0 +1,39 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> NgModule<span class="tt18 ttae">,</span> Type <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> WithCustomElementComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@app/docs/element-registry'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableBasicExampleComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-basic-example/table-basic-example.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableBasicExampleModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-basic-example/table-basic-example.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableColumnStylingExampleComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-column-styling-example/table-column-styling-example.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableColumnStylingExampleModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-column-styling-example/table-column-styling-example.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableFlexBasicExampleComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-flex-basic-example/table-flex-basic-example.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableFlexBasicExampleModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-flex-basic-example/table-flex-basic-example.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableFooterRowExampleComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-footer-row-example/table-footer-row-example.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableFooterRowExampleModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-footer-row-example/table-footer-row-example.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableStickyColumnsExampleComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-sticky-columns-example/table-sticky-columns-example.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableStickyColumnsExampleModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-sticky-columns-example/table-sticky-columns-example.module'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableUsingNgForExampleComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-using-ng-for-example/table-using-ng-for-example.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> TableUsingNgForExampleModule <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./table-using-ng-for-example/table-using-ng-for-example.module'</span><span class="tt18 ttae">;</span>
+
+
+<span class="tt18 tt1j">const</span> elements <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
+  TableBasicExampleComponent<span class="tt18 ttae">,</span>
+  TableColumnStylingExampleComponent<span class="tt18 ttae">,</span>
+  TableFlexBasicExampleComponent<span class="tt18 ttae">,</span>
+  TableFooterRowExampleComponent<span class="tt18 ttae">,</span>
+  TableStickyColumnsExampleComponent<span class="tt18 ttae">,</span>
+  TableUsingNgForExampleComponent<span class="tt18 ttae">,</span>
+<span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">NgModule</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  imports<span class="tt18 ttb0">:</span> <span class="tt18 ttae">[</span>
+    TableBasicExampleModule<span class="tt18 ttae">,</span>
+    TableColumnStylingExampleModule<span class="tt18 ttae">,</span>
+    TableFlexBasicExampleModule<span class="tt18 ttae">,</span>
+    TableFooterRowExampleModule<span class="tt18 ttae">,</span>
+    TableStickyColumnsExampleModule<span class="tt18 ttae">,</span>
+    TableUsingNgForExampleModule<span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">]</span><span class="tt18 ttae">,</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">LazyModule</span> <span class="tt18 tt1j">implements</span> <span class="tt18 ttc8">WithCustomElementComponent</span> <span class="tt18 ttae">&#123;</span>
+  customElementComponents<span class="tt18 ttb0">:</span> Type<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span> <span class="tt18 ttb0">=</span> elements<span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

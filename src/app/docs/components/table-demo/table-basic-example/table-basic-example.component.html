@@ -1,0 +1,32 @@
+<table ly-table [dataSource]="dataSource" [lyWidth]="1" [lyElevation]="8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container lyColumnDef="position">
+    <th ly-header-cell *lyHeaderCellDef> No. </th>
+    <td ly-cell *lyCellDef="let star"> {{star.position}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container lyColumnDef="name">
+    <th ly-header-cell *lyHeaderCellDef> Name </th>
+    <td ly-cell *lyCellDef="let star"> {{star.name}} </td>
+  </ng-container>
+
+  <!-- Radius Column -->
+  <ng-container lyColumnDef="radius">
+    <th ly-header-cell *lyHeaderCellDef> Radius R☉ </th>
+    <td ly-cell *lyCellDef="let star"> {{star.radius}} </td>
+  </ng-container>
+
+  <!-- Temperature Column -->
+  <ng-container lyColumnDef="temperature">
+    <th ly-header-cell *lyHeaderCellDef> Temperature K</th>
+    <td ly-cell *lyCellDef="let star"> {{star.temperature}} </td>
+  </ng-container>
+
+  <tr ly-header-row *lyHeaderRowDef="displayedColumns"></tr>
+  <tr ly-row *lyRowDef="let row; columns: displayedColumns;"></tr>
+</table>

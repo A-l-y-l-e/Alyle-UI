@@ -26,6 +26,7 @@ console.log('Starting...');
 async function generateJson() {
   const app = new Application();
   const packagesPaths = await getPackagePaths();
+  console.log(packagesPaths);
   // If you want TypeDoc to load tsconfig.json / typedoc.json files
   app.options.addReader(new TSConfigReader());
   app.options.addReader(new TypeDocReader());
@@ -55,7 +56,9 @@ async function render() {
     if (!child.children) {
       continue;
     }
-    let pkgName = `@alyle/ui/${child.sources![0].fileName.slice(0, -9)}`;
+    let pkgName = child.sources![0].fileName.replace(/src\/lib/, '@alyle/ui');
+    pkgName = path.dirname(pkgName);
+    console.log(child.sources![0].fileName);
     pkgName = pkgName.endsWith('/') ? pkgName.slice(0, -1) : pkgName;
     console.log(chalk.greenBright(`\nPackage: ${pkgName}`));
     let API = APIList.find(api => api.pkg === pkgName);
@@ -71,7 +74,7 @@ async function render() {
       APIList.push(API);
     }
     for (const _child of child.children) {
-      const file = path.join('src/lib/', _child.sources![0].fileName);
+      const file = _child.sources![0].fileName;
       const { name, decorators, kindString } = _child;
       const type = decorators
         ? decorators[0].name
