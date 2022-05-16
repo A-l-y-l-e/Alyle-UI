@@ -1,3 +1,19 @@
+# [13.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.0.1...13.1.0) (2022-05-16)
+
+
+### Bug Fixes
+
+* fix direction (ltr/rtl) when changing theme ([231c248](https://github.com/A-l-y-l-e/Alyle-UI/commit/231c248712b8b94ad4c261f6355fcb44f647cc5c))
+* remove unused module ([955f6fd](https://github.com/A-l-y-l-e/Alyle-UI/commit/955f6fd0658a9e0a6bf62f08e8673267c018cba1))
+
+
+### Features
+
+* add `@Style2` with support for formatting input values ([8efdb94](https://github.com/A-l-y-l-e/Alyle-UI/commit/8efdb946892134df29f1d224e0a5c95ed8b1f446))
+* add `dot` for dynamic classname ([d89140c](https://github.com/A-l-y-l-e/Alyle-UI/commit/d89140c857ec1f615422968fc3db0afdab5305ed))
+
+
+
 ## [13.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.0.0...13.0.1) (2022-04-17)
 
 
