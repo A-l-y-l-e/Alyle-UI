@@ -157,7 +157,7 @@ myConfig: ImgCropperConfig = {
 };
 ```
 
-<demo-view path="docs/components/image-cropper-demo/aui-full-cropper-width">
+<demo-view path="docs/components/image-cropper-demo/full-cropper-width">
   <aui-full-cropper-width></aui-full-cropper-width>
 </demo-view>
 
