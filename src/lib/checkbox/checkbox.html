@@ -6,13 +6,14 @@
   [checked]="checked"
   [required]="required"
   [attr.value]="value"
+  [attr.name]="name"
   [disabled]="disabled"
   (click)="_onInputClick($event)"
   (change)="_onChange($event)"
   >
   <div #innerContainer [className]="classes.icon">
     <svg width="16px" height="16px" viewBox="0 0 20 20">
-      <polyline points="4 11 8 15 16 6"></polyline>
+      <polyline [attr.points]="indeterminate ? '5 10 10 10 15 10' : '4 11 8 15 16 6'"></polyline>
     </svg>
   </div>
   <div #label [class]="classes.label">

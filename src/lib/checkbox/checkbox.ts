@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
+  Inject,
   Input,
   NgZone,
   OnDestroy,
@@ -22,7 +23,6 @@ import {
   LyTheme2,
   mixinDisableRipple,
   ThemeVariables,
-  toBoolean,
   ThemeRef,
   lyl,
   StyleRenderer,
@@ -35,10 +35,28 @@ import {
   } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { Platform } from '@angular/cdk/platform';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { LyCheckboxDefaultOptions, LY_CHECKBOX_DEFAULT_OPTIONS, LY_CHECKBOX_DEFAULT_OPTIONS_FACTORY } from './checkbox-config';
 
 const STYLE_PRIORITY = -2;
-const DEFAULT_WITH_COLOR = 'accent';
 const DEFAULT_DISABLE_RIPPLE = false;
+// Default checkbox configuration.
+const defaults = LY_CHECKBOX_DEFAULT_OPTIONS_FACTORY();
+
+/**
+ * Represents the different states that require custom transitions between them.
+ * @docs-private
+ */
+export const enum CheckboxState {
+  /** The initial state of the component before any user interaction. */
+  Init = 'Init',
+  /** The state representing the component when it's becoming checked. */
+  Checked = 'Checked',
+  /** The state representing the component when it's becoming unchecked. */
+  Unchecked = 'Unchecked',
+  /** The state representing the component when it's becoming indeterminate. */
+  Indeterminate = 'Indeterminate',
+}
 
 export interface LyCheckboxTheme {
   /** Styles for Checkbox Component. */
@@ -62,7 +80,7 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
       display: inline-flex
       -webkit-tap-highlight-color: transparent
       &${checkbox.disabled}:not(${checkbox.checked}) ${checkbox.icon}:before {
-        color: ${theme.disabled.default}
+        color: ${theme.disabled.contrast}
       }
       &${checkbox.disabled} {
         pointer-events: none
@@ -70,9 +88,12 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
           color: ${theme.text.secondary}
         }
       }
-      &${checkbox.disabled}${checkbox.checked} ${checkbox.icon}:before {
-        border: 0
-        background: ${theme.disabled.default}
+      &${checkbox.disabled}${checkbox.indeterminate},
+      &${checkbox.disabled}${checkbox.checked} {
+        ${checkbox.icon}:before {
+          border: 0
+          background: ${theme.disabled.contrast}
+        }
       }
       &${checkbox.onFocusByKeyboard} ${checkbox.icon}::after {
         box-shadow: 0 0 0 12px
@@ -81,6 +102,17 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
       }
       &:not(${checkbox.checked}) ${checkbox.icon} {
         color: ${theme.text.secondary}
+      }
+      &${checkbox.checked},
+      &${checkbox.indeterminate} {
+        ${checkbox.icon}::before {
+          background: currentColor
+          -webkit-print-color-adjust: exact
+          color-adjust: exact
+        }
+        ${checkbox.icon} polyline {
+          stroke-dashoffset: 0
+        }
       }
       {
         ...${
@@ -139,16 +171,9 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
     label: lyl `{
       line-height: 24px
     }`,
-    checked: ( ) => lyl `{
-      & ${checkbox.icon}::before {
-        background: currentColor
-        -webkit-print-color-adjust: exact
-        color-adjust: exact
-      }
-      & ${checkbox.icon} polyline {
-        stroke-dashoffset: 0
-      }
-    }`,
+    unchecked: null,
+    checked: null,
+    indeterminate: null,
     input: LY_COMMON_STYLES.visuallyHidden,
     onFocusByKeyboard: null,
     disabled: ( ) => lyl `{
@@ -161,9 +186,17 @@ export const STYLES = (theme: ThemeVariables & LyCheckboxVariables, ref: ThemeRe
     }`,
     animations: ( ) => lyl `{
       ${checkbox.icon} svg polyline {
-        transition: all ${theme.animations.durations.entering}ms ${theme.animations.curves.sharp}
+        transition: all ${theme.animations.durations.complex}ms ${theme.animations.curves.deceleration}
+        transform: rotate(0deg)
+        transform-origin: center
       }
-    }`
+    }`,
+    indeterminateToUnchecked: null,
+    indeterminateToChecked: null,
+    checkedToUnChecked: null,
+    checkedToIndeterminate: null,
+    uncheckedToChecked: null,
+    uncheckedToIndeterminate: null,
   };
 };
 
@@ -214,7 +247,8 @@ export const LyCheckboxMixinBase = mixinDisableRipple(LyCheckboxBase);
     'disableRipple'
   ]
 })
-export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
+export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles,
+  ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
   /** @ignore */
   static readonly и = 'LyCheckbox';
   /**
@@ -224,16 +258,20 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
   readonly classes = this._theme.renderStyleSheet(STYLES);
   protected _color: string;
   protected _colorClass: string;
-  protected _required: boolean;
-  protected _indeterminate: boolean;
   protected _checked: boolean;
   protected _disabled;
   private _onFocusByKeyboardState: boolean;
+  private _currentCheckState: CheckboxState = CheckboxState.Init;
+  private _currentCheckStateClass: string;
+
+  readonly ;
 
   @ViewChild('innerContainer') _innerContainer: ElementRef<HTMLDivElement>;
 
   /** The value attribute of the native input element */
   @Input() value: string;
+
+  @Input() name: string | null = null;
 
   /** Checkbox color when checked */
   @Input()
@@ -258,31 +296,44 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
   @Input()
   get checked(): boolean { return this._checked; }
   set checked(val: boolean) {
-    const newVal = toBoolean(val);
-    // if (newVal !== this.checked) {
-    this._checked = newVal;
-    if (newVal) {
-        this._renderer.addClass(this._el.nativeElement, this.classes.checked);
-      } else {
-        this._renderer.removeClass(this._el.nativeElement, this.classes.checked);
-      }
-    // }
-    this._markForCheck();
+    const newVal = coerceBooleanProperty(val);
+    if (newVal !== this.checked) {
+      this._checked = newVal;
+      this._updateCheckedState();
+      this._markForCheck();
+    }
   }
+
+  @Input()
+  get indeterminate(): boolean {
+    return this._indeterminate;
+  }
+  set indeterminate(value: BooleanInput) {
+    const newVal = coerceBooleanProperty(value);
+    if (newVal !== this.indeterminate) {
+      this._indeterminate = newVal;
+      this.indeterminateChange.emit(this._indeterminate);
+      this._updateCheckboxState();
+      this._markForCheck();
+    }
+  }
+  private _indeterminate = false;
 
   @Input()
   get required() {
     return this._required;
   }
-  set required(val: boolean) {
-    this._required = toBoolean(val);
+  set required(val: BooleanInput) {
+    this._required = coerceBooleanProperty(val);
   }
+  private _required: boolean;
+
   @Input()
   get disabled() {
     return this._disabled;
   }
   set disabled(val: boolean) {
-    const newVal = toBoolean(val);
+    const newVal = coerceBooleanProperty(val);
     if (newVal !== this.disabled) {
       this._disabled = newVal;
       if (newVal) {
@@ -295,8 +346,10 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
   }
 
   /** Event emitted when the checkbox's `checked` value changes. */
-  @Output() readonly change: EventEmitter<LyCheckboxChange> =
-      new EventEmitter<LyCheckboxChange>();
+  @Output() readonly change: EventEmitter<LyCheckboxChange> = new EventEmitter<LyCheckboxChange>();
+
+  /** Event emitted when the checkbox's `indeterminate` value changes. */
+  @Output() readonly indeterminateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /** The native `<input type="checkbox">` element */
   @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
@@ -313,9 +366,12 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
     private _focusState: LyFocusState,
     readonly sRenderer: StyleRenderer,
     ngZone: NgZone,
-    platform: Platform
+    platform: Platform,
+    @Inject(LY_CHECKBOX_DEFAULT_OPTIONS)
+    private _options?: LyCheckboxDefaultOptions,
   ) {
     super(_theme, ngZone, platform);
+    this._options = this._options || defaults;
     this._triggerElement = this._el;
     this._rippleConfig = {
       centered: true,
@@ -328,7 +384,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
     this._renderer.addClass(this._el.nativeElement, this.classes.root);
     // set default color
     if (!this.color) {
-      this.color = DEFAULT_WITH_COLOR;
+      this.color = this._options?.color || defaults.color!;
     }
   }
 
@@ -385,12 +441,20 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
   /** Toggles the `checked` state of the checkbox. */
   toggle() {
     this.checked = !this.checked;
+    this._controlValueAccessorChangeFn(this.checked);
   }
 
   _onInputClick(event: Event) {
     event.stopPropagation();
     if (!this.disabled) {
-      this.toggle();
+      if (this.indeterminate) {
+        Promise.resolve().then(() => {
+          this._indeterminate = false;
+          this._updateCheckboxState();
+          this.indeterminateChange.emit(this._indeterminate);
+        });
+      }
+      this.checked = !this.checked;
       this._emitChangeEvent();
     }
     this._markForCheck();
@@ -406,6 +470,56 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles, Contr
       source: this,
       checked: this.checked
     });
+  }
+
+  private _updateCheckedState() {
+    this.sRenderer.toggleClass(this.classes.checked, !!this.checked);
+    this.sRenderer.toggleClass(this.classes.unchecked, !this.checked);
+  }
+
+  private _updateCheckboxState() {
+    const oldState = this._currentCheckState;
+    const newState = this.indeterminate
+      ? CheckboxState.Indeterminate
+      : this.checked
+        ? CheckboxState.Checked
+        : CheckboxState.Unchecked;
+    if (oldState === newState) {
+      return;
+    }
+    this.sRenderer.toggleClass(this.classes.indeterminate, newState === CheckboxState.Indeterminate);
+
+    let newClass: null | string = null;
+    switch (oldState) {
+      case CheckboxState.Init:
+        break;
+      case CheckboxState.Indeterminate:
+        newClass = newState === CheckboxState.Checked
+          ? this.classes.indeterminateToChecked
+          : this.classes.indeterminateToUnchecked;
+        break;
+      case CheckboxState.Checked:
+        newClass = newState === CheckboxState.Indeterminate
+          ? this.classes.checkedToIndeterminate
+          : this.classes.checkedToUnChecked;
+        break;
+      case CheckboxState.Unchecked:
+        newClass = newState === CheckboxState.Indeterminate
+          ? this.classes.uncheckedToIndeterminate
+          : this.classes.uncheckedToChecked;
+        break;
+    }
+    if (newClass) {
+      this.sRenderer.updateClass(newClass, this._currentCheckStateClass);
+      this._currentCheckStateClass = newClass;
+      const animationClass = this._currentCheckStateClass;
+      this._ngZone.runOutsideAngular(() => {
+        setTimeout(() => {
+          this.sRenderer.removeClass(animationClass);
+        }, 1000);
+      });
+    }
+    this._currentCheckState = newState;
   }
 
   private _markForCheck() {

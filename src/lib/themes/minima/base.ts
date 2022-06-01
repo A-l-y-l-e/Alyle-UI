@@ -103,11 +103,14 @@ export class MinimaBase extends LyStyleUtils {
   };
   checkbox: LyCheckboxTheme = {
     color: (checkbox, color) => lyl `{
-      &${checkbox.checked} ${checkbox.icon} {
-        color: ${color}
-      }
-      &${checkbox.checked}:not({disabled}) ${checkbox.icon} {
-        box-shadow: ${shadowBuilder(1, color)}
+      &${checkbox.checked},
+      &${checkbox.indeterminate} {
+        ${checkbox.icon} {
+          color: ${color}
+        }
+        &:not({disabled}) ${checkbox.icon} {
+          box-shadow: ${shadowBuilder(1, color)}
+        }
       }
     }`
   };

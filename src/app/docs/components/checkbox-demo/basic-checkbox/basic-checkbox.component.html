@@ -1,1 +1,22 @@
-<ly-checkbox>Check me!</ly-checkbox>
+
+<section [lyMt]="1">
+  <ly-checkbox [lyMx]="1">Check me!</ly-checkbox>
+  <ly-checkbox [lyMx]="1" [disabled]="true">Disabled</ly-checkbox>
+</section>
+
+<section [lyMt]="1">
+  <ly-checkbox [lyMx]="1"
+                [checked]="allComplete"
+                [color]="task.color"
+                [indeterminate]="someComplete"
+                (change)="setAll($event.checked)">
+    {{ task.name }}
+  </ly-checkbox>
+  <div [lyMe]="3" *ngFor="let subtask of task.subtasks">
+    <ly-checkbox [(ngModel)]="subtask.completed"
+                  [color]="subtask.color"
+                  (ngModelChange)="updateAllComplete()">
+      {{ subtask.name }}
+    </ly-checkbox>
+  </div>
+</section>

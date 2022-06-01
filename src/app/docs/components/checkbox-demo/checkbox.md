@@ -12,3 +12,9 @@ Checkboxes are for making selections from a list.
 <demo-view path="docs/components/checkbox-demo/complex-checkbox">
   <aui-complex-checkbox></aui-complex-checkbox>
 </demo-view>
+
+## Checkboxes with reactive forms
+
+<demo-view path="docs/components/checkbox-demo/checkbox-reactive-forms-example">
+  <aui-checkbox-reactive-forms-example></aui-checkbox-reactive-forms-example>
+</demo-view>

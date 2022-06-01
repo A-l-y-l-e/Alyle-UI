@@ -1,0 +1,30 @@
+<h4>Select some fruits:</h4>
+
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <section [lyMy]="1">
+    <ly-checkbox [lyMx]="1"
+      [checked]="allChecked"
+      (change)="setAll($event.checked)"
+      [indeterminate]="indeterminate">
+      Fruits
+    </ly-checkbox>
+    <div [lyMe]="3"
+          formArrayName="options"
+          *ngFor="let option of options.controls; index as i;">
+      <ly-checkbox [formControlName]="i"
+        (change)="updateAllCheckboxes()">
+        {{ fruits[i].name }}
+      </ly-checkbox>
+    </div>
+    <span [lyColor]="'warn'"
+      *ngIf="myForm.dirty && options.hasError('minCheckboxes')">Select at least one fruit.</span>
+      <span>&nbsp;</span>
+  </section>
+  <section>
+    <button ly-button [bg]="'primary'" raised type="submit">Submit</button>
+  </section>
+</form>
+
+<section [lyMy]="2">
+  <pre>{{ result | json }}</pre>
+</section>
