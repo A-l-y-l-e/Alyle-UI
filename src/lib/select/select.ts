@@ -33,6 +33,7 @@ import {
   isDevMode,
   } from '@angular/core';
 import {
+  AbstractControl,
   ControlValueAccessor,
   FormGroupDirective,
   NgControl,
@@ -45,7 +46,6 @@ import {
   OverlayFactory,
   shadowBuilder,
   ThemeVariables,
-  toBoolean,
   Positioning,
   CanDisableCtor,
   mixinDisableRipple,
@@ -68,7 +68,7 @@ import { take, takeUntil, startWith, switchMap, distinctUntilChanged, filter, ma
 import { Platform } from '@angular/cdk/platform';
 import { FocusableOption, FocusOrigin, ActiveDescendantKeyManager } from '@angular/cdk/a11y';
 import { ENTER, SPACE, hasModifierKey, DOWN_ARROW, UP_ARROW, LEFT_ARROW, RIGHT_ARROW, A } from '@angular/cdk/keycodes';
-import { coerceNumberProperty, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { coerceNumberProperty, coerceBooleanProperty, BooleanInput } from '@angular/cdk/coercion';
 import { SelectionModel } from '@angular/cdk/collections';
 import { getLySelectNonFunctionValueError, getLySelectNonArrayValueError } from './select-errors';
 
@@ -85,11 +85,20 @@ export interface LySelectVariables {
 
 const DEFAULT_DISABLE_RIPPLE = false;
 const STYLE_PRIORITY = -2;
+
 export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef) => {
+  ref.renderStyleSheet(FIELD_STYLES);
+  const field = ref.selectorsOf(FIELD_STYLES);
   const select = ref.selectorsOf(STYLES);
   const { after } = theme;
   return {
     $priority: STYLE_PRIORITY,
+    $name: LySelect.и,
+    $global: () => lyl `{
+      ${field.root}:not(${field.disabled}) ${field.container} {
+        cursor: pointer
+      }
+    }`,
     root: () => lyl `{
       display: block
       position: relative
@@ -107,64 +116,64 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
         }
       }
     }`,
-    container: {
-      background: theme.background.primary.default,
-      borderRadius: '2px',
-      boxShadow: shadowBuilder(4),
-      display: 'block',
-      transformOrigin: 'inherit',
-      pointerEvents: 'all',
-      overflow: 'auto',
-      maxHeight: '256px'
-    },
-    valueText: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap'
-    },
-    option: {
-      display: 'flex',
-      fontFamily: theme.typography.fontFamily,
-      color: theme.text.default,
-      '-webkit-tap-highlight-color': 'transparent',
-      backgroundColor: `rgba(0, 0, 0, 0)`,
-      border: 0,
-      padding: '0 1em',
-      margin: 0,
-      outline: 'none',
-      boxSizing: 'border-box',
-      position: 'relative',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      alignContent: 'center',
-      '-webkit-user-select': 'none',
-      '-moz-user-select': 'none',
-      '-ms-user-select': 'none',
-      userSelect: 'none',
-      lineHeight: 1.125,
-      height: '3em',
-      cursor: 'pointer',
-    },
+    container: lyl `{
+      background: ${theme.background.primary.default}
+      border-radius: 2px
+      box-shadow: ${shadowBuilder(4)}
+      display: block
+      transform-origin: inherit
+      pointer-events: all
+      overflow: auto
+      max-height: 256px
+    }`,
+    valueText: lyl `{
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+    }`,
+    option: lyl `{
+      display: flex
+      font-family: ${theme.typography.fontFamily}
+      color: ${theme.text.default}
+      -webkit-tap-highlight-color: transparent
+      background-color: rgba(0, 0, 0, 0)
+      border: 0
+      padding: 0 1em
+      margin: 0
+      outline: none
+      box-sizing: border-box
+      position: relative
+      justify-content: flex-start
+      align-items: center
+      align-content: center
+      -webkit-user-select: none
+      -moz-user-select: none
+      -ms-user-select: none
+      user-select: none
+      line-height: 1.125
+      height: 3em
+      cursor: pointer
+    }`,
     optionActive: lyl `{
       background: ${theme.hover}
     }`,
-    optionText: {
-      'ly-checkbox ~ &': {
-        display: 'flex',
-        alignItems: 'inherit',
-        alignContent: 'inherit'
+    optionText: lyl `{
+      ly-checkbox ~ & {
+        display: flex
+        align-items: inherit
+        align-content: inherit
       }
-    },
-    content: {
-      padding: 0,
-      display: 'flex',
-      justifyContent: 'inherit',
-      alignItems: 'inherit',
-      alignContent: 'inherit',
-      width: '100%',
-      height: '100%',
-      boxSizing: 'border-box'
-    }
+    }`,
+    content: lyl `{
+      padding: 0
+      display: flex
+      justify-content: inherit
+      align-items: inherit
+      align-content: inherit
+      width: 100%
+      height: 100%
+      box-sizing: border-box
+    }`
   };
 };
 
@@ -232,7 +241,9 @@ export class LySelect
     extends LySelectMixinBase
     implements ControlValueAccessor, LyFieldControlBase, OnInit, DoCheck, AfterContentInit, OnDestroy {
   /** @docs-private */
-  readonly classes = this._theme.addStyleSheet(STYLES);
+  static readonly и = 'LySelect';
+  /** @docs-private */
+  readonly classes = this.sRenderer.renderSheet(STYLES);
   /** @internal */
   _selectionModel: SelectionModel<LyOption>;
   /** @internal */
@@ -254,7 +265,12 @@ export class LySelect
   private _valueKey: (opt: unknown) => unknown = same;
   _focused: boolean = false;
   errorState: boolean = false;
-  private _cursorClass: string;
+  // private _cursorClass: string;
+  /**
+   * Keeps track of the previous form control assigned to the select.
+   * Used to detect if it has changed.
+   */
+   private _previousControl: AbstractControl | null | undefined;
 
   /** Manages keyboard events for options in the panel. */
   _keyManager: ActiveDescendantKeyManager<LyOption>;
@@ -363,21 +379,21 @@ export class LySelect
 
   /** Whether the input is disabled. */
   @Input()
-  set disabled(val: boolean) {
+  set disabled(val: BooleanInput) {
     if (val !== this._disabled) {
-      this._disabled = toBoolean(val);
+      this._disabled = coerceBooleanProperty(val);
       if (this._field) {
         if (!val && this._hasDisabledClass) {
           this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
-          if (this._cursorClass) {
-            this._renderer.addClass(this._field._getHostElement(), this._cursorClass);
-          }
+          // if (this._cursorClass) {
+          //   this._renderer.addClass(this._field._getHostElement(), this._cursorClass);
+          // }
           this._hasDisabledClass = undefined;
         } else if (val) {
           this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
-          if (this._cursorClass) {
-            this._renderer.removeClass(this._field._getHostElement(), this._cursorClass);
-          }
+          // if (this._cursorClass) {
+          //   this._renderer.removeClass(this._field._getHostElement(), this._cursorClass);
+          // }
           this._hasDisabledClass = true;
         }
       }
@@ -392,14 +408,14 @@ export class LySelect
   }
 
   @Input()
-  set required(value: boolean) {
-    this._required = toBoolean(value);
+  set required(value: BooleanInput) {
+    this._required = coerceBooleanProperty(value);
   }
   get required(): boolean { return this._required; }
 
   @Input()
-  set multiple(value: boolean) {
-    this._multiple = toBoolean(value);
+  set multiple(value: BooleanInput) {
+    this._multiple = coerceBooleanProperty(value);
   }
   get multiple(): boolean { return this._multiple; }
 
@@ -472,8 +488,8 @@ export class LySelect
 
   /** Current selecteds */
   get selected(): LyOption | LyOption[] {
-    const selected = this._selectionModel.selected;
-    return this.multiple ? selected : selected[0];
+    const selected = this._selectionModel?.selected;
+    return  this.multiple ? (selected || []) : selected[0];
   }
 
   constructor(private _theme: LyTheme2,
@@ -497,11 +513,11 @@ export class LySelect
       this.ngControl.valueAccessor = this;
     }
 
-    this._cursorClass = this._theme.addStyle('lyField.select', {
-      '& {container}': {
-        cursor: 'pointer'
-      }
-    }, this._field._getHostElement(), null, STYLE_PRIORITY, FIELD_STYLES);
+    // this._cursorClass = this._theme.addStyle('lyField.select', {
+    //   '& {container}': {
+    //     cursor: 'pointer'
+    //   }
+    // }, this._field._getHostElement(), null, STYLE_PRIORITY, FIELD_STYLES);
 
   }
 
@@ -546,20 +562,36 @@ export class LySelect
   }
 
   ngDoCheck() {
-    const oldVal = this.errorState;
-    const newVal = !!(this.ngControl && this.ngControl.invalid && (this.ngControl.touched || (this._form && this._form.submitted)));
-    if (newVal !== oldVal) {
-      this.errorState = newVal;
-      if (this._field) {
-        const errorClass = this._field.classes.errorState;
-        if (newVal) {
-          this._renderer.addClass(this._field._getHostElement(), errorClass);
-          this._errorClass = errorClass;
-        } else if (this._errorClass) {
-          this._renderer.removeClass(this._field._getHostElement(), errorClass);
-          this._errorClass = undefined;
+    const ngControl = this.ngControl;
+    if (ngControl) {
+      // The disabled state might go out of sync if the form group is swapped out. See #17860.
+      if (this._previousControl !== ngControl.control) {
+        if (
+          this._previousControl !== undefined &&
+          ngControl.disabled !== null &&
+          ngControl.disabled !== this.disabled
+        ) {
+          this.disabled = ngControl.disabled;
         }
-        this.stateChanges.next();
+
+        this._previousControl = ngControl.control;
+      }
+
+      const oldVal = this.errorState;
+      const newVal = !!(this.ngControl && this.ngControl.invalid && (this.ngControl.touched || (this._form && this._form.submitted)));
+      if (newVal !== oldVal) {
+        this.errorState = newVal;
+        if (this._field) {
+          const errorClass = this._field.classes.errorState;
+          if (newVal) {
+            this._renderer.addClass(this._field._getHostElement(), errorClass);
+            this._errorClass = errorClass;
+          } else if (this._errorClass) {
+            this._renderer.removeClass(this._field._getHostElement(), errorClass);
+            this._errorClass = undefined;
+          }
+          this.stateChanges.next();
+        }
       }
     }
   }
@@ -756,7 +788,11 @@ export class LySelect
     // Defer setting the value in order to avoid the "Expression
     // has changed after it was checked" errors from Angular.
     Promise.resolve().then(() => {
-      this._setSelectionByValue(this.ngControl ? this.ngControl.value : this._value);
+      if (this.ngControl) {
+        this._value = this.ngControl.value;
+      }
+
+      this._setSelectionByValue(this._value);
       this.stateChanges.next();
     });
   }
