@@ -94,11 +94,6 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
   return {
     $priority: STYLE_PRIORITY,
     $name: LySelect.и,
-    $global: () => lyl `{
-      ${field.root}:not(${field.disabled}) ${field.container} {
-        cursor: pointer
-      }
-    }`,
     root: () => lyl `{
       display: block
       position: relative
@@ -173,7 +168,13 @@ export const STYLES = (theme: ThemeVariables & LySelectVariables, ref: ThemeRef)
       width: 100%
       height: 100%
       box-sizing: border-box
-    }`
+    }`,
+    /** Style for field */
+    _cursorPointer: () => lyl `{
+      &:not(${field.disabled}) ${field.container} {
+        cursor: pointer
+      }
+    }`,
   };
 };
 
@@ -265,7 +266,6 @@ export class LySelect
   private _valueKey: (opt: unknown) => unknown = same;
   _focused: boolean = false;
   errorState: boolean = false;
-  // private _cursorClass: string;
   /**
    * Keeps track of the previous form control assigned to the select.
    * Used to detect if it has changed.
@@ -385,15 +385,11 @@ export class LySelect
       if (this._field) {
         if (!val && this._hasDisabledClass) {
           this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);
-          // if (this._cursorClass) {
-          //   this._renderer.addClass(this._field._getHostElement(), this._cursorClass);
-          // }
+          this._field.sRenderer.addClass(this.classes._cursorPointer);
           this._hasDisabledClass = undefined;
         } else if (val) {
           this._renderer.addClass(this._field._getHostElement(), this._field.classes.disabled);
-          // if (this._cursorClass) {
-          //   this._renderer.removeClass(this._field._getHostElement(), this._cursorClass);
-          // }
+          this._field.sRenderer.removeClass(this.classes._cursorPointer);
           this._hasDisabledClass = true;
         }
       }
@@ -513,11 +509,7 @@ export class LySelect
       this.ngControl.valueAccessor = this;
     }
 
-    // this._cursorClass = this._theme.addStyle('lyField.select', {
-    //   '& {container}': {
-    //     cursor: 'pointer'
-    //   }
-    // }, this._field._getHostElement(), null, STYLE_PRIORITY, FIELD_STYLES);
+    this._field?.sRenderer.addClass(this.classes._cursorPointer);
 
   }
 
