@@ -1,0 +1,16 @@
+<form>
+  <ly-field class="example-full-width" appearance="filled">
+    <ly-label>Number</ly-label>
+    <input type="text"
+           placeholder="Pick one"
+           aria-label="Number"
+           lyInput
+           [formControl]="myControl"
+           [lyAutocomplete]="auto">
+    <ly-autocomplete #auto="lyAutocomplete">
+      <div *ngFor="let option of options">
+        {{ option }}
+      </div>
+    </ly-autocomplete>
+  </ly-field>
+</form>

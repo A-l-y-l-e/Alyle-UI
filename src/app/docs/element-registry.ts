@@ -126,6 +126,10 @@ export const ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES = [
     path: '/components/table',
     loadChildren: () => import('./components/table-demo/table.lazy.module').then(mod => mod.LazyModule)
   },
+  {
+    path: '/components/autocomplete',
+    loadChildren: () => import('./components/autocomplete-demo/autocomplete.lazy.module').then(mod => mod.LazyModule)
+  },
 ];
 
 /**

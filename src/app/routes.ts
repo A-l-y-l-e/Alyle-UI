@@ -90,6 +90,7 @@ export const AUIRoutes: {
       { route: 'slider', api: true , name: 'Slider' },
       { route: 'skeleton', api: true , name: 'Skeleton' },
       { route: 'table', api: true , name: 'Table' },
+      { route: 'autocomplete', api: true , name: 'Autocomplete' },
     ].sort(sort)
   }
 ];
