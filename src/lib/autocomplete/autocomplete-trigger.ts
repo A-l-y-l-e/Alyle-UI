@@ -1,4 +1,4 @@
-import { Directive, ElementRef, forwardRef, Input, ViewContainerRef } from '@angular/core';
+import { Directive, ElementRef, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { LyOverlay, OverlayFactory, StyleRenderer } from '@alyle/ui';
 import { STYLES as FIELD_STYLES } from '@alyle/ui/field';
@@ -51,7 +51,6 @@ export class LyAutocompleteTrigger {
     readonly sRenderer: StyleRenderer,
     private _element: ElementRef,
     private _overlay: LyOverlay,
-    private _viewContainerRef: ViewContainerRef,
   ) {
     this.sRenderer.renderSheet(FIELD_STYLES, 'inputNative');
   }
@@ -61,14 +60,19 @@ export class LyAutocompleteTrigger {
     this._attachOverlay();
   }
 
+  /** Closes the autocomplete suggestion panel. */
+  closePanel(): void {
+    this.destroy();
+  }
+
   _attachOverlay() {
     if (!this.autocomplete) {
       return;
     }
-    let overlayRef = this._overlayRef;
+    const overlayRef = this._overlayRef;
 
     if (!overlayRef) {
-      overlayRef = this._overlay.create(this.autocomplete.template, {
+      this._overlayRef = this._overlay.create(this.autocomplete.template, {
         $implicit: this,
         data: {}
       }, {
@@ -77,16 +81,23 @@ export class LyAutocompleteTrigger {
           left: 0,
           pointerEvents: null
         },
-        fnDestroy: this.detach.bind(this),
-        hasBackdrop: false
+        fnDestroy: this.destroy.bind(this),
+        hasBackdrop: false,
       });
-    } else {
+    }
+  }
 
+  /** @docs-private */
+  destroy() {
+    if (this._overlayRef) {
+      this._overlayRef.detach();
+      this._overlayRef.remove();
+      this._overlayRef = null;
     }
   }
 
   _handleFocus() {
-
+    this.openPanel();
   }
 
   _handleInput(_event: KeyboardEvent) {
