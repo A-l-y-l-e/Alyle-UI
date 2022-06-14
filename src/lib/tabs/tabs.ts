@@ -42,7 +42,6 @@ import {
   XPosition,
   Dir,
   LyRippleService,
-  LyFocusState,
   scrollWithAnimation,
   toBoolean,
   lyl,
@@ -61,6 +60,7 @@ import { ViewportRuler } from '@angular/cdk/scrolling';
 import { Platform } from '@angular/cdk/platform';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { takeUntil, take, switchMapTo } from 'rxjs/operators';
+import { FocusMonitor } from '@angular/cdk/a11y';
 export interface LyTabTheme {
   /** Styles for Tab Component */
   root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
@@ -849,13 +849,13 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     _theme: LyTheme2,
     _ngZone: NgZone,
     _rippleService: LyRippleService,
-    _focusState: LyFocusState,
+    _focusMonitor: FocusMonitor,
     readonly sRenderer: StyleRenderer,
     @Optional() private _tab: LyTab,
     @Optional() private _tabs: LyTabs,
     platform: Platform
   ) {
-    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusState, sRenderer, platform, null as any);
+    super(_el, _renderer, _theme, _ngZone, _rippleService, _focusMonitor, sRenderer, platform, null as any);
   }
 
   ngOnInit() {
