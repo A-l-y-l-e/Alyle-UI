@@ -28,7 +28,6 @@ import {
   mixinDisableRipple,
   mixinStyleUpdater,
   LyRippleService,
-  LyFocusState,
   getLyThemeVariableUndefinedError,
   StyleTemplate,
   LyClasses,
@@ -40,6 +39,7 @@ import {
 } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { Platform } from '@angular/cdk/platform';
+import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 
 export interface LyButtonTheme {
   /** Styles for Button Component */
@@ -120,7 +120,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
         opacity: 0
         pointer-events: none
       }
-      &${button.onFocusByKeyboard}::before, &:hover::before {
+      &.cdk-keyboard-focused::before, &.cdk-program-focused::before, &:hover::before {
         background: currentColor
         opacity: .13
         border-radius: inherit
@@ -145,8 +145,6 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef)
       height: 100%
       box-sizing: border-box
     }`,
-    /** When focus by keyboard */
-    onFocusByKeyboard: null,
     animations: lyl `{
       &:hover, &:hover::before, &:focus, &:focus::before {
         transition: background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms
@@ -207,7 +205,6 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   private _sizeClass: string | null;
   private _appearance: string;
   private _appearanceClass: string;
-  private _onFocusByKeyboardState: boolean;
 
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
@@ -276,7 +273,7 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     _theme: LyTheme2,
     _ngZone: NgZone,
     public _rippleService: LyRippleService,
-    private _focusState: LyFocusState,
+    private _focusMonitor: FocusMonitor,
     readonly sRenderer: StyleRenderer,
     platform: Platform,
     @Optional() @Inject(LY_BUTTON_DEFAULT_OPTIONS) private _defaultConfig: LyButtonDefaultOptions
@@ -320,28 +317,24 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngAfterViewInit() {
-
-    const focusState = this._focusState.listen(this._el);
-    if (focusState) {
-      focusState.subscribe((event) => {
-        if (this._onFocusByKeyboardState === true) {
-          this._renderer.removeClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
-          this._onFocusByKeyboardState = false;
-        }
-        if (event === 'keyboard') {
-            this._onFocusByKeyboardState = true;
-            this._renderer.addClass(this._el.nativeElement, this.classes.onFocusByKeyboard);
-        }
-      });
-    }
-  }
-
-  focus() {
-    this._el.nativeElement.focus();
+    this._focusMonitor.monitor(this._el, true);
   }
 
   ngOnDestroy() {
-    this._focusState.unlisten(this._el);
+    this._focusMonitor.stopMonitoring(this._el);
     this._removeRippleEvents();
   }
+
+  /** Focuses the button. */
+  focus(origin?: FocusOrigin, options?: FocusOptions): void {
+    if (origin) {
+      this._focusMonitor.focusVia(this._getHostElement(), origin, options);
+    } else {
+      this._getHostElement().focus(options);
+    }
+  }
+  _getHostElement() {
+    return this._el.nativeElement;
+  }
+
 }
