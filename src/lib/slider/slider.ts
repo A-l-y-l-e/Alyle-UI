@@ -21,9 +21,7 @@ import {
   AfterViewInit} from '@angular/core';
 import { LyTheme2,
   ThemeVariables,
-  toBoolean,
   LY_COMMON_STYLES,
-  toNumber,
   untilComponentDestroyed,
   Dir,
   StyleCollection,
@@ -42,6 +40,7 @@ import { DOCUMENT } from '@angular/common';
 import { DOWN_ARROW, END, hasModifierKey, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 import { LY_SLIDER } from './tokens';
 import { гvalueToPercent } from './util';
+import { coerceBooleanProperty, BooleanInput, coerceNumberProperty, NumberInput } from '@angular/cdk/coercion';
 
 const activeEventOptions = normalizePassiveListenerOptions({passive: false});
 
@@ -388,8 +387,8 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
   get thumbVisible() {
     return this._thumbVisible;
   }
-  set thumbVisible(val: boolean | null) {
-    const newVal = val != null ? toBoolean(val) : null;
+  set thumbVisible(val: BooleanInput | null) {
+    const newVal = val != null ? coerceBooleanProperty(val) : null;
 
     if (newVal !== this.thumbVisible) {
 
@@ -408,8 +407,8 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
   get marks() {
     return this._marks;
   }
-  set marks(val: boolean | LySliderMark[]) {
-    const newVal = toBoolean(val);
+  set marks(val: BooleanInput | LySliderMark[]) {
+    const newVal = coerceBooleanProperty(val);
 
     if (newVal !== this.marks) {
 
@@ -438,8 +437,8 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
   get max(): number {
     return this._max;
   }
-  set max(v: number) {
-    this._max = toNumber(v, this._max);
+  set max(v: NumberInput) {
+    this._max = coerceNumberProperty(v, this._max);
     this._updateThumbs();
 
     this._cd.markForCheck();
@@ -450,8 +449,8 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
   get min(): number {
     return this._min;
   }
-  set min(v: number) {
-    this._min = toNumber(v, this._min);
+  set min(v: NumberInput) {
+    this._min = coerceNumberProperty(v, this._min);
 
     // If the value wasn't explicitly set by the user, set it to the min.
     if (this._value === null) {
@@ -545,8 +544,8 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
   get vertical() {
     return this._vertical;
   }
-  set vertical(val: boolean) {
-    const newVal = toBoolean(val);
+  set vertical(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     this._vertical = newVal;
 
     const newClass = newVal
@@ -566,8 +565,8 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
   /** The values at which the thumb will snap. */
   @Input()
   get step(): number { return this._step; }
-  set step(v: number) {
-    this._step = toNumber(v, this._step);
+  set step(v: NumberInput) {
+    this._step = coerceNumberProperty(v, this._step);
 
     this._stepPrecision = this._step % 1 !== 0
       ? this._step.toString().split('.')[1].length
@@ -610,7 +609,7 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
         this._value as (number | null)[]
         : [this._value as number | null]).map((v, index) => ({
           index,
-          value: toNumber(v, this.min),
+          value: coerceNumberProperty(v, this.min),
           displayValue: null,
           percent: null,
           styles: {},
@@ -628,8 +627,8 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
   get disabled() {
     return this._disabled;
   }
-  set disabled(val: boolean) {
-    const newVal = toBoolean(val);
+  set disabled(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
 
     if (newVal !== this.disabled) {
       this._disabled = newVal;
@@ -680,8 +679,8 @@ export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, Co
   get ticks() {
     return this._ticks;
   }
-  set ticks(val: number | boolean) {
-    const newValue = toNumber(val, toBoolean(val));
+  set ticks(val: NumberInput | BooleanInput) {
+    const newValue = coerceNumberProperty(val, coerceBooleanProperty(val));
     this._ticks = newValue;
   }
   get _tickList() {
