@@ -17,7 +17,8 @@ import {
   InjectionToken,
   Inject,
   Optional,
-  NgZone} from '@angular/core';
+  NgZone,
+  AfterViewInit} from '@angular/core';
 import { LyTheme2,
   ThemeVariables,
   toBoolean,
@@ -36,6 +37,7 @@ import { Color } from '@alyle/ui/color';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
+import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { DOCUMENT } from '@angular/common';
 import { DOWN_ARROW, END, hasModifierKey, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 import { LY_SLIDER } from './tokens';
@@ -358,7 +360,7 @@ export interface LySliderMark {
     '(selectstart)': '$event.preventDefault()',
   }
 })
-export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
+export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
 
   /**
    * Identifier used to attribute a touch event to a particular slider.
@@ -573,6 +575,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
     this._cd.markForCheck();
   }
+  private _step: number = 1;
 
   /**
    * Value of a slider, this can be a number or an array of numbers.
@@ -692,6 +695,7 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
     private _cd: ChangeDetectorRef,
     readonly sRenderer: StyleRenderer,
     private _ngZone: NgZone,
+    private _focusMonitor: FocusMonitor,
     @Inject(DOCUMENT) _document: any,
     @Optional() @Inject(LY_SLIDER_DEFAULT_OPTIONS) private _default: LySliderDefaultOptions
   ) {
@@ -724,7 +728,6 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
   private _min: number = 0;
   private _max: number = 100;
 
-  private _step: number = 1;
   private _stepPrecision?: number | null;
 
   private _closestIndex: number | null;
@@ -828,8 +831,15 @@ export class LySlider implements OnChanges, OnInit, OnDestroy, ControlValueAcces
 
   }
 
+  ngAfterViewInit() {
+    this._focusMonitor.monitor(this._el, true).subscribe((_origin: FocusOrigin) => {
+      this._cd.detectChanges();
+    });
+  }
+
   ngOnDestroy() {
     const element = this._el.nativeElement;
+    this._focusMonitor.stopMonitoring(this._el);
     element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
     element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
     this._lastPointerEvent = null;
