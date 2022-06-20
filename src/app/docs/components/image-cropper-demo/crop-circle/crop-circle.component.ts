@@ -9,6 +9,7 @@ import {
   ImgCropperLoaderConfig
 } from '@alyle/ui/image-cropper';
 import { Platform } from '@angular/cdk/platform';
+import { LySliderChange } from '@alyle/ui/slider';
 
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   ref.renderStyleSheet(CROPPER_STYLES);
@@ -86,5 +87,8 @@ export class CropCircleComponent implements WithStyles, AfterViewInit {
   }
   onError(e: ImgCropperErrorEvent) {
     console.warn(`'${e.name}' is not a valid image`, e);
+  }
+  onSliderInput(event: LySliderChange) {
+    this.scale = event.value as number;
   }
 }

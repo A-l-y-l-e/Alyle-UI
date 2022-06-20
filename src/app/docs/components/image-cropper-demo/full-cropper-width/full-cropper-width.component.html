@@ -40,7 +40,7 @@
     [min]="minScale"
     [max]="maxScale"
     [(ngModel)]="scale"
-    (input)="scale = $event.value"
+    (input)="onSliderInput($event)"
     step="0.000001">
       <ly-mark [value]="minScale" (click)="scale=minScale">Min</ly-mark>
       <ly-mark [value]="maxScale" (click)="scale=maxScale">Max</ly-mark>

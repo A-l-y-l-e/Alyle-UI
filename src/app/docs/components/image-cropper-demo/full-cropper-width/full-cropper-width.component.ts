@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
+import { LySliderChange, STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
 import { ThemeVariables, ThemeRef, lyl, StyleRenderer } from '@alyle/ui';
 import {
   STYLES as CROPPER_STYLES,
@@ -93,6 +93,9 @@ export class FullCropperWidthComponent implements AfterViewInit {
   }
   onError(e: ImgCropperErrorEvent) {
     console.warn(`'${e.name}' is not a valid image`, e);
+  }
+  onSliderInput(event: LySliderChange) {
+    this.scale = event.value as number;
   }
 
 }

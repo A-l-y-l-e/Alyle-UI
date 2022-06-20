@@ -39,7 +39,7 @@
     [min]="minScale"
     [max]="1"
     [(ngModel)]="scale"
-    (input)="scale = $event.value"
+    (input)="onSliderInput($event)"
     step="0.000001"></ly-slider>
 </div>
 

@@ -1,19 +1,35 @@
 import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
-import { StyleRenderer, lyl, WithStyles } from '@alyle/ui';
-import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent, ImgCropperLoaderConfig } from '@alyle/ui/image-cropper';
+import { StyleRenderer, lyl, WithStyles, ThemeRef, ThemeVariables } from '@alyle/ui';
+import {
+  ImgCropperConfig,
+  ImgCropperEvent,
+  LyImageCropper,
+  ImgCropperErrorEvent,
+  ImgCropperLoaderConfig,
+  STYLES as CROPPER_STYLES
+} from '@alyle/ui/image-cropper';
 import { Platform } from '@angular/cdk/platform';
+import { LySliderChange } from '@alyle/ui/slider';
 
-const STYLES = () => ({
-  cropper: lyl `{
-    max-width: 400px
-    height: 300px
-  }`,
-  sliderContainer: lyl `{
-    text-align: center
-    max-width: 400px
-    margin: 14px
-  }`
-});
+const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
+  ref.renderStyleSheet(CROPPER_STYLES);
+  return {
+    cropper: lyl `{
+      max-width: 400px
+      height: 300px
+    }`,
+    cropperResult: lyl `{
+      position: relative
+      width: 150px
+      height: 150px
+    }`,
+    sliderContainer: lyl `{
+      text-align: center
+      max-width: 400px
+      margin: 14px
+    }`
+  };
+};
 
 @Component({
   selector: 'image-cropper-example-01',
@@ -25,11 +41,11 @@ const STYLES = () => ({
 })
 export class ImageCropperExample01Component implements WithStyles, AfterViewInit {
   classes = this.sRenderer.renderSheet(STYLES);
-  croppedImage?: string;
+  croppedImage?: string | null = null;
   scale: number;
-  ready: boolean;
+  ready = false;
   minScale: number;
-  @ViewChild(LyImageCropper) cropper: LyImageCropper;
+  @ViewChild(LyImageCropper) readonly cropper!: LyImageCropper;
   myConfig: ImgCropperConfig = {
     // autoCrop: true,
     width: 150, // Default `250`
@@ -72,6 +88,9 @@ export class ImageCropperExample01Component implements WithStyles, AfterViewInit
   }
   onError(e: ImgCropperErrorEvent) {
     console.warn(`'${e.name}' is not a valid image`, e);
+  }
+  onSliderInput(event: LySliderChange) {
+    this.scale = event.value as number;
   }
 
 }

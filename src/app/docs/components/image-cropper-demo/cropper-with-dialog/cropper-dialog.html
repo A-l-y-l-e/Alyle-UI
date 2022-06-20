@@ -23,15 +23,16 @@
     <span>Drag and drop image</span>
   </ly-img-cropper>
 
-  <div *ngIf="ready" [className]="classes.sliderContainer">
+  <div [className]="classes.sliderContainer">
     <div [class]="classes.slider">
       <ly-slider
         [thumbVisible]="false"
         [min]="minScale"
         [max]="1"
         [(ngModel)]="scale"
-        (input)="scale = $event.value"
-        step="0.000001"></ly-slider>
+        (input)="onSliderInput($event)"
+        [step]="0.000001"
+        cdkFocusInitial></ly-slider>
     </div>
   </div>
 

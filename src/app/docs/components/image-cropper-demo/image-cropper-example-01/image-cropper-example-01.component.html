@@ -39,14 +39,16 @@
     [min]="minScale"
     [max]="1"
     [(ngModel)]="scale"
-    (input)="scale = $event.value"
-    step="0.000001"></ly-slider>
+    (input)="onSliderInput($event)"
+    [step]="0.000001"></ly-slider>
 </div>
 
 <button *ngIf="ready" color="accent" (click)="cropper.crop()" ly-button>
   <ly-icon>crop</ly-icon>crop
 </button>
 
-<div>
-  <img *ngIf="croppedImage" [src]="croppedImage">
+<div *ngIf="croppedImage">
+  <div [class]="classes.cropperResult">
+    <img [src]="croppedImage">
+  </div>
 </div>

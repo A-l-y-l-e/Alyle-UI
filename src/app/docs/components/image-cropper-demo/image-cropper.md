@@ -26,7 +26,7 @@ Add the <code class="html"><ly-img-cropper></code> to your template:
     [min]="minScale"
     [max]="1"
     [(ngModel)]="scale"
-    (input)="scale = $event.value"
+    (input)="onSliderInput($event)"
     step="0.000001"></ly-slider>
 </ng-container>
 
@@ -60,6 +60,10 @@ export class MyComponent {
 
   onError(e: ImgCropperErrorEvent) {
     console.warn(`'${e.name}' is not a valid image`, e);
+  }
+
+  onSliderInput(event: LySliderChange) {
+    this.scale = event.value as number;
   }
 }
 ```

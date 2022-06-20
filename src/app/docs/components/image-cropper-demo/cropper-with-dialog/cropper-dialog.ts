@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { StyleRenderer, WithStyles, lyl, ThemeRef, ThemeVariables } from '@alyle/ui';
 import { LyDialogRef, LY_DIALOG_DATA } from '@alyle/ui/dialog';
-import { STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
+import { LySliderChange, STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
 import {
   STYLES as CROPPER_STYLES,
   LyImageCropper,
@@ -90,6 +90,10 @@ export class CropperDialog implements WithStyles, AfterViewInit {
     console.warn(`'${e.name}' is not a valid image`, e);
     // Close the dialog if it fails
     this.dialogRef.close();
+  }
+
+  onSliderInput(event: LySliderChange) {
+    this.scale = event.value as number;
   }
 
 }
