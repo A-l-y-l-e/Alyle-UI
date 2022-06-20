@@ -6,6 +6,7 @@ import { LyDialogRef } from './dialog-ref';
 import { DynamicInjector } from './dynamic-injector';
 import { LyDialogConfig } from './dialog-config';
 import { LY_DIALOG_DATA } from './dialog-data';
+import { ESCAPE } from '@angular/cdk/keycodes';
 
 const dialogContainerStyleProperties = [
   'width',
@@ -52,6 +53,14 @@ export class LyDialog {
       disableClose: config.disableClose,
       backdropClass: config.backdropClass || this._theme.style(STYLES_BACKDROP_DARK),
       fnDestroy: () => {
+        dialogRef.close();
+        keydownEventsSuscription.unsubscribe();
+      }
+    });
+
+    const keydownEvents = overlayRef.keydownEvents();
+    const keydownEventsSuscription = keydownEvents.subscribe((event) => {
+      if (!(config?.disableClose) && event.keyCode === ESCAPE) {
         dialogRef.close();
       }
     });

@@ -13,6 +13,8 @@ import {
   Renderer2,
   ElementRef,
   ChangeDetectorRef,
+  OnDestroy,
+  AfterContentInit,
   } from '@angular/core';
 import { state, style, transition, animate, trigger, AnimationEvent } from '@angular/animations';
 import {
@@ -33,6 +35,11 @@ import { LyDialogRef } from './dialog-ref';
 import { LyDialogConfig } from './dialog-config';
 import { LY_DIALOG_DATA } from './dialog-data';
 import { Color } from '@alyle/ui/color';
+import {
+  ConfigurableFocusTrapFactory,
+  ConfigurableFocusTrap,
+} from '@angular/cdk/a11y';
+import { _getFocusedElementPierceShadowDom } from '@angular/cdk/platform';
 
 const STYLE_PRIORITY = -2;
 
@@ -103,11 +110,15 @@ const STYLES = (theme: ThemeVariables & LyDialogVariables, ref: ThemeRef) => {
     StyleRenderer
   ]
 })
-export class LyDialogContainer implements WithStyles, OnInit {
+export class LyDialogContainer implements WithStyles, OnInit, AfterContentInit, OnDestroy {
   /** @docs-private */
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _embeddedViewRef: EmbeddedViewRef<any>;
   private _componentRef: ComponentRef<any>;
+  private _focusTrap: ConfigurableFocusTrap;
+
+  /** Previously focused element to restore focus to upon destroy when using autoCapture. */
+  private _previouslyFocusedElement: HTMLElement | null = null;
 
   /** @internal */
   readonly _afterOpened = new Subject<void>();
@@ -137,8 +148,12 @@ export class LyDialogContainer implements WithStyles, OnInit {
     private _theme: LyTheme2,
     private _el: ElementRef<HTMLElement>,
     private _cd: ChangeDetectorRef,
-    private _renderer: Renderer2
+    private _renderer: Renderer2,
+    _trapFactory: ConfigurableFocusTrapFactory
   ) {
+    this._focusTrap = _trapFactory.create(_el.nativeElement, {
+      defer: true
+    });
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
   ngOnInit() {
@@ -158,6 +173,20 @@ export class LyDialogContainer implements WithStyles, OnInit {
     const { containerClass } = this._newInjector.get(LyDialogConfig);
     if (containerClass) {
       this._renderer.addClass(this._el.nativeElement, containerClass);
+    }
+  }
+
+  ngAfterContentInit() {
+    this._focusTrap.attachAnchors();
+
+    this._captureFocus();
+  }
+
+  ngOnDestroy(): void {
+    this._focusTrap.destroy();
+    if (this._previouslyFocusedElement) {
+      this._previouslyFocusedElement.focus();
+      this._previouslyFocusedElement = null;
     }
   }
 
@@ -210,6 +239,11 @@ export class LyDialogContainer implements WithStyles, OnInit {
   /** @internal */
   _getHostElement() {
     return this._el.nativeElement;
+  }
+
+  private _captureFocus() {
+    this._previouslyFocusedElement = _getFocusedElementPierceShadowDom();
+    this._focusTrap.focusInitialElementWhenReady();
   }
 }
 

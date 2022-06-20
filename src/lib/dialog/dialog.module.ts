@@ -7,6 +7,7 @@ import { LyDialog } from './dialog';
 import { LyDialogTitle } from './dialog-title.directive';
 import { LyDialogContent } from './dialog-content.directive';
 import { LyDialogActions } from './dialog-actions.directive';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { LyDialogActions } from './dialog-actions.directive';
     imports: [
         CommonModule,
         LyCommonModule,
-        LyOverlayModule
+        LyOverlayModule,
+        A11yModule
     ],
     exports: [
         LyCommonModule,
