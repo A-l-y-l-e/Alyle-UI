@@ -15,6 +15,10 @@ export class LyOverlayPosition {
   private _viewportOffset = 16;
   private _viewportHeight: number = 0;
   private _viewportWidth: number = 0;
+  private _xOffset = 0;
+  private _yOffset = 0;
+  private _rawX: number;
+  private _rawY: number;
   /** Transform element's bounding `ClientRect` before render. */
   private _transform?: (triggerRect: ClientRect, overlayRect: ClientRect) => void;
 
@@ -49,18 +53,32 @@ export class LyOverlayPosition {
   get width() {
     return this._width;
   }
-  private _width: number;
+  private _width: number | null;
 
   get height() {
     return this._height;
   }
-  private _height: number;
+  private _height: number | null;
+
+  get triggerRect() {
+    return this._triggerRect;
+  }
+
+  /** Returns x, but not rounded */
+  get rawX() {
+    return this._rawX;
+  }
+
+  /** Returns y, but not rounded */
+  get rawY() {
+    return this._rawY;
+  }
 
   constructor(
     private _theme: LyTheme2,
     private _viewportRuler: ViewportRuler,
     private _trigger: Element,
-    private _overlay: Element
+    private _overlay: Element,
   ) { }
 
   build() {
@@ -175,14 +193,19 @@ export class LyOverlayPosition {
   }
 
   private _calculateAnchorPosition() {
-    if (this._anchorDir === 'left' || this._anchorDir === 'right') {
-      this._xa = this._triggerRect[this._anchorDir];
-    }
+    this._xa = this._triggerRect[this._anchorDir];
     if (this._yAnchor === YPosition.above) {
       this._ya = this._triggerRect.top;
     } else {
       this._ya = this._triggerRect.bottom;
     }
+    // apply offset with support for rtl
+    if (this._anchorDir === 'left') {
+      this._xa += this._xOffset;
+    } else {
+      this._xa -= this._xOffset;
+    }
+    this._ya += this._yOffset;
   }
 
   private _calculateAxis() {
@@ -201,8 +224,8 @@ export class LyOverlayPosition {
 
   /** Calculate origin for overlay */
   private _calculateOrigin() {
-    const xAnchorCenter = this._xa;
-    const yAnchorCenter = this._ya;
+    const xAnchorCenter = this._xa - this._xOffset;
+    const yAnchorCenter = this._ya - this._yOffset;
     const xOverlayCenter = this.x + (this._overlayRect.width / 2);
     const yOverlayCenter = this.y + (this._overlayRect.height / 2);
     const xo = (xAnchorCenter - xOverlayCenter) + this._overlayRect.width / 2;
@@ -212,6 +235,8 @@ export class LyOverlayPosition {
   }
 
   private _round() {
+    this._rawX = this.x;
+    this._rawY = this.y;
     this._x = Math.round(this.x);
     this._y = Math.round(this.y);
   }
@@ -246,6 +271,15 @@ export class LyOverlayPosition {
     return this;
   }
 
+  setXOffset(val: number) {
+    this._xOffset = val;
+    return this;
+  }
+  setYOffset(val: number) {
+    this._yOffset = val;
+    return this;
+  }
+
   /**
    * Offset from the edge of the viewport to the center.
    * It is the minimum space that must be between the window and the overlay.
@@ -256,6 +290,7 @@ export class LyOverlayPosition {
   }
   setTransform(transform: (triggerRect: ClientRect, overlayRect: ClientRect) => void) {
     this._transform = transform;
+    return this;
   }
 }
 
