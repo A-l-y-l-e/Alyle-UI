@@ -1,20 +1,26 @@
 import { EmbeddedViewRef, ComponentRef, ComponentFactoryResolver, ApplicationRef, TemplateRef, Injector, Type } from '@angular/core';
-import { Subscription, merge } from 'rxjs';
+import { Subscription, merge, Observable, Subject } from 'rxjs';
 import { LyOverlayConfig } from './overlay-config';
 import { LyOverlayBackdrop } from './overlay-backdrop';
 import { LyOverlayContainer } from './overlay-container';
 import { createOverlayInjector } from './overlay-injector';
 import { ScrollDispatcher, ViewportRuler } from '@angular/cdk/scrolling';
+import { OverlayReference } from './overlay-reference';
 
-export class OverlayFactory<T = any> {
-  private _viewRef: EmbeddedViewRef<any>;
-  private _el?: HTMLDivElement;
-  private _backdropElement?: Element;
+export class OverlayFactory<T = any> implements OverlayReference {
+  /** Stream of keydown events dispatched to this overlay. */
+  readonly _keydownEvents = new Subject<KeyboardEvent>();
+  private _viewRef: EmbeddedViewRef<any> | null;
+  private _el: HTMLDivElement | null;
+  private _backdropElement: Element | null;
   private _compRef: ComponentRef<T> | null;
   private _compRefOverlayBackdrop?: ComponentRef<any> | null;
   private _windowSRSub: Subscription = Subscription.EMPTY;
+  private _isDetached = false;
+  private _isRemoved = false;
 
   private _newInjector: Injector;
+
   /** Function that will be called on scroll or resize event */
   onResizeScroll: (() => void) | null;
 
@@ -25,9 +31,17 @@ export class OverlayFactory<T = any> {
   get containerElement() {
     return this._el as HTMLDivElement;
   }
+  get backdropElement() {
+    return this._backdropElement;
+  }
   get componentRef() {
     return this._compRef;
   }
+
+  get isDestroyed() {
+    return this._isRemoved;
+  }
+
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _appRef: ApplicationRef,
@@ -89,14 +103,19 @@ export class OverlayFactory<T = any> {
       this._compRefOverlayBackdrop = this._generateComponent(LyOverlayBackdrop, this._newInjector);
       this._appRef.attachView(this._compRefOverlayBackdrop.hostView);
       this._backdropElement = this._compRefOverlayBackdrop.location.nativeElement;
-      this._overlayContainer._add(this._backdropElement!);
+      this._overlayContainer._addElement(this._backdropElement!);
     } else if (this._compRefOverlayBackdrop) {
       this._appRef.detachView(this._compRefOverlayBackdrop.hostView);
       this._backdropElement = this._compRefOverlayBackdrop.location.nativeElement;
-      this._overlayContainer._remove(this._backdropElement);
+      this._overlayContainer._removeElement(this._backdropElement!);
       this._compRefOverlayBackdrop = null;
     }
     this._updateBackdropPosition();
+  }
+
+  /** Gets an observable of keydown events targeted to this overlay. */
+  keydownEvents(): Observable<KeyboardEvent> {
+    return this._keydownEvents;
   }
 
   private _updateStyles(__styles: object) {
@@ -122,16 +141,17 @@ export class OverlayFactory<T = any> {
       viewRef.rootNodes.forEach(_ => this._el!.appendChild(_));
 
       // Append DOM element to the body
-      this._overlayContainer._add(this._el!);
+      this._overlayContainer._addElement(this._el!);
     } else if (typeof type === 'string') {
       this._el!.innerText = type;
-      this._overlayContainer._add(this._el!);
+      this._overlayContainer._addElement(this._el!);
     } else {
       this._compRef = this._generateComponent(type, injector);
       this._appRef.attachView(this._compRef.hostView);
       this._el!.appendChild(this._compRef.location.nativeElement);
-      this._overlayContainer._add(this._el!);
+      this._overlayContainer._addElement(this._el!);
     }
+    this._overlayContainer.addOverlay(this);
   }
 
   private _updateBackdropPosition() {
@@ -151,29 +171,40 @@ export class OverlayFactory<T = any> {
 
   /** Detaches a view from dirty checking again of ApplicationRef. */
   detach() {
+    if (this._isDetached) {
+      return;
+    }
+    this._isDetached = true;
     if (this._viewRef) {
       this._appRef.detachView(this._viewRef);
     }
     if (this._compRef) {
       this._appRef.detachView(this._compRef.hostView);
     }
+    this._overlayContainer.removeOverlay(this);
+    this._keydownEvents.complete();
   }
 
   /** Remove element of DOM */
   remove() {
+    if (this._isRemoved) {
+      return;
+    }
+    this._isRemoved = true;
     if (this._viewRef) {
       this._viewRef.destroy();
-      this._overlayContainer._remove(this._el);
-      this._el = undefined;
+      this._overlayContainer._removeElement(this._el!);
+      this._el = null;
+      this._viewRef = null;
     } else if (this._compRef) {
       this._compRef.destroy();
-      this._overlayContainer._remove(this._el);
-      this._el = undefined;
+      this._overlayContainer._removeElement(this._el!);
+      this._el = null;
       this._compRef = null;
     } else if (this._el) {
       // remove if template is string
-      this._overlayContainer._remove(this._el);
-      this._el = undefined;
+      this._overlayContainer._removeElement(this._el);
+      this._el = null;
     }
     this.updateBackdrop(false);
     this._windowSRSub.unsubscribe();
