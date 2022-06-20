@@ -46,7 +46,6 @@ import {
   OverlayFactory,
   shadowBuilder,
   ThemeVariables,
-  Positioning,
   CanDisableCtor,
   mixinDisableRipple,
   mixinTabIndex,
@@ -61,16 +60,18 @@ import {
   ThemeRef,
   StyleRenderer,
   Style,
-  WithStyles
+  WithStyles,
+  LyOverlayPosition
   } from '@alyle/ui';
 import { Subject, Observable, defer, merge } from 'rxjs';
-import { take, takeUntil, startWith, switchMap, distinctUntilChanged, filter, mapTo } from 'rxjs/operators';
-import { Platform } from '@angular/cdk/platform';
+import { take, takeUntil, startWith, switchMap, filter, mapTo, distinctUntilChanged } from 'rxjs/operators';
+import { Platform, _getFocusedElementPierceShadowDom } from '@angular/cdk/platform';
 import { FocusableOption, FocusOrigin, ActiveDescendantKeyManager } from '@angular/cdk/a11y';
-import { ENTER, SPACE, hasModifierKey, DOWN_ARROW, UP_ARROW, LEFT_ARROW, RIGHT_ARROW, A } from '@angular/cdk/keycodes';
+import { ENTER, SPACE, hasModifierKey, DOWN_ARROW, UP_ARROW, LEFT_ARROW, RIGHT_ARROW, A, ESCAPE } from '@angular/cdk/keycodes';
 import { coerceNumberProperty, coerceBooleanProperty, BooleanInput } from '@angular/cdk/coercion';
 import { SelectionModel } from '@angular/cdk/collections';
 import { getLySelectNonFunctionValueError, getLySelectNonArrayValueError } from './select-errors';
+import { ViewportRuler } from '@angular/cdk/scrolling';
 
 
 export interface LySelectTheme {
@@ -264,8 +265,10 @@ export class LySelect
   private _multiple: boolean;
   private _opened: boolean;
   private _valueKey: (opt: unknown) => unknown = same;
+  private _previousOffsetY = 0;
   _focused: boolean = false;
   errorState: boolean = false;
+
   /**
    * Keeps track of the previous form control assigned to the select.
    * Used to detect if it has changed.
@@ -276,7 +279,7 @@ export class LySelect
   _keyManager: ActiveDescendantKeyManager<LyOption>;
 
   /** Emits when the panel element is finished transforming in. */
-  _panelDoneAnimatingStream = new Subject<string>();
+  _panelDoneAnimatingStream = new Subject<{state: string, overlay: OverlayFactory }>();
 
   /** Comparison function to specify which option is displayed. Defaults to object equality. */
   private _compareWith = (o1: any, o2: any) => o1 === o2;
@@ -498,6 +501,7 @@ export class LySelect
               /** @internal */
               public _cd: ChangeDetectorRef,
               private _ngZone: NgZone,
+              private _viewportRuler: ViewportRuler,
               /** @docs-private */
               @Optional() @Self() public ngControl: NgControl,
               @Optional() private _parentForm: NgForm,
@@ -521,18 +525,21 @@ export class LySelect
     // fire the animation end event twice for the same animation. See:
     // https://github.com/angular/angular/issues/24084
     this._panelDoneAnimatingStream
-      .pipe(distinctUntilChanged(), takeUntil(this._destroy))
-      .subscribe(() => {
+      .pipe(
+        distinctUntilChanged((prev, curr) => prev.state === curr.state),
+        takeUntil(this._destroy)
+      )
+      .subscribe((re) => {
         if (this._opened) {
           this.openedChange.emit(true);
-        } else {
-          if (this._overlayRef) {
-            this._overlayRef.remove();
-            this._overlayRef = null;
+        }
+        if (re.state === 'void') {
+          if (!re.overlay.isDestroyed) {
+            re.overlay.destroy();
+            this.openedChange.emit(false);
+            this.stateChanges.next();
+            this._cd.markForCheck();
           }
-          this.openedChange.emit(false);
-          this.stateChanges.next();
-          this._cd.markForCheck();
         }
       });
 
@@ -617,8 +624,10 @@ export class LySelect
     this._destroy.next();
     this._destroy.complete();
     this.stateChanges.complete();
+    this._panelDoneAnimatingStream.complete();
     if (this._overlayRef) {
       this._overlayRef.destroy();
+      this._overlayRef = null;
     }
   }
 
@@ -626,19 +635,35 @@ export class LySelect
     if (this.disabled || !this.options || !this.options.length || this._opened) {
       return;
     }
-    this._opened = true;
     if (this._overlayRef) {
       this._overlayRef.destroy();
     }
-    this._overlayRef = this._overlay.create(this.templateRef, null, {
+    this._opened = true;
+    const overlayRef = this._overlay.create(this.templateRef, {
+      $implicit: () => overlayRef
+    }, {
       styles: {
         top: 0,
         left: 0,
         pointerEvents: null
       },
-      fnDestroy: this.close.bind(this),
+      fnDestroy: () => {
+        this._closeOverlay(overlayRef);
+        keydownEventsSuscription.unsubscribe();
+        this.focus();
+      },
       onResizeScroll: this._updatePlacement.bind(this)
     });
+    this._overlayRef = overlayRef;
+
+    const keydownEvents = overlayRef.keydownEvents();
+    const keydownEventsSuscription = keydownEvents.subscribe((event) => {
+      if (event.keyCode === ESCAPE) {
+        this._closeOverlay(overlayRef);
+        keydownEventsSuscription.unsubscribe();
+      }
+    });
+
     this._keyManager.withHorizontalOrientation(null);
     this._triggerFontSize = parseInt(getComputedStyle(this._getHostElement()).fontSize || '0');
     this._highlightCorrectOption();
@@ -650,12 +675,27 @@ export class LySelect
   }
 
   close() {
-    if (this._opened) {
+    const overlayRef = this._overlayRef;
+    if (overlayRef) {
+      this._overlayRef = null;
+      this._closeOverlay(overlayRef);
+    }
+  }
+
+  private _closeOverlay(overlay?: OverlayFactory | null) {
+    const overlayRef = overlay;
+    if (overlayRef && !overlay.isDestroyed) {
       this._opened = false;
-      this._overlayRef?.detach();
       this._keyManager.withHorizontalOrientation(this._theme.variables.direction);
+      overlayRef.detach();
       this._cd.markForCheck();
       this.onTouched();
+      // Make sure to destroy the overlayRef
+      this._ngZone.runOutsideAngular(() => {
+        setTimeout(() => {
+          overlayRef.destroy();
+        }, 250);
+      });
     }
   }
 
@@ -848,9 +888,9 @@ export class LySelect
     return correspondingOption;
   }
 
-  private _updatePlacement(updateScroll: boolean) {
-    const el = this._overlayRef!.containerElement as HTMLElement;
-    const container = el.querySelector('div')!;
+  private _updatePlacement(needAutoscroll: boolean) {
+    const hostOverlay = this._overlayRef!.containerElement;
+    const container = hostOverlay.querySelector('div')!;
     const triggerFontSize = this._triggerFontSize;
     const { nativeElement } = this.valueTextDivRef;
     let panelWidth: number;
@@ -868,56 +908,63 @@ export class LySelect
 
 
     let selectedElement: HTMLElement | null = this._selectionModel.isEmpty()
-        ? el.querySelector('ly-option')
+        ? hostOverlay.querySelector('ly-option')
         : this._selectionModel.selected[0]._getHostElement() as HTMLElement;
 
     if (!selectedElement) {
-      selectedElement = (el.firstElementChild!.firstElementChild! || el.firstElementChild!) as HTMLElement;
+      selectedElement = (hostOverlay.firstElementChild!.firstElementChild! || hostOverlay.firstElementChild!) as HTMLElement;
     }
 
     const offset = {
-      y: -(nativeElement.offsetHeight / 2 + selectedElement.offsetTop + selectedElement.offsetHeight / 2),
+      y: -(-(nativeElement.offsetHeight / 2) + selectedElement.offsetTop + (selectedElement.offsetHeight / 2)),
       x: -triggerFontSize
     };
 
     // scroll to selected option
     if (container.scrollHeight !== container.offsetHeight) {
-      if (updateScroll) {
-        if (container.scrollTop === selectedElement.offsetTop) {
-          container.scrollTop = container.scrollTop - (container.offsetHeight / 2) + selectedElement.offsetHeight / 2;
-        } else {
-          container.scrollTop = container.scrollTop
-          - (container.offsetHeight / 2 - (selectedElement.offsetTop - container.scrollTop)) + selectedElement.offsetHeight / 2;
-        }
+      if (needAutoscroll) {
+        container.scrollTop = container.scrollTop
+        - (container.offsetHeight / 2 - (selectedElement.offsetTop - container.scrollTop)) + selectedElement.offsetHeight / 2;
+        offset.y = container.scrollTop + offset.y;
+      } else {
+        offset.y = this._previousOffsetY;
       }
-      offset.y = container.scrollTop + offset.y;
     }
-
     if (this.multiple) {
       offset.x -= 24;
     }
 
-    const position = new Positioning(
-      YPosition.below,
-      XPosition.after,
-      null as any,
-      nativeElement,
-      el,
-      this._theme.variables,
-      offset,
-      false
-    );
+    this._previousOffsetY = offset.y;
+    const position = new LyOverlayPosition(this._theme, this._viewportRuler, nativeElement, hostOverlay)
+      .setYAnchor(YPosition.above)
+      .setXAnchor(XPosition.before)
+      .setXAxis(XPosition.after)
+      .setYAxis(YPosition.below)
+      .setXOffset(offset.x)
+      .setYOffset(offset.y)
+      .build();
+    if (needAutoscroll) {
+      const triggerRect = position.triggerRect;
+      const newScrollTop = Math.round((
+        selectedElement.offsetTop
+        + (selectedElement.offsetHeight / 2))
+        - (triggerRect.top + (triggerRect.height / 2) - position.rawY));
+      const scrollTopForOptionAtEnd = (selectedElement.offsetTop + selectedElement.offsetHeight) - container.offsetHeight;
+      if (newScrollTop > selectedElement.offsetTop) {
+        container.scrollTop = selectedElement.offsetTop;
+      } else if (scrollTopForOptionAtEnd > newScrollTop) {
+        container.scrollTop = scrollTopForOptionAtEnd;
+      } else {
+        container.scrollTop = newScrollTop;
+      }
+    }
 
-    // set position
-    this._renderer.setStyle(el, 'transform', `translate3d(${position.x}px, ${position.y}px, 0)`);
-    this._renderer.setStyle(el, 'transform-origin', `${position.ox} ${position.oy} 0`);
+    this._renderer.setStyle(hostOverlay, 'left', `${position.x}px`);
+    this._renderer.setStyle(hostOverlay, 'top', `${position.y}px`);
+    this._renderer.setStyle(container, 'width', position.width ? `${position.width}px` : `${panelWidth}px`);
+    this._renderer.setStyle(container, 'height', position.height ? `${position.height}px` : `100%`);
+    this._renderer.setStyle(hostOverlay, 'transform-origin', `${position.xo}px ${position.yo}px 0`);
 
-    // set height & width
-    this._renderer.setStyle(container, 'height', position.height);
-    const width = position.width === 'initial'
-          ? `${panelWidth}px`
-          : position.width;
-    this._renderer.setStyle(container, 'width', width);
   }
 
   /** Sets up a key manager to listen to keyboard events on the overlay panel. */

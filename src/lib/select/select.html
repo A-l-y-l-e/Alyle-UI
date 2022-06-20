@@ -6,14 +6,14 @@
   </div>
 </div>
 
-<ng-template #templateRef>
+<ng-template #templateRef let-getOverlay>
   <div
     #container
     tabindex="-1"
     role="listbox"
     [className]="classes.container"
     [@selectEnter]="'in'"
-    (@selectEnter.done)="_panelDoneAnimatingStream.next($event.toState)"
+    (@selectEnter.done)="_panelDoneAnimatingStream.next({state: $event.toState, overlay: getOverlay()})"
     (keydown)="_handleKeydown($event)"
     [style.font-size.px]="_triggerFontSize"
   >
