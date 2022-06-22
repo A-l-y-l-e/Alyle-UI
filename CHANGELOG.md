@@ -1,3 +1,26 @@
+# [13.2.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.1.0...13.2.0) (2022-06-22)
+
+
+### Bug Fixes
+
+* **select:** fix some bugs ([601119c](https://github.com/A-l-y-l-e/Alyle-UI/commit/601119c89973cf1197d98f698ff1837e3f9b8242))
+* **select:** improve autoscroll when overlay is opened ([39b636b](https://github.com/A-l-y-l-e/Alyle-UI/commit/39b636b4396f6d46f19cf086db7ade7e879c1bed))
+* **slider:** fix property binding ([2df1af1](https://github.com/A-l-y-l-e/Alyle-UI/commit/2df1af17170cf4876c8e2baab3cbf0c043718611))
+
+
+### Features
+
+* **button:** use `FocusMonitor` CDK instead of `LyFocusState` ([dd50f95](https://github.com/A-l-y-l-e/Alyle-UI/commit/dd50f95a6efe996d4bfe8b6e082c1eac3425c94b))
+* **checkbox:** add indeterminate state ([d1da6aa](https://github.com/A-l-y-l-e/Alyle-UI/commit/d1da6aadec2ff952406aed20988f55543d35c1cd))
+* **core:** add `offset` to `LyOverlayPosition` ([ff19ca6](https://github.com/A-l-y-l-e/Alyle-UI/commit/ff19ca6650d2d96f0f524e7ba1bc263f14881399))
+* **core:** add keyboard events to Overlay ([b1f67db](https://github.com/A-l-y-l-e/Alyle-UI/commit/b1f67db8b16e86f068b8cf96f102e1a75bba48f4))
+* **dialog:** add keyboard events ([e6cb880](https://github.com/A-l-y-l-e/Alyle-UI/commit/e6cb88015e692d564a228cb53a20977de20ae0c2))
+* **slider:** use `FocusMonitor` CDK instead of `LyFocusState` ([bf3b3e5](https://github.com/A-l-y-l-e/Alyle-UI/commit/bf3b3e51f6ab0308c8003d4978b65b0199558f6a))
+* **table:** initial commit ([#118](https://github.com/A-l-y-l-e/Alyle-UI/issues/118)) ([5e84b09](https://github.com/A-l-y-l-e/Alyle-UI/commit/5e84b09d427b4bf8ebe12f908d5945888b970210))
+* **tabs:** use `FocusMonitor` CDK instead of `LyFocusState` ([23e1e41](https://github.com/A-l-y-l-e/Alyle-UI/commit/23e1e4181f3e5f70c353006caa391c6e27adbea0))
+
+
+
 # [13.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.0.1...13.1.0) (2022-05-16)
 
 
