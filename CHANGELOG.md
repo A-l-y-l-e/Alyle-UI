@@ -1,3 +1,12 @@
+## [13.2.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.2.0...13.2.1) (2022-06-24)
+
+
+### Bug Fixes
+
+* **table:** module is not exported ([774cd9a](https://github.com/A-l-y-l-e/Alyle-UI/commit/774cd9a3d7b72dd5da8edf87472024a0b8672d22))
+
+
+
 # [13.2.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.1.0...13.2.0) (2022-06-22)
 
 

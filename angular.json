@@ -1152,6 +1152,39 @@
           }
         }
       }
+    },
+    "@alyle/ui/table": {
+      "root": "dist/lib/table",
+      "projectType": "library",
+      "prefix": "ly",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "project": "dist/lib/table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "dist/lib/table/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "dist/lib/table/test.ts",
+            "tsConfig": "dist/lib/table/tsconfig.spec.json",
+            "karmaConfig": "dist/lib/table/karma.conf.js",
+            "progress": false,
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless",
+            "codeCoverageExclude": [
+              "dist/lib/core/**/*",
+              "src/lib/core/**/*"
+            ]
+          }
+        }
+      }
     }
   }
 }
