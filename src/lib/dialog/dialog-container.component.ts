@@ -36,8 +36,8 @@ import { LyDialogConfig } from './dialog-config';
 import { LY_DIALOG_DATA } from './dialog-data';
 import { Color } from '@alyle/ui/color';
 import {
-  ConfigurableFocusTrapFactory,
-  ConfigurableFocusTrap,
+  FocusTrapFactory,
+  FocusTrap,
 } from '@angular/cdk/a11y';
 import { _getFocusedElementPierceShadowDom } from '@angular/cdk/platform';
 
@@ -115,7 +115,7 @@ export class LyDialogContainer implements WithStyles, OnInit, AfterContentInit, 
   readonly classes = this._theme.addStyleSheet(STYLES, STYLE_PRIORITY);
   private _embeddedViewRef: EmbeddedViewRef<any>;
   private _componentRef: ComponentRef<any>;
-  private _focusTrap: ConfigurableFocusTrap;
+  private _focusTrap: FocusTrap;
 
   /** Previously focused element to restore focus to upon destroy when using autoCapture. */
   private _previouslyFocusedElement: HTMLElement | null = null;
@@ -149,11 +149,8 @@ export class LyDialogContainer implements WithStyles, OnInit, AfterContentInit, 
     private _el: ElementRef<HTMLElement>,
     private _cd: ChangeDetectorRef,
     private _renderer: Renderer2,
-    _trapFactory: ConfigurableFocusTrapFactory
+    private _trapFactory: FocusTrapFactory
   ) {
-    this._focusTrap = _trapFactory.create(_el.nativeElement, {
-      defer: true
-    });
     _renderer.addClass(_el.nativeElement, this.classes.root);
   }
   ngOnInit() {
@@ -177,8 +174,7 @@ export class LyDialogContainer implements WithStyles, OnInit, AfterContentInit, 
   }
 
   ngAfterContentInit() {
-    this._focusTrap.attachAnchors();
-
+    this._focusTrap = this._trapFactory.create(this._el.nativeElement);
     this._captureFocus();
   }
 
