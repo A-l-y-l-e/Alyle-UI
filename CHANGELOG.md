@@ -1,3 +1,12 @@
+## [13.2.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.2.1...13.2.2) (2022-07-19)
+
+
+### Bug Fixes
+
+* **dialog:** error when focusing an element (eg, buttons, input, etc) in an overlay inside a dialog ([3a3cc60](https://github.com/A-l-y-l-e/Alyle-UI/commit/3a3cc60fade2b519380cebfe5cc7cb3b9fafd032))
+
+
+
 ## [13.2.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.2.0...13.2.1) (2022-06-24)
 
 
