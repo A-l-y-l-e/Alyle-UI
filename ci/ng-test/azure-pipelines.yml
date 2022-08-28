@@ -1,0 +1,38 @@
+
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+- script: |
+    set -e
+    curl -o- -L https://yarnpkg.com/install.sh | bash
+  displayName: "Install Yarn"
+
+- task: CacheBeta@1
+  inputs:
+    key: yarn | $(Agent.OS) | yarn.lock
+    path: $(YARN_CACHE_FOLDER)
+  displayName: "Cache Yarn packages"
+- script: |
+    set -e
+    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+    node -v
+    yarn -v
+  displayName: "Print versions"
+- bash: |
+    yarn
+  displayName: 'Install Dependencies'
+- script: |
+    set -e
+    yarn test:ci
+  displayName: 'run ng test'
