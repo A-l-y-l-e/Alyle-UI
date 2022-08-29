@@ -36,3 +36,18 @@ steps:
     set -e
     yarn test:ci
   displayName: 'run ng test'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TESTS-*.xml'
+  displayName: 'publish unit test results'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage report'
+  condition: succeededOrFailed()
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/coverage/alyle-ui/cobertura-coverage.xml'
+    failIfCoverageEmpty: false
