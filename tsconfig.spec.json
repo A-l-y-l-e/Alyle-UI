@@ -1,9 +1,12 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine"
+      "jasmine",
+      "google.analytics",
+      "node"
     ]
   },
   "files": [
@@ -11,8 +14,11 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts",
-    "!lib/"
+    "src/**/*.specx.ts",
+    "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "src/lib/**/*.spec.ts",
+    "src/stackblitz/**/*",
   ]
 }

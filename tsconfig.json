@@ -53,6 +53,7 @@
       "@alyle/ui/skeleton": ["./src/lib/skeleton"],
       "@alyle/ui/table": ["./src/lib/table"],
       "@alyle/ui/schematics/testing": ["./src/lib/schematics/testing"],
+      "@testing/*": ["./src/app/testing/*"],
       "@env/*": ["./src/environments/*"],
       "@shared/*": ["./src/app/shared/*"],
       "@app/*": ["./src/app/*"]
