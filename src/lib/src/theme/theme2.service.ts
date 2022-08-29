@@ -418,23 +418,24 @@ export class LyTheme2 {
       if (isDevMode()) {
         this.core.renderer.setAttribute(el, 'priority', `${priority}`);
       }
-      styleContainers.set(priority, el);
       if (styleContainers.size === 0) {
-        this.core.renderer.insertBefore(this._document.body, el, this._document.body.firstChild);
+        styleContainers.set(priority, el);
+        this._document.body.insertBefore(el, this._document.body.firstChild);
         return el as HTMLStyleElement;
+      } else {
+        styleContainers.set(priority, el);
+        const refChild = this._getRefFromAPriority(priority!);
+        this._document.body.insertBefore(el, refChild!);
+        return styleContainers.get(priority)!;
       }
-    } else {
-      return styleContainers.get(priority)!;
     }
-    const refChild = this.findNode(priority);
-    this.core.renderer.insertBefore(this._document.body, styleContainers.get(priority), refChild);
     return styleContainers.get(priority)!;
   }
 
-  private findNode(index: number) {
+  private _getRefFromAPriority(priority: number) {
     const { styleContainers } = this.stylesInDocument;
-    const keys = (Array.from(styleContainers.keys())).sort();
-    const key = keys.find(_ => index < _);
+    const keys = (Array.from(styleContainers.keys())).sort(sortNumberArray);
+    const key = keys.find(_ => priority < _);
     return (key !== undefined && styleContainers.get(key)) || this.core.firstElement;
   }
 
@@ -841,3 +842,7 @@ function createNextKeyframeId() {
 }
 
 export interface ThemeRef extends Pick<LyTheme2, 'selectorsOf' | 'renderStyleSheet'> { }
+
+function sortNumberArray(a: number, b: number) {
+  return a - b;
+}
