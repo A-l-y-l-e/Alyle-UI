@@ -24,7 +24,7 @@ const STYLES = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, re
   const classes = ref.selectorsOf(STYLES);
   const { before } = theme;
   return {
-    $name: 'app',
+    $name: AppComponent.name,
     $global: lyl `{
       body {
         background-color: ${theme.background.default}

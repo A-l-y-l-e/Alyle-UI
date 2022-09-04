@@ -15,7 +15,8 @@ import { StyleMap5,
   KeyframesDeprecated,
   LyClasses,
   getThemeNameForSelectors,
-  LyStyles } from './style';
+  LyStyles,
+  LySelectors} from './style';
 import { Subject } from 'rxjs';
 import { StyleTemplate, StringIdGenerator } from '../parse';
 import { Platform } from '@angular/cdk/platform';
@@ -297,7 +298,7 @@ export class LyTheme2 {
    * ```
    * @param styles id
    */
-  selectorsOf<T>(styles: T): LyClasses<T> {
+  selectorsOf<T>(styles: T): LySelectors<T> {
     const themeName = this.initialTheme;
     if (!_STYLE_MAP.has(styles)) {
       _STYLE_MAP.set(styles, {
@@ -314,6 +315,15 @@ export class LyTheme2 {
     return classesMap;
   }
 
+  private _selectors(currentStyles: any) {
+    return (externalStyle: any) => {
+      if (currentStyles !== externalStyle) {
+        this.renderStyleSheet(externalStyle);
+      }
+      return this.selectorsOf(externalStyle);
+    };
+  }
+
   selectorOf(styles: string | StyleTemplate): string {
     const themeName = this.initialTheme;
     const styleMap = _STYLE_MAP.get(styles)!;
@@ -327,7 +337,7 @@ export class LyTheme2 {
   _createStyleContent2(
     styles: Styles
       | StyleDeclarationsBlock
-      | ((theme: any, ref: ThemeRef) => StyleTemplate),
+      | ((theme: any, ref: ThemeRef, currentSelectors: any) => StyleTemplate),
     id: string | null,
     priority: number | undefined | null,
     type: TypeStyle,
@@ -360,9 +370,9 @@ export class LyTheme2 {
         css = type === TypeStyle.LylStyle
           ? createLylStyle(
               styleMap,
-              (styles as ((theme: any, ref: ThemeRef) => StyleTemplate))(config, this),
+              (styles as ((theme: any, ref: ThemeRef, currentSelectors: any) => StyleTemplate))(config, this, null),
               themeName, this.core.classNamePrefix)
-          : groupStyleToString(styleMap, styles(config, this) as StyleGroup, themeName, id, type, config, this.core.classNamePrefix);
+          : groupStyleToString(styleMap, styles(config, this, this._selectors(styles)) as StyleGroup, themeName, id, type, config, this.core.classNamePrefix);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }

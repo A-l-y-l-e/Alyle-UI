@@ -76,7 +76,7 @@ export interface LyStyleGroup {
  */
 export type StyleDeclarationsBlock = ((T: any, theme: any) => StyleContainer | string) | StyleContainer | string | null | undefined;
 
-export type LyStyles = ((T: any, theme: any) => LyStyleGroup) | undefined | null;
+export type LyStyles = ((T: any, theme: any, selectors: any) => LyStyleGroup) | undefined | null;
 export type Styles = (((T: any, theme: any) => StyleGroup) | StyleGroup | undefined | null) | LyStyles;
 
 export interface KeyframesDeprecated {
@@ -88,13 +88,16 @@ export interface KeyframesDeprecated {
 type LyClassesProperties<T> = {
   [
     P in keyof (
-      T extends ((theme: any, ref?: any) => infer R) ? R : T
+      T extends ((theme: any, ref?: any, selectors?: any) => infer R) ? R : T
     )
   ]: string;
 };
 
 // Convert all properties to `string` type, and exclude properties that not is class name
 export type LyClasses<T> = Omit<LyClassesProperties<T>, '$name' | '$keyframes' | '@global' | '$priority' | '$global'>;
+export type LySelectors<T> = {
+  [P in keyof LyClasses<T>]: `.${string}`
+};
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
@@ -109,3 +112,6 @@ export interface LyComponentStyle<COMPONENT, INPUTS extends keyof COMPONENT> {
 export const getThemeNameForSelectors = memoize((themeId: string) => {
   return `${themeId}<~(selectors)`;
 });
+
+export type SelectorsFn = <T>(styles: T) => LySelectors<T>;
+
