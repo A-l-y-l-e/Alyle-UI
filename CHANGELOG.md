@@ -1,3 +1,18 @@
+# [13.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.2.2...13.3.0) (2022-09-04)
+
+
+### Bug Fixes
+
+* **core:** style containers not sorted in some cases ([b4690d0](https://github.com/A-l-y-l-e/Alyle-UI/commit/b4690d05e0d0a49bd5dd3fb33c1c790a1bfa072c)), closes [#195](https://github.com/A-l-y-l-e/Alyle-UI/issues/195)
+* **core:** style containers not sorted in some cases ([b62d358](https://github.com/A-l-y-l-e/Alyle-UI/commit/b62d358cfd84711603f04bbe6aecd48f63c20ab5))
+
+
+### Features
+
+* **core:** simplify getting selectors inside a `lyl` style ([0c50acb](https://github.com/A-l-y-l-e/Alyle-UI/commit/0c50acb8d8da8a4a47aaa0e5edf7dd99adc5dad5))
+
+
+
 ## [13.2.2](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.2.1...13.2.2) (2022-07-19)
 
 
