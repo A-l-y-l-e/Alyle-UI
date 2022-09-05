@@ -4,7 +4,6 @@
 ### Bug Fixes
 
 * **core:** style containers not sorted in some cases ([b4690d0](https://github.com/A-l-y-l-e/Alyle-UI/commit/b4690d05e0d0a49bd5dd3fb33c1c790a1bfa072c)), closes [#195](https://github.com/A-l-y-l-e/Alyle-UI/issues/195)
-* **core:** style containers not sorted in some cases ([b62d358](https://github.com/A-l-y-l-e/Alyle-UI/commit/b62d358cfd84711603f04bbe6aecd48f63c20ab5))
 
 
 ### Features
