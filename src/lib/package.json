@@ -33,7 +33,7 @@
     "tslib": "^2.2.0"
   },
   "peerDependencies": {
-    "@angular/core": "^12.0.0 || ^13.0.0-0",
+    "@angular/core": "^12.0.0 || ^13.0.0 || ^14.0.0",
     "hammerjs": "^2.0.8"
   },
   "schematics": "./schematics/collection.json",
