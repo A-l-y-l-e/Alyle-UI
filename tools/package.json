@@ -5,8 +5,10 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@alyle/ui": "^13.2.0",
-    "typescript": "~4.5.5",
-    "typedoc": "0.22.10"
+    "typedoc": "0.22.10",
+    "typescript": "~4.5.5"
+  },
+  "dependencies": {
+    "@alyle/ui": "^13.3.0"
   }
 }

@@ -1,17 +1,18 @@
 import chroma from 'chroma-js';
-import { prismCustomClass } from './prism-custom-class';
+import { prismCustomClass } from './prism-custom-class.mjs';
 
-import * as Prism from 'prismjs';
+import Prism from 'prismjs';
 
-require('prismjs/components/prism-markdown');
-require('prismjs/components/prism-typescript');
-require('prismjs/components/prism-json');
-require('prismjs/components/prism-bash');
-require('prismjs/plugins/custom-class/prism-custom-class');
-Prism.plugins.customClass.map(prismCustomClass());
+import 'prismjs/components/prism-markdown.js';
+import 'prismjs/components/prism-typescript.js';
+import 'prismjs/components/prism-json.js';
+import 'prismjs/components/prism-bash.js';
+import 'prismjs/plugins/custom-class/prism-custom-class.js';
+
+Prism.plugins[ 'customClass' ].map(prismCustomClass());
 Prism.hooks.add('wrap', function(env) {
   if (env.type === 'string') {
-    env.content = addColors(env.content);
+    env.content = addColors(env.content!);
   }
 });
 

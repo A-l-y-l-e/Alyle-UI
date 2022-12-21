@@ -1,6 +1,6 @@
 import * as chokidar from 'chokidar';
 import { promises } from 'fs';
-import { mdToHtml, highlight } from '../html-loader/loader';
+import { mdToHtml, highlight } from '../html-loader/loader.mjs';
 import { createHash } from 'crypto';
 import { join, basename, dirname } from 'path';
 import chalk from 'chalk';
@@ -23,7 +23,7 @@ class MdVar {
 }
 
 
-const { writeFile, readFile, mkdir, rmdir } = promises;
+const { writeFile, readFile, mkdir, rm } = promises;
 
 const watcher = chokidar.watch([
   './src/app/**/*.md',
@@ -40,7 +40,7 @@ const start = async () => {
   console.log(chalk.green('Markdown to Html'));
 
   // Clean
-  await rmdir('src/api/docs', { recursive: true });
+  await rm('src/api/docs', { recursive: true });
   await mkdir('src/api/docs', { recursive: true });
   await mkdir('src/api/docs/demos', { recursive: true });
   watcher.on('all', async (_ev, path, stats) => {
@@ -85,7 +85,7 @@ const start = async () => {
       }
     }
   }).on('ready', () => {
-    if (process.env.CI) {
+    if (process.env[ 'CI' ]) {
       watcher.close();
     }
   });

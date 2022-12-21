@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@alyle/ui@^13.2.0":
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/@alyle/ui/-/ui-13.2.0.tgz#48dcd6ea6993abeeb75c151f3b786916b6e9d530"
-  integrity sha512-1ewv78TEWVtLk4BuONfliDvCdVbTcURNEJP7nvAaTUX/5eDQdJks/GjLNJUBZdB3rwBI3mOrdzbUh4FOQX/lEg==
+"@alyle/ui@^13.3.0":
+  version "13.3.0"
+  resolved "https://registry.yarnpkg.com/@alyle/ui/-/ui-13.3.0.tgz#228e02497358e6613bc0b5e4be7bc8f3e3403715"
+  integrity sha512-EjSdM0pfoVb0CYCFjDc0itAQMmgC6xNXlpu3vyFTST8cGxrr0CWIHZ83T4jqrq+4ZZg1ASkzWoATJxBGnJVEGQ==
   dependencies:
     tslib "^2.2.0"
 
@@ -115,9 +115,9 @@ shiki@^0.9.12:
     vscode-textmate "5.2.0"
 
 tslib@^2.2.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
+  integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
 
 typedoc@0.22.10:
   version "0.22.10"

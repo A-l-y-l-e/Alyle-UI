@@ -26,16 +26,14 @@ copySync(dirLib, dist);
 
 components.forEach((lib, index) => {
   if (index) {
-    writeFileSync(`${dist}/${lib.path}/package.json`, JSON.stringify({
-      ngPackage: {
-        lib: {
-          entryFile: 'public_api.ts'
-        }
+    writeFileSync(`${dist}/${lib.path}/ng-package.json`, JSON.stringify({
+      lib: {
+        entryFile: 'public_api.ts'
       }
     }), 'utf8');
   }
   // const item = statSync(`${dirLib}/${lib.path}`);
-  const nh = lib.path.split('/').map(() => '../').join('');
+  const nh = lib.path!.split('/').map(() => '../').join('');
   // const ngPackagePath = join('../', nh, lib.pkgName);
   // [
   //   'ng-package.json',
@@ -49,7 +47,7 @@ components.forEach((lib, index) => {
   //   .replace(/{version}/g, version);
   //   writeFileSync(`${dist}/${lib.path}/${pkgConfig}`, file, 'utf8');
   // });
-  const libPath = join(nh, '..', '..', 'src/lib', lib.path);
+  const libPath = join(nh, '..', '..', 'src/lib', lib.path!);
   /** copy test.ts */
   writeFileSync(`${dist}/${lib.path}/test.ts`, testConfig.replace('{libPath}', `${libPath}`), 'utf8');
   writeFileSync(`${dist}/${lib.path}/karma.conf.js`, karmaConf.replace('{name}', `${lib.path}`), 'utf8');

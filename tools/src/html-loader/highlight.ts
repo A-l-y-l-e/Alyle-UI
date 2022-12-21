@@ -1,5 +1,5 @@
-import { prismCustomClass } from './prism-custom-class';
-import { prism } from './prism';
+import { prismCustomClass } from './prism-custom-class.mjs';
+import { prism } from './prism.mjs';
 
 export function highlight(code: string, lang: string | null, inline?: boolean): string {
   const classes = prismCustomClass();

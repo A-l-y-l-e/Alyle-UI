@@ -1,10 +1,9 @@
 import * as path from 'path';
-import * as _replace from 'replace-in-file';
+import { replaceInFile } from 'replace-in-file';
 import * as fs from 'fs';
 import * as globby from 'globby';
 const { readFile, writeFile, readdir } = fs.promises;
 
-const replace: typeof _replace.default = require('replace-in-file');
 
 const pkg = require(path.join(process.cwd(), './package.json'));
 const AUI_VERSION = pkg.version;
@@ -21,9 +20,10 @@ const TYPESCRIPT_VERSION = pkg.devDependencies['typescript'];
   await updateStackblitzPackage();
   await generateStackblitzAssets();
 
-  const replaceResult = await replace({
+  const replaceResult = await replaceInFile({
     files: [
-      'src/lib/schematics/**/*.ts'
+      'src/lib/schematics/**/*.ts',
+      'src/lib/style-compiler/main.ts'
     ],
     from: [
       /const AUI_VERSION = [^\n]+/g,

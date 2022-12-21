@@ -1,9 +1,8 @@
-import * as showdown from 'showdown';
-import { prism } from './prism';
-import { prismCustomClass } from './prism-custom-class';
-import * as domino from 'domino';
 import { color } from '@alyle/ui/color';
-// import { lyl } from '@alyle/ui';
+import showdown from 'showdown';
+import { prism } from './prism.mjs';
+import { prismCustomClass } from './prism-custom-class.mjs';
+import * as domino from 'domino';
 
 (global as any)['color'] = color;
 showdown.extension('custom', function() {
@@ -47,7 +46,7 @@ showdown.extension('prism', () => {
     if (left.includes('prsm')) {
       return _wholeMatch;
     }
-    const lang: string | null = (left.match(/class=\"([^ \"]+)/) || [])[1];
+    const lang: string | null | undefined = (left.match(/class=\"([^ \"]+)/) || [])[1];
 
     // unescape match to prevent double escaping
     match = htmlunencode(match);
@@ -136,7 +135,7 @@ function highlightColors(content: string) {
 /**
  * Convert code to highlighted HTML
  */
-export function highlight(code: string, lang: string | null, inline?: boolean): string {
+export function highlight(code: string, lang?: string | null, inline?: boolean): string {
   const classes = prismCustomClass();
   const gramar = lang ? prism.languages[lang] : null;
   code = escape((gramar)
