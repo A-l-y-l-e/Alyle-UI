@@ -1,12 +1,11 @@
 #!/usr/bin/env node
-import { promises as fs, readFileSync } from 'fs';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 import './check';
 import * as yargs from 'yargs';
-import chalk from 'chalk';
+import * as c from 'ansi-colors';
 import { styleCompiler, hasLylStyle } from './compiler';
-
-const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+export const AUI_VERSION = '13.3.0';
 
 const note = `Note: It is recommended to use git and have saved the changes.\n`
   + `Compile the files for production only, this will modify your\nlyl styles to another format.\n`;
@@ -17,8 +16,8 @@ const argv = yargs
   .version()
   .help(false).argv;
 if (argv.help) {
-  console.log(`Version ${pkg.version}\n`);
-  console.log(chalk.bold.yellowBright(note));
+  console.log(`Version ${AUI_VERSION}\n`);
+  console.log(c.bold.yellowBright(note));
   console.log(`Usage: lyl src`);
   process.exit(0);
 }
@@ -40,9 +39,9 @@ async function walk(dir: string, fileList: string[] = []) {
 const directory = argv._[0];
 
 if (directory) {
-  console.log(chalk.bold.blueBright(`Directory: ${directory}`));
+  console.log(c.bold.blueBright(`Directory: ${directory}`));
 } else {
-  console.log(chalk.bold.redBright(`Require directory`));
+  console.log(c.bold.redBright(`Require directory`));
   console.log(`Examples: lyl dist/lib`);
   process.exit(1);
 }
@@ -58,9 +57,9 @@ walk(directory).then(async (res) => {
       let compiled: string | null = null;
       try {
         compiled = styleCompiler(content);
-        console.log(`${chalk.bold.greenBright('Updated: ')}${file}`);
+        console.log(`${c.bold.greenBright('Updated: ')}${file}`);
       } catch (error) {
-        console.log(chalk.yellow(`error in ${file}`), error);
+        console.log(c.yellow(`error in ${file}`), error);
       }
       if (compiled) {
         await fs.writeFile(file, compiled, 'utf8');
