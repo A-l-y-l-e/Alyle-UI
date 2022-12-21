@@ -26,7 +26,7 @@
     "tools:bump": "ts-node tools/*/bump-version && yarn changelog",
     "tools:bump-nightly": "ts-node tools/src/bump-version --nightly",
     "tools:deploy": "ts-node tools/src/deploy",
-    "tools:docs-api": "ts-node esm --project ./tools/tsconfig.tn.json tools/src/generate-api-docs.ts",
+    "tools:docs-api": "ts-node --esm --project ./tools/tsconfig.tn.json tools/src/generate-api-docs.ts",
     "watch-docs": "ts-node --esm --project ./tools/tsconfig.tn.json ./tools/src/markdown-to-html/markdown-to-html",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "serve:lib": "hs dist/docs-content -p 1212 -g --cors 'Access-Control-Allow-Origin' -c0",
