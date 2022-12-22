@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
 import * as jsyaml from 'js-yaml';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as semver from 'semver';
 
 const packageConf = `${process.cwd()}/.package.conf.yml`;
