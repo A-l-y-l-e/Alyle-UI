@@ -1,12 +1,12 @@
 import { readFileSync } from 'fs';
-import { writeFileSync, removeSync, copySync, pathExistsSync } from 'fs-extra';
+import __fsExtra from 'fs-extra';
 import { join } from 'path';
-import { tslintConfig } from './config/tslint-config';
-import { tsConfigSpec } from './config/tsconfig-spec';
-import { testConfig } from './config/test-config';
-import { karmaConf } from './config/karma.conf';
-import { PackageConf } from './config/package.conf';
-
+import { tslintConfig } from './config/tslint-config.js';
+import { tsConfigSpec } from './config/tsconfig-spec.js';
+import { testConfig } from './config/test-config.js';
+import { karmaConf } from './config/karma.conf.js';
+import { PackageConf } from './config/package.conf.js';
+const { writeFileSync, removeSync, copySync, pathExistsSync } = __fsExtra;
 // const camelCase = (str: string) => str.replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/\s+/g, '');
 
 const dirLib = `${process.cwd()}/src/lib`;

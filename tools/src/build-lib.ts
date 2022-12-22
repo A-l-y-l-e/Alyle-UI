@@ -1,15 +1,15 @@
-import * as _replace from 'replace-in-file';
-const replace: typeof _replace.default = require('replace-in-file');
+import _replace from 'replace-in-file';
+const { replaceInFileSync } = _replace;
 
 // fix typings
-const changes = replace.sync({
+const changes = replaceInFileSync({
   files: 'dist/@alyle/ui/**/*.d.ts',
   from: /(:?\.\.\/)+@alyle\/ui/g,
   to: '@alyle/ui'
 }).filter(({ hasChanged }) => hasChanged);
 
 // fix path
-const changesSchematics = replace.sync({
+const changesSchematics = replaceInFileSync({
   files: 'dist/@alyle/ui/schematics/**/*.js',
   from: /require\(\"\@schematics\/angular\/node_modules\/typescript\"\)/g,
   to: 'require("typescript")'

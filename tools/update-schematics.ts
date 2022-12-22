@@ -1,11 +1,10 @@
 import * as path from 'path';
-import { replaceInFile } from 'replace-in-file';
+import __replace from 'replace-in-file';
 import * as fs from 'fs';
 import * as globby from 'globby';
 const { readFile, writeFile, readdir } = fs.promises;
-
-
-const pkg = require(path.join(process.cwd(), './package.json'));
+const { replaceInFile } = __replace;
+const pkg = JSON.parse(await readFile(path.join(process.cwd(), './package.json'), 'utf-8'));
 const AUI_VERSION = pkg.version;
 const HAMMERJS_VERSION = pkg.dependencies.hammerjs;
 const ANGULAR_CDK_VERSION = pkg.dependencies['@angular/cdk'];
