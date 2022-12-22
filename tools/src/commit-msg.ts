@@ -1,5 +1,5 @@
 import { request } from '@octokit/request';
-import { env, REPO_OWNER, REPO_NAME } from './env';
+import { env, REPO_OWNER, REPO_NAME } from './env.js';
 
 const msg = async () => {
   const { data: { commit: { message } } } = await request('GET /repos/:owner/:repo/commits/:ref', {

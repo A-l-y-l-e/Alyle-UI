@@ -33,7 +33,7 @@ jobs:
   - bash: |
       set -e
       . ci/setup.sh
-      export MSG=$(ts-node tools/src/commit-msg)
+      export MSG=$(ts-node --esm --project ./tools/tsconfig.tn.json tools/src/commit-msg.ts)
       ts-node tools/*/bump-version.ts
       yarn global add serve
 
