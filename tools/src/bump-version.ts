@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from 'fs';
-import * as jsyaml from 'js-yaml';
+import jsyaml from 'js-yaml';
 import moment from 'moment';
 import * as semver from 'semver';
 
