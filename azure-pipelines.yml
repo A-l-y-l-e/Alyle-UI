@@ -34,7 +34,7 @@ jobs:
       set -e
       . ci/setup.sh
       export MSG=$(ts-node --esm --project ./tools/tsconfig.tn.json tools/src/commit-msg.ts)
-      ts-node tools/*/bump-version.ts
+      ts-node --esm --project ./tools/tsconfig.tn.json tools/*/bump-version.ts
       yarn global add serve
 
       yarn tools:prepare-lib
