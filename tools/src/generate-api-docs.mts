@@ -1,11 +1,11 @@
-import * as ts from 'typescript';
+import ts from 'typescript';
 import * as path from 'path';
 import * as fs from 'fs';
 import chalk from 'chalk';
 import { Application, TypeDocReader, TSConfigReader, ProjectReflection, DeclarationReflection, Reflection } from 'typedoc';
 
-import { highlight } from './html-loader/highlight';
-import { hashCode } from './utils/hash-code';
+import { highlight } from './html-loader/highlight.mjs';
+import { hashCode } from './utils/hash-code.mjs';
 const { readFile, mkdir, writeFile } = fs.promises;
 
 interface PkgSymbol {
@@ -56,9 +56,9 @@ async function render() {
     if (!child.children) {
       continue;
     }
-    let pkgName = child.sources![0].fileName.replace(/src\/lib/, '@alyle/ui');
+    let pkgName = child.sources![0]!.fileName.replace(/src\/lib/, '@alyle/ui');
     pkgName = path.dirname(pkgName);
-    console.log(child.sources![0].fileName);
+    console.log(child.sources![0]!.fileName);
     pkgName = pkgName.endsWith('/') ? pkgName.slice(0, -1) : pkgName;
     console.log(chalk.greenBright(`\nPackage: ${pkgName}`));
     let API = APIList.find(api => api.pkg === pkgName);
@@ -74,19 +74,19 @@ async function render() {
       APIList.push(API);
     }
     for (const _child of child.children) {
-      const file = _child.sources![0].fileName;
+      const file = _child.sources![0]!.fileName;
       const { name, decorators, kindString } = _child;
       const type = decorators
-        ? decorators[0].name
+        ? decorators[0]!.name
         : (kindString! === 'Variable' ? 'Const' : kindString!);
       const symbol = hasTag(_child, 'decorator')
         ? 'Decorator'
         : decorators
-          ? decorators[0].name
+          ? decorators[0]!.name
           : _child.flags.isConst
             ? 'Const'
             : (kindString! === 'Variable' ? 'Const' : kindString!);
-      const Type = `${toCamelcase(type)}List`;
+      // const Type = `${toCamelcase(type)}List`;
       if (
         !checkIfContainTagPrivate(_child) && !hasTag(_child, 'docsPrivate') && !name.startsWith('_')
       ) {
@@ -206,6 +206,7 @@ async function render() {
   await generateJson();
   await render();
 })().catch((error) => {
+  console.log(error);
   throw new Error(error);
 });
 
@@ -217,7 +218,7 @@ function groupBy<T>(xs: T[], key: string): { key: string, items: T[]}[] {
         items: []
       }) as true /** <-- This always returns true, since an item is never removed */)
       && rv[rv.length - 1]);
-    item.items.push(x);
+    item!.items.push(x);
     return rv;
   }, [] as { key: string, items: T[]}[]);
 }
@@ -256,7 +257,7 @@ function toCamelcase(str: string) {
 
 function hasTag(refl: DeclarationReflection, tag: string): boolean {
   const comment: Reflection['comment'] = refl.comment
-    || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : undefined);
+    || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0]!.comment : undefined);
   if (comment && comment.tags) {
     return comment.tags.some((_: any) => _.tag === tag);
   } else {
@@ -266,7 +267,7 @@ function hasTag(refl: DeclarationReflection, tag: string): boolean {
 
 function checkIfContainTagPrivate(refl: DeclarationReflection): boolean {
   const comment: Reflection['comment'] = refl.comment
-    || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0].comment : undefined);
+    || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0]!.comment : undefined);
   if (comment && comment.tags) {
     return comment.tags.some((_: any) => _.tag === 'docs-private');
   } else {
