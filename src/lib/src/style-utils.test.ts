@@ -1,7 +1,7 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import { eachMedia, MediaQueryArrayDeprecated, parseMediaQueriesFromString, parseMediaQueryFromString } from './style-utils';
 
-const test = anyTest as TestInterface<Context>;
+const test = anyTest as TestFn<Context>;
 
 class Context { }
 

@@ -1,8 +1,8 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import { StyleCollection, lyl, resolveSelectors } from './parse';
 import { mergeThemes } from './style-utils';
 
-const test = anyTest as TestInterface<Context>;
+const test = anyTest as TestFn<Context>;
 
 class Context { }
 

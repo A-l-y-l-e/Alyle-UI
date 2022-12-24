@@ -1,9 +1,9 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import { hasLylStyle, styleCompiler } from './compiler';
 import { st2c, StyleCollection, lyl } from '../src/parse';
 import * as tsNode from 'ts-node';
 
-const test = anyTest as TestInterface<Context>;
+const test = anyTest as TestFn<Context>;
 
 class Context {
   style = `

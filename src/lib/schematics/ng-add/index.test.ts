@@ -3,10 +3,10 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { createTestApp } from '@alyle/ui/schematics/testing';
 import * as path from 'path';
 
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import { Schema } from './schema';
 
-const test = anyTest as TestInterface<Context>;
+const test = anyTest as TestFn<Context>;
 
 const collectionPath = path.join(__dirname, '../collection.json');
 

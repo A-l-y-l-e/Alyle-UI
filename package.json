@@ -84,7 +84,7 @@
     "@types/semver": "^6.2.0",
     "@types/showdown": "^1.9.2",
     "@types/yargs": "^13.0.0",
-    "ava": "^3.11.1",
+    "ava": "^5.1.0",
     "bundlesize": "^0.17.0",
     "camelcase": "^5.0.0",
     "chalk": "^2.4.1",
@@ -120,15 +120,18 @@
     "extensions": [
       "ts"
     ],
+    "nodeArguments": [ ],
     "require": [
       "ts-node/register",
       "tsconfig-paths/register"
     ],
     "files": [
-      "src/**/*.test.ts",
-      "tools/**/*.test.ts"
+      "src/**/*.test.ts"
     ],
     "failFast": true,
-    "failWithoutAssertions": false
+    "failWithoutAssertions": false,
+    "environmentVariables": {
+      "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}"
+    }
   }
 }
