@@ -1,6 +1,6 @@
 {
   "name": "alyle-ui-srcs",
-  "version": "13.3.0",
+  "version": "13.4.0",
   "license": "MIT",
   "engines": {
     "node": ">=14.0.0 <17.0.0",
@@ -120,7 +120,7 @@
     "extensions": [
       "ts"
     ],
-    "nodeArguments": [ ],
+    "nodeArguments": [],
     "require": [
       "ts-node/register",
       "tsconfig-paths/register"

@@ -1,3 +1,17 @@
+# [13.4.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.3.0...13.4.0) (2022-12-25)
+
+
+### Bug Fixes
+
+* **style-compiler:** Style Optimisation not working ([9ce6dae](https://github.com/A-l-y-l-e/Alyle-UI/commit/9ce6dae3ebef9065a32c51abcce7ae7a6efe96c8)), closes [#194](https://github.com/A-l-y-l-e/Alyle-UI/issues/194)
+
+
+### Features
+
+* support for Angular 14 as peer dependency ([e52b047](https://github.com/A-l-y-l-e/Alyle-UI/commit/e52b0474ecfb4574012b24a805131ded75403876)), closes [#207](https://github.com/A-l-y-l-e/Alyle-UI/issues/207)
+
+
+
 # [13.3.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.2.2...13.3.0) (2022-09-04)
 
 

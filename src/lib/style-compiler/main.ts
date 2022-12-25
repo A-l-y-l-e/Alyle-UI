@@ -5,7 +5,7 @@ import './check';
 import * as yargs from 'yargs';
 import * as c from 'ansi-colors';
 import { styleCompiler, hasLylStyle } from './compiler';
-export const AUI_VERSION = '13.3.0';
+export const AUI_VERSION = '13.4.0';
 
 const note = `Note: It is recommended to use git and have saved the changes.\n`
   + `Compile the files for production only, this will modify your\nlyl styles to another format.\n`;
