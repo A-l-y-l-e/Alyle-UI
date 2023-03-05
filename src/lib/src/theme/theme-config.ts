@@ -6,6 +6,7 @@ import { Color } from '@alyle/ui/color';
 export const LY_THEME_GLOBAL_VARIABLES = new InjectionToken<PartialThemeVariables>('ly.theme.global.variables');
 export const LY_THEME = new InjectionToken<ThemeConfig | ThemeConfig[]>('ly_theme_config');
 export const LY_THEME_NAME = new InjectionToken<string>('ly.theme.name');
+export const LY_ENABLE_SELECTORS_FN = new InjectionToken<boolean>('LY_ENABLE_SELECTORS_FN');
 
 /**
  * Add a prefix to the class name that will be generated for styles.

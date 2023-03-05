@@ -1,5 +1,5 @@
 import { Injectable, Inject, Renderer2, RendererFactory2, ViewEncapsulation, Optional, isDevMode } from '@angular/core';
-import { ThemeConfig, ThemeVariables, LY_CLASS_NAME_PREFIX } from './theme-config';
+import { ThemeConfig, ThemeVariables, LY_CLASS_NAME_PREFIX, LY_ENABLE_SELECTORS_FN } from './theme-config';
 import { DOCUMENT } from '@angular/common';
 import { DataStyle } from '../theme.service';
 import { mergeThemes } from '../style-utils';
@@ -24,7 +24,8 @@ export class CoreTheme {
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) _document: any,
     platform: Platform,
-    @Optional() @Inject(LY_CLASS_NAME_PREFIX) readonly _classNamePrefix?: string
+    @Optional() @Inject(LY_CLASS_NAME_PREFIX) readonly _classNamePrefix?: string,
+    @Optional() @Inject(LY_ENABLE_SELECTORS_FN) readonly _enableSelectorsFn?: boolean
   ) {
     this._document = _document;
 

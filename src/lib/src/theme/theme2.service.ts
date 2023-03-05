@@ -1,5 +1,10 @@
 import { Injectable, Renderer2, Inject, isDevMode, NgZone, Optional } from '@angular/core';
-import { LY_THEME_NAME, ThemeVariables, LY_THEME, LY_THEME_GLOBAL_VARIABLES, ThemeConfig } from './theme-config';
+import {
+  LY_THEME_NAME,
+  ThemeVariables,
+  LY_THEME,
+  LY_THEME_GLOBAL_VARIABLES,
+  ThemeConfig } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { DataStyle } from '../theme.service';
 import { DOCUMENT } from '@angular/common';
@@ -315,14 +320,14 @@ export class LyTheme2 {
     return classesMap;
   }
 
-  private _selectors(currentStyles: any) {
-    return (externalStyle: any) => {
-      if (currentStyles !== externalStyle) {
-        this.renderStyleSheet(externalStyle);
-      }
-      return this.selectorsOf(externalStyle);
-    };
-  }
+  // private _selectors(currentStyles: any) {
+  //   return (externalStyle: any) => {
+  //     if (currentStyles !== externalStyle) {
+  //       this.renderStyleSheet(externalStyle);
+  //     }
+  //     return this.selectorsOf(externalStyle);
+  //   };
+  // }
 
   selectorOf(styles: string | StyleTemplate): string {
     const themeName = this.initialTheme;
@@ -337,7 +342,7 @@ export class LyTheme2 {
   _createStyleContent2(
     styles: Styles
       | StyleDeclarationsBlock
-      | ((theme: any, ref: ThemeRef, currentSelectors: any) => StyleTemplate),
+      | ((theme: any, ref: ThemeRef) => StyleTemplate),
     id: string | null,
     priority: number | undefined | null,
     type: TypeStyle,
@@ -372,7 +377,19 @@ export class LyTheme2 {
               styleMap,
               (styles as ((theme: any, ref: ThemeRef, currentSelectors: any) => StyleTemplate))(config, this, null),
               themeName, this.core.classNamePrefix)
-          : groupStyleToString(styleMap, styles(config, this, this._selectors(styles)) as StyleGroup, themeName, id, type, config, this.core.classNamePrefix);
+          : this.core._enableSelectorsFn
+            ? groupStyleToString(styleMap, (styles as LyStyles)!(config, _selectors(styles, this), null)! as StyleGroup,
+              themeName,
+              id,
+              type,
+              config,
+              this.core.classNamePrefix)
+            : groupStyleToString(styleMap, (styles as ((T: any, theme: any) => StyleGroup))(config, this) as StyleGroup,
+              themeName,
+              id,
+              type,
+              config,
+              this.core.classNamePrefix);
         if (!forChangeTheme) {
           styleMap.css[themeName] = css;
         }
@@ -856,3 +873,18 @@ export interface ThemeRef extends Pick<LyTheme2, 'selectorsOf' | 'renderStyleShe
 function sortNumberArray(a: number, b: number) {
   return a - b;
 }
+
+function _selectors(currentStyles: any, theme: LyTheme2) {
+  const fn = (externalStyle: any) => {
+    if (currentStyles !== externalStyle) {
+      theme.renderStyleSheet(externalStyle);
+    }
+    return theme.selectorsOf(externalStyle);
+  };
+  if (theme.core._enableSelectorsFn) {
+    fn.selectorsOf = theme.selectorsOf.bind(theme);
+    fn.renderStyleSheet = theme.renderStyleSheet.bind(theme);
+  }
+  return fn;
+}
+
