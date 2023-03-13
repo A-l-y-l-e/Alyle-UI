@@ -105,22 +105,22 @@
 <p>From <code class="ttm ttx">[width]</code> to <code class="ttm ttx">[drawerWidth]</code> and from <code class="ttm ttx">[height]</code> to <code class="ttm ttx">[drawerHeight]</code>.</p>
 <p>before:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-drawer</span> <span class="tt18 ttbx">ly-paper</span>
-  <span class="tt18 ttbx">[width]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span><span class="tt18 ttae">'</span>230px 0@XSmall<span class="tt18 ttae">'</span><span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[width]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span><span class="tt18 ttae">'</span>230px 0@XSmall'<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">bg</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>background:primary<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">[withClass]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>classes.drawer<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">[opened]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== <span class="tt18 ttae">'</span><span class="tt18 ttae">'</span><span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">[mode]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== <span class="tt18 ttae">'</span><span class="tt18 ttae">'</span> ? <span class="tt18 ttae">'</span>side<span class="tt18 ttae">'</span> : <span class="tt18 ttae">'</span>over<span class="tt18 ttae">'</span><span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">[spacingAbove]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== <span class="tt18 ttae">'</span><span class="tt18 ttae">'</span> ? <span class="tt18 ttae">'</span>64px 56px@XSmall<span class="tt18 ttae">'</span> : 0<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[opened]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== ''<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[mode]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== '' ? 'side' : 'over'<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[spacingAbove]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== '' ? '64px 56px@XSmall' : 0<span class="tt18 ttae">"</span></span>
 <span class="tt18 ttae">></span></span>
 </code></pre>
 <p>after:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-drawer</span> <span class="tt18 ttbx">ly-paper</span>
-  <span class="tt18 ttbx">[drawerWidth]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span><span class="tt18 ttae">'</span>230px 0@XSmall<span class="tt18 ttae">'</span><span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[drawerWidth]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span><span class="tt18 ttae">'</span>230px 0@XSmall'<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">bg</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>background:primary<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">[withClass]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>classes.drawer<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">[opened]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== <span class="tt18 ttae">'</span><span class="tt18 ttae">'</span><span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">[mode]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== <span class="tt18 ttae">'</span><span class="tt18 ttae">'</span> ? <span class="tt18 ttae">'</span>side<span class="tt18 ttae">'</span> : <span class="tt18 ttae">'</span>over<span class="tt18 ttae">'</span><span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">[spacingAbove]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== <span class="tt18 ttae">'</span><span class="tt18 ttae">'</span> ? <span class="tt18 ttae">'</span>64px 56px@XSmall<span class="tt18 ttae">'</span> : 0<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[opened]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== ''<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[mode]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== '' ? 'side' : 'over'<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">[spacingAbove]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>currentRoutePath !== '' ? '64px 56px@XSmall' : 0<span class="tt18 ttae">"</span></span>
 <span class="tt18 ttae">></span></span>
 </code></pre>
 <h2 id="questions">Questions?</h2>
