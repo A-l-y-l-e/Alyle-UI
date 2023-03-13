@@ -35,7 +35,8 @@ import {
   LY_COMMON_STYLES,
   ThemeRef,
   StyleCollection,
-  StyleRenderer
+  StyleRenderer,
+  SelectorsFn
 } from '@alyle/ui';
 import { Color } from '@alyle/ui/color';
 import { Platform } from '@angular/cdk/platform';
@@ -74,12 +75,12 @@ const STYLE_PRIORITY = -2;
 export const LY_BUTTON_DEFAULT_OPTIONS =
     new InjectionToken<LyButtonDefaultOptions>('LY_BUTTON_DEFAULT_OPTIONS');
 
-export const STYLES = (theme: ThemeVariables & LyButtonVariables, ref: ThemeRef) => {
+export const STYLES = (theme: ThemeVariables & LyButtonVariables, selectors: SelectorsFn) => {
   const typography = theme.typography;
-  const button = ref.selectorsOf(STYLES);
+  const button = selectors(STYLES);
   return {
     $priority: STYLE_PRIORITY,
-    $name: LyButton.и,
+    $name: LyButton.name,
     root: () => lyl `{
       font-family: ${typography.fontFamily}
       color: ${theme.text.default}

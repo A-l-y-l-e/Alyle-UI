@@ -19,7 +19,8 @@ import {
   lyl,
   StyleRenderer,
   LyHammerGestureConfig,
-  LyClasses
+  LyClasses,
+  LY_ENABLE_SELECTORS_FN
 } from '@alyle/ui';
 import { LyButtonModule } from '@alyle/ui/button';
 
@@ -189,6 +190,7 @@ export function themeNameProviderFactory() {
     { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
     { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory },
+    { provide: LY_ENABLE_SELECTORS_FN, useValue: true },
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ],
   bootstrap: [AppComponent]

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { StyleRenderer, lyl, ThemeVariables, ThemeRef, SelectorsFn } from '@alyle/ui';
-import { STYLES as STYLES_BUTTON } from '@alyle/ui/button';
+import { StyleRenderer, lyl, ThemeVariables, SelectorsFn } from '@alyle/ui';
+import { STYLES as BUTTON_STYLES } from '@alyle/ui/button';
 
-const STYLES = (theme: ThemeVariables, _ref: ThemeRef, selectors: SelectorsFn) => {
+const STYLES = (theme: ThemeVariables, selectors: SelectorsFn) => {
   // Get button component selectors
-  const button = selectors(STYLES_BUTTON);
+  const button = selectors(BUTTON_STYLES);
   const { after } = theme;
   return {
     root: lyl `{

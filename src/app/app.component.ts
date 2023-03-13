@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Router, NavigationEnd } from '@angular/router';
-import { AUI_VERSION, LyTheme2, ThemeVariables, ThemeRef, lyl, StyleRenderer } from '@alyle/ui';
+import { AUI_VERSION, LyTheme2, ThemeVariables, lyl, StyleRenderer, SelectorsFn } from '@alyle/ui';
 import { LyIconService } from '@alyle/ui/icon';
 import { LyDrawer } from '@alyle/ui/drawer';
 import { CustomMinimaLight, CustomMinimaDark, AUIThemeVariables } from './app.module';
@@ -20,8 +20,8 @@ import { prismCustomClass } from './core/prism-custom-class';
 import { SVG_ICONS } from './core/svg-icons';
 import { DocViewer } from './docs/docs-viewer';
 
-const STYLES = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, ref: ThemeRef) => {
-  const classes = ref.selectorsOf(STYLES);
+const STYLES = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, selectors: SelectorsFn) => {
+  const classes = selectors(STYLES);
   const { before } = theme;
   return {
     $name: AppComponent.name,
