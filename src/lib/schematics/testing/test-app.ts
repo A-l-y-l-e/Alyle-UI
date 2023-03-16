@@ -11,5 +11,5 @@ export async function createTestApp(runner: SchematicTestRunner, appOptions = {}
   }, tree).toPromise();
 
   return runner.runExternalSchematicAsync('@schematics/angular', 'application',
-      {name: 'Alyle', ...appOptions}, workspaceTree).toPromise();
+      {name: 'my-app', ...appOptions}, workspaceTree).toPromise();
 }

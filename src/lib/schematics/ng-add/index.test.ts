@@ -46,11 +46,12 @@ test(`should update package.json from CLI ng-add command`, async t => {
 
 test(`ng-add-setup-project with default options`, async t => {
   const { appTree, runner } = t.context;
-  const tree = await runner.runSchematicAsync('ng-add-setup-project', { }, appTree).toPromise();
-  const appModule = tree.readContent('/projects/alyle/src/app/app.module.ts');
-  const appComponent = tree.readContent('/projects/alyle/src/app/app.component.ts');
-  const main = tree.readContent('/projects/alyle/src/main.ts');
-
+  const tree = await runner.runSchematicAsync('ng-add-setup-project', {
+    project: 'my-app'
+  }, appTree).toPromise();
+  const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
+  const appComponent = tree.readContent('/projects/my-app/src/app/app.component.ts');
+  const main = tree.readContent('/projects/my-app/src/main.ts');
   t.is(appModule.match(/BrowserAnimationsModule/g)?.length, 2);
   t.is(appModule.match(/HammerModule/g)?.length, 2);
   t.is(appModule.match(/MinimaLight/g)?.length, 2);
@@ -68,10 +69,11 @@ test(`ng-add-setup-project with default options`, async t => {
 test(`ng-add-setup-project with two themes`, async t => {
   const { appTree, runner } = t.context;
   const tree = await runner.runSchematicAsync('ng-add-setup-project', {
+    project: 'my-app',
     themes: ['minima-light', 'minima-deep-dark']
   } as Schema, appTree).toPromise();
 
-  const appModule = tree.readContent('/projects/alyle/src/app/app.module.ts');
+  const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
   t.is(appModule.match(/MinimaLight/g)?.length, 2);
   t.is(appModule.match(/MinimaDeepDark/g)?.length, 2);
 });
@@ -79,11 +81,12 @@ test(`ng-add-setup-project with two themes`, async t => {
 test(`ng-add-setup-project without gestures`, async t => {
   const { appTree, runner } = t.context;
   const tree = await runner.runSchematicAsync('ng-add-setup-project', {
+    project: 'my-app',
     gestures: false
   } as Schema, appTree).toPromise();
 
-  const appModule = tree.readContent('/projects/alyle/src/app/app.module.ts');
-  const main = tree.readContent('/projects/alyle/src/app/app.module.ts');
+  const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
+  const main = tree.readContent('/projects/my-app/src/app/app.module.ts');
 
   t.false(main.includes(`import 'hammerjs';`));
   t.false(appModule.includes(`{ provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }`));
