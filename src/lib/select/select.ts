@@ -442,7 +442,7 @@ export class LySelect
   @Input()
   get compareWith() { return this._compareWith; }
   set compareWith(fn: (o1: any, o2: any) => boolean) {
-    if (typeof fn !== 'function' && isDevMode) {
+    if (typeof (fn as any) !== 'function' && isDevMode()) {
       throw getLySelectNonFunctionValueError();
     }
     this._compareWith = fn;

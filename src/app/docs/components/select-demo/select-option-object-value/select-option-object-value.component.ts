@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 export interface Fruit {
   value: string;
@@ -18,7 +18,7 @@ export class SelectOptionObjectValueComponent {
     { value: 'cherry-2', viewValue: 'Cherry' },
     { value: 'mango-3', viewValue: 'Mango' }
   ];
-  fruitControl = new FormControl([
+  fruitControl = new UntypedFormControl([
     { value: 'cherry-2', viewValue: 'Cherry' }
   ], [Validators.required]);
 

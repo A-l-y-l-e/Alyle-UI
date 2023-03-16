@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, UntypedFormControl, AbstractControl } from '@angular/forms';
 import { LyTheme2 } from '@alyle/ui';
 
 const styles = ({
@@ -31,16 +31,16 @@ export class ComplexCheckboxComponent {
     { name: 'Pineapple' },
     { name: 'Strawberry' }
   ];
-  form: FormGroup = new FormGroup({
-    fruits: new FormArray(
+  form: UntypedFormGroup = new UntypedFormGroup({
+    fruits: new UntypedFormArray(
       this.fruits
-      .map((val) => new FormControl({
+      .map((val) => new UntypedFormControl({
         value: Math.floor(Math.random() * 11) > 5,
         disabled: val.disabled
       }))
     )
   });
-  fruitsAbstractControlArray: AbstractControl[] = (this.form.get('fruits') as FormArray).controls;
+  fruitsAbstractControlArray: AbstractControl[] = (this.form.get('fruits') as UntypedFormArray).controls;
 
   get selectedFruits() {
     const fruits = this.fruits.filter(_ => !_.disabled);
@@ -56,7 +56,7 @@ export class ComplexCheckboxComponent {
     private theme: LyTheme2
   ) { }
 
-  onDisableChange(fruitControl: FormControl, checked: boolean, index: number) {
+  onDisableChange(fruitControl: UntypedFormControl, checked: boolean, index: number) {
     const fruits = this.fruits;
     fruits[index].disabled = checked;
     if (checked) {

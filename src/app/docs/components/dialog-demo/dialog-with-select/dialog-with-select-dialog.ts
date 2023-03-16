@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { LyDialogRef } from '@alyle/ui/dialog';
 
 @Component({
@@ -8,13 +8,13 @@ import { LyDialogRef } from '@alyle/ui/dialog';
 })
 export class DialogWithSelectDialog {
 
-  myForm = new FormGroup({
-    username: new FormControl('', [
+  myForm = new UntypedFormGroup({
+    username: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(32)
     ]),
-    option: new FormControl('', Validators.required)
+    option: new UntypedFormControl('', Validators.required)
   });
 
   get username() {

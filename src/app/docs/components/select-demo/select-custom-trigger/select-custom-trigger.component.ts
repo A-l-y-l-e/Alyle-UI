@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'aui-select-custom-trigger',
@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectCustomTriggerComponent {
-  fruits = new FormControl();
+  fruits = new UntypedFormControl();
   fruitList = [
     'Apple',
     'Banana',

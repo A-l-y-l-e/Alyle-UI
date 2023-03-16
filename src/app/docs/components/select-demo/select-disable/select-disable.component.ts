@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'aui-select-disable',
@@ -7,5 +7,5 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectDisableComponent {
-  disableSelect = new FormControl(false);
+  disableSelect = new UntypedFormControl(false);
 }

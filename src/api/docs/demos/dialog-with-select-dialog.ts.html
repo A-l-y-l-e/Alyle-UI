@@ -1,5 +1,5 @@
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
-<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> FormGroup<span class="tt18 ttae">,</span> FormControl<span class="tt18 ttae">,</span> Validators <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/forms'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> UntypedFormGroup<span class="tt18 ttae">,</span> UntypedFormControl<span class="tt18 ttae">,</span> Validators <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/forms'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyDialogRef <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/dialog'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
@@ -8,13 +8,13 @@
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">DialogWithSelectDialog</span> <span class="tt18 ttae">&#123;</span>
 
-  myForm <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormGroup</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
-    username<span class="tt18 ttb0">:</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormControl</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span> <span class="tt18 ttae">[</span>
+  myForm <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">UntypedFormGroup</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+    username<span class="tt18 ttb0">:</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">UntypedFormControl</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span> <span class="tt18 ttae">[</span>
       Validators<span class="tt18 ttae">.</span>required<span class="tt18 ttae">,</span>
       Validators<span class="tt18 ttae">.</span><span class="tt18 tta3">minLength</span><span class="tt18 ttae">(</span><span class="tt18 ttap">5</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
       Validators<span class="tt18 ttae">.</span><span class="tt18 tta3">maxLength</span><span class="tt18 ttae">(</span><span class="tt18 ttap">32</span><span class="tt18 ttae">)</span>
     <span class="tt18 ttae">]</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
-    option<span class="tt18 ttb0">:</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">FormControl</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span> Validators<span class="tt18 ttae">.</span>required<span class="tt18 ttae">)</span>
+    option<span class="tt18 ttb0">:</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">UntypedFormControl</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">''</span><span class="tt18 ttae">,</span> Validators<span class="tt18 ttae">.</span>required<span class="tt18 ttae">)</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
 
   <span class="tt18 tt1j">get</span> <span class="tt18 tta3">username</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>

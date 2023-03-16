@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { LyTheme2, ThemeVariables } from '@alyle/ui';
 
 const STYLES = (_theme: ThemeVariables) => ({
@@ -16,21 +16,21 @@ const STYLES = (_theme: ThemeVariables) => ({
 export class SimpleFormComponent {
   readonly classes = this.theme.addStyleSheet(STYLES);
 
-  profileForm = new FormGroup({
-    username: new FormControl('', [
+  profileForm = new UntypedFormGroup({
+    username: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(16)
     ]),
-    bio: new FormControl('', [
+    bio: new UntypedFormControl('', [
       Validators.required,
       Validators.maxLength(256)
     ]),
-    phone: new FormControl('', Validators.required),
-    email: new FormControl('', [
+    phone: new UntypedFormControl('', Validators.required),
+    email: new UntypedFormControl('', [
       Validators.required, Validators.email
     ]),
-    option: new FormControl('', Validators.required)
+    option: new UntypedFormControl('', Validators.required)
   });
 
   get username() {

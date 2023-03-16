@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export interface Fruit {
   id: string;
@@ -21,16 +21,16 @@ export class CheckboxReactiveFormsExampleComponent {
     { id: 'f-6', name: 'Pineapple' },
     { id: 'f-7', name: 'Strawberry' }
   ];
-  readonly myForm = new FormGroup({
-    options: new FormArray(this.fruits
-      .map(() => new FormControl(false)), minCheckboxesValidator(1))
+  readonly myForm = new UntypedFormGroup({
+    options: new UntypedFormArray(this.fruits
+      .map(() => new UntypedFormControl(false)), minCheckboxesValidator(1))
   });
   allChecked = false;
   indeterminate = false;
   result: null | {options: Fruit[]} = null;
 
   get options() {
-    return this.myForm.get('options') as FormArray;
+    return this.myForm.get('options') as UntypedFormArray;
   }
 
   private _updateIndeterminate() {
@@ -63,7 +63,7 @@ export class CheckboxReactiveFormsExampleComponent {
 }
 
 export function minCheckboxesValidator(min: number): ValidatorFn {
-  return (arr: FormArray): ValidationErrors | null => {
+  return (arr: UntypedFormArray): ValidationErrors | null => {
     const actual = arr.controls.filter(control => control.value).length;
     return actual < min
       ? { minCheckboxes: {

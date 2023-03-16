@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 
 @Component({
@@ -8,7 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectReactiveFormComponent {
-  selectFormControl = new FormControl('', Validators.required);
-  selectFormControlTwo = new FormControl('', Validators.required);
-  selectFormControlThree = new FormControl('', Validators.required);
+  selectFormControl = new UntypedFormControl('', Validators.required);
+  selectFormControlTwo = new UntypedFormControl('', Validators.required);
+  selectFormControlThree = new UntypedFormControl('', Validators.required);
 }

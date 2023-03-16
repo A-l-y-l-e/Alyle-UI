@@ -16,7 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Platform } from '@angular/cdk/platform';
 import stackblitz from '@stackblitz/sdk';
 
-const PROJECT_TEMPLATE = 'node';
+const PROJECT_TEMPLATE: 'node' = 'node';
 
 const MODULE_REGEXP = /export\sclass\s([\w]+Module)/;
 const SELECTOR_REGEXP = /selector: \'([\w-]+)\'/;

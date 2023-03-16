@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'aui-field-with-display-with',
@@ -7,5 +7,5 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FieldWithDisplayWithComponent {
-  readonly price = new FormControl(14000);
+  readonly price = new UntypedFormControl(14000);
 }
