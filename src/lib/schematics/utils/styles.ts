@@ -31,7 +31,7 @@ export function setUpStyles(options: any, filePath?: string, decorator = 'Compon
     addProvider(host, filePath, decorator, 'StyleRenderer', '@alyle/ui');
 
     let component = getComponentOrDirective(host, filePath);
-    const componentStartPos = component.decorators![0].pos;
+    const componentStartPos = ts.getDecorators(component)![0].pos;
 
     const recorder = host.beginUpdate(filePath);
     recorder.insertLeft(componentStartPos, content);
@@ -88,11 +88,16 @@ export function setUpStyles(options: any, filePath?: string, decorator = 'Compon
 function getComponentOrDirective(host: Tree, filePath: string) {
   const fileSource = getTsSourceFile(host, filePath);
   return findNodes(fileSource, ts.SyntaxKind.ClassDeclaration, 1)
-    .filter(prop => prop.decorators)
-    .filter(prop => prop.decorators!.filter(
-      decorator => decorator.getText().startsWith('@Component') ||
-      decorator.getText().startsWith('@Directive')
-    ))[0] as ts.ClassDeclaration;
+    // .map(prop => )
+    .filter(prop => {
+      const decorators = ts.canHaveDecorators(prop) ? ts.getDecorators(prop) : undefined;
+      if (!decorators) {
+        return false;
+      }
+      return decorators.filter(
+        decorator => decorator.getText().startsWith('@Component') ||
+        decorator.getText().startsWith('@Directive'));
+      })[0] as ts.ClassDeclaration;
 }
 
 function getContructor(componentOrDirective: ts.ClassDeclaration) {
