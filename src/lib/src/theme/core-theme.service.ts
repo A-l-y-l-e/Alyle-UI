@@ -27,6 +27,9 @@ export class CoreTheme {
     @Optional() @Inject(LY_CLASS_NAME_PREFIX) readonly _classNamePrefix?: string,
     @Optional() @Inject(LY_ENABLE_SELECTORS_FN) readonly _enableSelectorsFn?: boolean
   ) {
+    if (_enableSelectorsFn == null) {
+      this._enableSelectorsFn = true;
+    }
     this._document = _document;
 
     if (!isDevMode() && _classNamePrefix) {

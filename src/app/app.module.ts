@@ -190,7 +190,7 @@ export function themeNameProviderFactory() {
     { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
     { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory },
-    { provide: LY_ENABLE_SELECTORS_FN, useValue: true },
+    { provide: LY_ENABLE_SELECTORS_FN, useValue: null }, // default true
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ],
   bootstrap: [AppComponent]
