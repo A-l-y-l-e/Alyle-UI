@@ -4,7 +4,7 @@ You can customize the appearance of a component by replacing styles or adding ne
 
 ## How to theming a component
 
-For example the button component, I can add a rounded style in this way:
+For example, the button component, you can add a rounded style like this:
 
 ```ts
 import {
@@ -93,19 +93,17 @@ export class GlobalVariables {
 
 > Note that all components have initially declared `StyleCollection`.
 
-## Customize a component
+## Customizing a Component
 
-If you want to customize a component within a component without customizing it globally, add the styles in parent component as shown below:
+When you need to customize a component within another component, without applying the changes globally, you can add the styles to the parent component. Here's an example:
 
 ```ts
-import { lyl, StyleRenderer, ThemeVariables, ThemeRef } from '@alyle/ui';
+import { lyl, StyleRenderer, ThemeVariables, SelectorsFn } from '@alyle/ui';
 import { STYLES as BUTTON_STYLES } from '@alyle/ui/button';
 
-const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
-  // Make sure button styles have been rendered
-  ref.renderStyleSheet(BUTTON_STYLES);
+const STYLES = (theme: ThemeVariables, selectors: SelectorsFn) => {
   // get selectors
-  const button = ref.selectorsOf(BUTTON_STYLES);
+  const button = selectors(BUTTON_STYLES);
   return {
     root: lyl `{
       ${button.root} {
@@ -118,11 +116,13 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
 @Component({
   ...
   providers: [
+    // Don't forget to add this whenever you are going to use 
+    // `StyleRenderer`on the component
     StyleRenderer
   ]
 })
 export class MyComponent implements WithStyles {
-  readonly classes = this.sRenderer.renderSheet(STYLES, true);
+  readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
   constructor(
     readonly sRenderer: StyleRenderer
   ) { }

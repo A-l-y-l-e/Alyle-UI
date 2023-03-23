@@ -43,11 +43,3 @@ The tab content will animate its height according to the height of the active ta
 <demo-view path="docs/layout/tabs-demo/tabs-placement">
   <aui-tabs-placement></aui-tabs-placement>
 </demo-view>
-
-## Limitations
-
-* ~~When using `keepContent` attribute with `headerPlacement="before"` or `headerPlacement="after"` you must explicitly set a height to `ly-tabs` for it to work properly.~~
-
-* ~~`headerPlacement="before"` or `headerPlacement="after"` does not work with `dynamicHeight`.~~
-
-

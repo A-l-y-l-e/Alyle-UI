@@ -23,7 +23,7 @@ export class NewMinimaDark extends MinimaDark {
 
 
 @Directive({
-  selector: '[with-minima-dark]',
+  selector: '[with-minima-light]',
   providers: [
     LyTheme2,
     StyleRenderer,

@@ -1,7 +1,7 @@
 import { NgModule, Directive, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LyCommonModule, LY_THEME_NAME, LY_THEME, LyTheme2, StyleRenderer } from '@alyle/ui';
-import { LyButtonModule } from '@alyle/ui/button';
+import { LyCommonModule, LY_THEME_NAME, LY_THEME, LyTheme2, StyleRenderer, lyl, RecursivePartial, LY_THEME_GLOBAL_VARIABLES } from '@alyle/ui';
+import { LyButtonModule, LyButtonTheme } from '@alyle/ui/button';
 import { LyCardModule } from '@alyle/ui/card';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 
@@ -11,9 +11,18 @@ import { MultipleThemesDemo01Component } from './multiple-themes-demo-01.compone
 export class NewMinimaLight extends MinimaLight {
   name = 'new-minima-light';
 }
+
 @Injectable()
 export class NewMinimaDark extends MinimaDark {
   name = 'new-minima-dark';
+}
+
+export class CustomGlobalVariables implements RecursivePartial<MinimaLight & MinimaDark> {
+  button: LyButtonTheme = {
+    root: __ => lyl `{
+      border-radius: 2em
+    }`
+  };
 }
 
 @Directive({
@@ -51,7 +60,8 @@ export class WithDarkTheme { }
   exports: [MultipleThemesDemo01Component],
   providers: [
     { provide: LY_THEME, useClass: NewMinimaLight, multi: true },
-    { provide: LY_THEME, useClass: NewMinimaDark, multi: true }
+    { provide: LY_THEME, useClass: NewMinimaDark, multi: true },
+    { provide: LY_THEME_GLOBAL_VARIABLES, useClass: CustomGlobalVariables },
   ]
 })
 export class MultipleThemesDemo01Module { }

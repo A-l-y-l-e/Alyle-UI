@@ -17,22 +17,48 @@ Prism.hooks.add('wrap', function(env) {
 });
 
 function addColors(str: string) {
-  const colorRegexr = /(#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))/ig;
+  const colorRegexr = /(?:#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))/ig;
   const colorRegexr2 = new RegExp(Object.keys((chroma as any).colors).join('|'), 'ig');
-  const Re = new RegExp(colorRegexr.source + '|' + colorRegexr2.source);
+  const Re = new RegExp(colorRegexr.source + '|' + colorRegexr2.source, 'ig');
+  const hasColor = Re.test(str);
   const replacer = (ch: string) => {
     if (chroma.valid(ch)) {
       const chromaColor = chroma(ch);
-      const luminance = chromaColor.luminance();
-      return `<span style="background:${ch};color:${luminance < 0.5 ? 'white' : '#202020'};opacity:${chromaColor.alpha()}">${ch}</span>`;
+      return `<span style="display:inline-block;vertical-align:middle;width:14px;height:14px;border-radius:4px;background:${ch};opacity:${chromaColor.alpha()}"></span>${ch}`;
     }
     return ch;
   };
-  if (Re.test(str)) {
+  if (hasColor) {
     return str
     .replace(Re, replacer);
   }
   return str;
 }
+
+Prism.languages.insertBefore('typescript', 'template-string', {
+  'lyl-template-string': {
+    pattern:
+      /(lyl\ ?)`(?:\$\{[^}]+\}|\\\\|\\?[^\\])*?`/,
+    lookbehind: true,
+    greedy: true,
+    inside: {
+      interpolation: {
+        pattern: /\$\{[^}]+\}/,
+        inside: {
+          'interpolation-punctuation': {
+            pattern: /^\$\{|\}$/,
+            alias: 'punctuation'
+          },
+          rest: Prism.languages.typescript
+        }
+      },
+      string: {
+        pattern: /[^$;]+/,
+        inside: Prism.languages.css,
+        alias: 'language-css'
+      }
+    }
+  }
+});
 
 export const prism = Prism;

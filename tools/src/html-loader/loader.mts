@@ -103,8 +103,6 @@ function highlightColors(content: string) {
           if (colorRgx && !text.includes('#')) {
             // tslint:disable-next-line: no-eval
             const rgba = color(...eval(`${colorRgx[0]}.rgba()`));
-            const lum = rgba.luminance();
-            const id = `_${Math.floor(Math.random() * Date.now()).toString(36)}`;
             // const styl = lyl `{
             //   & {
             //     background: ${rgba.css()}
@@ -114,15 +112,15 @@ function highlightColors(content: string) {
             //     color: ${lum < 0.5 ? 'white' : '#202020'} !important
             //   }
             // }`(`.${id}`);
-            const styl = `.${id}{`
+            const styl = ``
+              + `display: inline-block;`
+              + `width:14px;height:14px;`
+              + `border-radius:4px;`
               + `background:${rgba.css()};`
-              + `opacity:${rgba.alpha()}`
-              + `}`
-              + `.${id} *{`
-              + `color: ${lum < 0.5 ? 'white' : '#202020'} !important`
-              + `}`;
+              + `vertical-align: middle;`
+              + `opacity:${rgba.alpha()}`;
 
-            return `<style>${styl}</style><span class="${id}">${item}</span>`;
+            return `<span style="${styl}"></span>${item}`;
           }
         }
         return item;
