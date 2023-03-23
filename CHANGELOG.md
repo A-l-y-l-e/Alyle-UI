@@ -1,3 +1,14 @@
+# [14.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.4.0...14.0.0) (2023-03-23)
+
+
+### Features
+
+* add `LY_ENABLE_SELECTORS_FN` option ([d93f118](https://github.com/A-l-y-l-e/Alyle-UI/commit/d93f1183615894e14d0ef075811b19f0b2c6f419))
+* add support Angular 14 ([6ffa851](https://github.com/A-l-y-l-e/Alyle-UI/commit/6ffa85152dc7c1a33db7b6adc8010b2e07d8cf21))
+* enable selectorsFn default ([1da4039](https://github.com/A-l-y-l-e/Alyle-UI/commit/1da4039fb472534b90f638c0489818d6399e1105))
+
+
+
 # [13.4.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.3.0...13.4.0) (2022-12-25)
 
 
