@@ -1,11 +1,11 @@
-import { lyl, StyleCollection, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
+import { lyl, StyleCollection, StyleRenderer, SelectorsFn, ThemeVariables } from '@alyle/ui';
 import { LyIconService } from '@alyle/ui/icon';
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import type { AppThemeVariables } from './app.module';
 
-export const STYLES = (theme: AppThemeVariables, ref: ThemeRef) => {
-  const __ = ref.selectorsOf(STYLES);
+export const STYLES = (theme: AppThemeVariables, selectors: SelectorsFn) => {
+  const __ = selectors(STYLES);
   return {
     $global: () => lyl `{
       body {
