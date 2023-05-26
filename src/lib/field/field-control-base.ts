@@ -16,6 +16,11 @@ export abstract class LyFieldControlBase<T = any> {
   readonly required: boolean;
   readonly floatingLabel: boolean;
   readonly sRenderer: StyleRenderer;
+  /**
+   * Whether the input is currently in an autofilled state. If the property is not present on the
+   * control, it is assumed to be false.
+   */
+  readonly autofilled?: boolean;
   /** Handles a click on the control's container. */
   abstract onContainerClick?(event: MouseEvent): void;
 }

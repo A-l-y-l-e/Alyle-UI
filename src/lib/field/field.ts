@@ -52,6 +52,7 @@ import { Platform } from '@angular/cdk/platform';
 import { LyDisplayWith } from './display-with';
 import { takeUntil, take } from 'rxjs/operators';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { AutofillMonitor } from '@angular/cdk/text-field';
 
 export interface LyFieldTheme {
   /** Styles for Field Component */
@@ -153,9 +154,31 @@ const STYLE_AUTOSIZE = lyl `{
   }
 }`;
 
+/**
+ * Core styles that enable monitoring autofill state of text fields from Angular CDK.
+ */
+const TEXT_FIELD_AUTOFILL = lyl `{
+
+  @keyframes cdk-text-field-autofill-start {
+    /*!*/
+  }
+  @keyframes cdk-text-field-autofill-end {
+    /*!*/
+  }
+
+  .cdk-text-field-autofill-monitored:-webkit-autofill {
+    // Since Chrome 80 we need a 1ms delay, or the animationstart event won't fire.
+    animation: cdk-text-field-autofill-start 0s 1ms
+  }
+  .cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
+    // Since Chrome 80 we need a 1ms delay, or the animationstart event won't fire.
+    animation: cdk-text-field-autofill-end 0s 1ms
+  }
+}`;
+
 export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) => {
   const classes = ref.selectorsOf(STYLES);
-  const {before, after } = theme;
+  const { before, after } = theme;
   const shake = keyframesUniqueId.next();
   return {
     $priority: STYLE_PRIORITY,
@@ -178,6 +201,7 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
         }
       }
       ...${STYLE_AUTOSIZE}
+      ...${TEXT_FIELD_AUTOFILL}
     }`,
     root: ( ) => lyl `{
       display: inline-block
@@ -818,7 +842,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     { provide: LyFieldControlBase, useExisting: LyNativeControl }
   ]
 })
-export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnDestroy {
+export class LyNativeControl implements LyFieldControlBase, OnInit, AfterViewInit, DoCheck, OnDestroy {
   protected _disabled = false;
   protected _required = false;
   protected _placeholder: string;
@@ -830,6 +854,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   private _form: NgForm | FormGroupDirective | null = this._parentForm || this._parentFormGroup;
   _focused: boolean = false;
   errorState: boolean = false;
+  autofilled = false;
 
   @HostListener('input') _onInput() {
     this.stateChanges.next();
@@ -908,8 +933,11 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
   }
 
   get empty() {
-    const val = this.value;
-    return val === '' || val == null;
+    const val = this._el.nativeElement.value;
+    return (
+      !val &&
+      !this.autofilled
+    );
   }
 
   get floatingLabel() {
@@ -925,7 +953,9 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
     /** @docs-private */
     @Optional() @Self() public ngControl: NgControl,
     @Optional() private _parentForm: NgForm,
-    @Optional() private _parentFormGroup: FormGroupDirective
+    @Optional() private _parentFormGroup: FormGroupDirective,
+    private _autofillMonitor: AutofillMonitor,
+    private _platform: Platform
   ) { }
 
   ngOnInit() {
@@ -997,8 +1027,20 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, DoCheck, OnD
     }
   }
 
+  ngAfterViewInit() {
+    if (this._platform.isBrowser) {
+      this._autofillMonitor.monitor(this._el.nativeElement).subscribe(event => {
+        this.autofilled = event.isAutofilled;
+        this.stateChanges.next();
+      });
+    }
+  }
+
   ngOnDestroy() {
     this.stateChanges.complete();
+    if (this._platform.isBrowser) {
+      this._autofillMonitor.stopMonitoring(this._el.nativeElement);
+    }
   }
 
   /** @docs-private */

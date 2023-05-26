@@ -11,12 +11,14 @@ import { LyHint } from './hint';
 import { LyError } from './error';
 import { LY_FIELD_STYLES_TOKEN } from './field-styles-token';
 import { LyDisplayWith } from './display-with';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 @NgModule({
   imports: [
     CommonModule,
     LyCommonModule,
-    ObserversModule
+    ObserversModule,
+    TextFieldModule
   ],
   exports: [
     LyField,
