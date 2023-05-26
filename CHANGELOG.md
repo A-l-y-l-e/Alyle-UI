@@ -1,3 +1,12 @@
+## [14.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/14.0.0...14.0.1) (2023-05-26)
+
+
+### Bug Fixes
+
+* **field:** Auto-filled login fields' label is not floating ([589c6c5](https://github.com/A-l-y-l-e/Alyle-UI/commit/589c6c5126ac4fb3f4c591d25e9a4320f719c379)), closes [#140](https://github.com/A-l-y-l-e/Alyle-UI/issues/140)
+
+
+
 # [14.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/13.4.0...14.0.0) (2023-03-23)
 
 
