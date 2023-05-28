@@ -5,7 +5,7 @@ import { addPackageToPackageJson, getPackageVersionFromPackageJson } from '../ut
 
 const AUI_VERSION = '14.0.0';
 const HAMMERJS_VERSION = '^2.0.8';
-const ANGULAR_CDK_VERSION = '^14.2.7';
+const ANGULAR_CDK_VERSION = '^15.2.9';
 
 
 export default function (options: Schema): Rule {

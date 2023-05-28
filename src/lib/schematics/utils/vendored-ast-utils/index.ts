@@ -13,7 +13,7 @@ import {normalize} from '@angular-devkit/core';
 import {SchematicsException, Tree} from '@angular-devkit/schematics';
 import {Change, InsertChange, NoopChange} from '@schematics/angular/utility/change';
 import {dirname} from 'path';
-
+import { tags } from '@angular-devkit/core';
 import * as ts from 'typescript';
 
 /**
@@ -354,39 +354,33 @@ export function addSymbolToNgModuleMetadata(
   importPath: string | null = null,
 ): Change[] {
   const nodes = getDecoratorMetadata(source, 'NgModule', '@angular/core');
-  let node: any = nodes[0];  // tslint:disable-line:no-any
+  const node = nodes[0];
 
   // Find the decorator declaration.
-  if (!node) {
+  if (!node || !ts.isObjectLiteralExpression(node)) {
     return [];
   }
 
   // Get all the children property assignment of object literals.
-  const matchingProperties = getMetadataField(
-    node as ts.ObjectLiteralExpression,
-    metadataField,
-  );
+  const matchingProperties = getMetadataField(node, metadataField);
 
-  // Get the last node of the array literal.
-  if (!matchingProperties) {
-    return [];
-  }
   if (matchingProperties.length == 0) {
     // We haven't found the field in the metadata declaration. Insert a new field.
-    const expr = node as ts.ObjectLiteralExpression;
     let position: number;
     let toInsert: string;
-    if (expr.properties.length == 0) {
-      position = expr.getEnd() - 1;
-      toInsert = `  ${metadataField}: [${symbolName}]\n`;
+    if (node.properties.length == 0) {
+      position = node.getEnd() - 1;
+      toInsert = `\n  ${metadataField}: [\n${tags.indentBy(4)`${symbolName}`}\n  ]\n`;
     } else {
-      node = expr.properties[expr.properties.length - 1];
-      position = node.getEnd();
+      const childNode = node.properties[node.properties.length - 1];
+      position = childNode.getEnd();
       // Get the indentation of the last element, if any.
-      const text = node.getFullText(source);
-      const matches = text.match(/^\r?\n\s*/);
-      if (matches && matches.length > 0) {
-        toInsert = `,${matches[0]}${metadataField}: [${symbolName}]`;
+      const text = childNode.getFullText(source);
+      const matches = text.match(/^(\r?\n)(\s*)/);
+      if (matches) {
+        toInsert =
+          `,${matches[0]}${metadataField}: [${matches[1]}` +
+          `${tags.indentBy(matches[2].length + 2)`${symbolName}`}${matches[0]}]`;
       } else {
         toInsert = `, ${metadataField}: [${symbolName}]`;
       }
@@ -400,69 +394,48 @@ export function addSymbolToNgModuleMetadata(
       return [new InsertChange(ngModulePath, position, toInsert)];
     }
   }
-  const assignment = matchingProperties[0] as ts.PropertyAssignment;
+  const assignment = matchingProperties[0];
 
   // If it's not an array, nothing we can do really.
-  if (assignment.initializer.kind !== ts.SyntaxKind.ArrayLiteralExpression) {
+  if (
+    !ts.isPropertyAssignment(assignment) ||
+    !ts.isArrayLiteralExpression(assignment.initializer)
+  ) {
     return [];
   }
 
-  const arrLiteral = assignment.initializer as ts.ArrayLiteralExpression;
-  if (arrLiteral.elements.length == 0) {
-    // Forward the property.
-    node = arrLiteral;
-  } else {
-    node = arrLiteral.elements;
-  }
+  let expresssion: ts.Expression | ts.ArrayLiteralExpression;
+  const assignmentInit = assignment.initializer;
+  const elements = assignmentInit.elements;
 
-  if (!node) {
-    // tslint:disable-next-line: no-console
-    console.error('No app module found. Please add your new class to your component.');
-
-    return [];
-  }
-
-  if (Array.isArray(node)) {
-    const nodeArray = node as {} as Array<ts.Node>;
-    const symbolsArray = nodeArray.map(node => node.getText());
-    if (symbolsArray.includes(symbolName)) {
+  if (elements.length) {
+    const symbolsArray = elements.map((node) => tags.oneLine`${node.getText()}`);
+    if (symbolsArray.includes(tags.oneLine`${symbolName}`)) {
       return [];
     }
 
-    node = node[node.length - 1];
+    expresssion = elements[elements.length - 1];
+  } else {
+    expresssion = assignmentInit;
   }
 
   let toInsert: string;
-  let position = node.getEnd();
-  if (node.kind == ts.SyntaxKind.ObjectLiteralExpression) {
-    // We haven't found the field in the metadata declaration. Insert a new
-    // field.
-    const expr = node as ts.ObjectLiteralExpression;
-    if (expr.properties.length == 0) {
-      position = expr.getEnd() - 1;
-      toInsert = `  ${symbolName}\n`;
-    } else {
-      // Get the indentation of the last element, if any.
-      const text = node.getFullText(source);
-      if (text.match(/^\r?\r?\n/)) {
-        toInsert = `,${text.match(/^\r?\n\s*/)[0]}${symbolName}`;
-      } else {
-        toInsert = `, ${symbolName}`;
-      }
-    }
-  } else if (node.kind == ts.SyntaxKind.ArrayLiteralExpression) {
+  let position = expresssion.getEnd();
+  if (ts.isArrayLiteralExpression(expresssion)) {
     // We found the field but it's empty. Insert it just before the `]`.
     position--;
-    toInsert = `${symbolName}`;
+    toInsert = `\n${tags.indentBy(4)`${symbolName}`}\n  `;
   } else {
     // Get the indentation of the last element, if any.
-    const text = node.getFullText(source);
-    if (text.match(/^\r?\n/)) {
-      toInsert = `,${text.match(/^\r?\n(\r?)\s*/)[0]}${symbolName}`;
+    const text = expresssion.getFullText(source);
+    const matches = text.match(/^(\r?\n)(\s*)/);
+    if (matches) {
+      toInsert = `,${matches[1]}${tags.indentBy(matches[2].length)`${symbolName}`}`;
     } else {
       toInsert = `, ${symbolName}`;
     }
   }
+
   if (importPath !== null) {
     return [
       new InsertChange(ngModulePath, position, toInsert),

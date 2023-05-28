@@ -35,7 +35,9 @@ test.beforeEach(async t => {
 
 test(`should update package.json from CLI ng-add command`, async t => {
   const { appTree, runner } = t.context;
-  const tree = await runner.runSchematicAsync('ng-add', { }, appTree).toPromise();
+  const tree = await runner.runSchematic('ng-add', {
+    debugger: true
+  }, appTree);
   const packageJson = JSON.parse(tree.readContent('/package.json'));
   const dependencies = packageJson.dependencies;
 
@@ -46,9 +48,9 @@ test(`should update package.json from CLI ng-add command`, async t => {
 
 test(`ng-add-setup-project with default options`, async t => {
   const { appTree, runner } = t.context;
-  const tree = await runner.runSchematicAsync('ng-add-setup-project', {
+  const tree = await runner.runSchematic('ng-add-setup-project', {
     project: 'my-app'
-  }, appTree).toPromise();
+  }, appTree);
   const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
   const appComponent = tree.readContent('/projects/my-app/src/app/app.component.ts');
   const main = tree.readContent('/projects/my-app/src/main.ts');
@@ -68,10 +70,10 @@ test(`ng-add-setup-project with default options`, async t => {
 
 test(`ng-add-setup-project with two themes`, async t => {
   const { appTree, runner } = t.context;
-  const tree = await runner.runSchematicAsync('ng-add-setup-project', {
+  const tree = await runner.runSchematic('ng-add-setup-project', {
     project: 'my-app',
     themes: ['minima-light', 'minima-deep-dark']
-  } as Schema, appTree).toPromise();
+  } as Schema, appTree);
 
   const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
   t.is(appModule.match(/MinimaLight/g)?.length, 2);
@@ -80,10 +82,18 @@ test(`ng-add-setup-project with two themes`, async t => {
 
 test(`ng-add-setup-project without gestures`, async t => {
   const { appTree, runner } = t.context;
-  const tree = await runner.runSchematicAsync('ng-add-setup-project', {
+  try {
+    await runner.runSchematic('ng-add-setup-project', {
     project: 'my-app',
     gestures: false
-  } as Schema, appTree).toPromise();
+  } as Schema, appTree)
+  } catch (error) {
+    t.log(error);
+  }
+  const tree = await runner.runSchematic('ng-add-setup-project', {
+    project: 'my-app',
+    gestures: false
+  } as Schema, appTree);
 
   const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
   const main = tree.readContent('/projects/my-app/src/app/app.module.ts');

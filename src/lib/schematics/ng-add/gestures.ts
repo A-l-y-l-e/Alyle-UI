@@ -1,9 +1,10 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 import { Schema } from './schema';
-import { getProjectFromWorkspace, getProjectMainFile, getAppModulePath, addSymbolToNgModuleMetadata } from '@angular/cdk/schematics';
+import { getProjectFromWorkspace, getProjectMainFile, getAppModulePath } from '@angular/cdk/schematics';
 import { InsertChange } from '@schematics/angular/utility/change';
 import { getTsSourceFile, addImport } from '../utils/ast';
+import { addSymbolToNgModuleMetadata } from '../utils/vendored-ast-utils';
 
 const hammerjsImportStatement = `import 'hammerjs';`;
 

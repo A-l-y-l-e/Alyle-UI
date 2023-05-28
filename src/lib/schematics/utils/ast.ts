@@ -1,8 +1,8 @@
 import { Tree, SchematicsException } from '@angular-devkit/schematics';
 import * as ts from 'typescript';
-import { isImported, insertImport } from './vendored-ast-utils';
+import { isImported, insertImport, getDecoratorMetadata, getMetadataField } from './vendored-ast-utils';
 import { InsertChange, Change } from '@schematics/angular/utility/change';
-import { getDecoratorMetadata, getMetadataField, parseSourceFile } from '@angular/cdk/schematics';
+import { parseSourceFile } from '@angular/cdk/schematics';
 
 export function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
   const buffer = host.read(path);

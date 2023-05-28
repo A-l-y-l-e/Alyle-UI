@@ -1,14 +1,14 @@
 import { strings } from '@angular-devkit/core';
 import * as ts from 'typescript';
-import { insertImport, isImported } from '../utils/vendored-ast-utils';
+import { addSymbolToNgModuleMetadata, insertImport, isImported } from '../utils/vendored-ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 import {
   getAppModulePath,
-  addModuleImportToModule,
-  addSymbolToNgModuleMetadata,
   getProjectMainFile,
-  getProjectFromWorkspace
+  getProjectFromWorkspace,
+  parseSourceFile,
+  addModuleImportToRootModule
 } from '@angular/cdk/schematics';
 import {
   Rule,
@@ -35,9 +35,8 @@ function updateAppModule(options: Schema) {
     const mainPath = getProjectMainFile(project);
     const modulePath = getAppModulePath(host, mainPath);
     _context.logger.debug(`module path: ${modulePath}`);
-
     // add import animations
-    let moduleSource = getTsSourceFile(host, modulePath);
+    let moduleSource = parseSourceFile(host, modulePath);
     let importModule = 'BrowserAnimationsModule';
     let importPath = '@angular/platform-browser/animations';
     if (!isImported(moduleSource, importModule, importPath)) {
@@ -51,7 +50,7 @@ function updateAppModule(options: Schema) {
     }
 
     // register animations in app module
-    moduleSource = getTsSourceFile(host, modulePath);
+    moduleSource = parseSourceFile(host, modulePath);
     let metadataChanges = addSymbolToNgModuleMetadata(
       moduleSource, modulePath, 'imports', importModule);
     if (metadataChanges) {
@@ -64,7 +63,7 @@ function updateAppModule(options: Schema) {
 
     // add import theme
     ['LY_THEME', 'LY_THEME_NAME'].forEach((_import) => {
-      moduleSource = getTsSourceFile(host, modulePath);
+      moduleSource = parseSourceFile(host, modulePath);
       importModule = _import;
       importPath = '@alyle/ui';
       if (!isImported(moduleSource, importModule, importPath)) {
@@ -92,8 +91,7 @@ function updateAppModule(options: Schema) {
     // }
 
     // register HammerModule in app module
-    addModuleImportToModule(host, modulePath, 'HammerModule', '@angular/platform-browser');
-
+    addModuleImportToRootModule(host, 'HammerModule', '@angular/platform-browser', project);
 
     [
       'StyleRenderer',
@@ -103,7 +101,7 @@ function updateAppModule(options: Schema) {
     });
 
     // set theme
-    moduleSource = getTsSourceFile(host, modulePath);
+    moduleSource = parseSourceFile(host, modulePath);
     const themeSimbolName = `{ provide: LY_THEME_NAME, useValue: '${theme}' }`;
     metadataChanges = addSymbolToNgModuleMetadata(
       moduleSource, modulePath, 'providers', themeSimbolName);
