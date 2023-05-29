@@ -6,20 +6,20 @@
     "baseUrl": "./",
     "declaration": false,
     "downlevelIteration": true,
-    "module": "es2020",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "importHelpers": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
+    "module": "ES2022",
     "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2020",
-      "dom"
+      "ES2022",
+      "DOM"
     ],
     "paths": {
       "@alyle/ui": [
