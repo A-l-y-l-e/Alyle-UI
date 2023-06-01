@@ -6,10 +6,10 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "typedoc": "0.22.10",
-    "typescript": "~4.5.5"
+    "typedoc": "0.22.18",
+    "typescript": "~4.7.0"
   },
   "dependencies": {
-    "@alyle/ui": "^13.3.0"
+    "@alyle/ui": "^14.0.1"
   }
 }
