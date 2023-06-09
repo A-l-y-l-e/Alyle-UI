@@ -16,5 +16,9 @@
   "include": [
     "src/lib/**/*.spec.ts",
     "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "src/lib/**/*.specx.ts",
+    "src/stackblitz/**/*",
   ]
 }
