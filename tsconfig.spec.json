@@ -14,11 +14,7 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.specx.ts",
-    "src/**/*.d.ts"
-  ],
-  "exclude": [
     "src/lib/**/*.spec.ts",
-    "src/stackblitz/**/*",
+    "src/**/*.d.ts"
   ]
 }
