@@ -12,5 +12,8 @@
     "skipLibCheck": true,
     "downlevelIteration": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": [
+    "src/lib/**/*.specx.ts"
+  ]
 }

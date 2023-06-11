@@ -3,8 +3,10 @@
   "exclude": [
     "src/test.ts",
     "**/*.spec.ts",
+    "**/*.specx.ts",
     "src/app/**/*.ts",
     "src/lib/schematics/**/*.ts"
   ],
   "include": ["src/lib/**/*.ts"]
 }
+
