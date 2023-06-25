@@ -1,3 +1,12 @@
+# [15.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/14.0.1...15.0.0) (2023-06-25)
+
+
+### Features
+
+* add support for Angular 15 ([3227f8c](https://github.com/A-l-y-l-e/Alyle-UI/commit/3227f8c9a172bc8392c5c3507560427023cf0ae6))
+
+
+
 ## [14.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/14.0.0...14.0.1) (2023-05-26)
 
 

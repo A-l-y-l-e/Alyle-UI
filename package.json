@@ -1,6 +1,6 @@
 {
   "name": "alyle-ui-srcs",
-  "version": "14.0.1",
+  "version": "15.0.0",
   "license": "MIT",
   "engines": {
     "node": ">=16.0.0",
