@@ -19,6 +19,7 @@ import { FullCropperWidthComponent } from './full-cropper-width.component';
     LyButtonModule,
     LySliderModule,
     LyIconModule
-  ]
+  ],
+  exports: [FullCropperWidthComponent]
 })
 export class FullCropperWidthModule { }
