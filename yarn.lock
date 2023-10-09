@@ -2353,11 +2353,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/google.analytics@^0.0.38":
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/@types/google.analytics/-/google.analytics-0.0.38.tgz#9736272d4dfb4a044f496e939f9d0280ae64788c"
-  integrity sha512-TQlOtDk+SHV+QUFf3JqMOsw3Raof8O9vtG6ISAu/3grEXlWBmwX3MD7Q2AJ+7iQ9B59vIzzxwh3dQdiQ2m+Y6w==
-
 "@types/http-proxy@^1.17.8":
   version "1.17.8"
   resolved "https://registry.yarnpkg.com/@types/http-proxy/-/http-proxy-1.17.8.tgz#968c66903e7e42b483608030ee85800f22d03f55"
@@ -2511,6 +2506,11 @@
   integrity sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==
   dependencies:
     "@types/node" "*"
+
+"@types/trusted-types@^2.0.2":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.4.tgz#2b38784cd16957d3782e8e2b31c03bc1d13b4d65"
+  integrity sha512-IDaobHimLQhjwsQ/NMwRVfa/yL7L/wriQPMhw1ZJall0KX6E1oxk29XMDeilW5qTIg5aoiqf5Udy8U/51aNoQQ==
 
 "@types/ws@^8.5.1":
   version "8.5.4"
@@ -10466,6 +10466,11 @@ safe-buffer@5.2.1, safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, 
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
+
+safevalues@^0.4.2:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/safevalues/-/safevalues-0.4.3.tgz#b1969cd3199c01a0295dadac54b6162da3944d22"
+  integrity sha512-pNCNTkx3xs7G5YJ/9CoeZZVUSPRjH0SEPM0QI5Z1FZRlLBviTFWlNKPs8PTvZvERV0gO7ie/t/Zc0S96JS4Xew==
 
 sass-loader@13.2.0:
   version "13.2.0"

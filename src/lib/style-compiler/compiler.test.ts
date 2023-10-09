@@ -361,6 +361,20 @@ test(`compile simple media query`, async t => {
   t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;}}`);
 });
 
+// TODO: fix this
+// test(`compile simple media query 2`, async t => {
+//   const simpleMediaQuery = `const style = lyl \`{
+//     color: red
+//     @media (max-width: 599px) {
+//       color: blue
+//     }
+//     background: white
+//   }\`
+//   style('.y')`;
+//   const css = evalScript(simpleMediaQuery);
+//   t.is(css, `.y{color:red;}@media (max-width: 599px){.y{color:blue;}}.y{background:white;}`);
+// });
+
 test(`compile complex media query`, async t => {
   const complexMediaQuery = `const style = lyl \`{
     color: red

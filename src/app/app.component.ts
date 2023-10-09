@@ -19,6 +19,7 @@ import { PageContentComponent } from './page-content/page-content.component';
 import { prismCustomClass } from './core/prism-custom-class';
 import { SVG_ICONS } from './core/svg-icons';
 import { DocViewer } from './docs/docs-viewer';
+import { AnalyticsService } from '@shared/analytics.service';
 
 const STYLES = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, selectors: SelectorsFn) => {
   const classes = selectors(STYLES);
@@ -279,6 +280,7 @@ export class AppComponent {
   @ViewChild(PageContentComponent, { static: true }) page: PageContentComponent;
 
   constructor(
+    _analyticsService: AnalyticsService,
     public router: Router,
     private theme: LyTheme2,
     readonly sRenderer: StyleRenderer,
@@ -286,7 +288,7 @@ export class AppComponent {
     sanitizer: DomSanitizer,
     iconService: LyIconService,
     updates: SwUpdate,
-    platform: Platform
+    platform: Platform,
   ) {
     this.theme.addStyleSheet(PRISM_STYLES);
     if (platform.isBrowser) {

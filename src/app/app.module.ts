@@ -42,6 +42,7 @@ import { LyGridModule } from '@alyle/ui/grid';
 import { RouterModule } from '@angular/router';
 import { Color } from '@alyle/ui/color';
 import { DocViewerModule } from './docs/docs-viewer.module';
+import { AnalyticsService, windowProvider, WindowToken } from '@shared/analytics.service';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -181,6 +182,7 @@ export function themeNameProviderFactory() {
     DocViewerModule
   ],
   providers: [
+    AnalyticsService,
     [ LyTheme2, StyleRenderer ],
     { provide: LY_THEME, useClass: MinimaLight, multi: true },
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
@@ -191,7 +193,8 @@ export function themeNameProviderFactory() {
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
     { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory },
     { provide: LY_ENABLE_SELECTORS_FN, useValue: null }, // default true
-    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
+    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
+    { provide: WindowToken, useFactory: windowProvider },
   ],
   bootstrap: [AppComponent]
 })

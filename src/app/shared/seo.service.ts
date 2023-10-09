@@ -60,11 +60,6 @@ export class SEOService {
     } else {
       this.updateCanonicalUrl();
     }
-
-    if (this._platform.isBrowser && !isDevMode()) {
-      ga('set', 'page', this.router.url || '/');
-      ga('send', 'pageview');
-    }
   }
 
 }
