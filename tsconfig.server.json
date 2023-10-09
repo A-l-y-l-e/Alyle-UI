@@ -4,7 +4,6 @@
     "outDir": "./out-tsc/app-server",
     "types": [
       "node",
-      "google.analytics"
     ]
 },
   "files": [
