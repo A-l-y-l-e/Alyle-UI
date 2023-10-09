@@ -1,9 +1,8 @@
-import { Injectable, Inject, isDevMode } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { memoize } from '@alyle/ui';
-import { Platform } from '@angular/cdk/platform';
 
 
 @Injectable({
@@ -20,7 +19,6 @@ export class SEOService {
     private titleService: Title,
     private metaService: Meta,
     private router: Router,
-    private _platform: Platform
   ) { }
 
   updateCanonicalUrl(url?: string) {
