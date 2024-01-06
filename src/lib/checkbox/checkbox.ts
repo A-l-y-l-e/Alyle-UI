@@ -295,7 +295,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles,
    */
   @Input()
   get checked(): boolean { return this._checked; }
-  set checked(val: boolean) {
+  set checked(val: BooleanInput) {
     const newVal = coerceBooleanProperty(val);
     if (newVal !== this.checked) {
       this._checked = newVal;
@@ -332,7 +332,7 @@ export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles,
   get disabled() {
     return this._disabled;
   }
-  set disabled(val: boolean) {
+  set disabled(val: BooleanInput) {
     const newVal = coerceBooleanProperty(val);
     if (newVal !== this.disabled) {
       this._disabled = newVal;

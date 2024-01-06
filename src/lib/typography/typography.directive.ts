@@ -1,6 +1,5 @@
 import { Directive, ElementRef, Renderer2, Input, OnInit, OnChanges } from '@angular/core';
 import { LyTheme2,
-  toBoolean,
   ThemeVariables,
   mixinStyleUpdater,
   mixinColor,
@@ -8,6 +7,7 @@ import { LyTheme2,
   StyleTemplate,
   lyl,
   StyleRenderer} from '@alyle/ui';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyTypographyTheme {
   /** Styles for Typography Component */
@@ -107,8 +107,8 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
 
   /** The text will truncate with an ellipsis. */
   @Input()
-  set noWrap(val: boolean) {
-    const newValue = toBoolean(val);
+  set noWrap(val: BooleanInput) {
+    const newValue = coerceBooleanProperty(val);
     if (newValue) {
       this._noWrapClass = this._theme.addSimpleStyle('lyTyp.noWrap', {
         overflow: 'hidden',
@@ -126,8 +126,8 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
   }
 
   @Input()
-  set gutter(val: boolean) {
-    const newVal = toBoolean(val);
+  set gutter(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     if (newVal !== this.gutter) {
       this._gutter = newVal;
       this.sRenderer.toggleClass(this.classes.gutter, newVal);
@@ -138,8 +138,8 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
   }
 
   @Input()
-  set gutterTop(val: boolean) {
-    const newVal = toBoolean(val);
+  set gutterTop(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     if (newVal !== this.gutterTop) {
       this._gutterTop = newVal;
       this.sRenderer.toggleClass(this.classes.gutterTop, newVal);
@@ -150,8 +150,8 @@ export class LyTypography extends LyTypographyMixinBase implements OnInit, OnCha
   }
 
   @Input()
-  set gutterBottom(val: boolean) {
-    const newVal = toBoolean(val);
+  set gutterBottom(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     if (newVal !== this.gutterBottom) {
       this._gutterBottom = newVal;
       this.sRenderer.toggleClass(this.classes.gutterBottom, newVal);
