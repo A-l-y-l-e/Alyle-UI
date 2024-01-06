@@ -8,7 +8,6 @@ import {
   getProjectMainFile,
   getProjectFromWorkspace,
   parseSourceFile,
-  addModuleImportToRootModule
 } from '@angular/cdk/schematics';
 import {
   Rule,
@@ -35,13 +34,17 @@ function updateAppModule(options: Schema) {
     const mainPath = getProjectMainFile(project);
     const modulePath = getAppModulePath(host, mainPath);
     _context.logger.debug(`module path: ${modulePath}`);
-    // add import animations
+
+    // register HammerModule in app module
+    // addModuleImportToRootModule(host, 'HammerModule', '@angular/platform-browser', project);
+
+    // add `import { BrowserAnimationsModule } ...`
     let moduleSource = parseSourceFile(host, modulePath);
-    let importModule = 'BrowserAnimationsModule';
+    const browserAnimationsModuleName = 'BrowserAnimationsModule';
     let importPath = '@angular/platform-browser/animations';
-    if (!isImported(moduleSource, importModule, importPath)) {
+    if (!isImported(moduleSource, browserAnimationsModuleName, importPath)) {
       const change = insertImport
-      (moduleSource, modulePath, importModule, importPath);
+      (moduleSource, modulePath, browserAnimationsModuleName, importPath);
       if (change) {
         const recorder = host.beginUpdate(modulePath);
         recorder.insertLeft((change as InsertChange).pos, (change as InsertChange).toAdd);
@@ -49,10 +52,10 @@ function updateAppModule(options: Schema) {
       }
     }
 
-    // register animations in app module
+    // add `imports: [ BrowserAnimationsModule ] ...`
     moduleSource = parseSourceFile(host, modulePath);
     let metadataChanges = addSymbolToNgModuleMetadata(
-      moduleSource, modulePath, 'imports', importModule);
+      moduleSource, modulePath, 'imports', browserAnimationsModuleName);
     if (metadataChanges) {
       const recorder = host.beginUpdate(modulePath);
       metadataChanges.forEach((change: InsertChange) => {
@@ -61,10 +64,38 @@ function updateAppModule(options: Schema) {
       host.commitUpdate(recorder);
     }
 
+
+    // add `import { HammerModuleName } ...`
+    moduleSource = parseSourceFile(host, modulePath);
+    const HammerModuleName = 'HammerModuleName';
+    const HammerModuleImportPath = '@angular/platform-browser/animations';
+    if (!isImported(moduleSource, HammerModuleName, HammerModuleImportPath)) {
+      const change = insertImport
+      (moduleSource, modulePath, HammerModuleName, HammerModuleImportPath);
+      if (change) {
+        const recorder = host.beginUpdate(modulePath);
+        recorder.insertLeft((change as InsertChange).pos, (change as InsertChange).toAdd);
+        host.commitUpdate(recorder);
+      }
+    }
+
+    // add `imports: [ HammerModuleName ] ...`
+    moduleSource = parseSourceFile(host, modulePath);
+    metadataChanges = addSymbolToNgModuleMetadata(
+      moduleSource, modulePath, 'imports', HammerModuleName);
+    if (metadataChanges) {
+      const recorder = host.beginUpdate(modulePath);
+      metadataChanges.forEach((change: InsertChange) => {
+        recorder.insertRight(change.pos, change.toAdd);
+      });
+      host.commitUpdate(recorder);
+    }
+
+
     // add import theme
     ['LY_THEME', 'LY_THEME_NAME'].forEach((_import) => {
       moduleSource = parseSourceFile(host, modulePath);
-      importModule = _import;
+      const importModule = _import;
       importPath = '@alyle/ui';
       if (!isImported(moduleSource, importModule, importPath)) {
         const change = insertImport
@@ -90,8 +121,7 @@ function updateAppModule(options: Schema) {
     //   host.commitUpdate(recorder);
     // }
 
-    // register HammerModule in app module
-    addModuleImportToRootModule(host, 'HammerModule', '@angular/platform-browser', project);
+    
 
     [
       'StyleRenderer',
@@ -130,11 +160,11 @@ function updateAppModule(options: Schema) {
 
       // add import themes
       moduleSource = getTsSourceFile(host, modulePath);
-      importModule = strings.classify(_themeName);
+      const importModuleThemeName = strings.classify(_themeName);
       importPath = `@alyle/ui/themes/${themePath}`;
-      if (!isImported(moduleSource, importModule, importPath)) {
+      if (!isImported(moduleSource, importModuleThemeName, importPath)) {
         const change = insertImport
-        (moduleSource, modulePath, importModule, importPath);
+        (moduleSource, modulePath, importModuleThemeName, importPath);
         if (change) {
           const recorder = host.beginUpdate(modulePath);
           recorder.insertLeft((change as InsertChange).pos, (change as InsertChange).toAdd);
