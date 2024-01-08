@@ -1,5 +1,5 @@
 import { Constructor } from './constructor';
-import { toBoolean } from '../minimal/is-boolean';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface CanDisable {
   disabled: boolean;
@@ -16,8 +16,8 @@ export function mixinDisabled<T extends Constructor>(base: T): CanDisableCtor & 
   return class extends base {
     _superHyperInternalPropertyDisabled: boolean = false;
 
-    get disabled() { return this._superHyperInternalPropertyDisabled; }
-    set disabled(value: any) { this._superHyperInternalPropertyDisabled = toBoolean(value); }
+    get disabled(): boolean { return this._superHyperInternalPropertyDisabled; }
+    set disabled(value: BooleanInput) { this._superHyperInternalPropertyDisabled = coerceBooleanProperty(value); }
 
     constructor(...args: any[]) { super(...args); }
   };

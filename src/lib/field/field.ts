@@ -27,7 +27,6 @@ import {
 import {
   LyTheme2,
   ThemeVariables,
-  toBoolean,
   StyleCollection,
   LyClasses,
   StyleTemplate,
@@ -538,8 +537,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   floatingLabelSize: number | null;
 
   @Input()
-  set fullWidth(val: boolean) {
-    const newVal = toBoolean(val);
+  set fullWidth(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     if (newVal) {
       this._fullWidthClass = this._theme.addStyle(
         `fullWidth`,
@@ -557,17 +556,17 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
     }
     this._fullWidth = newVal;
   }
-  get fullWidth() {
+  get fullWidth(): boolean {
     return this._fullWidth;
   }
 
   /** Whether the label is floating. */
   @Input()
-  set floatingLabel(val: boolean) {
-    this._floatingLabel = toBoolean(val);
+  set floatingLabel(val: BooleanInput) {
+    this._floatingLabel = coerceBooleanProperty(val);
     this._updateFloatingLabel();
   }
-  get floatingLabel() {
+  get floatingLabel(): boolean {
     return this._floatingLabel;
   }
 
@@ -888,9 +887,9 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, AfterViewIni
   /** Whether the input is disabled. */
   @HostBinding()
   @Input()
-  set disabled(val: boolean) {
+  set disabled(val: BooleanInput) {
     if (val !== this._disabled) {
-      this._disabled = toBoolean(val);
+      this._disabled = coerceBooleanProperty(val);
       if (this._field) {
         if (!val && this._hasDisabledClass) {
           this._renderer.removeClass(this._field._getHostElement(), this._field.classes.disabled);

@@ -28,7 +28,6 @@ import {
   LyCommonModule,
   LyTheme2,
   LyCoreStyles,
-  toBoolean,
   mixinDisableRipple,
   ThemeVariables,
   LyFocusState,
@@ -39,7 +38,7 @@ import {
   ThemeRef,
   StyleRenderer} from '@alyle/ui';
 import { Platform } from '@angular/cdk/platform';
-
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 export interface LyRadioTheme {
   /** Styles for Radio Component */
   root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
@@ -345,7 +344,7 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   @Output() change = new EventEmitter<boolean>();
 
   @Input()
-  set value(val) {
+  set value(val: any) {
     if (this._value !== val) {
       this._value = val;
     }
@@ -378,8 +377,8 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
   [0x1]: string;
 
   @Input()
-  set checked(val: boolean) {
-    const newCheckedState = toBoolean(val);
+  set checked(val: BooleanInput) {
+    const newCheckedState = coerceBooleanProperty(val);
     const before = this._checked;
     if (before !== newCheckedState) {
       this._checked = newCheckedState;
@@ -410,8 +409,8 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
 
   @Input()
   get disabled(): boolean { return this._disabled; }
-  set disabled(value) {
-    const newVal = toBoolean(value);
+  set disabled(value: BooleanInput) {
+    const newVal = coerceBooleanProperty(value);
     if (newVal) {
       this._renderer.addClass(this._elementRef.nativeElement, this.classes.disabled);
       this._disabledClass = this.classes.disabled;
@@ -419,7 +418,7 @@ export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, 
       this._renderer.removeClass(this._elementRef.nativeElement, this.classes.disabled);
       this._disabledClass = undefined;
     }
-    this._disabled = toBoolean(value);
+    this._disabled = coerceBooleanProperty(value);
     this._markForCheck();
   }
 

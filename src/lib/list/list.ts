@@ -30,7 +30,6 @@ import {
   mixinRaised,
   mixinShadowColor,
   mixinStyleUpdater,
-  toBoolean,
   ThemeVariables,
   StyleCollection,
   LyClasses,
@@ -40,6 +39,7 @@ import {
   } from '@alyle/ui';
 import { LyAvatar } from '@alyle/ui/avatar';
 import { Platform } from '@angular/cdk/platform';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyListTheme {
   /** Styles for List Component */
@@ -239,10 +239,10 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
   }
   /** @docs-private */
   @Input('ly-list-item')
-  set isActionListItem(val: any) {
-    this._isActionListItem = toBoolean(val);
+  set isActionListItem(val: BooleanInput) {
+    this._isActionListItem = coerceBooleanProperty(val);
   }
-  get isActionListItem() {
+  get isActionListItem(): boolean {
     return this._isActionListItem;
   }
   constructor(
@@ -302,8 +302,8 @@ export class LyListIcon implements OnInit {
 
   /** Disable extra padding */
   @Input()
-  set disablePadding(val: any) {
-    const newVal = this._disablePadding = toBoolean(val);
+  set disablePadding(val: BooleanInput) {
+    const newVal = this._disablePadding = coerceBooleanProperty(val);
     this._disablePaddingClass = this._theme.addStyle(`lyIconPadding:${newVal.toString()}`, () => (
       {
         paddingTop: newVal ? '4px' : '8px',
@@ -312,7 +312,7 @@ export class LyListIcon implements OnInit {
     ));
     this._renderer.addClass(this._el.nativeElement, this._disablePaddingClass);
   }
-  get disablePadding() {
+  get disablePadding(): boolean {
     return this._disablePadding;
   }
   constructor(

@@ -1,5 +1,6 @@
 import { Directive, Input } from '@angular/core';
-import { ThemeVariables, keyframesUniqueId, lyl, StyleRenderer, toBoolean, Dir } from '@alyle/ui';
+import { ThemeVariables, keyframesUniqueId, lyl, StyleRenderer, Dir } from '@alyle/ui';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 const STYLE_PRIORITY = -0.5;
 export const STYLES = (theme: ThemeVariables) => {
@@ -69,8 +70,8 @@ export class LySkeleton {
   get skeleton() {
     return this._skeleton;
   }
-  set skeleton(val: boolean) {
-    const newVal = toBoolean(val);
+  set skeleton(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     this._skeleton = newVal;
     this.sRenderer.toggleClass(this.classes.root, newVal);
   }

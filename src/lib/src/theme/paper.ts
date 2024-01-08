@@ -1,7 +1,7 @@
 import { Directive, OnChanges, ElementRef, NgZone, OnDestroy, Input, OnInit, Renderer2 } from '@angular/core';
 import { LyTheme2 } from './theme2.service';
 import { mixinStyleUpdater, mixinBg, mixinRaised, mixinOutlined, mixinElevation, mixinShadowColor, mixinDisableRipple, mixinColor } from '../common/index';
-import { toBoolean } from '../minimal/is-boolean';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Platform } from '@angular/cdk/platform';
 
 const DEFAULT_BG = 'paper';
@@ -39,10 +39,10 @@ export class LyPaper extends LyPaperMixinBase implements OnChanges, OnInit, OnDe
   _hasText: boolean;
 
   @Input('ly-text')
-  set hasText(val: any) {
-    this._hasText = toBoolean(val);
+  set hasText(val: BooleanInput) {
+    this._hasText = coerceBooleanProperty(val);
   }
-  get hasText() {
+  get hasText(): boolean {
     return this._hasText;
   }
 

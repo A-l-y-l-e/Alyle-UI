@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { toBoolean,
+import {
   ThemeVariables,
   LyTheme2,
   getLyThemeVariableUndefinedError,
@@ -10,6 +10,7 @@ import { toBoolean,
   StyleRenderer
 } from '@alyle/ui';
 import { Subject } from 'rxjs';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface ExpansionConfig {
   root?: (classes: LyClasses<typeof STYLES>) => StyleTemplate;
@@ -167,18 +168,18 @@ export class LyAccordion implements OnInit {
   }
 
   @Input()
-  set multiple(val: boolean) {
-    this._multiple = toBoolean(val);
+  set multiple(val: BooleanInput) {
+    this._multiple = coerceBooleanProperty(val);
   }
-  get multiple() {
+  get multiple(): boolean {
     return this._multiple;
   }
 
   @Input()
-  set hasToggle(val: boolean) {
-    this._hasToggle = toBoolean(val);
+  set hasToggle(val: BooleanInput) {
+    this._hasToggle = coerceBooleanProperty(val);
   }
-  get hasToggle() {
+  get hasToggle(): boolean {
     return this._hasToggle;
   }
 

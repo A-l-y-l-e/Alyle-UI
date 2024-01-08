@@ -1,5 +1,6 @@
 import { Directive, Input, OnInit } from '@angular/core';
-import { ThemeVariables, lyl, StyleRenderer, toBoolean } from '@alyle/ui';
+import { ThemeVariables, lyl, StyleRenderer } from '@alyle/ui';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 const STYLES = (theme: ThemeVariables) => lyl `{
   display: block
@@ -19,8 +20,8 @@ export class LyDivider implements OnInit {
 
   /** Add indentation (72px) */
   @Input()
-  set inset(val: boolean) {
-    const newVal = this._inset = toBoolean(val);
+  set inset(val: BooleanInput) {
+    const newVal = this._inset = coerceBooleanProperty(val);
     if (newVal) {
       this[0x1] = this.sRenderer.add(
         `${LyDivider.и}--inset`,

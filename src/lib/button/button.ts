@@ -15,7 +15,6 @@ import {
   Optional
 } from '@angular/core';
 import {
-  toBoolean,
   LyTheme2,
   ThemeVariables,
   mixinDisabled,
@@ -41,6 +40,7 @@ import {
 import { Color } from '@alyle/ui/color';
 import { Platform } from '@angular/cdk/platform';
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyButtonTheme {
   /** Styles for Button Component */
@@ -214,8 +214,8 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   get rippleSensitive(): boolean {
     return this._rippleSensitive;
   }
-  set rippleSensitive(value: boolean) {
-    const newVal = this._rippleSensitive = toBoolean(value);
+  set rippleSensitive(value: BooleanInput) {
+    const newVal = this._rippleSensitive = coerceBooleanProperty(value);
     this._rippleConfig.sensitive = newVal;
   }
 

@@ -22,7 +22,6 @@ import {
   mixinElevation,
   mixinShadowColor,
   mixinStyleUpdater,
-  toBoolean
   } from '@alyle/ui';
 
 import { LyAccordion } from './accordion';
@@ -31,6 +30,7 @@ import { LyExpansionPanelContent } from './expansion-panel-content';
 import { Subscription, Subject } from 'rxjs';
 import { startWith, filter, first, distinctUntilChanged } from 'rxjs/operators';
 import { AnimationEvent } from '@angular/animations';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 /** LyExpansionPanel's states. */
 export type LyExpansionPanelState = 'expanded' | 'collapsed';
@@ -106,8 +106,8 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
   _bodyAnimationDone = new Subject<AnimationEvent>();
 
   @Input()
-  set disabled(val: boolean) {
-    const newVal = toBoolean(val);
+  set disabled(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
 
     if (newVal !== this.disabled) {
       this._disabled = newVal;
@@ -118,13 +118,13 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
       }
     }
   }
-  get disabled() {
+  get disabled(): boolean {
     return this._disabled;
   }
 
   @Input()
-  set expanded(val: boolean) {
-    const newVal = toBoolean(val);
+  set expanded(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
 
     if (newVal !== this.expanded && !this.disabled) {
 
@@ -143,15 +143,15 @@ export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, On
       this._cd.markForCheck();
     }
   }
-  get expanded() {
+  get expanded(): boolean {
     return this._expanded;
   }
 
   @Input()
-  set hasToggle(val: boolean) {
-    this._hasToggle = toBoolean(val);
+  set hasToggle(val: BooleanInput) {
+    this._hasToggle = coerceBooleanProperty(val);
   }
-  get hasToggle() {
+  get hasToggle(): boolean {
     return this._hasToggle == null ? this._accordion.hasToggle : this._hasToggle;
   }
 

@@ -22,7 +22,6 @@ import {
   eachMedia,
   LyTheme2,
   ThemeVariables,
-  toBoolean,
   LY_COMMON_STYLES,
   Placement,
   XPosition,
@@ -39,6 +38,7 @@ import {
 import { Subscription } from 'rxjs';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import { Platform } from '@angular/cdk/platform';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyDrawerTheme {
   /** Styles for Button Component */
@@ -189,13 +189,13 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   @Input()
-  set opened(val: boolean) {
+  set opened(val: BooleanInput) {
     if (val !== this.opened) {
-      this._opened = toBoolean(val);
+      this._opened = coerceBooleanProperty(val);
       this._isOpen = this._opened;
     }
   }
-  get opened() {
+  get opened(): boolean {
     return this._opened;
   }
   @Input() mode: LyDrawerMode = DEFAULT_MODE;
@@ -216,8 +216,8 @@ export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   get hasBackdrop() {
     return this._hasBackdrop;
   }
-  set hasBackdrop(val: any) {
-    this._hasBackdrop = val == null ? null : toBoolean(val);
+  set hasBackdrop(val: BooleanInput) {
+    this._hasBackdrop = val == null ? null : coerceBooleanProperty(val);
   }
 
   @Input()

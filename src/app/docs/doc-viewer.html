@@ -6,5 +6,5 @@
 </div>
 
 <div *ngIf="isError | async as err">
-  <h1>{{ err.title }}</h1>
+  <h1>{{ $any(err).title }}</h1>
 </div>

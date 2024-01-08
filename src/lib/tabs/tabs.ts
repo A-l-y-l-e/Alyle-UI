@@ -43,7 +43,6 @@ import {
   Dir,
   LyRippleService,
   scrollWithAnimation,
-  toBoolean,
   lyl,
   LY_COMMON_STYLES,
   ThemeRef,
@@ -61,6 +60,8 @@ import { Platform } from '@angular/cdk/platform';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { takeUntil, take, switchMapTo } from 'rxjs/operators';
 import { FocusMonitor } from '@angular/cdk/a11y';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+
 export interface LyTabTheme {
   /** Styles for Tab Component */
   root?: StyleCollection<((classes: LyClasses<typeof STYLES>) => StyleTemplate)>
@@ -275,8 +276,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
    * With this, the content will only be hidden instead of deleting it.
    */
   @Input()
-  set keepContent(val: boolean) {
-    const newVal = toBoolean(val);
+  set keepContent(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     this._keepContent = newVal;
   }
   get keepContent() {
@@ -301,8 +302,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
    * Whether the tab group should grow to the size of the active tab.
    */
   @Input()
-  set dynamicHeight(val: boolean) {
-    const newVal = toBoolean(val);
+  set dynamicHeight(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     this._dynamicHeight = newVal;
   }
   get dynamicHeight() {
@@ -311,8 +312,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _dynamicHeight: boolean;
 
   @Input()
-  set scrollable(val: any) {
-    const newVal = toBoolean(val);
+  set scrollable(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     if (newVal) {
       this.renderer.addClass(this.el.nativeElement, this.classes.scrollable);
     } else if (this._scrollable != null) {
@@ -828,8 +829,8 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   get active() {
     return this._active;
   }
-  set active(val: boolean) {
-    const newVal = toBoolean(val);
+  set active(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     if (newVal && val !== this.active) {
       Promise.resolve(null).then(() => this._tabs.selectedIndex = this._tab.index);
     }

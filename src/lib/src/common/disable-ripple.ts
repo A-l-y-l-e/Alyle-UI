@@ -1,10 +1,10 @@
 import { ElementRef, NgZone } from '@angular/core';
 import { Constructor } from './constructor';
-import { toBoolean } from '../minimal/is-boolean';
 import { LyTheme2 } from '../theme/theme2.service';
 import { Ripple, RippleConfig } from '../ripple/ripple';
 import { styles } from '../ripple/ripple.service';
 import { Platform } from '@angular/cdk/platform';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface RequireParams {
   _theme: LyTheme2;
@@ -29,9 +29,9 @@ export function mixinDisableRipple<T extends Constructor<RequireParams>>(base: T
     private _disableRipple;
 
     get disableRipple(): boolean { return this._disableRipple; }
-    set disableRipple(val: boolean) {
+    set disableRipple(val: BooleanInput) {
       if (this._platform.isBrowser && val !== this._disableRipple) {
-        const newVal = this._disableRipple = toBoolean(val);
+        const newVal = this._disableRipple = coerceBooleanProperty(val);
         // remove previous ripple if exist
         this._removeRippleEvents();
         if (!newVal) {

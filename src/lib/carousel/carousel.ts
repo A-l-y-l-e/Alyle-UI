@@ -16,7 +16,6 @@ import {
 } from '@angular/core';
 import {
   LyTheme2,
-  toBoolean,
   ThemeVariables,
   DirAlias,
   ThemeRef,
@@ -30,6 +29,7 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Platform } from '@angular/cdk/platform';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 /** Default interval in ms */
 const DEFAULT_INTERVAL = 7000;
@@ -256,15 +256,15 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   get pauseOnHover() {
     return this._pauseOnHover;
   }
-  set pauseOnHover(val: boolean) {
-    const newVal = toBoolean(val);
+  set pauseOnHover(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     this._pauseOnHover = newVal;
   }
   private _pauseOnHover: boolean;
 
   @Input()
-  set touch(val: boolean) {
-    const newVal = toBoolean(val);
+  set touch(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     this._touch = newVal;
     if (newVal) {
       this._renderer.removeClass(this._el.nativeElement, this.classes.slideNoEvent);
@@ -277,8 +277,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @Input()
-  set autoplay(val: boolean) {
-    const newVal = toBoolean(val);
+  set autoplay(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     this._autoplay = newVal;
     if (newVal) {
       this._resetInterval();
@@ -291,8 +291,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @Input()
-  set hasProgressBar(val: boolean) {
-    const newVal = toBoolean(val);
+  set hasProgressBar(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
     this._hasProgressBar = newVal;
   }
   get hasProgressBar() {
@@ -309,8 +309,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @Input()
-  set hasNavigationArrows(val: boolean) {
-    this._hasNavigationArrows = toBoolean(val);
+  set hasNavigationArrows(val: BooleanInput) {
+    this._hasNavigationArrows = coerceBooleanProperty(val);
   }
   get hasNavigationArrows() {
     return this._hasNavigationArrows;
@@ -318,8 +318,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   private _hasNavigationArrows: boolean = true;
 
   @Input()
-  set hasNavigationIndicators(val: boolean) {
-    this._hasNavigationIndicators = toBoolean(val);
+  set hasNavigationIndicators(val: BooleanInput) {
+    this._hasNavigationIndicators = coerceBooleanProperty(val);
   }
   get hasNavigationIndicators() {
     return this._hasNavigationIndicators;

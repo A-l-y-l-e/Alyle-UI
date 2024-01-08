@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, ElementRef, Renderer2 } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { ThemeVariables } from '../theme/theme-config';
-import { toBoolean } from '../minimal/is-boolean';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { lyl } from '../parse';
 import { StyleRenderer } from '../minimal/renderer-style';
 
@@ -75,8 +75,8 @@ export class LyExpansionIcon {
     return this._color;
   }
   @Input()
-  set up(val: boolean | '') {
-    const newVal = toBoolean(val);
+  set up(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
 
     if (newVal !== this.up) {
       this._up = newVal;

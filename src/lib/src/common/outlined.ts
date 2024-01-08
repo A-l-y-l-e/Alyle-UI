@@ -1,5 +1,5 @@
 import { Constructor } from './constructor';
-import { toBoolean } from '../minimal/is-boolean';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface CanOutlined {
   outlined: boolean;
@@ -13,8 +13,8 @@ export function mixinOutlined<T extends Constructor>(base: T): Constructor<CanOu
   return class extends base {
     _superHyperInternalPropertyOutlined: boolean;
 
-    get outlined() { return this._superHyperInternalPropertyOutlined; }
-    set outlined(value: any) { this._superHyperInternalPropertyOutlined = toBoolean(value); }
+    get outlined(): boolean { return this._superHyperInternalPropertyOutlined; }
+    set outlined(value: BooleanInput) { this._superHyperInternalPropertyOutlined = coerceBooleanProperty(value); }
 
     constructor(...args: any[]) { super(...args); }
   };

@@ -20,7 +20,6 @@ import {
   mixinShadowColor,
   mixinStyleUpdater,
   ThemeVariables,
-  toBoolean,
   lyl,
   StyleCollection,
   LyClasses,
@@ -31,6 +30,7 @@ import {
   Style
   } from '@alyle/ui';
 import { Platform } from '@angular/cdk/platform';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface LyCardTheme {
   /** Styles for Card Component */
@@ -187,7 +187,7 @@ export class LyCardContent implements OnInit {
   selector: 'ly-card-actions'
 })
 export class LyCardActions implements OnInit {
-  @Input() disableActionSpacing: boolean;
+  @Input() disableActionSpacing: BooleanInput;
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -195,7 +195,7 @@ export class LyCardActions implements OnInit {
   ) { }
   ngOnInit() {
     this.renderer.addClass(this.el.nativeElement, this.card.classes.actions);
-    if (!toBoolean(this.disableActionSpacing)) {
+    if (!coerceBooleanProperty(this.disableActionSpacing)) {
       this.el.nativeElement.childNodes.forEach(element => {
         this.renderer.addClass(element, this.card.classes.actionsItem);
       });

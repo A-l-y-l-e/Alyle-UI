@@ -1,5 +1,5 @@
 import { Constructor } from './constructor';
-import { toBoolean } from '../minimal/is-boolean';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface CanRaised {
   raised: boolean;
@@ -13,8 +13,8 @@ export function mixinRaised<T extends Constructor>(base: T): Constructor<CanRais
   return class extends base {
     _superHyperInternalPropertyRaised: boolean;
 
-    get raised() { return this._superHyperInternalPropertyRaised; }
-    set raised(value: any) { this._superHyperInternalPropertyRaised = toBoolean(value); }
+    get raised(): boolean { return this._superHyperInternalPropertyRaised; }
+    set raised(value: BooleanInput) { this._superHyperInternalPropertyRaised = coerceBooleanProperty(value); }
 
     constructor(...args: any[]) { super(...args); }
   };
