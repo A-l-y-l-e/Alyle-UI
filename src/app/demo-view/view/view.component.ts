@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { catchError, retry, map } from 'rxjs/operators';
 import { lyl, StyleRenderer, ThemeRef } from '@alyle/ui';
 import { AUIThemeVariables } from '../../app.module';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Platform } from '@angular/cdk/platform';
 import stackblitz from '@stackblitz/sdk';
 
@@ -112,6 +112,7 @@ interface Demos {
   label: string;
   type?: string;
   ext?: string;
+  text?: Observable<SafeHtml>;
 }
 
 @Component({

@@ -119,8 +119,8 @@ export class LyTooltip implements OnInit, OnDestroy {
 
 
   @Input('lyTooltipPlacement') placement: Placement;
-  @Input('lyTooltipXPosition') xPosition: XPosition;
-  @Input('lyTooltipYPosition') yPosition: YPosition;
+  @Input('lyTooltipXPosition') xPosition: `${XPosition}`;
+  @Input('lyTooltipYPosition') yPosition: `${YPosition}`;
   constructor(
     private _theme: LyTheme2,
     private _overlay: LyOverlay,

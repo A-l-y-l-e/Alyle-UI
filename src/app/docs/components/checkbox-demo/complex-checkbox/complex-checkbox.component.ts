@@ -56,7 +56,7 @@ export class ComplexCheckboxComponent {
     private theme: LyTheme2
   ) { }
 
-  onDisableChange(fruitControl: UntypedFormControl, checked: boolean, index: number) {
+  onDisableChange(fruitControl: AbstractControl, checked: boolean, index: number) {
     const fruits = this.fruits;
     fruits[index].disabled = checked;
     if (checked) {

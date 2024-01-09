@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { LyTheme2 } from '@alyle/ui';
+import { LyDrawerMode } from '@alyle/ui/drawer';
 
 const styles = {
   drawerContainer: {
@@ -18,7 +19,7 @@ const styles = {
 })
 export class DrawerDemo01Component {
   classes = this._theme.addStyleSheet(styles);
-  mode = 'side';
+  mode: LyDrawerMode = 'side';
   hasBackdrop: boolean | null = null;
 
   constructor(private _theme: LyTheme2) { }

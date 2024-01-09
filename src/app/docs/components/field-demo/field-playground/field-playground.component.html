@@ -63,7 +63,7 @@
           maxlength="10"
         >
         <ly-hint>Hint</ly-hint>
-        <ly-hint [align]="'after'">{{ _input.value?.length || 0 }}/10</ly-hint>
+        <ly-hint [align]="'after'">{{ _input.value.length || 0 }}/10</ly-hint>
         <button ly-button
           *ngIf="_input.value"
           appearance="icon"

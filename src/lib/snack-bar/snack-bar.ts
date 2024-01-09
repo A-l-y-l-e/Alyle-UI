@@ -66,8 +66,8 @@ export class LySnackBar implements OnDestroy {
 
   readonly classes = this._theme.renderStyleSheet(STYLES);
   @Input() duration: number | 'Infinity';
-  @Input() horizontalPosition: 'center' | XPosition;
-  @Input() verticalPosition: YPosition;
+  @Input() horizontalPosition: 'center' | XPosition | LySnackBarHorizontalPosition;
+  @Input() verticalPosition: YPosition | LySnackBarVerticalPosition;
   @Output() afterDismissed = new EventEmitter<LySnackBarDismiss>();
 
   constructor(

@@ -50,7 +50,7 @@ export interface LyDrawerVariables {
   drawer?: LyDrawerTheme;
 }
 
-export type LyDrawerPosition = Placement;
+export type LyDrawerPosition = `${Placement}`;
 export type LyDrawerMode = 'side' | 'over';
 const DEFAULT_MODE = 'side';
 const DEFAULT_WIDTH = '230px';

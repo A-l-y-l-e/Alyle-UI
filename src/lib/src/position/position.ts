@@ -13,7 +13,7 @@ export enum XPosition {
   right = 'right'
 }
 
-export type Placement = XPosition | YPosition;
+export type Placement = XPosition | YPosition | `${XPosition}` | `${YPosition}`;
 
 const INITIAL_V = 'initial';
 
@@ -47,8 +47,8 @@ export class Positioning {
   }
   constructor(
     private placement: Placement,
-    private xPosition: XPosition,
-    private yPosition: YPosition,
+    private xPosition: XPosition | `${XPosition}`,
+    private yPosition: YPosition | `${YPosition}`,
     private origin: Element,
     private overlayElement: Element,
     private _themeVariables: ThemeVariables,

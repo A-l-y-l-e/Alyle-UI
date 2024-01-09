@@ -874,13 +874,13 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, AfterViewIni
 
   /** @ignore */
   @Input()
-  set value(val) {
+  set value(val: any) {
     if (val !== this.value) {
       this._getHostElement().value = val;
       this.stateChanges.next();
     }
   }
-  get value() {
+  get value(): any {
     return this._getHostElement().value;
   }
 
@@ -916,7 +916,7 @@ export class LyNativeControl implements LyFieldControlBase, OnInit, AfterViewIni
 
   @HostBinding()
   @Input()
-  set required(value: boolean) {
+  set required(value: BooleanInput) {
     this._required = coerceBooleanProperty(value);
   }
   get required(): boolean { return this._required; }
