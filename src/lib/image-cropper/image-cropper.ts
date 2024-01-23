@@ -24,7 +24,7 @@ import {
   StyleTemplate,
   StyleRenderer,
   WithStyles,
-  Style2,
+  Style,
 } from '@alyle/ui';
 import { Subject, Observable } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -1378,7 +1378,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
   private _resizableArea: boolean;
   @Input() keepAspectRatio: boolean;
   @Input()
-  @Style2<boolean, LyCropperArea>(
+  @Style<boolean, LyCropperArea>(
     (_value, _media) => ({ after }, ref) => {
       ref.renderStyleSheet(STYLES);
       const __ = ref.selectorsOf(STYLES);

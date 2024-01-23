@@ -353,28 +353,63 @@ export function Style<INPUT = any, C = any>(
 /**
  * Parameter decorator to be used for create Dynamic style together with `@Input`
  * @param style style
+ * @decorator
+ */
+export function Style<INPUT = any, C = any>(
+  style: InputStyle<INPUT, C>,
+  priority: number,
+  formatWith?: ((value: INPUT) => any) | null,
+): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void;
+
+/**
+ * Parameter decorator to be used for create Dynamic style together with `@Input`
+ * @param style style
+ * @decorator
+ */
+export function Style<INPUT = any, C = any>(
+  style: InputStyle<INPUT, C>,
+  formatWith: ((value: INPUT) => any) | null,
+  priority?: number,
+): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void;
+
+/**
+ * Parameter decorator to be used for create Dynamic style together with `@Input`
+ * @param style style
  * @param priority priority of style, default: 0
  * @decorator
  */
 export function Style<INPUT = any, C = any>(
   style: InputStyle<INPUT, C>,
-  priority?: number
+  formatWithOrPriority?: number | ((value: INPUT) => any) | null,
+  priorityOrFormatWith?: number | ((value: INPUT) => any) | null,
 ): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void {
-
+  console.log({arguments});
   return function(
     target: WithStyles,
     propertyKey: string,
     descriptor?: TypedPropertyDescriptor<INPUT>
-  ) {
+    ) {
+    let formatWith: (((value: INPUT) => any) | null) = null;
+    let priority: number | undefined = undefined;
+    if (typeof priorityOrFormatWith === 'function' || typeof formatWithOrPriority === 'number') {
+      formatWith = priorityOrFormatWith as (((value: INPUT) => any) | null);
+      priority = formatWithOrPriority as number;
+    } else {
+      formatWith = formatWithOrPriority as (((value: INPUT) => any) | null);
+      priority = priorityOrFormatWith as number;
+    }
+    console.log('formatWith', typeof formatWith, typeof formatWithOrPriority);
+    console.log('priority', typeof priority, typeof priorityOrFormatWith);
     target.constructor[propertyKey] = style;
     const _propertyKey = `_${propertyKey}Value`;
     if (descriptor) {
       const set = descriptor.set!;
       descriptor.set = function(val: INPUT) {
+        const newValue = formatWith ? formatWith(val) : val;
         createStyle(
           this,
           propertyKey,
-          val,
+          newValue,
           style,
           priority
         );
