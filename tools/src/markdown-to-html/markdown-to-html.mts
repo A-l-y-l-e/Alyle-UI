@@ -44,7 +44,7 @@ const start = async () => {
   await mkdir('src/api/docs', { recursive: true });
   await mkdir('src/api/docs/demos', { recursive: true });
   watcher.on('all', async (_ev, path, stats) => {
-    if (stats && stats.isFile && path.startsWith('src/app/docs')) {
+    if (stats && stats.isFile() && path.startsWith('src/app/docs')) {
       // md to html
       if (path.endsWith('.md')) {
         const htmlPath = `${path.slice(0, path.length - 2)}html`;
@@ -71,7 +71,7 @@ const start = async () => {
           await writeFile(srcDocsFilePath, html);
           console.log(chalk.blueBright(`Update: `) + srcDocsFilePath);
         }
-      } else if ((path.endsWith('.ts') && !path.endsWith('.spec.ts'))
+      } else if ((path.endsWith('.ts') && !(path.endsWith('.spec.ts') || path.endsWith('.specx.ts')))
         || path.endsWith('.html')
       ) {
         const lang = path.endsWith('ts') ? 'ts' : 'html';
