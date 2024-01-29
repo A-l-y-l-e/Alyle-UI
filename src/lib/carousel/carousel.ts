@@ -12,7 +12,8 @@ import {
   forwardRef,
   OnInit,
   Renderer2,
-  ViewChild
+  ViewChild,
+  inject
 } from '@angular/core';
 import {
   LyTheme2,
@@ -25,11 +26,15 @@ import {
   LyClasses,
   StyleTemplate,
   shadowBuilder,
-  StyleRenderer } from '@alyle/ui';
+  StyleRenderer,
+  Style,
+  SelectorsFn, 
+} from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Platform } from '@angular/cdk/platform';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { color } from '@alyle/ui/color';
 
 /** Default interval in ms */
 const DEFAULT_INTERVAL = 7000;
@@ -49,11 +54,12 @@ export interface LyCarouselVariables {
 
 export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRef) => {
   const dir = theme.getDirection(DirAlias.before);
-  const right = dir === 'right' ? 0 : 180;
-  const left = dir === 'left' ? 0 : 180;
+  const right = dir === 'right' ? 180 : 0;
+  const left = dir === 'left' ? 180 : 0;
   const carousel = ref.selectorsOf(STYLES);
   const barAnimation = keyframesUniqueId.next();
   const { after, before } = theme;
+  const arrow = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='48' viewBox='0 -960 960 960' width='48'%3E%3Cpath style='fill:currentColor' d='M315.5-117 285-146.5 620.5-481 285-815.5l30.5-29.5 364 364-364 364Z'/%3E%3C/svg%3E")`;
   return {
     $priority: STYLE_PRIORITY,
     $global: lyl `{
@@ -99,14 +105,33 @@ export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRe
       position: absolute
       top: 0
       bottom: 0
-      margin: auto .25em
-      height: 1em
-      width: 1em
-      font-size: 36px
+      height: 100%
+      width: 16%
       cursor: pointer
-      background: ${theme.background.primary.default.alpha(.25)}
-      color: ${theme.text.primary}
+      color: ${color(0xffffff, 0.87)}
       will-change: transform
+    }`,
+    actionIcon: lyl `{
+      &::after {
+        position: absolute
+        content: ''
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        margin: auto
+        background-color: currentColor
+        mask-image: ${arrow}
+        -webkit-mask-image: ${arrow}
+        mask-repeat: no-repeat
+        -webkit-mask-repeat: no-repeat
+        mask-position: 50%
+        -webkit-mask-position: 50%
+        mask-size: 100% 100%
+        -webkit-mask-size: 100% 100%
+        height: 100%
+        width: 48px
+      }
     }`,
     slideContainer: lyl `{
       overflow: hidden
@@ -157,6 +182,7 @@ export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRe
       height: 48px
     }`,
     indicator: () => lyl `{
+      padding: 0
       display: inline-block
       border-radius: 50%
       cursor: pointer
@@ -173,8 +199,8 @@ export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRe
       will-change: transform
       display: block
       opacity: .65
-      box-shadow: ${shadowBuilder(8, theme.text.default)}
-      background: ${theme.background.primary.default}
+      box-shadow: ${shadowBuilder(8, color(0xffffff, 0.87))}
+      background: ${color(0xffffff, 0.87)}
     }`,
     indicatorActive: () => lyl `{
       ${carousel.indicatorIcon} {
@@ -233,6 +259,27 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */
   @Input() mode: CarouselMode = CarouselMode.default;
   @Input() selectedIndex = 0;
+  @Style<boolean>(
+    (_val, _media) => (_theme: ThemeVariables, selectors: SelectorsFn) => {
+      const $$ = selectors(STYLES);
+      return lyl `{
+        ${$$.actionIcon}, ${$$.indicatorIcon} {
+          filter: invert(0.9)
+        }
+      }`
+    },
+  ) darkIconActived = false;
+  @Input()
+  set darkIcon(val: BooleanInput) {
+    const newVal = coerceBooleanProperty(val);
+    if (newVal !== this._darkIcon) {
+      this._darkIcon = newVal;
+    }
+  }
+  get darkIcon(): boolean { // TODO: Change name from darkIcon to darkIcon
+    return this._darkIcon;
+  }
+  private _darkIcon;
   _selectedElement: HTMLElement;
   private _touch: boolean;
   private _autoplay: boolean;
@@ -354,6 +401,7 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.lyItems.changes.pipe(takeUntil(this._destroy)).subscribe(() => this._markForCheck());
+    this._select(this.selectedIndex);
   }
 
   ngOnDestroy() {
@@ -447,6 +495,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
         STYLE_PRIORITY
       );
     }
+    const darkIcon = this.lyItems.toArray()[val].darkIcon;
+    this.darkIconActived = darkIcon ?? this.darkIcon;
     if (!notResetInterval) {
       if (this.autoplay && !this.pauseOnHover) {
         this._resetInterval();
@@ -511,10 +561,26 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
 }
 
 @Directive({
-  selector: 'ly-carousel-item'
+  selector: 'ly-carousel-item',
+  providers: [
+    StyleRenderer
+  ]
 })
 export class LyCarouselItem {
   private _className: string;
+  readonly sRenderer = inject(StyleRenderer);
+  @Input()
+  set darkIcon(val: boolean | null) {
+    if (val == null) {
+      this._darkIcon = null;
+    } else {
+      this._darkIcon = coerceBooleanProperty(val);
+    }
+  }
+  get darkIcon() {
+    return this._darkIcon;
+  }
+  private _darkIcon: boolean | null = null;
   @Input()
   set srcImg(value: string) {
     this._className = this._theme.addStyle(
@@ -530,7 +596,7 @@ export class LyCarouselItem {
 
   constructor(
     private _theme: LyTheme2,
-    _el: ElementRef
+    _el: ElementRef,
   ) {
     this._nativeElement = _el.nativeElement;
   }
