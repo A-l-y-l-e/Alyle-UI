@@ -1379,7 +1379,7 @@ export class LyCropperArea implements WithStyles, OnDestroy {
   @Input() keepAspectRatio: boolean;
   @Input()
   @Style<boolean, LyCropperArea>(
-    (_value, _media) => ({ after }, ref) => {
+    (_value, _media) => ({ after }, ref: ThemeRef) => {
       ref.renderStyleSheet(STYLES);
       const __ = ref.selectorsOf(STYLES);
       return lyl `{

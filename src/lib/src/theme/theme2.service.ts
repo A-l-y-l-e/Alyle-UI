@@ -373,10 +373,15 @@ export class LyTheme2 {
       if (typeof styles === 'function') {
         styleMap.requireUpdate = true;
         css = type === TypeStyle.LylStyle
-          ? createLylStyle(
+          ? this.core._enableSelectorsFn
+            ? createLylStyle(
               styleMap,
-              (styles as ((theme: any, ref: ThemeRef, currentSelectors: any) => StyleTemplate))(config, this, null),
+              (styles as ((theme: any, ref: ThemeRef, currentSelectors: any) => StyleTemplate))(config, _selectors(styles, this), null),
               themeName, this.core.classNamePrefix)
+            : createLylStyle(
+                styleMap,
+                (styles as ((theme: any, ref: ThemeRef, currentSelectors: any) => StyleTemplate))(config, this, null),
+                themeName, this.core.classNamePrefix)
           : this.core._enableSelectorsFn
             ? groupStyleToString(styleMap, (styles as LyStyles)!(config, _selectors(styles, this), null)! as StyleGroup,
               themeName,

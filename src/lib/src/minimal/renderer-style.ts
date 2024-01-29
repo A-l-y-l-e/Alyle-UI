@@ -1,7 +1,7 @@
 import { Injectable, ElementRef, Renderer2, Optional } from '@angular/core';
 import { LyTheme2, ThemeRef } from '../theme/theme2.service';
 import { StyleTemplate } from '../parse';
-import { TypeStyle, LyStyles, LyClasses } from '../theme/style';
+import { TypeStyle, LyStyles, LyClasses, SelectorsFn } from '../theme/style';
 import { parseMediaQueriesFromString, parseMediaQueryFromString, MediaQueryArray } from '../style-utils';
 
 @Injectable()
@@ -268,7 +268,7 @@ export class StyleRenderer {
 
 export type InputStyle<INPUT, C = any> = (val: Exclude<NonNullable<INPUT>, MediaQueryArray>, media: string | null, comp: C) =>
   (
-    ((theme: any, ref: ThemeRef) => StyleTemplate) | null
+    ((theme: any, ref: ThemeRef | SelectorsFn) => StyleTemplate) | null
   );
 
 

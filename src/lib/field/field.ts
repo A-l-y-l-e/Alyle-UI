@@ -522,7 +522,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
    */
   @Input()
   @Style(
-    (val, media) => ({ breakpoints }: ThemeVariables, ref) => {
+    (val, media) => ({ breakpoints }: ThemeVariables, ref: ThemeRef) => {
       const classes = ref.selectorsOf(STYLES);
       return lyl `{
         @media ${(media && breakpoints[media]) || 'all'} {
@@ -573,7 +573,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   /** Theme color for the component. */
   @Input()
   @Style<string>(
-    val => (theme: ThemeVariables, ref) => {
+    val => (theme: ThemeVariables, ref: ThemeRef) => {
       const classes = ref.selectorsOf(STYLES);
       const color = theme.colorOf(val);
       const contrast = theme.colorOf(`${val}:contrast`);
@@ -606,7 +606,7 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   /** The field appearance style. */
   @Input()
   @Style<string | null>(
-    val => (theme: LyFieldVariables, ref) => {
+    val => (theme: LyFieldVariables, ref: ThemeRef) => {
       const classes = ref.selectorsOf(STYLES);
       if (theme.field?.appearance) {
         const appearance = theme.field.appearance[val];
