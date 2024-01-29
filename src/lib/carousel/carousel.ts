@@ -170,6 +170,7 @@ export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRe
       }
     }`,
     indicators: () => lyl `{
+      padding: 0
       position: absolute
       bottom: 0
       left: 0
@@ -182,7 +183,6 @@ export const STYLES = (theme: ThemeVariables & LyCarouselVariables, ref: ThemeRe
       height: 48px
     }`,
     indicator: () => lyl `{
-      padding: 0
       display: inline-block
       border-radius: 50%
       cursor: pointer
