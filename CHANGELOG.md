@@ -1,3 +1,22 @@
+# [16.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/15.0.0...16.0.0) (2024-01-29)
+
+
+### Bug Fixes
+
+* **carousel:** add the `darkIcon` property ([a260bfe](https://github.com/A-l-y-l-e/Alyle-UI/commit/a260bfe957453061d98eeee80ea0626e952b1c7f))
+* type 'string' is not assignable to type 'boolean' in Inputs ([cdd5569](https://github.com/A-l-y-l-e/Alyle-UI/commit/cdd5569e14e023292fe56f0e4266c94c60812167))
+
+
+### Features
+
+* add support for Angular 16 ([0cb996a](https://github.com/A-l-y-l-e/Alyle-UI/commit/0cb996aab717e5c291ee48cdf39de3d6e39cd622))
+* **core:** support for formatting input values in `@Style` ([faed5e0](https://github.com/A-l-y-l-e/Alyle-UI/commit/faed5e0d1c855496a60bc23cd26cd7b5a4373357))
+* **docs:** set up Google Analytics 4 ([cc14630](https://github.com/A-l-y-l-e/Alyle-UI/commit/cc1463002d55eac4207bd0204c9c9bbb62f92354))
+* support `SelectorsFn` in @Style ([151d314](https://github.com/A-l-y-l-e/Alyle-UI/commit/151d314c58b4fb0e416c0f0cfbcbe990441b09df))
+* use coerceBooleanProperty instead of toBoolean ([7673b75](https://github.com/A-l-y-l-e/Alyle-UI/commit/7673b7527290a5fd6857006f6c4fc87305240f7a))
+
+
+
 # [15.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/14.0.1...15.0.0) (2023-06-25)
 
 

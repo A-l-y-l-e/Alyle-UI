@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@alyle/ui": "15.0.0",
+    "@alyle/ui": "16.0.0",
     "@angular/animations": "^16.2.12",
     "@angular/cdk": "^16.2.12",
     "@angular/common": "^16.2.12",
