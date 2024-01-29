@@ -134,7 +134,7 @@ export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
 
   @Input()
   @Style(
-    (val) => (theme: ThemeVariables & LyToolbarVariables, ref) => {
+    (val) => (theme: ThemeVariables & LyToolbarVariables, ref: ThemeRef) => {
       const classes = ref.selectorsOf(STYLES);
       if (theme.toolbar && theme.toolbar.appearance) {
         const appearance = theme.toolbar.appearance[val];

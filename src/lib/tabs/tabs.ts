@@ -327,7 +327,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 
   @Input()
   @Style<string | null>(
-    val => (theme, ref) => {
+    val => (theme, ref: ThemeRef) => {
       const __ = ref.selectorsOf(STYLES);
       return lyl `{
         ${__.indicator} {
