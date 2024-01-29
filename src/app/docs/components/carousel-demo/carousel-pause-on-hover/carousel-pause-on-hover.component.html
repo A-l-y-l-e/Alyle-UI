@@ -1,13 +1,14 @@
 <ly-carousel
-  [withClass]="classes.carousel"
+  [class]="classes.carousel"
   touch
   hasProgressBar
   pauseOnHover
 >
   <ly-carousel-item
     *ngFor="let item of items"
-    [withClass]="classes.carouselItem"
+    [class]="classes.carouselItem"
     [srcImg]="item.img"
+    [darkIcon]="item.darkIcon"
   >
     <h1 [lyTyp]="'headline'" gutter>{{ item.title }}</h1>
     <p [lyTyp]="'body1'" gutter>

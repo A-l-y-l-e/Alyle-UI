@@ -20,11 +20,9 @@
       ></span>
     </li>
   </ol>
-  <div *ngIf="hasNavigationArrows" [ngClass]="[classes.actions, 'left']" (click)="prev()">
-    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+  <div *ngIf="hasNavigationArrows" [class]="[classes.actions, classes.actionIcon, 'left']" (click)="prev()">
   </div>
-  <div *ngIf="hasNavigationArrows" [ngClass]="[classes.actions, 'right']" (click)="next()">
-    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+  <div *ngIf="hasNavigationArrows" [class]="[classes.actions, classes.actionIcon, 'right']" (click)="next()">
   </div>
   <div
     [className]="classes.barContainer"

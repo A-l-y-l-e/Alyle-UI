@@ -1,7 +1,9 @@
 # Carousel
 {@path /components}
 
-Carousel is an interactive slideshow that shows content with images.
+The Angular Carousel component provides a dynamic and engaging slideshow experience, ideal for showcasing a collection of images, banners, or interactive content in a stylish manner.
+
+Seamlessly integrate this carousel into your Angular applications, offering flexibility and customization to suit your specific needs.
 
 <h2 lyTyp="display1" gutter>Basic Carousel</h2>
 <demo-view path="docs/components/carousel-demo/carousel-example-01">

@@ -7,7 +7,7 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 
-> The latest version of Alyle UI currently supports Angular 15. However, if your project is based on Angular 14, you can still use Alyle UI 14.
+> The most recent release of Alyle UI now offers compatibility with Angular 16.
 
 ## Angular CLI
 

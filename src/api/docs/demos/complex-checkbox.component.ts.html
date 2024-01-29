@@ -56,7 +56,7 @@
     <span class="tt18 tt1j">private</span> theme<span class="tt18 ttb0">:</span> LyTheme2
   <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 
-  <span class="tt18 tta3">onDisableChange</span><span class="tt18 ttae">(</span>fruitControl<span class="tt18 ttb0">:</span> UntypedFormControl<span class="tt18 ttae">,</span> checked<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">boolean</span><span class="tt18 ttae">,</span> index<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tta3">onDisableChange</span><span class="tt18 ttae">(</span>fruitControl<span class="tt18 ttb0">:</span> AbstractControl<span class="tt18 ttae">,</span> checked<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">boolean</span><span class="tt18 ttae">,</span> index<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
     <span class="tt18 tt1j">const</span> fruits <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>fruits<span class="tt18 ttae">;</span>
     fruits<span class="tt18 ttae">[</span>index<span class="tt18 ttae">]</span><span class="tt18 ttae">.</span>disabled <span class="tt18 ttb0">=</span> checked<span class="tt18 ttae">;</span>
     <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>checked<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>

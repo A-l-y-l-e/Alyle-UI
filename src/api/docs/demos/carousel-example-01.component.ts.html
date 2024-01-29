@@ -1,4 +1,4 @@
-<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> ChangeDetectionStrategy<span class="tt18 ttae">,</span> inject <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
 <span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> StyleRenderer<span class="tt18 ttae">,</span> lyl <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
 
 <span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
@@ -38,28 +38,27 @@
   <span class="tt18 ttae">]</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">CarouselExample01Component</span> <span class="tt18 ttae">&#123;</span>
-
+  <span class="tt18 tt1j">readonly</span> sRenderer <span class="tt18 ttb0">=</span> <span class="tt18 tta3">inject</span><span class="tt18 ttae">(</span>StyleRenderer<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>sRenderer<span class="tt18 ttae">.</span><span class="tt18 tta3">renderSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
   items <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
     <span class="tt18 ttae">&#123;</span>
       title<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Mountains'</span><span class="tt18 ttae">,</span>
       img<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2F'</span> <span class="tt18 ttb0">+</span>
-      <span class="tt18 tt3z">'Mountains-<span style="display:inline-block;vertical-align:middle;width:14px;height:14px;border-radius:4px;background:Blue;opacity:1"></span>Blue.jpg?alt=media&amp;token=d04f0279-79c6-4752-8b5a-cccd73720243'</span>
+      <span class="tt18 tt3z">'Mountains-<span style="display:inline-block;vertical-align:middle;width:14px;height:14px;border-radius:4px;background:Blue;opacity:1"></span>Blue.jpg?alt=media&amp;token=d04f0279-79c6-4752-8b5a-cccd73720243'</span><span class="tt18 ttae">,</span>
+      darkIcon<span class="tt18 ttb0">:</span> <span class="tt18 tted">false</span>
     <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
     <span class="tt18 ttae">&#123;</span>
       title<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Four Lakes, Queshuachaca'</span><span class="tt18 ttae">,</span>
       img<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'https://firebasestorage.googleapis.com/v0/b/head-expeditions.appspot.com/o/img%2F'</span> <span class="tt18 ttb0">+</span>
-      <span class="tt18 tt3z">'files%2F61028703-1476458588-5a289afc-59e8-4a8d-1dea-369e-570b-cfb2.jpg?alt=media&amp;token=ceaf31b5-2b87-438b-b0d1-e4cc4f8603a2'</span>
+      <span class="tt18 tt3z">'files%2F61028703-1476458588-5a289afc-59e8-4a8d-1dea-369e-570b-cfb2.jpg?alt=media&amp;token=ceaf31b5-2b87-438b-b0d1-e4cc4f8603a2'</span><span class="tt18 ttae">,</span>
+      darkIcon<span class="tt18 ttb0">:</span> <span class="tt18 tted">false</span>
     <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
     <span class="tt18 ttae">&#123;</span>
       title<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'Mountains'</span><span class="tt18 ttae">,</span>
       img<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2F'</span> <span class="tt18 ttb0">+</span>
-          <span class="tt18 tt3z">'mads-schmidt-rasmussen-567063-unsplash.jpg?alt=media&amp;token=5acdfbb2-7eff-4879-b7d0-a441826d88ae'</span>
+          <span class="tt18 tt3z">'mads-schmidt-rasmussen-567063-unsplash.jpg?alt=media&amp;token=5acdfbb2-7eff-4879-b7d0-a441826d88ae'</span><span class="tt18 ttae">,</span>
+      darkIcon<span class="tt18 ttb0">:</span> <span class="tt18 tted">true</span>
     <span class="tt18 ttae">&#125;</span>
   <span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
-
-  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
-    <span class="tt18 tt1j">private</span> sRenderer<span class="tt18 ttb0">:</span> StyleRenderer
-  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>

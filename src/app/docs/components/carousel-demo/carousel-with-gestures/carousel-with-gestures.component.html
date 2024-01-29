@@ -6,6 +6,7 @@
     *ngFor="let item of items"
     [withClass]="classes.carouselItem"
     [srcImg]="item.img"
+    [darkIcon]="item.darkIcon"
   >
     <h1 [lyTyp]="'headline'" gutter>{{ item.title }}</h1>
     <p [lyTyp]="'body1'" gutter>

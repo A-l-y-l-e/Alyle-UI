@@ -56,6 +56,12 @@ export class DsCssDeclarationsBlockComponent {
   <aui-ds-css-declarations-block></aui-ds-css-declarations-block>
 </demo-view>
 
+## Alyle UI Syntax highlighting
+
+For an enhanced experience, consider leveraging [Alyle UI syntax highlighting extension](https://marketplace.visualstudio.com/items?itemName=Alyle.vs-code-alyle) within Visual Studio Code.
+
+<a href="https://marketplace.visualstudio.com/items?itemName=Alyle.vs-code-alyle">![Alyle UI Syntax highlighting extension](assets/vs-code-alyle.png)</a>
+
 
 ## Style sheet with `ThemeVariables`
 
