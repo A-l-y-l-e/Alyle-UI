@@ -383,7 +383,6 @@ export function Style<INPUT = any, C = any>(
   formatWithOrPriority?: number | ((value: INPUT) => any) | null,
   priorityOrFormatWith?: number | ((value: INPUT) => any) | null,
 ): (target: WithStyles, propertyKey: string, descriptor?: TypedPropertyDescriptor<INPUT> | undefined) => void {
-  console.log({arguments});
   return function(
     target: WithStyles,
     propertyKey: string,
@@ -398,8 +397,6 @@ export function Style<INPUT = any, C = any>(
       formatWith = formatWithOrPriority as (((value: INPUT) => any) | null);
       priority = priorityOrFormatWith as number;
     }
-    console.log('formatWith', typeof formatWith, typeof formatWithOrPriority);
-    console.log('priority', typeof priority, typeof priorityOrFormatWith);
     target.constructor[propertyKey] = style;
     const _propertyKey = `_${propertyKey}Value`;
     if (descriptor) {
