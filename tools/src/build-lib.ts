@@ -4,7 +4,7 @@ const { replaceInFileSync } = _replace;
 // fix typings
 const changes = replaceInFileSync({
   files: 'dist/@alyle/ui/**/*.d.ts',
-  from: /(:?\.\.\/)+@alyle\/ui/g,
+  from: /(:?\.\.\/)+(:?dist\/)?@alyle\/ui/g,
   to: '@alyle/ui'
 }).filter(({ hasChanged }) => hasChanged);
 
