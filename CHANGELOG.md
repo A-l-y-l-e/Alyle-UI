@@ -1,3 +1,7 @@
+## [16.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/16.0.0...16.0.1) (2024-01-30)
+
+
+
 # [16.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/15.0.0...16.0.0) (2024-01-29)
 
 
