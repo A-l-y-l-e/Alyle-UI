@@ -1451,10 +1451,12 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
     const result = canvasElement;
     // TODO: check if the image to be sized is smaller than the crop area
     if (myConfig.output === ImgResolution.Default) {
+      const areaWidth = this._areaWidthResized ?? this._initialConfig.width;
+      const areaHeight = this._areaHeightResized ?? this._initialConfig.height;
       resizeCanvas(
         result,
-        this._initialConfig.width,
-        this._initialConfig.height);
+        areaWidth,
+        areaHeight);
     } else if (typeof output === 'object') {
       if (output.width && output.height) {
         resizeCanvas(result, output.width, output.height);
@@ -1584,6 +1586,9 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _onWheel = (event: WheelEvent) => {
+    if (!this.isLoaded) {
+      return;
+    }
     event.preventDefault();
     this._ngZone.run(() => {
       if (Math.sign(event.deltaY) < 0) {
