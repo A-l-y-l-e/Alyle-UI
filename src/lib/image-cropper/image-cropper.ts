@@ -259,18 +259,6 @@ export class ImgCropperConfig {
    * otherwise this will bring problems when cropping.
    */
   responsiveArea?: boolean;
-  // /**
-  //  * Default: null
-  //  * If you use this option, the `width` and `height` options of
-  //  * the crop area will be ignored.
-  //  * You can use: 1/1, 3/1 ...
-  //  */
-  // aspectRatio?: number;
-
-  /**
-   * Auto resize area
-   */
-  dynamicArea?: boolean;
 
 }
 
@@ -1668,6 +1656,10 @@ export class LyCropperArea implements WithStyles, OnDestroy {
           ${after}: ${pos}%
           bottom: ${pos}%
           transform: translate(4px, 4px)
+        }
+        ${$$.grid} {
+          border-radius: 50%
+          overflow: hidden
         }
       }`;
     },
