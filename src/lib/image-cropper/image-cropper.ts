@@ -29,7 +29,7 @@ import {
   SelectorsFn,
 } from '@alyle/ui';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { debounceTime, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
 import { resizeCanvas } from './resize-canvas';
@@ -200,6 +200,7 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: The
     }`
   };
 };
+
 /** Image Cropper Config */
 export class ImgCropperConfig {
   /** Cropper area width */
@@ -401,7 +402,7 @@ export interface ImgCropperLoaderConfig {
   templateUrl: 'image-cropper.html',
   providers: [
     StyleRenderer
-  ]
+  ],
 })
 export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
   static readonly и = 'LyImageCropper';
@@ -491,6 +492,7 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
       this.maxFileSize = maxFileSize;
     }
   }
+
   /** Set scale */
   @Input()
   get scale(): number | undefined {
@@ -559,7 +561,7 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this._document = _document;
     viewPortRuler.change()
-    .pipe(debounceTime(0), takeUntil(this._destroy))
+    .pipe(takeUntil(this._destroy))
     .subscribe(() =>
       this._ngZone.run(() => this.updateCropperPosition())
     );
@@ -688,6 +690,7 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
 
   /** Load Image from input event */
   selectInputEvent(img: Event) {
+    this.clean();
     this._currentInputElement = img.target as HTMLInputElement;
     const _img = img.target as HTMLInputElement;
     if (_img.files && _img.files.length !== 1) {
@@ -983,19 +986,15 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
   updatePosition(xOrigin?: number, yOrigin?: number) {
     const hostRect = this._cropperContainerRect();
     const areaRect = this._areaCropperRect();
-    const areaWidth = areaRect.width > hostRect.width
-      ? hostRect.width
-      : areaRect.width;
-    const areaHeight = areaRect.height > hostRect.height
-      ? hostRect.height
-      : areaRect.height;
+    const areaWidth = Math.min(areaRect.width, hostRect.width);
+    const areaHeight = Math.min(areaRect.height, hostRect.height);
     let x: number, y: number;
     if (xOrigin == null && yOrigin == null) {
       xOrigin = this._imgRect.xc;
       yOrigin = this._imgRect.yc;
     }
-    x = (areaRect.left - hostRect.left);
-    y = (areaRect.top - hostRect.top);
+    x = Math.max((areaRect.left - hostRect.left), 0);
+    y = Math.max(0, (areaRect.top - hostRect.top));
     x -= (xOrigin! - (areaWidth / 2));
     y -= (yOrigin! - (areaHeight / 2));
 
@@ -1149,51 +1148,68 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _updateAreaIfNeeded() {
-    if (!this._config.responsiveArea) {
-      return;
-    }
+    if (!this._config.responsiveArea) return;
 
     const rootRect = this._cropperContainerRect();
     const areaRect = this._areaCropperRect();
-    const minWidth = this.config.minWidth || 1;
-    const minHeight = this.config.minHeight || 1;
-    if (!(
-      areaRect.width > rootRect.width
-      || areaRect.height > rootRect.height
-      || areaRect.width < this._initialAreaWidth
-      || areaRect.height < this._initialAreaHeight
-      || (this._areaWidthResized)
-    )) {
-      return;
+    const { minWidth = 1, minHeight = 1, round } = this.config;
+
+    // Calculate maximum dimensions allowed for the area
+    const maxWidth = Math.max(rootRect.width, minWidth);
+    const maxHeight = Math.max(rootRect.height, minHeight);
+
+    let newWidth = areaRect.width;
+    let newHeight = areaRect.height;
+
+    if (round) {
+        newWidth = newHeight = Math.min(maxWidth, maxHeight); // Área cuadrada si round es true
+    } else {
+        const shouldResizeWidth = (
+          areaRect.width > maxWidth
+          || areaRect.width < this._initialAreaWidth
+          || this._areaWidthResized
+        );
+        const shouldResizeHeight = (
+          areaRect.height > maxHeight
+          || areaRect.height < this._initialAreaHeight
+          || this._areaHeightResized
+        );
+        
+        let posibleWidth_w = 0;
+        let posibleWidth_h = 0;
+        let posibleHeight_h = 0;
+        let posibleHeight_w = 0;
+
+        if (shouldResizeWidth) {
+          newWidth = posibleWidth_w = Math.min(maxWidth, this._areaWidthResized || this._initialAreaWidth);
+          newHeight = posibleWidth_h = (newWidth * areaRect.height) / areaRect.width;
+        }
+
+        if (shouldResizeHeight) {
+          newHeight = posibleHeight_h = Math.min(maxHeight, this._areaHeightResized || this._initialAreaHeight);
+          newWidth = posibleHeight_w = (newHeight * areaRect.width) / areaRect.height;
+        }
+
+        if (shouldResizeHeight && shouldResizeWidth) {
+          if (Math.min(posibleWidth_w, posibleWidth_h) < Math.min(posibleHeight_h, posibleHeight_w)) {
+            newWidth = posibleWidth_w;
+            newHeight = posibleWidth_h;
+          } else {
+            newHeight = posibleHeight_h;
+            newWidth = posibleHeight_w;
+          }
+        }
     }
 
-    const areaWidthConf = Math.max(this.config.width, minWidth);
-    const areaWidthMaxSupport = Math.max(rootRect.width, minWidth);
-    const minHost = Math.min(
-      Math.max(rootRect.width, minWidth), Math.max(rootRect.height, minHeight)
-    );
-    const currentScale = this._scal3Fix!;
-    let newScale = 0;
-    const roundConf = this.config.round;
-
-    if (roundConf) {
-      this.config.width = this.config.height = minHost;
-    } else {
-      if (areaWidthConf === areaRect.width) {
-        if (areaWidthMaxSupport > (this._areaWidthResized || this._initialAreaWidth)) {
-          this.config.width = (this._areaWidthResized || this._initialAreaWidth);
-          this.config.height = ((this._areaWidthResized || this._initialAreaWidth) * areaRect.height) / areaRect.width;
-          newScale = (currentScale * (this._areaWidthResized || this._initialAreaWidth)) / areaRect.width;
-        } else {
-          this.config.width = areaWidthMaxSupport;
-          this.config.height = (areaWidthMaxSupport * areaRect.height) / areaRect.width;
-          newScale = (currentScale * areaWidthMaxSupport) / areaRect.width;
-        }
-        this._updateMinScale();
-        this._updateMaxScale();
-        this.setScale(newScale, true);
-        this._markForCheck();
-      }
+    // Apply changes if dimensions have changed
+    if (newWidth !== this.config.width || newHeight !== this.config.height) {
+      const newScale = (this._scal3Fix! * newWidth) / areaRect.width;
+      this.config.width = newWidth;
+      this.config.height = newHeight;
+      this._updateMinScale();
+      this._updateMaxScale();
+      this.setScale(newScale, true);
+      this._markForCheck(); 
     }
   }
 
