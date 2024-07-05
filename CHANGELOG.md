@@ -1,3 +1,20 @@
+# [16.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/16.0.1...16.1.0) (2024-07-05)
+
+
+### Bug Fixes
+
+* **cropper:** fix grid in rounded cropper ([b2b9e5b](https://github.com/A-l-y-l-e/Alyle-UI/commit/b2b9e5bc316972696e4036c4da273c00a368b49e))
+* **cropper:** update cropper area when window is resized ([53d9d5d](https://github.com/A-l-y-l-e/Alyle-UI/commit/53d9d5d33d87590bb2ac2a6209d5d581e7c8e45c))
+
+
+### Features
+
+* **cropper:** add grid ([a5cc509](https://github.com/A-l-y-l-e/Alyle-UI/commit/a5cc5092b5760129975cdb1d20486825dfca5635))
+* **cropper:** run onWheel (zoom with scroll) only when the image is loaded ([7c39f24](https://github.com/A-l-y-l-e/Alyle-UI/commit/7c39f244a23df7a10972c820ad4bcea0ac1b871f))
+* **cropper:** support for touch events ([a309a06](https://github.com/A-l-y-l-e/Alyle-UI/commit/a309a069acfd3631ba80da0b3163daa85b330a54))
+
+
+
 ## [16.0.1](https://github.com/A-l-y-l-e/Alyle-UI/compare/16.0.0...16.0.1) (2024-01-30)
 
 
