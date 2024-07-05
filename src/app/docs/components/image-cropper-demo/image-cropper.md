@@ -2,7 +2,15 @@
 # Image Cropper
 {@path /components}
 
-Resize, rotate and crop images with Canvas.
+The Angular Image Cropper allows users to effortlessly resize, rotate, and crop images using HTML5 canvas, with mobile support.
+
+## Basic Usage
+
+<demo-view
+  path="docs/components/image-cropper-demo/cropper-basic-usage"
+>
+  <aui-cropper-basic-usage></aui-cropper-basic-usage>
+</demo-view>
 
 Add the <code class="html"><ly-img-cropper></code> to your template:
 
@@ -135,8 +143,6 @@ const config = {
   scale: 0.745864772531767,
   xOrigin: 642.380608078103,
   yOrigin: 236.26357452128866,
-  // areaWidth: 100, // Use when cropper area is not fixed
-  // areaHeight: 100,
   rotation: 0,
   originalDataURL: 'https://...'
 };
@@ -153,8 +159,8 @@ The demo below has an aspect ratio of 3:1 and results in an image with a maximum
 
 ```ts
 myConfig: ImgCropperConfig = {
-  width: 200 * 3,
-  height: 200,
+  width: 600,
+  height: 600 / 3,
   keepAspectRatio: true,
   responsiveArea: true,
   output: ImgResolution.OriginalImage,

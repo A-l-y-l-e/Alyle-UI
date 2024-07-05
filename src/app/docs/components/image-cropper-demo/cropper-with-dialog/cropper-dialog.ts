@@ -7,7 +7,8 @@ import {
   LyImageCropper,
   ImgCropperConfig,
   ImgCropperEvent,
-  ImgCropperErrorEvent
+  ImgCropperErrorEvent,
+  ImgResolution,
 } from '@alyle/ui/image-cropper';
 
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
@@ -53,17 +54,15 @@ export class CropperDialog implements WithStyles, AfterViewInit {
   ready: boolean;
   scale: number;
   minScale: number;
+  maxScale: number;
   @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     width: 150,
     height: 150,
     // type: 'image/png',
-    keepAspectRatio: true,
+    keepAspectRatio: false,
     responsiveArea: true,
-    output: {
-      width: 200,
-      height: 200
-    },
+    output: ImgResolution.Default,
     resizableArea: true
   };
 

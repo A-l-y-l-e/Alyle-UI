@@ -47,7 +47,6 @@ export class ImageCropperExample01Component implements WithStyles, AfterViewInit
   minScale: number;
   @ViewChild(LyImageCropper) readonly cropper!: LyImageCropper;
   myConfig: ImgCropperConfig = {
-    // autoCrop: true,
     width: 150, // Default `250`
     height: 150, // Default `200`
     fill: '#ff2997', // Default transparent if type == png else #000

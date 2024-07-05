@@ -16,6 +16,7 @@
     (ready)="ready = true"
     (cleaned)="ready = false"
     (minScale)="minScale = $event"
+    (maxScale)="maxScale = $event"
     (cropped)="onCropped($event)"
     (loaded)="onLoaded($event)"
     (error)="onError($event)"
@@ -28,7 +29,7 @@
       <ly-slider
         [thumbVisible]="false"
         [min]="minScale"
-        [max]="1"
+        [max]="maxScale"
         [(ngModel)]="scale"
         (input)="onSliderInput($event)"
         [step]="0.000001"

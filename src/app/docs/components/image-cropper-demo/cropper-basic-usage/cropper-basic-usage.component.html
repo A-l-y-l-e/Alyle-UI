@@ -1,0 +1,25 @@
+<!-- Hidden input -->
+<input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
+<button ly-button color="primary" (click)="_fileInput.click()">
+  <ly-icon>image</ly-icon>
+  <span lyPe="1">Select Image</span>
+</button>
+<div *ngIf="ready">
+  <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
+</div>
+<ly-img-cropper
+  [config]="myConfig"
+  (ready)="ready = true"
+  (cleaned)="ready = false"
+  (cropped)="onCropped($event)"
+  (loaded)="onLoaded($event)"
+  (error)="onError($event)"
+>
+  <span>Drag and drop image</span>
+</ly-img-cropper>
+
+<button ly-button *ngIf="ready" color="accent" (click)="cropper.crop()">
+  <ly-icon>crop</ly-icon>crop
+</button>
+
+<div *ngIf="croppedImage"><img [src]="croppedImage"></div>
