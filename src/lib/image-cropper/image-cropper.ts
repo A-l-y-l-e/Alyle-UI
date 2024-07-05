@@ -658,25 +658,6 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  _calcRotated(values: {
-    x: number, y: number
-  }) {
-    const radianAngle = this._rotation * Math.PI / 180; // Convertir el ángulo a radianes
-    const cosAngle = Math.cos(radianAngle);
-    const sinAngle = Math.sin(radianAngle);
-
-    // Calcular las coordenadas rotadas
-    const rotatedX = cosAngle * values.x - sinAngle * values.y;
-    const rotatedY = sinAngle * values.x + cosAngle * values.y;
-
-    // Calcular las coordenadas ajustadas considerando el centro de la imagen
-    const centerX = this._imgRect.xc;
-    const centerY = this._imgRect.yc;
-    const adjustedX = rotatedX + centerX;
-    const adjustedY = rotatedY + centerY;
-    return {adjustedX, adjustedY};
-  }
-
   /**
    * Update area and image position only if needed,
    * this is used when window resize
