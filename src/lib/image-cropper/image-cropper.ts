@@ -1088,32 +1088,29 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
       src = normalizeSVG(_config.originalDataURL);
     }
 
-    const img = createHtmlImg(src);
-
+    
     const cropEvent = { ..._config } as ImgCropperEvent;
-
-    new Promise((resolve, reject) => {
-
-      img.onerror = err => reject(err);
-      img.onabort = err => reject(err);
-      img.onload = () => resolve(null!);
+    
+    new Promise((resolve: (value: HTMLImageElement) => void, reject) => {
+      const img = createHtmlImg(src!);
+      this._ngZone.runOutsideAngular(() => {
+        img.onerror = err => reject(err);
+        img.onabort = err => reject(err);
+        img.onload = () => resolve(img);
+      });
     })
     .then(
-      () => {
+      (img) => {
         this._loadImageToCanvas(img);
         this._updateMinScale(img);
         this._updateMaxScale();
         this._isLoadedImg = true;
         this.imageLoaded.emit(cropEvent);
         this.cd.markForCheck();
-        this._ngZone.runOutsideAngular(() => {
-          this._ngZone
-            .onStable
-            .asObservable()
-            .pipe(take(1), takeUntil(this._destroy))
-            .subscribe(
-              () => setTimeout(() => this._ngZone.run(() => this._positionImg(cropEvent, fn)))
-            );
+        Promise.resolve(null).then(() => {
+          setTimeout(() => {
+            this._ngZone.run(() => {this._positionImg(cropEvent, fn)});
+          });
         });
       },
       () => {
@@ -1229,24 +1226,20 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
       this._updateAreaIfNeeded();
       this._markForCheck();
       this._ngZone.runOutsideAngular(() => {
-        this._ngZone
-          .onStable
-          .asObservable()
-          .pipe(take(1), takeUntil(this._destroy))
-          .subscribe(() => {
-            if (loadConfig.xOrigin != null && loadConfig.yOrigin != null) {
-              this.updatePosition(loadConfig.xOrigin, loadConfig.yOrigin);
-            }
-            this._updateAreaIfNeeded();
-            this.isLoaded = true;
-            this._cropIfAutoCrop();
-            this._ngZone.run(() => {
-              this._markForCheck();
-              this.ready.emit(cropEvent);
-              // tslint:disable-next-line: deprecation
-              this.loaded.emit(cropEvent);
-            });
+        Promise.resolve(null).then(() => {
+          if (loadConfig.xOrigin != null && loadConfig.yOrigin != null) {
+            this.updatePosition(loadConfig.xOrigin, loadConfig.yOrigin);
+          }
+          this._updateAreaIfNeeded();
+          this.isLoaded = true;
+          this._cropIfAutoCrop();
+          this._ngZone.run(() => {
+            this._markForCheck();
+            this.ready.emit(cropEvent);
+            // tslint:disable-next-line: deprecation
+            this.loaded.emit(cropEvent);
           });
+        });
       });
     }
   }
