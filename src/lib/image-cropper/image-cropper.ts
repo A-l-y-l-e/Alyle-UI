@@ -19,7 +19,6 @@ import {
   LY_COMMON_STYLES,
   ThemeVariables,
   lyl,
-  ThemeRef,
   StyleCollection,
   LyClasses,
   StyleTemplate,
@@ -52,8 +51,8 @@ const STYLE_PRIORITY = -2;
 const DATA_IMAGE_SVG_PREFIX = 'data:image/svg+xml;base64,';
 const pos = (100 * Math.sqrt(2) - 100) / 2 / Math.sqrt(2);
 
-export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, ref: ThemeRef) => {
-  const $$ = ref.selectorsOf(STYLES);
+export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, selectors: SelectorsFn) => {
+  const $$ = selectors(STYLES);
   const { after } = theme;
   const transition = `${theme.animations.curves.acceleration} 100ms`;
   return {
