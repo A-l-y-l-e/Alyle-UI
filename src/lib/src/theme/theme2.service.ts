@@ -21,7 +21,8 @@ import { StyleMap5,
   LyClasses,
   getThemeNameForSelectors,
   LyStyles,
-  LySelectors} from './style';
+  LySelectors,
+  StyleTemplateValue} from './style';
 import { Subject } from 'rxjs';
 import { StyleTemplate, StringIdGenerator } from '../parse';
 import { Platform } from '@angular/cdk/platform';
@@ -578,7 +579,7 @@ function groupStyleToString(
       continue;
     }
 
-    if (typeof value === 'function') {
+    if (typeof value === 'function' || Array.isArray(value)) {
       // lyl
       // set new id if not exist
       if (!(key in classesMap)) {
@@ -613,24 +614,14 @@ function groupStyleToString(
   for (let index = 0; index < keys.length; index++) {
     const key = keys[index];
     const value = styles[key];
-    if (typeof value === 'function') {
+    const isArray = Array.isArray(value);
+    if (typeof value === 'function' || isArray) {
       // lyl
       if (key === '$global') {
-        if (value.length) {
-          content += value(``);
-        } else {
-          content += (value as (() => StyleTemplate))()(``);
-        }
+        content += arrayLylToString(value, ``);
       } else {
         const selector = selectorsMap[key];
-        if (value.length) {
-          content += value(selector);
-        } else {
-          const st = (value as (() => StyleTemplate | null))();
-          if (st) {
-            content += st(selector);
-          }
-        }
+        content += arrayLylToString(value, selector);
       }
 
     } else if (key === '$keyframes') {
@@ -653,6 +644,44 @@ function groupStyleToString(
   }
   return content;
 
+}
+
+function arrayLylToString(
+  value: StyleTemplateValue,
+  selector: string
+) {
+  let content = '';
+  if (Array.isArray(value)) {
+    for (let index = 0; index < value.length; index++) {
+      const item = value[index];
+      if (item) {
+        content += lylToString(item, selector);
+      }
+    }
+  } else {
+    return lylToString(value, selector);
+  }
+  return content;
+}
+
+function lylToString(
+  value: StyleTemplateValue,
+  selector: string
+) {
+  let content = '';
+  if (!value) return content;
+  if (value.length) { // if lyl is a function
+    content += (value as any)(selector);
+  } else {
+    const st = (value as (() => (StyleTemplate | null | undefined)[] | StyleTemplate | null | undefined))();
+    if (!st) return content;
+    if (Array.isArray(st)) {
+      content += st.reduce((acc, curr) => acc + (curr?.(selector) ?? ''), '')
+    } else {
+      content += st(selector);
+    }
+  }
+  return content;
 }
 
 function replaceRefs(str: string, data: Object) {

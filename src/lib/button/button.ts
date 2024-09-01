@@ -81,7 +81,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, selectors: Sel
   return {
     $priority: STYLE_PRIORITY,
     $name: LyButton.name,
-    root: () => lyl `{
+    root: () => [lyl `{
       font-family: ${typography.fontFamily}
       color: ${theme.text.default}
       -webkit-tap-highlight-color: transparent
@@ -126,17 +126,10 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, selectors: Sel
         opacity: .13
         border-radius: inherit
       }
-      {
-        ...${
-          (theme.button?.root
-            && (theme.button.root instanceof StyleCollection
-              ? theme.button.root.setTransformer(fn => fn(button)).css
-              : theme.button.root(button))
-          )
-        }
-      }
-    }`,
-    content: lyl `{
+    }`, (theme.button?.root instanceof StyleCollection
+      ? theme.button.root.setTransformer(fn => fn(button)).css
+      : theme.button?.root?.(button))],
+    content: [lyl `{
       padding: 0
       display: flex
       justify-content: inherit
@@ -145,7 +138,7 @@ export const STYLES = (theme: ThemeVariables & LyButtonVariables, selectors: Sel
       width: 100%
       height: 100%
       box-sizing: border-box
-    }`,
+    }`],
     animations: lyl `{
       &:hover, &:hover::before, &:focus, &:focus::before {
         transition: background 375ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, box-shadow 280ms cubic-bezier(.4,0,.2,1) 0ms

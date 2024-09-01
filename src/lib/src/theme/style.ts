@@ -61,14 +61,24 @@ export interface StyleGroup {
   $name?: string;
   $keyframes?: KeyframesDeprecated;
   $priority?: number;
-  [key: string]: StyleContainer | (() => StyleTemplate) | StyleTemplate | string | number | undefined | null;
+  [key: string]: StyleContainer
+    | (() => StyleTemplate) | StyleTemplate
+    | (() => (StyleTemplate | null | undefined)[] | StyleTemplate | null | undefined)
+    | string | number | undefined | null | StyleTemplateValue;
 }
+
+export type StyleTemplateValue = 
+  | StyleTemplate | StyleTemplate[]
+  | (() => StyleTemplate | (StyleTemplate | null | undefined)[] | null | undefined);
 
 export interface LyStyleGroup {
   /** Prefix name */
   $name?: string;
   $priority?: number;
-  [key: string]: (() => (StyleTemplate | null | undefined)) | StyleTemplate | string | number | undefined | null;
+  [key: string]: (() => (StyleTemplate | null | undefined))
+    | (() => (StyleTemplate | null | undefined)[] | StyleTemplate | null | undefined)
+    | StyleTemplate
+    | string | number | undefined | null | StyleTemplateValue;
 }
 
 /**
