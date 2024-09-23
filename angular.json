@@ -90,18 +90,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "alyle-ui:build"
+            "buildTarget": "alyle-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "alyle-ui:build:production"
+              "buildTarget": "alyle-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "alyle-ui:build"
+            "buildTarget": "alyle-ui:build"
           }
         },
         "test": {
@@ -160,7 +160,7 @@
           "defaultConfiguration": ""
         },
         "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "options": {
             "browserTarget": "alyle-ui:build",
             "serverTarget": "alyle-ui:server"
@@ -173,7 +173,7 @@
           }
         },
         "prerender": {
-          "builder": "@nguniversal/builders:prerender",
+          "builder": "@angular-devkit/build-angular:prerender",
           "options": {
             "browserTarget": "alyle-ui:build:production",
             "serverTarget": "alyle-ui:server:production",

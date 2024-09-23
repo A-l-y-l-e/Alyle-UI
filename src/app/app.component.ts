@@ -292,10 +292,10 @@ export class AppComponent {
   ) {
     this.theme.addStyleSheet(PRISM_STYLES);
     if (platform.isBrowser) {
-      updates.available.subscribe(event => {
-        console.log('current version is', event.current);
-        console.log('available version is', event.available);
-        updates.activateUpdate().then(() => this.sb.open());
+      updates.versionUpdates.subscribe(event => {
+        if (event.type === 'VERSION_DETECTED') {
+          updates.activateUpdate().then(() => this.sb.open());
+        }
       });
     }
     iconService.setSvg('github', sanitizer.bypassSecurityTrustResourceUrl('assets/svg/social/social-color-1_logo-github'));

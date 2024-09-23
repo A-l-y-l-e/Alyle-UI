@@ -567,7 +567,7 @@ function strToPx(val: string) {
 }
 
 function transform(value: number | string) {
-  return value <= 1
+  return Number(value) <= 1
     ? `${value as number * 100}%`
     : typeof value === 'number'
       ? `${value}px`
