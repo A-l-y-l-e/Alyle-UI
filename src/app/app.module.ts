@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule, Injectable } from '@angular/core';
+import { NgModule, Injectable, APP_ID } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { LyDrawerModule } from '@alyle/ui/drawer';
@@ -157,7 +157,7 @@ export function themeNameProviderFactory() {
     HomeComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    BrowserModule,
     HammerModule,
     CommonModule,
     FormsModule,
@@ -184,6 +184,7 @@ export function themeNameProviderFactory() {
   providers: [
     AnalyticsService,
     [ LyTheme2, StyleRenderer ],
+    { provide: APP_ID, useValue: 'serverApp' },
     { provide: LY_THEME, useClass: MinimaLight, multi: true },
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
     { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
@@ -192,7 +193,7 @@ export function themeNameProviderFactory() {
     { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
     { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
     { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory },
-    { provide: LY_ENABLE_SELECTORS_FN, useValue: null }, // default true
+    { provide: LY_ENABLE_SELECTORS_FN, useValue: true }, // default true
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
     { provide: WindowToken, useFactory: windowProvider },
   ],
