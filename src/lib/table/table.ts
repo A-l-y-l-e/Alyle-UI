@@ -11,6 +11,7 @@ import {
 } from '@angular/cdk/table';
 import {
   Attribute,
+  booleanAttribute,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -35,7 +36,6 @@ import { Directionality } from '@angular/cdk/bidi';
 import { Platform } from '@angular/cdk/platform';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import { STYLES as TABLE_STYLES } from './styles';
-import { BooleanInput } from '@angular/cdk/coercion';
 
 
 
@@ -83,11 +83,12 @@ export class LyTable<T> extends CdkTable<T> {
    * Whether to use a fixed table layout. Enabling this option will enforce consistent column widths
    * and optimize rendering sticky styles for native tables. No-op for flex tables.
    */
-  @Input()
-  get fixedLayout(): boolean {
+  @Input({transform: booleanAttribute})
+  override get fixedLayout(): boolean {
     return super.fixedLayout;
   }
-  set fixedLayout(v: BooleanInput) {
+  override set fixedLayout(v: boolean) {
+    console.warn('............................toggling clss', super.fixedLayout);
     super.fixedLayout = v;
     const newVal = super.fixedLayout;
     this.sRenderer.toggleClass(this.classes.fixedLayout, newVal);

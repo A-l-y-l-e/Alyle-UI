@@ -47,7 +47,6 @@ export class LyFooterCellDef extends CdkFooterCellDef {}
  */
 @Directive({
   selector: '[lyColumnDef]',
-  inputs: ['sticky'],
   providers: [
     {provide: CdkColumnDef, useExisting: LyColumnDef},
     {provide: 'LY_SORT_HEADER_COLUMN_DEF', useExisting: LyColumnDef},
