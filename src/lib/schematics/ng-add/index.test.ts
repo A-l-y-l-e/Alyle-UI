@@ -24,7 +24,7 @@ class Context {
   }
 
   async build() {
-    this.appTree = await createTestApp(this.runner);
+    this.appTree = await createTestApp(this.runner, {standalone: false});
   }
 }
 

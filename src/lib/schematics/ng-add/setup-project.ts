@@ -2,11 +2,8 @@ import { strings } from '@angular-devkit/core';
 import * as ts from 'typescript';
 import { addSymbolToNgModuleMetadata, insertImport, isImported } from '../utils/vendored-ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
-import { getWorkspace } from '@schematics/angular/utility/workspace';
 import {
-  getAppModulePath,
-  getProjectMainFile,
-  getProjectFromWorkspace,
+  findModuleFromOptions,
   parseSourceFile,
 } from '@angular/cdk/schematics';
 import {
@@ -25,18 +22,13 @@ import { addProvider } from '../utils/ast';
 function updateAppModule(options: Schema) {
   return async (host: Tree, _context: SchematicContext) => {
     _context.logger.debug('Updating appmodule');
-
-    const workspace = await getWorkspace(host);
-    const project = getProjectFromWorkspace(workspace, options.project);
+    
     const themes = options.themes.length ? options.themes : ['minima-light'];
     const theme = options.themes[0];
-
-    const mainPath = getProjectMainFile(project);
-    const modulePath = getAppModulePath(host, mainPath);
+    
+    const modulePath = (await findModuleFromOptions(host, options))!;
     _context.logger.debug(`module path: ${modulePath}`);
 
-    // register HammerModule in app module
-    // addModuleImportToRootModule(host, 'HammerModule', '@angular/platform-browser', project);
 
     // add `import { BrowserAnimationsModule } ...`
     let moduleSource = parseSourceFile(host, modulePath);
@@ -107,19 +99,6 @@ function updateAppModule(options: Schema) {
         }
       }
     });
-
-    // register theme in app module
-    // const importText = `LyThemeModule.setTheme('${theme}')`;
-    // moduleSource = getTsSourceFile(host, modulePath);
-    // metadataChanges = addSymbolToNgModuleMetadata(
-    //   moduleSource, modulePath, 'imports', importText);
-    // if (!moduleSource.text.includes('LyThemeModule.setTheme') && metadataChanges) {
-    //   const recorder = host.beginUpdate(modulePath);
-    //   metadataChanges.forEach((change: InsertChange) => {
-    //     recorder.insertRight(change.pos, change.toAdd);
-    //   });
-    //   host.commitUpdate(recorder);
-    // }
 
     
 
