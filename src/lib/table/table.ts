@@ -88,7 +88,6 @@ export class LyTable<T> extends CdkTable<T> {
     return super.fixedLayout;
   }
   override set fixedLayout(v: boolean) {
-    console.warn('............................toggling clss', super.fixedLayout);
     super.fixedLayout = v;
     const newVal = super.fixedLayout;
     this.sRenderer.toggleClass(this.classes.fixedLayout, newVal);
