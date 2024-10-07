@@ -15,7 +15,6 @@ import {
   AfterViewInit
 } from '@angular/core';
 import {
-  mergeDeep,
   LY_COMMON_STYLES,
   ThemeVariables,
   lyl,
@@ -476,8 +475,8 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
     return this._config;
   }
   set config(val: ImgCropperConfig) {
-    this._config = mergeDeep({}, new ImgCropperConfig(), val);
-    this._initialConfig = mergeDeep({}, this._config);
+    this._config = {...{}, ...new ImgCropperConfig(), ...val};
+    this._initialConfig = {...{}, ...this._config};
     this._initialAreaWidth = this.config.width;
     this._initialAreaHeight = this.config.height;
     if (
@@ -1390,7 +1389,7 @@ export class LyImageCropper implements OnInit, AfterViewInit, OnDestroy {
    */
   crop(config?: ImgCropperConfig): ImgCropperEvent {
     const newConfig = config
-    ? mergeDeep({ }, this.config || new ImgCropperConfig(), config) : this.config;
+    ? {...{ }, ...(this.config || new ImgCropperConfig()), ...config} : this.config;
     // this._loadImageToCanvas(this._mainImage.nativeElement);
     const cropEvent = this._imgCrop(newConfig);
     this.cd.markForCheck();
