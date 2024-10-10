@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LyImageCropperModule } from '@alyle/ui/image-cropper';
+import { LyImageCropperBaseModule } from '@alyle/ui/image-cropper';
 import { LySliderModule } from '@alyle/ui/slider';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyIconModule } from '@alyle/ui/icon';
@@ -20,7 +20,7 @@ import { CropperDialog } from './cropper-dialog';
   imports: [
     CommonModule,
     FormsModule,
-    LyImageCropperModule,
+    LyImageCropperBaseModule,
     LySliderModule,
     LyButtonModule,
     LyIconModule,

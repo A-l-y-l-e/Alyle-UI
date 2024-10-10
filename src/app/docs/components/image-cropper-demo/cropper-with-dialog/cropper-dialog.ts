@@ -3,8 +3,7 @@ import { StyleRenderer, WithStyles, lyl, ThemeRef, ThemeVariables } from '@alyle
 import { LyDialogRef, LY_DIALOG_DATA } from '@alyle/ui/dialog';
 import { LySliderChange, STYLES as SLIDER_STYLES } from '@alyle/ui/slider';
 import {
-  STYLES as CROPPER_STYLES,
-  LyImageCropper,
+  LyImageCropperBase,
   ImgCropperConfig,
   ImgCropperEvent,
   ImgCropperErrorEvent,
@@ -13,13 +12,11 @@ import {
 
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   ref.renderStyleSheet(SLIDER_STYLES);
-  ref.renderStyleSheet(CROPPER_STYLES);
   const slider = ref.selectorsOf(SLIDER_STYLES);
-  const cropper = ref.selectorsOf(CROPPER_STYLES);
 
   return {
     root: lyl `{
-      ${cropper.root} {
+      .ly-cropper-root {
         max-width: 320px
         height: 320px
       }
@@ -55,7 +52,7 @@ export class CropperDialog implements WithStyles, AfterViewInit {
   scale: number;
   minScale: number;
   maxScale: number;
-  @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
+  @ViewChild(LyImageCropperBase, { static: true }) cropper: LyImageCropperBase;
   myConfig: ImgCropperConfig = {
     width: 150,
     height: 150,

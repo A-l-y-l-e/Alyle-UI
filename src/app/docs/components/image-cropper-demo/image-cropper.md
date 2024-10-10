@@ -15,7 +15,7 @@ The Angular Image Cropper allows users to effortlessly resize, rotate, and crop 
 Add the <code class="html"><ly-img-cropper></code> to your template:
 
 ```html
-<ly-img-cropper
+<ly-img-cropper-base
   [config]="myConfig"
   [(scale)]="scale"
   (ready)="onReady($event)"
@@ -26,7 +26,7 @@ Add the <code class="html"><ly-img-cropper></code> to your template:
   (error)="onError($event)"
 >
   <span>Drag and drop image</span>
-</ly-img-cropper>
+</ly-img-cropper-base>
 
 <ng-container *ngIf="ready">
   <ly-slider

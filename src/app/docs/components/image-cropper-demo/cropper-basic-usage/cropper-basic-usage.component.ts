@@ -1,19 +1,17 @@
 import { Component, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { StyleRenderer, lyl, ThemeVariables, SelectorsFn } from '@alyle/ui';
+import { StyleRenderer, lyl, ThemeVariables } from '@alyle/ui';
 
 import {
   ImgCropperConfig,
   ImgCropperEvent,
-  LyImageCropper,
+  LyImageCropperBase,
   ImgCropperErrorEvent,
-  STYLES as CROPPER_STYLES
 } from '@alyle/ui/image-cropper';
 
-const STYLES = (_theme: ThemeVariables, selectors: SelectorsFn) => {
-  const cropper = selectors(CROPPER_STYLES);
+const STYLES = (_theme: ThemeVariables) => {
   return {
     root: lyl `{
-      ${cropper.root} {
+      .ly-cropper-root {
         aspect-ratio: 3 / 2
         max-width: 600px
       }
@@ -38,7 +36,7 @@ export class CropperBasicUsageComponent {
   $$ = this.sRenderer.renderSheet(STYLES, 'root');
   croppedImage?: string | null = null;
   ready = false;
-  @ViewChild(LyImageCropper) readonly cropper!: LyImageCropper;
+  @ViewChild(LyImageCropperBase) readonly cropper!: LyImageCropperBase;
   myConfig: ImgCropperConfig = {
     width: 200, // Default `250`
     height: 200, // Default `200`

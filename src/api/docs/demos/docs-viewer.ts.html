@@ -1,0 +1,193 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Component<span class="tt18 ttae">,</span> Input<span class="tt18 ttae">,</span> ElementRef<span class="tt18 ttae">,</span> EventEmitter<span class="tt18 ttae">,</span> Renderer2<span class="tt18 ttae">,</span> Injector<span class="tt18 ttae">,</span> ChangeDetectionStrategy <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> observeOn<span class="tt18 ttae">,</span> switchMap<span class="tt18 ttae">,</span> takeUntil<span class="tt18 ttae">,</span> take<span class="tt18 ttae">,</span> catchError<span class="tt18 ttae">,</span> tap <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'rxjs/operators'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> asapScheduler<span class="tt18 ttae">,</span> <span class="tt18 tt1j">of</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'rxjs'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> HttpClient<span class="tt18 ttae">,</span> HttpErrorResponse <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/common/http'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ElementsLoader <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./elements-loader.service'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LyTypographyVariables <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui/typography'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ThemeVariables<span class="tt18 ttae">,</span> LyTheme2<span class="tt18 ttae">,</span> lyl<span class="tt18 ttae">,</span> StyleCollection<span class="tt18 ttae">,</span> StyleTemplate <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@alyle/ui'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> ViewComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@app/demo-view/view/view.component'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Ads<span class="tt18 ttae">,</span> <span class="tt18 ttbb">ADS_STYLES</span> <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@sha<span style="display:inline-block;vertical-align:middle;width:14px;height:14px;border-radius:4px;background:red;opacity:1"></span>red/ads'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> SEOService <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@app/sha<span style="display:inline-block;vertical-align:middle;width:14px;height:14px;border-radius:4px;background:red;opacity:1"></span>red/seo.service'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Platform <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/cdk/platform'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt3o">// Initialization prevents flicker once pre-rendering is on</span>
+<span class="tt18 tt1j">const</span> initialDocViewerElement <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">typeof</span> document <span class="tt18 ttb0">===</span> <span class="tt18 tt3z">'object'</span> <span class="tt18 ttb0">&amp;&amp;</span> <span class="tt18 ttb0">!</span><span class="tt18 ttb0">!</span>document
+  <span class="tt18 ttb0">?</span> document<span class="tt18 ttae">.</span><span class="tt18 tta3">querySelector</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'aui-doc-viewer > div'</span><span class="tt18 ttae">)</span>
+  <span class="tt18 ttb0">:</span> <span class="tt18 tt1j">null</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">let</span> initialDocViewerContent <span class="tt18 ttb0">=</span> initialDocViewerElement <span class="tt18 ttb0">?</span> initialDocViewerElement<span class="tt18 ttae">.</span>innerHTML <span class="tt18 ttb0">:</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">interface</span> <span class="tt18 ttc8">Err</span> <span class="tt18 ttae">&#123;</span>
+  title<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+
+<span class="tt18 tt1j">const</span> <span class="tt18 tteo tta3">STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>theme<span class="tt18 ttb0">:</span> ThemeVariables <span class="tt18 ttb0">&amp;</span> LyTypographyVariables<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">const</span> <span class="tt18 ttae">&#123;</span> h3<span class="tt18 ttae">,</span> h4<span class="tt18 ttae">,</span> h5<span class="tt18 ttae">,</span> h6<span class="tt18 ttae">,</span> subtitle1<span class="tt18 ttae">,</span> subtitle2 <span class="tt18 ttae">&#125;</span> <span class="tt18 ttb0">=</span> theme<span class="tt18 ttae">.</span>typography<span class="tt18 ttae">.</span>lyTyp<span class="tt18 ttb0">!</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">const</span> getStyle <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>typ<span class="tt18 ttb0">:</span> StyleCollection<span class="tt18 ttb0">&lt;</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> StyleTemplate<span class="tt18 ttb0">></span> <span class="tt18 ttb0">|</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> StyleTemplate<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">return</span> typ <span class="tt18 tt1j">instanceof</span> <span class="tt18 ttc8">StyleCollection</span>
+      <span class="tt18 ttb0">?</span> typ<span class="tt18 ttae">.</span><span class="tt18 tta3">setTransformer</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span>_<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tta3">_</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span>
+      <span class="tt18 ttb0">:</span> <span class="tt18 tta3">typ</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">return</span> <span class="tt18 ttae">&#123;</span>
+    root<span class="tt18 ttb0">:</span> lyl <span class="tt18 lyl-template-string"><span class="tt18 tt3z language-css"><span class="tt18 ttd5">`</span><span class="tt18 ttae">&#123;</span>
+      <span class="tt18 ttd5">> div ></span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 ttd5">h1</span> <span class="tt18 ttae">&#123;</span>
+          <span class="tt18 ttae">&#123;</span>
+            ...</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">getStyle</span><span class="tt18 ttae">(</span>h3<span class="tt18 ttb0">!</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z language-css">
+          <span class="tt18 ttae">&#125;</span>
+          <span class="tt18 ttcu">font-size</span><span class="tt18 ttae">:</span> </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">pxToRem</span><span class="tt18 ttae">(</span><span class="tt18 ttap">40</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z language-css"> <span class="tt18 impor<span style="display:inline-block;vertical-align:middle;width:14px;height:14px;border-radius:4px;background:tan;opacity:1"></span>tant">!impor<span style="display:inline-block;vertical-align:middle;width:14px;height:14px;border-radius:4px;background:tan;opacity:1"></span>tant</span>
+          <span class="tt18 ttcu">margin</span><span class="tt18 ttae">:</span> 1em 0
+        <span class="tt18 ttae">&#125;</span>
+        <span class="tt18 ttd5">h2</span> <span class="tt18 ttae">&#123;</span>
+          ...</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">getStyle</span><span class="tt18 ttae">(</span>h4<span class="tt18 ttb0">!</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z language-css">
+        <span class="tt18 ttae">&#125;</span>
+        <span class="tt18 ttd5">h3</span> <span class="tt18 ttae">&#123;</span>
+          ...</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">getStyle</span><span class="tt18 ttae">(</span>h5<span class="tt18 ttb0">!</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z language-css">
+        <span class="tt18 ttae">&#125;</span>
+        <span class="tt18 ttd5">h4</span> <span class="tt18 ttae">&#123;</span>
+          ...</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">getStyle</span><span class="tt18 ttae">(</span>h6<span class="tt18 ttb0">!</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z language-css">
+        <span class="tt18 ttae">&#125;</span>
+        <span class="tt18 ttd5">h5</span> <span class="tt18 ttae">&#123;</span>
+          ...</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">getStyle</span><span class="tt18 ttae">(</span>subtitle1<span class="tt18 ttb0">!</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z language-css">
+        <span class="tt18 ttae">&#125;</span>
+        <span class="tt18 ttd5">h6</span> <span class="tt18 ttae">&#123;</span>
+          ...</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span><span class="tt18 tta3">getStyle</span><span class="tt18 ttae">(</span>subtitle2<span class="tt18 ttb0">!</span><span class="tt18 ttae">)</span><span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z language-css">
+        <span class="tt18 ttae">&#125;</span>
+      <span class="tt18 ttae">&#125;</span>
+    <span class="tt18 ttae">&#125;</span>`</span></span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+  selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-doc-viewer'</span><span class="tt18 ttae">,</span>
+  templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./doc-viewer.html'</span><span class="tt18 ttae">,</span>
+  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">DocViewer</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt1j">readonly</span> classes <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">renderStyleSheet</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">readonly</span> hostElement<span class="tt18 ttb0">:</span> HTMLElement<span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">private</span> onDestroy$ <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">EventEmitter<span class="tt18 ttb0">&lt;</span><span class="tt18 tt1j">void</span><span class="tt18 ttb0">></span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">private</span> docContents$ <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">EventEmitter<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span><span class="tt18 ttb0">></span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">private</span> <span class="tt18 tt1j">void</span>$ <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">of</span><span class="tt18 ttb0">&lt;</span><span class="tt18 tt1j">void</span><span class="tt18 ttb0">></span><span class="tt18 ttae">(</span><span class="tt18 tt1j">undefined</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">readonly</span> isLoading <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">EventEmitter<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">boolean</span><span class="tt18 ttb0">></span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt1j">readonly</span> isError <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">EventEmitter<span class="tt18 ttb0">&lt;</span>Err <span class="tt18 ttb0">|</span> <span class="tt18 tt1j">void</span><span class="tt18 ttb0">></span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+  <span class="tt18 tt1j">readonly</span> <span class="tt18 ttbb">ADS_STYLES</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">.</span><span class="tt18 tta3">renderStyle</span><span class="tt18 ttae">(</span><span class="tt18 ttbb">ADS_STYLES</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+  <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Input</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span>
+  <span class="tt18 tt1j">get</span> <span class="tt18 tta3">path</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_path<span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 tt1j">set</span> <span class="tt18 tta3">path</span><span class="tt18 ttae">(</span>val<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>val <span class="tt18 ttb0">!==</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>path<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_path <span class="tt18 ttb0">=</span> val<span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>val <span class="tt18 ttb0">!==</span> <span class="tt18 tt3z">'/'</span> <span class="tt18 ttb0">&amp;&amp;</span> val <span class="tt18 ttb0">!==</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>docContents$<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span>val<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">else</span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>seo<span class="tt18 ttae">.</span><span class="tt18 tta3">setTitle</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+        <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>seo<span class="tt18 ttae">.</span><span class="tt18 tta3">setNoIndex</span><span class="tt18 ttae">(</span><span class="tt18 tted">false</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+        <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>hostElement<span class="tt18 ttae">.</span>innerHTML <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">;</span>
+        <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>isError<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">null</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      <span class="tt18 ttae">&#125;</span>
+    <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 ttae">&#125;</span>
+  <span class="tt18 tt1j">private</span> _path<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">;</span>
+
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    injector<span class="tt18 ttb0">:</span> Injector<span class="tt18 ttae">,</span>
+    elementRef<span class="tt18 ttb0">:</span> ElementRef<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> http<span class="tt18 ttb0">:</span> HttpClient<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> elementsLoader<span class="tt18 ttb0">:</span> ElementsLoader<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> theme<span class="tt18 ttb0">:</span> LyTheme2<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> renderer<span class="tt18 ttb0">:</span> Renderer2<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> ads<span class="tt18 ttb0">:</span> Ads<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> seo<span class="tt18 ttb0">:</span> SEOService<span class="tt18 ttae">,</span>
+    <span class="tt18 tt1j">private</span> _platform<span class="tt18 ttb0">:</span> Platform
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>isLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 ttb0">!</span>initialDocViewerContent<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>hostElement <span class="tt18 ttb0">=</span> renderer<span class="tt18 ttae">.</span><span class="tt18 tta3">createElement</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'div'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    renderer<span class="tt18 ttae">.</span><span class="tt18 tta3">appendChild</span><span class="tt18 ttae">(</span>elementRef<span class="tt18 ttae">.</span>nativeElement<span class="tt18 ttae">,</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>hostElement<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>renderer<span class="tt18 ttae">.</span><span class="tt18 tta3">addClass</span><span class="tt18 ttae">(</span>elementRef<span class="tt18 ttae">.</span>nativeElement<span class="tt18 ttae">,</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>classes<span class="tt18 ttae">.</span>root<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>hostElement<span class="tt18 ttae">.</span>innerHTML <span class="tt18 ttb0">=</span> initialDocViewerContent<span class="tt18 ttae">;</span>
+
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">const</span> <span class="tt18 ttae">&#123;</span> createCustomElement <span class="tt18 ttae">&#125;</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">require</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'@angular/elements'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">const</span> element <span class="tt18 ttb0">=</span> <span class="tt18 tta3">createCustomElement</span><span class="tt18 ttae">(</span>ViewComponent<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> injector <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      customElements<span class="tt18 ttae">.</span><span class="tt18 tta3">define</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'demo-view'</span><span class="tt18 ttae">,</span> element<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span>
+
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>docContents$
+      <span class="tt18 ttae">.</span><span class="tt18 tta3">pipe</span><span class="tt18 ttae">(</span>
+        <span class="tt18 tta3">observeOn</span><span class="tt18 ttae">(</span>asapScheduler<span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
+        <span class="tt18 tta3">switchMap</span><span class="tt18 ttae">(</span>path <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span><span class="tt18 tta3">render</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
+        <span class="tt18 tta3">takeUntil</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>onDestroy$<span class="tt18 ttae">)</span>
+      <span class="tt18 ttae">)</span>
+      <span class="tt18 ttae">.</span><span class="tt18 tta3">subscribe</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+
+  <span class="tt18 tta3">onDestroy</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>onDestroy$<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+
+  <span class="tt18 tta3">render</span><span class="tt18 ttae">(</span>path<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    path <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>seo<span class="tt18 ttae">.</span><span class="tt18 tta3">url</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">.</span>pathname<span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>isLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 ttb0">!</span>initialDocViewerContent<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 ttb0">!</span>initialDocViewerContent<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>hostElement<span class="tt18 ttae">.</span>innerHTML <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>isError<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">null</span><span class="tt18 ttb0">!</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+    <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>void$
+    <span class="tt18 ttae">.</span><span class="tt18 tta3">pipe</span><span class="tt18 ttae">(</span>
+      <span class="tt18 tta3">switchMap</span><span class="tt18 ttae">(</span><span class="tt18 tt1j">async</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 tt1j">return</span> <span class="tt18 ttae">(</span>path<span class="tt18 ttae">.</span><span class="tt18 tta3">startsWith</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'/api/@alyle/ui'</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">||</span> path <span class="tt18 ttb0">===</span> <span class="tt18 tt3z">'/api'</span><span class="tt18 ttae">)</span>
+          <span class="tt18 ttb0">?</span> <span class="tt18 tt3z">'API'</span>
+          <span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 tt1j">await</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttae">.</span><span class="tt18 tta3">all</span><span class="tt18 ttae">(</span><span class="tt18 ttae">[</span>
+          <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>http<span class="tt18 ttae">.</span><span class="tt18 tta3">get</span><span class="tt18 ttae">(</span><span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">api/docs</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>path<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">.html</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span>
+            responseType<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'text'</span>
+          <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">pipe</span><span class="tt18 ttae">(</span>
+            <span class="tt18 tta3">take</span><span class="tt18 ttae">(</span><span class="tt18 ttap">1</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
+            <span class="tt18 tta3">catchError</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span>err<span class="tt18 ttb0">:</span> HttpErrorResponse <span class="tt18 ttb0">|</span> Error<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+              <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>hostElement<span class="tt18 ttae">.</span>innerHTML <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">const</span> errorMessage <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>err <span class="tt18 tt1j">instanceof</span> <span class="tt18 ttc8">Error</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">?</span> err<span class="tt18 ttae">.</span>stack <span class="tt18 ttb0">:</span> err<span class="tt18 ttae">.</span>message<span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">const</span> is404 <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>err <span class="tt18 tt1j">instanceof</span> <span class="tt18 ttc8">Error</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">?</span> <span class="tt18 tted">false</span> <span class="tt18 ttb0">:</span> err<span class="tt18 ttae">.</span>status <span class="tt18 ttb0">===</span> <span class="tt18 ttap">404</span><span class="tt18 ttae">;</span>
+              <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">error</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Err'</span><span class="tt18 ttae">,</span> errorMessage<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>isLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 tted">false</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>seo<span class="tt18 ttae">.</span><span class="tt18 tta3">setNoIndex</span><span class="tt18 ttae">(</span><span class="tt18 tted">true</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">const</span> errMsg <span class="tt18 ttb0">=</span> is404 <span class="tt18 ttb0">?</span> <span class="tt18 tt3z">'PAGE NOT FOUND'</span> <span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'REQUEST FOR DOCUMENT FAILED'</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>seo<span class="tt18 ttae">.</span><span class="tt18 tta3">setTitle</span><span class="tt18 ttae">(</span><span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">Alyle UI - </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>errMsg<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>isError<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
+                title<span class="tt18 ttb0">:</span> errMsg
+              <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>void$<span class="tt18 ttae">;</span>
+            <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
+          <span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">toPromise</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
+          <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsLoader<span class="tt18 ttae">.</span><span class="tt18 tta3">load</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span>
+        <span class="tt18 ttae">]</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">[</span><span class="tt18 ttap">0</span><span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+      <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">,</span>
+      <span class="tt18 tta3">tap</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span>html<span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+        <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>html<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+          initialDocViewerContent <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">;</span>
+          <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>html <span class="tt18 ttb0">!==</span> <span class="tt18 tt3z">'API'</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+            <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>isLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 tted">false</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>seo<span class="tt18 ttae">.</span><span class="tt18 tta3">setNoIndex</span><span class="tt18 ttae">(</span><span class="tt18 tted">false</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">const</span> <span class="tt18 ttae">&#123;</span> hostElement <span class="tt18 ttae">&#125;</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">;</span>
+            hostElement<span class="tt18 ttae">.</span>innerHTML <span class="tt18 ttb0">=</span> html<span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">const</span> h1 <span class="tt18 ttb0">=</span> hostElement<span class="tt18 ttae">.</span><span class="tt18 tta3">querySelector</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'h1'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">let</span> title <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>h1 <span class="tt18 ttb0">&amp;&amp;</span> h1<span class="tt18 ttae">.</span>textContent<span class="tt18 ttae">)</span> <span class="tt18 ttb0">||</span> <span class="tt18 tt3z">'Untitled'</span><span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span>path<span class="tt18 ttae">.</span><span class="tt18 tta3">includes</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'/components/'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+              title <span class="tt18 ttb0">=</span> <span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>title<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z"> Angular Component</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">;</span>
+            <span class="tt18 ttae">&#125;</span>
+            <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>seo<span class="tt18 ttae">.</span><span class="tt18 tta3">setTitle</span><span class="tt18 ttae">(</span><span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">Alyle UI - </span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>title<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 tt3o">// Show skeleton screen Platform is Server</span>
+            <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 ttb0">!</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>_platform<span class="tt18 ttae">.</span>isBrowser<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+              hostElement<span class="tt18 ttae">.</span>innerHTML <span class="tt18 ttb0">=</span> <span class="tt18 tt3z">''</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>isLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">emit</span><span class="tt18 ttae">(</span><span class="tt18 tted">true</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 ttae">&#125;</span>
+            <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>ads<span class="tt18 ttae">.</span><span class="tt18 tta3">update</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">,</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>theme<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+          <span class="tt18 ttae">&#125;</span>
+        <span class="tt18 ttae">&#125;</span>
+      <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+    <span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

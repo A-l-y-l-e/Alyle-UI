@@ -1,0 +1,66 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> Injectable<span class="tt18 ttae">,</span> Inject<span class="tt18 ttae">,</span> Type<span class="tt18 ttae">,</span> createNgModuleRef<span class="tt18 ttae">,</span> NgModuleRef <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN</span><span class="tt18 ttae">,</span> WithCustomElementComponent <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'./element-registry'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LoadChildrenCallback <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/router'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> createCustomElement <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/elements'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Injectable</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">ElementsLoader</span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 tt3o">/** Map of unregistered custom elements and their respective module paths to load. */</span>
+  <span class="tt18 tt1j">private</span> elementsToLoad<span class="tt18 ttb0">:</span> Map<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span><span class="tt18 ttae">,</span> LoadChildrenCallback<span class="tt18 ttb0">></span><span class="tt18 ttae">;</span>
+  <span class="tt18 tt3o">/** Map of custom elements that are in the process of being loaded and registered. */</span>
+  <span class="tt18 tt1j">private</span> elementsLoading <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">Map<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span><span class="tt18 ttae">,</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttb0">&lt;</span><span class="tt18 tt1j">void</span><span class="tt18 ttb0">>></span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 tta3">constructor</span><span class="tt18 ttae">(</span>
+    <span class="tt18 tt1j">private</span> moduleRef<span class="tt18 ttb0">:</span> NgModuleRef<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">,</span>
+    <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Inject</span></span><span class="tt18 ttae">(</span><span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN</span><span class="tt18 ttae">)</span> elementModulePaths<span class="tt18 ttb0">:</span> Map<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span><span class="tt18 ttae">,</span> LoadChildrenCallback<span class="tt18 ttb0">></span>
+  <span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsToLoad <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">Map</span><span class="tt18 ttae">(</span>elementModulePaths<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+
+  <span class="tt18 tta3">load</span><span class="tt18 ttae">(</span>path<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">string</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">has</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt3o">// The custom element is in the process of being loaded and registered.</span>
+      <span class="tt18 tt1j">return</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">get</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttb0">&lt;</span><span class="tt18 tt1j">void</span><span class="tt18 ttb0">></span><span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span>
+
+    <span class="tt18 tt1j">if</span> <span class="tt18 ttae">(</span><span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsToLoad<span class="tt18 ttae">.</span><span class="tt18 tta3">has</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
+      <span class="tt18 tt3o">// Load and register the custom element (for the first time).</span>
+      <span class="tt18 tt1j">const</span> modulePathLoader <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsToLoad<span class="tt18 ttae">.</span><span class="tt18 tta3">get</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span> <span class="tt18 tt1j">as</span> LoadChildrenCallback<span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">const</span> loadedAndRegistered <span class="tt18 ttb0">=</span>
+        <span class="tt18 ttae">(</span><span class="tt18 tta3">modulePathLoader</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 tt1j">as</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttb0">&lt;</span>Type<span class="tt18 ttb0">&lt;</span>WithCustomElementComponent<span class="tt18 ttb0">>></span><span class="tt18 ttae">)</span>
+          <span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>elementModule <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+            <span class="tt18 tt1j">const</span> elementModuleRef <span class="tt18 ttb0">=</span> <span class="tt18 tta3">createNgModuleRef</span><span class="tt18 ttae">(</span>elementModule<span class="tt18 ttae">,</span> <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>moduleRef<span class="tt18 ttae">.</span>injector<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">const</span> injector <span class="tt18 ttb0">=</span> elementModuleRef<span class="tt18 ttae">.</span>injector<span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">const</span> CustomElementComponents <span class="tt18 ttb0">=</span> elementModuleRef<span class="tt18 ttae">.</span>instance<span class="tt18 ttae">.</span>customElementComponents<span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">return</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttae">.</span><span class="tt18 tta3">all</span><span class="tt18 ttae">(</span>CustomElementComponents<span class="tt18 ttae">.</span><span class="tt18 tta3">map</span><span class="tt18 ttae">(</span>comp <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+              <span class="tt18 tt1j">const</span> selector <span class="tt18 ttb0">=</span> <span class="tt18 ttae">(</span>comp <span class="tt18 tt1j">as</span> <span class="tt18 ttcj">any</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span>ɵcmp<span class="tt18 ttae">.</span>selectors<span class="tt18 ttae">[</span><span class="tt18 ttap">0</span><span class="tt18 ttae">]</span><span class="tt18 ttae">[</span><span class="tt18 ttap">0</span><span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">const</span> CustomElement <span class="tt18 ttb0">=</span> <span class="tt18 tta3">createCustomElement</span><span class="tt18 ttae">(</span>comp<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span>injector<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+              customElements<span class="tt18 ttae">.</span><span class="tt18 tta3">define</span><span class="tt18 ttae">(</span>selector<span class="tt18 ttae">,</span> CustomElement<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+              <span class="tt18 tt1j">return</span> customElements<span class="tt18 ttae">.</span><span class="tt18 tta3">whenDefined</span><span class="tt18 ttae">(</span>selector<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+          <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+          <span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+            <span class="tt18 tt3o">// The custom element has been successfully loaded and registered.</span>
+            <span class="tt18 tt3o">// Remove from `elementsLoading` and `elementsToLoad`.</span>
+            <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">delete</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsToLoad<span class="tt18 ttae">.</span><span class="tt18 tta3">delete</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+          <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
+          <span class="tt18 ttae">.</span><span class="tt18 tta3">catch</span><span class="tt18 ttae">(</span>err <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+            <span class="tt18 tt3o">// The custom element has failed to load and register.</span>
+            <span class="tt18 tt3o">// Remove from `elementsLoading`.</span>
+            <span class="tt18 tt3o">// (Do not remove from `elementsToLoad` in case it was a temporary error.)</span>
+            <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">delete</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+            <span class="tt18 tt1j">return</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttae">.</span><span class="tt18 tta3">reject</span><span class="tt18 ttae">(</span>err<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+          <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+      <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>elementsLoading<span class="tt18 ttae">.</span><span class="tt18 tta3">set</span><span class="tt18 ttae">(</span>path<span class="tt18 ttae">,</span> loadedAndRegistered<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+      <span class="tt18 tt1j">return</span> loadedAndRegistered<span class="tt18 ttae">;</span>
+    <span class="tt18 ttae">&#125;</span>
+
+    <span class="tt18 tt3o">// The custom element has already been loaded and registered.</span>
+    <span class="tt18 tt1j">return</span> <span class="tt18 ttcj">Promise</span><span class="tt18 ttae">.</span><span class="tt18 tta3">resolve</span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+  <span class="tt18 ttae">&#125;</span>
+
+
+<span class="tt18 ttae">&#125;</span>
+</code></pre>

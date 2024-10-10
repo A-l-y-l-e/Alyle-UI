@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { LyImageCropper, LyCropperArea } from './image-cropper';
+import { LyImageCropperBase } from './image-cropper-base';
 
 
 @NgModule({
-  imports: [CommonModule],
-  exports: [LyImageCropper],
-  declarations: [LyImageCropper, LyCropperArea]
+  imports: [LyImageCropper, LyCropperArea],
+  exports: [LyImageCropper, LyCropperArea]
 })
 export class LyImageCropperModule { }
+
+@NgModule({
+  imports: [LyImageCropperBase],
+  exports: [LyImageCropperBase]
+})
+export class LyImageCropperBaseModule { }

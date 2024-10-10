@@ -1,0 +1,148 @@
+<pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> LoadChildrenCallback <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/router'</span><span class="tt18 ttae">;</span>
+<span class="tt18 tt1j">import</span> <span class="tt18 ttae">&#123;</span> InjectionToken<span class="tt18 ttae">,</span> Type <span class="tt18 ttae">&#125;</span> <span class="tt18 tt1j">from</span> <span class="tt18 tt3z">'@angular/core'</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">const</span> <span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES</span> <span class="tt18 ttb0">=</span> <span class="tt18 ttae">[</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/customization/dynamic-styles'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./customization/dynamic-styles.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/customization/paper'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./customization/paper.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/customization/multiple-themes'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./customization/multiple-themes.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/grid'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./layout/grid-demo/grid.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/responsive'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./layout/responsive/responsive.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/tabs'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./layout/tabs-demo/tabs.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/avatar'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/avatar-demo/avatar.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/badge'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/badge-demo/badge.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/button'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/button-demo/button.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/card'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/card-demo/card.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/carousel'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/carousel-demo/carousel.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/checkbox'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/checkbox-demo/checkbox.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/dialog'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/dialog-demo/dialog.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/divider'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/divider-demo/divider.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/drawer'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/drawer-demo/drawer.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/expansion'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/expansion-demo/expansion.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/field'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/field-demo/field.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/icon'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/icon-demo/icon.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/image-cropper'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/image-cropper-demo/image-cropper.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/list'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/list-demo/list.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/menu'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/menu-demo/menu.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/radio'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/radio-demo/radio.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/select'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/select-demo/select.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/slider'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/slider-demo/slider.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/snack-bar'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/snack-bar-demo/snack-bar.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/toolbar'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/toolbar-demo/toolbar.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/toolbar'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/toolbar-demo/toolbar.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/tooltip'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/tooltip-demo/tooltip.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/typography'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/typography-demo/typography.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/skeleton'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/skeleton-demo/skeleton.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+  <span class="tt18 ttae">&#123;</span>
+    path<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'/components/table'</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tteo tta3">loadChildren</span><span class="tt18 ttb0">:</span> <span class="tt18 ttae">(</span><span class="tt18 ttae">)</span> <span class="tt18 ttb0">=></span> <span class="tt18 tt1j">import</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'./components/table-demo/table.lazy.module'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">.</span><span class="tt18 tta3">then</span><span class="tt18 ttae">(</span>mod <span class="tt18 ttb0">=></span> mod<span class="tt18 ttae">.</span>LazyModule<span class="tt18 ttae">)</span>
+  <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">,</span>
+<span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt3o">/**
+ * Interface expected to be implemented by all modules that declare a component that can be used as
+ * a custom element.
+ */</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">interface</span> <span class="tt18 ttc8">WithCustomElementComponent</span> <span class="tt18 ttae">&#123;</span>
+  customElementComponents<span class="tt18 ttb0">:</span> Type<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">any</span><span class="tt18 ttb0">></span><span class="tt18 ttae">[</span><span class="tt18 ttae">]</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span>
+
+<span class="tt18 tt3o">/** Injection token to provide the element path modules. */</span>
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">const</span> <span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">InjectionToken<span class="tt18 ttb0">&lt;</span>
+  Map<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span><span class="tt18 ttae">,</span> LoadChildrenCallback<span class="tt18 ttb0">></span>
+<span class="tt18 ttb0">></span></span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN'</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+
+<span class="tt18 tt1j">export</span> <span class="tt18 tt1j">const</span> <span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS</span> <span class="tt18 ttb0">=</span> <span class="tt18 tt1j">new</span> <span class="tt18 ttc8">Map<span class="tt18 ttb0">&lt;</span><span class="tt18 ttcj">string</span><span class="tt18 ttae">,</span> LoadChildrenCallback<span class="tt18 ttb0">></span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS_AS_ROUTES</span><span class="tt18 ttae">.</span><span class="tt18 tta3">forEach</span><span class="tt18 ttae">(</span>route <span class="tt18 ttb0">=></span> <span class="tt18 ttae">&#123;</span>
+  <span class="tt18 ttbb">ELEMENT_MODULE_LOAD_CALLBACKS</span><span class="tt18 ttae">.</span><span class="tt18 tta3">set</span><span class="tt18 ttae">(</span>route<span class="tt18 ttae">.</span>path<span class="tt18 ttae">,</span> route<span class="tt18 ttae">.</span>loadChildren<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+<span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
+</code></pre>

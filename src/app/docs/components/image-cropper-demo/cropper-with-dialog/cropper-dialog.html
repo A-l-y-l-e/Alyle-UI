@@ -10,7 +10,7 @@
     <button (click)="cropper.setScale(1)" ly-button>1:1</button>
   </div>
 
-  <ly-img-cropper
+  <ly-img-cropper-base
     [config]="myConfig"
     [(scale)]="scale"
     (ready)="ready = true"
@@ -22,7 +22,7 @@
     (error)="onError($event)"
   >
     <span>Drag and drop image</span>
-  </ly-img-cropper>
+  </ly-img-cropper-base>
 
   <div [className]="classes.sliderContainer">
     <div [class]="classes.slider">

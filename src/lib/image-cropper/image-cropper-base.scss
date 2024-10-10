@@ -1,0 +1,162 @@
+// const pos = (100 * Math.sqrt(2) - 100) / 2 / Math.sqrt(2);
+$pos: 14.64%;
+
+.ly-cropper-root {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+.ly-cropper-container {
+  position: relative;
+  margin: auto;
+  width: 80%;
+  height: 80%;
+}
+
+
+.ly-cropper-img-container {
+  cursor: move;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  touch-action: none;
+}
+.ly-cropper-img-container > canvas {
+  display: block;
+}
+
+
+.ly-cropper-area {
+  pointer-events: none;
+  box-shadow: 0 0 0 20000px rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.ly-cropper-area-round {
+  border-radius: 50%;
+  &.ly-cropper-area-resizer {
+    right: $pos;
+    bottom: $pos;
+    transform: translate(4px, 4px);
+  }
+  &.ly-cropper-area-grid {
+    border-radius: 50%;
+    overflow: hidden
+  }
+}
+
+.ly-cropper-area:before,
+.ly-cropper-area:after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  content: '';
+}
+.ly-cropper-area:before {
+  width: 0;
+  height: 0;
+  margin: auto;
+  border-radius: 50%;
+  background: #fff;
+  border: solid 2px rgb(255, 255, 255);
+}
+.ly-cropper-area:after {
+  border: solid 2px rgb(255, 255, 255);
+  border-radius: inherit;
+}
+
+
+.ly-cropper-area-grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: cubic-bezier(0.4,0.0,1,1);
+  &::before,
+  &::after {
+    content: ' ';
+    box-sizing: border-box;
+    position: absolute;
+    border: 1px solid rgb(255 255 255 / 40%);
+  }
+  &::before {
+    top: 0;
+    bottom: 0;
+    left: 33.33%;
+    right: 33.33%;
+    border-top: 0;
+    border-bottom: 0;
+  }
+  &::after {
+    top: 33.33%;
+    bottom: 33.33%;
+    left: 0;
+    right: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+}
+
+.ly-cropper-area-grid-active {
+  .ly-cropper-area-grid {
+    opacity: 1
+  }
+}
+
+.ly-cropper-area-resizer {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 3px;
+  position: absolute;
+  touch-action: none;
+  bottom: 0;
+  right: 0;
+  pointer-events: all;
+  cursor: nwse-resize;
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: '';
+    width: 30px;
+    height: 30px;
+    transform: translate(-35%, -35%);
+  }
+}
+.ly-cropper-default-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ly-cropper-default-content, .ly-cropper-default-content > input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.ly-cropper-default-content *:not(input) {
+  pointer-events: none;
+}
+.ly-cropper-default-content > input {
+  background: transparent;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
