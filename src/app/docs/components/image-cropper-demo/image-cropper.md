@@ -46,7 +46,7 @@ export class MyComponent {
 }
 ```
 
-> Note: There are two image cropper components `LyImageCropperBase` and LyImageCropper. `LyImageCropperBase` is new in Alyle UI version 17 and does not require dynamic styles or the Alyle UI dependency like `LyImageCropper` does.
+> Note: There are two image cropper components `LyImageCropperBase` and `LyImageCropper`. `LyImageCropperBase` is new in Alyle UI version 17 and does not require dynamic styles or the Alyle UI dependency like `LyImageCropper` does.
 
 ## Rotate Image
 
