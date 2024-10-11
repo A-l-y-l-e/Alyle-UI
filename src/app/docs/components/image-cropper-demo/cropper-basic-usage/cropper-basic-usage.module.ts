@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { CropperBasicUsageComponent } from './cropper-basic-usage.component';
 import { LyImageCropperBaseModule } from '@alyle/ui/image-cropper';
 import { LyButtonModule } from '@alyle/ui/button';
@@ -12,7 +11,6 @@ import { LyIconModule } from '@alyle/ui/icon';
     CropperBasicUsageComponent
   ],
   imports: [
-    CommonModule,
     LyImageCropperBaseModule,
     LyButtonModule,
     LyIconModule

@@ -12,31 +12,19 @@ The Angular Image Cropper allows users to effortlessly resize, rotate, and crop 
   <aui-cropper-basic-usage></aui-cropper-basic-usage>
 </demo-view>
 
-Add the <code class="html"><ly-img-cropper></code> to your template:
+Add the <code class="html"><ly-img-cropper-base></code> to your template:
 
 ```html
 <ly-img-cropper-base
   [config]="myConfig"
-  [(scale)]="scale"
-  (ready)="onReady($event)"
-  (minScale)="minScale = $event"
+  (ready)="ready = true"
   (cleaned)="ready = false"
   (cropped)="onCropped($event)"
   (loaded)="onLoaded($event)"
   (error)="onError($event)"
 >
-  <span>Drag and drop image</span>
+  <span>Drag and drop image.</span>
 </ly-img-cropper-base>
-
-<ng-container *ngIf="ready">
-  <ly-slider
-    [thumbVisible]="false"
-    [min]="minScale"
-    [max]="1"
-    [(ngModel)]="scale"
-    (input)="onSliderInput($event)"
-    step="0.000001"></ly-slider>
-</ng-container>
 
 ```
 
@@ -45,36 +33,20 @@ You can use [`ImgCropperConfig`](https://alyle.io/api/@alyle/ui/image-cropper/Im
 
 ```ts
 export class MyComponent {
-  ready: boolean;
-  scale: number;
-  minScale: number;
-  @ViewChild(LyImageCropper, { static: true }) cropper: LyImageCropper;
-  myConfig: ImgCropperConfig = {
-    width: 150, // Default `250`
-    height: 150, // Default `200`
+  ...
+  @ViewChild(LyImageCropperBase, { static: true }) cropper: LyImageCropperBase;
+  cropperConfig: ImgCropperConfig = {
+    width: 200, // Default `250`
+    height: 200, // Default `200`
+    fill: '#ff2997', // Default transparent
     type: 'image/png', // Or you can also use `image/jpeg`
-    output: {
-      width: 200
-    }
+    responsiveArea: true,
+    // resizableArea: true
   };
-  onCropped(e: ImgCropperEvent) {
-    console.log('Cropped img: ', e);
-  }
-
-  onReady(e: ImgCropperEvent) {
-    this.ready = true;
-    console.log('Img ready for cropper', e);
-  }
-
-  onError(e: ImgCropperErrorEvent) {
-    console.warn(`'${e.name}' is not a valid image`, e);
-  }
-
-  onSliderInput(event: LySliderChange) {
-    this.scale = event.value as number;
-  }
 }
 ```
+
+> Note: There are two image cropper components `LyImageCropperBase` and LyImageCropper. `LyImageCropperBase` is new in Alyle UI version 17 and does not require dynamic styles or the Alyle UI dependency like `LyImageCropper` does.
 
 ## Rotate Image
 

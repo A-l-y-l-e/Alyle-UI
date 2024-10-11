@@ -7,62 +7,35 @@
 >
   <aui-cropper-basic-usage></aui-cropper-basic-usage>
 </demo-view>
-<p>Add the <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-img-cropper</span><span class="tt18 ttae">></span></span></code> to your template:</p>
+<p>Add the <code class="ttm ttx"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-img-cropper-base</span><span class="tt18 ttae">></span></span></code> to your template:</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-img-cropper-base</span>
   <span class="tt18 ttbx">[config]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>myConfig<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">[(scale)]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>scale<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">(ready)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>onReady($event)<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttbx">(minScale)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>minScale = $event<span class="tt18 ttae">"</span></span>
+  <span class="tt18 ttbx">(ready)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>ready = true<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">(cleaned)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>ready = false<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">(cropped)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>onCropped($event)<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">(loaded)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>onLoaded($event)<span class="tt18 ttae">"</span></span>
   <span class="tt18 ttbx">(error)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>onError($event)<span class="tt18 ttae">"</span></span>
 <span class="tt18 ttae">></span></span>
-  <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>span</span><span class="tt18 ttae">></span></span>Drag and drop image<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>span</span><span class="tt18 ttae">></span></span>
+  <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>span</span><span class="tt18 ttae">></span></span>Drag and drop image.<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>span</span><span class="tt18 ttae">></span></span>
 <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-img-cropper-base</span><span class="tt18 ttae">></span></span>
-
-<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ng-container</span> <span class="tt18 ttbx">*ngIf</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>ready<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
-  <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-slider</span>
-    <span class="tt18 ttbx">[thumbVisible]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>false<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">[min]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>minScale<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">[max]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>1<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">[(ngModel)]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>scale<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">(input)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>onSliderInput($event)<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttbx">step</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>0.000001<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span><span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-slider</span><span class="tt18 ttae">></span></span>
-<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ng-container</span><span class="tt18 ttae">></span></span>
 </code></pre>
 <p>You can use <a href="https://alyle.io/api/@alyle/ui/image-cropper/ImgCropperConfig"><code class="ttm ttx">ImgCropperConfig</code></a> to configure the cropper.</p>
 <pre class="ttb"><code prsm class="ttm"><span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">MyComponent</span> <span class="tt18 ttae">&#123;</span>
-  ready<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">boolean</span><span class="tt18 ttae">;</span>
-  scale<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
-  minScale<span class="tt18 ttb0">:</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
-  <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">ViewChild</span></span><span class="tt18 ttae">(</span>LyImageCropper<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 tt1j">static</span><span class="tt18 ttb0">:</span> <span class="tt18 tted">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span> cropper<span class="tt18 ttb0">:</span> LyImageCropper<span class="tt18 ttae">;</span>
-  myConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
-    width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `250`</span>
-    height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">150</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `200`</span>
+  <span class="tt18 ttb0">...</span>
+  <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">ViewChild</span></span><span class="tt18 ttae">(</span>LyImageCropperBase<span class="tt18 ttae">,</span> <span class="tt18 ttae">&#123;</span> <span class="tt18 tt1j">static</span><span class="tt18 ttb0">:</span> <span class="tt18 tted">true</span> <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span> cropper<span class="tt18 ttb0">:</span> LyImageCropperBase<span class="tt18 ttae">;</span>
+  cropperConfig<span class="tt18 ttb0">:</span> ImgCropperConfig <span class="tt18 ttb0">=</span> <span class="tt18 ttae">&#123;</span>
+    width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `250`</span>
+    height<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default `200`</span>
+    fill<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'<span style="display:inline-block;vertical-align:middle;width:14px;height:14px;border-radius:4px;background:#ff2997;opacity:1"></span>#ff2997'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Default transparent</span>
     type<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'image/png'</span><span class="tt18 ttae">,</span> <span class="tt18 tt3o">// Or you can also use `image/jpeg`</span>
-    output<span class="tt18 ttb0">:</span> <span class="tt18 ttae">&#123;</span>
-      width<span class="tt18 ttb0">:</span> <span class="tt18 ttap">200</span>
-    <span class="tt18 ttae">&#125;</span>
+    responsiveArea<span class="tt18 ttb0">:</span> <span class="tt18 tted">true</span><span class="tt18 ttae">,</span>
+    <span class="tt18 tt3o">// resizableArea: true</span>
   <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">;</span>
-  <span class="tt18 tta3">onCropped</span><span class="tt18 ttae">(</span>e<span class="tt18 ttb0">:</span> ImgCropperEvent<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Cropped img: '</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-  <span class="tt18 ttae">&#125;</span>
-
-  <span class="tt18 tta3">onReady</span><span class="tt18 ttae">(</span>e<span class="tt18 ttb0">:</span> ImgCropperEvent<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>ready <span class="tt18 ttb0">=</span> <span class="tt18 tted">true</span><span class="tt18 ttae">;</span>
-    <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">log</span><span class="tt18 ttae">(</span><span class="tt18 tt3z">'Img ready for cropper'</span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-  <span class="tt18 ttae">&#125;</span>
-
-  <span class="tt18 tta3">onError</span><span class="tt18 ttae">(</span>e<span class="tt18 ttb0">:</span> ImgCropperErrorEvent<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 ttcj">console</span><span class="tt18 ttae">.</span><span class="tt18 tta3">warn</span><span class="tt18 ttae">(</span><span class="tt18 tte2"><span class="tt18 template-punctuation tt3z">`</span><span class="tt18 tt3z">'</span><span class="tt18 interpolation"><span class="tt18 interpolation-punctuation ttae">$&#123;</span>e<span class="tt18 ttae">.</span>name<span class="tt18 interpolation-punctuation ttae">&#125;</span></span><span class="tt18 tt3z">' is not a valid image</span><span class="tt18 template-punctuation tt3z">`</span></span><span class="tt18 ttae">,</span> e<span class="tt18 ttae">)</span><span class="tt18 ttae">;</span>
-  <span class="tt18 ttae">&#125;</span>
-
-  <span class="tt18 tta3">onSliderInput</span><span class="tt18 ttae">(</span>event<span class="tt18 ttb0">:</span> LySliderChange<span class="tt18 ttae">)</span> <span class="tt18 ttae">&#123;</span>
-    <span class="tt18 tt1j">this</span><span class="tt18 ttae">.</span>scale <span class="tt18 ttb0">=</span> event<span class="tt18 ttae">.</span>value <span class="tt18 tt1j">as</span> <span class="tt18 ttcj">number</span><span class="tt18 ttae">;</span>
-  <span class="tt18 ttae">&#125;</span>
 <span class="tt18 ttae">&#125;</span>
 </code></pre>
+<blockquote>
+  <p>Note: There are two image cropper components <code class="ttm ttx">LyImageCropperBase</code> and LyImageCropper. <code class="ttm ttx">LyImageCropperBase</code> is new in Alyle UI version 17 and does not require dynamic styles or the Alyle UI dependency like <code class="ttm ttx">LyImageCropper</code> does.</p>
+</blockquote>
 <h2 id="rotate-image">Rotate Image</h2>
 <p>For rotation we can use the <code class="ttm ttx"><span class="tt18 tta3">rotate</span><span class="tt18 ttae">(</span>degrees<span class="tt18 ttb0">:</span>&nbsp;<span class="tt18 ttcj">number</span><span class="tt18 ttae">)</span></code> method.</p>
 <p>It can only be rotated 90 degrees, in each execution, for example, it cannot be rotated from 0 to 45 degrees. And if the number is negative, it will rotate counterclockwise</p>

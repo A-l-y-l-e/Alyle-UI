@@ -4,22 +4,29 @@
   <ly-icon>image</ly-icon>
   <span lyPe="1">Select Image</span>
 </button>
-<div *ngIf="ready">
-  <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
-</div>
+@if (ready) {
+  <div>
+    <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
+  </div>
+}
 <ly-img-cropper-base
-  [config]="myConfig"
+  [config]="cropperConfig"
   (ready)="ready = true"
   (cleaned)="ready = false"
   (cropped)="onCropped($event)"
   (loaded)="onLoaded($event)"
   (error)="onError($event)"
 >
-  <span>Drag and drop image</span>
+  <span>Drag and drop image.</span>
 </ly-img-cropper-base>
 
-<button ly-button *ngIf="ready" color="accent" (click)="cropper.crop()">
-  <ly-icon>crop</ly-icon>crop
-</button>
-
-<div *ngIf="croppedImage"><img [src]="croppedImage"></div>
+@if (ready) {
+  <div lyP="1">
+    <button ly-button raised bg="accent" (click)="cropper.crop()">
+      <ly-icon>crop</ly-icon>crop
+    </button>
+  </div>
+}
+@if (croppedImage) {
+  <div><img [src]="croppedImage"></div>
+}
