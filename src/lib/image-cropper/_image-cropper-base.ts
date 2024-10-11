@@ -84,7 +84,11 @@ export class ImgCropperConfig {
    * otherwise this will bring problems when cropping.
    */
   responsiveArea?: boolean;
-
+  /**
+   * Pinch zoom gestures
+   * Default: true
+   */
+  hasTouchEvents?: boolean = true;
 }
 
 /**
@@ -271,6 +275,7 @@ export class _LyImageCropperBase implements OnInit, AfterViewInit, OnDestroy {
   /** When the cropper is ready to be interacted  */
   isReady: boolean;
   isCropped: boolean;
+  private _events = new Map<string, EventListener>();
   /** @private */
   readonly _isPointerUp = new BehaviorSubject<boolean>(true);
 
@@ -352,6 +357,7 @@ export class _LyImageCropperBase implements OnInit, AfterViewInit, OnDestroy {
 
   /** Emits whenever the component is destroyed. */
   private readonly _destroy = new Subject<void>();
+  
 
   /** Used to subscribe to global move and end events */
   protected _document: Document;
@@ -393,20 +399,17 @@ export class _LyImageCropperBase implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit() {
-    this._addEventsToScaleWithScroll();
-  }
+  ngAfterViewInit() { }
 
   ngOnDestroy() {
     this._destroy.next();
     this._destroy.complete();
     const element = this._imgContainer.nativeElement;
-    const host = this._elementRef.nativeElement;
     this._lastPointerEvent = null;
     this._removeGlobalEvents();
     element.removeEventListener('mousedown', this._pointerDown, activeEventOptions);
     element.removeEventListener('touchstart', this._pointerDown, activeEventOptions);
-    host.removeEventListener('wheel', this._onWheel, activeEventOptions);
+    this._removeEventsToScaleWithScroll();
   }
 
   /** Load image with canvas */
@@ -1045,6 +1048,11 @@ export class _LyImageCropperBase implements OnInit, AfterViewInit, OnDestroy {
           this._ngZone.run(() => {
             this._markForCheck();
             this.ready.emit(cropEvent);
+            if (this.config.hasTouchEvents) {
+              this._addEventsToScaleWithScroll();
+            } else {
+              this._removeEventsToScaleWithScroll()
+            }
             // tslint:disable-next-line: deprecation
             this.loaded.emit(cropEvent);
           });
@@ -1366,10 +1374,20 @@ export class _LyImageCropperBase implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _addEventsToScaleWithScroll() {
-    this._ngZone.runOutsideAngular(() => {
-      const element = this._elementRef!.nativeElement;
-      element.addEventListener('wheel', this._onWheel, activeEventOptions);
-    });
+    if (!this._events.has('wheel')) {
+      this._events.set('wheel', this._onWheel);
+      this._ngZone.runOutsideAngular(() => {
+        const element = this._elementRef!.nativeElement;
+        element.addEventListener('wheel', this._onWheel, activeEventOptions);
+      });
+    }
+  }
+  private _removeEventsToScaleWithScroll() {
+    if (this._events.has('wheel')) {
+      this._events.delete('wheel');
+      const host = this._elementRef.nativeElement;
+      host.removeEventListener('wheel', this._onWheel, activeEventOptions);
+    }
   }
 
   private _onWheel = (event: WheelEvent) => {
