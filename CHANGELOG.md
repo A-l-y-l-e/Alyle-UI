@@ -1,3 +1,22 @@
+# [17.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/16.1.0...17.0.0) (2024-10-13)
+
+
+### Bug Fixes
+
+* **cropper:** remove `mergeDeep` ([20375f8](https://github.com/A-l-y-l-e/Alyle-UI/commit/20375f86ddf86e0f4a4820df47f06d7c226bf3ef))
+* **cropper:** use `SelectorsFn` instead of `ThemeRef.selectorsOf` ([e0a4780](https://github.com/A-l-y-l-e/Alyle-UI/commit/e0a47802beaf8820b6df9b649d283269abff0de6))
+
+
+### Features
+
+* add `hasTouchEvents` option ([e66a5f1](https://github.com/A-l-y-l-e/Alyle-UI/commit/e66a5f1bbdb30be118629acc4526d3d684a3766c))
+* add support for Angular 17 ([e96413a](https://github.com/A-l-y-l-e/Alyle-UI/commit/e96413ae9423c459d56e6e3943d3c58eb09289cf))
+* **cropper:** add `LyImageCropperBase` without Alyle UI dependency ([6087f22](https://github.com/A-l-y-l-e/Alyle-UI/commit/6087f22ab0f79a3740cd9edd16121f42244bb860))
+* **cropper:** add support for zoneless ([e98d100](https://github.com/A-l-y-l-e/Alyle-UI/commit/e98d100fbec80ce71c3a7fd59653500a51ad52c5))
+* support array of `lyl` styles in `STYLES` ([a70adff](https://github.com/A-l-y-l-e/Alyle-UI/commit/a70adff5270d543d2ba4948ff4b9bbffc78910e9))
+
+
+
 # [16.1.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/16.0.1...16.1.0) (2024-07-05)
 
 
