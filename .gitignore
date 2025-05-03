@@ -62,3 +62,4 @@ firebase-debug.log
 publish.sh
 /others
 sync-config.json
+yarn.lock
