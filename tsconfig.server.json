@@ -14,6 +14,7 @@
     "src/**/*.d.ts"
   ],
   "angularCompilerOptions": {
+    "skipLibCheck": true,
     "entryModule": "src/app/app.server.module#AppServerModule"
   }
 }
