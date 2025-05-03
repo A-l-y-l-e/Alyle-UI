@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LyCommonModule } from '@alyle/ui';
 import { LySkeletonModule } from '@alyle/ui/skeleton';
 
@@ -14,23 +14,17 @@ const routes: Routes = [
   { path: '', component: DocViewer }
 ];
 
-@NgModule({
-  imports: [
-    LyCommonModule,
-    CommonModule,
-    HttpClientModule,
-    DemoViewModule,
-    LySkeletonModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [ DocViewer ],
-  exports: [ DocViewer ],
-  providers: [
-    ElementsLoader,
-    {
-      provide: ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN,
-      useValue: ELEMENT_MODULE_LOAD_CALLBACKS
-    }
-  ]
-})
+@NgModule({ declarations: [DocViewer],
+    exports: [DocViewer], imports: [LyCommonModule,
+        CommonModule,
+        DemoViewModule,
+        LySkeletonModule,
+        RouterModule.forChild(routes)], providers: [
+        ElementsLoader,
+        {
+            provide: ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN,
+            useValue: ELEMENT_MODULE_LOAD_CALLBACKS
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class DocViewerModule { }

@@ -2,7 +2,7 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/pla
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule, Injectable, APP_ID } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -147,56 +147,50 @@ export function themeNameProviderFactory() {
   return 'minima-light';
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    PageContentComponent,
-    AppBarComponent,
-    TitleComponent,
-    /** Pages */
-    HomeComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HammerModule,
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    RouterModule,
-    // LyThemeModule.setTheme('minima-light'),
-    LyCommonModule,
-    LyButtonModule,
-    LyDrawerModule,
-    LyToolbarModule,
-    LyIconModule,
-    LyMenuModule,
-    LyTypographyModule,
-    LyCardModule,
-    DemoViewModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    LySnackBarModule,
-    LyTooltipModule,
-    LyGridModule,
-    DocViewerModule
-  ],
-  providers: [
-    AnalyticsService,
-    [ LyTheme2, StyleRenderer ],
-    { provide: APP_ID, useValue: 'serverApp' },
-    { provide: LY_THEME, useClass: MinimaLight, multi: true },
-    { provide: LY_THEME, useClass: MinimaDark, multi: true },
-    { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
-    { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
-    { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
-    { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
-    { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
-    { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory },
-    { provide: LY_ENABLE_SELECTORS_FN, useValue: true }, // default true
-    { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
-    { provide: WindowToken, useFactory: windowProvider },
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        PageContentComponent,
+        AppBarComponent,
+        TitleComponent,
+        /** Pages */
+        HomeComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        HammerModule,
+        CommonModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        RouterModule,
+        // LyThemeModule.setTheme('minima-light'),
+        LyCommonModule,
+        LyButtonModule,
+        LyDrawerModule,
+        LyToolbarModule,
+        LyIconModule,
+        LyMenuModule,
+        LyTypographyModule,
+        LyCardModule,
+        DemoViewModule,
+        AppRoutingModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+        LySnackBarModule,
+        LyTooltipModule,
+        LyGridModule,
+        DocViewerModule], providers: [
+        AnalyticsService,
+        [LyTheme2, StyleRenderer],
+        { provide: APP_ID, useValue: 'serverApp' },
+        { provide: LY_THEME, useClass: MinimaLight, multi: true },
+        { provide: LY_THEME, useClass: MinimaDark, multi: true },
+        { provide: LY_THEME, useClass: MinimaDeepDark, multi: true },
+        { provide: LY_THEME, useClass: CustomMinimaLight, multi: true },
+        { provide: LY_THEME, useClass: CustomMinimaDark, multi: true },
+        { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
+        { provide: LY_THEME_GLOBAL_VARIABLES, useClass: GlobalVariables },
+        { provide: LY_THEME_NAME, useFactory: themeNameProviderFactory },
+        { provide: LY_ENABLE_SELECTORS_FN, useValue: true }, // default true
+        { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
+        { provide: WindowToken, useFactory: windowProvider },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule { }
