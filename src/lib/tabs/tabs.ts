@@ -822,8 +822,9 @@ export class LyTab implements OnInit {
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _activeTabStyle: boolean;
   private _active: boolean;
+  _isBrowser: boolean;
   disableRipple: boolean;
-  _isBrowser = this._platform.isBrowser;
+  disabled: boolean;
 
   @Input()
   get active() {
@@ -843,7 +844,6 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     }
   }
 
-
   constructor(
     _el: ElementRef,
     _renderer: Renderer2,
@@ -857,6 +857,7 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
     platform: Platform
   ) {
     super(_el, _renderer, _theme, _ngZone, _rippleService, _focusMonitor, sRenderer, platform, null as any);
+    this._isBrowser = platform.isBrowser;
   }
 
   ngOnInit() {
@@ -882,11 +883,11 @@ export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   }
 
   _updateTabScroll() {
-    if (this._platform.isBrowser && this._tabs.scrollable) {
+    if (this._isBrowser && this._tabs.scrollable) {
       const tab = this._tab._el.nativeElement as HTMLElement;
       const tabContainer = this._tabs.tabsRef.nativeElement as HTMLElement;
       if (tabContainer.scrollWidth !== tabContainer.offsetWidth) {
-        const dir = this._theme.variables.direction;
+        const dir = (this as any)._theme.variables.direction;
         const max = tabContainer.scrollWidth - tabContainer.offsetWidth;
         const offsetBefore = dir === Dir.rtl
         ? max + tab.offsetLeft
