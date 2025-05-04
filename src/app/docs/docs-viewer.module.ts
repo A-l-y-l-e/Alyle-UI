@@ -14,17 +14,23 @@ const routes: Routes = [
   { path: '', component: DocViewer }
 ];
 
-@NgModule({ declarations: [DocViewer],
-    exports: [DocViewer], imports: [LyCommonModule,
-        CommonModule,
-        DemoViewModule,
-        LySkeletonModule,
-        RouterModule.forChild(routes)], providers: [
-        ElementsLoader,
-        {
-            provide: ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN,
-            useValue: ELEMENT_MODULE_LOAD_CALLBACKS
-        },
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
+@NgModule({
+  imports: [
+    LyCommonModule,
+    CommonModule,
+    DemoViewModule,
+    LySkeletonModule,
+    RouterModule.forChild(routes)
+  ],
+  declarations: [ DocViewer ],
+  exports: [ DocViewer ],
+  providers: [
+    ElementsLoader,
+    {
+      provide: ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN,
+      useValue: ELEMENT_MODULE_LOAD_CALLBACKS
+    },
+    provideHttpClient(withInterceptorsFromDi())
+  ]
+})
 export class DocViewerModule { }
