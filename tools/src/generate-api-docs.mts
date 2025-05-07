@@ -248,13 +248,6 @@ async function getDocs() {
   return docsJSON;
 }
 
-function toCamelcase(str: string) {
-  return str.replace(/^([A-Z])|\s(\w)/g, function(_match, p1, p2, _offset) {
-    if (p2) { return p2.toUpperCase(); }
-    return p1.toLowerCase();
-  });
-}
-
 function hasTag(refl: DeclarationReflection, tag: string): boolean {
   const comment: Reflection['comment'] = refl.comment
     || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0]!.comment : undefined);

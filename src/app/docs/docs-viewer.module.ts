@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LyCommonModule } from '@alyle/ui';
 import { LySkeletonModule } from '@alyle/ui/skeleton';
 
@@ -18,7 +18,6 @@ const routes: Routes = [
   imports: [
     LyCommonModule,
     CommonModule,
-    HttpClientModule,
     DemoViewModule,
     LySkeletonModule,
     RouterModule.forChild(routes)
@@ -30,7 +29,8 @@ const routes: Routes = [
     {
       provide: ELEMENT_MODULE_LOAD_CALLBACKS_TOKEN,
       useValue: ELEMENT_MODULE_LOAD_CALLBACKS
-    }
+    },
+    provideHttpClient(withInterceptorsFromDi())
   ]
 })
 export class DocViewerModule { }
