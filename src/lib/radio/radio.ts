@@ -168,7 +168,8 @@ export const STYLES = (theme: ThemeVariables & LyRadioVariables, ref: ThemeRef) 
   providers: [LY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
-  exportAs: 'lyRadioGroup'
+  exportAs: 'lyRadioGroup',
+  standalone: false
 })
 export class LyRadioGroup implements ControlValueAccessor {
   /** @docs-private */
@@ -321,7 +322,8 @@ export const LyRadioMixinBase = mixinDisableRipple(LyRadioBase);
   ],
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyRadio extends LyRadioMixinBase implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */

@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 
 @Directive({
-  selector: '[withClass]'
+  selector: '[withClass]',
+  standalone: false
 })
 export class LyWithClass {
 

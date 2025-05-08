@@ -17,7 +17,8 @@ const styles = () => {
 
 @Component({
   selector: 'aui-basic-badge',
-  templateUrl: './basic-badge.component.html'
+  templateUrl: './basic-badge.component.html',
+  standalone: false
 })
 export class BasicBadgeComponent {
   classes = this._theme.addStyleSheet(styles);

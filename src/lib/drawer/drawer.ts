@@ -102,7 +102,8 @@ export const STYLES = (theme: ThemeVariables & LyDrawerVariables, ref: ThemeRef)
 };
 
 @Directive({
-  selector: 'ly-drawer-content'
+  selector: 'ly-drawer-content',
+  standalone: false
 })
 export class LyDrawerContent {
   static readonly и = 'LyDrawerContent';
@@ -122,7 +123,8 @@ export class LyDrawerContent {
   selector: 'ly-drawer-container',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyDrawerContainer implements WithStyles {
   /** @docs-private */
@@ -150,7 +152,8 @@ export class LyDrawerContainer implements WithStyles {
   exportAs: 'lyDrawer',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyDrawer implements OnChanges, AfterViewInit, OnDestroy {
   static readonly и = 'LyDrawer';

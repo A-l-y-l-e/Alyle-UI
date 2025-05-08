@@ -4,7 +4,8 @@ import { XPosition, YPosition } from '@alyle/ui';
 @Component({
   selector: 'aui-menu-playground',
   templateUrl: './menu-playground.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class MenuPlaygroundComponent implements OnInit {
   openOnHover = false;

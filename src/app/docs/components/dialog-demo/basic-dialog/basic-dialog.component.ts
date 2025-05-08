@@ -4,7 +4,8 @@ import { LyDialog, LyDialogRef } from '@alyle/ui/dialog';
 @Component({
   selector: 'aui-basic-dialog',
   templateUrl: './basic-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class BasicDialogComponent {
 
@@ -23,7 +24,8 @@ export class BasicDialogComponent {
 
 @Component({
   templateUrl: './dialog-demo.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DialogDemo {
   constructor(

@@ -31,7 +31,8 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class ButtonTypesDemoComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

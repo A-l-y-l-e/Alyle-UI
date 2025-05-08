@@ -10,7 +10,8 @@ export interface ExampleTab {
 @Component({
   selector: 'aui-tabs-with-asynchronously-loading',
   templateUrl: './tabs-with-asynchronously-loading.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class TabsWithAsynchronouslyLoadingComponent {
   asyncTabs: Observable<ExampleTab[]>;

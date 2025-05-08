@@ -22,7 +22,8 @@ export const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   providers: [
     StyleRenderer
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class SnackBarPositionComponent {
   horizontalPosition: LySnackBarHorizontalPosition = 'before';

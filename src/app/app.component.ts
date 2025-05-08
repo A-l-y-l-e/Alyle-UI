@@ -265,7 +265,8 @@ const PRISM_STYLES = (theme: AUIThemeVariables) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class AppComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

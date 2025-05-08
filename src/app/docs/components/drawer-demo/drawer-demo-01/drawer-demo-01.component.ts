@@ -15,7 +15,8 @@ const styles = {
 @Component({
   selector: 'drawer-demo-01',
   templateUrl: './drawer-demo-01.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DrawerDemo01Component {
   classes = this._theme.addStyleSheet(styles);

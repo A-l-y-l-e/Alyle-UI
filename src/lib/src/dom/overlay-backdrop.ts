@@ -19,7 +19,8 @@ export const STYLES_BACKDROP_ROOT = () => lyl `{
   template: ``,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyOverlayBackdrop {
   @HostListener('click') onclick() {

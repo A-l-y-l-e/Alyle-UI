@@ -10,7 +10,8 @@ import { LY_FIELD_STYLES_TOKEN } from './field-styles-token';
   selector: 'ly-display-with',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyDisplayWith implements WithStyles {
   constructor(

@@ -60,7 +60,8 @@ const STYLE_PRIORITY = -0.5;
     'alignItems: lyAlignItems',
     'order: lyOrder',
     'elevation: lyElevation'
-  ]
+  ],
+  standalone: false
 })
 export class LyStyle implements WithStyles {
 
@@ -520,7 +521,8 @@ export class LyStyle implements WithStyles {
     'alignContent',
     'alignItems',
     'order',
-  ]
+  ],
+  standalone: false
 })
 export class LyStyleDeprecated extends LyStyle implements OnChanges {
   constructor(

@@ -12,7 +12,8 @@ const styles = () => ({
 
 @Component({
   selector: 'aui-tabs-with-icon',
-  templateUrl: './tabs-with-icon.component.html'
+  templateUrl: './tabs-with-icon.component.html',
+  standalone: false
 })
 export class TabsWithIconComponent {
   readonly classes = this.theme.addStyleSheet(styles);

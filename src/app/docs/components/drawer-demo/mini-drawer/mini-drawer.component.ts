@@ -18,7 +18,8 @@ const MINI = '56px over@XSmall';
 
 @Component({
   selector: 'aui-mini-drawer',
-  templateUrl: './mini-drawer.component.html'
+  templateUrl: './mini-drawer.component.html',
+  standalone: false
 })
 export class MiniDrawerComponent {
   readonly classes = this._theme.addStyleSheet(STYLES);

@@ -216,7 +216,8 @@ export const LySelectMixinBase = mixinTabIndex(LySelectBase as CanDisableCtor);
  * Allows the user to customize the trigger that is displayed when the select has a value.
  */
 @Directive({
-  selector: 'ly-select-trigger'
+  selector: 'ly-select-trigger',
+  standalone: false
 })
 export class LySelectTrigger { }
 
@@ -237,7 +238,8 @@ export class LySelectTrigger { }
   providers: [
     StyleRenderer,
     { provide: LyFieldControlBase, useExisting: LySelect }
-  ]
+  ],
+  standalone: false
 })
 export class LySelect
     extends LySelectMixinBase
@@ -1155,7 +1157,8 @@ export const LyOptionMixinBase = mixinDisableRipple(LyOptionBase);
   ],
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyOption extends LyOptionMixinBase implements WithStyles, FocusableOption, OnInit, OnChanges {
   /** @docs-private */

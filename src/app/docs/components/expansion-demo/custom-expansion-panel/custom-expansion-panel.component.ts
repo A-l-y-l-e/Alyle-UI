@@ -54,7 +54,8 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
 @Component({
   selector: 'aui-custom-expansion-panel',
   templateUrl: './custom-expansion-panel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CustomExpansionPanelComponent {
   readonly classes = this._theme.addStyleSheet(STYLES);

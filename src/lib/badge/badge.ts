@@ -112,7 +112,8 @@ mixinBg(
     'outlined',
     'elevation',
     'shadowColor'
-  ]
+  ],
+  standalone: false
 })
 export class LyBadge extends LyBadgeMixinBase implements OnChanges, OnInit, OnDestroy {
   static readonly и = 'LyBadge';

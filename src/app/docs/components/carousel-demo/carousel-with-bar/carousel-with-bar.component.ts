@@ -29,7 +29,8 @@ const STYLES = () => ({
 @Component({
   selector: 'aui-carousel-with-bar',
   templateUrl: './carousel-with-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CarouselWithBarComponent {
   readonly sRenderer = inject(StyleRenderer);

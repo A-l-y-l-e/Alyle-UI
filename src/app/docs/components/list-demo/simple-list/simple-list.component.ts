@@ -10,7 +10,8 @@ const styles = ({
 
 @Component({
   selector: 'aui-simple-list',
-  templateUrl: './simple-list.component.html'
+  templateUrl: './simple-list.component.html',
+  standalone: false
 })
 export class SimpleListComponent {
   readonly classes = this.theme.addStyleSheet(styles);

@@ -11,7 +11,8 @@ const STYLES = ({
 @Component({
   selector: 'aui-basic-slider',
   templateUrl: './basic-slider.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class BasicSliderComponent {
   readonly classes = this.theme.addStyleSheet(STYLES);

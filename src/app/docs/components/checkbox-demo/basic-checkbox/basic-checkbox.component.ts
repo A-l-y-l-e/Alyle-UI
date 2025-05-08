@@ -10,7 +10,8 @@ export interface Task {
 @Component({
   selector: 'aui-basic-checkbox',
   templateUrl: './basic-checkbox.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class BasicCheckboxComponent {
   task: Task = {

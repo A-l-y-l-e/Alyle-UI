@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 @Component({
-  template: ''
+  template: '',
+  standalone: false
 })
 export class EmptyComponent { }
 

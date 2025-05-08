@@ -61,7 +61,8 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
 @Component({
   selector: 'aui-doc-viewer',
   templateUrl: './doc-viewer.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DocViewer {
   readonly classes = this.theme.renderStyleSheet(STYLES);

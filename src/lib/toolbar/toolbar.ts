@@ -108,7 +108,8 @@ export const LyToolbarMixinBase = mixinStyleUpdater(
   ],
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyToolbar extends LyToolbarMixinBase implements OnChanges, OnInit {
   static readonly и = 'LyToolbar';

@@ -23,7 +23,8 @@ const styles = () => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class ImageCropperExample03Component {
   classes = this.sRenderer.renderSheet(styles);
