@@ -58,7 +58,8 @@ export const STYLES = (theme: ThemeVariables) => {
   providers: [
     StyleRenderer
   ],
-  exportAs: 'lySkeleton'
+  exportAs: 'lySkeleton',
+  standalone: false
 })
 export class LySkeleton {
   /** @docs-private */

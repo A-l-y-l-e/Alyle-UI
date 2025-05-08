@@ -47,7 +47,8 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class ButtonWithLoadingStateComponent {
 

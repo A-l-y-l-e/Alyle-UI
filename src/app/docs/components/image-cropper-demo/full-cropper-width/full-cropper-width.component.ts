@@ -46,7 +46,8 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   providers: [
     StyleRenderer
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class FullCropperWidthComponent implements AfterViewInit {
 

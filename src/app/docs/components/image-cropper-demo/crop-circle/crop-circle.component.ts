@@ -39,7 +39,8 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class CropCircleComponent implements WithStyles, AfterViewInit {
   classes = this.sRenderer.renderSheet(STYLES, 'root');

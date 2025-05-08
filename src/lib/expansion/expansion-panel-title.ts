@@ -2,7 +2,8 @@ import { Directive, Inject, ElementRef, Renderer2 } from '@angular/core';
 import { LyAccordion } from './accordion';
 
 @Directive({
-  selector: 'ly-panel-title'
+  selector: 'ly-panel-title',
+  standalone: false
 })
 export class LyExpansionPanelTitle {
   constructor(

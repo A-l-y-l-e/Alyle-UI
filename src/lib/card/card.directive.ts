@@ -122,7 +122,8 @@ mixinBg(
     'shadowColor',
     'disableRipple',
   ],
-  providers: [StyleRenderer]
+  providers: [StyleRenderer],
+  standalone: false
 })
 export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDestroy {
   static readonly и = 'LyCard';
@@ -168,7 +169,8 @@ export class LyCard extends LyCardMixinBase implements OnChanges, OnInit, OnDest
 }
 
 @Directive({
-  selector: 'ly-card-content'
+  selector: 'ly-card-content',
+  standalone: false
 })
 export class LyCardContent implements OnInit {
 
@@ -184,7 +186,8 @@ export class LyCardContent implements OnInit {
 }
 
 @Directive({
-  selector: 'ly-card-actions'
+  selector: 'ly-card-actions',
+  standalone: false
 })
 export class LyCardActions implements OnInit {
   @Input() disableActionSpacing: BooleanInput;
@@ -210,7 +213,8 @@ export class LyCardActions implements OnInit {
   selector: 'ly-card-media',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyCardMedia implements WithStyles, OnInit {
 

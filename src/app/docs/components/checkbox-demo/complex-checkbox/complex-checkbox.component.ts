@@ -18,7 +18,8 @@ export interface Fruit {
 @Component({
   selector: 'aui-complex-checkbox',
   templateUrl: './complex-checkbox.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class ComplexCheckboxComponent {
   readonly classes = this.theme.addStyleSheet(styles);

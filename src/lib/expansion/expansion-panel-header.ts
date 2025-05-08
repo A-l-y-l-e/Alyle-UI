@@ -7,7 +7,8 @@ import { LyExpansionPanel } from './expansion-panel';
   templateUrl: 'expansion-panel-header.html',
   host: {
     '(click)': '_expansionPanel.toggle()'
-  }
+  },
+  standalone: false
 })
 export class LyExpansionPanelHeader {
   /** @docs-private */

@@ -5,7 +5,8 @@ import { UntypedFormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'aui-select-reactive-form',
   templateUrl: './select-reactive-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class SelectReactiveFormComponent {
   selectFormControl = new UntypedFormControl('', Validators.required);

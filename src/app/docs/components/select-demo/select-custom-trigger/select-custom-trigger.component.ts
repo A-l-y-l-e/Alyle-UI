@@ -4,7 +4,8 @@ import { UntypedFormControl } from '@angular/forms';
 @Component({
   selector: 'aui-select-custom-trigger',
   templateUrl: './select-custom-trigger.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class SelectCustomTriggerComponent {
   fruits = new UntypedFormControl();

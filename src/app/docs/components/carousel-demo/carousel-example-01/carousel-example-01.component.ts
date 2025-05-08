@@ -35,7 +35,8 @@ const STYLES = () => {
   preserveWhitespaces: false,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class CarouselExample01Component {
   readonly sRenderer = inject(StyleRenderer);

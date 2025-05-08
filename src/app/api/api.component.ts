@@ -62,7 +62,8 @@ interface APIPkgSymbolList {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class ApiComponent implements OnInit, OnDestroy {
   readonly classes = this.sRenderer.renderSheet(STYLES);

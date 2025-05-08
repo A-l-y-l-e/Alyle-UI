@@ -6,7 +6,8 @@ const STYLES = (_theme: ThemeVariables) => ({ });
 @Component({
   selector: 'aui-basic-select',
   templateUrl: './basic-select.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class BasicSelectComponent {
   readonly classes = this._theme.addStyleSheet(STYLES);

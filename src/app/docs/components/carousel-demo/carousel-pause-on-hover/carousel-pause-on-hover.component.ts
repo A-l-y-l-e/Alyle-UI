@@ -29,7 +29,8 @@ const STYLES = () => ({
   selector: 'aui-carousel-pause-on-hover',
   templateUrl: './carousel-pause-on-hover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ StyleRenderer ]
+  providers: [ StyleRenderer ],
+  standalone: false
 })
 export class CarouselPauseOnHoverComponent {
   readonly sRenderer = inject(StyleRenderer);

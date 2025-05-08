@@ -14,7 +14,8 @@ export const STYLES = () => ({
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class MenuWithIconsComponent {
 

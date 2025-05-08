@@ -25,7 +25,8 @@ const STYLES = ({
   selector: 'aui-package-status',
   templateUrl: './package-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class PackageStatusComponent implements OnInit {
   classes = this._theme.addStyleSheet(STYLES);

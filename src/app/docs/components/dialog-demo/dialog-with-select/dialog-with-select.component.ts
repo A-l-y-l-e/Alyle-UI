@@ -5,7 +5,8 @@ import { DialogWithSelectDialog } from './dialog-with-select-dialog';
 @Component({
   selector: 'aui-dialog-with-select',
   templateUrl: './dialog-with-select.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DialogWithSelectComponent {
   constructor(

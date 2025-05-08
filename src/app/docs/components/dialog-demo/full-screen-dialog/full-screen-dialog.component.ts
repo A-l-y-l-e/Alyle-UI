@@ -11,7 +11,8 @@ const STYLES_DIALOG = ({
 @Component({
   selector: 'aui-full-screen-dialog',
   templateUrl: './full-screen-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class FullScreenDialogComponent {
 
@@ -33,7 +34,8 @@ export class FullScreenDialogComponent {
 
 @Component({
   templateUrl: './full-screen-dialog.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class FullScreenDialog {
   constructor(

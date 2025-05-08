@@ -31,7 +31,8 @@ export const STYLES = (theme: AppThemeVariables, selectors: SelectorsFn) => {
   templateUrl: './app.component.html',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class AppComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

@@ -33,7 +33,8 @@ mixinBg(
     'elevation',
     'shadowColor',
     'disableRipple'
-  ]
+  ],
+  standalone: false
 })
 export class LyPaper extends LyPaperMixinBase implements OnChanges, OnInit, OnDestroy {
   _hasText: boolean;

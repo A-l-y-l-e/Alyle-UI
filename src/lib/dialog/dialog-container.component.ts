@@ -108,7 +108,8 @@ const STYLES = (theme: ThemeVariables & LyDialogVariables, ref: ThemeRef) => {
   },
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyDialogContainer implements WithStyles, OnInit, AfterContentInit, OnDestroy {
   /** @docs-private */

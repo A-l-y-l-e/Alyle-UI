@@ -17,7 +17,8 @@ const styles = ({
 
 @Component({
   selector: 'aui-icons',
-  templateUrl: './icons.component.html'
+  templateUrl: './icons.component.html',
+  standalone: false
 })
 export class IconsComponent {
   readonly classes = this._theme.addStyleSheet(styles);

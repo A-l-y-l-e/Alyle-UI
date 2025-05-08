@@ -10,7 +10,8 @@ const styles = ({
 
 @Component({
   selector: 'aui-list-dividers',
-  templateUrl: './list-dividers.component.html'
+  templateUrl: './list-dividers.component.html',
+  standalone: false
 })
 export class ListDividersComponent {
   readonly classes = this.theme.addStyleSheet(styles);

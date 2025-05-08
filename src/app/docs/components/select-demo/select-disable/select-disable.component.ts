@@ -4,7 +4,8 @@ import { UntypedFormControl } from '@angular/forms';
 @Component({
   selector: 'aui-select-disable',
   templateUrl: './select-disable.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class SelectDisableComponent {
   disableSelect = new UntypedFormControl(false);

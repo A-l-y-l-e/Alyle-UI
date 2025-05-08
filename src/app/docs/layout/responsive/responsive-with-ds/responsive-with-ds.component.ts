@@ -68,7 +68,8 @@ const STYLES = (theme: ThemeVariables) => {
   templateUrl: './responsive-with-ds.component.html',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class ResponsiveWithDsComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES);

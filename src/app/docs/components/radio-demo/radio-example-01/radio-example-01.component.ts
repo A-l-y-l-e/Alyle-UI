@@ -4,7 +4,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   selector: 'radio-example-01',
   templateUrl: './radio-example-01.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  preserveWhitespaces: false,
+  standalone: false
 })
 export class RadioExample01Component {
   val: string;

@@ -73,7 +73,8 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');

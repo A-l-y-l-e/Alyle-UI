@@ -357,7 +357,8 @@ export interface LySliderMark {
     // On Safari starting to slide temporarily triggers text selection mode which
     // show the wrong cursor. We prevent it by stopping the `selectstart` event.
     '(selectstart)': '$event.preventDefault()',
-  }
+  },
+  standalone: false
 })
 export class LySlider implements OnChanges, OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
 

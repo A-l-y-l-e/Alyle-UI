@@ -4,7 +4,8 @@ import { LySnackBar } from '@alyle/ui/snack-bar';
 @Component({
   selector: 'aui-passing-data-to-a-snack-bar',
   templateUrl: './passing-data-to-a-snack-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class PassingDataToASnackBarComponent {
 

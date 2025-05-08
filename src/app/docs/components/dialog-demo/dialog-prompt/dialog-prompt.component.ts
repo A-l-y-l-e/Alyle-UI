@@ -9,7 +9,8 @@ export interface DialogData {
 @Component({
   selector: 'aui-dialog-prompt',
   templateUrl: './dialog-prompt.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DialogPromptComponent {
 
@@ -39,7 +40,8 @@ export class DialogPromptComponent {
 
 @Component({
   templateUrl: './dialog-prompt-dialog.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DialogPromptDialog {
   constructor(

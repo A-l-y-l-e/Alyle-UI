@@ -5,13 +5,15 @@ import { MinimaDark } from './dark';
 
 @Directive({
   selector: '[ly-theme-minima-light]',
-  providers: [ LyTheme2, { provide: LY_THEME_NAME, useValue: 'minima-light' } ]
+  providers: [ LyTheme2, { provide: LY_THEME_NAME, useValue: 'minima-light' } ],
+  standalone: false
 })
 export class ThemeMinimaLight { }
 
 @Directive({
   selector: '[ly-theme-minima-dark]',
-  providers: [ LyTheme2, { provide: LY_THEME_NAME, useValue: 'minima-dark' } ]
+  providers: [ LyTheme2, { provide: LY_THEME_NAME, useValue: 'minima-dark' } ],
+  standalone: false
 })
 export class ThemeMinimaDark { }
 

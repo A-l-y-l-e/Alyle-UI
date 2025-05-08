@@ -43,7 +43,8 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class CropperDialog implements WithStyles, AfterViewInit {
 

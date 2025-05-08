@@ -245,7 +245,8 @@ export const LyCheckboxMixinBase = mixinDisableRipple(LyCheckboxBase);
   exportAs: 'lyCheckbox',
   inputs: [
     'disableRipple'
-  ]
+  ],
+  standalone: false
 })
 export class LyCheckbox extends LyCheckboxMixinBase implements WithStyles,
   ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {

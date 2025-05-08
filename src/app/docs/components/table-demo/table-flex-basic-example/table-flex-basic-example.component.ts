@@ -39,7 +39,8 @@ const STYLES = (theme: ThemeVariables) => {
   providers: [
     StyleRenderer
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class TableFlexBasicExampleComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');

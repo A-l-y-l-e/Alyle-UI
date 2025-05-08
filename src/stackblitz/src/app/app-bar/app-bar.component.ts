@@ -30,7 +30,8 @@ const styles = (theme: ThemeVariables) => ({
   selector: 'app-bar',
   templateUrl: './app-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class AppBarComponent implements OnInit {
   classes = this.lyTheme.addStyleSheet(styles, 1);

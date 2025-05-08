@@ -7,7 +7,8 @@ import { LY_SLIDER } from './tokens';
 @Component({
   selector: 'ly-mark',
   templateUrl: 'mark.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class LyMark implements OnInit, OnDestroy {
   /** @docs-private */

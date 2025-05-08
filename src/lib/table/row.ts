@@ -20,6 +20,7 @@ import { STYLES as TABLE_STYLES } from './styles';
   selector: '[lyHeaderRowDef]',
   providers: [{provide: CdkHeaderRowDef, useExisting: LyHeaderRowDef}],
   inputs: ['columns: lyHeaderRowDef', 'sticky: lyHeaderRowDefSticky'],
+  standalone: false
 })
 export class LyHeaderRowDef extends CdkHeaderRowDef {}
 
@@ -31,6 +32,7 @@ export class LyHeaderRowDef extends CdkHeaderRowDef {}
   selector: '[lyFooterRowDef]',
   providers: [{provide: CdkFooterRowDef, useExisting: LyFooterRowDef}],
   inputs: ['columns: lyFooterRowDef', 'sticky: lyFooterRowDefSticky'],
+  standalone: false
 })
 export class LyFooterRowDef extends CdkFooterRowDef {}
 
@@ -43,6 +45,7 @@ export class LyFooterRowDef extends CdkFooterRowDef {}
   selector: '[lyRowDef]',
   providers: [{provide: CdkRowDef, useExisting: LyRowDef}],
   inputs: ['columns: lyRowDefColumns', 'when: lyRowDefWhen'],
+  standalone: false
 })
 export class LyRowDef<T> extends CdkRowDef<T> {}
 
@@ -62,6 +65,7 @@ export class LyRowDef<T> extends CdkRowDef<T> {}
     {provide: CdkHeaderRow, useExisting: LyHeaderRow},
     StyleRenderer
   ],
+  standalone: false
 })
 export class LyHeaderRow extends CdkHeaderRow {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'headerRow');
@@ -88,6 +92,7 @@ export class LyHeaderRow extends CdkHeaderRow {
     {provide: CdkFooterRow, useExisting: LyFooterRow},
     StyleRenderer
   ],
+  standalone: false
 })
 export class LyFooterRow extends CdkFooterRow {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'footerRow');
@@ -114,6 +119,7 @@ export class LyFooterRow extends CdkFooterRow {
     {provide: CdkRow, useExisting: LyRow},
     StyleRenderer
   ],
+  standalone: false
 })
 export class LyRow extends CdkRow {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'row');
@@ -131,6 +137,7 @@ export class LyRow extends CdkRow {
     {provide: CdkNoDataRow, useExisting: LyNoDataRow},
     StyleRenderer
   ],
+  standalone: false
 })
 export class LyNoDataRow extends CdkNoDataRow {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES);

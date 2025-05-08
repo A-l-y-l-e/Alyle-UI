@@ -16,7 +16,8 @@ import {
       max-width: 600px
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CropperBasicUsageComponent {
   croppedImage?: string | null = null;

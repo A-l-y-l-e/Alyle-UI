@@ -9,7 +9,8 @@ const STYLE_PRIORITY = -2;
 
 /** Hint text to be shown underneath the field. */
 @Directive({
-  selector: 'ly-field > ly-hint'
+  selector: 'ly-field > ly-hint',
+  standalone: false
 })
 export class LyHint {
   readonly classes: {

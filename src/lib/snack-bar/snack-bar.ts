@@ -60,7 +60,8 @@ export interface LySnackBarDismiss {
 
 @Directive({
   selector: 'ng-template[ly-snack-bar]',
-  exportAs: 'lySnackBar'
+  exportAs: 'lySnackBar',
+  standalone: false
 })
 export class LySnackBar implements OnDestroy {
 

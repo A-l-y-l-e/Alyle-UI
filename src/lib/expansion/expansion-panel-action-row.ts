@@ -2,7 +2,8 @@ import { Directive, Inject, ElementRef, Renderer2 } from '@angular/core';
 import { LyAccordion } from './accordion';
 
 @Directive({
-  selector: 'ly-action-row'
+  selector: 'ly-action-row',
+  standalone: false
 })
 export class LyExpansionPanelAction {
   constructor(

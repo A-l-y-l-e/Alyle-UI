@@ -7,7 +7,8 @@ import { Ads } from '@shared/ads';
   selector: 'app-title',
   templateUrl: './title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class TitleComponent implements OnInit {
   private _route: string;

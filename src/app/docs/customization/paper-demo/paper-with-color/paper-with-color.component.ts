@@ -15,7 +15,8 @@ const STYLES = {
 
 @Component({
   selector: 'aui-paper-with-color',
-  templateUrl: './paper-with-color.component.html'
+  templateUrl: './paper-with-color.component.html',
+  standalone: false
 })
 export class PaperWithColorComponent {
   readonly classes = this._theme.addStyleSheet(STYLES);

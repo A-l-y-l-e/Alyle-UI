@@ -30,5 +30,6 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
   // an ExpressionChangedAfterItHasBeenCheckedError).
   // tslint:disable-next-line:validate-decorators
   changeDetection: ChangeDetectionStrategy.Default,
+  standalone: false
 })
 export class LyTextColumn<T> extends CdkTextColumn<T> {}

@@ -129,7 +129,8 @@ export const STYLES = (theme: ThemeVariables & ExpansionVariables, ref: ThemeRef
   exportAs: 'lyAccordion',
   providers: [
     StyleRenderer,
-  ]
+  ],
+  standalone: false
 })
 export class LyAccordion implements OnInit {
 

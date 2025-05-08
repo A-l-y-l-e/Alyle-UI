@@ -12,7 +12,8 @@ const STYLES = (theme: ThemeVariables) => lyl `{
   selector: 'ly-divider',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyDivider implements OnInit {
   static readonly и = 'LyDivider';

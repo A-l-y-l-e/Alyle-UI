@@ -16,7 +16,8 @@ const STYLES_DIALOG_ACTIONS = () => lyl `{
 
 @Directive({
   selector: 'ly-dialog-actions, [ly-dialog-actions], [lyDialogActions]',
-  exportAs: 'lyDialogActions'
+  exportAs: 'lyDialogActions',
+  standalone: false
 })
 export class LyDialogActions implements OnInit {
   constructor(

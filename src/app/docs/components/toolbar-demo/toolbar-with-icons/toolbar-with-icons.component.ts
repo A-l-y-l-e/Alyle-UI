@@ -9,7 +9,8 @@ const styles = ({
 
 @Component({
   selector: 'aui-toolbar-with-icons',
-  templateUrl: './toolbar-with-icons.component.html'
+  templateUrl: './toolbar-with-icons.component.html',
+  standalone: false
 })
 export class ToolbarWithIconsComponent {
   classes = this._theme.addStyleSheet(styles);

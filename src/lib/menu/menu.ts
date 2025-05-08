@@ -144,7 +144,8 @@ const ANIMATIONS = [
   exportAs: 'lyMenu',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
@@ -394,7 +395,8 @@ export class LyMenu implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   host: {
     '(click)': '_handleClick()',
     '(mouseenter)': '_handleMouseEnter()'
-  }
+  },
+  standalone: false
 })
 export class LyMenuItem {
 
@@ -464,7 +466,8 @@ export class LyMenuItem {
   exportAs: 'lyMenuTriggerFor',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyMenuTriggerFor implements OnDestroy {
   readonly classes = this.sRenderer.renderSheet(STYLES);
@@ -588,7 +591,8 @@ export class LyMenuTriggerFor implements OnDestroy {
   host: {
     '(mouseenter)': '_handleMouseEnterOrLeave(true)',
     '(mouseleave)': '_handleMouseEnterOrLeave(false)'
-  }
+  },
+  standalone: false
 })
 export class LyMenuOpenOnHover implements OnDestroy {
 

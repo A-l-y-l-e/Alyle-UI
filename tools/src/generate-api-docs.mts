@@ -2,7 +2,7 @@ import ts from 'typescript';
 import * as path from 'path';
 import * as fs from 'fs';
 import chalk from 'chalk';
-import { Application, TypeDocReader, TSConfigReader, ProjectReflection, DeclarationReflection, Reflection } from 'typedoc';
+import { Application, TypeDocReader, TSConfigReader, ProjectReflection, DeclarationReflection, Reflection, ReflectionKind } from 'typedoc';
 
 import { highlight } from './html-loader/highlight.mjs';
 import { hashCode } from './utils/hash-code.mjs';
@@ -24,28 +24,25 @@ const APIList: DocsPackage[] = [];
 console.log('Starting...');
 
 async function generateJson() {
-  const app = new Application();
   const packagesPaths = await getPackagePaths();
   console.log(packagesPaths);
-  // If you want TypeDoc to load tsconfig.json / typedoc.json files
-  app.options.addReader(new TSConfigReader());
-  app.options.addReader(new TypeDocReader());
-  app.bootstrap({
-    // typedoc options here
+
+  const app = await Application.bootstrap({
     entryPoints: packagesPaths.map((pkg) => pkg.path),
+    entryPointStrategy: 'expand',
     tsconfig: 'tsconfig.td.json',
-    excludeExternals: true,
-    excludeInternal: true,
-    excludePrivate: true,
+    excludeExternals: "true",
+    excludeInternal: "true",
+    excludePrivate: "true",
   });
 
-  const project = app.convert();
+  app.options.addReader(new TSConfigReader());
+  app.options.addReader(new TypeDocReader());
+
+  const project = await app.convert();
 
   if (project) {
-    // Project may not have converted correctly
     const outputDir = path.join('dist/api-docs');
-
-    // Rendered docs
     await app.generateJson(project, path.join(outputDir, 'documentation.json'));
   }
 }
@@ -56,7 +53,11 @@ async function render() {
     if (!child.children) {
       continue;
     }
-    let pkgName = child.sources![0]!.fileName.replace(/src\/lib/, '@alyle/ui');
+    if (!child.sources || !child.sources[0]) {
+      console.warn(chalk.yellow(`Skipping child without source: ${child.name}`));
+      continue;
+    }
+    let pkgName = child.sources[0].fileName.replace(/src\/lib/, '@alyle/ui');
     pkgName = path.dirname(pkgName);
     console.log(child.sources![0]!.fileName);
     pkgName = pkgName.endsWith('/') ? pkgName.slice(0, -1) : pkgName;
@@ -74,8 +75,14 @@ async function render() {
       APIList.push(API);
     }
     for (const _child of child.children) {
-      const file = _child.sources![0]!.fileName;
-      const { name, decorators, kindString } = _child;
+      if (!_child.sources || !_child.sources[0]) {
+        console.warn(chalk.yellow(`Skipping entry without source: ${_child.name}`));
+        continue;
+      }
+      const file = _child.sources[0].fileName;
+      const { name, kind } = _child;
+      const decorators = (_child as any).decorators || null;
+      const kindString = ReflectionKind[kind];
       const type = decorators
         ? decorators[0]!.name
         : (kindString! === 'Variable' ? 'Const' : kindString!);
@@ -251,8 +258,8 @@ async function getDocs() {
 function hasTag(refl: DeclarationReflection, tag: string): boolean {
   const comment: Reflection['comment'] = refl.comment
     || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0]!.comment : undefined);
-  if (comment && comment.tags) {
-    return comment.tags.some((_: any) => _.tag === tag);
+  if (comment && 'tags' in comment) {
+    return Array.isArray(comment.tags) && comment.tags.some((_: any) => _.tag === tag);
   } else {
     return false;
   }
@@ -261,8 +268,8 @@ function hasTag(refl: DeclarationReflection, tag: string): boolean {
 function checkIfContainTagPrivate(refl: DeclarationReflection): boolean {
   const comment: Reflection['comment'] = refl.comment
     || (refl['signatures'] && refl['signatures'].length ? refl['signatures'][0]!.comment : undefined);
-  if (comment && comment.tags) {
-    return comment.tags.some((_: any) => _.tag === 'docs-private');
+  if (comment && 'tags' in comment) {
+    return Array.isArray(comment.tags) && comment.tags.some((_: any) => _.tag === 'docs-private');
   } else {
     return false;
   }

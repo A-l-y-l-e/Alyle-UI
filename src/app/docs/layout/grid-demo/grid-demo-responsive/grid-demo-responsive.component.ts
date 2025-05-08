@@ -14,7 +14,8 @@ const styles = (theme: ThemeVariables) => ({
 
 @Component({
   selector: 'grid-demo-responsive',
-  templateUrl: './grid-demo-responsive.component.html'
+  templateUrl: './grid-demo-responsive.component.html',
+  standalone: false
 })
 export class GridDemoResponsiveComponent {
   readonly classes = this.theme.addStyleSheet(styles);

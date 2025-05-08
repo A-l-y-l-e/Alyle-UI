@@ -28,7 +28,7 @@ import {
   shadowBuilder,
   StyleRenderer,
   Style,
-  SelectorsFn, 
+  SelectorsFn,
 } from '@alyle/ui';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -246,7 +246,8 @@ export enum CarouselMode {
   },
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   /** @docs-private */
@@ -564,7 +565,8 @@ export class LyCarousel implements OnInit, AfterViewInit, OnDestroy {
   selector: 'ly-carousel-item',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyCarouselItem {
   private _className: string;

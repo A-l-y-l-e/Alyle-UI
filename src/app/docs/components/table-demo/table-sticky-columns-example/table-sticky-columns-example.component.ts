@@ -67,7 +67,8 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   providers: [
     StyleRenderer
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class TableStickyColumnsExampleComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');

@@ -34,7 +34,8 @@ const STYLES = (theme: ThemeVariables, ref: ThemeRef) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class CustomBadgeComponent implements OnInit {
   readonly classes = this.sRenderer.renderSheet(STYLES);

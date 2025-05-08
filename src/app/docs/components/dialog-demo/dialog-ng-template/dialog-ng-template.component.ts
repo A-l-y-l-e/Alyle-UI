@@ -9,7 +9,8 @@ export interface Fruit {
 @Component({
   selector: 'aui-dialog-ng-template',
   templateUrl: './dialog-ng-template.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DialogNgTemplateComponent {
 

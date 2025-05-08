@@ -14,7 +14,8 @@ const styles = (theme: ThemeVariables) => ({
 
 @Component({
   selector: 'grid-demo-basic',
-  templateUrl: './grid-demo-basic.component.html'
+  templateUrl: './grid-demo-basic.component.html',
+  standalone: false
 })
 export class GridDemoBasicComponent {
   readonly classes = this.theme.addStyleSheet(styles);

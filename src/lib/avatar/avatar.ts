@@ -97,7 +97,8 @@ export const LyAvatarMixinBase = mixinStyleUpdater(
   ],
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyAvatar extends LyAvatarMixinBase implements OnChanges, OnInit {
   /** @docs-private */

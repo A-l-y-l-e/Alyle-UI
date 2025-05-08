@@ -5,7 +5,8 @@ import { LY_FIELD_STYLES_TOKEN } from './field-styles-token';
 const STYLE_PRIORITY = -2;
 
 @Directive({
-  selector: 'ly-error'
+  selector: 'ly-error',
+  standalone: false
 })
 export class LyError {
   constructor(

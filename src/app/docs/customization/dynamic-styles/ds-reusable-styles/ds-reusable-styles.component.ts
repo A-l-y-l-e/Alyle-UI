@@ -10,7 +10,8 @@ const STYLES = () => ({
 @Component({
   selector: 'aui-ds-reusable-styles',
   templateUrl: './ds-reusable-styles.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DsReusableStylesComponent implements OnInit {
 

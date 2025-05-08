@@ -10,7 +10,8 @@ const styles = ({
 
 @Component({
   selector: 'aui-inset-dividers',
-  templateUrl: './inset-dividers.component.html'
+  templateUrl: './inset-dividers.component.html',
+  standalone: false
 })
 export class InsetDividersComponent {
   readonly classes = this.theme.addStyleSheet(styles);

@@ -9,7 +9,8 @@ export interface KeyAttribute {
 
 @Directive({
   selector: '[ngTransclude]',
-  exportAs: 'ngTransclude'
+  exportAs: 'ngTransclude',
+  standalone: false
 })
 export class NgTranscludeDirective implements OnDestroy {
 
