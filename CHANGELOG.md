@@ -1,3 +1,12 @@
+# [18.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/17.0.0...18.0.0) (2025-05-08)
+
+
+### Features
+
+* add support for Angular v18 ([#228](https://github.com/A-l-y-l-e/Alyle-UI/issues/228)) ([be59be4](https://github.com/A-l-y-l-e/Alyle-UI/commit/be59be41bb203034187b1e86938b7871af0d45f7))
+
+
+
 # [17.0.0](https://github.com/A-l-y-l-e/Alyle-UI/compare/16.1.0...17.0.0) (2024-10-13)
 
 
