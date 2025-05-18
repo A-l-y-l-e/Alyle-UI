@@ -232,8 +232,8 @@ export class ViewComponent implements OnInit {
     payload.files[`src/app/app.component.html`] = initialApp[`src/app/app.component.html`]
       .replace('template', `<${selector}></${selector}>`);
     payload.files[`src/app/app.module.ts`] = initialApp[`src/app/app.module.ts`]
-      .replace(/\/\/ importExampleModule/, `import { ${moduleName} } from './example/${name}.module';`)
-      .replace(/\/\/ ExampleModule/, moduleName);
+      .replace(/\/\*\*\ Insert\ example\ module\ import\ here\ \*\//, `import { ${moduleName} } from './example/${name}.module';`)
+      .replace(/\/\*\*\ Insert\ example\ module\ name\ here\ \*\//, moduleName);
 
     others.forEach((text, index) => {
       const filePath = `src/app/example/${this.files[index + 3].path!}`;
