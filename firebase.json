@@ -61,6 +61,11 @@
         "source" : "/components/resizing-cropping-images",
         "destination" : "/components/image-cropper",
         "type" : 301
+      },
+      {
+        "source": "/**",
+        "destination": "https://alyle.dev/**",
+        "type": 301
       }
     ]
   }
