@@ -54,6 +54,12 @@
             "value": "public, max-age=2592000" // 30 days.
           }
         ]
+      },
+      {
+        "source": "**/*.@(json)",
+        "headers": [ {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
       }
     ],
     "redirects": [
