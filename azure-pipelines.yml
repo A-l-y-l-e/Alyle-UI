@@ -8,7 +8,7 @@ jobs:
 - job: BuildApp
   displayName: Build App
   pool:
-    vmImage: 'ubuntu-20.04'
+    vmImage: 'ubuntu-22.04'
   steps:
   - task: NodeTool@0
     inputs:
@@ -48,7 +48,7 @@ jobs:
 - job: BuildDocsAndArtifacts
   displayName: Build docs & artifacts
   pool:
-    vmImage: 'ubuntu-20.04'
+    vmImage: 'ubuntu-22.04'
   steps:
   - task: NodeTool@0
     inputs:
