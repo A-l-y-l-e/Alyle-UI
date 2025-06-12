@@ -54,7 +54,7 @@ export type AppThemeVariables = MinimaLight
     AppBarModule,
     /** Insert example module name here */
   ], providers: [
-    StyleRenderer,
+    // StyleRenderer,
     LyTheme2,
     { provide: LY_THEME_NAME, useValue: 'minima-light' },
     { provide: LY_THEME, useClass: MinimaLight, multi: true },

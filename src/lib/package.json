@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/A-l-y-l-e/Alyle-UI/issues"
   },
-  "homepage": "https://alyle.io/",
+  "homepage": "https://alyle.dev/",
   "dependencies": {
     "tslib": "^2.2.0"
   },
