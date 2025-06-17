@@ -1,11 +1,11 @@
 import { Injectable, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LY_THEME, LY_THEME_NAME, StyleRenderer, LyTheme2, LyCommonModule, LyClasses, lyl } from '@alyle/ui';
 import { MinimaLight, MinimaDeepDark, MinimaDark } from '@alyle/ui/themes/minima';
 
-// importExampleModule
+/** Insert example module import here */
 import { AppComponent, STYLES as APP_STYLES } from './app.component';
 import { AppBarModule } from './app-bar/app-bar.module';
 import { Color } from '@alyle/ui/color';
@@ -46,16 +46,15 @@ export type AppThemeVariables = MinimaLight
   declarations: [
     AppComponent
   ],
+  bootstrap: [ AppComponent ],
   imports: [
     LyCommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     AppBarModule,
-    // ExampleModule
-  ],
-  providers: [
-    StyleRenderer,
+    /** Insert example module name here */
+  ], providers: [
+    // StyleRenderer,
     LyTheme2,
     { provide: LY_THEME_NAME, useValue: 'minima-light' },
     { provide: LY_THEME, useClass: MinimaLight, multi: true },
@@ -63,8 +62,8 @@ export type AppThemeVariables = MinimaLight
     { provide: LY_THEME, useClass: MinimaDark, multi: true },
     { provide: LY_THEME, useClass: CustomMinimaLight, multi: true }, // name minima-light
     { provide: LY_THEME, useClass: CustomMinimaDark, multi: true }, // name minima-dark
-    { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true }, // name minima-deep-dark
-  ],
-  bootstrap: [AppComponent]
+    { provide: LY_THEME, useClass: CustomMinimaDeepDark, multi: true },
+    provideHttpClient(withInterceptorsFromDi()),
+  ]
 })
 export class AppModule { }

@@ -623,7 +623,7 @@ after:
 ]">
 ```
 
-`LyStyle` no longer supports function type styles, use [dynamic styles](https://alyle.io/customization/dynamic-styles) instead.
+`LyStyle` no longer supports function type styles, use [dynamic styles](https://alyle.dev/customization/dynamic-styles) instead.
 
 before:
 

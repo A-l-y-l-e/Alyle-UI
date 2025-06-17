@@ -28,7 +28,7 @@ Add the <code class="html"><ly-img-cropper-base></code> to your template:
 
 ```
 
-You can use [`ImgCropperConfig`](https://alyle.io/api/@alyle/ui/image-cropper/ImgCropperConfig) to configure the cropper.
+You can use [`ImgCropperConfig`](https://alyle.dev/api/@alyle/ui/image-cropper/ImgCropperConfig) to configure the cropper.
 
 
 ```ts

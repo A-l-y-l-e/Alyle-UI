@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">Alyle UI</h1>
   <p align="center">Minimal Design, a set of components for Angular.</p>
-  <p align="center"><a href="https://alyle.io">Docs</a></p>
+  <p align="center"><a href="https://alyle.dev">Docs</a></p>
 </p>
 
 [![Build Status](https://dev.azure.com/Alyle/Alyle%20UI/_apis/build/status/Build?branchName=master)](https://dev.azure.com/Alyle/Alyle%20UI/_build/latest?definitionId=5&branchName=master)
@@ -11,38 +11,38 @@
 
 ## Install Alyle UI
 
-[Installation](https://alyle.io/getting-started/installation)
+[Installation](https://alyle.dev/getting-started/installation)
 
 ## Components
 
 |Feature|State|Responsive|Docs|
 |----|-----|----------|----|
-|avatar|✔️|✔️|[Docs](https://alyle.io/components/avatar)|
-|badge|✔️|✔️|[Docs](https://alyle.io/components/badge)|
-|button|✔️|✔️|[Docs](https://alyle.io/components/button)|
-|card|✔️|✔️|[Docs](https://alyle.io/components/card)|
-|carousel|✔️|✔️|[Docs](https://alyle.io/components/carousel)|
-|checkbox|✔️|✔️|[Docs](https://alyle.io/components/checkbox)|
-|dialog|✔️|✔️|[Docs](https://alyle.io/components/dialog)|
-|divider|✔️|✔️|[Docs](https://alyle.io/components/divider)|
-|drawer|✔️|✔️|[Docs](https://alyle.io/components/drawer)|
-|expansion|✔️|✔️|[Docs](https://alyle.io/components/expansion)|
-|field|✔️|✔️|[Docs](https://alyle.io/components/field)|
-|grid|✔️|✔️|[Docs](https://alyle.io/components/grid)|
-|icon|✔️|✔️|[Docs](https://alyle.io/components/icon)|
-|img cropper|✔️|✔️|[Docs](https://alyle.io/components/image-cropper)|
-|list|✔️|✔️|[Docs](https://alyle.io/components/list)|
-|media|✔️|✔️|[Docs](https://alyle.io/components/responsive)|
-|menu|✔️|✔️|[Docs](https://alyle.io/components/menu)|
-|radio|✔️|✔️|[Docs](https://alyle.io/components/radio)|
-|select|✔️|✔️|[Docs](https://alyle.io/components/select)|
-|snack bar|✔️|✔️|[Docs](https://alyle.io/components/snack-bar)|
-|skeleton screen|✔️|✔️|[Docs](https://alyle.io/components/skeleton)|
-|slider|✔️|✔️|[Docs](https://alyle.io/components/slider)|
-|tabs|✔️|✔️|[Docs](https://alyle.io/components/tabs)|
-|toolbar|✔️|✔️|[Docs](https://alyle.io/components/toolbar)|
-|tooltip|✔️|✔️|[Docs](https://alyle.io/components/tooltip)|
-|typography|✔️|✔️|[Docs](https://alyle.io/components/typography)|
+|avatar|✔️|✔️|[Docs](https://alyle.dev/components/avatar)|
+|badge|✔️|✔️|[Docs](https://alyle.dev/components/badge)|
+|button|✔️|✔️|[Docs](https://alyle.dev/components/button)|
+|card|✔️|✔️|[Docs](https://alyle.dev/components/card)|
+|carousel|✔️|✔️|[Docs](https://alyle.dev/components/carousel)|
+|checkbox|✔️|✔️|[Docs](https://alyle.dev/components/checkbox)|
+|dialog|✔️|✔️|[Docs](https://alyle.dev/components/dialog)|
+|divider|✔️|✔️|[Docs](https://alyle.dev/components/divider)|
+|drawer|✔️|✔️|[Docs](https://alyle.dev/components/drawer)|
+|expansion|✔️|✔️|[Docs](https://alyle.dev/components/expansion)|
+|field|✔️|✔️|[Docs](https://alyle.dev/components/field)|
+|grid|✔️|✔️|[Docs](https://alyle.dev/components/grid)|
+|icon|✔️|✔️|[Docs](https://alyle.dev/components/icon)|
+|img cropper|✔️|✔️|[Docs](https://alyle.dev/components/image-cropper)|
+|list|✔️|✔️|[Docs](https://alyle.dev/components/list)|
+|media|✔️|✔️|[Docs](https://alyle.dev/components/responsive)|
+|menu|✔️|✔️|[Docs](https://alyle.dev/components/menu)|
+|radio|✔️|✔️|[Docs](https://alyle.dev/components/radio)|
+|select|✔️|✔️|[Docs](https://alyle.dev/components/select)|
+|snack bar|✔️|✔️|[Docs](https://alyle.dev/components/snack-bar)|
+|skeleton screen|✔️|✔️|[Docs](https://alyle.dev/components/skeleton)|
+|slider|✔️|✔️|[Docs](https://alyle.dev/components/slider)|
+|tabs|✔️|✔️|[Docs](https://alyle.dev/components/tabs)|
+|toolbar|✔️|✔️|[Docs](https://alyle.dev/components/toolbar)|
+|tooltip|✔️|✔️|[Docs](https://alyle.dev/components/tooltip)|
+|typography|✔️|✔️|[Docs](https://alyle.dev/components/typography)|
 
 ### Questions?
 

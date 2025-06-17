@@ -9,7 +9,7 @@ import { memoize } from '@alyle/ui';
   providedIn: 'root'
 })
 export class SEOService {
-  readonly origin = 'https://alyle.io';
+  readonly origin = 'https://alyle.dev';
   /**
    * Equal to URL but with memoize
    */
