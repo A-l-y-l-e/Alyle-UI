@@ -17,7 +17,7 @@ What kind of change does this PR introduce?
 - [ ] Build related changes
 - [ ] CI related changes
 - [ ] Documentation content changes
-- [ ] alyle.io application / infrastructure changes
+- [ ] alyle.dev application / infrastructure changes
 - [ ] Other... Please describe:
 
 

@@ -952,7 +952,7 @@ yarn add @alyle/ui@^8.0.1
 
 **drawer:**
 
-`[width]` and `[height]` is deprecated Rename from `[width]` to `[drawerWidth]` and from `[height]` to `[drawerHeight]`. More info [here](http://alyle.io/guides/migrating-to-alyle-ui-3)
+`[width]` and `[height]` is deprecated Rename from `[width]` to `[drawerWidth]` and from `[height]` to `[drawerHeight]`. More info [here](http://alyle.dev/guides/migrating-to-alyle-ui-3)
 
 ## [2.9.7](https://github.com/A-l-y-l-e/Alyle-UI/compare/2.9.6...2.9.7) (2019-12-04)
 
