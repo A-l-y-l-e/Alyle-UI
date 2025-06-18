@@ -7,7 +7,7 @@
   href="https://cli.angular.io/">Angular CLI</a> and for an existing one follow the next steps.
 </p>
 
-> The most recent release of Alyle UI now offers compatibility with Angular 18.
+> The most recent release of Alyle UI now offers compatibility with Angular 19.
 
 ## Angular CLI
 
