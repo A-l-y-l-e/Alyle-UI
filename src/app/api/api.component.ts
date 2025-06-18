@@ -141,7 +141,7 @@ export class ApiComponent implements OnInit, OnDestroy {
               } else {
                 title = splited.pop()!;
               }
-              this.seo.setTitle(`Alyle UI - ${title}`);
+              this.seo.setTitle(`${title} | Alyle UI`);
             }
             // Show skeleton screen Platform is Server
             if (!this._platform.isBrowser) {

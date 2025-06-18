@@ -178,7 +178,7 @@ export class DocViewer {
             if (path.includes('/components/')) {
               title = `${title} Angular Component`;
             }
-            this.seo.setTitle(`Alyle UI - ${title}`);
+            this.seo.setTitle(`${title} | Alyle UI`);
             // Show skeleton screen Platform is Server
             if (!this._platform.isBrowser) {
               hostElement.innerHTML = '';

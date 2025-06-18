@@ -49,10 +49,18 @@ export class SEOService {
     }
   }
 
-  setTitle(val?: string) {
-    this.titleService.setTitle(val
-      ? val
-      : 'Alyle UI: Minimal Design, a set of components for Angular');
+  setTitle(
+    val = 'Alyle UI: Minimal Design, a set of components for Angular',
+  ) {
+    this.titleService.setTitle(val);
+    this.metaService.addTag({
+      name: 'description',
+      content: 'Alyle UI component library designed specifically for Angular applications.'
+    });
+    this.metaService.addTag({
+      name: 'keywords',
+      content: 'alyle ui, angular, material design, material, web, ui, components, responsive, accessibility, typescript, css, mobile web, open source'
+    });
     if (val || this.router.url === '/') {
       this.updateCanonicalUrl(`${this.origin}${this.router.url}`);
     } else {
