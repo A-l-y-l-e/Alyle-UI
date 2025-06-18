@@ -132,7 +132,8 @@ export const STYLES = (theme: ThemeVariables) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class ApiListComponent implements WithStyles {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

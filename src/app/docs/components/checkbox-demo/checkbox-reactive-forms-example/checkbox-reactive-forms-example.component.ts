@@ -9,7 +9,8 @@ export interface Fruit {
 @Component({
   selector: 'aui-checkbox-reactive-forms-example',
   templateUrl: './checkbox-reactive-forms-example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CheckboxReactiveFormsExampleComponent {
   readonly fruits: Fruit[] = [

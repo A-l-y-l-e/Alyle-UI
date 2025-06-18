@@ -72,7 +72,8 @@ const commonConfigVariables = ['appearance', 'size', 'lyTyp'];
   encapsulation: ViewEncapsulation.None,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class PageContentComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

@@ -37,7 +37,8 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class ImageCropperExample01Component implements WithStyles, AfterViewInit {
   classes = this.sRenderer.renderSheet(STYLES);

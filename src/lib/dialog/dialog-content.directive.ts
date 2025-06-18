@@ -15,7 +15,8 @@ const STYLES_DIALOG_CONTENT = () => lyl `{
 
 @Directive({
   selector: 'ly-dialog-content, [ly-dialog-content], [lyDialogContent]',
-  exportAs: 'lyDialogContent'
+  exportAs: 'lyDialogContent',
+  standalone: false
 })
 export class LyDialogContent implements OnInit {
   constructor(

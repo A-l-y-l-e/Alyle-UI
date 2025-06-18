@@ -23,7 +23,8 @@ const STYLES = (theme: ThemeVariables, selectors: SelectorsFn) => {
   templateUrl: './icon-label-buttons.component.html',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class IconLabelButtonsComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

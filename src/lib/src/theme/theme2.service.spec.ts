@@ -44,7 +44,8 @@ describe('MyComponent', () => {
 });
 
 @Component({
-  template: ` `
+  template: ` `,
+  standalone: false
 })
 class MyComponent {
   constructor(

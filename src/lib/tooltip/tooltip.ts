@@ -79,7 +79,8 @@ export const STYLES = (theme: ThemeVariables & LyTooltipVariables, ref: ThemeRef
 
 @Directive({
   selector: '[lyTooltip]',
-  exportAs: 'lyTooltip'
+  exportAs: 'lyTooltip',
+  standalone: false
 })
 export class LyTooltip implements OnInit, OnDestroy {
   /** @docs-private */

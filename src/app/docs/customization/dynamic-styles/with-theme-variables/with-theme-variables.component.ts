@@ -32,7 +32,8 @@ const STYLES = (theme: ThemeVariables) => {
 @Component({
   selector: 'aui-with-theme-variables',
   templateUrl: './with-theme-variables.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class WithThemeVariablesComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES);

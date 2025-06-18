@@ -5,6 +5,7 @@ import { StyleRenderer } from '@alyle/ui';
   selector: 'aui-tabs-dynamic-height',
   templateUrl: './tabs-dynamic-height.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ StyleRenderer ]
+  providers: [ StyleRenderer ],
+  standalone: false
 })
 export class TabsDynamicHeightComponent { }

@@ -18,6 +18,7 @@ import { STYLES as TABLE_STYLES } from './styles';
 @Directive({
   selector: '[lyCellDef]',
   providers: [{provide: CdkCellDef, useExisting: LyCellDef}],
+  standalone: false
 })
 export class LyCellDef extends CdkCellDef {}
 
@@ -28,6 +29,7 @@ export class LyCellDef extends CdkCellDef {}
 @Directive({
   selector: '[lyHeaderCellDef]',
   providers: [{provide: CdkHeaderCellDef, useExisting: LyHeaderCellDef}],
+  standalone: false
 })
 export class LyHeaderCellDef extends CdkHeaderCellDef {}
 
@@ -38,6 +40,7 @@ export class LyHeaderCellDef extends CdkHeaderCellDef {}
 @Directive({
   selector: '[lyFooterCellDef]',
   providers: [{provide: CdkFooterCellDef, useExisting: LyFooterCellDef}],
+  standalone: false
 })
 export class LyFooterCellDef extends CdkFooterCellDef {}
 
@@ -51,6 +54,7 @@ export class LyFooterCellDef extends CdkFooterCellDef {}
     {provide: CdkColumnDef, useExisting: LyColumnDef},
     {provide: 'LY_SORT_HEADER_COLUMN_DEF', useExisting: LyColumnDef},
   ],
+  standalone: false
 })
 export class LyColumnDef extends CdkColumnDef {
   /** Unique name for this column. */
@@ -86,7 +90,8 @@ export class LyColumnDef extends CdkColumnDef {
   },
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyHeaderCell extends CdkHeaderCell {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'headerCell');
@@ -106,7 +111,8 @@ export class LyHeaderCell extends CdkHeaderCell {
   },
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyFooterCell extends CdkFooterCell {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'footerCell');
@@ -126,7 +132,8 @@ export class LyFooterCell extends CdkFooterCell {
   },
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyCell extends CdkCell {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'cell');

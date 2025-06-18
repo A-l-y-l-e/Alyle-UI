@@ -14,7 +14,8 @@ const styles = (theme: ThemeVariables) => ({
 
 @Component({
   selector: 'aui-grid-demo-auto-layout',
-  templateUrl: './grid-demo-auto-layout.component.html'
+  templateUrl: './grid-demo-auto-layout.component.html',
+  standalone: false
 })
 export class GridDemoAutoLayoutComponent {
   readonly classes = this.theme.addStyleSheet(styles);

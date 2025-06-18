@@ -61,7 +61,8 @@ const STYLES = (theme: ThemeVariables) => ({
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class DsNestingComponent {
 

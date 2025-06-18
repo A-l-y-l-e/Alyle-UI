@@ -122,7 +122,8 @@ interface Demos {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class ViewComponent implements OnInit {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');

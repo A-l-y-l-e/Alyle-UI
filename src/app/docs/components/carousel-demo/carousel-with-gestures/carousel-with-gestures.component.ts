@@ -30,7 +30,8 @@ const STYLES = () => ({
   selector: 'aui-carousel-with-gestures',
   templateUrl: './carousel-with-gestures.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [StyleRenderer]
+  providers: [StyleRenderer],
+  standalone: false
 })
 export class CarouselWithGesturesComponent {
   readonly sRenderer = inject(StyleRenderer);

@@ -21,7 +21,8 @@ const STYLES = (theme: ThemeVariables) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class DialogResponsiveComponent {
 
@@ -47,7 +48,8 @@ export class DialogResponsiveComponent {
 
 @Component({
   templateUrl: './dialog-responsive-dialog.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DialogResponsiveDemo {
   constructor(

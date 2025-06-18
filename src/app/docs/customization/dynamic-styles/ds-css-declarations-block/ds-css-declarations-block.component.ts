@@ -24,7 +24,8 @@ const STYLES = () => ({
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class DsCssDeclarationsBlockComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

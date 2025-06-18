@@ -239,7 +239,8 @@ mixinBg(
   ],
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   /** @docs-private */
@@ -763,7 +764,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   encapsulation: ViewEncapsulation.None,
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyTab implements OnInit {
   /** Current tab index */
@@ -817,7 +819,8 @@ export class LyTab implements OnInit {
   ],
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyTabLabel extends LyButton implements OnInit, AfterViewInit {
   private _activeTabStyle: boolean;

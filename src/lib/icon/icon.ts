@@ -112,7 +112,8 @@ mixinBg(
   exportAs: 'lyIcon',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyIcon extends LyIconMixinBase implements OnChanges, OnInit, OnDestroy {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

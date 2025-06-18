@@ -453,7 +453,8 @@ export const STYLES = (theme: ThemeVariables & LyFieldVariables, ref: ThemeRef) 
   encapsulation: ViewEncapsulation.None,
   providers: [
     StyleRenderer,
-  ]
+  ],
+  standalone: false
 })
 export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewInit, OnDestroy {
   /**
@@ -839,7 +840,8 @@ export class LyField implements WithStyles, OnInit, AfterContentInit, AfterViewI
   providers: [
     StyleRenderer,
     { provide: LyFieldControlBase, useExisting: LyNativeControl }
-  ]
+  ],
+  standalone: false
 })
 export class LyNativeControl implements LyFieldControlBase, OnInit, AfterViewInit, DoCheck, OnDestroy {
   protected _disabled = false;

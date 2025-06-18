@@ -21,7 +21,8 @@ const styles = {
  * @deprecated use `[lyDisplay]` instead.
  */
 @Directive({
-  selector: '[lyShow], [lyHide]'
+  selector: '[lyShow], [lyHide]',
+  standalone: false
 })
 export class MediaDirective implements OnInit, OnChanges {
   private _show: string;

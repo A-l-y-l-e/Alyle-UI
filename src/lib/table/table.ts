@@ -46,6 +46,7 @@ import { STYLES as TABLE_STYLES } from './styles';
 @Directive({
   selector: 'ly-table[recycleRows], table[ly-table][recycleRows]',
   providers: [{provide: _VIEW_REPEATER_STRATEGY, useClass: _RecycleViewRepeaterStrategy}],
+  standalone: false
 })
 export class LyRecycleRows {}
 
@@ -69,6 +70,7 @@ export class LyRecycleRows {}
   // See note on CdkTable for explanation on why this uses the default change detection strategy.
   // tslint:disable-next-line:validate-decorators
   changeDetection: ChangeDetectionStrategy.Default,
+  standalone: false
 })
 export class LyTable<T> extends CdkTable<T> {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES, 'root');

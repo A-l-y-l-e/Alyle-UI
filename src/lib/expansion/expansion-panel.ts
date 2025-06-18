@@ -62,7 +62,8 @@ export const LyButtonMixinBase = mixinStyleUpdater(
     'color',
     'elevation',
     'shadowColor'
-  ]
+  ],
+  standalone: false
 })
 export class LyExpansionPanel extends LyButtonMixinBase implements OnChanges, OnInit, AfterContentInit, OnDestroy {
 

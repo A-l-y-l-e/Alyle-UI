@@ -31,7 +31,8 @@ export class CustomGlobalVariables implements RecursivePartial<MinimaLight & Min
     LyTheme2,
     StyleRenderer,
     { provide: LY_THEME_NAME, useValue: 'new-minima-light' }
-  ]
+  ],
+  standalone: false
 })
 export class WithLightTheme { }
 
@@ -41,7 +42,8 @@ export class WithLightTheme { }
     LyTheme2,
     StyleRenderer,
     { provide: LY_THEME_NAME, useValue: 'new-minima-dark' }
-  ]
+  ],
+  standalone: false
 })
 export class WithDarkTheme { }
 

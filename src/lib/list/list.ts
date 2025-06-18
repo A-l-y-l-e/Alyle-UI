@@ -162,7 +162,8 @@ export const STYLES = (theme: ThemeVariables & LyListVariables, ref: ThemeRef) =
   exportAs: 'lyList',
   host: {
     '[className]': 'classes.root'
-  }
+  },
+  standalone: false
 })
 export class LyList {
   static readonly и = 'LyList';
@@ -208,7 +209,8 @@ mixinBg(
     'shadowColor',
     'disableRipple'
   ],
-  exportAs: 'lyListItem'
+  exportAs: 'lyListItem',
+  standalone: false
 })
 export class LyListItem extends LyListItemMixinBase implements OnInit, AfterContentInit, OnDestroy {
   /** @docs-private */
@@ -294,7 +296,8 @@ export class LyListItem extends LyListItemMixinBase implements OnInit, AfterCont
 }
 
 @Directive({
-  selector: '[ly-list-icon]'
+  selector: '[ly-list-icon]',
+  standalone: false
 })
 export class LyListIcon implements OnInit {
   private _disablePadding: boolean;
@@ -341,7 +344,8 @@ export class LyListIcon implements OnInit {
 }
 
 @Directive({
-  selector: '[ly-line]'
+  selector: '[ly-line]',
+  standalone: false
 })
 export class LyLine {
   constructor(

@@ -12,7 +12,8 @@ interface MediaQuery {
   templateUrl: './responsive-demo-01.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   preserveWhitespaces: false,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class ResponsiveDemo01Component {
   queries: MediaQuery[] = [];

@@ -11,7 +11,8 @@ const STYLES = (_theme: ThemeVariables) => ({
 @Component({
   selector: 'aui-simple-form',
   templateUrl: './simple-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class SimpleFormComponent {
   readonly classes = this.theme.addStyleSheet(STYLES);

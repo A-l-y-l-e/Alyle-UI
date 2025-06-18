@@ -72,7 +72,8 @@ export const LyTypographyMixinBase = mixinStyleUpdater(
   ],
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyTypography extends LyTypographyMixinBase implements OnInit, OnChanges {
   /** @docs-private */

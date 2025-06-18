@@ -185,7 +185,8 @@ mixinBg(
   providers: [
     StyleRenderer
   ],
-  exportAs: 'lyButton'
+  exportAs: 'lyButton',
+  standalone: false
 })
 export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   static readonly и = 'LyButton';

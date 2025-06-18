@@ -4,7 +4,8 @@ import { untilComponentDestroyed } from '@alyle/ui';
 import { LY_SLIDER } from './tokens';
 
 @Directive({
-  selector: 'ly-tick'
+  selector: 'ly-tick',
+  standalone: false
 })
 export class LyTick implements OnChanges, OnInit, OnDestroy {
   /** @docs-private */

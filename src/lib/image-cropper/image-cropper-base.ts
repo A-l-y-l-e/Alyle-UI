@@ -6,7 +6,7 @@ import {
   AfterViewInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { _LyCropperAreaBase, _LyImageCropperBase } from './_image-cropper-base';
 
 /**
@@ -18,7 +18,6 @@ import { _LyCropperAreaBase, _LyImageCropperBase } from './_image-cropper-base';
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyCropperAreaBase',
   standalone: true,
-  imports: [NgIf],
   host: {
     'class': 'ly-cropper-area'
   }
@@ -35,7 +34,7 @@ export class LyCropperAreaBase extends _LyCropperAreaBase implements OnDestroy {
   ],
   standalone: true,
   exportAs: 'lyImageCropperBase',
-  imports: [LyCropperAreaBase, NgStyle, NgIf],
+  imports: [LyCropperAreaBase, NgStyle],
   host: {
     'class': 'ly-cropper-root'
   },

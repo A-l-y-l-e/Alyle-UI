@@ -9,7 +9,8 @@ export interface Fruit {
 @Component({
   selector: 'aui-select-option-object-value',
   templateUrl: './select-option-object-value.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class SelectOptionObjectValueComponent {
   fruits: Fruit[] = [

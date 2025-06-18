@@ -4,7 +4,8 @@ import { LyDialogRef } from '@alyle/ui/dialog';
 
 @Component({
   templateUrl: './dialog-with-select-dialog.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class DialogWithSelectDialog {
 

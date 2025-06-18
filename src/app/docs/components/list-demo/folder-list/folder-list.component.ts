@@ -10,7 +10,8 @@ const styles = ({
 
 @Component({
   selector: 'aui-folder-list',
-  templateUrl: './folder-list.component.html'
+  templateUrl: './folder-list.component.html',
+  standalone: false
 })
 export class FolderListComponent {
   readonly classes = this.theme.addStyleSheet(styles);

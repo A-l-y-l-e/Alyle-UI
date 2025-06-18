@@ -39,7 +39,8 @@ export type Direction = 'row' | 'rowReverse' | 'column' | 'columnReverse';
  * Grid container
  */
 @Directive({
-  selector: 'ly-grid[container]'
+  selector: 'ly-grid[container]',
+  standalone: false
 })
 export class LyGrid {
   static readonly и = 'LyGrid';
@@ -297,7 +298,8 @@ export class LyGrid {
   selector: 'ly-grid[item], [ly-grid-item], [lyGridItem]',
   providers: [
     StyleRenderer
-  ]
+  ],
+  standalone: false
 })
 export class LyGridItem implements OnInit {
   static readonly и = 'LyGridItem';

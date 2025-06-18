@@ -18,7 +18,8 @@ const STYLES_DIALOG_TITLE = (theme: ThemeVariables) => lyl `{
 
 @Directive({
   selector: '[ly-dialog-title], [lyDialogTitle]',
-  exportAs: 'lyDialogTitle'
+  exportAs: 'lyDialogTitle',
+    standalone: false
 })
 export class LyDialogTitle implements OnInit {
   constructor(
