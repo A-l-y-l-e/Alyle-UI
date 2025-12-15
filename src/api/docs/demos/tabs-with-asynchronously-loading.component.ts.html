@@ -10,7 +10,8 @@
 <span class="tt18 ttdr"><span class="tt18 ttdg ttb0">@</span><span class="tt18 tta3">Component</span></span><span class="tt18 ttae">(</span><span class="tt18 ttae">&#123;</span>
   selector<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'aui-tabs-with-asynchronously-loading'</span><span class="tt18 ttae">,</span>
   templateUrl<span class="tt18 ttb0">:</span> <span class="tt18 tt3z">'./tabs-with-asynchronously-loading.component.html'</span><span class="tt18 ttae">,</span>
-  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush
+  changeDetection<span class="tt18 ttb0">:</span> ChangeDetectionStrategy<span class="tt18 ttae">.</span>OnPush<span class="tt18 ttae">,</span>
+  standalone<span class="tt18 ttb0">:</span> <span class="tt18 tted">false</span>
 <span class="tt18 ttae">&#125;</span><span class="tt18 ttae">)</span>
 <span class="tt18 tt1j">export</span> <span class="tt18 tt1j">class</span> <span class="tt18 ttc8">TabsWithAsynchronouslyLoadingComponent</span> <span class="tt18 ttae">&#123;</span>
   asyncTabs<span class="tt18 ttb0">:</span> Observable<span class="tt18 ttb0">&lt;</span>ExampleTab<span class="tt18 ttae">[</span><span class="tt18 ttae">]</span><span class="tt18 ttb0">></span><span class="tt18 ttae">;</span>

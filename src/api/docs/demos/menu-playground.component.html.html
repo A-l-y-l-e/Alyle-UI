@@ -10,10 +10,12 @@
     <span class="tt18 ttbx">[yAnchor]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>yAnchor<span class="tt18 ttae">"</span></span>
     <span class="tt18 ttbx">[xAxis]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>xAxis<span class="tt18 ttae">"</span></span>
     <span class="tt18 ttbx">[yAxis]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>yAxis<span class="tt18 ttae">"</span></span>
-  <span class="tt18 ttae">></span></span>
-    <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">ly-button</span> <span class="tt18 ttbx">ly-menu-item</span> <span class="tt18 ttbx">*ngFor</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>let item of [0, 0, 0, 0]; index as i<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
-      <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>span</span><span class="tt18 ttae">></span></span>Item &#123;&#123; i + 1 &#125;&#125;<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>span</span><span class="tt18 ttae">></span></span>
-    <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
+    <span class="tt18 ttae">></span></span>
+    @for (item of [0, 0, 0, 0]; track item; let i = $index) &#123;
+      <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">ly-button</span> <span class="tt18 ttbx">ly-menu-item</span><span class="tt18 ttae">></span></span>
+        <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>span</span><span class="tt18 ttae">></span></span>Item &#123;&#123; i + 1 &#125;&#125;<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>span</span><span class="tt18 ttae">></span></span>
+      <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
+    &#125;
   <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-menu</span><span class="tt18 ttae">></span></span>
 <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ng-template</span><span class="tt18 ttae">></span></span>
 

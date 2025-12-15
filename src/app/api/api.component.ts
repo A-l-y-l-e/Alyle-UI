@@ -112,7 +112,7 @@ export class ApiComponent implements OnInit, OnDestroy {
       .pipe(
         tap(() => this.app.docViewer && this.seo.setNoIndex(true)),
         switchMap(async () => await
-          this.http.get<APIPkgSymbol | APIPkgSymbolList[] | APIPkgSymbolList>(`${`${path}_${hashCode(nam).toString(36)}`}`).pipe(catchError((error) => this.apiService.handleError(error))).toPromise()
+          this.http.get<APIPkgSymbol | APIPkgSymbolList[] | APIPkgSymbolList>(`${`${path}_${hashCode(nam).toString(36)}`}.json`).pipe(catchError((error) => this.apiService.handleError(error))).toPromise()
         .catch((title: string) => {
           this.app.docViewer!.isError.emit({
             title

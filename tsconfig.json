@@ -3,16 +3,15 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "baseUrl": "./",
+    "esModuleInterop": true,
     "declaration": false,
-    "downlevelIteration": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "importHelpers": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
-    "module": "ES2022",
+    "module": "preserve",
     "target": "ES2022",
     "types": [
       "node"

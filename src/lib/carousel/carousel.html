@@ -1,37 +1,45 @@
 <div
-(slidestart)="touch && _onDragStart()"
-(slideleft)="touch && _onDrag($event)"
-(slideright)="touch && _onDrag($event)"
-(slidecancel)="touch && _onDragCancel()"
-(slideend)="touch && _onDragEnd($event)"
-#slideContainer
->
+  (slidestart)="touch && _onDragStart()"
+  (slideleft)="touch && _onDrag($event)"
+  (slideright)="touch && _onDrag($event)"
+  (slidecancel)="touch && _onDragCancel()"
+  (slideend)="touch && _onDragEnd($event)"
+  #slideContainer
+  >
   <div #_slide [className]="classes.slide">
     <ng-content></ng-content>
   </div>
-  <ol [className]="classes.indicators" *ngIf="lyItems.length !== 1 && hasNavigationIndicators">
-    <li
-      *ngFor="let item of lyItems; index as i"
-      [ngClass]="[classes.indicator, selectedIndex == i ? classes.indicatorActive : '']"
-      (click)="_select(i)"
-    >
-      <span
-        [class]="classes.indicatorIcon"
-      ></span>
-    </li>
-  </ol>
-  <div *ngIf="hasNavigationArrows" [class]="[classes.actions, classes.actionIcon, 'left']" (click)="prev()">
-  </div>
-  <div *ngIf="hasNavigationArrows" [class]="[classes.actions, classes.actionIcon, 'right']" (click)="next()">
-  </div>
-  <div
-    [className]="classes.barContainer"
-    *ngIf="hasProgressBar && _isIntervalFn && interval && autoplay"
-  >
+  @if (lyItems.length !== 1 && hasNavigationIndicators) {
+    <ol [className]="classes.indicators">
+      @for (item of lyItems; track item; let i = $index) {
+        <li
+          [ngClass]="[classes.indicator, selectedIndex == i ? classes.indicatorActive : '']"
+          (click)="_select(i)"
+          >
+          <span
+            [class]="classes.indicatorIcon"
+          ></span>
+        </li>
+      }
+    </ol>
+  }
+  @if (hasNavigationArrows) {
+    <div [class]="[classes.actions, classes.actionIcon, 'left']" (click)="prev()">
+    </div>
+  }
+  @if (hasNavigationArrows) {
+    <div [class]="[classes.actions, classes.actionIcon, 'right']" (click)="next()">
+    </div>
+  }
+  @if (hasProgressBar && _isIntervalFn && interval && autoplay) {
     <div
-      [className]="classes.bar"
-      #_progressBar
-      [style.animation-duration]="interval + 'ms'"
-    ></div>
-  </div>
+      [className]="classes.barContainer"
+      >
+      <div
+        [className]="classes.bar"
+        #_progressBar
+        [style.animation-duration]="interval + 'ms'"
+      ></div>
+    </div>
+  }
 </div>

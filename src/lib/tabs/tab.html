@@ -2,7 +2,9 @@
 <ng-content select="[ly-tab-label]"></ng-content>
 <ng-content select="[ly-tab-label-native]"></ng-content>
 <div></div>
-<span *ngIf="!_isBrowser" #tabIndicator></span>
+@if (!_isBrowser) {
+  <span #tabIndicator></span>
+}
 <ng-template #_templateNgContent>
   <ng-content></ng-content>
 </ng-template>

@@ -3,20 +3,22 @@
     ly-button
     appearance="icon"
     [lyMenuTriggerFor]="menu"
-  >
+    >
     <ly-avatar
       [lySize]="32">
       <img
         alt="Larm Rmah"
         src="https://firebasestorage.googleapis.com/v0/b/alyle-ui.appspot.com/o/img%2Flarm-rmah-47685-unsplash.jpeg?alt=media&token=1db05ae5-9c03-437b-9e8c-764dfb257061">
-    </ly-avatar>
-  </button>
-</ly-grid>
-
-<ng-template #menu let-M>
-  <ly-menu [ref]="M">
-    <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
-      <span>Item {{ i + 1 }}</span>
+      </ly-avatar>
     </button>
-  </ly-menu>
-</ng-template>
+  </ly-grid>
+
+  <ng-template #menu let-M>
+    <ly-menu [ref]="M">
+      @for (item of [null, null, null]; track item; let i = $index) {
+        <button ly-button ly-menu-item>
+          <span>Item {{ i + 1 }}</span>
+        </button>
+      }
+    </ly-menu>
+  </ng-template>

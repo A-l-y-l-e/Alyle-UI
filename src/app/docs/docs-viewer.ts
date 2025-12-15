@@ -112,9 +112,10 @@ export class DocViewer {
     this.hostElement.innerHTML = initialDocViewerContent;
 
     if (this._platform.isBrowser) {
-      const { createCustomElement } = require('@angular/elements');
-      const element = createCustomElement(ViewComponent, { injector });
-      customElements.define('demo-view', element);
+      import('@angular/elements').then(({createCustomElement}) => {
+        const element = createCustomElement(ViewComponent, { injector });
+        customElements.define('demo-view', element);
+      });
     }
 
     this.docContents$
@@ -179,11 +180,6 @@ export class DocViewer {
               title = `${title} Angular Component`;
             }
             this.seo.setTitle(`${title} | Alyle UI`);
-            // Show skeleton screen Platform is Server
-            if (!this._platform.isBrowser) {
-              hostElement.innerHTML = '';
-              this.isLoading.emit(true);
-            }
             this.ads.update(path, this.theme);
           }
         }

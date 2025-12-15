@@ -12,12 +12,13 @@ import {
   OnInit,
   AfterViewInit,
   Directive,
-  booleanAttribute
+  booleanAttribute,
+  DOCUMENT
 } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
-import { DOCUMENT } from '@angular/common';
+
 import { resizeCanvas } from './resize-canvas';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 

@@ -1,4 +1,6 @@
 <span [className]="classes.content">
   <ng-content></ng-content>
 </span>
-<div *ngIf="_isBrowser" #rippleContainer [className]="_rippleService.classes.container"></div>
+@if (_isBrowser) {
+  <div #rippleContainer [className]="_rippleService.classes.container"></div>
+}

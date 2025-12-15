@@ -98,7 +98,10 @@ export class LyDialog {
     }
 
     const newInjector = new DynamicInjector(
-        Injector.create(providers, overlayRef.componentRef!.injector), this._injector);
+        Injector.create({
+          providers,
+          parent: overlayRef.componentRef!.injector,
+        }), this._injector);
     instance._init(componentFactoryOrTemplate, newInjector);
     const dialogRef = newInjector.get(LyDialogRef);
     return dialogRef;

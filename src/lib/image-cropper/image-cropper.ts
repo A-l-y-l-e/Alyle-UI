@@ -20,7 +20,7 @@ import {
   Style,
   SelectorsFn,
 } from '@alyle/ui';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { color } from '@alyle/ui/color';
 import { _LyCropperAreaBase, _LyImageCropperBase } from './_image-cropper-base';
@@ -199,7 +199,7 @@ export const STYLES = (theme: ThemeVariables & LyImageCropperVariables, selector
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'lyCropperArea',
   standalone: true,
-  imports: [NgIf],
+  imports: [],
 })
 export class LyCropperArea extends _LyCropperAreaBase implements WithStyles, OnDestroy {
   readonly sRenderer = inject(StyleRenderer);
@@ -238,7 +238,7 @@ export class LyCropperArea extends _LyCropperAreaBase implements WithStyles, OnD
     {provide: _LyImageCropperBase, useExisting: LyImageCropper},
   ],
   standalone: true,
-  imports: [LyCropperArea, NgStyle, NgIf]
+  imports: [LyCropperArea, NgStyle]
 })
 export class LyImageCropper extends _LyImageCropperBase implements OnInit, AfterViewInit, OnDestroy {
 

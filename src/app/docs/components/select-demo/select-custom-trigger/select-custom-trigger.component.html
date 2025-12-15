@@ -2,10 +2,14 @@
   <ly-select placeholder="Label" [formControl]="fruits" multiple>
     <ly-select-trigger>
       {{fruits.value ? fruits.value[0] : ''}}
-      <span *ngIf="fruits.value?.length > 1">
-        (+{{fruits.value.length - 1}} {{fruits.value?.length === 2 ? 'other' : 'others'}})
-      </span>
+      @if (fruits.value?.length > 1) {
+        <span>
+          (+{{fruits.value.length - 1}} {{fruits.value?.length === 2 ? 'other' : 'others'}})
+        </span>
+      }
     </ly-select-trigger>
-    <ly-option *ngFor="let fruit of fruitList" [value]="fruit">{{ fruit }}</ly-option>
+    @for (fruit of fruitList; track fruit) {
+      <ly-option [value]="fruit">{{ fruit }}</ly-option>
+    }
   </ly-select>
 </ly-field>

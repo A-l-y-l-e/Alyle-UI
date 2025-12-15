@@ -11,12 +11,15 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/alyle-ui",
+            "outputPath": {
+              "base": "dist/alyle-ui"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -48,12 +51,16 @@
                 "inject": true
               }
             ],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "src/main.ts",
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -79,10 +86,7 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
+              "serviceWorker": "src/ngsw-config.json"
             }
           },
           "defaultConfiguration": ""
@@ -126,61 +130,16 @@
               },
               {
                 "glob": "**/*",
+                "input": "src/api",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
                 "input": "src/fonts",
                 "output": "/fonts"
               },
               "src/manifest.webmanifest"
             ]
-          }
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/alyle-ui-server",
-            "main": "server.ts",
-            "tsConfig": "tsconfig.server.json",
-            "sourceMap": true,
-            "optimization": false,
-            "buildOptimizer": false
-          },
-          "configurations": {
-            "production": {
-              "outputHashing": "media",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "sourceMap": false,
-              "optimization": true,
-              "buildOptimizer": true
-            }
-          },
-          "defaultConfiguration": ""
-        },
-        "serve-ssr": {
-          "builder": "@angular-devkit/build-angular:ssr-dev-server",
-          "options": {
-            "browserTarget": "alyle-ui:build",
-            "serverTarget": "alyle-ui:server"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "alyle-ui:build:production",
-              "serverTarget": "alyle-ui:server:production"
-            }
-          }
-        },
-        "prerender": {
-          "builder": "@angular-devkit/build-angular:prerender",
-          "options": {
-            "browserTarget": "alyle-ui:build:production",
-            "serverTarget": "alyle-ui:server:production",
-            "routes": []
-          },
-          "configurations": {
-            "production": {}
           }
         },
         "e2e": {
@@ -1186,6 +1145,32 @@
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   }
 }

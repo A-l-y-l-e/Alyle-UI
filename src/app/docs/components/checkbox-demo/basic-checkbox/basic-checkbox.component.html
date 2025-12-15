@@ -6,17 +6,19 @@
 
 <section [lyMt]="1">
   <ly-checkbox [lyMx]="1"
-                [checked]="allComplete"
-                [color]="task.color"
-                [indeterminate]="someComplete"
-                (change)="setAll($event.checked)">
+    [checked]="allComplete"
+    [color]="task.color"
+    [indeterminate]="someComplete"
+    (change)="setAll($event.checked)">
     {{ task.name }}
   </ly-checkbox>
-  <div [lyMe]="3" *ngFor="let subtask of task.subtasks">
-    <ly-checkbox [(ngModel)]="subtask.completed"
-                  [color]="subtask.color"
-                  (ngModelChange)="updateAllComplete()">
-      {{ subtask.name }}
-    </ly-checkbox>
-  </div>
+  @for (subtask of task.subtasks; track subtask) {
+    <div [lyMe]="3">
+      <ly-checkbox [(ngModel)]="subtask.completed"
+        [color]="subtask.color"
+        (ngModelChange)="updateAllComplete()">
+        {{ subtask.name }}
+      </ly-checkbox>
+    </div>
+  }
 </section>

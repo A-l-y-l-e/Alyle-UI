@@ -15,7 +15,7 @@
       ly-paper
       bg="background:tertiary"
       [withClass]="classes.footer"
-    >
+      >
       <a ly-button
         appearance="icon"
         target="_blank"
@@ -23,7 +23,7 @@
         lyTooltipPlacement="above"
         href="https://github.com/A-l-y-l-e/Alyle-UI"
         lyTooltip="Github"
-      >
+        >
         <ly-icon icon="github"></ly-icon>
       </a>
       <a ly-button
@@ -34,44 +34,48 @@
         lyTooltipPlacement="above"
         href="https://discord.gg/65hMpAJ"
         lyTooltip="Discord Community"
-      >
+        >
         <ly-icon icon="Discord"></ly-icon>
       </a>
       <p [lyTyp]="'body1'" gutterBottom>Made with <ly-icon
         color="#ff1744"
         [style.vertical-align]="'middle'"
-      >favorite</ly-icon> by <a href="https://github.com/Enlcxx">Enlcxx</a></p>
-      <p [lyTyp]="'body2'">Version {{ version }}. Released under the MIT License. Copyright © 2017-2025 Enlcxx.</p>
-    </footer>
-  </ly-drawer-content>
-  <ly-drawer
-    ly-paper
-    bg="background:primary"
-    [withClass]="classes.drawer"
-    [drawerWidth]="'230px 0@XSmall'"
-    #nav="lyDrawer"
-    [opened]="currentRoutePath !== ''"
-    [mode]="currentRoutePath !== '' ? 'side' : 'over'"
-    [spacingAbove]="currentRoutePath !== '' ? '64px 56px@XSmall' : 0"
-  >
-    <ul *ngFor="let category of routes" [withClass]="classes.drawerUl">
-      <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
-      <li *ngFor="let component of category.routes">
-        <a [withClass]="classes.drawerButton" class="nav-button" ly-button [routerLinkActive]="classes.onLinkActive" [routerLink]="[category.route, component.route]">
-          <span>{{ component.name }}</span>
-        </a>
-      </li>
-    </ul>
-    <ul [withClass]="classes.drawerUl">
-      <li>
-        <a [withClass]="classes.drawerButton" class="nav-button" ly-button [routerLinkActive]="classes.onLinkActive" [routerLink]="['/', 'api']">
-          <span>API</span>
-        </a>
-      </li>
-    </ul>
-  </ly-drawer>
-</ly-drawer-container>
-<ng-template [duration]="3600000" ly-snack-bar #sb="lySnackBar">
-  <span>New version available</span>
-  <button ly-button color="accent" (click)="sb.dismiss();reload()">Reload</button>
-</ng-template>
+        >favorite</ly-icon> by <a href="https://github.com/Enlcxx">Enlcxx</a></p>
+        <p [lyTyp]="'body2'">Version {{ version }}. Released under the MIT License. Copyright © 2017-2025 Enlcxx.</p>
+      </footer>
+    </ly-drawer-content>
+    <ly-drawer
+      ly-paper
+      bg="background:primary"
+      [withClass]="classes.drawer"
+      [drawerWidth]="'230px 0@XSmall'"
+      #nav="lyDrawer"
+      [opened]="currentRoutePath !== ''"
+      [mode]="currentRoutePath !== '' ? 'side' : 'over'"
+      [spacingAbove]="currentRoutePath !== '' ? '64px 56px@XSmall' : 0"
+      >
+      @for (category of routes; track category) {
+        <ul [withClass]="classes.drawerUl">
+          <span lyTyp="subheading" gutterBottom>{{ category.name }}</span>
+          @for (component of category.routes; track component) {
+            <li>
+              <a [withClass]="classes.drawerButton" class="nav-button" ly-button [routerLinkActive]="classes.onLinkActive" [routerLink]="[category.route, component.route]">
+                <span>{{ component.name }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      }
+      <ul [withClass]="classes.drawerUl">
+        <li>
+          <a [withClass]="classes.drawerButton" class="nav-button" ly-button [routerLinkActive]="classes.onLinkActive" [routerLink]="['/', 'api']">
+            <span>API</span>
+          </a>
+        </li>
+      </ul>
+    </ly-drawer>
+  </ly-drawer-container>
+  <ng-template [duration]="3600000" ly-snack-bar #sb="lySnackBar">
+    <span>New version available</span>
+    <button ly-button color="accent" (click)="sb.dismiss();reload()">Reload</button>
+  </ng-template>

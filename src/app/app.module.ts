@@ -2,7 +2,7 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/pla
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule, Injectable, APP_ID } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -195,7 +195,7 @@ export function themeNameProviderFactory() {
     { provide: LY_ENABLE_SELECTORS_FN, useValue: true }, // default true
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
     { provide: WindowToken, useFactory: windowProvider },
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
   ],
   bootstrap: [AppComponent]
 })

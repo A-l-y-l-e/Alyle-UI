@@ -1,10 +1,10 @@
-import { Injector, Type, InjectionToken, InjectFlags } from '@angular/core';
+import { Injector, Type, InjectionToken } from '@angular/core';
 
 export class DynamicInjector implements Injector {
 
   constructor(private _newInjector: Injector, private _parentInjector: Injector) { }
 
-  get<T>(token: Type<T> | InjectionToken<T>, notFoundValue?: T, flags?: InjectFlags): T;
+  get<T>(token: Type<T> | InjectionToken<T>, notFoundValue?: T, flags?: any): T;
   get(token: any, notFoundValue?: any);
   get(token: any, notFoundValue?: any, _flags?: any) {
     const value = this._newInjector.get(token, notFoundValue);

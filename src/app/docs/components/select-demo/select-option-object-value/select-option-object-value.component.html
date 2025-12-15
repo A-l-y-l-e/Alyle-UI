@@ -3,11 +3,15 @@
   <ly-select placeholder="Placeholder"
     [formControl]="fruitControl"
     multiple>
-    <ly-option *ngFor="let fruit of fruits"
+    @for (fruit of fruits; track fruit) {
+      <ly-option
       [value]="fruit">{{ fruit.viewValue }}</ly-option>
+    }
   </ly-select>
   <ly-hint>Hint</ly-hint>
-  <ly-error *ngIf="fruitControl.hasError('required')">Required</ly-error>
+  @if (fruitControl.hasError('required')) {
+    <ly-error>Required</ly-error>
+  }
 </ly-field>
 
 <pre>You selected: {{ fruitControl.value | json }}</pre>

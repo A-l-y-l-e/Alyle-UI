@@ -5,4 +5,6 @@
   <span>Select File</span>
 </button>
 
-<div *ngIf="cropped"><img [src]="cropped"></div>
+@if (cropped) {
+  <div><img [src]="cropped"></div>
+}

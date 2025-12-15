@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
-import { throwError, of } from 'rxjs';
+import { throwError, of, Observable } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
 
 export interface APIList {
@@ -21,9 +21,9 @@ export class APIService {
     private metaService: Meta
   ) { }
 
-  getList() {
+  getList(): Observable<APIList[]> {
     if (this._temp.has(this._apiUrl)) {
-      return of<APIList[]>(this._temp.get(this._apiUrl));
+      return of<APIList[]>(this._temp.get(this._apiUrl) as APIList[]);
     }
     return this.http.get<APIList[]>(this._apiUrl)
       .pipe(

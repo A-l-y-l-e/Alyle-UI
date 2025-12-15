@@ -12,7 +12,7 @@
     [disabled]="disabled"
     [color]="color"
     [size]="size"
-  >
+    >
     <ly-mark [value]="11">$11</ly-mark>
     <ly-mark [value]="40">$40</ly-mark>
   </ly-slider>
@@ -37,10 +37,14 @@
 </div>
 <div>
   <ly-checkbox [(ngModel)]="showTicks">Show ticks</ly-checkbox>
-  <ly-checkbox [(ngModel)]="ticksPerStep" *ngIf="showTicks">It shows ticks per step</ly-checkbox>
-  <ly-field *ngIf="!ticksPerStep && showTicks">
-    <input type="number" lyNativeControl [(ngModel)]="tickInterval" placeholder="Tick interval">
-  </ly-field>
+  @if (showTicks) {
+    <ly-checkbox [(ngModel)]="ticksPerStep">It shows ticks per step</ly-checkbox>
+  }
+  @if (!ticksPerStep && showTicks) {
+    <ly-field>
+      <input type="number" lyNativeControl [(ngModel)]="tickInterval" placeholder="Tick interval">
+    </ly-field>
+  }
 </div>
 <div>
   <ly-checkbox [(ngModel)]="vertical">Vertical</ly-checkbox>

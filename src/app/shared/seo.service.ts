@@ -1,5 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, Inject, DOCUMENT } from '@angular/core';
+
 import { Title, Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { memoize } from '@alyle/ui';

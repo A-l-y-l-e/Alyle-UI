@@ -158,12 +158,11 @@ export class ApiListComponent implements WithStyles {
     app: AppComponent,
     seo: SEOService
   ) {
-    this.apiListObservable = apiService.getList()
-      .pipe(
-        tap(() => app.docViewer && seo.setNoIndex(false)),
-        tap(() => app.docViewer && seo.setTitle('API List | Alyle UI')),
-        tap(() => app.docViewer!.isLoading.emit(false)),
-      );
+    this.apiListObservable = apiService.getList().pipe(tap(() => {
+      app.docViewer && seo.setNoIndex(false);
+      app.docViewer && seo.setTitle('API List | Alyle UI');
+      app.docViewer!.isLoading.emit(false);
+    }));
   }
 
   hasItem(api: APIList) {

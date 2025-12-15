@@ -1,8 +1,8 @@
-import { Inject, Injectable, NgZone } from '@angular/core';
+import { Inject, Injectable, NgZone, DOCUMENT } from '@angular/core';
 import { LyTheme2 } from '../theme/theme2.service';
 import { ThemeVariables } from '../theme/theme-config';
 import { Platform } from '@angular/cdk/platform';
-import { DOCUMENT } from '@angular/common';
+
 import { OverlayReference } from './overlay-reference';
 import { lyl } from '../parse';
 

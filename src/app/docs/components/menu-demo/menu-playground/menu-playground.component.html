@@ -10,10 +10,12 @@
     [yAnchor]="yAnchor"
     [xAxis]="xAxis"
     [yAxis]="yAxis"
-  >
-    <button ly-button ly-menu-item *ngFor="let item of [0, 0, 0, 0]; index as i">
-      <span>Item {{ i + 1 }}</span>
-    </button>
+    >
+    @for (item of [0, 0, 0, 0]; track item; let i = $index) {
+      <button ly-button ly-menu-item>
+        <span>Item {{ i + 1 }}</span>
+      </button>
+    }
   </ly-menu>
 </ng-template>
 

@@ -1,9 +1,9 @@
 import {
-  CDK_TABLE_TEMPLATE,
+  // CDK_TABLE_TEMPLATE,
   CdkTable,
   CDK_TABLE,
-  _CoalescedStyleScheduler,
-  _COALESCED_STYLE_SCHEDULER,
+  // _CoalescedStyleScheduler,
+  // _COALESCED_STYLE_SCHEDULER,
   STICKY_POSITIONING_LISTENER,
   RenderRow,
   RowContext,
@@ -23,7 +23,9 @@ import {
   NgZone,
   Optional,
   SkipSelf,
-  ViewEncapsulation} from '@angular/core';
+  ViewEncapsulation,
+  DOCUMENT
+} from '@angular/core';
 import {
   _DisposeViewRepeaterStrategy,
   _RecycleViewRepeaterStrategy,
@@ -31,7 +33,7 @@ import {
   _VIEW_REPEATER_STRATEGY,
 } from '@angular/cdk/collections';
 import { StyleRenderer } from '@alyle/ui';
-import { DOCUMENT } from '@angular/common';
+
 import { Directionality } from '@angular/cdk/bidi';
 import { Platform } from '@angular/cdk/platform';
 import { ViewportRuler } from '@angular/cdk/scrolling';
@@ -56,13 +58,41 @@ export class LyRecycleRows {}
 @Component({
   selector: 'ly-table, table[ly-table]',
   exportAs: 'lyTable',
-  template: CDK_TABLE_TEMPLATE,
+  template: `
+    <ng-content select="caption"/>
+    <ng-content select="colgroup, col"/>
+
+    <!--
+      Unprojected content throws a hydration error so we need this to capture it.
+      It gets removed on the client so it doesn't affect the layout.
+    -->
+    @if (_isServer) {
+      <ng-content/>
+    }
+
+    @if (_isNativeHtmlTable) {
+      <thead role="rowgroup">
+        <ng-container headerRowOutlet/>
+      </thead>
+      <tbody role="rowgroup">
+        <ng-container rowOutlet/>
+        <ng-container noDataRowOutlet/>
+      </tbody>
+      <tfoot role="rowgroup">
+        <ng-container footerRowOutlet/>
+      </tfoot>
+    } @else {
+      <ng-container headerRowOutlet/>
+      <ng-container rowOutlet/>
+      <ng-container noDataRowOutlet/>
+      <ng-container footerRowOutlet/>
+    }
+  `,
   providers: [
     StyleRenderer,
     {provide: _VIEW_REPEATER_STRATEGY, useClass: _DisposeViewRepeaterStrategy},
     {provide: CdkTable, useExisting: LyTable},
     {provide: CDK_TABLE, useExisting: LyTable},
-    {provide: _COALESCED_STYLE_SCHEDULER, useClass: _CoalescedStyleScheduler},
     // Prevent nested tables from seeing this table's StickyPositioningListener.
     {provide: STICKY_POSITIONING_LISTENER, useValue: null},
   ],
@@ -105,8 +135,6 @@ export class LyTable<T> extends CdkTable<T> {
     _platform: Platform,
     @Inject(_VIEW_REPEATER_STRATEGY)
     _viewRepeater: _ViewRepeater<T, RenderRow<T>, RowContext<T>>,
-    @Inject(_COALESCED_STYLE_SCHEDULER)
-    _coalescedStyleScheduler: _CoalescedStyleScheduler,
     _viewportRuler: ViewportRuler,
     @Optional()
     @SkipSelf()
@@ -125,7 +153,6 @@ export class LyTable<T> extends CdkTable<T> {
       _document,
       _platform,
       _viewRepeater,
-      _coalescedStyleScheduler,
       _viewportRuler,
       _stickyPositioningListener,
       _ngZone

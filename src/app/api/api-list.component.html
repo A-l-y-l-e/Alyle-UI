@@ -1,6 +1,5 @@
-<ng-container *ngIf="apiListObservable | async as apiList">
+@if (apiListObservable | async; as apiList) {
   <h1 [lyTyp]="'h4'">API List</h1>
-  
   <ly-field appearance="filled">
     <ly-label>Type</ly-label>
     <ly-select [(ngModel)]="filterTypeValue">
@@ -10,26 +9,29 @@
         ></span>{{ filterTypeValue }}
       </ly-select-trigger>
       <ly-option>All</ly-option>
-      <ly-option [value]="option" *ngFor="let option of filterType">
-        <span
-          [ngClass]="[classes.Symbol, classes[option]]"
-        ></span>{{ option }}</ly-option>
-    </ly-select>
-  </ly-field>
-
-  <ng-container *ngFor="let api of apiList">
-    <ng-container *ngIf="hasItem(api)">
-      <h2 [lyTyp]="'h5'" [lyMt]="3" [lyMb]="2">
-        <a routerLink="./{{ api.pkg }}">{{ api.pkg }}</a>
-      </h2>
-      <ul [class]="classes.apiList">
-        <ng-container *ngFor="let item of api.items">
-          <li *ngIf="filterTypeValue == null || filterTypeValue === item.symbol">
-            <a routerLink="./{{ api.pkg }}/{{ item.name }}">
-              <span [ngClass]="[classes.Symbol, classes[item.symbol] || '']"></span>{{ item.name }}</a>
-          </li>
-        </ng-container>
-      </ul>
-    </ng-container>
-  </ng-container>
-</ng-container>
+      @for (option of filterType; track option) {
+        <ly-option [value]="option">
+          <span
+            [ngClass]="[classes.Symbol, classes[option]]"
+          ></span>{{ option }}</ly-option>
+        }
+      </ly-select>
+    </ly-field>
+    @for (api of apiList; track api) {
+      @if (hasItem(api)) {
+        <h2 [lyTyp]="'h5'" [lyMt]="3" [lyMb]="2">
+          <a routerLink="./{{ api.pkg }}">{{ api.pkg }}</a>
+        </h2>
+        <ul [class]="classes.apiList">
+          @for (item of api.items; track item) {
+            @if (filterTypeValue == null || filterTypeValue === item.symbol) {
+              <li>
+                <a routerLink="./{{ api.pkg }}/{{ item.name }}">
+                  <span [ngClass]="[classes.Symbol, classes[item.symbol] || '']"></span>{{ item.name }}</a>
+                </li>
+              }
+            }
+          </ul>
+        }
+      }
+    }

@@ -1,6 +1,7 @@
-<div #resizer
-  *ngIf="resizableArea"
-  [class]="classes.resizer"
->
-</div>
+@if (resizableArea) {
+  <div #resizer
+    [class]="classes.resizer"
+    >
+  </div>
+}
 <div [class]="classes.grid"></div>

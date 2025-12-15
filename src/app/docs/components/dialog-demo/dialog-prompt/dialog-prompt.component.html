@@ -1,4 +1,6 @@
 <button ly-button (click)="open()">open</button>
-<pre *ngIf="name">
-  name: {{ name }}
-</pre>
+@if (name) {
+  <pre>
+    name: {{ name }}
+  </pre>
+}

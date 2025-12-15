@@ -2,7 +2,7 @@
   [elevation]="8"
   shadowColor="demoBg"
   bg="background:tertiary"
->
+  >
   <div [className]="classes.code">
     <button
       ly-button
@@ -11,35 +11,39 @@
       [elevation]="hasCode ? 1 : null"
       (click)="toggleCode()"
       [lyTooltip]="'View source'"><ly-icon icon="code"></ly-icon></button>
-    <button
-      [style.margin]="'0 8px'"
-      ly-button
-      appearance="icon"
-      [raised]="hasCode"
-      [withClass]="classes.stackblitzButton"
-      [elevation]="hasCode ? 1 : null"
-      (click)="openPostStackblitz()"
-      [lyTooltip]="'Edit in Stackblitz'"><ly-icon icon="Stackblitz"></ly-icon></button>
-  </div>
-  <div
-    ly-paper
-    bg="codeBg"
-    *ngIf="hasCode">
-    <ly-tabs
-      [indicatorColor]="'primary'"
-      [textColor]="'primary'"
-      [elevation]="8"
-      [shadowColor]="'demoBg'"
-      scrollable
-      [animationDuration]="0"
-    >
-      <ly-tab *ngFor="let file of files; let i = index">
-        <button ly-tab-label>{{ file.label }}</button>
-        <div [withClass]="classes.codeContainer" [innerHTML]="file.text | async">Loading...</div>
-      </ly-tab>
-    </ly-tabs>
-  </div>
-  <div [className]="classes.tabContainer">
-    <ng-content></ng-content>
-  </div>
-</div>
+      <button
+        [style.margin]="'0 8px'"
+        ly-button
+        appearance="icon"
+        [raised]="hasCode"
+        [withClass]="classes.stackblitzButton"
+        [elevation]="hasCode ? 1 : null"
+        (click)="openPostStackblitz()"
+        [lyTooltip]="'Edit in Stackblitz'"><ly-icon icon="Stackblitz"></ly-icon></button>
+      </div>
+      @if (hasCode) {
+        <div
+          ly-paper
+          bg="codeBg"
+          >
+          <ly-tabs
+            [indicatorColor]="'primary'"
+            [textColor]="'primary'"
+            [elevation]="8"
+            [shadowColor]="'demoBg'"
+            scrollable
+            [animationDuration]="0"
+            >
+            @for (file of files; track file; let i = $index) {
+              <ly-tab>
+                <button ly-tab-label>{{ file.label }}</button>
+                <div [withClass]="classes.codeContainer" [innerHTML]="file.text | async">Loading...</div>
+              </ly-tab>
+            }
+          </ly-tabs>
+        </div>
+      }
+      <div [className]="classes.tabContainer">
+        <ng-content></ng-content>
+      </div>
+    </div>
