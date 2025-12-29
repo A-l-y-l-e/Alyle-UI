@@ -43,6 +43,8 @@ import { RouterModule } from '@angular/router';
 import { Color } from '@alyle/ui/color';
 import { DocViewerModule } from './docs/docs-viewer.module';
 import { AnalyticsService, windowProvider, WindowToken } from '@shared/analytics.service';
+import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { serverRoutes } from './app.routes.server';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -196,6 +198,7 @@ export function themeNameProviderFactory() {
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
     { provide: WindowToken, useFactory: windowProvider },
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideServerRendering(withRoutes(serverRoutes)),
   ],
   bootstrap: [AppComponent]
 })

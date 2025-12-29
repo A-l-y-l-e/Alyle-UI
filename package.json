@@ -81,7 +81,7 @@
     "@types/showdown": "^1.9.2",
     "@types/trusted-types": "^2.0.2",
     "@types/yargs": "^13.0.0",
-    "ava": "^5.1.0",
+    "ava": "^6.4.1",
     "browser-sync": "^3.0.0",
     "bundlesize": "^0.17.0",
     "camelcase": "^5.0.0",
@@ -125,7 +125,7 @@
     "nodeArguments": [],
     "require": [
       "ts-node/register",
-      "tsconfig-paths/register"
+      "tsconfig-paths/register.js"
     ],
     "files": [
       "src/**/*.test.ts"

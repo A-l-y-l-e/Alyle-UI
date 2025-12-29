@@ -15,12 +15,11 @@ class Context {
   runner = new SchematicTestRunner('schematics', collectionPath);
   appTree: Tree;
 
-  static async init() {
-    const context = new Context();
+  async init() {
     // Do async stuff
-    await context.build();
+    await this.build();
     // Return instance
-    return context;
+    return this;
   }
 
   async build() {
@@ -29,7 +28,7 @@ class Context {
 }
 
 test.beforeEach(async t => {
-  t.context = await Context.init();
+  t.context = await (new Context()).init();
 });
 
 
@@ -51,8 +50,8 @@ test(`ng-add-setup-project with default options`, async t => {
   const tree = await runner.runSchematic('ng-add-setup-project', {
     project: 'my-app'
   }, appTree);
-  const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
-  const appComponent = tree.readContent('/projects/my-app/src/app/app.component.ts');
+  const appModule = tree.readContent('/projects/my-app/src/app/app-module.ts');
+  const appComponent = tree.readContent('/projects/my-app/src/app/app.ts');
   const main = tree.readContent('/projects/my-app/src/main.ts');
   t.is(appModule.match(/BrowserAnimationsModule/g)?.length, 2);
   t.is(appModule.match(/HammerModule/g)?.length, 2);
@@ -75,7 +74,7 @@ test(`ng-add-setup-project with two themes`, async t => {
     themes: ['minima-light', 'minima-deep-dark']
   } as Schema, appTree);
 
-  const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
+  const appModule = tree.readContent('/projects/my-app/src/app/app-module.ts');
   t.is(appModule.match(/MinimaLight/g)?.length, 2);
   t.is(appModule.match(/MinimaDeepDark/g)?.length, 2);
 });
@@ -95,8 +94,8 @@ test(`ng-add-setup-project without gestures`, async t => {
     gestures: false
   } as Schema, appTree);
 
-  const appModule = tree.readContent('/projects/my-app/src/app/app.module.ts');
-  const main = tree.readContent('/projects/my-app/src/app/app.module.ts');
+  const appModule = tree.readContent('/projects/my-app/src/app/app-module.ts');
+  const main = tree.readContent('/projects/my-app/src/app/app-module.ts');
 
   t.false(main.includes(`import 'hammerjs';`));
   t.false(appModule.includes(`{ provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }`));

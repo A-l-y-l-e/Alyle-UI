@@ -16,7 +16,6 @@ const routes: Routes = [
     loadChildren: () => import('./api/api.module').then(mod => mod.ApiModule)
   },
 
-  { path: 'component', redirectTo: 'components', pathMatch: 'full' },
   { path: 'components/resizing-cropping-images', redirectTo: 'components/image-cropper', pathMatch: 'full' },
   { path: '**', component: EmptyComponent }
 ];

@@ -1,7 +1,8 @@
+import vm from 'node:vm';
 import anyTest, { TestFn } from 'ava';
 import { hasLylStyle, styleCompiler } from './compiler';
 import { st2c, StyleCollection, lyl } from '../src/parse';
-import * as tsNode from 'ts-node';
+import ts from 'typescript';
 
 const test = anyTest as TestFn<Context>;
 
@@ -222,8 +223,8 @@ test('should contain a lyl style', t => {
   t.true(hasLylStyle(t.context.styleIntoObjectAsFunction));
 });
 
-test(`should be equal to .y{color: red;}`, async t => {
-  const css = await evalScript(t.context.style);
+test(`should be equal to .y{color: red;}`, t => {
+  const css = evalScript(t.context.style);
   t.is(`.y{color:red;}`, css);
 });
 
@@ -721,14 +722,15 @@ test(`@font-face`, async t => {
 });
 
 function evalScript(script: string) {
+  const styleCode = styleCompiler(script);
   // tslint:disable-next-line: no-eval
-  return eval(tsNode.register({
+  const compiled = ts.transpileModule(styleCode, {
     compilerOptions: {
-      module: 'commonjs',
-      sourceMap: false
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2018,
     },
-    transpileOnly: true
-  }).compile(styleCompiler(script), 'file.ts'));
+  });
+  return vm.runInNewContext(compiled.outputText, {});
 }
 
 function removeComments(css: string) {

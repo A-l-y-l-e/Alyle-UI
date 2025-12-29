@@ -3,7 +3,7 @@
   "schematics": {
     "ng-add": {
       "description": "Adds Alyle UI to the application",
-      "factory": "./ng-add",
+      "factory": "./ng-add/index",
       "schema": "./ng-add/schema.json"
     },
     "ng-add-setup-project": {

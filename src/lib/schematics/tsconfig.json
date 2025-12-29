@@ -23,6 +23,9 @@
       "node"
     ]
   },
+  "include": [
+    "**/*"
+  ],
   "exclude": [
     "**/*.test.ts",
     "testing/**/*.ts"
