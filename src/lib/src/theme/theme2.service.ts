@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, Inject, isDevMode, NgZone, Optional } from '@angular/core';
+import { Injectable, Renderer2, Inject, isDevMode, NgZone, Optional, DOCUMENT } from '@angular/core';
 import {
   LY_THEME_NAME,
   ThemeVariables,
@@ -7,7 +7,7 @@ import {
   ThemeConfig } from './theme-config';
 import { CoreTheme } from './core-theme.service';
 import { DataStyle } from '../theme.service';
-import { DOCUMENT } from '@angular/common';
+
 import { DirAlias, Dir } from '../style-utils';
 import { YPosition } from '../position/position';
 import { StyleMap5,

@@ -13,7 +13,7 @@
       <span class="tt18 ttbx">opened</span>
       <span class="tt18 ttbx">position</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>before<span class="tt18 ttae">"</span></span>
       <span class="tt18 ttbx">[drawerWidth]</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>width<span class="tt18 ttae">"</span></span>
-    <span class="tt18 ttae">></span></span>
+      <span class="tt18 ttae">></span></span>
       <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-list</span><span class="tt18 ttae">></span></span>
         <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">ly-list-item</span><span class="tt18 ttae">></span></span>
           <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-icon</span> <span class="tt18 ttbx">ly-list-icon</span> <span class="tt18 ttbx">disablePadding</span><span class="tt18 ttae">></span></span>mail<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-icon</span><span class="tt18 ttae">></span></span>
@@ -33,8 +33,12 @@
           <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-icon</span><span class="tt18 ttae">></span></span>close<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-icon</span><span class="tt18 ttae">></span></span>
         <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
         <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>button</span> <span class="tt18 ttbx">ly-button</span> <span class="tt18 ttbx">(click)</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>toggleMini()<span class="tt18 ttae">"</span></span> <span class="tt18 ttbx">appearance</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>icon<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>
-          <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-icon</span> <span class="tt18 ttbx">*ngIf</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>mini<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>chevron_left<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-icon</span><span class="tt18 ttae">></span></span>
-          <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-icon</span> <span class="tt18 ttbx">*ngIf</span><span class="tt18 ttbm"><span class="tt18 ttae attr-equals">=</span><span class="tt18 ttae">"</span>!mini<span class="tt18 ttae">"</span></span><span class="tt18 ttae">></span></span>chevron_right<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-icon</span><span class="tt18 ttae">></span></span>
+          @if (mini) &#123;
+            <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-icon</span><span class="tt18 ttae">></span></span>chevron_left<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-icon</span><span class="tt18 ttae">></span></span>
+          &#125;
+          @if (!mini) &#123;
+            <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;</span>ly-icon</span><span class="tt18 ttae">></span></span>chevron_right<span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-icon</span><span class="tt18 ttae">></span></span>
+          &#125;
         <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>button</span><span class="tt18 ttae">></span></span>
       <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>div</span><span class="tt18 ttae">></span></span>
     <span class="tt18 tt5i"><span class="tt18 tt5i"><span class="tt18 ttae">&lt;/</span>ly-drawer</span><span class="tt18 ttae">></span></span>

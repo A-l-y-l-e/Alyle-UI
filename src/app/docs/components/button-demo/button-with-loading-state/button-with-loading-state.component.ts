@@ -59,9 +59,9 @@ export class ButtonWithLoadingStateComponent {
   loading3 = false;
 
   load(loading: string) {
-    this[loading] = true;
+    (this as any)[loading] = true;
     setTimeout(() => {
-      this[loading] = false;
+      (this as any)[loading] = false;
       this._cd.markForCheck();
     }, 2000);
   }

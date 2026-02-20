@@ -1,6 +1,6 @@
-import { Injectable, Optional, Inject, SecurityContext } from '@angular/core';
+import { Injectable, Optional, Inject, SecurityContext, DOCUMENT } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DOCUMENT } from '@angular/common';
+
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { LyTheme2 } from '@alyle/ui';

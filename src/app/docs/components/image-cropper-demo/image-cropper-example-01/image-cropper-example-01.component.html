@@ -6,19 +6,23 @@
   <span [lyFlex]="1"></span>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
-  <button raised ly-button bg="accent" *ngIf="croppedImage">Upload</button>
+  @if (croppedImage) {
+    <button raised ly-button bg="accent">Upload</button>
+  }
 </div>
 
-<div *ngIf="ready">
-  <button (click)="cropper.zoomIn()" ly-button appearance="icon"><ly-icon>zoom_in</ly-icon></button>
-  <button (click)="cropper.zoomOut()" ly-button appearance="icon"><ly-icon>zoom_out</ly-icon></button>
-  <button (click)="cropper.center()" ly-button appearance="icon"><ly-icon>filter_center_focus</ly-icon></button>
-  <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
-  <button (click)="cropper.fit()" ly-button>Fit</button>
-  <button (click)="cropper.fitToScreen()" ly-button>Fit to screen</button>
-  <button (click)="cropper.setScale(1)" ly-button>1:1</button>
-  <button (click)="cropper.clean()" ly-button>Clean</button>
-</div>
+@if (ready) {
+  <div>
+    <button (click)="cropper.zoomIn()" ly-button appearance="icon"><ly-icon>zoom_in</ly-icon></button>
+    <button (click)="cropper.zoomOut()" ly-button appearance="icon"><ly-icon>zoom_out</ly-icon></button>
+    <button (click)="cropper.center()" ly-button appearance="icon"><ly-icon>filter_center_focus</ly-icon></button>
+    <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
+    <button (click)="cropper.fit()" ly-button>Fit</button>
+    <button (click)="cropper.fitToScreen()" ly-button>Fit to screen</button>
+    <button (click)="cropper.setScale(1)" ly-button>1:1</button>
+    <button (click)="cropper.clean()" ly-button>Clean</button>
+  </div>
+}
 
 <ly-img-cropper [withClass]="classes.cropper"
   [config]="myConfig"
@@ -29,26 +33,32 @@
   (cropped)="onCropped($event)"
   (loaded)="onLoaded($event)"
   (error)="onError($event)"
->
+  >
   <span>Drag and drop image</span>
 </ly-img-cropper>
 
-<div *ngIf="ready" [className]="classes.sliderContainer">
-  <ly-slider
-    [thumbVisible]="false"
-    [min]="minScale"
-    [max]="1"
-    [(ngModel)]="scale"
-    (input)="onSliderInput($event)"
+@if (ready) {
+  <div [className]="classes.sliderContainer">
+    <ly-slider
+      [thumbVisible]="false"
+      [min]="minScale"
+      [max]="1"
+      [(ngModel)]="scale"
+      (input)="onSliderInput($event)"
     [step]="0.000001"></ly-slider>
-</div>
-
-<button *ngIf="ready" color="accent" (click)="cropper.crop()" ly-button>
-  <ly-icon>crop</ly-icon>crop
-</button>
-
-<div *ngIf="croppedImage">
-  <div [class]="classes.cropperResult">
-    <img [src]="croppedImage">
   </div>
-</div>
+}
+
+@if (ready) {
+  <button color="accent" (click)="cropper.crop()" ly-button>
+    <ly-icon>crop</ly-icon>crop
+  </button>
+}
+
+@if (croppedImage) {
+  <div>
+    <div [class]="classes.cropperResult">
+      <img [src]="croppedImage">
+    </div>
+  </div>
+}

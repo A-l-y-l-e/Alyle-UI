@@ -1,10 +1,10 @@
-export { mixinStyleUpdater } from './build-common-behaviors';
-export { mixinDisableRipple } from './disable-ripple';
+export { mixinStyleUpdater, CanStyleUpdater } from './build-common-behaviors';
+export { mixinDisableRipple, CanDisableRipple } from './disable-ripple';
 export * from './disabled';
-export { mixinColor } from './color';
-export { mixinBg } from './bg';
-export { mixinRaised } from './raised';
-export { mixinOutlined } from './outlined';
-export { mixinElevation } from './elevation';
-export { mixinShadowColor } from './shadow-color';
+export { mixinColor, CanColor } from './color';
+export { mixinBg, CanBg } from './bg';
+export { mixinRaised, CanRaised } from './raised';
+export { mixinOutlined, CanOutlined } from './outlined';
+export { mixinElevation, CanElevation } from './elevation';
+export { mixinShadowColor, CanShadowColor } from './shadow-color';
 export * from './tabindex';

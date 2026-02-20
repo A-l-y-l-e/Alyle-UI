@@ -1,13 +1,15 @@
-<ng-container *ngIf="(asyncTabs | async) === null">
+@if ((asyncTabs | async) === null) {
   Loading tabs...
-</ng-container>
+}
 <ly-tabs
   indicatorColor="accent"
   textColor="accent"
   [elevation]="4"
->
-  <ly-tab *ngFor="let tab of asyncTabs | async">
-    <button ly-tab-label>{{ tab.label }}</button>
-    <div [style.padding.px]="24">{{ tab.content }}</div>
-  </ly-tab>
+  >
+  @for (tab of asyncTabs | async; track tab) {
+    <ly-tab>
+      <button ly-tab-label>{{ tab.label }}</button>
+      <div [style.padding.px]="24">{{ tab.content }}</div>
+    </ly-tab>
+  }
 </ly-tabs>

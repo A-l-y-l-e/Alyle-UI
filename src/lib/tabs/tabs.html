@@ -6,12 +6,22 @@
 </div>
 <div [className]="classes.contentContainer">
   <div [className]="classes.contents" #tabContents>
-    <div #tabContent *ngFor="let item of tabsList; index as x" [className]="classes.content">
+    @for (item of tabsList; track item; let x = $index) {
+      @let tabContentTemplate = loadTemplate(item, x);
+      <div #tabContent [className]="classes.content">
+          <div [className]="classes.contentInner">
+            <ng-template
+              [cdkPortalOutlet]="tabContentTemplate"
+            ></ng-template>
+          </div>
+        </div>
+    }
+  </div>
+  <!-- <div #tabContent *ngFor="let item of tabsList; index as x" [className]="classes.content">
       <div [className]="classes.contentInner">
         <ng-template
           [cdkPortalOutlet]="loadTemplate(item, x)"
         ></ng-template>
       </div>
-    </div>
-  </div>
+  </div> -->
 </div>

@@ -6,7 +6,7 @@ export class UniversalInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler) {
     let serverReq: HttpRequest<unknown> = req;
-    if (req.url.startsWith('api/docs/')) {
+    if (req.url.startsWith('api/docs/x')) {
       serverReq = req.clone({url: `http://localhost:3000/${req.url.slice(4)}`});
     }
     return next.handle(serverReq);

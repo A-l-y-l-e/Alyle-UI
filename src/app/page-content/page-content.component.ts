@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { lyl, LyTheme2, StyleRenderer } from '@alyle/ui';
 
-import { AUIThemeVariables } from '@app/app.module';
+import { AUIThemeVariables } from '../app.config';
 import { AUIRoutesMap } from '../routes';
+import { LyTypographyModule } from '@alyle/ui/typography';
 
 const absolute = lyl`{
   position: absolute
@@ -73,7 +74,11 @@ const commonConfigVariables = ['appearance', 'size', 'lyTyp'];
   providers: [
     StyleRenderer
   ],
-  standalone: false
+  standalone: true,
+  imports: [
+    RouterLink,
+    LyTypographyModule
+  ]
 })
 export class PageContentComponent {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);

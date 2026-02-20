@@ -1,7 +1,12 @@
 {
-  "extends": "../../node_modules/ng-packagr/lib/ts/conf/tsconfig.ngc.json",
+  "extends": "../../tsconfig.ngc.json",
   "compilerOptions": {
+    "outDir": "../../out-tsc/lib",
+    "inlineSources": true,
     "types": ["node"],
     "useDefineForClassFields": false
-  }
+  },
+  "exclude": [
+    "**/*.spec.ts"
+  ]
 }

@@ -1,9 +1,9 @@
-<ng-container *ngIf="isLoading; else elseBlock">
+@if (isLoading) {
   <ly-paper
     [lyP]="'1em'"
     [lyM]="'.5em'"
     [elevation]="2"
-  >
+    >
     <h3 [lyTyp]="'title'"
       gutterBottom
       lySkeleton
@@ -13,14 +13,12 @@
       {{ '\u00A0' }}
     </p>
   </ly-paper>
-</ng-container>
-
-<ng-template #elseBlock>
+} @else {
   <ly-paper
     [lyP]="'1em'"
     [lyM]="'.5em'"
     [elevation]="2"
-  >
+    >
     <h3 [lyTyp]="'title'"
       gutterBottom
     >Title</h3>
@@ -28,7 +26,8 @@
       Lorem ipsum dolor, sit amet consectetur adipisicing elit.
     </p>
   </ly-paper>
-</ng-template>
+}
+
 
 <button ly-button
   (click)="isLoading = !isLoading"

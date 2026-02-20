@@ -1,28 +1,30 @@
-<ng-container *ngIf="doc">
+@if (doc) {
   <div [class]="classes.breadcrumbContainer">
     <div>
       <a [routerLink]="['/', 'api']">API</a>
-      > 
+      >
       <a [routerLink]="'/api/' + doc.pkg">{{ doc.pkg }}</a>
     </div>
   </div>
   <header [ngClass]="classes.header" [lyMt]="2" [lyMb]="1">
     <h1 [lyTyp]="'h4'" [lyMf]="2">{{ doc.name }}</h1>
-    <label *ngIf="doc.code" [ngClass]="[classes.label, apiListClasses.Symbol, apiListClasses[doc.symbol]]">{{ doc.symbol }}</label>
+    @if (doc.code) {
+      <label [ngClass]="[classes.label, apiListClasses.Symbol, apiListClasses[doc.symbol]]">{{ doc.symbol }}</label>
+    }
   </header>
-  <div *ngIf="doc.code; else elseBlock" [innerHTML]="doc?.code"></div>
-
-  <ng-template #elseBlock>
-    <ng-container *ngFor="let pkgSymbolList of doc?.items">
+  @if (doc.code) {
+    <div [innerHTML]="doc?.code"></div>
+  } @else {
+    @for (pkgSymbolList of doc?.items; track pkgSymbolList) {
       <h2 [lyTyp]="'h5'" [lyTyp]="'h5'" [lyMt]="3" [lyMb]="2">{{ pkgSymbolList.key }}</h2>
       <ul [class]="apiListClasses.apiList">
-        <ng-container *ngFor="let item of pkgSymbolList.items">
+        @for (item of pkgSymbolList.items; track item) {
           <li>
             <a routerLink="./{{ item.name }}">
               <span [ngClass]="[apiListClasses.Symbol, apiListClasses[item.symbol] || '']"></span>{{ item.name }}</a>
-          </li>
-        </ng-container>
-      </ul>
-    </ng-container>
-  </ng-template>
-</ng-container>
+            </li>
+          }
+        </ul>
+      }
+    }
+  }

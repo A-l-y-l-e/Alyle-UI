@@ -18,14 +18,18 @@
 <br />
 
 <ly-radio-group #radioC="lyRadioGroup">
-  <ly-radio [checked]="item === 3" *ngFor="let item of [ 1, 2, 3, 4, 5 ]" [value]="item">Label {{ item }}</ly-radio>
+  @for (item of [ 1, 2, 3, 4, 5 ]; track item) {
+    <ly-radio [checked]="item === 3" [value]="item">Label {{ item }}</ly-radio>
+  }
 </ly-radio-group>
 <div>#radioC.value: {{ radioC.value | json }}</div>
 
 <br />
 
 <ly-radio-group [(ngModel)]="favoriteColor" #radio="lyRadioGroup">
-  <ly-radio [color]="color.value" *ngFor="let color of list" [value]="color.value">{{ color.name }}</ly-radio>
+  @for (color of list; track color) {
+    <ly-radio [color]="color.value" [value]="color.value">{{ color.name }}</ly-radio>
+  }
 </ly-radio-group>
 <div>ngModel: {{ favoriteColor | json }}</div>
 <div>radioGroup.value: {{ radio.value | json }}</div>

@@ -4,8 +4,10 @@
 
 <ng-template #menuTemplateRef let-M>
   <ly-menu [ref]="M">
-    <button ly-button ly-menu-item *ngFor="let item of [null, null, null]; index as i">
-      <span>Item {{ i + 1 }}</span>
-    </button>
+    @for (item of [null, null, null]; track item; let i = $index) {
+      <button ly-button ly-menu-item>
+        <span>Item {{ i + 1 }}</span>
+      </button>
+    }
   </ly-menu>
 </ng-template>

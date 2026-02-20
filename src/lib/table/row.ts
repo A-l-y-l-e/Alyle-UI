@@ -141,7 +141,7 @@ export class LyRow extends CdkRow {
 })
 export class LyNoDataRow extends CdkNoDataRow {
   readonly classes = this.sRenderer.renderSheet(TABLE_STYLES);
-  override _contentClassName = this.classes.noDataRow;
+  override _contentClassNames = [this.classes.noDataRow];
   constructor(
     templateRef: TemplateRef<any>,
     readonly sRenderer: StyleRenderer

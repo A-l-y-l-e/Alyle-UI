@@ -1,5 +1,7 @@
-<div *ngFor="let item of queries" [lyDisplay]="item.mediaQuery">
-  <p>
-    <strong ly-text color="warn">{{ item.key }}: </strong>{{ item.breakpoint }}
-  </p>
-</div>
+@for (item of queries; track item) {
+  <div [lyDisplay]="item.mediaQuery">
+    <p>
+      <strong ly-text color="warn">{{ item.key }}: </strong>{{ item.breakpoint }}
+    </p>
+  </div>
+}

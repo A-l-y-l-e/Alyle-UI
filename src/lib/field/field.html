@@ -1,59 +1,71 @@
 <div #_container
   [className]="classes.container"
   (click)="_control && _control.onContainerClick && _control.onContainerClick($event)">
-  <fieldset
-    *ngIf="appearance === 'outlined'"
-    [className]="classes.fieldset"><legend [className]="classes.fieldsetSpan"></legend></fieldset>
-  <div [className]="classes.prefix" *ngIf="_prefixChildren.length" #_prefixContainer>
-    <ng-content select="[lyPrefix]"></ng-content>
-  </div>
-  <div [className]="classes.infix">
-    <ng-container
-      *ngIf="displayWithStatus"
-    >
-      <ng-content select="ly-display-with"></ng-content>
-    </ng-container>
-    <ng-content></ng-content>
-    <span [className]="classes.label" *ngIf="_isLabel()" #_labelContainer2>
-      <span #_labelSpan [className]="classes.labelSpan"
-        (cdkObserveContent)="_updateFielsetSpan()"
-        [cdkObserveContentDisabled]="appearance != 'outlined'"
-      >
-        <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
-      </span>
-    </span>
-    <div [className]="classes.placeholder"
-      *ngIf="_isPlaceholder() && _control?.empty && (_control?.floatingLabel || floatingLabel)"
-    >
-      <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
+  @if (appearance === 'outlined') {
+    <fieldset
+      [className]="classes.fieldset"><legend [className]="classes.fieldsetSpan"></legend></fieldset>
+    }
+    @if (_prefixChildren.length) {
+      <div [className]="classes.prefix" #_prefixContainer>
+        <ng-content select="[lyPrefix]"></ng-content>
+      </div>
+    }
+    <div [className]="classes.infix">
+      @if (displayWithStatus) {
+        <ng-content select="ly-display-with"></ng-content>
+      }
+      <ng-content></ng-content>
+      @if (_isLabel()) {
+        <span [className]="classes.label" #_labelContainer2>
+          <span #_labelSpan [className]="classes.labelSpan"
+            (cdkObserveContent)="_updateFielsetSpan()"
+            [cdkObserveContentDisabled]="appearance != 'outlined'"
+            >
+            <ng-container *ngTemplateOutlet="_labelTemplate"></ng-container>
+          </span>
+        </span>
+      }
+      @if (_isPlaceholder() && _control.empty && (_control.floatingLabel || floatingLabel)) {
+        <div [className]="classes.placeholder"
+          >
+          <ng-container *ngTemplateOutlet="_placeholderTemplate"></ng-container>
+        </div>
+      }
     </div>
+    @if (_suffixChildren.length) {
+      <div [className]="classes.suffix" #_suffixContainer>
+        <ng-content select="[lySuffix]"></ng-content>
+      </div>
+    }
   </div>
-  <div [className]="classes.suffix" *ngIf="_suffixChildren.length" #_suffixContainer>
-    <ng-content select="[lySuffix]"></ng-content>
+
+  <div [className]="classes.hintContainer">
+    @if ((_hintChildren.length || _errorChildren.length) && (persistentHint || _control.errorState || _control.focused)) {
+      <div>
+        @if (_control.errorState) {
+          <ng-content select="ly-error"></ng-content>
+        }
+        <ng-content select="ly-hint"></ng-content>
+      </div>
+    }
   </div>
-</div>
 
-<div [className]="classes.hintContainer">
-  <div *ngIf="(_hintChildren.length || _errorChildren.length) && (persistentHint || _control?.errorState || _control?.focused)">
-    <ng-container *ngIf="_control?.errorState">
-      <ng-content select="ly-error"></ng-content>
-    </ng-container>
-    <ng-content select="ly-hint"></ng-content>
-  </div>
-</div>
+  <ng-template #_labelTemplate>
+    <ng-content select="ly-label"></ng-content>
+    @if (!_labelChild) {
+      <ng-template *ngTemplateOutlet="_placeholderTemplate"></ng-template>
+    }
+    @if (!hideRequiredMarker && _control.required && !_control.disabled) {
+      <span
+        [className]="classes.fieldRequiredMarker"
+        aria-hidden="true"
+      >&#32;*</span>
+    }
+  </ng-template>
 
-<ng-template #_labelTemplate>
-  <ng-content select="ly-label"></ng-content>
-  <ng-container *ngIf="!_labelChild">
-    <ng-template *ngTemplateOutlet="_placeholderTemplate"></ng-template>
-  </ng-container>
-  <span
-    [className]="classes.fieldRequiredMarker"
-    aria-hidden="true"
-    *ngIf="!hideRequiredMarker && _control.required && !_control.disabled">&#32;*</span>
-</ng-template>
-
-<ng-template #_placeholderTemplate>
-  <ng-content select="ly-placeholder"></ng-content>
-  <span *ngIf="_control?.placeholder">{{ _control.placeholder }}</span>
-</ng-template>
+  <ng-template #_placeholderTemplate>
+    <ng-content select="ly-placeholder"></ng-content>
+    @if (_control.placeholder) {
+      <span>{{ _control.placeholder }}</span>
+    }
+  </ng-template>

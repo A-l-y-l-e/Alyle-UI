@@ -6,9 +6,10 @@ import { formatErrorEventForAnalytics } from './analytics-format-error';
 import { environment } from '../../environments/environment';
 
 import { InjectionToken } from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
 
 export const WindowToken = new InjectionToken<Window>('Window');
-export function windowProvider() { return window; }
+export function windowProvider() { return typeof window !== 'undefined' && window; }
 
 /** Extension of `Window` with potential Google Analytics fields. */
 interface WindowWithAnalytics extends Window {
@@ -31,14 +32,20 @@ interface WindowWithAnalytics extends Window {
  */
 export class AnalyticsService {
   /** Whether the application runs in e2e tests using Protractor. */
-  private readonly isProtractor = this.window.name.includes('NG_DEFER_BOOTSTRAP');
+  private readonly isProtractor: boolean;
 
   /** Previously reported URL. Cached to allow for duplicates being filtered. */
   private previousUrl: string;
 
-  constructor(@Inject(WindowToken) private window: WindowWithAnalytics) {
-    this._installGlobalSiteTag();
-    this._installWindowErrorHandler();
+  constructor(
+    @Inject(WindowToken) private window: WindowWithAnalytics,
+    _platform: Platform
+  ) {
+    if (_platform.isBrowser) {
+      this._installGlobalSiteTag();
+      this._installWindowErrorHandler();
+      this.isProtractor = this.window.name.includes('NG_DEFER_BOOTSTRAP');
+    }
 
   }
 

@@ -1,6 +1,10 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
-import { lyl, LyTheme2, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
+import { LyCommonModule, lyl, LyTheme2, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
 import { Platform } from '@angular/cdk/platform';
+import { RouterLink } from '@angular/router';
+import { LyTypographyModule } from '@alyle/ui/typography';
+import { LyGridModule } from '@alyle/ui/grid';
+import { LyButtonModule } from '@alyle/ui/button';
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);
   return {
@@ -74,7 +78,14 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   providers: [
     StyleRenderer
   ],
-  standalone: false
+  standalone: true,
+  imports: [
+    LyButtonModule,
+    RouterLink,
+    LyTypographyModule,
+    LyGridModule,
+    LyCommonModule
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');
@@ -112,28 +123,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 }
-
 declare var SimplexNoise: {
   new(): {
     noise3D: (arg0: number, arg1: number, arg2: number) => number;
   };
+};
+declare var SimplexNoise: {
   new(): {
     noise3D: (arg0: number, arg1: number, arg2: number) => number;
   };
 };
 
-// const Config = {
-//   backgroundColor: '#030722',
-//   particleNum: 700,
-//   step: 17,
-//   base: 3000,
-//   zInc: 0.000009
-// };
-
 export class Intra {
-  private fadeTime = 2000; // in ms
-  private fadeTimeStart: number;
+  // Constantes de animación (valores originales)
+  private readonly FADE_TIME = 2000;
+  private readonly OCTAVES = 2;
+  private readonly FALLOUT = 0.5;
+  private readonly LINE_WIDTH = 0.7;
+  private readonly HUE_INCREMENT = 0.4;
+  private readonly ALPHA_INCREMENT = 0.001;
 
+  // Estado de la animación
+  private fadeTimeStart: number;
   private canvas: HTMLCanvasElement;
   private screenWidth: number;
   private screenHeight: number;
@@ -143,93 +154,110 @@ export class Intra {
   private hueBase = 0;
   private simplexNoise: { noise3D: (arg0: number, arg1: number, arg2: number) => number; };
   private zoff = 0;
-  private can2: HTMLCanvasElement;
-  private ctx2: CanvasRenderingContext2D;
+  private offscreenCanvas: HTMLCanvasElement;
+  private offscreenCtx: CanvasRenderingContext2D;
   private ctx: CanvasRenderingContext2D;
   private requestId?: number;
-  private timeoutId: any;
-
-  // Initialize
+  private timeoutId?: number;
+  private isRunning = false;
 
   constructor(
-    private backgroundColor: string,
-    private particleNum: number,
-    private step: number,
-    private base: number,
-    private zInc: number,
-    private duration: number
-    ) { }
+    private readonly backgroundColor: string,
+    private readonly particleNum: number,
+    private readonly step: number,
+    private readonly base: number,
+    private readonly zInc: number,
+    private readonly duration: number
+  ) {}
 
   start() {
-    this.stop();
-    this.timeoutId = setTimeout(() => {
-      this.stop();
-    }, this.duration);
-    this.canvas = document.getElementById('bg') as HTMLCanvasElement;
-    this.can2 =  document.createElement('canvas');
-    this.ctx = this.can2.getContext('2d')!;
-    this.ctx2 = this.canvas.getContext('2d')!;
-
-    this.updatePosition();
-
-    for (let i = 0, len = this.particleNum; i < len; i++) {
-      this.particles[i] = new Particle();
-      this.initParticle(this.particles[i]);
+    // Evitar múltiples instancias
+    if (this.isRunning) {
+      return;
     }
 
-    // canvas.addEventListener('click', onCanvasClick, true);
+    this.stop();
+    this.isRunning = true;
+
+    // Configurar timeout para detener la animación
+    this.timeoutId = window.setTimeout(() => {
+      this.stop();
+    }, this.duration);
+
+    // Inicializar canvas principal
+    this.canvas = document.getElementById('bg') as HTMLCanvasElement;
+    if (!this.canvas) {
+      console.error('Canvas element with id "bg" not found');
+      return;
+    }
+
+    // Crear canvas offscreen para mejor rendimiento
+    this.offscreenCanvas = document.createElement('canvas');
+    this.offscreenCtx = this.offscreenCanvas.getContext('2d', {
+      alpha: false
+    })!;
+    this.ctx = this.canvas.getContext('2d', {
+      alpha: false
+    })!;
+
+    // Configurar dimensiones
+    this.updateDimensions();
+
+    // Inicializar partículas
+    this.particles = [];
+    for (let i = 0; i < this.particleNum; i++) {
+      const particle = new Particle();
+      this.initParticle(particle);
+      this.particles.push(particle);
+    }
+
+    // Inicializar generador de ruido Simplex
     this.simplexNoise = new SimplexNoise();
 
+    // Configurar estilo de dibujo
+    this.offscreenCtx.lineWidth = this.LINE_WIDTH;
+    this.offscreenCtx.lineCap = 'round';
+    this.offscreenCtx.lineJoin = 'round';
+    this.offscreenCtx.fillStyle = this.backgroundColor;
+    this.offscreenCtx.fillRect(0, 0, this.screenWidth, this.screenHeight);
+
+    // Iniciar animación
     this.requestId = requestAnimationFrame(this.update.bind(this));
-    this.ctx.lineWidth = 0.7;
-    this.ctx.lineCap = this.ctx.lineJoin = 'round';
-    this.ctx.fillStyle = this.backgroundColor;
-    this.ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
   }
 
-
-  // Event listeners
-
   onWindowResize() {
-    this.updatePosition();
+    if (!this.isRunning) {
+      return;
+    }
+    this.updateDimensions();
     this.stop();
     this.start();
   }
 
-  private updatePosition() {
-    this.can2.width = this.screenWidth  = this.canvas.width  = window.innerWidth;
-    this.can2.height = this.screenHeight = this.canvas.height = window.innerHeight;
+  private updateDimensions() {
+    this.screenWidth = this.canvas.width = this.offscreenCanvas.width = window.innerWidth;
+    this.screenHeight = this.canvas.height = this.offscreenCanvas.height = window.innerHeight;
+    
+    // Mantener cálculo original del centro (dividido por 10)
     this.centerX = this.screenWidth / 10;
     this.centerY = this.screenHeight / 10;
   }
 
-  // onCanvasClick(e: any) {
-  //   this.ctx.globalAlpha = 0.9;
-  //   this.ctx.fillStyle = this.backgroundColor;
-  //   this.ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
+  private getNoise(x: number, y: number, z: number): number {
+    let amp = 1;
+    let f = 1;
+    let sum = 1;
 
-  //   this.simplexNoise = new SimplexNoise();
-  //   this.fadeTimeStart = undefined;
-  // }
-
-
-  // Functions
-
-  getNoise(x: number, y: number, z: number) {
-    const octaves = 2;
-    const fallout = 0.5;
-    let amp = 1, f = 1, sum = 1;
-
-    for (let i = 0; i < octaves; ++i) {
-        amp *= fallout;
-        sum += amp * (this.simplexNoise.noise3D(x * f, y * f, z * f) + 1) * 4.4;
-        f *= 3;
+    for (let i = 0; i < this.OCTAVES; i++) {
+      amp *= this.FALLOUT;
+      sum += amp * (this.simplexNoise.noise3D(x * f, y * f, z * f) + 1) * 4.4;
+      f *= 3;
     }
 
     return sum;
   }
 
-  initParticle(p: Particle) {
+  private initParticle(p: Particle) {
     p.x = p.pastX = this.screenWidth * Math.random();
     p.y = p.pastY = this.screenHeight * Math.random();
     p.color.h = this.hueBase + Math.atan2(this.centerY - p.y, this.centerX - p.x) * 200 / Math.PI;
@@ -238,93 +266,128 @@ export class Intra {
     p.color.a = 0;
   }
 
-
-  // Update
-
-  update(time: number) {
-    const step = this.step;
-    const base = this.base;
-    let i: number, p: Particle, angle: number;
-
-    for (i = 0; i < this.particles.length; i++) {
-        p = this.particles[i];
-
-        p.pastX = p.x;
-        p.pastY = p.y;
-
-        angle = Math.PI * 6 * this.getNoise(p.x / base * 1.75, p.y / base * 1.75, this.zoff);
-        p.x += Math.cos(angle) * step;
-        p.y += Math.sin(angle) * step;
-
-        if (p.color.a < 1) { p.color.a += 0.001; }
-
-        this.ctx.beginPath();
-        this.ctx.strokeStyle = p.color.toString();
-        this.ctx.moveTo(p.pastX, p.pastY);
-        this.ctx.lineTo(p.x, p.y);
-        this.ctx.stroke();
-
-        if (p.x < 0 || p.x > this.screenWidth || p.y < 0 || p.y > this.screenHeight) {
-            this.initParticle(p);
-        }
+  private update(time: number) {
+    if (!this.isRunning) {
+      return;
     }
 
-    this.hueBase += 0.4;
+    // Actualizar cada partícula
+    for (let i = 0; i < this.particles.length; i++) {
+      const p = this.particles[i];
+
+      // Guardar posición anterior
+      p.pastX = p.x;
+      p.pastY = p.y;
+
+      // Calcular nuevo ángulo basado en campo de ruido
+      const angle = Math.PI * 6 * this.getNoise(
+        p.x / this.base * 1.75,
+        p.y / this.base * 1.75,
+        this.zoff
+      );
+
+      // Actualizar posición
+      p.x += Math.cos(angle) * this.step;
+      p.y += Math.sin(angle) * this.step;
+
+      // Incrementar alpha gradualmente
+      if (p.color.a < 1) {
+        p.color.a += this.ALPHA_INCREMENT;
+      }
+
+      // Dibujar línea desde posición anterior a nueva posición
+      this.offscreenCtx.beginPath();
+      this.offscreenCtx.strokeStyle = p.color.toString();
+      this.offscreenCtx.moveTo(p.pastX, p.pastY);
+      this.offscreenCtx.lineTo(p.x, p.y);
+      this.offscreenCtx.stroke();
+
+      // Reiniciar partícula si sale de la pantalla
+      if (
+        p.x < 0 ||
+        p.x > this.screenWidth ||
+        p.y < 0 ||
+        p.y > this.screenHeight
+      ) {
+        this.initParticle(p);
+      }
+    }
+
+    // Actualizar base de color y offset z
+    this.hueBase += this.HUE_INCREMENT;
     this.zoff += this.zInc;
 
-    // Code to fade in the view
+    // Efecto fade-in inicial
     if (this.fadeTimeStart === undefined) {
-        this.fadeTimeStart = time;
-    }
-    const fTime = (time - this.fadeTimeStart) / this.fadeTime;
-    if (fTime < 1) {
-        this.ctx2.globalAlpha = fTime;
-        this.ctx2.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx2.drawImage(this.can2, 0, 0);
-    } else {
-        this.ctx2.globalAlpha = 1;
-        this.ctx2.drawImage(this.can2, 0, 0);
+      this.fadeTimeStart = time;
     }
 
+    const fadeProgress = (time - this.fadeTimeStart) / this.FADE_TIME;
+
+    if (fadeProgress < 1) {
+      this.ctx.globalAlpha = fadeProgress;
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(this.offscreenCanvas, 0, 0);
+    } else {
+      this.ctx.globalAlpha = 1;
+      this.ctx.drawImage(this.offscreenCanvas, 0, 0);
+    }
+
+    // Continuar animación
     this.requestId = requestAnimationFrame(this.update.bind(this));
   }
 
   stop() {
-    if (this.timeoutId) {
+    this.isRunning = false;
+
+    if (this.timeoutId !== undefined) {
       clearTimeout(this.timeoutId);
-      this.timeoutId = null;
+      this.timeoutId = undefined;
     }
-    if (this.requestId) {
+
+    if (this.requestId !== undefined) {
       cancelAnimationFrame(this.requestId);
       this.requestId = undefined;
     }
   }
-}
 
-
-/**
-* HSLA
-*/
-class HSLA {
-  constructor(public h = 0, public s = 0, public l = 0, public a = 0) { }
-  toString() {
-    return 'hsla(' + this.h + ',' + (this.s * 100) + '%,' + (this.l * 100) + '%,' + this.a + ')';
+  // Getter para verificar el estado
+  getIsRunning(): boolean {
+    return this.isRunning;
   }
 }
 
+/**
+ * HSLA Color representation
+ */
+class HSLA {
+  constructor(
+    public h = 0,
+    public s = 0,
+    public l = 0,
+    public a = 0
+  ) {}
+
+  toString(): string {
+    return `hsla(${this.h},${this.s * 100}%,${this.l * 100}%,${this.a})`;
+  }
+}
 
 /**
-* Particle
-*/
+ * Particle representation
+ */
 class Particle {
   x: number;
   y: number;
   color: HSLA;
   pastX: number;
   pastY: number;
-  constructor(x?: number, y?: number, color?: { h: number; s: number; l: number; a: number; }) {
-    this.x = x || 0;
-    this.y = y || 0;
+
+  constructor(x = 0, y = 0, color?: HSLA) {
+    this.x = x;
+    this.y = y;
     this.color = color || new HSLA();
+    this.pastX = x;
+    this.pastY = y;
   }
 }

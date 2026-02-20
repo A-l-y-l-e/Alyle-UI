@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LyCommonModule } from '@alyle/ui';
@@ -20,7 +20,8 @@ const routes: Routes = [
     CommonModule,
     DemoViewModule,
     LySkeletonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    AsyncPipe
   ],
   declarations: [ DocViewer ],
   exports: [ DocViewer ],

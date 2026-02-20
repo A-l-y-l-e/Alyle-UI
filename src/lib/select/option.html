@@ -1,10 +1,11 @@
 <span [className]="classes.content">
-  <ly-checkbox [disabled]="disabled"
-    [color]="_color"
-    [checked]="isSelected"
-    *ngIf="_select.multiple"
-    (click)="$event.preventDefault()"
-  ></ly-checkbox>
+  @if (_select.multiple) {
+    <ly-checkbox [disabled]="disabled"
+      [color]="_color"
+      [checked]="isSelected"
+      (click)="$event.preventDefault()"
+    ></ly-checkbox>
+  }
   <span [className]="classes.optionText"><ng-content></ng-content></span>
 </span>
 <div #rippleContainer [className]="_rippleService.classes.container"></div>

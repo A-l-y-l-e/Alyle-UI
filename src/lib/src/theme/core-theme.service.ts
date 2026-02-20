@@ -1,6 +1,6 @@
-import { Injectable, Inject, Renderer2, RendererFactory2, ViewEncapsulation, Optional, isDevMode } from '@angular/core';
+import { Injectable, Inject, Renderer2, RendererFactory2, ViewEncapsulation, Optional, isDevMode, DOCUMENT } from '@angular/core';
 import { ThemeConfig, ThemeVariables, LY_CLASS_NAME_PREFIX, LY_ENABLE_SELECTORS_FN } from './theme-config';
-import { DOCUMENT } from '@angular/common';
+
 import { DataStyle } from '../theme.service';
 import { mergeThemes } from '../style-utils';
 import { Platform } from '@angular/cdk/platform';

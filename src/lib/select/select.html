@@ -1,9 +1,21 @@
-<div #valueText [ngSwitch]="empty">
-  <div [className]="classes.valueText" *ngSwitchCase="true">{{ '\u00A0' }}</div>
-  <div [className]="classes.valueText" *ngSwitchDefault [ngSwitch]="!!customTrigger">
-    <span *ngSwitchDefault>{{ triggerValue || '\u00A0' }}</span>
-    <ng-content select="ly-select-trigger" *ngSwitchCase="true"></ng-content>
-  </div>
+<div #valueText>
+  @switch (empty) {
+    @case (true) {
+      <div [className]="classes.valueText">{{ '\u00A0' }}</div>
+    }
+    @default {
+      <div [className]="classes.valueText">
+        @switch (!!customTrigger) {
+          @default {
+            <span>{{ triggerValue || '\u00A0' }}</span>
+          }
+          @case (true) {
+            <ng-content select="ly-select-trigger"></ng-content>
+          }
+        }
+      </div>
+    }
+  }
 </div>
 
 <ng-template #templateRef let-getOverlay>
@@ -16,7 +28,7 @@
     (@selectEnter.done)="_panelDoneAnimatingStream.next({state: $event.toState, overlay: getOverlay()})"
     (keydown)="_handleKeydown($event)"
     [style.font-size.px]="_triggerFontSize"
-  >
+    >
     <ng-content></ng-content>
   </div>
 </ng-template>

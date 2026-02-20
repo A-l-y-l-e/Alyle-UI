@@ -13,7 +13,7 @@
       opened
       position="before"
       [drawerWidth]="width"
-    >
+      >
       <ly-list>
         <button ly-list-item>
           <ly-icon ly-list-icon disablePadding>mail</ly-icon>
@@ -33,8 +33,12 @@
           <ly-icon>close</ly-icon>
         </button>
         <button ly-button (click)="toggleMini()" appearance="icon">
-          <ly-icon *ngIf="mini">chevron_left</ly-icon>
-          <ly-icon *ngIf="!mini">chevron_right</ly-icon>
+          @if (mini) {
+            <ly-icon>chevron_left</ly-icon>
+          }
+          @if (!mini) {
+            <ly-icon>chevron_right</ly-icon>
+          }
         </button>
       </div>
     </ly-drawer>

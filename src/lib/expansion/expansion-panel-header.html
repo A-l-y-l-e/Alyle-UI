@@ -3,7 +3,8 @@
   <ng-content select="ly-panel-description"></ng-content>
   <ng-content></ng-content>
 </span>
-<ly-expansion-icon
-  *ngIf="!_expansionPanel.disabled && _expansionPanel.hasToggle"
-  [up]="_expansionPanel.expanded"
-></ly-expansion-icon>
+@if (!_expansionPanel.disabled && _expansionPanel.hasToggle) {
+  <ly-expansion-icon
+    [up]="_expansionPanel.expanded"
+  ></ly-expansion-icon>
+}

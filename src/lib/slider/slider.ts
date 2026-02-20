@@ -18,7 +18,9 @@ import {
   Inject,
   Optional,
   NgZone,
-  AfterViewInit} from '@angular/core';
+  AfterViewInit,
+  DOCUMENT
+} from '@angular/core';
 import { LyTheme2,
   ThemeVariables,
   LY_COMMON_STYLES,
@@ -36,7 +38,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
-import { DOCUMENT } from '@angular/common';
+
 import { DOWN_ARROW, END, hasModifierKey, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 import { LY_SLIDER } from './tokens';
 import { гvalueToPercent } from './util';

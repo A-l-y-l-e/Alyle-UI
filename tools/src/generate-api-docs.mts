@@ -177,7 +177,7 @@ async function render() {
             code: highlight(removeLifecycleHook(scriptBlock.trim()), 'ts')
           };
           const outDir = path.join(OUT_DIR, pkgName.replace('@alyle/ui', ''));
-          const outName = `${name}_${hashCode(name).toString(36)}`;
+          const outName = `${name}_${hashCode(name).toString(36)}.json`;
           const out = path.join(outDir, `${outName}`);
           await mkdir(outDir, { recursive: true });
           await writeFile(out, JSON.stringify(newContent, null, 2));
@@ -201,7 +201,7 @@ async function render() {
     const newPath = path.join(OUT_DIR, pkg.pkg.replace('@alyle/ui', '') + '.json')
       .replace('/.json', '.json');
     const filenameWithoutExt = path.basename(newPath, '.json');
-    const fullPath = path.join(path.dirname(newPath), `${filenameWithoutExt}_${hashCode(filenameWithoutExt).toString(36)}`);
+    const fullPath = path.join(path.dirname(newPath), `${filenameWithoutExt}_${hashCode(filenameWithoutExt).toString(36)}.json`);
     pkg.items = groupBy(pkg.items as PkgSymbol[], 'symbol');
     await writeFile(fullPath, JSON.stringify(pkg, null, 2));
     console.log(`  JSON written to .${fullPath.slice(process.cwd().length)}`);

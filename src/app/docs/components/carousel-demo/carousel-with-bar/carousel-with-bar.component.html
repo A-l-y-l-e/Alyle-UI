@@ -2,16 +2,17 @@
   [withClass]="classes.carousel"
   touch
   hasProgressBar
->
-  <ly-carousel-item
-    *ngFor="let item of items"
-    [withClass]="classes.carouselItem"
-    [srcImg]="item.img"
-    [darkIcon]="item.darkIcon"
   >
-    <h1 [lyTyp]="'headline'" gutter>{{ item.title }}</h1>
-    <p [lyTyp]="'body1'" gutter>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    </p>
-  </ly-carousel-item>
+  @for (item of items; track item) {
+    <ly-carousel-item
+      [withClass]="classes.carouselItem"
+      [srcImg]="item.img"
+      [darkIcon]="item.darkIcon"
+      >
+      <h1 [lyTyp]="'headline'" gutter>{{ item.title }}</h1>
+      <p [lyTyp]="'body1'" gutter>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </p>
+    </ly-carousel-item>
+  }
 </ly-carousel>

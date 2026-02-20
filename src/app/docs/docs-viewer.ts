@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ElementRef, EventEmitter, Renderer2, Injector, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
 import { observeOn, switchMap, takeUntil, take, catchError, tap } from 'rxjs/operators';
 import { asapScheduler, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -64,14 +64,15 @@ const STYLES = (theme: ThemeVariables & LyTypographyVariables) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false
 })
-export class DocViewer {
+export class DocViewer implements AfterViewInit {
   readonly classes = this.theme.renderStyleSheet(STYLES);
-  readonly hostElement: HTMLElement;
+  public hostElement: HTMLElement;
   private onDestroy$ = new EventEmitter<void>();
   private docContents$ = new EventEmitter<string>();
   private void$ = of<void>(undefined);
   readonly isLoading = new EventEmitter<boolean>();
   readonly isError = new EventEmitter<Err | void>();
+  @ViewChild('hostElementRef', { static: true }) readonly hostContainerRef: ElementRef<HTMLDivElement>;
 
   readonly ADS_STYLES = this.theme.renderStyle(ADS_STYLES);
 
@@ -106,15 +107,16 @@ export class DocViewer {
     private _platform: Platform
   ) {
     this.isLoading.emit(!initialDocViewerContent);
-    this.hostElement = renderer.createElement('div');
-    renderer.appendChild(elementRef.nativeElement, this.hostElement);
+    // this.hostElement = renderer.createElement('div');
+    // renderer.appendChild(elementRef.nativeElement, this.hostElement);
     this.renderer.addClass(elementRef.nativeElement, this.classes.root);
-    this.hostElement.innerHTML = initialDocViewerContent;
+    // this.hostElement.innerHTML = initialDocViewerContent;
 
     if (this._platform.isBrowser) {
-      const { createCustomElement } = require('@angular/elements');
-      const element = createCustomElement(ViewComponent, { injector });
-      customElements.define('demo-view', element);
+      import('@angular/elements').then(({createCustomElement}) => {
+        const element = createCustomElement(ViewComponent, { injector });
+        customElements.define('demo-view', element);
+      });
     }
 
     this.docContents$
@@ -124,6 +126,10 @@ export class DocViewer {
         takeUntil(this.onDestroy$)
       )
       .subscribe();
+  }
+
+  ngAfterViewInit() {
+    this.hostElement = this.hostContainerRef.nativeElement;
   }
 
   onDestroy() {
@@ -179,11 +185,6 @@ export class DocViewer {
               title = `${title} Angular Component`;
             }
             this.seo.setTitle(`${title} | Alyle UI`);
-            // Show skeleton screen Platform is Server
-            if (!this._platform.isBrowser) {
-              hostElement.innerHTML = '';
-              this.isLoading.emit(true);
-            }
             this.ads.update(path, this.theme);
           }
         }

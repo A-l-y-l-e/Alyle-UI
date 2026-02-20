@@ -1,5 +1,5 @@
-import { Injectable, Inject, NgZone } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, Inject, NgZone, DOCUMENT } from '@angular/core';
+
 import { fromEvent , Observable, empty } from 'rxjs';
 import { map, share, auditTime } from 'rxjs/operators';
 

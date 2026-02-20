@@ -8,7 +8,9 @@
     <option value="3">item 3</option>
   </select>
   <ly-hint>Hint</ly-hint>
-  <ly-error *ngIf="selectFormControl.hasError('required')">Required</ly-error>
+  @if (selectFormControl.hasError('required')) {
+    <ly-error>Required</ly-error>
+  }
 </ly-field>
 
 <h4 lyTyp="title" gutter>ly-select</h4>
@@ -21,7 +23,9 @@
     <ly-option value="3">Item 3</ly-option>
   </ly-select>
   <ly-hint>Hint</ly-hint>
-  <ly-error *ngIf="selectFormControlTwo.hasError('required')">Required</ly-error>
+  @if (selectFormControlTwo.hasError('required')) {
+    <ly-error>Required</ly-error>
+  }
 </ly-field>
 
 <h4 lyTyp="title" gutter>ly-select multiple</h4>
@@ -32,7 +36,9 @@
     <ly-option value="2">Item 2</ly-option>
     <ly-option value="3">Item 3</ly-option>
   </ly-select>
-  <ly-error *ngIf="selectFormControlThree.hasError('required')">Required</ly-error>
+  @if (selectFormControlThree.hasError('required')) {
+    <ly-error>Required</ly-error>
+  }
   <ly-hint>Hint</ly-hint>
   <ly-hint [align]="'after'">{{ selectFormControlThree.value?.length || 0 }}/3 items</ly-hint>
 </ly-field>
