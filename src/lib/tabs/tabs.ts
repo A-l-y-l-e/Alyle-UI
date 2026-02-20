@@ -23,7 +23,7 @@ import {
   ViewEncapsulation,
   Optional,
   ViewChildren,
-  ViewContainerRef
+  ViewContainerRef,
   } from '@angular/core';
 import {
   LyTheme2,
@@ -54,11 +54,10 @@ import {
   } from '@alyle/ui';
 import { LyButton } from '@alyle/ui/button';
 import { LyTabContent } from './tab-content.directive';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Subject, takeUntil, switchMap, from } from 'rxjs';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import { Platform } from '@angular/cdk/platform';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { takeUntil, take, switchMapTo } from 'rxjs/operators';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
@@ -166,10 +165,12 @@ export const STYLES = (theme: ThemeVariables & LyTabVariables, ref: ThemeRef) =>
       height: 100%
       position: absolute
       overflow: auto
+      opacity: 0
     }`,
     contentActive: lyl `{
       position: relative
       z-index: 1
+      opacity: 1
     }`,
     contentInner: null,
     indicator: lyl `{
@@ -263,7 +264,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   private _textColorClass: string;
   private _tabResizeSub: Subscription;
   private _scrollable: boolean;
-  private _timeoutIds: { [index: number]: number } = {};
+  private _timeoutIds: { [index: number | string]: number } = {};
   /** Emits whenever the component is destroyed. */
   private readonly _destroy = new Subject<void>();
 
@@ -291,7 +292,11 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
   set animationDuration(val: number) {
     this._animationDuration = val;
     Promise.resolve().then(() => {
-      this.tabContents.nativeElement.style.transitionDuration = `${val}ms`;
+      try {
+        this.tabContents.nativeElement.style.transitionDuration = `${val}ms`;
+        
+      } catch (error) {
+      }
     });
   }
   get animationDuration() {
@@ -328,8 +333,8 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
 
   @Input()
   @Style<string | null>(
-    val => (theme, ref: ThemeRef) => {
-      const __ = ref.selectorsOf(STYLES);
+    val => (theme, themeRef: ThemeRef) => {
+      const __ = themeRef.selectorsOf(STYLES);
       return lyl `{
         ${__.indicator} {
           color:${theme.colorOf(val)}
@@ -490,6 +495,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     super(theme);
     this.setAutoContrast();
     this.animationDuration = 500;
+
   }
 
   ngOnChanges() {
@@ -529,7 +535,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this._isViewInitLoaded = true;
     this.tabsList.changes
       .pipe(
-        switchMapTo(this._ngZone.onStable.asObservable().pipe(take(1))),
+        switchMap(() => from(Promise.resolve(null))),
         takeUntil(this._destroy)
       )
       .subscribe(() => {
@@ -613,14 +619,10 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
     this._ngZone.run(() => {
       this._markForCheck();
     });
-    this._ngZone.onStable.asObservable()
-      .pipe(
-        take(1),
-        takeUntil(this._destroy)
-      )
-      .subscribe(() =>
-        tabsForUpdate.forEach(parms =>
-          this._updateContentStyle(...parms)));
+    setTimeout(() => {
+      tabsForUpdate.forEach(parms =>
+          this._updateContentStyle(...parms))
+    }, 0);
   }
 
 
@@ -700,6 +702,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       if (currentIndex === index) {
         const sign = prevIndex < index ? 1 : -1;
         const pos = isDirRow ? `0,${x * sign}%` : `${x * sign}%, 0`;
+        tabContent.style.opacity = '1';
         tabContent.style.overflow = 'hidden';
         if (dynamicHeight) {
           tabContent.style.height = `${contentHeightPrev}px`;
@@ -714,6 +717,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
       } else {
         const sign = currentIndex < index ? 1 : -1;
         const pos = isDirRow ? `0,${x * sign}%` : `${x * sign}%, 0`;
+        tabContent.style.opacity = '1';
         tabContent.style.overflow = 'hidden';
         tabContent.style.transform = `translate3d(0%, 0, 0)`;
         enforceStyleRecalculation(tabContent);
@@ -721,6 +725,7 @@ export class LyTabs extends LyTabsMixinBase implements OnChanges, OnInit, AfterV
         tabContent.style.transform = `translate3d(${pos}, 0)`;
       }
       this._runTimeoutOutsideZone(index, () => {
+        tabContent.style.opacity = ``;
         tabContent.style.transform = ``;
         tabContent.style.transition = ``;
         tabContent.style.overflow = ``;

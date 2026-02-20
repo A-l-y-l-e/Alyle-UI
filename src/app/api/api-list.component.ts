@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { APIService, APIList } from './api.service';
 import { Observable } from 'rxjs';
 import { lyl, ThemeVariables, StyleRenderer, WithStyles } from '@alyle/ui';
-import { AppComponent } from '@app/app.component';
+import { App } from '../app';
 import { tap } from 'rxjs/operators';
 import { SEOService } from '@shared/seo.service';
 
@@ -155,7 +155,7 @@ export class ApiListComponent implements WithStyles {
   constructor(
     apiService: APIService,
     readonly sRenderer: StyleRenderer,
-    app: AppComponent,
+    app: App,
     seo: SEOService
   ) {
     this.apiListObservable = apiService.getList().pipe(tap(() => {

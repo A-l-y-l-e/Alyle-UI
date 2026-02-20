@@ -1,8 +1,8 @@
-<ly-toolbar [bg]="bg" [elevation]="elevation" [withClass]="classes.root">
+<ly-toolbar [bg]="bg" [elevation]="elevation" [withClass]="$$.toolbar">
   <button ly-button appearance="icon" [color]="color" (click)="drawer.toggle()">
     <ly-icon>menu</ly-icon>
   </button>
-  <button ly-button [withClass]="classes.logo" [color]="color" sensitive [routerLink]="['./']">
+  <button ly-button [withClass]="$$.logo" [color]="color" sensitive [routerLink]="['./']">
     Alyle UI
   </button>
   <div [style.flex]="1"></div>
@@ -22,7 +22,7 @@
           rel="noopener"
           [ngClass]="item.classes"
           >
-          <ly-icon [icon]="item.icon" [withClass]="classes.supportMenuIcon"></ly-icon>
+          <ly-icon [icon]="item.icon" [withClass]="$$.supportMenuIcon"></ly-icon>
           <span>{{ item.label }}</span>
         </a>
       }
@@ -31,7 +31,7 @@
 
   <button #_button ly-button [color]="color" [lyMenuTriggerFor]="_Menu" lyTooltip="Select a theme!">
     <ly-icon icon="Theme"></ly-icon>
-    <span lyTyp noWrap [withClass]="classes.themePickerText">{{ lyTheme.variables.name }}</span>
+    <span lyTyp noWrap [withClass]="$$.themePickerText">{{ lyTheme.variables.name }}</span>
   </button>
   <ng-template #_Menu let-M>
     <ly-menu [ref]="M">
@@ -83,7 +83,7 @@
               </svg>
             </span>
           }
-          <span [withClass]="classes.themePickerText">{{ themeName }}</span>
+          <span [withClass]="$$.themePickerText">{{ themeName }}</span>
         </button>
       }
     </ly-menu>

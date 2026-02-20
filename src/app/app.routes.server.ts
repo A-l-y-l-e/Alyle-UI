@@ -6,11 +6,11 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'api', // This page is static, so we prerender it (SSG)
-    renderMode: RenderMode.Prerender,
+    renderMode: RenderMode.Client,
   },
   {
     path: 'api/**', // This page is static, so we prerender it (SSG)
-    renderMode: RenderMode.Prerender,
+    renderMode: RenderMode.Client,
   },
   {
     path: '**',

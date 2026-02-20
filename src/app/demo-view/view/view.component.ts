@@ -11,7 +11,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, retry, map } from 'rxjs/operators';
 import { lyl, StyleRenderer, ThemeRef } from '@alyle/ui';
-import { AUIThemeVariables } from '../../app.module';
+import { AUIThemeVariables } from '../../app.config';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Platform } from '@angular/cdk/platform';
 import stackblitz from '@stackblitz/sdk';

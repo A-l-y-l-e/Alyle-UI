@@ -1,16 +1,11 @@
-import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
-import { NgModule, Injectable, APP_ID } from '@angular/core';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { APP_ID, ApplicationConfig, Injectable, isDevMode, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
-import { LyDrawerModule } from '@alyle/ui/drawer';
-import { LyToolbarModule } from '@alyle/ui/toolbar';
-import { LyMenuModule } from '@alyle/ui/menu';
+import { routes } from './app.routes';
+import { HAMMER_GESTURE_CONFIG, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+
 import {
-  LyCommonModule,
   LY_THEME,
   LY_THEME_GLOBAL_VARIABLES,
   RecursivePartial,
@@ -22,29 +17,13 @@ import {
   LyClasses,
   LY_ENABLE_SELECTORS_FN
 } from '@alyle/ui';
-import { LyButtonModule } from '@alyle/ui/button';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app.routing';
-import { environment } from '@env/environment';
-import { LyIconModule } from '@alyle/ui/icon';
-import { MinimaLight, MinimaDark, MinimaDeepDark } from '@alyle/ui/themes/minima';
-import { TitleComponent } from './document/title/title.component';
-import { DemoViewModule, STYLES as DEMO_VIEWER_STYLES } from './demo-view';
-import { LyTypographyModule, LyTypographyTheme } from '@alyle/ui/typography';
-import { LyCardModule } from '@alyle/ui/card';
-import { AppBarComponent } from './app-bar/app-bar.component';
-import { HomeComponent } from './home/home.component';
-import { PageContentComponent } from './page-content/page-content.component';
-import { LySnackBarModule } from '@alyle/ui/snack-bar';
-import { LyTooltipModule } from '@alyle/ui/tooltip';
-import { LyGridModule } from '@alyle/ui/grid';
-import { RouterModule } from '@angular/router';
 import { Color } from '@alyle/ui/color';
-import { DocViewerModule } from './docs/docs-viewer.module';
+import { MinimaDark, MinimaDeepDark, MinimaLight } from '@alyle/ui/themes/minima';
+import { LyTypographyTheme } from '@alyle/ui/typography';
 import { AnalyticsService, windowProvider, WindowToken } from '@shared/analytics.service';
-import { provideServerRendering, withRoutes } from '@angular/ssr';
-import { serverRoutes } from './app.routes.server';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { STYLES as DEMO_VIEWER_STYLES } from './demo-view';
+import { provideServiceWorker } from '@angular/service-worker';
 
 const Quepal = {
   default: `linear-gradient(135deg,#11998e 0%,#38ef7d 100%)`,
@@ -149,40 +128,9 @@ export function themeNameProviderFactory() {
   return 'minima-light';
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    PageContentComponent,
-    AppBarComponent,
-    TitleComponent,
-    /** Pages */
-    HomeComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HammerModule,
-    CommonModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    RouterModule,
-    // LyThemeModule.setTheme('minima-light'),
-    LyCommonModule,
-    LyButtonModule,
-    LyDrawerModule,
-    LyToolbarModule,
-    LyIconModule,
-    LyMenuModule,
-    LyTypographyModule,
-    LyCardModule,
-    DemoViewModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    LySnackBarModule,
-    LyTooltipModule,
-    LyGridModule,
-    DocViewerModule
-  ],
+export const appConfig: ApplicationConfig = {
   providers: [
+    provideNoopAnimations(),
     AnalyticsService,
     [ LyTheme2, StyleRenderer ],
     { provide: APP_ID, useValue: 'serverApp' },
@@ -197,9 +145,22 @@ export function themeNameProviderFactory() {
     { provide: LY_ENABLE_SELECTORS_FN, useValue: true }, // default true
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig },
     { provide: WindowToken, useFactory: windowProvider },
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
-    provideServerRendering(withRoutes(serverRoutes)),
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+    provideHttpClient(withFetch()),
+    provideBrowserGlobalErrorListeners(),
+    provideZonelessChangeDetection(),
+    provideRouter(routes,
+      // Restore scroll position
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled'
+      }),
+      // Start navigation before root component is created (replaces initialNavigation: 'enabledBlocking')
+      // withEnabledBlockingInitialNavigation()
+    ),
+    provideClientHydration(withEventReplay()),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    })
+  ]
+};

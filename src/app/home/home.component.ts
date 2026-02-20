@@ -1,6 +1,10 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
-import { lyl, LyTheme2, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
+import { LyCommonModule, lyl, LyTheme2, StyleRenderer, ThemeRef, ThemeVariables } from '@alyle/ui';
 import { Platform } from '@angular/cdk/platform';
+import { RouterLink } from '@angular/router';
+import { LyTypographyModule } from '@alyle/ui/typography';
+import { LyGridModule } from '@alyle/ui/grid';
+import { LyButtonModule } from '@alyle/ui/button';
 const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   const __ = ref.selectorsOf(STYLES);
   return {
@@ -74,7 +78,14 @@ const STYLES = (_theme: ThemeVariables, ref: ThemeRef) => {
   providers: [
     StyleRenderer
   ],
-  standalone: false
+  standalone: true,
+  imports: [
+    LyButtonModule,
+    RouterLink,
+    LyTypographyModule,
+    LyGridModule,
+    LyCommonModule
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   readonly classes = this.sRenderer.renderSheet(STYLES, 'root');

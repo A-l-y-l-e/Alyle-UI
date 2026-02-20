@@ -2,7 +2,7 @@ import { Injectable, Renderer2, RendererFactory2, isDevMode, NgZone } from '@ang
 import { LyTheme2, lyl, StyleCollection } from '@alyle/ui';
 import { take } from 'rxjs/operators';
 import { Platform } from '@angular/cdk/platform';
-import { AUIThemeVariables } from '@app/app.module';
+import { AUIThemeVariables } from '../app.config';
 
 
 

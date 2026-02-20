@@ -13,13 +13,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "prerender": {
+              "discoverRoutes": false
+            },
             "outputPath": {
               "base": "dist/alyle-ui"
             },
             "index": "src/index.html",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "polyfills": [ ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {

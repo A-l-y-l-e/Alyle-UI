@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Platform } from '@angular/cdk/platform';
 import { LyTheme2, lyl, StyleRenderer } from '@alyle/ui';
 
-import { AppComponent } from '@app/app.component';
+import { App } from '../app';
 import { tap, map, catchError, observeOn, switchMap, takeUntil } from 'rxjs/operators';
 import { Ads } from '@shared/ads';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -84,7 +84,7 @@ export class ApiComponent implements OnInit, OnDestroy {
     private apiService: APIService,
     location: Location,
     private sanitizer: DomSanitizer,
-    private app: AppComponent,
+    private app: App,
     private ads: Ads,
     cdr: ChangeDetectorRef,
     private seo: SEOService,

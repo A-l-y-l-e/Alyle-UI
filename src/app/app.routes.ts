@@ -1,14 +1,14 @@
-import { NgModule, Component } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { Component } from '@angular/core';
 
 @Component({
   template: '',
-  standalone: false
+  standalone: true
 })
 export class EmptyComponent { }
 
-const routes: Routes = [
+export const routes: Routes = [
   /** Pages */
   { path: '', component: HomeComponent, pathMatch: 'full' },
   {
@@ -19,15 +19,3 @@ const routes: Routes = [
   { path: 'components/resizing-cropping-images', redirectTo: 'components/image-cropper', pathMatch: 'full' },
   { path: '**', component: EmptyComponent }
 ];
-
-@NgModule({
-  declarations: [EmptyComponent],
-  imports: [
-    RouterModule.forRoot(routes, {
-      initialNavigation: 'enabledBlocking',
-      scrollPositionRestoration: 'enabled'
-    })
-  ]
-})
-export class AppRoutingModule { }
-

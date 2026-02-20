@@ -1,15 +1,16 @@
+
 import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
 } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { Router, NavigationEnd } from '@angular/router';
-import { AUI_VERSION, LyTheme2, ThemeVariables, lyl, StyleRenderer, SelectorsFn } from '@alyle/ui';
-import { LyIconService } from '@alyle/ui/icon';
-import { LyDrawer } from '@alyle/ui/drawer';
-import { CustomMinimaLight, CustomMinimaDark, AUIThemeVariables } from './app.module';
-import { LySnackBar } from '@alyle/ui/snack-bar';
+import { Router, NavigationEnd, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AUI_VERSION, LyTheme2, ThemeVariables, lyl, StyleRenderer, SelectorsFn, LyCommonModule } from '@alyle/ui';
+import { LyIconModule, LyIconService } from '@alyle/ui/icon';
+import { LyDrawer, LyDrawerModule } from '@alyle/ui/drawer';
+import { CustomMinimaLight, CustomMinimaDark, AUIThemeVariables } from './app.config';
+import { LySnackBar, LySnackBarModule } from '@alyle/ui/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AUIRoutes } from './routes';
 import { Location } from '@angular/common';
@@ -20,12 +21,17 @@ import { prismCustomClass } from './core/prism-custom-class';
 import { SVG_ICONS } from './core/svg-icons';
 import { DocViewer } from './docs/docs-viewer';
 import { AnalyticsService } from '@shared/analytics.service';
+import { LyButtonModule } from '@alyle/ui/button';
+import { LyMenuModule } from '@alyle/ui/menu';
+import { AppBar } from './app-bar/app-bar';
+import { DocViewerModule } from './docs/docs-viewer.module';
+import { LyTypographyModule } from '@alyle/ui/typography';
 
 const STYLES = (theme: ThemeVariables & CustomMinimaLight & CustomMinimaDark, selectors: SelectorsFn) => {
   const classes = selectors(STYLES);
   const { before } = theme;
   return {
-    $name: AppComponent.name,
+    $name: App.name,
     $global: lyl `{
       body {
         background-color: ${theme.background.default}
@@ -266,9 +272,24 @@ const PRISM_STYLES = (theme: AUIThemeVariables) => {
   providers: [
     StyleRenderer
   ],
-  standalone: false
+  imports: [
+    LyButtonModule,
+    LyDrawerModule,
+    LyIconModule,
+    LyMenuModule,
+    AppBar,
+    RouterOutlet,
+    RouterLink,
+    LyCommonModule,
+    PageContentComponent,
+    DocViewerModule,
+    RouterLinkActive,
+    LyTypographyModule,
+    LySnackBarModule,
+  ],
+  standalone: true
 })
-export class AppComponent {
+export class App {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);
   routesComponents: any;
   version = AUI_VERSION;
