@@ -172,6 +172,10 @@ mixinBg(
   selector: 'button[ly-button], a[ly-button]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'button.html',
+  host: {
+    '[attr.aria-disabled]': '_getAriaDisabled()',
+    '[attr.tabindex]': '_getTabIndex()'
+  },
   inputs: [
     'bg',
     'color',
@@ -180,7 +184,9 @@ mixinBg(
     'outlined',
     'elevation',
     'shadowColor',
-    'disableRipple'
+    'disableRipple',
+    'tabIndex: tabindex',
+    'ariaDisabled: aria-disabled'
   ],
   providers: [
     StyleRenderer
@@ -200,6 +206,9 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   private _sizeClass: string | null;
   private _appearance: string;
   private _appearanceClass: string;
+  tabIndex: string | number | null = null;
+  ariaDisabled: string | boolean | null = null;
+  private _removeAnchorClickListener: (() => void) | null = null;
 
   @ViewChild('rippleContainer') _rippleContainer: ElementRef;
 
@@ -280,7 +289,34 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
     if (!(_theme.variables as LyButtonVariables).button) {
       throw getLyThemeVariableUndefinedError('button');
     }
+    if (this._isAnchor) {
+      this._removeAnchorClickListener = this._renderer.listen(
+        this._el.nativeElement,
+        'click',
+        event => this._onClick(event),
+        { capture: true }
+      );
+    }
   }
+  private get _isAnchor(): boolean {
+    return this._el.nativeElement.tagName === 'A';
+  }
+
+  _getAriaDisabled(): string | boolean | null {
+    return this._isAnchor && this.disabled ? 'true' : this.ariaDisabled;
+  }
+
+  _getTabIndex(): string | number | null {
+    return this._isAnchor && this.disabled ? -1 : this.tabIndex;
+  }
+
+  _onClick(event: MouseEvent) {
+    if (this._isAnchor && this.disabled) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }
+
   ngOnChanges() {
     this.updateStyle(this._el);
     const isDisabled = this.disabled;
@@ -316,6 +352,9 @@ export class LyButton extends LyButtonMixinBase implements OnChanges, OnInit, Af
   }
 
   ngOnDestroy() {
+    if (this._removeAnchorClickListener) {
+      this._removeAnchorClickListener();
+    }
     this._focusMonitor.stopMonitoring(this._el);
     this._removeRippleEvents();
   }
